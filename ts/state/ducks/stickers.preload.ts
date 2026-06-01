@@ -397,14 +397,32 @@ export function reducer(
   action: Readonly<StickersActionType | EraseStorageServiceStateAction>
 ): StickersStateType {
   if (action.type === 'stickers/STICKER_PACK_ADDED') {
-    // ts complains due to `stickers: {}` being overridden by the payload
-    // but without full confidence that that's the case, `any` and ignore
-    // oxlint-disable-next-line typescript/no-explicit-any
-    const { payload } = action as any;
-    const newPack = {
-      stickers: {},
-      ...payload,
-    };
+    const { payload } = action;
+
+    // When going from an ephemeral (previewed) pack to installed state,
+    // copy over ephemeral pack props in memory
+    const oldPack = state.packs[payload.id];
+    const isInstallingPack =
+      oldPack !== undefined &&
+      payload.attemptedStatus === 'installed' &&
+      payload.status === 'pending';
+    let newPack: StickerPackDBType;
+    if (isInstallingPack) {
+      newPack = {
+        ...payload,
+        stickerCount: oldPack.stickerCount,
+        title: payload.title === '' ? oldPack.title : payload.title,
+        author: payload.author === '' ? oldPack.author : payload.author,
+        // TODO: Ephemeral stickers are stored at a different path then downloaded stickers
+        // so we can't reuse them
+        stickers: payload.stickers ?? {},
+      };
+    } else {
+      newPack = {
+        ...payload,
+        stickers: payload.stickers ?? {},
+      };
+    }
 
     return {
       ...state,

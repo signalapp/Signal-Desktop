@@ -1,11 +1,19 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memo, createRef, useState, useEffect, useCallback } from 'react';
+import {
+  memo,
+  createRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import { StickerManagerPackRow } from './StickerManagerPackRow.dom.tsx';
 import { StickerPreviewModal } from './StickerPreviewModal.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import { Tabs } from '../Tabs.dom.tsx';
 
 export type OwnProps = {
@@ -25,6 +33,7 @@ export type OwnProps = {
   readonly installedPacks: ReadonlyArray<StickerPackType>;
   readonly knownPacks?: ReadonlyArray<StickerPackType>;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
+  readonly showToast: ShowToastAction;
   readonly uninstallStickerPack: (
     packId: string,
     packKey: string,
@@ -48,12 +57,11 @@ export const StickerManager = memo(function StickerManagerInner({
   installedPacks,
   knownPacks,
   receivedPacks,
+  showToast,
   uninstallStickerPack,
 }: Props) {
   const focusRef = createRef<HTMLDivElement>();
-  const [packToPreview, setPackToPreview] = useState<StickerPackType | null>(
-    null
-  );
+  const [packIdToPreview, setPackIdToPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (!knownPacks) {
@@ -75,16 +83,34 @@ export const StickerManager = memo(function StickerManagerInner({
   }, []);
 
   const clearPackToPreview = useCallback(() => {
-    setPackToPreview(null);
-  }, [setPackToPreview]);
+    setPackIdToPreview(null);
+  }, [setPackIdToPreview]);
 
-  const previewPack = useCallback((pack: StickerPackType) => {
-    setPackToPreview(pack);
+  const previewPack = useCallback((packId: string) => {
+    setPackIdToPreview(packId);
   }, []);
+
+  const allPacks = useMemo(() => {
+    const packsMap = new Map<string, StickerPackType>();
+    const packsList = [
+      ...blessedPacks,
+      ...installedPacks,
+      ...(knownPacks ?? []),
+      ...receivedPacks,
+    ];
+    packsList.forEach(pack => {
+      packsMap.set(pack.id, pack);
+    });
+    return packsMap;
+  }, [blessedPacks, installedPacks, knownPacks, receivedPacks]);
+
+  const packToPreview = useMemo(() => {
+    return packIdToPreview ? allPacks.get(packIdToPreview) : undefined;
+  }, [allPacks, packIdToPreview]);
 
   return (
     <>
-      {packToPreview ? (
+      {packIdToPreview ? (
         <StickerPreviewModal
           closeStickerPackPreview={closeStickerPackPreview}
           downloadStickerPack={downloadStickerPack}
@@ -93,6 +119,7 @@ export const StickerManager = memo(function StickerManagerInner({
           onClose={clearPackToPreview}
           pack={packToPreview}
           uninstallStickerPack={uninstallStickerPack}
+          showToast={showToast}
         />
       ) : null}
       <div

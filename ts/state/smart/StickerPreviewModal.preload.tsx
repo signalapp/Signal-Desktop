@@ -12,6 +12,7 @@ import {
 } from '../selectors/stickers.std.ts';
 import { useStickersActions } from '../ducks/stickers.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
 
 export type ExternalProps = {
   packId: string;
@@ -27,6 +28,7 @@ export const SmartStickerPreviewModal = memo(function SmartStickerPreviewModal({
   const { downloadStickerPack, installStickerPack, uninstallStickerPack } =
     useStickersActions();
   const { closeStickerPackPreview } = useGlobalModalActions();
+  const { showToast } = useToastActions();
 
   const packDb = packs[packId];
   const pack = packDb
@@ -41,6 +43,7 @@ export const SmartStickerPreviewModal = memo(function SmartStickerPreviewModal({
       installStickerPack={installStickerPack}
       pack={pack}
       uninstallStickerPack={uninstallStickerPack}
+      showToast={showToast}
     />
   );
 });

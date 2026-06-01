@@ -4,12 +4,18 @@
 import { memo, useState, useEffect, useCallback } from 'react';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import { UserText } from '../UserText.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
-import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
+import { AxoStackedButton } from '../../axo/AxoStackedButton.dom.tsx';
 import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
+import { OfficialChatInlineBadge } from '../conversation/OfficialChatInlineBadge.dom.tsx';
+import { artAddStickersRoute } from '../../util/signalRoutes.std.ts';
+import { drop } from '../../util/drop.std.ts';
+import { ToastType } from '../../types/Toast.dom.tsx';
+import { fromBase64PackKeyToHex } from '../../util/Stickers.std.ts';
 
 export type Props = Readonly<{
   onClose?: () => void;
@@ -29,11 +35,20 @@ export type Props = Readonly<{
     packKey: string,
     options: { actionSource: 'ui' }
   ) => void;
+  showToast: ShowToastAction;
   pack?: StickerPackType;
   i18n: LocalizerType;
 }>;
 
-function renderBody({ pack, i18n }: Pick<Props, 'i18n' | 'pack'>) {
+function renderBody({
+  pack,
+  i18n,
+  handleCopyLink,
+  handleStartUninstall,
+}: Pick<Props, 'i18n' | 'pack'> & {
+  handleCopyLink: () => void;
+  handleStartUninstall: () => void;
+}) {
   if (pack == null) {
     return null;
   }
@@ -64,26 +79,91 @@ function renderBody({ pack, i18n }: Pick<Props, 'i18n' | 'pack'>) {
   const placeholders = pack.stickerCount - pack.stickers.length;
 
   return (
-    <div className={tw('grid grid-cols-4 items-center justify-center gap-2')}>
-      {pack.stickers.map(({ id, url }) => (
+    <div className={tw('justify-items-center')}>
+      {pack.cover && (
         <img
-          key={id}
           className={tw(
-            'aspect-square max-h-24 w-full max-w-24 object-contain'
+            'mb-4 aspect-square max-h-20 w-full max-w-20 object-contain'
           )}
-          src={url}
+          src={pack.cover.url}
           alt={pack.title}
         />
-      ))}
-      {Array.from({ length: placeholders }, (_, index) => {
-        return (
-          <div
-            key={index}
-            className={tw('aspect-square rounded-md bg-fill-secondary')}
+      )}
+      <h2 className={tw('mb-2 type-title-medium')}>
+        <UserText text={pack.title} />
+        {pack.isBlessed && (
+          <span className={tw('ms-1.5')}>
+            <OfficialChatInlineBadge />
+          </span>
+        )}
+      </h2>
+      <div
+        className={tw(
+          'mb-3 justify-items-center type-body-medium text-label-secondary'
+        )}
+      >
+        <div>{pack.author}</div>
+        <div>
+          {i18n('icu:stickers--StickerPreview--StickerCount', {
+            count: pack.stickerCount,
+          })}
+        </div>
+      </div>
+      <AxoStackedButton.Row spacing="md">
+        <AxoStackedButton.Root
+          symbol="link"
+          label={i18n('icu:stickers--StickerPreview--Link')}
+          onClick={handleCopyLink}
+        />
+        {pack.status === 'installed' && (
+          <AxoStackedButton.Root
+            symbol="minus-circle"
+            label={i18n('icu:stickers--StickerPreview--Remove')}
+            onClick={handleStartUninstall}
           />
-        );
-      })}
+        )}
+      </AxoStackedButton.Row>
+      <div
+        className={tw(
+          'mt-4 grid w-max grid-cols-5 items-center justify-center gap-2.5'
+        )}
+      >
+        {pack.stickers.map(({ emoji, id, url }) => (
+          <img
+            key={id}
+            className={tw(
+              'aspect-square max-h-18 w-full max-w-18 object-contain'
+            )}
+            src={url}
+            alt={
+              emoji ??
+              i18n('icu:stickers--StickerPreview--StickerNoEmojiAriaLabel')
+            }
+          />
+        ))}
+        {Array.from({ length: placeholders }, (_, index) => {
+          return (
+            <div
+              key={index}
+              className={tw(
+                'aspect-square max-h-18 w-full max-w-18 rounded-md bg-fill-secondary'
+              )}
+            />
+          );
+        })}
+      </div>
     </div>
+  );
+}
+
+function isInstallFooterVisible(
+  pack: StickerPackType | undefined
+): pack is StickerPackType {
+  return Boolean(
+    pack &&
+    pack.status != null &&
+    pack.status !== 'error' &&
+    pack.status !== 'installed'
   );
 }
 
@@ -94,6 +174,7 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
   installStickerPack,
   onClose,
   pack,
+  showToast,
   uninstallStickerPack,
 }: Props) {
   const [confirmingUninstall, setConfirmingUninstall] = useState(false);
@@ -133,8 +214,6 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
     onClose?.();
   }, [closeStickerPackPreview, onClose, pack]);
 
-  const isInstalled = Boolean(pack && pack.status === 'installed');
-
   const handleInstall = useCallback(() => {
     if (!pack) {
       return;
@@ -148,9 +227,7 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
     } else {
       installStickerPack(pack.id, pack.key, { actionSource: 'ui' });
     }
-
-    handleClose();
-  }, [downloadStickerPack, installStickerPack, handleClose, pack]);
+  }, [downloadStickerPack, installStickerPack, pack]);
 
   const handleStartUninstall = useCallback(() => {
     setConfirmingUninstall(true);
@@ -164,53 +241,44 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
     setConfirmingUninstall(false);
   }, [uninstallStickerPack, setConfirmingUninstall, pack]);
 
+  const handleCopyLink = useCallback(() => {
+    if (!pack) {
+      return;
+    }
+
+    const link = artAddStickersRoute
+      .toWebUrl({
+        packId: pack.id,
+        packKey: fromBase64PackKeyToHex(pack.key),
+      })
+      .toString();
+    drop(window.navigator.clipboard.writeText(link));
+    showToast({ toastType: ToastType.CopiedStickerPackLink });
+  }, [pack, showToast]);
+
   return (
     <>
       <AxoDialog.Root open onOpenChange={handleClose}>
         <AxoDialog.Content size="md" escape="cancel-is-noop">
           <AxoDialog.Header>
-            <AxoDialog.Title>
+            <AxoDialog.Title screenReaderOnly>
               {i18n('icu:stickers--StickerPreview--Title')}
             </AxoDialog.Title>
             <AxoDialog.Close />
           </AxoDialog.Header>
-          <AxoDialog.Body>{renderBody({ pack, i18n })}</AxoDialog.Body>
+          <AxoDialog.Body>
+            {renderBody({ pack, i18n, handleCopyLink, handleStartUninstall })}
+          </AxoDialog.Body>
           <AxoDialog.Footer>
-            {pack != null && pack.status != null && pack.status !== 'error' && (
-              <AxoDialog.FooterContent>
-                <h3 className={tw('text-label-primary')}>
-                  <UserText text={pack.title} />
-                  {pack.isBlessed && (
-                    <span className={tw('text-color-fill-primary')}>
-                      {' '}
-                      <AxoSymbol.InlineGlyph
-                        symbol="check-circle-fill"
-                        label={null}
-                      />
-                    </span>
-                  )}
-                </h3>
-                <p className={tw('text-label-secondary')}>{pack.author}</p>
-              </AxoDialog.FooterContent>
+            {isInstallFooterVisible(pack) && (
+              <AxoDialog.Action
+                variant="primary"
+                onClick={handleInstall}
+                pending={pack.status === 'pending'}
+              >
+                {i18n('icu:stickers--StickerPreview--Install')}
+              </AxoDialog.Action>
             )}
-            <AxoDialog.Actions>
-              {isInstalled ? (
-                <AxoDialog.Action
-                  variant="destructive"
-                  onClick={handleStartUninstall}
-                >
-                  {i18n('icu:stickers--StickerManager--Uninstall')}
-                </AxoDialog.Action>
-              ) : (
-                <AxoDialog.Action
-                  variant="primary"
-                  onClick={handleInstall}
-                  pending={pack?.status === 'pending'}
-                >
-                  {i18n('icu:stickers--StickerManager--Install')}
-                </AxoDialog.Action>
-              )}
-            </AxoDialog.Actions>
           </AxoDialog.Footer>
         </AxoDialog.Content>
       </AxoDialog.Root>
