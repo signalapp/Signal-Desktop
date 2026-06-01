@@ -1289,8 +1289,8 @@ export class MessageSender {
       //log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
       let bobProof = await getLocalStores(serviceId, 1, "bob_proof");
-      let sas = await getLocalStores(serviceId, 1, "sas");
-      if (bobProof && !sas) {
+      //let sas = await getLocalStores(serviceId, 1, "sas");
+      if (bobProof) {
         const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
         if (IS_MCS_DEMO && existsSync(filePath)) {
           const contents = readFileSync(filePath, { encoding: "utf-8" });
