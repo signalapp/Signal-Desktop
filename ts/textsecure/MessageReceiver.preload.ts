@@ -1520,6 +1520,8 @@ export default class MessageReceiver
 
         let vts;
         const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
+
+        console.log("JSONINPUTS", vtsStr, content.dataMessage.bobProof)
         vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProof === 'string'
@@ -1576,7 +1578,7 @@ export default class MessageReceiver
           const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
           console.log('sas is', sas)
           await setLocalStores(serviceId, 1, sas.toString(), 'sas');
-          await clearLocalStores(serviceId, deviceId, 'vts');
+          //await clearLocalStores(serviceId, deviceId, 'vts');
         
           console.log("phase 3", z_decoded)
           log.info('PVRF verify ok:', result.ok, 'z:', result.z);
