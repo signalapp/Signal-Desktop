@@ -2124,16 +2124,6 @@ export default class MessageReceiver
           });
         } else if (!alreadyChecked) {
           console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
-          if (IS_MCS_DEMO) {
-            let bobFakeVts = temp?.getVTS(); //take what bob got from alice and store it to forward
-            const mcs_store = bobFakeVts;
-            const str_store = JSON.stringify(mcs_store);
-            const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-            if(!existsSync(filePath)) {
-              console.log("wrote alice demo file to:", filePath);
-              writeFileSync(filePath, str_store, { encoding: "utf-8" });
-            }
-          }
         }
 
         await setLocalStores(serviceId, 1, sas.toString(), 'sas');  
