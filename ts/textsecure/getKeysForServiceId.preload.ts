@@ -148,6 +148,7 @@ async function handleServerKeys(
   const anyDevicesToUpdate = devicesToUpdate != null && response.devices.some(device => devicesToUpdate.includes(device.deviceId));
   let doSub;
   let sas = await getLocalStores(serviceId, 1, "sas");
+  console.log("flagginga", anyDevicesToUpdate, sas);
   if (IS_MCS_DEMO && existsSync(filePath) && anyDevicesToUpdate && !sas) {
     doSub = await doAliceAttackModal();
     if (!doSub) {
