@@ -64,6 +64,14 @@
   padding-inline-end: 6px;
 }
 
+.CallingRaisedHandsList
+  .CallingStatusIndicator--HandRaised:not(
+    .CallingStatusIndicator--NextHandRaised
+  ) {
+  background: variables.$color-gray-02;
+  color: variables.$color-black-alpha-85;
+}
+
 .CallingStatusIndicator--HandRaisedOrder {
   margin-inline-end: 4px;
 }
