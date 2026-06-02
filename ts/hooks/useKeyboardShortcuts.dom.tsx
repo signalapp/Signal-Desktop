@@ -305,6 +305,13 @@ export function useEditLastMessageSent(
         return false;
       }
 
+      // Ignore keys that are part of an active IME composition (e.g. when
+      // navigating the Japanese transliteration candidate menu with ArrowUp).
+      // keyCode 229 covers Safari/older browsers that don't set `isComposing`.
+      if (ev.isComposing || ev.keyCode === 229) {
+        return false;
+      }
+
       const key = KeyboardLayout.lookup(ev);
 
       // None of the modifiers should be pressed
