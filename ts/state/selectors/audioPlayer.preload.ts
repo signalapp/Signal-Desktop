@@ -76,6 +76,7 @@ export function extractVoiceNoteForPlayback(
   message: Pick<
     ReadonlyMessageAttributesType,
     | 'id'
+    | 'conversationId'
     | 'type'
     | 'attachments'
     | 'isErased'

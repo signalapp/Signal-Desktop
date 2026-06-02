@@ -453,6 +453,7 @@ describe('state/selectors/messages', () => {
   describe('getMessagePropStatus', () => {
     const createMessage = (overrides: Partial<MessageAttributesType>) => ({
       type: 'outgoing' as const,
+      conversationId: 'convoId',
       ...overrides,
     });
 
@@ -541,8 +542,9 @@ describe('state/selectors/messages', () => {
       );
     });
 
-    it('returns "viewed" if the message is just for you and has been sent', () => {
+    it('returns "viewed" if the message is for note-to-self and has been sent', () => {
       const message = createMessage({
+        conversationId: ourConversationId,
         sendStateByConversationId: {
           [ourConversationId]: {
             status: SendStatus.Sent,
@@ -554,6 +556,22 @@ describe('state/selectors/messages', () => {
       assert.strictEqual(
         getMessagePropStatus(message, ourConversationId),
         'viewed'
+      );
+    });
+
+    it('returns "sent" if the message is lonely-in-group and has been sent', () => {
+      const message = createMessage({
+        sendStateByConversationId: {
+          [ourConversationId]: {
+            status: SendStatus.Sent,
+            updatedAt: Date.now(),
+          },
+        },
+      });
+
+      assert.strictEqual(
+        getMessagePropStatus(message, ourConversationId),
+        'sent'
       );
     });
 

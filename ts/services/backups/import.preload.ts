@@ -1897,16 +1897,12 @@ export class BackupImportStream extends Writable {
       const errors = new Array<CustomError>();
 
       let sendStatuses: Array<Backups.SendStatus | Backups.SendStatus.Params> =
-        outgoing.sendStatus;
-      if (!sendStatuses?.length) {
-        // TODO: DESKTOP-8089
-        // If this outgoing message was not sent to anyone, we add ourselves to
-        // sendStateByConversationId and mark read. This is to match existing desktop
-        // behavior.
+        outgoing.sendStatus ?? [];
+      if (!sendStatuses.length) {
         sendStatuses = [
           {
             recipientId: item.authorId,
-            deliveryStatus: { read: { sealedSender: null } },
+            deliveryStatus: { sent: { sealedSender: null } },
             timestamp: item.dateSent,
           },
         ];

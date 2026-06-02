@@ -502,7 +502,7 @@ describe('backup/bubble messages', () => {
           timestamp: 3,
           body: 'hello',
           sendStateByConversationId: {
-            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+            [ourConversation.id]: { status: SendStatus.Sent, updatedAt: 3 },
           },
         },
       ]
@@ -1143,7 +1143,7 @@ describe('backup/bubble messages', () => {
           readStatus: ReadStatus.Read,
           seenStatus: SeenStatus.Seen,
           sendStateByConversationId: {
-            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+            [ourConversation.id]: { status: SendStatus.Sent, updatedAt: 3 },
           },
           expirationStartTimestamp: Date.now(),
           expireTimer: DurationInSeconds.fromMillis(WEEK),
@@ -1183,7 +1183,7 @@ describe('backup/bubble messages', () => {
             {
               ...message,
               sendStateByConversationId: {
-                [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+                [ourConversation.id]: { status: SendStatus.Sent, updatedAt: 3 },
               },
             },
           ]

@@ -3461,7 +3461,6 @@ export class BackupExportStream extends Readable {
       }
 
       // Filter out our conversationId from non-"Note-to-Self" messages
-      // TODO: DESKTOP-8089
       strictAssert(this.#ourConversation?.id, 'our conversation must exist');
       if (
         id === this.#ourConversation.id &&
@@ -3479,6 +3478,18 @@ export class BackupExportStream extends Readable {
       const sealedSender = serviceId
         ? sealedSenderServiceIds.has(serviceId)
         : false;
+
+      // For note-to-self, we export our own sendStatus as read. Otherwise, we exclude it.
+      if (id === this.#ourConversation.id) {
+        if (conversationId === this.#ourConversation.id) {
+          sendStatuses.push({
+            recipientId,
+            timestamp,
+            deliveryStatus: { read: { sealedSender } },
+          });
+        }
+        continue;
+      }
 
       let deliveryStatus: Backups.SendStatus.Params['deliveryStatus'];
       switch (entry.status) {
