@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "8.15.0-alpha.1",
+  "version": "8.16.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -119,7 +119,7 @@
   "dependencies": {
     "@indutny/mac-screen-share": "1.0.13",
     "@indutny/simple-windows-notifications": "2.0.16",
-    "@signalapp/libsignal-client": "0.94.1",
+    "@signalapp/libsignal-client": "0.94.4",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/ringrtc": "2.69.1",
     "@signalapp/sqlcipher": "3.3.5",
@@ -154,9 +154,8 @@
     "@react-aria/utils": "3.33.1",
     "@react-spring/web": "10.0.3",
     "@signalapp/lame": "workspace:1.0.0",
-    "@react-types/shared": "3.27.0",
     "@signalapp/minimask": "1.0.1",
-    "@signalapp/mock-server": "22.0.0",
+    "@signalapp/mock-server": "22.1.0",
     "@signalapp/parchment-cjs": "3.0.1",
     "@signalapp/quill-cjs": "2.1.2",
     "@storybook/addon-a11y": "8.4.4",
@@ -184,9 +183,6 @@
     "@types/chai-as-promised": "8.0.2",
     "@types/dashdash": "1.14.3",
     "@types/debug": "4.1.13",
-    "@signalapp/ringrtc": "2.64.1",
-    "@signalapp/sqlcipher": "2.4.4",
-    "@signalapp/windows-ucv": "1.0.1",
     "@types/dom-mediacapture-transform": "0.1.11",
     "@types/fabric": "4.5.3",
     "@types/fs-extra": "11.0.4",
@@ -241,7 +237,7 @@
     "direction": "2.0.1",
     "dom-accessibility-api": "0.7.1",
     "electron": "42.3.0",
-    "electron-builder": "26.0.14",
+    "electron-builder": "26.11.1",
     "electron-mocha": "13.1.0",
     "emoji-regex-xs": "2.0.1",
     "enhanced-resolve": "5.21.3",
@@ -356,19 +352,11 @@
     },
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
-      "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
-      "@types/express@4.17.21": "patches/@types+express+4.17.21.patch",
-      "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
       "qrcode-generator": "patches/qrcode-generator.patch",
       "fabric@4.6.0": "patches/fabric+4.6.0.patch",
       "@vitest/expect@2.0.5": "patches/@vitest+expect+2.0.5.patch",
       "growing-file@0.1.3": "patches/growing-file+0.1.3.patch",
-      "websocket@1.0.34": "patches/websocket+1.0.34.patch",
-      "node-fetch@2.6.7": "patches/node-fetch+2.6.7.patch",
-      "zod@3.23.8": "patches/zod+3.23.8.patch",
-      "app-builder-lib": "patches/app-builder-lib.patch",
-      "dmg-builder": "patches/dmg-builder.patch",
       "fs-xattr": "patches/fs-xattr.patch",
       "@types/chai": "patches/@types__chai.patch",
       "@napi-rs/canvas@0.1.61": "patches/@napi-rs__canvas@0.1.61.patch",
@@ -376,8 +364,9 @@
       "tsx": "patches/tsx.patch",
       "node-fetch@3.3.2": "patches/node-fetch@3.3.2.patch",
       "zod@4.3.6": "patches/zod@4.3.6.patch",
-      "eslint-plugin-better-tailwindcss": "patches/eslint-plugin-better-tailwindcss.patch",
-      "framer-motion@6.5.1": "patches/framer-motion@6.5.1.patch"
+      "dmg-builder": "patches/dmg-builder.patch",
+      "app-builder-lib": "patches/app-builder-lib.patch",
+      "@electron/universal": "patches/@electron__universal.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
@@ -390,7 +379,6 @@
       "@swc/core",
       "@tailwindcss/oxide",
       "electron",
-      "esbuild",
       "fs-xattr"
     ],
     "ignoredBuiltDependencies": [
@@ -412,7 +400,7 @@
       "hardenedRuntime": true,
       "entitlements": "./build/entitlements.mac.plist",
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist",
-      "icon": "build/icons/mac/icon.icns",
+      "icon": "build/icons/mac/AppIcon.icon",
       "publish": [
         {
           "provider": "generic",
@@ -523,12 +511,12 @@
       "customNsisBinary": {
         "url": "https://updates.signal.org/desktop/nsis/nsis-3.0.4.1.7z",
         "version": "3.0.4.1-signal",
-        "checksum": "D6XH03F8A4Vzfjpq6zS9eZYXGXktdoaeQh5QgxAZ01pdts3KaDfMilem0x+HUzn9FpzfpgZrD8MVTcFlcPfcWg=="
+        "checksum": "822a421e2b8cfc66fc586128a5976818c1af24453ee05f5aa4faea21504b7036"
       },
       "customNsisResources": {
         "url": "https://updates.signal.org/desktop/nsis/nsis-resources-3.4.1.7z",
         "version": "3.4.1-signal",
-        "checksum": "KmySC53iz92XNYVgEy5gc0/cpXiyWsxxOX5UETBAt889TIvsNlUx7uKBxkQVf3D2Ycex0D2IPGjRdGYr1bftrw=="
+        "checksum": "161c900098cadd1da1e5e87f339909269d58b00bda788a7c1fb67441ecfd15e6"
       }
     },
     "linux": {
