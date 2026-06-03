@@ -135,7 +135,7 @@ if (
         }
       : {}),
   };
-  window.SignalDebug = SignalDebug;
+  // window.SignalDebug = SignalDebug;
 
   if (getEnvironment() !== Environment.Test) {
     contextBridge.exposeInMainWorld('SignalDebug', SignalDebug);
