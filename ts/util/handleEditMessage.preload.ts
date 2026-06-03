@@ -203,9 +203,9 @@ export async function handleEditMessage(
     bodyAttachment: editedMessage.bodyAttachment,
     bodyRanges: editedMessage.bodyRanges,
     editHistory,
-    editMessageTimestamp: upgradedEditedMessageData.timestamp,
-    editMessageReceivedAt: upgradedEditedMessageData.received_at,
-    editMessageReceivedAtMs: upgradedEditedMessageData.received_at_ms,
+    editMessageTimestamp: editedMessage.timestamp,
+    editMessageReceivedAt: editedMessage.received_at,
+    editMessageReceivedAtMs: editedMessage.received_at_ms,
     preview: editedMessage.preview,
     quote: editedMessage.quote,
   });
@@ -271,17 +271,15 @@ export async function handleEditMessage(
     : ReadStatus.Unread;
 
   // Save both the main message and the edited message for fast lookups
-  drop(
-    DataWriter.saveEditedMessage(
-      mainMessageModel.attributes,
-      itemStorage.user.getCheckedAci(),
-      {
-        conversationId: editAttributes.conversationId,
-        messageId: mainMessage.id,
-        readStatus,
-        sentAt: upgradedEditedMessageData.timestamp,
-      }
-    )
+  await DataWriter.saveEditedMessage(
+    mainMessageModel.attributes,
+    itemStorage.user.getCheckedAci(),
+    {
+      conversationId: editAttributes.conversationId,
+      messageId: mainMessage.id,
+      readStatus,
+      sentAt: upgradedEditedMessageData.timestamp,
+    }
   );
 
   if (conversation) {
