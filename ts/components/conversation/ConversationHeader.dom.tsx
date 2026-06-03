@@ -274,9 +274,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   const [selectedMemberName, setSelectedMemberName] = useState<string | null>(null);
   const [showGroupSASModal, setShowGroupSASModal] = useState(false);
 
-  // user device name
-  const ourDeviceName = itemStorage.get('device_name');
-  console.log('Our device name:', ourDeviceName);
 
   const handleShowSASModal = useCallback(async () => {
     if (conversation.type === 'group') {
@@ -286,45 +283,16 @@ export const ConversationHeader = memo(function ConversationHeader({
 
     try {
       const fullConversation = window.ConversationController.get(conversation.id)?.format();
-      if (!fullConversation) {
+      if (!fullConversation || !fullConversation.serviceId) {
         console.error('Could not find full conversation');
         return;
       }
-      if (!fullConversation.serviceId) {
-        console.error('Contact has no serviceId');
-        return;
-      }
-
-      // temporary to check for device IDs
-      const ourConversationId = window.ConversationController.getOurConversationId();
-      const ourConversation = ourConversationId
-        ? window.ConversationController.get(ourConversationId)
-        : null;
-      const ourAci = ourConversation?.get('serviceId');
-      console.log('Our ACI:', ourAci);
-      console.log('Their serviceId:', fullConversation.serviceId);
-
-      if (ourAci) {
-        try {
-          const deviceIds = await signalProtocolStore.getDeviceIds({
-            ourServiceId: ourAci as any,
-            serviceId: fullConversation.serviceId as any,
-          });
-          console.log('Their device IDs:', deviceIds);
-          deviceIds.forEach((id: number) => {
-            console.log(`  Device ${id}: ${id === 1 ? 'Primary Device (Phone)' : `Linked Device ${id}`}`);
-          });
-        } catch (deviceErr) {
-          console.error('Failed to get device IDs:', deviceErr);
-        }
-      }
-      // end check
 
       const result = await getLocalStores(fullConversation.serviceId, 1, 'sas') || "";
       const total = parseInt(result) % 1000000;
       setSasNumber(total.toString().padStart(6, '0'));
     } catch (err) {
-      console.error('Failed to generate safety number', err);
+      console.error('Failed to generate SAS in modal', err);
     }
   }, [conversation]);
 
@@ -339,17 +307,16 @@ export const ConversationHeader = memo(function ConversationHeader({
         return;
       }
 
-      //const result = await generateSafetyNumber(fullConversation);
       setSelectedMemberId(resolvedId);
       const memberName = groupMembers.find(m => m.id === memberId)?.name ?? 'Unknown';
       setSelectedMemberName(memberName);
-      //const total = result.numberBlocks.reduce((sum, block) => sum + parseInt(block, 10), 0) % 1000000;
+      //for group conversations
       const result = await getLocalStores(fullConversation.serviceId, 1, 'sas') || "";
       const total = parseInt(result) % 1000000;
       setSasNumber(total.toString().padStart(6, '0'));
       setShowGroupSASModal(false);
     } catch (err) {
-      console.error('Failed to generate safety number', err);
+      console.error('Failed to generate SAS in modal', err);
     }
   }, []);
 
@@ -364,17 +331,10 @@ export const ConversationHeader = memo(function ConversationHeader({
       const ourAci = ourConversation?.get('serviceId');
       const ourE164 = ourConversation?.get('e164');
 
-      // const members = conv.getMembers?.({ includePendingMembers: true }) ??
-      //                 conv.get('membersV2') ??
-      //                 conv.get('members') ??
-      //                 [];
 
       const memberIds: Array<string> = (conv.get('membersV2') ?? []).map((m: any) => m.aci ?? m.uuid ?? m.id)
-      .concat(conv.get('members') ?? [])
-      .filter((id: string, index: number, arr: Array<string>) => arr.indexOf(id) === index);
-      // conv.getMembers() contain all non blocked members
-      // conv.get('membersV2') contain all members but not the conversationType id but in UUIDs format?
-      // conv.get('members') is undefined?
+        .concat(conv.get('members') ?? [])
+        .filter((id: string, index: number, arr: Array<string>) => arr.indexOf(id) === index);
 
       return memberIds
         .filter((id: string) => {
