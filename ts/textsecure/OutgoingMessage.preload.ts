@@ -51,7 +51,6 @@ import * as Bytes from '../Bytes.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 
-
 const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
@@ -363,7 +362,6 @@ export default class OutgoingMessage {
       } else {
         this.plaintext = padMessage(Proto.Content.encode(message));
       }
-      //console.log('resulting plaintext', JSON.stringify(this.plaintext), this.plaintext);
     }
     return this.plaintext;
   }
@@ -476,7 +474,6 @@ export default class OutgoingMessage {
 
             const destinationRegistrationId =activeSession.remoteRegistrationId();
             if (sealedSender && senderCertificate) {
-              //
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
                 destinationAddress,

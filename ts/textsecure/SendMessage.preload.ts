@@ -3,6 +3,7 @@
 
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
+
 import { z } from 'zod';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
@@ -106,8 +107,6 @@ import type {
 } from '../types/PinnedMessage.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { getLocalStores } from './pvrfLocalStoresStorage.preload.js';
-
-
 const log = createLogger('SendMessage');
 
 const MAX_EMBEDDED_GROUP_CHANGE_BYTES = 2048;
