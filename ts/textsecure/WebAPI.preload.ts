@@ -1816,8 +1816,7 @@ export async function connect({
   bindRemoteConfigToLibsignalNet(
     getLibsignalNet(),
     window.getVersion(),
-    reconnect,
-    { hasExplicitProxy: proxyUrl != null }
+    reconnect
   );
 
   username = initialUsername;
