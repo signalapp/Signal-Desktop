@@ -3,6 +3,7 @@
 
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
+
 import { z } from 'zod';
 import Long from 'long';
 import PQueue from 'p-queue';
@@ -109,8 +110,6 @@ import type {
 } from '../types/PinnedMessage.std.js';
 
 import { getLocalStores } from './pvrfLocalStoresStorage.preload.js';
-
-
 const log = createLogger('SendMessage');
 
 export type SendIdentifierData =

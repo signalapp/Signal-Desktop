@@ -1072,7 +1072,6 @@ export default class MessageReceiver
             `${decrypted.length} decrypted envelopes, keeping ` +
             `${failed.length} failed envelopes.`
         );
-        log.info('decryptadncahce', decrypted, items)
 
         // Store both decrypted and failed unprocessed envelopes
         const unprocesseds: Array<UnprocessedType> = decrypted.map(
@@ -1471,7 +1470,6 @@ export default class MessageReceiver
     let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
-      log.info('decryptenvelope, content', content);
       if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
         log.warn(
           `${logId}: dropping plaintext envelope without decryption error message`
@@ -1505,15 +1503,11 @@ export default class MessageReceiver
       isGroupV2 =
         Boolean(content.dataMessage?.groupV2) ||
         Boolean(content.storyMessage?.group);
-      if (content.dataMessage) 
-      {
+      if (content.dataMessage) {
         const serviceId = envelope.sourceServiceId;
         const deviceId = envelope.sourceDevice ?? 1;
-
-        let vts;
         const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
-
-        vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
+        let vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProof === 'string'
           ? JSON.parse(content.dataMessage.bobProof)
@@ -1541,7 +1535,6 @@ export default class MessageReceiver
 
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v, );
-          const z_decoded = String.fromCharCode(...result.z);
           const saltObject = vts.salt;
           const salt = new Uint8Array(Object.values(saltObject));
           const sasBytes = result.z.map((v, i) => v ^ salt[i]);
@@ -1986,7 +1979,6 @@ export default class MessageReceiver
       );
       return { plaintext, wasEncrypted: true };
     }
-    log.info(`decrypt/${logId}: is even looking check`);
     if (envelope.type === envelopeTypeEnum.PREKEY_MESSAGE) {
       log.info(`decrypt/${logId}: prekey message`);
       if (!identifier) {
@@ -2014,7 +2006,7 @@ export default class MessageReceiver
               signedPreKeyStore,
               kyberPreKeyStore
             )
-          ), 
+          ),
         zone
       );
       return { plaintext, wasEncrypted: true };
@@ -2032,7 +2024,6 @@ export default class MessageReceiver
       );
       const temp = await sessionStore.getSession(protocolAddress);
 
-      const deviceId = envelope.sourceDevice ?? 1;
       const serviceId = envelope.sourceServiceId ?? 'unknown';
 
       let bobResponseObject = {
@@ -2080,8 +2071,6 @@ export default class MessageReceiver
 
         await setLocalStores(serviceId, 1, sas.toString(), 'sas');  
         bobResponseObject.response = tempResponse;
-        // console.log('storing sas', tempResponse.z_decoded);
-        // console.log("but hopefully its already xored as", temp?.getSAS());
       } catch (e) { log.info('error getting bob response', e); log.info('errorstack getting bob response', e.stack); }
      
       await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
@@ -2548,8 +2537,6 @@ export default class MessageReceiver
   ): Promise<void> {
     const logId = `handleDataMessage/${getEnvelopeId(envelope)}`;
     log.info(logId);
-    log.info('envelope content', envelope, JSON.stringify(envelope));
-    log.info('data message content', msg, JSON.stringify(msg));
 
     if (getStoriesBlocked() && msg.storyContext) {
       log.info(
@@ -2726,7 +2713,6 @@ export default class MessageReceiver
       this.#handleDecryptionError(envelope, content.decryptionErrorMessage);
       return;
     }
-    log.info('the content is ', content, JSON.stringify(content));
     if (content.syncMessage) {
       await this.#handleSyncMessage(
         envelope,

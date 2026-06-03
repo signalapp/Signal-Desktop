@@ -57,7 +57,6 @@ import * as Bytes from '../Bytes.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 
-
 const { reject } = lodash;
 
 const log = createLogger('OutgoingMessage');
@@ -371,13 +370,11 @@ export default class OutgoingMessage {
   getPlaintext(): Uint8Array {
     if (!this.plaintext) {
       const { message } = this;
-      //console.log('getPlaintext', JSON.stringify(message), message);
       if (message instanceof Proto.Content) {
         this.plaintext = padMessage(Proto.Content.encode(message).finish());
       } else {
         this.plaintext = message.serialize();
       }
-      //console.log('resulting plaintext', JSON.stringify(this.plaintext), this.plaintext);
     }
     return this.plaintext;
   }
@@ -402,8 +399,6 @@ export default class OutgoingMessage {
     const { message } = this;
 
     if (message instanceof Proto.Content) {
-      //console.log('instanceof');
-      //console.log('was instanceof', this.getPlaintext());
       return signalEncrypt(
         this.getPlaintext(),
         protocolAddress,
@@ -411,7 +406,6 @@ export default class OutgoingMessage {
         identityKeyStore
       );
     }
-    //console.log('not instance of');
     return message.asCiphertextMessage();
   }
 
@@ -462,7 +456,6 @@ export default class OutgoingMessage {
           new Address(serviceId, destinationDeviceId)
         );
 
-        //
         return signalProtocolStore.enqueueSessionJob<MessageType>(
           address,
           async () => {
@@ -479,10 +472,9 @@ export default class OutgoingMessage {
               );
             }
 
-            const destinationRegistrationId =activeSession.remoteRegistrationId();
+            const destinationRegistrationId = activeSession.remoteRegistrationId();
               
             if (sealedSender && senderCertificate) {
-              //
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
                 protocolAddress,
@@ -648,7 +640,6 @@ export default class OutgoingMessage {
             return this.getKeysForServiceId(serviceId, resetDevices).then(
               // We continue to retry as long as the error code was 409; the assumption is
               //   that we'll request new device info and the next request will succeed.
-
               this.reloadDevicesAndSend(serviceId, error.code === 409)
             );
           });
