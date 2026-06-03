@@ -1,7 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-// import { contextBridge } from 'electron';
-
 import { setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 import {
@@ -22,7 +20,6 @@ import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
-
 import type {
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,
@@ -34,7 +31,6 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
-
 
 const log = createLogger('getKeysForServiceId');
 
