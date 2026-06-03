@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "စတစ်ကာတွဲ ဖွင့်ရာတွင် ချို့ယွင်းချက်။ သင့်အင်တာနက် ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "အီမိုဂျီ"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "ပေးပို့ရန်"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "မလုပ်တော့ပါ"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "တည်းဖြတ်မှု မှတ်တမ်း"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "အဖွဲ့လိုက်ခေါ်ဆိုမှုများအတွင်း လက်မြှောက်ရန်အတွက် ကီးဘုတ်ရှော့တ်ကတ် အသစ်တစ်ခုကို ထည့်သွင်းထားသည် (Shift-H)။"
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "အဖွဲ့လိုက် ဖုန်းခေါ်ဆိုမှုများအတွင်း လက်မြှောက်ထားသူများစာရင်းအတွက် ဒီဇိုင်းကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားပါသည်။"
   }
 }

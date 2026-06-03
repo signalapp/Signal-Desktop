@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "No se ha podido abrir el paquete de stickers. Comprueba tu conexión a Internet e inténtalo de nuevo."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emojis"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "Enviar"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancelar"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Historial de cambios"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "Ahora en las llamadas grupales tienes dos formas de pedir la palabra al alcance de tu mano: puedes hacer clic en el icono de levantar la mano o usar nuestro nuevo atajo de teclado (Shift-H)."
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Ahora, los nuevos indicadores de mano levantada también se muestran en la lista de manos levantadas durante las llamadas grupales. Así tendrás a mano lugar adicional para ver a quién darle la palabra una vez hayas terminado de hablar."
   }
 }

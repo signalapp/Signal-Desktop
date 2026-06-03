@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Klaida atveriant lipdukų paketą. Patikrinkite savo interneto ryšį ir bandykite dar kartą."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Šypsenėlės"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "Siųsti"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Atšaukti"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Redagavimo istorija"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "Pridėjome naują spartųjį klavišą pakelti ranką grupės skambučiuose (Shift-H)."
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Atnaujinome pakeltų rankų sąrašo dizainą grupių skambučiuose."
   }
 }

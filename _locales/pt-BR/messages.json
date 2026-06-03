@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Erro ao abrir o pacote de figurinhas. Verifique sua conexão à Internet e tente novamente."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emojis e pessoas"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "Enviar"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancelar"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Histórico das edições"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "Agora você pode levantar a mão durante chamadas em grupo clicando no ícone correspondente ou usando o novo atalho de teclado (Shift-H). "
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Atualizamos o visual da lista de mãos levantadas durante chamadas em grupo. "
   }
 }

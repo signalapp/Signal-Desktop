@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "స్టిక్కర్ ప్యాక్ తెరవడంలో లోపం. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ఎమోజి"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "పంపండి"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "రద్దు చేయండి"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "సవరణ చరిత్ర"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "ఒకవైపు, గ్రూప్ కాల్స్ సమయంలో మీరు చేయి పైకెత్తే ఐకాన్ పై క్లిక్ చేయవచ్చు. కానీ మరోవైపు, ఇప్పుడు మీరు ఒక కొత్త కీబోర్డ్ షార్ట్‌కట్‌ను (Shift-H) కూడా ఉపయోగించవచ్చు."
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "గ్రూప్ కాల్‌ల సమయంలో చేతులు పైకెత్తిన వారి జాబితా కోసం మేము డిజైన్‌ను అప్‌డేట్ చేశాము. మీరు మాట్లాడటం ముగించిన తర్వాత, దాన్ని మీరు ఎవరికి అప్పగించాలో తెలుసుకోవడానికి ఇది ఒక పరోక్ష మార్గం."
   }
 }

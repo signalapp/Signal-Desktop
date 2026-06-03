@@ -9966,10 +9966,6 @@
     "messageformat": "Send",
     "description": "Draft GIF Message Send Modal > Send Button > Label"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Cancel",
-    "description": "(Deleted 2026/05/27) Draft GIF Message Send Modal > Cancel Button > Label"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Edit history",
     "description": "Modal title for the edit history messages modal"
@@ -10935,6 +10931,6 @@
   },
   "icu:WhatsNew__8.13--0": {
     "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking.",
-    "description": "Release notes for 8.13"
+    "description": "(Deleted 2026/06/03) Release notes for 8.13"
   }
 }

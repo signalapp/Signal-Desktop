@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "چاپلاق بوغچىسىنى ئېچىشتا خاتالىق كۆرۈلدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "چىراي بەلگە"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "يوللاش"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "بىكار قىلىش"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "تەھرىرلەش تارىخى"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈشكە قولايلىق يېڭى كۇنۇپكا تېزلەتمىسى (Shift+H) قوشتۇق. 8.12 نەشرى ئۈچۇن تارقىتىلدى گۇرۇپپا چاقىرىقلىرىدا قول كۆتۈرۈشكە قولايلىق يېڭى كۇنۇپكا تېزلەتمىسى (Shift+H) قوشتۇق. 8.12 نەشرى ئۈچۇن تارقىتىلدى"
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "بىز گۇرۇپپا چاقىرىقلىرى جەريانىدىكى بىر قاتار كۆتۈرۈلگەن قوللارنىڭ لايىھەسىنى يېڭىلىدۇق. 8.13 نەشىر نۇسخىسى ئۈچۈن تەييارلاندى بىز گۇرۇپپا چاقىرىقلىرى جەريانىدىكى بىر قاتار كۆتۈرۈلگەن قوللارنىڭ لايىھەسىنى يېڭىلىدۇق. 8.13 نەشىر نۇسخىسى ئۈچۈن تەييارلاندى"
   }
 }
