@@ -223,8 +223,6 @@ async function handleServerKeys(
         } catch (err){
           log.error('error parsing VTS', err, err.stack);
         }
-        return Promise.resolve();
-        
       } 
      catch (error) {
         if (
@@ -235,7 +233,6 @@ async function handleServerKeys(
         }
         throw error;
       }
-      return Promise.resolve();
     })
   );
 }
