@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "स्टिकर पैक खोलने में कोई गड़बड़ी हुई। अपना इंटरनेट कनेक्शन देख लें और दोबारा कोशिश करें।"
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "इमोजी"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "भेजें"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "कैंसिल करें"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "पिछले एडिट"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "पहले आपके पास ग्रुप कॉल के दौरान हाथ उठाने के आइकन पर क्लिक करने का विकल्प था। साथ ही, अब आपके पास एक नया कीबोर्ड शॉर्टकट (Shift-H) इस्तेमाल करने की भी सुविधा उपलब्ध है।"
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "ग्रुप कॉल के दौरान 'उठे हुए हाथ' वाली सूची में अब हाथ उठाने के नए संकेत भी दिखाई देंगे। इससे यह तय करने में मदद मिलेगी कि आपकी बात पूरी होने के बाद बोलने का मौका किसे देना है।"
   }
 }

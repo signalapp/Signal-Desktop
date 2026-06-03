@@ -2816,6 +2816,24 @@
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് തുറക്കുന്നതിൽ പിശക്. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക, വീണ്ടും ശ്രമിക്കുക."
   },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ഇമോജി"
   },
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "അയയ്‌ക്കുക"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "റദ്ദാക്കുക"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "എഡിറ്റ് ചെയ്യൽ ചരിത്രം"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "ഒരു വശത്ത്, ഗ്രൂപ്പ് കോളുകൾക്കിടയിൽ നിങ്ങൾക്ക് റൈസ് ഹാൻഡ് ഐക്കണിൽ ക്ലിക്ക് ചെയ്യാം. മറുവശത്ത്, ഇപ്പോൾ നിങ്ങൾക്ക് ഒരു പുതിയ കീബോർഡ് ഷോർട്ട്കട്ടും (Shift-H) ഉപയോഗിക്കാം."
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "ഗ്രൂപ്പ് കോളുകളിൽ കൈ ഉയർത്തിയവരുടെ ലിസ്റ്റിലും പുതിയ 'കൈ ഉയർത്തൽ' സൂചകങ്ങൾ ഇപ്പോൾ കാണാം. നിങ്ങൾ സംസാരിച്ചു കഴിഞ്ഞതിനു ശേഷം അടുത്തത് ആർക്കാണ് അവസരം നൽകേണ്ടതെന്ന് മനസ്സിലാക്കാൻ സഹായിക്കുന്ന ഒരു സംവിധാനമാണിത്."
   }
 }

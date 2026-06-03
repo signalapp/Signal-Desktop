@@ -2538,7 +2538,7 @@
     "messageformat": "Grup tidak dapat dibuat. Periksa koneksi Anda dan coba lagi."
   },
   "icu:updateGroupAttributes__title": {
-    "messageformat": "Sunting grup"
+    "messageformat": "Edit grup"
   },
   "icu:updateGroupAttributes__error-message": {
     "messageformat": "Gagal memperbarui grup. Periksa koneksi Anda dan coba lagi."
@@ -2815,6 +2815,24 @@
   },
   "icu:stickers--StickerPreview--Error": {
     "messageformat": "Gagal membuka paket stiker. Cek koneksi internet Anda dan coba lagi."
+  },
+  "icu:stickers--StickerPreview--Install": {
+    "messageformat": "Add Stickers"
+  },
+  "icu:stickers--StickerPreview--Remove": {
+    "messageformat": "Remove"
+  },
+  "icu:stickers--StickerPreview--Link": {
+    "messageformat": "Link"
+  },
+  "icu:stickers--StickerPreview--LinkCopied": {
+    "messageformat": "Link copied"
+  },
+  "icu:stickers--StickerPreview--StickerCount": {
+    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+  },
+  "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
+    "messageformat": "Sticker without an emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -5437,7 +5455,7 @@
     "messageformat": "Warna ini hanya dapat dilihat oleh Anda."
   },
   "icu:ChatColorPicker__context--edit": {
-    "messageformat": "Sunting warna"
+    "messageformat": "Edit warna"
   },
   "icu:ChatColorPicker__context--duplicate": {
     "messageformat": "Duplikat"
@@ -5764,7 +5782,7 @@
     "messageformat": "Jangan Sekarang"
   },
   "icu:ProfileEditor--edit-photo": {
-    "messageformat": "Sunting foto"
+    "messageformat": "Edit foto"
   },
   "icu:ProfileEditor--info--general": {
     "messageformat": "Profil Anda beserta perubahannya akan terlihat oleh kontak, grup, dan orang yang Anda kirimi pesan."
@@ -7478,9 +7496,6 @@
   "icu:DraftGifMessageSendModal__SendButtonLabel": {
     "messageformat": "Kirim"
   },
-  "icu:DraftGifMessageSendModal__CancelButtonLabel": {
-    "messageformat": "Batal"
-  },
   "icu:EditHistoryMessagesModal__title": {
     "messageformat": "Riwayat pengeditan"
   },
@@ -8205,10 +8220,7 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.12--0": {
-    "messageformat": "Kami menambahkan pintasan baru untuk mengangkat tangan saat panggilan grup (Shift+H)."
-  },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Kami memperbarui desain untuk daftar tangan terangkat di panggilan grup. Catatan rilis untuk 8.13"
   }
 }
