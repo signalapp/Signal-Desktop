@@ -1198,14 +1198,6 @@ async function startApp(): Promise<void> {
         signalProtocolStore.hydrateCaches(),
         loadAll(),
       ]);
-
-      (window as any).Demo = {
-        async removeSessionForServiceId(serviceId: string): Promise<void> {
-          log.info('Demo.removeSessionForServiceId', serviceId);
-          await signalProtocolStore.removeSessionsByServiceId(serviceId as any);
-        },
-      };
-
       await window.ConversationController.checkForConflicts();
     } catch (error) {
       log.error(
