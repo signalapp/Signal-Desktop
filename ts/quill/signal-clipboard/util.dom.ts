@@ -4,6 +4,9 @@
 import { getFunEmojiElementValue } from '../../components/fun/FunEmoji.dom.tsx';
 
 const QUILL_EMBED_GUARD = '\uFEFF';
+const COPYABLE_TEXT_CONTAINER_SELECTOR = '.ql-editor, .module-message__text';
+const IGNORED_CLIPBOARD_SELECTOR =
+  'script, style, noscript, template, button, [hidden]';
 
 export function createEventHandler({
   deleteSelection,
@@ -35,14 +38,29 @@ export function createEventHandler({
 
     // Create synthetic html with the full selection we can put into clipboard
     const container = document.createElement('div');
+    const hasCopyableTextSelection =
+      selectionIntersectsCopyableTextContainer(selection);
     for (let i = 0, max = selection.rangeCount; i < max; i += 1) {
       const range = selection.getRangeAt(i);
+      if (rangeIsInIgnoredClipboardElement(range)) {
+        continue;
+      }
       container.appendChild(getRangeWithContainer(range));
     }
 
-    // We fail over to selection.toString() because we can't pull values from the DOM if
-    //   the selection is within an <input/> or <textarea/>. But the browser can!
-    const plaintext = getStringFromNode(container) || selection.toString();
+    removeIgnoredClipboardElements(container);
+
+    const inputSelectionText = getInputSelectionText();
+    const plaintext = inputSelectionText || getStringFromNode(container);
+    if (
+      !plaintext ||
+      (!inputSelectionText && !plaintext.trim() && !hasCopyableTextSelection)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     // Note: we can't leave text/plain alone and just add text/signal; if we update
     //   clipboardData at all, all other data is reset.
     event.clipboardData?.setData('text/plain', plaintext);
@@ -56,6 +74,58 @@ export function createEventHandler({
     event.preventDefault();
     event.stopPropagation();
   };
+}
+
+function removeIgnoredClipboardElements(container: HTMLElement): void {
+  for (const element of container.querySelectorAll(
+    IGNORED_CLIPBOARD_SELECTOR
+  )) {
+    element.remove();
+  }
+}
+
+function getInputSelectionText(): string {
+  const { activeElement } = document;
+  if (
+    !(
+      activeElement instanceof HTMLInputElement ||
+      activeElement instanceof HTMLTextAreaElement
+    )
+  ) {
+    return '';
+  }
+
+  const start = activeElement.selectionStart ?? 0;
+  const end = activeElement.selectionEnd ?? start;
+
+  return activeElement.value.slice(start, end);
+}
+
+function rangeIsInIgnoredClipboardElement(range: Range): boolean {
+  const { commonAncestorContainer } = range;
+  const element = isHTMLElement(commonAncestorContainer)
+    ? commonAncestorContainer
+    : commonAncestorContainer.parentElement;
+
+  return element?.closest(IGNORED_CLIPBOARD_SELECTOR) != null;
+}
+
+function selectionIntersectsCopyableTextContainer(
+  selection: Selection
+): boolean {
+  const containers = document.querySelectorAll(
+    COPYABLE_TEXT_CONTAINER_SELECTOR
+  );
+  for (let i = 0, max = selection.rangeCount; i < max; i += 1) {
+    const range = selection.getRangeAt(i);
+    for (const container of containers) {
+      if (range.intersectsNode(container)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 function isHTMLElement(node: Node): node is HTMLElement {
