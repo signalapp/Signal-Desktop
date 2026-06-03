@@ -1651,7 +1651,6 @@ function MultipleGroupMembersWithSameTitleWarning(props: {
   );
 }
 
-// right now this is displaying safety number and not the SAS flow
 function SASModal({
   sasValue,
   onClose,
