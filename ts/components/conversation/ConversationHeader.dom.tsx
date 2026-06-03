@@ -764,9 +764,11 @@ function HeaderContent({
 
  const showSASButton = itemStorage.get('sas-enabled', true);
  const fullConversation = window.ConversationController.get(conversation.id)?.format();
- getLocalStores(fullConversation.serviceId, 1, 'sas').then((res) => {
-  setCurrentlySASReady(res ? true : false);
- })
+ if (fullConversation?.serviceId) { 
+   getLocalStores(fullConversation.serviceId, 1, 'sas').then((res) => {
+    setCurrentlySASReady(res ? true : false);
+  })
+ }
 
   const avatar = (
     <span className="module-ConversationHeader__header__avatar">
@@ -1008,32 +1010,28 @@ function HeaderDropdownMenuContent({
 
   const muteTitle = <span>{i18n('icu:muteNotificationsTitle')}</span>;
   const disappearingTitle = <span>{i18n('icu:disappearingMessages')}</span>;
-  const onResetSession = (() => {
-    console.log('trying to reset session', window, window?.SignalDebug);
-    window?.SignalDebug?.removeSessionForServiceId(
-      window?.SignalDebug?.getSelectedConversationServiceId()
-    )
+  // This could be useful to someone else for debugging
+  // const onResetSession = (() => {
+  //   window?.SignalDebug?.removeSessionForServiceId(
+  //     window?.SignalDebug?.getSelectedConversationServiceId()
+  //   )
     
-    const fullConversation = window.ConversationController.get(conversation.id)?.format();
-    let stringServiceId = fullConversation?.serviceId?.toString() || '';
-    console.log('Clearing local stores for serviceId:', stringServiceId);
-    clearLocalStores(stringServiceId, undefined, 'sas');
-    clearLocalStores(stringServiceId, undefined, 'vts');
-    clearLocalStores(stringServiceId, undefined, 'bob_proof');
-    const updatedMap = itemStorage.get('sas-verified-conversations');
-    //console.log('updatedMap before update:', updatedMap);
-    if (updatedMap){
-      const memberConv = window.ConversationController.get(stringServiceId);
-      const resolvedId = memberConv?.id || stringServiceId;
-      updatedMap[resolvedId] = false;
-      //console.log('updatedMap after update:', updatedMap);
-      void itemStorage.put('sas-verified-conversations', updatedMap);
-    }
+  //   const fullConversation = window.ConversationController.get(conversation.id)?.format();
+  //   let stringServiceId = fullConversation?.serviceId?.toString() || '';
+  //   clearLocalStores(stringServiceId, undefined, 'sas');
+  //   clearLocalStores(stringServiceId, undefined, 'vts');
+  //   clearLocalStores(stringServiceId, undefined, 'bob_proof');
+  //   const updatedMap = itemStorage.get('sas-verified-conversations');
+  //   if (updatedMap){
+  //     const memberConv = window.ConversationController.get(stringServiceId);
+  //     const resolvedId = memberConv?.id || stringServiceId;
+  //     updatedMap[resolvedId] = false;
+  //     void itemStorage.put('sas-verified-conversations', updatedMap);
+  //   }
 
 
-    onConversationDeleteMessages();
-    //conversation.set("messageRequest");
-  })
+  //   onConversationDeleteMessages();
+  // })
 
 
   if (isSignalConversation) {
@@ -1130,12 +1128,12 @@ function HeaderDropdownMenuContent({
     <AxoDropdownMenu.Content>
       {!conversation.acceptedMessageRequest && (
         <>
-          <AxoDropdownMenu.Item
+          {/* <AxoDropdownMenu.Item
               symbol="signal-logo"
               onSelect={onResetSession}
             >
-            {"(DEMO) Reset X3DH Session"}
-          </AxoDropdownMenu.Item>
+            {"(DEBUG) Reset X3DH Session"}
+          </AxoDropdownMenu.Item> */}
           {!conversation.isBlocked && (
             <AxoDropdownMenu.Item symbol="block" onSelect={onConversationBlock}>
               {i18n('icu:ConversationHeader__MenuItem--Block')}
@@ -1170,12 +1168,12 @@ function HeaderDropdownMenuContent({
       )}
       {conversation.acceptedMessageRequest && (
         <>
-          <AxoDropdownMenu.Item
+          {/* <AxoDropdownMenu.Item
               symbol="signal-logo"
               onSelect={onResetSession}
             >
-            {"(DEMO) Reset X3DH Session"}
-          </AxoDropdownMenu.Item>
+            {"(DEBUG) Reset X3DH Session"}
+          </AxoDropdownMenu.Item> */}
           {disableTimerChanges ? null : (
             <AxoDropdownMenu.Sub>
               <AxoDropdownMenu.SubTrigger symbol="timer">
