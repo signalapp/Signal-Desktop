@@ -8209,6 +8209,6 @@
     "messageformat": "Тепер, якщо ви хочете підняти руку під час групового виклику, можна скористатися сполученням клавіш (Shift + H), а не натискати на значок мишкою. Маємо надію, що це оновлення зіграє вам на руку."
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Тепер значки піднятих рук також видно в списку піднятих рук під час групових викликів. Більше шансів, що ніхто не переплутає, хто ж все-таки говорить наступним."
   }
 }

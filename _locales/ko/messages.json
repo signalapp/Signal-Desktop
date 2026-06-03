@@ -1869,10 +1869,10 @@
     "messageformat": "통화 요청 거부됨"
   },
   "icu:calling__removed-from-call": {
-    "messageformat": "통화 그룹에서 제외되었습니다."
+    "messageformat": "다른 참여자가 통화 그룹에서 나를 내보냈습니다."
   },
   "icu:calling__removed-from-call-title": {
-    "messageformat": "통화 참가 제한"
+    "messageformat": "통화에서 제외되었습니다"
   },
   "icu:calling__has-max-devices": {
     "messageformat": "이 통화에 대한 최대 참가자 수에 도달했습니다. 나중에 다시 시도하세요."
@@ -2010,7 +2010,7 @@
     "messageformat": "카메라가 꺼졌습니다."
   },
   "icu:calling__pre-call-info--empty-group": {
-    "messageformat": "아무도 없음"
+    "messageformat": "참가한 사람이 없어요"
   },
   "icu:calling__pre-call-info--1-person-in-call": {
     "messageformat": "{first} 님이 통화 중입니다."
@@ -2055,7 +2055,7 @@
     "messageformat": "{others, plural, other {{first} 님, {second} 님 외 {others,number}명에게 알림이 갑니다.}}"
   },
   "icu:calling__in-this-call--zero": {
-    "messageformat": "아무도 없음"
+    "messageformat": "참가한 사람이 없어요"
   },
   "icu:calling__in-this-call": {
     "messageformat": "{people, plural, other {통화 참가자 {people,number}명}}"
@@ -5371,22 +5371,22 @@
     "messageformat": "그룹에서 ''{name}' 님을 내보낼까요? 해당 사용자는 그룹 링크를 통해 다시 참가할 수 없습니다."
   },
   "icu:CaptchaDialog__title": {
-    "messageformat": "메시지를 계속 전송하려면 검증하세요."
+    "messageformat": "메시지를 계속 보내려면 인증해 주세요"
   },
   "icu:CaptchaDialog__first-paragraph": {
-    "messageformat": "Signal에서 스팸을 방지하려면 검증을 완료하세요."
+    "messageformat": "Signal 서비스 내 스팸 방지를 위해 인증을 완료해 주세요."
   },
   "icu:CaptchaDialog__second-paragraph": {
-    "messageformat": "검증 후 메시지를 계속 전달할 수 있습니다. 일시 정지된 메시지는 자동으로 전송됩니다."
+    "messageformat": "인증 완료 후 메시지를 계속 전송할 수 있습니다. 일시 중지된 메시지는 인증 후 자동으로 전송됩니다."
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "인증 없이 계속할까요?"
   },
   "icu:CaptchaDialog--can-close__body": {
-    "messageformat": "검증을 건너뛰도록 선택하면 다른 사람이 전송한 메시지를 놓칠 수 있고 메시지가 전송되지 않을 수 있습니다."
+    "messageformat": "인증을 건너뛰면 다른 사람의 메시지를 받지 못하거나 메시지 전송에 실패할 수 있습니다."
   },
   "icu:CaptchaDialog--can_close__skip-verification": {
-    "messageformat": "검증 건너뛰기"
+    "messageformat": "인증 건너뛰기"
   },
   "icu:verificationComplete": {
     "messageformat": "검증이 완료되었습니다."
@@ -8209,6 +8209,6 @@
     "messageformat": "그룹 통화 중 손들기 단축키(Shift-H)를 새로 추가했습니다."
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "그룹 통화 중 손을 든 참여자 목록의 디자인을 업데이트했습니다."
   }
 }

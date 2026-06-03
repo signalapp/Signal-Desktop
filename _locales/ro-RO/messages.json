@@ -2298,7 +2298,7 @@
     "messageformat": "1h"
   },
   "icu:hoursAgo": {
-    "messageformat": "{hours,number}o"
+    "messageformat": "{hours,number}h"
   },
   "icu:minutesAgo": {
     "messageformat": "{minutes,number}m"
@@ -2781,10 +2781,10 @@
     "messageformat": "Pachetul cu autocolante nu a putut fi instalat"
   },
   "icu:stickers--StickerManager--Available": {
-    "messageformat": "Disponibil"
+    "messageformat": "Disponibile"
   },
   "icu:stickers--StickerManager--InstalledPacks": {
-    "messageformat": "Instalat"
+    "messageformat": "Instalate"
   },
   "icu:stickers--StickerManager--InstalledPacks--Empty": {
     "messageformat": "Nici un autocolant instalat"
@@ -4482,7 +4482,7 @@
     "messageformat": "Află mai multe"
   },
   "icu:GroupV1--Migration--migrate": {
-    "messageformat": "Actualizează"
+    "messageformat": "Îmbunătățește"
   },
   "icu:GroupV1--Migration--info--title": {
     "messageformat": "Ce sunt Noile Grupuri?"
@@ -6329,7 +6329,7 @@
     "messageformat": "{mediaDayCount, plural, one {Text + {mediaDayCount,number} zi de backup al fișierelor media} few {Text + {mediaDayCount,number} zile de backup al fișierelor media} other {Text + {mediaDayCount,number} de zile de backup al fișierelor media}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
-    "messageformat": "Planul tău de back-up este gratuit"
+    "messageformat": "Planul tău de backup este gratuit"
   },
   "icu:Preferences--backup-plan__renewal-date": {
     "messageformat": "Se reînnoiește {date}"
@@ -6428,7 +6428,7 @@
     "messageformat": "Niciodată"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Faceți un backup acum"
+    "messageformat": "Fă un backup acum"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Director backup"
@@ -6809,10 +6809,10 @@
     "messageformat": "Mergi la setări"
   },
   "icu:MyStories__title": {
-    "messageformat": "Poveștile Mele"
+    "messageformat": "Poveștile mele"
   },
   "icu:MyStories__list_item": {
-    "messageformat": "Poveștile Mele"
+    "messageformat": "Poveștile mele"
   },
   "icu:MyStories__story": {
     "messageformat": "Povestea Ta"
@@ -6992,7 +6992,7 @@
     "messageformat": "Poveștile dispar automat după 24 de ore. Alege cine poate să-ți vadă povestea sau creează noi povești cu anumiți spectatori sau grupuri."
   },
   "icu:StoriesSettings__my_stories": {
-    "messageformat": "Poveștile Mele"
+    "messageformat": "Poveștile mele"
   },
   "icu:StoriesSettings__new-list": {
     "messageformat": "Poveste Nouă"
@@ -7566,7 +7566,7 @@
     "messageformat": "Nu există apeluri pierdute"
   },
   "icu:CallsList__CreateCallLink": {
-    "messageformat": "Creează un Link de Apel"
+    "messageformat": "Creează o legătură pentru apel"
   },
   "icu:CallsList__ItemCallInfo--Incoming": {
     "messageformat": "Primite"
@@ -8209,6 +8209,6 @@
     "messageformat": "Pe de-o parte, poți să dai clic pe pictograma cu mâna ridicată în timpul apelurilor de grup. Pe de altă parte, acum poți folosi o nouă scurtătură de la taste (Shift-H)."
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Noile semnale de ridicare a mâinii sunt afișate acum și în lista celor care au ridicat mâna în timpul apelurilor de grup. E un loc unde te poți orienta pentru a afla cui ar trebui să îi dai cuvântul după ce ai terminat de vorbit."
   }
 }

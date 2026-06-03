@@ -8209,6 +8209,6 @@
     "messageformat": "グループ通話中に挙手するための新しいキーボードショートカット（Shift+H）を追加しました。"
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "グループ通話中の、手を挙げた参加者一覧のデザインをアップデートしました。"
   }
 }

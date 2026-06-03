@@ -8209,6 +8209,6 @@
     "messageformat": "Bir tərəfdən qrup zənglərində \"əl qaldırma\" piktoqramına klikləyə bilərsiniz. Digər tərəfdən isə artıq klaviaturaya yeni tətbiq etdiyimiz (Shift-H) qısayoldan istifadə edə bilərsiniz."
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Yeni \"əl qaldırma\" indikatorları artıq qrup zənglərində \"qaldırılmış əllər\" siyahısı olaraq görünür. Bu, özünüzdən sonra sözü kimə verəcəyinizi bildirmək üçün alternativ bir seçimdir."
   }
 }

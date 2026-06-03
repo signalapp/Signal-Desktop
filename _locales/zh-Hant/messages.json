@@ -8209,6 +8209,6 @@
     "messageformat": "你可以在群組通話中用右手點擊舉手圖示。現在你還可以選擇用左手使用新的鍵盤快捷鍵（Shift-H）。"
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "新的舉手狀態標記現在也會顯示在群組通話期間的舉手清單中。當你發言結束後，你就可以快速找到該將發言權交給誰。"
   }
 }

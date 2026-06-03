@@ -8209,6 +8209,6 @@
     "messageformat": "Додадовме нова кратенка на тастатурата за кревање рака во текот на групни повици (Shift-H)."
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking."
+    "messageformat": "Го ажуриравме дизајнот на листата на лица со кренати раце во текот на групните повици."
   }
 }
