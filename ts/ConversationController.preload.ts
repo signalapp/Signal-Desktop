@@ -156,7 +156,7 @@ async function safeCombineConversations(
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
-const { getAllConversations, getMessagesBySentAt } = DataReader;
+const { getAllConversations } = DataReader;
 
 const {
   migrateConversationMessages,
@@ -1519,11 +1519,13 @@ export class ConversationController {
     targetFromId: string,
     targetTimestamp: number
   ): Promise<ConversationModel | null | undefined> {
-    const messages = await getMessagesBySentAt(targetTimestamp);
-    const targetMessage = messages.find(m => getAuthorId(m) === targetFromId);
+    const targetMessage = await window.MessageCache.findBySentAt(
+      targetTimestamp,
+      m => getAuthorId(m.attributes) === targetFromId
+    );
 
     if (targetMessage) {
-      return this.get(targetMessage.conversationId);
+      return this.get(targetMessage.get('conversationId'));
     }
 
     return null;
