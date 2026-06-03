@@ -3,7 +3,6 @@
 
 import type { RefObject, JSX, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { clearLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.ts';
 import {
@@ -113,7 +112,6 @@ function HeaderInfoTitle({
       ) : null}
     </div>
   );
-  
 }
 
 export enum OutgoingCallButtonStyle {
