@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-bitwise */
-/* eslint-disable max-classes-per-file */
 
 import { z } from 'zod';
 import PQueue from 'p-queue';

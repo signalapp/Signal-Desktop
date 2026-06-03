@@ -155,7 +155,6 @@
     "@react-spring/web": "10.0.3",
     "@signalapp/lame": "workspace:1.0.0",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.86.16",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mock-server": "22.0.0",
     "@signalapp/parchment-cjs": "3.0.1",
@@ -486,6 +485,8 @@
     },
     "win": {
       "signtoolOptions": {
+        "certificateSubjectName": "Signal Messenger, LLC",
+        "certificateSha1": "8D5E3CD800736C5E1FE459A1F5AA48287D4F6EC6",
         "publisherName": "Signal Messenger, LLC",
         "sign": "scripts/sign-windows.mjs",
         "signingHashAlgorithms": [
@@ -657,13 +658,6 @@
       "!**/node_modules/.bin",
       "!**/node_modules/**/build/**",
       "!**/node_modules/**/prebuilds/**",
-      "!**/*.{o,hprof,orig,pyc,pyo,rbc,c,h,m}",
-      "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
-      "node_modules/socks/build/*.js",
-      "node_modules/socks/build/common/*.js",
-      "node_modules/socks/build/client/*.js",
-      "node_modules/smart-buffer/build/*.js",
       "node_modules/@signalapp/sqlcipher/prebuilds/${platform}-${arch}/*.node",
       "node_modules/@signalapp/libsignal-client/prebuilds/${platform}-${arch}/*.node",
       "!node_modules/@signalapp/ringrtc/scripts/*",

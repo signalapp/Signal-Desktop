@@ -64,6 +64,7 @@ export type StorageAccessType = {
   'auto-download-attachment': AutoDownloadAttachmentType;
   autoConvertEmoji: boolean;
   'badge-count-muted-conversations': boolean;
+  pvrfLocalStore?: Record<string, Record<string, string>>;
   'blocked-groups': ReadonlyArray<string>;
   'blocked-uuids': ReadonlyArray<ServiceIdString>;
   'call-ringtone-notification': boolean;
@@ -73,6 +74,7 @@ export type StorageAccessType = {
   cqsTestMode: boolean;
   'hide-menu-bar': boolean;
   'sas-enabled': boolean;
+  'sas-verified-conversations': Record<string, boolean>;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
@@ -337,6 +339,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'auto-download-update',
   'autoConvertEmoji',
   'badge-count-muted-conversations',
+  'pvrfLocalStore',
   'call-ringtone-notification',
   'call-system-notification',
   'customColors',
@@ -346,6 +349,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'hasCompletedUsernameLinkOnboarding',
   'hide-menu-bar',
   'sas-enabled',
+  'sas-verified-conversations',
   'incoming-call-notification',
   'navTabsCollapsed',
   'notification-draw-attention',

@@ -54,23 +54,6 @@
       }
     }
   }
-  &__SASModal {
-    &-backdrop {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
-      padding: 16px 24px;
-      margin-top: 12px;
-      @include mixins.light-theme {
-        background-color: variables.$color-gray-60;
-      }
-      @include mixins.dark-theme {
-        background-color: #1b1b1b;
-      }
-    }
-  }
   &__header {
     $padding: 4px 12px;
 

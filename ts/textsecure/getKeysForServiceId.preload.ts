@@ -15,11 +15,11 @@ import {
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
-} from './Errors.std.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
-import { Address } from '../types/Address.std.js';
-import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
-import type { ServiceIdString } from '../types/ServiceId.std.js';
+} from './Errors.std.ts';
+import { Sessions, IdentityKeys } from '../LibSignalStores.preload.ts';
+import { Address } from '../types/Address.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,

@@ -118,7 +118,6 @@ message Content {
 
   optional bytes /* SenderKeyDistributionMessage */ senderKeyDistributionMessage = 7;
   optional PniSignatureMessage pniSignatureMessage = 10;
-  optional EditMessage editMessage = 11;
 }
 
 message CallMessage {

@@ -472,8 +472,44 @@ export default class OutgoingMessage {
                 );
               }
 
-            const destinationRegistrationId =activeSession.remoteRegistrationId();
-            if (sealedSender && senderCertificate) {
+              const destinationRegistrationId =
+                activeSession.remoteRegistrationId();
+
+              if (sealedSender && senderCertificate) {
+                const ciphertextMessage = await this.getCiphertextMessage({
+                  identityKeyStore,
+                  destinationAddress,
+                  localAddress,
+                  sessionStore,
+                });
+
+                const certificate = SenderCertificate.deserialize(
+                  senderCertificate.serialized
+                );
+                const groupIdBuffer = this.groupId
+                  ? Bytes.fromBase64(this.groupId)
+                  : null;
+
+                const content = UnidentifiedSenderMessageContent.new(
+                  ciphertextMessage,
+                  certificate,
+                  this.contentHint,
+                  groupIdBuffer
+                );
+
+                const buffer = await sealedSenderEncrypt(
+                  content,
+                  destinationAddress,
+                  identityKeyStore
+                );
+
+                return {
+                  type: Proto.Envelope.Type.UNIDENTIFIED_SENDER,
+                  destinationDeviceId,
+                  destinationRegistrationId,
+                  content: Bytes.toBase64(buffer),
+                };
+              }
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
                 destinationAddress,
@@ -493,8 +529,7 @@ export default class OutgoingMessage {
                 content,
               };
             }
-          }
-        );
+          );
         })
       )
         // oxlint-disable-next-line promise/prefer-await-to-then, signal-desktop/no-then
