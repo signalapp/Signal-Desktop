@@ -370,6 +370,7 @@ export default class OutgoingMessage {
   getPlaintext(): Uint8Array {
     if (!this.plaintext) {
       const { message } = this;
+
       if (message instanceof Proto.Content) {
         this.plaintext = padMessage(Proto.Content.encode(message).finish());
       } else {
@@ -406,6 +407,7 @@ export default class OutgoingMessage {
         identityKeyStore
       );
     }
+
     return message.asCiphertextMessage();
   }
 
@@ -472,7 +474,8 @@ export default class OutgoingMessage {
               );
             }
 
-            const destinationRegistrationId = activeSession.remoteRegistrationId();
+            const destinationRegistrationId =
+              activeSession.remoteRegistrationId();
               
             if (sealedSender && senderCertificate) {
               const ciphertextMessage = await this.getCiphertextMessage({
