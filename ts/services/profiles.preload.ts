@@ -83,6 +83,7 @@ type JobType = {
 
 const OBSERVED_CAPABILITY_KEYS = Object.keys({
   attachmentBackfill: true,
+  usernameChangeSyncMessage: true,
 } satisfies CapabilitiesType) as ReadonlyArray<keyof CapabilitiesType>;
 
 const PROFILE_FETCH_CONCURRENCY = 30;

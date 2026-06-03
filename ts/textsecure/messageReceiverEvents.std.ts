@@ -563,6 +563,12 @@ export class DeviceNameChangeSyncEvent extends ConfirmableEvent {
   }
 }
 
+export class UsernameChangeSyncEvent extends ConfirmableEvent {
+  constructor(confirm: ConfirmCallback) {
+    super('usernameChangeSync', confirm);
+  }
+}
+
 const addressableMessageSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),

@@ -280,6 +280,11 @@ describe('pnp/username', function (this: Mocha.Suite) {
       .click();
     await profileEditor.getByRole('button', { name: 'Username' }).waitFor();
 
+    // Make sure we get a sync message
+    await phone.waitForSyncMessage(entry => {
+      return entry.syncMessage.content?.usernameChange != null;
+    });
+
     debug('confirming username deletion');
     {
       const uuid = await server.lookupByUsername(username);

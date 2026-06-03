@@ -123,6 +123,7 @@ import type {
   SentEventData,
   StickerPackEvent,
   TypingEvent,
+  UsernameChangeSyncEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
@@ -743,6 +744,10 @@ async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'deviceNameChangeSync',
       queuedEventListener(onDeviceNameChangeSync)
+    );
+    messageReceiver.addEventListener(
+      'usernameChangeSync',
+      queuedEventListener(onUsernameChangeSync)
     );
 
     if (!itemStorage.get('defaultConversationColor')) {
@@ -1955,6 +1960,7 @@ async function startApp(): Promise<void> {
       await doRegisterCapabilities({
         attachmentBackfill: true,
         spqr: true,
+        usernameChangeSyncMessage: true,
       });
     } catch (error) {
       log.error(
@@ -4042,6 +4048,10 @@ async function startApp(): Promise<void> {
     const { confirm } = ev;
     await AttachmentDownloadManager.handleBackfillResponse(ev);
     confirm();
+  }
+  async function onUsernameChangeSync(ev: UsernameChangeSyncEvent) {
+    await keyTransparency.onKnownIdentifierChange('username');
+    ev.confirm();
   }
 }
 

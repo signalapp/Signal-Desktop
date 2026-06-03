@@ -222,7 +222,7 @@ async function updateUsernameAndSyncProfile(
     return;
   }
 
-  // then tell our other devices about profile update
+  // then tell our other devices about profile update, username
   try {
     await singleProtoJobQueue.add(
       MessageSender.getFetchLocalProfileSyncMessage()
@@ -393,4 +393,21 @@ async function resolveUsernameByLink(
     }
     throw error;
   }
+}
+
+export function hasUsernameChangeSyncCapability(): boolean {
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
+
+  return (
+    ourConversation.get('capabilities')?.usernameChangeSyncMessage === true
+  );
+}
+
+export async function sendUsernameChangeSyncMessage(): Promise<void> {
+  if (!hasUsernameChangeSyncCapability()) {
+    return;
+  }
+
+  await singleProtoJobQueue.add(MessageSender.getUsernameChangeSyncMessage());
 }
