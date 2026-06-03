@@ -97,17 +97,17 @@ function HeaderInfoTitle({
     );
   }
 
-    return (
-      <div className="module-ConversationHeader__header__info__title">
-        <UserText text={title} />
-        {isInSystemContacts({ name: name ?? undefined, type }) ? (
-          <InContactsIcon
-            className="module-ConversationHeader__header__info__title__in-contacts-icon"
-            i18n={i18n}
-            tooltipContainerRef={headerRef}
-          />
-        ) : null}
-      </div>
+  return (
+    <div className="module-ConversationHeader__header__info__title">
+      <UserText text={title} />
+      {isInSystemContacts({ name: name ?? undefined, type }) ? (
+        <InContactsIcon
+          className="module-ConversationHeader__header__info__title__in-contacts-icon"
+          i18n={i18n}
+          tooltipContainerRef={headerRef}
+        />
+      ) : null}
+    </div>
   );
 }
 
