@@ -39,7 +39,7 @@ if (getEnvironment() === Environment.PackagedApp) {
   process.env.ALLOW_CONFIG_MUTATIONS = '';
   process.env.SUPPRESS_NO_CONFIG_WARNING = '';
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '';
-  process.env.SIGNAL_ENABLE_HTTP = '1';
+  process.env.SIGNAL_ENABLE_HTTP = '';
   process.env.SIGNAL_CI_CONFIG = '';
   process.env.GENERATE_PRELOAD_CACHE = '';
   process.env.REACT_DEVTOOLS = '';
