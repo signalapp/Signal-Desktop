@@ -97,6 +97,15 @@ const THUMBNAIL_WIDTH = 44;
 const THUMBNAIL_PADDING = 8;
 const THUMBNAIL_FULL_WIDTH = THUMBNAIL_WIDTH + THUMBNAIL_PADDING;
 
+export function _shouldBlockInteractionBehindLightbox(
+  target: EventTarget | null,
+  container: HTMLElement | null
+): boolean {
+  return (
+    target instanceof Node && container != null && !container.contains(target)
+  );
+}
+
 export function Lightbox({
   children,
   closeLightbox,
@@ -300,8 +309,25 @@ export function Lightbox({
 
         default:
       }
+
+      if (
+        _shouldBlockInteractionBehindLightbox(
+          event.target,
+          containerRef.current
+        )
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
     },
     [closeLightbox, onNext, onPrevious, handleSave]
+  );
+
+  const onLightboxKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+    },
+    []
   );
 
   const onClose = (event: ReactMouseEvent<HTMLElement>) => {
@@ -725,6 +751,7 @@ export function Lightbox({
 
               closeLightbox();
             }}
+            onKeyDown={onLightboxKeyDown}
             ref={containerRef}
             role="presentation"
           >
