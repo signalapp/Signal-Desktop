@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { clearLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
+// import { clearLocalStores } from './../../textsecure/pvrfLocalStoresStorage.preload.js';
 import classNames from 'classnames';
 import type { RefObject } from 'react';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -98,7 +98,6 @@ function HeaderInfoTitle({
   }
 
     return (
-    <>
       <div className="module-ConversationHeader__header__info__title">
         <UserText text={title} />
         {isInSystemContacts({ name: name ?? undefined, type }) ? (
@@ -109,9 +108,7 @@ function HeaderInfoTitle({
           />
         ) : null}
       </div>
-    </>
   );
-  
 }
 
 export enum OutgoingCallButtonStyle {
