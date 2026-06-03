@@ -80,6 +80,7 @@ export const sendTypesEnum = z.enum([
   'deviceNameChangeSync',
   'attachmentBackfillRequestSync',
   'attachmentBackfillResponseSync',
+  'usernameChangeSync',
 
   // No longer used, all non-urgent
   'legacyGroupChange',

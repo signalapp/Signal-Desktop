@@ -120,6 +120,7 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.preload.ts';
 import { storageServiceUploadJob } from '../services/storage.preload.ts';
 import { challengeHandler } from '../services/challengeHandler.preload.ts';
+import { sendUsernameChangeSyncMessage } from '../services/username.preload.ts';
 import { getSendOptions } from '../util/getSendOptions.preload.ts';
 import type { IsConversationAcceptedOptionsType } from '../util/isConversationAccepted.preload.ts';
 import {
@@ -4500,6 +4501,9 @@ export class ConversationModel {
       if (itemStorage.get('usernameCorrupted')) {
         log.info('updateUsername: clearing username corruption');
         await itemStorage.remove('usernameCorrupted');
+      }
+      if (!fromStorageService) {
+        await sendUsernameChangeSyncMessage();
       }
     }
     await window.ConversationController.usernameUpdated(this);

@@ -34,6 +34,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { isEnabled } from '../RemoteConfig.dom.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
 import { runStorageServiceSyncJob } from './storage.preload.ts';
+import { hasUsernameChangeSyncCapability } from './username.preload.ts';
 import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
 
 const log = createLogger('KeyTransparency');
@@ -215,9 +216,11 @@ class KeyTransparency {
 
     let usernameHash: Uint8Array<ArrayBuffer> | undefined;
 
-    const username = me.get('username');
-    if (username != null && !itemStorage.get('usernameCorrupted')) {
-      usernameHash = usernames.hash(username);
+    if (hasUsernameChangeSyncCapability()) {
+      const username = me.get('username');
+      if (username != null && !itemStorage.get('usernameCorrupted')) {
+        usernameHash = usernames.hash(username);
+      }
     }
 
     if (itemStorage.get('keyTransparencySelfHealth') === 'intermittent') {

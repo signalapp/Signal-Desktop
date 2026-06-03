@@ -215,6 +215,7 @@ export type StorageAccessType = {
   notificationProfileSyncDisabled: boolean;
   observedCapabilities: {
     attachmentBackfill?: true;
+    usernameChangeSyncMessage?: true;
 
     // Note: Upon capability deprecation - change the value type to `never` and
     // remove it in `ts/background.ts`
