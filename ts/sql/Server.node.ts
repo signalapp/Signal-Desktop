@@ -1135,7 +1135,6 @@ function removeAllIdentityKeys(db: WritableDB): number {
   return removeAllFromTable(db, IDENTITY_KEYS_TABLE);
 }
 function getAllIdentityKeys(db: ReadableDB): Array<StoredIdentityKeyType> {
-   
   return getAllFromTable(db, IDENTITY_KEYS_TABLE);
 }
 
@@ -1203,7 +1202,6 @@ function removeAllKyberPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, KYBER_PRE_KEYS_TABLE);
 }
 function getAllKyberPreKeys(db: ReadableDB): Array<StoredKyberPreKeyType> {
-   
   return getAllFromTable(db, KYBER_PRE_KEYS_TABLE);
 }
 
@@ -1238,7 +1236,6 @@ function removeAllPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, PRE_KEYS_TABLE);
 }
 function getAllPreKeys(db: ReadableDB): Array<StoredPreKeyType> {
-   
   return getAllFromTable(db, PRE_KEYS_TABLE);
 }
 
@@ -1281,7 +1278,6 @@ function removeAllSignedPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, SIGNED_PRE_KEYS_TABLE);
 }
 function getAllSignedPreKeys(db: ReadableDB): Array<StoredSignedPreKeyType> {
-   
   const rows: JSONRows = db
     .prepare(
       `
@@ -1368,7 +1364,6 @@ function removeAllSenderKeys(db: WritableDB): void {
   db.prepare('DELETE FROM senderKeys').run();
 }
 function getAllSenderKeys(db: ReadableDB): Array<SenderKeyType> {
-   
   return db.prepare('SELECT * FROM senderKeys').all<SenderKeyType>();
 }
 function removeSenderKeyById(db: WritableDB, id: SenderKeyIdType): void {
@@ -1889,11 +1884,9 @@ function removeAllSessions(db: WritableDB): number {
   return removeAllFromTable(db, SESSIONS_TABLE);
 }
 function getAllSessions(db: ReadableDB): Array<SessionType> {
-   
   return db.prepare('SELECT * FROM sessions').all();
 }
 function getAllKyberTriples(db: ReadableDB): Array<KyberPreKeyTripleType> {
-   
   return db.prepare('SELECT * FROM kyberPreKey_triples').all();
 }
 // Conversations

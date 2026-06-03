@@ -3,6 +3,7 @@
 
 import lodash from 'lodash';
 import type { z } from 'zod';
+
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as LinkPreview from '../types/LinkPreview.std.js';
@@ -85,7 +86,6 @@ const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
 
- 
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
 
@@ -503,6 +503,7 @@ export async function handleDataMessage(
     // There are type conflicts between ModelAttributesType and protos passed in here
     // oxlint-disable-next-line typescript/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
+
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;
 
