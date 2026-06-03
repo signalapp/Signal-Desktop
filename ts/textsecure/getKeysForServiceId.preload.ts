@@ -2,13 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // import { contextBridge } from 'electron';
 
-import { getLocalStores, setLocalStores } from './pvrfLocalStoresStorage.preload.js';
-import { existsSync, unlinkSync } from "fs";
-import { homedir } from "os";
-import { join } from "path";
-import { IS_MCS_DEMO } from './MessageReceiver.preload.js';
-import { showConfirmationDialog } from '../util/showConfirmationDialog.dom.js';
-
+import { setLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 import {
   ErrorCode,
@@ -146,21 +140,9 @@ async function handleServerKeys(
   const ourAci = itemStorage.user.getCheckedAci();
   const sessionStore = new Sessions({ ourServiceId: ourAci });
   const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
-  const filePath = join(homedir(), "Desktop", "mcs_alice_demo.txt");
-  const anyDevicesToUpdate = devicesToUpdate == null || response.devices.some(device => devicesToUpdate.includes(device.deviceId));
-  let doSub;
-  let sas = await getLocalStores(serviceId, 1, "sas");
-  console.log("flagginga", anyDevicesToUpdate, sas);
-  if (IS_MCS_DEMO && existsSync(filePath) && anyDevicesToUpdate && !sas) {
-    doSub = await doAliceAttackModal();
-    if (!doSub) {
-      unlinkSync(filePath);
-    }
-  } 
 
   await Promise.all(
     response.devices.map(async device => {
-      console.log('new device')
       const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
         device;
       if (devicesToUpdate != null && !devicesToUpdate.includes(deviceId)) {
@@ -213,17 +195,8 @@ async function handleServerKeys(
       );
 
       try {
-        log.info(
-          'this is x3dh SEND',
-          deviceId,
-          preKeyBundle,
-          protocolAddress,
-          sessionStore,
-          identityKeyStore,
-          signalProtocolStore
-        );
-
         await signalProtocolStore.enqueueSessionJob(address, () =>
+          //x3dh SEND
           processPreKeyBundle(
             preKeyBundle,
             protocolAddress,
@@ -231,25 +204,11 @@ async function handleServerKeys(
             identityKeyStore
           )
         );
-        // log.info(
-        //   'after x3dh',
-        //   preKeyBundle,
-        //   protocolAddress,
-        //   sessionStore,
-        //   identityKeyStore,
-        //   signalProtocolStore
-        // );
-
-
-
 
         const temp = await sessionStore.getSession(protocolAddress);
-        log.info('got session', temp, device, temp?.getBobResponse);
-
-        try { log.info('VTS value', temp?.getVTS?.()); } catch (e) { log.error('error getting VTS', e); }
         let buf = temp?.getVTS?.();
+
         try {
-          //console.log('buf', buf);
           const s1 = buf.vt.tau[0]
           const s2_1 = buf.vt.tau[1][0]
           const s2_2 = buf.vt.tau[1][1]
@@ -264,17 +223,14 @@ async function handleServerKeys(
           const beta = buf.r2;
           const salt = buf.contrib_salt;
           const vts = { vt, vk, secrets, alpha, beta, salt };
-          console.log('final vts to store', vts);
           await setLocalStores(serviceId, deviceId, JSON.stringify(vts), 'vts');
         } catch (err){
           log.error('error parsing VTS', err, err.stack);
         }
-        //console.log('finished processing prekey bundle for', serviceId, deviceId);
         return Promise.resolve();
         
       } 
      catch (error) {
-      //console.log('err');
         if (
           error instanceof LibSignalErrorBase &&
           error.code === ErrorCode.UntrustedIdentity
@@ -286,33 +242,4 @@ async function handleServerKeys(
       return Promise.resolve();
     })
   );
-  //console.log('finished handling server keys for', serviceId);
-}
-
-
-async function doAliceAttackModal() {
-    return await new Promise<boolean>((resolver, rejecter) => {
-      showConfirmationDialog({
-        dialogName: 'mcsDemoPerformMITM',
-        noMouseClose: true,
-        onTopOfEverything: true,
-        cancelText: "Normal Message",
-        confirmStyle: 'affirmative',
-        title: `🔧 (DEMO) (A)Perform MITM Attack?`,
-        description: `
-          Simulate an attack on the server as EVE?
-
-          You will forward ALICE's VTS value to this person instead of your real VTS.
-
-          This will trigger BOB's warning against you.
-        `,
-        okText: "Execute attack",
-        reject: () => {
-          return resolver(false);
-        },
-        resolve: () => {
-          return resolver(true);
-        },
-      });
-   });
 }

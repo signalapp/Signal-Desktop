@@ -3,11 +3,6 @@
 
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
-import { showConfirmationDialog } from "../util/showConfirmationDialog.dom.js";
-import { readFileSync, existsSync } from "fs";
-import { homedir } from "os";
-import { join } from "path";
-import { IS_MCS_DEMO } from "./MessageReceiver.preload.js";
 import { z } from 'zod';
 import Long from 'long';
 import PQueue from 'p-queue';
@@ -113,7 +108,7 @@ import type {
   SendUnpinMessageType,
 } from '../types/PinnedMessage.std.js';
 
-import { getLocalStores, clearLocalStores } from './pvrfLocalStoresStorage.preload.js';
+import { getLocalStores } from './pvrfLocalStoresStorage.preload.js';
 
 
 const log = createLogger('SendMessage');
@@ -1237,45 +1232,12 @@ export class MessageSender {
       ...messageOptions,
       includePniSignatureMessage,
     });
-    //log.info('the proto is', proto);
-    //log.info('if ithas a datamessage', proto.dataMessage);
     if (proto.dataMessage) {
-      //log.info('has datamessage');
       const serviceId = messageOptions.recipients[0];
       let bobProof = await getLocalStores(serviceId, 1, "bob_proof");
-      //let sas = await getLocalStores(serviceId, 1, "sas");
-      if (bobProof) {
-        const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
-        if (IS_MCS_DEMO && existsSync(filePath)) {
-          const contents = readFileSync(filePath, { encoding: "utf-8" });
-          await new Promise<boolean>((resolver, rejecter) => {
-            showConfirmationDialog({
-              dialogName: 'mcsDemoPerformMITM',
-              noMouseClose: true,
-              onTopOfEverything: true,
-              cancelText: "Normal Message",
-              confirmStyle: 'affirmative',
-              title: `🔧 (DEMO) (B)Perform MITM Attack?`,
-              description: `
-                Simulate an attack on the server as EVE?
-
-                You will forward BOB's PROOF to this person instead of your real proof.
-
-                This will trigger ALICE's warning against you.
-              `,
-              okText: "Execute attack",
-              reject: () => {
-                return resolver(false);
-              },
-              resolve: () => {
-                console.log('initially, the bob proof is', bobProof);
-                bobProof = contents;
-                console.log('after file override, the bob proof is', bobProof);
-                return resolver(true);
-              },
-            });
-          });
-        }
+      //this means that currently all bob messages are appended with the pvrf value + proof
+      //this should be fixed to only the extra handshake
+      if (bobProof) { 
         const bobJson = JSON.parse(bobProof);
         const bobToAlice = JSON.stringify({
           response: {
@@ -1284,9 +1246,6 @@ export class MessageSender {
         })
         proto.dataMessage.bobProof = bobToAlice;
         //await clearLocalStores(serviceId, 1, "bob_proof");
-        log.info('the proto with injected bob proof is', bobToAlice, proto, proto.dataMessage);
-      } else {
-        log.info('no bob proof available for', serviceId);
       }
     }
 
