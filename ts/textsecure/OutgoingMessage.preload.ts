@@ -476,7 +476,7 @@ export default class OutgoingMessage {
 
             const destinationRegistrationId =
               activeSession.remoteRegistrationId();
-              
+
             if (sealedSender && senderCertificate) {
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
