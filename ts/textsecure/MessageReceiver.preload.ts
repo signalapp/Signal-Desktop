@@ -3,10 +3,6 @@
 
 /* eslint-disable no-bitwise */
 
-export const IS_MCS_DEMO = true;
-import { existsSync, writeFileSync } from "fs";
-import { homedir } from "os";
-import { join } from "path";
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
@@ -1501,46 +1497,25 @@ export default class MessageReceiver
       if (content.content?.dataMessage) 
       {
         const serviceId = envelope.sourceServiceId;
-        log.info('datamessage found', content.content.dataMessage);
-        //this is where alice would read bob's proof then call to libsignal to compute sas
-        //assuming that the proof data is sent correctly
         const deviceId = envelope.sourceDevice ?? 1;
-        log.info("device id is ",deviceId);
 
         let vts;
         const vtsStr = await getLocalStores(serviceId, deviceId, 'vts');
 
-        console.log("JSONINPUTS", vtsStr, content.dataMessage.bobProof)
         vts = typeof vtsStr === 'string' ? JSON.parse(vtsStr) : vtsStr;
 
         const bob = typeof content.dataMessage.bobProof === 'string'
           ? JSON.parse(content.dataMessage.bobProof)
           : content.dataMessage.bobProof;
-        console.log('the stored vts', vts);
-        console.log('the bob proof', bob);
-        //the vts and bobproof are objects/dicts of the human-readable values (not bytes)
-        //for pvrfverify as it is right now, they need to be broken back down in to the byte array
-        //or we can try to make pvrfverify work with the stuff in the objets
         const w_bob=bob?.response?.pi?.w?.compressed;
         const v_bob=bob?.response?.pi?.v?.compressed;
 
         if (vts && w_bob && v_bob) {
-          if (IS_MCS_DEMO) {
-            const mcs_store = bob;
-            const str_store = JSON.stringify(mcs_store);
-            const filePath = join(homedir(), "Desktop", "mcs_bob_demo.txt");
-            if(!existsSync(filePath)) {
-              console.log("wrote bob demo file to:", filePath);
-              writeFileSync(filePath, str_store, { encoding: "utf-8" });
-            }
-          }
 
-          console.log("entered phase 1")
           const vk = Uint8Array.from(Object.values(vts?.vk) as number[]);
           const x  = Uint8Array.from(Object.values(vts?.secrets) as number[]);
           const w  = Uint8Array.from(Object.values(w_bob) as number[]);
           const v  = Uint8Array.from(Object.values(v_bob) as number[]);
-          console.log("phase 2")
 
           function toLE32(s: string): Uint8Array {
             let n = BigInt(s);
@@ -1552,26 +1527,17 @@ export default class MessageReceiver
           const alpha = toLE32(vts?.alpha);
           const beta  = toLE32(vts?.beta);
 
-          console.log(vk,x,alpha,beta,w,v)
 
 
           const result = pvrfVerify(vk, x, alpha, beta, w, v, );
           const z_decoded = String.fromCharCode(...result.z);
-          console.log('storing sas', z_decoded, "which will need to be xored with the salt in", vts)
           const saltObject = vts.salt;
-          console.log('the saltobj is', saltObject);
           const salt = new Uint8Array(Object.values(saltObject));
-          console.log('salt is', salt);
           const sasBytes = result.z.map((v, i) => v ^ salt[i]);
-          console.log('sasbytes is', sasBytes);
           const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
-          console.log('sas is', sas)
           await setLocalStores(serviceId, 1, sas.toString(), 'sas');
           //await clearLocalStores(serviceId, deviceId, 'vts');
         
-          console.log("phase 3", z_decoded)
-          log.info('PVRF verify ok:', result.ok, 'z:', result.z);
-          console.log('PVRF verify ok:', result.ok, 'z:', result.z);
           if (!result.ok) {
             console.error("alice could not verify bob");
             await new Promise<void>((resolve, reject) => {
@@ -1905,18 +1871,7 @@ export default class MessageReceiver
       address,
       () => {
         if (message instanceof PreKeySignalMessage) {
-          log.info(
-            'this is x3dh RECEIVE',
-            envelope.sourceDevice,
-            message,
-            protocolAddress,
-            sessionStore,
-            identityKeyStore,
-            signalProtocolStore,
-            preKeyStore,
-            signedPreKeyStore,
-            kyberPreKeyStore
-          );
+          //x3dh receive
           return signalDecryptPreKey(
             message,
             sourceAddress,
@@ -1928,7 +1883,6 @@ export default class MessageReceiver
             kyberPreKeyStore
           );
         }
-        log.info('alternate x3dh receive');
         return signalDecrypt(
           message,
           sourceAddress,
@@ -2083,7 +2037,6 @@ export default class MessageReceiver
         envelope.sourceDevice
       );
       const temp = await sessionStore.getSession(protocolAddress);
-      log.info('got session', temp, temp?.getBobResponse);
 
       const deviceId = envelope.sourceDevice ?? 1;
       const serviceId = envelope.sourceServiceId ?? 'unknown';
@@ -2095,7 +2048,6 @@ export default class MessageReceiver
         const sasBytes = temp?.getSAS();
         const sas = (((sasBytes[0] << 16) | (sasBytes[1] << 8) | sasBytes[2])) % 1000000;
         let tempResponse = temp?.getBobResponse();
-        log.info('bob response value, z is the true sas', tempResponse); 
         let existingSas = await getLocalStores(serviceId, 1, 'sas');  
         let alreadyChecked = existingSas == sas.toString();
         if (tempResponse.c != tempResponse.computed_c && !alreadyChecked) {         
@@ -2130,8 +2082,6 @@ export default class MessageReceiver
               },
             });
           });
-        } else if (!alreadyChecked) {
-          console.log('bob has c match', tempResponse.c, tempResponse.computed_c);
         }
 
         await setLocalStores(serviceId, 1, sas.toString(), 'sas');  
@@ -2140,10 +2090,6 @@ export default class MessageReceiver
         // console.log("but hopefully its already xored as", temp?.getSAS());
       } catch (e) { log.info('error getting bob response', e); log.info('errorstack getting bob response', e.stack); }
      
-      try { 
-        log.info('VTS value', temp?.getVTS());
-       } catch (e) { log.info('no VTS for bob', e); }
-      log.info('setting bob proof in memory for', serviceId, deviceId, "but deviceid faked to 1");
       await setLocalStores(serviceId, 1, JSON.stringify(bobResponseObject), "bob_proof");
 
       return { plaintext: this.#unpad(plaintext), wasEncrypted };

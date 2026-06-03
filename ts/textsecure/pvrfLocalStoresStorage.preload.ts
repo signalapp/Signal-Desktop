@@ -4,9 +4,8 @@
 import { itemStorage } from './Storage.preload.js';
 
 type LocalStoresStore = Record<string, Record<string, string>>;
-// serviceId -> deviceId -> nonce_b64
 
-const KEY = 'pvrfDemoLocalStores' as const;
+const KEY = 'pvrfLocalStore' as const;
 
 async function readStore(key?: any): Promise<LocalStoresStore> {
   const realKey =  (key || KEY)
