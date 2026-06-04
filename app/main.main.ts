@@ -3236,7 +3236,12 @@ ipc.on('start-attachment-drag', (event, filePath: string) => {
   event.sender.startDrag({ file: filePath, icon });
 });
 
-
+app.on('will-quit', () => {
+  if (lastDragTempPath) {
+    fsExtra.removeSync(lastDragTempPath);
+    lastDragTempPath = null;
+  }
+});
 
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
   if (!mainWindow) {
