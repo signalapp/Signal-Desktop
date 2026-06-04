@@ -22,7 +22,6 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   ConversationTypeType,
-  CleanupDragAttachmentActionCreatorType,
   DragAttachmentActionCreatorType,
   InteractionModeType,
   PushPanelForConversationActionType,
@@ -378,7 +377,6 @@ export type PropsActions = {
     messageId: string;
   }) => void;
   dragAttachment: DragAttachmentActionCreatorType;
-  cleanupDragAttachment: CleanupDragAttachmentActionCreatorType;
   saveAttachment: SaveAttachmentActionCreatorType;
   saveAttachments: SaveAttachmentsActionCreatorType;
   showLightbox: (options: {
@@ -1159,7 +1157,6 @@ export class Message extends PureComponent<Props, State> {
       cancelAttachmentDownload,
       direction,
       dragAttachment,
-      cleanupDragAttachment,
       expirationLength,
       expirationTimestamp,
       i18n,
@@ -1229,8 +1226,19 @@ export class Message extends PureComponent<Props, State> {
       );
 
       if (isGIF(attachments)) {
+        const isGifDraggable =
+          !!firstAttachment.path && !isAttachmentNotAvailable;
         return (
-          <div className={containerClassName}>
+          <div
+            className={containerClassName}
+            draggable={isGifDraggable}
+            onDragStart={(event: React.DragEvent) => {
+              event.preventDefault();
+              if (isGifDraggable) {
+                dragAttachment(firstAttachment, timestamp);
+              }
+            }}
+          >
             {/* oxlint-disable-next-line react/jsx-pascal-case */}
             <GIF
               attachment={firstAttachment}
@@ -1266,9 +1274,23 @@ export class Message extends PureComponent<Props, State> {
         const bottomOverlay = !isSticker && !collapseMetadata;
         // We only want users to tab into this if there's more than one
         const tabIndex = attachments.length > 1 ? 0 : -1;
+        const isMediaDraggable =
+          !isSticker &&
+          attachments.length === 1 &&
+          !!firstAttachment.path &&
+          !isAttachmentNotAvailable;
 
         return (
-          <div className={containerClassName}>
+          <div
+            className={containerClassName}
+            draggable={isMediaDraggable}
+            onDragStart={(event: React.DragEvent) => {
+              event.preventDefault();
+              if (isMediaDraggable) {
+                dragAttachment(firstAttachment, timestamp);
+              }
+            }}
+          >
             <ImageGrid
               attachments={attachments}
               direction={direction}
@@ -1361,9 +1383,6 @@ export class Message extends PureComponent<Props, State> {
           if (isDraggable) {
             dragAttachment(firstAttachment, timestamp);
           }
-        }}
-        onDragEnd={() => {
-          cleanupDragAttachment();
         }}
       >
       <button
