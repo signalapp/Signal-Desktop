@@ -473,7 +473,7 @@ async function getStickerPackPreview(
       return null;
     }
 
-    const { title, coverStickerId } = pack;
+    const { author, title, coverStickerId } = pack;
     // oxlint-disable-next-line typescript/no-non-null-assertion
     const sticker = pack.stickers[coverStickerId]!;
     const data =
@@ -484,6 +484,13 @@ async function getStickerPackPreview(
     if (abortSignal.aborted) {
       return null;
     }
+
+    const description = i18n(
+      'icu:stickers--StickerPackLinkPreviewDescription',
+      {
+        author,
+      }
+    );
 
     let contentType: MIMEType;
     const sniffedMimeType = sniffImageMimeType(data);
@@ -498,7 +505,7 @@ async function getStickerPackPreview(
 
     return {
       date: null,
-      description: null,
+      description,
       image: {
         ...sticker,
         data,

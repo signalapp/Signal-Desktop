@@ -7,23 +7,47 @@ import { action } from '@storybook/addon-actions';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoSwitch } from './AxoSwitch.dom.tsx';
+import { variants } from './_internal/variants.dom.tsx';
 
 export default {
   title: 'Axo/AxoButton',
 } satisfies Meta;
 
+const Backgrounds = variants<AxoButton.Variant>('AxoButton.Variant', {
+  secondary: tw('bg-background-primary'),
+  primary: tw('bg-background-primary'),
+  affirmative: tw('bg-background-primary'),
+  destructive: tw('bg-background-primary'),
+  'subtle-primary': tw('bg-background-primary'),
+  'subtle-affirmative': tw('bg-background-primary'),
+  'subtle-destructive': tw('bg-background-primary'),
+  'floating-secondary': tw('bg-background-primary'),
+  'floating-primary': tw('bg-background-primary'),
+  'floating-affirmative': tw('bg-background-primary'),
+  'floating-destructive': tw('bg-background-primary'),
+  'borderless-secondary': tw('bg-background-primary'),
+  'borderless-primary': tw('bg-background-primary'),
+  'borderless-affirmative': tw('bg-background-primary'),
+  'borderless-destructive': tw('bg-background-primary'),
+  'message-incoming-secondary': tw('bg-message-fill-incoming-primary'),
+  'message-outgoing-secondary': tw('bg-message-fill-outgoing-primary'),
+});
+
 export function Basic(): JSX.Element {
-  const variants = AxoButton._getAllVariants();
-  const sizes = AxoButton._getAllSizes();
+  const allVariants = AxoButton._getAllVariants();
+  const allSizes = AxoButton._getAllSizes();
   return (
-    <div className={tw('grid gap-1')}>
-      {sizes.map(size => {
+    <div className={tw('grid gap-1 p-4')}>
+      {allSizes.map(size => {
         return (
           <div>
-            <h2 className={tw('type-title-medium')}>Size: {size}</h2>
-            {variants.map(variant => {
+            <h2 className={tw('p-1 type-title-medium')}>Size: {size}</h2>
+            {allVariants.map(variant => {
               return (
-                <div key={variant} className={tw('flex gap-1')}>
+                <div
+                  key={variant}
+                  className={tw('flex gap-1 p-1', Backgrounds.get(variant))}
+                >
                   <AxoButton.Root
                     variant={variant}
                     size={size}
@@ -89,8 +113,8 @@ export function Basic(): JSX.Element {
 }
 
 export function Spinner(): JSX.Element {
-  const variants = AxoButton._getAllVariants();
-  const sizes = AxoButton._getAllSizes();
+  const allVariants = AxoButton._getAllVariants();
+  const allSizes = AxoButton._getAllSizes();
 
   const [pending, setPending] = useState(true);
 
@@ -105,10 +129,10 @@ export function Spinner(): JSX.Element {
         <span>Loading</span>
       </div>
       <div className={tw('flex flex-col gap-2')}>
-        {sizes.map(size => {
+        {allSizes.map(size => {
           return (
             <div key={size} className={tw('flex gap-2')}>
-              {variants.map(variant => {
+              {allVariants.map(variant => {
                 return (
                   <AxoButton.Root
                     variant={variant}

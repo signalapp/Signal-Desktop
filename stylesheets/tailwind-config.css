@@ -87,9 +87,11 @@
   /* Colors/Message Fill */
   --color-message-fill-incoming-primary:   light-dark(/*   */ #EAEAEA /*  */, /*   */ #3A3A3A /*  */);
   --color-message-fill-incoming-secondary: light-dark(--alpha(#FFFFFF / 80%), --alpha(#FFFFFF / 20%));
+  --color-message-fill-incoming-secondary-pressed: light-dark(--alpha(#FFFFFF / 72%), --alpha(#FFFFFF / 28%));
   --color-message-fill-incoming-tertiary:  light-dark(--alpha(#FFFFFF / 60%), --alpha(#FFFFFF / 12%));
   --color-message-fill-outgoing-primary:   light-dark(/*   */ #2267F5 /*  */, /*   */ #2267F5 /*  */);
-  --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 60%), --alpha(#FFFFFF / 60%));
+  --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 20%), --alpha(#FFFFFF / 20%));
+  --color-message-fill-outgoing-secondary-pressed: light-dark(--alpha(#FFFFFF / 12%), --alpha(#FFFFFF / 28%));
   --color-message-fill-outgoing-tertiary:  light-dark(--alpha(#FFFFFF / 20%), --alpha(#FFFFFF / 20%));
 
   /* Colors/Color Fill */
@@ -193,9 +195,11 @@
       /* Colors/Message Fill */
       --color-message-fill-incoming-primary:   light-dark(/*   */ #E0E0E0 /*  */, /*   */ #424242 /*  */);
       --color-message-fill-incoming-secondary: light-dark(--alpha(#FFFFFF / 90%), --alpha(#FFFFFF / 30%));
+      --color-message-fill-incoming-secondary-pressed: light-dark(--alpha(#FFFFFF / 82%), --alpha(#FFFFFF / 38%));
       --color-message-fill-incoming-tertiary:  light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 22%));
       --color-message-fill-outgoing-primary:   light-dark(/*   */ #0842B9 /*  */, /*   */ #0842B9 /*  */);
-      --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 70%), --alpha(#FFFFFF / 70%));
+      --color-message-fill-outgoing-secondary: light-dark(--alpha(#FFFFFF / 30%), --alpha(#FFFFFF / 30%));
+      --color-message-fill-outgoing-secondary-pressed: light-dark(--alpha(#FFFFFF / 22%), --alpha(#FFFFFF / 38%));
       --color-message-fill-outgoing-tertiary:  light-dark(--alpha(#FFFFFF / 30%), --alpha(#FFFFFF / 30%));
 
       /* Colors/Color Fill */

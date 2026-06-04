@@ -122,3 +122,16 @@ CompositionInput.args = {
     contentType: IMAGE_JPEG,
   }),
 };
+
+export const CompositionInputStickerPack = Template.bind({});
+CompositionInputStickerPack.args = {
+  ...getDefaultProps(),
+  moduleClassName: 'CompositionInput__link-preview',
+  title: 'Cat stickers',
+  description: 'Sticker pack by Ann Chovy',
+  image: fakeAttachment({
+    url: '/fixtures/kitten-4-112-112.jpg',
+    contentType: IMAGE_JPEG,
+  }),
+  isStickerPack: true,
+};
