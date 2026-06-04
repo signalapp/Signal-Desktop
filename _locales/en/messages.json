@@ -3758,6 +3758,14 @@
     "messageformat": "Sticker without an emoji",
     "description": "Accessibility label for sticker without an assigned emoji in the sticker pack preview modal."
   },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}",
+    "description": "Description for a sticker pack preview in the chat, when someone sends a link to a sticker pack. Shown next to the title of the sticker pack."
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack",
+    "description": "Action button for a sticker pack preview in the chat, when someone sends a link to a sticker pack. When clicked it opens the sticker preview dialog."
+  },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji",
     "description": "FunPicker > Tabs > Emojis Tab > Label (emoji plural)"

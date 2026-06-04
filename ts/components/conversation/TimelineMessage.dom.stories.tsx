@@ -1699,6 +1699,29 @@ LinkPreviewWithCallLinkInCurrentCall.args = {
   text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
 };
 
+export const LinkPreviewWithSticker = Template.bind({});
+LinkPreviewWithSticker.args = {
+  previews: [
+    {
+      domain: 'signal.art',
+      image: fakeAttachment({
+        url: '/fixtures/kitten-4-112-112.jpg',
+        fileName: 'kitten-4-112-112.jpg',
+        contentType: IMAGE_JPEG,
+        height: 240,
+        width: 240,
+      }),
+      isStickerPack: true,
+      isCallLink: false,
+      title: 'Cat stickers',
+      description: 'Sticker pack by Ann Chovy',
+      url: 'https://signal.art/addstickers#pack_id=abc&pack_key=123',
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+};
+
 export function Image(): JSX.Element {
   const darkImageProps = createProps({
     attachments: [

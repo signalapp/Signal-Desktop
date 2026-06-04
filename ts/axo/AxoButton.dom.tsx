@@ -39,7 +39,9 @@ export namespace AxoButton {
     | 'borderless-secondary'
     | 'borderless-primary'
     | 'borderless-affirmative'
-    | 'borderless-destructive';
+    | 'borderless-destructive'
+    | 'message-incoming-secondary'
+    | 'message-outgoing-secondary';
 
   /**
    * Size of the button.
@@ -178,6 +180,20 @@ export namespace AxoButton {
       baseBorderlessVariant,
       'text-color-label-destructive',
       'aria-disabled:text-color-label-destructive-disabled'
+    ),
+
+    // message
+    'message-incoming-secondary': tw(
+      baseStyles,
+      'bg-message-fill-incoming-secondary text-label-primary',
+      'not-aria-disabled:active:bg-message-fill-incoming-secondary-pressed',
+      'aria-disabled:text-label-disabled'
+    ),
+    'message-outgoing-secondary': tw(
+      baseStyles,
+      'bg-message-fill-outgoing-secondary text-label-primary-on-color',
+      'not-aria-disabled:active:bg-message-fill-outgoing-secondary-pressed',
+      'aria-disabled:text-label-disabled-on-color'
     ),
   });
 
@@ -398,6 +414,8 @@ export namespace AxoButton {
       'borderless-secondary': 'axo-button-spinner-secondary',
       'borderless-affirmative': 'axo-button-spinner-affirmative',
       'borderless-destructive': 'axo-button-spinner-destructive',
+      'message-incoming-secondary': 'axo-button-spinner-on-color',
+      'message-outgoing-secondary': 'axo-button-spinner-secondary',
     }
   );
 
