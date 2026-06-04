@@ -155,9 +155,15 @@ jobs:
   linux:
     name: Linux
     needs: lint
-    runs-on: ubuntu-22.04-8-cores
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
-
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04-8-cores
+            arch: x64
+          - os: ubuntu-22.04-arm64-4-cores
+            arch: arm64
     steps:
     - run: lsb_release -a
     - run: uname -a
@@ -206,6 +212,9 @@ jobs:
       env:
         ARTIFACTS_DIR: artifacts/linux
 
+    - name: Set Linux build target architecture
+      run: pnpm run prepare-linux-build deb ${{ matrix.arch }}
+
     - name: Build with packaging .deb file
       run: pnpm run build:release --publish=never
       if: github.ref == 'refs/heads/main'
@@ -225,7 +234,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node scripts/publish-installer-size.mjs linux
+      run: node scripts/publish-installer-size.mjs linux-${{ matrix.arch }}
 
     - run: xvfb-run --auto-servernum pnpm run test-node
 
