@@ -305,6 +305,12 @@ export function useEditLastMessageSent(
         return false;
       }
 
+      // Ignore keys that are part of an active IME composition (e.g. when
+      // navigating the Japanese transliteration candidate menu with ArrowUp).
+      if (ev.isComposing) {
+        return false;
+      }
+
       const key = KeyboardLayout.lookup(ev);
 
       // None of the modifiers should be pressed
