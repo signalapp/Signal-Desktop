@@ -1243,7 +1243,6 @@ export const actions = {
   saveAttachments,
   saveAttachmentFromMessage,
   dragAttachment,
-  cleanupDragAttachment,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4164,12 +4163,6 @@ export type DragAttachmentActionCreatorType = ReadonlyDeep<
   (attachment: AttachmentType, timestamp?: number) => unknown
 >;
 
-export type CleanupDragAttachmentActionCreatorType = ReadonlyDeep<
-  () => unknown
->;
-
-let lastDragTempPath: string | null = null;
-
 function dragAttachment(
   attachment: AttachmentType,
   timestamp = Date.now()
@@ -4184,25 +4177,11 @@ function dragAttachment(
       baseDir: TEMP_PATH,
     });
     if (fullPath) {
-      lastDragTempPath = fullPath;
       ipcRenderer.send('start-attachment-drag', fullPath);
     }
   };
 }
 
-function cleanupDragAttachment(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ShowToastActionType
-> {
-  return () => {
-    if (lastDragTempPath) {
-      ipcRenderer.send('cleanup-drag-temp-file', lastDragTempPath);
-      lastDragTempPath = null;
-    }
-  };
-}
 
 
 const showSaveMultiDialog = (
