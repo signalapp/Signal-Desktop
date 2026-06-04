@@ -207,7 +207,7 @@ async function handleServerKeys(
       } catch (error) {
         if (
           error instanceof LibSignalErrorBase &&
-          error.code === ErrorCode.UntrustedIdentity
+          error.is(ErrorCode.UntrustedIdentity)
         ) {
           throw new OutgoingIdentityKeyError(serviceId, error);
         }

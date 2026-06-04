@@ -19,6 +19,7 @@ import {
   type PublicKey,
   type Aci,
   type Pni,
+  CiphertextMessage,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 import type {
@@ -27,6 +28,10 @@ import type {
 } from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
+import type {
+  SingleOutboundSealedSenderMessage,
+  SingleOutboundUnsealedMessage,
+} from '@signalapp/libsignal-client/dist/net/chat/SingleOutboundMessage';
 
 import { assertDev, strictAssert } from '../util/assert.std.ts';
 import * as durations from '../util/durations/index.std.ts';
@@ -124,6 +129,15 @@ import {
 import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.ts';
 import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import type { OutgoingMessageType } from './OutgoingMessage.preload.ts';
+import {
+  MismatchedDevicesError,
+  OutgoingIdentityKeyError,
+  SendMessageChallengeError,
+  SendMessageNetworkError,
+  UnauthorizedMessageSendError,
+  UnregisteredUserError,
+} from './Errors.std.ts';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -828,13 +842,6 @@ const RESOURCE_CALLS = {
   releaseNotesManifest: 'dynamic/release-notes/release-notes-v2.json',
   releaseNotes: 'static/release-notes',
 };
-
-export type MessageType = Readonly<{
-  type: number;
-  destinationDeviceId: number;
-  destinationRegistrationId: number;
-  content: string;
-}>;
 
 type AjaxChatOptionsType = {
   host: 'chatService';
@@ -3549,9 +3556,181 @@ export async function getKeysForServiceIdUnauth(
   return handleKeys(keys);
 }
 
-export async function sendMessagesUnauth(
+function mapSendMessageLibsignalError(
+  serviceId: ServiceIdString,
+  error: unknown
+): unknown {
+  if (!(error instanceof LibSignalErrorBase)) {
+    return error;
+  }
+
+  if (error.is(ErrorCode.ChatServiceInactive) || error.is(ErrorCode.IoError)) {
+    return new SendMessageNetworkError(serviceId, error);
+  }
+
+  if (error.is(ErrorCode.RateLimitedError)) {
+    // TODO: DESKTOP-10234
+    return new HTTPError('RateLimitedError', {
+      code: 429,
+      headers: {
+        'retry-after': error.retryAfterSecs.toString(),
+      },
+    });
+  }
+
+  if (error.is(ErrorCode.RateLimitChallengeError)) {
+    return new SendMessageChallengeError(serviceId, error);
+  }
+
+  if (error.is(ErrorCode.UntrustedIdentity)) {
+    return new OutgoingIdentityKeyError(serviceId, error);
+  }
+
+  if (error.is(ErrorCode.ServiceIdNotFound)) {
+    return new UnregisteredUserError(serviceId, error);
+  }
+
+  if (error.is(ErrorCode.RequestUnauthorized)) {
+    return new UnauthorizedMessageSendError(serviceId, error);
+  }
+
+  if (error.is(ErrorCode.MismatchedDevices)) {
+    return new MismatchedDevicesError(
+      error.entries.map(entry => ({
+        serviceId: fromServiceIdObject(entry.account),
+        extraDevices: entry.extraDevices,
+        staleDevices: entry.staleDevices,
+        missingDevices: entry.missingDevices,
+      }))
+    );
+  }
+
+  log.error('Unknown libsignal send message error', toLogFormat(error));
+  return error;
+}
+
+function mapSendMessageHttpError(
+  serviceId: ServiceIdString,
+  error: unknown
+): unknown {
+  if (!(error instanceof HTTPError)) {
+    return error;
+  }
+
+  switch (error.code) {
+    case -1:
+    case 0:
+      return new SendMessageNetworkError(serviceId, error);
+    case 401:
+    case 403:
+      return new UnauthorizedMessageSendError(serviceId, error);
+    case 404:
+      return new UnregisteredUserError(serviceId, error);
+    case 409:
+    case 410: {
+      const response = error.response as {
+        extraDevices?: Array<number>;
+        missingDevices?: Array<number>;
+        staleDevices?: Array<number>;
+      };
+      return new MismatchedDevicesError([
+        {
+          serviceId,
+          extraDevices: response.extraDevices ?? [],
+          missingDevices: response.missingDevices ?? [],
+          staleDevices: response.staleDevices ?? [],
+        },
+      ]);
+    }
+    case 428:
+      return new SendMessageChallengeError(serviceId, error);
+    case 429:
+      // TODO: DESKTOP-10234
+      return error;
+    default:
+      log.error(
+        'unexpected HTTP error when sending message',
+        toLogFormat(error)
+      );
+      return error;
+  }
+}
+
+export async function sendUnsealedMessage(
   destination: ServiceIdString,
-  messages: ReadonlyArray<MessageType>,
+  messages: ReadonlyArray<SingleOutboundUnsealedMessage>,
+  timestamp: number,
+  {
+    online = false,
+    urgent = true,
+    ourAci,
+  }: { online?: boolean; urgent?: boolean; ourAci: AciString }
+): Promise<void> {
+  try {
+    await _retry(async () => {
+      const authChat = await socketManager.getAuthenticatedApi();
+      if (ourAci === destination) {
+        return authChat.sendSyncMessage({
+          contents: messages,
+          timestamp,
+          urgent,
+        });
+      }
+      return authChat.sendMessage({
+        destination: ServiceId.parseFromServiceIdString(destination),
+        contents: messages,
+        timestamp,
+        onlineOnly: online,
+        urgent,
+      });
+    });
+  } catch (error) {
+    throw mapSendMessageLibsignalError(destination, error);
+  }
+}
+
+export type SealedSenderAuthType =
+  | 'story'
+  | {
+      accessKey: Uint8Array<ArrayBuffer>;
+    }
+  | GroupSendFullToken
+  | 'unrestricted';
+
+export async function sendSealedSenderMessage(
+  destination: ServiceIdString,
+  messages: ReadonlyArray<SingleOutboundSealedSenderMessage>,
+  timestamp: number,
+  auth: SealedSenderAuthType,
+  {
+    online = false,
+    urgent = true,
+  }: {
+    online?: boolean;
+    urgent?: boolean;
+  }
+): Promise<void> {
+  try {
+    return await _retry(async () => {
+      const unauthChat = await socketManager.getUnauthenticatedApi();
+
+      return unauthChat.sendMessage({
+        destination: ServiceId.parseFromServiceIdString(destination),
+        contents: messages,
+        timestamp,
+        auth,
+        onlineOnly: online,
+        urgent,
+      });
+    });
+  } catch (error) {
+    throw mapSendMessageLibsignalError(destination, error);
+  }
+}
+
+export async function sendMessagesUnauthLegacy(
+  destination: ServiceIdString,
+  messages: ReadonlyArray<OutgoingMessageType>,
   timestamp: number,
   {
     accessKey,
@@ -3568,31 +3747,44 @@ export async function sendMessagesUnauth(
   }
 ): Promise<void> {
   const jsonData = {
-    messages,
+    messages: messages.map(msg => ({
+      type: msg.type,
+      destinationDeviceId: msg.deviceId,
+      destinationRegistrationId: msg.registrationId,
+      content: Bytes.toBase64(
+        msg.contents instanceof CiphertextMessage
+          ? msg.contents.serialize()
+          : msg.contents
+      ),
+    })),
     timestamp,
     online: Boolean(online),
     urgent,
   };
 
   log.info(`send/${timestamp}/${destination}/sendMessagesUnauth`);
-  await _ajax({
-    host: 'chatService',
-    call: 'messages',
-    httpType: 'PUT',
-    urlParameters: `/${destination}?story=${booleanToString(story)}`,
-    jsonData,
-    responseType: 'json',
-    unauthenticated: true,
-    accessKey: accessKey ?? undefined,
-    groupSendToken: groupSendToken ?? undefined,
-    // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+  try {
+    await _ajax({
+      host: 'chatService',
+      call: 'messages',
+      httpType: 'PUT',
+      urlParameters: `/${destination}?story=${booleanToString(story)}`,
+      jsonData,
+      responseType: 'json',
+      unauthenticated: true,
+      accessKey: accessKey ?? undefined,
+      groupSendToken: groupSendToken ?? undefined,
+      // TODO DESKTOP-8719
+      zodSchema: z.unknown(),
+    });
+  } catch (error) {
+    throw mapSendMessageHttpError(destination, error);
+  }
 }
 
-export async function sendMessages(
+export async function sendMessagesLegacy(
   destination: ServiceIdString,
-  messages: ReadonlyArray<MessageType>,
+  messages: ReadonlyArray<OutgoingMessageType>,
   timestamp: number,
   {
     online,
@@ -3601,23 +3793,36 @@ export async function sendMessages(
   }: { online?: boolean; story?: boolean; urgent?: boolean }
 ): Promise<void> {
   const jsonData = {
-    messages,
+    messages: messages.map(msg => ({
+      type: msg.type,
+      destinationDeviceId: msg.deviceId,
+      destinationRegistrationId: msg.registrationId,
+      content: Bytes.toBase64(
+        msg.contents instanceof CiphertextMessage
+          ? msg.contents.serialize()
+          : msg.contents
+      ),
+    })),
     timestamp,
     online: Boolean(online),
     urgent,
   };
 
   log.info(`send/${timestamp}/${destination}/sendMessages`);
-  await _ajax({
-    host: 'chatService',
-    call: 'messages',
-    httpType: 'PUT',
-    urlParameters: `/${destination}?story=${booleanToString(story)}`,
-    jsonData,
-    responseType: 'json',
-    // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
-  });
+  try {
+    await _ajax({
+      host: 'chatService',
+      call: 'messages',
+      httpType: 'PUT',
+      urlParameters: `/${destination}?story=${booleanToString(story)}`,
+      jsonData,
+      responseType: 'json',
+      // TODO DESKTOP-8719
+      zodSchema: z.unknown(),
+    });
+  } catch (error) {
+    throw mapSendMessageHttpError(destination, error);
+  }
 }
 
 function booleanToString(value: boolean | undefined): string {

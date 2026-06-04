@@ -176,8 +176,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       '@signalapp/mock-server':
-        specifier: 22.1.0
-        version: 22.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 22.2.0
+        version: 22.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@signalapp/parchment-cjs':
         specifier: 3.0.1
         version: 3.0.1
@@ -4030,8 +4030,8 @@ packages:
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
 
-  '@signalapp/mock-server@22.1.0':
-    resolution: {integrity: sha512-fdcwMQA/8iEZeJ7//ErBWkghSrVHJv57FOvNG7GkQ6BtR1bXoc6Sh8DGvTlXQT78WFhKcyVFFGqDQVFk4yZ2Kw==}
+  '@signalapp/mock-server@22.2.0':
+    resolution: {integrity: sha512-NGLdxx2iUY6VxZbsISryLXlxXu545UEYRo0W/Ixpi+Ufisw+++fUTLH4gqr8/q69Ft6eGMN6rjCvJ2nkZBSUqw==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -13863,7 +13863,7 @@ snapshots:
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@22.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@22.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.8.3)
       '@indutny/protopiler': 4.0.0

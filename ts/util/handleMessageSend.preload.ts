@@ -10,6 +10,7 @@ import {
   OutgoingMessageError,
   SendMessageNetworkError,
   SendMessageProtoError,
+  UnauthorizedMessageSendError,
   UnregisteredUserError,
 } from '../textsecure/Errors.std.ts';
 import { SEALED_SENDER } from '../types/SealedSender.std.ts';
@@ -132,6 +133,19 @@ function processError(error: unknown): void {
         `Got 404 for ${conversation.idForLogging()}, marking unregistered.`
       );
       conversation.setUnregistered();
+    }
+  }
+  if (error instanceof UnauthorizedMessageSendError) {
+    const conversation = window.ConversationController.getOrCreate(
+      error.serviceId,
+      'private'
+    );
+    if (conversation.get('sealedSender') !== SEALED_SENDER.DISABLED) {
+      log.warn(
+        `Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
+      );
+      conversation.set({ sealedSender: SEALED_SENDER.DISABLED });
+      drop(updateConversation(conversation.attributes));
     }
   }
   if (error instanceof UnregisteredUserError) {

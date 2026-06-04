@@ -76,16 +76,6 @@ export async function saveErrorsOnMessage(
   }
 }
 
-export function isReplayableError(e: Error): boolean {
-  return (
-    e.name === 'MessageError' ||
-    e.name === 'OutgoingMessageError' ||
-    e.name === 'SendMessageNetworkError' ||
-    e.name === 'SendMessageChallengeError' ||
-    e.name === 'OutgoingIdentityKeyError'
-  );
-}
-
 /**
  * Change any Pending send state to Failed. Note that this will not mark successful
  * sends failed.

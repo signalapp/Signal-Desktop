@@ -52,6 +52,8 @@ const SemverKeys = [
   'desktop.remoteMute.send.prod',
   'desktop.retireAccessKeyGroupSend.beta',
   'desktop.retireAccessKeyGroupSend.prod',
+  'desktop.sendMessageViaLibsignal.beta',
+  'desktop.sendMessageViaLibsignal.prod',
 ] as const;
 
 export type SemverKeyType = ArrayValues<typeof SemverKeys>;

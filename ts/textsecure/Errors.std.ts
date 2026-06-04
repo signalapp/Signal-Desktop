@@ -1,11 +1,18 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { LibSignalErrorBase } from '@signalapp/libsignal-client';
+import type {
+  ChatServiceInactive,
+  IoError,
+  RateLimitChallengeError,
+  RequestUnauthorizedError as LibsignalRequestUnauthorizedError,
+  ServiceIdNotFound,
+  UntrustedIdentityError,
+} from '@signalapp/libsignal-client';
 
 import { parseRetryAfter } from '../util/parseRetryAfter.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import type { HTTPError } from '../types/HTTPError.std.ts';
+import { HTTPError } from '../types/HTTPError.std.ts';
 import type { HeaderListType } from '../types/WebAPI.d.ts';
 
 import type { CallbackResultType } from './Types.d.ts';
@@ -44,7 +51,7 @@ export class OutgoingIdentityKeyError extends ReplayableError {
   public readonly identifier: string;
 
   // Note: Data to resend message is no longer captured
-  constructor(incomingIdentifier: string, cause?: LibSignalErrorBase) {
+  constructor(incomingIdentifier: string, cause?: UntrustedIdentityError) {
     const [identifier] = incomingIdentifier.split('.');
 
     super({
@@ -60,59 +67,59 @@ export class OutgoingIdentityKeyError extends ReplayableError {
 export class OutgoingMessageError extends ReplayableError {
   readonly identifier: string;
 
-  readonly httpError?: HTTPError;
+  readonly error?: Error;
 
   // Note: Data to resend message is no longer captured
-  constructor(
-    incomingIdentifier: string,
-    _m: unknown,
-    _t: unknown,
-    httpError?: HTTPError
-  ) {
+  constructor(incomingIdentifier: string, error?: Error) {
     const [identifier] = incomingIdentifier.split('.', 1);
 
     super({
       name: 'OutgoingMessageError',
-      message: httpError ? httpError.message : 'no http error',
+      message: error ? error.message : 'no http error',
     });
 
     this.identifier = identifier;
 
-    if (httpError) {
-      this.httpError = httpError;
-      appendStack(this, httpError);
+    if (error) {
+      this.error = error;
+      appendStack(this, error);
     }
   }
 
   get code(): undefined | number {
-    return this.httpError?.code;
+    return this.error &&
+      'code' in this.error &&
+      typeof this.error.code === 'number'
+      ? this.error.code
+      : undefined;
   }
 }
 
 export class SendMessageNetworkError extends ReplayableError {
   readonly identifier: string;
+  readonly code: number;
+  readonly error: HTTPError | IoError | ChatServiceInactive;
 
-  readonly httpError: HTTPError;
-
-  constructor(identifier: string, _m: unknown, httpError: HTTPError) {
+  constructor(
+    identifier: string,
+    error: HTTPError | IoError | ChatServiceInactive
+  ) {
     super({
       name: 'SendMessageNetworkError',
-      message: httpError.message,
+      message: error.message,
     });
 
     const [id] = identifier.split('.', 1);
     this.identifier = id;
-    this.httpError = httpError;
+    this.error = error;
 
-    appendStack(this, httpError);
-  }
+    if (error instanceof HTTPError) {
+      this.code = error.code;
+    } else {
+      this.code = -1;
+    }
 
-  get code(): number {
-    return this.httpError.code;
-  }
-
-  get responseHeaders(): undefined | HeaderListType {
-    return this.httpError.responseHeaders;
+    appendStack(this, error);
   }
 }
 
@@ -122,39 +129,41 @@ export type SendMessageChallengeData = Readonly<{
 }>;
 
 export class SendMessageChallengeError extends ReplayableError {
-  public identifier: string;
-
-  public readonly httpError: HTTPError;
-
+  public readonly identifier: string;
+  public readonly code = 428;
+  public readonly error: HTTPError | RateLimitChallengeError;
   public readonly data: SendMessageChallengeData | undefined;
-
   public readonly retryAt?: number;
+  public readonly responseHeaders: HeaderListType | undefined;
 
-  constructor(identifier: string, httpError: HTTPError) {
+  constructor(identifier: string, error: HTTPError | RateLimitChallengeError) {
     super({
       name: 'SendMessageChallengeError',
-      message: httpError.message,
-      cause: httpError,
+      message: error.message,
+      cause: error,
     });
 
     const [id] = identifier.split('.', 1);
     this.identifier = id;
-    this.httpError = httpError;
+    this.error = error;
 
-    this.data = httpError.response as SendMessageChallengeData;
-
-    const headers = httpError.responseHeaders || {};
-
-    const retryAfter = parseRetryAfter(headers['retry-after']);
-    if (retryAfter) {
-      this.retryAt = Date.now() + retryAfter;
+    if (error instanceof HTTPError) {
+      this.responseHeaders = error.responseHeaders;
+      this.data = error.response as SendMessageChallengeData;
+      const retryAfter = parseRetryAfter(error.responseHeaders['retry-after']);
+      if (retryAfter) {
+        this.retryAt = Date.now() + retryAfter;
+      }
+    } else {
+      this.data = {
+        token: error.token,
+        options: [...error.options],
+      };
+      if (error.retryAfterSecs != null) {
+        this.retryAt = Date.now() + error.retryAfterSecs * 1000;
+      }
     }
-
-    appendStack(this, httpError);
-  }
-
-  get code(): number {
-    return this.httpError.code;
+    appendStack(this, error);
   }
 }
 
@@ -219,33 +228,16 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
   }
 }
 
-/** @testexport */
-export class MessageError extends ReplayableError {
-  readonly httpError: HTTPError;
-
-  constructor(_m: unknown, httpError: HTTPError) {
-    super({
-      name: 'MessageError',
-      message: httpError.message,
-    });
-
-    this.httpError = httpError;
-
-    appendStack(this, httpError);
-  }
-
-  get code(): number {
-    return this.httpError.code;
-  }
-}
-
 export class UnregisteredUserError extends Error {
   readonly serviceId: string;
+  readonly code: number;
+  readonly error: HTTPError | ServiceIdNotFound;
 
-  readonly httpError: HTTPError;
-
-  constructor(serviceId: ServiceIdString, httpError: HTTPError) {
-    const { message } = httpError;
+  constructor(
+    serviceId: ServiceIdString,
+    error: HTTPError | ServiceIdNotFound
+  ) {
+    const { message } = error;
 
     super(message);
 
@@ -259,13 +251,40 @@ export class UnregisteredUserError extends Error {
     }
 
     this.serviceId = serviceId;
-    this.httpError = httpError;
+    this.error = error;
+    if (error instanceof HTTPError) {
+      this.code = error.code;
+    } else {
+      this.code = 404;
+    }
 
-    appendStack(this, httpError);
+    appendStack(this, error);
   }
+}
 
-  get code(): number {
-    return this.httpError.code;
+export class UnauthorizedMessageSendError extends Error {
+  readonly serviceId: ServiceIdString;
+  constructor(
+    serviceId: ServiceIdString,
+    error: HTTPError | LibsignalRequestUnauthorizedError
+  ) {
+    super(error.message, { cause: error });
+    this.serviceId = serviceId;
+  }
+}
+
+type MismatchedDevicesEntry = {
+  serviceId: ServiceIdString;
+  staleDevices: Array<number>;
+  missingDevices: Array<number>;
+  extraDevices: Array<number>;
+};
+export class MismatchedDevicesError extends Error {
+  readonly entries: Array<MismatchedDevicesEntry>;
+
+  constructor(entries: Array<MismatchedDevicesEntry>) {
+    super('MismatchedDevicesError');
+    this.entries = entries;
   }
 }
 
