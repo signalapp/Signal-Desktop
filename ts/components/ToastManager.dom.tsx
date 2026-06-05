@@ -321,7 +321,11 @@ function renderToast({
   if (toastType === ToastType.CopiedBackupKey) {
     return (
       <Toast onClose={hideToast} timeout={3 * SECOND}>
-        {i18n('icu:Preferences__local-backups-copied-recovery-key')}
+        <div className={tw('flex items-center')}>
+          <AxoSymbol.InlineGlyph symbol="copy" label={null} />
+          &nbsp;&nbsp;
+          {i18n('icu:Preferences__local-backups-copied-recovery-key')}
+        </div>
       </Toast>
     );
   }

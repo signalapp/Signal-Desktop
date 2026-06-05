@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, JSX, MouseEvent } from 'react';
+import type { ChangeEvent, JSX } from 'react';
 import { useCallback, useMemo, useState, useRef } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
@@ -36,6 +36,9 @@ import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const { noop } = lodash;
 const log = createLogger('PreferencesLocalBackups');
+
+const SIGNAL_USER_SAFETY_LINK =
+  'https://support.signal.org/hc/articles/9932566320410-Staying-Safe-from-Phishing-Scams-and-Impersonation';
 
 export function PreferencesLocalBackups({
   backupKey,
@@ -553,6 +556,10 @@ function LocalBackupsSetupFolderPicker({
 
 type BackupKeyStep = 'view' | 'confirm' | 'caution' | 'reference';
 
+function Strong(parts: Array<string | JSX.Element>) {
+  return <strong>{parts}</strong>;
+}
+
 function LocalBackupsBackupKeyViewer({
   backupKey,
   i18n,
@@ -568,6 +575,8 @@ function LocalBackupsBackupKeyViewer({
 }): JSX.Element {
   const [isBackupKeyConfirmed, setIsBackupKeyConfirmed] =
     useState<boolean>(false);
+  const [isShowingDoNotShareModal, setIsShowingDoNotShareModal] =
+    useState<boolean>(false);
   const [step, setStep] = useState<BackupKeyStep>(
     isReferencing ? 'reference' : 'view'
   );
@@ -577,20 +586,21 @@ function LocalBackupsBackupKeyViewer({
     () => formatBackupKeyForDisplay(backupKey, { convertAmbiguousChars: true }),
     [backupKey]
   );
-  const onCopyBackupKey = useCallback(
-    async function handleCopyBackupKey(e: MouseEvent) {
-      e.preventDefault();
-      window.SignalClipboard.copyTextTemporarily(
-        backupKeyForDisplay,
-        45 * SECOND
-      );
-      showToast({ toastType: ToastType.CopiedBackupKey });
-    },
-    [backupKeyForDisplay, showToast]
-  );
+  const onCopyBackupKey = useCallback(() => {
+    window.SignalClipboard.copyTextTemporarily(
+      backupKeyForDisplay,
+      45 * SECOND
+    );
+    showToast({ toastType: ToastType.CopiedBackupKey });
+  }, [backupKeyForDisplay, showToast]);
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
-    <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
+  const learnMorePhishingLink = (parts: Array<string | JSX.Element>) => (
+    <a
+      className={tw('text-color-label-primary')}
+      href={SIGNAL_USER_SAFETY_LINK}
+      rel="noreferrer"
+      target="_blank"
+    >
       {parts}
     </a>
   );
@@ -600,13 +610,13 @@ function LocalBackupsBackupKeyViewer({
   let footerLeft: JSX.Element | undefined;
   let footerRight: JSX.Element;
   if (isStepViewOrReference) {
-    title = i18n('icu:Preferences--local-backups-record-recovery-key');
+    title = i18n('icu:Preferences--local-backups-recovery-key--title');
     description = (
       <I18n
-        id="icu:Preferences--local-backups-record-backup-key-description"
+        id="icu:Preferences--local-backups-recovery-key--description"
         i18n={i18n}
         components={{
-          learnMoreLink,
+          learnMoreLink: learnMorePhishingLink,
         }}
       />
     );
@@ -655,6 +665,51 @@ function LocalBackupsBackupKeyViewer({
 
   return (
     <div className="Preferences--LocalBackupsSetupScreen Preferences__settings-pane-content--with-footer Preferences__padding">
+      {isShowingDoNotShareModal ? (
+        <AxoAlertDialog.Root
+          open
+          onOpenChange={() => setIsShowingDoNotShareModal(false)}
+        >
+          <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Body>
+              <div className={tw('mt-3 mb-2 flex flex-col items-center')}>
+                <img
+                  role="presentation"
+                  alt=""
+                  className={tw('mt-1 mb-3 size-16 shrink-0')}
+                  src="images/warning-circle.svg"
+                />
+                <AxoAlertDialog.Title>
+                  {i18n('icu:Preferences__recovery-key__do-not-share-title')}
+                </AxoAlertDialog.Title>
+              </div>
+              <AxoAlertDialog.Description>
+                <div className={tw('mb-3 text-center type-body-medium')}>
+                  <I18n
+                    id="icu:Preferences__recovery-key__do-not-share-description"
+                    i18n={i18n}
+                    components={{
+                      strong: Strong,
+                      learnMoreLink: learnMorePhishingLink,
+                    }}
+                  />
+                </div>
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Action
+                variant="primary"
+                onClick={() => {
+                  onCopyBackupKey();
+                  setIsShowingDoNotShareModal(false);
+                }}
+              >
+                {i18n('icu:Preferences__recovery-key__do-not-share-confirm')}
+              </AxoAlertDialog.Action>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
+        </AxoAlertDialog.Root>
+      ) : null}
       {step === 'caution' && (
         <Modal
           i18n={i18n}
@@ -712,7 +767,7 @@ function LocalBackupsBackupKeyViewer({
               variant="secondary"
               size="sm"
               symbol="copy"
-              onClick={onCopyBackupKey}
+              onClick={() => setIsShowingDoNotShareModal(true)}
             >
               {i18n('icu:Preferences__local-backups-copy-key')}
             </AxoButton.Root>
