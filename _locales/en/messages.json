@@ -8540,9 +8540,29 @@
     "messageformat": "Record your recovery key",
     "description": "Title for viewing the recovery (backup) key for local message backups."
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key",
+    "description": "Title for viewing the recovery (backup) key for local message backups."
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Description for viewing the recovery (backup) key for local message backups."
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>",
+    "description": "Description for viewing the recovery (backup) key for local message backups."
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key",
+    "description": "Title of the dialog warning the user not to share their recovery key, shown after copying the recovery key."
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>",
+    "description": "Body of the dialog warning the user not to share their recovery key, shown after copying the recovery key."
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it",
+    "description": "Button to dismiss the dialog warning the user not to share their recovery key."
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirm your recovery key",
