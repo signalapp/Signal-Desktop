@@ -14,13 +14,6 @@
   @include mixins.sr-only;
 }
 
-.CallLinkEditModal__Header {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 26px;
-}
-
 .CallLinkEditModal__Header__Details {
   flex: 1;
   display: flex;

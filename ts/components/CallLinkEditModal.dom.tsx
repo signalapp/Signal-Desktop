@@ -16,6 +16,7 @@ import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.tsx';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',
@@ -61,10 +62,6 @@ function RowButton({
       {children}
     </button>
   );
-}
-
-function Hr() {
-  return <hr className="CallLinkEditModal__Hr" />;
 }
 
 export type CallLinkEditModalProps = {
@@ -116,8 +113,8 @@ export function CallLinkEditModal({
             {i18n('icu:CallLinkEditModal__Title')}
           </AxoDialog.Title>
         </AxoDialog.Header>
-        <AxoDialog.Body padding="only-scrollbar-gutter">
-          <div className="CallLinkEditModal__Header">
+        <AxoDialog.Body padding="normal">
+          <div className={tw('mb-3 flex items-center gap-4 py-3.5')}>
             <Avatar
               i18n={i18n}
               badge={undefined}
@@ -158,7 +155,7 @@ export function CallLinkEditModal({
             </div>
           </div>
 
-          <Hr />
+          <div className={tw('my-3 h-px border-none bg-border-secondary')} />
 
           <RowButton onClick={onOpenCallLinkAddNameModal}>
             <Row>
@@ -186,7 +183,7 @@ export function CallLinkEditModal({
             />
           </Row>
 
-          <Hr />
+          <div className={tw('my-3 h-px border-none bg-border-secondary')} />
 
           <RowButton onClick={onCopyCallLink}>
             <Row>
