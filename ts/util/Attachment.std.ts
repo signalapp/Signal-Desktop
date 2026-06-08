@@ -673,7 +673,7 @@ export const getSuggestedFilename = ({
   }
 
   const suffix = timestamp
-    ? moment(timestamp).format('-YYYY-MM-DD-HHmmss')
+    ? moment(timestamp).format('-YYYY-MM-DD-HH-mm-ss-SSS')
     : '';
   const fileType = getFileExtension(attachment);
   const extension = fileType ? `.${fileType}` : '';
@@ -697,6 +697,8 @@ export const getFileExtension = (
       return 'mov';
     case 'audio/mpeg':
       return 'mp3';
+    case 'image/jpeg':
+      return 'jpg';
     default:
       return attachment.contentType.split('/')[1];
   }
