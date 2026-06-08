@@ -157,6 +157,13 @@ jobs:
     needs: lint
     runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 30
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04-8-cores
+            arch: x64
+          - os: ubuntu-22.04-arm64-4-cores
+            arch: arm64
 
     steps:
     - run: lsb_release -a
