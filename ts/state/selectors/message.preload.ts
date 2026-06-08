@@ -73,6 +73,7 @@ import {
   isIncremental,
   defaultBlurHash,
   isDownloadable,
+  isDownloaded,
 } from '../../util/Attachment.std.ts';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.ts';
 import type {
@@ -2248,12 +2249,14 @@ export function getPropsForAttachment(
           url: getLocalAttachmentUrl(thumbnail),
         }
       : undefined,
-    isPermanentlyUndownloadable: !isDownloadableOrBackfillable({
-      attachment,
-      attachmentType: disposition,
-      isStory: message.type === 'story',
-      hasMediaBackups,
-    }),
+    isPermanentlyUndownloadable:
+      !isDownloaded(attachment) &&
+      !isDownloadableOrBackfillable({
+        attachment,
+        attachmentType: disposition,
+        isStory: message.type === 'story',
+        hasMediaBackups,
+      }),
   };
 }
 
