@@ -80,7 +80,7 @@ describe('Attachment', () => {
           attachment,
           timestamp,
         });
-        const expected = 'signal-1970-01-02-000000.mov';
+        const expected = 'signal-1970-01-02-00-00-00-000.mov';
         assert.strictEqual(actual, expected);
       });
     });
@@ -151,7 +151,7 @@ describe('Attachment', () => {
           timestamp,
           index: 3,
         });
-        const expected = 'signal-1970-01-02-000000_003.mov';
+        const expected = 'signal-1970-01-02-00-00-00-000_003.mov';
         assert.strictEqual(actual, expected);
       });
 
@@ -168,7 +168,7 @@ describe('Attachment', () => {
           timestamp,
           index: 1,
         });
-        const expected = 'signal-1970-01-02-000000.mov';
+        const expected = 'signal-1970-01-02-00-00-00-000.mov';
         assert.strictEqual(actual, expected);
       });
     });
