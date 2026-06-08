@@ -1,10 +1,8 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, ReactRenderer, StoryFn } from '@storybook/react';
-import type { PlayFunction } from '@storybook/csf';
+import type { Meta, StoryFn } from '@storybook/react';
 import { expect, fn, within, userEvent } from '@storybook/test';
-
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStoryButton.dom.tsx';
 import { MyStoryButton } from './MyStoryButton.dom.tsx';
@@ -31,7 +29,7 @@ export default {
 
 const Template: StoryFn<PropsType> = args => <MyStoryButton {...args} />;
 
-const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
+const interactionTest: StoryFn<PropsType>['play'] = async ({
   args,
   canvasElement,
 }) => {

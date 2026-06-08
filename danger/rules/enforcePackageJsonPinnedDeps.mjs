@@ -26,14 +26,10 @@ function isPinnedVersion(depSpec) {
   if (depSpec.startsWith('https:')) {
     return depSpec.includes('#');
   }
-  /** @type {string} */
-  let version;
   if (depSpec.startsWith('workspace:')) {
-    version = depSpec.replace(/^workspace:/, '');
-  } else {
-    version = depSpec;
+    return depSpec === 'workspace:*'; // pnpm 11 default
   }
-  return semver.valid(version) != null;
+  return semver.valid(depSpec) != null;
 }
 
 for (const depType of depTypes) {

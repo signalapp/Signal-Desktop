@@ -3,7 +3,9 @@
 
 import b64 from 'base64-js';
 
-export function loadImage(data: Uint8Array): Promise<HTMLImageElement> {
+export function loadImage(
+  data: Uint8Array<ArrayBuffer>
+): Promise<HTMLImageElement> {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new Image();
 

@@ -10,7 +10,26 @@ on:
       - '[0-9]+.[0-9]+.x'
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
+  audit:
+    name: Dependencies
+    runs-on: ubuntu-22.04-8-cores
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+      - name: Setup node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: '.nvmrc'
+      - run: node --test .pnpmfile.mjs
+      - run: pnpm audit --audit-level=high
+      - run: pnpm audit signatures
+      - run: pnpm dedupe --check
   lint:
     name: Lint
     runs-on: ubuntu-22.04-8-cores
@@ -268,7 +287,6 @@ jobs:
     needs: lint
     runs-on: windows-latest-8-cores
     timeout-minutes: 30
-
     steps:
     - run: systeminfo
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -421,6 +439,7 @@ jobs:
     - name: Install Desktop node_modules
       run: |
         pnpm install
+        ./node_modules/.bin/install-electron
         sudo chown root node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
         sudo chmod 4755 node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
       env:

@@ -31,7 +31,7 @@ type AnimatedPngData = Readonly<{
  * [3]: https://www.w3.org/TR/PNG/#5Chunk-layout
  */
 export function getAnimatedPngDataIfExists(
-  bytes: Uint8Array
+  bytes: Uint8Array<ArrayBuffer>
 ): null | AnimatedPngData {
   if (!hasPngSignature(bytes)) {
     return null;
@@ -68,11 +68,14 @@ export function getAnimatedPngDataIfExists(
   return null;
 }
 
-function hasPngSignature(bytes: Uint8Array): boolean {
+function hasPngSignature(bytes: Uint8Array<ArrayBuffer>): boolean {
   return areBytesEqual(bytes.slice(0, 8), PNG_SIGNATURE);
 }
 
-function areBytesEqual(a: Uint8Array, b: Uint8Array): boolean {
+function areBytesEqual(
+  a: Uint8Array<ArrayBuffer>,
+  b: Uint8Array<ArrayBuffer>
+): boolean {
   if (a.byteLength !== b.byteLength) {
     return false;
   }

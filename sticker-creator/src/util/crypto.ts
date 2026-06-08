@@ -35,14 +35,14 @@ export type EncryptAttachmentKeys = Readonly<{
 }>;
 
 export type EncryptResult = Readonly<{
-  encryptedManifest: Uint8Array;
-  encryptedImages: ReadonlyArray<Uint8Array>;
+  encryptedManifest: Uint8Array<ArrayBuffer>;
+  encryptedImages: ReadonlyArray<Uint8Array<ArrayBuffer>>;
   key: string;
 }>;
 
 export type DeriveKeysOptions = Readonly<{
-  info: Uint8Array;
-  secret: Uint8Array;
+  info: Uint8Array<ArrayBuffer>;
+  secret: Uint8Array<ArrayBuffer>;
 }>;
 
 async function deriveKeys({
@@ -97,7 +97,7 @@ async function deriveKeys({
   return { aesKey, macKey };
 }
 
-function toHex(bytes: Uint8Array): string {
+function toHex(bytes: Uint8Array<ArrayBuffer>): string {
   let str = '';
   for (const b of bytes) {
     let t = b.toString(16);
@@ -124,7 +124,7 @@ export async function encrypt({
 
   const keys = await deriveKeys({ info, secret: packKey });
 
-  const imagesToUpload = new Array<Uint8Array>();
+  const imagesToUpload = new Array<Uint8Array<ArrayBuffer>>();
   const idByImage = new Map<string, number>();
   const emojiByImage = new Map<string, EmojiData>();
   for (const { emoji, buffer } of images) {
@@ -177,9 +177,9 @@ export async function encrypt({
 }
 
 async function encryptAttachment(
-  plaintext: Uint8Array,
+  plaintext: Uint8Array<ArrayBuffer>,
   { aesKey, macKey }: EncryptAttachmentKeys
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const iv = new Uint8Array(IV_SIZE);
   crypto.getRandomValues(iv);
 

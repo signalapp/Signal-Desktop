@@ -20,8 +20,10 @@ jobs:
           node-version-file: '.nvmrc'
           package-manager-cache: false # Avoid cache key clashes
       - name: Install danger node_modules
-        run: (cd danger && pnpm install --ignore-workspace)
+        run: pnpm install
+        working-directory: danger
       - name: Run DangerJS
         run: pnpm run danger:ci
+        working-directory: danger
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT }}

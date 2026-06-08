@@ -71,7 +71,7 @@ export const ArtFrame = memo(function ArtFrame({
   const emojiPickerPopperRef = useRef<HTMLElement>(null);
   const [previewActive, setPreviewActive] = useState(false);
   const previewPopperRef = useRef<HTMLElement>(null);
-  const timerRef = useRef<number>();
+  const timerRef = useRef<number>(undefined);
 
   const handleToggleEmojiPicker = useCallback(() => {
     setEmojiPickerOpen(open => !open);

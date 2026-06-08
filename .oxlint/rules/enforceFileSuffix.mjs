@@ -184,7 +184,6 @@ const DOM_PACKAGES = new Set([
   '@storybook/addon-toolbars',
   '@storybook/addon-viewport',
   '@storybook/addon-webpack5-compiler-swc',
-  '@storybook/csf',
   '@storybook/react',
   '@storybook/react-webpack5',
   '@storybook/test',

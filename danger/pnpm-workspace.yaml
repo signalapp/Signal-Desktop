@@ -1,0 +1,24 @@
+saveExact: true
+blockExoticSubdeps: true
+lockfileIncludeTarballUrl: true
+verifyDepsBeforeRun: prompt
+verifyStoreIntegrity: true
+
+minimumReleaseAge: 4320
+minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeStrict: true
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - '@octokit/endpoint@9.0.6'
+
+allowUnusedPatches: false
+ignorePatchFailures: false
+
+strictDepBuilds: true
+allowBuilds:
+  'core-js': false
+
+dedupePeers: true
+dedupePeerDependents: true
+strictPeerDependencies: true

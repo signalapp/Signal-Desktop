@@ -8,8 +8,8 @@ declare global {
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
     uploadStickerPack(
-      manifest: Uint8Array,
-      stickers: ReadonlyArray<Uint8Array>,
+      manifest: Uint8Array<ArrayBuffer>,
+      stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>,
       onProgres?: () => void
     ): Promise<string>;
     installStickerPack(packId: string, key: string): void;
