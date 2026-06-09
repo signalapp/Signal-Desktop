@@ -421,6 +421,7 @@ jobs:
     - name: Install Desktop node_modules
       run: |
         pnpm install
+        ./node_modules/.bin/install-electron
         sudo chown root node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
         sudo chmod 4755 node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
       env:
