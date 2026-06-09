@@ -9958,6 +9958,26 @@
     "messageformat": "Pinned",
     "description": "label for an pinned message"
   },
+  "icu:MessageMetadata__status--sending": {
+    "messageformat": "Sending",
+    "description": "Accessibility label for the status indicator on your outgoing message while it is being sent"
+  },
+  "icu:MessageMetadata__status--sent": {
+    "messageformat": "Sent",
+    "description": "Accessibility label for the status indicator on your outgoing message once it has been sent"
+  },
+  "icu:MessageMetadata__status--delivered": {
+    "messageformat": "Delivered",
+    "description": "Accessibility label for the status indicator on your outgoing message once it has been delivered"
+  },
+  "icu:MessageMetadata__status--read": {
+    "messageformat": "Read",
+    "description": "Accessibility label for the status indicator on your outgoing message once it has been read"
+  },
+  "icu:MessageMetadata__status--viewed": {
+    "messageformat": "Viewed",
+    "description": "Accessibility label for the status indicator on your outgoing media or voice message once it has been viewed or played"
+  },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Add a message",
     "description": "Draft GIF Message Send Modal > Title"

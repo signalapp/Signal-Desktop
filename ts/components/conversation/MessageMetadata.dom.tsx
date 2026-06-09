@@ -53,6 +53,34 @@ enum ConfirmationType {
   DeleteError = 'DeleteError',
 }
 
+// Accessible label for the otherwise icon-only delivery status indicator, so
+// screen reader users hear "Sent" / "Delivered" / "Read" alongside the
+// timestamp. 'error' and 'partial-sent' are surfaced as visible text elsewhere.
+function getStatusAccessibilityLabel(
+  i18n: LocalizerType,
+  status: MessageStatusType
+): string | undefined {
+  switch (status) {
+    case 'sending':
+      return i18n('icu:MessageMetadata__status--sending');
+    case 'sent':
+      return i18n('icu:MessageMetadata__status--sent');
+    case 'delivered':
+      return i18n('icu:MessageMetadata__status--delivered');
+    case 'read':
+      return i18n('icu:MessageMetadata__status--read');
+    case 'viewed':
+      return i18n('icu:MessageMetadata__status--viewed');
+    case 'paused':
+      return i18n('icu:sendPaused');
+    case 'error':
+    case 'partial-sent':
+      return undefined;
+    default:
+      throw missingCaseError(status);
+  }
+}
+
 export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
   function MessageMetadataInner(
     {
@@ -285,6 +313,10 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         status !== 'error' &&
         status !== 'partial-sent' ? (
           <div
+            role="img"
+            aria-label={
+              status ? getStatusAccessibilityLabel(i18n, status) : undefined
+            }
             className={classNames(
               'module-message__metadata__status-icon',
               `module-message__metadata__status-icon--${status}`
