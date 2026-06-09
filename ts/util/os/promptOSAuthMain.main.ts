@@ -77,12 +77,16 @@ async function promptOSAuthWindows(
     return 'unsupported';
   }
 
-  const result = await requestVerificationWindowsUcv(text);
-  if (result === 'verified') {
-    return 'success';
+  try {
+    const result = await requestVerificationWindowsUcv(text);
+    if (result === 'verified') {
+      return 'success';
+    }
+    return 'unauthorized';
+  } catch (error) {
+    log.error('Error requesting Windows UCV', toLogFormat(error));
+    return 'error';
   }
-
-  return 'unauthorized';
 }
 
 async function promptOSAuthLinux(

@@ -8648,6 +8648,10 @@
     "messageformat": "This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your recovery key.",
     "description": "Error shown in local backups settings when system authentication fails while trying to view the recovery key."
   },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action.",
+    "description": "Error shown in local backups settings when system authentication fails for an unknown reason."
+  },
   "icu:Preferences__view-key": {
     "messageformat": "View key",
     "description": "Button to view the backup key which is used to restore a message history backup"
