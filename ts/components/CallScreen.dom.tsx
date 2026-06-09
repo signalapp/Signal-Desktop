@@ -29,10 +29,7 @@ import type {
   SetRendererCanvasType,
 } from '../state/ducks/calling.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import {
-  CallingHeader,
-  getCallViewIconClassname,
-} from './CallingHeader.dom.tsx';
+import { CallingHeader, getCallViewModeIcon } from './CallingHeader.dom.tsx';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo.dom.tsx';
 import { CallingButton, CallingButtonType } from './CallingButton.dom.tsx';
 import { Button, ButtonVariant } from './Button.dom.tsx';
@@ -1348,13 +1345,12 @@ function useViewModeChangedToast({
       showToast({
         key: VIEW_MODE_CHANGED_TOAST_KEY,
         content: (
-          <div className="CallingToast__viewChanged">
-            <span
-              className={classNames(
-                'CallingToast__viewChanged__icon',
-                getCallViewIconClassname(viewMode)
-              )}
+          <div>
+            <AxoSymbol.InlineGlyph
+              symbol={getCallViewModeIcon(viewMode)}
+              label={null}
             />
+            &nbsp;&nbsp;
             {i18n('icu:calling__view_mode--updated')}
           </div>
         ),
