@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
+import { useCallback } from 'react';
 
-import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { CallViewMode } from '../types/Calling.std.ts';
-import { Tooltip } from './Tooltip.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
-import { ContextMenu } from './ContextMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export type PropsType = {
   callViewMode?: CallViewMode;
@@ -31,127 +33,108 @@ export function CallingHeader({
   togglePip,
   toggleSettings,
 }: PropsType): JSX.Element {
+  const handleViewModeChange = useCallback(
+    (value: string) => {
+      changeCallView?.(value as CallViewMode);
+    },
+    [changeCallView]
+  );
+
   return (
-    <div className="module-calling-tools">
+    <div
+      className={tw(
+        'absolute inset-e-6 top-[calc(32px+var(--title-bar-drag-area-height))] flex gap-3'
+      )}
+    >
       {isGroupCall &&
         participantCount > 2 &&
         callViewMode &&
         changeCallView && (
-          <div className="module-calling-tools__button">
-            <ContextMenu
-              ariaLabel={i18n('icu:calling__change-view')}
-              i18n={i18n}
-              menuOptions={[
-                {
-                  icon: 'CallSettingsButton__Icon--PaginatedView',
-                  label: i18n('icu:calling__view_mode--paginated'),
-                  onClick: () => changeCallView(CallViewMode.Paginated),
-                  value: CallViewMode.Paginated,
-                },
-                {
-                  icon: 'CallSettingsButton__Icon--SidebarView',
-                  label: i18n('icu:calling__view_mode--overflow'),
-                  onClick: () => changeCallView(CallViewMode.Sidebar),
-                  value: CallViewMode.Sidebar,
-                },
-                {
-                  icon: 'CallSettingsButton__Icon--SpeakerView',
-                  label: i18n('icu:calling__view_mode--speaker'),
-                  onClick: () => changeCallView(CallViewMode.Speaker),
-                  value: CallViewMode.Speaker,
-                },
-              ]}
-              theme={Theme.Dark}
-              popperOptions={{
-                placement: 'bottom',
-                strategy: 'absolute',
-              }}
-              value={
-                // If it's Presentation we want to still show Speaker as selected
-                callViewMode === CallViewMode.Presentation
-                  ? CallViewMode.Speaker
-                  : callViewMode
-              }
-            >
-              <Tooltip
-                content={i18n('icu:calling__change-view')}
-                className="CallingButton__tooltip"
-                theme={Theme.Dark}
+          <AxoDropdownMenu.Root>
+            <AxoDropdownMenu.Trigger>
+              <AxoIconButton.Root
+                variant="floating-secondary"
+                size="lg"
+                iconWeight={300}
+                symbol={getCallViewModeIcon(callViewMode)}
+                label={i18n('icu:calling__change-view')}
+                tooltip={false}
+              />
+            </AxoDropdownMenu.Trigger>
+            <AxoDropdownMenu.Content align="end">
+              <AxoDropdownMenu.RadioGroup
+                value={
+                  // If it's Presentation we want to still show Speaker as selected
+                  callViewMode === CallViewMode.Presentation
+                    ? CallViewMode.Speaker
+                    : callViewMode
+                }
+                onValueChange={handleViewModeChange}
               >
-                <div className="CallSettingsButton__Button">
-                  <span
-                    className={classNames(
-                      'CallSettingsButton__Icon',
-                      getCallViewIconClassname(callViewMode)
-                    )}
-                  />
-                </div>
-              </Tooltip>
-            </ContextMenu>
-          </div>
+                <AxoDropdownMenu.RadioItem
+                  value={CallViewMode.Paginated}
+                  symbol="grid"
+                >
+                  {i18n('icu:calling__view_mode--paginated')}
+                </AxoDropdownMenu.RadioItem>
+                <AxoDropdownMenu.RadioItem
+                  value={CallViewMode.Sidebar}
+                  symbol="grid-sidebar"
+                >
+                  {i18n('icu:calling__view_mode--overflow')}
+                </AxoDropdownMenu.RadioItem>
+                <AxoDropdownMenu.RadioItem
+                  value={CallViewMode.Speaker}
+                  symbol="sidebar"
+                >
+                  {i18n('icu:calling__view_mode--speaker')}
+                </AxoDropdownMenu.RadioItem>
+              </AxoDropdownMenu.RadioGroup>
+            </AxoDropdownMenu.Content>
+          </AxoDropdownMenu.Root>
         )}
-      <div className="module-calling-tools__button">
-        <Tooltip
-          content={i18n('icu:callingDeviceSelection__settings')}
-          className="CallingButton__tooltip"
-          theme={Theme.Dark}
-        >
-          <button
-            aria-label={i18n('icu:callingDeviceSelection__settings')}
-            className="CallSettingsButton__Button"
-            onClick={toggleSettings}
-            type="button"
-          >
-            <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Settings" />
-          </button>
-        </Tooltip>
-      </div>
+      <AxoIconButton.Root
+        variant="floating-secondary"
+        size="lg"
+        iconWeight={300}
+        symbol="settings"
+        label={i18n('icu:callingDeviceSelection__settings')}
+        onClick={toggleSettings}
+      />
       {togglePip && (
-        <div className="module-calling-tools__button">
-          <Tooltip
-            content={i18n('icu:calling__pip--on')}
-            className="CallingButton__tooltip"
-            theme={Theme.Dark}
-          >
-            <button
-              aria-label={i18n('icu:calling__pip--on')}
-              className="CallSettingsButton__Button"
-              onClick={togglePip}
-              type="button"
-            >
-              <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Pip" />
-            </button>
-          </Tooltip>
-        </div>
+        <AxoIconButton.Root
+          variant="floating-secondary"
+          size="lg"
+          iconWeight={300}
+          symbol="pip"
+          label={i18n('icu:calling__pip--on')}
+          onClick={togglePip}
+        />
       )}
       {onCancel && (
-        <div className="module-calling-tools__button">
-          <Tooltip
-            content={i18n('icu:cancel')}
-            theme={Theme.Dark}
-            className="CallingButton__tooltip"
-          >
-            <button
-              aria-label={i18n('icu:cancel')}
-              className="CallSettingsButton__Button CallSettingsButton__Button--Cancel"
-              onClick={onCancel}
-              type="button"
-            >
-              <span className="CallSettingsButton__Icon CallSettingsButton__Icon--Cancel" />
-            </button>
-          </Tooltip>
-        </div>
+        <AxoIconButton.Root
+          variant="floating-secondary"
+          size="lg"
+          iconWeight={300}
+          symbol="x"
+          label={i18n('icu:cancel')}
+          onClick={onCancel}
+        />
       )}
     </div>
   );
 }
 
-const CALL_VIEW_MODE_ICON_CLASSNAMES: Record<CallViewMode, string> = {
-  [CallViewMode.Sidebar]: 'CallSettingsButton__Icon--SidebarView',
-  [CallViewMode.Paginated]: 'CallSettingsButton__Icon--PaginatedView',
-  [CallViewMode.Speaker]: 'CallSettingsButton__Icon--SpeakerView',
-  [CallViewMode.Presentation]: 'CallSettingsButton__Icon--SpeakerView',
-};
-export function getCallViewIconClassname(viewMode: CallViewMode): string {
-  return CALL_VIEW_MODE_ICON_CLASSNAMES[viewMode];
+export function getCallViewModeIcon(mode: CallViewMode): AxoSymbolIconName {
+  switch (mode) {
+    case CallViewMode.Paginated:
+      return 'grid';
+    case CallViewMode.Sidebar:
+      return 'grid-sidebar';
+    case CallViewMode.Presentation:
+    case CallViewMode.Speaker:
+      return 'sidebar';
+    default:
+      throw missingCaseError(mode);
+  }
 }

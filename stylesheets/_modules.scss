@@ -4161,25 +4161,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-.module-calling-tools {
-  position: absolute;
-  top: calc(32px + var(--title-bar-drag-area-height));
-  inset-inline-end: 0;
-  display: flex;
-
-  &__button {
-    margin-inline-end: 12px;
-  }
-
-  &__button:last-child {
-    margin-inline-end: 24px;
-  }
-  .ContextMenu__container {
-    background: none;
-    text-wrap: nowrap;
-  }
-}
-
 .module-calling-pip {
   backface-visibility: hidden;
   background-color: variables.$color-gray-95;
