@@ -556,6 +556,9 @@
         }
       ]
     },
+    "toolsets": {
+      "appimage": "1.0.3"
+    },
     "deb": {
       "depends": [
         "libnotify4",
