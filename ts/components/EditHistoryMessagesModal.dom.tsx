@@ -128,8 +128,8 @@ export function EditHistoryMessagesModal({
           </AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body padding="only-scrollbar-gutter">
-          <div ref={containerElementRef}>
+        <AxoDialog.Body>
+          <div ref={containerElementRef} className="EditHistoryMessagesModal">
             <TimelineDateHeader
               i18n={i18n}
               timestamp={currentMessage.timestamp}
