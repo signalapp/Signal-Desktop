@@ -83,7 +83,10 @@ export class CheckScheduler {
       // Gracefully rollout when polling initially
       now - this.#options.interval * Math.random()
     );
-    const targetTimestamp = lastCheckTimestamp + this.#options.interval;
+    // Schedule check out by the interval +-5% jitter
+    const targetTimestamp =
+      lastCheckTimestamp +
+      this.#options.interval * (1 + (Math.random() * 0.1 - 0.05));
     const delay = Math.max(0, targetTimestamp - now);
     if (this.#timer != null) {
       this.#timer.clear();
