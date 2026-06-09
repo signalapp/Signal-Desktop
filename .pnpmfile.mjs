@@ -249,7 +249,10 @@ export const hooks = {
   updateConfig(config) {
     return {
       ...config,
-      verifyDepsBeforeRun: process.env.CI ? false : config.verifyDepsBeforeRun,
+      verifyDepsBeforeRun:
+        process.env.CI || process.env.SKIP_VERIFY_DEPS_BEFORE_RUN
+          ? false
+          : config.verifyDepsBeforeRun,
     };
   },
 };

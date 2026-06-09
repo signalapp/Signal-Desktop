@@ -1,9 +1,11 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// @ts-check
 
 import { rmSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { defineConfig } from 'rolldown';
+import type { RolldownOptions } from 'rolldown';
 import { transform } from 'oxc-transform';
 
 const external = [
@@ -126,13 +128,18 @@ const defaults = {
   watch: {
     clearScreen: false,
   },
-};
+} satisfies RolldownOptions;
 
 if (isProd) {
   try {
     rmSync(join(__dirname, 'bundles'), { recursive: true });
   } catch (error) {
-    if (error.code !== 'ENOENT') {
+    if (
+      typeof error === 'object' &&
+      error != null &&
+      'code' in error &&
+      error.code !== 'ENOENT'
+    ) {
       throw error;
     }
   }
@@ -141,7 +148,7 @@ if (isProd) {
 export default defineConfig([
   // Each sandboxed bundle has to be separate from the rest since
   // they cannot use `require()`
-  ...Object.entries(sandboxPreload).map(([key, value]) => {
+  ...Object.entries(sandboxPreload).map(([key, value]): RolldownOptions => {
     return {
       ...defaults,
       external: ['electron'],
