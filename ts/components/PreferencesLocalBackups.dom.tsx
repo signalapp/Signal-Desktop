@@ -151,6 +151,12 @@ export function PreferencesLocalBackups({
       } else {
         setAuthError(result);
       }
+    } catch (e) {
+      log.error(
+        'Error thrown when requesting OS auth for viewing AEP',
+        toLogFormat(e)
+      );
+      setAuthError('error');
     } finally {
       setIsAuthPending(false);
     }
@@ -351,6 +357,9 @@ export function PreferencesLocalBackups({
           }}
         >
           <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Title screenReaderOnly>
+              {i18n('icu:Toast--error')}
+            </AxoAlertDialog.Title>
             <AxoAlertDialog.Body>
               <AxoAlertDialog.Description>
                 {i18n(

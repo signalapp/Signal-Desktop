@@ -14,7 +14,6 @@ export async function promptOSAuth(
   return new Promise<PromptOSAuthResultType>((resolve, _reject) => {
     let localeString: string | undefined;
 
-    // TODO: DESKTOP-8895
     if (window.Signal.OS.isMacOS()) {
       if (reason === 'enable-backups') {
         localeString = window.SignalContext.i18n(
