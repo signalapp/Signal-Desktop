@@ -332,8 +332,10 @@
       width: 100%;
     }
 
-    &:focus {
-      outline: 4px solid variables.$color-ultramarine;
+    @include mixins.keyboard-mode {
+      &:focus {
+        outline: 4px solid variables.$color-ultramarine;
+      }
     }
 
     &:disabled {

@@ -729,11 +729,7 @@ export function Lightbox({
             role="presentation"
           >
             <div className="Lightbox__animated">
-              <div
-                className="Lightbox__main-container"
-                tabIndex={-1}
-                ref={focusRef}
-              >
+              <div className="Lightbox__main-container">
                 <div className="Lightbox__header">
                   {getConversation && currentItem != null ? (
                     <LightboxHeader
@@ -765,6 +761,7 @@ export function Lightbox({
                       aria-label={i18n('icu:close')}
                       className="Lightbox__button Lightbox__button--close"
                       onClick={closeLightbox}
+                      ref={focusRef}
                       type="button"
                     />
                   </div>

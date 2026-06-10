@@ -3309,6 +3309,7 @@ export class Message extends PureComponent<Props, State> {
       return;
     }
 
+    window.enterKeyboardMode();
     this.handleOpen(event);
   };
 
