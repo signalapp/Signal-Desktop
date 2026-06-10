@@ -2817,22 +2817,22 @@
     "messageformat": "Errore di apertura del pacchetto adesivi. Controlla la connessione a Internet e riprova."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Aggiungi adesivi"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Rimuovi"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Collegamento copiato"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} adesivo} other {{count,number} adesivi}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Adesivo senza emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

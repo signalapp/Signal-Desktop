@@ -2817,22 +2817,22 @@
     "messageformat": "స్టిక్కర్ ప్యాక్ తెరవడంలో లోపం. మీ ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "స్టిక్కర్లను జోడించండి"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "తొలగించండి"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "లింక్"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "లింక్ కాపీ చేయబడింది"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} స్టిక్కర్} other {{count,number} స్టిక్కర్లు}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ఎమోజీ లేని స్టిక్కర్"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ఎమోజి"

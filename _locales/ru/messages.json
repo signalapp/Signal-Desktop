@@ -2817,22 +2817,22 @@
     "messageformat": "Ошибка при открытии набора стикеров. Проверьте ваше подключение к интернету и попробуйте еще раз."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Добавить стикеры"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Удалить"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Ссылка"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Ссылка скопирована"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} стикер} few {{count,number} стикера} many {{count,number} стикеров} other {{count,number} стикера}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Стикер без эмодзи"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Эмодзи"

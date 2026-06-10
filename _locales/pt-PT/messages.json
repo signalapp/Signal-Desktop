@@ -2817,22 +2817,22 @@
     "messageformat": "Erro ao abrir o pacote de autocolantes. Verifique a sua ligação à Internet e tente novamente."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Adicionar autocolantes"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Remover"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Ligação copiada"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} autocolate} other {{count,number} autocolantes}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Autocolante sem emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

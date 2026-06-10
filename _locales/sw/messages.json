@@ -2817,22 +2817,22 @@
     "messageformat": "Hitilafu katika kufungua pakiti ya vibandiko. Angalia muunganisho wako na ujaribu tena."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Weka Vibandiko"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Ondoa"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Kiungo"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Kiungo kimenakiliwa"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {Kibandiko {count,number}} other {Vibandiko {count,number}}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Kibandiko bila emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

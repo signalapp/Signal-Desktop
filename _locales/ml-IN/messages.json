@@ -2817,22 +2817,22 @@
     "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് തുറക്കുന്നതിൽ പിശക്. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക, വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "സ്റ്റിക്കറുകൾ ചേർക്കുക"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "നീക്കം ചെയ്യുക"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "ലിങ്ക്"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "ലിങ്ക് പകർത്തി"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} സ്റ്റിക്കർ} other {{count,number} സ്റ്റിക്കറുകൾ}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ഇമോജി ഇല്ലാത്ത സ്റ്റിക്കർ"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ഇമോജി"

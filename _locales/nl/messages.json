@@ -2817,22 +2817,22 @@
     "messageformat": "Fout bij het openen van een stickerpakket. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Stickers toevoegen"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Verwijderen"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Link gekopieerd"
   },
   "icu:stickers--StickerPreview--StickerCount": {
     "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Sticker zonder emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

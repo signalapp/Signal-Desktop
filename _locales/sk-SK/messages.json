@@ -2817,22 +2817,22 @@
     "messageformat": "Chyba pri otváraní balíka nálepiek. Skontrolujte svoje internetové pripojenie a skúste znova."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Pridať nálepky"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Odstrániť"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Odkaz"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Odkaz skopírovaný"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} nálepka} few {{count,number} nálepky} many {{count,number} nálepky} other {{count,number} nálepiek}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Nálepka bez emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emotikony"

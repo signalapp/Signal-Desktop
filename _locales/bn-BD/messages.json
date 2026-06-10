@@ -2817,22 +2817,22 @@
     "messageformat": "স্টিকার প্যাকটি খোলার সময় ত্রুটি। আপনার ইন্টারনেট সংযোগ পরীক্ষা করে দেখুন এবং আবার চেষ্টা করুন।"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "স্টিকার যোগ করুন"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "মুছে ফেলুন"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "লিংক"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "লিংক কপি করা হয়েছে"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number}-টি স্টিকার} other {{count,number}-টি স্টিকার}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ইমোজি ছাড়া স্টিকার"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ইমোজি"

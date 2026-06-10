@@ -2817,22 +2817,22 @@
     "messageformat": "No se ha podido abrir el paquete de stickers. Comprueba tu conexión a Internet e inténtalo de nuevo."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Añadir stickers"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eliminar"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Enlace"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Enlace copiado"
   },
   "icu:stickers--StickerPreview--StickerCount": {
     "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Sticker sin emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emojis"

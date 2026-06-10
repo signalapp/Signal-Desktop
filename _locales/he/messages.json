@@ -2817,22 +2817,22 @@
     "messageformat": "שגיאה בפתיחת חבילת מדבקות. בדוק את חיבור האינטרנט שלך ונסה שוב."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "הוספת סטיקרים"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "הסרה"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "לינק"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "קישור הועתק"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {סטיקר {count,number}} two {{count,number} סטיקרים} many {{count,number} סטיקרים} other {{count,number} סטיקרים}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "סטיקר בלי אימוג׳י"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "אמוג'י"

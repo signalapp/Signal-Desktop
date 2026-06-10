@@ -2817,22 +2817,22 @@
     "messageformat": "چاپلاق بوغچىسىنى ئېچىشتا خاتالىق كۆرۈلدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "چاپلاقلارنى قوشۇش"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ئۆچۈرۈش"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "ئۇلانما"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "ئۇلانما كۆچۈرۈلدى"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, other {{count,number} چاپلاقلار}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "emoji يوق چاپلاق"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "چىراي بەلگە"

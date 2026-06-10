@@ -2817,10 +2817,10 @@
     "messageformat": "Error opening sticker pack. I-check ang iyong internet connection at subukan ulit."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Magdagdag ng Stickers"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Tanggalin"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
@@ -2832,7 +2832,7 @@
     "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Sticker na walang emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

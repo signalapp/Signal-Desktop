@@ -2817,22 +2817,22 @@
     "messageformat": "Догодила се грешка приликом отварања пакета налепница. Проверите да ли сте повезани на интернет и пробајте поново."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Додај налепнице"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Уклони"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Линк"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Link je kopiran"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {Налепница: {count,number}} other {Налепница: {count,number}}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Налепница без емоџија"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Емоџи"

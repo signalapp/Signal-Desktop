@@ -2817,22 +2817,22 @@
     "messageformat": "Nem sikerült megnyitni a matricacsomagot. Ellenőrizd a hálózati kapcsolatot, majd próbáld újra!"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Matricák hozzáadása"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eltávolítás"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Hivatkozás másolva"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} matrica} other {{count,number} matrica}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Matrica emoji nélkül"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

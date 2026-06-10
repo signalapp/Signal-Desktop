@@ -2817,22 +2817,22 @@
     "messageformat": "Error en processar el paquet d'adhesius. Comproveu la connexió a Internet i torneu-ho a provar."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Afegir stickers"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Eliminar"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "enllaç"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Enllaç copiat"
   },
   "icu:stickers--StickerPreview--StickerCount": {
     "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Sticker sense emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoticones"

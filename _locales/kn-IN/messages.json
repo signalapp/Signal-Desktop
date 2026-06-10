@@ -2817,22 +2817,22 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್ ತೆರೆಯುವಲ್ಲಿ ದೋಷ. ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "ಸ್ಟಿಕ್ಕರ್‌ಗಳನ್ನು ಸೇರಿಸಿ"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ತೆಗೆದುಹಾಕಿ"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "ಲಿಂಕ್"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "ಲಿಂಕ್ ನಕಲಿಸಲಾಗಿದೆ"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} ಸ್ಟಿಕ್ಕರ್} other {{count,number} ಸ್ಟಿಕ್ಕರ್‌ಗಳು}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ಎಮೋಜಿ ಇಲ್ಲದ ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ಎಮೋಜಿ"

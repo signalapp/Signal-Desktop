@@ -2817,22 +2817,22 @@
     "messageformat": "حدث خطأ عند فتح مجموعة المُلصَقات. تحقَّق من اتصالك بالإنترنت ثم حاوِل مرّة أخرى."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "إضافة مُلصَقات"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "إزالة"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "نسخ الرابط"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "تمَّ نسخ الرابط"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, zero {{count,number} مُلصَقات} one {{count,number} مُلصَق} two {{count,number} مُلصَقين} few {{count,number} مُلصَقات} many {{count,number} مُلصَق} other {{count,number} مُلصَق}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "مُلصَق بدون رمز تعبيري (إيموجي)"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "الإيموجي"

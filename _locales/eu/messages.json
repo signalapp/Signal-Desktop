@@ -2817,22 +2817,22 @@
     "messageformat": "Errorea eranskailu paketea irekitzerakoan. Egiazta ezazu zure interneterako konexioa eta saia zaitez berriro."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Gehitu eranskailuak"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Kendu"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Esteka"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Esteka kopiatuta"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} eranskailu} other {{count,number} eranskailu}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Emojirik gabeko eranskailua"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

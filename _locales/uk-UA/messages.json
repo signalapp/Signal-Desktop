@@ -2817,22 +2817,22 @@
     "messageformat": "Під час відкриття набору стікерів сталася помилка. Перевірте з'єднання з інтернетом і відкрийте його ще раз."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Додати стікери"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Вилучити"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Посилання"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Посилання скопійовано"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} стікер} few {{count,number} стікери} many {{count,number} стікерів} other {{count,number} стікера}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Стікер без емоджі"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Емоджі"

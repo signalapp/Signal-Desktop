@@ -2817,22 +2817,22 @@
     "messageformat": "Eroare la deschiderea pachetului cu autocolante. Verifică conexiunea la internet și încearcă din nou."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Adaugă Abțibilduri"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Elimină"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Link copiat"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} autocolant} few {{count,number} autocolante} other {{count,number} de autocolante}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Abțibild fără un emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

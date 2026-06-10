@@ -2817,22 +2817,22 @@
     "messageformat": "Earráid agus beart greamán á oscailt. Seiceáil do nasc Idirlín agus triail arís."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Cuir Greamáin Leis"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Bain de é"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Nasc"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Nasc cóipeáilte"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} ghreamán} two {{count,number} ghreamán} few {{count,number} ghreamán} many {{count,number} ngreamán} other {{count,number} greamán}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Greamán gan emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

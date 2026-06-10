@@ -2817,22 +2817,22 @@
     "messageformat": "បញ្ហាក្នុងការបើកកញ្ចប់ស្ទីកគ័រ។ សូមពិនិត្យការតភ្ជាប់បណ្តាញ ហើយព្យាយាមម្តងទៀត។"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "បញ្ចូលស្ទីកគ័រ"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ដកចេញ"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "តំណ"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "បានចម្លងតំណ"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, other {{count,number} ស្ទីកគ័រ}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ស្ទីកគ័រដែលគ្មានរូបអារម្មណ៍"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "រូបអារម្មណ៍"

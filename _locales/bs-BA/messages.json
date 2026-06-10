@@ -2817,22 +2817,22 @@
     "messageformat": "Greška prilikom otvaranja paketa naljepnica. Provjerite internetsku vezu i pokušajte ponovo."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Dodaj naljepnice"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Ukloni"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Poveznica"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Link je kopiran"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} naljepnica} few {{count,number} naljepnice} many {{count,number} naljepnica} other {{count,number} naljepnica}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Naljepnica bez emoji sličice"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji-sličice"

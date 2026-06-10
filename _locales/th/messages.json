@@ -2817,22 +2817,22 @@
     "messageformat": "ผิดพลาดระหว่างเปิดชุดสติกเกอร์ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "เพิ่มสติกเกอร์"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ลบ"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "ลิงก์"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "คัดลอกลิงก์แล้ว"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, other {สติกเกอร์ {count,number} ตัว}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "สติกเกอร์ที่ไม่มีอีโมจิ"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "อีโมจิ"

@@ -2817,22 +2817,22 @@
     "messageformat": "Fehler beim Öffnen des Sticker-Sets. Überprüfe deine Internetverbindung und versuche es erneut."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Sticker hinzufügen"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Entfernen"
   },
   "icu:stickers--StickerPreview--Link": {
     "messageformat": "Link"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Link kopiert"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} Sticker} other {{count,number} Sticker}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Sticker ohne Emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -8221,6 +8221,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.13--0": {
-    "messageformat": "Die neuen »Erhobene Hände«-Indikatoren werden nun bei Gruppenanrufen auch in der Liste für erhobene Hände angezeigt. Dort erfährst du sozusagen aus erster Hand, wem du das Wort erteilen kannst, sobald du mit deinem Beitrag fertig bist."
+    "messageformat": "Die neuen »Erhobene Hand«-Indikatoren werden nun bei Gruppenanrufen auch in der Liste für erhobene Hände angezeigt. Dort erfährst du sozusagen aus erster Hand, wem du das Wort erteilen kannst, sobald du mit deinem Beitrag fertig bist."
   }
 }

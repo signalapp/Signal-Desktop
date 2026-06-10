@@ -2817,22 +2817,22 @@
     "messageformat": "Σφάλμα κατά το άνοιγμα του πακέτου αυτοκολλήτων. Έλεγξε τη σύνδεση στο διαδίκτυο και ξαναπροσπάθησε."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Προσθήκη αυτοκόλλητων"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Αφαίρεση"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Σύνδεσμος"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Ο σύνδεσμος αντιγράφτηκε"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} αυτοκόλλητο} other {{count,number} αυτοκόλλητα}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Αυτοκόλλητο χωρίς emoji"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"

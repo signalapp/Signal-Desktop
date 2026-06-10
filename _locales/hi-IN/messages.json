@@ -2817,22 +2817,22 @@
     "messageformat": "स्टिकर पैक खोलने में कोई गड़बड़ी हुई। अपना इंटरनेट कनेक्शन देख लें और दोबारा कोशिश करें।"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "स्टिकर जोड़ें"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "हटाएं"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "लिंक"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "लिंक कॉपी किया गया"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} स्टिकर} other {{count,number} स्टिकर}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "बिना इमोजी वाला स्टिकर"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "इमोजी"
