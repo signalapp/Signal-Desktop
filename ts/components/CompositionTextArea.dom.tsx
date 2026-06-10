@@ -173,6 +173,7 @@ export function CompositionTextArea({
         ourConversationId={ourConversationId}
         placeholder={placeholder}
         platform={platform}
+        showRecoveryKeyPasteWarning={false}
         quotedMessageId={null}
         sendCounter={0}
         theme={theme}

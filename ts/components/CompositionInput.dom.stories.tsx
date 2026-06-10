@@ -50,6 +50,7 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     theme: useContext(StorybookThemeContext),
     inputApi: null,
     shouldHidePopovers: null,
+    showRecoveryKeyPasteWarning: false,
     linkPreviewResult: null,
     showViewOnceButton: false,
     isViewOnceActive: false,
@@ -142,6 +143,17 @@ export function Mentions(): JSX.Element {
 
 export function NoFormattingMenu(): JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
+}
+export function RecoveryKeyWarning(): JSX.Element {
+  return (
+    <div>
+      Paste <code>AEP</code> into the input.
+      <CompositionInput
+        {...useProps({ isFormattingEnabled: false })}
+        showRecoveryKeyPasteWarning={text => text.includes('AEP')}
+      />
+    </div>
+  );
 }
 
 export function ViewOnceButton(): JSX.Element {

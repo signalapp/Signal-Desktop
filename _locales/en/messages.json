@@ -8564,6 +8564,26 @@
     "messageformat": "Got it",
     "description": "Button to dismiss the dialog warning the user not to share their recovery key."
   },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key",
+    "description": "Button on the dialog warning the user not to paste their recovery key into a chat. Pressing it proceeds to a second confirmation."
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key",
+    "description": "Button on the dialog warning the user not to paste their recovery key into a chat. Pressing it cancels the paste."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal.",
+    "description": "Body of the second confirmation dialog shown before allowing the user to paste their recovery key into a chat."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share",
+    "description": "Button to cancel pasting the recovery key into a chat on the second confirmation dialog."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key",
+    "description": "Button to confirm pasting the recovery key into a chat on the second confirmation dialog."
+  },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Confirm your recovery key",
     "description": "Title for confirming the recovery (backup) key for local message backups by re-entering it into a text box."

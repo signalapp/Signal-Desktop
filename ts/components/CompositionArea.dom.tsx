@@ -147,6 +147,7 @@ export type OwnProps = Readonly<{
   onClearAttachments: (conversationId: string) => unknown;
   onCloseLinkPreview: (conversationId: string) => unknown;
   platform: string;
+  textIncludesRecoveryKey: (text: string) => boolean;
   showToast: ShowToastAction;
   processAttachments: (options: {
     conversationId: string;
@@ -267,6 +268,7 @@ export const CompositionArea = memo(function CompositionArea({
   lastEditableMessageId,
   pushPanelForConversation,
   platform,
+  textIncludesRecoveryKey,
   processAttachments,
   removeAttachment,
   sendEditedMessage,
@@ -1289,6 +1291,7 @@ export const CompositionArea = memo(function CompositionArea({
             linkPreviewLoading={linkPreviewLoadingForInput}
             linkPreviewResult={linkPreviewResultForInput}
             quotedMessageId={quotedMessageIdForInput}
+            showRecoveryKeyPasteWarning={textIncludesRecoveryKey}
             onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}
             onEditorStateChange={onEditorStateChange}

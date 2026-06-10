@@ -267,6 +267,7 @@ export function StoryViewsNRepliesModal({
               isFormattingEnabled={isFormattingEnabled}
               moduleClassName="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}
+              showRecoveryKeyPasteWarning={false}
               onEditorStateChange={({ messageText }) => {
                 setMessageBodyText(messageText);
               }}
