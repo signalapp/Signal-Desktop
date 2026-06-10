@@ -10984,5 +10984,13 @@
   "icu:WhatsNew__8.13--0": {
     "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking.",
     "description": "(Deleted 2026/06/03) Release notes for 8.13"
+  },
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg.",
+    "description": "Release notes for 8.15"
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS.",
+    "description": "Release notes for 8.15"
   }
 }
