@@ -2817,22 +2817,28 @@
     "messageformat": "സ്റ്റിക്കർ പായ്ക്ക് തുറക്കുന്നതിൽ പിശക്. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക, വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "സ്റ്റിക്കറുകൾ ചേർക്കുക"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "നീക്കം ചെയ്യുക"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "ലിങ്ക്"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "ലിങ്ക് പകർത്തി"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} സ്റ്റിക്കർ} other {{count,number} സ്റ്റിക്കറുകൾ}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ഇമോജി ഇല്ലാത്ത സ്റ്റിക്കർ"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ഇമോജി"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ രേഖപ്പെടുത്തുക"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "നിങ്ങളുടെ അക്കൗണ്ടും ഡാറ്റയും വീണ്ടെടുക്കാൻ ഈ കീ ആവശ്യമാണ്. ഈ കീ സുരക്ഷിതമായ ഒരിടത്ത് സൂക്ഷിക്കുക. നിങ്ങൾക്കത് നഷ്‌ടപ്പെടുകയാണെങ്കിൽ, നിങ്ങളുടെ അക്കൗണ്ട് വീണ്ടെടുക്കാൻ നിങ്ങൾക്ക് കഴിയില്ല. <learnMoreLink>കൂടുതലറിയുക.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കീ സ്ഥിരീകരിക്കുക"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "സിസ്റ്റം ഓതന്റിക്കേഷൻ പരാജയപ്പെട്ടതിനാൽ ഈ പ്രവർത്തനം പൂർത്തിയാക്കാൻ കഴിഞ്ഞില്ല. ദയവായി വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ നിങ്ങളുടെ മൊബൈലിലെ Signal ആപ്പ് തുറന്ന് വീണ്ടെടുക്കൽ കീ കാണുന്നതിനായി ബാക്കപ്പ് ക്രമീകരണങ്ങൾ സന്ദർശിക്കുക."
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "കീ കാണുക"
@@ -8220,7 +8259,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "ഗ്രൂപ്പ് കോളുകളിൽ കൈ ഉയർത്തിയവരുടെ ലിസ്റ്റിലും പുതിയ 'കൈ ഉയർത്തൽ' സൂചകങ്ങൾ ഇപ്പോൾ കാണാം. നിങ്ങൾ സംസാരിച്ചു കഴിഞ്ഞതിനു ശേഷം അടുത്തത് ആർക്കാണ് അവസരം നൽകേണ്ടതെന്ന് മനസ്സിലാക്കാൻ സഹായിക്കുന്ന ഒരു സംവിധാനമാണിത്."
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

@@ -597,7 +597,7 @@
     "messageformat": "자동 인증을 사용할 수 없음"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "모든 채팅에 자동 인증을 사용할 수 없습니다."
+    "messageformat": "일부 채팅에서는 자동 인증을 사용할 수 없습니다."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
     "messageformat": "더 알아보기"
@@ -690,13 +690,13 @@
     "messageformat": "미리보기 불러오는 중…"
   },
   "icu:stagedPreviewThumbnail": {
-    "messageformat": "{domain}의 섬네일 링크 미리보기 초안"
+    "messageformat": "{domain}의 링크 미리보기 임시 썸네일"
   },
   "icu:previewThumbnail": {
     "messageformat": "{domain}의 섬네일 링크 미리보기"
   },
   "icu:stagedImageAttachment": {
-    "messageformat": "이미지 첨부 초안: {path}"
+    "messageformat": "임시 첨부 이미지: {path}"
   },
   "icu:decryptionErrorToast": {
     "messageformat": "{deviceId} 기기, {name}에서 데스크톱에 암호 해독 문제가 발생했습니다."
@@ -1410,7 +1410,7 @@
     "messageformat": "고객 지원에 문의하기"
   },
   "icu:DeliveryIssue--preview": {
-    "messageformat": "이슈 전송하기"
+    "messageformat": "전송 문제"
   },
   "icu:DeliveryIssue--notification": {
     "messageformat": "{sender}로부터 온 메시지가 전달되지 않았습니다."
@@ -2385,7 +2385,7 @@
     "messageformat": "안전 번호 변경됨"
   },
   "icu:safetyNumberChangedGroup": {
-    "messageformat": "{name} 님과의 안전 번호가 변경되었어요"
+    "messageformat": "{name} 님과의 안전 번호가 변경되었습니다"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "안전 번호 보기"
@@ -2505,7 +2505,7 @@
     "messageformat": "다음"
   },
   "icu:chooseGroupMembers__maximum-group-size__title": {
-    "messageformat": "최대 그룹 규모에 도달했습니다."
+    "messageformat": "그룹 정원 한도에 도달했어요"
   },
   "icu:chooseGroupMembers__maximum-group-size__body": {
     "messageformat": "Signal 그룹에는 최대 {max,number}명의 구성원이 있을 수 있습니다."
@@ -2640,7 +2640,7 @@
     "messageformat": "차단한 대화"
   },
   "icu:ConversationListItem--draft-prefix": {
-    "messageformat": "임시보관:"
+    "messageformat": "작성 중:"
   },
   "icu:message--getNotificationText--messageRequest": {
     "messageformat": "메시지 요청"
@@ -2817,22 +2817,28 @@
     "messageformat": "스티커 팩을 열 수 없습니다. 인터넷 연결을 확인 후 다시 시도하세요."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "스티커 추가"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "삭제"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "링크"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "링크가 복사됨"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, other {스티커 {count,number}개}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "이모지 없는 스티커"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "이모지"
@@ -3111,7 +3117,7 @@
     "messageformat": "(인용문)"
   },
   "icu:Conversation--getDraftPreview--draft": {
-    "messageformat": "(초안)"
+    "messageformat": "(임시 저장)"
   },
   "icu:Keyboard--focus-most-recent-message": {
     "messageformat": "오래된 읽지 않은 메시지 또는 최근 메시지에 집중"
@@ -3204,10 +3210,10 @@
     "messageformat": "파일 첨부"
   },
   "icu:Keyboard--remove-draft-link-preview": {
-    "messageformat": "초안 링크 미리보기 제거"
+    "messageformat": "임시 저장된 링크 미리보기 삭제"
   },
   "icu:Keyboard--remove-draft-attachments": {
-    "messageformat": "모든 초안 첨부 파일 제거"
+    "messageformat": "임시 첨부 파일 모두 삭제"
   },
   "icu:Keyboard--conversation-by-index": {
     "messageformat": "대화로 이동"
@@ -3264,7 +3270,7 @@
     "messageformat": "선택한 텍스트에 스포일러 적용"
   },
   "icu:Keyboard--open-context-menu": {
-    "messageformat": "선택한 메시지의 바로 가기 메뉴 열기"
+    "messageformat": "선택한 메시지의 바로가기 메뉴 열기"
   },
   "icu:FormatMenu--guide--bold": {
     "messageformat": "두껍게"
@@ -3309,7 +3315,7 @@
     "messageformat": "영상 통화로 받기(영상 통화만 해당)"
   },
   "icu:Keyboard--accept-call-without-video": {
-    "messageformat": "카메라 끄고 받기"
+    "messageformat": "음성 통화로 받기"
   },
   "icu:Keyboard--start-audio-call": {
     "messageformat": "음성 통화 시작"
@@ -3615,7 +3621,7 @@
     "messageformat": "전화 수락"
   },
   "icu:acceptCallWithoutVideo": {
-    "messageformat": "카메라 끄고 받기"
+    "messageformat": "음성 통화로 받기"
   },
   "icu:declineCall": {
     "messageformat": "거절"
@@ -4752,7 +4758,7 @@
     "messageformat": "첨부 파일을 바꾸시겠어요?"
   },
   "icu:CompositionArea__ConfirmGifSelection__Body": {
-    "messageformat": "이 GIF를 추가하면 현재 초안 메시지의 항목이 바뀝니다."
+    "messageformat": "이 GIF를 추가하면 현재 작성 중인 메시지의 항목이 바뀝니다."
   },
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "바꾸기"
@@ -5215,7 +5221,7 @@
     "messageformat": "{count, plural, other {모든 사용자에 대해 삭제할 메시지를 최대 {count,number}개 까지만 선택할 수 있습니다}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "초안을 삭제할까요?"
+    "messageformat": "작성 중인 메시지를 삭제할까요?"
   },
   "icu:DiscardDraftDialog__description": {
     "messageformat": "삭제 후에는 복구할 수 없습니다."
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "복구 키를 기록해 두세요"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "이 키는 계정과 데이터를 복원하는 데 필요합니다. 안전한 곳에 보관해 두세요. 키를 분실하면 계정을 복원할 수 없습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "복구 키를 확인하세요"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "시스템 인증에 실패하여 작업을 완료할 수 없습니다. 다시 시도하거나, 모바일 기기에서 Signal 앱을 열고 '백업 설정'으로 이동하여 복구 키를 확인하세요."
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "키 보기"
@@ -7370,7 +7409,7 @@
     "messageformat": "더는 사용할 수 없음"
   },
   "icu:ContextMenu--button": {
-    "messageformat": "바로 가기 메뉴"
+    "messageformat": "바로가기 메뉴"
   },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "사용자 이름"
@@ -8220,7 +8259,10 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "그룹 통화 중 손을 든 참여자 목록의 디자인을 업데이트했습니다."
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

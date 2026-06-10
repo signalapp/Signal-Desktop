@@ -8538,7 +8538,7 @@
   },
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Record your recovery key",
-    "description": "Title for viewing the recovery (backup) key for local message backups."
+    "description": "(Deleted 2026/06/10) Title for viewing the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-recovery-key--title": {
     "messageformat": "Your recovery key",
@@ -8546,7 +8546,7 @@
   },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "This key is required to recover your account and data. Store this key somewhere safe. If you lose it, you won’t be able to recover your account. <learnMoreLink>Learn more.</learnMoreLink>",
-    "description": "Description for viewing the recovery (backup) key for local message backups."
+    "description": "(Deleted 2026/06/10) Description for viewing the recovery (backup) key for local message backups."
   },
   "icu:Preferences--local-backups-recovery-key--description": {
     "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>",
@@ -10980,10 +10980,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "The new raised-hand indicators are now also displayed in the list of raised hands during group calls. It's a second-hand place to figure out who you should hand it over to when you're done speaking.",
-    "description": "(Deleted 2026/06/03) Release notes for 8.13"
   },
   "icu:WhatsNew__8.15--0": {
     "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg.",
