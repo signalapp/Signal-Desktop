@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useRef, useCallback, useEffect } from 'react';
+import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
 
 type CallbackType = (toFocus: HTMLElement | null | undefined) => void;
 
@@ -9,11 +10,15 @@ type CallbackType = (toFocus: HTMLElement | null | undefined) => void;
 export const useRestoreFocus = (): [CallbackType] => {
   const toFocusRef = useRef<HTMLElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const focusLastElementTimeoutRef =
+    useRef<ReturnType<typeof setTimeout>>(null);
 
   // We need to use a callback here because refs aren't necessarily populated on first
   //   render. For example, ModalHost makes a top-level parent div first, and then renders
   //   into it. And the children you pass it don't have access to that root div.
   const setFocusRef = useCallback((toFocus: HTMLElement | null | undefined) => {
+    clearTimeoutIfNecessary(focusLastElementTimeoutRef.current);
+
     if (!toFocus) {
       return;
     }
@@ -32,7 +37,7 @@ export const useRestoreFocus = (): [CallbackType] => {
   useEffect(() => {
     return () => {
       // On unmount, returned focus to element focused before we set the focus
-      setTimeout(() => {
+      focusLastElementTimeoutRef.current = setTimeout(() => {
         if (lastFocusedRef.current && lastFocusedRef.current.focus) {
           lastFocusedRef.current.focus();
         }
