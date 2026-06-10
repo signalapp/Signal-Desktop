@@ -80,7 +80,7 @@ allowBuilds:
   '@parcel/watcher@2.5.6': true
   '@signalapp/libsignal-client@0.92.2': true # duplicate package
   '@signalapp/libsignal-client@0.94.4': true
-  '@signalapp/ringrtc@2.69.1': true
+  '@signalapp/ringrtc@2.69.3': true
   '@signalapp/sqlcipher@3.3.5': true
   '@signalapp/windows-ucv@1.0.1': true
   '@swc/core@1.10.16': true
