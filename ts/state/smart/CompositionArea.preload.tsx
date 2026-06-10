@@ -247,6 +247,23 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const { onEditorStateChange } = useComposerActions();
 
   AutoSubstituteAsciiEmojis.enable(itemStorage.get('autoConvertEmoji', true));
+  const { accountEntropyPool } = items;
+
+  const textIncludesRecoveryKey = useCallback(
+    (text: string) => {
+      if (!accountEntropyPool) {
+        return false;
+      }
+      const normalizedText = text
+        .toUpperCase()
+        .replace(/\s/g, '')
+        .replace(/#/g, 'O')
+        .replace(/=/g, '0');
+
+      return normalizedText.includes(accountEntropyPool.toUpperCase());
+    },
+    [accountEntropyPool]
+  );
 
   return (
     <CompositionArea
@@ -275,6 +292,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       theme={theme}
       convertDraftBodyRangesIntoHydrated={convertDraftBodyRangesIntoHydrated}
       onTextTooLong={onTextTooLong}
+      textIncludesRecoveryKey={textIncludesRecoveryKey}
       pushPanelForConversation={pushPanelForConversation}
       discardEditMessage={discardEditMessage}
       onCloseLinkPreview={onCloseLinkPreview}

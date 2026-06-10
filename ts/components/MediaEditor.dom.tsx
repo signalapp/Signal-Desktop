@@ -1420,6 +1420,7 @@ export function MediaEditor({
                     onTextTooLong={onTextTooLong}
                     ourConversationId={ourConversationId}
                     placeholder={i18n('icu:MediaEditor__input-placeholder')}
+                    showRecoveryKeyPasteWarning={false}
                     platform={platform}
                     quotedMessageId={null}
                     sendCounter={0}

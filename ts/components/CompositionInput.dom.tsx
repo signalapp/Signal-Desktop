@@ -96,6 +96,7 @@ import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { Emoji } from '../axo/emoji.std.ts';
+import { RecoveryKeyPasteWarning } from './RecoveryKeyPasteWarning.dom.tsx';
 
 const log = createLogger('CompositionInput');
 
@@ -167,6 +168,7 @@ export type Props = Readonly<{
   onScroll?: (ev: UIEvent<HTMLElement>) => void;
   ourConversationId: string | undefined;
   platform: string;
+  showRecoveryKeyPasteWarning: false | ((pastedText: string) => boolean);
   quotedMessageId: string | null;
   shouldHidePopovers: boolean | null;
   linkPreviewLoading?: boolean;
@@ -214,6 +216,7 @@ export function CompositionInput(props: Props): ReactElement {
     showViewOnceButton,
     isViewOnceActive,
     onToggleViewOnce,
+    showRecoveryKeyPasteWarning,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
@@ -451,6 +454,23 @@ export function CompositionInput(props: Props): ReactElement {
     previousIsMouseDown,
   ]);
 
+  const [onRecoveryKeyPasteConfirm, setOnRecoveryKeyPasteConfirm] =
+    useState<null | { onAllowPaste: () => void }>(null);
+
+  const showRecoveryKeyPasteWarningHandler = useCallback(
+    (text: string, onAllowPaste: () => void) => {
+      if (
+        showRecoveryKeyPasteWarning === false ||
+        !showRecoveryKeyPasteWarning(text)
+      ) {
+        return { isHandlingPaste: false };
+      }
+      setOnRecoveryKeyPasteConfirm({ onAllowPaste });
+      return { isHandlingPaste: true };
+    },
+    [showRecoveryKeyPasteWarning]
+  );
+
   useEffect(() => {
     const signalClipboard = quillRef.current?.getModule('signalClipboard');
     if (!signalClipboard) {
@@ -464,8 +484,9 @@ export function CompositionInput(props: Props): ReactElement {
 
     signalClipboard.updateOptions({
       isDisabled: !isActive,
+      pasteHandlers: [showRecoveryKeyPasteWarningHandler],
     });
-  }, [isActive]);
+  }, [isActive, showRecoveryKeyPasteWarningHandler]);
 
   const onEnter = (): boolean => {
     const quill = quillRef.current;
@@ -1020,6 +1041,16 @@ export function CompositionInput(props: Props): ReactElement {
             data-enabled={isInputEnabled ? 'true' : 'false'}
             onMouseDown={onMouseDown}
           >
+            {onRecoveryKeyPasteConfirm ? (
+              <RecoveryKeyPasteWarning
+                i18n={i18n}
+                onCancel={() => setOnRecoveryKeyPasteConfirm(null)}
+                onConfirm={() => {
+                  setOnRecoveryKeyPasteConfirm(null);
+                  onRecoveryKeyPasteConfirm.onAllowPaste();
+                }}
+              />
+            ) : null}
             {draftEditMessage && (
               <div className={getClassName('__editing-message')}>
                 {i18n('icu:CompositionInput__editing-message')}

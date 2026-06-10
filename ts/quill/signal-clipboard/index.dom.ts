@@ -14,6 +14,9 @@ import { createEventHandler } from './util.dom.ts';
 
 type ClipboardOptions = Readonly<{
   isDisabled: boolean;
+  pasteHandlers?: Array<
+    (text: string, onAllowPaste: () => void) => { isHandlingPaste: boolean }
+  >;
 }>;
 
 export class SignalClipboard {
@@ -121,18 +124,26 @@ export class SignalClipboard {
 
     this.quill.selection.update('silent');
 
-    if (selection) {
-      setTimeout(() => {
-        const delta = new Delta()
-          .retain(selection.index)
-          .delete(selection.length)
-          .concat(clipboardDelta);
-        this.quill.updateContents(delta, 'user');
-        this.quill.setSelection(delta.length() - selection.length, 0, 'silent');
-        this.quill.scrollSelectionIntoView();
+    const performPaste = () => {
+      const delta = new Delta()
+        .retain(selection.index)
+        .delete(selection.length)
+        .concat(clipboardDelta);
+      this.quill.updateContents(delta, 'user');
+      this.quill.setSelection(delta.length() - selection.length, 0, 'silent');
+      this.quill.scrollSelectionIntoView();
 
-        this.quill.focus();
-      }, 1);
+      this.quill.focus();
+    };
+
+    for (const pasteHandler of this.options.pasteHandlers ?? []) {
+      if (
+        pasteHandler(text, () => setTimeout(performPaste, 1)).isHandlingPaste
+      ) {
+        return;
+      }
     }
+
+    setTimeout(performPaste, 1);
   }
 }
