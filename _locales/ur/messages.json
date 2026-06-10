@@ -2817,22 +2817,28 @@
     "messageformat": "اسٹیکر پیک کھولنے میں ایرر۔ اپنا انٹرنیٹ کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "اسٹیکرز شامل کریں"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ہٹا دیں"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "لنک"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "لنک کاپی کیا گیا"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} اسٹیکر} other {{count,number} اسٹیکرز}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ایموجی کے بغیر اسٹیکر"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ایموجی"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "اپنی ریکوری کیی کو ریکارڈ کریں"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "یہ کیی آپ کے اکاؤنٹ اور ڈیٹا کو بحال کرنے کے لیے درکار ہوتی ہے۔ اس کیی کو کسی محفوظ جگہ پر اسٹور کریں۔ اگر آپ اسے کھو دیتے ہیں، تو آپ اپنا اکاؤنٹ بحال نہیں کر سکیں گے۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "اپنی ریکوری کیی کی تصدیق کریں"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "یہ کارروائی مکمل نہیں ہو سکی کیونکہ سسٹم کی توثیق ناکام ہو گئی ہے۔ براہ کرم دوبارہ کوشش کریں یا اپنی موبائل ڈیوائس پر Signal ایپ کھولیں اور اپنی بحالی کی کیی دیکھنے کے لیے بیک اپ سیٹنگز پر جائیں۔"
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "کیی دیکھیں"
@@ -8220,7 +8259,10 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "ہاتھ اٹھانے کا اشارہ اب گروپ کالز کے دوران بھی ہاتھ اٹھائے ہوئے لوگوں کی فہرست میں آتا ہے۔ یہ اس کام کے لیے بھی ہے کہ آپ اپنی بات پوری کرنے کے بعد کس کو بولنے کا موقع دیں گے۔"
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

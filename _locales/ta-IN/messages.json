@@ -2817,22 +2817,28 @@
     "messageformat": "ஸ்டிக்கர் பேக் திறப்பதில் பிழை. உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "ஸ்டிக்கர்களைச் சேர்"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "அகற்று"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "இணைப்பு"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "இணைப்பு நகலெடுக்கப்பட்டது"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number}ஸ்டிக்கர்} other {{count,number}ஸ்டிக்கர்கள்}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "எமோஜி அல்லாத ஸ்டிக்கர்"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "உணர்வு படங்கள்"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டைப் பதிவுசெய்க"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "உங்கள் கணக்கு மற்றும் தரவை மீட்டெடுக்க இந்தக் குறியீடு தேவை. இந்தக் குறியீட்டைப் பாதுகாப்பான இடத்தில் சேமித்து வைக்கவும். நீங்கள் அதை இழந்துவிட்டால், உங்கள் கணக்கை மீட்டெடுக்க முடியாது. <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "உங்கள் மீட்புக் குறியீட்டை உறுதிப்படுத்துக"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "கணினி அங்கீகரிப்பு தோல்வியடைந்ததால் இந்தச் செயலை முடிக்க முடியவில்லை. மீண்டும் முயலவும் அல்லது உங்கள் மொபைல் சாதனத்தில் சிக்னல் செயலியைத் திறந்து, உங்கள் மீட்புக் குறியீட்டைப் பார்க்க காப்புப்பிரதி அமைப்புகளுக்குச் செல்லவும்."
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "குறியீட்டைக் காண்க"
@@ -8220,7 +8259,10 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "தொகுப்பு அழைப்புகளின் போது கைகளை உயர்த்துதல் அம்சத்தின் பட்டியலுக்கான வடிவமைப்பை நாங்கள் புதுப்பித்துள்ளோம்."
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

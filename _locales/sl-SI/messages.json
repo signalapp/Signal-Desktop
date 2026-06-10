@@ -2817,22 +2817,28 @@
     "messageformat": "Paketa nalepk ni bilo mogoče odpreti. Preverite internetno povezavo in poskusite znova."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "Dodaj nalepke"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "Odstrani"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "Povezava"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "Povezava je prekopirana"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} nalepka} two {{count,number} nalepki} few {{count,number} nalepke} other {{count,number} nalepk}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "Nalepka brez emojija"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "Emoji"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "Zapišite svoj obnovitveni ključ"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "Ta ključ je potreben za obnovitev računa in podatkov. Ta ključ shranite na varnem mestu. Če ga izgubite, računa ne boste mogli obnoviti. <learnMoreLink>Preberite več.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "Potrdite svoj obnovitveni ključ"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "Tega dejanja ni bilo mogoče dokončati, ker sistemsko preverjanje pristnosti ni uspelo. Poskusite znova ali odprite aplikacijo Signal v svoji mobilni napravi in pojdite v Nastavitve varnostnih kopij, kjer si lahko ogledate svoj obnovitveni ključ."
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Prikaži ključ"
@@ -8220,7 +8259,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "Novi indikatorji dvignjene roke so zdaj prikazani tudi na seznamu dvignjenih rok med skupinskimi klici. Gre za sekundarni način, da ugotovite, komu prepustiti besedo, ko končate govor."
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

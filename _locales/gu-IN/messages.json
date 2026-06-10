@@ -2817,22 +2817,28 @@
     "messageformat": "સ્ટીકર પેક ખોલવામાં ભૂલ. તમારું ઇન્ટરનેટ કનેક્શન તપાસો અને ફરી પ્રયાસ કરો."
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "સ્ટીકર ઉમેરો"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "દૂર કરો"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "લિંક કરો"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "લિંક કૉપિ કરી"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, one {{count,number} સ્ટીકર} other {{count,number} સ્ટીકર}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "ઇમોજી વગરનું સ્ટીકર"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "ઇમોજી"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "તમારી રિકવરી કી રેકોર્ડ કરો"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "તમારા એકાઉન્ટ અને ડેટાને રિકવર કરવા માટે આ કી જરૂરી છે. આ કીને કોઈ સુરક્ષિત જગ્યાએ સ્ટોર કરો. જો તમે તેને ગુમાવો છો, તો તમે તમારું એકાઉન્ટ રિકવર કરી શકશો નહીં. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "તમારી રિકવરી કી કન્ફર્મ કરો"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "સિસ્ટમ પ્રમાણીકરણ નિષ્ફળ જવાને કારણે આ ક્રિયા પૂર્ણ કરી શકાઈ નથી. કૃપા કરીને ફરી પ્રયાસ કરો અથવા તમારા મોબાઇલ ડિવાઇસ પર Signal ઍપ ખોલો અને તમારી રિકવરી કી જોવા માટે બેકઅપ સેટિંગ્સ પર જાઓ."
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "કી જુઓ"
@@ -8220,7 +8259,10 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "અમે ગ્રૂપ કૉલ દરમિયાન જેણે હાથ ઊંચા કર્યા હતા તેના લિસ્ટ માટેની ડિઝાઇન અપડેટ કરી છે."
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }

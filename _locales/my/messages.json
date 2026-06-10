@@ -2817,22 +2817,28 @@
     "messageformat": "စတစ်ကာတွဲ ဖွင့်ရာတွင် ချို့ယွင်းချက်။ သင့်အင်တာနက် ချိတ်ဆက်မှုကို စစ်ဆေးပြီး ထပ်ကြိုးစားပါ။"
   },
   "icu:stickers--StickerPreview--Install": {
-    "messageformat": "Add Stickers"
+    "messageformat": "စတစ်ကာ ထည့်သွင်းရန်"
   },
   "icu:stickers--StickerPreview--Remove": {
-    "messageformat": "Remove"
+    "messageformat": "ဖယ်ရှားရန်"
   },
   "icu:stickers--StickerPreview--Link": {
-    "messageformat": "Link"
+    "messageformat": "လင့်ခ်"
   },
   "icu:stickers--StickerPreview--LinkCopied": {
-    "messageformat": "Link copied"
+    "messageformat": "လင့်ခ် ကူးပြီး"
   },
   "icu:stickers--StickerPreview--StickerCount": {
-    "messageformat": "{count, plural, one {{count,number} sticker} other {{count,number} stickers}}"
+    "messageformat": "{count, plural, other {စတစ်ကာ {count,number} ခု}}"
   },
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
-    "messageformat": "Sticker without an emoji"
+    "messageformat": "အီမိုဂျီမပါသော စတစ်ကာ"
+  },
+  "icu:stickers--StickerPackLinkPreviewDescription": {
+    "messageformat": "Sticker Pack by {author}"
+  },
+  "icu:stickers--ViewPack": {
+    "messageformat": "View Pack"
   },
   "icu:FunPicker__Tab--Emojis": {
     "messageformat": "အီမိုဂျီ"
@@ -6418,8 +6424,38 @@
   "icu:Preferences--local-backups-record-recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို မှတ်တမ်းတင်ပါ"
   },
+  "icu:Preferences--local-backups-recovery-key--title": {
+    "messageformat": "Your recovery key"
+  },
   "icu:Preferences--local-backups-record-backup-key-description": {
     "messageformat": "သင့်အကောင့်နှင့် ဒေတာကို ပြန်လည်ရယူရန် ဤကီးလိုအပ်ပါသည်။ ဤကီးကို လုံခြုံသောနေရာတွင် သိမ်းဆည်းပါ။ ၎င်းကိုဆုံးရှုံးသွားပါက သင့်အကောင့်ကို ပြန်လည်ရယူနိုင်မည်မဟုတ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာပါ။</learnMoreLink>"
+  },
+  "icu:Preferences--local-backups-recovery-key--description": {
+    "messageformat": "This key is required to recover your account and data. Store it somewhere safe and never share it with anyone. Signal will never message you for your recovery key. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-title": {
+    "messageformat": "Do not share recovery key"
+  },
+  "icu:Preferences__recovery-key__do-not-share-description": {
+    "messageformat": "<strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal. Store your recovery key somewhere safe and never share it with anyone. <learnMoreLink>Learn more.</learnMoreLink>"
+  },
+  "icu:Preferences__recovery-key__do-not-share-confirm": {
+    "messageformat": "Got it"
+  },
+  "icu:CompositionInput__recovery-key-paste__share-key": {
+    "messageformat": "Share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__do-not-share-key": {
+    "messageformat": "Do not share key"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-description": {
+    "messageformat": "Do not share your recovery key with anyone. This will let them take over your account. <strong>Signal will never message you</strong> for your recovery key. Never respond to a chat pretending to be Signal."
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-dont-share": {
+    "messageformat": "Don't share"
+  },
+  "icu:CompositionInput__recovery-key-paste__confirm-paste": {
+    "messageformat": "Paste key"
   },
   "icu:Preferences--local-backups-confirm-recovery-key": {
     "messageformat": "ပြန်လည်ရယူရေးကီးကို အတည်ပြုပါ"
@@ -6483,6 +6519,9 @@
   },
   "icu:Preferences__local-backups-auth-error--unauthorized": {
     "messageformat": "စစ်မှန်ကြောင်းအတည်ပြုခြင်း မအောင်မြင်သောကြောင့် ဤလုပ်ဆောင်ချက်ကို ပြီးမြောက်အောင် မလုပ်ဆောင်နိုင်ခဲ့ပါ။ ထပ်ကြိုးစားကြည့်ပါ သို့မဟုတ် သင့်မိုဘိုင်းစက်ရှိ Signal အက်ပ်ကိုဖွင့်ပြီး ဘက်ခ်အပ်ဆက်တင်သို့သွား၍ ပြန်လည်ရယူရေးကီးကို ကြည့်ရှုပါ။"
+  },
+  "icu:Preferences__local-backups-auth-error--unknown-error": {
+    "messageformat": "An error occurred while requesting system authentication for this action."
   },
   "icu:Preferences__view-key": {
     "messageformat": "ကီးကိုကြည့်ရန်"
@@ -8220,7 +8259,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.13--0": {
-    "messageformat": "အဖွဲ့လိုက် ဖုန်းခေါ်ဆိုမှုများအတွင်း လက်မြှောက်ထားသူများစာရင်းအတွက် ဒီဇိုင်းကို ကျွန်ုပ်တို့ အပ်ဒိတ်လုပ်ထားပါသည်။"
+  "icu:WhatsNew__8.15--0": {
+    "messageformat": "\"This extra E is vexing me,\" said the cries and pleas of the people displeased that their favorite file extension was four letters instead of three. We're happy to appease (the change was a breeze) and now you will see that the default filename when saving a JPEG will end as it should in dot jpg."
+  },
+  "icu:WhatsNew__8.15--1": {
+    "messageformat": "If you want to embrace your inner goth, we also added support for the dark icon style in macOS."
   }
 }
