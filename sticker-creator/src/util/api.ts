@@ -14,6 +14,7 @@ declare global {
     ): Promise<string>;
     installStickerPack(packId: string, key: string): void;
     getFilePath(file: File): string;
+    getResolvedMessagesLocale?(): string;
   }
 }
 
@@ -55,4 +56,8 @@ export async function upload(
 
 export function getFilePath(file: File): string {
   return window.getFilePath(file);
+}
+
+export function getResolvedMessagesLocale(): string | undefined {
+  return window.getResolvedMessagesLocale?.();
 }
