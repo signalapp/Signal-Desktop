@@ -25,6 +25,7 @@ import {
   readAttachmentData,
   saveAttachmentToDisk,
 } from '../../util/migrations.preload.ts';
+import { TEMP_PATH } from '../../util/basePaths.preload.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import * as universalExpireTimer from '../../util/universalExpireTimer.preload.ts';
 import * as Attachment from '../../util/Attachment.std.ts';
@@ -1229,6 +1230,8 @@ export const actions = {
   saveAttachment,
   saveAttachments,
   saveAttachmentFromMessage,
+  dragAttachment,
+  cleanupDragAttachment,
   saveAvatarToDisk,
   scrollToMessage,
   scrollToOldestUnreadMention,
@@ -4195,6 +4198,51 @@ function saveAttachment(
     }
   };
 }
+
+export type DragAttachmentActionCreatorType = ReadonlyDeep<
+  (attachment: AttachmentType, timestamp?: number) => unknown
+>;
+
+export type CleanupDragAttachmentActionCreatorType = ReadonlyDeep<
+  () => unknown
+>;
+
+let lastDragTempPath: string | null = null;
+
+function dragAttachment(
+  attachment: AttachmentType,
+  timestamp = Date.now()
+): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+  return async () => {
+    const fullPath = await Attachment.save({
+      attachment,
+      getUnusedFilename,
+      readAttachmentData,
+      saveAttachmentToDisk,
+      timestamp,
+      baseDir: TEMP_PATH,
+    });
+    if (fullPath) {
+      lastDragTempPath = fullPath;
+      ipcRenderer.send('start-attachment-drag', fullPath);
+    }
+  };
+}
+
+function cleanupDragAttachment(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ShowToastActionType
+> {
+  return () => {
+    if (lastDragTempPath) {
+      ipcRenderer.send('cleanup-drag-temp-file', lastDragTempPath);
+      lastDragTempPath = null;
+    }
+  };
+}
+
 
 const showSaveMultiDialog = (
   i18n: LocalizerType
