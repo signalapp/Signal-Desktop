@@ -4007,7 +4007,14 @@ export class ConversationModel {
     return getQuoteAttachment(attachments, preview, sticker);
   }
 
-  async sendStickerMessage(packId: string, stickerId: number): Promise<void> {
+  async sendStickerMessage(
+    packId: string,
+    stickerId: number,
+    options: {
+      quote?: QuoteType;
+      extraReduxActions?: () => void;
+    } = {}
+  ): Promise<void> {
     const packData = Stickers.getStickerPack(packId);
     const stickerData = Stickers.getSticker(packId, stickerId);
     if (!stickerData || !packData) {
@@ -4063,8 +4070,12 @@ export class ConversationModel {
           body: undefined,
           attachments: [],
           sticker,
+          quote: options.quote,
         },
-        { dontClearDraft: true }
+        {
+          dontClearDraft: true,
+          extraReduxActions: options.extraReduxActions,
+        }
       )
     );
     window.reduxActions.stickers.useSticker(packId, stickerId);

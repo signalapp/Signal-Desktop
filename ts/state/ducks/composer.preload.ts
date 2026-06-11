@@ -765,9 +765,9 @@ function sendStickerMessage(
   void,
   RootStateType,
   unknown,
-  NoopActionType | ShowToastActionType
+  NoopActionType | ShowToastActionType | SetQuotedMessageActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('sendStickerMessage: No conversation found');
@@ -796,7 +796,24 @@ function sendStickerMessage(
       }
 
       const { packId, stickerId } = options;
-      void conversation.sendStickerMessage(packId, stickerId);
+
+      const state = getState();
+      const conversationComposerState = getComposerStateForConversation(
+        state.composer,
+        conversationId
+      );
+      const quote = conversationComposerState.quotedMessage?.quote;
+
+      void conversation.sendStickerMessage(packId, stickerId, {
+        quote,
+        extraReduxActions: () => {
+          setQuoteByMessageId(conversationId, undefined)(
+            dispatch,
+            getState,
+            undefined
+          );
+        },
+      });
     } catch (error) {
       log.error('clickSend error:', Errors.toLogFormat(error));
     }
