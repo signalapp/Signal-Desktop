@@ -309,7 +309,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       return (
         <SizeObserver onSizeChange={onResize}>
           {measureRef => (
-            <div className={className} ref={refMerger(measureRef, ref)}>
+            <div className={className} ref={refMerger(measureRef, ref)} aria-live="off">
               {children}
             </div>
           )}
@@ -318,7 +318,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     }
 
     return (
-      <div className={className} ref={ref}>
+      <div className={className} ref={ref} aria-live="off">
         {children}
       </div>
     );
