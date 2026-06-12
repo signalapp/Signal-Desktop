@@ -660,7 +660,13 @@ export namespace Emoji {
     // oxlint-disable-next-line typescript/no-unnecessary-qualifier
     for (const segment of Emoji.getSegments(input)) {
       if (segment.kind === 'text') {
-        return 0; // found other text
+        // Tolerate spaces between/around emoji
+        for (const char of segment.value) {
+          if (char !== ' ') {
+            return 0; // found non-space text
+          }
+        }
+        continue; // ignore space-only segments
       }
       if (segment.kind === 'emoji') {
         count += 1;
