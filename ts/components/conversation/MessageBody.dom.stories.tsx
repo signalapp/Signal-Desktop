@@ -106,6 +106,22 @@ export function JumbomojiDisabledByText(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
+export function JumbomojiSeparatedBySpaces(): JSX.Element {
+  const props = createProps({
+    text: '😹 😹 😹',
+  });
+
+  return <MessageBody {...props} />;
+}
+
+export function JumbomojiDisabledByNewline(): JSX.Element {
+  const props = createProps({
+    text: '😹\n😹',
+  });
+
+  return <MessageBody {...props} />;
+}
+
 export function TextPending(): JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
