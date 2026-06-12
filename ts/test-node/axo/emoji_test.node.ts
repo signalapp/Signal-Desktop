@@ -690,6 +690,14 @@ describe('Emoji', () => {
       check('😀 a', false);
     });
 
+    it('returns true for a single emoji with surrounding spaces', () => {
+      check(' 😀 ', true);
+    });
+
+    it('returns false for multiple emoji separated by spaces', () => {
+      check('😀   😀', false);
+    });
+
     describe('EMOJI_EDGE_CASES', () => {
       for (const test of EMOJI_EDGE_CASES) {
         it(test.label, () => {
@@ -733,6 +741,30 @@ describe('Emoji', () => {
     it('returns null for mixed text and emoji', () => {
       check('😀a', null);
       check('a😀', null);
+    });
+
+    it('returns count of emoji separated by spaces', () => {
+      check('😀 😀 😀', 3);
+      check('😀 😀', 2);
+      check(' 😀 ', 1);
+      check('😀   😀', 2);
+    });
+
+    it('returns count of max emojis separated by spaces', () => {
+      check('😀 😀 😀 😀 😀', MAX);
+    });
+
+    it('returns null over max emojis separated by spaces', () => {
+      check('😀 😀 😀 😀 😀 😀', null);
+    });
+
+    it('returns null for mixed text and spaced emoji', () => {
+      check('😀 a 😀', null);
+    });
+
+    it('returns null for emoji separated by non-space whitespace', () => {
+      check('😀\n😀', null);
+      check('😀\t😀', null);
     });
   });
 
