@@ -138,6 +138,7 @@ export type AddStoryData = ReadonlyDeep<
     }
   | {
       type: 'Text';
+      initialText?: string,
       sending?: boolean;
     }
   | undefined

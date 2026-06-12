@@ -48,6 +48,7 @@ export type PropsType = {
     source: LinkPreviewSourceType
   ) => unknown;
   file?: File;
+  initialText?: string;
   i18n: LocalizerType;
   isSending: boolean;
   linkPreview?: LinkPreviewForUIType;
@@ -103,6 +104,7 @@ export function StoryCreator({
   debouncedMaybeGrabLinkPreview,
   distributionLists,
   file,
+  initialText,
   getPreferredBadge,
   groupConversations,
   groupStories,
@@ -302,6 +304,7 @@ export function StoryCreator({
             <TextStoryCreator
               debouncedMaybeGrabLinkPreview={debouncedMaybeGrabLinkPreview}
               i18n={i18n}
+              initialText={initialText}
               isSending={isSending}
               linkPreview={linkPreview}
               onClose={onClose}
