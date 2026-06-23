@@ -14,6 +14,7 @@ const HEAP_SIZE_THRESHOLD = 1024 * 1024 * 1024;
 
 export function trackHeapSize(callback?: () => void): void {
   const timer = setInterval(() => {
+    try{
     const usage = memoryUsage();
     if (usage.heapTotal < HEAP_SIZE_THRESHOLD) {
       return;
@@ -22,5 +23,12 @@ export function trackHeapSize(callback?: () => void): void {
     log.error('high memory usage', usage);
     callback?.();
     clearInterval(timer);
+    }
+     catch (error) {
+       log.error('failed to track heap size', {
+         error: error instanceof Error ? error.message : error,
+       });
+     }
+
   }, INTERVAL);
 }
