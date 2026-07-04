@@ -3231,7 +3231,7 @@ ipc.on('start-attachment-drag', (event, filePath: string) => {
   }
   lastDragTempPath = filePath;
   const icon = nativeImage
-    .createFromPath(join(__dirname, '../images/group_default.png'))
+    .createFromPath(join(__dirname, '../images/file.png'))
     .resize({ width: 32 });
   event.sender.startDrag({ file: filePath, icon });
 });
