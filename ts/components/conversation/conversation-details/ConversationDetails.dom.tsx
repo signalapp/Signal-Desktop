@@ -15,7 +15,6 @@ import type {
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.tsx';
 import type { SmartConfirmAdditionsModalPropsType } from '../../../state/smart/ConfirmAdditionsModal.dom.tsx';
-import { assertDev } from '../../../util/assert.std.ts';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
@@ -321,12 +320,12 @@ export function ConversationDetails({
           renderChooseGroupMembersModal={renderChooseGroupMembersModal}
           renderConfirmAdditionsModal={renderConfirmAdditionsModal}
           clearRequestError={() => {
+            // This is called on close of the dialog, both on 'add member' and 'cancel'
             setAddGroupMembersRequestState(oldRequestState => {
-              assertDev(
-                oldRequestState !== RequestState.Active,
-                'Should not be clearing an active request state'
-              );
-              return RequestState.Inactive;
+              if (oldRequestState === RequestState.InactiveWithError) {
+                return RequestState.Inactive;
+              }
+              return oldRequestState;
             });
           }}
           conversationIdsAlreadyInGroup={
