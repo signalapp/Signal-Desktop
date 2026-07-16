@@ -1231,8 +1231,12 @@ function processAttachments({
 
     const { audioRecorder } = getState();
 
-    if (hasLinkPreviewLoaded() || getIsRecording(audioRecorder)) {
+    if (getIsRecording(audioRecorder)) {
       return;
+    }
+
+    if (hasLinkPreviewLoaded()) {
+      removeLinkPreview(conversationId);
     }
 
     let toastToShow: AnyToast | undefined;
