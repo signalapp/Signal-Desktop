@@ -249,9 +249,19 @@ ipc.on('additional-log-data-request', async event => {
     statistics = {};
   }
 
-  let networkStatistics: NetworkStatistics = {
-    signalConnectionCount: formatCountForLogging(getSignalConnections().length),
-  };
+  let networkStatistics: NetworkStatistics;
+  try {
+    networkStatistics = {
+      signalConnectionCount: formatCountForLogging(
+        getSignalConnections().length
+      ),
+    };
+  } catch (error) {
+    networkStatistics = {
+      signalConnectionCount: undefined,
+    };
+  }
+
   const unauthorizedStats = AggregatedStats.loadOrCreateEmpty(
     UNAUTHENTICATED_CHANNEL_NAME
   );
