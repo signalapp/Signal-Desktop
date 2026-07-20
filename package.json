@@ -126,7 +126,7 @@
     "@indutny/simple-windows-notifications": "2.0.21",
     "@signalapp/libsignal-client": "0.97.3",
     "@signalapp/mute-state-change": "workspace:*",
-    "@signalapp/ringrtc": "2.69.7",
+    "@signalapp/ringrtc": "2.70.0",
     "@signalapp/sqlcipher": "3.3.9",
     "@signalapp/types": "workspace:*",
     "@signalapp/windows-ucv": "workspace:*",
