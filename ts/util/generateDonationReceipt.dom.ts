@@ -347,7 +347,7 @@ export async function generateDonationReceiptBlob(
   currentY += dateValue.height + 50;
 
   currentY += 10 * SCALING_FACTOR;
-  const footerText = i18n('icu:DonationReceipt__footer-text');
+  const footerText = i18n('icu:DonationReceipt__footer-text-v2');
 
   const footer = new fabric.Textbox(footerText, {
     left: leftInlineStart,
