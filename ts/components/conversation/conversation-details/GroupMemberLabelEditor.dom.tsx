@@ -155,6 +155,8 @@ export function GroupMemberLabelEditor({
     }
   }, [isDirty, isSaving, popPanelForConversation, previousIsSaving]);
 
+  const shouldShowClearButton = Boolean(labelEmoji || labelString);
+
   return (
     <div className={tw('flex size-full flex-col')}>
       <div className={tw('grow flex-col overflow-y-scroll')}>
@@ -188,10 +190,11 @@ export function GroupMemberLabelEditor({
               // Replace all whitespace with basic space
               setLabelString(value.replace(/\s/g, ' '));
             }}
-            ref={undefined}
             placeholder={i18n(
               'icu:ConversationDetails--member-label--placeholder'
             )}
+            ref={undefined}
+            shouldShowClearButton={shouldShowClearButton}
             value={labelString}
             whenToShowRemainingCount={20}
           />

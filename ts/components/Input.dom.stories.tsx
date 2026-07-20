@@ -25,6 +25,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   maxLengthCount: overrideProps.maxLengthCount,
   onChange: action('onChange'),
   placeholder: overrideProps.placeholder ?? 'Enter some text here',
+  shouldShowClearButton: overrideProps.shouldShowClearButton ?? false,
   value: overrideProps.value ?? '',
   whenToShowRemainingCount: overrideProps.whenToShowRemainingCount,
 });
@@ -45,6 +46,17 @@ export function HasClearButton(): JSX.Element {
     <Controller
       {...createProps({
         hasClearButton: true,
+      })}
+    />
+  );
+}
+
+export function ClearButtonForcedWithNoData(): JSX.Element {
+  return (
+    <Controller
+      {...createProps({
+        hasClearButton: true,
+        shouldShowClearButton: true,
       })}
     />
   );
