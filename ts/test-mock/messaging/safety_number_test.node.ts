@@ -113,7 +113,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await changeIdentityKey();
 
     await expectSystemMessages(window, [
-      /Safety Number has changed/, // Bob's key from storage service
+      /Safety Number with Alice/, // Alice's key from storage service
     ]);
 
     debug('Sending message');
@@ -126,8 +126,8 @@ describe('safety number', function (this: Mocha.Suite) {
     await dialog.locator(`"${alice.profileName}"`).waitFor();
 
     await expectSystemMessages(window, [
-      /Safety Number has changed/, // Bob's key from storage service
-      /Safety Number has changed/, // Fixed Alice's key from backend
+      /Safety Number with/, // One is a fixed Alice's key from backend
+      /Safety Number with/, // Other is Bob's key from storage service
     ]);
 
     debug('Confirming send');

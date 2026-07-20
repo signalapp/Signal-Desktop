@@ -285,7 +285,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       // Two notifications - the safety number change and PhoneNumberDiscovery
       await expectSystemMessages(window, [
         /.* belongs to ContactA/,
-        /Safety Number has changed/,
+        /Safety Number with ContactA/,
       ]);
     }
   });
@@ -423,7 +423,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       // Three notifications - accepted, the safety number change and PhoneNumberDiscovery
       await expectSystemMessages(window, [
         /.* belongs to ContactA/,
-        /Safety Number has changed/,
+        /Safety Number with ContactA/,
       ]);
     }
   });

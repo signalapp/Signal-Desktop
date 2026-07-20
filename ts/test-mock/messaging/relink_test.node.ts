@@ -147,7 +147,7 @@ describe('messaging/relink', function (this: Mocha.Suite) {
         )
         .click();
 
-      await expectSystemMessages(window, [/Safety Number has changed/]);
+      await expectSystemMessages(window, [/Safety Number with Alice/]);
     }
   });
 });

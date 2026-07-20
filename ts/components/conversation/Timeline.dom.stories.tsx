@@ -131,7 +131,6 @@ const items: Record<string, TimelineItemType> = {
         id: '+1202555000',
         title: 'Mr. Fire',
       },
-      isGroup: true,
     },
     timestamp: Date.now(),
   },

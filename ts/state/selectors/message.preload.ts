@@ -1546,10 +1546,9 @@ function getPropsForSafetyNumberNotification(
     );
   }
 
-  const contact = identifier ? conversationSelector(identifier) : conversation;
+  const contact = isGroup ? conversationSelector(identifier) : conversation;
 
   return {
-    isGroup,
     contact,
   };
 }

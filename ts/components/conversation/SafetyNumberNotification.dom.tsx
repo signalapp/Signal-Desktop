@@ -15,7 +15,6 @@ export type ContactType = {
 };
 
 export type PropsData = {
-  isGroup: boolean;
   contact: ContactType;
 };
 
@@ -31,7 +30,6 @@ export type Props = PropsData & PropsHousekeeping & PropsActions;
 
 export function SafetyNumberNotification({
   contact,
-  isGroup,
   i18n,
   toggleSafetyNumberModal,
 }: Props): JSX.Element {
@@ -50,15 +48,11 @@ export function SafetyNumberNotification({
     <SystemMessage
       icon="safety-number"
       contents={
-        isGroup ? (
-          <I18n
-            id="icu:safetyNumberChangedGroup"
-            components={{ name }}
-            i18n={i18n}
-          />
-        ) : (
-          <I18n id="icu:safetyNumberChanged" i18n={i18n} />
-        )
+        <I18n
+          id="icu:safetyNumberChangedGroup"
+          components={{ name }}
+          i18n={i18n}
+        />
       }
       button={
         <Button

@@ -17,22 +17,17 @@ const createContact = (props: Partial<ContactType>): ContactType => ({
 
 export default {
   title: 'Components/Conversation/SafetyNumberNotification',
-  argTypes: {
-    isGroup: { control: { type: 'boolean' } },
-  },
   args: {
     i18n,
     contact: {} as ContactType,
-    isGroup: false,
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   },
 } satisfies Meta<Props>;
 
-export function GroupConversation(args: Props): JSX.Element {
+export function Default(args: Props): JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
-      isGroup
       contact={createContact({
         title: 'Mr. Fire',
       })}
@@ -40,23 +35,10 @@ export function GroupConversation(args: Props): JSX.Element {
   );
 }
 
-export function DirectConversation(args: Props): JSX.Element {
+export function LongName(args: Props): JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
-      isGroup
-      contact={createContact({
-        title: 'Mr. Fire',
-      })}
-    />
-  );
-}
-
-export function LongNameInGroup(args: Props): JSX.Element {
-  return (
-    <SafetyNumberNotification
-      {...args}
-      isGroup
       contact={createContact({
         title: '🐈‍⬛🍕🎂'.repeat(50),
       })}

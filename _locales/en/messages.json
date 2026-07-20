@@ -3178,7 +3178,7 @@
   },
   "icu:safetyNumberChangedGroup": {
     "messageformat": "Safety Number with {name} has changed",
-    "description": "A notification shown in a group conversation when a contact reinstalls, showing the contact name"
+    "description": "A notification shown in a group and 1:1 conversations when a contact reinstalls, showing the contact name"
   },
   "icu:ConversationDetails__viewSafetyNumber": {
     "messageformat": "View Safety Number",
