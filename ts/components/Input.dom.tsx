@@ -206,8 +206,10 @@ export const Input = forwardRef<
           graphemeLimit: newPastedLength,
         });
 
-        inputEl.value =
+        const newValue =
           textBeforeSelection + truncatedPaste + textAfterSelection;
+        inputEl.value = newValue;
+        onChange(newValue);
       }
 
       maybeSetLarge();
@@ -218,6 +220,7 @@ export const Input = forwardRef<
       maxLengthCount,
       maxByteCount,
       maybeSetLarge,
+      onChange,
       value,
     ]
   );
