@@ -10,7 +10,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { LongTimeout } from './timeout.std.ts';
 import { drop } from './drop.std.ts';
 import { strictAssert } from './assert.std.ts';
-import { BackOff, FIBONACCI_TIMEOUTS } from './BackOff.std.ts';
+import { BackOff, EXTENDED_FIBONACCI_TIMEOUTS } from './BackOff.std.ts';
 
 const log = createLogger('CheckScheduler');
 
@@ -114,7 +114,9 @@ export class CheckScheduler {
   }
 
   async #safeCheck(
-    backOff = new BackOff(this.#options.backOffTimeouts ?? FIBONACCI_TIMEOUTS)
+    backOff = new BackOff(
+      this.#options.backOffTimeouts ?? EXTENDED_FIBONACCI_TIMEOUTS
+    )
   ): Promise<void> {
     try {
       const oldTimestamp = itemStorage.get(this.#options.storageKey);
@@ -129,7 +131,7 @@ export class CheckScheduler {
     } catch (error) {
       this.#log.error('check failed with error', toLogFormat(error));
       this.#timer = new LongTimeout(
-        () => drop(this.#safeCheck()),
+        () => drop(this.#safeCheck(backOff)),
         backOff.getAndIncrement()
       );
     }
