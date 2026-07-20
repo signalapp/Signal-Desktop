@@ -250,28 +250,32 @@ export function EditConversationAttributesModal({
             {i18n('icu:updateGroupAttributes__title')}
           </AxoDialog.Title>
         </AxoDialog.Header>
-        <AxoDialog.Body>{content}</AxoDialog.Body>
-        {/* AvatarEditor brings its own footer with it so no need to duplicate it. */}
-        {!editingAvatar && (
-          <AxoDialog.Footer>
-            <AxoDialog.Actions>
-              <AxoDialog.Action
-                variant="strong-secondary"
-                onClick={onClose}
-                disabled={isRequestActive}
-              >
-                {i18n('icu:cancel')}
-              </AxoDialog.Action>
-              <AxoDialog.Action
-                variant="strong-primary"
-                onClick={onRequestSubmit}
-                disabled={!canSubmit}
-                pending={isRequestActive}
-              >
-                {i18n('icu:save')}
-              </AxoDialog.Action>
-            </AxoDialog.Actions>
-          </AxoDialog.Footer>
+        {/* AvatarEditor brings its own Body and Footer; no need to duplicate. */}
+        {editingAvatar ? (
+          content
+        ) : (
+          <>
+            <AxoDialog.Body>{content}</AxoDialog.Body>
+            <AxoDialog.Footer>
+              <AxoDialog.Actions>
+                <AxoDialog.Action
+                  variant="strong-secondary"
+                  onClick={onClose}
+                  disabled={isRequestActive}
+                >
+                  {i18n('icu:cancel')}
+                </AxoDialog.Action>
+                <AxoDialog.Action
+                  variant="strong-primary"
+                  onClick={onRequestSubmit}
+                  disabled={!canSubmit}
+                  pending={isRequestActive}
+                >
+                  {i18n('icu:save')}
+                </AxoDialog.Action>
+              </AxoDialog.Actions>
+            </AxoDialog.Footer>
+          </>
         )}
       </AxoDialog.Content>
     </AxoDialog.Root>
