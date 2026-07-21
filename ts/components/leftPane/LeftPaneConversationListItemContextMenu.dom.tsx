@@ -293,6 +293,11 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
             i18n={i18n}
             onDestroyMessages={handleDelete}
             onClose={handleCloseConfirmDeleteDialog}
+            areWeMember={
+              conversation.type === 'group' &&
+              !conversation.left &&
+              !conversation.terminated
+            }
           />
         )}
       </>

@@ -18,6 +18,18 @@ export function Default(): JSX.Element {
       i18n={i18n}
       onClose={action('onClose')}
       onDestroyMessages={action('onDestroyMessages')}
+      areWeMember={false}
+    />
+  );
+}
+
+export function DefaultStillMember(): JSX.Element {
+  return (
+    <DeleteMessagesConfirmationDialog
+      i18n={i18n}
+      onClose={action('onClose')}
+      onDestroyMessages={action('onDestroyMessages')}
+      areWeMember
     />
   );
 }

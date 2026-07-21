@@ -260,6 +260,8 @@ export const ConversationHeader = memo(function ConversationHeader({
   );
 
   const isTerminated = Boolean(conversation.terminated);
+  const areWeMember =
+    conversation.type === 'group' && !isTerminated && !conversation.left;
   const isMuted = isConversationMuted(conversation);
 
   if (hasPanelShowing) {
@@ -291,6 +293,7 @@ export const ConversationHeader = memo(function ConversationHeader({
           onClose={() => {
             setHasDeleteMessagesConfirmation(false);
           }}
+          areWeMember={areWeMember}
         />
       )}
       {hasLeaveGroupConfirmation && (

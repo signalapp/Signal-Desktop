@@ -312,9 +312,12 @@ import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.st
 import { isValidPlaintextHash } from '../types/Crypto.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { WalCheckpoints } from './WalCheckpoints.std.ts';
+import {
+  getExternalDraftFilesForConversation,
+  getExternalAvatarFilesForConversation,
+} from '../util/conversationFilePaths.std.ts';
 
 const {
-  forEach,
   fromPairs,
   groupBy,
   isBoolean,
@@ -1033,7 +1036,7 @@ export function initialize({
 
     // Only the first worker gets to upgrade the schema. The rest just folow.
     if (isPrimary) {
-      updateSchema(db, logger);
+      updateSchema(db, logger, { userDataPath: configDir });
       WalCheckpoints.setupDeleteTriggers(db, logger);
     }
 
@@ -1049,7 +1052,10 @@ export function initialize({
 }
 
 /** @testexport */
-export function setupTests(db: WritableDB): void {
+export function setupTests(
+  db: WritableDB,
+  data: { userDataPath: string }
+): void {
   const silentLogger = {
     ...consoleLogger,
     info: noop,
@@ -1059,7 +1065,7 @@ export function setupTests(db: WritableDB): void {
   };
   logger = silentLogger;
 
-  updateSchema(db, logger);
+  updateSchema(db, logger, data);
 }
 
 function closeReadable(db: ReadableDB): void {
@@ -8987,47 +8993,6 @@ function getMessageServerGuidsForSpam(
     .all({ conversationId, limit });
 }
 
-function getExternalFilesForConversation(
-  conversation: Pick<ConversationType, 'avatar' | 'profileAvatar'>
-): Array<string> {
-  const { avatar, profileAvatar } = conversation;
-  const files: Array<string> = [];
-
-  if (avatar && avatar.path) {
-    files.push(avatar.path);
-  }
-
-  if (profileAvatar && profileAvatar.path) {
-    files.push(profileAvatar.path);
-  }
-
-  return files;
-}
-
-function getExternalDraftFilesForConversation(
-  conversation: Pick<ConversationType, 'draftAttachments'>
-): Array<string> {
-  const draftAttachments = conversation.draftAttachments || [];
-  const files: Array<string> = [];
-
-  forEach(draftAttachments, attachment => {
-    if (attachment.pending) {
-      return;
-    }
-
-    const { path: file, screenshotPath } = attachment;
-    if (file) {
-      files.push(file);
-    }
-
-    if (screenshotPath) {
-      files.push(screenshotPath);
-    }
-  });
-
-  return files;
-}
-
 function getKnownMessageAttachments(
   db: ReadableDB,
   cursor?: MessageAttachmentsCursorType
@@ -9251,7 +9216,7 @@ function getKnownConversationAttachments(db: ReadableDB): Array<string> {
       jsonToObject(row.json)
     );
     conversations.forEach(conversation => {
-      const externalFiles = getExternalFilesForConversation(conversation);
+      const externalFiles = getExternalAvatarFilesForConversation(conversation);
       externalFiles.forEach(file => result.add(file));
     });
 

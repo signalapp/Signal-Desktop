@@ -5,7 +5,10 @@ import PQueue from 'p-queue';
 import { batch } from 'react-redux';
 import { pick } from 'lodash';
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type {
+  ConversationAttributesType,
+  MessageAttributesType,
+} from '../model-types.d.ts';
 import { MessageModel } from '../models/messages.preload.ts';
 
 import * as Errors from '../types/errors.std.ts';
@@ -31,7 +34,9 @@ import {
   getFilePathsReferencedByMessage,
 } from './messageFilePaths.std.ts';
 import {
+  deleteAvatar,
   deleteDownloadFile,
+  deleteDraftFile,
   maybeDeleteAttachmentFile,
 } from './migrations.preload.ts';
 import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
@@ -43,6 +48,11 @@ import {
   type EraseMessageReasonType,
 } from '../types/Message.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
+import {
+  getExternalDraftFilesForConversation,
+  getExternalAvatarFilesForConversation,
+  getExternalAvatarDraftsForConversation,
+} from './conversationFilePaths.std.ts';
 
 const log = createLogger('cleanup');
 
@@ -311,3 +321,151 @@ export async function cleanupAttachmentFiles(
   );
   await Promise.all([...result.externalDownloads].map(deleteDownloadFile));
 }
+
+export async function safeCleanupDraftFiles(
+  conversation: ConversationAttributesType
+): Promise<void> {
+  const result = getExternalDraftFilesForConversation(conversation);
+  await Promise.all(
+    result.map(async (relativeFile, index) => {
+      try {
+        await deleteDraftFile(relativeFile);
+      } catch (error) {
+        log.error(
+          `safeCleanupDraftFiles: Failed to delete draft at index ${index}`,
+          Errors.toLogFormat(error)
+        );
+      }
+    })
+  );
+}
+
+export async function safeCleanupAvatarFiles(
+  conversation: ConversationAttributesType
+): Promise<void> {
+  const result = getExternalAvatarFilesForConversation(conversation);
+  await Promise.all(result.map(maybeDeleteAttachmentFile));
+}
+
+export async function safeCleanupAvatarDraftFiles(
+  conversation: ConversationAttributesType
+): Promise<void> {
+  const result = getExternalAvatarDraftsForConversation(conversation);
+  await Promise.all(
+    result.map(async (relativeFile, index) => {
+      try {
+        await deleteAvatar(relativeFile);
+      } catch (error) {
+        log.error(
+          `safeCleanupAvatarDraftFiles: Failed to delete avatar draft at index ${index}`,
+          Errors.toLogFormat(error)
+        );
+      }
+    })
+  );
+}
+
+export const GENERIC_CLEANUP_FIELDS: Partial<ConversationAttributesType> = {
+  draftChanged: undefined,
+  draftAttachments: undefined,
+  draftBodyRanges: undefined,
+  draftIsViewOnce: undefined,
+  draftTimestamp: undefined,
+
+  inbox_position: undefined,
+
+  lastMessageDeletedForEveryone: undefined,
+  lastMessageDeletedForEveryoneByAdminAci: undefined,
+  lastMessageAuthorAci: undefined,
+  lastMessage: undefined,
+  lastMessageBodyRanges: undefined,
+  lastMessagePrefix: undefined,
+  lastMessageAuthor: undefined,
+  lastMessageStatus: undefined,
+  lastMessageReceivedAt: undefined,
+  lastMessageReceivedAtMs: undefined,
+
+  markedUnread: undefined,
+  messageCount: undefined,
+  messageCountBeforeMessageRequests: undefined,
+  messageRequestResponseType: undefined,
+
+  messagesDeleted: true,
+
+  quotedMessageId: undefined,
+
+  sentMessageCount: undefined,
+
+  timestamp: undefined,
+  unreadCount: undefined,
+  unreadMentionsCount: undefined,
+
+  active_at: undefined,
+  draft: undefined,
+  draftEditMessage: undefined,
+
+  isArchived: undefined,
+
+  pendingUniversalTimer: undefined,
+
+  avatars: undefined,
+};
+
+export const GROUP_CLEANUP_FIELDS: Partial<ConversationAttributesType> = {
+  addedBy: undefined,
+
+  color: undefined,
+  colorFromPrimary: undefined,
+  conversationColor: undefined,
+  customColor: undefined,
+  customColorId: undefined,
+
+  wallpaperPhotoPointerBase64: undefined,
+  wallpaperPreset: undefined,
+  dimWallpaperInDarkMode: undefined,
+  autoBubbleColor: undefined,
+
+  hideStory: undefined,
+
+  isReported: undefined,
+  name: undefined,
+
+  pendingUniversalTimer: undefined,
+  pendingRemovedContactNotification: undefined,
+  reportingToken: undefined,
+
+  left: undefined,
+  storySendMode: undefined,
+  groupVerifiedNameHash: undefined,
+
+  members: undefined,
+  derivedGroupV2Id: undefined,
+
+  secretParams: undefined,
+  publicParams: undefined,
+  revision: undefined,
+  senderKeyInfo: undefined,
+
+  accessControl: undefined,
+  announcementsOnly: undefined,
+  avatar: undefined,
+  avatars: undefined,
+  description: undefined,
+  expireTimer: undefined,
+  expireTimerVersion: 1,
+  membersV2: undefined,
+  pendingMembersV2: undefined,
+  pendingAdminApprovalV2: undefined,
+  bannedMembersV2: undefined,
+  groupInviteLinkPassword: undefined,
+  previousGroupV1Id: undefined,
+  previousGroupV1Members: undefined,
+  acknowledgedGroupNameCollisions: undefined,
+
+  isTemporary: undefined,
+  temporaryMemberCount: undefined,
+
+  unblurredAvatarPath: undefined,
+
+  remoteAvatarUrl: undefined,
+};

@@ -150,6 +150,7 @@ import updateToSchemaVersion1700 from './1700-trim-profile-names.std.ts';
 import updateToSchemaVersion1710 from './1710-emoji-skin-tone-default.std.ts';
 import updateToSchemaVersion1720 from './1720-update-recent-emoji.std.ts';
 import updateToSchemaVersion1730 from './1730-protected-attachments-dedupe-token.std.ts';
+import updateToSchemaVersion1740 from './1740-cleanup-groups.node.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1465,7 +1466,8 @@ export type SchemaUpdateType = Readonly<{
   update: (
     db: WritableDB,
     logger: LoggerType,
-    startingVersion: number
+    startingVersion: number,
+    data: { userDataPath: string }
   ) => void | 'vacuum';
 }>;
 
@@ -1662,6 +1664,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1710, update: updateToSchemaVersion1710 },
   { version: 1720, update: updateToSchemaVersion1720 },
   { version: 1730, update: updateToSchemaVersion1730 },
+  { version: 1740, update: updateToSchemaVersion1740 },
 ];
 
 class DBVersionFromFutureError extends Error {
@@ -1693,7 +1696,11 @@ function enableFTS5SecureDelete(db: Database, logger: LoggerType): void {
   }
 }
 
-export function updateSchema(db: WritableDB, logger: LoggerType): void {
+export function updateSchema(
+  db: WritableDB,
+  logger: LoggerType,
+  data: { userDataPath: string }
+): void {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const startingVersion = getUserVersion(db);
@@ -1745,7 +1752,7 @@ export function updateSchema(db: WritableDB, logger: LoggerType): void {
         }
 
         const schemaLogger = logger.child(`updateSchema(${version})`);
-        const result = update(db, schemaLogger, startingVersion);
+        const result = update(db, schemaLogger, startingVersion, data);
         if (result === 'vacuum') {
           schemaLogger.info('success, needs vacuum');
 

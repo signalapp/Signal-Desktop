@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { cwd } from 'node:process';
+
 import lodash from 'lodash';
 import SQL from '@signalapp/sqlcipher';
 
@@ -17,7 +19,11 @@ export function createDB(): WritableDB {
   return db;
 }
 
-export function updateToVersion(db: WritableDB, version: number): void {
+export function updateToVersion(
+  db: WritableDB,
+  version: number,
+  data: { userDataPath: string } = { userDataPath: cwd() }
+): void {
   const startVersion = db.pragma('user_version', { simple: true }) as number;
   if (startVersion === version) {
     return;
@@ -34,7 +40,7 @@ export function updateToVersion(db: WritableDB, version: number): void {
     }
 
     db.transaction(() => {
-      update(db, silentLogger, startVersion);
+      update(db, silentLogger, startVersion, data);
       db.pragma(`user_version = ${version}`);
     })();
 

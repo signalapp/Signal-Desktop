@@ -473,6 +473,7 @@ export function ConversationDetailsActions({
           onClose={() => {
             gGroupDelete(false);
           }}
+          areWeMember={!left && !isGroupTerminated}
         />
       )}
     </>

@@ -6,16 +6,22 @@ import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
 export function DeleteMessagesConfirmationDialog({
   i18n,
+  areWeMember,
   onDestroyMessages,
   onClose,
 }: {
   i18n: LocalizerType;
+  areWeMember: boolean;
   onDestroyMessages: () => void;
   onClose: () => void;
 }): JSX.Element {
-  const dialogBody = i18n(
-    'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
-  );
+  const dialogBody = areWeMember
+    ? i18n(
+        'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member'
+      )
+    : i18n(
+        'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
+      );
 
   return (
     <AxoConfirmDialog.Root

@@ -1,6 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from 'node:assert/strict';
+import { cwd } from 'node:process';
+
 import type { WritableDB } from '../../../sql/Interface.std.ts';
 import { setupTests } from '../../../sql/Server.node.ts';
 import type { AppendPinnedMessageResult } from '../../../sql/server/pinnedMessages.std.ts';
@@ -50,7 +52,7 @@ describe('sql/server/pinnedMessages', () => {
 
   beforeEach(() => {
     db = createDB();
-    setupTests(db);
+    setupTests(db, { userDataPath: cwd() });
     setupData(db);
   });
 

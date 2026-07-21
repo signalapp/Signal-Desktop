@@ -1678,6 +1678,10 @@
     "messageformat": "All messages in this chat will be deleted from all your devices.",
     "description": "Description for confirmation modal to delete a conversation"
   },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group.",
+    "description": "Description for confirmation modal to delete a conversation, if you are still part of the group."
+  },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Leave group",
     "description": "This is a button to leave a group"

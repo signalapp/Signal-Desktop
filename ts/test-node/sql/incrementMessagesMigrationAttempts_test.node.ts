@@ -1,6 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { cwd } from 'node:process';
 import { assert } from 'chai';
 
 import type { WritableDB } from '../../sql/Interface.std.ts';
@@ -15,7 +16,7 @@ describe('SQL/incrementMessagesMigrationAttempts', () => {
 
   beforeEach(() => {
     db = createDB();
-    setupTests(db);
+    setupTests(db, { userDataPath: cwd() });
   });
 
   afterEach(() => {

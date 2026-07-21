@@ -148,6 +148,24 @@ describe('cleanupOrphanedAttachments', () => {
     assert.sameDeepMembers(listFiles('download'), []);
   });
 
+  it('does not delete conversation draft attachments', async () => {
+    await writeFiles(2, 'draft');
+    await writeFiles(2, 'attachment');
+
+    await DataWriter.saveConversation({
+      id: generateUuid(),
+      type: 'private',
+      version: 2,
+      expireTimerVersion: 2,
+      draftAttachments: [{ path: 'draft0' }, { path: 'draft1' }],
+    });
+
+    await DataWriter.cleanupOrphanedAttachments({ _block: true });
+
+    assert.sameDeepMembers(listFiles('draft'), ['draft0', 'draft1']);
+    assert.sameDeepMembers(listFiles('attachment'), []);
+  });
+
   it('does not delete conversation avatar and profileAvatar paths', async () => {
     await writeFiles(6, 'attachment');
 

@@ -1293,6 +1293,9 @@ export async function mergeGroupV2Record(
 
   addUnknownFieldsToConversation(groupV2Record, conversation, details);
 
+  const deletedAndTerminated =
+    conversation.get('messagesDeleted') && conversation.get('terminated');
+
   if (isGroupV1(conversation.attributes)) {
     // If we found a GroupV1 conversation from this incoming GroupV2 record, we need to
     //   migrate it!
@@ -1304,7 +1307,7 @@ export async function mergeGroupV2Record(
         conversation,
       })
     );
-  } else {
+  } else if (!deletedAndTerminated) {
     const isFirstSync = !itemStorage.get('storageFetchComplete');
     const dropInitialJoinMessage = isFirstSync;
 
