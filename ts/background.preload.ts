@@ -112,6 +112,7 @@ import type {
   InvalidPlaintextEvent,
   KeysEvent,
   DeleteForMeSyncEvent,
+  DraftSyncEvent,
   MessageEvent,
   MessageEventData,
   MessageRequestResponseEvent,
@@ -128,6 +129,7 @@ import type {
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
 } from './textsecure/messageReceiverEvents.std.ts';
+import { applyDraftSync } from './messageModifiers/DraftSyncs.preload.ts';
 import {
   cancelInflightRequests,
   checkSockets,
@@ -654,6 +656,10 @@ async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'viewSync',
       queuedEventListener(onViewSync)
+    );
+    messageReceiver.addEventListener(
+      'draftSync',
+      queuedEventListener(onDraftSync)
     );
     messageReceiver.addEventListener(
       'read',
@@ -3839,6 +3845,16 @@ async function startApp(): Promise<void> {
     await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
+  }
+
+  async function onDraftSync(ev: DraftSyncEvent): Promise<void> {
+    try {
+      await applyDraftSync(ev.draft);
+    } catch (error) {
+      log.error('onDraftSync error', Errors.toLogFormat(error));
+    } finally {
+      ev.confirm();
+    }
   }
 
   async function onViewSync(ev: ViewSyncEvent): Promise<void> {
