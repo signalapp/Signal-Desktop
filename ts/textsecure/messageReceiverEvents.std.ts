@@ -530,6 +530,24 @@ export class ViewSyncEvent extends ConfirmableEvent {
   }
 }
 
+export type DraftSyncEventData = Readonly<{
+  envelopeId: string;
+  envelopeTimestamp: number;
+  destinationServiceId?: ServiceIdString;
+  attachment?: ProcessedAttachment;
+  timestamp?: number;
+  clear: boolean;
+}>;
+
+export class DraftSyncEvent extends ConfirmableEvent {
+  public readonly draft: DraftSyncEventData;
+
+  constructor(draft: DraftSyncEventData, confirm: ConfirmCallback) {
+    super('draftSync', confirm);
+    this.draft = draft;
+  }
+}
+
 export type CallEventSyncEventData = Readonly<{
   callEventDetails: CallEventDetails;
   receivedAtCounter: number;

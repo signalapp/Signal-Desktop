@@ -83,6 +83,7 @@ import {
   processPreview,
 } from './processDataMessage.preload.ts';
 import { processSent } from './processSyncMessage.node.ts';
+import { processDraftAttachment } from './processDraftAttachment.preload.ts';
 import type { EventHandler } from './EventTarget.std.ts';
 import EventTarget from './EventTarget.std.ts';
 import type { IncomingWebSocketRequest } from './WebsocketResources.preload.ts';
@@ -121,6 +122,7 @@ import {
   DeleteForMeSyncEvent,
   DeliveryEvent,
   DeviceNameChangeSyncEvent,
+  DraftSyncEvent,
   EmptyEvent,
   EnvelopeQueuedEvent,
   EnvelopeUnsealedEvent,
@@ -653,6 +655,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'viewSync',
     handler: (ev: ViewSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'draftSync',
+    handler: (ev: DraftSyncEvent) => void
   ): void;
 
   public override addEventListener(
@@ -3142,6 +3149,12 @@ export default class MessageReceiver
     if (syncMessage.content?.usernameChange) {
       return this.#handleUsernameChangeSync(envelope);
     }
+    if (syncMessage.content?.draftAttachment) {
+      return this.#handleDraftAttachment(
+        envelope,
+        syncMessage.content.draftAttachment
+      );
+    }
 
     this.#removeFromCache(envelope);
     const envelopeId = getEnvelopeId(envelope);
@@ -3487,6 +3500,30 @@ export default class MessageReceiver
         views,
         envelope.id,
         envelope.timestamp,
+        this.#removeFromCache.bind(this, envelope)
+      )
+    );
+  }
+
+  async #handleDraftAttachment(
+    envelope: ProcessedEnvelope,
+    draftAttachment: Proto.SyncMessage.DraftAttachment
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('handleDraftAttachment', logId);
+
+    logUnexpectedUrgentValue(envelope, 'draftSync');
+
+    const processed = processDraftAttachment(draftAttachment);
+
+    await this.#dispatchAndWait(
+      logId,
+      new DraftSyncEvent(
+        {
+          envelopeId: envelope.id,
+          envelopeTimestamp: envelope.timestamp,
+          ...processed,
+        },
         this.#removeFromCache.bind(this, envelope)
       )
     );
