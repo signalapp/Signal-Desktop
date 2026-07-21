@@ -70,6 +70,7 @@ export const sendTypesEnum = z.enum([
   'fetchLocalProfileSync',
   'messageRequestSync',
   'readSync', // urgent
+  'draftSync',
   'sentSync',
   'stickerPackSync',
   'verificationSync',

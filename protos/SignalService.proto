@@ -540,6 +540,13 @@ message Verified {
 }
 
 message SyncMessage {
+  message DraftAttachment {
+    optional string destinationServiceId = 1;
+    optional AttachmentPointer attachment = 2;
+    optional uint64 timestamp = 3;
+    optional bool clear = 4; // tombstone: draft removed on another device
+  }
+  
   message Sent {
     message UnidentifiedDeliveryStatus {
       reserved /*destinationE164*/ 1;
@@ -874,6 +881,7 @@ message SyncMessage {
     AttachmentBackfillRequest attachmentBackfillRequest = 24;
     AttachmentBackfillResponse attachmentBackfillResponse = 25;
     UsernameChange usernameChange = 26;
+    DraftAttachment draftAttachment = 27;
   }
 
   reserved /*groups*/ 3;
