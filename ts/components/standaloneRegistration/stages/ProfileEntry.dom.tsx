@@ -96,7 +96,10 @@ export function ProfileEntryScreen({
           {i18n('icu:StandaloneRegistration--ProfileEntry--description')}
         </div>
         <div>
-          <a href="https://support.signal.org">
+          <a
+            className={tw('text-primary')}
+            href="https://support.signal.org/hc/articles/360007459591-Signal-Profiles-and-Message-Requests"
+          >
             {i18n('icu:StandaloneRegistration--ProfileEntry--learn-more')}
           </a>
         </div>
@@ -134,7 +137,7 @@ export function ProfileEntryScreen({
         {i18n('icu:StandaloneRegistration--ProfileEntry--add-photo')}
       </AxoButton.Root>
       <Spacer className={tw('h-7')} />
-      <InputContainer>
+      <InputContainer className={tw('w-100')}>
         <AxoTextField.Root width="md" disabled={pending}>
           <AxoTextField.Input
             placeholder={i18n(
@@ -148,7 +151,7 @@ export function ProfileEntryScreen({
         </AxoTextField.Root>
       </InputContainer>
       <Spacer />
-      <InputContainer>
+      <InputContainer className={tw('w-100')}>
         <AxoTextField.Root width="md" disabled={pending}>
           <AxoTextField.Input
             placeholder={i18n(

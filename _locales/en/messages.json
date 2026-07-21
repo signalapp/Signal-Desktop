@@ -9284,6 +9284,10 @@
     "messageformat": "Incorrect PIN. {triesRemaining, plural, one {# attempt remaining} other {# attempts remaining}}.",
     "description": "Error shown when entered PIN is incorrect, and "
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {# attempt remaining} other {# attempts remaining}}.",
+    "description": "Shown when few tries remain as the user attempts to enter the proper PIN"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Need help?",
     "description": "Header for dialog shown when user clicks Need Help?"
@@ -9340,6 +9344,10 @@
     "messageformat": "Learn more about PINs",
     "description": "Button for dialog shown when user has tried an incorrect PIN there are no remaining tries left"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu",
+    "description": "Accessibility text for the triple-dot button on the screen asking user to verify their PIN"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Skip PIN",
     "description": "Menu item on Verify PIN screens, allowing skip of restoring data with PIN, instead starting over from scratch with a new PIN"
@@ -9349,7 +9357,7 @@
     "description": "Header for dialog shown when user chooses to skip PIN entry on the Verify PIN screen"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. Learn more.",
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>.",
     "description": "Description for dialog shown when user chooses to skip PIN entry on the Verify PIN screen"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {

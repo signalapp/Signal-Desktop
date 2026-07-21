@@ -9,6 +9,9 @@ import { tw } from '../../../axo/tw.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
 
+export const PIN_ARTICLE_ON_SUPPORT =
+  'https://support.signal.org/hc/articles/360007059792-Signal-PIN';
+
 export function Container({
   children,
   className,
@@ -56,12 +59,22 @@ export function TopMatter({
 
 export function InputContainer({
   children,
+  className,
+  helperElement,
 }: {
   children: ReactNode;
+  className?: string;
+  helperElement?: ReactNode;
 }): JSX.Element {
   return (
-    <div className={tw('flex min-h-fit w-full flex-col items-center')}>
+    <div
+      className={classNames(
+        tw('flex min-h-fit max-w-full flex-col items-center'),
+        className
+      )}
+    >
       {children}
+      {helperElement}
     </div>
   );
 }

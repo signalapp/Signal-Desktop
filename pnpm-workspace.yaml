@@ -41,6 +41,12 @@ auditConfig:
     - GHSA-9wfr-w7mm-pc7f # react-devtools > electron
     - GHSA-c27g-q93r-2cwf # sticker-creator > vite
     - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
+    - GHSA-23hp-3jrh-7fpw # dev-time usage
+    - GHSA-3jxr-9vmj-r5cp # dev tools
+    - GHSA-52cp-r559-cp3m # dev tools
+    - GHSA-8x88-c5mf-7j5w # dev-time usage
+    - GHSA-395f-4hp3-45gv # dev tools
+    - GHSA-gcfj-64vw-6mp9 # storybook
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'

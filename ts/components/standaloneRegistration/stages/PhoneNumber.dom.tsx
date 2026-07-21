@@ -16,6 +16,7 @@ import {
   Buttons,
   Container,
   Description,
+  InputContainer,
   Spacer,
   Title,
   TopMatter,
@@ -99,7 +100,7 @@ export function PhoneNumberScreen({
         </div>
       </Description>
       <Spacer className={tw('h-9')} />
-      <div className={tw('w-81 max-w-[calc(100%-48px)]')}>
+      <InputContainer className={tw('w-81')}>
         <AxoTextField.Root width="lg">
           {regionCode ? (
             <div className={tw('p-1.5 ps-3 type-body-large text-primary')}>
@@ -125,7 +126,7 @@ export function PhoneNumberScreen({
             value={phoneNumber ?? ''}
           />
         </AxoTextField.Root>
-      </div>
+      </InputContainer>
       <Spacer className={tw('grow')} />
       {status.type === 'waiting' && duration ? (
         <div>

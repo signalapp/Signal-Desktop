@@ -18,6 +18,7 @@ import {
   Container,
   Description,
   InputContainer,
+  PIN_ARTICLE_ON_SUPPORT,
   Spacer,
   Title,
   TopMatter,
@@ -30,6 +31,7 @@ import type {
   completeRegistration as doCompleteRegistration,
   startConfirmingPIN as doStartConfirmingPIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
+import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
 
 const PIN_LENGTH_MINIMUM = 4;
 
@@ -60,46 +62,41 @@ export function CreatePINScreen({
     [setIsValidPIN, setPIN]
   );
 
+  const topRightMenu = (
+    <AxoDropdownMenu.Root>
+      <AxoDropdownMenu.Trigger>
+        <AxoButton.Root variant="implied-secondary" size="md">
+          <AxoSymbol.Icon
+            symbol="more"
+            size={20}
+            label={i18n('icu:StandaloneRegistration--CreatePIN--open-menu')}
+          />
+        </AxoButton.Root>
+      </AxoDropdownMenu.Trigger>
+      <AxoDropdownMenu.Content>
+        <AxoDropdownMenu.Item
+          symbol="info"
+          onSelect={() => {
+            setIsShowingAboutPINsDialog(true);
+          }}
+        >
+          {i18n('icu:StandaloneRegistration--CreatePIN--menu--more-about')}
+        </AxoDropdownMenu.Item>
+        <AxoDropdownMenu.Item
+          symbol="minus-circle"
+          onSelect={() => {
+            setIsShowingDisablePINDialog(true);
+          }}
+        >
+          {i18n('icu:StandaloneRegistration--CreatePIN--menu--disable')}
+        </AxoDropdownMenu.Item>
+      </AxoDropdownMenu.Content>
+    </AxoDropdownMenu.Root>
+  );
+
   return (
     <Container>
-      <TopMatter
-        i18n={i18n}
-        rightContent={
-          <AxoDropdownMenu.Root>
-            <AxoDropdownMenu.Trigger>
-              <AxoButton.Root variant="implied-secondary" size="md">
-                <AxoSymbol.Icon
-                  symbol="more"
-                  size={20}
-                  label={i18n(
-                    'icu:StandaloneRegistration--CreatePIN--open-menu'
-                  )}
-                />
-              </AxoButton.Root>
-            </AxoDropdownMenu.Trigger>
-            <AxoDropdownMenu.Content>
-              <AxoDropdownMenu.Item
-                symbol="info"
-                onSelect={() => {
-                  setIsShowingAboutPINsDialog(true);
-                }}
-              >
-                {i18n(
-                  'icu:StandaloneRegistration--CreatePIN--menu--more-about'
-                )}
-              </AxoDropdownMenu.Item>
-              <AxoDropdownMenu.Item
-                symbol="minus-circle"
-                onSelect={() => {
-                  setIsShowingDisablePINDialog(true);
-                }}
-              >
-                {i18n('icu:StandaloneRegistration--CreatePIN--menu--disable')}
-              </AxoDropdownMenu.Item>
-            </AxoDropdownMenu.Content>
-          </AxoDropdownMenu.Root>
-        }
-      />
+      <TopMatter i18n={i18n} rightContent={topRightMenu} />
       <Spacer className={tw('h-13')} />
       <Title text={i18n('icu:StandaloneRegistration--CreatePIN--header')} />
       <Description className={tw('w-100')}>
@@ -109,10 +106,7 @@ export function CreatePINScreen({
           components={{
             learnMore: parts => {
               return (
-                <a
-                  className={tw('text-primary')}
-                  href="https://support.signal.org/hc/articles/360007059792-Signal-PIN"
-                >
+                <a className={tw('text-primary')} href={PIN_ARTICLE_ON_SUPPORT}>
                   {parts}
                 </a>
               );
@@ -121,8 +115,19 @@ export function CreatePINScreen({
         />
       </Description>
       <Spacer className={tw('h-8')} />
-      <InputContainer>
-        <AxoTextField.Root width="sm">
+      <InputContainer
+        className={tw('w-81')}
+        helperElement={
+          <div
+            className={tw(
+              'ms-1 mt-1.5 w-full text-start type-body-small text-secondary'
+            )}
+          >
+            {i18n('icu:StandaloneRegistration--CreatePIN--helper-text')}
+          </div>
+        }
+      >
+        <AxoTextField.Root width="lg">
           <AxoTextField.Input
             autoFocus
             maxBytes={10}
@@ -131,13 +136,11 @@ export function CreatePINScreen({
             placeholder={i18n(
               'icu:StandaloneRegistration--CreatePIN--placeholder'
             )}
+            type="password"
             value={pin}
           />
         </AxoTextField.Root>
       </InputContainer>
-      <div className={tw('mt-2 type-body-small text-secondary')}>
-        {i18n('icu:StandaloneRegistration--CreatePIN--helper-text')}
-      </div>
       <Spacer className={tw('grow')} />
       <Buttons>
         <AxoButton.Root
@@ -207,9 +210,7 @@ function AboutPINsDialog({
           <AxoConfirmDialog.Action
             variant="strong-secondary"
             onClick={() => {
-              // TODO: double-check location
-              window.location.href =
-                'https://support.signal.org/hc/articles/360007059792-Signal-PIN';
+              openLinkInWebBrowser(PIN_ARTICLE_ON_SUPPORT);
               setOpen(false);
             }}
           >

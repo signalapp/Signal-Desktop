@@ -312,7 +312,7 @@ export type VerifyPINStage = {
     | {
         type: 'in-progress';
       }
-    | { type: 'failed'; error: 'nothing-in-svr' };
+    | { type: 'failed'; error: 'incorrect-pin' };
 
   // After VERIFY_PIN:
   //  - save PIN in local storage

@@ -795,21 +795,14 @@ export function verifyPIN({
           };
           dispatch(updateWorkflow(workflow));
         } else if (error === 'missing') {
-          log.warn(`${logId}: Nothing in SVR for this user!`);
+          log.error(`${logId}: Nothing in SVR for this user!`);
 
           if (dataForReglockAccountCreate) {
             // Something has really gone wrong - we're in reglock, but SVR has nothing for us
             dispatch(updateWorkflow(workflow, FatalErrorType.UNEXPECTED));
           } else {
             // No reglock and nothing in SVR - let's allow the user to create a new PIN
-            workflow = {
-              ...workflow,
-              status: {
-                type: 'failed',
-                error: 'nothing-in-svr',
-              },
-            };
-            dispatch(updateWorkflow(workflow));
+            dispatch(goToCreatePINStage());
           }
         } else {
           const unknownError: never = error;

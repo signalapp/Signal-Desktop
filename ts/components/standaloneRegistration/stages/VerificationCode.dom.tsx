@@ -151,13 +151,17 @@ export function VerificationCodeScreen({
     timings || {};
   const updateCodeSubmitCountdown = useCallback(
     (newDuration: string | undefined) => {
-      if (!waitSubmitDuration && newDuration) {
+      if (
+        !waitSubmitDuration &&
+        newDuration &&
+        workflow.status.type !== 'failed' // we have error-specific dialogs
+      ) {
         setMustWaitDialogOpen(true);
       }
 
       setWaitSubmitDuration(newDuration);
     },
-    [waitSubmitDuration, setWaitSubmitDuration, setMustWaitDialogOpen]
+    [setMustWaitDialogOpen, setWaitSubmitDuration, waitSubmitDuration, workflow]
   );
   useCountdownDuration({
     timestamp: codeCanBeSubmittedAt,

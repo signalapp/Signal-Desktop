@@ -212,6 +212,8 @@ export namespace AxoTextField {
     autoFocus?: boolean;
     /** Enables or disables browser spell checking. */
     spellCheck?: boolean;
+    /** Default is 'text', a normal text box. Can be used to input into a password field. */
+    type?: 'text' | 'password';
   }>;
 
   /** The text input field. Must be placed inside `Root`. */
@@ -305,7 +307,7 @@ export namespace AxoTextField {
           <input
             ref={mergedRef}
             id={inputId}
-            type="text"
+            type={props.type ?? 'text'}
             value={props.value}
             placeholder={props.placeholder ?? ''}
             required={props.required}

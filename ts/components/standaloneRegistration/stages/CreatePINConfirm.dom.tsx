@@ -62,15 +62,17 @@ export function CreatePINConfirmScreen({
         {i18n('icu:StandaloneRegistration--CreatePIN--confirming--description')}
       </Description>
       <Spacer className={tw('h-8')} />
-      <InputContainer>
+      <InputContainer className={tw('w-81')}>
         <AxoTextField.Root width="md" disabled={pending}>
           <AxoTextField.Input
+            autoFocus
             maxBytes={10}
             maxGraphemes={10}
             onValueChange={onChangePIN}
             placeholder={i18n(
               'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
             )}
+            type="password"
             value={pin}
           />
         </AxoTextField.Root>
