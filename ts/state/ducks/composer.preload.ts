@@ -94,6 +94,10 @@ import type {
 } from './conversations.preload.ts';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper.dom.tsx';
 import { drop } from '../../util/drop.std.ts';
+import {
+  sendDraftAttachmentSync,
+  uploadAndSendDraftAttachment,
+} from '../../util/sendDraftAttachmentSync.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { makeQuote } from '../../util/makeQuote.preload.ts';
 import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedMessage.preload.ts';
@@ -1057,9 +1061,13 @@ function addAttachment(
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
+      // Record the same timestamp we broadcast, so our local last-writer-wins
+      // guard matches what other devices were told.
+      const draftTimestamp = Date.now();
       conversation.set({
         draftAttachments: nextAttachments,
         draftChanged: true,
+        draftTimestamp,
       });
 
       // if the conversation has already unloaded
@@ -1074,6 +1082,18 @@ function addAttachment(
       }
 
       await DataWriter.updateConversation(conversation.attributes);
+
+      // Sync the added draft attachment to our other devices (1:1 only).
+      const serviceId = conversation.getServiceId();
+      if (serviceId != null && !attachment.pending) {
+        drop(
+          uploadAndSendDraftAttachment({
+            conversationServiceId: serviceId,
+            attachment,
+            timestamp: draftTimestamp,
+          })
+        );
+      }
     }
   };
 }
@@ -1424,11 +1444,28 @@ function removeAttachment(
 
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
+      // Record the same timestamp we broadcast, so our local last-writer-wins
+      // guard matches what other devices were told.
+      const draftTimestamp = Date.now();
       conversation.set({
         draftAttachments: nextAttachments,
         draftChanged: true,
+        draftTimestamp,
       });
       await DataWriter.updateConversation(conversation.attributes);
+
+      // Sync draft-attachment removal to our other devices (1:1 only). Removing
+      // the last draft attachment is a clear tombstone.
+      const serviceId = conversation.getServiceId();
+      if (serviceId != null && nextAttachments.length === 0) {
+        drop(
+          sendDraftAttachmentSync({
+            conversationServiceId: serviceId,
+            clear: true,
+            timestamp: draftTimestamp,
+          })
+        );
+      }
     }
 
     replaceAttachments(conversationId, nextAttachments)(
