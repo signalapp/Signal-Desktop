@@ -11,7 +11,7 @@ import {
   NotificationProfilesHome,
 } from '../../components/PreferencesNotificationProfiles.dom.tsx';
 import {
-  getAllComposableConversations,
+  getAllConversationsForNotificationProfiles,
   getConversationSelector,
 } from '../selectors/conversations.dom.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
@@ -43,7 +43,9 @@ export const SmartNotificationProfilesHome = memo(
     const activeProfile = useSelector(getActiveProfile);
     const loading = useSelector(getLoading);
 
-    const conversations = useSelector(getAllComposableConversations);
+    const conversations = useSelector(
+      getAllConversationsForNotificationProfiles
+    );
     const conversationSelector = useSelector(getConversationSelector);
     const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
 
@@ -105,7 +107,9 @@ export const SmartNotificationProfilesCreateFlow = memo(
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
 
-    const conversations = useSelector(getAllComposableConversations);
+    const conversations = useSelector(
+      getAllConversationsForNotificationProfiles
+    );
     const conversationSelector = useSelector(getConversationSelector);
     const preferredBadgeSelector = useSelector(getPreferredBadgeSelector);
 

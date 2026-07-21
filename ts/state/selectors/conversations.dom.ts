@@ -733,6 +733,11 @@ export const getAllComposableConversations = createSelector(
     )
 );
 
+export const getAllConversationsForNotificationProfiles = createSelector(
+  getAllComposableConversations,
+  conversations => conversations.filter(convo => !convo.isMe)
+);
+
 export const getAllGroupsWithInviteAccess = createSelector(
   getConversationLookup,
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
