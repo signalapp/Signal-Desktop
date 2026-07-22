@@ -170,6 +170,7 @@ export async function send(
   errors.forEach(error => {
     const errorConversation =
       window.ConversationController.get(error.serviceId) ||
+      window.ConversationController.get(error.identifier) ||
       window.ConversationController.get(error.number);
 
     if (errorConversation && !saveErrors && sendIsFinal) {
@@ -192,8 +193,8 @@ export async function send(
     let shouldSaveError = true;
     switch (error.name) {
       case 'OutgoingIdentityKeyError': {
-        if (conversation) {
-          promises.push(conversation.getProfiles());
+        if (errorConversation) {
+          promises.push(errorConversation.getProfiles());
         }
         break;
       }
@@ -209,7 +210,7 @@ export async function send(
         // The way to discover registration once more is:
         //   1) any attempt to send to them in 1:1 conversation
         //   2) the six-hour time period has passed and we send in a group again
-        conversation?.setUnregistered();
+        errorConversation?.setUnregistered();
         break;
       default:
         break;

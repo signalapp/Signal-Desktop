@@ -70,6 +70,7 @@ export type SenderKeyInfoType = {
 };
 
 export type CustomError = Error & {
+  identifier?: string;
   serviceId?: ServiceIdString;
   number?: string;
   data?: object;
