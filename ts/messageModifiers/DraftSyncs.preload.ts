@@ -88,7 +88,11 @@ export async function applyDraftSync(
 
   // Last-writer-wins: ignore syncs not newer than the local draft.
   const localTimestamp = conversation.get('draftTimestamp') ?? 0;
-  if (timestamp != null && timestamp <= localTimestamp) {
+  if (timestamp == null) {
+    log.warn(`${logId}: draft sync missing timestamp, dropping`);
+    return;
+  }
+  if (timestamp <= localTimestamp) {
     log.info(`${logId}: ignoring stale draft sync`);
     return;
   }
