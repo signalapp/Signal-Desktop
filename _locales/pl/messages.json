@@ -321,7 +321,7 @@
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}"
+    "messageformat": "{count, plural, one {{count,number} nieodczytana wiadomość} few {{count,number} nieodczytane wiadomości} many {{count,number} nieodczytanych wiadomości} other {{count,number} nieodczytanej wiadomości}}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
     "messageformat": "Oznacz wszystkie jako odczytane"
@@ -1261,6 +1261,9 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Wszystkie wiadomości z tego czatu zostaną usunięte ze wszystkich Twoich urządzeń."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Opuść grupę"
@@ -2826,16 +2829,16 @@
     "messageformat": "Usuń"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
-    "messageformat": "Drag to reorder sticker pack"
+    "messageformat": "Przeciągnij pakiet naklejek, aby zmienić jego miejsce"
   },
   "icu:stickers--StickerManagerBlessedPacksList--Label": {
-    "messageformat": "Signal Artist Series sticker packs"
+    "messageformat": "Pakiety naklejek z serii „Sztuka w aplikacji Signal”"
   },
   "icu:stickers--StickerManagerReceivedPacksList--Label": {
-    "messageformat": "Received sticker packs"
+    "messageformat": "Otrzymane pakiety naklejek"
   },
   "icu:stickers--StickerManagerInstalledPacksList--Label": {
-    "messageformat": "Installed sticker packs"
+    "messageformat": "Zainstalowane pakiety naklejek"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Pakiet naklejek"
@@ -3081,16 +3084,16 @@
     "messageformat": "Dodaj naklejkę"
   },
   "icu:FunPicker__Label--StickerReply": {
-    "messageformat": "Reply"
+    "messageformat": "Odpowiedz"
   },
   "icu:FunPicker__Label--SendStickerReply": {
-    "messageformat": "Send"
+    "messageformat": "Wyślij"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:FunPicker__Label--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Naklejka"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Anuluj"
@@ -6752,10 +6755,10 @@
     "messageformat": "Numer telefonu"
   },
   "icu:StandaloneRegistration--PhoneNumber--description--line-1": {
-    "messageformat": "Podaj swój numer telefonu – umożliwi nam to weryfikację Twojego konta."
+    "messageformat": "Aby zweryfikować konto, podaj swój numer telefonu."
   },
   "icu:StandaloneRegistration--PhoneNumber--description--line-2": {
-    "messageformat": "Operator może naliczyć opłatę za SMS."
+    "messageformat": "Operator może naliczyć opłatę."
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Spróbuj ponownie za {duration}"
@@ -6776,10 +6779,10 @@
     "messageformat": "Tak"
   },
   "icu:StandaloneRegistration--Captcha--header": {
-    "messageformat": "Aby przejść dalej, potwierdź, że jesteś człowiekiem"
+    "messageformat": "Potwierdź, że jesteś człowiekiem"
   },
   "icu:StandaloneRegistration--Captcha--description": {
-    "messageformat": "Aby pomóc zapobiegać spamowi w aplikacji Signal, przejdź weryfikację. Po weryfikacji możesz kontynuować rejestrację."
+    "messageformat": "Aby pomóc zapobiegać spamowi w aplikacji Signal, przejdź weryfikację. Następnie możesz kontynuować rejestrację."
   },
   "icu:StandaloneRegistration--Captcha--retry-button": {
     "messageformat": "Spróbuj ponownie"
@@ -6818,7 +6821,7 @@
     "messageformat": "Błąd weryfikacji"
   },
   "icu:StandaloneRegistration--Captcha--Error--description": {
-    "messageformat": "Spróbuj ponownie, aby kontynuować rejestrację."
+    "messageformat": "Aby kontynuować rejestrację, spróbuj ponownie."
   },
   "icu:StandaloneRegistration--Captcha--Error--try-again": {
     "messageformat": "Spróbuj ponownie"
@@ -6857,7 +6860,7 @@
     "messageformat": "Niepoprawny kod"
   },
   "icu:StandaloneRegistration--VerificationCode--IncorrectCode--description": {
-    "messageformat": "Wpisany kod jest nieprawidłowy. Sprawdź 6-cyfrowy kod i spróbuj ponownie."
+    "messageformat": "Podany kod jest niepoprawny. Podaj pełny 6-cyfrowy kod i spróbuj ponownie."
   },
   "icu:StandaloneRegistration--VerificationCode--IncorrectCode--button": {
     "messageformat": "OK"
@@ -6866,7 +6869,7 @@
     "messageformat": "Nieprawidłowy kod"
   },
   "icu:StandaloneRegistration--VerificationCode--CodeInvalid--description": {
-    "messageformat": "Podany kod jest nieprawidłowy. Wyślij kod ponownie i spróbuj jeszcze raz."
+    "messageformat": "Podany kod jest nieprawidłowy. Użyj opcji wysłania kodu ponownie i spróbuj jeszcze raz."
   },
   "icu:StandaloneRegistration--VerificationCode--CodeInvalid--resend-button": {
     "messageformat": "Wyślij kod ponownie"
@@ -6899,7 +6902,7 @@
     "messageformat": "Zbyt wiele prób"
   },
   "icu:StandaloneRegistration--VerificationCode--MaximumAttempts--description": {
-    "messageformat": "Zbyt wiele prób wprowadzenia kodu. Wyślij kod ponownie i spróbuj jeszcze raz."
+    "messageformat": "Zbyt wiele prób wprowadzenia kodu. Użyj opcji wysłania kodu ponownie i spróbuj jeszcze raz."
   },
   "icu:StandaloneRegistration--VerificationCode--MaximumAttempts--resend-button": {
     "messageformat": "Wyślij kod ponownie"
@@ -6982,11 +6985,14 @@
   "icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count": {
     "messageformat": "{triesRemaining, plural, one {PIN niepoprawny. Została Ci {triesRemaining,number} próba.} few {PIN niepoprawny. Zostały Ci {triesRemaining,number} próby.} many {PIN niepoprawny. Zostało Ci {triesRemaining,number} prób.} other {PIN niepoprawny. Zostało Ci {triesRemaining,number} próby.}}"
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Potrzebujesz pomocy?"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--no-reglock": {
-    "messageformat": "PIN to kod utworzony przez Ciebie z co najmniej 4 znaków. Może składać się z cyfr lub z cyfr i liter. Jeśli nie pamiętasz PIN-u, możesz utworzyć nowy. Możesz się zarejestrować i korzystać ze swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>"
+    "messageformat": "PIN to kod utworzony przez Ciebie z co najmniej 4 znaków. Może składać się z cyfr lub z cyfr i liter. Jeśli nie pamiętasz PIN-u, możesz utworzyć nowy. Pozwoli Ci on się zarejestrować i korzystać ze swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--reglock": {
     "messageformat": "PIN to kod utworzony przez Ciebie z co najmniej 4 znaków. Może składać się z cyfr lub z cyfr i liter. Jeśli nie pamiętasz PIN-u, musisz odczekać 7 dni, aby ponownie zarejestrować konto. <learnMore>Dowiedz się więcej.</learnMore>"
@@ -7004,10 +7010,10 @@
     "messageformat": "Niepoprawny PIN"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--no-reglock": {
-    "messageformat": "{triesRemaining, plural, one {Masz jeszcze {triesRemaining,number} próbę. Po wyczerpaniu dostępnych prób możesz utworzyć nowy PIN. Możesz zarejestrować się i używać swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje o Twoim profilu. <learnMore>Dowiedz się więcej</learnMore>.} few {Masz jeszcze {triesRemaining,number} próby. Po wyczerpaniu dostępnych prób możesz utworzyć nowy PIN. Możesz zarejestrować się i używać swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje o Twoim profilu. <learnMore>Dowiedz się więcej</learnMore>.} many {Masz jeszcze {triesRemaining,number} prób. Po wyczerpaniu dostępnych prób możesz utworzyć nowy PIN. Możesz zarejestrować się i używać swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje o Twoim profilu. <learnMore>Dowiedz się więcej</learnMore>.} other {Masz jeszcze {triesRemaining,number} prób. Po wyczerpaniu dostępnych prób możesz utworzyć nowy PIN. Możesz zarejestrować się i używać swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje o Twoim profilu. <learnMore>Dowiedz się więcej</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Możesz spróbować jeszcze {triesRemaining,number} raz. Jeśli skończą Ci się próby, będzie można utworzyć nowy PIN. Pozwoli Ci on się zarejestrować się i używać konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>} few {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, będzie można utworzyć nowy PIN. Pozwoli Ci on się zarejestrować się i używać konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>} many {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, będzie można utworzyć nowy PIN. Pozwoli Ci on się zarejestrować się i używać konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>} other {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, będzie można utworzyć nowy PIN. Pozwoli Ci on się zarejestrować się i używać konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. <learnMore>Dowiedz się więcej.</learnMore>}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--reglock": {
-    "messageformat": "{triesRemaining, plural, one {Masz jeszcze {triesRemaining,number} próbę. Po wyczerpaniu dostępnych prób Twoje konto zostanie zablokowane na 7 dni. Po tym czasie możesz ponownie się zarejestrować – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej</learnMore>.} few {Masz jeszcze {triesRemaining,number} próby. Po wyczerpaniu dostępnych prób Twoje konto zostanie zablokowane na 7 dni. Po tym czasie możesz ponownie się zarejestrować – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej</learnMore>.} many {Masz jeszcze {triesRemaining,number} prób. Po wyczerpaniu dostępnych prób Twoje konto zostanie zablokowane na 7 dni. Po tym czasie możesz ponownie się zarejestrować – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej</learnMore>.} other {Masz jeszcze {triesRemaining,number} prób. Po wyczerpaniu dostępnych prób Twoje konto zostanie zablokowane na 7 dni. Po tym czasie możesz ponownie się zarejestrować – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Możesz spróbować jeszcze {triesRemaining,number} raz. Jeśli skończą Ci się próby, konto zostanie zablokowane na 7 dni. Następnie, po 7 dniach nieaktywności, możesz zarejestrować się ponownie – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej.</learnMore>} few {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, konto zostanie zablokowane na 7 dni. Następnie, po 7 dniach nieaktywności, możesz zarejestrować się ponownie – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej.</learnMore>} many {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, konto zostanie zablokowane na 7 dni. Następnie, po 7 dniach nieaktywności, możesz zarejestrować się ponownie – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej.</learnMore>} other {Możesz spróbować jeszcze {triesRemaining,number} razy. Jeśli skończą Ci się próby, konto zostanie zablokowane na 7 dni. Następnie, po 7 dniach nieaktywności, możesz zarejestrować się ponownie – kod PIN nie będzie wymagany, ale wszystkie treści zostaną usunięte. <learnMore>Dowiedz się więcej.</learnMore>}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--button": {
     "messageformat": "OK"
@@ -7024,6 +7030,9 @@
   "icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--learn-more": {
     "messageformat": "Dowiedz się więcej o kodach PIN"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Pomiń PIN"
   },
@@ -7031,7 +7040,7 @@
     "messageformat": "Pominąć wpisywanie PIN-u?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "Jeśli nie pamiętasz PIN-u, możesz utworzyć nowy. Możesz się zarejestrować i korzystać ze swojego konta, ale stracisz niektóre zapisane ustawienia, takie jak informacje w profilu. Dowiedz się więcej."
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Pomiń i utwórz nowy PIN"
@@ -7100,7 +7109,7 @@
     "messageformat": "Konto zablokowane"
   },
   "icu:StandaloneRegistration--AccountLocked--description": {
-    "messageformat": "W trosce o Twoje bezpieczeństwo i prywatność zablokowaliśmy konto. Po 7 dniach braku aktywności na koncie będzie można ponownie zarejestrować ten numer telefonu bez podawania kodu PIN. Wszystkie treści zostaną usunięte."
+    "messageformat": "W trosce o Twoje bezpieczeństwo i prywatność zablokowaliśmy konto. Musi ono pozostać nieaktywne przez 7 dni, aby można było ponownie zarejestrować ten numer telefonu bez PIN-u. Wszystkie treści zostaną usunięte."
   },
   "icu:StandaloneRegistration--AccountLocked--start-over-button": {
     "messageformat": "Użyj innego numeru"
@@ -7130,7 +7139,7 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--UnexpectedError--header": {
-    "messageformat": "Nie udało się ukończyć rejestracji"
+    "messageformat": "Nie udało się dokończyć rejestracji"
   },
   "icu:StandaloneRegistration--UnexpectedError--description": {
     "messageformat": "Wystąpił błąd i nie udało się dokończyć rejestracji. Jeśli problem będzie się powtarzać, skontaktuj się z pomocą techniczną."
@@ -8354,6 +8363,9 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Dziękujemy za wsparcie aplikacji Signal. Twoja darowizna wspomaga rozwój otwartoźródłowej technologii, która zapewnia prywatność, chroni wolność słowa i umożliwia bezpieczną komunikację milionom osób na całym świecie. Jeśli mieszkasz w Stanach Zjednoczonych, zachowaj to potwierdzenie, aby uwzględnić wpłatę w zeznaniu podatkowym. Signal Technology Foundation jest organizacją non profit zwolnioną z podatku w USA na podstawie zapisu 501c3 Internal Revenue Code (Kodeksu Podatkowego). Nasz federalny numer identyfikacji podatkowej to 82-4506840."
   },
+  "icu:DonationReceipt__footer-text-v2": {
+    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Jesteś offline. Aby przekazać darowiznę, połącz się z internetem."
   },
@@ -8665,12 +8677,12 @@
     "messageformat": "Od teraz możesz tworzyć ankiety również w czatach prywatnych. Kiedy druga osoba nie może się zdecydować, podsuń jej gotowe opcje w ankiecie – od „pizza czy ramen?” po klasyczne „Podobam Ci się? Tak / Nie / Może”, jak na karteczkach krążących niegdyś po klasie na matmie."
   },
   "icu:WhatsNew__8.19--0": {
-    "messageformat": "Administratorzy grup mogą od teraz zakończyć rozmowę dzięki nowej opcji „Rozwiąż grupę” w ustawieniach grupy. Po rozwiązaniu grupy należące do niej osoby nie mogą już wysyłać wiadomości, rozpoczynać połączeń ani zapraszać nowych osób. Teraz możecie mieć pewność, że nikt przez pomyłkę nie wyśle mapki z dojazdem w grupie z zeszłorocznych wakacji."
+    "messageformat": "Administratorzy grup mogą teraz zakończyć czat dzięki nowej opcji „Rozwiąż grupę” w ustawieniach grupy. Po rozwiązaniu grupy należące do niej osoby nie mogą już wysyłać wiadomości, rozpoczynać połączeń ani zapraszać nowych osób. Teraz można mieć pewność, że nikt przez pomyłkę nie wyśle mapki ze wskazówkami dojazdu w grupie z zeszłorocznych wakacji."
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled."
+    "messageformat": "Wprowadzamy znikające informacje o połączeniach. Nieodebrane, wychodzące i odebrane połączenia wykonane po zainstalowaniu tej aktualizacji będą teraz automatycznie znikać we wszystkich czatach, w których włączono znikające wiadomości."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line."
+    "messageformat": "Od teraz możesz zmieniać kolejność zainstalowanych pakietów naklejek, dzięki czemu szybciej znajdziesz te, których używasz najchętniej."
   }
 }

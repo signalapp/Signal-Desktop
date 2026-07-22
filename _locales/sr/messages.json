@@ -321,7 +321,7 @@
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}"
+    "messageformat": "{count, plural, one {Непрочитаних порука: {count,number}} other {Непрочитаних порука: {count,number}}}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
     "messageformat": "Означи све као прочитано"
@@ -1261,6 +1261,9 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Све поруке у овом ћаскању ће бити избрисане са свих ваших уређаја."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Напусти групу"
@@ -2826,16 +2829,16 @@
     "messageformat": "Уклони"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
-    "messageformat": "Drag to reorder sticker pack"
+    "messageformat": "Превуците да пресложите пакете налепница"
   },
   "icu:stickers--StickerManagerBlessedPacksList--Label": {
-    "messageformat": "Signal Artist Series sticker packs"
+    "messageformat": "Пакети налепница из серијала „Signal уметник“"
   },
   "icu:stickers--StickerManagerReceivedPacksList--Label": {
-    "messageformat": "Received sticker packs"
+    "messageformat": "Примљени пакети налепница"
   },
   "icu:stickers--StickerManagerInstalledPacksList--Label": {
-    "messageformat": "Installed sticker packs"
+    "messageformat": "Инсталирани пакети налепница"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Пакет налепница"
@@ -3081,16 +3084,16 @@
     "messageformat": "Додај налепницу"
   },
   "icu:FunPicker__Label--StickerReply": {
-    "messageformat": "Reply"
+    "messageformat": "Одговори"
   },
   "icu:FunPicker__Label--SendStickerReply": {
-    "messageformat": "Send"
+    "messageformat": "Пошаљи"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:FunPicker__Label--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Налепница"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Откажи"
@@ -6982,6 +6985,9 @@
   "icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count": {
     "messageformat": "{triesRemaining, plural, one {PIN је нетачан. Преосталих покушаја: {triesRemaining,number}} other {PIN је нетачан. Преосталих покушаја: {triesRemaining,number}}}"
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Потребна вам је помоћ?"
   },
@@ -7024,6 +7030,9 @@
   "icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--learn-more": {
     "messageformat": "Сазнајте више о PIN-овима"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Прескочи PIN"
   },
@@ -7031,7 +7040,7 @@
     "messageformat": "Желите ли да прескочите унос PIN-а?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "Ако не можете да се сетите PIN-а, можете да креирате нови. Можете да региструјете и користите свој налог, али изгубићете нека сачувана подешавања као што су ваши подаци о профилу. Сазнај више"
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Прескочи и креирај нови PIN"
@@ -8354,6 +8363,9 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Хвала вам што подржавате Signal. Ваш допринос омогућава подстицање мисије заштите слободног изражавања и пружања безбедне глобалне комуникације милионима широм света кроз технологију отвореног кода за заштиту приватности. Ако сте резидент Сједињених Америчких Држава, сачувајте ову признаницу за своју пореску евиденцију. Signal Technology Foundation је непрофитна организација изузета од опорезивања у Сједињеним Америчким Државама према одељку 501c3 Закона о интерним приходима. Наш савезни порески број је 82-4506840."
   },
+  "icu:DonationReceipt__footer-text-v2": {
+    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Офлајн сте. Повежите се на интернет да бисте довршили донацију."
   },
@@ -8668,9 +8680,9 @@
     "messageformat": "Администратори група сада могу да угасе ћаскања помоћу опције „Угаси групу“ у подешавањима групе. Гашење групе онемогућава њеним члановима да шаљу поруке, започињу видео-позиве или шаљу позивнице."
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled."
+    "messageformat": "Представљамо нестајуће активности везане за позиве: Сви пропуштени, одлазни или долазни позиви након инсталације овог ажурирања аутоматски ће нестајати из свих ћаскања у којима су нестајуће поруке омогућене."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line."
+    "messageformat": "Сада можете да преслажете инсталиране пакете налепница тако да вам омиљене налепнице увек буду надохват руке."
   }
 }

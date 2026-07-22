@@ -15,7 +15,7 @@
     "messageformat": "Leeren"
   },
   "icu:AxoBadge.MaxOverflow": {
-    "messageformat": "{max,number}+"
+    "messageformat": "Über {max,number}"
   },
   "icu:AddUserToAnotherGroupModal__title": {
     "messageformat": "Zu einer Gruppe hinzufügen"
@@ -321,7 +321,7 @@
     "messageformat": "Über {maxCount,number}"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}"
+    "messageformat": "{count, plural, one {{count,number} ungelesene Nachricht} other {{count,number} ungelesene Nachrichten}}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
     "messageformat": "Alle als  gelesen markieren"
@@ -513,7 +513,7 @@
     "messageformat": "Alle Kontakte wurden überprüft. Klicke auf »Senden«, um fortzufahren."
   },
   "icu:safetyNumberChangeDialog__confirm-remove-all": {
-    "messageformat": "{count, plural, one {Bist du sicher, dass du {count,number} Betrachter von Story {story} entfernen möchtest?} other {Bist du sicher, dass du {count,number} Betrachter von Story {story} entfernen möchtest?}}"
+    "messageformat": "{count, plural, one {Bist du sicher, dass du {count,number} Betrachter*in von Story {story} entfernen möchtest?} other {Bist du sicher, dass du {count,number} Betrachter*innen von Story {story} entfernen möchtest?}}"
   },
   "icu:safetyNumberChangeDialog__remove-all": {
     "messageformat": "Alle entfernen"
@@ -1261,6 +1261,9 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Alle Nachrichten in diesem Chat werden von all deinen Geräten gelöscht."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Gruppe verlassen"
@@ -2826,16 +2829,16 @@
     "messageformat": "Entfernen"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
-    "messageformat": "Drag to reorder sticker pack"
+    "messageformat": "Zum Neuanordnen des Sticker-Sets einfach ziehen"
   },
   "icu:stickers--StickerManagerBlessedPacksList--Label": {
-    "messageformat": "Signal Artist Series sticker packs"
+    "messageformat": "Sticker-Sets der Signal-Artist-Serie"
   },
   "icu:stickers--StickerManagerReceivedPacksList--Label": {
-    "messageformat": "Received sticker packs"
+    "messageformat": "Erhaltene Sticker-Sets"
   },
   "icu:stickers--StickerManagerInstalledPacksList--Label": {
-    "messageformat": "Installed sticker packs"
+    "messageformat": "Installierte Sticker-Sets"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Sticker-Set"
@@ -3081,13 +3084,13 @@
     "messageformat": "Sticker hinzufügen"
   },
   "icu:FunPicker__Label--StickerReply": {
-    "messageformat": "Reply"
+    "messageformat": "Antworten"
   },
   "icu:FunPicker__Label--SendStickerReply": {
-    "messageformat": "Send"
+    "messageformat": "Senden"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
-    "messageformat": "Cancel"
+    "messageformat": "Abbrechen"
   },
   "icu:FunPicker__Label--Sticker": {
     "messageformat": "Sticker"
@@ -6982,6 +6985,9 @@
   "icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count": {
     "messageformat": "{triesRemaining, plural, one {Falsche PIN. {triesRemaining,number} verbleibender Versuch.} other {Falsche PIN. {triesRemaining,number} verbleibende Versuche.}}"
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Hilfe benötigt?"
   },
@@ -7024,6 +7030,9 @@
   "icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--learn-more": {
     "messageformat": "Mehr über PINs erfahren"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "PIN überspringen"
   },
@@ -7031,7 +7040,7 @@
     "messageformat": "PIN-Eingabe überspringen?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "Wenn du dich nicht mehr an deine PIN erinnern kannst, kannst du eine neue erstellen. Du kannst dich registrieren und dein Konto verwenden, wirst aber einige gespeicherte Einstellungen wie deine Profilinformationen verlieren. Mehr erfahren."
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Überspringen und neue PIN erstellen"
@@ -7466,7 +7475,7 @@
     "messageformat": "Gruppen-Story"
   },
   "icu:StoriesSettings__viewers": {
-    "messageformat": "{count, plural, one {{count,number} Betrachter} other {{count,number} Betrachter}}"
+    "messageformat": "{count, plural, one {{count,number} Betrachter*in} other {{count,number} Betrachter*innen}}"
   },
   "icu:StoriesSettings__who-can-see": {
     "messageformat": "Wer diese Story sehen kann"
@@ -8354,6 +8363,9 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Danke, dass du Signal unterstützt. Deine Spende trägt dazu bei, mithilfe von Open-Source-Datenschutztechnologien die freie Meinungsäußerung zu schützen und eine sichere globale Kommunikation für Millionen von Menschen auf der ganzen Welt zu ermöglichen. Falls du deinen Wohnsitz in den USA hast, bitte bewahre diese Bescheinigung für deine Steuerunterlagen auf. Die Signal Stiftung (Signal Technology Foundation) ist eine steuerbefreite gemeinnützige Organisation in den USA gemäß Abschnitt 501c3 des Internal Revenue Code. Unsere Federal Tax ID lautet 82-4506840."
   },
+  "icu:DonationReceipt__footer-text-v2": {
+    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Du bist offline. Bitte verbinde dich mit dem Internet, um die Spende abzuschließen."
   },
@@ -8668,9 +8680,9 @@
     "messageformat": "Gruppen-Admins können Chats jetzt mit der neuen Funktion »Gruppe beenden« in den Gruppeneinstellungen auflösen. Durch das Beenden einer Gruppe wird verhindert, dass Gruppenmitglieder Nachrichten senden oder Anrufe starten können – auch Einladungen werden deaktiviert. Jetzt kannst du dafür sorgen, dass alle dem roten Faden folgen, indem du die Näh-Gruppe vom letzten Jahr auflöst, bevor du eine neue bildest."
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled."
+    "messageformat": "Vorhang auf für »Verschwindende Anrufereignisse«: Verpasste, ausgehende und eingehende Anrufe, die nach der Installation dieses Updates erfolgen, verschwinden nun automatisch in jedem Chat, in dem »Verschwindende Nachrichten« aktiviert ist."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line."
+    "messageformat": "Jetzt kannst du installierte Sticker-Sets neu anordnen, damit deine liebsten Sticker nicht ganz hinten in deiner Sammlung landen."
   }
 }

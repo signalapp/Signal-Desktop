@@ -321,7 +321,7 @@
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}"
+    "messageformat": "{count, plural, zero {{count,number} رسالة غير مقروءة} one {{count,number} رسالة غير مقروءة} two {{count,number} رسالتين غير مقروءتين} few {{count,number} رسائل غير مقروءة} many {{count,number} رسالةً غير مقروءة} other {{count,number} رسالةٍ غير مقروءة}}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
     "messageformat": "اعتبار كل الرسائل مقروءة"
@@ -1261,6 +1261,9 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "مغادرة المجموعة"
@@ -2826,16 +2829,16 @@
     "messageformat": "إزالة"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
-    "messageformat": "Drag to reorder sticker pack"
+    "messageformat": "اسحب لإعادة ترتيب حزمة المُلصَقات"
   },
   "icu:stickers--StickerManagerBlessedPacksList--Label": {
-    "messageformat": "Signal Artist Series sticker packs"
+    "messageformat": "حُزَم المُلصَقات الفنية على سيجنال"
   },
   "icu:stickers--StickerManagerReceivedPacksList--Label": {
-    "messageformat": "Received sticker packs"
+    "messageformat": "حُزَم المُلصَقات المُستلَمة"
   },
   "icu:stickers--StickerManagerInstalledPacksList--Label": {
-    "messageformat": "Installed sticker packs"
+    "messageformat": "حُزَم المُلصَقات المُثبَّتة"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "مجموعة المُلصَقات"
@@ -3081,16 +3084,16 @@
     "messageformat": "إضافة مُلصَق"
   },
   "icu:FunPicker__Label--StickerReply": {
-    "messageformat": "Reply"
+    "messageformat": "الرد"
   },
   "icu:FunPicker__Label--SendStickerReply": {
-    "messageformat": "Send"
+    "messageformat": "إرسال"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:FunPicker__Label--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "مُلصَق"
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "إلغاء"
@@ -6982,6 +6985,9 @@
   "icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count": {
     "messageformat": "{triesRemaining, plural, zero {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولات.} one {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.} two {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولتين.} few {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولات.} many {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.} other {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.}}"
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "هل تحتاج لمُساعدة؟"
   },
@@ -7024,6 +7030,9 @@
   "icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--learn-more": {
     "messageformat": "اعرف المزيد عن أرقام التعريف الشخصية (PINs)"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "تَخَطَّ رقم (PIN)"
   },
@@ -7031,7 +7040,7 @@
     "messageformat": "هل ترغبُ بتخطي إدخال رقم التعريف الشخصي (PIN)؟"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "إذا لم تستطع تَذكُّر رقم التعريف الشخصي (PIN) الخاص بك، يمكنك إنشاء رقم جديد. يُمكنك التسجيل واستخدام الحساب الخاص بك، لكِنَك ستفقِد بعض الإعدادات المحفوظة مِثل معلومات حسابك الشخصي. لمعرفة المزيد."
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "تجاهُل وإنشاء رقم (PIN) جديد"
@@ -8354,6 +8363,9 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة. مُعرِّفنا الضريبي هو 4506840-82."
   },
+  "icu:DonationReceipt__footer-text-v2": {
+    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "أنت غير متصل بالإنترنت. يُرجى الاتصال بالإنترنت لإكمال التبرُّع."
   },
@@ -8668,9 +8680,9 @@
     "messageformat": "يمكن لمُشرِفي المجموعات الآن إنهاء الدردشات بطريقة طبيعية بفضل خيار \"حلّ المجموعة\" الجديد في إعدادات المجموعة. يؤدي حلّ المجموعة إلى منع أعضاء المجموعة من إرسال الرسائل أو إجراء المكالمات، كما يُؤدي إلى تعطيل إمكانية إرسال الدعوات. يمكنك الآن التأكُّد من بقاء الجميع في سلسلة الدردشة الصحيحة عن طريق إنهاء مجموعة لقاءات الخياطة الخاصة بالسنة الماضية قبل البدء في حياكة مجموعة جديدة."
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled."
+    "messageformat": "تعرَّفوا على ميزة اختفاء المكالمات: المكالمات الفائتة، والصادرة، والواردة التي تتم بعد تثبيت هذا التحديث سَتختفي الآن تلقائيًا في أي دردشة تمَّ تفعيل ميزة اختفاء الرسائل فيها."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line."
+    "messageformat": "يمكنك الآن إعادة ترتيب حزم المُلصَقات المُثبَّتة حتى لا تظل مُلصَقاتك المفضلة الجديدة في مؤخرة القائمة."
   }
 }

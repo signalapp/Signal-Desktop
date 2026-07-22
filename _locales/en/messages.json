@@ -3174,7 +3174,7 @@
   },
   "icu:safetyNumberChanged": {
     "messageformat": "Safety Number has changed",
-    "description": "A notification shown in the conversation when a contact reinstalls"
+    "description": "(Deleted 2026/07/22) A notification shown in the conversation when a contact reinstalls"
   },
   "icu:safetyNumberChanges": {
     "messageformat": "Safety Number Changes",
@@ -11120,7 +11120,7 @@
   },
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
-    "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
+    "description": "(Deleted 2026/07/22) Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
   },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution.",
@@ -11543,10 +11543,10 @@
   },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled.",
-    "description": "Release notes for 8.20"
+    "description": "(Deleted 2026/07/22) Release notes for 8.20"
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line.",
-    "description": "Release notes for 8.20"
+    "description": "(Deleted 2026/07/22) Release notes for 8.20"
   }
 }

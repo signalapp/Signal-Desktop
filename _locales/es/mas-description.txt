@@ -1,4 +1,4 @@
-Signal es una aplicación de mensajería diseñada para proteger tu privacidad. Es gratuita, fácil de usar y ofrece un potente cifrado de extremo a extremo que mantiene tus chats y llamadas completamente privados. Ni Signal ni nadie más puede leer tus mensajes o escuchar tus llamadas. 
+Signal es una aplicación de mensajería diseñada para proteger tu privacidad. Es gratuita, fácil de usar y altamente segura gracias un potente cifrado de extremo a extremo que mantiene tus chats y llamadas privados. Ni Signal ni nadie más puede leer tus mensajes o escuchar tus llamadas. 
 
 • Signal en macOS se vincula con Signal en tu teléfono. 
 

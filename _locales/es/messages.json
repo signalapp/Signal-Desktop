@@ -321,7 +321,7 @@
     "messageformat": "{maxCount,number}+"
   },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
-    "messageformat": "{count, plural, one {{count,number} Unread Message} other {{count,number} Unread Messages}}"
+    "messageformat": "{count, plural, one {{count,number} mensaje no leído} other {{count,number} mensajes no leídos}}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
     "messageformat": "Marcar todos como leídos"
@@ -615,7 +615,7 @@
     "messageformat": "El cifrado para este chat se ha verificado automáticamente "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body-2": {
-    "messageformat": "Para las personas con las que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
+    "messageformat": "Si inicias un chat en Signal usando el número de teléfono de tu contacto, la aplicación puede confirmar automáticamente que la conexión es segura gracias a un proceso llamado transparencia de claves. Para mayor seguridad, verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title-2": {
     "messageformat": "La verificación automática no está disponible para este chat"
@@ -1261,6 +1261,9 @@
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
     "messageformat": "Todos los mensajes de este chat se eliminarán de todos tus dispositivos."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
+    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -2559,7 +2562,7 @@
     "messageformat": "Haz clic para volver a registrarte y seguir enviando mensajes. Signal Desktop ya no está registrado, probablemente porque has registrado tu número de teléfono en Signal con un dispositivo diferente."
   },
   "icu:unregistered": {
-    "messageformat": "Ya no está registrado"
+    "messageformat": "Dispositivo no registrado"
   },
   "icu:autoUpdateNewVersionTitle": {
     "messageformat": "Actualización disponible"
@@ -2784,7 +2787,7 @@
     "messageformat": "No se ha podido instalar el paquete de stickers"
   },
   "icu:stickers--StickerManager--MyStickers--None": {
-    "messageformat": "No hay paquetes de stickers. Añade stickers para enviar a tus amigos."
+    "messageformat": "No tienes paquetes de stickers. Añade stickers para enviar a tus amigos."
   },
   "icu:stickers--StickerManager--AddStickers": {
     "messageformat": "Añadir stickers"
@@ -2826,16 +2829,16 @@
     "messageformat": "Eliminar"
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
-    "messageformat": "Drag to reorder sticker pack"
+    "messageformat": "Arrastra para reorganizar el paquete de stickers"
   },
   "icu:stickers--StickerManagerBlessedPacksList--Label": {
-    "messageformat": "Signal Artist Series sticker packs"
+    "messageformat": "Paquetes de stickers de artistas de Signal"
   },
   "icu:stickers--StickerManagerReceivedPacksList--Label": {
-    "messageformat": "Received sticker packs"
+    "messageformat": "Paquetes de stickers recibidos"
   },
   "icu:stickers--StickerManagerInstalledPacksList--Label": {
-    "messageformat": "Installed sticker packs"
+    "messageformat": "Paquetes de stickers instalados"
   },
   "icu:stickers--StickerPreview--Title": {
     "messageformat": "Paquete de stickers"
@@ -3081,13 +3084,13 @@
     "messageformat": "Añadir un sticker"
   },
   "icu:FunPicker__Label--StickerReply": {
-    "messageformat": "Reply"
+    "messageformat": "Responder"
   },
   "icu:FunPicker__Label--SendStickerReply": {
-    "messageformat": "Send"
+    "messageformat": "Enviar"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:FunPicker__Label--Sticker": {
     "messageformat": "Sticker"
@@ -3465,7 +3468,7 @@
     "messageformat": "Ten cuidado con las empresas o agencias gubernamentales que se pongan en contacto contigo. Los mensajes que involucren a entidades como agencias tributarias y empresas de mensajería pueden ser spam."
   },
   "icu:SafetyTipsModal__Button--ViewMore": {
-    "messageformat": "Ver más"
+    "messageformat": "Más información"
   },
   "icu:MessageRequests--message-direct": {
     "messageformat": "¿Quieres compartir tu nombre y foto de perfil con {name} y permitir que te envíe mensajes? No sabrá que has visto sus mensajes hasta que aceptes."
@@ -3567,7 +3570,7 @@
     "messageformat": "¿Aceptar solicitud?"
   },
   "icu:MessageRequests--accept-confirm-body-v2": {
-    "messageformat": "Acepta solamente las solicitudes de personas de tu confianza. <bold>Signal nunca</bold> te enviará un mensaje para pedirte un código de registro, PIN o clave de recuperación."
+    "messageformat": "Acepta únicamente las solicitudes de personas de tu confianza. <bold>Signal nunca</bold> te enviará un mensaje para pedirte un código de registro, PIN o clave de recuperación."
   },
   "icu:MessageRequests--continue": {
     "messageformat": "Continuar"
@@ -6982,6 +6985,9 @@
   "icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count": {
     "messageformat": "{triesRemaining, plural, one {PIN incorrecto. Te queda {triesRemaining,number} intento.} other {PIN incorrecto. Te quedan {triesRemaining,number} intentos.}}"
   },
+  "icu:StandaloneRegistration--VerifyPIN--just-count": {
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+  },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "¿Necesitas ayuda?"
   },
@@ -7024,6 +7030,9 @@
   "icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--learn-more": {
     "messageformat": "Más información sobre los PIN"
   },
+  "icu:StandaloneRegistration--VerifyPIN--open-menu": {
+    "messageformat": "Open menu"
+  },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Omitir PIN"
   },
@@ -7031,7 +7040,7 @@
     "messageformat": "¿Omitir PIN?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "Si olvidas tu PIN, puedes crear uno nuevo. Podrás volver a registrarte y usar tu cuenta, pero perderás algunos ajustes ya guardados, como tu información de perfil. Más información"
+    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Omitir y crear nuevo PIN"
@@ -8354,6 +8363,9 @@
   "icu:DonationReceipt__footer-text": {
     "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir una comunicación segura para millones de personas en todo el mundo gracias a una tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840."
   },
+  "icu:DonationReceipt__footer-text-v2": {
+    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "No tienes conexión. Conéctate a Internet para completar una donación."
   },
@@ -8613,7 +8625,7 @@
     "messageformat": "Más información"
   },
   "icu:MaybeTransferModal__replaceHistory": {
-    "messageformat": "Se <bold>reemplazará</bold> el historial de mensajes que tienes en este dispositivo."
+    "messageformat": "<bold>Se reemplazará</bold> el historial de mensajes que tienes en este dispositivo."
   },
   "icu:MaybeTransferModal__scanQrCode": {
     "messageformat": "Para volver a vincularlo, tendrás que escanear el código QR."
@@ -8668,9 +8680,9 @@
     "messageformat": "Ahora, los admins de grupo pueden cerrar los chats que ya no tengan razón de ser con la nueva opción \"Desactivar grupo\" en los ajustes del grupo. Desactivar un grupo evita que sus participantes puedan enviar mensajes o iniciar llamadas. También desactiva las invitaciones al grupo. Así que ahora puedes asegurarte de que todo el mundo siga el hilo de la conversación correcta desactivando el grupo de las vacaciones del año pasado antes de crear uno nuevo."
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled."
+    "messageformat": "Presentamos las notificaciones de llamadas temporales: todas las llamadas perdidas y aquellas que hagas o recibas después de instalar esta actualización desaparecerán de cualquier chat en el que estén habilitados los mensajes temporales."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line."
+    "messageformat": "Ahora puedes ordenar los paquete de stickers que tengas instalados como quieras y tener siempre tus stickers favoritos a mano."
   }
 }
