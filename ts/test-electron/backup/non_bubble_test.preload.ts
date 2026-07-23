@@ -24,7 +24,10 @@ import {
 } from './helpers.preload.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import {
+  generateAci,
+  generatePni,
+} from '../../test-helpers/serviceIdUtils.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 
 const CONTACT_A = generateAci();
@@ -197,6 +200,37 @@ describe('backup/non-bubble messages', () => {
         sourceServiceId: CONTACT_A,
       },
     ]);
+  });
+
+  it('drops IDENTITY_VERIFIED simple update for PNI-only contact', async () => {
+    const pni = generatePni();
+    const pniContact = await window.ConversationController.getOrCreateAndWait(
+      pni,
+      'private',
+      {
+        systemGivenName: 'PNI_CONTACT',
+        active_at: 1,
+      }
+    );
+
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: pniContact.id,
+          id: generateGuid(),
+          type: 'verified-change',
+          verifiedChanged: pniContact.id,
+          verified: true,
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sourceServiceId: pni,
+        },
+      ],
+      []
+    );
   });
 
   it('roundtrips CHANGE_NUMBER simple update', async () => {

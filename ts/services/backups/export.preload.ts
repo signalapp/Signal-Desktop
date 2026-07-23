@@ -2472,6 +2472,20 @@ export class BackupExportStream extends Readable {
         );
       }
 
+      const verifiedChangedContact = window.ConversationController.get(
+        message.verifiedChanged
+      );
+      if (
+        verifiedChangedContact &&
+        !isAciString(verifiedChangedContact.get('serviceId')) &&
+        !verifiedChangedContact.get('e164')
+      ) {
+        log.warn(
+          `${logId}: Dropping verified change for contact without ACI or E164`
+        );
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
       updateMessage.update = {
         simpleUpdate: {
           type: message.verified
