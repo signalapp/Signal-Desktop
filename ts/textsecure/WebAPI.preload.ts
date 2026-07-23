@@ -2863,7 +2863,12 @@ export async function submitCodeForVerificationSession(options: {
     sessionId: options.verificationSessionId,
   });
 
-  await session.verifySession(options.code);
+  const success = await session.verifySession(options.code);
+  if (!success) {
+    throw new SessionNotVerifiedError(
+      'submitCodeForVerificationSession: verifySession returned false!'
+    );
+  }
 
   // Verify that the code worked to make the session ready for account creation
   if (!session.sessionState.verified) {

@@ -153,8 +153,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       '@signalapp/mock-server':
-        specifier: 25.0.0
-        version: 25.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 25.0.1
+        version: 25.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@signalapp/parchment-cjs':
         specifier: 3.0.1
         version: 3.0.1
@@ -4476,8 +4476,8 @@ packages:
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==, tarball: https://registry.npmjs.org/@signalapp/minimask/-/minimask-1.0.1.tgz}
 
-  '@signalapp/mock-server@25.0.0':
-    resolution: {integrity: sha512-gEOYKlwppfs8XT7feg82NQKab8XOVAaQw2rAOGth60BVpzeZI0eiTF2JoNBjVdLbJamFX8Cz2CrZAyXvJhp7Jg==, tarball: https://registry.npmjs.org/@signalapp/mock-server/-/mock-server-25.0.0.tgz}
+  '@signalapp/mock-server@25.0.1':
+    resolution: {integrity: sha512-bOQ76sRp32ry7u8thgC9DAHmRuyx+P6JXHJ0g64onjrydjpcHOc0b/u5Y68HDFdvfB1LyG1FWvOO/Fg3C0f37Q==, tarball: https://registry.npmjs.org/@signalapp/mock-server/-/mock-server-25.0.1.tgz}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==, tarball: https://registry.npmjs.org/@signalapp/parchment-cjs/-/parchment-cjs-3.0.1.tgz}
@@ -15254,7 +15254,7 @@ snapshots:
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@25.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@25.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.8.3)
       '@indutny/protopiler': 4.0.0

@@ -38,7 +38,10 @@ import {
   ValidStepsBeforeComplete,
 } from '../../types/StandaloneRegistration.std.ts';
 import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
-import { SessionNotAllowedToRequestCodeError } from '../../textsecure/Errors.std.ts';
+import {
+  SessionNotAllowedToRequestCodeError,
+  SessionNotVerifiedError,
+} from '../../textsecure/Errors.std.ts';
 import { openInbox } from './app.preload.ts';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
@@ -566,25 +569,26 @@ export function submitVerificationCode({
     } catch (error) {
       log.error(`${logId}: error submitting code`, toLogFormat(error));
 
+      if (error instanceof SessionNotVerifiedError) {
+        workflow = {
+          ...workflow,
+          failedSubmitCodeCount: workflow.failedSubmitCodeCount + 1,
+          status: {
+            type: 'failed',
+            error: 'incorrect-code',
+          },
+        };
+        dispatch(updateWorkflow(workflow));
+        return;
+      }
+
       if (error instanceof LibSignalErrorBase) {
         if (
           error.is(ErrorCode.RegistrationRequestInvalid) ||
           error.is(ErrorCode.RegistrationRequestRejected) ||
-          error.is(ErrorCode.RegistrationSessionIdInvalid)
+          error.is(ErrorCode.RegistrationSessionIdInvalid) ||
+          error.is(ErrorCode.RegistrationSessionNotReadyForVerification)
         ) {
-          workflow = {
-            ...workflow,
-            failedSubmitCodeCount: workflow.failedSubmitCodeCount + 1,
-            status: {
-              type: 'failed',
-              error: 'incorrect-code',
-            },
-          };
-          dispatch(updateWorkflow(workflow));
-          return;
-        }
-
-        if (error.is(ErrorCode.RegistrationSessionNotReadyForVerification)) {
           workflow = {
             ...workflow,
             failedSubmitCodeCount: workflow.failedSubmitCodeCount + 1,

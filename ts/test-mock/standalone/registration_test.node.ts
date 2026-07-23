@@ -69,10 +69,40 @@ describe('registration', function (this: Mocha.Suite) {
     }
 
     {
-      debug('VERIFICATION_CODE: enter code');
-      const CODE = '111111';
-      for (let i = 0; i < CODE.length; i += 1) {
-        const char = CODE[i];
+      debug('VERIFICATION_CODE: enter incorrect code');
+      const INCORRECT_CODE = '123456';
+      for (let i = 0; i < INCORRECT_CODE.length; i += 1) {
+        const char = INCORRECT_CODE[i];
+        if (!char) {
+          continue;
+        }
+
+        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
+        // oxlint-disable-next-line no-await-in-loop
+        await typeIntoInput(codeInput, char, '');
+      }
+
+      await window.getByRole('button', { name: 'Continue' }).click();
+
+      // Dismiss the dialog that comes up
+      await window.getByRole('button', { name: 'OK' }).click();
+    }
+
+    {
+      debug('VERIFICATION_CODE: enter correct code');
+      const CORRECT_CODE = '111111';
+
+      // We need to delete the content from the left-most input 6 times
+      const firstInput = window.getByLabel(`Character 1 of 6`);
+      await firstInput.clear();
+      await firstInput.clear();
+      await firstInput.clear();
+      await firstInput.clear();
+      await firstInput.clear();
+      await firstInput.clear();
+
+      for (let i = 0; i < CORRECT_CODE.length; i += 1) {
+        const char = CORRECT_CODE[i];
         if (!char) {
           continue;
         }
