@@ -85,7 +85,7 @@ allowBuilds:
   '@indutny/simple-windows-notifications@2.0.16': true
   '@parcel/watcher@2.5.6': true
   '@signalapp/libsignal-client@0.92.2': true # duplicate package
-  '@signalapp/libsignal-client@0.97.3': true
+  '@signalapp/libsignal-client@0.97.5': true
   '@signalapp/ringrtc@2.69.4': true
   '@signalapp/sqlcipher@4.0.3': true
   '@signalapp/windows-ucv@1.0.1': true

@@ -19,7 +19,6 @@ import { toWebSafeBase64 } from './util/webSafeBase64.std.ts';
 
 import type { AciString, PniString } from './types/ServiceId.std.ts';
 import type { AvatarColorType } from './types/Colors.std.ts';
-import { strictAssert } from './util/assert.std.ts';
 
 const { sample } = lodash;
 
@@ -697,96 +696,6 @@ export function decryptProfileName(
     given: padded.subarray(0, givenEnd),
     family: foundFamilyName ? padded.subarray(givenEnd + 1, familyEnd) : null,
   };
-}
-
-function xor(
-  left: Uint8Array<ArrayBuffer>,
-  right: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  if (left.byteLength !== right.byteLength) {
-    throw new Error(
-      `xor: left.byteLength (${left.byteLength}) did not match right.byteLength (${right.byteLength})`
-    );
-  }
-
-  const result = new Uint8Array(left.byteLength);
-
-  for (let i = 0; i < left.byteLength; i += 1) {
-    const leftValue = left[i];
-    const rightValue = right[i];
-
-    strictAssert(
-      leftValue !== undefined,
-      `xor: left[${i}]: Each element in array must be defined`
-    );
-    strictAssert(
-      rightValue !== undefined,
-      `xor: right[${i}]: Each element in array must be defined`
-    );
-
-    // oxlint-disable-next-line no-bitwise
-    result[i] = leftValue ^ rightValue;
-  }
-
-  return result;
-}
-
-const HMAC_SIV_AUTH_BYTES = Bytes.fromString('auth');
-const HMAC_SIV_ENC_BYTES = Bytes.fromString('enc');
-const HMAC_SIV_KEY_LENGTH = 32;
-const HMAC_SIV_PLAINTEXT_LENGTH = 32;
-const HMAC_SIV_CIPHERTEXT_LENGTH = 48;
-
-export function encryptHmacSIV(
-  key: Uint8Array<ArrayBuffer>,
-  plaintext: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  if (key.byteLength !== HMAC_SIV_KEY_LENGTH) {
-    throw new Error(`encryptHmacSIV: key was wrong length (${key.byteLength})`);
-  }
-  if (plaintext.byteLength !== HMAC_SIV_PLAINTEXT_LENGTH) {
-    throw new Error(
-      `encryptHmacSIV: plaintext was wrong length (${plaintext.byteLength})`
-    );
-  }
-
-  const keyA = hmacSha256(key, HMAC_SIV_AUTH_BYTES);
-  const keyE = hmacSha256(key, HMAC_SIV_ENC_BYTES);
-  const iv = hmacSha256(keyA, plaintext).subarray(0, IV_LENGTH);
-  const keyX = hmacSha256(keyE, iv);
-  const c = xor(keyX, plaintext);
-
-  return Bytes.concatenate([iv, c]);
-}
-
-export function decryptHmacSIV(
-  key: Uint8Array<ArrayBuffer>,
-  ciphertext: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  if (key.byteLength !== HMAC_SIV_KEY_LENGTH) {
-    throw new Error(`decryptHmacSIV: key was wrong length (${key.byteLength})`);
-  }
-  if (ciphertext.length !== HMAC_SIV_CIPHERTEXT_LENGTH) {
-    throw new Error(
-      `decryptHmacSIV: ciphertext was wrong length (${ciphertext.byteLength})`
-    );
-  }
-
-  const iv = ciphertext.subarray(0, IV_LENGTH);
-  const c = ciphertext.subarray(IV_LENGTH, HMAC_SIV_CIPHERTEXT_LENGTH);
-
-  const keyA = hmacSha256(key, HMAC_SIV_AUTH_BYTES);
-  const keyE = hmacSha256(key, HMAC_SIV_ENC_BYTES);
-  const keyX = hmacSha256(keyE, iv);
-  const plaintext = xor(keyX, c);
-
-  const expectedIV = hmacSha256(keyA, plaintext).subarray(0, IV_LENGTH);
-
-  if (!constantTimeEqual(iv, expectedIV)) {
-    throw new Error('decryptHmacSIV: iv was incorrect');
-  }
-
-  return plaintext;
 }
 
 //

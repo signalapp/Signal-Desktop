@@ -275,6 +275,7 @@ const STD_PACKAGES = new Set([
   'sinon',
   'tinykeys',
   'type-fest',
+  'unicode-number',
   'url',
   'uuid',
   'zod',

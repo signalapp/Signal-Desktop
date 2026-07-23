@@ -28,15 +28,6 @@ global.window = {
       updatesUrl: 'https://127.0.0.1:9',
       resourcesUrl: 'https://127.0.0.1:9',
       version: packageJson.version,
-      svr2Config: {
-        svr2Url: 'https://127.0.0.1:9',
-        svr2MRENCLAVE: [
-          {
-            createdAt: Date.now(),
-            id: 'a75542d82da9f6914a1e31f8a7407053b99cc99a0e7291d8fbd394253e19b036',
-          },
-        ],
-      },
     },
     crypto: new Crypto(),
     getResolvedMessagesLocale: () => 'en',

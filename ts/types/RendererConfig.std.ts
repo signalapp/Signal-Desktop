@@ -20,18 +20,6 @@ export type configOptionalStringType = z.infer<
   typeof configOptionalStringSchema
 >;
 
-const svr2EnclaveSchema = z.object({
-  createdAt: z.iso.datetime(),
-  id: configRequiredStringSchema,
-});
-export const svr2ConfigSchema = z.object({
-  svr2Url: configRequiredStringSchema,
-  svr2MRENCLAVE: svr2EnclaveSchema,
-});
-
-export type SVR2EnclaveType = z.infer<typeof svr2ConfigSchema>;
-export type SVR2ConfigType = z.infer<typeof svr2ConfigSchema>;
-
 export const rendererConfigSchema = z.object({
   appInstance: configOptionalStringSchema,
   appStartInitialSpellcheckSetting: z.boolean(),
@@ -81,8 +69,6 @@ export const rendererConfigSchema = z.object({
   resourcesUrl: configRequiredStringSchema,
   userDataPath: configRequiredStringSchema,
   version: configRequiredStringSchema,
-
-  svr2Config: svr2ConfigSchema,
 
   // Only used by main window
   isMainWindowFullScreen: z.boolean(),

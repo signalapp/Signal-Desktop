@@ -1,11 +1,6 @@
 {
   "serverUrl": "https://chat.staging.signal.org",
   "storageUrl": "https://storage-staging.signal.org",
-  "svr2Url": "https://svr.staging.signal.org",
-  "svr2MRENCLAVE": {
-    "createdAt": "2026-05-01T00:00:00.000Z",
-    "id": "3c699f4975aaa3d172c0aad042f94f031b2b03e10b9c19a45116a01693d83302"
-  },
   "cdn": {
     "0": "https://cdn-staging.signal.org",
     "2": "https://cdn2-staging.signal.org",

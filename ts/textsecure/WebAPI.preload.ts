@@ -72,12 +72,7 @@ import {
 import type { BackupPresentationHeadersType } from '../types/backups.node.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import * as Bytes from '../Bytes.std.ts';
-import {
-  decryptHmacSIV,
-  encryptHmacSIV,
-  getRandomBytes,
-  randomInt,
-} from '../Crypto.node.ts';
+import { getRandomBytes, randomInt } from '../Crypto.node.ts';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.ts';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid.std.ts';
 
@@ -148,7 +143,6 @@ import {
   SessionNotVerifiedError,
 } from './Errors.std.ts';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
-import { PinHash } from '@signalapp/libsignal-client/dist/AccountKeys';
 import { sleep } from '../util/sleep.std.ts';
 import { exponentialBackoffSleepTime } from '../util/exponentialBackoff.std.ts';
 
@@ -1766,7 +1760,6 @@ const {
   serverUrl: chatServiceUrl,
   storageUrl,
   stripePublishableKey,
-  svr2Config,
   updatesUrl,
   version,
 } = window.SignalContext.config;
@@ -5175,38 +5168,6 @@ async function getBackupAuth(): Promise<AuthType> {
   });
 }
 
-function getPinHash(options: { pin: string; username: string }): PinHash {
-  const pinBytes = Bytes.fromString(options.pin);
-  const mrenclaveBytes = Bytes.fromHex(svr2Config.svr2MRENCLAVE.id);
-
-  return PinHash.fromUsernameMrenclave(
-    pinBytes,
-    options.username,
-    mrenclaveBytes
-  );
-}
-
-function encryptSVRPayload({
-  pinHash,
-  data,
-}: {
-  pinHash: PinHash;
-  data: Uint8Array<ArrayBuffer>;
-}): Uint8Array<ArrayBuffer> {
-  const key = pinHash.encryptionKey;
-  return encryptHmacSIV(key, data);
-}
-function decryptSVRPayload({
-  pinHash,
-  data,
-}: {
-  pinHash: PinHash;
-  data: Uint8Array<ArrayBuffer>;
-}): Uint8Array<ArrayBuffer> {
-  const key = pinHash.encryptionKey;
-  return decryptHmacSIV(key, data);
-}
-
 export type RestoreResponseType = Readonly<
   | {
       success: false;
@@ -5241,14 +5202,15 @@ export async function restoreFromSVR2(
 
   const auth = await getAuth();
   const svr2 = libsignalNet.svr2(auth);
-
-  const pinHash = getPinHash({ pin: options.pin, username: auth.username });
+  const pinData = Bytes.fromString(options.pin);
 
   try {
-    const { data, triesRemaining } = await svr2.restore(pinHash.accessKey);
+    const { masterKey, triesRemaining } = await svr2.restore({
+      normalizedPin: pinData,
+    });
     return {
       success: true,
-      data: decryptSVRPayload({ pinHash, data }),
+      data: masterKey,
       triesRemaining,
     };
   } catch (error) {
@@ -5307,12 +5269,12 @@ export async function storeWithSVR2(
   const auth = await getAuth();
   const svr2 = libsignalNet.svr2(auth);
 
-  const pinHash = getPinHash({ pin: options.pin, username: auth.username });
-  const data = encryptSVRPayload({ pinHash, data: options.data });
+  const { pin, data } = options;
+  const pinData = Bytes.fromString(pin);
 
   log.info(`${logId}: startBackup...`);
   const session = await svr2.startBackup(
-    pinHash.accessKey,
+    { normalizedPin: pinData },
     data,
     MAX_SVR2_TRIES
   );

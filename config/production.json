@@ -1,11 +1,6 @@
 {
   "serverUrl": "https://chat.signal.org",
   "storageUrl": "https://storage.signal.org",
-  "svr2Url": "https://svr2.signal.org",
-  "svr2MRENCLAVE": {
-    "createdAt": "2026-05-01T00:00:00.000Z",
-    "id": "ced8217b26228e4b210c985786999d095c4958a94faf37b14acaf25c4cbb02a4"
-  },
   "cdn": {
     "0": "https://cdn.signal.org",
     "2": "https://cdn2.signal.org",

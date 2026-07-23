@@ -124,7 +124,7 @@
   "dependencies": {
     "@indutny/mac-screen-share": "1.2.5",
     "@indutny/simple-windows-notifications": "2.0.21",
-    "@signalapp/libsignal-client": "0.97.3",
+    "@signalapp/libsignal-client": "0.97.5",
     "@signalapp/mute-state-change": "workspace:*",
     "@signalapp/ringrtc": "2.70.0",
     "@signalapp/sqlcipher": "4.0.3",
@@ -340,6 +340,7 @@
     "typescript": "6.0.3",
     "url": "0.11.4",
     "uuid": "13.0.0",
+    "unicode-number": "1.1.0",
     "wait-on": "9.0.5",
     "webpack": "5.96.1",
     "write-file-atomic": "7.0.1",

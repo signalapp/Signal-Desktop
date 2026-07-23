@@ -53,14 +53,8 @@ import { explodePromise } from '../ts/util/explodePromise.std.ts';
 
 import './startup_config.main.ts';
 
-import type {
-  RendererConfigType,
-  SVR2EnclaveType,
-} from '../ts/types/RendererConfig.std.ts';
-import {
-  rendererConfigSchema,
-  svr2ConfigSchema,
-} from '../ts/types/RendererConfig.std.ts';
+import type { RendererConfigType } from '../ts/types/RendererConfig.std.ts';
+import { rendererConfigSchema } from '../ts/types/RendererConfig.std.ts';
 import config from './config.main.ts';
 import {
   Environment,
@@ -2880,19 +2874,6 @@ function removeDarkOverlay() {
 ipc.on('get-config', async event => {
   const theme = await getResolvedThemeSetting();
 
-  const svr2Config = safeParseLoose(svr2ConfigSchema, {
-    svr2Url: config.get<string | null>('svr2Url') || undefined,
-    svr2MRENCLAVE:
-      config.get<Array<SVR2EnclaveType> | null>('svr2MRENCLAVE') || undefined,
-  });
-  if (!svr2Config.success) {
-    throw new Error(
-      `prepareUrl: Failed to parse renderer svr2 config ${JSON.stringify(
-        svr2Config.error.flatten()
-      )}`
-    );
-  }
-
   const parsed = safeParseLoose(rendererConfigSchema, {
     name: packageJson.productName,
     availableLocales: getResolvedMessagesLocale().availableLocales,
@@ -2948,8 +2929,6 @@ ipc.on('get-config', async event => {
     homePath: app.getPath('home'),
     installPath: rootDir,
     userDataPath: app.getPath('userData'),
-
-    svr2Config: svr2Config.data,
 
     // Only used by the main window
     isMainWindowFullScreen: Boolean(mainWindow?.isFullScreen()),
