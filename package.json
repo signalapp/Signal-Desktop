@@ -268,7 +268,7 @@
     "js-yaml": "4.1.1",
     "json-to-ast": "2.1.0",
     "knip": "6.14.0",
-    "linkify-it": "5.0.1",
+    "linkify-it": "5.0.2",
     "lodash": "4.18.1",
     "log-symbols": "7.0.1",
     "lru-cache": "11.2.7",
