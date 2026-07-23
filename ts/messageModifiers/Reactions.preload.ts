@@ -36,7 +36,7 @@ import { isSent } from '../messages/MessageSendState.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { repeat, zipObject } from '../util/iterables.std.ts';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.ts';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.ts';
+import { getStoryReplyContext } from '../util/getStoryReplyContext.std.ts';
 import { drop } from '../util/drop.std.ts';
 import * as reactionUtil from '../reactions/util.std.ts';
 import { isNewReactionReplacingPrevious } from '../reactions/util.std.ts';
@@ -403,6 +403,7 @@ export async function handleReaction(
           ? targetConversation.get('expireTimer')
           : undefined,
         storyId: storyMessage.id,
+        storyReplyContext: getStoryReplyContext(storyMessage),
         storyReaction: {
           emoji: reaction.emoji,
           targetAuthorAci: reaction.targetAuthorAci,
@@ -410,9 +411,6 @@ export async function handleReaction(
         },
       });
 
-      await hydrateStoryContext(generatedMessage.id, storyMessage, {
-        shouldSave: false,
-      });
       // Note: generatedMessage comes with an id, so we have to force this save
       await window.MessageCache.saveMessage(generatedMessage.attributes, {
         forceSave: true,
@@ -577,8 +575,8 @@ export async function handleReaction(
         'Story reactions must provide storyReactionmessage'
       );
 
-      await hydrateStoryContext(generatedMessage.id, message.attributes, {
-        shouldSave: false,
+      generatedMessage.set({
+        storyReplyContext: getStoryReplyContext(message.attributes),
       });
       await window.MessageCache.saveMessage(generatedMessage.attributes, {
         forceSave: true,

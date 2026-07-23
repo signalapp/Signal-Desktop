@@ -50,7 +50,7 @@ import { findStoryMessage } from '../util/findStoryMessage.preload.ts';
 import { getValidLinkPreviews } from '../util/getValidLinkPreviews.node.ts';
 import { normalizeServiceId } from '../types/ServiceId.std.ts';
 import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.std.ts';
-import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.ts';
+import { getStoryReplyContext } from '../util/getStoryReplyContext.std.ts';
 import { isMessageEmpty } from '../util/isMessageEmpty.preload.ts';
 import { isValidTapToView } from '../util/isValidTapToView.std.ts';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.ts';
@@ -576,13 +576,10 @@ export async function handleDataMessage(
             }
           : undefined,
         storyId: dataMessage.storyId,
+        storyReplyContext: storyQuote
+          ? getStoryReplyContext(storyQuote)
+          : undefined,
       });
-
-      if (storyQuote) {
-        await hydrateStoryContext(message.id, storyQuote, {
-          shouldSave: true,
-        });
-      }
 
       const isSupported = !isUnsupportedMessage(message.attributes);
       if (!isSupported) {

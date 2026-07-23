@@ -114,10 +114,8 @@ export type QuotedMessageType = {
   messageId?: string;
 };
 
-type StoryReplyContextType = {
-  attachment?: AttachmentType;
+export type StoryReplyContextType = {
   authorAci?: AciString;
-  messageId: string;
 };
 
 export type GroupV1Update = {

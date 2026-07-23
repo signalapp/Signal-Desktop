@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useState, type JSX } from 'react';
-import lodash from 'lodash';
+import lodash, { omit } from 'lodash';
 
 import { createPortal } from 'react-dom';
 import type { AttachmentType } from '../types/Attachment.std.ts';
@@ -178,7 +178,7 @@ export function StoryCreator({
             })
           );
           attachment = {
-            ...draft,
+            ...omit(draft, 'screenshotData'),
             screenshot: {
               contentType: draft.screenshotContentType,
               url,

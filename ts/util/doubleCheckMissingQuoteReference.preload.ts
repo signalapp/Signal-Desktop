@@ -1,10 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getMessageById } from '../messages/getMessageById.preload.ts';
 import type { MessageModel } from '../models/messages.preload.ts';
 
-import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
 import { getMessageIdForLogging } from './idForLogging.preload.ts';
 
 import { createLogger } from '../logging/log.std.ts';
@@ -19,24 +17,6 @@ export async function doubleCheckMissingQuoteReference(
   message: MessageModel
 ): Promise<void> {
   const logId = getMessageIdForLogging(message.attributes);
-
-  const storyId = message.get('storyId');
-  if (storyId) {
-    log.warn(`${logId}: missing story reference`);
-
-    const storyMessage = await getMessageById(storyId);
-    if (!storyMessage) {
-      return;
-    }
-
-    if (message.get('storyReplyContext')) {
-      message.set({ storyReplyContext: undefined });
-    }
-    await hydrateStoryContext(message.id, storyMessage.attributes, {
-      shouldSave: true,
-    });
-    return;
-  }
 
   const quote = message.get('quote');
   if (!quote) {

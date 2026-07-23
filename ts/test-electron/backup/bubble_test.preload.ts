@@ -1342,10 +1342,7 @@ describe('backup/bubble messages', () => {
           targetAuthorAci: OUR_ACI,
           targetTimestamp: 0, // targetTimestamp is not roundtripped
         },
-        storyReplyContext: {
-          authorAci: OUR_ACI,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: OUR_ACI },
       };
 
       const outgoingReply: MessageAttributesType = {
@@ -1358,10 +1355,7 @@ describe('backup/bubble messages', () => {
           targetAuthorAci: CONTACT_A,
           targetTimestamp: 0, // targetTimestamp is not roundtripped
         },
-        storyReplyContext: {
-          authorAci: CONTACT_A,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: CONTACT_A },
         sendStateByConversationId: {
           [contactA.id]: {
             status: SendStatus.Read,
@@ -1391,10 +1385,7 @@ describe('backup/bubble messages', () => {
         type: 'incoming',
         unidentifiedDeliveryReceived: true,
         sourceServiceId: CONTACT_A,
-        storyReplyContext: {
-          authorAci: OUR_ACI,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: OUR_ACI },
       };
 
       const outgoingReply: MessageAttributesType = {
@@ -1402,10 +1393,7 @@ describe('backup/bubble messages', () => {
         id: generateGuid(),
         type: 'outgoing',
         sourceServiceId: OUR_ACI,
-        storyReplyContext: {
-          authorAci: CONTACT_A,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: CONTACT_A },
         sendStateByConversationId: {
           [contactA.id]: {
             status: SendStatus.Read,
@@ -1435,10 +1423,7 @@ describe('backup/bubble messages', () => {
             timestamp: 3,
             readStatus: ReadStatus.Read,
             seenStatus: SeenStatus.Seen,
-            storyReplyContext: {
-              authorAci: OUR_ACI,
-              messageId: '',
-            },
+            storyReplyContext: { authorAci: OUR_ACI },
           },
         ],
         []
@@ -1465,10 +1450,7 @@ describe('backup/bubble messages', () => {
         type: 'incoming',
         unidentifiedDeliveryReceived: true,
         sourceServiceId: CONTACT_A,
-        storyReplyContext: {
-          authorAci: OUR_ACI,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: OUR_ACI },
       };
 
       const outgoingReply: MessageAttributesType = {
@@ -1476,10 +1458,7 @@ describe('backup/bubble messages', () => {
         id: generateGuid(),
         type: 'outgoing',
         sourceServiceId: OUR_ACI,
-        storyReplyContext: {
-          authorAci: CONTACT_A,
-          messageId: '',
-        },
+        storyReplyContext: { authorAci: CONTACT_A },
         sendStateByConversationId: {
           [CONTACT_A]: {
             status: SendStatus.Read,

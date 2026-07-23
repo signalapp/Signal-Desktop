@@ -533,10 +533,6 @@ function queueStoryDownload(
     const message = await getMessageById(storyId);
 
     if (message) {
-      // We want to ensure that we re-hydrate the story reply context with the
-      // completed attachment download.
-      message.set({ storyReplyContext: undefined });
-
       dispatch({
         type: QUEUE_STORY_DOWNLOAD,
         payload: storyId,

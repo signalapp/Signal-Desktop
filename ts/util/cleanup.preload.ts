@@ -9,7 +9,7 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
 } from '../model-types.d.ts';
-import { MessageModel } from '../models/messages.preload.ts';
+import type { MessageModel } from '../models/messages.preload.ts';
 
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
@@ -39,7 +39,6 @@ import {
   deleteDraftFile,
   maybeDeleteAttachmentFile,
 } from './migrations.preload.ts';
-import { hydrateStoryContext } from './hydrateStoryContext.preload.ts';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.ts';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.ts';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.ts';
@@ -184,9 +183,14 @@ async function cleanupStoryReplies(
     parentConversation && !isDirectConversation(parentConversation.attributes)
   );
 
+  // 1:1 story replies stay in the timeline
+  if (!isGroupConversation) {
+    return;
+  }
+
   const replies = await DataReader.getRecentStoryReplies(storyId, pagination);
 
-  const logId = `cleanupStoryReplies(${storyId}/isGroup=${isGroupConversation})`;
+  const logId = `cleanupStoryReplies(${storyId})`;
   const lastMessage = replies[replies.length - 1];
   const lastMessageId = lastMessage?.id;
   const lastReceivedAt = lastMessage?.received_at;
@@ -206,25 +210,11 @@ async function cleanupStoryReplies(
     return;
   }
 
-  if (isGroupConversation) {
-    // Delete all group replies
-    await DataWriter.removeMessagesById(
-      replies.map(reply => reply.id),
-      { cleanupMessages }
-    );
-  } else {
-    // Clean out the storyReplyContext data for 1:1 conversations; these remain in the
-    // 1:1 timeline with a "story not found" message
-    await Promise.all(
-      replies.map(async reply => {
-        const model = window.MessageCache.register(new MessageModel(reply));
-        await hydrateStoryContext(model.id, story, {
-          shouldSave: true,
-          isStoryErased: true,
-        });
-      })
-    );
-  }
+  // Delete all group replies
+  await DataWriter.removeMessagesById(
+    replies.map(reply => reply.id),
+    { cleanupMessages }
+  );
 
   return cleanupStoryReplies(story, {
     // oxlint-disable-next-line typescript/no-non-null-assertion

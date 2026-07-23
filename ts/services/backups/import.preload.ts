@@ -2278,7 +2278,6 @@ export class BackupImportStream extends Writable {
       reactions: this.#fromReactions(reactions),
       storyReplyContext: {
         authorAci: storyAuthorAci,
-        messageId: '', // stories are never imported
       },
     };
 

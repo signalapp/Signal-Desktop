@@ -36,7 +36,7 @@ import type {
   ReactionJobData,
 } from '../conversationJobQueue.preload.ts';
 import { sendToGroup } from '../../util/sendToGroup.preload.ts';
-import { hydrateStoryContext } from '../../util/hydrateStoryContext.preload.ts';
+import { getStoryReplyContext } from '../../util/getStoryReplyContext.std.ts';
 import { send, sendSyncMessageOnly } from '../../messages/send.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { getSendRecipientLists } from './getSendRecipientLists.dom.ts';
@@ -334,8 +334,8 @@ export async function sendReaction(
       if (!ephemeralMessageForReactionSend.doNotSave) {
         const reactionMessage = ephemeralMessageForReactionSend;
 
-        await hydrateStoryContext(reactionMessage.id, message.attributes, {
-          shouldSave: false,
+        reactionMessage.set({
+          storyReplyContext: getStoryReplyContext(message.attributes),
         });
         await window.MessageCache.saveMessage(reactionMessage.attributes, {
           forceSave: true,
