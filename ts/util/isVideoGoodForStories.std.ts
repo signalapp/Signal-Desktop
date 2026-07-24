@@ -9,7 +9,7 @@ import {
 } from '../types/AttachmentSize.std.ts';
 import { explodePromise } from './explodePromise.std.ts';
 
-const MAX_VIDEO_DURATION_IN_SEC = 30;
+const MAX_VIDEO_DURATION_IN_SEC = 30.999;
 
 type MP4ArrayBuffer = ArrayBuffer & { fileStart: number };
 
