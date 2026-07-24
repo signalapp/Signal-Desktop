@@ -169,3 +169,9 @@ button:not(:disabled, [aria-disabled='true']) {
 .overflow-hidden {
   overflow: hidden;
 }
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
