@@ -52,15 +52,18 @@ auditConfig:
     - GHSA-2p49-hgcm-8545 # svgo, only used at dev-time
     - GHSA-v2hh-gcrm-f6hx # fast-uri, only used at dev-time
     - GHSA-4c8g-83qw-93j6 # fast-uri, only used at dev-time
+    - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
+  'brace-expansion': '5.0.8'
+  'builder-util-runtime': '9.7.0'
   'canvas': '-'
+  'danger@13.0.10>undici': '6.27.0'
   'jsdom': '-'
   'react-popper@2.3.0>react-dom': '19.2.4'
   'react-popper@2.3.0>react': '19.2.4'
   'thenify-all>thenify': '3.3.1'
-  'danger@13.0.10>undici': '6.27.0'
 
 allowUnusedPatches: false
 ignorePatchFailures: false
