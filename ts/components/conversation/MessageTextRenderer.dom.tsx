@@ -72,7 +72,7 @@ export function MessageTextRenderer({
   const finalNodes = useMemo(() => {
     const links = disableLinks
       ? []
-      : extractLinks(messageText, originalMessageText);
+      : extractLinks(originalMessageText, textLength);
 
     // We need mentions to come last; they can't have children for proper rendering
     const sortedRanges = sortBy(bodyRanges, range =>
@@ -435,35 +435,23 @@ function renderText({
   );
 }
 
-function extractLinks(
-  messageText: string,
-  // Full, untruncated message text
-  originalMessageText: string
+/** @testexport */
+export function extractLinks(
+  originalMessageText: string,
+  displayedTextLength: number
 ): ReadonlyArray<BodyRange<{ url: string }>> {
   // to support emojis immediately before links
   // we replace emojis with a space for each byte
-  const matches = linkify.match(
-    Emoji.replaceEmojiWithSpaces(originalMessageText)
-  );
+  const matches = linkify
+    .match(Emoji.replaceEmojiWithSpaces(originalMessageText))
+    // Only linkify links that are fully visible
+    ?.filter(match => match.lastIndex <= displayedTextLength);
 
   if (matches == null) {
     return [];
   }
 
-  // Only return matches present in the `messageText`
-  const currentMatches = matches.filter(({ index, lastIndex, url }) => {
-    if (index >= messageText.length) {
-      return false;
-    }
-
-    if (lastIndex > messageText.length) {
-      return false;
-    }
-
-    return messageText.slice(index, lastIndex) === url;
-  });
-
-  return currentMatches.map(match => {
+  return matches.map(match => {
     return {
       start: match.index,
       length: match.lastIndex - match.index,
