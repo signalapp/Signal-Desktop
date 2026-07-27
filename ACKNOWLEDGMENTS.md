@@ -20661,7 +20661,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, libsignal-debug 0.89.2, mrp 2.70.0, protobuf 2.70.0, ringrtc 2.70.0, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, libsignal-debug 0.89.2, mrp 2.70.1, protobuf 2.70.1, ringrtc 2.70.1, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21986,7 +21986,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.11.0, log 0.4.29, regex-automata 0.4.14, regex-syntax 0.8.10, regex 1.12.3
+## bitflags 1.3.2, bitflags 2.11.0, log 0.4.33, regex-automata 0.4.14, regex-syntax 0.8.10, regex 1.12.3
 
 ```
 Copyright (c) 2014 The Rust Project Developers
