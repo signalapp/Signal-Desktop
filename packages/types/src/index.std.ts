@@ -40,6 +40,8 @@ export {
   JsonValue,
 } from './encodings/Json.std.ts';
 
+export { CountryCode } from './formats/CountryCode.std.ts';
+export { CurrencyCode } from './formats/CurrencyCode.std.ts';
 export { HexColor } from './formats/HexColor.std.ts';
 export { HttpUrl } from './formats/HttpUrl.std.ts';
 export { LanguageTag } from './formats/LanguageTag.std.ts';
@@ -55,11 +57,22 @@ export { ServiceId } from './service/ServiceId.std.ts';
 export { DeviceId } from './service/DeviceId.std.ts';
 export { Address } from './service/Address.std.ts';
 export { AddressInfo } from './service/AddressInfo.std.ts';
+export { RegistrationId } from './service/RegistrationId.std.ts';
 export { DistributionId } from './service/DistributionId.std.ts';
+export { ProfileKey } from './service/ProfileKey.std.ts';
+export { ProfileKeyVersion } from './service/ProfileKeyVersion.std.ts';
 export { GroupId } from './service/GroupId.std.ts';
+export { GroupVersion } from './service/GroupVersion.std.ts';
+export { GroupMasterKey } from './service/GroupMasterKey.std.ts';
+export { GroupSecretParams } from './service/GroupSecretParams.std.ts';
+export { GroupPublicParams } from './service/GroupPublicParams.std.ts';
+export { GroupInviteLinkPassword } from './service/GroupInviteLinkPassword.std.ts';
 export { DistributionListId } from './service/DistributionListId.std.ts';
 export { SentTimestampMs } from './service/SentTimestampMs.std.ts';
 export { ServerTimestampMs } from './service/ServerTimestampMs.std.ts';
 export { ReceivedTimestampMs } from './service/ReceivedTimestampMs.std.ts';
 export { StorageManifestVersion } from './service/StorageManifestVersion.std.ts';
 export { StorageItemKey } from './service/StorageItemKey.std.ts';
+export { UnidentifiedAccessKey } from './service/UnidentifiedAccessKey.std.ts';
+export { ServerGuid } from './service/ServerGuid.std.ts';
+export { ReportSpamToken } from './service/ReportSpamToken.std.ts';
