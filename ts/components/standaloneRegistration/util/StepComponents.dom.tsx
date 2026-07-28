@@ -22,7 +22,7 @@ export function Container({
   return (
     <div
       className={classNames(
-        tw('flex h-99.5 min-h-0 grow flex-col items-center text-center'),
+        tw('flex h-88 min-h-0 grow flex-col items-center text-center'),
         className
       )}
     >

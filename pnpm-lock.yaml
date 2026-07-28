@@ -46,8 +46,8 @@ importers:
         specifier: 2.0.21
         version: 2.0.21
       '@signalapp/libsignal-client':
-        specifier: 0.97.5
-        version: 0.97.5
+        specifier: 0.98.0
+        version: 0.98.0
       '@signalapp/mute-state-change':
         specifier: workspace:*
         version: link:packages/mute-state-change
@@ -4472,8 +4472,8 @@ packages:
   '@signalapp/libsignal-client@0.92.2':
     resolution: {integrity: sha512-mSYKpw32Rtmm+D1y8NKzNA9wkiuU60gXRGuum6NTGRN9C3NI4R1cb6xE9w7q+6rjR4zAb4qZWb9QUG5QcLr7pg==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.92.2.tgz}
 
-  '@signalapp/libsignal-client@0.97.5':
-    resolution: {integrity: sha512-+Nsg/P2HaF3TDXjL9OlLPeRyQWPQUBIU05dL0B3XBtG89a2QMRBGwcnsJC9Nu8ze3iJ5iQ9XfQ1nvoFzxjzQtA==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.97.5.tgz}
+  '@signalapp/libsignal-client@0.98.0':
+    resolution: {integrity: sha512-6uEbzPPUio9frJ1w7AAW9hbTtudEdZV7n/JPz1e5y5qA70dAEZRrh7YXTzBMZoJAFn4qGrFUwpTDGaj7Awkecw==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.98.0.tgz}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==, tarball: https://registry.npmjs.org/@signalapp/minimask/-/minimask-1.0.1.tgz}
@@ -15249,7 +15249,7 @@ snapshots:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
 
-  '@signalapp/libsignal-client@0.97.5':
+  '@signalapp/libsignal-client@0.98.0':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1

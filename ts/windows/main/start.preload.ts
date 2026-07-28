@@ -24,8 +24,10 @@ import type {
 import {
   cdsLookup,
   deleteFromSVR2,
+  disableRegistrationLock,
   getSocketStatus,
   restoreFromSVR2,
+  setupRegistrationLock,
   storeWithSVR2,
 } from '../../textsecure/WebAPI.preload.ts';
 import type { FeatureFlagType } from '../../window.d.ts';
@@ -37,6 +39,7 @@ import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.pr
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
+import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 const log = createLogger('start');
 
@@ -66,6 +69,22 @@ if (
   const testKey = 'p10bLPYMs6SjewuhrdWUK2hoqR0Jc/+56GuA/+VBZRg=';
 
   const SignalDebug = {
+    async setupRegistrationLock() {
+      const masterKey = itemStorage.get('masterKey');
+      if (!masterKey) {
+        throw new Error('missing masterKey!');
+      }
+
+      const svrKey = new SvrKey(Bytes.fromBase64(masterKey));
+
+      const registrationLock = svrKey.deriveRegistrationLock();
+      const registrationLockString = Bytes.toHex(registrationLock);
+
+      await setupRegistrationLock(registrationLockString);
+    },
+    async disableRegistrationLock() {
+      await disableRegistrationLock();
+    },
     restoreFromSVR2: async (pin: string, expectedKey = testKey) => {
       const result = await restoreFromSVR2({ pin });
 

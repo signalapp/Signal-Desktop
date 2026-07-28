@@ -815,7 +815,7 @@ const CHAT_CALLS = {
   callLinkCreateAuth: 'v1/call-link/create-auth',
   callQualitySurvey: 'v1/call_quality_survey',
   redeemReceipt: 'v1/donation/redeem-receipt',
-  registration: 'v1/registration',
+  registrationLock: 'v1/accounts/registration_lock',
   registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
   setBackupId: 'v1/archives/backupid',
@@ -3088,6 +3088,26 @@ export async function unlink(): Promise<void> {
     call: 'devices',
     httpType: 'DELETE',
     urlParameters: `/${deviceId}`,
+  });
+}
+
+export async function setupRegistrationLock(
+  registrationLock: string
+): Promise<void> {
+  await _ajax({
+    host: 'chatService',
+    call: 'registrationLock',
+    httpType: 'PUT',
+    jsonData: {
+      registrationLock,
+    },
+  });
+}
+export async function disableRegistrationLock(): Promise<void> {
+  await _ajax({
+    host: 'chatService',
+    call: 'registrationLock',
+    httpType: 'DELETE',
   });
 }
 

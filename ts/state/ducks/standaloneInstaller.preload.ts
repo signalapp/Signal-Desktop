@@ -3,6 +3,7 @@
 
 import { isNumber } from 'lodash';
 import { unicodeNumber } from 'unicode-number';
+import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
@@ -46,9 +47,9 @@ import { openInbox } from './app.preload.ts';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { updateWithNewKey } from '../../services/storage.preload.ts';
-import { deriveRegistrationLockToken } from '../../Crypto.node.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { FatalErrorType } from '../../types/StandaloneRegistration.std.ts';
+import { getSegmenter } from '../../util/grapheme.std.ts';
 
 import type {
   AccountLockedStage,
@@ -69,7 +70,6 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import type { StateType } from '../reducer.preload.ts';
 import type { OpenInboxActionType } from './app.preload.ts';
 import type { RestoreResponseType } from '../../textsecure/WebAPI.preload.ts';
-import { getSegmenter } from '../../util/grapheme.std.ts';
 
 const log = createLogger('ducks/standaloneInstaller');
 
@@ -634,7 +634,10 @@ export function submitVerificationCode({
         error instanceof LibSignalErrorBase &&
         error.is(ErrorCode.RegistrationLock)
       ) {
-        if (error.timeRemainingSeconds > 0) {
+        if (!error.svr2Username || !error.svr2Password) {
+          log.error(
+            `${logId}: SVR credentials not returned with 423; cannot proceed`
+          );
           const newWorkflow: AccountLockedStage = {
             stage: RegistrationStage.ACCOUNT_LOCKED,
           };
@@ -864,8 +867,9 @@ export function verifyPIN({
     const { phoneNumber, verificationSessionId, profileData } =
       dataForReglockAccountCreate;
 
-    const regLockData = deriveRegistrationLockToken(masterKey);
-    const registrationLockToken = toHex(regLockData);
+    const svrKey = new SvrKey(masterKey);
+    const registrationLockData = svrKey.deriveRegistrationLock();
+    const registrationLockToken = toHex(registrationLockData);
 
     try {
       await accountManager.registerAsPrimaryDevice({
@@ -890,6 +894,7 @@ export function verifyPIN({
           fatalError: analyzeError(error),
         },
       });
+      return;
     }
 
     try {

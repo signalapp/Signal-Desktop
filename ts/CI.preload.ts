@@ -18,6 +18,7 @@ import { strictAssert } from './util/assert.std.ts';
 import { MessageModel } from './models/messages.preload.ts';
 import { itemStorage } from './textsecure/Storage.preload.ts';
 import { BackupLevel } from './services/backups/types.std.ts';
+import { fromHex } from './Bytes.std.ts';
 
 import type { IPCResponse as ChallengeResponseType } from './challenge.dom.ts';
 import type { MessageAttributesType } from './model-types.d.ts';
@@ -287,6 +288,16 @@ export function getCI({
 
   let svr2RestoreResponse: RestoreResponseType | undefined;
   function saveSVR2RestoreResponse(response: RestoreResponseType): void {
+    if (response.success) {
+      svr2RestoreResponse = {
+        ...response,
+        // @ts-expect-error We need to get this data through JSON
+        data: fromHex(response.data),
+      };
+
+      return;
+    }
+
     svr2RestoreResponse = response;
   }
   function getSVR2RestoreResponse(): RestoreResponseType | undefined {

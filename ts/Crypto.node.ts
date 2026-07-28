@@ -235,12 +235,6 @@ export function deriveStorageManifestKey(
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }
 
-export function deriveRegistrationLockToken(
-  masterKey: Uint8Array<ArrayBuffer>
-): Uint8Array<ArrayBuffer> {
-  return hmacSha256(masterKey, Bytes.fromString('Registration Lock'));
-}
-
 const STORAGE_SERVICE_ITEM_KEY_INFO_PREFIX =
   '20240801_SIGNAL_STORAGE_SERVICE_ITEM_';
 const STORAGE_SERVICE_ITEM_KEY_LEN = 32;

@@ -104,7 +104,6 @@ type StorageKeyByServiceIdKind = Record<ServiceIdKind, keyof StorageAccessType>;
 const DAY = 24 * 60 * 60 * 1000;
 
 const PROFILE_KEY_LENGTH = 32;
-const MASTER_KEY_LENGTH = 32;
 const KEY_TOO_OLD_THRESHOLD = 14 * DAY;
 
 export const KYBER_KEY_ID_KEY = {
@@ -431,8 +430,8 @@ export default class AccountManager extends EventTarget {
       const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKeyFromProfileKey(profileKey);
-      const masterKey = getRandomBytes(MASTER_KEY_LENGTH);
       const accountEntropyPool = AccountEntropyPool.generate();
+      const masterKey = AccountEntropyPool.deriveSvrKey(accountEntropyPool);
       const mediaRootBackupKey = BackupKey.generateRandom().serialize();
 
       const result = await this.#createAccount({

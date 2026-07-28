@@ -40,6 +40,8 @@ const SECOND_REGLOCK_TRIES_THRESHOLD = 3;
 const FIRST_NON_REGLOCK_TRIES_THRESHOLD = 3;
 const SECOND_NON_REGLOCK_TRIES_THRESHOLD = 1;
 
+export const PIN_LENGTH_MINIMUM = 4;
+
 export function VerifyPINScreen({
   verifyPIN,
   goToCreatePINStage,
@@ -73,7 +75,7 @@ export function VerifyPINScreen({
   const onChangePIN = useCallback(
     (value: string) => {
       inputRef.current?.setCustomValidity('');
-      setIsValidPIN(value.length === 6);
+      setIsValidPIN(value.length >= PIN_LENGTH_MINIMUM);
       setPIN(value);
     },
     [setIsValidPIN, setPIN]

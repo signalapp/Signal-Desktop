@@ -32,8 +32,7 @@ import type {
   startConfirmingPIN as doStartConfirmingPIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
-
-const PIN_LENGTH_MINIMUM = 4;
+import { PIN_LENGTH_MINIMUM } from './VerifyPIN.dom.tsx';
 
 export function CreatePINScreen({
   completeRegistration,
