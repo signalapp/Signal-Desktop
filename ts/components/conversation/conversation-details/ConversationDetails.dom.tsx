@@ -261,6 +261,8 @@ export function ConversationDetails({
   const canTerminateGroup =
     isTerminateGroupEnabled && !isGroupTerminated && isAdmin;
 
+  const areWeMember = memberships.some(({ member }) => member.isMe);
+
   const onCloseModal = useCallback(() => {
     setModalState(ModalState.NothingOpen);
     setEditGroupAttributesRequestState(RequestState.Inactive);
@@ -796,7 +798,7 @@ export function ConversationDetails({
               right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
           ) : null}
-          {isEditMemberLabelEnabled ? (
+          {isEditMemberLabelEnabled && areWeMember ? (
             <PanelRow
               icon={
                 <ConversationDetailsIcon

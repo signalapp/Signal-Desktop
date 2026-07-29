@@ -190,6 +190,18 @@ export function MemberLabelsCannotBeAdded(): JSX.Element {
   return <ConversationDetails {...props} canAddLabel={false} />;
 }
 
+export function MemberLabelsNotAMember(): JSX.Element {
+  const props = createProps();
+
+  return (
+    <ConversationDetails
+      {...props}
+      canAddLabel={false}
+      memberships={props.memberships.filter(({ member }) => !member.isMe)}
+    />
+  );
+}
+
 export function SystemContact(): JSX.Element {
   const props = createProps();
   const contact = getDefaultConversation();
