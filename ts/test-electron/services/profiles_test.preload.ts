@@ -10,6 +10,8 @@ import { ProfileService } from '../../services/profiles.preload.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
+import type { ConversationModel } from '../../models/conversations.preload.ts';
+
 describe('util/profiles', () => {
   const SERVICE_ID_1 = generateAci();
   const SERVICE_ID_2 = generateAci();
@@ -40,9 +42,22 @@ describe('util/profiles', () => {
     );
   });
 
+  let profileFetches: Set<string>;
+
+  beforeEach(() => {
+    profileFetches = new Set();
+  });
+
   describe('clearAll', () => {
     it('Cancels all in-flight requests', async () => {
-      const getProfileWithLongDelay = async () => {
+      const getProfileWithLongDelay = async (
+        conversation: ConversationModel
+      ) => {
+        const serviceId = conversation.get('serviceId');
+        if (!serviceId) {
+          throw new Error('missing serviceId!');
+        }
+        profileFetches.add(serviceId);
         await sleep(MINUTE);
       };
       const service = new ProfileService(getProfileWithLongDelay, 3);
@@ -54,18 +69,35 @@ describe('util/profiles', () => {
 
       service.clearAll('testing');
 
-      await assert.isRejected(promise1, 'job canceled');
-      await assert.isRejected(promise2, 'job canceled');
-      await assert.isRejected(promise3, 'job canceled');
-      await assert.isRejected(promise4, 'job canceled');
+      await Promise.all([promise1, promise2, promise3, promise4]);
+
+      assert.strictEqual(3, profileFetches.size);
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_1),
+        true,
+        'SERVICE_ID_1'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_2),
+        true,
+        'SERVICE_ID_2'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_3),
+        true,
+        'SERVICE_ID_3'
+      );
     });
   });
 
   describe('pause', () => {
     it('pauses the queue', async () => {
-      let runCount = 0;
-      const getProfileWithIncrement = () => {
-        runCount += 1;
+      const getProfileWithIncrement = (conversation: ConversationModel) => {
+        const serviceId = conversation.get('serviceId');
+        if (!serviceId) {
+          throw new Error('missing serviceId!');
+        }
+        profileFetches.add(serviceId);
         return Promise.resolve();
       };
       const service = new ProfileService(getProfileWithIncrement, 3);
@@ -80,20 +112,43 @@ describe('util/profiles', () => {
 
       const pausePromise = service.pause(5);
 
-      assert.strictEqual(runCount, 3, 'as pause starts');
+      assert.strictEqual(profileFetches.size, 3, 'as pause starts');
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_1),
+        true,
+        'SERVICE_ID_1'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_2),
+        true,
+        'SERVICE_ID_2'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_3),
+        true,
+        'SERVICE_ID_3'
+      );
 
       await pausePromise;
       await lastPromise;
 
-      assert.strictEqual(runCount, 4, 'after last promise');
+      assert.strictEqual(profileFetches.size, 4, 'after last promise');
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_4),
+        true,
+        'SERVICE_ID_4'
+      );
     });
   });
 
   describe('get', () => {
     it('throws if we are currently paused', async () => {
-      let runCount = 0;
-      const getProfileWithIncrement = () => {
-        runCount += 1;
+      const getProfileWithIncrement = (conversation: ConversationModel) => {
+        const serviceId = conversation.get('serviceId');
+        if (!serviceId) {
+          throw new Error('missing serviceId!');
+        }
+        profileFetches.add(serviceId);
         return Promise.resolve();
       };
       const service = new ProfileService(getProfileWithIncrement, 3);
@@ -106,21 +161,22 @@ describe('util/profiles', () => {
       const promise3 = service.get(SERVICE_ID_3, null);
       const promise4 = service.get(SERVICE_ID_4, null);
 
-      await assert.isRejected(promise1, 'paused queue');
-      await assert.isRejected(promise2, 'paused queue');
-      await assert.isRejected(promise3, 'paused queue');
-      await assert.isRejected(promise4, 'paused queue');
+      await Promise.all([pausePromise, promise1, promise2, promise3, promise4]);
 
-      await pausePromise;
-
-      assert.strictEqual(runCount, 0);
+      assert.strictEqual(profileFetches.size, 0);
     });
 
     for (const code of [413, 429] as const) {
+      // oxlint-disable-next-line no-loop-func
       it(`clears all outstanding jobs if we get a ${code}, then pauses`, async () => {
-        let runCount = 0;
-        const getProfileWhichThrows = async () => {
-          runCount += 1;
+        const getProfileWhichThrows = async (
+          conversation: ConversationModel
+        ) => {
+          const serviceId = conversation.get('serviceId');
+          if (!serviceId) {
+            throw new Error('missing serviceId!');
+          }
+          profileFetches.add(serviceId);
           const error = new HTTPError(`fake ${code}`, {
             code,
             headers: {
@@ -139,7 +195,22 @@ describe('util/profiles', () => {
         // Never started, but queued
         const promise4 = service.get(SERVICE_ID_4, null);
 
-        assert.strictEqual(runCount, 3, 'before await');
+        assert.strictEqual(profileFetches.size, 3, 'before await');
+        assert.strictEqual(
+          profileFetches.has(SERVICE_ID_1),
+          true,
+          'SERVICE_ID_1'
+        );
+        assert.strictEqual(
+          profileFetches.has(SERVICE_ID_2),
+          true,
+          'SERVICE_ID_2'
+        );
+        assert.strictEqual(
+          profileFetches.has(SERVICE_ID_3),
+          true,
+          'SERVICE_ID_3'
+        );
 
         // It didn't succeed, but we log and resolve as normal
         await assert.isFulfilled(promise1);
@@ -147,19 +218,19 @@ describe('util/profiles', () => {
         // Never queued
         const promise5 = service.get(SERVICE_ID_5, null);
 
-        await assert.isRejected(promise2, 'job canceled');
-        await assert.isRejected(promise3, 'job canceled');
-        await assert.isRejected(promise4, 'job canceled');
-        await assert.isRejected(promise5, 'paused queue');
+        await Promise.all([promise2, promise3, promise4, promise5]);
 
-        assert.strictEqual(runCount, 3, 'after await');
+        assert.strictEqual(profileFetches.size, 3, 'after await');
       });
     }
 
     it('clears all outstanding jobs if we get a -1', async () => {
-      let runCount = 0;
-      const getProfileWhichThrows = async () => {
-        runCount += 1;
+      const getProfileWhichThrows = async (conversation: ConversationModel) => {
+        const serviceId = conversation.get('serviceId');
+        if (!serviceId) {
+          throw new Error('missing serviceId!');
+        }
+        profileFetches.add(serviceId);
         const error = new HTTPError('fake -1', {
           code: -1,
           headers: {},
@@ -176,22 +247,38 @@ describe('util/profiles', () => {
       // Never started, but queued
       const promise4 = service.get(SERVICE_ID_4, null);
 
-      assert.strictEqual(runCount, 3, 'before await');
-
       // It didn't succeed, but we log and resolve as normal
-      await assert.isFulfilled(promise1);
+      await Promise.all([promise1, promise2, promise3, promise4]);
+
+      assert.strictEqual(profileFetches.size, 3, 'before await');
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_1),
+        true,
+        'SERVICE_ID_1'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_2),
+        true,
+        'SERVICE_ID_2'
+      );
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_3),
+        true,
+        'SERVICE_ID_3'
+      );
 
       // Queued, because we aren't pausing
       const promise5 = service.get(SERVICE_ID_5, null);
 
-      await assert.isRejected(promise2, 'job canceled');
-      await assert.isRejected(promise3, 'job canceled');
-      await assert.isRejected(promise4, 'job canceled');
-
       // It didn't succeed, but we log and resolve as normal
       await assert.isFulfilled(promise5);
 
-      assert.strictEqual(runCount, 4, 'after await');
+      assert.strictEqual(profileFetches.size, 4, 'after await');
+      assert.strictEqual(
+        profileFetches.has(SERVICE_ID_5),
+        true,
+        'SERVICE_ID_5'
+      );
     });
   });
 });

@@ -125,9 +125,10 @@ export class ProfileService {
     }
 
     if (this.#isPaused) {
-      throw new Error(
+      log.error(
         `ProfileService.get: Cannot add job to paused queue for conversation ${preCheckConversation.idForLogging()}`
       );
+      return;
     }
 
     const existing = this.#jobsByConversationId.get(conversationId);
@@ -219,9 +220,8 @@ export class ProfileService {
       this.#jobQueue.pause();
 
       this.#jobsByConversationId.forEach(job => {
-        job.reject(
-          new Error(`ProfileService.clearAll: job canceled because '${reason}'`)
-        );
+        log.error(`ProfileService.clearAll: job canceled because '${reason}'`);
+        job.resolve();
       });
 
       this.#jobsByConversationId.clear();
