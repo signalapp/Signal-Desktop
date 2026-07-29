@@ -77,6 +77,7 @@ export function format(
     units: largest ? allUnits : defaultUnits,
     largest: largest ?? defaultUnits.length,
     language: locale,
+    digitReplacements: undefined,
     ...(fallbacks.length ? { fallbacks } : {}),
   });
 }

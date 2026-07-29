@@ -117,6 +117,23 @@ describe('expiration timer utilities', async () => {
       );
     });
 
+    it('uses Western numerals in Arabic', () => {
+      const arMessages = loadMessages('ar');
+      const arI18n = setupI18n('ar', arMessages);
+      const formatted = format(
+        arI18n,
+        DurationInSeconds.fromSeconds(
+          moment
+            .duration(4, 'days')
+            .add(moment.duration(20, 'hours'))
+            .asSeconds()
+        ),
+        { largest: 2 }
+      );
+      assert.include(formatted, '4');
+      assert.include(formatted, '20');
+    });
+
     it('falls back to English if the locale is not supported', () => {
       const badI18n = setupI18n('bogus', {});
       assert.strictEqual(
