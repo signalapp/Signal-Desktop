@@ -200,21 +200,24 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        closeStickerPackPreview();
+        onClose?.();
+      }
+    },
+    [closeStickerPackPreview, onClose]
+  );
+
   useEffect(() => {
     if (pack) {
       return;
     }
 
     // Pack fully uninstalled, don't keep the modal open
-    closeStickerPackPreview();
-  }, [pack, closeStickerPackPreview]);
-
-  const handleClose = useCallback(() => {
-    if (pack) {
-      closeStickerPackPreview();
-    }
-    onClose?.();
-  }, [closeStickerPackPreview, onClose, pack]);
+    handleOpenChange(false);
+  }, [handleOpenChange, pack]);
 
   const handleInstall = useCallback(() => {
     if (!pack) {
@@ -260,7 +263,7 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
 
   return (
     <>
-      <AxoDialog.Root open onOpenChange={handleClose}>
+      <AxoDialog.Root open onOpenChange={handleOpenChange}>
         <AxoDialog.Content size="md" escape="cancel-is-noop">
           <AxoDialog.Header>
             <AxoDialog.Title screenReaderOnly>

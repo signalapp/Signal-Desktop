@@ -127,11 +127,6 @@ export function InitialDownload(): JSX.Element {
   return <StickerPreviewModal {...props} />;
 }
 
-export function PackDeleted(): JSX.Element {
-  const props = createProps();
-  return <StickerPreviewModal {...props} pack={undefined} />;
-}
-
 export function PackError(): JSX.Element {
   const errorPack = {
     ...pack,
