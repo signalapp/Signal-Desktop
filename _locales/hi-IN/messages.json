@@ -11,6 +11,9 @@
   "icu:AxoDialog.Close": {
     "messageformat": "बंद करें"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "हटाएं"
   },
@@ -1263,7 +1266,7 @@
     "messageformat": "इस चैट के सभी मैसेज आपके सभी डिवाइस से डिलीट हो जाएंगे।"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
+    "messageformat": "इस चैट के सभी मैसेज आपके सभी डिवाइस से डिलीट हो जाएंगे। इस ग्रुप में मेंबर के रूप में आपकी मौजूदगी बनी रहेगी।"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "ग्रुप छोड़ें"
@@ -6986,7 +6989,7 @@
     "messageformat": "{triesRemaining, plural, one {पिन सही नहीं है। {triesRemaining,number} मौका बाकी है।} other {पिन सही नहीं है। {triesRemaining,number} मौके बाकी हैं।}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} मौका बाकी है।} other {{triesRemaining,number} मौके बाकी हैं।}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "मदद चाहिए?"
@@ -7031,7 +7034,7 @@
     "messageformat": "पिन के बारे में और जानें"
   },
   "icu:StandaloneRegistration--VerifyPIN--open-menu": {
-    "messageformat": "Open menu"
+    "messageformat": "मेन्यू खोलें"
   },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "पिन डाले बिना आगे बढ़ें"
@@ -7040,7 +7043,7 @@
     "messageformat": "बिना पिन डाले आगे बढ़ना है?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
+    "messageformat": "अगर आपको अपना पिन याद नहीं है, तो नया बनाएं। रजिस्टर करके अपना अकाउंट इस्तेमाल किया जा सकता है। हालांकि, ऐसा करने पर कुछ सेव की गई सेटिंग खो सकती हैं, जैसे कि आपकी प्रोफ़ाइल से जुड़ी जानकारी। <learnMore>ज़्यादा जानें</learnMore>।"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "आगे बढ़ें और नया पिन बनाएं"
@@ -8364,7 +8367,7 @@
     "messageformat": "Signal को सहयोग करने के लिए। आपका सहयोग हमें ओपन सोर्स प्राइवेसी वाली टेक्नोलॉजी विकसित करने के हमारे मिशन को आगे बढ़ाने में मदद करता है। यह टेक्नोलॉजी मुक्त अभिव्यक्ति की रक्षा करती है और दुनिया भर के लाखों-करोड़ों लोगों को सुरक्षित तरीके से आपस में जुड़ने और बातचीत करने की सुविधा देती है। अगर आप अमेरिका के निवासी हैं, तो कृपया इस रसीद को अपने टैक्स रिकॉर्ड के लिए संभालकर रखें। Signal Technology Foundation, अमेरिका में रजिस्टर एक गैर-लाभकारी संस्था है। इसे डोनेशन देने से इंटरनल रेवेन्यू कोड की धारा 501c3 के तहत टैक्स में छूट मिलती है। हमारी फ़ेडरल टैक्स ID है: 82-4506840."
   },
   "icu:DonationReceipt__footer-text-v2": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+    "messageformat": "Signal को सहयोग करने के लिए आपका धन्यवाद। आपका यह योगदान, ओपन सोर्स प्राइवेसी वाली टेक्नोलॉजी के ज़रिए हमारे मिशन को आगे बढ़ाने में मदद करता है। यह टेक्नोलॉजी अभिव्यक्ति की आज़ादी की रक्षा करती है और दुनिया भर के लाखों-करोड़ों लोगों को सुरक्षित तरीके से आपस में जुड़ने और बातचीत करने की सुविधा देती है। अगर आप अमेरिका से हैं, तो कृपया इस रसीद को अपने टैक्स रिकॉर्ड के लिए संभालकर रखें। Signal Technology Foundation, अमेरिका में रजिस्टर एक गैर-लाभकारी संस्था है। इसे डोनेशन देने से इंटरनल रेवेन्यू कोड की धारा 501c3 के तहत टैक्स में छूट मिलती है। हमारी फ़ेडरल टैक्स ID है: 82-4506840. Signal ने इस योगदान के बदले कोई वस्तु या सेवा प्रदान नहीं की है।"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "आप ऑफ़लाइन हैं। डोनेशन पूरा करने के लिए इंटरनेट से कनेक्ट करें।"

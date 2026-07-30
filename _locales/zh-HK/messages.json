@@ -11,6 +11,9 @@
   "icu:AxoDialog.Close": {
     "messageformat": "關閉"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "清除"
   },
@@ -1263,7 +1266,7 @@
     "messageformat": "此聊天內的全部訊息將自你所有裝置中刪除。"
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
+    "messageformat": "此聊天內的全部訊息將自你所有裝置中刪除。你仍是該群組的成員。"
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "離開群組"
@@ -6986,7 +6989,7 @@
     "messageformat": "{triesRemaining, plural, other {PIN 碼不正確。尚餘{triesRemaining,number} 次機會。}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+    "messageformat": "{triesRemaining, plural, other {尚餘 {triesRemaining,number} 次機會。}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "需要幫助嗎？"
@@ -7031,7 +7034,7 @@
     "messageformat": "深入瞭解 PIN 碼"
   },
   "icu:StandaloneRegistration--VerifyPIN--open-menu": {
-    "messageformat": "Open menu"
+    "messageformat": "開啟選單"
   },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "跳過 PIN 碼"
@@ -7040,7 +7043,7 @@
     "messageformat": "要略過 PIN 碼輸入嗎？"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
+    "messageformat": "如果你忘記 PIN 碼，可以建立一個新的 PIN 碼。你可註冊並使用你的帳戶，但你將會遺失部分已儲存的設定，如你的個人檔案資訊。<learnMore>了解更多</learnMore>。"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "略過並設定新 PIN 碼"
@@ -8364,7 +8367,7 @@
     "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。"
   },
   "icu:DonationReceipt__footer-text-v2": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+    "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。Signal 並未因這筆捐款而提供任何商品或服務。"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "你處於離線狀態。請連結網路以完成捐款。"

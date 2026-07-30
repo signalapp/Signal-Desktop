@@ -11,6 +11,9 @@
   "icu:AxoDialog.Close": {
     "messageformat": "إغلاق"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "مسح"
   },
@@ -975,7 +978,7 @@
     "messageformat": "للقيام بمكالمات الفيديو، يجب السماح لسيجنال Desktop بالوصول إلى الكاميرا."
   },
   "icu:allowAccess": {
-    "messageformat": "إعطاء الصلاحية"
+    "messageformat": "منح الصلاحية"
   },
   "icu:audio": {
     "messageformat": "صوت"
@@ -1263,7 +1266,7 @@
     "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك."
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
+    "messageformat": "ستُحذَف جميع رسائل هذه المُحادثة من جميع أجهزتك. ستبقى عضوًا في هذه المجموعة."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "مغادرة المجموعة"
@@ -6986,7 +6989,7 @@
     "messageformat": "{triesRemaining, plural, zero {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولات.} one {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.} two {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولتين.} few {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولات.} many {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.} other {رقم التعريف الشخصي (PIN) غير صحيح. تبقى لديك {triesRemaining,number} محاولة.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+    "messageformat": "{triesRemaining, plural, zero {{triesRemaining,number}  محاولة متبقية.} one {{triesRemaining,number}  محاولة متبقية.} two {{triesRemaining,number} محاولتين متبقيتين.} few {{triesRemaining,number} محاولاتٍ متبقية.} many {{triesRemaining,number} محاولة متبقية.} other {{triesRemaining,number} محاولة متبقية.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "هل تحتاج لمُساعدة؟"
@@ -7031,7 +7034,7 @@
     "messageformat": "اعرف المزيد عن أرقام التعريف الشخصية (PINs)"
   },
   "icu:StandaloneRegistration--VerifyPIN--open-menu": {
-    "messageformat": "Open menu"
+    "messageformat": "فتح القائمة"
   },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "تَخَطَّ رقم (PIN)"
@@ -7040,7 +7043,7 @@
     "messageformat": "هل ترغبُ بتخطي إدخال رقم التعريف الشخصي (PIN)؟"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
+    "messageformat": "إذا لم تستطع تَذكُّر رقم التعريف الشخصي (PIN) الخاص بك، يمكنك إنشاء رقم جديد. يُمكنك التسجيل واستخدام الحساب الخاص بك، لكِنَك ستفقِد بعض الإعدادات المحفوظة مِثل معلومات حسابك الشخصي. <learnMore>اعرف المزيد.</learnMore>"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "تجاهُل وإنشاء رقم (PIN) جديد"
@@ -7358,7 +7361,7 @@
     "messageformat": "قبِلتَ طلب التراسُل من {userProfileName}"
   },
   "icu:MessageRequestResponseNotification__Message--Reported": {
-    "messageformat": "تمَّ الإبلاغ عنها كرسالة غير مرغوب فيها"
+    "messageformat": "تمَّ الإبلاغ عن هذا المُستخدِم كجهة اتصال غير مرغوب فيها"
   },
   "icu:MessageRequestResponseNotification__Message--Blocked": {
     "messageformat": "حظرتَ هذا الشخص"
@@ -8364,7 +8367,7 @@
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة. مُعرِّفنا الضريبي هو 4506840-82."
   },
   "icu:DonationReceipt__footer-text-v2": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+    "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة سيجنال‬ للتكنولوجيا هي منظمة غير ربحية معفاة من الضرائب ومُسجَّلة في الولايات المتحدة ضمن البند 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82. لا يُقدِّم سيجنال أي بضائع أو خدمات مقابل هذه المساهمة."
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "أنت غير متصل بالإنترنت. يُرجى الاتصال بالإنترنت لإكمال التبرُّع."

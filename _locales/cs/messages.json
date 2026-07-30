@@ -11,6 +11,9 @@
   "icu:AxoDialog.Close": {
     "messageformat": "Zavřít"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "Vymazat"
   },
@@ -1263,7 +1266,7 @@
     "messageformat": "Všechny zprávy v tomto chatu budou odstraněny ze všech vašich zařízení."
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
+    "messageformat": "Všechny zprávy v tomto chatu budou odstraněny ze všech vašich zařízení. Stále budete členem této skupiny."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Opustit skupinu"
@@ -6986,7 +6989,7 @@
     "messageformat": "{triesRemaining, plural, one {Nesprávný PIN. Zbývá {triesRemaining,number} pokus.} few {Nesprávný PIN. Zbývají {triesRemaining,number} pokusy.} many {Nesprávný PIN. Zbývá {triesRemaining,number} pokusů.} other {Nesprávný PIN. Zbývá {triesRemaining,number} pokusů.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+    "messageformat": "{triesRemaining, plural, one {Zbývá {triesRemaining,number} pokus.} few {Zbývají {triesRemaining,number} pokusy.} many {Zbývá {triesRemaining,number} pokusů.} other {Zbývá {triesRemaining,number} pokusů.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Potřebujete pomoc?"
@@ -7031,7 +7034,7 @@
     "messageformat": "Zjistěte více o PIN kódech"
   },
   "icu:StandaloneRegistration--VerifyPIN--open-menu": {
-    "messageformat": "Open menu"
+    "messageformat": "Otevřít nabídku"
   },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Přeskočit PIN"
@@ -7040,7 +7043,7 @@
     "messageformat": "Přeskočit zadání PIN kódu?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
+    "messageformat": "Pokud si svůj PIN nepamatujete, můžete si vytvořit nový. Můžete se zaregistrovat a používat svůj účet, ale přijdete o některá uložená nastavení, například o informace o profilu. <learnMore>Zjistit více</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Přeskočit a vytvořit nový PIN"
@@ -8364,7 +8367,7 @@
     "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem Spojených států, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840."
   },
   "icu:DonationReceipt__footer-text-v2": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+    "messageformat": "Děkujeme, že podporujete Signal. Váš příspěvek pomáhá podporovat naše poslání chránit svobodu projevu a umožnit bezpečnou komunikaci milionům lidí na celém světě prostřednictvím technologie ochrany soukromí s otevřeným zdrojovým kódem. Pokud jste obyvatelem USA, uschovejte si toto potvrzení pro své daňové záznamy. Nadace Signal Technology Foundation je nezisková organizace osvobozená od daní ve Spojených státech amerických podle § 501c3 daňového zákona. Naše daňové identifikační číslo je 82-4506840. Společnost Signal za tento příspěvek neposkytla žádné zboží ani služby."
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Jste offline. Chcete-li dokončit platbu příspěvku, připojte se k internetu."

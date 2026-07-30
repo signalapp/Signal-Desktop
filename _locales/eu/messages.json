@@ -11,6 +11,9 @@
   "icu:AxoDialog.Close": {
     "messageformat": "Itxi"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "Garbitu"
   },
@@ -1263,7 +1266,7 @@
     "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira."
   },
   "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync--still-member": {
-    "messageformat": "All messages in this chat will be deleted from all your devices. You will still be a member of this group."
+    "messageformat": "Txat honetako mezuak gailu guztietatik ezabatuko dira. Talde honetako kidea izaten jarraituko duzu."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Irten taldetik"
@@ -1368,7 +1371,7 @@
     "messageformat": "Eranskailua"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "Behi ikusteko multimedia"
+    "messageformat": "Behin ikusteko multimedia"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Argazkia"
@@ -6986,7 +6989,7 @@
     "messageformat": "{triesRemaining, plural, one {PIN okerra. Saiakera {triesRemaining,number} falta da.} other {PIN okerra. {triesRemaining,number} saiakera dauzkazu.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} attempt remaining.} other {{triesRemaining,number} attempts remaining.}}"
+    "messageformat": "{triesRemaining, plural, one {Saiakera {triesRemaining,number} daukazu} other {{triesRemaining,number} saiakera dauzkazu}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "Laguntza behar duzu?"
@@ -7031,7 +7034,7 @@
     "messageformat": "Gehiago ikasi PINei buruz"
   },
   "icu:StandaloneRegistration--VerifyPIN--open-menu": {
-    "messageformat": "Open menu"
+    "messageformat": "Ireki menua"
   },
   "icu:StandaloneRegistration--VerifyPIN--menu--skip-pin": {
     "messageformat": "Saltatu PINa"
@@ -7040,7 +7043,7 @@
     "messageformat": "Saltatu nahi duzu PIN-a sartzeko urratsa?"
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--description": {
-    "messageformat": "If you can’t remember your PIN, you can create a new one. You can register and use your account but you’ll lose some saved settings like your profile information. <learnMore>Learn more</learnMore>."
+    "messageformat": "PINa gogoratzen ez baduzu, beste bat sor dezakezu. Kontua erregistratu eta erabil dezakezu, baina gordetako ezarpen batzuk galduko dituzu, hala nola profileko informazioa. <learnMore>Lortu informazio gehiago</learnMore>."
   },
   "icu:StandaloneRegistration--VerifyPIN--SkipPIN--skip-button": {
     "messageformat": "Saltatu eta sortu beste PIN bat"
@@ -8364,7 +8367,7 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da."
   },
   "icu:DonationReceipt__footer-text-v2": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution."
+    "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da. Signal-ek ez du inolako ondasun edo zerbitzurik eman dohaintza honen truke."
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Lineaz kanpo zaude. Konketatu Internetera dohaintza osatzeko."
