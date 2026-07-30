@@ -143,7 +143,7 @@ export const getInstalledStickerPacks = createSelector(
     const list = filter(packs, pack => pack.status === 'installed');
     const sorted = orderBy<StickerPackDBType>(
       list,
-      ['position', 'installedAt'],
+      ['position', 'id'],
       ['asc', 'asc']
     );
 
