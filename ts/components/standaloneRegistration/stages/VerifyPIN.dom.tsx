@@ -27,7 +27,7 @@ import type {
   goToCreatePINStage as doGoToCreatePINStage,
   verifyPIN as doVerifyPIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
-import { AxoTextField } from '../../../axo/AxoTextField.dom.tsx';
+import { AxoPasswordField } from '../../../axo/fields/AxoPasswordField.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
@@ -243,21 +243,19 @@ export function VerifyPINScreen({
       </Description>
       <Spacer className={tw('h-10')} />
       <InputContainer className={tw('w-81')} helperElement={helperElement}>
-        <AxoTextField.Root width="lg">
-          <AxoTextField.Input
-            autoFocus
-            maxBytes={10}
-            maxGraphemes={10}
-            onValueChange={onChangePIN}
-            disabled={pending}
-            placeholder={i18n(
-              'icu:StandaloneRegistration--VerifyPIN--placeholder'
-            )}
-            ref={inputRef}
-            type="password"
-            value={pin}
-          />
-        </AxoTextField.Root>
+        <AxoPasswordField.Root
+          ref={inputRef}
+          autoFocus
+          maxBytes={10}
+          maxGraphemes={10}
+          onValueChange={onChangePIN}
+          disabled={pending}
+          placeholder={i18n(
+            'icu:StandaloneRegistration--VerifyPIN--placeholder'
+          )}
+          value={pin}
+          autoComplete="current-password"
+        />
       </InputContainer>
       <Spacer className={tw('grow')} />
       <Buttons>

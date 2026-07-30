@@ -42,3 +42,17 @@ export function useStrictContext<T>(
   }
   return value;
 }
+
+/**
+ * Similar to `useStrictContext()` but will return null if not wrapped.
+ * Useful when some components require strict context but others don't.
+ */
+export function useStrictContextNullable<T>(
+  context: StrictContext<T>
+): T | null {
+  const value = useContext(context);
+  if (value === EMPTY) {
+    return null;
+  }
+  return value;
+}

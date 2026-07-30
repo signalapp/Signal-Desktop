@@ -12,7 +12,7 @@ import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
-import { AxoTextField } from '../../../axo/AxoTextField.dom.tsx';
+import { AxoPasswordField } from '../../../axo/fields/AxoPasswordField.dom.tsx';
 import {
   Buttons,
   Container,
@@ -126,19 +126,17 @@ export function CreatePINScreen({
           </div>
         }
       >
-        <AxoTextField.Root width="lg">
-          <AxoTextField.Input
-            autoFocus
-            maxBytes={10}
-            maxGraphemes={10}
-            onValueChange={onChangePIN}
-            placeholder={i18n(
-              'icu:StandaloneRegistration--CreatePIN--placeholder'
-            )}
-            type="password"
-            value={pin}
-          />
-        </AxoTextField.Root>
+        <AxoPasswordField.Root
+          autoFocus
+          maxBytes={10}
+          maxGraphemes={10}
+          onValueChange={onChangePIN}
+          placeholder={i18n(
+            'icu:StandaloneRegistration--CreatePIN--placeholder'
+          )}
+          value={pin}
+          autoComplete="new-password"
+        />
       </InputContainer>
       <Spacer className={tw('grow')} />
       <Buttons>

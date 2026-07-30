@@ -15,7 +15,7 @@ import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
-import { AxoTextField } from '../../../axo/AxoTextField.dom.tsx';
+import { AxoTextField } from '../../../axo/fields/AxoTextField.dom.tsx';
 
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import type { ActionCreator } from '../../../state/types.std.ts';
@@ -138,7 +138,7 @@ export function ProfileEntryScreen({
       </AxoButton.Root>
       <Spacer className={tw('h-7')} />
       <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root width="md" disabled={pending}>
+        <AxoTextField.Root disabled={pending}>
           <AxoTextField.Input
             placeholder={i18n(
               'icu:StandaloneRegistration--ProfileEntry--first-name'
@@ -152,7 +152,7 @@ export function ProfileEntryScreen({
       </InputContainer>
       <Spacer />
       <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root width="md" disabled={pending}>
+        <AxoTextField.Root disabled={pending}>
           <AxoTextField.Input
             placeholder={i18n(
               'icu:StandaloneRegistration--ProfileEntry--last-name'

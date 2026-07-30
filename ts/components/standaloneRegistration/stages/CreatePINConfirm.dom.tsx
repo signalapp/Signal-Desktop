@@ -7,7 +7,7 @@ import type { JSX } from 'react';
 
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
-import { AxoTextField } from '../../../axo/AxoTextField.dom.tsx';
+import { AxoPasswordField } from '../../../axo/fields/AxoPasswordField.dom.tsx';
 import {
   Buttons,
   Container,
@@ -63,19 +63,18 @@ export function CreatePINConfirmScreen({
       </Description>
       <Spacer className={tw('h-8')} />
       <InputContainer className={tw('w-81')}>
-        <AxoTextField.Root width="md" disabled={pending}>
-          <AxoTextField.Input
-            autoFocus
-            maxBytes={10}
-            maxGraphemes={10}
-            onValueChange={onChangePIN}
-            placeholder={i18n(
-              'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
-            )}
-            type="password"
-            value={pin}
-          />
-        </AxoTextField.Root>
+        <AxoPasswordField.Root
+          disabled={pending}
+          autoFocus
+          maxBytes={10}
+          maxGraphemes={10}
+          onValueChange={onChangePIN}
+          placeholder={i18n(
+            'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
+          )}
+          value={pin}
+          autoComplete="new-password"
+        />
       </InputContainer>
       <Spacer className={tw('h-8 grow')} />
       <Buttons>

@@ -16,6 +16,7 @@ export namespace AxoIntl {
     'AxoDialog.Back': 'Back',
     'AxoDialog.Close': 'Close',
     'AxoTextField.Clear': 'Clear',
+    'AxoPasswordField.Reveal': 'Show Password',
     'AxoBadge.MaxOverflow': (max: number) => `${max}+`,
   };
 

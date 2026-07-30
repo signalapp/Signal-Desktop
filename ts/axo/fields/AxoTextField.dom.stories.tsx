@@ -4,12 +4,12 @@ import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoTextField } from './AxoTextField.dom.tsx';
-import { tw } from './tw.dom.tsx';
-import type { AxoSymbol } from './AxoSymbol.dom.tsx';
-import { assert } from './_internal/assert.std.tsx';
+import { tw } from '../tw.dom.tsx';
+import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { assert } from '../_internal/assert.std.tsx';
 
 export default {
-  title: 'Axo/AxoTextField',
+  title: 'Axo/Fields/AxoTextField',
 } satisfies Meta;
 
 function Stack(props: { children: ReactNode }) {
@@ -75,7 +75,7 @@ type TemplateInputProps = Readonly<{
   placeholder?: string;
   showCount?: boolean;
   showClear?: boolean;
-  sizing?: AxoTextField.Sizing;
+  sizing?: AxoTextField.InputSizing;
   disabled?: boolean;
 }>;
 
@@ -111,7 +111,7 @@ type TemplateProps = Readonly<{
   showClear?: boolean;
   leading?: ReactNode;
   trailing?: ReactNode;
-  sizing?: AxoTextField.Sizing;
+  sizing?: AxoTextField.InputSizing;
   disabled?: boolean;
 }>;
 

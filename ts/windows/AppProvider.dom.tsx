@@ -16,11 +16,12 @@ export const AppProvider: FC<AppProviderProps> = memo(
 
     const messages: AxoProviderProps['messages'] = {
       'AxoAlertDialog.Cancel': i18n('icu:AxoAlertDialog.Cancel'),
+      'AxoBadge.MaxOverflow': max => i18n('icu:AxoBadge.MaxOverflow', { max }),
       'AxoButton.Pending': i18n('icu:AxoButton.Pending'),
       'AxoDialog.Back': i18n('icu:AxoDialog.Back'),
       'AxoDialog.Close': i18n('icu:AxoDialog.Close'),
+      'AxoPasswordField.Reveal': i18n('icu:AxoPasswordField.Reveal'),
       'AxoTextField.Clear': i18n('icu:AxoTextField.Clear'),
-      'AxoBadge.MaxOverflow': max => i18n('icu:AxoBadge.MaxOverflow', { max }),
     };
 
     return (

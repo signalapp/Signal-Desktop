@@ -11,7 +11,7 @@ import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { ConfirmPhoneNumberDialog } from '../util/ConfirmPhoneNumberDialog.dom.tsx';
 import { ChooseCountryCodeModal } from '../../CountryCodeSelect.dom.tsx';
-import { AxoTextField } from '../../../axo/AxoTextField.dom.tsx';
+import { AxoTextField } from '../../../axo/fields/AxoTextField.dom.tsx';
 import {
   Buttons,
   Container,
@@ -101,7 +101,7 @@ export function PhoneNumberScreen({
       </Description>
       <Spacer className={tw('h-9')} />
       <InputContainer className={tw('w-81')}>
-        <AxoTextField.Root width="lg">
+        <AxoTextField.Root>
           {regionCode ? (
             <div className={tw('p-1.5 ps-3 type-body-large text-primary')}>
               {codeByRegion.get(regionCode)}

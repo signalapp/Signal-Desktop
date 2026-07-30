@@ -27,6 +27,10 @@
     "messageformat": "Close",
     "description": "Axo Design System > Dialog Component > Close Button > Generic accessibility label"
   },
+  "icu:AxoPasswordField.Reveal": {
+    "messageformat": "Show Password",
+    "description": "Axo Design System > Password Field Component > Reveal Button > Generic accessibility label"
+  },
   "icu:AxoTextField.Clear": {
     "messageformat": "Clear",
     "description": "Axo Design System > Text Field Component > Clear Button > Generic accessibility label"
