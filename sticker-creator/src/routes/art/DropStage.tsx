@@ -36,6 +36,7 @@ export function DropStage(): JSX.Element {
   }, [dispatch]);
 
   const handleImport = useCallback(async () => {
+    dispatch(resetStatus());
     setImporting(true);
     setImportProgress(undefined);
     try {
