@@ -59,40 +59,37 @@ export function DropStage(): JSX.Element {
     }
   }, [dispatch, importLink]);
 
-  let importContent: JSX.Element;
-  if (importing) {
-    importContent = (
-      <div className={styles.importStatus}>
-        <Text>
-          {importProgress
-            ? i18n('StickerCreator--DropStage--import--progress', {
-                count: String(importProgress.done),
-                total: String(importProgress.total),
-              })
-            : i18n('StickerCreator--DropStage--import--loading')}
-        </Text>
-        <ProgressBar
-          count={importProgress?.done ?? 0}
-          total={importProgress?.total ?? 1}
-        />
-      </div>
-    );
-  } else {
-    importContent = (
-      <>
-        <LabeledInput
-          placeholder={i18n('StickerCreator--DropStage--import--placeholder')}
-          value={importLink}
-          onChange={setImportLink}
-        >
-          {i18n('StickerCreator--DropStage--import--label')}
-        </LabeledInput>
-        <Button onClick={handleImport} disabled={!importLink.trim()}>
-          {i18n('StickerCreator--DropStage--import--button')}
-        </Button>
-      </>
-    );
-  }
+  const importStatus = (
+    <div className={styles.importStatus}>
+      <Text>
+        {importProgress
+          ? i18n('StickerCreator--DropStage--import--progress', {
+              count: String(importProgress.done),
+              total: String(importProgress.total),
+            })
+          : i18n('StickerCreator--DropStage--import--loading')}
+      </Text>
+      <ProgressBar
+        count={importProgress?.done ?? 0}
+        total={importProgress?.total ?? 1}
+      />
+    </div>
+  );
+
+  const importForm = (
+    <>
+      <LabeledInput
+        placeholder={i18n('StickerCreator--DropStage--import--placeholder')}
+        value={importLink}
+        onChange={setImportLink}
+      >
+        {i18n('StickerCreator--DropStage--import--label')}
+      </LabeledInput>
+      <Button onClick={handleImport} disabled={!importLink.trim()}>
+        {i18n('StickerCreator--DropStage--import--button')}
+      </Button>
+    </>
+  );
 
   return (
     <AppStage
@@ -112,7 +109,9 @@ export function DropStage(): JSX.Element {
         <ArtGrid mode="add" showGuide={showGuide} />
       </div>
       {order.length === 0 ? (
-        <div className={styles.import}>{importContent}</div>
+        <div className={styles.import}>
+          {importing ? importStatus : importForm}
+        </div>
       ) : null}
     </AppStage>
   );

@@ -31,21 +31,18 @@
 
 .import {
   display: flex;
-  flex-direction: row;
   align-items: flex-end;
   gap: 8px;
   margin-top: 16px;
   min-height: 56px;
 
-  label {
+  > :first-child {
     flex: 1;
     max-width: 448px;
   }
 }
 
 .import-status {
-  flex: 1;
-  max-width: 448px;
   display: flex;
   flex-direction: column;
   gap: 8px;
