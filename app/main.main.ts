@@ -3215,9 +3215,13 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
     return { canceled: true };
   }
 
+  // Workaround KDE portal file dialog default path issue
+  const osDefaultPath = OS.isLinuxUsingKDE() ? `~/${defaultPath}` : defaultPath;
+
   const { canceled, filePath: selectedFilePath } = await dialog.showSaveDialog(
     mainWindow,
     {
+      defaultPath: osDefaultPath,
       showsTagField: false,
     }
   );
