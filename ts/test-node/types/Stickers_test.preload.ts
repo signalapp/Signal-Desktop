@@ -181,6 +181,12 @@ describe('Stickers', () => {
           fakeApi(emptyPack)
         )
       );
+      await assert.isRejected(
+        Stickers.fetchStickerPackContents(
+          `https://signal.art/addstickers/#pack_id=${packId}&pack_key=abc123`,
+          fakeApi(emptyPack)
+        )
+      );
     });
 
     it('preserves sticker order, emoji, and bytes', async () => {
@@ -228,6 +234,25 @@ describe('Stickers', () => {
 
       assert.isUndefined(contents.coverStickerId);
       assert.deepEqual(contents.coverImage?.data, png(5));
+    });
+
+    it('skips stickers without ids and keeps emoji optional', async () => {
+      const contents = await Stickers.fetchStickerPackContents(
+        link,
+        fakeApi({
+          ...emptyPack,
+          cover: { id: 0, emoji: null },
+          stickers: [
+            { id: 0, emoji: null },
+            { id: null, emoji: '😾' },
+          ],
+        })
+      );
+
+      assert.deepEqual(
+        contents.stickers.map(({ id, emoji }) => ({ id, emoji })),
+        [{ id: 0, emoji: undefined }]
+      );
     });
 
     it('rejects when decryption fails', async () => {
@@ -280,12 +305,14 @@ describe('Stickers', () => {
       ]);
     });
 
-    it('reports no progress for an empty pack', async () => {
+    it('rejects an empty pack without reporting progress', async () => {
       const seen: Array<[number, number]> = [];
-      await Stickers.fetchStickerPackContents(link, {
-        ...fakeApi(emptyPack),
-        onProgress: (done, total) => seen.push([done, total]),
-      });
+      await assert.isRejected(
+        Stickers.fetchStickerPackContents(link, {
+          ...fakeApi(emptyPack),
+          onProgress: (done, total) => seen.push([done, total]),
+        })
+      );
 
       assert.deepEqual(seen, []);
     });

@@ -338,12 +338,20 @@ export async function fetchStickerPackContents(
     throw new InvalidStickerPackLinkError('Not a sticker pack link');
   }
   const { packId } = route.args;
-  const packKey = Bytes.toBase64(Bytes.fromHex(route.args.packKey));
+  const keyBytes = Bytes.fromHex(route.args.packKey);
+  if (
+    !isPackIdValid(packId) ||
+    keyBytes.byteLength !== STICKERPACK_KEY_BYTE_LEN
+  ) {
+    throw new InvalidStickerPackLinkError('Invalid pack id or key');
+  }
+  const packKey = Bytes.toBase64(keyBytes);
 
   const manifest = await getManifest(packId);
   const proto = Proto.StickerPack.decode(decryptSticker(packKey, manifest));
 
   const stickerProtos = proto.stickers.filter(({ id }) => isNumber(id));
+  strictAssert(stickerProtos.length > 0, 'Sticker pack has no stickers');
   const coverId = dropNull(proto.cover?.id);
   const coverInList = stickerProtos.some(({ id }) => id === coverId);
   const distinctCoverId = coverId != null && !coverInList ? coverId : undefined;
