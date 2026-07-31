@@ -50,6 +50,17 @@ export type SetPackMetaPayload = Readonly<{
   key: string;
 }>;
 
+export type InitializePackPayload = Readonly<{
+  title: string;
+  author: string;
+  cover?: ArtImageData;
+  stickers: ReadonlyArray<{
+    path: ArtPath;
+    emoji?: EmojiData;
+    imageData: ArtImageData;
+  }>;
+}>;
+
 const initialState: ArtState = {
   artType: ArtType.Sticker,
   order: [],
@@ -88,6 +99,33 @@ const artSlice = createSlice({
           state.data[path] = {};
           state.order.push(path);
         }
+      }
+    },
+
+    initializePack: (
+      state,
+      { payload }: PayloadAction<InitializePackPayload>
+    ) => {
+      assert(state.artType === ArtType.Sticker, 'Unexpected art type');
+      if (state.order.length > 0) {
+        return;
+      }
+      for (const { path, emoji, imageData } of payload.stickers.slice(
+        0,
+        MAX_STICKERS
+      )) {
+        if (state.data[path]) {
+          continue;
+        }
+        state.data[path] = { emoji, imageData };
+        state.order.push(path);
+      }
+      state.title = payload.title;
+      state.author = payload.author;
+      if (payload.cover) {
+        state.cover = payload.cover;
+      } else {
+        adjustCover(state);
       }
     },
 
@@ -132,7 +170,9 @@ const artSlice = createSlice({
         toast.subs.count = newCount.toString();
       }
 
-      adjustCover(state);
+      if (!state.cover) {
+        adjustCover(state);
+      }
     },
 
     removeImage: (state, { payload }: PayloadAction<ArtPath>) => {
@@ -215,6 +255,7 @@ const artSlice = createSlice({
 export const {
   addImageData,
   initializeImages,
+  initializePack,
   removeImage,
   setCover,
   setEmoji,

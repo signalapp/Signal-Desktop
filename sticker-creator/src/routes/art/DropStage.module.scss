@@ -28,3 +28,24 @@
   gap: 8px;
   justify-content: center;
 }
+
+.import {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+
+  label {
+    flex: 1;
+    max-width: 448px;
+  }
+}
+
+.import-status {
+  flex: 1;
+  max-width: 448px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

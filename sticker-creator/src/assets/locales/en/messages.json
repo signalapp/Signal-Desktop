@@ -176,6 +176,26 @@
     "message": "View margins",
     "description": "Text for the show margins toggle on the drop stage of the sticker creator"
   },
+  "StickerCreator--DropStage--import--label": {
+    "message": "Or start from an existing pack",
+    "description": "Label for the sticker pack link input on the drop stage"
+  },
+  "StickerCreator--DropStage--import--placeholder": {
+    "message": "Sticker pack link",
+    "description": "Placeholder for the sticker pack link input on the drop stage"
+  },
+  "StickerCreator--DropStage--import--button": {
+    "message": "Import",
+    "description": "Button that imports a sticker pack from the entered link"
+  },
+  "StickerCreator--DropStage--import--loading": {
+    "message": "Importing sticker pack...",
+    "description": "Shown while a sticker pack is being imported"
+  },
+  "StickerCreator--DropStage--import--progress": {
+    "message": "$count$ of $total$ downloaded",
+    "description": "Progress text while a sticker pack is being imported"
+  },
   "StickerCreator--EmojiStage--title--sticker": {
     "message": "Add an emoji to each sticker",
     "description": "Title for the drop stage of the sticker creator"
@@ -311,6 +331,14 @@
   "StickerCreator--Toasts--unsupportedFormat": {
     "message": "Can’t add this image because the format is not supported",
     "description": "Text for the toast when an image cannot be processed because it uses an unsupported file format"
+  },
+  "StickerCreator--Toasts--invalidPackLink": {
+    "message": "That doesn't look like a sticker pack link",
+    "description": "Toast shown when the entered sticker pack link cannot be parsed"
+  },
+  "StickerCreator--Toasts--errorImporting": {
+    "message": "Error importing sticker pack",
+    "description": "Toast shown when a sticker pack cannot be imported"
   },
   "StickerCreator--StickerPreview--light": {
     "message": "My sticker in light theme",
