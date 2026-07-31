@@ -53,6 +53,7 @@ import {
 } from '../textsecure/WebAPI.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { parseSignalRoute } from '../util/signalRoutes.std.ts';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 
@@ -297,6 +298,92 @@ export function getDataFromLink(
   }
 
   return { id, key };
+}
+
+export class InvalidStickerPackLinkError extends Error {}
+
+export type ImportedStickerType = Readonly<{
+  id: number;
+  emoji: string | undefined;
+  data: Uint8Array<ArrayBuffer>;
+  contentType: MIMEType;
+}>;
+
+export type StickerPackContentsType = Readonly<{
+  title: string;
+  author: string;
+  coverStickerId: number | undefined;
+  coverImage: ImportedStickerType | undefined;
+  stickers: ReadonlyArray<ImportedStickerType>;
+}>;
+
+export type ImportStickerPackResultType =
+  | { contents: StickerPackContentsType }
+  | { error: 'invalidLink' | 'importFailed' };
+
+export async function fetchStickerPackContents(
+  link: string,
+  {
+    getManifest = getStickerPackManifest,
+    getSticker: fetchSticker = doGetSticker,
+    onProgress,
+  }: {
+    getManifest?: typeof getStickerPackManifest;
+    getSticker?: typeof doGetSticker;
+    onProgress?: (done: number, total: number) => void;
+  } = {}
+): Promise<StickerPackContentsType> {
+  const route = parseSignalRoute(link);
+  if (route == null || route.key !== 'artAddStickers') {
+    throw new InvalidStickerPackLinkError('Not a sticker pack link');
+  }
+  const { packId } = route.args;
+  const packKey = Bytes.toBase64(Bytes.fromHex(route.args.packKey));
+
+  const manifest = await getManifest(packId);
+  const proto = Proto.StickerPack.decode(decryptSticker(packKey, manifest));
+
+  const stickerProtos = proto.stickers.filter(({ id }) => isNumber(id));
+  const coverId = dropNull(proto.cover?.id);
+  const coverInList = stickerProtos.some(({ id }) => id === coverId);
+  const distinctCoverId = coverId != null && !coverInList ? coverId : undefined;
+
+  const total = stickerProtos.length + (distinctCoverId != null ? 1 : 0);
+  let done = 0;
+
+  const importSticker = async ({
+    id,
+    emoji,
+  }: Proto.StickerPack.Sticker.Params): Promise<ImportedStickerType> => {
+    strictAssert(isNumber(id), "Sticker id can't be null");
+    const data = decryptSticker(packKey, await fetchSticker(packId, id));
+    done += 1;
+    onProgress?.(done, total);
+    return {
+      id,
+      emoji: dropNull(emoji),
+      data,
+      contentType: sniffImageMimeType(data) ?? IMAGE_WEBP,
+    };
+  };
+
+  const [stickers, coverImage] = await Promise.all([
+    pMap(stickerProtos, importSticker, { concurrency: 3 }),
+    distinctCoverId != null
+      ? importSticker({
+          id: distinctCoverId,
+          emoji: proto.cover?.emoji ?? null,
+        })
+      : undefined,
+  ]);
+
+  return {
+    title: proto.title ?? '',
+    author: proto.author ?? '',
+    coverStickerId: coverInList ? coverId : undefined,
+    coverImage,
+    stickers,
+  };
 }
 
 export function downloadQueuedPacks(): void {

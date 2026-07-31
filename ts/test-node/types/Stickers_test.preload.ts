@@ -4,6 +4,10 @@
 import { assert } from 'chai';
 import * as Stickers from '../../types/Stickers.preload.ts';
 import { isPackIdValid, redactPackId } from '../../util/Stickers.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { deriveStickerPackKey, encryptAttachment } from '../../Crypto.node.ts';
+import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
 
 describe('Stickers', () => {
   describe('getDataFromLink', () => {
@@ -141,6 +145,149 @@ describe('Stickers', () => {
         redactPackId('b9439fa5fdc8b9873fe64f01b88b8ccf'),
         '[REDACTED]ccf'
       );
+    });
+  });
+
+  describe('fetchStickerPackContents', () => {
+    const packId = 'b9439fa5fdc8b9873fe64f01b88b8ccf';
+    const packKey = new Uint8Array(32).fill(1);
+    const link = `https://signal.art/addstickers/#pack_id=${packId}&pack_key=${Bytes.toHex(packKey)}`;
+
+    const keys = deriveStickerPackKey(packKey);
+    const encrypt = (plaintext: Uint8Array<ArrayBuffer>) =>
+      encryptAttachment({ plaintext, keys }).ciphertext;
+
+    const png = (byte: number) =>
+      new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, byte]);
+
+    function fakeApi(pack: Proto.StickerPack.Params) {
+      return {
+        getManifest: async () => encrypt(Proto.StickerPack.encode(pack)),
+        getSticker: async (_: string, id: number) => encrypt(png(id)),
+      };
+    }
+
+    const emptyPack = {
+      title: null,
+      author: null,
+      cover: null,
+      stickers: null,
+    };
+
+    it('rejects links that are not sticker pack links', async () => {
+      await assert.isRejected(
+        Stickers.fetchStickerPackContents(
+          'https://example.com',
+          fakeApi(emptyPack)
+        )
+      );
+    });
+
+    it('preserves sticker order, emoji, and bytes', async () => {
+      const contents = await Stickers.fetchStickerPackContents(
+        link,
+        fakeApi({
+          ...emptyPack,
+          title: 'Cats',
+          author: 'Ehab',
+          cover: { id: 1, emoji: null },
+          stickers: [
+            { id: 0, emoji: '😀' },
+            { id: 1, emoji: '😾' },
+          ],
+        })
+      );
+
+      assert.strictEqual(contents.title, 'Cats');
+      assert.strictEqual(contents.author, 'Ehab');
+      assert.strictEqual(contents.coverStickerId, 1);
+      assert.isUndefined(contents.coverImage);
+      assert.deepEqual(
+        contents.stickers.map(({ id, emoji, contentType }) => ({
+          id,
+          emoji,
+          contentType,
+        })),
+        [
+          { id: 0, emoji: '😀', contentType: IMAGE_PNG },
+          { id: 1, emoji: '😾', contentType: IMAGE_PNG },
+        ]
+      );
+      assert.deepEqual(contents.stickers[0]?.data, png(0));
+    });
+
+    it('downloads a cover that is not in the sticker list', async () => {
+      const contents = await Stickers.fetchStickerPackContents(
+        link,
+        fakeApi({
+          ...emptyPack,
+          cover: { id: 5, emoji: null },
+          stickers: [{ id: 0, emoji: '😀' }],
+        })
+      );
+
+      assert.isUndefined(contents.coverStickerId);
+      assert.deepEqual(contents.coverImage?.data, png(5));
+    });
+
+    it('rejects when decryption fails', async () => {
+      await assert.isRejected(
+        Stickers.fetchStickerPackContents(link, {
+          getManifest: async () => new Uint8Array(64),
+          getSticker: async () => new Uint8Array(64),
+        })
+      );
+    });
+
+    it('reports progress including a distinct cover', async () => {
+      const seen: Array<[number, number]> = [];
+      await Stickers.fetchStickerPackContents(link, {
+        ...fakeApi({
+          ...emptyPack,
+          cover: { id: 5, emoji: null },
+          stickers: [
+            { id: 0, emoji: '😀' },
+            { id: 1, emoji: '😾' },
+          ],
+        }),
+        onProgress: (done, total) => seen.push([done, total]),
+      });
+
+      assert.deepEqual(seen, [
+        [1, 3],
+        [2, 3],
+        [3, 3],
+      ]);
+    });
+
+    it('does not count a cover from the sticker list twice', async () => {
+      const seen: Array<[number, number]> = [];
+      await Stickers.fetchStickerPackContents(link, {
+        ...fakeApi({
+          ...emptyPack,
+          cover: { id: 1, emoji: null },
+          stickers: [
+            { id: 0, emoji: '😀' },
+            { id: 1, emoji: '😾' },
+          ],
+        }),
+        onProgress: (done, total) => seen.push([done, total]),
+      });
+
+      assert.deepEqual(seen, [
+        [1, 2],
+        [2, 2],
+      ]);
+    });
+
+    it('reports no progress for an empty pack', async () => {
+      const seen: Array<[number, number]> = [];
+      await Stickers.fetchStickerPackContents(link, {
+        ...fakeApi(emptyPack),
+        onProgress: (done, total) => seen.push([done, total]),
+      });
+
+      assert.deepEqual(seen, []);
     });
   });
 });
