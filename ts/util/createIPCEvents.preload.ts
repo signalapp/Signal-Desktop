@@ -8,6 +8,11 @@ import lodash from 'lodash';
 import type { ZoomFactorType } from '../types/StorageKeys.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import * as Stickers from '../types/Stickers.preload.ts';
+import {
+  fetchStickerPackContents,
+  InvalidStickerPackLinkError,
+  type ImportStickerPackResultType,
+} from '../types/Stickers.preload.ts';
 import * as Settings from '../types/Settings.std.ts';
 
 import { resolveUsernameByLinkBase64 } from '../services/username.preload.ts';
@@ -59,6 +64,7 @@ export type IPCEventsCallbacksType = {
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
   ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
+  importStickerPack: (link: string) => Promise<ImportStickerPackResultType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   requestCloseConfirmation: () => Promise<boolean>;
   setMediaPlaybackDisabled: (playbackDisabled: boolean) => void;
@@ -437,6 +443,26 @@ export function createIPCEvents(
     unknownSignalLink: () => {
       log.warn('unknownSignalLink: Showing error dialog');
       showUnknownSgnlLinkModal();
+    },
+    importStickerPack: async (
+      link: string
+    ): Promise<ImportStickerPackResultType> => {
+      try {
+        return {
+          contents: await fetchStickerPackContents(link, {
+            onProgress: (done, total) =>
+              ipcRenderer.send('art-creator:onImportProgress', { done, total }),
+          }),
+        };
+      } catch (error) {
+        log.error('importStickerPack:', Errors.toLogFormat(error));
+        return {
+          error:
+            error instanceof InvalidStickerPackLinkError
+              ? 'invalidLink'
+              : 'importFailed',
+        };
+      }
     },
     uploadStickerPack: (
       manifest: Uint8Array<ArrayBuffer>,

@@ -1091,6 +1091,26 @@ ipc.on('art-creator:onUploadProgress', () => {
   stickerCreatorWindow?.webContents.send('art-creator:onUploadProgress');
 });
 
+ipc.on('art-creator:onImportProgress', (_event, data: unknown) => {
+  stickerCreatorWindow?.webContents.send('art-creator:onImportProgress', data);
+});
+
+ipc.handle(
+  'art-creator:importStickerPack',
+  (_event: Electron.Event, data: unknown) => {
+    const { promise, resolve } = explodePromise<unknown>();
+    strictAssert(mainWindow, 'Main window did not exist');
+
+    mainWindow.webContents.send('art-creator:importStickerPack', data);
+
+    ipc.once('art-creator:importStickerPack:done', (_doneEvent, response) => {
+      resolve(response);
+    });
+
+    return promise;
+  }
+);
+
 ipc.on('show-window', () => {
   showWindow();
 });

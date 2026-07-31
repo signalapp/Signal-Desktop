@@ -31,6 +31,33 @@ contextBridge.exposeInMainWorld(
     ipcRenderer.invoke('install-sticker-pack', packId, key)
 );
 
+let onImportProgress: ((done: number, total: number) => void) | undefined;
+
+ipcRenderer.on(
+  'art-creator:onImportProgress',
+  (_event, { done, total }: { done: number; total: number }) => {
+    onImportProgress?.(done, total);
+  }
+);
+
+contextBridge.exposeInMainWorld(
+  'importStickerPack',
+  async (
+    link: string,
+    newOnImportProgress: ((done: number, total: number) => void) | undefined
+  ): Promise<unknown> => {
+    onImportProgress = newOnImportProgress;
+
+    try {
+      return await ipcRenderer.invoke('art-creator:importStickerPack', {
+        link,
+      });
+    } finally {
+      onImportProgress = undefined;
+    }
+  }
+);
+
 contextBridge.exposeInMainWorld('getFilePath', (file: File) =>
   webUtils.getPathForFile(file)
 );

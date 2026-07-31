@@ -574,6 +574,15 @@ ipc.on(
   }
 );
 
+ipc.on(
+  'art-creator:importStickerPack',
+  async (event, { link }: { link: string }) => {
+    const result = await window.Events?.importStickerPack(link);
+
+    event.sender.send('art-creator:importStickerPack:done', result);
+  }
+);
+
 const { promise: windowVisible, resolve: resolveWindowVisible } =
   explodePromise<void>();
 
