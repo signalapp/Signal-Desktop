@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useCallback, type ReactNode, type JSX } from 'react';
+import { useCallback, useMemo, type ReactNode, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './AppStage.module.scss';
@@ -74,6 +74,18 @@ export function AppStage(props: Props): JSX.Element {
 
   const dispatch = useDispatch();
   const toasts = useToasts();
+  const loaf = useMemo(
+    () =>
+      toasts.map((slice, id) => ({
+        id,
+        text: i18n(slice.key, slice.subs),
+      })),
+    [toasts, i18n]
+  );
+  const handleDismissToast = useCallback(
+    () => dispatch(dismissToast()),
+    [dispatch]
+  );
 
   return (
     <div className={styles.container}>
@@ -108,11 +120,8 @@ export function AppStage(props: Props): JSX.Element {
       </footer>
       <Toaster
         className={styles.toaster}
-        loaf={toasts.map((slice, id) => ({
-          id,
-          text: i18n(slice.key, slice.subs),
-        }))}
-        onDismiss={() => dispatch(dismissToast())}
+        loaf={loaf}
+        onDismiss={handleDismissToast}
       />
     </div>
   );
