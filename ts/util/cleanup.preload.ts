@@ -378,7 +378,6 @@ export const GENERIC_CLEANUP_FIELDS: Partial<ConversationAttributesType> = {
   markedUnread: undefined,
   messageCount: undefined,
   messageCountBeforeMessageRequests: undefined,
-  messageRequestResponseType: undefined,
 
   messagesDeleted: true,
 
