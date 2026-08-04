@@ -134,6 +134,7 @@ import { toNumber } from '../util/toNumber.std.ts';
 import { MAX_VALUE } from '../util/long.std.ts';
 import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
 
 const { isEqual } = lodash;
 
@@ -1369,6 +1370,14 @@ export async function mergeContactRecord(
   // Contacts should not have PNI as ACI
   if (aci && !isAciString(aci)) {
     return { shouldDrop: true, details: ['invalid aci'] };
+  }
+
+  // Official conversation state is stored in AccountRecord, never ContactRecord.
+  if (aci === SIGNAL_ACI) {
+    return {
+      shouldDrop: true,
+      details: ['official Signal conversation contact record'],
+    };
   }
 
   if (
