@@ -12,7 +12,7 @@
     "messageformat": "Užverti"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Rodyti slaptažodį"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Išvalyti"

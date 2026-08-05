@@ -12,7 +12,7 @@
     "messageformat": "닫기"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "비밀번호 표시"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "지우기"

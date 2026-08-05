@@ -12,7 +12,7 @@
     "messageformat": "閉じる"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "パスワードを表示"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "消去する"

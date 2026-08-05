@@ -12,7 +12,7 @@
     "messageformat": "Tutup"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Tampilkan Kata Sandi"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Hapus"

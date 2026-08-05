@@ -12,7 +12,7 @@
     "messageformat": "Đóng"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Hiển thị mật khẩu"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Xoá"

@@ -12,7 +12,7 @@
     "messageformat": "Sulge"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Näita parooli"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Eemalda"

@@ -12,7 +12,7 @@
     "messageformat": "إغلاق"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "إظهار كلمة المرور"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "مسح"

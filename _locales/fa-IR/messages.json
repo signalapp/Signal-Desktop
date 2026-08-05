@@ -12,7 +12,7 @@
     "messageformat": "بستن"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "نمایش رمز عبور"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "پاک کردن"

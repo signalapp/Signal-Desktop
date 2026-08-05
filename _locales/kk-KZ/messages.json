@@ -12,7 +12,7 @@
     "messageformat": "Жабу"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Құпия сөзді көрсету"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Тазалау"

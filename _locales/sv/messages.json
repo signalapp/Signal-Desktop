@@ -12,7 +12,7 @@
     "messageformat": "Stäng"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Visa lösenord"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Rensa"

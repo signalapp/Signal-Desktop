@@ -12,7 +12,7 @@
     "messageformat": "Kapat"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Parolayı Göster"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Kaldır"

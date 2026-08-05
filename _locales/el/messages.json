@@ -12,7 +12,7 @@
     "messageformat": "Κλείσιμο"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Εμφάνιση κωδικού πρόσβασης"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Εκκαθάριση"

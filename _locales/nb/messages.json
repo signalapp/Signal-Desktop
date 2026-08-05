@@ -12,7 +12,7 @@
     "messageformat": "Lukk"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Vis passord"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Slett"

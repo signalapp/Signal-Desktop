@@ -12,7 +12,7 @@
     "messageformat": "Fermer"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Afficher le mot de passe"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Supprimer"
@@ -2556,7 +2556,7 @@
     "messageformat": "Échec de la mise à jour du groupe. Vérifiez votre connexion et réessayez."
   },
   "icu:unlinkedWarning": {
-    "messageformat": "Pour continuer à utiliser Signal sur votre ordinateur, cliquez pour réassocier Signal Desktop à votre appareil mobile."
+    "messageformat": "Pour continuer d'utiliser Signal sur votre ordinateur, cliquez pour réassocier Signal Desktop à votre appareil mobile."
   },
   "icu:unlinked": {
     "messageformat": "Dissocié"
@@ -6737,7 +6737,7 @@
     "messageformat": "Une petite mise à jour est nécessaire"
   },
   "icu:InstallScreenUpdateDialog--auto-update__body": {
-    "messageformat": "Pour continuer à utiliser Signal, veuillez installer la dernière version de l'appli."
+    "messageformat": "Pour continuer d'utiliser Signal, veuillez installer la dernière version de l'appli."
   },
   "icu:InstallScreenUpdateDialog--manual-update__action": {
     "messageformat": "Télécharger {downloadSize}"

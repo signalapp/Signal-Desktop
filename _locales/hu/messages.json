@@ -12,7 +12,7 @@
     "messageformat": "Bezárás"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Jelszó megjelenítése"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Törlés"

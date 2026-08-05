@@ -12,7 +12,7 @@
     "messageformat": "Cerrar"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "Mostrar contraseña"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Eliminar"
@@ -141,7 +141,7 @@
     "messageformat": "&Archivo"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Crear/subir paquete de stickers"
+    "messageformat": "Crear o subir paquete de stickers"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Editar"

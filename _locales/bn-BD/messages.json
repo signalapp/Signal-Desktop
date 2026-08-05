@@ -12,7 +12,7 @@
     "messageformat": "বন্ধ"
   },
   "icu:AxoPasswordField.Reveal": {
-    "messageformat": "Show Password"
+    "messageformat": "পাসওয়ার্ড দেখান"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "সাফ করুন"
