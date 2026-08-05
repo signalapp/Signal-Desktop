@@ -37,6 +37,7 @@ export function RemoteMegaphone({
     '@container flex flex-col',
     'max-w-[500px] curved-3xl p-3',
     'bg-material-primary dark:bg-material-tertiary',
+    'backdrop-blur-thick',
     'shadow-elevation-1',
     isFullSize ? '' : 'size-[76px]'
   );
