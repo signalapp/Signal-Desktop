@@ -48,6 +48,7 @@ import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smar
 
 import { ConversationList } from './ConversationList.dom.tsx';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.tsx';
+import type { PropsType as DialogClockSkewPropsType } from './DialogClockSkew.dom.tsx';
 import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild.dom.tsx';
 import { LeftPaneBanner } from './LeftPaneBanner.dom.tsx';
 
@@ -90,6 +91,7 @@ export type PropsType = {
   };
   otherTabsUnreadStats: UnreadStats;
   hasAnyCurrentCustomChatFolders: boolean;
+  hasClockSkewDialog: boolean;
   hasExpiredDialog: boolean;
   hasFailedStorySends: boolean;
   hasNetworkDialog: boolean;
@@ -212,6 +214,7 @@ export type PropsType = {
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
+  renderClockSkewDialog: (_: DialogClockSkewPropsType) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip: () => void }) => JSX.Element;
   renderCrashReportDialog: () => JSX.Element;
   renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
@@ -242,6 +245,7 @@ export function LeftPane({
   getPreferredBadge,
   getServerAlertToShow,
   hasAnyCurrentCustomChatFolders,
+  hasClockSkewDialog,
   hasExpiredDialog,
   hasFailedStorySends,
   hasNetworkDialog,
@@ -267,6 +271,7 @@ export function LeftPane({
   preloadConversation,
   removeConversation,
   renderCaptchaDialog,
+  renderClockSkewDialog,
   renderCrashReportDialog,
   renderExpiredBuildDialog,
   renderLeftPaneChatFolders,
@@ -722,6 +727,8 @@ export function LeftPane({
       ...commonDialogProps,
       isMAS,
     });
+  } else if (hasClockSkewDialog) {
+    maybeRedDialog = renderClockSkewDialog(commonDialogProps);
   }
 
   const dialogs = new Array<{ key: string; dialog: JSX.Element }>();

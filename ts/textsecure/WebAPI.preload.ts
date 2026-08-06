@@ -2019,6 +2019,10 @@ export async function logout(): Promise<void> {
   await socketManager.logout();
 }
 
+export function getHasClockSkew(): boolean {
+  return socketManager.getHasClockSkew();
+}
+
 export function getSocketStatus(): SocketStatuses {
   return socketManager.getStatus();
 }

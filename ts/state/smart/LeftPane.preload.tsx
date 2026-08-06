@@ -76,6 +76,7 @@ import {
 import {
   getChallengeStatus,
   hasNetworkDialog as getHasNetworkDialog,
+  getIsClockSkewTooMuch,
   getNetworkIsOnline,
 } from '../selectors/network.preload.ts';
 import {
@@ -132,6 +133,10 @@ import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preload.tsx';
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.ts';
 import type { StateSelector } from '../types.std.ts';
+import {
+  DialogClockSkew,
+  type PropsType as DialogClockSkewPropsType,
+} from '../../components/DialogClockSkew.dom.tsx';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -155,6 +160,9 @@ function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
   return <SmartUpdateDialog {...props} />;
+}
+function renderClockSkewDialog(props: DialogClockSkewPropsType): JSX.Element {
+  return <DialogClockSkew {...props} />;
 }
 function renderCaptchaDialog({ onSkip }: { onSkip: () => void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
@@ -318,6 +326,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const hasAnyCurrentCustomChatFolders = useSelector(
     getHasAnyCurrentCustomChatFolders
   );
+  const hasClockSkewDialog = useSelector(getIsClockSkewTooMuch);
   const hasNetworkDialog = useSelector(getHasNetworkDialog);
   const hasSearchQuery = useSelector(getHasSearchQuery);
   const hasUnsupportedOS = useSelector(isOSUnsupported);
@@ -459,6 +468,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       getPreferredBadge={getPreferredBadge}
       getServerAlertToShow={getServerAlertToShow}
       hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
+      hasClockSkewDialog={hasClockSkewDialog}
       hasExpiredDialog={hasExpiredDialog}
       hasFailedStorySends={hasFailedStorySends}
       hasNetworkDialog={hasNetworkDialog}
@@ -485,6 +495,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       removeConversation={removeConversation}
       renderCaptchaDialog={renderCaptchaDialog}
       renderCrashReportDialog={renderCrashReportDialog}
+      renderClockSkewDialog={renderClockSkewDialog}
       renderExpiredBuildDialog={renderExpiredBuildDialog}
       renderLeftPaneChatFolders={renderLeftPaneChatFolders}
       renderMessageSearchResult={renderMessageSearchResult}

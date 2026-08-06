@@ -153,6 +153,7 @@ import {
   registerRequestHandler,
   reportMessage,
   unregisterRequestHandler,
+  getHasClockSkew,
 } from './textsecure/WebAPI.preload.ts';
 import { accountManager } from './textsecure/AccountManager.preload.ts';
 import * as KeyChangeListener from './textsecure/KeyChangeListener.dom.ts';
@@ -1237,6 +1238,7 @@ async function startApp(): Promise<void> {
       window.reduxActions.expiration.hydrateExpirationStatus(
         window.getBuildExpiration()
       );
+      window.reduxActions.network.setClockSkew(getHasClockSkew());
 
       // Process crash reports if any. Note that the modal won't be visible
       // until the app will finish loading.

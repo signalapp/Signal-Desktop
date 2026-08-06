@@ -9,6 +9,11 @@ import { isDone } from '../../util/registration.preload.ts';
 
 const getNetwork = (state: StateType): NetworkStateType => state.network;
 
+export const getIsClockSkewTooMuch = createSelector(
+  getNetwork,
+  ({ hasClockSkew: isClockSkewTooMuch }) => isClockSkewTooMuch
+);
+
 export const getNetworkIsOnline = createSelector(
   getNetwork,
   ({ isOnline }) => isOnline

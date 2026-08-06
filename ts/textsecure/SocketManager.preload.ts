@@ -49,6 +49,8 @@ import { ConnectTimeoutError } from './Errors.std.ts';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
 import type { ServerAlert } from '../types/ServerAlert.std.ts';
 import { getUserLanguages } from '../util/userLanguages.std.ts';
+import { getValue } from '../RemoteConfig.dom.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 
 const log = createLogger('SocketManager');
 
@@ -62,6 +64,11 @@ export const UNAUTHENTICATED_CHANNEL_NAME = 'unauthenticated';
 const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
 export const NORMAL_DISCONNECT_CODE = 3000;
+
+const MAX_ALLOWED_SKEW_CONFIG_KEY = 'client.maxAllowedClockSkewSeconds';
+const MAX_ALLOWED_SKEW_FALLBACK = 24 * durations.HOUR;
+const MAX_ALLOWED_SKEW_MIN = durations.HOUR;
+const SKEW_RECHECK_INTERVAL = 10 * durations.SECOND;
 
 type SocketStatusUpdate = { status: SocketStatus };
 
@@ -107,6 +114,10 @@ export class SocketManager extends EventListener {
   #isNavigatorOffline = false;
   #privIsOnline: boolean | undefined;
   #expirationReason: SocketExpirationReason | undefined;
+  #hasClockSkew = false;
+  #lastServerTimestamp: number | undefined;
+  #lastServerTimestampNow: number | undefined;
+  #skewRecheckTimeout: NodeJS.Timeout | undefined;
   #hasStoriesDisabled: boolean | undefined;
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
@@ -116,11 +127,29 @@ export class SocketManager extends EventListener {
     this.#libsignalNet = libsignalNet;
   }
 
+  public getHasClockSkew(): boolean {
+    return this.#hasClockSkew;
+  }
+
   public getStatus(): SocketStatuses {
     return {
       authenticated: this.#authenticatedStatus,
       unauthenticated: this.#unathenticatedStatus,
     };
+  }
+
+  #shouldReconnect(): boolean {
+    return this.#expirationReason == null && !this.#hasClockSkew;
+  }
+
+  #getReconnectErrorMessage(): string | undefined {
+    if (this.#shouldReconnect()) {
+      return;
+    }
+
+    return this.#expirationReason
+      ? `${this.#expirationReason} expired`
+      : 'has clock skew';
   }
 
   #markOffline() {
@@ -151,6 +180,17 @@ export class SocketManager extends EventListener {
         headers: {},
         stack: new Error().stack,
       });
+    }
+
+    if (this.#hasClockSkew) {
+      await this.#maybeUpdateSkewState();
+      if (this.#hasClockSkew) {
+        throw new HTTPError('SocketManager has clock skew', {
+          code: 0,
+          headers: {},
+          stack: new Error().stack,
+        });
+      }
     }
 
     const { username, password } = credentials;
@@ -200,6 +240,9 @@ export class SocketManager extends EventListener {
       onReceivedAlerts: (alerts: Array<ServerAlert>) => {
         this.emit('serverAlerts', alerts);
       },
+      onServerTimestamp: timestamp => {
+        this.#handleServerTimestamp(timestamp);
+      },
       receiveStories: this.#hasStoriesDisabled === false,
       userLanguages,
       keepalive: { path: '/v1/keepalive' },
@@ -211,8 +254,8 @@ export class SocketManager extends EventListener {
     this.#authenticated = process;
 
     const reconnect = async (): Promise<void> => {
-      if (this.#expirationReason != null) {
-        log.info(`${this.#expirationReason} expired, not reconnecting`);
+      if (!this.#shouldReconnect()) {
+        log.info(`${this.#getReconnectErrorMessage()}, not reconnecting`);
         return;
       }
 
@@ -371,9 +414,9 @@ export class SocketManager extends EventListener {
     listener: ProvisioningConnectionListener,
     timeout: number
   ): Promise<ProvisioningConnection> {
-    if (this.#expirationReason != null) {
+    if (!this.#shouldReconnect()) {
       throw new Error(
-        `${this.#expirationReason} expired, ` +
+        `${this.#getReconnectErrorMessage()} expired, ` +
           'not connecting provisioning socket'
       );
     }
@@ -556,14 +599,19 @@ export class SocketManager extends EventListener {
     await this.logout();
   }
 
-  public async logout(): Promise<void> {
+  public async logout(
+    options: { clearCredentials: boolean } = { clearCredentials: true }
+  ): Promise<void> {
     const authenticated = this.#authenticated;
     if (authenticated) {
       authenticated.abort();
       this.#dropAuthenticated(authenticated);
     }
     this.#markOffline();
-    this.#credentials = undefined;
+
+    if (options.clearCredentials) {
+      this.#credentials = undefined;
+    }
   }
 
   public get isOnline(): boolean | undefined {
@@ -844,6 +892,87 @@ export class SocketManager extends EventListener {
       username === this.#credentials.username &&
       password === this.#credentials.password
     );
+  }
+
+  #getMaxAllowedSkew(): number {
+    const rawValue = getValue(MAX_ALLOWED_SKEW_CONFIG_KEY);
+    if (rawValue == null) {
+      return MAX_ALLOWED_SKEW_FALLBACK;
+    }
+
+    try {
+      const valueSeconds = parseIntOrThrow(rawValue, 'getMaxAllowedSkew');
+      return Math.max(valueSeconds * durations.SECOND, MAX_ALLOWED_SKEW_MIN);
+    } catch {
+      log.warn(
+        `Failed to parse integer out of ${MAX_ALLOWED_SKEW_CONFIG_KEY} flag ${rawValue}, using fallback ${MAX_ALLOWED_SKEW_FALLBACK}`
+      );
+      return MAX_ALLOWED_SKEW_FALLBACK;
+    }
+  }
+
+  #getSkew(): number {
+    strictAssert(this.#lastServerTimestamp, '#lastServerTimestamp required');
+    strictAssert(
+      this.#lastServerTimestampNow,
+      '#lastEventProcessTimestamp required'
+    );
+
+    const timeSinceLastServerEvent =
+      performance.now() - this.#lastServerTimestampNow;
+    const expectedServerTimestamp =
+      this.#lastServerTimestamp + timeSinceLastServerEvent;
+    return Math.abs(expectedServerTimestamp - Date.now());
+  }
+
+  #handleServerTimestamp(timestamp: number) {
+    this.#lastServerTimestamp = timestamp;
+    this.#lastServerTimestampNow = performance.now();
+    drop(this.#maybeUpdateSkewState());
+  }
+
+  async #maybeUpdateSkewState(): Promise<void> {
+    if (this.#lastServerTimestamp == null) {
+      return;
+    }
+
+    const hasSkew = this.#getSkew() > this.#getMaxAllowedSkew();
+    if (hasSkew === this.#hasClockSkew) {
+      return;
+    }
+
+    if (hasSkew) {
+      log.info(
+        'maybeUpdateSkewState: Skew detected, logging out and preventing connection'
+      );
+      this.#hasClockSkew = true;
+      this.#reconnectController?.abort();
+      await this.logout({ clearCredentials: false });
+      drop(this.#waitAndCheckSkew());
+    } else {
+      log.info('maybeUpdateSkewState: Skew fixed, unblocking connection');
+      this.#hasClockSkew = false;
+      if (this.#credentials) {
+        await this.authenticate(this.#credentials);
+      }
+    }
+
+    window.reduxActions?.network.setClockSkew(hasSkew);
+  }
+
+  async #waitAndCheckSkew(): Promise<void> {
+    if (this.#skewRecheckTimeout) {
+      clearInterval(this.#skewRecheckTimeout);
+    }
+    this.#skewRecheckTimeout = setTimeout(async () => {
+      await this.#maybeUpdateSkewState();
+
+      // If skew remains, then keep checking. Otherwise we should stop to prevent
+      // accidental interactions with OS sleep and performance.now() not ticking.
+      if (this.#hasClockSkew) {
+        drop(this.#waitAndCheckSkew());
+      }
+    }, SKEW_RECHECK_INTERVAL);
   }
 
   // EventEmitter types

@@ -14,6 +14,7 @@ import type { NoopActionType } from './noop.std.ts';
 // State
 
 export type NetworkStateType = ReadonlyDeep<{
+  hasClockSkew: boolean;
   isOnline: boolean;
   isOutage: boolean;
   socketStatus: SocketStatus;
@@ -24,6 +25,7 @@ export type NetworkStateType = ReadonlyDeep<{
 
 const SET_NETWORK_STATUS = 'network/SET_NETWORK_STATUS';
 const SET_CHALLENGE_STATUS = 'network/SET_CHALLENGE_STATUS';
+const SET_CLOCK_SKEW = 'network/SET_CLOCK_SKEW';
 const SET_OUTAGE = 'network/SET_OUTAGE';
 
 export type SetNetworkStatusPayloadType = ReadonlyDeep<{
@@ -47,6 +49,13 @@ type SetChallengeStatusActionType = ReadonlyDeep<{
   };
 }>;
 
+type SetClockSkewAction = ReadonlyDeep<{
+  type: 'network/SET_CLOCK_SKEW';
+  payload: {
+    hasClockSkew: boolean;
+  };
+}>;
+
 type SetOutageActionType = ReadonlyDeep<{
   type: 'network/SET_OUTAGE';
   payload: {
@@ -55,6 +64,7 @@ type SetOutageActionType = ReadonlyDeep<{
 }>;
 
 export type NetworkActionType = ReadonlyDeep<
+  | SetClockSkewAction
   | SetNetworkStatusAction
   | RelinkDeviceActionType
   | SetChallengeStatusActionType
@@ -96,6 +106,13 @@ function setChallengeStatus(
   };
 }
 
+function setClockSkew(hasClockSkew: boolean): SetClockSkewAction {
+  return {
+    type: SET_CLOCK_SKEW,
+    payload: { hasClockSkew },
+  };
+}
+
 function setOutage(isOutage: boolean): SetOutageActionType {
   return {
     type: SET_OUTAGE,
@@ -108,6 +125,7 @@ export const actions = {
   relinkDevice,
   reregister,
   setChallengeStatus,
+  setClockSkew,
   setOutage,
 };
 
@@ -119,6 +137,7 @@ export const useNetworkActions = (): BoundActionCreatorsMapObject<
 
 export function getEmptyState(): NetworkStateType {
   return {
+    hasClockSkew: false,
     isOnline: true,
     isOutage: false,
     socketStatus: SocketStatus.OPEN,
@@ -145,6 +164,13 @@ export function reducer(
     return {
       ...state,
       challengeStatus: action.payload.challengeStatus,
+    };
+  }
+
+  if (action.type === SET_CLOCK_SKEW) {
+    return {
+      ...state,
+      hasClockSkew: action.payload.hasClockSkew,
     };
   }
 

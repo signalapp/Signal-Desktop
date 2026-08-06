@@ -1051,6 +1051,10 @@
     "messageformat": "Check your network connection.",
     "description": "Obvious instructions for when a user's computer loses its network connection"
   },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:",
+    "description": "Warning notification that the system clock is out of date. The user's device date and time is shown directly below, for example: Jul 31, 2026, 12:42:19 PM PDT"
+  },
   "icu:submitDebugLog": {
     "messageformat": "Debug log",
     "description": "Menu item and header text for debug log modal (sentence case)"

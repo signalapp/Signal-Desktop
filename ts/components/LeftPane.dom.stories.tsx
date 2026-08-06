@@ -37,6 +37,7 @@ import { ServerAlert } from '../types/ServerAlert.std.ts';
 import { LeftPaneChatFolders } from './leftPane/LeftPaneChatFolders.dom.tsx';
 import { LeftPaneConversationListItemContextMenu } from './leftPane/LeftPaneConversationListItemContextMenu.dom.tsx';
 import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
+import { DialogClockSkew } from './DialogClockSkew.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
@@ -199,6 +200,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     crashReportCount: 0,
 
     hasAnyCurrentCustomChatFolders: false,
+    hasClockSkewDialog: false,
     hasNetworkDialog: false,
     hasExpiredDialog: false,
     hasRelinkDialog: false,
@@ -288,6 +290,12 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         isPending={overrideProps.challengeStatus === 'pending'}
         onContinue={action('onCaptchaContinue')}
         onSkip={action('onCaptchaSkip')}
+      />
+    ),
+    renderClockSkewDialog: ({ containerWidthBreakpoint }) => (
+      <DialogClockSkew
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        i18n={i18n}
       />
     ),
     renderCrashReportDialog: () => (

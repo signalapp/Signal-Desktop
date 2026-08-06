@@ -230,12 +230,14 @@ export function connectAuthenticated({
   userLanguages,
   keepalive,
   onReceivedAlerts,
+  onServerTimestamp,
 }: {
   libsignalNet: Net.Net;
   name: string;
   credentials: WebAPICredentials;
   handler: (request: IncomingWebSocketRequest) => void;
   onReceivedAlerts: (alerts: Array<ServerAlert>) => void;
+  onServerTimestamp: (timestamp: number) => void;
   receiveStories: boolean;
   userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
@@ -280,6 +282,9 @@ export function connectAuthenticated({
     },
     onReceivedAlerts(alerts: Array<string>): void {
       onReceivedAlerts(alerts.map(parseServerAlertsFromHeader).flat());
+    },
+    onServerTimestamp(timestamp: number): void {
+      onServerTimestamp(timestamp);
     },
   };
   return connect(
