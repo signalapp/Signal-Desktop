@@ -22,7 +22,6 @@
 @import './_tailwind-theme/variants.css';
 @import './_tailwind-theme/z-index.css';
 
-@import './AriaClickable.css';
 @import './AxoDragRegions.css';
 @import './AxoSelect.css';
 @import './AxoScrollArea.css';

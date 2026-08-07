@@ -38,11 +38,13 @@ export namespace AxoIconButton {
 
   const pressedInvertedStyles = tw(
     'aria-pressed:bg-inverted aria-pressed:not-aria-disabled:active:bg-inverted-pressed',
+    'aria-pressed:not-aria-disabled:data-[axo-dropdownmenu-state=open]:bg-inverted-pressed',
     'aria-pressed:text-primary-inverted aria-pressed:aria-disabled:text-disabled-inverted'
   );
 
   const pressedPrimaryStyles = tw(
     'aria-pressed:bg-accent aria-pressed:not-aria-disabled:active:bg-accent-pressed',
+    'aria-pressed:not-aria-disabled:data-[axo-dropdownmenu-state=open]:bg-accent-pressed',
     'aria-pressed:text-primary-oncolor aria-pressed:aria-disabled:text-disabled-oncolor'
   );
 

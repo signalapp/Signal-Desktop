@@ -22,6 +22,8 @@ export namespace AxoSearchField {
     value: string;
     /** Called with the new value on every change. */
     onValueChange: (value: string) => void;
+    /** Focuses the input on mount. */
+    autoFocus?: boolean;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
@@ -35,7 +37,11 @@ export namespace AxoSearchField {
           maxBytes={UnitBytes.KILOBYTE}
           maxGraphemes={UnitBytes.KILOBYTE}
         >
-          <AxoBaseField.Input type="search" placeholder={props.placeholder} />
+          <AxoBaseField.Input
+            type="search"
+            placeholder={props.placeholder}
+            autoFocus={props.autoFocus}
+          />
           <AxoBaseField.Clear />
         </AxoBaseField.Segment>
       </AxoBaseField.Container>

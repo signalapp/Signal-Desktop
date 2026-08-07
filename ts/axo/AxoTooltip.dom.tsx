@@ -1,11 +1,19 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, ReactNode } from 'react';
+import type {
+  FC,
+  FocusEvent,
+  MouseEvent,
+  PointerEvent,
+  ReactNode,
+} from 'react';
 import {
   createContext,
   memo,
+  useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
 } from 'react';
@@ -247,6 +255,10 @@ export namespace AxoTooltip {
     experimentalTimestampFormat?: ExperimentalTimestampFormat;
     /** An supplementary keyboard shortcut to display after the label for the button that the tooltip wraps. */
     keyboardShortcut?: string | null;
+    /** Forces the tooltip to stay open when the trigger is clicked. */
+    keepOpenOnActivation?: boolean;
+    /** Forces the tooltip to stay closed when calling `.focus()` (ex: restoring focus on menu close) */
+    onlyShowOnFocusForUserInputDeviceEvents?: boolean;
   }>;
 
   export type RootProps = RootConfigProps &
@@ -290,6 +302,8 @@ export namespace AxoTooltip {
       align = 'center',
       keyboardShortcut,
       experimentalTimestamp,
+      keepOpenOnActivation,
+      onlyShowOnFocusForUserInputDeviceEvents,
     } = props;
     const direction = useDirection();
     const collisionBoundary = useContext(CollisionBoundaryContext);
@@ -324,6 +338,52 @@ export namespace AxoTooltip {
     const hasAccessory = useMemo(() => {
       return keyboardShortcut != null || formattedTimestamp != null;
     }, [keyboardShortcut, formattedTimestamp]);
+
+    const handlePointerDown = useCallback(
+      (event: PointerEvent) => {
+        if (keepOpenOnActivation) {
+          event.preventDefault();
+        }
+      },
+      [keepOpenOnActivation]
+    );
+
+    const handleClick = useCallback(
+      (event: MouseEvent) => {
+        if (keepOpenOnActivation) {
+          event.preventDefault();
+        }
+      },
+      [keepOpenOnActivation]
+    );
+
+    const handlePointerDownOutside = useCallback(
+      (event: Event) => {
+        if (keepOpenOnActivation) {
+          const trigger = assert(triggerRef.current);
+          const target = event.target;
+          assert(target instanceof Node);
+          if (trigger.contains(target)) {
+            event.preventDefault();
+          }
+        }
+      },
+      [keepOpenOnActivation]
+    );
+
+    const handleFocus = useCallback(
+      (event: FocusEvent) => {
+        if (onlyShowOnFocusForUserInputDeviceEvents) {
+          // Only show the tooltip if the focus event was fired by an input device, not `.focus()`
+          // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/sourceCapabilities
+          // @ts-expect-error not available in type defs
+          if (event.nativeEvent.sourceCapabilities == null) {
+            event.preventDefault();
+          }
+        }
+      },
+      [onlyShowOnFocusForUserInputDeviceEvents]
+    );
 
     useEffect(() => {
       if (props.disabled) {
@@ -367,7 +427,13 @@ export namespace AxoTooltip {
         delayDuration={delayDuration}
         {...(props.__FORCE_OPEN === true ? { open: true } : undefined)}
       >
-        <Tooltip.Trigger asChild ref={triggerRef}>
+        <Tooltip.Trigger
+          asChild
+          ref={triggerRef}
+          onPointerDown={handlePointerDown}
+          onClick={handleClick}
+          onFocus={handleFocus}
+        >
           {props.children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
@@ -382,15 +448,15 @@ export namespace AxoTooltip {
               hideWhenDetached
               className={tw(
                 'group flex items-baseline justify-center gap-2 overflow-hidden',
-                'rounded-[14px] px-2.5 py-1.5 type-body-small',
+                'px-2.5 py-1.5 type-body-small',
                 'legacy-z-index-above-popup',
-                'bg-material-dim-primary text-primary-oncolor backdrop-blur-thin',
-                'shadow-elevation-3 shadow-no-outline',
+                'text-primary-oncolor',
                 'min-w-12',
                 hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]',
                 'forced-color-adjust-none',
                 'forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]'
               )}
+              onPointerDownOutside={handlePointerDownOutside}
             >
               {hasArrow && (
                 <Tooltip.Arrow
@@ -401,7 +467,7 @@ export namespace AxoTooltip {
                   <svg
                     role="none"
                     className={tw(
-                      'fill-(--axo-color-material-dim-primary) backdrop-blur-thin',
+                      'fill-(--axo-color-material-dim-primary)',
                       'forced-colors:fill-[Highlight]'
                     )}
                     xmlns="http://www.w3.org/2000/svg"
@@ -413,14 +479,22 @@ export namespace AxoTooltip {
                   </svg>
                 </Tooltip.Arrow>
               )}
-              <span
-                aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
+              <div
                 className={tw(
-                  'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
+                  '-z-10',
+                  'absolute inset-0',
+                  'bg-material-dim-primary',
+                  'backdrop-blur-thin',
+                  'rounded-[14px]',
+                  'shadow-elevation-3 shadow-no-outline'
                 )}
-              >
-                {props.label}
-              </span>
+              />
+              <Label
+                tooltipRepeatsTriggerAccessibleName={
+                  props.tooltipRepeatsTriggerAccessibleName
+                }
+                label={props.label}
+              />
               {keyboardShortcut != null && (
                 <span
                   className={tw(
@@ -449,4 +523,46 @@ export namespace AxoTooltip {
   });
 
   Root.displayName = 'AxoTooltip.Root';
+
+  /** @internal */
+  type LabelProps = Readonly<{
+    tooltipRepeatsTriggerAccessibleName?: boolean;
+    label: ReactNode;
+  }>;
+
+  /** @internal */
+  const Label: FC<LabelProps> = memo(props => {
+    const containerRef = useRef<HTMLSpanElement>(null);
+    const contentRef = useRef<HTMLSpanElement>(null);
+
+    useLayoutEffect(() => {
+      const container = assert(containerRef.current);
+      const content = assert(contentRef.current);
+
+      const rect = content.getBoundingClientRect();
+      container.style.setProperty('width', `${rect.width}px`);
+
+      return () => {
+        container.style.removeProperty('width');
+      };
+    }, [
+      // fire every time the label changes
+      props.label,
+    ]);
+
+    return (
+      <span
+        ref={containerRef}
+        aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
+        className={tw(
+          'relative',
+          'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
+        )}
+      >
+        <span ref={contentRef}>{props.label}</span>
+      </span>
+    );
+  });
+
+  Label.displayName = 'AxoTooltip.Label';
 }

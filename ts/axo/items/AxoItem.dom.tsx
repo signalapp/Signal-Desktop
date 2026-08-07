@@ -43,7 +43,7 @@ export namespace AxoItem {
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
-    return <AxoBaseItem.Group>{props.children}</AxoBaseItem.Group>;
+    return <AxoBaseItem.Group spacing="md">{props.children}</AxoBaseItem.Group>;
   });
 
   Group.displayName = 'AxoItem.Group';
@@ -231,8 +231,11 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
+  export type IconActionVariant = 'implied-secondary';
+
   export type IconActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
+    variant: IconActionVariant;
     label: string;
     symbol: AxoSymbol.IconName;
     tooltip?: AxoIconButton.RootProps['tooltip'];
@@ -240,10 +243,11 @@ export namespace AxoItem {
   }>;
 
   export const IconAction: FC<IconActionProps> = memo(props => {
-    const { ref, label, symbol, onClick, tooltip, ...rest } = props;
+    const { ref, variant, label, symbol, onClick, tooltip, ...rest } = props;
     return (
       <AxoBaseItem.IconAction
         ref={ref}
+        variant={variant}
         label={label}
         symbol={symbol}
         onClick={onClick}

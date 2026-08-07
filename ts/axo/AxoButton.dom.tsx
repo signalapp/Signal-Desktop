@@ -70,7 +70,7 @@ export namespace AxoButton {
 
   const baseStyles = tw(
     'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full',
-    'outline-none keyboard-mode:focus:axo-focus-ring',
+    'not-forced-colors:outline-none keyboard-mode:focus:axo-focus-ring',
     'forced-colors:border',
     'forced-colors:aria-disabled:text-[GrayText]'
   );

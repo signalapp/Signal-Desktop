@@ -376,7 +376,7 @@ export namespace AxoDialog {
    * --------------------------------------------------------------------------
    */
 
-  export type ExperimentalSearchProps = Readonly<{
+  export type SearchProps = Readonly<{
     /**
      * A search input element.
      */
@@ -388,11 +388,15 @@ export namespace AxoDialog {
    * Pair with `Body` using `padding="only-scrollbar-gutter"` so the list
    * content aligns with the search field.
    */
-  export const ExperimentalSearch: FC<ExperimentalSearchProps> = memo(props => {
-    return <div className={tw('px-4 pb-2')}>{props.children}</div>;
+  export const Search: FC<SearchProps> = memo(props => {
+    return (
+      <div className={tw('flex items-center gap-2 px-4 pb-2')}>
+        {props.children}
+      </div>
+    );
   });
 
-  ExperimentalSearch.displayName = 'AxoDialog.ExperimentalSearch';
+  Search.displayName = 'AxoDialog.Search';
 
   /**
    * <AxoDialog.Body>
@@ -424,6 +428,16 @@ export namespace AxoDialog {
      */
     maxHeight?: number;
     /**
+     * Set to true if the dialog has no footer after it, hides the bottom scroll hint.
+     * TODO: Find a CSS solution to this so it's just automatic
+     */
+    noFooterHideBottomScrollHint?: boolean;
+
+    /**
+     * Force the dialog to always be at its maxHeight
+     */
+    forceMaxHeight?: boolean;
+    /**
      * The scrollable body content.
      */
     children: ReactNode;
@@ -438,17 +452,23 @@ export namespace AxoDialog {
       scrollbarWidth = 'thin',
       padding = 'normal',
       maxHeight = 440,
+      forceMaxHeight,
     } = props;
 
     const style = useMemo((): CSSProperties | undefined => {
-      if (padding === 'only-scrollbar-gutter') {
-        return;
+      const styles: CSSProperties = {};
+
+      if (forceMaxHeight) {
+        styles.minHeight = maxHeight;
       }
 
-      return {
-        paddingInline: 'calc(24px - var(--axo-scrollbar-gutter-thin-vertical))',
-      };
-    }, [padding]);
+      if (padding !== 'only-scrollbar-gutter') {
+        styles.paddingInline =
+          'calc(24px - var(--axo-scrollbar-gutter-thin-vertical))';
+      }
+
+      return styles;
+    }, [forceMaxHeight, maxHeight, padding]);
 
     return (
       <AxoScrollArea.Root
@@ -457,7 +477,9 @@ export namespace AxoDialog {
         scrollbarVisibility="as-needed"
       >
         <AxoScrollArea.Hint edge="top" />
-        <AxoScrollArea.Hint edge="bottom" />
+        {!props.noFooterHideBottomScrollHint && (
+          <AxoScrollArea.Hint edge="bottom" />
+        )}
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
             <div style={style}>{props.children}</div>

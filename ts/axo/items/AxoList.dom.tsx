@@ -110,7 +110,8 @@ export namespace AxoList {
     return (
       <div
         className={tw(
-          'curved-20 bg-surface-primary py-1.5 shadow-elevation-0',
+          'min-w-fit',
+          'curved-20 bg-surface-primary p-1.5 shadow-elevation-0',
           'forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]',
           'forced-colors:border forced-colors:border-[ButtonBorder]'
         )}

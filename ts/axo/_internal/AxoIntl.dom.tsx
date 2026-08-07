@@ -18,6 +18,7 @@ export namespace AxoIntl {
     'AxoTextField.Clear': 'Clear',
     'AxoPasswordField.Reveal': 'Show Password',
     'AxoBadge.MaxOverflow': (max: number) => `${max}+`,
+    'AxoContactName.InSystemContactsLabel': 'This person is in your contacts.',
   };
 
   /** Map of all message keys to their translated strings. */

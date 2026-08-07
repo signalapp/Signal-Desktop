@@ -759,6 +759,8 @@ export function ConversationDetails({
         <ConversationDetailsMembershipList
           canAddLabel={canAddLabel}
           canAddNewMembers={canAddNewMembers}
+          canInviteViaGroupLink={hasGroupLink}
+          groupLink={conversation.groupLink ?? null}
           conversationId={conversation.id}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}

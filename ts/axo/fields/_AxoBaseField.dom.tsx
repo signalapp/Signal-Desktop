@@ -231,8 +231,10 @@ export namespace AxoBaseField {
             ContainerWidths.get(width),
             ContainerVariants.get(props.variant),
             'placeholder:text-placeholder',
-            'not-forced-colors:has-[input:focus]:axo-focus-ring',
-            'forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
+            '-outline-offset-1 has-[input:focus]:axo-focus-ring',
+            'forced-colors:border forced-colors:border-[ButtonBorder]',
+            'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
+            'forced-colors:has-user-invalid:border-[LinkText]'
           )}
         >
           {props.children}
@@ -494,7 +496,7 @@ export namespace AxoBaseField {
             'py-1.5',
             'indent-1',
             'text-primary',
-            'not-forced-colors:outline-none',
+            'outline-none',
             'disabled:text-disabled',
 
             '[&::-webkit-search-cancel-button]:appearance-none'

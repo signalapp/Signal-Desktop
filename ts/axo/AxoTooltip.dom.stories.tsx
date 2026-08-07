@@ -197,3 +197,13 @@ export function InDialog(): JSX.Element {
 export function Disabled(): JSX.Element {
   return <SimpleExample disabled />;
 }
+
+export function LongText(): ReactNode {
+  return (
+    <AxoTooltip.Root __FORCE_OPEN label="This person is in your contacts.">
+      <AxoButton.Root variant="strong-primary" size="md">
+        Hover Me
+      </AxoButton.Root>
+    </AxoTooltip.Root>
+  );
+}

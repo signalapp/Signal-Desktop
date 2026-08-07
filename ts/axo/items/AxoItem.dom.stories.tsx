@@ -118,7 +118,6 @@ export function Icon(): ReactNode {
           <AxoItem.Content>
             <AxoItem.Body>
               <AxoItem.Title>Title of item</AxoItem.Title>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
               <AxoItem.HiddenTrigger
                 label="Trigger"
                 onClick={action('onClick')}
@@ -171,7 +170,6 @@ export function Value(): ReactNode {
             <AxoItem.Body>
               <AxoItem.Title>Title of item</AxoItem.Title>
               <AxoItem.Value>+1 555 555-5555</AxoItem.Value>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
               <AxoItem.HiddenTrigger
                 label="Trigger"
                 onClick={action('onClick')}
@@ -221,6 +219,7 @@ export function Arrow(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoItem.Group>
         <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
           <AxoItem.Content>
             <AxoItem.Body>
               <AxoItem.Title>Title of item</AxoItem.Title>
@@ -234,6 +233,7 @@ export function Arrow(): ReactNode {
         </AxoItem.Root>
 
         <AxoItem.Root>
+          <AxoItem.Icon symbol="appearance" />
           <AxoItem.Content>
             <AxoItem.Body>
               <AxoItem.Title>Another title</AxoItem.Title>
@@ -322,7 +322,12 @@ function MoreIconActionWithMenu() {
   return (
     <AxoDropdownMenu.Root>
       <AxoDropdownMenu.Trigger>
-        <AxoItem.IconAction symbol="more" label="More" tooltip={false} />
+        <AxoItem.IconAction
+          variant="implied-secondary"
+          symbol="more"
+          label="More"
+          tooltip={false}
+        />
       </AxoDropdownMenu.Trigger>
       <AxoDropdownMenu.Content>
         <AxoDropdownMenu.Item onSelect={action('onFoo')}>
@@ -339,6 +344,7 @@ function MoreIconActionWithMenu() {
 function DownloadIconAction() {
   return (
     <AxoItem.IconAction
+      variant="implied-secondary"
       symbol="arrow-down"
       label="Download"
       onClick={action('onDownload')}
@@ -482,6 +488,120 @@ function Header(props: { children: ReactNode }): ReactNode {
 export function StressTests(): ReactNode {
   return (
     <div className={tw('mx-auto max-w-150')}>
+      <Header>Kitchen Sink</Header>
+      <AxoItem.Group>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <DownloadIconAction />
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <DownloadIconAction />
+              <MoreIconActionWithMenu />
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <AxoItem.Action variant="subtle-secondary">Action</AxoItem.Action>
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <AxoItem.Action variant="subtle-secondary">Action</AxoItem.Action>
+              <AxoItem.Action variant="subtle-secondary">Action</AxoItem.Action>
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <Switch />
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+        <AxoItem.Root>
+          <AxoItem.Icon symbol="settings" />
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Title>Title</AxoItem.Title>
+              <AxoItem.Value>Value</AxoItem.Value>
+              <AxoItem.Description>Description</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Accessory>
+              <Select />
+            </AxoItem.Accessory>
+          </AxoItem.Content>
+          <AxoItem.Arrow />
+        </AxoItem.Root>
+      </AxoItem.Group>
+
       <Header>Long Title: Title should be clamped to two lines</Header>
       <AxoItem.Group>
         <AxoItem.Root>

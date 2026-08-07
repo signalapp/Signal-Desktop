@@ -77,6 +77,7 @@ export namespace AxoBaseDialog {
     'relative',
     'z-10',
     'max-h-full min-h-fit',
+    'overflow-hidden',
     'curved-3xl bg-material-dialog text-primary shadow-elevation-3',
     'backdrop-blur-thick',
     'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:axo-focus-ring',

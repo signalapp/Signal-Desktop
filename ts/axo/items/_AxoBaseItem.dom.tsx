@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, MouseEvent, ReactNode, Ref } from 'react';
-import { memo, useId } from 'react';
+import { memo, useId, useMemo } from 'react';
 import {
   createStrictContext,
   useStrictContext,
@@ -20,6 +20,7 @@ import { AxoButton } from '../AxoButton.dom.tsx';
 import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
 import { AxoRadioGroup } from '../AxoRadioGroup.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
+import { variants } from '../_internal/variants.dom.tsx';
 
 const LEADING_SLOT = 'axo-item-leading-slot';
 const CONTENT_SLOT = 'axo-item-content-slot';
@@ -56,23 +57,37 @@ const GRID_TEMPLATE_COLUMNS =
  * ```
  */
 export namespace AxoBaseItem {
+  export type Spacing = 'md' | 'sm';
+
   /**
    * <AxoBaseItem.Group>
    * --------------------------------------------------------------------------
    */
 
-  const GroupContext = createStrictContext<true>('AxoBaseItem.Group');
+  type GroupContextType = Readonly<{
+    spacing: Spacing;
+  }>;
+
+  const GroupContext =
+    createStrictContext<GroupContextType>('AxoBaseItem.Group');
 
   export type GroupProps = Readonly<{
+    spacing: Spacing;
     children: ReactNode;
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
+    const { spacing } = props;
+
+    const context = useMemo((): GroupContextType => {
+      return { spacing };
+    }, [spacing]);
+
     return (
-      <GroupContext value>
+      <GroupContext value={context}>
         <div
           role="list"
-          className={tw('grid')}
+          className={tw('grid min-w-90')}
           style={{
             gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
           }}
@@ -90,12 +105,17 @@ export namespace AxoBaseItem {
    * --------------------------------------------------------------------------
    */
 
+  const RootSpacing = variants<Spacing>('AxoBaseItem.Spacing', {
+    md: tw('py-2'),
+    sm: tw('py-1.5'),
+  });
+
   export type RootProps = Readonly<{
     children: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    useStrictContext(GroupContext); // ensure we're the group grid
+    const groupContext = useStrictContext(GroupContext);
     const { context, labelId, descriptionId } = useCreateAriaLabellingContext();
 
     return (
@@ -109,15 +129,15 @@ export namespace AxoBaseItem {
               'group',
               // forward grid
               'col-span-full grid grid-cols-subgrid',
-              'px-2 py-0.5'
+              'p-0.5'
             )}
           >
             <div
               className={tw(
                 // forward grid
                 'col-span-full grid grid-cols-subgrid',
-                'gap-x-3',
-                'px-3 py-2',
+                'gap-x-3 px-3',
+                RootSpacing.get(groupContext.spacing),
                 'items-baseline',
                 'text-primary',
                 'curved-14',
@@ -137,6 +157,50 @@ export namespace AxoBaseItem {
   Root.displayName = 'AxoBaseItem.Root';
 
   /**
+   * <AxoBaseItem.LeadingSlot>
+   * --------------------------------------------------------------------------
+   */
+
+  /** @internal */
+  type LeadingSlotProps = Readonly<{
+    className?: string;
+    children: ReactNode;
+  }>;
+
+  /** @internal */
+  const LeadingSlot: FC<LeadingSlotProps> = memo(props => {
+    return (
+      <div style={{ gridColumn: LEADING_SLOT }} className={props.className}>
+        {props.children}
+      </div>
+    );
+  });
+
+  LeadingSlot.displayName = 'AxoBaseItem.LeadingSlot';
+
+  /**
+   * <AxoBaseItem.TrailingSlot>
+   * --------------------------------------------------------------------------
+   */
+
+  /** @internal */
+  type TrailingSlotProps = Readonly<{
+    className?: string;
+    children: ReactNode;
+  }>;
+
+  /** @internal */
+  const TrailingSlot: FC<TrailingSlotProps> = memo(props => {
+    return (
+      <div style={{ gridColumn: TRAILING_SLOT }} className={props.className}>
+        {props.children}
+      </div>
+    );
+  });
+
+  TrailingSlot.displayName = 'AxoBaseItem.TrailingSlot';
+
+  /**
    * <AxoBaseItem.Icon>
    * --------------------------------------------------------------------------
    */
@@ -147,9 +211,9 @@ export namespace AxoBaseItem {
 
   export const Icon: FC<IconProps> = memo(props => {
     return (
-      <div style={{ gridColumn: LEADING_SLOT }}>
+      <LeadingSlot>
         <AxoSymbol.Icon size={18} symbol={props.symbol} label={null} />
-      </div>
+      </LeadingSlot>
     );
   });
 
@@ -170,14 +234,14 @@ export namespace AxoBaseItem {
 
   export const Checkbox: FC<CheckboxProps> = memo(props => {
     return (
-      <div style={{ gridColumn: LEADING_SLOT }}>
+      <LeadingSlot>
         <AxoCheckbox.Root
           id={props.id}
           variant="square"
           checked={props.checked}
           onCheckedChange={props.onCheckedChange}
         />
-      </div>
+      </LeadingSlot>
     );
   });
 
@@ -190,13 +254,28 @@ export namespace AxoBaseItem {
 
   export const RadioGroupIndicator: FC = memo(() => {
     return (
-      <div style={{ gridColumn: LEADING_SLOT }}>
+      <LeadingSlot>
         <AxoRadioGroup.Indicator />
-      </div>
+      </LeadingSlot>
     );
   });
 
   RadioGroupIndicator.displayName = 'AxoBaseItem.RadioGroupIndicator';
+
+  /**
+   * <AxoBaseItem.LegacyAvatarSlot>
+   * --------------------------------------------------------------------------
+   */
+
+  export type LegacyAvatarSlotProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const LegacyAvatarSlot: FC<LegacyAvatarSlotProps> = memo(props => {
+    return <LeadingSlot>{props.children}</LeadingSlot>;
+  });
+
+  LegacyAvatarSlot.displayName = 'AxoBaseItem.LegacyAvatarSlot';
 
   /**
    * <AxoBaseItem.IconAvatar>
@@ -212,13 +291,13 @@ export namespace AxoBaseItem {
 
   export const IconAvatar: FC<IconAvatarProps> = memo(props => {
     return (
-      <div style={{ gridColumn: LEADING_SLOT }}>
+      <LeadingSlot>
         <AxoAvatar.Root size={props.size}>
           <AxoAvatar.Content label={null}>
             <AxoAvatar.Icon symbol={props.symbol} />
           </AxoAvatar.Content>
         </AxoAvatar.Root>
-      </div>
+      </LeadingSlot>
     );
   });
 
@@ -238,7 +317,7 @@ export namespace AxoBaseItem {
       <div
         style={{ gridColumn: CONTENT_SLOT }}
         className={tw(
-          'flex shrink grow basis-0 flex-wrap',
+          'flex min-w-50 grow basis-0 flex-wrap',
           'self-stretch',
           'items-baseline',
           'gap-x-3 gap-y-2'
@@ -265,6 +344,7 @@ export namespace AxoBaseItem {
       <div
         className={tw(
           'flex shrink grow basis-0 flex-wrap',
+          'min-w-50', // Note: We need an absolute length for min-width for description to truncate (even if its 0)
           'self-center-safe',
           'gap-x-3 gap-y-0.5'
         )}
@@ -283,6 +363,7 @@ export namespace AxoBaseItem {
 
   export type TitleProps = Readonly<{
     id?: string;
+    truncate?: boolean;
     children: ReactNode;
   }>;
 
@@ -294,10 +375,11 @@ export namespace AxoBaseItem {
         ref={labelRef}
         id={props.id ?? fallbackId}
         className={tw(
-          'min-w-50',
+          'min-w-50', // force value to next line if there's not much space
           'grow-[calc(infinity)]',
           'type-body-medium text-primary',
-          'line-clamp-2'
+          props.truncate ? 'truncate' : 'line-clamp-2',
+          '-my-0.75 py-0.75' // extra space for focus rings
         )}
       >
         {props.children}
@@ -332,19 +414,27 @@ export namespace AxoBaseItem {
    */
 
   export type DescriptionProps = Readonly<{
+    truncate?: boolean;
     children: ReactNode;
   }>;
 
   export const Description: FC<DescriptionProps> = memo(props => {
     return (
-      <div
-        className={tw(
-          'basis-full type-body-small text-secondary',
-          'forced-colors:text-[GrayText]'
-        )}
-      >
-        {props.children}
-      </div>
+      <>
+        {/* Force description to its own line */}
+        <div className={tw('basis-full')} />
+        <div
+          className={tw(
+            'min-w-0',
+            'type-body-small text-secondary',
+            'forced-colors:text-[GrayText]',
+            props.truncate && 'truncate',
+            '-my-0.5 py-0.5' // extra space for focus rings
+          )}
+        >
+          {props.children}
+        </div>
+      </>
     );
   });
 
@@ -384,11 +474,7 @@ export namespace AxoBaseItem {
 
   export const Accessory: FC<AccessoryProps> = memo(props => {
     return (
-      <AriaClickable.DeadArea
-        data-axo-item-accessory
-        style={{ gridColumn: TRAILING_SLOT }}
-        className={tw('flex gap-1.5')}
-      >
+      <AriaClickable.DeadArea className={tw('flex gap-1.5')}>
         {props.children}
       </AriaClickable.DeadArea>
     );
@@ -434,8 +520,11 @@ export namespace AxoBaseItem {
    * --------------------------------------------------------------------------
    */
 
+  export type IconActionVariant = 'implied-secondary';
+
   export type IconActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
+    variant: IconActionVariant;
     label: string;
     symbol: AxoSymbol.IconName;
     tooltip?: AxoIconButton.RootProps['tooltip'];
@@ -443,11 +532,11 @@ export namespace AxoBaseItem {
   }>;
 
   export const IconAction: FC<IconActionProps> = memo(props => {
-    const { ref, label, symbol, onClick, tooltip, ...rest } = props;
+    const { ref, variant, label, symbol, onClick, tooltip, ...rest } = props;
     return (
       <AxoIconButton.Root
         ref={ref}
-        variant="implied-secondary"
+        variant={variant}
         size="md"
         label={label}
         symbol={symbol}
@@ -467,12 +556,11 @@ export namespace AxoBaseItem {
 
   export const Arrow: FC = memo(() => {
     return (
-      <div
-        style={{ gridColumn: TRAILING_SLOT }}
+      <TrailingSlot
         className={tw('shrink-0 type-body-medium text-placeholder')}
       >
         <AxoSymbol.InlineGlyph label={null} symbol="chevron-[end]" />
-      </div>
+      </TrailingSlot>
     );
   });
 

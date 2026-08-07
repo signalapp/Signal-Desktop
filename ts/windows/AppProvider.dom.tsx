@@ -22,6 +22,7 @@ export const AppProvider: FC<AppProviderProps> = memo(
       'AxoDialog.Close': i18n('icu:AxoDialog.Close'),
       'AxoPasswordField.Reveal': i18n('icu:AxoPasswordField.Reveal'),
       'AxoTextField.Clear': i18n('icu:AxoTextField.Clear'),
+      'AxoContactName.InSystemContactsLabel': i18n('icu:contactInAddressBook'),
     };
 
     return (

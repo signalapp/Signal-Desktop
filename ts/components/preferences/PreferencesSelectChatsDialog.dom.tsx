@@ -198,7 +198,7 @@ export function PreferencesSelectChatsDialog(
           <AxoDialog.Title>{props.title}</AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.ExperimentalSearch>
+        <AxoDialog.Search>
           <SearchInput
             i18n={i18n}
             placeholder={i18n(
@@ -208,7 +208,7 @@ export function PreferencesSelectChatsDialog(
             onChange={handleSearchInputChange}
             noMargin
           />
-        </AxoDialog.ExperimentalSearch>
+        </AxoDialog.Search>
         <AxoDialog.Body scrollbarWidth="none" padding="only-scrollbar-gutter">
           {selectedRecipientIds.size > 0 && (
             <ContactPills>

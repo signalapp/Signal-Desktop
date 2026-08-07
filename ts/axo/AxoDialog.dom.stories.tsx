@@ -359,7 +359,7 @@ export function ExampleLanguageDialog(): JSX.Element {
           <AxoDialog.Title>Language</AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.ExperimentalSearch>
+        <AxoDialog.Search>
           {/* FIXME */}
           {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
@@ -371,7 +371,7 @@ export function ExampleLanguageDialog(): JSX.Element {
               'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]'
             )}
           />
-        </AxoDialog.ExperimentalSearch>
+        </AxoDialog.Search>
         <AxoDialog.Body padding="only-scrollbar-gutter">
           <div
             role="listbox"

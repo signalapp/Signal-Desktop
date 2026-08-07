@@ -92,8 +92,8 @@ export namespace AriaClickable {
     return (
       <TriggerStateUpdateContext.Provider value={handleTriggerStateUpdate}>
         <Comp
-          data-aria-clickable-root
-          className={props.className}
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+          className={tw('relative!', props.className)}
           // For styling based on the HiddenTrigger state.
           data-hovered={hovered ? true : null}
           data-focused={focused ? true : null}
@@ -175,8 +175,8 @@ export namespace AriaClickable {
     const { className, style, children, ...rest } = props;
     return (
       <div
-        data-aria-clickable-root
-        className={className}
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+        className={tw('relative! z-20!', className)}
         style={style}
         {...forwardExtraPropsForRadix(rest)}
       >

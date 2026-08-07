@@ -6774,6 +6774,10 @@
     "messageformat": "See all",
     "description": "This is a button on the conversation details to show all members"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search",
+    "description": "ConversationDetailsMembershipList > Search > Accessibility Label"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {# group} other {# groups}} in common",
     "description": "Title of the groups-in-common panel, in the contact details"
@@ -6865,6 +6869,54 @@
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Copy signal.group link to clipboard",
     "description": "GroupLinkManagement > Header > Group link text > Button (looks like normal text) > Accessibility label"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search Members",
+    "description": "GroupMembersSearchDialog > Dialog Title"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search",
+    "description": "GroupMembersSearchDialog > Search > Placeholder"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter",
+    "description": "GroupMembersSearchDialog > Filter Menu > Label"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members",
+    "description": "GroupMembersSearchDialog > Filter Menu > "
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins",
+    "description": "GroupMembersSearchDialog > Filter Menu > Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts",
+    "description": "GroupMembersSearchDialog > Filter Menu > System Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results",
+    "description": "GroupMembersSearchDialog > No results (without search query)"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults__WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”",
+    "description": "GroupMembersSearchDialog > No results (with search query)"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin",
+    "description": "GroupMembersSearchDialog > Member Item > Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results",
+    "description": "GroupMembersSearchDialog > Search Results > Title"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member",
+    "description": "GroupMembersSearchDialog > Bottom Actions > Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link",
+    "description": "GroupMembersSearchDialog > Bottom Actions > Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count, number})",

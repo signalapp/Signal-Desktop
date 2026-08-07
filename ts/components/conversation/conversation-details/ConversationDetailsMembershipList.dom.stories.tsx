@@ -53,6 +53,7 @@ export default {
   argTypes: {},
   args: {
     canAddNewMembers: false,
+    canInviteViaGroupLink: false,
     conversationId: '123',
     getPreferredBadge: () => undefined,
     i18n,
@@ -111,4 +112,8 @@ export function None(args: Props): JSX.Element {
 
 export function CanAddNewMembers(args: Props): JSX.Element {
   return <ConversationDetailsMembershipList {...args} canAddNewMembers />;
+}
+
+export function HasGroupLink(args: Props): JSX.Element {
+  return <ConversationDetailsMembershipList {...args} canInviteViaGroupLink />;
 }
