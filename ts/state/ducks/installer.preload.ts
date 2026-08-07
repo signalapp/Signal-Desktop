@@ -39,6 +39,7 @@ import {
 } from '../../util/isRelinkingToSameAccount.std.ts';
 import { cancelRegistration } from './standaloneInstaller.preload.ts';
 import type { CancelWorkflowActionType } from './standaloneInstaller.preload.ts';
+import { enableStorageService } from '../../services/storage.preload.ts';
 
 const log = createLogger('installer');
 
@@ -193,6 +194,7 @@ function startInstaller(): ThunkAction<
 
     window.IPC.addSetupMenuItems();
     dispatch(cancelRegistration());
+    enableStorageService();
 
     dispatch({
       type: START_INSTALLER,

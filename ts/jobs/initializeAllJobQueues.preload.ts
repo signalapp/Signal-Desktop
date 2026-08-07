@@ -16,6 +16,7 @@ import { reportSpamJobQueue } from './reportSpamJobQueue.preload.ts';
 import { singleProtoJobQueue } from './singleProtoJobQueue.preload.ts';
 import { viewOnceOpenJobQueue } from './viewOnceOpenJobQueue.preload.ts';
 import { viewSyncJobQueue } from './viewSyncJobQueue.preload.ts';
+import { registrationJobQueue } from './registrationJobQueue.preload.ts';
 
 type ServerType = {
   reportMessage: typeof reportMessage;
@@ -48,6 +49,7 @@ export function initializeAllJobQueues({
 
   // Other queues
   drop(deleteDownloadsJobQueue.streamJobs());
+  drop(registrationJobQueue.streamJobs());
   drop(removeStorageKeyJobQueue.streamJobs());
   drop(reportSpamJobQueue.streamJobs());
   drop(callLinkRefreshJobQueue.streamJobs());
@@ -58,15 +60,17 @@ export function initializeAllJobQueues({
 
 export async function shutdownAllJobQueues(): Promise<void> {
   await Promise.allSettled([
-    callLinkRefreshJobQueue.shutdown(),
     conversationJobQueue.shutdown(),
     groupAvatarJobQueue.shutdown(),
     singleProtoJobQueue.shutdown(),
     readSyncJobQueue.shutdown(),
     viewSyncJobQueue.shutdown(),
     viewOnceOpenJobQueue.shutdown(),
+    deleteDownloadsJobQueue.shutdown(),
+    registrationJobQueue.shutdown(),
     removeStorageKeyJobQueue.shutdown(),
     reportSpamJobQueue.shutdown(),
+    callLinkRefreshJobQueue.shutdown(),
     CallLinkFinalizeDeleteManager.stop(),
     chatFolderCleanupService.stop('shutdownAllJobQueues'),
     pinnedMessagesCleanupService.stop('shutdownAllJobQueues'),

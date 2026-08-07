@@ -27,6 +27,7 @@ import type {
   ProvisioningConnectionListener,
   RegisterAccountResponse,
 } from '@signalapp/libsignal-client/dist/net.js';
+import { Svr2MigrationSession } from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import type {
@@ -5247,18 +5248,25 @@ const MAX_STORE_ATTEMPTS = 3;
 export type StoreParameters = {
   pin: string;
   data: Uint8Array<ArrayBuffer>;
+  sessionData?: Uint8Array<ArrayBuffer>;
 };
+type StoreResponse =
+  | { success: true }
+  | {
+      success: false;
+      sessionData: Uint8Array<ArrayBuffer> | undefined;
+    };
 
 export async function storeWithSVR2(
   options: StoreParameters,
   getAuth = getBackupAuth
-): Promise<void> {
+): Promise<StoreResponse> {
   const logId = 'storeWithSVR2';
 
   if (window.SignalCI) {
     log.info(`${logId}: Running under CI; saving data`);
     window.SignalCI.saveSVR2StoredData(options);
-    return;
+    return { success: true };
   }
 
   const auth = await getAuth();
@@ -5275,12 +5283,18 @@ export async function storeWithSVR2(
   );
 
   let attempts = 1;
-  while (attempts <= MAX_STORE_ATTEMPTS) {
+
+  // oxlint-disable-next-line no-constant-condition
+  while (true) {
     try {
       log.info(`${logId}: finishBackup (attempt=${attempts})...`);
       // oxlint-disable-next-line no-await-in-loop
       await svr2.finishBackup(session);
-      break;
+
+      log.info(`${logId}: complete (attempt=${attempts})`);
+      return {
+        success: true,
+      };
     } catch (error) {
       log.error(
         `${logId}: Failed to finish store, attempt ${attempts} of ${MAX_STORE_ATTEMPTS}`,
@@ -5288,9 +5302,10 @@ export async function storeWithSVR2(
       );
 
       if (attempts >= MAX_STORE_ATTEMPTS) {
-        throw new Error(
+        log.error(
           `${logId}: Failed after ${MAX_STORE_ATTEMPTS} to finish store`
         );
+        return { success: false, sessionData: session.serialize() };
       }
 
       const duration = exponentialBackoffSleepTime(attempts, {
@@ -5304,7 +5319,80 @@ export async function storeWithSVR2(
       attempts += 1;
     }
   }
-  log.info(`${logId}: complete (attempt=${attempts})`);
+}
+
+const MAX_MIGRATE_ATTEMPTS = 3;
+
+export async function migrateSVR2(
+  options: StoreParameters,
+  getAuth = getBackupAuth
+): Promise<StoreResponse> {
+  const logId = 'migrateSVR2';
+
+  if (window.SignalCI) {
+    log.info(`${logId}: Running under CI; saving data`);
+    window.SignalCI.saveSVR2StoredData(options);
+    return { success: true };
+  }
+
+  const auth = await getAuth();
+  const svr2 = libsignalNet.svr2(auth);
+
+  const { pin, data } = options;
+  const pinData = Bytes.fromString(pin);
+
+  let attempts = 0;
+  let session: Svr2MigrationSession | undefined = options.sessionData
+    ? Svr2MigrationSession.deserialize(options.sessionData)
+    : undefined;
+
+  // oxlint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      attempts += 1;
+
+      if (attempts >= MAX_MIGRATE_ATTEMPTS) {
+        log.error(
+          `${logId}: failed after ${MAX_MIGRATE_ATTEMPTS} to finish migration`
+        );
+        return { success: false, sessionData: session?.serialize() };
+      }
+
+      log.info(`${logId}: migrating, attempts=${attempts}...`);
+
+      // oxlint-disable-next-line no-await-in-loop
+      session = await svr2.migrate(
+        { normalizedPin: pinData },
+        data,
+        MAX_SVR2_TRIES
+      );
+
+      if (session.isComplete()) {
+        log.info(`${logId}: complete (attempt=${attempts})`);
+        return {
+          success: true,
+        };
+      }
+
+      const duration = exponentialBackoffSleepTime(attempts, {
+        firstBackoffs: [SECOND * 2],
+        multiplier: 3,
+        maxBackoffTime: SECOND * 30,
+      });
+
+      log.info(
+        `${logId}: not complete; waiting ${duration}ms then trying again; (attempts=${attempts})...`
+      );
+
+      // oxlint-disable-next-line no-await-in-loop
+      await sleep(duration);
+    } catch (error) {
+      log.error(
+        `${logId}: error during migration; attempt ${attempts} of ${MAX_MIGRATE_ATTEMPTS}: `,
+        toLogFormat(error)
+      );
+    }
+  }
 }
 
 // TODO: DESKTOP-8300

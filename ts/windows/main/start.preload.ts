@@ -39,7 +39,7 @@ import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.pr
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
-import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
+import { getRegistrationLockString } from '../../jobs/registrationJobQueue.preload.ts';
 
 const log = createLogger('start');
 
@@ -70,17 +70,7 @@ if (
 
   const SignalDebug = {
     async setupRegistrationLock() {
-      const masterKey = itemStorage.get('masterKey');
-      if (!masterKey) {
-        throw new Error('missing masterKey!');
-      }
-
-      const svrKey = new SvrKey(Bytes.fromBase64(masterKey));
-
-      const registrationLock = svrKey.deriveRegistrationLock();
-      const registrationLockString = Bytes.toHex(registrationLock);
-
-      await setupRegistrationLock(registrationLockString);
+      await setupRegistrationLock(getRegistrationLockString());
     },
     async disableRegistrationLock() {
       await disableRegistrationLock();

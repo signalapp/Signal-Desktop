@@ -28,7 +28,7 @@ import {
   prepareForDisabledNotificationProfileSync,
   prepareForEnabledNotificationProfileSync,
 } from '../../services/storageRecordOps.preload.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { SECOND } from '../../util/durations/constants.std.ts';
 
 import type {
@@ -156,7 +156,7 @@ const updateStorageService = debounce(
       return;
     }
 
-    storageServiceUploadJob({
+    runStorageServiceUploadJob({
       reason,
     });
   },

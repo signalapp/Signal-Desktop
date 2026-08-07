@@ -168,6 +168,7 @@ export function AvatarPreview({
 
   if (imageStatus === ImageStatus.Nothing) {
     let content: JSX.Element | string | undefined;
+    const initials = getInitials(conversationTitle);
     if (isGroup) {
       content = (
         <div
@@ -180,8 +181,14 @@ export function AvatarPreview({
           className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__note_to_self`}
         />
       );
+    } else if (initials) {
+      content = initials;
     } else {
-      content = getInitials(conversationTitle);
+      content = (
+        <div
+          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__contact`}
+        />
+      );
     }
 
     return (

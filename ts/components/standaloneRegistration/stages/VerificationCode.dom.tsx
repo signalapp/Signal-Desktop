@@ -224,6 +224,7 @@ export function VerificationCodeScreen({
       >
         {Array.from({ length: 6 }).map((_, i) => (
           <OneTimePasswordField.Input
+            key={`Field ${i.toString()}`}
             ref={i === 0 ? focusRef : undefined}
             className={classNames(
               tw(

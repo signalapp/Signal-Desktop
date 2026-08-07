@@ -17,6 +17,7 @@ import {
 import { StandaloneRegistration } from '../../components/standaloneRegistration/StandaloneRegistration.dom.tsx';
 import { trigger } from '../../shims/events.dom.ts';
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.ts';
+import { RegistrationStage } from '../../types/StandaloneRegistration.std.ts';
 
 export const SmartStandaloneRegistration = memo(
   function SmartStandaloneRegistration() {
@@ -36,13 +37,17 @@ export const SmartStandaloneRegistration = memo(
       startRegistration,
       submitVerificationCode,
       verifyPIN,
+      // AvatarEditor support
+      deleteAvatarFromDisk: cachedDeleteAvatarFromDisk,
+      replaceAvatar: cachedReplaceAvatar,
+      saveAvatarToDisk: cachedSaveAvatarToDisk,
     } = useStandaloneInstallerActions();
 
     const i18n = useSelector(getIntl);
     const countries = getCountryDataForLocale(i18n.getLocale());
     const conversationId = useSelector(getUserConversationId);
     const me = useSelector(getMe);
-    const userAvatarData = me?.avatars ?? getDefaultAvatars();
+    let userAvatarData = me?.avatars ?? getDefaultAvatars();
 
     const workflow = useSelector(getWorkflow);
     const fatalError = useSelector(getFatalError);
@@ -50,6 +55,16 @@ export const SmartStandaloneRegistration = memo(
 
     if (!workflow) {
       return undefined;
+    }
+
+    let useCachedAvatarFunctions = false;
+    if (
+      !conversationId &&
+      workflow.stage === RegistrationStage.PROFILE_ENTRY &&
+      !workflow.accountState.created
+    ) {
+      useCachedAvatarFunctions = true;
+      userAvatarData = workflow.accountState.avatars || getDefaultAvatars();
     }
 
     return (
@@ -78,9 +93,17 @@ export const SmartStandaloneRegistration = memo(
         verifyPIN={verifyPIN}
         workflow={workflow}
         // AvatarEditor support
-        deleteAvatarFromDisk={deleteAvatarFromDisk}
-        replaceAvatar={replaceAvatar}
-        saveAvatarToDisk={saveAvatarToDisk}
+        deleteAvatarFromDisk={
+          useCachedAvatarFunctions
+            ? cachedDeleteAvatarFromDisk
+            : deleteAvatarFromDisk
+        }
+        replaceAvatar={
+          useCachedAvatarFunctions ? cachedReplaceAvatar : replaceAvatar
+        }
+        saveAvatarToDisk={
+          useCachedAvatarFunctions ? cachedSaveAvatarToDisk : saveAvatarToDisk
+        }
         userAvatarData={userAvatarData}
       />
     );

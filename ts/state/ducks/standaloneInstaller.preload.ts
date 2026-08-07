@@ -3,6 +3,7 @@
 
 import { isNumber } from 'lodash';
 import { unicodeNumber } from 'unicode-number';
+import { v7 as generateUuid } from 'uuid';
 import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -12,27 +13,23 @@ import { SECOND } from '../../util/durations/constants.std.ts';
 import { toLogFormat } from '../../types/errors.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { drop } from '../../util/drop.std.ts';
-import { fromBase64, toBase64, toHex } from '../../Bytes.std.ts';
-import { imagePathToBytes } from '../../util/imagePathToBytes.dom.ts';
+import { toBase64, toHex } from '../../Bytes.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { getConversation } from '../../util/getConversation.preload.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import { DataWriter } from '../../sql/Client.preload.ts';
 import { getChallengeURL } from '../../challenge.dom.ts';
 import { challengeHandler } from '../../services/challengeHandler.preload.ts';
-import { writeProfile } from '../../services/writeProfile.preload.ts';
 import { accountManager } from '../../textsecure/AccountManager.preload.ts';
 import {
   createVerificationSession,
   requestCodeForVerificationSession,
   restoreFromSVR2,
-  storeWithSVR2,
   submitCaptchaForVerificationSession,
   submitCodeForVerificationSession,
 } from '../../textsecure/WebAPI.preload.ts';
 import { VerificationTransport } from '../../types/VerificationTransport.std.ts';
 import {
   Direction,
+  PartialRegistrationType,
   RegistrationStage,
   StageOrder,
   ValidNextStages,
@@ -46,10 +43,21 @@ import {
 import { openInbox } from './app.preload.ts';
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import { updateWithNewKey } from '../../services/storage.preload.ts';
+import {
+  disableStorageService,
+  enableStorageService,
+} from '../../services/storage.preload.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { FatalErrorType } from '../../types/StandaloneRegistration.std.ts';
 import { getSegmenter } from '../../util/grapheme.std.ts';
+import {
+  deleteAvatar,
+  readAttachmentData,
+  writeNewAvatarData,
+} from '../../util/migrations.preload.ts';
+import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts';
+import { filterAvatarData, getNextAvatarId } from './conversations.preload.ts';
+import { DataWriter } from '../../sql/Client.preload.ts';
 
 import type {
   AccountLockedStage,
@@ -70,6 +78,8 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import type { StateType } from '../reducer.preload.ts';
 import type { OpenInboxActionType } from './app.preload.ts';
 import type { RestoreResponseType } from '../../textsecure/WebAPI.preload.ts';
+import type { NoopActionType } from './noop.std.ts';
+import type { AvatarDataType } from '../../types/Avatar.std.ts';
 
 const log = createLogger('ducks/standaloneInstaller');
 
@@ -104,6 +114,35 @@ function updateWorkflow(
   };
 }
 
+export async function getProfileData(
+  phoneNumberDiscoverability: PhoneNumberDiscoverability
+): Promise<ProfileData | undefined> {
+  const me = window.ConversationController.getOurConversation();
+
+  const firstName = me?.get('profileName');
+  const lastName = me?.get('profileFamilyName');
+  const profileAvatar = me?.get('profileAvatar');
+  let avatarData: Uint8Array<ArrayBuffer> | undefined;
+  try {
+    avatarData = profileAvatar?.url
+      ? await readAttachmentData(profileAvatar)
+      : undefined;
+  } catch (error) {
+    log.error(
+      `getProfileData: Unable to get avatar data: ${toLogFormat(error)}`
+    );
+  }
+
+  return firstName
+    ? {
+        firstName,
+        lastName,
+        avatarData,
+        phoneNumberDiscoverability,
+      }
+    : undefined;
+}
+
 export function startRegistration({
   blankPhoneNumber,
   startingPhoneNumber,
@@ -126,27 +165,12 @@ export function startRegistration({
     log.info(logId);
 
     const items = getState().items;
-
-    const me = window.ConversationController.getOurConversation();
-
-    const firstName = me?.get('profileName');
-    const lastName = me?.get('profileFamilyName');
-    const profileAvatar = me?.get('profileAvatar');
-    const avatarData = profileAvatar?.url
-      ? await imagePathToBytes(profileAvatar?.url)
-      : undefined;
     const phoneNumberDiscoverability =
       items.phoneNumberDiscoverability ??
       PhoneNumberDiscoverability.Discoverable;
+    const profileData = await getProfileData(phoneNumberDiscoverability);
 
-    const profileData: ProfileData | undefined = firstName
-      ? {
-          firstName,
-          lastName,
-          avatarData,
-          phoneNumberDiscoverability,
-        }
-      : undefined;
+    const me = window.ConversationController.getOurConversation();
 
     const workflow: PhoneNumberStage = {
       stage: RegistrationStage.PHONE_NUMBER,
@@ -232,7 +256,7 @@ export function moveToVerificationStage({
   workflow: CaptchaStage;
 }): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
-    const logId = `moveToVerificationPage(profileData=${Boolean(previousWorkflow.profileData)}))`;
+    const logId = `moveToVerificationPage(profileData=${Boolean(previousWorkflow.profileData)})`;
     log.info(logId);
 
     const { verificationSessionId, phoneNumber } = previousWorkflow;
@@ -345,17 +369,24 @@ export function moveToVerificationStage({
   };
 }
 
-export function openBrowserForCaptcha(): void {
+export function openBrowserForCaptcha(): NoopActionType {
   const logId = `openBrowserForCaptcha`;
   log.info(logId);
 
   const url = getChallengeURL('registration');
   if (window.SignalCI) {
     log.warn(`${logId}: Not opening browser; running under CI`);
-    return;
+    return {
+      type: `NOOP/${logId}`,
+      payload: null,
+    };
   }
 
   document.location.href = url;
+  return {
+    type: `NOOP/${logId}`,
+    payload: null,
+  };
 }
 
 export function requestVerificationCode({
@@ -615,6 +646,9 @@ export function submitVerificationCode({
     let accountState: LateStageAccountState | undefined;
 
     try {
+      disableStorageService(
+        'standaloneInstaller/submitVerificationCode, about to create account'
+      );
       const result = await accountManager.registerAsPrimaryDevice({
         number: phoneNumber,
         sessionId: verificationSessionId,
@@ -627,6 +661,20 @@ export function submitVerificationCode({
         created: true,
         hasPin: result.storageCapable,
       };
+
+      if (accountState.hasPin) {
+        await itemStorage.put(
+          'standaloneRegistrationPartialState',
+          PartialRegistrationType.EXISTING__PROFILE
+        );
+      } else {
+        // We own storage service; no prior data there. We just turn it on!
+        enableStorageService();
+        await itemStorage.put(
+          'standaloneRegistrationPartialState',
+          PartialRegistrationType.NEW_ACCOUNT__PROFILE
+        );
+      }
     } catch (error) {
       log.error(`${logId}: error creating account`, toLogFormat(error));
 
@@ -653,6 +701,7 @@ export function submitVerificationCode({
             username: error.svr2Username,
             password: error.svr2Password,
           },
+          avatars: undefined,
         };
       }
 
@@ -678,6 +727,27 @@ export function submitVerificationCode({
     };
     dispatch(updateWorkflow(newWorkflow));
   };
+}
+
+function goToProfileEntryStage(
+  hasPin: boolean,
+  profileData: ProfileData | undefined
+): UpdateWorkflowActionType {
+  const logId = 'goToProfileEntryStage';
+  log.info(logId);
+
+  const workflow: ProfileEntryStage = {
+    stage: RegistrationStage.PROFILE_ENTRY,
+    status: {
+      type: 'ready',
+    },
+    accountState: {
+      created: true,
+      hasPin,
+    },
+    profileData,
+  };
+  return updateWorkflow(workflow);
 }
 
 export function finishProfileEntryStage({
@@ -718,9 +788,25 @@ export function finishProfileEntryStage({
       };
       dispatch(updateWorkflow(workflow));
 
-      await uploadInitialProfile(profileData);
+      await itemStorage.put(
+        'phoneNumberDiscoverability',
+        profileData.phoneNumberDiscoverability
+      );
+      await registrationJobQueue.add({
+        type: 'UploadProfile',
+        id: generateUuid(),
+        reason: logId,
+        firstName: profileData.firstName,
+        familyName: profileData.lastName,
+        avatarDataBase64: profileData.avatarData
+          ? toBase64(profileData.avatarData)
+          : undefined,
+      });
     } catch (error) {
-      log.error(`${logId}: error uploading profile`, toLogFormat(error));
+      log.error(
+        `${logId}: error creating job to upload profile`,
+        toLogFormat(error)
+      );
 
       workflow = {
         ...workflow,
@@ -733,6 +819,10 @@ export function finishProfileEntryStage({
     }
 
     if (accountState.hasPin) {
+      await itemStorage.put(
+        'standaloneRegistrationPartialState',
+        PartialRegistrationType.EXISTING__PIN
+      );
       const nextWorkflow: VerifyPINStage = {
         stage: RegistrationStage.VERIFY_PIN,
         status: {
@@ -743,12 +833,29 @@ export function finishProfileEntryStage({
       return;
     }
 
+    await itemStorage.put(
+      'standaloneRegistrationPartialState',
+      PartialRegistrationType.NEW_ACCOUNT__PIN
+    );
     const nextWorkflow: CreatePINStage = {
       stage: RegistrationStage.CREATE_PIN,
     };
     dispatch(updateWorkflow(nextWorkflow));
     return;
   };
+}
+
+function goToVerifyPINStage(): UpdateWorkflowActionType {
+  const logId = 'goToVerifyPINStage';
+  log.info(logId);
+
+  const workflow: VerifyPINStage = {
+    stage: RegistrationStage.VERIFY_PIN,
+    status: {
+      type: 'ready',
+    },
+  };
+  return updateWorkflow(workflow);
 }
 
 export function verifyPIN({
@@ -798,7 +905,8 @@ export function verifyPIN({
           workflow = {
             ...workflow,
             status: {
-              type: 'ready',
+              type: 'failed',
+              error: 'incorrect-pin',
             },
             triesRemaining,
           };
@@ -811,6 +919,11 @@ export function verifyPIN({
             dispatch(updateWorkflow(workflow, FatalErrorType.UNEXPECTED));
           } else {
             // No reglock and nothing in SVR - let's allow the user to create a new PIN
+            enableStorageService();
+            await itemStorage.put(
+              'standaloneRegistrationPartialState',
+              PartialRegistrationType.NEW_ACCOUNT__PIN
+            );
             dispatch(goToCreatePINStage());
           }
         } else {
@@ -841,15 +954,44 @@ export function verifyPIN({
 
     if (!dataForReglockAccountCreate) {
       try {
-        await itemStorage.put('masterKey', toBase64(masterKey));
-        await updateWithNewKey('ducks/standaloneInstaller/verifyPIN');
+        await itemStorage.put('svrPin', pin);
+        await itemStorage.put(
+          'temporaryRegistrationMasterKey',
+          toBase64(masterKey)
+        );
+        await itemStorage.put('standaloneRegistrationPartialState', undefined);
+        enableStorageService();
       } catch (error) {
         log.error(
-          `${logId}: Error updating storage service with new masterKey`,
+          `${logId}: error saving data after creating account`,
           toLogFormat(error)
         );
 
-        // This allows the user to try again
+        // Because account is already created, we can let the user try again
+        workflow = {
+          ...workflow,
+          status: {
+            type: 'ready',
+          },
+        };
+        dispatch(updateWorkflow(workflow));
+        return;
+      }
+
+      try {
+        await registrationJobQueue.add({
+          type: 'UpdateToNewMasterKey',
+          id: generateUuid(),
+          reason: logId,
+          reglock: false,
+        });
+      } catch (error) {
+        log.error(
+          `${logId}: Error creating job to update to new masterKey`,
+          toLogFormat(error)
+        );
+
+        // Because account is already created, we can let the user try again
         workflow = {
           ...workflow,
           status: {
@@ -864,7 +1006,7 @@ export function verifyPIN({
       return;
     }
 
-    const { phoneNumber, verificationSessionId, profileData } =
+    const { phoneNumber, verificationSessionId, profileData, avatars } =
       dataForReglockAccountCreate;
 
     const svrKey = new SvrKey(masterKey);
@@ -872,6 +1014,9 @@ export function verifyPIN({
     const registrationLockToken = toHex(registrationLockData);
 
     try {
+      disableStorageService(
+        'standaloneInstaller/verifyPIN, about to create account'
+      );
       await accountManager.registerAsPrimaryDevice({
         number: phoneNumber,
         sessionId: verificationSessionId,
@@ -887,10 +1032,7 @@ export function verifyPIN({
       dispatch({
         type: UPDATE_WORKFLOW,
         payload: {
-          workflow: {
-            ...previousWorkflow,
-            createdAt: undefined,
-          },
+          workflow,
           fatalError: analyzeError(error),
         },
       });
@@ -898,14 +1040,70 @@ export function verifyPIN({
     }
 
     try {
-      await uploadInitialProfile(profileData);
-    } catch (error) {
-      log.error(
-        `${logId}: error loading profile after creating account`,
-        toLogFormat(error)
+      await itemStorage.put('svrPin', pin);
+      await itemStorage.put(
+        'temporaryRegistrationMasterKey',
+        toBase64(masterKey)
+      );
+      await itemStorage.put('standaloneRegistrationPartialState', undefined);
+      await itemStorage.put(
+        'phoneNumberDiscoverability',
+        profileData.phoneNumberDiscoverability
       );
 
-      // We logged this error, but we'll open the inbox anyway. They can easily try uploading their profile again.
+      const ourConversation =
+        window.ConversationController.getOurConversationOrThrow();
+      const existingAvatars = ourConversation.get('avatars');
+      if (!existingAvatars?.length) {
+        ourConversation.set({ avatars });
+        await DataWriter.updateConversation(ourConversation.attributes);
+      }
+
+      enableStorageService();
+    } catch (error) {
+      log.error(
+        `${logId}: error saving data after creating account`,
+        toLogFormat(error)
+      );
+      dispatch({
+        type: UPDATE_WORKFLOW,
+        payload: {
+          workflow,
+          fatalError: FatalErrorType.UNEXPECTED,
+        },
+      });
+    }
+
+    try {
+      await registrationJobQueue.add({
+        type: 'UpdateToNewMasterKey',
+        id: generateUuid(),
+        reason: logId,
+        reglock: true,
+      });
+
+      await registrationJobQueue.add({
+        type: 'UploadProfile',
+        id: generateUuid(),
+        reason: logId,
+        firstName: profileData.firstName,
+        familyName: profileData.lastName,
+        avatarDataBase64: profileData.avatarData
+          ? toBase64(profileData.avatarData)
+          : undefined,
+      });
+    } catch (error) {
+      log.error(
+        `${logId}: error queueing important jobs after creating account`,
+        toLogFormat(error)
+      );
+      dispatch({
+        type: UPDATE_WORKFLOW,
+        payload: {
+          workflow,
+          fatalError: FatalErrorType.UNEXPECTED,
+        },
+      });
     }
 
     await completeRegistration({ workflow: previousWorkflow })(
@@ -955,7 +1153,7 @@ export function createPIN({
   workflow: CreatePINConfirmStage;
 }): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
-    const logId = `createPIN(pinLength=${pin.length}`;
+    const logId = `createPIN(pinLength=${pin.length})`;
     log.info(logId);
 
     let workflow = previousWorkflow;
@@ -976,12 +1174,14 @@ export function createPIN({
       };
       dispatch(updateWorkflow(workflow));
 
-      await storeWithSVR2({
-        pin,
-        data: fromBase64(masterKey),
-      });
-
       await itemStorage.put('svrPin', pin);
+      await itemStorage.put('standaloneRegistrationPartialState', undefined);
+
+      await registrationJobQueue.add({
+        type: 'StoreSVR',
+        id: generateUuid(),
+        reason: logId,
+      });
     } catch (error) {
       log.error(`${logId}: error storing to SVR2`, toLogFormat(error));
 
@@ -1042,13 +1242,175 @@ export function completeRegistration({
   };
 }
 
+// These three functions are needed to keep avatars created during the registration
+// process around until we have a conversation to add them to. Currently only needed when
+// the account has reglock - we can only create the account late in the process.
+
+function deleteAvatarFromDisk(
+  avatarData: AvatarDataType
+): ThunkAction<
+  Promise<void>,
+  StateType,
+  unknown,
+  OpenInboxActionType | UpdateWorkflowActionType
+> {
+  return async (dispatch, getState) => {
+    const logId = 'deleteAvatarFromDisk';
+    const state = getState();
+    const { workflow } = state.standaloneInstaller;
+
+    if (workflow?.stage !== RegistrationStage.PROFILE_ENTRY) {
+      throw new Error(`${logId}: Unexpected workflow ${workflow?.stage}`);
+    }
+
+    if (workflow.accountState.created) {
+      throw new Error(
+        `${logId}: Already created account, shouldn't need to store avatars this way`
+      );
+    }
+
+    if (avatarData.imagePath) {
+      await deleteAvatar(avatarData.imagePath);
+    } else {
+      log.info(
+        'No path for avatarData. Removing from userAvatarData, but not disk'
+      );
+    }
+
+    const { avatars } = workflow.accountState;
+    const updatedWorkflow = {
+      ...workflow,
+      accountState: {
+        ...workflow.accountState,
+        avatars: filterAvatarData(avatars ?? [], avatarData),
+      },
+    };
+
+    dispatch({
+      type: UPDATE_WORKFLOW,
+      payload: {
+        workflow: updatedWorkflow,
+      },
+    });
+  };
+}
+function replaceAvatar(
+  curr: AvatarDataType,
+  prev?: AvatarDataType
+): ThunkAction<
+  void,
+  StateType,
+  unknown,
+  OpenInboxActionType | UpdateWorkflowActionType
+> {
+  return (dispatch, getState) => {
+    const logId = 'replaceAvatar';
+    const state = getState();
+    const { workflow } = state.standaloneInstaller;
+
+    if (workflow?.stage !== RegistrationStage.PROFILE_ENTRY) {
+      throw new Error(`${logId}: Unexpected workflow ${workflow?.stage}`);
+    }
+
+    if (workflow.accountState.created) {
+      throw new Error(
+        `${logId}: Already created account, shouldn't need to store avatars this way`
+      );
+    }
+
+    const { avatars } = workflow.accountState;
+    const nextAvatarId = getNextAvatarId(avatars ?? []);
+    const newAvatarData = {
+      ...curr,
+      id: prev?.id ?? nextAvatarId,
+    };
+    const existingAvatarsData = prev
+      ? filterAvatarData(avatars ?? [], prev)
+      : (avatars ?? []);
+
+    const updatedWorkflow = {
+      ...workflow,
+      accountState: {
+        ...workflow.accountState,
+        avatars: [newAvatarData, ...existingAvatarsData],
+      },
+    };
+
+    dispatch({
+      type: UPDATE_WORKFLOW,
+      payload: {
+        workflow: updatedWorkflow,
+      },
+    });
+  };
+}
+function saveAvatarToDisk(
+  avatarData: AvatarDataType
+): ThunkAction<
+  Promise<void>,
+  StateType,
+  unknown,
+  OpenInboxActionType | UpdateWorkflowActionType
+> {
+  return async (dispatch, getState) => {
+    const logId = 'saveAvatarToDisk';
+    const state = getState();
+    const { workflow } = state.standaloneInstaller;
+
+    if (!avatarData.buffer) {
+      throw new Error('saveAvatarToDisk: No avatar Uint8Array provided');
+    }
+
+    if (workflow?.stage !== RegistrationStage.PROFILE_ENTRY) {
+      throw new Error(`${logId}: Unexpected workflow ${workflow?.stage}`);
+    }
+
+    if (workflow.accountState.created) {
+      throw new Error(
+        `${logId}: Already created account, shouldn't need to store avatars this way`
+      );
+    }
+
+    const { path: imagePath, ...localImage } = await writeNewAvatarData(
+      avatarData.buffer
+    );
+
+    const { avatars } = workflow.accountState;
+    const nextAvatarId = getNextAvatarId(avatars ?? []);
+
+    const newAvatarData = {
+      ...avatarData,
+      ...localImage,
+      imagePath,
+      id: nextAvatarId,
+    };
+
+    const updatedWorkflow = {
+      ...workflow,
+      accountState: {
+        ...workflow.accountState,
+        avatars: [newAvatarData, ...(avatars ?? [])],
+      },
+    };
+
+    dispatch({
+      type: UPDATE_WORKFLOW,
+      payload: {
+        workflow: updatedWorkflow,
+      },
+    });
+  };
+}
+
 export const actions = {
-  completeRegistration,
   cancelRegistration,
+  completeRegistration,
   createPIN,
   finishProfileEntryStage,
   goToAccountLockedStage,
   goToCreatePINStage,
+  goToProfileEntryStage,
+  goToVerifyPINStage,
   moveToCaptchaStage,
   moveToVerificationStage,
   openBrowserForCaptcha,
@@ -1057,6 +1419,10 @@ export const actions = {
   startRegistration,
   submitVerificationCode,
   verifyPIN,
+  // For AvatarEditor support
+  deleteAvatarFromDisk,
+  replaceAvatar,
+  saveAvatarToDisk,
 };
 
 export const useStandaloneInstallerActions = (): BoundActionCreatorsMapObject<
@@ -1098,26 +1464,6 @@ function secondsToTimestamp(seconds: number | undefined) {
     return undefined;
   }
   return Date.now() + seconds * SECOND;
-}
-
-async function uploadInitialProfile({
-  firstName,
-  lastName,
-  avatarData,
-}: ProfileData): Promise<void> {
-  const us = window.ConversationController.getOurConversationOrThrow();
-  us.set({ profileName: firstName, profileFamilyName: lastName });
-  us.captureChange('standaloneProfile');
-
-  await DataWriter.updateConversation(us.attributes);
-
-  await writeProfile(getConversation(us), {
-    keepAvatar: false,
-    avatarUpdate: {
-      oldAvatar: undefined,
-      newAvatar: avatarData,
-    },
-  });
 }
 
 const IS_ALL_DIGITS = /^\p{Nd}+$/u;
@@ -1171,6 +1517,9 @@ export function reducer(
     const { workflow: newWorkflow, fatalError } = action.payload;
 
     if (!newWorkflow) {
+      log.info(
+        `UPDATE_WORKFLOW: Clearing workflow. Previous stage was ${previousWorkflow?.stage ?? '<none>'}`
+      );
       return getEmptyState();
     }
 
@@ -1191,6 +1540,22 @@ export function reducer(
     }
 
     if (!previousWorkflow) {
+      // The user can restart the registration process after shutdown/crash at these stages
+      // See PartialRegistrationType.
+      if (
+        newWorkflow.stage === RegistrationStage.PROFILE_ENTRY ||
+        newWorkflow.stage === RegistrationStage.VERIFY_PIN ||
+        newWorkflow.stage === RegistrationStage.CREATE_PIN
+      ) {
+        log.info(`UPDATE_WORKFLOW: Starting from ${newWorkflow.stage}`);
+        return {
+          ...state,
+          workflow: newWorkflow,
+          fatalError,
+          direction: Direction.FORWARD,
+        };
+      }
+
       log.error(
         `UPDATE_WORKFLOW: Invalid transition; attempting start with ${newWorkflow.stage}`
       );

@@ -29,6 +29,8 @@ import type { LocalBackupExportMetadata } from './LocalExport.std.ts';
 import type { ServerAlertsType } from './ServerAlert.std.ts';
 import type { AssertSameMembers } from './Util.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import type { PartialRegistrationType } from './StandaloneRegistration.std.ts';
+import type { RegistrationQueueJobState } from '../jobs/registrationJobQueue.preload.ts';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -275,6 +277,9 @@ export type StorageAccessType = {
   allowSealedSenderFromAnyone: unknown;
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
+  standaloneRegistrationPartialState: PartialRegistrationType | undefined;
+  registrationJobQueueState: RegistrationQueueJobState | undefined; // base64
+  temporaryRegistrationMasterKey: string | undefined;
 
   avatarsHaveBeenMigrated: boolean;
 
@@ -529,6 +534,9 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'backupSubscriptionStatus',
   'isRestoredFromBackup',
   'postRegistrationSyncsStatus',
+  'standaloneRegistrationPartialState',
+  'registrationJobQueueState',
+  'temporaryRegistrationMasterKey',
   'avatarsHaveBeenMigrated',
   'lastDistinguishedTreeHead',
   'keyTransparencySelfHealth',

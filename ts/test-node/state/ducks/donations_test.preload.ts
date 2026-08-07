@@ -151,7 +151,7 @@ describe('donations duck', () => {
           // Verify storage was updated from false to true
           assert.equal(storage.get('displayBadgesOnProfile'), true);
 
-          // Note: storageServiceUploadJob would be called here with
+          // Note: runStorageServiceUploadJob would be called here with
           // { reason: 'donation-badge-toggle' } but we can't spy on const exports
 
           sinon.assert.calledOnceWithExactly(onComplete);
@@ -173,7 +173,7 @@ describe('donations duck', () => {
 
           // Verify storage was written with false (even though unchanged)
           assert.equal(storage.get('displayBadgesOnProfile'), false);
-          // Note: storageServiceUploadJob would not be called here
+          // Note: runStorageServiceUploadJob would not be called here
 
           sinon.assert.calledOnceWithExactly(onComplete);
         });
@@ -201,7 +201,7 @@ describe('donations duck', () => {
 
           // Verify storage remains at true (no update needed)
           assert.equal(storage.get('displayBadgesOnProfile'), true);
-          // Note: storageServiceUploadJob would not be called here (no change)
+          // Note: runStorageServiceUploadJob would not be called here (no change)
 
           sinon.assert.calledOnceWithExactly(onComplete);
         });

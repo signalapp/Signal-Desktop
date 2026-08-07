@@ -10,7 +10,7 @@ import {
   ConfirmUsernameResult,
 } from '../../types/Username.std.ts';
 import * as usernameServices from '../../services/username.preload.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import type { ReserveUsernameResultType } from '../../services/username.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { sleep } from '../../util/sleep.std.ts';
@@ -328,7 +328,7 @@ function markCompletedUsernameOnboarding(): ThunkAction<
     await itemStorage.put('hasCompletedUsernameOnboarding', true);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameOnboarding');
-    storageServiceUploadJob({ reason: 'markCompletedUsernameOnboarding' });
+    runStorageServiceUploadJob({ reason: 'markCompletedUsernameOnboarding' });
   };
 }
 
@@ -350,7 +350,7 @@ function setUsernameLinkColor(
     await itemStorage.put('usernameLinkColor', color);
     const me = window.ConversationController.getOurConversationOrThrow();
     me.captureChange('usernameLinkColor');
-    storageServiceUploadJob({ reason: 'setUsernameLinkColor' });
+    runStorageServiceUploadJob({ reason: 'setUsernameLinkColor' });
   };
 }
 

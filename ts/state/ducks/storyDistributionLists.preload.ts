@@ -15,7 +15,7 @@ import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.ts';
 import { deleteStoryForEveryone } from '../../util/deleteStoryForEveryone.preload.ts';
 import { replaceIndex } from '../../util/replaceIndex.std.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
@@ -140,7 +140,7 @@ function allowsRepliesChanged(
       storageNeedsSync: true,
     });
 
-    storageServiceUploadJob({
+    runStorageServiceUploadJob({
       reason: 'distributionLists/allowsRepliesChanged',
     });
 
@@ -184,7 +184,7 @@ function createDistributionList(
     }
 
     if (storyDistribution.storageNeedsSync) {
-      storageServiceUploadJob({ reason: 'createDistributionList' });
+      runStorageServiceUploadJob({ reason: 'createDistributionList' });
     }
 
     dispatch({
@@ -240,7 +240,7 @@ function deleteDistributionList(
 
     log.info('deleteDistributionList: list deleted', listId);
 
-    storageServiceUploadJob({ reason: 'deleteDistributionList' });
+    runStorageServiceUploadJob({ reason: 'deleteDistributionList' });
 
     dispatch({
       type: DELETE_LIST,
@@ -287,7 +287,7 @@ function hideMyStoriesFrom(
       }
     );
 
-    storageServiceUploadJob({
+    runStorageServiceUploadJob({
       reason: 'storyDistributionLists/hideMyStoriesFrom',
     });
 
@@ -358,7 +358,7 @@ function removeMembersFromDistributionList(
       memberServiceIds,
     });
 
-    storageServiceUploadJob({ reason: 'removeMembersFromDistributionList' });
+    runStorageServiceUploadJob({ reason: 'removeMembersFromDistributionList' });
 
     dispatch({
       type: MODIFY_LIST,
@@ -403,7 +403,9 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
         }
       );
 
-      storageServiceUploadJob({ reason: 'setMyStoriesToAllSignalConnections' });
+      runStorageServiceUploadJob({
+        reason: 'setMyStoriesToAllSignalConnections',
+      });
     }
 
     await itemStorage.put('hasSetMyStoriesPrivacy', true);
@@ -459,7 +461,7 @@ function updateStoryViewers(
       }
     );
 
-    storageServiceUploadJob({ reason: 'updateStoryViewers' });
+    runStorageServiceUploadJob({ reason: 'updateStoryViewers' });
 
     if (listId === MY_STORY_ID) {
       await itemStorage.put('hasSetMyStoriesPrivacy', true);

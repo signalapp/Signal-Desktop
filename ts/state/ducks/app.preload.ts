@@ -76,7 +76,9 @@ export function openInbox(): ThunkAction<
   };
 }
 
-function openStandalone(): ThunkAction<
+function openStandalone(
+  startFromBeginning = true
+): ThunkAction<
   Promise<void>,
   RootStateType,
   unknown,
@@ -94,7 +96,9 @@ function openStandalone(): ThunkAction<
 
     window.IPC.addSetupMenuItems();
 
-    await startRegistration()(dispatch, getState, undefined);
+    if (startFromBeginning) {
+      await startRegistration()(dispatch, getState, undefined);
+    }
 
     dispatch({
       type: OPEN_STANDALONE,

@@ -588,7 +588,7 @@ export class ConversationController {
         // own (that we create on link), it might need to be uploaded to storage
         // service.
         if (conversation.attributes.storageID == null) {
-          StorageService.storageServiceUploadJob({
+          StorageService.runStorageServiceUploadJob({
             reason: 'new conversation',
           });
         }

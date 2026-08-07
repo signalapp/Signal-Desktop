@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
+import type { AvatarDataType } from './Avatar.std.ts';
 import type { VerificationTransport } from './VerificationTransport.std.ts';
 
 // Some example simple workflows:
@@ -40,7 +41,8 @@ export const StageOrder: Record<RegistrationStage, number> = {
 
 // A few special-cases are always allowed:
 //   1. You can always return to the initial PHONE_NUMBER stage
-//   2. You can only start from the initial PHONE_NUMBER stage
+//   2. You can start from the initial PHONE_NUMBER stage, as well as these three
+//      for fixing partial registrations: PROFILE_ENTRY, VERIFY_PIN, CREATE_PIN
 //   3. You can always make an update to the existing stage
 export const ValidNextStages: Record<
   RegistrationStage,
@@ -81,6 +83,15 @@ export enum FatalErrorType {
   UNEXPECTED = 'UNEXPECTED',
   TIMEOUT = 'TIMEOUT',
   UPDATE_REQUIRED = 'UPDATE_REQUIRED',
+}
+
+// If the user's account is created, but they haven't finished registration fully, this
+// allows us to start them at the right place
+export enum PartialRegistrationType {
+  NEW_ACCOUNT__PROFILE = 'NEW_ACCOUNT__PROFILE', // start at PROFILE_ENTRY stage, with accountState = { created: true; hasPin: false; }
+  NEW_ACCOUNT__PIN = 'NEW_ACCOUNT__PIN', // start at CREATE_PIN stage
+  EXISTING__PROFILE = 'EXISTING__PROFILE', // start at PROFILE_ENTRY stage, with accountState = { created: true; hasPin: true; }
+  EXISTING__PIN = 'EXISTING__PIN', // start at VERIFY_PIN stage, with dataForReglockAccountCreate: undefined
 }
 
 export enum Direction {
@@ -257,13 +268,14 @@ export type LateStageAccountState =
       phoneNumber: string;
       verificationSessionId: string;
       svrCredentials: SVRCredentials;
+      avatars: ReadonlyArray<AvatarDataType> | undefined;
     };
 
 export type ProfileEntryStage = {
   // If we don't have information from a prior registration, the user sets up a profile
   // Prerequisites:
   //   - none; we could easily move this stage around
-  //   - if we already have profile information, this stage can be skipped
+  //   - if we already have profile information, this stage could be skipped; as is, we show it to allow confirmation
   // Behaviors:
   //   - we should save all of the draft avatars the user created but didn't use
   // Completion requirements:
@@ -287,6 +299,14 @@ export type ProfileEntryStage = {
   // After PROFILE_ENTRY:
   //  1. if accountState.created=true, can upload profile here since account is created
   //  2. if accountState.created=false or accountState.hasPin=true, go to VERIFY_PIN. Otherwise, CREATE_PIN.
+};
+
+export type DataForReglockAccountCreate = {
+  phoneNumber: string;
+  verificationSessionId: string;
+  svrCredentials: SVRCredentials;
+  profileData: ProfileData;
+  avatars: ReadonlyArray<AvatarDataType> | undefined;
 };
 
 export type VerifyPINStage = {
@@ -362,13 +382,6 @@ export type CreatePINConfirmStage = {
   //  1. initialize storage service, generating keys
   //  3. Save PIN and key in local storage
   //  3. Go to COMPLETE
-};
-
-export type DataForReglockAccountCreate = {
-  phoneNumber: string;
-  verificationSessionId: string;
-  svrCredentials: SVRCredentials;
-  profileData: ProfileData;
 };
 
 export type AccountLockedStage = {

@@ -15,7 +15,7 @@ import {
   DonationProcessor,
 } from '../../types/Donations.std.ts';
 import { drop } from '../../util/drop.std.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { getMe } from '../selectors/conversations.dom.ts';
 import { actions as conversationActions } from './conversations.preload.ts';
 import type {
@@ -404,7 +404,7 @@ export function applyDonationBadge({
     ) {
       await storage.put('displayBadgesOnProfile', newDisplayBadgesOnProfile);
       if (previousDisplayBadgesOnProfile !== newDisplayBadgesOnProfile) {
-        storageServiceUploadJob({ reason: 'donation-badge-toggle' });
+        runStorageServiceUploadJob({ reason: 'donation-badge-toggle' });
       }
     }
 

@@ -19,7 +19,7 @@ import {
   getSelectedChatFolder,
 } from '../selectors/chatFolders.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { parseStrict } from '../../util/schemas.std.ts';
 import { chatFolderCleanupService } from '../../services/expiring/chatFolderCleanupService.preload.ts';
 import { drop } from '../../util/drop.std.ts';
@@ -128,7 +128,7 @@ function createChatFolder(
     };
 
     await DataWriter.createChatFolder(chatFolder);
-    storageServiceUploadJob({ reason: 'createChatFolder' });
+    runStorageServiceUploadJob({ reason: 'createChatFolder' });
     dispatch(_refetchChatFolders());
 
     if (showToastOnSuccess) {
@@ -150,7 +150,7 @@ function createAllChatsChatFolder(): ThunkAction<
 > {
   return async dispatch => {
     await DataWriter.createAllChatsChatFolder();
-    storageServiceUploadJob({ reason: 'createAllChatsChatFolder' });
+    runStorageServiceUploadJob({ reason: 'createAllChatsChatFolder' });
     dispatch(_refetchChatFolders());
   };
 }
@@ -175,7 +175,7 @@ function updateChatFolder(
     };
 
     await DataWriter.updateChatFolder(nextChatFolder);
-    storageServiceUploadJob({ reason: 'updateChatFolder' });
+    runStorageServiceUploadJob({ reason: 'updateChatFolder' });
     dispatch(_refetchChatFolders());
   };
 }
@@ -185,7 +185,7 @@ function deleteChatFolder(
 ): ThunkAction<void, RootStateType, unknown, never> {
   return async dispatch => {
     await DataWriter.markChatFolderDeleted(chatFolderId, Date.now(), true);
-    storageServiceUploadJob({ reason: 'deleteChatFolder' });
+    runStorageServiceUploadJob({ reason: 'deleteChatFolder' });
     dispatch(_refetchChatFolders());
     drop(chatFolderCleanupService.trigger('redux: deleted chat folder'));
   };
@@ -205,7 +205,7 @@ function updateChatFoldersPositions(
       return { ...chatFolder, position: index + 1 };
     });
     await DataWriter.updateChatFolderPositions(chatFolders);
-    storageServiceUploadJob({ reason: 'updateChatFoldersPositions' });
+    runStorageServiceUploadJob({ reason: 'updateChatFoldersPositions' });
     dispatch(_refetchChatFolders());
   };
 }
@@ -247,7 +247,7 @@ function updateChatFolderToggleChat(
       conversationId,
       toggle
     );
-    storageServiceUploadJob({ reason: 'toggleChatFolderChat' });
+    runStorageServiceUploadJob({ reason: 'toggleChatFolderChat' });
     dispatch(_refetchChatFolders());
 
     if (showToastOnSuccess) {

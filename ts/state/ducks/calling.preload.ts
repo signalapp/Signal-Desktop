@@ -122,7 +122,7 @@ import {
   getCallLinksByRoomId,
   getPresentingSource,
 } from '../selectors/calling.std.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.ts';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.ts';
 import {
@@ -2334,7 +2334,7 @@ function createCallLink(
       DataWriter.saveCallHistory(callHistory),
     ]);
 
-    storageServiceUploadJob({ reason: 'createCallLink' });
+    runStorageServiceUploadJob({ reason: 'createCallLink' });
 
     dispatch({
       type: HANDLE_CALL_LINK_UPDATE,
@@ -2362,7 +2362,7 @@ function deleteCallLink(
 
     const isStorageSyncNeeded = await DataWriter.beginDeleteCallLink(roomId);
     if (isStorageSyncNeeded) {
-      storageServiceUploadJob({ reason: 'deleteCallLink' });
+      runStorageServiceUploadJob({ reason: 'deleteCallLink' });
     }
     try {
       if (isCallLinkAdmin(callLink)) {

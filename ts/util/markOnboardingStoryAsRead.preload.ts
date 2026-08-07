@@ -7,7 +7,7 @@ import { getMessageById } from '../messages/getMessageById.preload.ts';
 import { isNotNil } from './isNotNil.std.ts';
 import { DurationInSeconds } from './durations/index.std.ts';
 import { markViewed } from '../services/MessageUpdater.preload.ts';
-import { storageServiceUploadJob } from '../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../services/storage.preload.ts';
 import { postSaveUpdates } from './cleanup.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
@@ -54,7 +54,7 @@ export async function markOnboardingStoryAsRead(): Promise<boolean> {
 
   await itemStorage.put('hasViewedOnboardingStory', true);
 
-  storageServiceUploadJob({ reason: 'markOnboardingStoryAsRead' });
+  runStorageServiceUploadJob({ reason: 'markOnboardingStoryAsRead' });
 
   return true;
 }

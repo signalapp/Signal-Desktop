@@ -63,7 +63,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
 import { drop } from './drop.std.ts';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync.preload.ts';
-import { storageServiceUploadJob } from '../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../services/storage.preload.ts';
 import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager.preload.ts';
 import { parseLoose, parseStrict } from './schemas.std.ts';
 import { calling } from '../services/calling.preload.ts';
@@ -1465,7 +1465,7 @@ export async function clearCallHistoryDataAndSync(
     const messageIds = await DataWriter.clearCallHistory(latestCall);
     const isStorageSyncNeeded = await DataWriter.beginDeleteAllCallLinks();
     if (isStorageSyncNeeded) {
-      storageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
+      runStorageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
     }
     updateDeletedMessages(messageIds);
 

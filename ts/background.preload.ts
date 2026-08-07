@@ -298,6 +298,10 @@ import { saveAndNotify } from './messages/saveAndNotify.preload.ts';
 import { getBackupKeyHash } from './services/backups/crypto.preload.ts';
 import { Emoji } from './axo/emoji.std.ts';
 import { isTrustedContact } from './util/isConversationAccepted.preload.ts';
+import { registrationJobQueue } from './jobs/registrationJobQueue.preload.ts';
+import { PartialRegistrationType } from './types/StandaloneRegistration.std.ts';
+import { PhoneNumberDiscoverability } from './util/phoneNumberDiscoverability.std.ts';
+import { getProfileData } from './state/ducks/standaloneInstaller.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -907,6 +911,24 @@ async function startApp(): Promise<void> {
         await itemStorage.remove('remoteBuildExpiration');
       }
 
+      try {
+        if (window.ConversationController.areWePrimaryDevice()) {
+          log.info(
+            `We are primary device; adding MigrateSVR job to registrationJobQueue`
+          );
+          await registrationJobQueue.add({
+            type: 'MigrateSVR',
+            reason: `New version ${newVersion}`,
+            id: generateUuid(),
+          });
+        }
+      } catch (error) {
+        log.error(
+          'Failed to add MigrateSVR job to registrationJobQueue:',
+          Errors.toLogFormat(error)
+        );
+      }
+
       if (window.isBeforeVersion(lastVersion, '6.45.0-alpha')) {
         await removeStorageKeyJobQueue.add({
           key: 'previousAudioDeviceModule',
@@ -1015,7 +1037,7 @@ async function startApp(): Promise<void> {
         if (!hasAllChatsChatFolder) {
           log.info('Creating "all chats" chat folder');
           await DataWriter.createAllChatsChatFolder();
-          StorageService.storageServiceUploadJobAfterEnabled({
+          StorageService.runStorageServiceUploadJobAfterEnabled({
             reason: 'createAllChatsChatFolder',
           });
         }
@@ -1562,8 +1584,70 @@ async function startApp(): Promise<void> {
 
     if (isCoreDataValid && Registration.everDone()) {
       idleDetector.start();
+
+      const registrationPartialState = itemStorage.get(
+        'standaloneRegistrationPartialState'
+      );
+
       if (itemStorage.get('backupDownloadPath')) {
         window.reduxActions.installer.showBackupImport();
+      } else if (
+        registrationPartialState &&
+        !window.ConversationController.areWePrimaryDevice()
+      ) {
+        log.error(
+          `start: standaloneRegistrationPartialState '${registrationPartialState}' found, but we are not a primary device. Clearing and opening inbox.`
+        );
+        window.reduxActions.app.openInbox();
+        await itemStorage.put('standaloneRegistrationPartialState', undefined);
+      } else if (
+        registrationPartialState &&
+        window.ConversationController.areWePrimaryDevice()
+      ) {
+        const startFromBeginning = false;
+        const phoneNumberDiscoverability =
+          itemStorage.get('phoneNumberDiscoverability') ??
+          PhoneNumberDiscoverability.Discoverable;
+        const profileData = await getProfileData(phoneNumberDiscoverability);
+        log.error(
+          `start: standaloneRegistrationPartialState '${registrationPartialState}' found, processing`
+        );
+        if (
+          registrationPartialState === PartialRegistrationType.EXISTING__PIN
+        ) {
+          window.reduxActions.standaloneInstaller.goToVerifyPINStage();
+          window.reduxActions.app.openStandalone(startFromBeginning);
+        } else if (
+          registrationPartialState === PartialRegistrationType.EXISTING__PROFILE
+        ) {
+          const hasPin = true;
+          window.reduxActions.standaloneInstaller.goToProfileEntryStage(
+            hasPin,
+            profileData
+          );
+          window.reduxActions.app.openStandalone(startFromBeginning);
+        } else if (
+          registrationPartialState ===
+          PartialRegistrationType.NEW_ACCOUNT__PROFILE
+        ) {
+          const hasPin = false;
+          window.reduxActions.standaloneInstaller.goToProfileEntryStage(
+            hasPin,
+            profileData
+          );
+          window.reduxActions.app.openStandalone(startFromBeginning);
+        } else if (
+          registrationPartialState === PartialRegistrationType.NEW_ACCOUNT__PIN
+        ) {
+          window.reduxActions.standaloneInstaller.goToCreatePINStage();
+          window.reduxActions.app.openStandalone(startFromBeginning);
+        } else {
+          const unexpectedState: never = registrationPartialState;
+          log.error(
+            `start: unexpected standaloneRegistrationPartialState '${unexpectedState}', opening inbox`
+          );
+          window.reduxActions.app.openInbox();
+        }
       } else {
         window.reduxActions.app.openInbox();
       }
@@ -3590,6 +3674,13 @@ async function startApp(): Promise<void> {
   async function onKeysSync(ev: KeysEvent) {
     const { accountEntropyPool, masterKey, mediaRootBackupKey } = ev;
 
+    if (window.ConversationController.areWePrimaryDevice()) {
+      log.info(
+        'onKeysSync: Not processing incoming keys; we are primary device'
+      );
+      return;
+    }
+
     const prevMasterKeyBase64 = itemStorage.get('masterKey');
     const prevMasterKey = prevMasterKeyBase64
       ? Bytes.fromBase64(prevMasterKeyBase64)
@@ -3642,7 +3733,7 @@ async function startApp(): Promise<void> {
       await itemStorage.put('backupMediaRootKey', mediaRootBackupKey);
     }
 
-    await StorageService.updateWithNewKey('onKeysSync');
+    await StorageService.syncAfterNewKey('onKeysSync');
 
     ev.confirm();
   }

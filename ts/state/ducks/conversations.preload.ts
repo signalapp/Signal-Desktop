@@ -1572,14 +1572,16 @@ function removeMember(
   return noopAction('removeMember');
 }
 
-function filterAvatarData(
+export function filterAvatarData(
   avatars: ReadonlyArray<AvatarDataType>,
   data: AvatarDataType
 ): Array<AvatarDataType> {
   return avatars.filter(avatarData => !isSameAvatarData(data, avatarData));
 }
 
-function getNextAvatarId(avatars: ReadonlyArray<AvatarDataType>): number {
+export function getNextAvatarId(
+  avatars: ReadonlyArray<AvatarDataType>
+): number {
   return Math.max(...avatars.map(x => Number(x.id))) + 1;
 }
 

@@ -42,12 +42,23 @@ export default {
   title: 'Components/AvatarPreview',
 } satisfies Meta<PropsType>;
 
-export function NoStatePersonal(): JSX.Element {
+export function NoStateContact(): JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
         avatarColor: AvatarColors[0],
         conversationTitle: 'Just Testing',
+      })}
+    />
+  );
+}
+
+export function NoInitialsContact(): JSX.Element {
+  return (
+    <AvatarPreview
+      {...createProps({
+        avatarColor: AvatarColors[0],
+        conversationTitle: '',
       })}
     />
   );

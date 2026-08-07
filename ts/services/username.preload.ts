@@ -34,7 +34,7 @@ import type { ResolveUsernameByLinkOptionsType } from '../textsecure/WebAPI.prel
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.ts';
 import * as Bytes from '../Bytes.std.ts';
-import { storageServiceUploadJob } from './storage.preload.ts';
+import { runStorageServiceUploadJob } from './storage.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('username');
@@ -359,7 +359,7 @@ export async function resetLink(username: string): Promise<void> {
   await itemStorage.remove('usernameLinkCorrupted');
 
   me.captureChange('usernameLink');
-  storageServiceUploadJob({ reason: 'resetLink' });
+  runStorageServiceUploadJob({ reason: 'resetLink' });
 }
 
 const USERNAME_LINK_ENTROPY_SIZE = 32;

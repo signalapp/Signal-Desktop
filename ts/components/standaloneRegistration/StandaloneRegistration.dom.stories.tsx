@@ -647,6 +647,7 @@ const dataForReglockAccountCreate = {
     firstName: 'John',
     phoneNumberDiscoverability: PhoneNumberDiscoverability.Discoverable,
   },
+  avatars: [],
 };
 
 export const VerifyPINWithReglock: Story = {

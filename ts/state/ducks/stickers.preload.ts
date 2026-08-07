@@ -21,7 +21,7 @@ import {
   maybeDeletePack,
 } from '../../types/Stickers.preload.ts';
 import { drop } from '../../util/drop.std.ts';
-import { storageServiceUploadJob } from '../../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { sendStickerPackSync } from '../../shims/textsecure.preload.ts';
 import { trigger } from '../../shims/events.dom.ts';
 import { ERASE_STORAGE_SERVICE } from './user.preload.ts';
@@ -282,7 +282,7 @@ async function doInstallStickerPack(
     actionSource !== 'startup' &&
     wasPreviouslyUninstalled
   ) {
-    storageServiceUploadJob({ reason: 'doInstallServicePack' });
+    runStorageServiceUploadJob({ reason: 'doInstallServicePack' });
   }
 
   const recentStickers = await getRecentStickers();
@@ -340,7 +340,7 @@ async function doUninstallStickerPack(
     actionSource !== 'startup' &&
     changed
   ) {
-    storageServiceUploadJob({ reason: 'doUninstallStickerPack' });
+    runStorageServiceUploadJob({ reason: 'doUninstallStickerPack' });
   }
 
   const recentStickers = await getRecentStickers();
@@ -437,7 +437,7 @@ function updateStickerPacksPositions(
     });
     await DataWriter.updateStickerPacksPositions(nextPackPositions);
 
-    storageServiceUploadJob({ reason: 'updateStickerPacksPositions' });
+    runStorageServiceUploadJob({ reason: 'updateStickerPacksPositions' });
     dispatch({
       type: 'stickers/STICKER_PACKS_POSITIONS_UPDATED',
       payload: nextPackPositions,

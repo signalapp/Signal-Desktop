@@ -145,7 +145,11 @@ describe('registration', function (this: Mocha.Suite) {
     {
       debug('COMPLETE: Verify data was stored in SVR');
       const storedData = await app.getSvr2StoreParameters();
-      assert.strictEqual(storedData?.pin, PIN);
+      assert.strictEqual(
+        storedData?.pin,
+        PIN,
+        'checking what was stored in SVR'
+      );
     }
 
     {

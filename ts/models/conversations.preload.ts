@@ -118,7 +118,7 @@ import { migrateColor } from '../util/migrateColor.node.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { shouldSaveNotificationAvatarToDisk } from '../services/notifications.preload.ts';
-import { storageServiceUploadJob } from '../services/storage.preload.ts';
+import { runStorageServiceUploadJob } from '../services/storage.preload.ts';
 import { challengeHandler } from '../services/challengeHandler.preload.ts';
 import { sendUsernameChangeSyncMessage } from '../services/username.preload.ts';
 import { getSendOptions } from '../util/getSendOptions.preload.ts';
@@ -4538,7 +4538,10 @@ export class ConversationModel {
         log.info('updateUsername: clearing username corruption');
         await itemStorage.remove('usernameCorrupted');
       }
-      if (!fromStorageService) {
+      if (
+        !fromStorageService &&
+        window.ConversationController.doWeHaveOtherDevices()
+      ) {
         await sendUsernameChangeSyncMessage();
       }
     }
@@ -5716,7 +5719,7 @@ export class ConversationModel {
     this.set({ needsStorageServiceSync: true });
 
     void this.queueJob('captureChange', async () => {
-      storageServiceUploadJob({ reason: `captureChange/${logMessage}` });
+      runStorageServiceUploadJob({ reason: `captureChange/${logMessage}` });
     });
   }
 

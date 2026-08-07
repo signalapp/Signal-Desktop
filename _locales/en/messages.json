@@ -9493,7 +9493,7 @@
     "description": "Header on dialog shown when user chooses to disable the PIN entirely"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal unless you transfer it from another iOS device. You can not turn on Registration Lock while the PIN is disabled.",
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled.",
     "description": "Description on dialog shown when user chooses to disable the PIN entirely"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
