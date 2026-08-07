@@ -127,12 +127,12 @@ export async function uploadAttachment(
     uploadTimestamp: BigInt(uploadTimestamp),
 
     contentType: MIMETypeToString(attachment.contentType),
-    fileName: fileName ?? null,
+    fileName: fileName || null,
     flags: flags ?? null,
     width: width ?? null,
     height: height ?? null,
-    caption: caption ?? null,
-    blurHash: blurHash ?? null,
+    caption: caption || null,
+    blurHash: blurHash || null,
 
     thumbnail: null,
   };

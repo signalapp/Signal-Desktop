@@ -115,13 +115,13 @@ export function processAttachment(
   return {
     cdnKey: attachmentIdentifier?.cdnKey,
     cdnNumber: cdnNumber ?? 0,
-    chunkSize: chunkSize ?? 0,
+    chunkSize: chunkSize ?? undefined,
     fileName: fileName ?? undefined,
-    flags: flags ?? 0,
-    width: width ?? 0,
-    height: height ?? 0,
-    caption: caption ?? '',
-    blurHash: blurHash ?? '',
+    flags: flags ?? undefined,
+    width: width ?? undefined,
+    height: height ?? undefined,
+    caption: caption ?? undefined,
+    blurHash: blurHash ?? undefined,
     uploadTimestamp,
     cdnId:
       attachmentIdentifier?.cdnId === 0n
