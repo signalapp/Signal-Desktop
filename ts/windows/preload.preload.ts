@@ -8,3 +8,4 @@ installEphemeralSetting('localeOverride');
 installEphemeralSetting('spellCheck');
 installEphemeralSetting('systemTraySetting');
 installEphemeralSetting('themeSetting');
+installEphemeralSetting('hourCyclePreference');

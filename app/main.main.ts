@@ -358,6 +358,21 @@ async function getResolvedThemeSetting(
   return ThemeType[theme];
 }
 
+type HourCycleSettingType = 'system' | '12' | '24';
+
+function getHourCycleSetting(): HourCycleSettingType {
+  const value = ephemeralConfig.get('hour-cycle-preference');
+  if (value === '12' || value === '24' || value === 'system') {
+    log.info('got fast hour-cycle-preference value', value);
+    return value;
+  }
+
+  // Default to 'system' if setting doesn't exist or is invalid
+  ephemeralConfig.set('hour-cycle-preference', 'system');
+  log.info('initializing hour-cycle-preference setting', 'system');
+  return 'system';
+}
+
 type GetBackgroundColorOptionsType = GetThemeSettingOptionsType &
   Readonly<{
     signalColors?: boolean;
@@ -475,15 +490,27 @@ function getResolvedMessagesLocale(): LocaleType {
 }
 
 function getHourCyclePreference(): HourCyclePreference {
-  if (process.platform !== 'darwin') {
-    return HourCyclePreference.UnknownPreference;
-  }
-  if (systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')) {
-    return HourCyclePreference.Prefer24;
-  }
-  if (systemPreferences.getUserDefault('AppleICUForce12HourTime', 'boolean')) {
+  const userSetting = getHourCycleSetting();
+  if (userSetting === '12') {
     return HourCyclePreference.Prefer12;
   }
+  if (userSetting === '24') {
+    return HourCyclePreference.Prefer24;
+  }
+
+  if (OS.isMacOS()) {
+    if (
+      systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')
+    ) {
+      return HourCyclePreference.Prefer24;
+    }
+    if (
+      systemPreferences.getUserDefault('AppleICUForce12HourTime', 'boolean')
+    ) {
+      return HourCyclePreference.Prefer12;
+    }
+  }
+
   return HourCyclePreference.UnknownPreference;
 }
 
