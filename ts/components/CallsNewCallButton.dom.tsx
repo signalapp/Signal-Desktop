@@ -20,10 +20,7 @@ import { I18n } from './I18n.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { CallType } from '../types/CallDisposition.std.ts';
 import type { CallsTabSelectedView } from './CallsTab.dom.tsx';
-import {
-  InAnotherCallTooltip,
-  getTooltipContent,
-} from './conversation/InAnotherCallTooltip.dom.tsx';
+import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
 
 const { partition } = lodash;
 
@@ -57,10 +54,7 @@ export function CallsNewCallButton({
   onClick: () => void;
 }): JSX.Element {
   let innerContent: ReactNode | string;
-  let inAnotherCallTooltipContent = '';
-  if (!isEnabled) {
-    inAnotherCallTooltipContent = getTooltipContent(i18n);
-  }
+  let ariaLabel: string | undefined;
   // Note: isActive is only set for groups and adhoc calls
   if (isActive) {
     innerContent = isInCall
@@ -70,10 +64,12 @@ export function CallsNewCallButton({
     innerContent = (
       <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Phone" />
     );
+    ariaLabel = i18n('icu:makeOutgoingCall');
   } else {
     innerContent = (
       <span className="CallsNewCall__ItemIcon CallsNewCall__ItemIcon--Video" />
     );
+    ariaLabel = i18n('icu:makeOutgoingVideoCall');
   }
 
   const buttonContent = (
@@ -86,7 +82,7 @@ export function CallsNewCallButton({
           ? undefined
           : 'CallsNewCall__ItemActionButton--join-call-disabled'
       )}
-      aria-label={inAnotherCallTooltipContent}
+      aria-label={ariaLabel}
       onClick={event => {
         event.stopPropagation();
         onClick();
@@ -96,10 +92,10 @@ export function CallsNewCallButton({
     </button>
   );
 
-  return inAnotherCallTooltipContent === '' ? (
-    buttonContent
-  ) : (
-    <InAnotherCallTooltip i18n={i18n}>{buttonContent}</InAnotherCallTooltip>
+  return (
+    <InAnotherCallTooltip inAnotherCall={!isEnabled} i18n={i18n}>
+      {buttonContent}
+    </InAnotherCallTooltip>
   );
 }
 

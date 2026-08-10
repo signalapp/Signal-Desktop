@@ -489,14 +489,7 @@
   }
 
   &__header-buttons {
-    display: flex;
-    justify-content: center;
     margin-bottom: 24px;
-
-    .module-Button {
-      margin-block: 0;
-      margin-inline: 8px;
-    }
   }
 
   &__radio {

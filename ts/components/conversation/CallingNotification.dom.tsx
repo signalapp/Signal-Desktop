@@ -6,7 +6,6 @@ import { memo } from 'react';
 import lodash from 'lodash';
 
 import { SystemMessage, SystemMessageKind } from './SystemMessage.dom.tsx';
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
 import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import {
@@ -29,6 +28,7 @@ import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.pre
 import { MINUTE } from '../../util/durations/index.std.ts';
 import { isMoreRecentThan } from '../../util/timestamp.std.ts';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 
 const { noop } = lodash;
 
@@ -227,15 +227,15 @@ function renderCallingNotificationButton(
     props.activeConversationId !== props.conversationId
   );
   const button = (
-    <Button
+    <AxoButton.Root
       disabled={disabled}
       discouraged={inAnotherCall}
       onClick={onClick}
-      size={ButtonSize.Small}
-      variant={ButtonVariant.SystemMessage}
+      size="md"
+      variant="subtle-secondary"
     >
       {buttonText}
-    </Button>
+    </AxoButton.Root>
   );
 
   if (disabledTooltipText) {
@@ -245,9 +245,10 @@ function renderCallingNotificationButton(
       </Tooltip>
     );
   }
-  if (inAnotherCall) {
-    return <InAnotherCallTooltip i18n={i18n}>{button}</InAnotherCallTooltip>;
-  }
 
-  return button;
+  return (
+    <InAnotherCallTooltip inAnotherCall={inAnotherCall} i18n={i18n}>
+      {button}
+    </InAnotherCallTooltip>
+  );
 }

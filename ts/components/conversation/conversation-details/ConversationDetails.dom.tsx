@@ -5,7 +5,6 @@ import type { ReactNode, JSX } from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import classNames from 'classnames';
 
-import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.tsx';
 import type {
   ConversationType,
   PushPanelForConversationActionType,
@@ -58,10 +57,7 @@ import { NavTab } from '../../../types/Nav.std.ts';
 import { ContextMenu } from '../../ContextMenu.dom.tsx';
 import { canHaveNicknameAndNote } from '../../../util/nicknames.dom.ts';
 import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom.tsx';
-import {
-  InAnotherCallTooltip,
-  getTooltipContent,
-} from '../InAnotherCallTooltip.dom.tsx';
+import { InAnotherCallTooltip } from '../InAnotherCallTooltip.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
 import { ToastType } from '../../../types/Toast.dom.tsx';
@@ -69,6 +65,7 @@ import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 import { canConversationOnlyBeMutedAlways } from '../../../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
+import { AxoStackedButton } from '../../../axo/AxoStackedButton.dom.tsx';
 
 enum ModalState {
   AddingGroupMembers,
@@ -443,77 +440,79 @@ export function ConversationDetails({
       />
 
       <div className="ConversationDetails__header-buttons">
-        {selectedNavTab === NavTab.Calls && (
-          <Button
-            icon={ButtonIconType.message}
-            onClick={() => {
-              showConversation({
-                conversationId: conversation?.id,
-                switchToAssociatedView: true,
-              });
-            }}
-            variant={ButtonVariant.Details}
-          >
-            {i18n('icu:ConversationDetails__HeaderButton--Message')}
-          </Button>
-        )}
-        {!conversation.isMe && !isSignalConversation && (
-          <>
-            {!conversation.terminated && (
-              <ConversationDetailsCallButton
-                hasActiveCall={hasActiveCall}
-                i18n={i18n}
-                onClick={() =>
-                  onOutgoingVideoCallInConversation(conversation.id)
-                }
-                type="video"
-              />
-            )}
-            {!isGroup && (
-              <ConversationDetailsCallButton
-                hasActiveCall={hasActiveCall}
-                i18n={i18n}
-                onClick={() =>
-                  onOutgoingAudioCallInConversation(conversation.id)
-                }
-                type="audio"
-              />
-            )}
-          </>
-        )}
-        <Button
-          icon={isMuted ? ButtonIconType.muted : ButtonIconType.unmuted}
-          onClick={() => {
-            if (canConversationOnlyBeMutedAlways(conversation)) {
-              if (isMuted) {
-                setMuteDuration(conversation.id, 0);
-              } else {
-                setMuteDuration(conversation.id, Number.MAX_SAFE_INTEGER);
-              }
-              return;
-            }
+        <AxoStackedButton.Row spacing="md">
+          {selectedNavTab === NavTab.Calls && (
+            <AxoStackedButton.Root
+              symbol="message"
+              label={i18n('icu:ConversationDetails__HeaderButton--Message')}
+              onClick={() => {
+                showConversation({
+                  conversationId: conversation?.id,
+                  switchToAssociatedView: true,
+                });
+              }}
+            />
+          )}
+          {!conversation.isMe && !isSignalConversation && (
+            <>
+              {!conversation.terminated && (
+                <InAnotherCallTooltip i18n={i18n} inAnotherCall={hasActiveCall}>
+                  <AxoStackedButton.Root
+                    symbol="videocamera"
+                    label={i18n('icu:video')}
+                    discouraged={hasActiveCall}
+                    onClick={() =>
+                      onOutgoingVideoCallInConversation(conversation.id)
+                    }
+                  />
+                </InAnotherCallTooltip>
+              )}
+              {!isGroup && (
+                <InAnotherCallTooltip i18n={i18n} inAnotherCall={hasActiveCall}>
+                  <AxoStackedButton.Root
+                    symbol="phone"
+                    label={i18n('icu:audio')}
+                    discouraged={hasActiveCall}
+                    onClick={() =>
+                      onOutgoingAudioCallInConversation(conversation.id)
+                    }
+                  />
+                </InAnotherCallTooltip>
+              )}
+            </>
+          )}
 
-            if (isMuted) {
-              setModalState(ModalState.UnmuteNotifications);
-            } else {
-              setModalState(ModalState.MuteNotifications);
-            }
-          }}
-          variant={ButtonVariant.Details}
-        >
-          {isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
-        </Button>
-        {selectedNavTab !== NavTab.Calls && (
-          <Button
-            icon={ButtonIconType.search}
+          <AxoStackedButton.Root
+            symbol={isMuted ? 'bell-slash' : 'bell'}
+            label={isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
             onClick={() => {
-              searchInConversation(conversation.id);
+              if (canConversationOnlyBeMutedAlways(conversation)) {
+                if (isMuted) {
+                  setMuteDuration(conversation.id, 0);
+                } else {
+                  setMuteDuration(conversation.id, Number.MAX_SAFE_INTEGER);
+                }
+                return;
+              }
+
+              if (isMuted) {
+                setModalState(ModalState.UnmuteNotifications);
+              } else {
+                setModalState(ModalState.MuteNotifications);
+              }
             }}
-            variant={ButtonVariant.Details}
-          >
-            {i18n('icu:search')}
-          </Button>
-        )}
+          />
+
+          {selectedNavTab !== NavTab.Calls && (
+            <AxoStackedButton.Root
+              symbol="search"
+              label={i18n('icu:search')}
+              onClick={() => {
+                searchInConversation(conversation.id);
+              }}
+            />
+          )}
+        </AxoStackedButton.Row>
       </div>
 
       {isSignalConversation && (
@@ -909,35 +908,4 @@ export function ConversationDetails({
       {modalNode}
     </div>
   );
-}
-
-function ConversationDetailsCallButton({
-  hasActiveCall,
-  i18n,
-  onClick,
-  type,
-}: Readonly<{
-  hasActiveCall: boolean;
-  i18n: LocalizerType;
-  onClick: () => unknown;
-  type: 'audio' | 'video';
-}>) {
-  const tooltipContent = hasActiveCall ? getTooltipContent(i18n) : undefined;
-  const button = (
-    <Button
-      icon={ButtonIconType[type]}
-      onClick={onClick}
-      variant={ButtonVariant.Details}
-      discouraged={hasActiveCall}
-      aria-label={tooltipContent}
-    >
-      {type === 'audio' ? i18n('icu:audio') : i18n('icu:video')}
-    </Button>
-  );
-
-  if (hasActiveCall) {
-    return <InAnotherCallTooltip i18n={i18n}>{button}</InAnotherCallTooltip>;
-  }
-
-  return button;
 }

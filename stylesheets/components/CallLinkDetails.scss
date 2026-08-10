@@ -44,14 +44,6 @@
   }
 }
 
-.CallLinkDetails__HeaderButton {
-  font-weight: 600;
-}
-
-.CallLinkDetails__HeaderButton--active-call {
-  @include mixins.button-active-call;
-}
-
 .CallLinkDetails__DeleteLink {
   // Override the default icon color
   .ConversationDetails-icon__icon--trash::after {

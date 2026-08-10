@@ -53,10 +53,6 @@
   align-items: center;
 }
 
-.CallLinkEditModal__JoinButton {
-  @include mixins.font-body-1-bold;
-}
-
 .CallLinkEditModal__Row {
   display: flex;
   padding: 12px;

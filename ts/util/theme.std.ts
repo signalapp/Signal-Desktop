@@ -34,14 +34,3 @@ export function themeClassName2(theme: ThemeType): string {
       throw missingCaseError(theme);
   }
 }
-
-export function getThemeByThemeType(theme: ThemeType): Theme {
-  switch (theme) {
-    case ThemeType.light:
-      return Theme.Light;
-    case ThemeType.dark:
-      return Theme.Dark;
-    default:
-      throw missingCaseError(theme);
-  }
-}

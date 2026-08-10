@@ -17,23 +17,18 @@ import { createLogger } from '../../logging/log.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
 import { AvatarLightbox } from '../AvatarLightbox.dom.tsx';
 import { BadgeDialog } from '../BadgeDialog.dom.tsx';
-import { Modal } from '../Modal.dom.tsx';
 import { RemoveGroupMemberConfirmationDialog } from './RemoveGroupMemberConfirmationDialog.dom.tsx';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { UserText } from '../UserText.dom.tsx';
-import { Button, ButtonIconType, ButtonVariant } from '../Button.dom.tsx';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.ts';
-import { getThemeByThemeType } from '../../util/theme.std.ts';
-import {
-  InAnotherCallTooltip,
-  getTooltipContent,
-} from './InAnotherCallTooltip.dom.tsx';
+import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.tsx';
 import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.ts';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 import { GroupMemberLabel } from './ContactName.dom.tsx';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -41,6 +36,7 @@ import type { RemoveClientType } from '../../types/Calling.std.ts';
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoStackedButton } from '../../axo/AxoStackedButton.dom.tsx';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -155,76 +151,52 @@ export function ContactModal({
   const [subModalState, setSubModalState] = useState<SubModalState>(
     SubModalState.None
   );
-  const modalTheme = getThemeByThemeType(theme);
 
   const renderQuickActions = useCallback(
     (conversationId: string) => {
-      const inAnotherCallTooltipContent = hasActiveCall
-        ? getTooltipContent(i18n)
-        : undefined;
       const discouraged = hasActiveCall;
-
-      const videoCallButton = (
-        <Button
-          icon={ButtonIconType.video}
-          variant={ButtonVariant.Details}
-          discouraged={discouraged}
-          aria-label={inAnotherCallTooltipContent}
-          onClick={() => {
-            hideContactModal();
-            onOutgoingVideoCallInConversation(conversationId);
-          }}
-        >
-          {i18n('icu:video')}
-        </Button>
-      );
-      const audioCallButton = (
-        <Button
-          icon={ButtonIconType.audio}
-          variant={ButtonVariant.Details}
-          discouraged={discouraged}
-          aria-label={inAnotherCallTooltipContent}
-          onClick={() => {
-            hideContactModal();
-            onOutgoingAudioCallInConversation(conversationId);
-          }}
-        >
-          {i18n('icu:ContactModal--voice')}
-        </Button>
-      );
 
       return (
         <div className="ContactModal__quick-actions">
-          <Button
-            icon={ButtonIconType.message}
-            variant={ButtonVariant.Details}
-            onClick={() => {
-              hideContactModal();
-              showConversation({
-                conversationId,
-                switchToAssociatedView: true,
-              });
-              if (isInFullScreenCall) {
-                togglePip();
-              }
-            }}
-          >
-            {i18n('icu:ConversationDetails__HeaderButton--Message')}
-          </Button>
-          {hasActiveCall ? (
-            <InAnotherCallTooltip i18n={i18n}>
-              {videoCallButton}
+          <AxoStackedButton.Row spacing="md">
+            <AxoStackedButton.Root
+              symbol="message"
+              label={i18n('icu:ConversationDetails__HeaderButton--Message')}
+              onClick={() => {
+                hideContactModal();
+                showConversation({
+                  conversationId,
+                  switchToAssociatedView: true,
+                });
+                if (isInFullScreenCall) {
+                  togglePip();
+                }
+              }}
+            />
+
+            <InAnotherCallTooltip inAnotherCall={hasActiveCall} i18n={i18n}>
+              <AxoStackedButton.Root
+                symbol="videocamera"
+                label={i18n('icu:video')}
+                discouraged={discouraged}
+                onClick={() => {
+                  hideContactModal();
+                  onOutgoingVideoCallInConversation(conversationId);
+                }}
+              />
             </InAnotherCallTooltip>
-          ) : (
-            videoCallButton
-          )}
-          {hasActiveCall ? (
-            <InAnotherCallTooltip i18n={i18n}>
-              {audioCallButton}
+            <InAnotherCallTooltip inAnotherCall={hasActiveCall} i18n={i18n}>
+              <AxoStackedButton.Root
+                symbol="phone"
+                discouraged={discouraged}
+                label={i18n('icu:ContactModal--voice')}
+                onClick={() => {
+                  hideContactModal();
+                  onOutgoingAudioCallInConversation(conversationId);
+                }}
+              />
             </InAnotherCallTooltip>
-          ) : (
-            audioCallButton
-          )}
+          </AxoStackedButton.Row>
         </div>
       );
     },
@@ -437,231 +409,258 @@ export function ContactModal({
         conversation?.id &&
         !conversation.terminated;
       return (
-        <Modal
-          modalName="ContactModal"
-          moduleClassName="ContactModal__modal"
-          hasXButton
-          i18n={i18n}
-          onClose={hideContactModal}
-          padded={false}
-          theme={modalTheme}
+        <AxoDialog.Root
+          open
+          onOpenChange={open => {
+            if (!open) {
+              hideContactModal();
+            }
+          }}
         >
-          <div className="ContactModal">
-            <Avatar
-              avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
-              avatarUrl={contact.avatarUrl}
-              badge={preferredBadge}
-              blur={
-                !contact.avatarUrl && !contact.isMe && contact.hasAvatar
-                  ? AvatarBlur.BlurPictureWithClickToView
-                  : AvatarBlur.NoBlur
-              }
-              color={contact.color}
-              conversationType="direct"
-              hasAvatar={contact.hasAvatar}
-              i18n={i18n}
-              onClick={() => {
-                if (conversation && hasStories) {
-                  viewUserStories({
-                    conversationId: contact.id,
-                    storyViewMode: StoryViewModeType.User,
-                  });
-                  hideContactModal();
-                } else if (
-                  !contact.avatarUrl &&
-                  !contact.isMe &&
-                  contact.hasAvatar
-                ) {
-                  startAvatarDownload();
-                } else {
-                  setView(ContactModalView.ShowingAvatar);
-                }
-              }}
-              onClickBadge={() => setView(ContactModalView.ShowingBadges)}
-              profileName={contact.profileName}
-              size={AvatarSize.EIGHTY}
-              storyRing={hasStories}
-              theme={theme}
-              title={contact.title}
-            />
-            <button
-              type="button"
-              className="ContactModal__name"
-              onClick={ev => {
-                ev.preventDefault();
-                toggleAboutContactModal({ contactId: contact.id });
-              }}
-            >
-              <div className="ContactModal__name__text">
-                <UserText text={contact.title} />
-                {isInSystemContacts(contact) && (
-                  <span>
-                    {' '}
-                    <InContactsIcon
-                      className="ContactModal__name__contact-icon"
-                      i18n={i18n}
-                    />
-                  </span>
-                )}
-              </div>
-              <i className="ContactModal__name__chevron" />
-            </button>
-            {contactLabelString && contactNameColor && (
-              <button
-                type="button"
-                className="ContactModal__member-label"
-                onClick={() => {
-                  if (conversation) {
-                    toggleGroupMemberLabelInfoModal({
-                      conversationId: conversation.id,
-                    });
+          <AxoDialog.Content
+            size="sm"
+            escape="cancel-is-noop"
+            disableMissingAriaDescriptionWarning
+          >
+            <AxoDialog.Header>
+              <AxoDialog.Title screenReaderOnly>
+                {contact.title}
+              </AxoDialog.Title>
+              <AxoDialog.Close />
+            </AxoDialog.Header>
+            <AxoDialog.Body maxHeight={560}>
+              <div className="ContactModal">
+                <Avatar
+                  avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
+                  avatarUrl={contact.avatarUrl}
+                  badge={preferredBadge}
+                  blur={
+                    !contact.avatarUrl && !contact.isMe && contact.hasAvatar
+                      ? AvatarBlur.BlurPictureWithClickToView
+                      : AvatarBlur.NoBlur
                   }
-                }}
-              >
-                <GroupMemberLabel
-                  emojiSize={14}
-                  contactLabel={{
-                    labelEmoji: contactLabelEmoji,
-                    labelString: contactLabelString,
-                  }}
-                  contactNameColor={contactNameColor}
-                  context="contact-modal"
-                />
-              </button>
-            )}
-            {!contact.isMe && renderQuickActions(contact.id)}
-            <div className="ContactModal__divider" />
-            <div className="ContactModal__button-container">
-              {canHaveNicknameAndNote(contact) && (
-                <button
-                  type="button"
-                  className="ContactModal__button ContactModal__block"
-                  onClick={onOpenEditNicknameAndNoteModal}
-                >
-                  <div className="ContactModal__bubble-icon">
-                    <div className="ContactModal__nickname__bubble-icon" />
-                  </div>
-                  <span>{i18n('icu:ContactModal--nickname')}</span>
-                </button>
-              )}
-
-              {!contact.isMe &&
-                (contact.isBlocked ? (
-                  <div className="ContactModal__button ContactModal__block">
-                    <div className="ContactModal__bubble-icon">
-                      <div className="ContactModal__block__bubble-icon" />
-                    </div>
-                    <span>
-                      {i18n('icu:AboutContactModal__blocked', {
-                        name: contact.title,
-                      })}
-                    </span>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="ContactModal__button ContactModal__block"
-                    onClick={() =>
-                      setSubModalState(SubModalState.ConfirmingBlock)
+                  color={contact.color}
+                  conversationType="direct"
+                  hasAvatar={contact.hasAvatar}
+                  i18n={i18n}
+                  onClick={() => {
+                    if (conversation && hasStories) {
+                      viewUserStories({
+                        conversationId: contact.id,
+                        storyViewMode: StoryViewModeType.User,
+                      });
+                      hideContactModal();
+                    } else if (
+                      !contact.avatarUrl &&
+                      !contact.isMe &&
+                      contact.hasAvatar
+                    ) {
+                      startAvatarDownload();
+                    } else {
+                      setView(ContactModalView.ShowingAvatar);
                     }
-                  >
-                    <div className="ContactModal__bubble-icon">
-                      <div className="ContactModal__block__bubble-icon" />
-                    </div>
-                    <span>{i18n('icu:MessageRequests--block')}</span>
-                  </button>
-                ))}
-              {!contact.isMe && (
+                  }}
+                  onClickBadge={() => setView(ContactModalView.ShowingBadges)}
+                  profileName={contact.profileName}
+                  size={AvatarSize.EIGHTY}
+                  storyRing={hasStories}
+                  theme={theme}
+                  title={contact.title}
+                />
                 <button
                   type="button"
-                  className="ContactModal__button ContactModal__safety-number"
-                  onClick={() => {
-                    hideContactModal();
-                    toggleSafetyNumberModal(contact.id);
+                  className="ContactModal__name"
+                  onClick={ev => {
+                    ev.preventDefault();
+                    toggleAboutContactModal({ contactId: contact.id });
                   }}
                 >
-                  <div className="ContactModal__bubble-icon">
-                    <div className="ContactModal__safety-number__bubble-icon" />
-                  </div>
-                  <span>{i18n('icu:showSafetyNumber')}</span>
-                </button>
-              )}
-              {!contact.isMe && isMember && conversation?.id && (
-                <button
-                  type="button"
-                  className="ContactModal__button"
-                  onClick={() => {
-                    hideContactModal();
-                    toggleAddUserToAnotherGroupModal(contact.id);
-                  }}
-                >
-                  <div className="ContactModal__bubble-icon">
-                    <div className="ContactModal__add-to-another-group__bubble-icon" />
-                  </div>
-                  {i18n('icu:ContactModal--add-to-group')}
-                </button>
-              )}
-              {canDoGroupAdminActions && (
-                <>
-                  <button
-                    type="button"
-                    className="ContactModal__button ContactModal__make-admin"
-                    onClick={() => setSubModalState(SubModalState.ToggleAdmin)}
-                  >
-                    <div className="ContactModal__bubble-icon">
-                      <div className="ContactModal__make-admin__bubble-icon" />
-                    </div>
-                    {isAdmin ? (
-                      <span>{i18n('icu:ContactModal--rm-admin')}</span>
-                    ) : (
-                      <span>{i18n('icu:ContactModal--make-admin')}</span>
+                  <div className="ContactModal__name__text">
+                    <UserText text={contact.title} />
+                    {isInSystemContacts(contact) && (
+                      <span>
+                        {' '}
+                        <InContactsIcon
+                          className="ContactModal__name__contact-icon"
+                          i18n={i18n}
+                        />
+                      </span>
                     )}
-                  </button>
+                  </div>
+                  <i className="ContactModal__name__chevron" />
+                </button>
+                {contactLabelString && contactNameColor && (
                   <button
                     type="button"
-                    className="ContactModal__button ContactModal__remove-from-group"
-                    onClick={() => setSubModalState(SubModalState.MemberRemove)}
+                    className="ContactModal__member-label"
+                    onClick={() => {
+                      if (conversation) {
+                        toggleGroupMemberLabelInfoModal({
+                          conversationId: conversation.id,
+                        });
+                      }
+                    }}
                   >
-                    <div className="ContactModal__bubble-icon">
-                      <div className="ContactModal__remove-from-group__bubble-icon" />
-                    </div>
-                    <span>{i18n('icu:ContactModal--remove-from-group')}</span>
+                    <GroupMemberLabel
+                      emojiSize={14}
+                      contactLabel={{
+                        labelEmoji: contactLabelEmoji,
+                        labelString: contactLabelString,
+                      }}
+                      contactNameColor={contactNameColor}
+                      context="contact-modal"
+                    />
                   </button>
-                </>
-              )}
-              {isRemoteMuteVisible && (
-                <button
-                  type="button"
-                  className="ContactModal__button"
-                  onClick={() => setSubModalState(SubModalState.ConfirmingMute)}
-                  disabled={isMuted}
-                >
-                  <AxoSymbol.Icon symbol="mic-slash" size={20} label={null} />
-                  <span className={tw('ms-[12px]')}>
-                    {i18n('icu:ContactModal--mute-audio')}
-                  </span>
-                </button>
-              )}
-              {isRemoveFromCallVisible && (
-                <button
-                  type="button"
-                  className="ContactModal__button"
-                  onClick={() => setSubModalState(SubModalState.RemoveFromCall)}
-                >
-                  <AxoSymbol.Icon
-                    symbol="minus-circle"
-                    size={20}
-                    label={null}
-                  />
-                  <span className={tw('ms-[12px]')}>
-                    {i18n('icu:ContactModal--remove-from-call')}
-                  </span>
-                </button>
-              )}
-            </div>
-            {modalNode}
-          </div>
-        </Modal>
+                )}
+                {!contact.isMe && renderQuickActions(contact.id)}
+                <div className="ContactModal__divider" />
+                <div className="ContactModal__button-container">
+                  {canHaveNicknameAndNote(contact) && (
+                    <button
+                      type="button"
+                      className="ContactModal__button ContactModal__block"
+                      onClick={onOpenEditNicknameAndNoteModal}
+                    >
+                      <div className="ContactModal__bubble-icon">
+                        <div className="ContactModal__nickname__bubble-icon" />
+                      </div>
+                      <span>{i18n('icu:ContactModal--nickname')}</span>
+                    </button>
+                  )}
+
+                  {!contact.isMe &&
+                    (contact.isBlocked ? (
+                      <div className="ContactModal__button ContactModal__block">
+                        <div className="ContactModal__bubble-icon">
+                          <div className="ContactModal__block__bubble-icon" />
+                        </div>
+                        <span>
+                          {i18n('icu:AboutContactModal__blocked', {
+                            name: contact.title,
+                          })}
+                        </span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="ContactModal__button ContactModal__block"
+                        onClick={() =>
+                          setSubModalState(SubModalState.ConfirmingBlock)
+                        }
+                      >
+                        <div className="ContactModal__bubble-icon">
+                          <div className="ContactModal__block__bubble-icon" />
+                        </div>
+                        <span>{i18n('icu:MessageRequests--block')}</span>
+                      </button>
+                    ))}
+                  {!contact.isMe && (
+                    <button
+                      type="button"
+                      className="ContactModal__button ContactModal__safety-number"
+                      onClick={() => {
+                        hideContactModal();
+                        toggleSafetyNumberModal(contact.id);
+                      }}
+                    >
+                      <div className="ContactModal__bubble-icon">
+                        <div className="ContactModal__safety-number__bubble-icon" />
+                      </div>
+                      <span>{i18n('icu:showSafetyNumber')}</span>
+                    </button>
+                  )}
+                  {!contact.isMe && isMember && conversation?.id && (
+                    <button
+                      type="button"
+                      className="ContactModal__button"
+                      onClick={() => {
+                        hideContactModal();
+                        toggleAddUserToAnotherGroupModal(contact.id);
+                      }}
+                    >
+                      <div className="ContactModal__bubble-icon">
+                        <div className="ContactModal__add-to-another-group__bubble-icon" />
+                      </div>
+                      {i18n('icu:ContactModal--add-to-group')}
+                    </button>
+                  )}
+                  {canDoGroupAdminActions && (
+                    <>
+                      <button
+                        type="button"
+                        className="ContactModal__button ContactModal__make-admin"
+                        onClick={() =>
+                          setSubModalState(SubModalState.ToggleAdmin)
+                        }
+                      >
+                        <div className="ContactModal__bubble-icon">
+                          <div className="ContactModal__make-admin__bubble-icon" />
+                        </div>
+                        {isAdmin ? (
+                          <span>{i18n('icu:ContactModal--rm-admin')}</span>
+                        ) : (
+                          <span>{i18n('icu:ContactModal--make-admin')}</span>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        className="ContactModal__button ContactModal__remove-from-group"
+                        onClick={() =>
+                          setSubModalState(SubModalState.MemberRemove)
+                        }
+                      >
+                        <div className="ContactModal__bubble-icon">
+                          <div className="ContactModal__remove-from-group__bubble-icon" />
+                        </div>
+                        <span>
+                          {i18n('icu:ContactModal--remove-from-group')}
+                        </span>
+                      </button>
+                    </>
+                  )}
+                  {isRemoteMuteVisible && (
+                    <button
+                      type="button"
+                      className="ContactModal__button"
+                      onClick={() =>
+                        setSubModalState(SubModalState.ConfirmingMute)
+                      }
+                      disabled={isMuted}
+                    >
+                      <AxoSymbol.Icon
+                        symbol="mic-slash"
+                        size={20}
+                        label={null}
+                      />
+                      <span className={tw('ms-[12px]')}>
+                        {i18n('icu:ContactModal--mute-audio')}
+                      </span>
+                    </button>
+                  )}
+                  {isRemoveFromCallVisible && (
+                    <button
+                      type="button"
+                      className="ContactModal__button"
+                      onClick={() =>
+                        setSubModalState(SubModalState.RemoveFromCall)
+                      }
+                    >
+                      <AxoSymbol.Icon
+                        symbol="minus-circle"
+                        size={20}
+                        label={null}
+                      />
+                      <span className={tw('ms-[12px]')}>
+                        {i18n('icu:ContactModal--remove-from-call')}
+                      </span>
+                    </button>
+                  )}
+                </div>
+                {modalNode}
+              </div>
+            </AxoDialog.Body>
+          </AxoDialog.Content>
+        </AxoDialog.Root>
       );
     }
     case ContactModalView.ShowingAvatar:

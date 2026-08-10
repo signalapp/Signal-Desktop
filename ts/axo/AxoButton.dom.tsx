@@ -81,31 +81,31 @@ export namespace AxoButton {
       baseStyles,
       'bg-secondary text-primary',
       'not-aria-disabled:active:bg-secondary-pressed',
-      'data-axo-discouraged:text-disabled'
+      'data-[axo-discouraged=true]:text-disabled'
     ),
     'strong-primary': tw(
       baseStyles,
       'bg-accent text-primary-oncolor',
       'not-aria-disabled:active:bg-accent-pressed',
-      'data-axo-discouraged:text-disabled-oncolor'
+      'data-[axo-discouraged=true]:text-disabled-oncolor'
     ),
     'strong-affirmative': tw(
       baseStyles,
       'bg-affirmative text-primary-oncolor',
       'not-aria-disabled:active:bg-affirmative-pressed',
-      'data-axo-discouraged:text-disabled-oncolor'
+      'data-[axo-discouraged=true]:text-disabled-oncolor'
     ),
     'strong-warning': tw(
       baseStyles,
       'bg-warning-bright text-primary-onbright',
       'not-aria-disabled:active:bg-warning-bright-pressed',
-      'data-axo-discouraged:text-disabled-onbright'
+      'data-[axo-discouraged=true]:text-disabled-onbright'
     ),
     'strong-destructive': tw(
       baseStyles,
       'bg-destructive text-primary-oncolor',
       'not-aria-disabled:active:bg-destructive-pressed',
-      'data-axo-discouraged:text-disabled-oncolor'
+      'data-[axo-discouraged=true]:text-disabled-oncolor'
     ),
 
     // subtle
@@ -113,31 +113,31 @@ export namespace AxoButton {
       baseStyles,
       'bg-primary text-primary',
       'not-aria-disabled:active:bg-primary-pressed',
-      'data-axo-discouraged:text-disabled'
+      'data-[axo-discouraged=true]:text-disabled'
     ),
     'subtle-primary': tw(
       baseStyles,
       'bg-accent-tint text-accent',
       'not-aria-disabled:active:bg-accent-tint-pressed',
-      'data-axo-discouraged:text-accent-disabled'
+      'data-[axo-discouraged=true]:text-accent-disabled'
     ),
     'subtle-affirmative': tw(
       baseStyles,
       'bg-affirmative-tint text-affirmative',
       'not-aria-disabled:active:bg-affirmative-tint-pressed',
-      'data-axo-discouraged:text-affirmative-disabled'
+      'data-[axo-discouraged=true]:text-affirmative-disabled'
     ),
     'subtle-warning': tw(
       baseStyles,
       'bg-warning-tint text-warning',
       'not-aria-disabled:active:bg-warning-tint-pressed',
-      'data-axo-discouraged:text-warning-disabled'
+      'data-[axo-discouraged=true]:text-warning-disabled'
     ),
     'subtle-destructive': tw(
       baseStyles,
       'bg-destructive-tint text-destructive',
       'not-aria-disabled:active:bg-destructive-tint-pressed',
-      'data-axo-discouraged:text-destructive-disabled'
+      'data-[axo-discouraged=true]:text-destructive-disabled'
     ),
 
     // elevated
@@ -145,7 +145,7 @@ export namespace AxoButton {
       baseStyles,
       'bg-material-tertiary text-primary shadow-elevation-1 backdrop-blur-thin',
       'not-aria-disabled:active:bg-material-tertiary-pressed',
-      'data-axo-discouraged:text-disabled'
+      'data-[axo-discouraged=true]:text-disabled'
     ),
 
     // implied
@@ -154,28 +154,28 @@ export namespace AxoButton {
       'bg-transparent text-primary',
       'not-aria-disabled:hover:bg-primary',
       'not-aria-disabled:active:bg-primary-pressed',
-      'data-axo-discouraged:text-disabled'
+      'data-[axo-discouraged=true]:text-disabled'
     ),
     'implied-primary': tw(
       baseStyles,
       'bg-transparent text-accent',
       'not-aria-disabled:hover:bg-accent-tint',
       'not-aria-disabled:active:bg-accent-tint-pressed',
-      'data-axo-discouraged:text-accent-disabled'
+      'data-[axo-discouraged=true]:text-accent-disabled'
     ),
     'implied-affirmative': tw(
       baseStyles,
       'bg-transparent text-affirmative',
       'not-aria-disabled:hover:bg-affirmative-tint',
       'not-aria-disabled:active:bg-affirmative-tint-pressed',
-      'data-axo-discouraged:text-affirmative-disabled'
+      'data-[axo-discouraged=true]:text-affirmative-disabled'
     ),
     'implied-destructive': tw(
       baseStyles,
       'bg-transparent text-destructive',
       'not-aria-disabled:hover:bg-destructive-tint',
       'not-aria-disabled:active:bg-destructive-tint-pressed',
-      'data-axo-discouraged:text-destructive-disabled'
+      'data-[axo-discouraged=true]:text-destructive-disabled'
     ),
 
     // message
@@ -183,13 +183,13 @@ export namespace AxoButton {
       baseStyles,
       'bg-onmessage-incoming-primary text-primary',
       'not-aria-disabled:active:bg-onmessage-incoming-primary-pressed',
-      'data-axo-discouraged:text-disabled'
+      'data-[axo-discouraged=true]:text-disabled'
     ),
     'message-outgoing-primary': tw(
       baseStyles,
       'bg-onmessage-outgoing-primary text-primary-oncolor',
       'not-aria-disabled:active:bg-onmessage-outgoing-primary-pressed',
-      'data-axo-discouraged:text-disabled-oncolor'
+      'data-[axo-discouraged=true]:text-disabled-oncolor'
     ),
   });
 

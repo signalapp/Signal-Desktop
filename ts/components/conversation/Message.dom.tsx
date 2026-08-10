@@ -2579,10 +2579,10 @@ export class Message extends PureComponent<Props, State> {
         </button>
       );
 
-      return inAnotherCall ? (
-        <InAnotherCallTooltip i18n={i18n}>{joinButton}</InAnotherCallTooltip>
-      ) : (
-        joinButton
+      return (
+        <InAnotherCallTooltip inAnotherCall={inAnotherCall} i18n={i18n}>
+          {joinButton}
+        </InAnotherCallTooltip>
       );
     }
 

@@ -23,7 +23,6 @@ export enum ButtonSize {
 export enum ButtonVariant {
   Calling = 'Calling',
   Destructive = 'Destructive',
-  Details = 'Details',
   Primary = 'Primary',
   Secondary = 'Secondary',
   SecondaryAffirmative = 'SecondaryAffirmative',
@@ -31,20 +30,10 @@ export enum ButtonVariant {
   SystemMessage = 'SystemMessage',
 }
 
-export enum ButtonIconType {
-  audio = 'audio',
-  message = 'message',
-  muted = 'muted',
-  search = 'search',
-  unmuted = 'unmuted',
-  video = 'video',
-}
-
 export type PropsType = {
   className?: string;
   disabled?: boolean;
   discouraged?: boolean;
-  icon?: ButtonIconType;
   size?: ButtonSize;
   style?: CSSProperties;
   tabIndex?: number;
@@ -98,7 +87,6 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Destructive, 'module-Button--destructive'],
   [ButtonVariant.Calling, 'module-Button--calling'],
   [ButtonVariant.SystemMessage, 'module-Button--system-message'],
-  [ButtonVariant.Details, 'module-Button--details'],
 ]);
 
 export const Button = forwardRef<HTMLButtonElement, PropsType>(
@@ -108,15 +96,12 @@ export const Button = forwardRef<HTMLButtonElement, PropsType>(
       className,
       disabled = false,
       discouraged = false,
-      icon,
       style,
       tabIndex,
       testId,
       theme,
       variant = ButtonVariant.Primary,
-      size = variant === ButtonVariant.Details
-        ? ButtonSize.Small
-        : ButtonSize.Medium,
+      size = ButtonSize.Medium,
     } = props;
     const ariaLabel = props['aria-label'];
     const ariaDisabled = props['aria-disabled'];
@@ -148,7 +133,6 @@ export const Button = forwardRef<HTMLButtonElement, PropsType>(
           sizeClassName,
           variantClassName,
           discouraged ? `${variantClassName}--discouraged` : undefined,
-          icon && `module-Button--icon--${icon}`,
           className,
           className && discouraged ? `${className}--discouraged` : undefined
         )}

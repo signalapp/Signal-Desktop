@@ -10,13 +10,13 @@ import type {
   CallLinkType,
 } from '../types/CallLink.std.ts';
 import { linkCallRoute } from '../util/signalRoutes.std.ts';
-import { Button, ButtonSize, ButtonVariant } from './Button.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.tsx';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',
@@ -93,18 +93,6 @@ export function CallLinkEditModal({
     return linkCallRoute.toWebUrl({ key: callLink.rootKey }).toString();
   }, [callLink.rootKey]);
 
-  const joinButton = (
-    <Button
-      onClick={onStartCallLinkLobby}
-      size={ButtonSize.Small}
-      variant={ButtonVariant.SecondaryAffirmative}
-      discouraged={hasActiveCall}
-      className="CallLinkEditModal__JoinButton"
-    >
-      {i18n('icu:CallLinkEditModal__JoinButtonLabel')}
-    </Button>
-  );
-
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
       <AxoDialog.Content size="sm" escape="cancel-is-destructive">
@@ -145,13 +133,16 @@ export function CallLinkEditModal({
               </button>
             </div>
             <div className="CallLinkEditModal__Header__Actions">
-              {hasActiveCall ? (
-                <InAnotherCallTooltip i18n={i18n}>
-                  {joinButton}
-                </InAnotherCallTooltip>
-              ) : (
-                joinButton
-              )}
+              <InAnotherCallTooltip inAnotherCall={hasActiveCall} i18n={i18n}>
+                <AxoButton.Root
+                  onClick={onStartCallLinkLobby}
+                  size="md"
+                  variant="subtle-affirmative"
+                  discouraged={hasActiveCall}
+                >
+                  {i18n('icu:CallLinkEditModal__JoinButtonLabel')}
+                </AxoButton.Root>
+              </InAnotherCallTooltip>
             </div>
           </div>
 
