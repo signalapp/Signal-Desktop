@@ -481,8 +481,6 @@ async function startApp(): Promise<void> {
     drop(logout());
     authSocketConnectCount = 0;
 
-    backupReady.reject(new Error('startRegistration'));
-    backupReady = explodePromise();
     registrationCompleted = explodePromise();
   });
 
@@ -1403,15 +1401,7 @@ async function startApp(): Promise<void> {
     remotelyExpired = true;
   });
 
-  async function enableStorageService({ andSync }: { andSync?: string } = {}) {
-    log.info('enableStorageService: waiting for backupReady');
-    try {
-      await backupReady.promise;
-    } catch (error) {
-      log.warn('enableStorageService: backup is not ready; returning early');
-      return;
-    }
-
+  function enableStorageService({ andSync }: { andSync?: string } = {}) {
     log.info('enableStorageService: enabling and running');
     StorageService.enableStorageService();
 
@@ -1776,7 +1766,6 @@ async function startApp(): Promise<void> {
     }
   }
 
-  let backupReady = explodePromise<{ wasBackupImported: boolean }>();
   let registrationCompleted: ExplodePromiseResultType<void> | undefined;
   let authSocketConnectCount = 0;
   let afterAuthSocketConnectPromise: ExplodePromiseResultType<void> | undefined;
@@ -1877,13 +1866,11 @@ async function startApp(): Promise<void> {
         storageServiceSyncComplete = waitForEvent(
           'storageService:syncComplete'
         );
-        drop(
-          enableStorageService({
-            andSync: 'afterFirstAuthSocketConnect',
-          })
-        );
+        enableStorageService({
+          andSync: 'afterFirstAuthSocketConnect',
+        });
       } else {
-        drop(enableStorageService());
+        enableStorageService();
       }
 
       // 7. Wait for critical post-registration syncs before showing inbox
@@ -1948,41 +1935,38 @@ async function startApp(): Promise<void> {
     const isLocalBackupAvailable =
       backupsService.isLocalBackupStaged() && isLocalBackupsEnabled();
 
-    if (isLocalBackupAvailable || backupDownloadPath) {
-      tapToViewMessagesDeletionService.pause();
-
-      // Download backup before enabling request handler and storage service
-      try {
-        let wasBackupImported = false;
-        if (isLocalBackupAvailable) {
-          await backupsService.importLocalBackup();
-          wasBackupImported = true;
-        } else {
-          ({ wasBackupImported } = await backupsService.downloadAndImport({
-            onProgress: (backupStep, currentBytes, totalBytes) => {
-              window.reduxActions.installer.updateBackupImportProgress({
-                backupStep,
-                currentBytes,
-                totalBytes,
-              });
-            },
-          }));
-        }
-
-        log.info('afterAppStart: backup download attempt completed, resolving');
-        backupReady.resolve({ wasBackupImported });
-      } catch (error) {
-        log.error('afterAppStart: backup download failed, rejecting');
-        backupReady.reject(error);
-        throw error;
-      } finally {
-        tapToViewMessagesDeletionService.resume();
-      }
-    } else {
-      backupReady.resolve({ wasBackupImported: false });
+    if (!isLocalBackupAvailable && !backupDownloadPath) {
+      return { wasBackupImported: false };
     }
 
-    return backupReady.promise;
+    tapToViewMessagesDeletionService.pause();
+
+    // Download backup before enabling request handler and storage service
+    try {
+      let wasBackupImported = false;
+      if (isLocalBackupAvailable) {
+        await backupsService.importLocalBackup();
+        wasBackupImported = true;
+      } else {
+        ({ wasBackupImported } = await backupsService.downloadAndImport({
+          onProgress: (backupStep, currentBytes, totalBytes) => {
+            window.reduxActions.installer.updateBackupImportProgress({
+              backupStep,
+              currentBytes,
+              totalBytes,
+            });
+          },
+        }));
+      }
+
+      log.info('afterAppStart: backup download attempt completed');
+      return { wasBackupImported };
+    } catch (error) {
+      log.error('afterAppStart: backup download failed');
+      throw error;
+    } finally {
+      tapToViewMessagesDeletionService.resume();
+    }
   }
 
   function afterEveryLinkedStartup() {
@@ -3546,9 +3530,6 @@ async function startApp(): Promise<void> {
       log.info('unlinkAndDisconnect: logging out');
 
       pauseProcessing('unlinkAndDisconnect');
-
-      backupReady.reject(new Error('Aborted'));
-      backupReady = explodePromise();
 
       await logout();
       await waitForAllBatchers();
