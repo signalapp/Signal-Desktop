@@ -372,7 +372,7 @@ export function ExampleLanguageDialog(): JSX.Element {
             )}
           />
         </AxoDialog.Search>
-        <AxoDialog.Body padding="only-scrollbar-gutter">
+        <AxoDialog.Body padding="sm">
           <div
             role="listbox"
             style={{

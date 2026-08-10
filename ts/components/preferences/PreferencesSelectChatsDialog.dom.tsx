@@ -209,7 +209,11 @@ export function PreferencesSelectChatsDialog(
             noMargin
           />
         </AxoDialog.Search>
-        <AxoDialog.Body scrollbarWidth="none" padding="only-scrollbar-gutter">
+        <AxoDialog.Body
+          scrollbarWidth="none"
+          // ConversationList has its own scroll container so we need to do this
+          padding="deprecated-only-scrollbar-gutter"
+        >
           {selectedRecipientIds.size > 0 && (
             <ContactPills>
               {Array.from(selectedRecipientIds, conversationId => {

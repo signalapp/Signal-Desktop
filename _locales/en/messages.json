@@ -6871,11 +6871,19 @@
     "description": "GroupLinkManagement > Header > Group link text > Button (looks like normal text) > Accessibility label"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search Members",
+    "messageformat": "Search members",
     "description": "GroupMembersSearchDialog > Dialog Title"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
     "messageformat": "Search",
+    "description": "GroupMembersSearchDialog > Search > Placeholder"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins",
+    "description": "GroupMembersSearchDialog > Search > Placeholder"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts",
     "description": "GroupMembersSearchDialog > Search > Placeholder"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
@@ -6898,7 +6906,7 @@
     "messageformat": "No results",
     "description": "GroupMembersSearchDialog > No results (without search query)"
   },
-  "icu:GroupMembersSearchDialog__EmptyState__NoResults__WithSearchQuery": {
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
     "messageformat": "No results for “{searchQuery}”",
     "description": "GroupMembersSearchDialog > No results (with search query)"
   },

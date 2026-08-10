@@ -101,7 +101,7 @@ export function CallLinkEditModal({
             {i18n('icu:CallLinkEditModal__Title')}
           </AxoDialog.Title>
         </AxoDialog.Header>
-        <AxoDialog.Body padding="normal">
+        <AxoDialog.Body>
           <div className={tw('mb-3 flex items-center gap-4 py-3.5')}>
             <Avatar
               i18n={i18n}

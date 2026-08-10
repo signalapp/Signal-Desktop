@@ -60,7 +60,7 @@ export function DraftGifMessageSendModal(
           </AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body padding="only-scrollbar-gutter">
+        <AxoDialog.Body padding="sm">
           <div className={tw('flex justify-center px-2')}>
             <FunGifPreview
               src={url}

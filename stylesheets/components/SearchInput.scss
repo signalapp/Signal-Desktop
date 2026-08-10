@@ -9,6 +9,7 @@
     position: relative;
     margin-inline: 16px;
     margin-bottom: 8px;
+    flex-grow: 1;
 
     &--noMargin {
       margin-inline: 0px;

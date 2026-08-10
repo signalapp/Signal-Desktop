@@ -490,7 +490,7 @@ function DisableLocalBackupsDialog({
               {i18n('icu:Preferences__local-backups-turn-off')}
             </AxoDialog.Title>
           </AxoDialog.Header>
-          <AxoDialog.Body padding="normal">
+          <AxoDialog.Body>
             <AxoDialog.Description>
               <div className={tw('mb-2 text-secondary')}>
                 {i18n('icu:Preferences__local-backups-turn-off-confirmation')}

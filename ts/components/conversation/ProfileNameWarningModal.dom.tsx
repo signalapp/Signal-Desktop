@@ -29,7 +29,7 @@ export function ProfileNameWarningModal({
         <AxoDialog.Header>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body padding="normal">
+        <AxoDialog.Body>
           <div className={tw('flex justify-center')}>
             <div
               className={tw(

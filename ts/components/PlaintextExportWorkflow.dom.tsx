@@ -65,7 +65,7 @@ export function PlaintextExportWorkflow({
               </div>
             </AxoDialog.Title>
           </AxoDialog.Header>
-          <AxoDialog.Body padding="normal">
+          <AxoDialog.Body>
             <div className={tw('px-[13px]')}>
               <div className={tw('text-secondary')}>
                 <I18n
@@ -176,7 +176,7 @@ export function PlaintextExportWorkflow({
               </div>
             </AxoDialog.Title>
           </AxoDialog.Header>
-          <AxoDialog.Body padding="normal">
+          <AxoDialog.Body>
             <div className={tw('mx-auto my-[29px] w-[331px]')}>
               {progressElements}
               <div className={tw('text-center type-body-small text-secondary')}>

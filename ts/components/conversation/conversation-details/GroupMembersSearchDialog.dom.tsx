@@ -115,29 +115,21 @@ export function GroupMembersSearchDialog(
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Search>
-          <AxoSearchField.Root
-            value={searchValue}
-            onValueChange={setSearchValue}
-            placeholder={i18n(
-              'icu:GroupMembersSearchDialog__SearchField__Placeholder'
-            )}
-            autoFocus
+          <SearchField
+            i18n={i18n}
+            searchValue={searchValue}
+            onSearchValueChange={setSearchValue}
+            filter={filter}
           />
           <FilterMenu i18n={i18n} filter={filter} onFilterChange={setFilter} />
         </AxoDialog.Search>
         <AxoDialog.Body
           scrollbarWidth="none"
-          padding="only-scrollbar-gutter"
+          padding="md"
           noFooterHideBottomScrollHint
           forceMaxHeight
         >
-          <div
-            className={tw('flex flex-col gap-2 pb-4')}
-            style={{
-              paddingInline:
-                'calc(16px - var(--axo-scrollbar-gutter-thin-vertical)',
-            }}
-          >
+          <div className={tw('flex flex-col gap-2 pb-4')}>
             {searchQuery === '' ? (
               <AlphabeticMemberList
                 i18n={i18n}
@@ -179,6 +171,46 @@ export function GroupMembersSearchDialog(
         </AxoDialog.Body>
       </AxoDialog.Content>
     </AxoDialog.Root>
+  );
+}
+
+type SearchFieldProps = Readonly<{
+  i18n: LocalizerType;
+  searchValue: string;
+  onSearchValueChange: (searchValue: string) => void;
+  filter: GroupMembersSearchDialogFilter;
+}>;
+
+function SearchField(props: SearchFieldProps): ReactNode {
+  const { i18n, filter } = props;
+
+  const placeholder = useMemo(() => {
+    if (filter === GroupMembersSearchDialogFilter.All) {
+      return i18n('icu:GroupMembersSearchDialog__SearchField__Placeholder');
+    }
+
+    if (filter === GroupMembersSearchDialogFilter.Admins) {
+      return i18n(
+        'icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins'
+      );
+    }
+
+    if (filter === GroupMembersSearchDialogFilter.SystemContacts) {
+      return i18n(
+        'icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts'
+      );
+    }
+
+    throw missingCaseError(filter);
+  }, [i18n, filter]);
+
+  return (
+    <AxoSearchField.Root
+      value={props.searchValue}
+      onValueChange={props.onSearchValueChange}
+      placeholder={placeholder}
+      autoFocus
+    />
   );
 }
 
@@ -378,7 +410,7 @@ function SearchResults(props: SearchResultsProps): ReactNode {
           title={
             <I18n
               i18n={i18n}
-              id="icu:GroupMembersSearchDialog__EmptyState__NoResults__WithSearchQuery"
+              id="icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery"
               components={{
                 searchQuery: <UserText text={searchQuery} />,
               }}
