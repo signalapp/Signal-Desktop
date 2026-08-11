@@ -208,8 +208,7 @@ export namespace AxoButton {
     full: tw('w-full'),
   });
 
-  type ArrowSymbol = AxoSymbol.InlineGlyphName;
-  const Arrows = variants<Arrow, ArrowSymbol>('AxoButton.Arrow', {
+  const Arrows = variants<Arrow, AxoSymbol.Name>('AxoButton.Arrow', {
     collapse: 'chevron-up',
     expand: 'chevron-down',
     next: 'chevron-[end]',
@@ -250,7 +249,7 @@ export namespace AxoButton {
     /**
      * Optional leading icon.
      */
-    symbol?: AxoSymbol.InlineGlyphName;
+    symbol?: AxoSymbol.Name;
     /**
      * Optional trailing arrow icon.
      */

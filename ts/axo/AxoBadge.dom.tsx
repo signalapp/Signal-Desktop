@@ -172,7 +172,7 @@ export namespace AxoBadge {
       if (value === 'error') {
         return (
           <span className={TextSizes.get(size)}>
-            <AxoSymbol.InlineGlyph symbol="error-fill" label={null} />
+            <AxoSymbol.InlineGlyph symbol="error" label={null} />
           </span>
         );
       }

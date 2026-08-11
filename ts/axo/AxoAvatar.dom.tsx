@@ -278,7 +278,7 @@ export namespace AxoAvatar {
     /**
      * The icon to display. Sized proportionally to the avatar.
      */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   /**
@@ -326,7 +326,7 @@ export namespace AxoAvatar {
     /**
      * Icon to show if the image fails to load.
      */
-    fallbackIcon: AxoSymbol.IconName;
+    fallbackIcon: AxoSymbol.Name;
     /**
      * Color theme for the fallback icon background.
      */

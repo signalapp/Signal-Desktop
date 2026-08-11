@@ -6,13 +6,10 @@ import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
 import { tw } from './tw.dom.tsx';
 import {
-  getAxoSymbolIcon,
-  getAxoSymbolInlineGlyph,
+  _getAxoSymbolIcon,
+  _getAxoSymbolInlineGlyph,
 } from './_internal/AxoSymbolDefs.generated.std.ts';
-import type {
-  AxoSymbolIconName,
-  AxoSymbolInlineGlyphName,
-} from './_internal/AxoSymbolDefs.generated.std.ts';
+import type { _AxoSymbolName } from './_internal/AxoSymbolDefs.generated.std.ts';
 import { variants } from './_internal/variants.dom.tsx';
 
 const { useDirection } = Direction;
@@ -31,6 +28,8 @@ const { useDirection } = Direction;
  * ```
  */
 export namespace AxoSymbol {
+  export type Name = _AxoSymbolName;
+
   /**
    * Stroke weight of the symbol.
    * - `300` – light
@@ -80,19 +79,9 @@ export namespace AxoSymbol {
    * --------------------------------------------------------------------------
    */
 
-  /**
-   * A symbol font name that can be used as an inline glyph. May have small
-   * visual differences from the "icon" appearance to look better inline with
-   * text.
-   *
-   * Note: Auto-generated from the symbol font.
-   *
-   */
-  export type InlineGlyphName = AxoSymbolInlineGlyphName;
-
   export type InlineGlyphProps = Readonly<{
     /** The icon to render. */
-    symbol: InlineGlyphName;
+    symbol: Name;
     /**
      * Accessible label for screen readers. Pass `null` if the glyph is purely
      * decorative and the surrounding context (Ex: a button's aria-label) already
@@ -124,7 +113,7 @@ export namespace AxoSymbol {
    */
   export const InlineGlyph: FC<InlineGlyphProps> = memo(props => {
     const direction = useDirection();
-    const glyph = getAxoSymbolInlineGlyph(props.symbol, direction);
+    const glyph = _getAxoSymbolInlineGlyph(props.symbol, direction);
     const content = useRenderSymbol(glyph, props.label, 400);
     return content;
   });
@@ -135,15 +124,6 @@ export namespace AxoSymbol {
    * <AxoSymbol.Icon>
    * --------------------------------------------------------------------------
    */
-
-  /**
-   * A symbol font name that can be used as an icon. May have small
-   * visual differences from the "inline glyph" appearance to look better as a
-   * standalone icon.
-   *
-   * Note: Auto-generated from the symbol font.
-   */
-  export type IconName = AxoSymbolIconName;
 
   /** Available icon sizes in pixels. */
   export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 36 | 48;
@@ -168,7 +148,7 @@ export namespace AxoSymbol {
     /** Size of the icon in pixels. */
     size: IconSize;
     /** The icon to render. Automatically mirrored in RTL layouts. */
-    symbol: IconName;
+    symbol: Name;
     /**
      * Accessible label for screen readers. Pass `null` if the icon is purely
      * decorative and the surrounding context (Ex: a button's aria-label) already
@@ -201,7 +181,7 @@ export namespace AxoSymbol {
   export const Icon: FC<IconProps> = memo(props => {
     const direction = useDirection();
     const weight = props.weight ?? 400;
-    const glyph = getAxoSymbolIcon(props.symbol, direction);
+    const glyph = _getAxoSymbolIcon(props.symbol, direction);
     const content = useRenderSymbol(glyph, props.label, weight);
     return (
       <span className={tw(iconStyles, IconSizes.get(props.size))}>

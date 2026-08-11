@@ -482,7 +482,7 @@ function ImageThumbnail(props: { url: string }) {
 }
 
 type PreviewIcon = Readonly<{
-  symbol: AxoSymbol.InlineGlyphName;
+  symbol: AxoSymbol.Name;
   label: string;
 }>;
 

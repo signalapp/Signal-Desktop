@@ -39,7 +39,7 @@ export namespace AxoStackedButton {
     /**
      * Icon to display inside the button.
      */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     /**
      * Label to display below the button
      */

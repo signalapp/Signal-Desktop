@@ -124,7 +124,7 @@ export namespace AxoContactList {
     ref?: Ref<HTMLButtonElement | null>;
     variant: ItemIconActionVariant;
     label: string;
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     tooltip?: AxoIconButton.RootProps['tooltip'];
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
@@ -152,7 +152,7 @@ export namespace AxoContactList {
    */
 
   export type ActionItemProps = Readonly<{
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     title: ReactNode;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;

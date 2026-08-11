@@ -206,7 +206,7 @@ export namespace AxoBaseItem {
    */
 
   export type IconProps = Readonly<{
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   export const Icon: FC<IconProps> = memo(props => {
@@ -286,7 +286,7 @@ export namespace AxoBaseItem {
 
   export type IconAvatarProps = Readonly<{
     size: IconAvatarSize;
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   export const IconAvatar: FC<IconAvatarProps> = memo(props => {
@@ -492,7 +492,7 @@ export namespace AxoBaseItem {
   export type ActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
     variant: ActionVariant;
-    symbol?: AxoSymbol.IconName;
+    symbol?: AxoSymbol.Name;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
   }>;
@@ -526,7 +526,7 @@ export namespace AxoBaseItem {
     ref?: Ref<HTMLButtonElement | null>;
     variant: IconActionVariant;
     label: string;
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     tooltip?: AxoIconButton.RootProps['tooltip'];
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;

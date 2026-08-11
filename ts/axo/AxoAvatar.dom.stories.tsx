@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import { AxoAvatar } from './AxoAvatar.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { BADGES_FIXTURE } from '../test-helpers/axoStorybookFixtures.std.tsx';
-import { _getAllAxoSymbolIconNames } from './_internal/AxoSymbolDefs.generated.std.ts';
+import { _getAllAxoSymbolNames } from './_internal/AxoSymbolDefs.generated.std.ts';
 import { AxoTokens } from './AxoTokens.std.ts';
 
 export default {
@@ -178,7 +178,7 @@ export function Initials(): JSX.Element {
 }
 
 export function Icons(): JSX.Element {
-  const icons = _getAllAxoSymbolIconNames();
+  const icons = _getAllAxoSymbolNames();
   return (
     <SizesTemplate>
       {size => (

@@ -106,7 +106,7 @@ type TemplateProps = Readonly<{
   defaultValue?: string;
   placeholder?: string;
   width?: AxoTextField.Width;
-  symbol?: AxoSymbol.IconName;
+  symbol?: AxoSymbol.Name;
   showCount?: boolean;
   showClear?: boolean;
   leading?: ReactNode;

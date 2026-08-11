@@ -325,7 +325,7 @@ function CollapseSetButton(
     "CollapseSetButton should never render a 'none' set"
   );
 
-  let symbol: AxoSymbol.InlineGlyphName;
+  let symbol: AxoSymbol.Name;
   let text: string;
 
   // Note: no need for labels for these icons, since they have full text descriptions

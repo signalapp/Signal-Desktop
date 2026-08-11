@@ -128,7 +128,7 @@ export function PanelHeader({
               isNonDefaultSorting ? 'strong-primary' : 'implied-secondary'
             }
             size="md"
-            symbol="sort-vertical"
+            symbol="arrow-up-down"
             label={i18n('icu:MediaGallery__sort')}
           />
         </AxoDropdownMenu.Trigger>

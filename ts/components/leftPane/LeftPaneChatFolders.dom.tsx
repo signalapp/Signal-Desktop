@@ -74,9 +74,7 @@ function getChatFolderLabel(
   return '';
 }
 
-function getChatFolderIconName(
-  chatFolder: ChatFolder | null
-): AxoSymbol.IconName {
+function getChatFolderIconName(chatFolder: ChatFolder | null): AxoSymbol.Name {
   if (chatFolder == null) {
     return 'message';
   }
@@ -379,7 +377,7 @@ function ChatFolderSegmentedControlItemContextMenu(props: {
 }
 
 function ContextMenuMuteNotificationsItem(props: {
-  symbol?: AxoSymbol.IconName;
+  symbol?: AxoSymbol.Name;
   value: number;
   onSelect: (value: number) => void;
   children: ReactNode;

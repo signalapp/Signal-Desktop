@@ -402,7 +402,7 @@ export function PollCreateModal({
                 className={tw('mt-4 text-center type-body-medium')}
               >
                 <span className={tw('text-destructive')}>
-                  <AxoSymbol.InlineGlyph symbol="error" label={null} />
+                  <AxoSymbol.InlineGlyph symbol="error-circle" label={null} />
                 </span>{' '}
                 {validationErrorMessages[0]}
               </p>

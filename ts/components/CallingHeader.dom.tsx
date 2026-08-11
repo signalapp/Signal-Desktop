@@ -9,8 +9,8 @@ import { CallViewMode } from '../types/Calling.std.ts';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
-import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
+import type { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 export type PropsType = {
   callViewMode?: CallViewMode;
@@ -124,7 +124,7 @@ export function CallingHeader({
   );
 }
 
-export function getCallViewModeIcon(mode: CallViewMode): AxoSymbolIconName {
+export function getCallViewModeIcon(mode: CallViewMode): AxoSymbol.Name {
   switch (mode) {
     case CallViewMode.Paginated:
       return 'grid';

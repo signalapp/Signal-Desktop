@@ -6,7 +6,6 @@ import { type JSX, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
-import { type AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
@@ -113,7 +112,7 @@ function ListItemWithIcon({
   iconName,
   content,
 }: {
-  iconName: AxoSymbolIconName;
+  iconName: AxoSymbol.Name;
   content: ReactNode;
 }): ReactNode {
   return (

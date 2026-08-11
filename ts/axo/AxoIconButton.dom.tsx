@@ -209,7 +209,7 @@ export namespace AxoIconButton {
     /**
      * Icon to display inside the button.
      */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     /**
      * Stroke weight override for the icon.
      */

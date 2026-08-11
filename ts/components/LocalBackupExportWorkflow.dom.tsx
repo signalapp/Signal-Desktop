@@ -17,7 +17,6 @@ import { ProgressBar } from './ProgressBar.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
-import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.ts';
 
 export type PropsType = {
   cancelWorkflow: () => void;
@@ -163,7 +162,7 @@ export function LocalBackupExportWorkflow({
                 )}
                 <ol className={tw('flex flex-col gap-5')}>
                   <ListItemWithIcon
-                    iconName="sort-vertical"
+                    iconName="arrow-up-down"
                     content={i18n(
                       'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer'
                     )}
@@ -258,7 +257,7 @@ function ListItemWithIcon({
   iconName,
   content,
 }: {
-  iconName: AxoSymbolIconName;
+  iconName: AxoSymbol.Name;
   content: ReactNode;
 }): ReactNode {
   return (

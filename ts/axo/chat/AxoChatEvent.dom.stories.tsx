@@ -15,7 +15,7 @@ export default {
 export function Basic(): ReactNode {
   return (
     <AxoChatEvent.Root>
-      <AxoChatEvent.Body variant="secondary" symbol="refresh">
+      <AxoChatEvent.Body variant="secondary" symbol="arrow-clockwise">
         Secure session reset
       </AxoChatEvent.Body>
     </AxoChatEvent.Root>

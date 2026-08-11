@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 import { forwardRef } from 'react';
 import classNames from 'classnames';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
-import type { AxoSymbolIconName } from '../../axo/_internal/AxoSymbolDefs.generated.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
 import { ExpireTimer } from './ExpireTimer.dom.tsx';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
@@ -69,7 +68,7 @@ export type PropsType = SystemMessageBaseProps &
       }
     | {
         icon?: never;
-        symbol: AxoSymbolIconName;
+        symbol: AxoSymbol.Name;
       }
   );
 

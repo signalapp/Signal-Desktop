@@ -24,6 +24,7 @@ import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
 import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { internalGetTestMegaphone } from '../util/getTestMegaphone.std.ts';
+import type { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const log = createLogger('PreferencesInternal');
 
@@ -295,15 +296,15 @@ export function PreferencesInternal({
     }
   }, [forceKeyTransparencyCheck]);
 
-  let keyTransparencySymbol: undefined | 'check-circle-fill' | 'error-fill';
+  let keyTransparencySymbol: AxoSymbol.Name | undefined;
   if (keyTransparencySelfHealth == null) {
     keyTransparencySymbol = undefined;
   } else if (keyTransparencySelfHealth === 'ok') {
     keyTransparencySymbol = 'check-circle-fill';
   } else if (keyTransparencySelfHealth === 'fail') {
-    keyTransparencySymbol = 'error-fill';
+    keyTransparencySymbol = 'error-circle-fill';
   } else if (keyTransparencySelfHealth === 'intermittent') {
-    keyTransparencySymbol = 'error-fill';
+    keyTransparencySymbol = 'error-circle-fill';
   }
 
   const prevAbortControlerRef = useRef<AbortController | null>(null);

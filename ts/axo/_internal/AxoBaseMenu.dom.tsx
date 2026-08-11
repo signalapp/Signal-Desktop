@@ -80,7 +80,7 @@ export namespace AxoBaseMenu {
     /**
      * An icon that should be rendered before the text.
      */
-    symbol?: AxoSymbol.IconName;
+    symbol?: AxoSymbol.Name;
   }>;
 
   // <Item/RadioItem/CheckboxItem> (not SubTrigger/Label/Separator)
@@ -203,7 +203,7 @@ export namespace AxoBaseMenu {
    */
 
   export type ItemSymbolProps = Readonly<{
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   /**

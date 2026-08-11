@@ -392,7 +392,7 @@ export namespace AxoSelect {
      * Optional leading icon. If one item has an icon, prefer to give all items
      * an icon.
      */
-    symbol?: AxoSymbol.IconName;
+    symbol?: AxoSymbol.Name;
     /**
      * Should be an `ItemText`, optionally followed by an
      * `ExperimentalItemBadge`.

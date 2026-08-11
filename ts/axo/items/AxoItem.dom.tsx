@@ -69,7 +69,7 @@ export namespace AxoItem {
    */
 
   export type IconProps = Readonly<{
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   export const Icon: FC<IconProps> = memo(props => {
@@ -204,7 +204,7 @@ export namespace AxoItem {
   export type ActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
     variant: ActionVariant;
-    symbol?: AxoSymbol.IconName;
+    symbol?: AxoSymbol.Name;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
   }>;
@@ -237,7 +237,7 @@ export namespace AxoItem {
     ref?: Ref<HTMLButtonElement | null>;
     variant: IconActionVariant;
     label: string;
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     tooltip?: AxoIconButton.RootProps['tooltip'];
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;

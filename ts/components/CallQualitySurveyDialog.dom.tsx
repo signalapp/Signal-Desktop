@@ -363,7 +363,7 @@ export function CallQualitySurveyDialog(
 }
 
 function BigCircleButton(props: {
-  symbol: AxoSymbol.IconName;
+  symbol: AxoSymbol.Name;
   className: string;
   label: string;
   onClick: () => void;
@@ -390,7 +390,7 @@ function BigCircleButton(props: {
   );
 }
 
-const ISSUE_ICONS: Record<Issue, AxoSymbol.InlineGlyphName> = {
+const ISSUE_ICONS: Record<Issue, AxoSymbol.Name> = {
   [Issue.AUDIO]: 'speaker',
   [Issue.AUDIO_STUTTERING]: 'speaker',
   [Issue.AUDIO_LOCAL_ECHO]: 'speaker',

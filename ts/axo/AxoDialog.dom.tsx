@@ -669,7 +669,7 @@ export namespace AxoDialog {
     /**
      * Optional leading icon.
      */
-    symbol?: AxoSymbol.InlineGlyphName;
+    symbol?: AxoSymbol.Name;
     /**
      * When `true`, shows a forward arrow on the trailing side.
      */
@@ -743,7 +743,7 @@ export namespace AxoDialog {
     /**
      * The icon to display.
      */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     /**
      * Event handler called when the button is clicked.
      */

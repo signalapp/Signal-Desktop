@@ -45,7 +45,7 @@ export namespace AxoTextField {
 
   export type RootProps = Readonly<{
     /** Leading icon displayed before the input. */
-    symbol?: AxoSymbol.IconName;
+    symbol?: AxoSymbol.Name;
     /** Controls the width of the entire field. Defaults to `full`. */
     width?: AxoBaseField.Width;
     /** Disables all inputs and actions within the field. */
@@ -186,7 +186,7 @@ export namespace AxoTextField {
     /** Accessible label for the button describing the action to be taken, not the icon. */
     label: string;
     /** Icon to display inside the button. */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     /** Called when the button is clicked. */
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     /** Overrides the `disabled` state from `Root` for this button only. */

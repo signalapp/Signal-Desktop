@@ -360,7 +360,7 @@ export namespace AxoAlertDialog {
     /**
      * Optional leading icon.
      */
-    symbol?: AxoSymbol.InlineGlyphName;
+    symbol?: AxoSymbol.Name;
     /**
      * When `true`, shows a forward arrow on the trailing side.
      */

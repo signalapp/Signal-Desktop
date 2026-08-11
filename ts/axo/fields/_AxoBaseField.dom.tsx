@@ -251,7 +251,7 @@ export namespace AxoBaseField {
    */
 
   export type IconProps = Readonly<{
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
   }>;
 
   export const Icon: FC<IconProps> = memo(props => {
@@ -666,7 +666,7 @@ export namespace AxoBaseField {
     /** Accessible label for the button describing the action to be taken, not the icon. */
     label: string;
     /** Icon to display inside the button. */
-    symbol: AxoSymbol.IconName;
+    symbol: AxoSymbol.Name;
     /** Called when the button is clicked. */
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     /** Overrides the `disabled` state from `Root` for this button only. */
