@@ -3962,9 +3962,14 @@ export class BackupExportStream extends Readable {
       );
 
       const index = this.#customColorIdByUuid.get(customColorId);
-      strictAssert(index != null, 'Missing custom color');
-
-      bubbleColor = { customColorId: index };
+      if (index != null) {
+        bubbleColor = { customColorId: index };
+      } else {
+        log.warn(
+          `toChatStyle: chat style referenced unknown custom color ${customColorId}`
+        );
+        bubbleColor = { autoBubbleColor: {} };
+      }
     } else {
       const { BubbleColorPreset } = Backups.ChatStyle;
 
