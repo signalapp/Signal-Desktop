@@ -23,10 +23,7 @@ import { fromHex } from './Bytes.std.ts';
 import type { IPCResponse as ChallengeResponseType } from './challenge.dom.ts';
 import type { MessageAttributesType } from './model-types.d.ts';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
-import type {
-  RestoreResponseType,
-  StoreParameters,
-} from './textsecure/WebAPI.preload.ts';
+import type { RestoreResponseType } from './textsecure/WebAPI.preload.ts';
 
 const log = createLogger('CI');
 
@@ -67,8 +64,6 @@ export type CIType = {
   startStandaloneRegistration: () => void;
   saveSVR2RestoreResponse: (response: RestoreResponseType) => void;
   getSVR2RestoreResponse: () => RestoreResponseType | undefined;
-  saveSVR2StoredData: (parameters: StoreParameters) => void;
-  getSVR2StoredData: () => StoreParameters | undefined;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -304,14 +299,6 @@ export function getCI({
     return svr2RestoreResponse;
   }
 
-  let svr2StoreParameters: StoreParameters | undefined;
-  function saveSVR2StoredData(parameters: StoreParameters): void {
-    svr2StoreParameters = parameters;
-  }
-  function getSVR2StoredData(): StoreParameters | undefined {
-    return svr2StoreParameters;
-  }
-
   return {
     deviceName,
     getConversationId,
@@ -339,7 +326,5 @@ export function getCI({
     startStandaloneRegistration,
     saveSVR2RestoreResponse,
     getSVR2RestoreResponse,
-    saveSVR2StoredData,
-    getSVR2StoredData,
   };
 }

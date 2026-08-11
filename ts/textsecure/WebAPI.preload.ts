@@ -5265,7 +5265,7 @@ export async function storeWithSVR2(
 
   if (window.SignalCI) {
     log.info(`${logId}: Running under CI; saving data`);
-    window.SignalCI.saveSVR2StoredData(options);
+    window.SignalCI.handleEvent('svrStore', options);
     return { success: true };
   }
 
@@ -5331,7 +5331,7 @@ export async function migrateSVR2(
 
   if (window.SignalCI) {
     log.info(`${logId}: Running under CI; saving data`);
-    window.SignalCI.saveSVR2StoredData(options);
+    window.SignalCI.handleEvent('svrStore', options);
     return { success: true };
   }
 

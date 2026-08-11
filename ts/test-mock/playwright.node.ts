@@ -162,6 +162,10 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
+  public async waitForSVRStore(): Promise<StoreParameters> {
+    return this.#waitForEvent('svrStore');
+  }
+
   public async waitForManifestVersion(version: bigint): Promise<void> {
     // oxlint-disable-next-line no-constant-condition
     while (true) {
@@ -296,11 +300,6 @@ export class App extends EventEmitter {
     );
 
     return toNumber(result as bigint);
-  }
-
-  public async getSvr2StoreParameters(): Promise<StoreParameters | undefined> {
-    const window = await this.getWindow();
-    return window.evaluate(`window.SignalCI.getSVR2StoredData()`);
   }
 
   public async saveSVR2RestoreResponse(
