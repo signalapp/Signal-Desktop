@@ -188,6 +188,7 @@ import * as Errors from '../types/errors.std.ts';
 import { isMessageUnread } from '../util/isMessageUnread.std.ts';
 import type { SenderKeyTargetType } from '../util/sendToGroup.preload.ts';
 import {
+  getOurAddress,
   resetSenderKey,
   sendContentMessageToGroup,
 } from '../util/sendToGroup.preload.ts';
@@ -286,6 +287,7 @@ import { canConversationOnlyBeMutedAlways } from '../conversations/canConversati
 import { keyTransparency } from '../services/keyTransparency.preload.ts';
 import type { PollSource } from '../messageModifiers/Polls.preload.ts';
 import { isSignalServiceId } from '../types/SignalConversation.std.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -5540,6 +5542,15 @@ export class ConversationModel {
       (this.get('left') || this.get('terminated'))
     ) {
       await safeCleanupAvatarFiles(this.attributes);
+      const senderKeyInfo = this.get('senderKeyInfo');
+      if (senderKeyInfo?.distributionId) {
+        const ourAddress = getOurAddress();
+        const ourAci = itemStorage.user.getCheckedAci();
+        await signalProtocolStore.removeSenderKey(
+          new QualifiedAddress(ourAci, ourAddress),
+          senderKeyInfo.distributionId
+        );
+      }
       this.set(GROUP_CLEANUP_FIELDS);
     }
 

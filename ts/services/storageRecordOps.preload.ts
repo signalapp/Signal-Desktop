@@ -134,6 +134,8 @@ import { toNumber } from '../util/toNumber.std.ts';
 import { MAX_VALUE } from '../util/long.std.ts';
 import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { getOurAddress } from '../util/sendToGroup.preload.ts';
+import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 
 const { isEqual } = lodash;
 
@@ -2118,6 +2120,7 @@ export async function mergeStoryDistributionListRecord(
 
   const localStoryDistributionList =
     await DataReader.getStoryDistributionWithMembers(listId);
+  let senderKeyInfo = localStoryDistributionList?.senderKeyInfo;
 
   const details = logRecordChanges(
     localStoryDistributionList == null
@@ -2141,13 +2144,23 @@ export async function mergeStoryDistributionListRecord(
     remoteListMembers = [];
   }
 
-  if (storyDistributionListRecord.$unknown) {
-    details.push('adding unknown fields');
-  }
-
   const deletedAtTimestamp = getTimestampFromLong(
     storyDistributionListRecord.deletedAtTimestamp
   );
+
+  if (senderKeyInfo?.distributionId && deletedAtTimestamp) {
+    const ourAddress = getOurAddress();
+    const ourAci = itemStorage.user.getCheckedAci();
+    await signalProtocolStore.removeSenderKey(
+      new QualifiedAddress(ourAci, ourAddress),
+      senderKeyInfo.distributionId
+    );
+    senderKeyInfo = undefined;
+  }
+
+  if (storyDistributionListRecord.$unknown) {
+    details.push('adding unknown fields');
+  }
 
   const storyDistribution: StoryDistributionWithMembersType = {
     id: listId,
@@ -2156,7 +2169,7 @@ export async function mergeStoryDistributionListRecord(
     allowsReplies: storyDistributionListRecord.allowsReplies,
     isBlockList: storyDistributionListRecord.isBlockList,
     members: remoteListMembers,
-    senderKeyInfo: localStoryDistributionList?.senderKeyInfo,
+    senderKeyInfo,
 
     storageID,
     storageVersion,

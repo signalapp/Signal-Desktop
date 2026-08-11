@@ -20,6 +20,9 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
+import { getOurAddress } from '../../util/sendToGroup.preload.ts';
+import { QualifiedAddress } from '../../types/QualifiedAddress.std.ts';
 
 const { omit } = lodash;
 
@@ -217,12 +220,15 @@ function deleteDistributionList(
       return;
     }
 
+    const { senderKeyInfo } = storyDistribution;
+
     await DataWriter.modifyStoryDistributionWithMembers(
       {
         ...storyDistribution,
         deletedAtTimestamp,
         name: '',
         storageNeedsSync: true,
+        senderKeyInfo: undefined,
       },
       {
         toAdd: [],
@@ -237,6 +243,14 @@ function deleteDistributionList(
     await Promise.all(
       storiesToDelete.map(story => deleteStoryForEveryone(stories, story))
     );
+    if (senderKeyInfo?.distributionId) {
+      const ourAddress = getOurAddress();
+      const ourAci = itemStorage.user.getCheckedAci();
+      await signalProtocolStore.removeSenderKey(
+        new QualifiedAddress(ourAci, ourAddress),
+        senderKeyInfo.distributionId
+      );
+    }
 
     log.info('deleteDistributionList: list deleted', listId);
 

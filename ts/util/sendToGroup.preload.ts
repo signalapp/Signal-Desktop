@@ -1408,7 +1408,7 @@ export function _analyzeSenderKeyDevices(
   };
 }
 
-function getOurAddress(): Address {
+export function getOurAddress(): Address {
   const ourAci = itemStorage.user.getCheckedAci();
   const ourDeviceId = itemStorage.user.getDeviceId();
   if (!ourDeviceId) {
