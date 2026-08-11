@@ -1,0 +1,56 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index f7a21e475845c27151feae9546b08f03bd1f5df9..0000000000000000000000000000000000000000
+diff --git a/lib/cjs/Manager.js b/lib/cjs/Manager.js
+index a8e5517f15b190f834f1ec18bdcc91ad45955b6c..901b38138f10d4ad32a8287ead97035cd9f42195 100644
+--- a/lib/cjs/Manager.js
++++ b/lib/cjs/Manager.js
+@@ -24,20 +24,9 @@ function Manager(_ref) {
+       referenceNode = _React$useState[0],
+       setReferenceNode = _React$useState[1];
+ 
+-  var hasUnmounted = React.useRef(false);
+-  React.useEffect(function () {
+-    return function () {
+-      hasUnmounted.current = true;
+-    };
+-  }, []);
+-  var handleSetReferenceNode = React.useCallback(function (node) {
+-    if (!hasUnmounted.current) {
+-      setReferenceNode(node);
+-    }
+-  }, []);
+   return /*#__PURE__*/React.createElement(ManagerReferenceNodeContext.Provider, {
+     value: referenceNode
+   }, /*#__PURE__*/React.createElement(ManagerReferenceNodeSetterContext.Provider, {
+-    value: handleSetReferenceNode
++    value: setReferenceNode
+   }, children));
+ }
+\ No newline at end of file
+diff --git a/lib/esm/Manager.js b/lib/esm/Manager.js
+index 5df2908ac232b22e1b250f6adbd40edabe98399e..c6792cef7e06b84d9dafd8031ff3a4992ab1d6be 100644
+--- a/lib/esm/Manager.js
++++ b/lib/esm/Manager.js
+@@ -8,20 +8,9 @@ export function Manager(_ref) {
+       referenceNode = _React$useState[0],
+       setReferenceNode = _React$useState[1];
+ 
+-  var hasUnmounted = React.useRef(false);
+-  React.useEffect(function () {
+-    return function () {
+-      hasUnmounted.current = true;
+-    };
+-  }, []);
+-  var handleSetReferenceNode = React.useCallback(function (node) {
+-    if (!hasUnmounted.current) {
+-      setReferenceNode(node);
+-    }
+-  }, []);
+   return /*#__PURE__*/React.createElement(ManagerReferenceNodeContext.Provider, {
+     value: referenceNode
+   }, /*#__PURE__*/React.createElement(ManagerReferenceNodeSetterContext.Provider, {
+-    value: handleSetReferenceNode
++    value: setReferenceNode
+   }, children));
+ }

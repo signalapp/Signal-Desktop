@@ -39,6 +39,7 @@ patchedDependencies:
   node-fetch@3.3.2: 1dc57b3827aeb8d0a7f3f6c39c51df08119ff45aff99d9a03db2360e99d3a826
   playwright-core: 0d32e74d7c83e28ccbaea73aeaf171e4f4180b2d997e4ec0457aeda2144b651d
   qrcode-generator: d70b44e0a29e1109f8b55b2a89c4f600bb3907877375cb50d0d363e16a2636ad
+  react-popper@2.3.0: 31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6
   zod@4.3.6: ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553
 
 importers:
@@ -600,7 +601,7 @@ importers:
         version: 10.1.0(@types/react@19.2.14)(react@19.2.4)(typescript@6.0.3)
       react-popper:
         specifier: 2.3.0
-        version: 2.3.0(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4)
+        version: 2.3.0(patch_hash=31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6)(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4)
       react-redux:
         specifier: 9.2.0
         version: 9.2.0(@types/react@19.2.14)(react@19.2.4)(redux@5.0.1)
@@ -819,7 +820,7 @@ importers:
         version: 10.1.0(@types/react@19.2.14)(react@19.2.4)(typescript@6.0.3)
       react-popper:
         specifier: 2.3.0
-        version: 2.3.0(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4)
+        version: 2.3.0(patch_hash=31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6)(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4)
       react-redux:
         specifier: 9.2.0
         version: 9.2.0(@types/react@19.2.14)(react@19.2.4)(redux@5.0.1)
@@ -21448,7 +21449,7 @@ snapshots:
 
   react-lifecycles-compat@3.0.4: {}
 
-  react-popper@2.3.0(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4):
+  react-popper@2.3.0(patch_hash=31853f1935158d259c801b8fbbe0316c7e86a315b9969f5f61ae19d67bb826d6)(@popperjs/core@2.11.8)(react-dom@19.2.4)(react@19.2.4):
     dependencies:
       '@popperjs/core': 2.11.8
       react: 19.2.4

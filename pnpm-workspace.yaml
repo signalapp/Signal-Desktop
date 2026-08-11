@@ -89,6 +89,7 @@ patchedDependencies:
   'node-fetch@3.3.2': 'patches/node-fetch@3.3.2.patch'
   'playwright-core': 'patches/playwright-core.patch'
   'qrcode-generator': 'patches/qrcode-generator.patch'
+  'react-popper@2.3.0': 'patches/react-popper@2.3.0.patch'
   'zod@4.3.6': 'patches/zod@4.3.6.patch'
 
 strictDepBuilds: true
