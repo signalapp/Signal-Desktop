@@ -13,15 +13,12 @@ import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
 export namespace AxoMediaButton {
   export type Status = 'paused' | 'playing' | 'undownloaded' | 'downloading';
 
-  const Statuses = variants<Status, AxoSymbol.Name>(
-    'AxoMediaButton.Status',
-    {
-      paused: 'play-fill',
-      playing: 'pause-fill',
-      undownloaded: 'arrow-down',
-      downloading: 'x',
-    }
-  );
+  const Statuses = variants<Status, AxoSymbol.Name>('AxoMediaButton.Status', {
+    paused: 'play-fill',
+    playing: 'pause-fill',
+    undownloaded: 'arrow-down',
+    downloading: 'x',
+  });
 
   export type RootProps = Readonly<{
     status: Status;
