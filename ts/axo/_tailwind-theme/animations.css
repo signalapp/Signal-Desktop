@@ -42,7 +42,7 @@
   }
 }
 
-@keyframes axo-spinner-rotate {
+@keyframes animate-axo-spinner-rotate {
   0% {
     transform: rotate(-180deg);
   }
@@ -53,7 +53,7 @@
 
 /* Note: 9999 is just a large gap to prevent the sequence from repeating */
 /* prettier-ignore */
-@keyframes axo-spinner-dash {
+@keyframes animate-axo-spinner-dash {
   0% {
     stroke-dashoffset: 0;
     stroke-dasharray: 1, 9999;

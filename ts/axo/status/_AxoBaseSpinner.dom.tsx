@@ -93,7 +93,7 @@ export namespace AxoBaseSpinner {
     const progressProps = useMemo((): SVGProps<SVGCircleElement> => {
       if (value === 'indeterminate') {
         return {
-          className: tw('animate-axo-spinner-dash'),
+          className: tw('origin-center animate-axo-spinner-dash'),
         };
       }
 
@@ -145,6 +145,7 @@ export namespace AxoBaseSpinner {
             className={tw(
               ProgressVariants.get(props.variant),
               'fill-none',
+              'forced-colors:stroke-[GrayText]',
               progressProps.className
             )}
             cx={center}
