@@ -53,6 +53,7 @@ auditConfig:
     - GHSA-v2hh-gcrm-f6hx # fast-uri, only used at dev-time
     - GHSA-4c8g-83qw-93j6 # fast-uri, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
+    - GHSA-jmr9-qjv8-65gv # react-devtools > electron > extract-zip
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
@@ -141,7 +142,7 @@ peerDependencyRules:
 allowedDeprecatedVersions:
   '@humanwhocodes/config-array': '0.11.14'
   '@humanwhocodes/object-schema': '2.0.3'
-  '@xmldom/xmldom': '0.8.10'
+  '@xmldom/xmldom': '0.8.13 || 0.9.10'
   'boolean': '3.2.0'
   'deep-diff': '0.3.8'
   'eslint': '8.38.0'
