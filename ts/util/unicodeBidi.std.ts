@@ -158,9 +158,9 @@ function balanceUnicodeDirControlChars(input: string): string {
         result += char;
         break;
       case POP_DIRECTIONAL_FORMATTING:
-        formattingDepth -= 1;
         // skip if its closing formatting that was never opened
-        if (formattingDepth >= 0) {
+        if (formattingDepth > 0) {
+          formattingDepth -= 1;
           result += char;
         }
         break;
@@ -171,9 +171,9 @@ function balanceUnicodeDirControlChars(input: string): string {
         result += char;
         break;
       case POP_DIRECTIONAL_ISOLATE:
-        isolateDepth -= 1;
         // skip if its closing an isolate that was never opened
-        if (isolateDepth >= 0) {
+        if (isolateDepth > 0) {
+          isolateDepth -= 1;
           result += char;
         }
         break;
