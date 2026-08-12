@@ -15,16 +15,16 @@ export function getValidLinkPreviews(
 
   const validated = previews
     .map((item: LinkPreviewType) => {
+      if (!LinkPreview.isValidLinkPreview(urlsInBody, item, { isStory })) {
+        return null;
+      }
+
       if (LinkPreview.isCallLink(item.url)) {
         return {
           ...item,
           isCallLink: true,
           callLinkRoomId: getRoomIdFromCallLink(item.url),
         };
-      }
-
-      if (!LinkPreview.isValidLinkPreview(urlsInBody, item, { isStory })) {
-        return null;
       }
 
       return item;

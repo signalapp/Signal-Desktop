@@ -55,16 +55,13 @@ describe('getValidLinkPreviews', () => {
     assert.strictEqual(result[0].url, 'https://signal.org');
   });
 
-  it('resolves call links without requiring the url in the body', () => {
+  it('call links also require url in the body', () => {
     const url = callLinkRootKeyToUrl(FAKE_CALL_LINK.rootKey);
     assert.exists(url);
     const result = getValidLinkPreviews([composePreview(url)], '', {
       isStory: false,
     });
-    assert.lengthOf(result, 1);
-    assert.exists(result[0]);
-    assert.strictEqual(result[0].isCallLink, true);
-    assert.strictEqual(result[0].callLinkRoomId, FAKE_CALL_LINK.roomId);
+    assert.lengthOf(result, 0);
   });
 
   it('keeps only the valid previews from a mixed list', () => {
