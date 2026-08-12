@@ -48,6 +48,7 @@ import { isAciString } from '../util/isAciString.std.ts';
 import { copyFromQuotedMessage } from './copyQuote.preload.ts';
 import { findStoryMessage } from '../util/findStoryMessage.preload.ts';
 import { getValidLinkPreviews } from '../util/getValidLinkPreviews.node.ts';
+import { getStoryExpirationStartTimestamp } from '../util/expirationTimer.std.ts';
 import { normalizeServiceId } from '../types/ServiceId.std.ts';
 import { BodyRange, trimMessageWhitespace } from '../types/BodyRange.std.ts';
 import { getStoryReplyContext } from '../util/getStoryReplyContext.std.ts';
@@ -622,7 +623,10 @@ export async function handleDataMessage(
           if (isStory(message.attributes)) {
             log.info(`${idLog}: Starting story expiration`);
             message.set({
-              expirationStartTimestamp: dataMessage.timestamp,
+              expirationStartTimestamp: getStoryExpirationStartTimestamp({
+                timestamp: dataMessage.timestamp,
+                serverTimestamp: dataMessage.serverTimestamp,
+              }),
             });
           }
         }

@@ -38,6 +38,7 @@ import {
   applyDeleteMessage,
 } from './deleteForMe.preload.ts';
 import { getMessageIdForLogging } from './idForLogging.preload.ts';
+import { getStoryExpirationStartTimestamp } from './expirationTimer.std.ts';
 import { markViewOnceMessageViewed } from '../services/MessageUpdater.preload.ts';
 import { handleReaction } from '../messageModifiers/Reactions.preload.ts';
 import {
@@ -288,11 +289,15 @@ export async function modifyTargetMessage(
     }
 
     if (!message.get('expirationStartTimestamp')) {
+      const expirationStartTimestamp = getStoryExpirationStartTimestamp({
+        timestamp: message.get('timestamp'),
+        serverTimestamp: message.get('serverTimestamp'),
+      });
       log.info(`${logId}: setting story expiration`, {
-        expirationStartTimestamp: message.get('timestamp'),
+        expirationStartTimestamp,
         expireTimer: message.get('expireTimer'),
       });
-      message.set({ expirationStartTimestamp: message.get('timestamp') });
+      message.set({ expirationStartTimestamp });
       changed = true;
     }
   }
