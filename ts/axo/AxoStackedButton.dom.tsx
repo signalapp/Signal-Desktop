@@ -7,8 +7,8 @@ import { tw } from './tw.dom.tsx';
 import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
-import { SpinnerV2 } from '../components/SpinnerV2.dom.tsx';
 import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
+import { AxoBaseSpinner } from './status/_AxoBaseSpinner.dom.tsx';
 
 /**
  * An icon-button + text displayed as a stack, and can be placed in a row.
@@ -197,11 +197,12 @@ export namespace AxoStackedButton {
   const Spinner: FC = memo(() => {
     return (
       <span className={tw('absolute inset-0 flex items-center justify-center')}>
-        <SpinnerV2
-          size={20}
-          strokeWidth={2}
-          variant="axo-button-spinner-secondary"
+        <AxoBaseSpinner.Root
+          size={18}
+          weight="regular"
+          variant="default"
           value="indeterminate"
+          track={false}
         />
       </span>
     );

@@ -8,8 +8,12 @@
   --default-animation-timing-function: var(--ease-out-cubic);
 
   --animate-*: initial; /* reset defaults */
+
   --animate-spinner-v2-rotate: animate-spinner-v2-rotate 2s linear infinite;
   --animate-spinner-v2-dash: animate-spinner-v2-dash 1.5s ease-in-out infinite;
+
+  --animate-axo-spinner-rotate: animate-axo-spinner-rotate 2s linear infinite;
+  --animate-axo-spinner-dash: animate-axo-spinner-dash 1.5s ease-in-out infinite;
 }
 
 @layer base {
@@ -35,5 +39,34 @@
       stroke-dasharray: 180%, 300%;
       stroke-dashoffset: -248%;
     }
+  }
+}
+
+@keyframes axo-spinner-rotate {
+  0% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+/* Note: 9999 is just a large gap to prevent the sequence from repeating */
+/* prettier-ignore */
+@keyframes axo-spinner-dash {
+  0% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 1, 9999;
+    transform: rotate(0deg);
+  }
+  50% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 180%, 9999;
+    transform: rotate(90deg);
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 1, 9999;
+    transform: rotate(360deg);
   }
 }
