@@ -53,6 +53,7 @@ message SessionStructure {
 
   bool               needs_refresh          = 12;
   bytes              alice_base_key         = 13;
+  bytes              pq_ratchet_state       = 15;
 }
 
 message RecordStructure {

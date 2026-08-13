@@ -248,6 +248,9 @@ function toProtobufSession(
     rootKey: binaryToUint8Array(session, 'currentRatchet.rootKey', 32),
     sessionVersion: 3,
 
+    // Legacy sessions predate the post-quantum ratchet
+    pqRatchetState: null,
+
     // Note: currently unused
     needsRefresh: null,
 

@@ -102,7 +102,7 @@ describe('SignalProtocolStore', () => {
         remoteRegistrationId: 243,
 
         rootKey: getPrivateKey(),
-        sessionVersion: 3,
+        sessionVersion: 4,
         senderChain: {
           senderRatchetKey: null,
           senderRatchetKeyPrivate: null,
@@ -113,6 +113,7 @@ describe('SignalProtocolStore', () => {
         receiverChains: null,
         pendingPreKey: null,
         needsRefresh: null,
+        pqRatchetState: getRandomBytes(32),
       };
     }
 
