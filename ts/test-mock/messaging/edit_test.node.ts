@@ -24,6 +24,7 @@ import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { sleep } from '../../util/sleep.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import { expect } from 'playwright/test';
 
 export const debug = createDebug('mock:test:edit');
 
@@ -800,8 +801,8 @@ describe('editing', function (this: Mocha.Suite) {
       }
 
       debug("testing v4's send state");
-      {
-        debug('getting edited message from app (v4)');
+      // We allow retries here to wait for the read sync to be processed
+      await expect(async () => {
         const message = await getMessageFromApp(originalMessageTimestamp);
 
         strictAssert(
@@ -850,7 +851,7 @@ describe('editing', function (this: Mocha.Suite) {
           message.body,
           'body is same for v4 and main message'
         );
-      }
+      }).toPass();
     });
   });
 
