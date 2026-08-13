@@ -756,10 +756,10 @@
     "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "Lähetys ei onnistu, koska tiedosto on liian suuri. Suurin sallittu koko on {limit,number}{units}."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "Videon lähettäminen ei onnistu, koska tiedosto on liian suuri. Suurin sallittu koko on {limit,number}{units}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Tarkista verkkoyhteys."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Vianetsintäloki"
@@ -3900,16 +3903,16 @@
     "messageformat": "Näkymä päivitetty"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "Vaihda asettelua"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "Ruudukko"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "Sivupalkki"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "Kaiutin"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Jaa näyttösi"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Näytä kaikki"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} yhteinen ryhmä} other {{count,number} yhteistä ryhmää}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Kopioi signal.group-linkki leikepöydälle"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Pyynnöt ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "Estetyt ryhmät"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure -varmuuskopiointi"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "Varoitus"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "Jos poistat tunnusluvun käytöstä, menetät kaikki tietosi rekisteröityessäsi Signaliin uudelleen, ellet siirrä tietojasi toisesta iOS-laitteesta. Et voi myöskään ottaa rekisteröintiestoa käyttöön, jos tunnusluku on pois päältä."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Poista tunnusluku käytöstä"
@@ -8694,9 +8745,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "Kyselyitä voi tehdä nyt myös yksittäisissä keskusteluissa."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "Ryhmän ylläpitäjät voivat nyt lopettaa keskustelut ryhmäasetuksissa olevan uuden Sulje ryhmä -vaihtoehdon avulla. Ryhmän lopettaminen estää ryhmän jäseniä lähettämästä viestejä tai aloittamasta puheluita, ja se poistaa myös kutsutoiminnon käytöstä."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Voit tilata asennettuja tarrapaketteja uudelleen, ettei kulu suotta aikaa nykyisten suosikkien kaivamiseen esiin."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

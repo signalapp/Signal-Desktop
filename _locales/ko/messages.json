@@ -756,10 +756,10 @@
     "messageformat": "선택된 동영상 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "파일 용량이 너무 커서 전송할 수 없습니다. 최대 {limit,number}{units}까지 파일 전송이 가능합니다."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "동영상 파일이 너무 커서 전송할 수 없습니다. 최대 {limit,number}{units}까지 동영상 파일 전송이 가능합니다."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "선택된 첨부 파일을 불러올 수 없습니다."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "네트워크 연결을 확인하세요."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "디버그 로그"
@@ -2562,7 +2565,7 @@
     "messageformat": "그룹을 업데이트하지 못했습니다. 연결 상태를 확인하고 다시 시도하세요."
   },
   "icu:unlinkedWarning": {
-    "messageformat": "클릭하여 Signal Desktop을 모바일 기기와 다시 연동하고 메시지를 계속 이용해 보세요."
+    "messageformat": "클릭하여 Signal Desktop을 모바일 기기와 다시 연동하고 메시지 기능을 계속 이용해 보세요."
   },
   "icu:unlinked": {
     "messageformat": "연동 해제됨"
@@ -3900,16 +3903,16 @@
     "messageformat": "보기 업데이트 완료"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "레이아웃 변경하기"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "그리드"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "사이드바"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "스피커"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "화면 공유"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "모두 보기"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {공통 그룹 {count,number}개}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group 링크를 클립보드에 복사"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "요청 ({count,number})"
@@ -5479,16 +5527,16 @@
     "messageformat": "대화창 색상"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "대화창 색상 재설정"
+    "messageformat": "대화창 색 초기화"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "대화창 색상 재설정"
+    "messageformat": "대화창 색 초기화"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "모든 대화창 색상 재설정"
+    "messageformat": "모든 대화창 색 초기화"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "기본 색상 재설정"
+    "messageformat": "기본 색상 초기화"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "초기화"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "차단한 그룹"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal 안전 백업"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "경고"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "PIN을 비활성화하면, 다른 iOS 기기에서 데이터를 이전하지 않는 한 Signal 재등록 시 모든 데이터가 삭제됩니다. PIN이 비활성화된 상태에서는 등록 잠금 기능을 켤 수 없습니다."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN 비활성화"
@@ -8694,9 +8745,6 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "이제 1:1 채팅에서도 투표를 만들어 보세요. 친구의 의견이 궁금할 때도, 살짝 용기가 필요한 질문을 건넬 때도, 투표로 부담 없이 물어볼 수 있어요."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "★ 이제 그룹 관리자는 그룹 설정의 새로운 '그룹 종료' 옵션으로 대화를 마무리할 수 있습니다. 그룹이 종료되면 그룹 멤버가 메시지를 보내거나 전화를 시작할 수 없으며, 초대 기능도 비활성화됩니다."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "이제 설치된 스티커 팩의 순서를 바꿀 수 있습니다. 새로 추가한 스티커 팩이 뒤로 밀리지 않게 원하는 위치로 정리해 보세요."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

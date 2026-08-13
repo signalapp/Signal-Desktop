@@ -756,10 +756,10 @@
     "messageformat": "Съжаляваме, избраният видео файл надвишава ограниченията за размера на съобщенията. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "Не можете да изпратите този файл, тъй като той е твърде голям. Можете да изпращате файлове с размер до {limit,number} {units}."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "Не можете да изпратите този видео файл, тъй като той е твърде голям. Можете да изпращате видео файлове с размер до {limit,number} {units}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не може да се зареди избраният обект за прикачване."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Проверете връзката си с интернет."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Отчет за грешки"
@@ -3900,16 +3903,16 @@
     "messageformat": "Изгледът е актуализиран"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "Промяна на изгледа"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "Решетка"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "Странична лента"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "Високоговорител"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Споделяне на екрана"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Виж всички"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} обша група} other {{count,number} общи групи}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Копирайте signal.group линка в клипборда"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Заявки ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "Блокирани групи"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Сигурни резервни копия на Signal"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "Внимание"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "Ако деактивирате ПИН кода, ще загубите всички данни, когато отново регистрирате Signal, освен ако не го прехвърлите от друго устройство с iOS. Не можете да включите „Заключване на регистрацията“, докато ПИН кодът е деактивиран."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Деактивиране на ПИН"
@@ -8694,9 +8745,6 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "Анкетите вече могат да се създават и в индивидуалните чатове."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "Администраторите на групите вече могат да слагат край на чатовете с новата опция „Прекратяване на групата“ в настройките на групите. Прекратяването на групите не позволява на членовете на групите да изпращат съобщения или да започват разговори и също така деактивира поканите."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Вече можете да променяте реда на инсталираните пакети със стикери, така че новите ви любимци да не останат на заден план."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

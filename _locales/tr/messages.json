@@ -756,10 +756,10 @@
     "messageformat": "Üzgünüz, seçilen video dosyası mesaj boyutu kısıtlamalarını aşıyor. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "Bu dosya gönderilemiyor çünkü çok büyük. En fazla {limit,number}{units} büyüklüğünde bir dosya gönderebilirsin."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "Bu video dosyası gönderilemiyor çünkü çok büyük. En fazla {limit,number}{units} büyüklüğünde bir dosya gönderebilirsin."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilen eklenti yüklenemedi."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Ağ bağlantınızı kontrol edin."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Hata ayıklama günlüğü"
@@ -3900,16 +3903,16 @@
     "messageformat": "Görünüm güncellendi"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "Düzeni değiştir"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "Izgara"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "Kenar çubuğu"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "Hoparlör"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Ekran paylaş"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Tümünü gör"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ortak grup} other {{count,number} ortak grup}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group bağlantısını panoya kopyala"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "İstekler ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "Engellenen Gruplar"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Güvenli Yedeklemeler"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "Uyarı"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "PIN'i devre dışı bırakırsan, verilerini başka bir iOS cihazından aktarmadığın sürece Signal'a yeniden kaydolduğunda tüm verilerini kaybedersin. PIN devre dışıyken Kayıt Kilidi'ni etkinleştiremezsin."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN'i devre dışı bırak"
@@ -8694,9 +8745,6 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "Anketler artık bireysel sohbetlerde de oluşturulabiliyor. Kararsız bir arkadaşına seçenek listesi sunabilir veya hoşlandığın kişiyi \"Beni beğeniyor musun? Evet/Hayır/Belki\" şeklinde bir anketle şaşırtabilirsin."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "Grup yöneticileri artık grup ayarlarındaki yeni \"Grubu sonlandır\" seçeneğiyle sohbetleri sona erdirebiliyor. Bir grubun sonlandırılmasıyla, grup üyelerinin mesaj göndermeleri veya arama başlatmaları engellenir ve davetler de devre dışı kalır. Artık kullanılmayan grubu sonlandırıp, herkesin yeni grupta devam etmesini sağlayabilirsin."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Bundan sonra yüklenen çıkartma paketlerini yeniden sipariş edebilirsin böylece yeni favorilerin sıranın gerisine düşmez."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

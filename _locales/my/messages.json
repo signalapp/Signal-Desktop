@@ -756,10 +756,10 @@
     "messageformat": "ရွေးချယ်ထားသော ဗီဒီယိုဖိုင်သည် မက်ဆေ့ချ်အရွယ်အစား ကန့်သတ်ချက်ထက် ကျော်လွန်နေပါသည်။ {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "ဖိုင်အရွယ်အစား ကြီးလွန်းသောကြောင့် ဤဖိုင်ကို ပို့၍မရပါ။ {limit,number}{units} အထိ ဖိုင်များကို ပို့နိုင်ပါသည်။"
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "ဗီဒီယိုဖိုင် အရွယ်အစား ကြီးလွန်းသောကြောင့် ပို့၍မရပါ။ {limit,number}{units} အထိ ဗီဒီယိုဖိုင်များကို ပို့နိုင်ပါသည်။"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Check your network connection."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်း"
@@ -3900,16 +3903,16 @@
     "messageformat": "မြင်ကွင်းအသစ်ဖြင့် ကြည့်ရန်"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "အပြင်အဆင်ကို ပြောင်းပါ"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "ဇယားကွက်"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "ဘေးဘားတန်း"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "စပီကာ"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "သင့်စခရင်ကို မျှဝေရန်"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "အားလုံးကြည့်မည်"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {တူညီသော အဖွဲ့ {count,number} ဖွဲ့}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Signal.group လင့်ခ်ကို ကီးဘုတ်သို့ ကူးယူပါ"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "တောင်းဆိုမှုများ ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "ဘလော့ခ်ထားသော အဖွဲ့များ"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ်"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "သတိပေးချက်"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "PIN ကို ပိတ်လိုက်ပါက အခြား iOS စက်မှ လွှဲပြောင်းခြင်းမပြုလျှင် Signal ကို ပြန်လည်မှတ်ပုံတင်သည့်အခါ ဒေတာအားလုံး ဆုံးရှုံးမည်ဖြစ်ပါသည်။ PIN ကို ပိတ်ထားပါက မှတ်ပုံတင်ခြင်း လော့ခ်ကို ဖွင့်၍ မရပါ။"
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN ပိတ်ပါ"
@@ -8694,9 +8745,6 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "ယခုအခါ တစ်ဦးချင်းချက်(တ်)များတွင်လည်း စစ်တမ်းများကို ဖန်တီးနိုင်ပါပြီ။"
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "အဖွဲ့ အက်ဒ်မင်များသည် အဖွဲ့ဆက်တင်များရှိ “အဖွဲ့ကို အဆုံးသတ်ရန်” ရွေးချယ်မှုအသစ်မှတစ်ဆင့် အဖွဲ့ချက်(တ်)ကို အဆုံးသတ်နိုင်ပါသည်။ အဖွဲ့ကို အဆုံးသတ်ပြီးပါက အဖွဲ့ဝင်များသည် မက်ဆေ့ချ်ပို့ခြင်း၊ ခေါ်ဆိုမှုစတင်ခြင်းနှင့် ဖိတ်ကြားမှုများ ပြုလုပ်ခြင်းတို့ကို လုပ်ဆောင်နိုင်တော့မည်မဟုတ်ပါ။"
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "ယခုအခါ ထည့်သွင်းထားသော စတစ်ကာတွဲများ၏ အစီအစဉ်ကို သင့်စိတ်ကြိုက် ပြန်စီနိုင်ပြီဖြစ်သောကြောင့် သင်အကြိုက်ဆုံး စတစ်ကာအတွဲအသစ်များကို စာရင်း၏ နောက်ဆုံးတွင် ရှာဖွေနေရမည် မဟုတ်တော့ပါ။"
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

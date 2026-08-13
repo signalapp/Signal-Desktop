@@ -756,10 +756,10 @@
     "messageformat": "عذرًا، يتجاوز ملف الفيديو المُحدَّد الحد الأقصى لِحجم الرسالة. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "تعذَّر إرسال هذا الملف لأنه حجمه كبير. يمكنك إرسال الملفات التي يصل حجمها إلى {limit,number}{units}."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "تعذَّر إرسال هذا الفيديو لأن حجمه كبير. يمكنك إرسال الفيديوهات التي يصل حجمها إلى {limit,number}{units}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "تحقَّق من الاتصال بالشبكة."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "سجل الأخطاء"
@@ -3900,16 +3903,16 @@
     "messageformat": "تمَّ تحديث طريقة العرض"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "تغيير طريقة العرض"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "شبكة"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "شريط جانبي"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "مُكبِّر الصوت"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "مشاركة شاشتك"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "مشاهدة الكل"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, zero {{count,number} مجموعات مشتركة} one {{count,number} مجموعة مشتركة} two {{count,number} مجموعتان مشتركتان} few {{count,number} مجموعات مشتركة} many {{count,number} مجموعةً مشتركة} other {{count,number} مجموعةٍ مشتركة}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "انسخ رابط مجموعة سيجنال إلى لوحة المفاتيح"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "الطلبات ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "المجموعات المحظورة"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "النسخ الاحتياطية الآمنة على سيجنال"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "تحذير"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "إذا عطَّلتَ رقم التعريف الشخصي (PIN)، ستفقد جميع البيانات عند إعادة التسجيل في سيجنال إلّا إذا قُمتَ بنقلِها مِن جهاز iOS آخر. لا يُمكنُك تفعيل قفل التسجيل في حال كان رقم التعريف الشخصي (PIN) مُعطَّلًا."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "تعطيل رقم الـ PIN"
@@ -8694,9 +8745,6 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "يُمكن إنشاء استطلاعات الرأي في الدردشات الفردية أيضًا. قدِّم قائمة مختارة بعناية من الخيارات لصديقك المُتردِّد، أو استرجِع سحر تمرير رسالة إلى المهتمين بك من خلال إنشاء استطلاع رأي بعنوان \"هل أنا أعجبك؟ نعم/لا/ربما\"."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "يمكن لمُشرِفي المجموعات الآن إنهاء الدردشات بطريقة طبيعية بفضل خيار \"حلّ المجموعة\" الجديد في إعدادات المجموعة. يؤدي حلّ المجموعة إلى منع أعضاء المجموعة من إرسال الرسائل أو إجراء المكالمات، كما يُؤدي إلى تعطيل إمكانية إرسال الدعوات. يمكنك الآن التأكُّد من بقاء الجميع في سلسلة الدردشة الصحيحة عن طريق إنهاء مجموعة لقاءات الخياطة الخاصة بالسنة الماضية قبل البدء في حياكة مجموعة جديدة."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "يمكنك الآن إعادة ترتيب حزم المُلصَقات المُثبَّتة حتى لا تظل مُلصَقاتك المفضلة الجديدة في مؤخرة القائمة."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

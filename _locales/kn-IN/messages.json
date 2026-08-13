@@ -756,10 +756,10 @@
     "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "ಈ ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿರುವುದರಿಂದ ಅದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. {limit,number}{units} ವರೆಗಿನ ಫೈಲ್‌ಗಳನ್ನು ನೀವು ಕಳುಹಿಸಬಹುದು."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "ಈ ವೀಡಿಯೊ ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿರುವುದರಿಂದ ಇದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು {limit,number}{units} ವರೆಗಿನ ವೀಡಿಯೊ ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "ನಿಮ್ಮ ನೆಟ್‌ವರ್ಕ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್"
@@ -3900,16 +3903,16 @@
     "messageformat": "ವೀಕ್ಷಣೆ ನವೀಕರಣಗೊಂಡಿದೆ"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "ಲೇಔಟ್ ಬದಲಾಯಿಸಿ"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "ಗ್ರಿಡ್"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "ಸೈಡ್‌ಬಾರ್"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "ಸ್ಪೀಕರ್"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಹಂಚಿಕೊಳ್ಳಿ"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ಎಲ್ಲವನ್ನು ನೋಡಿ"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {ಸಾಮಾನ್ಯ ಗುಂಪು {count,number}} other {{count,number} ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಕಾಪಿ ಮಾಡಿ"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ವಿನಂತಿಗಳು ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾದ ಗುಂಪುಗಳು"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "ಎಚ್ಚರಿಕೆ"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "ನೀವು PIN ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ನೀವು Signal ಅನ್ನು ಮರು-ನೋಂದಣಿ ಮಾಡಿದಾಗ, ನೀವು ಅದನ್ನು ಬೇರೆ iOS ಸಾಧನದಿಂದ ವರ್ಗಾಯಿಸದ ಹೊರತು, ನೀವು ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ. PIN ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದಾಗ ನೀವು ನೋಂದಣಿ ಲಾಕ್ ಅನ್ನು ಆನ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "ಪಿನ್ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
@@ -8694,9 +8745,6 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "ಸಮೀಕ್ಷೆಗಳನ್ನು ಈಗ ಪ್ರತ್ಯೇಕ ಚಾಟ್‌ಗಳಲ್ಲಿಯೂ ರಚಿಸಬಹುದು. ನಿರ್ಧಾರ ತೆಗೆದುಕೊಳ್ಳಲು ಕಷ್ಟಪಡುತ್ತಿರುವ ನಿಮ್ಮ ಸ್ನೇಹಿತರಿಗೆ ಕ್ಯುರೇಟ್ ಮಾಡಲಾದ ಆಯ್ಕೆಗಳ ಪಟ್ಟಿಯನ್ನು ಹಂಚಿಕೊಳ್ಳಿ. ಅಥವಾ ‘ನಿನಗೆ ನಾನು ಇಷ್ಟವೇ? ಹೌದು / ಇಲ್ಲ / ಬಹುಶಃ’ ಎಂಬ ಸಮೀಕ್ಷೆಯನ್ನು ರಚಿಸುವ ಮೂಲಕ ನೀವು ಇಷ್ಟಪಡುವವರಿಗೆ ಚೀಟಿ ಕೊಟ್ಟು ಕೇಳುತ್ತಿದ್ದ ಆ ಸಿಹಿ ಕ್ಷಣಗಳನ್ನು ಮತ್ತೆ ಅನುಭವಿಸಿ."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "ಗುಂಪು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿನ \"ಗುಂಪು ಕೊನೆಗೊಳಿಸಿ\" ಆಯ್ಕೆಯೊಂದಿಗೆ ಗುಂಪಿನ ಅಡ್ಮಿನ್‌ಗಳು ಚಾಟ್‌ಗಳನ್ನು ಕೊನೆಗೊಳಿಸಬಹುದು. ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸುವುದರಿಂದ ಸದಸ್ಯರು ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಅಥವಾ ಕರೆ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ ಮತ್ತು ಆಹ್ವಾನಗಳನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ. ಈಗ, ಹೊಸದನ್ನು ರಚಿಸುವ ಮೊದಲು ಹಳೆಯ ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸುವ ಮೂಲಕ, ಎಲ್ಲರೂ ಒಂದೇ ಚಾಟ್‌ನಲ್ಲಿದ್ದಾರೆ ಎಂದು ನೀವು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಬಹುದು."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "ನಿಮ್ಮ ಹೊಸ ಮೆಚ್ಚಿನ ಸ್ಟಿಕರ್‌ಗಳು ಸಾಲಿನಲ್ಲಿ ಸಿಲುಕಿಕೊಳ್ಳದಂತೆ ಈಗ ನೀವು ಸ್ಥಾಪಿಸಲಾದ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಮರುಕ್ರಮಗೊಳಿಸಬಹುದು."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

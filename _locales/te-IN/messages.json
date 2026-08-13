@@ -756,10 +756,10 @@
     "messageformat": "క్షమించండి, ఎంచుకున్న వీడియో ఫైల్ సందేశ పరిమాణ పరిమితులను మించిపోయింది. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "ఈ ఫైల్ మరీ పెద్దదిగా ఉన్నందున దీనిని పంపలేము. మీరు {limit,number}{units} పరిమాణం వరకు ఉన్న ఫైల్‌లను పంపవచ్చు."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "ఈ వీడియో ఫైల్ మరీ పెద్దదిగా ఉన్నందున దీనిని పంపలేము. మీరు {limit,number}{units} పరిమాణం వరకు ఉన్న వీడియో ఫైల్‌లను పంపవచ్చు."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "డీబగ్ సంఘటన లేకరి"
@@ -3900,16 +3903,16 @@
     "messageformat": "వీక్షణ అప్‌డేట్ చేయబడింది"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "లేఅవుట్‌ను మార్చండి"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "గ్రిడ్"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "సైడ్‌బార్"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "స్పీకర్"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "మీ స్క్రీన్‌ను భాగస్వామ్యం చేయండి"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "అన్నింటిని చూడు"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} సమూహం ఉమ్మడిగా ఉన్నాయి} other {{count,number} సమూహాలు ఉమ్మడిగా ఉన్నాయి}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group లింక్‌ను క్లిప్‌బోర్డ్‌కు కాపీ చేయండి"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "అభ్యర్థనలు ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "బ్లాక్ చేయబడిన గ్రూప్‌లు"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal సురక్షిత బ్యాకప్‌లు"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "హెచ్చరిక"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "ఒకవేళ మీరు PIN ని నిలిపివేస్తే, మరొక iOS పరికరం నుండి డేటాను బదిలీ చేయనంత వరకు, Signal లో మళ్ళీ నమోదు అయినప్పుడు మీరు మొత్తం డేటాను కోల్పోతారు. PIN నిలిపివేయబడినప్పుడు మీరు నమోదు లాక్‌ని ఆన్ చేయలేరు."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "పిన్‌ను ఆపివేయి"
@@ -8694,9 +8745,6 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "ఇప్పుడు వ్యక్తిగత చాట్‌లలో కూడా పోల్‌లను సృష్టించవచ్చు. ఏది ఎంచుకోవాలో తేల్చుకోలేని మీ స్నేహితుడికి మీరు ఎంపిక చేసిన కొన్ని ఎంపికల జాబితాను అందించండి లేదా మీకు నచ్చిన వ్యక్తికి గమనిక పంపే పాత అనుభూతిని తిరిగి పొందడానికి “నీకు నేను ఇష్టమా? అవును/కాదు/కావచ్చు” అనే పోల్‌ను సృష్టించండి."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "గ్రూప్ సెట్టింగ్స్‌లోని కొత్త \"ఎండ్ గ్రూప్\" ఆప్షన్‌తో గ్రూప్ అడ్మిన్‌లు ఇప్పుడు చాట్‌లను ముగించవచ్చు. గ్రూప్‌ను ముగించడం వల్ల సభ్యులు సందేశాలు పంపలేరు లేదా కాల్స్ చేయలేరు, ఆహ్వానాలు కూడా నిలిపివేయబడతాయి. కొత్త సీవింగ్ మీటప్ గ్రూప్‌ను ప్రారంభించే ముందు, పాత గ్రూప్‌ను ముగించడం ద్వారా అందరూ సరైన క్రమంలోనే ఉండేలా చూసుకోవచ్చు."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "ఇప్పుడు మీరు ఇన్‌స్టాల్ చేసిన స్టిక్కర్ ప్యాక్‌ల క్రమాన్ని మార్చుకోవచ్చు, తద్వారా మీకు కొత్తగా నచ్చినవి వరుసలో చివరన ఉండిపోకుండా చూసుకోవచ్చు."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

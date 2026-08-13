@@ -756,10 +756,10 @@
     "messageformat": "மன்னிக்கவும், தேர்ந்தெடுக்கப்பட்ட வீடியோ கோப்பு மெசேஜ் அளவு கட்டுப்பாடுகளை மீறுகிறது. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "இந்தக் கோப்பின் அளவு மிகப் பெரியதாக இருப்பதால் அதனை அனுப்ப முடியாது. நீங்கள் {limit,number}{units} வரை கோப்புகளை அனுப்ப முடியும்."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "இந்த வீடியோ கோப்பின் அளவு மிகவும் பெரியதாக இருப்பதால் அதை அனுப்ப முடியாது. நீங்கள் {limit,number}{units} வரை வீடியோ கோப்புகளை அனுப்ப முடியும்."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "உங்கள் பிணைய இணைப்பைச் சரிபார்க்கவும்."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "பிழைத்திருத்த பதிவு"
@@ -3900,16 +3903,16 @@
     "messageformat": "வ்யூ புதுப்பிக்கப்பட்டது"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "தளவமைப்பை மாற்றுக"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "கட்டம்"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "பக்கப்பட்டி"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "ஒலி பெருக்கி"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "பகிர் உங்கள் திரை"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "அனைத்தையும் பார்"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number}பொதுவான குழு} other {{count,number}பொதுவான குழுக்கள்}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "சிக்னல்.குழு இணைப்பை கிளிப்போர்டுக்கு நகலெடு"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "கோரிக்கைகளை ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "தடுக்கப்பட்ட தொகுப்புகள்"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகள்"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "எச்சரிக்கை"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "நீங்கள் பின்னை முடக்கினால், வேறொரு iOS சாதனத்திலிருந்து தரவை மாற்றாத வரையில், நீங்கள் சிக்னலை மீண்டும் பதிவுசெய்யும்போது அனைத்துத் தரவையும் இழப்பீர்கள். பின் முடக்கப்பட்டிருக்கும்போது பதிவு பூட்டை நீங்கள் ஆன் செய்ய முடியாது."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN-ஐ முடக்கு"
@@ -8694,9 +8745,6 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "இப்போது தனிப்பட்ட உரையாடல்களிலும்  வாக்கெடுப்புகளை உருவாக்கலாம்."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "தொகுப்பு நிர்வாகிகள் இப்போது தொகுப்பு அமைப்புகளில் புதிய \"தொகுப்பை முடி\" விருப்பத்துடன் உரையாடல்களை ஒரு முடிவுக்கு கொண்டு வரலாம். ஒரு தொகுப்பை முடிப்பது தொகுப்பு உறுப்பினர்கள் செய்திகளை அனுப்புவதிலிருந்தோ அல்லது அழைப்புகளை மேற்கொள்வதிலிருந்தோ தடுக்கிறது. மேலும் அழைப்புகளை முடக்குகிறது."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "இப்போது நீங்கள் நிறுவப்பட்ட ஸ்டிக்கர் பேக்குகளை மறுவரிசைப்படுத்தலாம், எனவே உங்களுக்குப் பிடித்தவை வரியின் பின்புறத்தில் சிக்காமல் இருக்கும்."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

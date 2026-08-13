@@ -756,10 +756,10 @@
     "messageformat": "សូមអភ័យទោស ឯកសារវីដេអូដែលបានជ្រើសរើសគឺលើសពីទំហំសារដែលបានកំហិត។ {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "មិនអាចផ្ញើឯកសារនេះបានទេ ព្រោះវាធំពេក។ អ្នកអាចផ្ញើឯកសារដែលមានទំហំរហូតដល់ {limit,number}{units}។"
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "មិនអាចផ្ញើឯកសារវីដេអូនេះបានទេ ព្រោះវាធំពេក។ អ្នកអាចផ្ញើឯកសារវីដេអូដែលមានទំហំរហូតដល់ {limit,number}{units}។"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "ត្រួតពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។"
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "កំណត់ត្រាបញ្ហា"
@@ -3900,16 +3903,16 @@
     "messageformat": "បានផ្លាស់ប្តូរទិដ្ឋភាព"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "ផ្លាស់ប្តូរប្លង់"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "ក្រឡាចត្រង្គ"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "របារចំហៀង"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "អ្នកនិយាយ"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "ចែករំលែកអេក្រង់របស់អ្នក"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "មើលទាំងអស់"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number}ក្រុមរួមគ្នា}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "ចម្លងតំណ signal.group ទៅឃ្លីបបត"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "សំណើ ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "ក្រុមដែលបានទប់ស្កាត់"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "ព្រមាន"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "ប្រសិនបើអ្នកបិទលេខកូដសម្ងាត់ អ្នកនឹងបាត់បង់ទិន្នន័យទាំងអស់នៅពេលអ្នកចុះឈ្មោះ Signal ឡើងវិញ លើកលែងតែអ្នកផ្ទេរវាពីឧបករណ៍ iOS ផ្សេងទៀត។ អ្នកមិនអាចបើកការចាក់សោការចុះឈ្មោះបានទេ ខណៈពេលដែលលេខកូដសម្ងាត់ត្រូវបានបិទ។"
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "បិទលេខកូដសម្ងាត់"
@@ -8694,9 +8745,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "ឥឡូវនេះ ការស្ទង់មតិក៏អាចបង្កើតឡើងនៅក្នុងការជជែកជាលក្ខណៈបុគ្គលផងដែរ។ បង្ហាញបញ្ជីជម្រើសដែលបានរៀបចំទៅកាន់មិត្តភក្តិរបស់អ្នកដែលមិនទាន់សម្រេចចិត្ត ឬចាប់យកឱកាសដ៏អស្ចារ្យក្នុងការផ្ញើកំណត់ចំណាំទៅកាន់មនុស្សជាទីចាប់ចិត្តរបស់អ្នក ដោយបង្កើតការស្ទង់មតិ “តើអ្នកចូលចិត្តខ្ញុំទេ? បាទឬចាស/ទេ/ប្រហែល“។"
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "ឥឡូវនេះ អ្នកគ្រប់គ្រងក្រុមអាចបញ្ចប់ការជជែកតាមធម្មតាបាន ដោយមានជម្រើស \"បញ្ចប់ក្រុម\" ថ្មីនៅក្នុងការកំណត់ក្រុម។ ការបញ្ចប់ក្រុមធ្វើឱ្យសមាជិកក្រុមមិនអាចផ្ញើសារ ឬចាប់ផ្តើមការហៅទូរសព្ទបានទេ ហើយក៏បិទការអញ្ជើញដែរ។ ឥឡូវនេះ អ្នកអាចធានាបានដែរថាអ្នករាល់គ្នាស្ថិតក្នុងកម្រងសារជជែកដែលត្រឹមត្រូវ ដោយបញ្ចប់ក្រុមជួបជុំចាស់កាលពីឆ្នាំមុន មុនពេលចាប់ផ្តើមក្រុមថ្មីជាមួយគ្នា។"
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "ឥឡូវនេះ អ្នកអាចតម្រៀបឡើងវិញនូវកញ្ចប់ស្ទីកគ័រដែលបានដំឡើងហើយ ដូច្នេះស្ទីកគ័រដែលអ្នកចូលចិត្តថ្មីៗមិនគាំងនៅចុងក្រោយគេទេ។"
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

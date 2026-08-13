@@ -756,10 +756,10 @@
     "messageformat": "माफ़ करें, चुनी गई वीडियो फ़ाइल, मैसेज के लिए साइज़ की तय सीमा से बड़ी है। {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "यह फ़ाइल नहीं भेजी जा सकती, क्योंकि यह बहुत बड़ी है। {limit,number}{units} तक की फ़ाइलें भेजी जा सकती हैं।"
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "यह वीडियो फ़ाइल नहीं भेजी जा सकती, क्योंकि यह बहुत बड़ी है। {limit,number}{units} तक की वीडियो फ़ाइलें भेजी जा सकती हैं।"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "चुना हुआ अटैचमेंट लोड नहीं हो पाया।"
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "अपना इंटरनेट कनेक्शन देखें।"
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "डीबग लॉग"
@@ -3900,16 +3903,16 @@
     "messageformat": "व्यू अपडेट किया गया"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "लेआउट बदलें"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "ग्रिड"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "साइडबार"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "स्पीकर"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "स्क्रीन शेयर करें"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "सभी को देखें"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ग्रुप कॉमन है} other {{count,number} ग्रुप कॉमन हैं}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group लिंक को क्लिपबोर्ड पर कॉपी करें"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "अनुरोध ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "ब्लॉक किए गए ग्रुप"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal सिक्योर बैकअप"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "चेतावनी"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "अगर आपने पिन हटा दिया है, तो Signal पर दोबारा रजिस्टर करने पर आपका सारा डेटा मिट जाएगा। हालांकि, अगर आपने मैन्युअल तरीके से डेटा का बैकअप लिया है, तो आपके पास रीस्टोर करने का विकल्प रहेगा। पिन बंद रहने पर रजिस्ट्रेशन लॉक चालू नहीं किया जा सकता।"
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "पिन की सुविधा बंद करें"
@@ -8694,9 +8745,6 @@
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "अब अलग-अलग चैट में भी पोल बनाए जा सकते हैं। असमंजस में रहने वाले किसी दोस्त के सामने चुनिंदा विकल्पों की सूची पेश करें। “क्या मैं आपको पसंद हूं? हां/नहीं/शायद” पोल बनाकर अपने पहले प्यार को चिट्ठी थमाने के उस जादुई एहसास को दोबारा महसूस करें।"
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "ग्रुप ऐडमिन अब ग्रुप सेटिंग में मौजूद 'ग्रुप बंद करें' वाले नए विकल्प का इस्तेमाल करके, चैट को आसानी से बंद कर सकते हैं। ग्रुप को बंद करने से ग्रुप के मेंबर मैसेज नहीं भेज पाएंगे और न ही कॉल कर पाएंगे। इसके अलावा, इनवाइट सुविधा भी बंद हो जाएगी। अब आप पिछले साल के 'सिलाई-बुनाई' मीटअप ग्रुप को बंद करके यह पक्का कर लें कि हर कोई सही थ्रेड से जुड़ा रहे, और इसके बाद ही एक नए ग्रुप का तानाबाना बुनें।"
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "अब अपने इंस्टॉल किए स्टिकर पैक का क्रम बदला जा सकता है, ताकि आपके नए पसंदीदा पैक हमेशा आसानी से मिलें।"
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

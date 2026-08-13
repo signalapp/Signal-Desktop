@@ -756,10 +756,10 @@
     "messageformat": "માફ કરશો, પસંદ કરેલી વીડિયો ફાઈલ મેસેજના કદના પ્રતિબંધોથી વધુ છે. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "આ ફાઈલ મોકલી શકતા નથી કારણ કે તે બહુ મોટી છે. તમે {limit,number}{units} સુધીની ફાઈલો મોકલી શકો છો."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "આ વીડિયો ફાઇલ મોકલી શકતા નથી કારણ કે તે બહુ મોટી છે. તમે {limit,number}{units} સુધીની વીડિયો ફાઈલો મોકલી શકો છો."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "પસંદ કરેલ અટેચમેન્ટ લોડ કરવામાં અસમર્થ."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "તમારું નેટવર્ક કનેક્શન તપાસો."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ડીબગ લૉગ"
@@ -3900,16 +3903,16 @@
     "messageformat": "વ્યૂ અપડેટ થયો"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "લેઆઉટ બદલો"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "ગ્રિડ"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "સાઇડબાર"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "સ્પીકર"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "તમારી સ્ક્રીન શેર કરો"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "બધા જુઓ"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ગ્રુપ સમાન છે} other {{count,number} ગ્રુપ સમાન છે}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "signal.group લિંકને ક્લિપબોર્ડ પર કૉપિ કરો"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "વિનંતીઓ ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "બ્લૉક કરેલા ગ્રૂપ"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal સુરક્ષિત બેકઅપ"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "ચેતવણી"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "જો તમે PIN ને અક્ષમ કરો છો, તો જ્યારે તમે Signal ને ફરીથી રજીસ્ટર કરશો ત્યારે તમે તમામ ડેટા ગુમાવશો જ્યાં સુધી તમે તેને અન્ય iOS ડિવાઇસમાંથી સ્થાનાંતરિત ન કરો. જ્યારે PIN અક્ષમ હોય ત્યારે તમે રજીસ્ટ્રેશન લૉક ચાલુ કરી શકતા નથી."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "પિન અક્ષમ કરો"
@@ -8694,9 +8745,6 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "મતદાન હવે વ્યક્તિગત ચેટમાં પણ બનાવી શકાય છે."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "ગ્રૂપ એડમિન હવે ગ્રૂપ સેટિંગ્સમાં નવા \"ગ્રૂપ સમાપ્ત કરો\" વિકલ્પ સાથે ચેટને તેમના કુદરતી સમાપન પર લાવી શકે છે. ગ્રૂપ સમાપ્ત કરવાથી ગ્રૂપના સભ્યોને મેસેજ મોકલવા અથવા કૉલ શરૂ કરવાથી રોકે છે તેમજ આમંત્રણો પણ અક્ષમ કરે છે."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "હવે તમે ઇન્સ્ટોલ કરેલા સ્ટીકર પેકને ફરીથી ગોઠવી શકો છો જેથી તમારા નવા મનપસંદ સ્ટીકર પેક લાઇનના પાછળના ભાગમાં અટવાઈ ન જાય."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

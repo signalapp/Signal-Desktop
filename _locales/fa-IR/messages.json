@@ -756,10 +756,10 @@
     "messageformat": "متاسفانه حجم فایل ویدئویی انتخاب‌شده از حداکثر مجاز حجم پیام بیشتر است. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "به‌دلیل حجم بالای این فایل، ارسال آن امکان‌پذیر نیست. می‌توانید حداکثر {limit,number}{units} فایل ارسال کنید."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "به‌دلیل حجم بالای این فایل ویدیویی، ارسال آن امکان‌پذیر نیست. می‌توانید حداکثر {limit,number}{units} فایل ویدیویی ارسال کنید."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ناتوانی در بارگیری پیوست انتخابی."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "ارتباط شبکه خود را چک کنید."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "گزارش خطاء"
@@ -3900,16 +3903,16 @@
     "messageformat": "نما به‌روزرسانی شد"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "تغییر چیدمان"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "مشبک"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "نوار جانبی"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "بلندگو"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "صفحهٔ خود را به اشتراک بگذارید"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "مشاهدهٔ همه"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} گروه مشترک} other {{count,number} گروه مشترک}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "لینک signal.group را در کلیپ‌بورد کپی کنید"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "درخواست‌ها ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "گروه‌های مسدودشده"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "پشتیبان‌های امن سیگنال"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "هشدار"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "اگر پین را غیرفعال کنید، هنگامی که دوباره در سیگنال ثبت‌نام می‌کنید تمامی داده‌ها را از دست خواهید داد، مگر اینکه از یک دستگاه iOS دیگر آنها را منتقل کنید. هنگامی که پین غیرفعال است نمی‌توانید قفل ثبت‌نام را روشن کنید."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "غیرفعال کردن پین"
@@ -8694,9 +8745,6 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "اکنون می‌توان در گفتگوهای فردی نیز نظرسنجی ساخت."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "مدیران گروه اکنون می‌توانند با گزینه جدید «پایان دادن به گروه» در تنظیمات گروه، به گفتگوها پایان دهند. پایان دادن به گروه، مانع از ارسال پیام یا شروع تماس توسط اعضای گروه می‌شود و همچنین دعوت‌ها را غیرفعال می‌کند."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "حالا می‌توانید بسته‌های استیکر نصب‌شده را دوباره مرتب کنید تا استیکرهای موردعلاقه جدیدتان از دید خارج نشوند."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }

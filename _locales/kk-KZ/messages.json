@@ -756,10 +756,10 @@
     "messageformat": "Кешіріңіз, таңдалған бейне файлы хабар өлшеміне қойылатын шектеулерден асып кетті. {limit,number} {units}"
   },
   "icu:fileTooLargeWarning": {
-    "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit,number}{units}."
+    "messageformat": "Бұл файлды жіберу мүмкін емес, себебі ол өте үлкен. Ең көбі {limit,number} {units} файлдарды жібере аласыз."
   },
   "icu:videoFileTooLargeWarning": {
-    "messageformat": "Can’t send this video file because it’s too large. You can send video files up to {limit,number}{units}."
+    "messageformat": "Бұл бейне файлын жіберу мүмкін емес, себебі ол өте үлкен. Ең көбі {limit,number} {units} бейне файлдарды жібере аласыз."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."
@@ -781,6 +781,9 @@
   },
   "icu:checkNetworkConnection": {
     "messageformat": "Желімен байланысты тексеріңіз."
+  },
+  "icu:clockSkewDetected": {
+    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Ақауларды түзету журналы"
@@ -3900,16 +3903,16 @@
     "messageformat": "Көрініс жаңартылды"
   },
   "icu:calling__change-layout": {
-    "messageformat": "Change layout"
+    "messageformat": "Макетті өзгерту"
   },
   "icu:calling__layout--paginated": {
-    "messageformat": "Grid"
+    "messageformat": "Тор"
   },
   "icu:calling__layout--overflow": {
-    "messageformat": "Sidebar"
+    "messageformat": "Бүйірлік жолақ"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Speaker"
+    "messageformat": "Үндеткіш"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Экраныңызды бөлісу"
@@ -5096,6 +5099,9 @@
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Барлығын көру"
   },
+  "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
+    "messageformat": "Search"
+  },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ортақ топ бар} other {{count,number} ортақ топ бар}}"
   },
@@ -5164,6 +5170,48 @@
   },
   "icu:GroupLinkManagement__CopyGroupLinkButtonLabel": {
     "messageformat": "Буферге signal.group сілтемесін көшіріңіз"
+  },
+  "icu:GroupMembersSearchDialog__DialogTitle": {
+    "messageformat": "Search members"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
+    "messageformat": "Search"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
+    "messageformat": "Search admins"
+  },
+  "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
+    "messageformat": "Search contacts"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Label": {
+    "messageformat": "Filter"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
+    "messageformat": "All members"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
+    "messageformat": "Admins"
+  },
+  "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
+    "messageformat": "Contacts"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
+    "messageformat": "No results"
+  },
+  "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:GroupMembersSearchDialog__MemberItem__Admin": {
+    "messageformat": "Admin"
+  },
+  "icu:GroupMembersSearchDialog__SearchResults__Title": {
+    "messageformat": "Search Results"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
+    "messageformat": "Add member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
+    "messageformat": "Invite via group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Өтініштер ({count,number})"
@@ -6376,6 +6424,9 @@
   "icu:Preferences--blocked-groups": {
     "messageformat": "Блокталған топтар"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal қауіпсіз сақтық көшірмелері"
   },
@@ -7097,7 +7148,7 @@
     "messageformat": "Ескерту"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "PIN кодын өшіріп қойсаңыз, деректерді басқа iOS құрылғысынан тасымалдамасаңыз, Signal қолданбасына қайта тіркелген кезде барлық дерегіңіз жоғалады. PIN коды өшіріліп тұрған кезде тіркелу құлпын аша алмайсыз."
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN-кодты өшіру"
@@ -8694,9 +8745,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.18--0": {
-    "messageformat": "Сауалнамаларды енді жеке чаттарда да жасауға болады. Шешім қабылдауға келгенде көп ойланатын досыңызға нұсқалары бар тізімді ұсыныңыз немесе өзіңіз ұнатып жүрген жанға \"Мені жақсы көресің бе? Иә/Жоқ/Мүмкін\" деген сауалнама жіберіңіз."
-  },
   "icu:WhatsNew__8.19--0": {
     "messageformat": "Топ әкімшілері енді топ параметрлеріндегі жаңа \"Топты жабу\" функциясымен чаттарды жауып тастай алады. Топты жапсаңыз, топ мүшелері хабар жібере не қоңырау шала алмай қалады. Шақырулар да істемей тұрады. Енді жаңа топты құрмай тұрып, өткен жылғы тігіншілер кездесуі тобын жабу арқылы барлығының дұрыс чатта қалуын қамтамасыз ете аласыз."
   },
@@ -8705,5 +8753,8 @@
   },
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Енді орнатылған стикерлер жинақтарының ретін өзгерте аласыз, осылайша жаңа таңдаулы стикерлеріңіз тізімнің соңында қалып кетпейді."
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
   }
 }
