@@ -4,8 +4,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import fastGlob from 'fast-glob';
+import lodash from 'lodash';
 import { assert } from './utils/assert.mjs';
 
+const { escape } = lodash;
 const ROOT_DIR = path.join(import.meta.dirname, '..');
 
 const dirEntries = await fastGlob('_locales/*', {
@@ -62,8 +64,8 @@ for (const template of templates) {
     `Must have english string for key ${template.message}`
   );
 
-  let allDescriptions = `<description>${englishDescription}</description>\n`;
-  let allMessages = `<message>${englishMessage}</message>\n`;
+  let allDescriptions = `<description>${escape(englishDescription)}</description>\n`;
+  let allMessages = `<message>${escape(englishMessage)}</message>\n`;
 
   for (const dirEntry of dirEntries) {
     const locale = path.basename(dirEntry);
@@ -78,10 +80,10 @@ for (const template of templates) {
     const localeName = locale.replace('-', '_');
     const description =
       data[template.description]?.messageformat ?? englishDescription;
-    allDescriptions += `    <description xml:lang="${localeName}">${description}</description>\n`;
+    allDescriptions += `    <description xml:lang="${escape(localeName)}">${escape(description)}</description>\n`;
 
     const message = data[template.message]?.messageformat ?? englishMessage;
-    allMessages += `    <message xml:lang="${localeName}">${message}</message>\n`;
+    allMessages += `    <message xml:lang="${escape(localeName)}">${escape(message)}</message>\n`;
   }
 
   const targetPath = path.join(ROOT_DIR, 'build', template.name);
