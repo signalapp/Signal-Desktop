@@ -153,6 +153,7 @@ import updateToSchemaVersion1730 from './1730-protected-attachments-dedupe-token
 import updateToSchemaVersion1740 from './1740-cleanup-groups.node.ts';
 import updateToSchemaVersion1750 from './1750-fts-url.std.ts';
 import updateToSchemaVersion1760 from './1760-delete-story-reply-attachment.std.ts';
+import updateToSchemaVersion1770 from './1770-add-blocked-at.std.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1662,6 +1663,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1670, update: updateToSchemaVersion1670 },
   { version: 1680, update: updateToSchemaVersion1680 },
   { version: 1690, update: updateToSchemaVersion1690 },
+
   { version: 1700, update: updateToSchemaVersion1700 },
   { version: 1710, update: updateToSchemaVersion1710 },
   { version: 1720, update: updateToSchemaVersion1720 },
@@ -1669,6 +1671,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1740, update: updateToSchemaVersion1740 },
   { version: 1750, update: updateToSchemaVersion1750 },
   { version: 1760, update: updateToSchemaVersion1760 },
+  { version: 1770, update: updateToSchemaVersion1770 },
 ];
 
 class DBVersionFromFutureError extends Error {

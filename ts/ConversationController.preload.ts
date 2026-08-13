@@ -1332,6 +1332,22 @@ export class ConversationController {
       ),
     });
 
+    if (obsolete.isBlocked()) {
+      const e164 = obsolete.get('e164');
+      const e164Block = e164
+        ? itemStorage.blocked.getBlockedNumbers().get(e164)
+        : undefined;
+
+      const serviceId = obsolete.get('serviceId');
+      const serviceIdBlock = serviceId
+        ? itemStorage.blocked.getBlockedServiceIds().get(serviceId)
+        : undefined;
+
+      const timestamp = serviceIdBlock?.blockedAt ?? e164Block?.blockedAt;
+
+      current.block({ viaStorageServiceSync: false, timestamp });
+    }
+
     const obsoleteExpireTimer = obsolete.get('expireTimer');
     const currentExpireTimer = current.get('expireTimer');
     if (

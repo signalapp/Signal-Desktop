@@ -1004,7 +1004,13 @@ export class ConversationModel {
     return isBlocked(this.attributes);
   }
 
-  block({ viaStorageServiceSync = false } = {}): void {
+  block({
+    viaStorageServiceSync,
+    timestamp,
+  }: {
+    viaStorageServiceSync: boolean;
+    timestamp: number | undefined;
+  }): void {
     if (isMe(this.attributes)) {
       log.error(`${this.idForLogging()}: Refusing to block Note to Self`);
       return;
@@ -1015,22 +1021,22 @@ export class ConversationModel {
 
     const serviceId = this.getServiceId();
     if (isSignalConversation(this)) {
-      drop(itemStorage.blocked.setReleaseNotesChatBlocked(true));
+      drop(itemStorage.blocked.setReleaseNotesChatBlocked(true, timestamp));
       blocked = true;
     } else if (serviceId && isAciString(serviceId)) {
-      drop(itemStorage.blocked.addBlockedServiceId(serviceId));
+      drop(itemStorage.blocked.addBlockedServiceId(serviceId, timestamp));
       blocked = true;
     }
 
     const e164 = this.get('e164');
     if (e164) {
-      drop(itemStorage.blocked.addBlockedNumber(e164));
+      drop(itemStorage.blocked.addBlockedNumber(e164, timestamp));
       blocked = true;
     }
 
     const groupId = this.get('groupId');
     if (groupId) {
-      drop(itemStorage.blocked.addBlockedGroup(groupId));
+      drop(itemStorage.blocked.addBlockedGroup(groupId, timestamp));
       blocked = true;
     }
 
@@ -1049,7 +1055,7 @@ export class ConversationModel {
 
     const serviceId = this.getServiceId();
     if (serviceId && isSignalServiceId(serviceId)) {
-      drop(itemStorage.blocked.setReleaseNotesChatBlocked(false));
+      drop(itemStorage.blocked.setReleaseNotesChatBlocked(false, undefined));
       unblocked = true;
     } else if (serviceId && isAciString(serviceId)) {
       drop(itemStorage.blocked.removeBlockedServiceId(serviceId));
@@ -1117,10 +1123,11 @@ export class ConversationModel {
         ? {
             source: MessageRequestResponseSource.STORAGE_SERVICE,
             learnedAtMs: Date.now(),
+            blockedAt: undefined,
           }
         : {
             source: MessageRequestResponseSource.LOCAL,
-            timestamp: Date.now(),
+            blockedAt: Date.now(),
           },
       { shouldSave: false }
     );
@@ -2198,7 +2205,23 @@ export class ConversationModel {
       return;
     }
 
+    const wasBlockedByNumber = oldValue
+      ? itemStorage.blocked.getBlockedNumbers().get(oldValue)
+      : undefined;
+    const serviceId = this.get('serviceId');
+    const wasBlockedByServiceId = serviceId
+      ? itemStorage.blocked.getBlockedServiceIds().get(serviceId)
+      : undefined;
+
     this.set({ e164: e164 || undefined });
+
+    if (wasBlockedByNumber || wasBlockedByServiceId) {
+      this.block({
+        viaStorageServiceSync: false,
+        timestamp:
+          wasBlockedByNumber?.blockedAt ?? wasBlockedByServiceId?.blockedAt,
+      });
+    }
 
     // This user changed their phone number
     if (oldValue && e164) {
@@ -2216,11 +2239,27 @@ export class ConversationModel {
       return;
     }
 
+    const wasBlockedByServiceId = oldValue
+      ? itemStorage.blocked.getBlockedServiceIds().get(oldValue)
+      : undefined;
+    const e164 = this.get('e164');
+    const wasBlockedByNumber = e164
+      ? itemStorage.blocked.getBlockedNumbers().get(e164)
+      : undefined;
+
     this.set({
       serviceId: serviceId
         ? normalizeServiceId(serviceId, 'Conversation.updateServiceId')
         : undefined,
     });
+
+    if (wasBlockedByServiceId || wasBlockedByNumber) {
+      this.block({
+        viaStorageServiceSync: false,
+        timestamp:
+          wasBlockedByNumber?.blockedAt ?? wasBlockedByServiceId?.blockedAt,
+      });
+    }
     drop(DataWriter.updateConversation(this.attributes));
     window.ConversationController.idUpdated(this, 'serviceId', oldValue);
 
@@ -2464,9 +2503,9 @@ export class ConversationModel {
     const { source } = responseInfo;
     switch (source) {
       case MessageRequestResponseSource.LOCAL:
-        receivedAtMs = responseInfo.timestamp;
+        receivedAtMs = responseInfo.blockedAt;
         receivedAtCounter = incrementMessageCounter();
-        timestamp = responseInfo.timestamp;
+        timestamp = responseInfo.blockedAt;
         break;
       case MessageRequestResponseSource.MRR_SYNC:
         receivedAtMs = responseInfo.receivedAtMs;
@@ -2607,7 +2646,10 @@ export class ConversationModel {
         isSpam?: boolean;
       }) => {
         if (isBlock) {
-          this.block({ viaStorageServiceSync });
+          this.block({
+            viaStorageServiceSync,
+            timestamp: responseInfo.blockedAt,
+          });
         }
 
         if (isBlock || isDelete) {

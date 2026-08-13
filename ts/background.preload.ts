@@ -1454,7 +1454,9 @@ async function startApp(): Promise<void> {
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = itemStorage.get(BLOCKED_UUIDS_ID, []);
-    const blockedAcis = blockedUuids.filter(isAciString);
+    const blockedAcis = blockedUuids.filter(item =>
+      isAciString(item.serviceId)
+    );
     const diff = blockedUuids.length - blockedAcis.length;
     if (diff > 0) {
       log.warn(
@@ -1463,14 +1465,20 @@ async function startApp(): Promise<void> {
       await itemStorage.put(BLOCKED_UUIDS_ID, blockedAcis);
     }
 
-    if (blockedAcis.some(isSignalServiceId)) {
+    const signalItem = blockedAcis.find(item =>
+      isSignalServiceId(item.serviceId)
+    );
+    if (signalItem) {
       log.warn(
         'Release notes chat block migration: found in blocked list. Moving.'
       );
-      await itemStorage.blocked.setReleaseNotesChatBlocked(true);
+      await itemStorage.blocked.setReleaseNotesChatBlocked(
+        true,
+        signalItem.blockedAt
+      );
       await itemStorage.put(
         BLOCKED_UUIDS_ID,
-        blockedAcis.filter(aci => !isSignalServiceId(aci))
+        blockedAcis.filter(item => !isSignalServiceId(item.serviceId))
       );
       log.info('Release notes chat block migration: complete');
     }

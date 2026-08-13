@@ -1171,10 +1171,20 @@ export class BackupImportStream extends Writable {
 
     if (contact.blocked) {
       if (serviceId) {
-        await itemStorage.blocked.addBlockedServiceId(serviceId);
+        await itemStorage.blocked.addBlockedServiceId(
+          serviceId,
+          contact.blockedAtTimestamp
+            ? getCheckedTimestampFromLong(contact.blockedAtTimestamp)
+            : undefined
+        );
       }
       if (e164) {
-        await itemStorage.blocked.addBlockedNumber(e164);
+        await itemStorage.blocked.addBlockedNumber(
+          e164,
+          contact.blockedAtTimestamp
+            ? getCheckedTimestampFromLong(contact.blockedAtTimestamp)
+            : undefined
+        );
       }
     }
 
@@ -1355,7 +1365,12 @@ export class BackupImportStream extends Writable {
     };
 
     if (group.blocked) {
-      await itemStorage.blocked.addBlockedGroup(groupId);
+      await itemStorage.blocked.addBlockedGroup(
+        groupId,
+        group.blockedAtTimestamp
+          ? getCheckedTimestampFromLong(group.blockedAtTimestamp)
+          : undefined
+      );
     }
 
     return attrs;

@@ -9,7 +9,6 @@ import type { MutableRefObject, JSX } from 'react';
 
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
-import type { ConversationType } from '../ducks/conversations.preload.ts';
 import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,
@@ -100,29 +99,30 @@ import {
   SmartNotificationProfilesCreateFlow,
   SmartNotificationProfilesHome,
 } from './PreferencesNotificationProfiles.preload.tsx';
-
-import type { SettingsLocation } from '../../types/Nav.std.ts';
-import type { StorageAccessType } from '../../types/Storage.d.ts';
-import type { ThemeType } from '../../util/preload.preload.ts';
-import type { WidthBreakpoint } from '../../components/_util.std.ts';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
+import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
+import { Emoji } from '../../axo/emoji.std.ts';
+import { AppProvider } from '../../windows/AppProvider.dom.tsx';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
-import type { StateType } from '../reducer.preload.ts';
 import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
 } from '../../util/backupMediaDownload.preload.ts';
+
+import type { SettingsLocation } from '../../types/Nav.std.ts';
+import type { StorageAccessType } from '../../types/Storage.d.ts';
+import type { ThemeType } from '../../util/preload.preload.ts';
+import type { WidthBreakpoint } from '../../components/_util.std.ts';
+import type { StateType } from '../reducer.preload.ts';
 import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
-import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import type { ZoomFactorType } from '../../types/StorageKeys.std.ts';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
-import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
-import { Emoji } from '../../axo/emoji.std.ts';
-import { AppProvider } from '../../windows/AppProvider.dom.tsx';
+import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -591,29 +591,43 @@ export function SmartPreferences(): JSX.Element | null {
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
 
-  const blockedContacts: Array<ConversationType> = useMemo(() => {
-    const result = new Set<ConversationType>();
+  const blockedContacts: Array<BlockedConversation> = useMemo(() => {
+    const result = new Map<string, BlockedConversation>();
 
     (items['blocked-uuids'] ?? []).forEach(item => {
-      result.add(conversationSelector(item));
+      const conversation = conversationSelector(item.serviceId);
+      result.set(conversation.id, {
+        conversation,
+        blockedAt: item.blockedAt,
+      });
     });
     (items.blocked ?? []).forEach(item => {
-      const conversation = conversationSelector(item);
-      if (!result.has(conversation)) {
-        result.add(conversation);
+      const conversation = conversationSelector(item.e164);
+      if (!result.has(conversation.id)) {
+        result.set(conversation.id, {
+          conversation,
+          blockedAt: item.blockedAt,
+        });
       }
     });
 
     if (items.releaseNotesChatBlocked) {
-      result.add(conversationSelector(SIGNAL_ACI));
+      const conversation = conversationSelector(SIGNAL_ACI);
+      result.set(conversation.id, {
+        conversation,
+        blockedAt: undefined /* TODO */,
+      });
     }
 
-    return Array.from(result);
+    return Array.from(result.values());
   }, [items, conversationSelector]);
-  const blockedGroups: Array<ConversationType> = useMemo(() => {
-    const result: Array<ConversationType> = [];
+  const blockedGroups: Array<BlockedConversation> = useMemo(() => {
+    const result: Array<BlockedConversation> = [];
     (items['blocked-groups'] ?? []).forEach(item => {
-      result.push(conversationSelector(item));
+      result.push({
+        conversation: conversationSelector(item.groupId),
+        blockedAt: item.blockedAt,
+      });
     });
     return result;
   }, [items, conversationSelector]);

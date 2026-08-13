@@ -2518,7 +2518,7 @@ export async function initiateMigrationToGroupV2(
       });
 
       if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
-        await itemStorage.blocked.addBlockedGroup(groupId);
+        await itemStorage.blocked.addBlockedGroup(groupId, undefined);
       }
 
       // Save these most recent updates to conversation
@@ -2862,7 +2862,7 @@ export async function respondToGroupV2Migration({
           );
 
           if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
-            await itemStorage.blocked.addBlockedGroup(groupId);
+            await itemStorage.blocked.addBlockedGroup(groupId, undefined);
           }
 
           if (wereWePreviouslyAMember) {
@@ -3001,7 +3001,7 @@ export async function respondToGroupV2Migration({
   });
 
   if (itemStorage.blocked.isGroupBlocked(previousGroupV1Id)) {
-    await itemStorage.blocked.addBlockedGroup(groupId);
+    await itemStorage.blocked.addBlockedGroup(groupId, undefined);
   }
 
   // Save these most recent updates to conversation

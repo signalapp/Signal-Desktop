@@ -275,6 +275,7 @@ message Contact {
   optional AvatarColor avatarColor = 21;
   // Opaque blob containing key transparency data for the contact
   optional bytes keyTransparencyData = 22;
+  uint64 blockedAtTimestamp = 23; // if `blocked` is true, 0 means unknown block time
 }
 
 message Group {
@@ -291,6 +292,7 @@ message Group {
   GroupSnapshot snapshot = 5;
   bool blocked = 6;
   optional AvatarColor avatarColor = 7;
+  uint64 blockedAtTimestamp = 8; // if `blocked` is true, 0 means unknown block time
 
   // These are simply plaintext copies of the groups proto from Groups.proto.
   // They should be kept completely in-sync with Groups.proto.
@@ -413,7 +415,7 @@ message CallLink {
   string name = 3;
   Restrictions restrictions = 4;
   uint64 expirationMs = 5;
-  reserved 6; // was epoch, never used
+  reserved /*epoch*/ 6;
 }
 
 message AdHocCall {
@@ -1083,7 +1085,6 @@ message GroupChangeChatUpdate {
       GroupExpirationTimerUpdate groupExpirationTimerUpdate = 34;
       GroupMemberLabelAccessLevelChangeUpdate groupMemberLabelAccessLevelChangeUpdate = 35;
       GroupTerminateChangeUpdate groupTerminateChangeUpdate = 36;
-      // next: 37
     }
   }
 
@@ -1319,6 +1320,12 @@ message StickerPack {
 
 message ChatStyle {
   message Gradient {
+    // Color ordering:
+    //   0   degrees: bottom-to-top
+    //   90  degrees: left-to-right
+    //   180 degrees: top-to-bottom
+    //   270 degrees: right-to-left
+
     uint32 angle = 1; // degrees
     repeated fixed32 colors = 2; // 0xAARRGGBB
     repeated float positions = 3; // percent from 0 to 1

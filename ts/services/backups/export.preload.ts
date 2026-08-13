@@ -1324,6 +1324,10 @@ export class BackupExportStream extends Readable {
 
       strictAssert(recipientId != null, 'recipientId must exist');
 
+      const blockedItem = convo.serviceId
+        ? itemStorage.blocked.getBlockedServiceIds().get(convo.serviceId)
+        : undefined;
+
       return {
         id: recipientId,
         destination: {
@@ -1332,8 +1336,9 @@ export class BackupExportStream extends Readable {
             pni,
             e164,
             username: convo.username || null,
-            blocked: convo.serviceId
-              ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
+            blocked: Boolean(blockedItem),
+            blockedAtTimestamp: blockedItem?.blockedAt
+              ? BigInt(blockedItem.blockedAt)
               : null,
             visibility,
             registration: convo.discoveredUnregisteredAt
@@ -1399,6 +1404,11 @@ export class BackupExportStream extends Readable {
       const recipientId = this.#getNewRecipientId({
         id: convo.id,
       });
+
+      const blockedItem = convo.groupId
+        ? itemStorage.blocked.getBlockedGroups().get(convo.groupId)
+        : undefined;
+
       return {
         id: recipientId,
         destination: {
@@ -1407,9 +1417,10 @@ export class BackupExportStream extends Readable {
             whitelisted: convo.profileSharing ?? null,
             hideStory: convo.hideStory === true,
             storySendMode,
-            blocked: convo.groupId
-              ? itemStorage.blocked.isGroupBlocked(convo.groupId)
-              : false,
+            blocked: Boolean(blockedItem),
+            blockedAtTimestamp: blockedItem?.blockedAt
+              ? BigInt(blockedItem.blockedAt)
+              : null,
             avatarColor: toAvatarColor(convo.color) ?? null,
             snapshot: {
               title: {

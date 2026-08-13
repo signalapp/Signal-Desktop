@@ -17,11 +17,12 @@ export enum MessageRequestResponseSource {
 export type MessageRequestResponseInfo =
   | {
       source: MessageRequestResponseSource.LOCAL;
-      timestamp: number;
+      blockedAt: number;
     }
   | {
       source: MessageRequestResponseSource.STORAGE_SERVICE;
       learnedAtMs: number;
+      blockedAt: number | undefined;
     }
   | {
       source:
@@ -30,4 +31,5 @@ export type MessageRequestResponseInfo =
       timestamp: number;
       receivedAtMs: number;
       receivedAtCounter: number;
+      blockedAt: number | undefined;
     };

@@ -73,6 +73,7 @@ export async function onResponse(
         receivedAtCounter,
         receivedAtMs,
         timestamp: sentAt,
+        blockedAt: sentAt,
       })
     );
 

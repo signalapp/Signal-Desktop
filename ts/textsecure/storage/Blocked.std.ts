@@ -1,16 +1,19 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
-
-import { createLogger } from '../../logging/log.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
+import { isSignalServiceId } from '../../types/SignalConversation.std.ts';
+import { isNotNil } from '../../util/isNotNil.std.ts';
+
 import type { StorageInterface } from '../../types/Storage.d.ts';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.std.ts';
-import { isSignalServiceId } from '../../types/SignalConversation.std.ts';
-
-const { without } = lodash;
+import type {
+  BlockedGroup,
+  BlockedNumber,
+  BlockedServiceId,
+} from '../../types/StorageKeys.std.ts';
 
 const log = createLogger('Blocked');
 
@@ -18,63 +21,120 @@ const BLOCKED_NUMBERS_ID = 'blocked';
 export const BLOCKED_UUIDS_ID = 'blocked-uuids';
 const BLOCKED_GROUPS_ID = 'blocked-groups';
 const RELEASE_NOTES_CHAT_BLOCKED_ID = 'releaseNotesChatBlocked';
+const RELEASE_NOTES_CHAT_BLOCKED_AT_ID = 'releaseNotesChatBlockedAt';
 
 export class Blocked {
   readonly #storage: StorageInterface;
 
+  readonly #blockedNumbers: Map<string, BlockedNumber>;
+  readonly #blockedServiceIds: Map<string, BlockedServiceId>;
+  readonly #blockedGroups: Map<string, BlockedGroup>;
+
   constructor(storage: StorageInterface) {
     this.#storage = storage;
+
+    this.#blockedNumbers = new Map();
+    this.#blockedServiceIds = new Map();
+    this.#blockedGroups = new Map();
+
+    this.load();
   }
 
-  public getBlockedNumbers(): Array<string> {
-    return this.#storage.get(BLOCKED_NUMBERS_ID, new Array<string>());
+  public reset(): void {
+    this.#blockedNumbers.clear();
+    this.#blockedServiceIds.clear();
+    this.#blockedGroups.clear();
   }
 
-  public isBlocked(number: string): boolean {
-    return this.getBlockedNumbers().includes(number);
+  public load(): void {
+    this.setBlockedNumbers();
+    this.setBlockedServiceIds();
+    this.setBlockedGroups();
   }
 
-  public async addBlockedNumber(number: string): Promise<void> {
-    const numbers = this.getBlockedNumbers();
-    if (numbers.includes(number)) {
+  public setBlockedNumbers(): void {
+    const array = this.#storage.get(BLOCKED_NUMBERS_ID);
+    this.#blockedNumbers.clear();
+    array?.forEach(item => {
+      this.#blockedNumbers.set(item.e164, item);
+    });
+  }
+  public getBlockedNumbers(): ReadonlyMap<string, BlockedNumber> {
+    return this.#blockedNumbers;
+  }
+
+  public isBlocked(e164: string): boolean {
+    return Boolean(this.#blockedNumbers.get(e164));
+  }
+
+  public async addBlockedNumber(
+    e164: string,
+    blockedAt: number | undefined
+  ): Promise<void> {
+    if (this.isBlocked(e164)) {
       return;
     }
 
-    log.info('adding', number, 'to blocked list');
-    await this.#storage.put(BLOCKED_NUMBERS_ID, numbers.concat(number));
+    log.info('adding', e164, 'to blocked list');
+
+    const data = { e164, blockedAt };
+    this.#blockedNumbers.set(e164, data);
+
+    const array = this.#storage.get(BLOCKED_NUMBERS_ID);
+    await this.#storage.put(BLOCKED_NUMBERS_ID, (array || []).concat(data));
   }
 
-  public async removeBlockedNumber(number: string): Promise<void> {
-    const numbers = this.getBlockedNumbers();
-    if (!numbers.includes(number)) {
+  public async removeBlockedNumber(e164: string): Promise<void> {
+    if (!this.isBlocked(e164)) {
       return;
     }
 
-    log.info('removing', number, 'from blocked list');
-    await this.#storage.put(BLOCKED_NUMBERS_ID, without(numbers, number));
+    log.info('removing', e164, 'from blocked list');
+
+    this.#blockedNumbers.delete(e164);
+
+    const array = this.#storage.get(BLOCKED_NUMBERS_ID);
+    await this.#storage.put(
+      BLOCKED_NUMBERS_ID,
+      (array || []).filter(item => item.e164 !== e164)
+    );
   }
 
-  public getBlockedServiceIds(): Array<ServiceIdString> {
-    return this.#storage.get(BLOCKED_UUIDS_ID, new Array<ServiceIdString>());
+  public setBlockedServiceIds(): void {
+    const array = this.#storage.get(BLOCKED_UUIDS_ID);
+    this.#blockedServiceIds.clear();
+    array?.forEach(item => {
+      this.#blockedServiceIds.set(item.serviceId, item);
+    });
+  }
+  public getBlockedServiceIds(): ReadonlyMap<string, BlockedServiceId> {
+    return this.#blockedServiceIds;
   }
 
   public isServiceIdBlocked(serviceId: ServiceIdString): boolean {
-    return this.getBlockedServiceIds().includes(serviceId);
+    return Boolean(this.#blockedServiceIds.get(serviceId));
   }
 
-  public async addBlockedServiceId(serviceId: ServiceIdString): Promise<void> {
+  public async addBlockedServiceId(
+    serviceId: ServiceIdString,
+    blockedAt: number | undefined
+  ): Promise<void> {
     if (isSignalServiceId(serviceId)) {
       log.error('Attempting to block release notes chat by serviceId');
       return;
     }
 
-    const serviceIds = this.getBlockedServiceIds();
-    if (serviceIds.includes(serviceId)) {
+    if (this.isServiceIdBlocked(serviceId)) {
       return;
     }
 
     log.info('adding', serviceId, 'to blocked list');
-    await this.#storage.put(BLOCKED_UUIDS_ID, serviceIds.concat(serviceId));
+
+    const data = { serviceId, blockedAt };
+    this.#blockedServiceIds.set(serviceId, data);
+
+    const array = this.#storage.get(BLOCKED_UUIDS_ID);
+    await this.#storage.put(BLOCKED_UUIDS_ID, (array || []).concat(data));
   }
 
   public async removeBlockedServiceId(
@@ -85,61 +145,115 @@ export class Blocked {
       return;
     }
 
-    const numbers = this.getBlockedServiceIds();
-    if (!numbers.includes(serviceId)) {
+    if (!this.isServiceIdBlocked(serviceId)) {
       return;
     }
 
     log.info('removing', serviceId, 'from blocked list');
-    await this.#storage.put(BLOCKED_UUIDS_ID, without(numbers, serviceId));
+
+    this.#blockedServiceIds.delete(serviceId);
+
+    const array = this.#storage.get(BLOCKED_UUIDS_ID);
+    await this.#storage.put(
+      BLOCKED_UUIDS_ID,
+      (array || []).filter(item => item.serviceId !== serviceId)
+    );
   }
 
   public isReleaseNotesChatBlocked(): boolean {
     return this.#storage.get(RELEASE_NOTES_CHAT_BLOCKED_ID, false);
   }
-
-  public async setReleaseNotesChatBlocked(blocked: boolean): Promise<void> {
-    await this.#storage.put(RELEASE_NOTES_CHAT_BLOCKED_ID, blocked);
+  public whenWasReleaseNotesChatBlocked(): number | undefined {
+    return this.#storage.get(RELEASE_NOTES_CHAT_BLOCKED_AT_ID, undefined);
   }
 
-  public getBlockedGroups(): Array<string> {
-    return this.#storage.get(BLOCKED_GROUPS_ID, new Array<string>());
+  public async setReleaseNotesChatBlocked(
+    blocked: boolean,
+    blockedAt: number | undefined
+  ): Promise<void> {
+    await this.#storage.put(RELEASE_NOTES_CHAT_BLOCKED_ID, blocked);
+    await this.#storage.put(
+      RELEASE_NOTES_CHAT_BLOCKED_AT_ID,
+      blocked ? blockedAt : undefined
+    );
+  }
+
+  public setBlockedGroups(): void {
+    const array = this.#storage.get(BLOCKED_GROUPS_ID);
+    this.#blockedGroups.clear();
+    array?.forEach(item => {
+      this.#blockedGroups.set(item.groupId, item);
+    });
+  }
+  public getBlockedGroups(): ReadonlyMap<string, BlockedGroup> {
+    return this.#blockedGroups;
   }
 
   public isGroupBlocked(groupId: string): boolean {
-    return this.getBlockedGroups().includes(groupId);
+    return Boolean(this.#blockedGroups.get(groupId));
   }
 
-  public async addBlockedGroup(groupId: string): Promise<void> {
-    const groupIds = this.getBlockedGroups();
-    if (groupIds.includes(groupId)) {
+  public async addBlockedGroup(
+    groupId: string,
+    blockedAt: number | undefined
+  ): Promise<void> {
+    if (this.isGroupBlocked(groupId)) {
       return;
     }
 
     log.info(`adding group(${groupId}) to blocked list`);
-    await this.#storage.put(BLOCKED_GROUPS_ID, groupIds.concat(groupId));
+
+    const data = { groupId, blockedAt };
+    this.#blockedGroups.set(groupId, data);
+
+    const array = this.#storage.get(BLOCKED_GROUPS_ID);
+    await this.#storage.put(BLOCKED_GROUPS_ID, (array || []).concat(data));
   }
 
   public async removeBlockedGroup(groupId: string): Promise<void> {
-    const groupIds = this.getBlockedGroups();
-    if (!groupIds.includes(groupId)) {
+    if (!this.isGroupBlocked(groupId)) {
       return;
     }
 
     log.info(`removing group(${groupId} from blocked list`);
-    await this.#storage.put(BLOCKED_GROUPS_ID, without(groupIds, groupId));
+
+    this.#blockedGroups.delete(groupId);
+
+    const array = this.#storage.get(BLOCKED_GROUPS_ID);
+    await this.#storage.put(
+      BLOCKED_GROUPS_ID,
+      (array || []).filter(item => item.groupId !== groupId)
+    );
   }
 
   public getBlockedData(): {
-    e164s: Array<string>;
-    acis: Array<AciString>;
-    groupIds: Array<Uint8Array<ArrayBuffer>>;
+    e164s: ReadonlyArray<BlockedNumber>;
+    acis: ReadonlyArray<{
+      blockedAt: number | undefined;
+      aci: AciString;
+    }>;
+    groupIds: ReadonlyArray<{
+      blockedAt: number | undefined;
+      groupId: Uint8Array<ArrayBuffer>;
+    }>;
   } {
-    const e164s = this.getBlockedNumbers();
-    const acis = this.getBlockedServiceIds().filter(item => isAciString(item));
-    const groupIds = this.getBlockedGroups().map(item =>
-      Bytes.fromBase64(item)
-    );
+    const e164s = Array.from(this.getBlockedNumbers().values());
+    const acis = Array.from(this.getBlockedServiceIds().values())
+      .map(item => {
+        if (!isAciString(item.serviceId)) {
+          return undefined;
+        }
+
+        return {
+          blockedAt: item.blockedAt,
+          aci: item.serviceId,
+        };
+      })
+      .filter(isNotNil);
+    const groupIds = Array.from(this.getBlockedGroups().values()).map(item => ({
+      ...item,
+      groupId: Bytes.fromBase64(item.groupId),
+    }));
 
     return {
       e164s,

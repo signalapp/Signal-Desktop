@@ -15,16 +15,19 @@ export function isBlocked(
     return itemStorage.blocked.isReleaseNotesChatBlocked();
   }
 
-  if (isAciString(serviceId)) {
-    return itemStorage.blocked.isServiceIdBlocked(serviceId);
+  if (
+    isAciString(serviceId) &&
+    itemStorage.blocked.isServiceIdBlocked(serviceId)
+  ) {
+    return true;
   }
 
-  if (e164) {
-    return itemStorage.blocked.isBlocked(e164);
+  if (e164 && itemStorage.blocked.isBlocked(e164)) {
+    return true;
   }
 
-  if (groupId) {
-    return itemStorage.blocked.isGroupBlocked(groupId);
+  if (groupId && itemStorage.blocked.isGroupBlocked(groupId)) {
+    return true;
   }
 
   return false;

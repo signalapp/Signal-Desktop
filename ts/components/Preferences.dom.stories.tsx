@@ -1055,47 +1055,59 @@ Internal.args = {
 
 export const PrivacyBlocked1Contact = Template.bind({});
 PrivacyBlocked1Contact.args = {
-  blockedContacts: [getDefaultConversation()],
+  blockedContacts: [
+    { conversation: getDefaultConversation(), blockedAt: undefined },
+  ],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlocked1Group = Template.bind({});
 PrivacyBlocked1Group.args = {
-  blockedGroups: [getDefaultConversation()],
+  blockedGroups: [
+    { conversation: getDefaultConversation(), blockedAt: undefined },
+  ],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
-export const PrivacyBlocked1Both = Template.bind({});
-PrivacyBlocked1Both.args = {
-  blockedContacts: [getDefaultConversation()],
-  blockedGroups: [getDefaultConversation()],
+export const PrivacyBlocked1BothWithBlockedAt = Template.bind({});
+PrivacyBlocked1BothWithBlockedAt.args = {
+  blockedContacts: [
+    { conversation: getDefaultConversation(), blockedAt: Date.now() },
+  ],
+  blockedGroups: [
+    { conversation: getDefaultConversation(), blockedAt: Date.now() - DAY },
+  ],
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyContacts = Template.bind({});
 PrivacyBlockedManyContacts.args = {
-  blockedContacts: new Array(55)
-    .fill(undefined)
-    .map(() => getDefaultConversation()),
+  blockedContacts: new Array(55).fill(undefined).map(() => ({
+    conversation: getDefaultConversation(),
+    blockedAt: undefined,
+  })),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyGroups = Template.bind({});
 PrivacyBlockedManyGroups.args = {
-  blockedGroups: new Array(55)
-    .fill(undefined)
-    .map(() => getDefaultConversation()),
+  blockedGroups: new Array(55).fill(undefined).map(() => ({
+    conversation: getDefaultConversation(),
+    blockedAt: undefined,
+  })),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyBoth = Template.bind({});
 PrivacyBlockedManyBoth.args = {
-  blockedContacts: new Array(20)
-    .fill(undefined)
-    .map(() => getDefaultConversation()),
-  blockedGroups: new Array(20)
-    .fill(undefined)
-    .map(() => getDefaultConversation()),
+  blockedContacts: new Array(20).fill(undefined).map(() => ({
+    conversation: getDefaultConversation(),
+    blockedAt: undefined,
+  })),
+  blockedGroups: new Array(20).fill(undefined).map(() => ({
+    conversation: getDefaultConversation(),
+    blockedAt: undefined,
+  })),
   settingsLocation: { page: SettingsPage.Privacy },
 };
 

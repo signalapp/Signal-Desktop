@@ -103,11 +103,17 @@ import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import moment from 'moment';
 
 const { isNumber, noop, partition } = lodash;
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
+
+export type BlockedConversation = {
+  conversation: ConversationType;
+  blockedAt: number | undefined;
+};
 
 export type PropsDataType = {
   // Settings
@@ -127,8 +133,8 @@ export type PropsDataType = {
   pauseBackupMediaDownload: VoidFunction;
   cancelBackupMediaDownload: VoidFunction;
   resumeBackupMediaDownload: VoidFunction;
-  blockedContacts: ReadonlyArray<ConversationType>;
-  blockedGroups: ReadonlyArray<ConversationType>;
+  blockedContacts: ReadonlyArray<BlockedConversation>;
+  blockedGroups: ReadonlyArray<BlockedConversation>;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
@@ -2252,20 +2258,29 @@ export function Preferences({
         </SettingsRow>
         {blockedContacts.length > 0 ? (
           <SettingsRow title={i18n('icu:Preferences--blocked-users')}>
-            {blockedContacts.map(item => {
+            {blockedContacts.map(({ conversation, blockedAt }) => {
               return (
                 <div className={tw('flex w-full items-center px-[14px]')}>
                   <div className={tw('p-2')}>
                     <Avatar
-                      conversationType={item.type}
-                      badge={getPreferredBadge(item.badges)}
+                      conversationType={conversation.type}
+                      badge={getPreferredBadge(conversation.badges)}
                       i18n={i18n}
                       size={AvatarSize.THIRTY_SIX}
                       theme={theme}
-                      {...item}
+                      {...conversation}
                     />
                   </div>
-                  <div>{item.title}</div>
+                  <div className={tw('flex flex-col')}>
+                    <div>{conversation.title}</div>
+                    {isNumber(blockedAt) && blockedAt > 0 ? (
+                      <div className={tw('type-body-small text-secondary')}>
+                        {i18n('icu:Preferences--blocked--blocked-on', {
+                          blockedAt: moment(blockedAt).format('ll'),
+                        })}
+                      </div>
+                    ) : undefined}
+                  </div>
                 </div>
               );
             })}
@@ -2273,20 +2288,29 @@ export function Preferences({
         ) : undefined}
         {blockedGroups.length > 0 ? (
           <SettingsRow title={i18n('icu:Preferences--blocked-groups')}>
-            {blockedGroups.map(item => {
+            {blockedGroups.map(({ conversation, blockedAt }) => {
               return (
                 <div className={tw('flex w-full items-center px-[14px]')}>
                   <div className={tw('p-2')}>
                     <Avatar
-                      conversationType={item.type}
-                      badge={getPreferredBadge(item.badges)}
+                      conversationType={conversation.type}
+                      badge={getPreferredBadge(conversation.badges)}
                       i18n={i18n}
                       size={AvatarSize.THIRTY_SIX}
                       theme={theme}
-                      {...item}
+                      {...conversation}
                     />
+                  </div>{' '}
+                  <div className={tw('flex flex-col')}>
+                    <div>{conversation.title}</div>
+                    {isNumber(blockedAt) && blockedAt > 0 ? (
+                      <div className={tw('type-body-small text-secondary')}>
+                        {i18n('icu:Preferences--blocked--blocked-on', {
+                          blockedAt: moment(blockedAt).format('ll'),
+                        })}
+                      </div>
+                    ) : undefined}{' '}
                   </div>
-                  <div>{item.title}</div>
                 </div>
               );
             })}

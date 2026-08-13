@@ -108,7 +108,11 @@ describe('backup/conversations', () => {
       }
     );
 
-    await itemStorage.blocked.addBlockedGroup(blockedGroupInfo.groupId);
+    const timestamp = Date.now();
+    await itemStorage.blocked.addBlockedGroup(
+      blockedGroupInfo.groupId,
+      timestamp
+    );
 
     await symmetricRoundtripHarness([]);
 
@@ -116,6 +120,15 @@ describe('backup/conversations', () => {
       blockedGroupInfo.groupId
     );
     assert.isTrue(blockedGroupAfter?.isBlocked());
+    const blockedGroupItem = itemStorage.blocked
+      .getBlockedGroups()
+      .get(blockedGroupInfo.groupId);
+    assert.strictEqual(
+      blockedGroupItem?.blockedAt,
+      timestamp,
+      'Timestamp on blocked group should be rountripped'
+    );
+
     const unblockedGroupAfter = window.ConversationController.get(
       unblockedGroupInfo.groupId
     );

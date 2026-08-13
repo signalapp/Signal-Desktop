@@ -8540,6 +8540,10 @@
     "messageformat": "Blocked Groups",
     "description": "Header for groups section on the blocked preferences subpage"
   },
+  "icu:Preferences--blocked--blocked-on": {
+    "messageformat": "Blocked on {blockedAt}",
+    "description": "A second line shown under the contact's name in block list if we have a timestamp for that blocked contact or group"
+  },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups",
     "description": "Feature name for message backups using the Signal service."

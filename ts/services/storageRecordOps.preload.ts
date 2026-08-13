@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash, { omit, partition, without } from 'lodash';
+import lodash, { isNumber, omit, partition, without } from 'lodash';
 
 import { ServiceId } from '@signalapp/libsignal-client';
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
@@ -159,6 +159,13 @@ export type MergeResultType = Readonly<{
   details: ReadonlyArray<string>;
 }>;
 
+function makeBigInt(value: number | undefined): bigint | undefined {
+  if (!isNumber(value)) {
+    return undefined;
+  }
+
+  return BigInt(value);
+}
 function toRecordVerified(verified: number): Proto.ContactRecord.IdentityState {
   const VERIFIED_ENUM = signalProtocolStore.VerifiedStatus;
   const STATE_ENUM = Proto.ContactRecord.IdentityState;
@@ -304,6 +311,7 @@ export async function toContactRecord(
   const username = conversation.get('username');
   const ourID = window.ConversationController.getOurConversationId();
   const pni = conversation.getPni();
+  const e164 = conversation.get('e164');
 
   const profileKey = conversation.get('profileKey');
   const serviceId = aci ?? pni;
@@ -312,8 +320,15 @@ export async function toContactRecord(
   const nicknameFamilyName = conversation.get('nicknameFamilyName');
   const hideStory = conversation.get('hideStory');
 
+  const blockedServiceId = serviceId
+    ? itemStorage.blocked.getBlockedServiceIds().get(serviceId)
+    : undefined;
+  const blockedE164 = e164
+    ? itemStorage.blocked.getBlockedNumbers().get(e164)
+    : undefined;
+
   return {
-    e164: conversation.get('e164') ?? null,
+    e164: e164 ?? null,
     aciBinary:
       isProtoBinaryEncodingEnabled() && aci
         ? toAciObject(aci).getRawUuidBytes()
@@ -347,7 +362,11 @@ export async function toContactRecord(
     systemGivenName: conversation.get('systemGivenName') || null,
     systemFamilyName: conversation.get('systemFamilyName') || null,
     systemNickname: conversation.get('systemNickname') || null,
-    blocked: conversation.isBlocked(),
+    blocked: Boolean(blockedServiceId || blockedE164),
+    blockedAtTimestamp:
+      makeBigInt(blockedServiceId?.blockedAt) ??
+      makeBigInt(blockedE164?.blockedAt) ??
+      null,
     hidden: conversation.get('removalStage') !== undefined,
     whitelisted: Boolean(conversation.get('profileSharing')),
     archived: Boolean(conversation.get('isArchived')),
@@ -542,6 +561,11 @@ export function toAccountRecord({
     storyViewReceiptsEnabledValue = Proto.OptionalBool.UNSET;
   }
 
+  const releaseNotesChatBlocked = signalConversation?.isBlocked() ?? null;
+  const releaseNotesChatBlockedAt = releaseNotesChatBlocked
+    ? itemStorage.blocked.whenWasReleaseNotesChatBlocked()
+    : undefined;
+
   return {
     profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: ourConversation.get('profileName') || null,
@@ -617,7 +641,10 @@ export function toAccountRecord({
       signalConversation?.get('muteExpiresAt'),
       MAX_VALUE
     ),
-    releaseNotesChatBlocked: signalConversation?.isBlocked() ?? null,
+    releaseNotesChatBlocked,
+    releaseNotesChatBlockedAt: releaseNotesChatBlockedAt
+      ? BigInt(releaseNotesChatBlockedAt)
+      : null,
 
     $unknown: conversationUnknownFieldsToRecord(ourConversation),
   };
@@ -650,13 +677,19 @@ export function toGroupV2Record(
     throw missingCaseError(localStorySendMode);
   }
 
+  const groupId = conversation.get('groupId');
   const avatarColor = conversation.get('colorFromPrimary');
   const masterKey = conversation.get('masterKey');
   const verifiedNameHash = conversation.get('groupVerifiedNameHash');
 
+  const blockedItem = groupId
+    ? itemStorage.blocked.getBlockedGroups().get(groupId)
+    : undefined;
+
   return {
     masterKey: masterKey != null ? Bytes.fromBase64(masterKey) : null,
-    blocked: conversation.isBlocked(),
+    blocked: Boolean(blockedItem),
+    blockedAtTimestamp: makeBigInt(blockedItem?.blockedAt) ?? null,
     whitelisted: Boolean(conversation.get('profileSharing')),
     archived: Boolean(conversation.get('isArchived')),
     markedUnread: Boolean(conversation.get('markedUnread')),
@@ -924,7 +957,11 @@ export function toNotificationProfileRecord(
 }
 
 async function applyMessageRequestState(
-  record: { blocked: boolean; whitelisted: boolean },
+  record: {
+    blocked: boolean;
+    blockedAtTimestamp: bigint | undefined;
+    whitelisted: boolean;
+  },
   conversation: ConversationModel
 ): Promise<void> {
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -935,6 +972,7 @@ async function applyMessageRequestState(
       {
         source: MessageRequestResponseSource.STORAGE_SERVICE,
         learnedAtMs: Date.now(),
+        blockedAt: dropNull(toNumber(record.blockedAtTimestamp)),
       },
       { shouldSave: false }
     );
@@ -946,6 +984,7 @@ async function applyMessageRequestState(
       {
         source: MessageRequestResponseSource.STORAGE_SERVICE,
         learnedAtMs: Date.now(),
+        blockedAt: undefined,
       },
       { shouldSave: false }
     );
@@ -1601,6 +1640,7 @@ export async function mergeAccountRecord(
     automaticKeyVerificationDisabled,
     releaseNotesChatArchived,
     releaseNotesChatBlocked,
+    releaseNotesChatBlockedAt,
     releaseNotesChatMarkedUnread,
     releaseNotesChatMutedUntilTimestamp,
   } = accountRecord;
@@ -2056,6 +2096,7 @@ export async function mergeAccountRecord(
       {
         blocked: releaseNotesChatBlocked,
         whitelisted: !releaseNotesChatBlocked,
+        blockedAtTimestamp: dropNull(releaseNotesChatBlockedAt),
       },
       signalConversation
     );
