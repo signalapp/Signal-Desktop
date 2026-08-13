@@ -155,6 +155,7 @@ window.SignalContext = {
   getPreferredSystemLocales: () => ['en'],
   getLocaleOverride: () => null,
   getLocaleDisplayNames: () => ({ en: { en: 'English' } }),
+  getResolvedMessagesLocale: () => 'en',
 
   getLocalizedEmojiList: async locale => {
     const data = await fetch(

@@ -9,6 +9,8 @@
 
   --animate-*: initial; /* reset defaults */
 
+  --animate-spin: axo-animate-spin 4s linear infinite;
+
   --animate-spinner-v2-rotate: animate-spinner-v2-rotate 2s linear infinite;
   --animate-spinner-v2-dash: animate-spinner-v2-dash 1.5s ease-in-out infinite;
 
@@ -17,6 +19,15 @@
 }
 
 @layer base {
+  @keyframes axo-animate-spin {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
+  }
+
   @keyframes animate-spinner-v2-rotate {
     0% {
       transform: rotate(-180deg);

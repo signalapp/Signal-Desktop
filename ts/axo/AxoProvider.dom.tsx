@@ -2,14 +2,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode } from 'react';
 import { memo, useInsertionEffect } from 'react';
-import { Direction, Tooltip } from 'radix-ui';
+import { Tooltip } from 'radix-ui';
 import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.tsx';
 import { AxoIntl } from './_internal/AxoIntl.dom.tsx';
 
 export type AxoProviderProps = Readonly<{
-  /** Text direction for the application. */
-  dir: AxoIntl.Direction;
-  /** Localized strings used by Axo components. */
+  /**
+   * The resolved app locale based on the system preferred language and the
+   * user locale override preference
+   */
+  resolvedAppLocale: AxoIntl.ResolvedAppLocale;
+  /**
+   * The users preferred languages provided by the OS (unordered)
+   */
+  systemPreferredLanguages: AxoIntl.SystemPreferredLanguages;
+  /**
+   * Translated strings for all Axo message keys.
+   */
   messages: AxoIntl.Messages;
   children: ReactNode;
 }>;
@@ -35,10 +44,12 @@ export const AxoProvider: FC<AxoProviderProps> = memo(props => {
   });
 
   return (
-    <AxoIntl.Provider messages={props.messages}>
-      <Direction.Provider dir={props.dir}>
-        <Tooltip.Provider>{props.children}</Tooltip.Provider>
-      </Direction.Provider>
+    <AxoIntl.Provider
+      resolvedAppLocale={props.resolvedAppLocale}
+      systemPreferredLanguages={props.systemPreferredLanguages}
+      messages={props.messages}
+    >
+      <Tooltip.Provider>{props.children}</Tooltip.Provider>
     </AxoIntl.Provider>
   );
 });
