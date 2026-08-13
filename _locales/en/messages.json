@@ -11644,5 +11644,9 @@
   "icu:WhatsNew__8.20--1": {
     "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line.",
     "description": "(Deleted 2026/07/22) Release notes for 8.20"
+  },
+  "icu:WhatsNew__8.24--1": {
+    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group.",
+    "description": "Release notes for 8.24"
   }
 }
