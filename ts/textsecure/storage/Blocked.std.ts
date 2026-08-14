@@ -36,8 +36,6 @@ export class Blocked {
     this.#blockedNumbers = new Map();
     this.#blockedServiceIds = new Map();
     this.#blockedGroups = new Map();
-
-    this.load();
   }
 
   public reset(): void {
