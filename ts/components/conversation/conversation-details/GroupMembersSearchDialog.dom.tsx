@@ -454,7 +454,6 @@ function MemberItem(props: MemberItemProps): ReactNode {
           profileName={conversation.profileName}
           size={AvatarSize.THIRTY_TWO}
           title={conversation.title}
-          searchResult
           badge={undefined}
         />
       }
