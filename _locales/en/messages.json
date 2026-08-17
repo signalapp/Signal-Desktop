@@ -7928,6 +7928,14 @@
     "messageformat": "Hear a notification sound for sent and received messages while in the chat.",
     "description": "Description for message audio setting"
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications",
+    "description": "Title of setting to enable/disable system notifications when someone reacts to your message"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message",
+    "description": "Description of setting to enable/disable system notifications when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "General",
     "description": "Button to switch the settings view"

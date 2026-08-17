@@ -90,6 +90,7 @@ export type StorageAccessType = {
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
   'notification-setting': NotificationSettingType;
+  'reaction-notification': boolean;
   'read-receipt-setting': boolean;
   'sent-media-quality': SentMediaQualitySettingType;
   audioMessage: boolean;
@@ -378,6 +379,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'preferred-video-input-device',
   'preferredLeftPaneWidth',
   'preferredReactionEmoji',
+  'reaction-notification',
   'sent-media-quality',
   'showStickerPickerHint',
   'showStickersIntroduction',

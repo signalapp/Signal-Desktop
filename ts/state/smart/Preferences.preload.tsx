@@ -760,6 +760,8 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasNotificationAttention, onNotificationAttentionChange] =
     createItemsAccess('notification-draw-attention', false);
+  const [hasReactionNotifications, onReactionNotificationsChange] =
+    createItemsAccess('reaction-notification', true);
 
   const [notificationContent, onNotificationContentChange] = createItemsAccess(
     'notification-setting',
@@ -973,6 +975,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasNotificationAttention={hasNotificationAttention}
         hasNotifications={hasNotifications}
         hasPreferContactAvatars={hasPreferContactAvatars}
+        hasReactionNotifications={hasReactionNotifications}
         hasReadReceipts={hasReadReceipts}
         hasRelayCalls={hasRelayCalls}
         hasSealedSenderIndicators={hasSealedSenderIndicators}
@@ -1037,6 +1040,7 @@ export function SmartPreferences(): JSX.Element | null {
         onNotificationsChange={onNotificationsChange}
         onStartUpdate={startUpdate}
         onPreferContactAvatarsChange={onPreferContactAvatarsChange}
+        onReactionNotificationsChange={onReactionNotificationsChange}
         onReadReceiptsChange={onReadReceiptsChange}
         onRelayCallsChange={onRelayCallsChange}
         onSealedSenderIndicatorsChange={onSealedSenderIndicatorsChange}

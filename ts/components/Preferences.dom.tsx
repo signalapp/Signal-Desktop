@@ -161,6 +161,7 @@ export type PropsDataType = {
   hasNotificationAttention: boolean;
   hasNotifications: boolean;
   hasPreferContactAvatars: boolean;
+  hasReactionNotifications: boolean;
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean | undefined;
@@ -347,6 +348,7 @@ type PropsFunctionType = {
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
   onPreferContactAvatarsChange: CheckboxChangeHandlerType;
+  onReactionNotificationsChange: CheckboxChangeHandlerType;
   onReadReceiptsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
   onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
@@ -470,6 +472,7 @@ export function Preferences({
   hasNotificationAttention,
   hasNotifications,
   hasPreferContactAvatars,
+  hasReactionNotifications,
   hasReadReceipts,
   hasRelayCalls,
   hasSealedSenderIndicators,
@@ -527,6 +530,7 @@ export function Preferences({
   onNotificationContentChange,
   onNotificationsChange,
   onPreferContactAvatarsChange,
+  onReactionNotificationsChange,
   onReadReceiptsChange,
   onRelayCallsChange,
   onSealedSenderIndicatorsChange,
@@ -1556,6 +1560,16 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="callSystemNotification"
             onChange={onCallNotificationsChange}
+          />
+          <Checkbox
+            checked={hasReactionNotifications}
+            description={i18n(
+              'icu:Preferences__reaction-notifications-description'
+            )}
+            label={i18n('icu:Preferences__reaction-notifications-title')}
+            moduleClassName="Preferences__checkbox"
+            name="reactionNotifications"
+            onChange={onReactionNotificationsChange}
           />
           {isNotificationAttentionSupported && (
             <Checkbox
