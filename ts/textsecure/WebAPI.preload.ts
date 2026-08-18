@@ -2376,29 +2376,31 @@ export async function registerCapabilities(
 export async function postBatchIdentityCheck(
   elements: VerifyServiceIdRequestType
 ): Promise<VerifyServiceIdResponseType> {
-  const res = await _ajax({
+  const result = await _ajax({
     host: 'chatService',
     data: JSON.stringify({ elements }),
     call: 'batchIdentityCheck',
     httpType: 'POST',
     unauthenticated: true,
     responseType: 'json',
-    // TODO DESKTOP-8719
-    zodSchema: z.unknown(),
+    zodSchema: verifyServiceIdResponse,
   });
 
-  const result = safeParseUnknown(verifyServiceIdResponse, res);
+  // Guard against server returning keys for uuids that we did not request
+  const submittedUuids = new Set(elements.map(el => el.uuid));
 
-  if (result.success) {
-    return result.data;
-  }
-
-  log.error(
-    'invalid response from postBatchIdentityCheck',
-    toLogFormat(result.error)
+  const filtered = result.elements.filter(uuidAndKeyHash =>
+    submittedUuids.has(uuidAndKeyHash.uuid)
   );
 
-  throw result.error;
+  if (filtered.length !== result.elements.length) {
+    log.error(
+      'postBatchIdentityCheck: server returned ' +
+        `${result.elements.length - filtered.length} unrequested uuids`
+    );
+  }
+
+  return { elements: filtered };
 }
 
 function getProfileUrl(
