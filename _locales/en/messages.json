@@ -6922,6 +6922,10 @@
     "messageformat": "Add member",
     "description": "GroupMembersSearchDialog > Bottom Actions > Add member"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members",
+    "description": "GroupMembersSearchDialog > Bottom Actions > Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invite via group link",
     "description": "GroupMembersSearchDialog > Bottom Actions > Invite via group link"

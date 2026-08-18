@@ -151,7 +151,7 @@ export function GroupMembersSearchDialog(
                   <AxoContactList.ActionItem
                     symbol="plus"
                     title={i18n(
-                      'icu:GroupMembersSearchDialog__BottomActions__AddMember'
+                      'icu:GroupMembersSearchDialog__BottomActions__AddMembers'
                     )}
                     onClick={handleSelectAddMember}
                   />
