@@ -1431,6 +1431,7 @@ type WritableInterface = {
   ) => { wasPreviouslyUninstalled: boolean; position?: number };
   // Returns `true` if sticker pack was not previously uninstalled
   uninstallStickerPack: (packId: string, timestamp: number) => boolean;
+  removeUninstalledStickerPack: (packId: string) => void;
   clearAllErrorStickerPackAttempts: () => void;
 
   updateEmojiUsage: (emoji: Emoji.Parent, lastUsedAt: number) => void;

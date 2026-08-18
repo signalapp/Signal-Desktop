@@ -749,6 +749,7 @@ export const DataWriter: ServerWritableInterface = {
   addUninstalledStickerPacks,
   installStickerPack,
   uninstallStickerPack,
+  removeUninstalledStickerPack,
   clearAllErrorStickerPackAttempts,
 
   updateEmojiUsage,

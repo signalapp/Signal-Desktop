@@ -2312,6 +2312,10 @@ export async function mergeStickerPackRecord(
     stickerPackRecord
   );
 
+  const remoteDeletedAtTimestamp = toNumber(
+    stickerPackRecord.deletedAtTimestamp
+  );
+
   if (stickerPackRecord.$unknown) {
     details.push('adding unknown fields');
   }
@@ -2320,10 +2324,10 @@ export async function mergeStickerPackRecord(
   );
 
   let stickerPack: StickerPackInfoType;
-  if (toNumber(stickerPackRecord.deletedAtTimestamp)) {
+  if (remoteDeletedAtTimestamp) {
     stickerPack = {
       id,
-      uninstalledAt: toNumber(stickerPackRecord.deletedAtTimestamp),
+      uninstalledAt: remoteDeletedAtTimestamp,
       storageID,
       storageVersion,
       storageUnknownFields,
@@ -2425,10 +2429,15 @@ export async function mergeStickerPackRecord(
 
   await DataWriter.updateStickerPackInfo(stickerPack);
 
+  const shouldDrop =
+    remoteDeletedAtTimestamp > 0 &&
+    isOlderThan(remoteDeletedAtTimestamp, getMessageQueueTime());
+
   return {
     details,
     oldStorageID,
     oldStorageVersion,
+    shouldDrop,
   };
 }
 

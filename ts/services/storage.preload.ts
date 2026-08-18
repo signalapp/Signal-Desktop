@@ -594,6 +594,34 @@ async function generateManifest(
 
     uninstalledStickerPackIds.add(stickerPack.id);
 
+    if (
+      stickerPack.uninstalledAt !== 0 &&
+      isOlderThan(stickerPack.uninstalledAt, getMessageQueueTime())
+    ) {
+      const droppedID = stickerPack.storageID;
+      const droppedVersion = stickerPack.storageVersion;
+      if (droppedID) {
+        const recordID = redactStorageID(droppedID, droppedVersion);
+
+        log.info(
+          `generateManifest(${version}): ` +
+            `dropping stickerPack=${recordID} ` +
+            `due to expired deleted timestamp=${stickerPack.uninstalledAt}`
+        );
+        deleteKeys.add(droppedID);
+      } else {
+        log.info(
+          `generateManifest(${version}): ` +
+            `dropping never uploaded stickerPack=${stickerPack.id}` +
+            `due to expired deleted timestamp=${stickerPack.uninstalledAt}`
+        );
+      }
+
+      const { id } = stickerPack;
+      drop(DataWriter.removeUninstalledStickerPack(id));
+      return;
+    }
+
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: stickerPack.storageID,
       currentStorageVersion: stickerPack.storageVersion,
