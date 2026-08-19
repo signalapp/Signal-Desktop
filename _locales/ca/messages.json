@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Tots els xats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} missatge sense llegir} other {{count,number} missatges sense llegir}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Comproveu la connexió a xarxa."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "La data del dispositiu no és la correcta. Ajusta el teu rellotge i torna-ho a provar. La data i l'hora del teu dispositiu:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Registre de depuració"
@@ -5100,7 +5097,7 @@
     "messageformat": "Mostra-ho tot"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grup en comú} other {{count,number} grups en comú}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Copiar l'enllaç signal.group al porta-retalls"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Buscar membres"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Buscar admins"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Buscar contactes"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrar"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Tots els membres"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administradors"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Contactes"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "No hi ha cap resultat."
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "No s'ha trobat cap resultat per a «{searchQuery}»"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrador"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Resultats de la cerca"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Afegeix membre"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Convidar mitjançant enllaç de grup"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Sol·licituds ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grups bloquejats"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bloquejat el {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Còpies de seguretat segures de Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Advertiment"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Si desactives el PIN, perdràs totes les dades quan et tornis a registrar a Signal. No podràs activar el bloqueig de registre mentre el PIN estigui desactivat."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Desactiva el PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Ara, els admins de grup poden finalitzar els xats amb la nova opció \"Tancar grup\" als ajustos del grup. Tancar un grup evita que els seus membres puguin enviar missatges o iniciar trucades. També desactiva les invitacions al grup."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Arriben les trucades a desaparèixer: totes les trucades que facis o rebis després d'instal·lar aquesta actualització desapareixeran de qualsevol xat en què estiguin habilitats els missatges a desaparèixer."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Ara pots ordenar els paquets d'stickers que tinguis instal·lats com vulguis i tenir sempre els teus stickers preferits a mà."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Hem fet que sigui més fàcil buscar membres del grup a la pàgina d'ajustos."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

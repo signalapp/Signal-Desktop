@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "تمام چیٹس"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number}نہ پڑھے ہوئے پیغامات} other {{count,number}نہ پڑھے ہوئے پیغامات}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "اپنا نیٹ ورک کنکشن چیک کریں۔"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "آپ کی ڈیوائس کی تاریخ درست نہیں ہے۔ اپنی گھڑی کو ایڈجسٹ کریں اور دوبارہ کوشش کریں۔ آپ کی ڈیوائس کی تاریخ اور وقت یہ ہے:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ڈی بگ لاگ"
@@ -5100,7 +5097,7 @@
     "messageformat": "تمام دیکھیں"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "تلا ‎ش کر یں"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} مشترکہ گروپ} other {{count,number} مشترکہ گروپس}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group کے لنک کو کلپ بورڈ پر کاپی کریں"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "ممبرز تلاش کریں"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "تلا ‎ش کر یں"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "ایڈمنز تلاش کریں"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "رابطے تلاش کریں"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "فلٹر"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "تمام ممبران"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "ایڈمنز"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "رابطے"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "کوئی نتیجہ نہیں"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "\"{searchQuery}\" کے لیے کوئی نتائج نہیں ہیں"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "منتظم"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "تلاش کے نتائج"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "ممبر شامل کریں"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "گروپ لنک کے ذریعے مدعو کریں"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "درخواستیں ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "بلاک کردہ گروپس"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} کو بلاک کردہ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal کے محفوظ بیک اپس"
@@ -7148,7 +7148,7 @@
     "messageformat": "انتباہ"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "اگر آپ پن کو غیر فعال کر دیتے ہیں، تو Signal کو دوبارہ رجسٹر کرتے وقت آپ کا تمام ڈیٹا ضائع ہو جائے گا۔ جب پن غیر فعال ہو تو آپ رجسٹریشن لاک آن نہیں کر سکتے۔"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN کو غیر فعال کریں"
@@ -8745,9 +8745,6 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "• گروپ ایڈمنز اب گروپ سیٹنگز میں \"گروپ ختم کریں\" کے نئے آپشن کے ساتھ چیٹس کو ختم کر سکتے ہیں۔ گروپ ختم کرنا گروپ ممبرز کو میسجز بھیجنے یا کالز کا آغاز کرنے سے روکتا ہے، اور اس کے علاوہ مدعو کرنے کو بھی غیر فعال کرتا ہے۔ اب آپ یقینی بنا سکتے ہیں کہ سب لوگ صحیح تھریڈ میں رہیں اور آپ پچھلے سال کا سلائی کڑھائی والا گروپ ختم کر کے نیا گروپ بنائیں۔"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "غائب ہونے والے کال ایونٹس متعارف کروائے جا رہے ہیں: اس اپ ڈیٹ کو انسٹال کرنے کے بعد چھوٹ جانے والی، کی جانے والی، اور موصول ہونے والی کالز اب خود کار طور پر کسی بھی ایسی چیٹ سے غائب ہو جائیں گی جہاں غائب ہونے والے میسجز فعال ہوں گے۔"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "اب آپ انسٹال کردہ اسٹیکر پیکس کو دوبارہ ترتیب دے سکتے ہیں تاکہ آپ کے نئے پسندیدہ اسٹیکرز فہرست میں پیچھے نہ رہ جائیں۔"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "ہم نے گروپ سیٹنگز کے صفحے پر گروپ ممبرز کو تلاش کرنا مزید آسان بنا دیا ہے تاکہ اب آپ فٹافٹ جان لیں کہ آپ کی ممی نے آپ کے سیکنڈ کزن کو پورے خاندان کے تیسرے سالانہ باربی کیو ری یونین گروپ میں شامل کر دیا ہے یا نہیں۔"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

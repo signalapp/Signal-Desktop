@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Tutte le chat"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} messaggio non letto} other {{count,number} messaggi non letti}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Verifica la tua connessione."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "La data impostata sul tuo dispositivo è sbagliata. Correggila e riprova. Ora e data del tuo dispositivo:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Debug log"
@@ -5100,7 +5097,7 @@
     "messageformat": "Vedi tutti"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} gruppo in comune} other {{count,number} gruppi in comune}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Copia il link signal.group negli appunti"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Cerca partecipanti"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Cerca admin"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Cerca contatti"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtro"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Tutti i partecipanti"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Contatti"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Nessun risultato"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nessun risultato per \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Cerca tra i risultati"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Aggiungi partecipante"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Invita tramite link del gruppo"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Richieste ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Gruppi bloccati"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bloccato il {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backup sicuri di Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Attenzione"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Se disabiliti il PIN, perderai tutti i dati quando ti registrerai nuovamente su Signal. Non è possibile attivare il Blocco registrazione mentre il PIN è disabilitato."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Disabilita PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Gli admin dei gruppi possono chiudere una chat usando la nuova opzione \"Chiudi gruppo\" nelle Impostazioni del gruppo.Chiudere una chat di gruppo impedirà alle persone che ne fanno parte di inviare ulteriori messaggi o fare chiamate (e non sarà più possibile invitare altri utenti).Insomma, un'ottima opzione da usare per chiudere il gruppo di un progetto concluso o il gruppo del fantacalcio dell'anno scorso."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Arrivano (o meglio dire \"vanno via\") le novità dalle chiamate che scompaiono con il passare del tempo! Le notifiche di chiamate perse, in uscita e ricevute che avvengono dopo l'installazione di questo aggiornamento scompariranno in automatico in qualsiasi chat dove i messaggi temporanei sono attivi."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Ora puoi riordinare i pacchetti di sticker che hai installato, così avrai sempre i tuoi preferiti a portata di mano."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Da adesso è più semplice cercare le persone in un gruppo dalle Impostazioni della chat di gruppo. Puoi vedere i nuovi utenti e apportare modifiche, magari aggiungendo quella persona che ci rimane male se non è la prima a partecipare in un nuovo gruppo."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

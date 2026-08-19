@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alle kletse"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ongeleesde boodskap} other {{count,number} ongeleesde boodskappe}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Kontroleer jou netwerkverbinding."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Jou toestel se datum is nie akkuraat nie. Stel jou horlosie reg en probeer weer. Jou toestel se datum en tyd is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Onfout-log"
@@ -5100,7 +5097,7 @@
     "messageformat": "Sien alle"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Soek"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} groep in gemeen} other {{count,number} groepe in gemeen}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopieer signal.group-skakel na knipbord"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Soek lede"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Soek"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Soek deur admins"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Soek deur kontakte"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Alle lede"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
     "messageformat": "Admins"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakte"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Geen resultate nie"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Geen resultate vir \"{searchQuery}\" nie"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Soekresultate"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Voeg lid by"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Nooi via groepskakel"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Versoeke ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Versperde Groepe"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Versper op {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal se Veilige Rugsteun"
@@ -7148,7 +7148,7 @@
     "messageformat": "Waarskuwing"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Indien jy die PIN deaktiveer, sal jy alle data verloor wanneer jy Signal herregistreer. Jy kan nie Registrasieblokkering aanskakel terwyl die PIN gedeaktiveer is nie."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Deaktiveer PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Groepadmins kan nou kletse beëindig met die nuwe \"Beëindig Groep\" in die groepinstellings. Beëindiging van 'n groep verhoed dat groeplede boodskappe stuur of oproepe begin, en dit deaktiveer ook uitnodigings."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Ons stel bekend - verdwynoproepgebeurtenisse: Misgeloopte, uitgaande en ontvangde oproepe wat plaasvind nadat jy hierdie opdatering geïnstalleer het, sal nou outomaties verdwyn in enige klets waar verdwynboodskappe geaktiveer is."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Jy kan nou jou geïnstalleerde plakkerpakkette herrangskik sodat jou nuwe gunstelinge nie agter in die ry vassteek nie."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Ons het dit makliker gemaak om vir groeplede op die groepinstellings-webblad te soek."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

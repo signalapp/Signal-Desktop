@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Txat guztiak"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} mezu irakurri gabe} other {{count,number} mezu irakurri gabe}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Egiaztatu zure konekxioa."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Gailuko data ez da zuzena. Doitu erlojua eta saiatu berriro. Gailuko data eta ordua:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Arazteko informazioa"
@@ -5100,7 +5097,7 @@
     "messageformat": "Ikusi denak"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Bilatu"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {Talde {count,number} komuna} other {{count,number} talde komun}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopiatu signal.group esteka arbelean"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Bilatu kideak"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Bilatu"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Bilatu adminak"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Bilatu kontaktuak"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Iragazi"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Partaide guztiak"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratzaileak"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontaktuak"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Ez da emaitzarik aurkitu."
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Ez dago honen emaitzarik: \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administratzailea"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Bilaketa-emaitzak"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Partaidea gehitu"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Gonbidatu taldeko estekaren bidez"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Eskaerak ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blokeatutako taldeak"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Hemen blokeatuta: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-en babeskopia seguruak"
@@ -7148,7 +7148,7 @@
     "messageformat": "Markatutako zenbakia ez dago Signalen erregistratuta. SMS bidez gonbidatu nahiko zenuke?"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PINa desgaitzen baduzu, datu guztiak galduko dituzu Signal-en berriro erregistratzean. PINa desgaituta dagoen bitartean, ezin duzu aktibatu erregistro-blokeoa."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Desaktibatu PINa"
@@ -8745,9 +8745,6 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Orain, taldeko adminek txatak amaitzeko aukera dute, taldeen ezarpenetako \"Amaitu taldea\" aukera berriarekin. Talde bat amaituta, taldeko kideek ezingo dituzte bidali mezuak, ezta deiak hasi ere. Halaber, gonbidapenak desgaitu egingo dira."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Desagertzen diren deiekin lotutako gertaerak: Eguneratze hau instalatu ondoren gertatzen diren dei galduak, irteerako deiak eta jasotako deiak automatikoki desagertuko dira desagertzen den mezuak gaituta dauzkaten txatetan."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Orain, instalatutako eranskailu-paketeak berrantola ditzakezu, gogokoen dituzunak behean geratu ez daitezen."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Taldeen ezarpenen orrian taldeko kideak bilatzeko aukera erraztu dugu."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

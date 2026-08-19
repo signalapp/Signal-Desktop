@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Gach comhrá"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} teachtaireacht neamhléite} two {{count,number} theachtaireacht neamhléite} few {{count,number} theachtaireacht neamhléite} many {{count,number} dteachtaireacht neamhléite} other {{count,number} teachtaireacht neamhléite}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Seiceáil do nasc líonra."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Tá dáta do ghléis míchruinn. Athraigh do chlog agus triail arís. Dáta agus am do ghléis:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Logchomhad dífhabhtaithe"
@@ -5100,7 +5097,7 @@
     "messageformat": "See All"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Cuardaigh"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ghrúpa i bpáirt} two {{count,number} ghrúpa i bpáirt} few {{count,number} ghrúpa i bpáirt} many {{count,number} ngrúpa i bpáirt} other {{count,number} grúpa i bpáirt}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Cóipeáil nasc signal.group chuig an ngearrthaisce"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Cuardaigh baill"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cuardaigh"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Cuardaigh riarthóirí"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Cuardaigh teagmhálaithe"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Scag"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Na baill go léir"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Riarthóirí"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Teagmhálaithe"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Gan torthaí"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Ní bhfuarthas aon torthaí ar \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Riarthóir"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Torthaí Cuardaigh"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Cuir ball leis"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Tabhair cuireadh trí nasc grúpa"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Iarratais ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grúpaí Bactha"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bac curtha air/uirthi an {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Cúltacaí Slána Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Rabhadh"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Má dhíchumasaíonn tú an UAP, caillfidh tú na sonraí go léir nuair a athchláraíonn tú Signal. Ní féidir leat Glas Cláraithe a chasadh air agus an UAP díchumasaithe."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Díchumasaigh an UAP"
@@ -8745,9 +8745,6 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Féadann riarthóirí grúpa comhráite críoch a chur le teachtaireachtaí anois leis an rogha nua \"Cuir Deireadh leis an nGrúpa\" i socruithe an ghrúpa. Cuirtear cosc ar bhaill den ghrúpa teachtaireachtaí a sheoladh nó glaonna a chur, agus díchumasaítear cuirí freisin, trí dheireadh a chur le grúpa."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Tús eolais ar imeachtaí glaonna a imíonn as radharc: Tar éis duit an nuashonrú seo a shuiteáil, imeoidh glaonna caillte, glaonna amach agus glaonna a fuarthas as radharc go huathoibríoch in aon chomhrá ina mbíonn teachtaireachtaí sealadacha cumasaithe."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Anois is féidir leat bearta greamán a suiteáladh a chur in ord nua ionas nach mbeidh do chuid ceanán nua gafa ar chúl na líne."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Rinneamar cuardach le haghaidh baill den ghrúpa níos éasca ar leathanach socruithe an ghrúpa."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

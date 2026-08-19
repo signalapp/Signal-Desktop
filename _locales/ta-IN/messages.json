@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "அனைத்து சாட்ஸ்"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} படிக்காத செய்தி} other {{count,number} படிக்காத செய்திகள்}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "உங்கள் பிணைய இணைப்பைச் சரிபார்க்கவும்."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "உங்கள் சாதனத்தின் தேதி தவறாக உள்ளது. உங்கள் கடிகாரத்தைச் சரிசெய்துவிட்டு மீண்டும் முயலவும். உங்கள் சாதனத்தின் தேதி மற்றும் நேரம்:"
   },
   "icu:submitDebugLog": {
     "messageformat": "பிழைத்திருத்த பதிவு"
@@ -5100,7 +5097,7 @@
     "messageformat": "அனைத்தையும் பார்"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "தேடு"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number}பொதுவான குழு} other {{count,number}பொதுவான குழுக்கள்}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "சிக்னல்.குழு இணைப்பை கிளிப்போர்டுக்கு நகலெடு"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "உறுப்பினர்களைத் தேடுதல்"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "தேடு"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "நிர்வாகிகளைத் தேடுதல்"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "தொடர்புகளைத் தேடு"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "வடிகட்டி"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "அனைத்து உறுப்பினர்கள்"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "நிர்வாகிகள்"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "தொடர்புகள்"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "முடிவுகள் இல்லை"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "''{searchQuery}\"-க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "நிர்வாகம்"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "தேடல் முடிவுகள்"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "குழுஉறுப்பினர் சேர்க்"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "குழு இணைப்பு வழியாக அழை"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "கோரிக்கைகளை ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "தடுக்கப்பட்ட தொகுப்புகள்"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt}-இல் தடைசெய்யப்பட்டது"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகள்"
@@ -7148,7 +7148,7 @@
     "messageformat": "எச்சரிக்கை"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "நீங்கள் PINஐ முடக்கினால், Signal-இல் மீண்டும் பதிவுசெய்யும்போது உள்ள எல்லாத் தரவையும் இழப்பீர்கள். பின் முடக்கப்பட்டிருக்கும்போது பதிவுப் பூட்டை நீங்கள் ஆன் செய்ய முடியாது."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN-ஐ முடக்கு"
@@ -8745,9 +8745,6 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "தொகுப்பு நிர்வாகிகள் இப்போது தொகுப்பு அமைப்புகளில் புதிய \"தொகுப்பை முடி\" விருப்பத்துடன் உரையாடல்களை ஒரு முடிவுக்கு கொண்டு வரலாம். ஒரு தொகுப்பை முடிப்பது தொகுப்பு உறுப்பினர்கள் செய்திகளை அனுப்புவதிலிருந்தோ அல்லது அழைப்புகளை மேற்கொள்வதிலிருந்தோ தடுக்கிறது. மேலும் அழைப்புகளை முடக்குகிறது."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "மறையும் அழைப்பு நிகழ்வுகள் அறிமுகப்படுத்தப்பட்டுள்ளன: இந்தப் புதுப்பிப்பை நீங்கள் நிறுவிய பின், இனி 'மறையும் செய்திகள்' அம்சம் இயக்கப்பட்டுள்ள எந்தவொரு உரையாடலிலும் நிகழும் தவறவிட்ட, வெளிச்சென்ற மற்றும் பெறப்பட்ட அழைப்புகள் தானாகவே மறைந்துவிடும்."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "இப்போது நீங்கள் நிறுவப்பட்ட ஸ்டிக்கர் பேக்குகளை மறுவரிசைப்படுத்தலாம், எனவே உங்களுக்குப் பிடித்தவை வரியின் பின்புறத்தில் சிக்காமல் இருக்கும்."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "தொகுப்பு அமைப்புகளின் பக்கத்தில் தொகுப்பு உறுப்பினர்களைத் தேடுவதை எளிதாக்கியுள்ளோம்."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "అన్ని చాట్స్"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} చదవని సందేశం} other {{count,number} చదవని సందేశాలు}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "మీ నెట్‌వర్క్ కనెక్షన్‌ను తనిఖీ చేయండి."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "మీ పరికరం తేదీ సరిగ్గా లేదు. మీ గడియారాన్ని సరిచేసుకుని, మళ్ళీ ప్రయత్నించండి. మీ పరికరం యొక్క తేదీ మరియు సమయం:"
   },
   "icu:submitDebugLog": {
     "messageformat": "డీబగ్ సంఘటన లేకరి"
@@ -5100,7 +5097,7 @@
     "messageformat": "అన్నింటిని చూడు"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "వెతకండి"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} సమూహం ఉమ్మడిగా ఉన్నాయి} other {{count,number} సమూహాలు ఉమ్మడిగా ఉన్నాయి}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group లింక్‌ను క్లిప్‌బోర్డ్‌కు కాపీ చేయండి"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "సభ్యులను వెతకండి"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "వెతకండి"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "అడ్మిన్‌లను వెతకండి"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "పరిచయాలను వెతకండి"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ఫిల్టర్"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "సభ్యులు అందరూ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "అడ్మిన్‌లు"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "పరిచయాలు"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "ఏ ఫలితాలు లేవు"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” కోసం ఏ ఫలితాలు లేవు"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "అడ్మిన్"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "శోధన ఫలితాలు"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "సభ్యుడిని జోడించండి"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "గ్రూప్ లింక్ ద్వారా ఆహ్వానించండి"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "అభ్యర్థనలు ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "బ్లాక్ చేయబడిన గ్రూప్‌లు"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} రోజున బ్లాక్ చేయబడింది"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal సురక్షిత బ్యాకప్‌లు"
@@ -7148,7 +7148,7 @@
     "messageformat": "హెచ్చరిక"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "ఒకవేళ మీరు PIN ని నిలిపివేస్తే, Signal ని మళ్ళీ నమోదు చేసుకునేటప్పుడు మీరు మొత్తం డేటాను కోల్పోతారు. PIN నిలిపివేయబడినప్పుడు మీరు నమోదు లాక్‌ని ఆన్ చేయలేరు."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "పిన్‌ను ఆపివేయి"
@@ -8745,9 +8745,6 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "గ్రూప్ సెట్టింగ్స్‌లోని కొత్త \"ఎండ్ గ్రూప్\" ఆప్షన్‌తో గ్రూప్ అడ్మిన్‌లు ఇప్పుడు చాట్‌లను ముగించవచ్చు. గ్రూప్‌ను ముగించడం వల్ల సభ్యులు సందేశాలు పంపలేరు లేదా కాల్స్ చేయలేరు, ఆహ్వానాలు కూడా నిలిపివేయబడతాయి. కొత్త సీవింగ్ మీటప్ గ్రూప్‌ను ప్రారంభించే ముందు, పాత గ్రూప్‌ను ముగించడం ద్వారా అందరూ సరైన క్రమంలోనే ఉండేలా చూసుకోవచ్చు."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "★ అదృశ్యమయ్యే కాల్ ఈవెంట్‌లను పరిచయం చేస్తున్నాము: ఈ అప్‌డేట్‌ను ఇన్‌స్టాల్ చేసిన తర్వాత సంభవించే మిస్డ్, అవుట్‌గోయింగ్, అందుకోబడిన కాల్స్, అదృశ్యమయ్యే సందేశములు ప్రారంభించబడిన ఏ చాట్‌లోనైనా ఇప్పుడు ఆటోమేటిక్‌గా అదృశ్యమవుతాయి.\n"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "ఇప్పుడు మీరు ఇన్‌స్టాల్ చేసిన స్టిక్కర్ ప్యాక్‌ల క్రమాన్ని మార్చుకోవచ్చు, తద్వారా మీకు కొత్తగా నచ్చినవి వరుసలో చివరన ఉండిపోకుండా చూసుకోవచ్చు."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "గ్రూప్ సెట్టింగ్‌ల పేజీలో గ్రూప్ సభ్యుల కోసం వెతకడాన్ని మేము సులభతరం చేశాము."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

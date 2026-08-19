@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "所有聊天"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} 則未讀訊息}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "請檢查你的網路連線。"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "你的裝置日期不正確。請調整你的時鐘，然後再試一次。你的裝置日期和時間為："
   },
   "icu:submitDebugLog": {
     "messageformat": "除錯日誌"
@@ -5100,7 +5097,7 @@
     "messageformat": "查看全部"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "搜尋"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number} 個共同群組}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "將 signal.group 連結複製到剪貼簿"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "搜尋成員"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "搜尋"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "搜尋管理員"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "搜尋聯絡人"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "篩選"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "所有成員"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "管理員"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "聯絡人"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "查無結果"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "沒有符合「{searchQuery}」的結果"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "管理員"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "搜尋結果"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "新增成員"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "透過群組連結邀請"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "要求 ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "被封鎖的群組"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "已於 {blockedAt}封鎖"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal 安全備份"
@@ -7148,7 +7148,7 @@
     "messageformat": "警告"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "若你停用 PIN 碼，當你重新註冊 Signal 時，你將遺失所有資料。PIN 碼停用時不可開啟註冊鎖定。"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "停用 PIN 碼"
@@ -8745,9 +8745,6 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "群組管理員現在可以透過群組設定中的新選項「解散群組」，讓聊天自然結束。解散群組可避免群組成員發送訊息或發起通話，同時邀請功能也會被停用。現在，你可以在開始籌備新一期的串珠手作聚會之前，先解散上期的聚會群組，這樣就能確保大家都能跟上正確的訊息串。"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "推出「自動銷毀通話相關事件」功能：安裝此更新後出現的未接來電、撥出通話及接聽來電，現在都會在已啟用「自動銷毀訊息」的任何聊天中自動消失。"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "現在你可以重新排列已安裝的貼圖包次序，讓你的新寵貼圖包不會被擠到列表最後。"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "我們讓你更容易在群組設定頁面搜尋群組成員，這樣你就能快速知道媽媽是否已經將二表弟加入「第三屆大家庭年度烤肉團聚」群組中。"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

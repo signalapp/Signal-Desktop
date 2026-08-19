@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "すべてのチャット"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number}件の未読メッセージ}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "ネットワーク接続を確認してください。"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "ご利用の端末の日時が正しくありません。日時を調整してもう一度お試しください。ご利用の端末の日時："
   },
   "icu:submitDebugLog": {
     "messageformat": "デバッグログ"
@@ -5100,7 +5097,7 @@
     "messageformat": "すべて表示"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "検索"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {共通のグループ {count,number}件}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.groupのリンクをクリップボードにコピーする"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "メンバーを検索"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "検索"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "管理者で検索"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "連絡先を検索"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "フィルタ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "すべてのメンバー"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "管理者"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "連絡先"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "該当なし"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” の検索結果はありません"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "管理者"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "検索結果"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "メンバーを追加する"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "グループリンクで招待"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "申請 ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "ブロック中のグループ"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} にブロック済み"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signalセキュアバックアップ"
@@ -7148,7 +7148,7 @@
     "messageformat": "ご注意ください"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PINを無効にすると、Signalに再登録する際すべてのデータが失われます。PINを無効にしている間は登録ロックは使用できません。"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PINを無効にする"
@@ -8745,9 +8745,6 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "グループ管理者は、グループ設定内に追加された「グループを終了」という新しいオプションを使用して、チャットを終了できるようになりました。グループを終了すると、メンバーはメッセージ送信や通話開始ができなくなり、招待も無効になります。"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "通話関連履歴、自動消去のお知らせを追加しました。このアップデートをインストールすると、消えるメッセージが有効になっているチャットでは、不在着信、発信、着信履歴が自動的に消去されます。"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "インストールしたステッカーパックを並べ替えられるようになりました。これで、新しいお気に入りのパックがリストの後ろに埋もれてしまうことはありません。"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "★グループ設定のページでのメンバー検索がより簡単になりました。"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

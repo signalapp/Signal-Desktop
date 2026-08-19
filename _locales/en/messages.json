@@ -439,10 +439,6 @@
     "messageformat": "All chats",
     "description": "Left Pane > Inbox > Chat List > Chat Folders > Item Label > All chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount, number}+",
-    "description": "(Deleted 2026/07/15) Left Pane > Inbox > Chat List > Chat Folders > Item > Badge Count > When over the max count (Example: 1000 or more would be 999+)"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {# Unread Message} other {# Unread Messages}}",
     "description": "Left Pane > Inbox > Chat List > Chat Folders > Item > Badge Count > Accessible Label"
@@ -6920,7 +6916,7 @@
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Add member",
-    "description": "GroupMembersSearchDialog > Bottom Actions > Add member"
+    "description": "(Deleted 2026/08/19) GroupMembersSearchDialog > Bottom Actions > Add member"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Add members",
@@ -11633,10 +11629,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Group admins can now bring chats to their natural conclusion with the new \"End Group\" option in group settings. Ending a group prevents group members from sending messages or starting calls, and also disables invites. Now you can make sure everyone stays on the right thread by ending last year's sewing meetup group before stitching a new one together.",
-    "description": "(Deleted 2026/07/15) Release notes for 8.19"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled.",
     "description": "(Deleted 2026/07/22) Release notes for 8.20"
@@ -11647,7 +11639,7 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group.",
-    "description": "Release notes for 8.24"
+    "description": "(Deleted 2026/08/19) Release notes for 8.24"
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",

@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alle chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ongelezen bericht} other {{count,number} ongelezen berichten}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "De datum op je apparaat is incorrect. Pas je klok aan en probeer het opnieuw. De datum en tijd op je apparaat is:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Foutopsporingslog"
@@ -5100,7 +5097,7 @@
     "messageformat": "Alles weergeven"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Zoeken"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} gemeenschappelijke groep} other {{count,number} gemeenschappelijke groepen}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Signal-groepslink kopiëren naar klembord"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Leden zoeken"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Zoeken"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Beheerders zoeken"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Contacten zoeken"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filteren"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Alle leden"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Beheerders"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Contacten"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Geen resultaten"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Geen resultaten voor ‘{searchQuery}’"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Beheerder"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Zoekresultaten"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Lid toevoegen"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Uitnodigen via groepslink"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Verzoeken ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Geblokkeerde groepen"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Geblokkeerd op {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7148,7 +7148,7 @@
     "messageformat": "Waarschuwing"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Als je de pincode uitschakelt, raak je alle gegevens kwijt wanneer je Signal opnieuw registreert. Zolang de pincode is uitgeschakeld, kun je de registratievergrendeling niet inschakelen."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Pincode uitschakelen"
@@ -8745,9 +8745,6 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Groepsbeheerders kunnen chats nu op een makkelijke manier afsluiten met de nieuwe optie ‘Groep opheffen’ in de groepsinstellingen. Als je een groep opheft, kunnen groepsleden geen berichten meer versturen of oproepen starten, en worden uitnodigingen ook uitgeschakeld. Het project zit er eindelijk op, nu kun je ook de groep tot een goed einde brengen."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Nieuw: verdwijnende oproepen. Gemiste, uitgaande en ontvangen oproepen die plaatsvinden nadat je deze update hebt geïnstalleerd, verdwijnen automatisch in iedere chat waar verdwijnende berichten zijn ingeschakeld."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Je kunt nu je stickerpakketten herschikken, zodat je favorieten niet achteraan verdwijnen."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "We hebben het makkelijker gemaakt om op de pagina met groepsinstellingen naar groepsleden te zoeken. Zo kun je snel zien of je achterneef al is toegevoegd aan de groep voor de derde, jaarlijkse familiebarbecue."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

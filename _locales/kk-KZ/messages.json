@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Барлық чат"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} оқылмаған хат} other {{count,number} хат оқылмаған}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Желімен байланысты тексеріңіз."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Құрылғы күні дұрыс емес. Сағатыңызды реттеп, қайталап көріңіз. Құрылғы күні мен уақыты:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Ақауларды түзету журналы"
@@ -5100,7 +5097,7 @@
     "messageformat": "Барлығын көру"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Іздеу"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ортақ топ бар} other {{count,number} ортақ топ бар}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Буферге signal.group сілтемесін көшіріңіз"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Мүшелерді іздеу"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Іздеу"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Әкімшілерді іздеу"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Контактілерді іздеу"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Сүзгі"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Барлық мүше"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Әкімшілер"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Контактілер"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Нәтиже жоқ"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "\"{searchQuery}\" бойынша нәтижелер жоқ"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Әкімші"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Іздеу нәтижелері"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Мүше қосу"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Топтық сілтеме арқылы шақыру"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Өтініштер ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Блокталған топтар"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Блокталған уақыты: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal қауіпсіз сақтық көшірмелері"
@@ -7148,7 +7148,7 @@
     "messageformat": "Ескерту"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PIN кодын өшіріп қойсаңыз, Signal-ға қайта тіркелгенде деректеріңіздің барлығын жоғалтасыз. PIN коды өшірулі болғанда, тіркелу құлпын аша алмайсыз."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN-кодты өшіру"
@@ -8745,9 +8745,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Топ әкімшілері енді топ параметрлеріндегі жаңа \"Топты жабу\" функциясымен чаттарды жауып тастай алады. Топты жапсаңыз, топ мүшелері хабар жібере не қоңырау шала алмай қалады. Шақырулар да істемей тұрады. Енді жаңа топты құрмай тұрып, өткен жылғы тігіншілер кездесуі тобын жабу арқылы барлығының дұрыс чатта қалуын қамтамасыз ете аласыз."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Ғайып болатын қоңырау оқиғалары мүмкіндігімен танысыңыз. Осы жаңа нұсқаны орнатқаннан кейін, қандай да бір чатта жойылатын хабарлар функциясы қосылып тұрғанда, қабылданбаған, шығыс және қабылданған қоңыраулар автоматты түрде жоғалып кетеді."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Енді орнатылған стикерлер жинақтарының ретін өзгерте аласыз, осылайша жаңа таңдаулы стикерлеріңіз тізімнің соңында қалып кетпейді."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "★ Топ параметрлері бетінде топ мүшелерін оңай іздеуге болады. Енді жыл сайын өткізілетін үшінші үлкен отбасылық жиынның барбекю тобына анаңыздың бөлеңізді қосқанын не қоспағанын көре аласыз."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

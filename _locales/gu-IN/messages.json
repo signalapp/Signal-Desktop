@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "બધી ચેટ"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ન વાંચેલો મેસેજ} other {{count,number} ન વાંચેલા મેસેજ}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "તમારું નેટવર્ક કનેક્શન તપાસો."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "તમારા ડિવાઇસની તારીખ અચોક્કસ છે. તમારી ઘડિયાળ એડજસ્ટ કરો અને ફરી પ્રયાસ કરો. તમારા ડિવાઇસની તારીખ અને સમય છે:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ડીબગ લૉગ"
@@ -5100,7 +5097,7 @@
     "messageformat": "બધા જુઓ"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "શોધો"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ગ્રુપ સમાન છે} other {{count,number} ગ્રુપ સમાન છે}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group લિંકને ક્લિપબોર્ડ પર કૉપિ કરો"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "સભ્યો શોધો"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "શોધો"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "એડમિન શોધો"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "સંપર્કો શોધો"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ફિલ્ટર"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "બધા સભ્યો"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "એડમિન"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "સંપર્કો"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "કોઈ પરિણામ નથી"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” માટે કોઈ પરિણામ નથી"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "એડમિન"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "શોધ પરિણામો"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "સભ્ય ઉમેરો"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "ગ્રૂપ લિંક દ્વારા આમંત્રિત કરો"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "વિનંતીઓ ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "બ્લૉક કરેલા ગ્રૂપ"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt}ના રોજ બ્લૉક કર્યા"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal સુરક્ષિત બેકઅપ"
@@ -7148,7 +7148,7 @@
     "messageformat": "ચેતવણી"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "જો તમે પિનને અક્ષમ કરો છો, તો જ્યારે તમે Signalને ફરીથી રજીસ્ટર કરશો ત્યારે તમે તમામ ડેટા ગુમાવશો. જ્યારે પિન અક્ષમ હોય ત્યારે તમે રજીસ્ટ્રેશન લૉક ચાલુ કરી શકતા નથી."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "પિન અક્ષમ કરો"
@@ -8745,9 +8745,6 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ગ્રૂપ એડમિન હવે ગ્રૂપ સેટિંગ્સમાં નવા \"ગ્રૂપ સમાપ્ત કરો\" વિકલ્પ સાથે ચેટને તેમના કુદરતી સમાપન પર લાવી શકે છે. ગ્રૂપ સમાપ્ત કરવાથી ગ્રૂપના સભ્યોને મેસેજ મોકલવા અથવા કૉલ શરૂ કરવાથી રોકે છે તેમજ આમંત્રણો પણ અક્ષમ કરે છે."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "પ્રસ્તુત કરીએ છીએ ગાયબ થતી કૉલ ઇવેન્ટ: આ અપડેટ ઇન્સ્ટોલ કર્યા પછી થતા મિસ્ડ, આઉટગોઇંગ અને રિસીવ થયેલા કૉલ હવે કોઈ પણ ચેટમાં આપમેળે ગાયબ થઈ જશે જ્યાં ગાયબ થતાં મેસેજ સક્ષમ હોય."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "હવે તમે ઇન્સ્ટોલ કરેલા સ્ટીકર પેકને ફરીથી ગોઠવી શકો છો જેથી તમારા નવા મનપસંદ સ્ટીકર પેક લાઇનના પાછળના ભાગમાં અટવાઈ ન જાય."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "★ અમે ગ્રૂપ સેટિંગ્સ પેજ પર ગ્રૂપના સભ્યો શોધવાનું વધુ સરળ બનાવ્યું."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

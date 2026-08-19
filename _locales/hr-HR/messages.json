@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Svi razgovori"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "+{maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} nepročitana poruka} few {{count,number} nepročitane poruke} many {{count,number} nepročitanih poruka} other {{count,number} nepročitanih poruka}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Provjerite vašu mrežnu vezu."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Datum postavljen na vašem uređaju je netočan. Ispravite ga i pokušajte ponovno. Datum i vrijeme na vašem uređaju:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Zapisnik pogreške"
@@ -5100,7 +5097,7 @@
     "messageformat": "Prikaži sve"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Pretraži"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} zajednička grupa} few {{count,number} zajedničke grupe} many {{count,number} zajedničkih grupa} other {{count,number} zajedničkih grupa}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopiraj poveznicu Signal grupe u međuspremnik"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Pretraži članove"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Pretraži"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Pretaži administratore"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Pretraživanje kontakata"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtar"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Svi članovi"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratori"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakti"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Nema rezultata"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nema rezultata za \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrator"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Rezultati pretraživanja"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Dodaj člana"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Pozovi putem poveznice grupe"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Zahtjevi ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blokirane grupe"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Korisnik je blokiran {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Zaštićene kopije podataka"
@@ -7148,7 +7148,7 @@
     "messageformat": "Upozorenje"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Ako onemogućite PIN, izgubit ćete sve svoje podatke prilikom ponovne registracije na Signalu. Ne možete uključiti Zaključavanje registracije dok je PIN onemogućen."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Onemogući PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Administratori grupe sada mogu zatvoriti razgovore pomoću opcije „Zatvori grupni razgovor“ u postavkama grupe. Nakon zatvaranja grupnog razgovora članovi više neće moći slati poruke, započeti pozive niti slati pozivnice."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Predstavljamo nestajuće aktivnosti vezane za pozive: svi propušteni, odlazni i dolazni pozivi nakon ažuriranja aplikacije automatski će nestajati iz svih razgovora u kojima su omogućene poruke koje nestaju."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Sada možete promijeniti raspored paketa naljepnica koje ste instalirali, tako da vam omiljene naljepnice uvijek budu nadohvat ruke."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Olakšali smo pretraživanje članova grupe u postavkama grupnog razgovora."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

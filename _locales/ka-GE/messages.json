@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "ყველა ჩატი"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} წაუკითხავი შეტყობინება} other {{count,number} წაუკითხავი შეტყობინება}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Check your network connection."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "შენი მოწყობილობის თარიღი არასწორია. საათი გაასწორე და თავიდან სცადე. შენი მოწყობილობის თარიღი და დროა:"
   },
   "icu:submitDebugLog": {
     "messageformat": "გაუმართაობის რეესტრი"
@@ -5100,7 +5097,7 @@
     "messageformat": "ყველას ნახვა"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "ძიება"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} საერთო ჯგუფი} other {{count,number} საერთო ჯგუფი}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "დააკოპირე signal.group ბმული კლავიატურაზე"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "წევრების მოძებნა"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ძიება"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "ადმინისტრატორების ძიება"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "კონტაქტების ძიება"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ფილტრი"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "ყველა წევრი"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "ადმინები"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "კონტაქტები"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "შედეგი ვერ მოიძებნა"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "„{searchQuery}“-ზე ვერაფერი მოიძებნა"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "ადმინი"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "ძიების შედეგები"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "წევრის დამატება"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "ჯგუფის ბმულით მოწვევა"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "მოთხოვნები ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "დაბლოკილი ჯგუფები"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "დაბლოკვის თარიღია {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები"
@@ -7148,7 +7148,7 @@
     "messageformat": "გაფრთხილება"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "თუ პინ-კოდს გამორთავ, Signal-ზე თავიდან დარეგისტრირებისას ყველა მონაცემს დაკარგავ. რეგისტრაციის დაბლოკვას ვერ ჩართავ, სანამ პინ-კოდი გამორთულია."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "პინ-კოდის გამორთვა"
@@ -8745,9 +8745,6 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ჯგუფის ადმინისტრატორებს ახლა უკვე შეუძლიათ ჯგუფის პარამეტრებიდან ახალი \"ჯგუფის გაუქმების\" ოფციით ჩატი დაასრულონ. ჯგუფის გაუქმების შემდეგ წევრები წერილებს ვეღარ გაგზავნიან, ზარებს ვეღარ წამოიწყებენ და ვერც ახალი წევრების მოწვევას შეძლებენ. ახლა შეგიძლია დარწმუნებული იყო, რომ წინა წლის ჩატები გაუქმებული იქნება, სანამ ამ წლისთვის ახალს შექმნი."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "წარმოგიდგენთ გაქრობად ზარის აქტივობებს: გამოტოვებული, გამავალი და შემომავალი ზარები, რომლებიც ამ განახლების გადმოწერის შემდეგ განხორციელდება, ავტომატურად გაქრება ყველა ჩატში, რომელშიც გაქრობადი შეტყობინებებია ჩართული."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "ახლა შეგიძლია სტიკერების ნაკრებები დააორგანიზო, რომ შენი ფავორიტები სიის ბოლოში არ მოხვდეს."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "ჯგუფის პარამეტრების გვერდზე ჯგუფის წევრების ძიება გავამარტივეთ."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

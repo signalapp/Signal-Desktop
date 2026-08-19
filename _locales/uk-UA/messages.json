@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Усі чати"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} непрочитане повідомлення} few {{count,number} непрочитані повідомлення} many {{count,number} непрочитаних повідомлень} other {{count,number} непрочитаного повідомлення}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Перевірте з'єднання."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Ваш пристрій неправильно показує дату. Налаштуйте годинник і спробуйте знову. Дата і час на вашому пристрої:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Журнал налагодження"
@@ -5100,7 +5097,7 @@
     "messageformat": "Показати всіх"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Пошук"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} спільна група} few {{count,number} спільні групи} many {{count,number} спільних груп} other {{count,number} спільної групи}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Копіювати посилання signal.group"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Пошук учасників"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Пошук"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Пошук адміністраторів"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Пошук контактів"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Фільтр"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Усі учасники"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Адміністратори"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Контакти"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Нічого не знайдено"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "«{searchQuery}» не знайдено"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Адміністратор"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Результати пошуку"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Додати"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Запросити через посилання на групу"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Запити ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Заблоковані групи"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Заблоковано {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Надійне резервне копіювання від Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Зверніть увагу"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Якщо ви вимкнете PIN-код, то в разі повторної реєстрації в Signal усі ваші дані буде втрачено. З вимкненим PIN-кодом неможливо ввімкнути блокування реєстрації."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Вимкнути PIN-код"
@@ -8745,9 +8745,6 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Адміністратори тепер можуть поставити в чаті крапку за допомогою нової опції «Закрити групу» в налаштуваннях групи. Якщо закрити групу, учасники більше не зможуть надсилати повідомлення й дзвонити, а запрошення буде деактивовано. Тепер ви зможете подбати, щоб торішня гілка із зустрічі любителів садівництва не розросталася нескінченно, якщо вже існує нова група."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Представляємо тимчасові сповіщення про виклики: після цього оновлення всі пропущені, вихідні та отримані дзвінки автоматично зникатимуть у чатах, де ввімкнено тимчасові повідомлення."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Тепер можна впорядковувати набори стікерів як вам зручно, щоб улюблені завжди були на початку списку."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Ми спростили пошук учасників на сторінці налаштувань групи. Тепер ви зможете швидко перевірити, чи мама вже додала вашу троюрідну тітку до групи «Всі свої»."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

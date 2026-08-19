@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "جميع الدردشات"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, zero {{count,number} رسالة غير مقروءة} one {{count,number} رسالة غير مقروءة} two {{count,number} رسالتين غير مقروءتين} few {{count,number} رسائل غير مقروءة} many {{count,number} رسالةً غير مقروءة} other {{count,number} رسالةٍ غير مقروءة}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "تحقَّق من الاتصال بالشبكة."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "تاريخ جهازك غير دقيق. قُم بضبط ساعتك وحاوِل مُجدَّدًا. تاريخ وساعة جهازك:"
   },
   "icu:submitDebugLog": {
     "messageformat": "سجل الأخطاء"
@@ -5100,7 +5097,7 @@
     "messageformat": "مشاهدة الكل"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "بحث"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, zero {{count,number} مجموعات مشتركة} one {{count,number} مجموعة مشتركة} two {{count,number} مجموعتان مشتركتان} few {{count,number} مجموعات مشتركة} many {{count,number} مجموعةً مشتركة} other {{count,number} مجموعةٍ مشتركة}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "انسخ رابط مجموعة سيجنال إلى لوحة المفاتيح"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "البحث عن الأعضاء"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "بحث"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "البحث في المُشرِفين"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "البحث في جهات الاتصال"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "فلتر"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "جميع الأعضاء"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "المُشرِفون"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "جهات الاتصال"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "لا يوجد نتائج"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "لا توجد نتيجة لـ \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "مُشرِف"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "نتائج البحث"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "إضافة عضو"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "الدعوة عبر رابط المجموعة"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "الطلبات ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "المجموعات المحظورة"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "محظور في {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "النسخ الاحتياطية الآمنة على سيجنال"
@@ -7148,7 +7148,7 @@
     "messageformat": "تحذير"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "إذا قُمتَ بتعطيل الرقم التعريفي الشخصي، ستفقد كل البيانات عند إعادة التسجيل في سيجال. لا يمكنك تفعيل قفل التسجيل بينما يكون رقم التعريف الشخصي (PIN) مُعطَّل."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "تعطيل رقم الـ PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "يمكن لمُشرِفي المجموعات الآن إنهاء الدردشات بطريقة طبيعية بفضل خيار \"حلّ المجموعة\" الجديد في إعدادات المجموعة. يؤدي حلّ المجموعة إلى منع أعضاء المجموعة من إرسال الرسائل أو إجراء المكالمات، كما يُؤدي إلى تعطيل إمكانية إرسال الدعوات. يمكنك الآن التأكُّد من بقاء الجميع في سلسلة الدردشة الصحيحة عن طريق إنهاء مجموعة لقاءات الخياطة الخاصة بالسنة الماضية قبل البدء في حياكة مجموعة جديدة."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "تعرَّفوا على ميزة اختفاء المكالمات: المكالمات الفائتة، والصادرة، والواردة التي تتم بعد تثبيت هذا التحديث سَتختفي الآن تلقائيًا في أي دردشة تمَّ تفعيل ميزة اختفاء الرسائل فيها."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "يمكنك الآن إعادة ترتيب حزم المُلصَقات المُثبَّتة حتى لا تظل مُلصَقاتك المفضلة الجديدة في مؤخرة القائمة."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "سهَّلنا عملية البحث عن أعضاء المجموعة في صفحة إعدادات المجموعة، لتتمكن سريعًا من معرفة ما إذا كانت والدتك قد أضافت قريبًا آخر من أفراد العائلة إلى مجموعة حفل الشواء العائلي السنوي الثالث."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

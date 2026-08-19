@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "כל הצ׳אטים"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {הודעה {count,number} לא נקראה} two {{count,number} הודעות לא נקראו} many {{count,number} הודעות לא נקראו} other {{count,number} הודעות לא נקראו}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "בדוק את חיבור הרשת שלך."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "התאריך במכשיר שלך לא מדויק. יש לעדכן אותו ולנסות שוב. התאריך והשעה במכשיר שלך הם:"
   },
   "icu:submitDebugLog": {
     "messageformat": "יומן תקלים"
@@ -5100,7 +5097,7 @@
     "messageformat": "ראה הכל"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "חיפוש"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {קבוצה {count,number} במשותף} two {{count,number} קבוצות במשותף} many {{count,number} קבוצות במשותף} other {{count,number} קבוצות במשותף}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "העתקה של קישור signal.group ללוח"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "חיפוש חברים"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "חיפוש"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "חיפוש מנהלים"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "חיפוש אנשי קשר"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "סינון"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "כל חברי הקבוצה"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "מנהלנים"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "אנשי קשר"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "אין תוצאות"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "אין תוצאות עבור ״{searchQuery}״"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "מנהלן"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "תוצאות חיפוש"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "הוספת חבר"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "הזמנה באמצעות קישור קבוצה"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "בקשות ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "קבוצות חסומות"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "נחסמ/ה ב–{blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "גיבויים מאובטחים של Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "אזהרה"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "השבתת ה–PIN תגרום לאובדן כל הנתונים שלך בעת רישום מחדש אל Signal. לא ניתן להפעיל נעילת הרשמה כאשר ה–PIN מושבת."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "השבת PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "מנהלי קבוצות יכולים עכשיו לסיים צ׳אטים עם אפשרות ״סיום קבוצה״ החדשה בהגדרות הקבוצה. סיום קבוצה מונע מחברי הקבוצה לשלוח הודעות או להתחיל שיחות, וגם משבית הזמנות."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "נעים להכיר: אירועי שיחה נעלמים. שיחות יוצאות, נכנסות, ושלא נענו שיתרחשו אחרי התקנת את העדכון הזה יעלמו כעת אוטומטית בכל צ׳אט שבו מופעלות הודעות נעלמות."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "עכשיו אפשר לארגן מחדש חבילות סטיקרים שהותקנו כך שהחבילות המועדפות החדשות שלך לא ייתקעו בסוף התור."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "הפכנו את החיפוש של חברי וחברות קבוצה לקל יותר בדף הגדרות הקבוצה."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

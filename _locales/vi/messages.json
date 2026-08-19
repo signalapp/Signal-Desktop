@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Tất cả cuộc trò chuyện"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} tin nhắn chưa đọc}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Kiểm tra kết nối mạng của bạn."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Thông tin ngày trên thiết bị của bạn không chính xác. Chỉnh lại đồng hồ và thử lại. Ngày và giờ trên thiết bị của bạn là:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Nhật ký gỡ lỗi"
@@ -5100,7 +5097,7 @@
     "messageformat": "Xem tất cả"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Tìm kiếm"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number} nhóm chung}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Sao chép đường dẫn signal.group vào clipboard"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Tìm thành viên"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Tìm kiếm"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Tìm quản trị viên"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Tìm liên hệ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Lọc"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Tất cả thành viên"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Người quản trị"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Danh bạ"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Không có kết quả"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Không có kết quả cho “{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Quản trị viên"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Kết quả tìm kiếm"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Thêm thành viên"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Mời qua đường dẫn nhóm"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Yêu cầu ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Các nhóm Đã Chặn"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bị chặn vào {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sao lưu bảo mật Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Cảnh báo"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Nếu tắt mã PIN, bạn sẽ mất toàn bộ dữ liệu khi bạn đăng ký lại Signal. Bạn không thể bật Khóa đăng ký khi mã PIN đang tắt."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Tắt PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Quản trị viên nhóm giờ đây có thể kết thúc cuộc trò chuyện bằng tùy chọn \"Kết thúc nhóm\" mới trong cài đặt nhóm. Kết thúc nhóm sẽ ngăn các thành viên nhóm gửi tin nhắn hoặc bắt đầu cuộc gọi, đồng thời vô hiệu hóa lời mời."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Giới thiệu tính năng sự kiện cuộc gọi tự xóa: Các cuộc gọi nhỡ, cuộc gọi đi và cuộc gọi đến sau khi bạn cài đặt bản cập nhật này sẽ tự động biến mất trong bất kỳ cuộc trò chuyện nào đã bật tính năng tin nhắn tự xóa."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Giờ đây, bạn có thể sắp xếp lại các gói nhãn dán đã cài đặt để gói yêu thích mới của bạn không bị xếp ở cuối."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Chúng tôi cũng đã đơn giản hóa việc tìm thành viên nhóm trên trang cài đặt nhóm."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

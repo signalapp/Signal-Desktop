@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Semua chat"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} Pesan Belum Dibaca}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Periksa koneksi jaringan Anda."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Tanggal di perangkat Anda tidak akurat. Sesuaikan waktu dan coba lagi. Tanggal dan waktu di perangkat Anda:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Log debug"
@@ -5100,7 +5097,7 @@
     "messageformat": "Lihat semua"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Cari"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number} grup yang sama}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Salin tautan signal.group ke papan klip"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Cari anggota"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cari"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Cari admin"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Cari kontak"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Semua anggota"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontak"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Tidak ada hasil"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Tidak ada hasil untuk “{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Hasil Pencarian"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Tambah Anggota"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Undang via tautan grup"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Permintaan ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grup Diblokir"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Diblokir pada {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7148,7 +7148,7 @@
     "messageformat": "Peringatan"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Jika PIN dinonaktifkan, Anda akan kehilangan semua data saat mendaftarkan ulang Signal. Anda tidak bisa mengaktifkan Kunci Registrasi saat PIN dinonaktifkan."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Nonaktifkan PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Admin grup kini bisa mengakhiri percakapan dengan opsi baru \"Akhiri Grup\" di pengaturan grup. Setelah grup diakhiri, anggota grup tidak akan bisa lagi mengirim pesan, memulai panggilan, atau mengundang anggota baru."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Memperkenalkan aktivitas panggilan terhapus otomatis: Panggilan tak terjawab, panggilan keluar, dan panggilan masuk yang terjadi setelah Anda menginstal pembaruan ini kini akan otomatis hilang di chat yang mengaktifkan pesan terhapus otomatis."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Kini Anda bisa menyesuaikan urutan paket stiker yang telah terinstal, jadi stiker favorit Anda yang baru tidak berada di urutan paling belakang."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Kami mempermudah pencarian anggota grup di halaman pengaturan grup."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

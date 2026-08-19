@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "بارلىق پاراڭلار"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "+{maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} ئوقۇلمىغان ئۇچۇر}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "تور ئۇلىنىشىنى تەكشۈرۈڭ."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "ئۈسكىنىڭىزنىڭ چېسلاسى خاتا. سائەتنى توغىرلاپ قايتا سىناڭ. ئۈسكۈنىڭىزنىڭ چېسلاسى ۋە ۋاقتى :"
   },
   "icu:submitDebugLog": {
     "messageformat": "سازلاش خاتىرىسى"
@@ -5100,7 +5097,7 @@
     "messageformat": "ھەممىنى كۆرسەت"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "ئىزدە"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {ئورتاق گۇرۇپپا {count,number}}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group ئۇلانمىسىنى كۇنۇپكا تاختىسىغا كۆچۈرۈڭ"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "ئەزالارنى ئىزدەش"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ئىزدە"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "گۇرۇپپا باشقۇرغۇچىلىرىنى ئىزدەش"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "ئالاقىلاشقۇچىلارنى ئىزدەش"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "سۈزگۈچ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "ھەممە ئەزالار"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "باشقۇرغۇچىلار"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "ئالاقەداشلار"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "نەتىجە يوق"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "{searchQuery} ئۈچۈن نەتىجە يوق"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "باشقۇرغۇچى"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "ئىزدەش نەتىجىللىرى"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "ئەزا قوش"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "گۇرۇپپا ئۇلانمىسى ئارقىلىق تەكلىپ قىلىش"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "تەلەپ ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "چەكلەنگەن گۇرۇپپىلار"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} دە چەكلەنگەن"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal بىخەتەر زاپاسلانمىللىرى"
@@ -7148,7 +7148,7 @@
     "messageformat": "ئاگاھلاندۇرۇش"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "ئەگەر PIN نى چەكلىسىڭىز، Signal غا قايتا تىزىملاتقاندا ھەممە سانلىق مەلۇماتلىرىڭىزنى يوقىتىسىز. تىزىملىتىش قۇلۇپىنى، PIN چەكلەنگەن ئەھۋال ئاستىدا قوزغىتالمايسىز."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN چەكلە"
@@ -8745,9 +8745,6 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "گۇرۇپپا باشقۇرغۇچىلىرى ئەمدى گۇرۇپپا تەڭشەكلىرىدىكى يېڭى «گۇرۇپپىنى تارقىتىۋېتىش» تاللىشى ئارقىلىق سۆھبەتلەرنى رەسمىي ئاخىرلاشتۇرالايدۇ. بىر گۇرۇپپىنى تاقىۋەتكەندە، ئۇ شۇ گۇرۇپپا ئەزالىرىنىڭ ئۇچۇر ئەۋەتىشىنى ياكى چاقىرىق قىلىشىنى توسىدۇ، ھەمدە گۇرۇپپىغا كىرىش تەكلىپلىرىنى ئەمەلدىن قالدۇرىدۇ. ئەمدى سىز ھەممەيلەننىڭ توغرا مۇزاكىرە تېمىسىدا تۇرۇشىغا كاپالەتلىك قىلالايسىز: يېڭى تىككۈچىلىك يىغىلىش گۇرۇپپىسىنى قۇرۇشتىن بۇرۇن، ئۆتكەن يىلدىكى تىككۈچىلىك ئۇچرىشىش گۇرۇپپىسىنى ئاخىرلاشتۇرۇڭ."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "غايىب بولۇش ئالدىدىكى تېلىفۇنلىشىقا ئالاقىدار ئەھۋاللار تونۇشتۇرۇلۇشى: بۇ يېڭىلاشنى ئورناتقاندىن كېيىن، غايىپ بولىدىغان ئىقتىدار قوزغىتىلغان ئەھۋالدا، ھەرقانداق سۆھبەتتە يۈز بەرگەن جاۋابسىز قالغان، ئۇرۇلغان ۋە قوبۇل قىلىنغان تېلېفونلارنىڭ خاتىرىلىرى ئاپتوماتىك ھالدا غايىب بولىدۇ."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "ھازىر سىز ئورنىتىلغان چاپلاق بولاقلىرىنى قايتىدىن رەتلىيەلەيسىز، ياقتۇرىدىغان چاپلاقلىرىڭىز تىزىملىكنىڭ كەينىگە ئۆتۈپ قالمايدۇ."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "گۇرۇپپا تەڭشەكلىرى بېتىدە گۇرۇپپا ئەزالىرىنى ئىزدەشنى تېخىمۇ قولايلاشتۇردۇق. 8.24 نەشرىنىڭ يېڭىلىقلىرى"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

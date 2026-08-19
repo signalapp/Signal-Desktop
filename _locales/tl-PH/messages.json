@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Lahat ng chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} hindi pa nabasang mensahe} other {{count,number} hindi pa nabasang mensahe}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "I-check ang iyong network connection."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Mali ang petsa ng device mo. I-adjust ang clock mo at subukan ulit. Ang petsa at oras ng device mo ay:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Debug log"
@@ -5172,22 +5169,22 @@
     "messageformat": "Kopyahin ang signal.group link sa clipboard"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Mag-search ng members"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
     "messageformat": "Search"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Mag-search ng admins"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Mag-search ng contacts"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Lahat ng members"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
     "messageformat": "Admins"
@@ -5196,10 +5193,10 @@
     "messageformat": "Contacts"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Walang resulta"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Walang resulta para sa \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
@@ -5208,10 +5205,13 @@
     "messageformat": "Search Results"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Mag-add ng member"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Mag-invite gamit ang group link"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Requests ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blocked Groups"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Binlock noong {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7148,7 +7148,7 @@
     "messageformat": "Babala"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Kapag dinis-able mo ang PIN, mawawala ang lahat ng iyong data kapag ni-register mo ulit ang Signal. Hindi mo maaaring i-on ang Registration Lock habang naka-disable ang PIN."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "I-disable ang PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Maaari nang tapusin ng group admins ang chats gamit ang bagong \"End Group\" option sa group settings. Mapipigilan nito ang group members sa pag-send ng messages o pagsisimula ng calls, at dini-disable rin nito ang invites."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Ipinakikilala ang disappearing call events: Pagkatapos mong i-install ang update na ito ay automatic na mawawala ang missed, outgoing, at received calls sa anumang chat kung saan naka-enable ang disappearing messages.\n"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Pwede mo nang ayusin ang naka-install na sticker packs para hindi mapunta sa dulo ang bago mong favorites."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Pinadali na rin namin ang pag-search ng group members sa group settings page"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

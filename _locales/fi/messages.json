@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Kaikki keskustelut"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} lukematon viesti} other {{count,number} lukematonta viestiä}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Tarkista verkkoyhteys."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Laitteella oleva päivämäärä on virheellinen. Säädä kellonaikaa ja yritä uudelleen. Laitteesi päiväys ja kellonaika ovat:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Vianetsintäloki"
@@ -5100,7 +5097,7 @@
     "messageformat": "Näytä kaikki"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Hae"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} yhteinen ryhmä} other {{count,number} yhteistä ryhmää}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopioi signal.group-linkki leikepöydälle"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Hae jäseniä"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Hae"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Etsi ylläpitäjiä"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Etsi yhteystietoja"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Suodata:"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Kaikki jäsenet"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Ylläpitäjät"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Yhteystiedot"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Ei hakutuloksia"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Ei tuloksia haulle \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Ylläpitäjä"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Hakutulokset"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Lisää jäsen"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Kutsu ryhmälinkillä"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Pyynnöt ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Estetyt ryhmät"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Estetty {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure -varmuuskopiointi"
@@ -7148,7 +7148,7 @@
     "messageformat": "Varoitus"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Jos poistat PIN-koodin käytöstä, menetät kaikki tietosi rekisteröityessäsi Signaliin uudelleen. Et voi myöskään ottaa rekisteröintiestoa käyttöön, jos PIN-koodi on pois päältä."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Poista tunnusluku käytöstä"
@@ -8745,9 +8745,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Ryhmän ylläpitäjät voivat nyt lopettaa keskustelut ryhmäasetuksissa olevan uuden Sulje ryhmä -vaihtoehdon avulla. Ryhmän lopettaminen estää ryhmän jäseniä lähettämästä viestejä tai aloittamasta puheluita, ja se poistaa myös kutsutoiminnon käytöstä."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Esittelyssä katoavat puhelutapahtumat: kun olet asentanut tämän päivityksen, kaikki sen jälkeiset vastaamattomat, lähtevät ja vastatut puhelut katoavat automaattisesti keskusteluista, joissa katoavat viestit ovat käytössä."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Voit tilata asennettuja tarrapaketteja uudelleen, ettei kulu suotta aikaa nykyisten suosikkien kaivamiseen esiin."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Olemme myös helpottaneet ryhmän jäsenten hakua ryhmän asetussivulla."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

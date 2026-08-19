@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Всички чатове"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} Непрочетено съобщение} other {{count,number} Непрочетени съобщения}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Проверете връзката си с интернет."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Датата на устройството ви е неточна. Настройте часовника си и опитайте отново. Датата и часът на устройството ви са:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Отчет за грешки"
@@ -5100,7 +5097,7 @@
     "messageformat": "Виж всички"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Търсене"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} обша група} other {{count,number} общи групи}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Копирайте signal.group линка в клипборда"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Търсене на членове"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Търсене"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Търсене на администратори"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Търсене на контакти"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Филтър"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Всички членове"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Администратори"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Контакти"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Няма резултати"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Не са открити резултати за „{searchQuery}“"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Администратор"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Резултати от търсенето"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Добавяне на член"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Поканете чрез линк за групата"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Заявки ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Блокирани групи"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Блокиран на {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Сигурни резервни копия на Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Внимание"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Ако дезактивирате ПИН кода, ще загубите всички данни, когато пререгистрирате Signal. Не можете да включите „Заключване на регистрацията“, докато ПИН кодът е дезактивиран."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Деактивиране на ПИН"
@@ -8745,9 +8745,6 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Администраторите на групите вече могат да слагат край на чатовете с новата опция „Прекратяване на групата“ в настройките на групите. Прекратяването на групите не позволява на членовете на групите да изпращат съобщения или да започват разговори и също така деактивира поканите."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Представяме изчезващите събития, свързани с обаждане: Пропуснатите, изходящите и входящите обаждания, които възникнат, след като инсталирате тази актуализация, вече автоматично ще изчезват във всеки чат, в който са активирани изчезващите съобщения."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Вече можете да променяте реда на инсталираните пакети със стикери, така че новите ви любимци да не останат на заден план."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Улеснихме търсенето на членове на групи в страницата с настройките на групите."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

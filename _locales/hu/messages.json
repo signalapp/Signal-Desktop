@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Összes csevegés"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} olvasatlan üzenet} other {{count,number} olvasatlan üzenet}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Ellenőrizd hálózati kapcsolatodat!"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Az eszközöd által jelzett dátum pontatlan. Állítsd be a pontos időt és próbáld újra! Az eszköz dátuma és ideje:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Fejlesztői naplófájl"
@@ -5100,7 +5097,7 @@
     "messageformat": "Összes megtekintése"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Keresés"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} közös csoport} other {{count,number} közös csoport}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Másold a signal.group hivatkozást a vágólapra"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Tagok keresése"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Keresés"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Adminisztrátorok keresése"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Névjegyek keresése"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Szűrő"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Összes tag"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Adminok"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontaktok"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Nincs találat"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nincs találat a következőre: „{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Keresési eredmények"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Tag hozzáadása"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Meghívás csoportlinken keresztül"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Kérelmek ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Letiltott csoportok"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Letiltás időpontja: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Biztonságos Biztonsági mentések"
@@ -7148,7 +7148,7 @@
     "messageformat": "Figyelmeztetés"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "A PIN-kódod letiltásával egy esetleges újraregisztráció során az összes Signal adatod el fog veszni. A Regisztrációs zár nem kapcsolható be, amíg a PIN-kód le van tiltva."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN letiltása"
@@ -8745,9 +8745,6 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "A csoport adminisztrátorai mostantól lezárhatják a csevegéseket a csoportbeállításokban található új „Csoport megszüntetése” opcióval. A csoport megszüntetése megakadályozza, hogy a csoport tagjai üzeneteket küldjenek vagy hívásokat indítsanak, valamint letiltja a meghívókat is."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Bemutatjuk az eltűnő híváseseményeket: a frissítés telepítése után a nem fogadott, a kimenő és a fogadott hívások mostantól automatikusan eltűnnek minden olyan csevegésből, ahol az eltűnő üzenetek engedélyezve vannak."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Mostantól átrendezheted a telepített matricacsomagokat, így az új kedvenceid nem ragadnak a sor végére."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Megkönnyítettük a csoporttagok keresését a csoportbeállítások oldalon."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

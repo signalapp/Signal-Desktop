@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Visas sarunas"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, zero {{count,number} nelasītu ziņu} one {{count,number} nelasīta ziņa} other {{count,number} nelasītas ziņas}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Pārbaudiet tīkla savienojumu."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Jūsu ierīces datums nav pareizs. Pielāgojiet pulksteņa laiku un mēģiniet vēlreiz. Jūsu ierīces datums un laiks ir:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Atkļūdošanas žurnāls"
@@ -5100,7 +5097,7 @@
     "messageformat": "Skatīt visus"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Meklēt"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, zero {{count,number} kopīga grupa} one {{count,number} kopīga grupa} other {{count,number} kopīgas grupas}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopēt Signal grupas saiti starpliktuvē"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Meklēt dalībniekus"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Meklēt"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Meklēt administratorus"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Meklēt kontaktpersonas"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrs"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Visi lietotāji"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratori"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakti"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Nav rezultātu"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Meklējot “{searchQuery}\", rezultātu nav"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrators"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Meklēšanas rezultāti"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Pievienot dalībnieku"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Uzaicināt ar grupas saiti"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Pieprasījumi ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Bloķētās grupas"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bloķēts plkst. {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal drošās rezerves kopijas"
@@ -7148,7 +7148,7 @@
     "messageformat": "Brīdinājums"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Ja atspējosiet PIN, zaudēsiet visus datus, kad atkārtoti reģistrēsieties lietotnē Signal Reģistrācijas bloķēšanu nevar ieslēgt, kamēr PIN ir atspējots."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Atspējot PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Grupu administratori tagad var organiski izbeigt sarunas, izmantojot jauno iespēju “Slēgt grupu” grupas iestatījumos. Pēc grupas slēgšanas grupas biedri vairs nevarēs nosūtīt ziņas vai veikt zvanus, vai uzaicināt jaunus biedrus. Tagad varat droši slēgt \"aizmigušās\" interešu grupas pirms jaunu grupu izveides."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Iepazīstinām ar gaistošiem zvanu notikumiem: neatbildētie, izejošie un saņemtie zvani, kas veikti pēc šī atjauninājuma instalēšanas, tagad automātiski izgaisīs visās sarunās, kurās ir iespējotas gaistošās ziņas."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Tagad vari mainīt instalēto uzlīmju komplektu secību, lai iecienītākie komplekti nav saraksta beigās."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Mēs vienkāršojām grupas biedru meklēšanu grupas iestatījumos, lai jūs varētu ātri noskaidrot, vai mamma jau ir pievienojusi otrās pakāpes brālēnu ģimenes barbekjū grupai."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "ಎಲ್ಲ ಚಾಟ್ ಗಳು"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ಓದದಿರುವ ಸಂದೇಶ} other {{count,number} ಓದದಿರುವ ಸಂದೇಶಗಳು}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "ನಿಮ್ಮ ನೆಟ್‌ವರ್ಕ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "ನಿಮ್ಮ ಸಾಧನದ ದಿನಾಂಕವು ನಿಖರವಾಗಿಲ್ಲ. ನಿಮ್ಮ ಗಡಿಯಾರವನ್ನು ಸರಿಹೊಂದಿಸಿ ಮತ್ತು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ. ನಿಮ್ಮ ಸಾಧನದ ದಿನಾಂಕ ಮತ್ತು ಸಮಯವು:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್"
@@ -5100,7 +5097,7 @@
     "messageformat": "ಎಲ್ಲವನ್ನು ನೋಡಿ"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "ಹುಡುಕಿ"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {ಸಾಮಾನ್ಯ ಗುಂಪು {count,number}} other {{count,number} ಗುಂಪುಗಳಲ್ಲಿ ನೀವಿಬ್ಬರೂ ಇರುವಿರಿ}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group ಲಿಂಕ್ ಅನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಕಾಪಿ ಮಾಡಿ"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "ಸದಸ್ಯರನ್ನು ಹುಡುಕಿ"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ಹುಡುಕಿ"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "ಅಡ್ಮಿನ್‌ಗಳನ್ನು ಹುಡುಕಿ"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "ಸಂಪರ್ಕಗಳನ್ನು ಹುಡುಕಿ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ಫಿಲ್ಟರ್"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "ಎಲ್ಲಾ ಸದಸ್ಯರು"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "ಅಡ್ಮಿನ್‌‌ಗಳು"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "ಸಂಪರ್ಕಗಳು"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "ಫಲಿತಾಂಶಗಳಿಲ್ಲ"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "{searchQuery} ಗೆ ಫಲಿತಾಂಶಗಳು ಲಭ್ಯವಿಲ್ಲ"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "ಅಡ್ಮಿನ್‌‌"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "ಹುಡುಕಾಟದ ಫಲಿತಾಂಶಗಳು"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "ಗುಂಪು ಲಿಂಕ್ ಮೂಲಕ ಆಹ್ವಾನಿಸಿ"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "ವಿನಂತಿಗಳು ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾದ ಗುಂಪುಗಳು"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} ರಂದು ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು"
@@ -7148,7 +7148,7 @@
     "messageformat": "ಎಚ್ಚರಿಕೆ"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "ನೀವು PIN ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ನೀವು Signal ಗೆ ಮರು ನೋಂದಣಿ ಮಾಡುವಾಗ ನೀವು ಎಲ್ಲಾ ಡೇಟಾವನ್ನು ಕಳೆದುಕೊಳ್ಳುವಿರಿ. PIN ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದಾಗ ನೀವು ನೋಂದಣಿ ಲಾಕ್ ಅನ್ನು ಆನ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "ಪಿನ್ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
@@ -8745,9 +8745,6 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ಗುಂಪು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿನ \"ಗುಂಪು ಕೊನೆಗೊಳಿಸಿ\" ಆಯ್ಕೆಯೊಂದಿಗೆ ಗುಂಪಿನ ಅಡ್ಮಿನ್‌ಗಳು ಚಾಟ್‌ಗಳನ್ನು ಕೊನೆಗೊಳಿಸಬಹುದು. ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸುವುದರಿಂದ ಸದಸ್ಯರು ಮೆಸೇಜ್ ಕಳುಹಿಸಲು ಅಥವಾ ಕರೆ ಮಾಡಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ ಮತ್ತು ಆಹ್ವಾನಗಳನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ. ಈಗ, ಹೊಸದನ್ನು ರಚಿಸುವ ಮೊದಲು ಹಳೆಯ ಗುಂಪನ್ನು ಕೊನೆಗೊಳಿಸುವ ಮೂಲಕ, ಎಲ್ಲರೂ ಒಂದೇ ಚಾಟ್‌ನಲ್ಲಿದ್ದಾರೆ ಎಂದು ನೀವು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಬಹುದು."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "★ ಕಣ್ಮರೆಯಾಗುತ್ತಿರುವ ಕಾಲ್ ಇವೆಂಟ್‌ಗಳನ್ನು ಪರಿಚಯಿಸಲಾಗುತ್ತಿದೆ: ಈ ಅಪ್‌ಡೇಟ್ ಅನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದ ನಂತರ ನಡೆಯುವ ತಪ್ಪಿಹೋದ, ಹೊರಹೋಗುವ ಮತ್ತು ಸ್ವೀಕರಿಸಿದ ಕರೆಗಳು, ಮಾಯವಾಗುವ ಸಂದೇಶಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿರುವ ಯಾವುದೇ ಚಾಟ್‌ನಲ್ಲಿ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಣ್ಮರೆಯಾಗುತ್ತವೆ."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "ನಿಮ್ಮ ಹೊಸ ಮೆಚ್ಚಿನ ಸ್ಟಿಕರ್‌ಗಳು ಸಾಲಿನಲ್ಲಿ ಸಿಲುಕಿಕೊಳ್ಳದಂತೆ ಈಗ ನೀವು ಸ್ಥಾಪಿಸಲಾದ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್‌ಗಳನ್ನು ಮರುಕ್ರಮಗೊಳಿಸಬಹುದು."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "ಗುಂಪು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪುಟದಲ್ಲಿ ಗುಂಪಿನ ಸದಸ್ಯರನ್ನು ಹುಡುಕುವುದನ್ನು ಇನ್ನಷ್ಟು ಸುಲಭಗೊಳಿಸಿದ್ದೇವೆ. ಹಾಗಾಗಿ, ಮೂರನೇ ವರ್ಷದ ವಿಸ್ತೃತ ಕುಟುಂಬ ಪುನರ್ಮಿಲನ BBQ ಗುಂಪಿಗೆ ನಿಮ್ಮ ಅಮ್ಮ ನಿಮ್ಮ ಎರಡನೇ ಕಸಿನ್‌ರನ್ನು ಈಗಾಗಲೇ ಸೇರಿಸಿದ್ದಾರೆಯೇ ಎಂದು ಕ್ಷಣದಲ್ಲೇ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

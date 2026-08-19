@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Kõik vestlused"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} lugemata sõnum} other {{count,number} lugemata sõnumit}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Kontrolli enda võrguühendust."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Sinu seadme kuupäev on vale. Muuda kellaaega ja proovi uuesti. Sinu seadme kuupäev ja kellaaeg on:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Silumisinfo"
@@ -5100,7 +5097,7 @@
     "messageformat": "Näita kõiki"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Otsi"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ühine grupp} other {{count,number} ühist gruppi}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopeeri signal.group link lõikelauale"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Otsi liikmeid"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Otsi"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Administraatorite otsing"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Kontaktide otsing"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Kõik liikmed"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administraatorid"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontaktid"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Tulemusi pole"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "„{searchQuery}“ ei andnud otsingutulemusi"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administraator"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Otsingu tulemused"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Lisa liige"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Kutsu grupilingi kaudu"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Taotlused ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blokeeritud grupid"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Blokeerimise aeg: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signali turvalised varukoopiad"
@@ -7148,7 +7148,7 @@
     "messageformat": "Hoiatus"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Kui keelad PIN-koodi, siis kaotad Signali uuesti registreerimisel kõik andmed. Registreerimislukku pole võimalik sisse lülitada, kui PIN-kood on keelatud."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Keela PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Grupi administraatorid saavad nüüd vestlusi lõpetada, valides grupi sätete alt „Lõpeta grupp“. Grupi lõpetamisel ei saa grupiliikmed enam sõnumeid saata, kõnesid alustada ega kutseid saata."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Tutvustame kaduvaid kõnesündmusi: pärast seda uuendust saadud vastamata, väljuvate ja vastuvõetud kõnede teavitused kustuvad nüüd automaatselt kõigis vestlustes, kus kaduvad sõnumid sisse on lülitatud."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Nüüd saad installitud kleebiste komplektide järjekorda muuta, et su uued lemmikud ei kaoks loendi lõppu."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Lihtsustasime grupiliikmete otsimist grupisätete lehel."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

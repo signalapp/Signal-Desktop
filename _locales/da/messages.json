@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alle chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ulæst besked} other {{count,number} ulæste beskeder}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Kontroller din netværksforbindelse."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Din enheds dato er ikke korrekt. Ret dato og klokkeslæt, og prøv igen. Din enheds dato og klokkeslæt er:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Fejlsøgningslog"
@@ -5100,7 +5097,7 @@
     "messageformat": "Se alle"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Søg"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} gruppe til fælles} other {{count,number} grupper til fælles}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopiér signal.group-linket til din udklipsholder"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Søg blandt medlemmer"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Søg"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Søg i administratorer"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Søg i kontakter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrér"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Alle medlemmer"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratorer"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakter"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Ingen resultater"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Ingen resultater for \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrator"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Søgeresultater"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Tilføj medlem"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Inviter via gruppelink"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Anmodninger ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blokerede grupper"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Blokeret {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sikre Signal-sikkerhedskopier"
@@ -7148,7 +7148,7 @@
     "messageformat": "Advarsel"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Hvis du deaktiverer pinkoden, mister du alle data, når du opretter Signal igen. Du kan ikke aktivere registreringslås, mens pinkoden er deaktiveret."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Deaktiver pinkode"
@@ -8745,9 +8745,6 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Gruppeadministratorer kan nu afslutte gruppen, når den ikke længere er i brug, med \"Afslut gruppe\" i gruppeindstillingerne. Når en gruppe afsluttes, kan medlemmer ikke længere sende beskeder, starte opkald eller invitere nye medlemmer. Afslut gruppen med sidste års syklub, før du starter en ny, så alle finder vej til den nye tråd."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Vi introducerer forsvindende opkaldsbegivenheder: Ubesvarede, udgående og modtagne opkald, der finder sted efter installationen af denne opdatering, forsvinder nu automatisk i alle chats, hvor forsvindende beskeder er aktiveret."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Nu kan du ændre rækkefølgen af installerede klistermærkepakker, så dine nye favoritter altid er lige ved hånden."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Vi har gjort det nemmere at søge efter gruppemedlemmer i gruppeindstillingerne, så du hurtigt kan se, om din mor allerede har tilføjet din grandkusine til den årlige familiekomsammen."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

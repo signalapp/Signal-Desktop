@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Magumzo yote"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "+{maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} majumbe haijasomewa} other {{count,number} Jumbe hazijasomwa}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Angalia muunganisho wako wa mtandao"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Tarehe ya kifaa chako si sahihi. Rekebisha saa yako kisha ujaribu tena. Tarehe na muda wa kifaa chako ni:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Faili la rekebisho"
@@ -5100,7 +5097,7 @@
     "messageformat": "Tazama zote"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Tafuta"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {Kuna vikundi {count,number}mnavyoshiriki pamoja} other {Kuna vikundi {count,number}mnavyoshiriki pamoja}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Nakili kiungo cha kikundi cha Signal. kwenye ubao wa kunakili"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Tafuta wanakikundi"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Tafuta"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Tafuta admins"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Tafuta wawasiliani"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Chujio"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Wanachama wote"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Wasimamizi"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Wawasiliani"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Hakuna matokeo"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Hakuna matokeo ya \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Msimamizi"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Tafuta Matokeo"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Ongeza mwanachama"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Alikuwa kupitia kiungo cha kikundi"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Maombi ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Vikundi Vilivyozuiliwa"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Ako blocked kwenye {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Hifadhi Nakala ya Signal iliyo Salama"
@@ -7148,7 +7148,7 @@
     "messageformat": "Onyo"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Ukilemaza PIN, utapoteza data yote ukisajili upya Signal. Huwezi kuwasha kipengele cha Lock ya Usajili wakati PIN imelemazwa."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Lemaza PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Admins wa vikundi sasa wanaweza kuhitimisha magumzo kikawaida kwa kutumia chaguo la \"Funga Kikundi\" katika mipangilio ya kikundi. Kufunga kikundi huzuia wanakikundi kutuma jumbe au kupiga simu na pia inazima uwezo wa kualika. Sasa unaweza kuhakikisha kila mtu anabaki kwenye mazungumzo sahihi kwa kufunga kikundi cha ushonaji cha mwaka jana kabla ya kufungua kingine pamoja."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Tunatambulisha matukio ya upigaji simu yanayotoweka: simu ulizopokea, ulizopiga au ambazo hukupokea ambazo zinatokea baada ya kuanza kutumia sasisho hili sasa yatatoweka kiotomatiki katika gumzo lolote ambapo kipengele cha ujumbe wa kutoweka kimewashwa."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Sasa unaweza kupanga pakiti za vibandiko zilizowekwa ili siku nyingine vipendwa vyako vizikosekane."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Tumerahisisha utafutaji kwa wanakikundi kwenye ukurasa wa mipangilio ya kikundi, ili uweze kujua kwa haraka kama Mama yako tayari amemuweka binamu yako wa pili kwenye kikundi cha hafla ya tatu ya kila mwaka ya NYAMACHOMA ya familia."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

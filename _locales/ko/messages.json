@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "모든 대화"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}명 이상"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {읽지 않은 메시지 {count,number}개}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "네트워크 연결을 확인하세요."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "기기의 날짜 설정이 올바르지 않습니다. 기기 시간을 변경한 후 다시 시도해 주세요. 현재 기기의 날짜 및 시간:"
   },
   "icu:submitDebugLog": {
     "messageformat": "디버그 로그"
@@ -5100,7 +5097,7 @@
     "messageformat": "모두 보기"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "검색"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {공통 그룹 {count,number}개}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group 링크를 클립보드에 복사"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "멤버 검색"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "검색"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "관리자 검색"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "연락처 검색"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "필터"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "모든 멤버"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "관리자"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "연락처"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "결과 없음"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” 검색 결과 없음"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "관리자"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "검색 결과"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "멤버 추가"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "그룹 링크를 통해 초대하기"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "요청 ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "차단한 그룹"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt}에 차단함"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal 안전 백업"
@@ -7148,7 +7148,7 @@
     "messageformat": "경고"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PIN을 비활성화하면 Signal 재등록 시 모든 데이터가 삭제됩니다. PIN이 비활성화된 상태에서는 등록 잠금 기능을 사용할 수 없습니다."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN 비활성화"
@@ -8745,9 +8745,6 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "★ 이제 그룹 관리자는 그룹 설정의 새로운 '그룹 종료' 옵션으로 대화를 마무리할 수 있습니다. 그룹이 종료되면 그룹 멤버가 메시지를 보내거나 전화를 시작할 수 없으며, 초대 기능도 비활성화됩니다."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "통화 내역 자동 삭제 기능 도입: 이 업데이트를 설치한 후에는 자동 삭제 메시지가 설정된 모든 채팅에서 부재중 전화, 발신 및 수신 기록도 자동으로 삭제됩니다."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "이제 설치된 스티커 팩의 순서를 바꿀 수 있습니다. 새로 추가한 스티커 팩이 뒤로 밀리지 않게 원하는 위치로 정리해 보세요."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "그룹 설정 페이지에서 그룹 멤버를 더 쉽게 검색할 수 있도록 개선했습니다."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

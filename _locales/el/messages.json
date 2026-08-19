@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Όλες οι συνομιλίες"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} μη αναγνωσμένο μήνυμα} other {{count,number} μη αναγνωσμένα μηνύματα}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Έλεγξε τη σύνδεση στο δικτύου."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Η ημερομηνία της συσκευής σου δεν είναι ακριβής. Ρύθμισε το ρολόι σου και δοκίμασε ξανά. Η ημερομηνία και η ώρα της συσκευής σου είναι:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Αρχείο καταγραφής αποσφαλμάτωσης"
@@ -5100,7 +5097,7 @@
     "messageformat": "Προβολή όλων"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Αναζήτηση"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} κοινή ομάδα} other {{count,number} κοινές ομάδες}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Αντίγραψε τον σύνδεσμο signal.group στο πρόχειρο"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Αναζήτηση μελών"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Αναζήτηση"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Αναζήτηση διαχειριστών"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Αναζήτηση επαφών"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Φιλτράρισμα"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Όλα τα μέλη"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Διαχειριστές"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Επαφές"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Δεν υπάρχουν αποτελέσματα"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Δεν βρέθηκαν αποτελέσματα για “{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Διαχειριστής/τρια"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Αποτελέσματα αναζήτησης"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Προσθήκη μέλους"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Πρόσκληση μέσω συνδέσμου ομάδας"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Αιτήματα ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Αποκλεισμένες ομάδες"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Αποκλείστηκε στις {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7148,7 +7148,7 @@
     "messageformat": "Προσοχή"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Αν απενεργοποιήσεις το PIN, θα χάσεις όλα τα δεδομένα όταν επανεγγραφείς στο Signal. Δεν μπορείς να ενεργοποιήσεις το Κλείδωμα Εγγραφής όσο το PIN είναι απενεργοποιημένο."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Απενεργοποίηση PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Οι διαχειριστές των ομάδων μπορούν πλέον να κλείσουν τις συνομιλίες χρησιμοποιώντας τη νέα επιλογή «Τερματισμός ομάδας» στις ρυθμίσεις της ομάδας. Ο τερματισμός μιας ομάδας εμποδίζει τα μέλη της να στέλνουν μηνύματα ή να ξεκινάνε κλήσεις, ενώ απενεργοποιεί και τις προσκλήσεις."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Σας παρουσιάζουμε τις εκδηλώσεις κλήσης που εξαφανίζονται: Οι αναπάντητες, εξερχόμενες και εισερχόμενες κλήσεις που πραγματοποιούνται μετά την εγκατάσταση αυτής της ενημέρωσης θα εξαφανίζονται πλέον αυτόματα σε κάθε συνομιλία όπου έχουν ενεργοποιηθεί τα μηνύματα που εξαφανίζονται."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Τώρα μπορείς να αλλάξεις τη σειρά των εγκατεστημένων πακέτων αυτοκόλλητων, ώστε τα νέα σου αγαπημένα να μην μένουν πίσω."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Διευκολύναμε την αναζήτηση μελών της ομάδας στη σελίδα ρυθμίσεων της ομάδας."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

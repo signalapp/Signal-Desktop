@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Бардык маектер"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} билдирүү окула элек} other {{count,number} билдирүү окула элек}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Тармак туташууңузду текшериңиз."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Түзмөгүңүздүн убакыты туура эмес.\n Саатыңызды тууралап, кайталап көрүңүз. Түзмөгүңүздүн убакыты:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Мүчүлүштүктөр журналы"
@@ -5100,7 +5097,7 @@
     "messageformat": "Баарын көрүү"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Издөө"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number} орток топ}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group шилтемесин буферге көчүрүү"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Мүчөлөрдү издөө"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Издөө"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Администраторлорду издөө"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Байланыштарды издөө"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Иргөө"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Бардык мүчөлөр"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Администраторлор"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Байланыштар"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Эч нерсе табылган жок"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” боюнча эч нерсе табылган жок"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Админ"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Табылган нерселер"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Мүчө кошуу"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Топтук шилтеме аркылуу чакыруу"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Өтүнүчтөр ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Бөгөттөлгөн топтор"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Качан бөгөттөлгөн: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal'дын Коопсуз камдык көчүрмөлөрү"
@@ -7148,7 +7148,7 @@
     "messageformat": "Эскертүү"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PIN кодду өчүрсөңүз, Signal'ды кайра каттап жатканда бардык нерселериңиз өчүп калат. PIN өчүк болсо, Каттоо кулпусун күйгүзө албайсыз."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN кодду өчүрүү"
@@ -8745,9 +8745,6 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "★ Топтун администраторлору эми параметрлериндеги жаңы «Топту аяктоо» функциясы аркылуу маектерди өз нугунда жыйынтыктай алышат. Топ жабылганда, анын мүчөлөрү билдирүү жөнөтө албай же чала албай же чакырууларды жөнөтө албай калышат. Баары бир талкууда болушу үчүн жаңы топко которулардан мурун өткөн жылы тигүүчүлөр кездешкен топту жабыңыз.\n"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "★ Назарыңызда жоголуп кетүүчү чалуулар функциясы: Бул функцияны орнотсоңуз, жооп берилбей калган, чыккан жана кирген чалуулар маектен автоматтык түрдө өчүп калат."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Эми орнотулган стикерлер топтомун иреттеп, сүйүктүүлөрүн алдыңкы катарга чыгарып алсаңыз болот."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "★ Топтун параметрлеринде катышуучуларды да оңой табасыз. Эми апаңыз жыл сайын өтүлүүчү үй-бүлөлүк шишкебек тобуна бөлөңүздү кошконун бат эле билип аласыз."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

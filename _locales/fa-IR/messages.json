@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "همه گفتگوها"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} پیام نخوانده} other {{count,number} پیام نخوانده}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "ارتباط شبکه خود را چک کنید."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "تاریخ دستگاهتان صحیح نیست. ساعت‌تان را تنظیم کنید و دوباره امتحان کنید. تاریخ و ساعت دستگاه شما:"
   },
   "icu:submitDebugLog": {
     "messageformat": "گزارش خطاء"
@@ -5100,7 +5097,7 @@
     "messageformat": "مشاهدهٔ همه"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "جستجو"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} گروه مشترک} other {{count,number} گروه مشترک}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "لینک signal.group را در کلیپ‌بورد کپی کنید"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "جستجوی اعضا"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "جستجو"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "جستجوی مدیران"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "جستجوی مخاطبان"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "فیلتر"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "همه اعضا"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "مدیرها"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "مخاطبین"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "بدون نتیجه"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "نتیجه‌ای برای «{searchQuery}» پیدا نشد"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "مدیر"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "نتایج جستجو"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "اضافه کردن کاربر"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "دعوت از‌طریق لینک گروه"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "درخواست‌ها ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "گروه‌های مسدودشده"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "مسدودشده در {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "پشتیبان‌های امن سیگنال"
@@ -7148,7 +7148,7 @@
     "messageformat": "هشدار"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "اگر پین را غیرفعال کنید، هنگام ثبت‌نام مجدد در سیگنال، تمامی داده‌ها را از دست خواهید داد. وقتی پین غیرفعال است، نمی‌توانید قفل ثبت‌نام را روشن کنید."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "غیرفعال کردن پین"
@@ -8745,9 +8745,6 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "مدیران گروه اکنون می‌توانند با گزینه جدید «پایان دادن به گروه» در تنظیمات گروه، به گفتگوها پایان دهند. پایان دادن به گروه، مانع از ارسال پیام یا شروع تماس توسط اعضای گروه می‌شود و همچنین دعوت‌ها را غیرفعال می‌کند."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "معرفی رویدادهای تماس ناپدیدشونده: تماس‌های ازدست‌رفته، خروجی و دریافتی که پس از نصب این نسخۀ جدید رخ می‌دهند، اکنون به‌طور خودکار در هر گفتگویی که پیام‌های ناپدیدشونده در آن فعال باشد، ناپدید می‌شوند."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "حالا می‌توانید بسته‌های استیکر نصب‌شده را دوباره مرتب کنید تا استیکرهای موردعلاقه جدیدتان از دید خارج نشوند."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "جستجوی اعضای گروه را در صفحه تنظیمات گروه آسان‌تر کرده‌ایم."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

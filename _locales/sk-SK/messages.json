@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Všetky čety"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} neprečítaná správa} few {{count,number} neprečítané správy} many {{count,number} neprečítaných správ} other {{count,number} neprečítaných správ}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Skontrolujte svoje sieťové pripojenie."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Dátum vášho zariadenia je nepresný. Upravte si hodiny a skúste to znova. Dátum a čas vášho zariadenia je:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Ladiaci log"
@@ -5100,7 +5097,7 @@
     "messageformat": "Pozrieť všetky"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Hľadať"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} spoločná skupina} few {{count,number} spoločné skupiny} many {{count,number} spoločnej skupiny} other {{count,number} spoločných skupín}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Skopírovať odkaz signal.group do schránky"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Vyhľadať členov"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Hľadať"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Vyhľadať administrátorov"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Vyhľadať kontakty"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrovať"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Všetci členovia"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administrátori"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakty"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Žiadne výsledky"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Žiadne výsledky pre „{searchQuery}“"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrátor"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Výsledky vyhľadávania"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Pridať člena"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Pozvať cez odkaz na skupinu"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Žiadosti ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blokované skupiny"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Zablokovaný {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Bezpečné Zálohy Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Varovanie"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Ak vypnete PIN, pri opätovnej registrácii Signalu stratíte všetky údaje. Kým bude PIN vypnutý, nebudete môcť zapnúť registračný zámok."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Vypnúť PIN"
@@ -8745,9 +8745,6 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Správcovia skupiny môžu teraz oficiálne ukončiť čety vďaka novej možnosti „Ukončiť skupinu“ v nastaveniach skupiny. Po tomto kroku už členovia skupiny nemôžu posielať správy ani začínať hovory a zároveň sa zablokuje možnosť pozývať ďalších ľudí."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Predstavujeme miznúce hovory: Zmeškané, odchádzajúce a prijaté hovory, ktoré sa uskutočnia po tom, ako nainštalujete túto aktualizáciu, teraz automaticky zmiznú v každom čete, v ktorom sú zapnuté miznúce správy."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Teraz si môžete usporiadať nainštalované balíčky nálepiek, aby sa vaše nové obľúbené nestratili kdesi na konci zoznamu."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Uľahčili sme vyhľadávanie členov v nastaveniach skupiny."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

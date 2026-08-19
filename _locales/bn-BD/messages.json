@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "সকল চ্যাট"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} টি অপঠিত বার্তা} other {{count,number} টি অপঠিত বার্তা}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "আপনার নেটওয়ার্ক সংযোগ পরীক্ষা করুন।"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "আপনার ডিভাইসের তারিখটি সঠিক নয়। আপনার ঘড়ি ঠিক করুন এবং আবার চেষ্টা করুন। আপনার ডিভাইসের তারিখ এবং সময় হলো:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ডিবাগ লগ"
@@ -5100,7 +5097,7 @@
     "messageformat": "সব দেখুন"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "অনুসন্ধান"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {একসাথে {count,number}টি গ্রুপে আছেন} other {একসাথে {count,number}টি গ্রুপে আছেন}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "signal.group লিংকটি ক্লিপবোর্ডে কপি করুন"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "সদস্য খুঁজুন"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "অনুসন্ধান"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "অ্যাডমিনদের খুঁজুন"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "কন্টাক্ট খুঁজুন"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ফিল্টার"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "সকল সদস্য"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "অ্যাডমিন"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "পরিচিতিসমূহ"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "ফলাফল শুন্য"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "অ্যাডমিন"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "অনুসন্ধানের ফলাফল"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "সদস্যকে যোগ করুন"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "গ্রুপ লিংকের মাধ্যমে আমন্ত্রণ জানান"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "অনুরোধসমূহ ({count,number}টি)"
@@ -6425,7 +6425,7 @@
     "messageformat": "ব্লক করা হয়েছে এমন গ্রুপ"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "{blockedAt} তারিখে ব্লক করা হয়েছে"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal নিরাপদ ব্যাকআপ"
@@ -7148,7 +7148,7 @@
     "messageformat": "সতর্কবার্তা"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "আপনি যদি পিন নিষ্ক্রিয় করেন, তাহলে Signalএ -এ আবার নিবন্ধন করার সময় আপনার সব ডেটা মুছে যাবে। পিন নিষ্ক্রিয় থাকা অবস্থায় আপনি রেজিস্ট্রেশন লক চালু করতে পারবেন না।"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "পিন নিষ্ক্রিয় করুন"
@@ -8745,9 +8745,6 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "গ্রুপ অ্যাডমিনরা এখন গ্রুপ সেটিংসে থাকা নতুন \"গ্রুপ বন্ধ করুন\" অপশনটির মাধ্যমে চ্যাট শেষ করতে পারবেন। গ্রুপ শেষ করলে গ্রুপের সদস্যরা আর মেসেজ পাঠাতে বা কল শুরু করতে পারবেন না এবং আমন্ত্রণও নিষ্ক্রিয় হয়ে যাবে।"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "চলে এলো অদৃশ্য হতে যাওয়া কল ইভেন্ট: এই আপডেটটি ইনস্টল করার পর হওয়া মিসড, আউটগোয়িং এবং রিসিভ করা কলগুলো এখন থেকে অদৃশ্য হতে যাওয়া মেসেজ চালু থাকা যেকোনো চ্যাট থেকে স্বয়ংক্রিয়ভাবে অদৃশ্য হয়ে যাবে।"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "এখন আপনি ইনস্টল করা স্টিকার প্যাকগুলোর ক্রম পরিবর্তন করতে পারবেন, যাতে আপনার নতুন পছন্দের লিস্টের শেষে আটকে না যায়।"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "আমরা গ্ৰুপ সেটিংস পেইজে গ্রুপ সদস্যদের খোঁজা আরো সহজ করে দিয়েছি।"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

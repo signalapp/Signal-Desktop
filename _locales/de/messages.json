@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alle Chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "Über {maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ungelesene Nachricht} other {{count,number} ungelesene Nachrichten}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "Überprüfe deine Netzwerkverbindung."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Das Datum deines Geräts stimmt nicht. Stell deine Uhr richtig ein und versuch’s noch mal. Die Uhrzeit und das Datum deines Geräts lauten:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Diagnoseprotokoll"
@@ -5100,7 +5097,7 @@
     "messageformat": "Alle anzeigen"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Suchen"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} gemeinsame Gruppe} other {{count,number} gemeinsame Gruppen}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "Kopiere den signal.group-Link in die Zwischenablage"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Nach Mitgliedern suchen"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Suchen"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Admins suchen"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Kontakte suchen"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Alle Mitglieder"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
     "messageformat": "Admins"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakte"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Keine Ergebnisse"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Keine Ergebnisse für »{searchQuery}«"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
     "messageformat": "Admin"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Suchergebnisse"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Mitglied hinzufügen"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Über Gruppen-Link einladen"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Anfragen ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blockierte Gruppen"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Blockiert um {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7148,7 +7148,7 @@
     "messageformat": "Warnung"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Falls du deine PIN deaktivierst, wirst du beim erneuten Registrieren von Signal alle Daten verlieren. Bei deaktivierter PIN kannst du die Registrierungssperre nicht einschalten."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN deaktivieren"
@@ -8745,9 +8745,6 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Gruppen-Admins können Chats jetzt mit der neuen Funktion »Gruppe beenden« in den Gruppeneinstellungen auflösen. Durch das Beenden einer Gruppe wird verhindert, dass Gruppenmitglieder Nachrichten senden oder Anrufe starten können – auch Einladungen werden deaktiviert. Jetzt kannst du dafür sorgen, dass alle dem roten Faden folgen, indem du die Näh-Gruppe vom letzten Jahr auflöst, bevor du eine neue bildest."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Vorhang auf für »Verschwindende Anrufereignisse«: Verpasste, ausgehende und eingehende Anrufe, die nach der Installation dieses Updates erfolgen, verschwinden nun automatisch in jedem Chat, in dem »Verschwindende Nachrichten« aktiviert ist."
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "Jetzt kannst du installierte Sticker-Sets neu anordnen, damit deine liebsten Sticker nicht ganz hinten in deiner Sammlung landen."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Bei den Gruppeneinstellungen haben wir die Suche nach Gruppenmitgliedern vereinfacht, damit du sofort sehen kannst, ob deine Mama deinen Cousin zweiten Grades bereits zur Gruppe für das jährlich stattfindende Großfamilien-Grillfest hinzugefügt hat."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

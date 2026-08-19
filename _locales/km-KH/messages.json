@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "ការជជែកទាំងអស់"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} សារមិនទាន់អាន}}"
   },
@@ -783,7 +780,7 @@
     "messageformat": "ត្រួតពិនិត្យការតភ្ជាប់បណ្តាញរបស់អ្នក។"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "កាលបរិច្ឆេទឧបករណ៍របស់អ្នកមិនត្រឹមត្រូវទេ។ កែតម្រូវម៉ោងនាឡិការបស់អ្នក រួចព្យាយាមម្តងទៀត។ កាលបរិច្ឆេទ និងម៉ោងឧបករណ៍របស់អ្នកគឺ៖"
   },
   "icu:submitDebugLog": {
     "messageformat": "កំណត់ត្រាបញ្ហា"
@@ -5100,7 +5097,7 @@
     "messageformat": "មើលទាំងអស់"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "ស្វែងរក"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {{count,number}ក្រុមរួមគ្នា}}"
@@ -5172,46 +5169,49 @@
     "messageformat": "ចម្លងតំណ signal.group ទៅឃ្លីបបត"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "ស្វែងរកសមាជិក"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ស្វែងរក"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "ស្វែងរកអ្នកគ្រប់គ្រង"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "ស្វែងរកទំនាក់ទំនង"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "តម្រង"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "សមាជិកទាំងអស់"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "អ្នកគ្រប់គ្រង"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "បញ្ជីទំនាក់ទំនង"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "គ្មានលទ្ធផល"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "គ្មានលទ្ធផលសម្រាប់ “{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "អ្នកគ្រប់គ្រង"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "លទ្ធផលស្វែងរក"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "បញ្ចូលសមាជិក"
+  },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "អញ្ជើញតាមរយៈតំណក្រុម"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "សំណើ ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "ក្រុមដែលបានទប់ស្កាត់"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "បានទប់ស្កាត់នៅថ្ងៃទី {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "ព្រមាន"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "ប្រសិនបើអ្នកបិទលេខកូដសម្ងាត់ អ្នកនឹងបាត់បង់ទិន្នន័យទាំងអស់នៅពេលអ្នកចុះឈ្មោះ Signal ឡើងវិញ។ អ្នកមិនអាចបើកមុខងារចាក់សោការចុះឈ្មោះបានទេ ខណៈពេលដែលលេខកូដសម្ងាត់ត្រូវបានបិទ។"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "បិទលេខកូដសម្ងាត់"
@@ -8745,9 +8745,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ឥឡូវនេះ អ្នកគ្រប់គ្រងក្រុមអាចបញ្ចប់ការជជែកតាមធម្មតាបាន ដោយមានជម្រើស \"បញ្ចប់ក្រុម\" ថ្មីនៅក្នុងការកំណត់ក្រុម។ ការបញ្ចប់ក្រុមធ្វើឱ្យសមាជិកក្រុមមិនអាចផ្ញើសារ ឬចាប់ផ្តើមការហៅទូរសព្ទបានទេ ហើយក៏បិទការអញ្ជើញដែរ។ ឥឡូវនេះ អ្នកអាចធានាបានដែរថាអ្នករាល់គ្នាស្ថិតក្នុងកម្រងសារជជែកដែលត្រឹមត្រូវ ដោយបញ្ចប់ក្រុមជួបជុំចាស់កាលពីឆ្នាំមុន មុនពេលចាប់ផ្តើមក្រុមថ្មីជាមួយគ្នា។"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "សូមណែនាំព្រឹត្តិការណ៍ហៅទូរសព្ទដែលបាត់ដោយស្វ័យប្រវត្តិ៖ ការហៅដែលខកខានមិនបានទទួល ការហៅចេញ និងការហៅដែលបានទទួល ដែលកើតឡើងបន្ទាប់ពីអ្នកដំឡើងកំណែថ្មីនេះនឹងបាត់ដោយស្វ័យប្រវត្តិនៅក្នុងការជជែកណាមួយដែលសារបាត់ដោយស្វ័យប្រវត្តិត្រូវបានបើក។"
   },
@@ -8755,6 +8752,9 @@
     "messageformat": "ឥឡូវនេះ អ្នកអាចតម្រៀបឡើងវិញនូវកញ្ចប់ស្ទីកគ័រដែលបានដំឡើងហើយ ដូច្នេះស្ទីកគ័រដែលអ្នកចូលចិត្តថ្មីៗមិនគាំងនៅចុងក្រោយគេទេ។"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "យើងបានបង្កលក្ខណៈកាន់តែស្រួលជាងមុន ក្នុងការស្វែងរកសមាជិកក្រុមនៅលើទំព័រការកំណត់ក្រុម ដើម្បីឱ្យអ្នកឆាប់ដឹងថាតើម្តាយអ្នកបានដាក់បងប្អូនជីដូនមួយទីពីររបស់អ្នកទៅក្នុងក្រុមបាប៊ីខ្ជូ (BBQ) សម្រាប់ការជួបជុំមហាគ្រួសារប្រចាំឆ្នាំលើកទីបីហើយឬនៅ។"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }
