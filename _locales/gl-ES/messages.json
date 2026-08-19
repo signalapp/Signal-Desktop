@@ -783,7 +783,7 @@
     "messageformat": "Comprobe a conexión á rede"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "A data do teu dispositivo é incorrecta. Corríxea e téntao de novo. A data e hora do teu dispositivo é:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Rexistro de depuración"
@@ -5100,7 +5100,7 @@
     "messageformat": "Ver todo"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Buscar"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grupo en común} other {{count,number} grupos en común}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "Copia a ligazón de signal.group no portapapeis"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Buscar membros"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Buscar"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Buscar administradores"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Buscar contactos"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtro"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Todos os membros"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administradores"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Contactos"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Sen resultados"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Ningún resultado para «{searchQuery}»"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrador"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Resultados da busca"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Engadir membro"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Invitar cun enlace grupal"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitudes ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grupos bloqueados"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bloqueado o {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Copias seguras de Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Aviso"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Se desactivas o PIN, perderás todos os datos cando volvas rexistrarte en Signal. Non podes activar o Bloqueo do rexistro co PIN desactivado."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Desactivar PIN"
@@ -8755,6 +8755,6 @@
     "messageformat": "Agora podes reorganizar os paquetes de stickers instalados e colocar os teus novos favoritos onde queiras."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Agora é máis doado buscar membros na páxina de configuración do grupo."
   }
 }

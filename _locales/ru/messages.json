@@ -93,7 +93,7 @@
     "messageformat": "Неизвестный контакт"
   },
   "icu:deletedAccount": {
-    "messageformat": "Удалённая учётная запись"
+    "messageformat": "Удалённый пользователь"
   },
   "icu:unknownContactShort": {
     "messageformat": "Неизвестно"
@@ -783,7 +783,7 @@
     "messageformat": "Проверьте ваше сетевое соединение."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "На вашем устройстве указана неточная дата. Измените дату на вашем устройстве и повторите попытку. Дата и время на вашем устройстве:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Журнал отладки"
@@ -5100,7 +5100,7 @@
     "messageformat": "Просмотреть все"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Поиск"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} общая группа} few {{count,number} общие группы} many {{count,number} общих групп} other {{count,number} общей группы}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "Скопируйте ссылку на signal.group в буфер обмена"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Поиск участников"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Поиск"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Найти администраторов"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Поиск контактов"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Фильтр"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Все участники"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Администраторы"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Контакты"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Нет результатов"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Нет результатов для «{searchQuery}»"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Администратор"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Результаты поиска"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Добавить участника"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Пригласить в группу через ссылку"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Запросы ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Заблокированные группы"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Заблокирован {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Безопасное резервное копирование Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Предупреждение"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Если вы отключите Пин-код, то потеряете все данные, когда переустановите Signal. Вы не можете включить блокировку регистрации, когда Пин-код отключён."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Отключить PIN-код"
@@ -8755,6 +8755,6 @@
     "messageformat": "Теперь вы можете переупорядочивать установленные наборы стикеров, чтобы ваши новые любимцы не застряли в хвосте списка."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Мы упростили поиск участников группы на странице настроек группы, так что вы сможете быстро выяснить, добавила ли ваша мама вашего троюродного брата в список участников третьего ежегодного семейного барбекю."
   }
 }

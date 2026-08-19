@@ -783,7 +783,7 @@
     "messageformat": "Kontrolloni lidhjen tuaj në rrjet."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Data e pajisjes është e pasaktë. Rregullo orën e pajisjes dhe provo përsëri. Data dhe ora e pajisjes janë:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Regjistër diagnostikimesh"
@@ -5100,7 +5100,7 @@
     "messageformat": "Shihi të gjithë"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Kërko"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grup i përbashkët} other {{count,number} grupe të përbashkët}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "Kopjo lidhjen e Signal.group në kujtesën e fragmenteve"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Kërko anëtarët"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Kërko"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Kërko administratorët"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Kërko kontakte"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtër"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Krejt anëtarët"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratorët"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakte"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Nuk ka rezultate"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nuk ka rezultate për \"{searchQuery}\""
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Përgjegjës"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Rezultatet e kërkimit"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Shto anëtarë"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Fto përmes lidhjes së grupit"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Kërkesa ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grupe të bllokuara"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Bllokuar më {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Kopjeruajtjet e sigurta të Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Paralajmërim"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Nëse çaktivizon kodin PIN, do të humbësh të gjitha të dhënat kur të riregjistrosh Signal. Nuk mund ta aktivizosh \"Kyçjen e regjistrimit\" kur kodi PIN është i çaktivizuar."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Çaktivizoje PIN-in"
@@ -8755,6 +8755,6 @@
     "messageformat": "Tani mund t'i riorganizosh paketat e instaluara të ngjitëseve, në mënyrë që të preferuarat e tua të reja të mos mbeten në fund të listës."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "E bëmë më të lehtë kërkimin e anëtarëve të grupit në faqen e parametrave të grupit."
   }
 }

@@ -783,7 +783,7 @@
     "messageformat": "Ağ bağlantınızı kontrol edin."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Cihaz tarihin hatalı. Saatini ayarlayıp tekrar dene. Cihaz tarihin ve saatin:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Hata ayıklama günlüğü"
@@ -5100,7 +5100,7 @@
     "messageformat": "Tümünü gör"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Ara"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} ortak grup} other {{count,number} ortak grup}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "signal.group bağlantısını panoya kopyala"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Üye ara"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Ara"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Yöneticileri ara"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Kişileri ara"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrele"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Tüm üyeler"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Yöneticiler"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kişiler"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Sonuç yok"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "\"{searchQuery}\" için sonuç yok"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Yönetici"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Arama Sonuçları"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Üye ekle"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Grup bağlantısıyla davet et"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "İstekler ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Engellenen Gruplar"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Engellenme saati: {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Güvenli Yedeklemeler"
@@ -7148,7 +7148,7 @@
     "messageformat": "Uyarı"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "PIN'i devre dışı bırakırsan, Signal'a yeniden kaydolduğunda tüm verileri kaybedersin. PIN devre dışı kaldığında, Kaydolma Kilidini açamazsın."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "PIN'i devre dışı bırak"
@@ -8755,6 +8755,6 @@
     "messageformat": "Bundan sonra yüklenen çıkartma paketlerini yeniden sipariş edebilirsin böylece yeni favorilerin sıranın gerisine düşmez."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Grup ayarları sayfasında grup üyelerini aramayı kolaylaştırdık."
   }
 }

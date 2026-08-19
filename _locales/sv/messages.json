@@ -783,7 +783,7 @@
     "messageformat": "Kontrollera din nätverksanslutning."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Enhetens datum är felaktigt. Justera klockan och försök igen. Enhetens datum och tid är:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Loggfil för felsökning"
@@ -5100,7 +5100,7 @@
     "messageformat": "Se alla"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Sök"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grupp gemensamt} other {{count,number} grupper gemensamt}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "Kopiera signal.group-länk till urklipp"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Sök medlemmar"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Sök"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Sök administratörer"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Sök kontakter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
     "messageformat": "Filter"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Alla medlemmar"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratörer"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Kontakter"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Inga resultat"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Inga resultat för ”{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administratör"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Sökresultat"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Lägg till medlem"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Bjud in via grupplänk"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Förfrågningar ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Blockerade grupper"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Blockerad {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Säkerhetskopiering av Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Varning"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Om du inaktiverar pinkoden kommer du att förlora alla data när du registrerar om Signal. Du kan inte aktivera registreringslåset medan pinkoden är inaktiverad."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Inaktivera PIN-koden"
@@ -8755,6 +8755,6 @@
     "messageformat": "Nu kan du ändra ordning på installerade klistermärkespaket så att dina nya favoriter inte hamnar längst bak i kön."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Vi har gjort det enklare att söka efter gruppmedlemmar på sidan för gruppinställningar."
   }
 }

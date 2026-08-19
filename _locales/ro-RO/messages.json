@@ -783,7 +783,7 @@
     "messageformat": "Verifică-ți conexiunea la rețea."
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "Data dispozitivului nu este corectă. Ajustează-ți ceasul și încearcă din nou. Data și timpul dispozitivului tău este:"
   },
   "icu:submitDebugLog": {
     "messageformat": "Jurnal depanare"
@@ -5100,7 +5100,7 @@
     "messageformat": "Vezi tot"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "Caută"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, one {{count,number} grup în comun} few {{count,number} grupuri în comun} other {{count,number} de grupuri în comun}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "Copiază linkul grup.signal în clipboard"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "Caută membri"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Caută"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "Caută administratori"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "Caută contacte"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "Filtrează"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "Toți membrii"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "Administratori"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "Contacte"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "Niciun rezultat"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Fără rezultate pentru „{searchQuery}“"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "Administrator"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "Rezultatele căutării"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "Adaugă membru"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "Invită prin linkul de grup"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "Solicitări ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "Grupuri blocate"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "Blocat pe {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backup-uri securizate Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "Avertizare"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "Dacă dezactivezi codul PIN, vei pierde toate datele atunci când vei înregistra din nou aplicația Signal. Nu poți activa funcția „Blocare înregistrare” cât timp codul PIN este dezactivat."
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "Dezactivare PIN"
@@ -8755,6 +8755,6 @@
     "messageformat": "Acum poți reordona pachetele de abțibilduri instalate, astfel încât noile tale preferate să nu rămână ascunse la coada listei."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "Am simplificat căutarea membrilor grupului pe pagina de setări a grupului, astfel încât să poți afla rapid dacă mama ta l-a adăugat deja pe vărul tău de gradul al doilea în grupul dedicat celui de-al treilea grătar anual de reuniune a familiei extinse."
   }
 }

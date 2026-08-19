@@ -783,7 +783,7 @@
     "messageformat": "ตรวจสอบการเชื่อมต่อเครือข่ายของคุณ"
   },
   "icu:clockSkewDetected": {
-    "messageformat": "Your device date is inaccurate. Adjust your clock and try again. Your device date and time is:"
+    "messageformat": "วันที่บนอุปกรณ์ของคุณไม่ถูกต้อง โปรดปรับนาฬิกาของคุณแล้วลองอีกครั้ง วันที่และเวลาบนอุปกรณ์ของคุณคือ:"
   },
   "icu:submitDebugLog": {
     "messageformat": "ปูมดีบัก"
@@ -5100,7 +5100,7 @@
     "messageformat": "ดูทั้งหมด"
   },
   "icu:ConversationDetailsMembershipList__Search__AccessibilityLabel": {
-    "messageformat": "Search"
+    "messageformat": "ค้นหา"
   },
   "icu:ConversationDetailsGroups--title": {
     "messageformat": "{count, plural, other {มี {count,number} กลุ่มร่วมกัน}}"
@@ -5172,46 +5172,46 @@
     "messageformat": "คัดลอกลิงก์กลุ่มของ Signal ไปยังคลิปบอร์ด"
   },
   "icu:GroupMembersSearchDialog__DialogTitle": {
-    "messageformat": "Search members"
+    "messageformat": "ค้นหาสมาชิก"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ค้นหา"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringByAdmins": {
-    "messageformat": "Search admins"
+    "messageformat": "ค้นหาผู้ดูแล"
   },
   "icu:GroupMembersSearchDialog__SearchField__Placeholder--FilteringBySystemContacts": {
-    "messageformat": "Search contacts"
+    "messageformat": "ค้นหาผู้ติดต่อ"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Label": {
-    "messageformat": "Filter"
+    "messageformat": "ตัวกรอง"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__AllMembers": {
-    "messageformat": "All members"
+    "messageformat": "สมาชิกทุกคน"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__Admins": {
-    "messageformat": "Admins"
+    "messageformat": "ผู้ดูแล"
   },
   "icu:GroupMembersSearchDialog__FilterMenu__SystemContacts": {
-    "messageformat": "Contacts"
+    "messageformat": "ผู้ติดต่อ"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithoutSearchQuery": {
-    "messageformat": "No results"
+    "messageformat": "ไม่พบข้อมูล"
   },
   "icu:GroupMembersSearchDialog__EmptyState__NoResults--WithSearchQuery": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "ไม่พบผลลัพธ์สำหรับ “{searchQuery}”"
   },
   "icu:GroupMembersSearchDialog__MemberItem__Admin": {
-    "messageformat": "Admin"
+    "messageformat": "ผู้ดูแล"
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
-    "messageformat": "Search Results"
+    "messageformat": "ผลการค้นหา"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member"
+    "messageformat": "เพิ่มสมาชิก"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
-    "messageformat": "Invite via group link"
+    "messageformat": "เชิญผ่านลิงก์กลุ่ม"
   },
   "icu:PendingInvites--tab-requests": {
     "messageformat": "คำขอ ({count,number})"
@@ -6425,7 +6425,7 @@
     "messageformat": "กลุ่มที่ถูกบล็อก"
   },
   "icu:Preferences--blocked--blocked-on": {
-    "messageformat": "Blocked on {blockedAt}"
+    "messageformat": "บล็อกเมื่อ {blockedAt}"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal"
@@ -7148,7 +7148,7 @@
     "messageformat": "คำเตือน"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
-    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal. You can not turn on Registration Lock while the PIN is disabled."
+    "messageformat": "หากคุณปิดใช้งาน PIN คุณจะสูญเสียข้อมูลทั้งหมดเมื่อลงทะเบียนบัญชี Signal ใหม่ นอกจากนี้ คุณจะไม่สามารถเปิดใช้งานกุญแจลงทะเบียนในขณะที่ PIN ปิดใช้งานอยู่"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button": {
     "messageformat": "ปิดใช้งาน PIN"
@@ -8755,6 +8755,6 @@
     "messageformat": "พร้อมเพิ่มความสามารถให้คุณจัดเรียงชุดสติกเกอร์ได้ตามชอบ จัดลำดับสติกเกอร์เซตโปรดให้ตอบโจทย์การใช้งานได้เต็มที่"
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group."
+    "messageformat": "พัฒนาให้การค้นหาสมาชิกกลุ่มในหน้าการตั้งค่ากลุ่มสะดวกง่ายดายยิ่งกว่าเดิม"
   }
 }
