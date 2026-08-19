@@ -11648,5 +11648,9 @@
   "icu:WhatsNew__8.24--1": {
     "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group.",
     "description": "Release notes for 8.24"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",
+    "description": "Release notes for 8.25"
   }
 }
