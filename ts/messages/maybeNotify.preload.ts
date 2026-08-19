@@ -234,7 +234,6 @@ function doesReactionWarrantNotification({
   reaction: ReactionAttributesType;
 }): boolean {
   return (
-    itemStorage.get('reaction-notification', true) &&
     reaction.source === ReactionSource.FromSomeoneElse &&
     isOutgoing(targetMessage)
   );
