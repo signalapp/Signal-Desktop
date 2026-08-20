@@ -1326,7 +1326,7 @@ function NotificationProfilesEditPage({
 
 // Utility components
 
-export function FullWidthButton({
+function FullWidthButton({
   children,
   className,
   onClick,

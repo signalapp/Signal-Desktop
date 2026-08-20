@@ -16,6 +16,7 @@ export namespace AxoList {
    */
 
   export type RootProps = Readonly<{
+    accessibilityLabel?: string;
     children: ReactNode;
   }>;
 
@@ -23,7 +24,12 @@ export namespace AxoList {
     const { context, labelId } = useCreateAriaLabellingContext();
     return (
       <AriaLabellingProvider value={context}>
-        <section aria-labelledby={labelId}>{props.children}</section>
+        <section
+          aria-label={props.accessibilityLabel}
+          aria-labelledby={labelId}
+        >
+          {props.children}
+        </section>
       </AriaLabellingProvider>
     );
   });
@@ -51,7 +57,6 @@ export namespace AxoList {
    */
 
   export type TitleProps = Readonly<{
-    // screenReaderOnly?: boolean;
     children: ReactNode;
   }>;
 
@@ -77,7 +82,6 @@ export namespace AxoList {
    */
 
   export type DescriptionProps = Readonly<{
-    // screenReaderOnly?: boolean;
     children: ReactNode;
   }>;
 

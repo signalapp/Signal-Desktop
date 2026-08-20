@@ -84,7 +84,6 @@ import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.ts';
 import { SmartPreferencesDonations } from './PreferencesDonations.preload.tsx';
 import { useDonationsActions } from '../ducks/donations.preload.ts';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.ts';
-import { getProfiles } from '../selectors/notificationProfiles.dom.ts';
 import { backupLevelFromNumber } from '../../services/backups/types.std.ts';
 import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
 import { useBackupActions } from '../ducks/backups.preload.ts';
@@ -254,7 +253,6 @@ export function SmartPreferences(): JSX.Element | null {
   const donationReceipts = useSelector(
     (state: StateType) => state.donations.receipts
   );
-  const notificationProfileCount = useSelector(getProfiles).length;
   const weArePrimaryDevice = useSelector(areWePrimaryDevice);
   const conversationSelector = useSelector(getConversationSelector);
 
@@ -1006,7 +1004,6 @@ export function SmartPreferences(): JSX.Element | null {
         me={me}
         navTabsCollapsed={navTabsCollapsed}
         notificationContent={notificationContent}
-        notificationProfileCount={notificationProfileCount}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}

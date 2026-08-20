@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
@@ -252,16 +252,22 @@ export namespace AxoSelect {
    * trigger.
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
+    const { placeholder } = props;
     const variant = props.variant ?? 'default';
     const width = props.width ?? 'fit';
     const chevron = props.chevron ?? 'always';
+
+    const placeholderOrEmpty = useMemo(() => {
+      return placeholder === '' ? <>&nbsp;</> : placeholder;
+    }, [placeholder]);
+
     return (
       <Select.Trigger
         className={tw(TriggerVariants.get(variant), TriggerWidths.get(width))}
       >
         <div className={TriggerChevronContentStyles.get(chevron)}>
           <AxoBaseMenu.ItemText>
-            <Select.Value placeholder={props.placeholder}>
+            <Select.Value placeholder={placeholderOrEmpty}>
               {props.children}
             </Select.Value>
           </AxoBaseMenu.ItemText>

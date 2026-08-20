@@ -71,7 +71,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     const profileName = 'NewProfile';
     debug('Starting Notification Profiles onboarding');
-    await window.getByRole('button', { name: 'Set up' }).click();
+    await window.getByRole('button', { name: 'Notification profiles' }).click();
 
     debug('Dismiss onboarding dialog');
     await window.getByRole('button', { name: 'Continue' }).click();
@@ -222,7 +222,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.getByRole('button', { name: 'Notifications' }).click();
 
     debug('Open Notification Profiles list page');
-    await window.getByRole('button', { name: 'Set up' }).click();
+    await window.getByRole('button', { name: 'Notification profiles' }).click();
 
     debug('Dismiss onboarding dialog');
     await window.getByRole('button', { name: 'Continue' }).click();

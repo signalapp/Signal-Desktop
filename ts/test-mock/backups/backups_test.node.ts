@@ -357,11 +357,13 @@ describe('backups', function (this: Mocha.Suite) {
         await window.locator('.module-Modal__close-button').click();
 
         debug('Switching to settings tab');
-        await window.getByTestId('NavTabsItem--Settings').click();
+        await window.getByRole('tab', { name: 'Settings' }).click();
 
         debug('Opening Notification Profiles list screen');
         await window.getByRole('button', { name: 'Notifications' }).click();
-        await window.getByTestId('ManageNotificationProfiles').click();
+        await window
+          .getByRole('button', { name: 'Notification profiles' })
+          .click();
         await expect(
           window.getByTestId(`EditProfile--${notificationProfileName1}`)
         ).toBeVisible();

@@ -199,23 +199,28 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
-  export type ActionVariant = 'subtle-secondary' | 'strong-affirmative';
+  export type ActionVariant =
+    | 'subtle-secondary'
+    | 'strong-affirmative'
+    | 'subtle-destructive';
 
   export type ActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
     variant: ActionVariant;
     symbol?: AxoSymbol.Name;
+    pending?: boolean;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
   }>;
 
   export const Action: FC<ActionProps> = memo(props => {
-    const { ref, variant, symbol, onClick, children, ...rest } = props;
+    const { ref, variant, symbol, pending, onClick, children, ...rest } = props;
     return (
       <AxoBaseItem.Action
         ref={ref}
         variant={variant}
         symbol={symbol}
+        pending={pending}
         onClick={onClick}
         {...forwardExtraPropsForRadix(rest)}
       >

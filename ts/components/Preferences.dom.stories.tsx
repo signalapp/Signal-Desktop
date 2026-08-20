@@ -510,7 +510,6 @@ export default {
     me,
     navTabsCollapsed: false,
     notificationContent: 'name',
-    notificationProfileCount: 0,
     osName: 'windows',
     otherTabsUnreadStats: {
       unreadCount: 0,
@@ -867,7 +866,6 @@ const threeProfiles = [
 
 NotificationsPageWithThreeProfiles.args = {
   settingsLocation: { page: SettingsPage.Notifications },
-  notificationProfileCount: threeProfiles.length,
   renderNotificationProfilesCreateFlow: (
     props: SmartNotificationProfilesProps
   ) => {

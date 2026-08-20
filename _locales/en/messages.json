@@ -8072,6 +8072,22 @@
     "messageformat": "Notification content",
     "description": "Label for the notification content setting select box"
   },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input",
+    "description": "Preferences > Chats > Text Input Section > Title"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders",
+    "description": "Preferences > Chats > Chat Folders Section > Title"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds",
+    "description": "Preferences > Notifications > Sounds Section > Title"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge",
+    "description": "Preferences > Notifications > App Badge Section > Title"
+  },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Export chat history",
     "description": "Shown in the Preferences/Chats page, header for a row"
@@ -8907,6 +8923,10 @@
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "If disabled, you won't see typing indicators from others.",
     "description": "Description for the typing indicators setting"
+  },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others.",
+    "description": "Help text at the bottom of the messaging section of privacy preferences"
   },
   "icu:Preferences--updates": {
     "messageformat": "Updates",

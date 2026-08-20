@@ -28,8 +28,8 @@ async function openChatFolderSettings(window: Page) {
     .getByRole('navigation')
     .getByRole('button', { name: 'Chats' });
   const openChatFoldersSettingsBtn = window
-    .getByRole('group', { name: 'Chat folders' })
-    .getByRole('button', { name: 'Set up' });
+    .getByRole('region', { name: 'Chat folders' })
+    .getByRole('button', { name: /^Add a chat folder$|^Add or edit folders$/ });
 
   await openSettingsBtn.click();
   await openChatsSettingsBtn.click();
