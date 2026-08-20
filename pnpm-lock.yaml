@@ -402,8 +402,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1
       electron:
-        specifier: 43.4.0
-        version: 43.4.0
+        specifier: 43.4.1
+        version: 43.4.1
       electron-builder:
         specifier: 26.11.1
         version: 26.11.1(electron-builder-squirrel-windows@26.11.1)
@@ -6790,8 +6790,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@43.4.0:
-    resolution: {integrity: sha512-3qxGF0CeQbiox5oWV1JlbWGQ1VerbmDhTFqW4sJ8h7uqTHniFYPObXJcDna0DMh32et0fFyKzz0YY8lJv3t5jg==, tarball: https://registry.npmjs.org/electron/-/electron-43.4.0.tgz}
+  electron@43.4.1:
+    resolution: {integrity: sha512-5b+EuiwkgG5iRcsEL34rimgRpkYp15SsfZOa0pC5kXs0Tb82TH4n95rpQzTZa7yRCbA7tm0WoEbuBL6NaAhAcA==, tarball: https://registry.npmjs.org/electron/-/electron-43.4.1.tgz}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -17898,7 +17898,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@43.4.0:
+  electron@43.4.1:
     dependencies:
       '@electron-internal/extract-zip': 1.0.4
       '@electron/get': 5.0.0
