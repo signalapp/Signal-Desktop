@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Όλες οι συνομιλίες"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} μη αναγνωσμένο μήνυμα} other {{count,number} μη αναγνωσμένα μηνύματα}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Προσθήκη μέλους"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Πρόσκληση μέσω συνδέσμου ομάδας"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Οι διαχειριστές των ομάδων μπορούν πλέον να κλείσουν τις συνομιλίες χρησιμοποιώντας τη νέα επιλογή «Τερματισμός ομάδας» στις ρυθμίσεις της ομάδας. Ο τερματισμός μιας ομάδας εμποδίζει τα μέλη της να στέλνουν μηνύματα ή να ξεκινάνε κλήσεις, ενώ απενεργοποιεί και τις προσκλήσεις."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Σας παρουσιάζουμε τις εκδηλώσεις κλήσης που εξαφανίζονται: Οι αναπάντητες, εξερχόμενες και εισερχόμενες κλήσεις που πραγματοποιούνται μετά την εγκατάσταση αυτής της ενημέρωσης θα εξαφανίζονται πλέον αυτόματα σε κάθε συνομιλία όπου έχουν ενεργοποιηθεί τα μηνύματα που εξαφανίζονται."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Διευκολύναμε την αναζήτηση μελών της ομάδας στη σελίδα ρυθμίσεων της ομάδας."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

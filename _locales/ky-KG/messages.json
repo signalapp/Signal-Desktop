@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Бардык маектер"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} билдирүү окула элек} other {{count,number} билдирүү окула элек}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Мүчө кошуу"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Топтук шилтеме аркылуу чакыруу"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "★ Топтун администраторлору эми параметрлериндеги жаңы «Топту аяктоо» функциясы аркылуу маектерди өз нугунда жыйынтыктай алышат. Топ жабылганда, анын мүчөлөрү билдирүү жөнөтө албай же чала албай же чакырууларды жөнөтө албай калышат. Баары бир талкууда болушу үчүн жаңы топко которулардан мурун өткөн жылы тигүүчүлөр кездешкен топту жабыңыз.\n"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "★ Назарыңызда жоголуп кетүүчү чалуулар функциясы: Бул функцияны орнотсоңуз, жооп берилбей калган, чыккан жана кирген чалуулар маектен автоматтык түрдө өчүп калат."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "★ Топтун параметрлеринде катышуучуларды да оңой табасыз. Эми апаңыз жыл сайын өтүлүүчү үй-бүлөлүк шишкебек тобуна бөлөңүздү кошконун бат эле билип аласыз."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

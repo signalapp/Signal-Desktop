@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "แชททั้งหมด"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} ข้อความที่ยังไม่ได้อ่าน}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "เพิ่มสมาชิก"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "เชิญผ่านลิงก์กลุ่ม"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "เพิ่มตัวเลือกใหม่ในการตั้งค่ากลุ่มเพื่อให้ผู้ดูแลกลุ่มสามารถปิดห้องแชทได้ด้วยการ \"ปิดกลุ่ม\" โดยการปิดกลุ่มจะทำให้สมาชิกไม่สามารถส่งข้อความหรือเริ่มต้นการโทร รวมถึงส่งคำเชิญเข้ากลุ่มได้อีก"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "ขอแนะนำฟีเจอร์ใหม่: กิจกรรมการโทรที่จะหายไป ฟีเจอร์นี้จะทำให้กิจกรรมการโทรต่างๆ (สายโทรออก สายที่รับ/ไม่ได้รับ) หายไปจากแชทเองโดยอัตโนมัติหากแชทนั้นตั้งเวลาข้อความที่จะหายไปเอาไว้"
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "พัฒนาให้การค้นหาสมาชิกกลุ่มในหน้าการตั้งค่ากลุ่มสะดวกง่ายดายยิ่งกว่าเดิม"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

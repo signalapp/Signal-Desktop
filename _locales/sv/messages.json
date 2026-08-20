@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alla chattar"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} oläst meddelande} other {{count,number} olästa meddelanden}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Lägg till medlem"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Bjud in via grupplänk"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Gruppadministratörer kan nu avsluta chattar med det nya alternativet Avsluta grupp i gruppinställningarna. När en grupp avslutas kan gruppmedlemmarna inte längre skicka meddelanden eller starta samtal, och inbjudningar inaktiveras."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Vi introducerar försvinnande samtalshändelser: Missade, utgående och mottagna samtal som sker efter att du har installerat den här uppdateringen försvinner nu automatiskt i alla chattar där försvinnande meddelanden är aktiverade."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Vi har gjort det enklare att söka efter gruppmedlemmar på sidan för gruppinställningar."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

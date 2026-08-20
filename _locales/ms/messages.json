@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Semua sembang"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} mesej yang belum dibaca}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Tambah ahli"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Jemput melalui pautan kumpulan"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Pentadbir kumpulan kini boleh menamatkan sembang dengan pilihan baharu \"Tamatkan Kumpulan\" dalam tetapan kumpulan. Menamatkan kumpulan menghalang ahli kumpulan daripada menghantar mesej atau memulakan panggilan dan juga menyahdayakan jemputan. Kini anda boleh pastikan semua orang kekal di bebenang yang betul dengan menamatkan kumpulan tahun lalu sebelum mencantumkan yang baharu bersama."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Memperkenalkan acara panggilan menghilang: Panggilan tidak dijawab, panggilan keluar dan panggilan diterima yang berlaku selepas anda memasang kemas kini ini sekarang akan hilang secara automatik dalam mana-mana sembang yang mengaktifkan mesej menghilang."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Kami memudahkan pencarian ahli kumpulan pada halaman tetapan kumpulan."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

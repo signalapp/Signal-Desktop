@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Todas as conversas"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "+{maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} mensaxe sen ler} other {{count,number} mensaxes sen ler}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Engadir membro"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invitar cun enlace grupal"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Os administradores dos grupos xa poden finalizar os chats coa nova opción «Desfacer grupo» na configuración do grupo. Ao facelo, os seus membros xa non poderán enviar mensaxes nin iniciar chamadas, e as invitacións quedarán desactivadas."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Novidade: os avisos de chamadas agora tamén desaparecen. As chamadas perdidas, saíntes e recibidas que se produzan despois de instalar esta actualización eliminaranse automaticamente nas conversas con mensaxes temporais."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Agora é máis doado buscar membros na páxina de configuración do grupo."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

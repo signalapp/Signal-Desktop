@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "सभी चैट"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} अनरीड मैसेज} other {{count,number} अनरीड मैसेज}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "सदस्य जोड़ें"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ग्रुप लिंक के ज़रिए इनवाइट भेजें"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ग्रुप ऐडमिन अब ग्रुप सेटिंग में मौजूद 'ग्रुप बंद करें' वाले नए विकल्प का इस्तेमाल करके, चैट को आसानी से बंद कर सकते हैं। ग्रुप को बंद करने से ग्रुप के मेंबर मैसेज नहीं भेज पाएंगे और न ही कॉल कर पाएंगे। इसके अलावा, इनवाइट सुविधा भी बंद हो जाएगी। अब आप पिछले साल के 'सिलाई-बुनाई' मीटअप ग्रुप को बंद करके यह पक्का कर लें कि हर कोई सही थ्रेड से जुड़ा रहे, और इसके बाद ही एक नए ग्रुप का तानाबाना बुनें।"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "पेश है 'गायब होने वाले कॉल इवेंट': इस अपडेट को इंस्टॉल करने के बाद, जो भी मिस्ड, आउटगोइंग, और रिसीव की गईं कॉल होंगी, उनका रिकॉर्ड ऐसे सभी चैट से अपने-आप गायब हो जाएगा जिनमें मैसेज गायब होने की सुविधा चालू है।"
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "हमने ग्रुप सेटिंग पेज पर ग्रुप मेंबर को खोजना आसान बना दिया है। इससे आपको फटाफट यह पता चल जाएगा कि तीसरे सालाना फ़ैमिली रियूनियन BBQ ग्रुप में आपकी मां ने दूर की उस मौसेरी बहन या फुफेरे भाई को भी जोड़ दिया है, जिसे आप मुश्किल से पहचानते हैं।"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Tüm sohbetler"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} okunmamış ileti} other {{count,number} okunmamış ileti}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Üye ekle"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Grup bağlantısıyla davet et"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Grup yöneticileri artık grup ayarlarındaki yeni \"Grubu sonlandır\" seçeneğiyle sohbetleri sona erdirebiliyor. Bir grubun sonlandırılmasıyla, grup üyelerinin mesaj göndermeleri veya arama başlatmaları engellenir ve davetler de devre dışı kalır. Artık kullanılmayan grubu sonlandırıp, herkesin yeni grupta devam etmesini sağlayabilirsin."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Kaybolan arama etkinlikleri: Bu güncellemeyi yükledikten sonra gerçekleşen cevapsız, yapılan ve gelen arama kayıtları, kaybolan mesajların etkinleştirildiği sohbetlerde otomatik olarak kaybolur."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Grup ayarları sayfasında grup üyelerini aramayı kolaylaştırdık."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

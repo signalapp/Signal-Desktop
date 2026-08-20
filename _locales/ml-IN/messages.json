@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "എല്ലാ ചാറ്റുകളും"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} വായിക്കാത്ത സന്ദേശം} other {{count,number} വായിക്കാത്ത സന്ദേശങ്ങൾ}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "അംഗത്തെ ചേർക്കുക"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ഗ്രൂപ്പ് ലിങ്ക് വഴി ക്ഷണിക്കുക"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ഗ്രൂപ്പ് ക്രമീകരണത്തിലെ \"ഗ്രൂപ്പ് അവസാനിപ്പിക്കുക\" ഓപ്ഷനിലൂടെ അഡ്മിന്മാർക്ക് ചാറ്റുകൾ അവസാനിപ്പിക്കാം. ഗ്രൂപ്പ് അവസാനിപ്പിച്ചാൽ അംഗങ്ങൾക്ക് സന്ദേശങ്ങളോ കോളുകളോ അയക്കാനാകില്ല, ക്ഷണങ്ങളും പ്രവർത്തനരഹിതമാകും. ഇനി ഒരു പുതിയ ഗ്രൂപ്പ് ഉണ്ടാക്കുന്നതിന് മുമ്പ് പഴയ ഗ്രൂപ്പ് അവസാനിപ്പിച്ചുകൊണ്ട്, എല്ലാവരും കൃത്യമായ ചാറ്റിൽ തന്നെ ഉണ്ടെന്ന് നിങ്ങൾക്ക് ഉറപ്പാക്കാം."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "അപ്രത്യക്ഷമാകുന്ന കോൾ ഇവന്റുകൾ: ഈ അപ്‌ഡേറ്റിന് ശേഷമുള്ള മിസ്ഡ്, ഔട്ട്ഗോയിംഗ്, ഇൻകമിംഗ് കോളുകൾ അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങളുള്ള ചാറ്റുകളിൽ നിന്ന് ഓട്ടോമാറ്റിയ്ക്കായി നീക്കം ചെയ്യപ്പെടും."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "ഗ്രൂപ്പ് ക്രമീകരണ പേജിൽ ഗ്രൂപ്പ് അംഗങ്ങളെ തിരയുന്നത് ഞങ്ങൾ കൂടുതൽ എളുപ്പമാക്കിയിരിക്കുന്നു, അതിനാൽ നിങ്ങളുടെ അമ്മ നിങ്ങളുടെ ബന്ധുവിനെ മൂന്നാമത് വാർഷിക കുടുംബ സംഗമ ബാർബിക്യു ഗ്രൂപ്പിൽ ചേർത്തോ എന്ന് നിങ്ങൾക്ക് വേഗത്തിൽ കണ്ടെത്താനാകും."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

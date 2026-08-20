@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Todos os chats"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} mensagem por ler} other {{count,number} mensagens por ler}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Adicionar novo membro"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Convite via link de grupo"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Os administradores dos grupos agora podem concluir chats com a nova opção \"Encerrar grupo\" nas definições de grupo. Encerrar um grupo impede os membros do grupo de enviar mensagens ou iniciar chamadas e também desativa convites."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Apresentamos os eventos de chamadas temporárias: as chamadas perdidas, efetuadas ou recebidas que ocorrerem após a instalação desta atualização irão agora desaparecer automaticamente de qualquer chat com as mensagens temporárias ativas."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Tornámos mais fácil pesquisar por membros do grupo na página de definições do grupo."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

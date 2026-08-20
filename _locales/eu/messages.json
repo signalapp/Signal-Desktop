@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Txat guztiak"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} mezu irakurri gabe} other {{count,number} mezu irakurri gabe}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Partaidea gehitu"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Gonbidatu taldeko estekaren bidez"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Orain, taldeko adminek txatak amaitzeko aukera dute, taldeen ezarpenetako \"Amaitu taldea\" aukera berriarekin. Talde bat amaituta, taldeko kideek ezingo dituzte bidali mezuak, ezta deiak hasi ere. Halaber, gonbidapenak desgaitu egingo dira."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Desagertzen diren deiekin lotutako gertaerak: Eguneratze hau instalatu ondoren gertatzen diren dei galduak, irteerako deiak eta jasotako deiak automatikoki desagertuko dira desagertzen den mezuak gaituta dauzkaten txatetan."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Taldeen ezarpenen orrian taldeko kideak bilatzeko aukera erraztu dugu."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

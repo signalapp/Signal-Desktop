@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "بارلىق پاراڭلار"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "+{maxCount,number}"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} ئوقۇلمىغان ئۇچۇر}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "ئەزا قوش"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "گۇرۇپپا ئۇلانمىسى ئارقىلىق تەكلىپ قىلىش"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "گۇرۇپپا باشقۇرغۇچىلىرى ئەمدى گۇرۇپپا تەڭشەكلىرىدىكى يېڭى «گۇرۇپپىنى تارقىتىۋېتىش» تاللىشى ئارقىلىق سۆھبەتلەرنى رەسمىي ئاخىرلاشتۇرالايدۇ. بىر گۇرۇپپىنى تاقىۋەتكەندە، ئۇ شۇ گۇرۇپپا ئەزالىرىنىڭ ئۇچۇر ئەۋەتىشىنى ياكى چاقىرىق قىلىشىنى توسىدۇ، ھەمدە گۇرۇپپىغا كىرىش تەكلىپلىرىنى ئەمەلدىن قالدۇرىدۇ. ئەمدى سىز ھەممەيلەننىڭ توغرا مۇزاكىرە تېمىسىدا تۇرۇشىغا كاپالەتلىك قىلالايسىز: يېڭى تىككۈچىلىك يىغىلىش گۇرۇپپىسىنى قۇرۇشتىن بۇرۇن، ئۆتكەن يىلدىكى تىككۈچىلىك ئۇچرىشىش گۇرۇپپىسىنى ئاخىرلاشتۇرۇڭ."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "غايىب بولۇش ئالدىدىكى تېلىفۇنلىشىقا ئالاقىدار ئەھۋاللار تونۇشتۇرۇلۇشى: بۇ يېڭىلاشنى ئورناتقاندىن كېيىن، غايىپ بولىدىغان ئىقتىدار قوزغىتىلغان ئەھۋالدا، ھەرقانداق سۆھبەتتە يۈز بەرگەن جاۋابسىز قالغان، ئۇرۇلغان ۋە قوبۇل قىلىنغان تېلېفونلارنىڭ خاتىرىلىرى ئاپتوماتىك ھالدا غايىب بولىدۇ."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "گۇرۇپپا تەڭشەكلىرى بېتىدە گۇرۇپپا ئەزالىرىنى ئىزدەشنى تېخىمۇ قولايلاشتۇردۇق. 8.24 نەشرىنىڭ يېڭىلىقلىرى"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

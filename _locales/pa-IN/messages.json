@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "ਸਾਰੀਆਂ ਚੈਟਾਂ"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ਨਹੀਂ ਪੜ੍ਹਿਆ ਸੁਨੇਹਾ} other {{count,number} ਨਹੀਂ ਪੜ੍ਹੇ ਸੁਨੇਹੇ}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ ਸੱਦਾ ਦਿਓ"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "ਗਰੁੱਪ ਐਡਮਿਨ ਹੁਣ ਗਰੁੱਪ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਨਵੇਂ \"ਗਰੁੱਪ ਬੰਦ ਕਰੋ\" ਵਿਕਲਪ ਨਾਲ ਚੈਟਾਂ ਨੂੰ ਸਮਾਪਤ ਕਰ ਸਕਦੇ ਹਨ। ਗਰੁੱਪ ਨੂੰ ਖ਼ਤਮ ਕਰਨ ਨਾਲ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਸੁਨੇਹੇ ਨਹੀਂ ਭੇਜ ਸਕਣਗੇ ਜਾਂ ਕਾਲਾਂ ਨਹੀਂ ਕਰ ਸਕਣਗੇ, ਅਤੇ ਇਸ ਨਾਲ ਸੱਦੇ ਭੇਜਣ ਦੀ ਸਹੂਲਤ ਵੀ ਬੰਦ ਹੋ ਜਾਵੇਗੀ।"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "ਪੇਸ਼ ਹਨ ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਕਾਲ ਇਵੈਂਟ: ਇਸ ਅੱਪਡੇਟ ਨੂੰ ਇੰਸਟਾਲ ਕਰਨ ਤੋਂ ਬਾਅਦ ਆਉਣ ਵਾਲੀਆਂ ਮਿਸਡ, ਆਊਟਗੋਇੰਗ ਅਤੇ ਇਨਕਮਿੰਗ ਕਾਲਾਂ ਹੁਣ ਉਸ ਚੈਟ ਵਿੱਚੋਂ ਆਪਣੇ-ਆਪ ਗਾਇਬ ਹੋ ਜਾਣਗੀਆਂ ਜਿੱਥੇ 'ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ' ਚਾਲੂ ਹੁੰਦੇ ਹਨ।"
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "ਅਸੀਂ ਗਰੁੱਪ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਾਲੇ ਪੰਨੇ ਉੱਤੇ ਗਰੁੱਪ ਦੇ ਮੈਂਬਰਾਂ ਨੂੰ ਖੋਜਣਾ ਹੋਰ ਆਸਾਨ ਬਣਾ ਦਿੱਤਾ ਹੈ।"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

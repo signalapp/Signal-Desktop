@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Tất cả cuộc trò chuyện"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} tin nhắn chưa đọc}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Thêm thành viên"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Mời qua đường dẫn nhóm"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Quản trị viên nhóm giờ đây có thể kết thúc cuộc trò chuyện bằng tùy chọn \"Kết thúc nhóm\" mới trong cài đặt nhóm. Kết thúc nhóm sẽ ngăn các thành viên nhóm gửi tin nhắn hoặc bắt đầu cuộc gọi, đồng thời vô hiệu hóa lời mời."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Giới thiệu tính năng sự kiện cuộc gọi tự xóa: Các cuộc gọi nhỡ, cuộc gọi đi và cuộc gọi đến sau khi bạn cài đặt bản cập nhật này sẽ tự động biến mất trong bất kỳ cuộc trò chuyện nào đã bật tính năng tin nhắn tự xóa."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Chúng tôi cũng đã đơn giản hóa việc tìm thành viên nhóm trên trang cài đặt nhóm."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

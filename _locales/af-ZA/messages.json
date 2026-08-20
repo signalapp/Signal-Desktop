@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "Alle kletse"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, one {{count,number} ongeleesde boodskap} other {{count,number} ongeleesde boodskappe}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "Voeg lid by"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Nooi via groepskakel"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "Groepadmins kan nou kletse beëindig met die nuwe \"Beëindig Groep\" in die groepinstellings. Beëindiging van 'n groep verhoed dat groeplede boodskappe stuur of oproepe begin, en dit deaktiveer ook uitnodigings."
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "Ons stel bekend - verdwynoproepgebeurtenisse: Misgeloopte, uitgaande en ontvangde oproepe wat plaasvind nadat jy hierdie opdatering geïnstalleer het, sal nou outomaties verdwyn in enige klets waar verdwynboodskappe geaktiveer is."
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Ons het dit makliker gemaak om vir groeplede op die groepinstellings-webblad te soek."
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

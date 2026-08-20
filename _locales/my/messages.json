@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "ချက်(တ်)အားလုံး"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {မဖတ်ရသေးသည့် မက်ဆေ့ချ် {count,number}}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "မန်ဘာ ပေါင်းထည့်ရန်"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "အဖွဲ့လင့်ခ်ဖြင့် ဖိတ်ကြားပါ"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "အဖွဲ့ အက်ဒ်မင်များသည် အဖွဲ့ဆက်တင်များရှိ “အဖွဲ့ကို အဆုံးသတ်ရန်” ရွေးချယ်မှုအသစ်မှတစ်ဆင့် အဖွဲ့ချက်(တ်)ကို အဆုံးသတ်နိုင်ပါသည်။ အဖွဲ့ကို အဆုံးသတ်ပြီးပါက အဖွဲ့ဝင်များသည် မက်ဆေ့ချ်ပို့ခြင်း၊ ခေါ်ဆိုမှုစတင်ခြင်းနှင့် ဖိတ်ကြားမှုများ ပြုလုပ်ခြင်းတို့ကို လုပ်ဆောင်နိုင်တော့မည်မဟုတ်ပါ။"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "ပျောက်သွားမည့် ခေါ်ဆိုမှု အခြေအနေကို မိတ်ဆက်ခြင်း- ဤအပ်ဒိတ်ကို ထည့်သွင်းပြီးနောက် ပျောက်သွားမည့် မက်ဆေ့ချ်များ ကို ဖွင့်ထားသည့် မည်သည့်ချက်(တ်)တွင်မဆို လွတ်သွားသည့်၊ ခေါ်ဆိုထားသည့်၊ လက်ခံထားသည့် ဖုန်းခေါ်ဆိုမှုမှတ်တမ်းများသည် အလိုအလျောက် ပျောက်ကွယ်သွားမည်ဖြစ်သည်။"
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "အဖွဲ့ဆက်တင်စာမျက်နှာတွင် အဖွဲ့ဝင်များကို ရှာဖွေရာတွင် ပိုမိုလွယ်ကူအောင် ပြုလုပ်ထားပါသည်။"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }

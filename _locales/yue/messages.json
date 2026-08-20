@@ -320,9 +320,6 @@
   "icu:LeftPaneChatFolders__ItemLabel--All": {
     "messageformat": "全部聊天"
   },
-  "icu:LeftPaneChatFolders__ItemUnreadBadge__MaxCount": {
-    "messageformat": "{maxCount,number}+"
-  },
   "icu:LeftPaneChatFolders__ItemUnreadBadge__AccessibleLabel": {
     "messageformat": "{count, plural, other {{count,number} 個未讀訊息}}"
   },
@@ -5210,6 +5207,9 @@
   "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
     "messageformat": "加谷友"
   },
+  "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
+    "messageformat": "Add members"
+  },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "用谷拎嚟邀請"
   },
@@ -8745,9 +8745,6 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.19--0": {
-    "messageformat": "谷嘅話事人而家可以喺谷設定度用「解散個谷」呢個新選項，等個聊天自然咁摺埋。解散個谷可以令到谷友唔好再發送訊息或者發起通話。另外，邀請功能都停埋。而家，你可以喺開始籌備新一期嘅串珠仔聚會之前，先解散上期嘅聚會谷，咁樣大家就一定會跟得上啱嘅訊息串。"
-  },
   "icu:WhatsNew__8.20--0": {
     "messageformat": "隆重介紹「自動銷毀通話相關事件」功能：安裝呢次更新之後出現嘅未接來電、打出電話同收聽來電，而家都會喺啟用咗「自動銷毀訊息」嘅聊天入面自動消失。"
   },
@@ -8756,5 +8753,8 @@
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "我哋令你更容易喺谷嘅設定頁面度搵谷友，咁你就可以即刻知道阿媽係咪已經將二表弟加咗入去「第三屆家族年度BBQ團聚」個谷度。"
+  },
+  "icu:WhatsNew__8.25--0": {
+    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
   }
 }
