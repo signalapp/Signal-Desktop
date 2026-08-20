@@ -1099,7 +1099,7 @@ export type CreateAccountOptionsType = Readonly<{
 
 const linkDeviceResultZod = z.object({
   uuid: aciSchema,
-  pni: untaggedPniSchema.optional(),
+  pni: untaggedPniSchema.nullish(),
   deviceId: z.number(),
 });
 export type LinkDeviceResultType = z.infer<typeof linkDeviceResultZod>;
