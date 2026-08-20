@@ -154,6 +154,7 @@ import updateToSchemaVersion1740 from './1740-cleanup-groups.node.ts';
 import updateToSchemaVersion1750 from './1750-fts-url.std.ts';
 import updateToSchemaVersion1760 from './1760-delete-story-reply-attachment.std.ts';
 import updateToSchemaVersion1770 from './1770-add-blocked-at.std.ts';
+import updateToSchemaVersion1780 from './1780-fts-reindex.std.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1672,6 +1673,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1750, update: updateToSchemaVersion1750 },
   { version: 1760, update: updateToSchemaVersion1760 },
   { version: 1770, update: updateToSchemaVersion1770 },
+  { version: 1780, update: updateToSchemaVersion1780 },
 ];
 
 class DBVersionFromFutureError extends Error {
