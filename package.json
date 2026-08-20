@@ -242,7 +242,7 @@
     "debug": "4.4.3",
     "direction": "2.0.1",
     "dom-accessibility-api": "0.7.1",
-    "electron": "43.4.0",
+    "electron": "43.4.1",
     "electron-builder": "26.11.1",
     "electron-mocha": "13.1.0",
     "emoji-regex-xs": "2.0.1",
