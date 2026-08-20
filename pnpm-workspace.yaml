@@ -103,7 +103,7 @@ allowBuilds:
   '@signalapp/libsignal-client@0.92.2': true # duplicate package
   '@signalapp/libsignal-client@0.100.0': true
   '@signalapp/ringrtc@2.69.4': true
-  '@signalapp/sqlcipher@4.0.5': true
+  '@signalapp/sqlcipher@4.1.0': true
   '@signalapp/windows-ucv@1.0.1': true
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true

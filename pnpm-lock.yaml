@@ -62,8 +62,8 @@ importers:
         specifier: 2.70.2
         version: 2.70.2
       '@signalapp/sqlcipher':
-        specifier: 4.0.5
-        version: 4.0.5
+        specifier: 4.1.0
+        version: 4.1.0
       '@signalapp/types':
         specifier: workspace:*
         version: link:packages/types
@@ -4572,8 +4572,8 @@ packages:
     resolution: {integrity: sha512-W0EiLZMxsysBIYoiR+Gp6gjF1tLiCdjHak8STPoYdCSUrTdbSLkHQH9hjHjgqHrGaanN0CB+p2gekH0ZxWij2Q==, tarball: https://registry.npmjs.org/@signalapp/ringrtc/-/ringrtc-2.70.2.tgz}
     hasBin: true
 
-  '@signalapp/sqlcipher@4.0.5':
-    resolution: {integrity: sha512-RNrIATv5QT4cPjYyoPyQZhVoxqzTA4pS4F+X+VKvlE6IPhkQDaTeFHVQc0VMfA2UjfrgHzhqn6E6Nl+cxAQT5g==, tarball: https://registry.npmjs.org/@signalapp/sqlcipher/-/sqlcipher-4.0.5.tgz}
+  '@signalapp/sqlcipher@4.1.0':
+    resolution: {integrity: sha512-B4K2xIVVEoKq+eVARKZPnJzJiJD2YIe42ZMObp7bmKCL7KGBS1V9Sd5lMGXOcE4wbFrTYkWwYC9jAN6+Eft6Uw==, tarball: https://registry.npmjs.org/@signalapp/sqlcipher/-/sqlcipher-4.1.0.tgz}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==, tarball: https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz}
@@ -15367,7 +15367,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@signalapp/sqlcipher@4.0.5':
+  '@signalapp/sqlcipher@4.1.0':
     dependencies:
       node-addon-api: 8.8.0
       node-gyp-build: 4.8.4
