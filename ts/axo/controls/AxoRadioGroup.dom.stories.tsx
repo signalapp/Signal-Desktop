@@ -5,7 +5,7 @@ import type { Meta } from '@storybook/react';
 import { AxoRadioGroup } from './AxoRadioGroup.dom.tsx';
 
 export default {
-  title: 'Axo/AxoRadioGroup',
+  title: 'Axo/Controls/AxoRadioGroup',
 } satisfies Meta;
 
 export function Default(): JSX.Element {
@@ -13,15 +13,12 @@ export function Default(): JSX.Element {
   return (
     <AxoRadioGroup.Root value={value} onValueChange={setValue}>
       <AxoRadioGroup.Item value="foo">
-        <AxoRadioGroup.Indicator />
         <AxoRadioGroup.Label>Foo</AxoRadioGroup.Label>
       </AxoRadioGroup.Item>
       <AxoRadioGroup.Item value="bar">
-        <AxoRadioGroup.Indicator />
         <AxoRadioGroup.Label>Bar</AxoRadioGroup.Label>
       </AxoRadioGroup.Item>
       <AxoRadioGroup.Item value="baz">
-        <AxoRadioGroup.Indicator />
         <AxoRadioGroup.Label>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veniam
           accusantium a aperiam quas perferendis error velit ipsam animi natus

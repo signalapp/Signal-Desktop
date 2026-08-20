@@ -6,6 +6,7 @@ import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import type { AxoIconButton } from '../AxoIconButton.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
 import { AxoBaseItem } from './_AxoBaseItem.dom.tsx';
+import { AriaList } from '../aria/AriaList.dom.tsx';
 
 /**
  * @example Anatomy
@@ -43,7 +44,11 @@ export namespace AxoItem {
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
-    return <AxoBaseItem.Group spacing="md">{props.children}</AxoBaseItem.Group>;
+    return (
+      <AriaList.Root asChild>
+        <AxoBaseItem.Group spacing="md">{props.children}</AxoBaseItem.Group>
+      </AriaList.Root>
+    );
   });
 
   Group.displayName = 'AxoItem.Group';
@@ -54,11 +59,16 @@ export namespace AxoItem {
    */
 
   export type RootProps = Readonly<{
+    id?: string;
     children: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    return <AxoBaseItem.Root>{props.children}</AxoBaseItem.Root>;
+    return (
+      <AriaList.Item asChild id={props.id}>
+        <AxoBaseItem.Root>{props.children}</AxoBaseItem.Root>
+      </AriaList.Item>
+    );
   });
 
   Root.displayName = 'AxoItem.Root';
@@ -120,7 +130,9 @@ export namespace AxoItem {
 
   export const Title: FC<TitleProps> = memo(props => {
     return (
-      <AxoBaseItem.Title id={props.id}>{props.children}</AxoBaseItem.Title>
+      <AriaList.Label asChild id={props.id}>
+        <AxoBaseItem.Title>{props.children}</AxoBaseItem.Title>
+      </AriaList.Label>
     );
   });
 
@@ -132,11 +144,16 @@ export namespace AxoItem {
    */
 
   export type ValueProps = Readonly<{
+    id?: string;
     children: ReactNode;
   }>;
 
   export const Value: FC<ValueProps> = memo(props => {
-    return <AxoBaseItem.Value>{props.children}</AxoBaseItem.Value>;
+    return (
+      <AriaList.Label asChild id={props.id}>
+        <AxoBaseItem.Value>{props.children}</AxoBaseItem.Value>
+      </AriaList.Label>
+    );
   });
 
   Value.displayName = 'AxoItem.Value';
@@ -147,11 +164,16 @@ export namespace AxoItem {
    */
 
   export type DescriptionProps = Readonly<{
+    id?: string;
     children: ReactNode;
   }>;
 
   export const Description: FC<DescriptionProps> = memo(props => {
-    return <AxoBaseItem.Description>{props.children}</AxoBaseItem.Description>;
+    return (
+      <AriaList.Description asChild id={props.id}>
+        <AxoBaseItem.Description>{props.children}</AxoBaseItem.Description>
+      </AriaList.Description>
+    );
   });
 
   Description.displayName = 'AxoItem.Description';

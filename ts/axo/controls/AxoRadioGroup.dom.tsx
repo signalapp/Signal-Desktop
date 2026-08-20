@@ -3,12 +3,9 @@
 
 import { RadioGroup } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
-import { memo, useId, useMemo } from 'react';
-import { tw } from './tw.dom.tsx';
-import {
-  createStrictContext,
-  useStrictContext,
-} from './_internal/StrictContext.dom.tsx';
+import { memo } from 'react';
+import { tw } from '../tw.dom.tsx';
+import { AxoBaseRadioGroup } from './_AxoBaseRadioGroup.dom.tsx';
 
 /**
  * A set of checkable buttons—known as radio buttons—where no more than one of
@@ -18,7 +15,6 @@ import {
  * ```tsx
  * <AxoRadioGroup.Root value={value} onValueChange={setValue}>
  *   <AxoRadioGroup.Item value="option-a">
- *     <AxoRadioGroup.Indicator />
  *     <AxoRadioGroup.Label>Option A</AxoRadioGroup.Label>
  *   </AxoRadioGroup.Item>
  * </AxoRadioGroup.Root>
@@ -62,15 +58,12 @@ export namespace AxoRadioGroup {
    * ```tsx
    * <AxoRadioGroup.Root value={notify} onValueChange={setNotify}>
    *   <AxoRadioGroup.Item value="all">
-   *     <AxoRadioGroup.Indicator />
    *     <AxoRadioGroup.Label>All messages</AxoRadioGroup.Label>
    *   </AxoRadioGroup.Item>
    *   <AxoRadioGroup.Item value="mentions">
-   *     <AxoRadioGroup.Indicator />
    *     <AxoRadioGroup.Label>Mentions only</AxoRadioGroup.Label>
    *   </AxoRadioGroup.Item>
    *   <AxoRadioGroup.Item value="off">
-   *     <AxoRadioGroup.Indicator />
    *     <AxoRadioGroup.Label>Off</AxoRadioGroup.Label>
    *   </AxoRadioGroup.Item>
    * </AxoRadioGroup.Root>
@@ -96,17 +89,6 @@ export namespace AxoRadioGroup {
    * --------------------------------------------------------------------------
    */
 
-  /** @internal */
-  type ItemContextType = Readonly<{
-    id: string;
-    value: string;
-    disabled: boolean;
-  }>;
-
-  /** @internal */
-  const ItemContext =
-    createStrictContext<ItemContextType>('AxoRadioGroup.Item');
-
   export type ItemProps = Readonly<{
     /**
      * The value given as data when submitted with a name.
@@ -117,7 +99,7 @@ export namespace AxoRadioGroup {
      */
     disabled?: boolean;
     /**
-     * Should be an `Indicator` and a `Label`.
+     * Should contain an accessible label
      */
     children: ReactNode;
   }>;
@@ -126,67 +108,21 @@ export namespace AxoRadioGroup {
    * A single radio option.
    */
   export const Item: FC<ItemProps> = memo(props => {
-    const { value, disabled = false } = props;
-    const id = useId();
-
-    const context = useMemo((): ItemContextType => {
-      return { id, value, disabled };
-    }, [id, value, disabled]);
-
     return (
-      <ItemContext.Provider value={context}>
-        <label htmlFor={id} className={tw('flex gap-3 py-2.5')}>
+      <AxoBaseRadioGroup.Item
+        asChild
+        value={props.value}
+        disabled={props.disabled}
+      >
+        <div className={tw('flex gap-3 py-2.5')}>
+          <AxoBaseRadioGroup.Indicator />
           {props.children}
-        </label>
-      </ItemContext.Provider>
+        </div>
+      </AxoBaseRadioGroup.Item>
     );
   });
 
   Item.displayName = 'AxoRadioGroup.Item';
-
-  /**
-   * <AxoRadioGroup.Indicator>
-   * --------------------------------------------------------------------------
-   */
-
-  /**
-   * Renders when the radio item is in a checked state.
-   */
-  export const Indicator: FC = memo(() => {
-    const context = useStrictContext(ItemContext);
-    return (
-      <RadioGroup.Item
-        id={context.id}
-        value={context.value}
-        disabled={context.disabled}
-        className={tw(
-          'flex size-5 shrink-0 items-center justify-center rounded-full',
-          'border border-primary inset-shadow-on-color',
-          'data-[state=unchecked]:bg-control',
-          'data-[state=unchecked]:enabled:active:bg-control-pressed',
-          'data-[state=checked]:bg-accent',
-          'data-[state=checked]:active:bg-accent-pressed',
-          'data-disabled:border-secondary',
-          'outline-none keyboard-mode:focus:axo-focus-ring',
-          'overflow-hidden',
-          'forced-colors:data-[state=checked]:bg-[SelectedItem]'
-        )}
-      >
-        <RadioGroup.Indicator asChild>
-          <span
-            className={tw(
-              'size-2.25 rounded-full',
-              'data-[state=checked]:bg-(--axo-color-label-primary-oncolor)',
-              'data-[state=checked]:data-disabled:bg-(--axo-color-label-disabled-oncolor)',
-              'forced-colors:data-[state=checked]:bg-[SelectedItemText]'
-            )}
-          />
-        </RadioGroup.Indicator>
-      </RadioGroup.Item>
-    );
-  });
-
-  Indicator.displayName = 'AxoRadioGroup.Indicator';
 
   /**
    * <AxoRadioGroup.Label>
@@ -205,9 +141,11 @@ export namespace AxoRadioGroup {
    */
   export const Label: FC<LabelProps> = memo(props => {
     return (
-      <span className={tw('truncate type-body-large text-primary')}>
-        {props.children}
-      </span>
+      <AxoBaseRadioGroup.Label asChild>
+        <span className={tw('truncate type-body-large text-primary')}>
+          {props.children}
+        </span>
+      </AxoBaseRadioGroup.Label>
     );
   });
 

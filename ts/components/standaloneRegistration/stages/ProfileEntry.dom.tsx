@@ -14,7 +14,7 @@ import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
-import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
+import { AxoRadioGroup } from '../../../axo/controls/AxoRadioGroup.dom.tsx';
 import { AxoTextField } from '../../../axo/fields/AxoTextField.dom.tsx';
 
 import type { LocalizerType } from '../../../types/I18N.std.ts';
@@ -327,7 +327,6 @@ function PhoneNumberDiscoverabilityDialog({
             }}
           >
             <AxoRadioGroup.Item value={PhoneNumberDiscoverability.Discoverable}>
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 <div className={tw('type-body-medium')}>
                   {i18n('icu:Preferences__pnp__discoverability__everyone')}
@@ -337,7 +336,6 @@ function PhoneNumberDiscoverabilityDialog({
             <AxoRadioGroup.Item
               value={PhoneNumberDiscoverability.NotDiscoverable}
             >
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 <div className={tw('type-body-medium')}>
                   {i18n('icu:Preferences__pnp__discoverability__nobody')}

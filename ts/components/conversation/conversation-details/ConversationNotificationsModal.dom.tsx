@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState, type JSX } from 'react';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { getMuteOptions } from '../../../util/getMuteOptions.std.ts';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
-import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
+import { AxoRadioGroup } from '../../../axo/controls/AxoRadioGroup.dom.tsx';
 import { safeParseInteger } from '../../../util/numbers.std.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
 
@@ -62,7 +62,6 @@ export function ConversationNotificationsModal({
                   value={`${option.value}`}
                   disabled={option.disabled}
                 >
-                  <AxoRadioGroup.Indicator />
                   <AxoRadioGroup.Label>{option.name}</AxoRadioGroup.Label>
                 </AxoRadioGroup.Item>
               );

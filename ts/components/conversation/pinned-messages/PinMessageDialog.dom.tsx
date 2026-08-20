@@ -4,7 +4,7 @@ import type { MouseEvent } from 'react';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
-import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.tsx';
+import { AxoRadioGroup } from '../../../axo/controls/AxoRadioGroup.dom.tsx';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 import { isInternalFeaturesEnabled } from '../../../util/isInternalFeaturesEnabled.dom.ts';
@@ -239,32 +239,27 @@ function PinMessageSelectDurationDialog(props: {
             onValueChange={handleDurationChange}
           >
             <AxoRadioGroup.Item value={DurationOption.TIME_24_HOURS}>
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 {i18n('icu:PinMessageDialog__Option--TIME_24_HOURS')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
             <AxoRadioGroup.Item value={DurationOption.TIME_7_DAYS}>
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 {i18n('icu:PinMessageDialog__Option--TIME_7_DAYS')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
             <AxoRadioGroup.Item value={DurationOption.TIME_30_DAYS}>
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 {i18n('icu:PinMessageDialog__Option--TIME_30_DAYS')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
             <AxoRadioGroup.Item value={DurationOption.FOREVER}>
-              <AxoRadioGroup.Indicator />
               <AxoRadioGroup.Label>
                 {i18n('icu:PinMessageDialog__Option--FOREVER')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
             {isInternalFeaturesEnabled() && (
               <AxoRadioGroup.Item value={DurationOption.DEBUG_10_SECONDS}>
-                <AxoRadioGroup.Indicator />
                 <AxoRadioGroup.Label>10 seconds (Internal)</AxoRadioGroup.Label>
               </AxoRadioGroup.Item>
             )}

@@ -1,25 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DropdownMenu } from 'radix-ui';
 import type { FC, ReactNode } from 'react';
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
 import { tw } from './tw.dom.tsx';
-import {
-  AriaLabellingProvider,
-  useAriaLabellingContext,
-  useCreateAriaLabellingContext,
-} from './_internal/AriaLabellingContext.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
 import {
   getElementAriaRole,
@@ -32,6 +19,7 @@ import {
 import { isTestOrMockEnvironment } from '../environment.std.ts';
 import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
 import { AxoTheme } from './AxoTheme.dom.tsx';
+import { AriaLabelled } from './aria/AriaLabelled.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
@@ -218,28 +206,25 @@ export namespace AxoDropdownMenu {
    * Uses a portal to render the content part into the `body`.
    */
   export const Content: FC<ContentProps> = memo(props => {
-    const { context, labelId, descriptionId } = useCreateAriaLabellingContext();
     const { open } = useStrictContext(RootContext);
     return (
-      <AriaLabellingProvider value={context}>
-        <DropdownMenu.Portal>
-          <AxoTheme.Inherit>
+      <DropdownMenu.Portal>
+        <AxoTheme.Inherit>
+          <AriaLabelled.Root asChild>
             <DropdownMenu.Content
               sideOffset={4}
               align={props.align}
               side={props.side}
               collisionPadding={6}
               className={AxoBaseMenu.menuContentStyles}
-              aria-labelledby={labelId}
-              aria-describedby={descriptionId}
               onCloseAutoFocus={props.onCloseAutoFocus}
               inert={!open}
             >
               {props.children}
             </DropdownMenu.Content>
-          </AxoTheme.Inherit>
-        </DropdownMenu.Portal>
-      </AriaLabellingProvider>
+          </AriaLabelled.Root>
+        </AxoTheme.Inherit>
+      </DropdownMenu.Portal>
     );
   });
 
@@ -396,30 +381,19 @@ export namespace AxoDropdownMenu {
    * for the containing menu.
    */
   export const Header: FC<HeaderProps> = memo(props => {
-    const labelId = useId();
-    const descriptionId = useId();
-
-    const { labelRef, descriptionRef } = useAriaLabellingContext(
-      'AxoDropdownMenu.Content/SubContent'
-    );
-
     return (
       <span aria-hidden="true" className={AxoBaseMenu.menuHeaderStyles}>
-        <span
-          ref={labelRef}
-          id={labelId}
-          className={AxoBaseMenu.menuHeaderLabelStyles}
-        >
-          {props.label}
-        </span>
-        {props.description && (
-          <span
-            ref={descriptionRef}
-            id={descriptionId}
-            className={AxoBaseMenu.menuHeaderDescriptionStyles}
-          >
-            {props.description}
+        <AriaLabelled.Label asChild>
+          <span className={AxoBaseMenu.menuHeaderLabelStyles}>
+            {props.label}
           </span>
+        </AriaLabelled.Label>
+        {props.description && (
+          <AriaLabelled.Description asChild>
+            <span className={AxoBaseMenu.menuHeaderDescriptionStyles}>
+              {props.description}
+            </span>
+          </AriaLabelled.Description>
         )}
       </span>
     );
@@ -643,20 +617,17 @@ export namespace AxoDropdownMenu {
    * inside {@link AxoDropdownMenu.Sub}.
    */
   export const SubContent: FC<SubContentProps> = memo(props => {
-    const { context, labelId, descriptionId } = useCreateAriaLabellingContext();
     return (
       <DropdownMenu.Portal>
-        <AriaLabellingProvider value={context}>
+        <AriaLabelled.Root asChild>
           <DropdownMenu.SubContent
             alignOffset={-6}
             collisionPadding={6}
             className={AxoBaseMenu.menuSubContentStyles}
-            aria-labelledby={labelId}
-            aria-describedby={descriptionId}
           >
             {props.children}
           </DropdownMenu.SubContent>
-        </AriaLabellingProvider>
+        </AriaLabelled.Root>
       </DropdownMenu.Portal>
     );
   });

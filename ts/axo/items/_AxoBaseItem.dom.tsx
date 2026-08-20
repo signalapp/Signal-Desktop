@@ -1,24 +1,18 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, MouseEvent, ReactNode, Ref } from 'react';
-import { memo, useId, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import {
   createStrictContext,
   useStrictContext,
 } from '../_internal/StrictContext.dom.tsx';
 import { tw } from '../tw.dom.tsx';
-import {
-  AriaLabellingProvider,
-  useAriaLabellingContext,
-  useCreateAriaLabellingContext,
-} from '../_internal/AriaLabellingContext.dom.tsx';
 import { AriaClickable } from '../AriaClickable.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
 import { AxoIconButton } from '../AxoIconButton.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoButton } from '../AxoButton.dom.tsx';
 import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
-import { AxoRadioGroup } from '../AxoRadioGroup.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 import { variants } from '../_internal/variants.dom.tsx';
 
@@ -72,12 +66,13 @@ export namespace AxoBaseItem {
     createStrictContext<GroupContextType>('AxoBaseItem.Group');
 
   export type GroupProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     spacing: Spacing;
     children: ReactNode;
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
-    const { spacing } = props;
+    const { ref, spacing, children, ...rest } = props;
 
     const context = useMemo((): GroupContextType => {
       return { spacing };
@@ -86,13 +81,16 @@ export namespace AxoBaseItem {
     return (
       <GroupContext value={context}>
         <div
-          role="list"
+          ref={ref}
           className={tw('grid min-w-90')}
+          {...forwardExtraPropsForRadix(rest)}
+          // Style needs to come after forwarded props. Long-term we should
+          // figure out how to automatically merge props like these
           style={{
             gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
           }}
         >
-          {props.children}
+          {children}
         </div>
       </GroupContext>
     );
@@ -115,42 +113,40 @@ export namespace AxoBaseItem {
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
+    const { children, ...rest } = props;
     const groupContext = useStrictContext(GroupContext);
-    const { context, labelId, descriptionId } = useCreateAriaLabellingContext();
 
     return (
-      <AriaLabellingProvider value={context}>
-        <AriaClickable.Root asChild>
+      <AriaClickable.Root asChild>
+        <div
+          className={tw(
+            'group',
+            // forward grid
+            'col-span-full grid grid-cols-subgrid',
+            'p-0.5',
+            'outline-none'
+          )}
+          {...forwardExtraPropsForRadix(rest)}
+        >
           <div
-            role="listitem"
-            aria-labelledby={labelId}
-            aria-describedby={descriptionId}
             className={tw(
-              'group',
               // forward grid
               'col-span-full grid grid-cols-subgrid',
-              'p-0.5'
+              'gap-x-3 px-3',
+              RootSpacing.get(groupContext.spacing),
+              'items-baseline',
+              'text-primary',
+              'curved-14',
+              'group-data-hovered:bg-secondary',
+              'group-data-pressed:bg-secondary-pressed',
+              'outline-none keyboard-mode:group-data-focused:axo-focus-ring',
+              'keyboard-mode:group-focus:axo-focus-ring'
             )}
           >
-            <div
-              className={tw(
-                // forward grid
-                'col-span-full grid grid-cols-subgrid',
-                'gap-x-3 px-3',
-                RootSpacing.get(groupContext.spacing),
-                'items-baseline',
-                'text-primary',
-                'curved-14',
-                'group-data-hovered:bg-secondary',
-                'group-data-pressed:bg-secondary-pressed',
-                'outline-none keyboard-mode:group-data-focused:axo-focus-ring'
-              )}
-            >
-              {props.children}
-            </div>
+            {children}
           </div>
-        </AriaClickable.Root>
-      </AriaLabellingProvider>
+        </div>
+      </AriaClickable.Root>
     );
   });
 
@@ -161,14 +157,12 @@ export namespace AxoBaseItem {
    * --------------------------------------------------------------------------
    */
 
-  /** @internal */
-  type LeadingSlotProps = Readonly<{
+  export type LeadingSlotProps = Readonly<{
     className?: string;
     children: ReactNode;
   }>;
 
-  /** @internal */
-  const LeadingSlot: FC<LeadingSlotProps> = memo(props => {
+  export const LeadingSlot: FC<LeadingSlotProps> = memo(props => {
     return (
       <div style={{ gridColumn: LEADING_SLOT }} className={props.className}>
         {props.children}
@@ -246,36 +240,6 @@ export namespace AxoBaseItem {
   });
 
   Checkbox.displayName = 'AxoBaseItem.Checkbox';
-
-  /**
-   * <AxoBaseItem.RadioGroupIndicator>
-   * --------------------------------------------------------------------------
-   */
-
-  export const RadioGroupIndicator: FC = memo(() => {
-    return (
-      <LeadingSlot>
-        <AxoRadioGroup.Indicator />
-      </LeadingSlot>
-    );
-  });
-
-  RadioGroupIndicator.displayName = 'AxoBaseItem.RadioGroupIndicator';
-
-  /**
-   * <AxoBaseItem.LegacyAvatarSlot>
-   * --------------------------------------------------------------------------
-   */
-
-  export type LegacyAvatarSlotProps = Readonly<{
-    children: ReactNode;
-  }>;
-
-  export const LegacyAvatarSlot: FC<LegacyAvatarSlotProps> = memo(props => {
-    return <LeadingSlot>{props.children}</LeadingSlot>;
-  });
-
-  LegacyAvatarSlot.displayName = 'AxoBaseItem.LegacyAvatarSlot';
 
   /**
    * <AxoBaseItem.IconAvatar>
@@ -362,27 +326,26 @@ export namespace AxoBaseItem {
    */
 
   export type TitleProps = Readonly<{
-    id?: string;
+    ref?: Ref<HTMLDivElement>;
     truncate?: boolean;
     children: ReactNode;
   }>;
 
   export const Title: FC<TitleProps> = memo(props => {
-    const fallbackId = useId();
-    const { labelRef } = useAriaLabellingContext('AxoBaseItem.Root');
+    const { ref, truncate, children, ...rest } = props;
     return (
       <div
-        ref={labelRef}
-        id={props.id ?? fallbackId}
+        ref={ref}
         className={tw(
           'min-w-50', // force value to next line if there's not much space
           'grow-[calc(infinity)]',
           'type-body-medium text-primary',
-          props.truncate ? 'truncate' : 'line-clamp-2',
+          truncate ? 'truncate' : 'line-clamp-2',
           '-my-0.75 py-0.75' // extra space for focus rings
         )}
+        {...forwardExtraPropsForRadix(rest)}
       >
-        {props.children}
+        {children}
       </div>
     );
   });
@@ -395,13 +358,19 @@ export namespace AxoBaseItem {
    */
 
   export type ValueProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     children: ReactNode;
   }>;
 
   export const Value: FC<ValueProps> = memo(props => {
+    const { ref, children, ...rest } = props;
     return (
-      <div className={tw('w-fit grow type-body-medium text-secondary')}>
-        {props.children}
+      <div
+        ref={ref}
+        className={tw('w-fit grow type-body-medium text-secondary')}
+        {...forwardExtraPropsForRadix(rest)}
+      >
+        {children}
       </div>
     );
   });
@@ -414,25 +383,29 @@ export namespace AxoBaseItem {
    */
 
   export type DescriptionProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     truncate?: boolean;
     children: ReactNode;
   }>;
 
   export const Description: FC<DescriptionProps> = memo(props => {
+    const { ref, truncate, children, ...rest } = props;
     return (
       <>
         {/* Force description to its own line */}
         <div className={tw('basis-full')} />
         <div
+          ref={ref}
           className={tw(
             'min-w-0',
             'type-body-small text-secondary',
             'forced-colors:text-[GrayText]',
-            props.truncate && 'truncate',
+            truncate && 'truncate',
             '-my-0.5 py-0.5' // extra space for focus rings
           )}
+          {...forwardExtraPropsForRadix(rest)}
         >
-          {props.children}
+          {children}
         </div>
       </>
     );
