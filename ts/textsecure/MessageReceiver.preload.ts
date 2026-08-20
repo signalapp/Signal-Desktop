@@ -3971,7 +3971,10 @@ export default class MessageReceiver
       blocked.blockedAcis.length ||
       blocked.blockedGroups.length;
     const areLegacyFieldsUsed =
-      blocked.numbers.length || blocked.acis.length || blocked.groupIds.length;
+      blocked.numbers.length ||
+      blocked.acisBinary.length ||
+      blocked.acis.length ||
+      blocked.groupIds.length;
 
     if (areModernFieldsUsed || !areLegacyFieldsUsed) {
       log.info(`${logId}: Using modern fields`);
@@ -4171,6 +4174,7 @@ export default class MessageReceiver
         itemStorage.blocked.setBlockedGroups();
       }
 
+      this.#removeFromCache(envelope);
       return;
     }
 
