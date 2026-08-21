@@ -40,11 +40,11 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('archiving contact');
     {
       const state = await phone.expectStorageState('consistency check');
-      const newState = state
+      const modifiedState = state
         .updateContact(firstContact, { archived: true })
         .unpin(firstContact);
 
-      await phone.setStorageState(newState);
+      const newState = await phone.setStorageState(modifiedState);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -63,13 +63,13 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('unarchiving pinned contact');
     {
       const state = await phone.expectStorageState('consistency check');
-      const newState = state
+      const modifiedState = state
         .updateContact(firstContact, {
           archived: false,
         })
         .pin(firstContact);
 
-      await phone.setStorageState(newState);
+      const newState = await phone.setStorageState(modifiedState);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -100,6 +100,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
       const archiveButton = window.getByRole('menuitem', {
         name: 'Archive',
+        exact: true,
       });
       await archiveButton.click();
 

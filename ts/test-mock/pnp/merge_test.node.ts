@@ -183,7 +183,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       );
       {
         const state = await phone.expectStorageState('consistency check');
-        await phone.setStorageState(
+        const newState = await phone.setStorageState(
           state.mergeContact(pniContact, {
             identityState: Proto.ContactRecord.IdentityState.DEFAULT,
             whitelisted: true,
@@ -195,7 +195,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         await phone.sendFetchStorage({
           timestamp: bootstrap.getTimestamp(),
         });
-        await app.waitForManifestVersion(state.version);
+        await app.waitForManifestVersion(newState.version);
       }
 
       debug('Verify final state');
@@ -359,7 +359,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
         identityKey: pniContact.publicKey.serialize(),
         profileKey: pniContact.profileKey.serialize(),
       });
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -496,7 +496,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       );
       state = state.pin(aciContact, ServiceIdKind.ACI);
 
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
@@ -614,7 +614,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     );
     {
       const state = await phone.expectStorageState('consistency check');
-      await phone.setStorageState(
+      const newState = await phone.setStorageState(
         state.mergeContact(pniContact, {
           identityState: Proto.ContactRecord.IdentityState.DEFAULT,
           whitelisted: true,
@@ -626,7 +626,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });
-      await app.waitForManifestVersion(state.version);
+      await app.waitForManifestVersion(newState.version);
     }
 
     const window = await app.getWindow();

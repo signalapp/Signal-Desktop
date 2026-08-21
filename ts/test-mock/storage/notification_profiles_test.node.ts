@@ -264,6 +264,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
       deletedAtTimestampMs: null,
     };
 
+    let uploadedState: StorageState;
     {
       let newState = firstState.addRecord({
         type: IdentifierType.NOTIFICATION_PROFILE,
@@ -303,14 +304,14 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
         },
       });
 
-      await phone.setStorageState(newState);
+      uploadedState = await phone.setStorageState(newState);
     }
 
     debug('Waiting for desktop to process storage service updates');
     await phone.sendFetchStorage({
       timestamp: bootstrap.getTimestamp(),
     });
-    await app.waitForManifestVersion(firstState.version + 1n);
+    await app.waitForManifestVersion(uploadedState.version);
 
     debug('Now we should be on the Notification Profiles list page');
     await expect(
@@ -484,7 +485,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
         notificationProfileSyncDisabled: false,
       });
 
-      await phone.setStorageState(newState);
+      uploadedState = await phone.setStorageState(newState);
     }
 
     // now desktop will see the off->on flip for sync, and reconcile profiles:
@@ -496,7 +497,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await phone.sendFetchStorage({
       timestamp: bootstrap.getTimestamp(),
     });
-    await app.waitForManifestVersion(secondState.version + 1n);
+    await app.waitForManifestVersion(uploadedState.version);
 
     debug('Check what is on the list page now');
     await expect(

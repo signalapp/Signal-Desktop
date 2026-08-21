@@ -47,9 +47,9 @@ describe('storage service', function (this: Mocha.Suite) {
       debug('Unpinning group via storage service');
       {
         const state = await phone.expectStorageState('initial state');
-        const newState = state.unpinGroup(group);
+        const modifiedState = state.unpinGroup(group);
 
-        await phone.setStorageState(newState);
+        const newState = await phone.setStorageState(modifiedState);
         await phone.sendFetchStorage({
           timestamp: bootstrap.getTimestamp(),
         });
@@ -71,6 +71,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
         const pinButton = window.getByRole('menuitem', {
           name: 'Pin chat',
+          exact: true,
         });
         await pinButton.click();
 
@@ -123,6 +124,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
           const pinButton = window.getByRole('menuitem', {
             name: 'Pin chat',
+            exact: true,
           });
           // oxlint-disable-next-line no-await-in-loop
           await pinButton.click();

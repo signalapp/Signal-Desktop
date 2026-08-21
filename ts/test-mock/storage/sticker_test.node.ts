@@ -392,7 +392,7 @@ describe('stickers', function (this: Mocha.Suite) {
     {
       debug('expiring sticker pack via storage service');
       const state = await phone.expectStorageState('initial state');
-      const newState = state.updateRecord(
+      const modifiedState = state.updateRecord(
         getStickerPackRecordPredicate(STICKER_PACKS[0]),
         record => ({
           stickerPack: {
@@ -402,7 +402,7 @@ describe('stickers', function (this: Mocha.Suite) {
         })
       );
 
-      await phone.setStorageState(newState);
+      const newState = await phone.setStorageState(modifiedState);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });

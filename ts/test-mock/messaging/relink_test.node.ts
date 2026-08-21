@@ -132,7 +132,7 @@ describe('messaging/relink', function (this: Mocha.Suite) {
       state = state.unpin(second);
       state = state.pin(first);
 
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({
         timestamp: bootstrap.getTimestamp(),
       });

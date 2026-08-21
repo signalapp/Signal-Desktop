@@ -65,7 +65,9 @@ describe('storage service', function (this: Mocha.Suite) {
           .getByRole('button', { name: 'More Info' })
           .click();
 
-        await window.getByRole('menuitem', { name: 'Archive' }).click();
+        await window
+          .getByRole('menuitem', { name: 'Archive', exact: true })
+          .click();
 
         await phone.waitForStorageState({
           after: state,
@@ -150,7 +152,9 @@ describe('storage service', function (this: Mocha.Suite) {
         .getByRole('button', { name: 'More Info' })
         .click();
 
-      await window.getByRole('menuitem', { name: 'Pin chat' }).click();
+      await window
+        .getByRole('menuitem', { name: 'Pin chat', exact: true })
+        .click();
 
       const newState = await phone.waitForStorageState({
         after: state,

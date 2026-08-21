@@ -159,7 +159,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
         },
       });
 
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({ timestamp: bootstrap.getTimestamp() });
       await app.waitForManifestVersion(state.version);
 
@@ -184,7 +184,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
         }
       );
 
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({ timestamp: bootstrap.getTimestamp() });
       await app.waitForManifestVersion(state.version);
 
@@ -211,7 +211,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
         }
       );
 
-      await phone.setStorageState(state);
+      state = await phone.setStorageState(state);
       await phone.sendFetchStorage({ timestamp: bootstrap.getTimestamp() });
       await app.waitForManifestVersion(state.version);
 
