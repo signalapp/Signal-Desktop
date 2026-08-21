@@ -54,6 +54,7 @@ auditConfig:
     - GHSA-4c8g-83qw-93j6 # fast-uri, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
     - GHSA-jmr9-qjv8-65gv # react-devtools > electron > extract-zip
+    - GHSA-r292-9mhp-454m # tar, only used at dev-time
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
