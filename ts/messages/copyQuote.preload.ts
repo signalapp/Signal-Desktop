@@ -40,16 +40,11 @@ export type MinimalMessageCache = Readonly<{
   register: (message: MessageModel) => MessageModel;
 }>;
 
-export type CopyQuoteOptionsType = Readonly<{
-  messageCache?: MinimalMessageCache;
-}>;
-
 export const copyFromQuotedMessage = async (
   quote: ProcessedQuote,
-  conversationId: string,
-  options: CopyQuoteOptionsType = {}
+  conversationId: string
 ): Promise<QuotedMessageType> => {
-  const { messageCache = window.MessageCache } = options;
+  const messageCache = window.MessageCache;
   const { id } = quote;
   strictAssert(id, 'Quote must have an id');
 
@@ -80,7 +75,7 @@ export const copyFromQuotedMessage = async (
   }
 
   if (queryMessage) {
-    await copyQuoteContentFromOriginal(queryMessage, result, options);
+    await copyQuoteContentFromOriginal(queryMessage, result);
   }
 
   return result;
@@ -88,9 +83,9 @@ export const copyFromQuotedMessage = async (
 
 export const copyQuoteContentFromOriginal = async (
   message: MessageModel,
-  quote: QuotedMessageType,
-  { messageCache = window.MessageCache }: CopyQuoteOptionsType = {}
+  quote: QuotedMessageType
 ): Promise<void> => {
+  const messageCache = window.MessageCache;
   const { attachments } = quote;
   const quoteAttachment = attachments ? attachments[0] : undefined;
 

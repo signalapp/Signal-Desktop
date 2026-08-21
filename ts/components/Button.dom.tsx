@@ -37,7 +37,6 @@ export type PropsType = {
   size?: ButtonSize;
   style?: CSSProperties;
   tabIndex?: number;
-  testId?: string;
   theme?: Theme;
   variant?: ButtonVariant;
   'aria-disabled'?: boolean;
@@ -98,7 +97,6 @@ export const Button = forwardRef<HTMLButtonElement, PropsType>(
       discouraged = false,
       style,
       tabIndex,
-      testId,
       theme,
       variant = ButtonVariant.Primary,
       size = ButtonSize.Medium,
@@ -136,7 +134,6 @@ export const Button = forwardRef<HTMLButtonElement, PropsType>(
           className,
           className && discouraged ? `${className}--discouraged` : undefined
         )}
-        data-testid={testId}
         disabled={disabled}
         onClick={onClick}
         form={form}

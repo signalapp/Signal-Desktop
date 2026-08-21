@@ -431,14 +431,12 @@ export function decryptAesCtr(
 function encryptAesGcm(
   key: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>,
-  plaintext: Uint8Array<ArrayBuffer>,
-  aad?: Uint8Array<ArrayBuffer>
+  plaintext: Uint8Array<ArrayBuffer>
 ): Uint8Array<ArrayBuffer> {
   return encrypt(CipherType.AES256GCM, {
     key,
     plaintext,
     iv,
-    aad,
   });
 }
 

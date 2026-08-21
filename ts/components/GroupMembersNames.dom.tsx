@@ -14,7 +14,6 @@ const { take } = lodash;
 
 type PropsType = {
   i18n: LocalizerType;
-  nameClassName?: string;
   memberships: ReadonlyArray<GroupV2Membership>;
   invitesCount?: number;
   onOtherMembersClick?: () => void;
@@ -170,7 +169,6 @@ function MemberList({
 
 export function GroupMembersNames({
   i18n,
-  nameClassName,
   memberships,
   invitesCount,
   onOtherMembersClick,
@@ -203,11 +201,11 @@ export function GroupMembersNames({
     ).map((name, i) => (
       // We cannot guarantee uniqueness of member names
       // oxlint-disable-next-line react/no-array-index-key
-      <span key={i} className={nameClassName}>
+      <span key={i}>
         <UserText text={name ?? i18n('icu:unknownContactShort')} />
       </span>
     ));
-  }, [otherMemberNames, nameClassName, i18n]);
+  }, [otherMemberNames, i18n]);
 
   const memberListElement = (
     <MemberList

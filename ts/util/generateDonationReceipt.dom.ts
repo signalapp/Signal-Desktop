@@ -29,41 +29,14 @@ const COLORS = {
  * NOTE: letterSpacing does not work for arabic, breaks the script
  * @param params - Object containing original values to scale
  * @param params.fontSize - Original font size in pixels
- * @param params.height - Optional original height/margin/padding in pixels
- * @param params.letterSpacing - Optional original letter spacing in pixels
  * @returns Scaled values for use in FabricJS
  */
-function scaleValues(params: {
+function scaleValues(params: { fontSize: number }): {
   fontSize: number;
-  height?: number;
-  letterSpacing?: number;
-}): {
-  fontSize: number;
-  height?: number;
-  charSpacing?: number;
 } {
-  const result: {
-    fontSize: number;
-    height?: number;
-    charSpacing?: number;
-  } = {
+  return {
     fontSize: params.fontSize * SCALING_FACTOR,
   };
-
-  if (params.height !== undefined) {
-    result.height = params.height * SCALING_FACTOR;
-  }
-
-  if (params.letterSpacing !== undefined) {
-    // FabricJS charSpacing is in thousandths of em units
-    // Formula: (letterSpacingPx * 1000) / fontSizePx
-    // This converts pixel-based letter spacing to em-based units
-    // For example: -0.13px letter spacing on 12px font =
-    //    (-0.13 * 1000) / 12 = -10.83 thousandths of em
-    result.charSpacing = (params.letterSpacing * 1000) / params.fontSize;
-  }
-
-  return result;
 }
 
 const SIGNAL_LOGO_SVG = `<svg width="417" height="121" viewBox="0 0 560 160" fill="none" xmlns="http://www.w3.org/2000/svg">

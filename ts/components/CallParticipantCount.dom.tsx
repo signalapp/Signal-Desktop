@@ -10,7 +10,6 @@ export type PropsType = {
   callMode: CallMode.Group | CallMode.Adhoc;
   i18n: LocalizerType;
   isAdhocJoinRequestPending?: boolean;
-  groupMemberCount?: number;
   participantCount: number;
   toggleParticipants: () => void;
 };

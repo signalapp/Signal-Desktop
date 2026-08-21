@@ -21,16 +21,10 @@ export function safeParseNumber(value: number | string): number | null {
   return parsed;
 }
 
-export function safeParseInteger(
-  value: number | string,
-  trunc = false
-): number | null {
+export function safeParseInteger(value: number | string): number | null {
   const parsed = safeParseNumber(value);
   if (parsed == null) {
     return null;
-  }
-  if (trunc) {
-    return Math.trunc(parsed);
   }
   if (!Number.isInteger(parsed)) {
     return null;

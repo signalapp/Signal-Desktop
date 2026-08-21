@@ -3,7 +3,7 @@
 import fetch from 'node-fetch';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
-import type { TusFileReader, FetchFunctionType } from './tusProtocol.node.ts';
+import type { TusFileReader } from './tusProtocol.node.ts';
 import { tusResumeUpload, tusUpload } from './tusProtocol.node.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
 
@@ -88,15 +88,13 @@ async function _doDownload({
   headers = {},
   filePath,
   signal,
-  fetchFn = fetch,
 }: {
   endpoint: string;
   filePath: string;
   headers?: Record<string, string>;
   signal?: AbortSignal;
-  fetchFn?: FetchFunctionType;
 }): Promise<void> {
-  const response = await fetchFn(endpoint, {
+  const response = await fetch(endpoint, {
     method: 'GET',
     signal,
     redirect: 'error',

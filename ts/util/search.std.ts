@@ -9,11 +9,6 @@ export const SNIPPET_TRUNCATION_PLACEHOLDER = '<<truncation>>';
  * Generate a snippet suitable for rendering search results, in the style returned from
  * FTS's snippet() function.
  *
- * @param approxSnippetLength - If generating a snippet from a mention, the approximate
- * length of snippet (not including any hydrated mentions that might occur when rendering)
- * @param maxCharsBeforeHighlight - Max chars to show before the highlight, to ensure the
- * highlight is visible even at narrow search result pane widths
- *
  * If generating a snippet from a mention, will not truncate in the middle of a word.
  *
  * @returns Return a snippet suitable for rendering search results, e.g.
@@ -23,21 +18,17 @@ export function generateSnippetAroundMention({
   body,
   mentionStart,
   mentionLength,
-  approxSnippetLength = 50,
-  maxCharsBeforeHighlight = 30,
 }: {
   body: string;
   mentionStart: number;
   mentionLength: number;
-  approxSnippetLength?: number;
-  maxCharsBeforeHighlight?: number;
 }): string {
   const segmenter = new Intl.Segmenter([], { granularity: 'word' });
 
   // Grab a substring of the body around the mention, larger than the desired snippet
   const bodyAroundMention = body.substring(
-    mentionStart - 2 * approxSnippetLength,
-    mentionStart + mentionLength + 2 * approxSnippetLength
+    mentionStart - 2 * 50,
+    mentionStart + mentionLength + 2 * 50
   );
 
   const words = [...segmenter.segment(bodyAroundMention)].filter(
@@ -68,13 +59,13 @@ export function generateSnippetAroundMention({
     const lengthAfterMention = snippetEndIdx - mentionStart - mentionLength;
 
     if (
-      lengthBeforeMention + lengthAfterMention <= approxSnippetLength &&
-      lengthBeforeMention <= maxCharsBeforeHighlight
+      lengthBeforeMention + lengthAfterMention <= 50 &&
+      lengthBeforeMention <= 30
     ) {
       break;
     }
 
-    if (lengthBeforeMention > maxCharsBeforeHighlight) {
+    if (lengthBeforeMention > 30) {
       leftWordIdx += 1;
     } else if (lengthBeforeMention > lengthAfterMention) {
       leftWordIdx += 1;

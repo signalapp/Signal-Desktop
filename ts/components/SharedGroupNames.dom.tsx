@@ -13,19 +13,17 @@ const { take } = lodash;
 
 type PropsType = {
   i18n: LocalizerType;
-  nameClassName?: string;
   sharedGroupNames: ReadonlyArray<string>;
 };
 
 export function SharedGroupNames({
   i18n,
-  nameClassName,
   sharedGroupNames,
 }: PropsType): JSX.Element {
   const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
     // We cannot guarantee uniqueness of group names
     // oxlint-disable-next-line react/no-array-index-key
-    <strong key={i} className={nameClassName}>
+    <strong key={i}>
       <UserText text={group} />
     </strong>
   ));

@@ -11,9 +11,7 @@ import { DAY } from './durations/index.std.ts';
 const INTERNAL_TEST_ID = 'INTERNAL_TEST' as RemoteMegaphoneId;
 export const TEST_MEGAPHONE_IMAGE = 'images/donate-heart.png';
 
-export function internalGetTestMegaphone(
-  props?: Partial<VisibleRemoteMegaphoneType>
-): VisibleRemoteMegaphoneType {
+export function internalGetTestMegaphone(): VisibleRemoteMegaphoneType {
   return {
     priority: 100,
     desktopMinVersion: '1.0.0',
@@ -35,7 +33,6 @@ export function internalGetTestMegaphone(
     snoozedAt: null,
     shownAt: null,
     isFinished: false,
-    ...props,
     id: INTERNAL_TEST_ID,
   };
 }

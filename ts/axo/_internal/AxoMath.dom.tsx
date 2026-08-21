@@ -15,15 +15,10 @@ export namespace AxoMath {
   }
 
   /** Works the same way as CSS `progress([no-clamp] <min> <value> <max>)` */
-  export function progress(
-    value: number,
-    min: number,
-    max: number,
-    noClamp?: boolean
-  ): number {
+  export function progress(value: number, min: number, max: number): number {
     assert(max > min, 'max must be greater than min');
     const result = (value - min) / (max - min);
-    return noClamp ? result : clamp(result, 0, 1);
+    return clamp(result, 0, 1);
   }
 
   export function circumference(radius: number): number {

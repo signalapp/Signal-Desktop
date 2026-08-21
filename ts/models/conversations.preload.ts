@@ -52,7 +52,6 @@ import { hasDraft } from '../util/hasDraft.std.ts';
 import { getStoryReplyContext } from '../util/getStoryReplyContext.std.ts';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import type {
-  StickerType,
   StickerWithHydratedData,
 } from '../types/Stickers.preload.ts';
 import * as Stickers from '../types/Stickers.preload.ts';
@@ -4017,11 +4016,9 @@ export class ConversationModel {
   }
 
   // TODO(DESKTOP-9497): This will not include `ourAci` in 1:1 chats
-  getMembers(
-    options: { includePendingMembers?: boolean } = {}
-  ): Array<ConversationModel> {
+  getMembers(): Array<ConversationModel> {
     return compact(
-      getConversationMembers(this.attributes, options).map(conversationAttrs =>
+      getConversationMembers(this.attributes).map(conversationAttrs =>
         window.ConversationController.get(conversationAttrs.id)
       )
     );
@@ -4061,8 +4058,7 @@ export class ConversationModel {
 
   async getQuoteAttachment(
     attachments?: Array<AttachmentType>,
-    preview?: Array<LinkPreviewType>,
-    sticker?: StickerType
+    preview?: Array<LinkPreviewType>
   ): Promise<
     Array<{
       contentType: MIMEType;
@@ -4070,7 +4066,7 @@ export class ConversationModel {
       thumbnail?: ThumbnailType | null;
     }>
   > {
-    return getQuoteAttachment(attachments, preview, sticker);
+    return getQuoteAttachment(attachments, preview);
   }
 
   async sendStickerMessage(
@@ -5672,8 +5668,8 @@ export class ConversationModel {
     log.info(`${logId}: Delete complete`);
   }
 
-  getTitle(options?: { isShort?: boolean }): string {
-    return getTitle(this.attributes, options);
+  getTitle(): string {
+    return getTitle(this.attributes);
   }
 
   getTitleNoDefault(options?: { isShort?: boolean }): string | undefined {

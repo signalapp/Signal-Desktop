@@ -29,8 +29,7 @@ export type ContactNameData = {
 };
 
 export function useContactNameData(
-  conversation: ConversationType | null,
-  contactNameColor?: ContactNameColorType
+  conversation: ConversationType | null
 ): ContactNameData | null {
   const { firstName, title, isMe } = conversation ?? {};
   const isSignalConversation =
@@ -40,17 +39,15 @@ export function useContactNameData(
       return null;
     }
     return {
-      contactNameColor,
       firstName,
       isSignalConversation,
       isMe,
       title,
     };
-  }, [contactNameColor, firstName, isSignalConversation, isMe, title]);
+  }, [firstName, isSignalConversation, isMe, title]);
 }
 
 export type PropsType = ContactNameData & {
-  fontSizeOverride?: number;
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
@@ -121,15 +118,13 @@ export function GroupMemberLabel({
   contactLabel,
   contactNameColor,
   context,
-  module,
 }: {
   emojiSize?: FunStaticEmojiSize;
   contactLabel?: MemberLabelType;
   contactNameColor?: ContactNameColorType;
   context: Context;
-  module?: string;
 }): ReactNode {
-  const getClassName = getClassNamesFor('module-contact-name', module);
+  const getClassName = getClassNamesFor('module-contact-name');
 
   if (!contactLabel) {
     return null;

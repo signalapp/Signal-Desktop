@@ -14,11 +14,8 @@ import {
 } from './whatTypeOfConversation.dom.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
-const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
-
 export function shouldShowInvalidMessageToast(
-  conversationAttributes: ConversationAttributesType,
-  messageText?: string
+  conversationAttributes: ConversationAttributesType
 ): AnyToast | undefined {
   const state = window.reduxStore.getState();
   if (hasExpired(state)) {
@@ -60,10 +57,6 @@ export function shouldShowInvalidMessageToast(
     conversationAttributes.left
   ) {
     return { toastType: ToastType.LeftGroup };
-  }
-
-  if (messageText && messageText.length > MAX_MESSAGE_BODY_LENGTH) {
-    return { toastType: ToastType.MessageBodyTooLong };
   }
 
   return undefined;

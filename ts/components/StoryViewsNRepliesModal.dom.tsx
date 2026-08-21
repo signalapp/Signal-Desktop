@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, JSX, RefObject, MouseEvent } from 'react';
+import type { ReactNode, JSX, RefObject } from 'react';
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
@@ -546,7 +546,6 @@ type ReplyOrReactionMessageProps = {
   id: string;
   isInternalUser?: boolean;
   isSpoilerExpanded: Record<number, boolean>;
-  onContextMenu?: (ev: MouseEvent) => void;
   reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;

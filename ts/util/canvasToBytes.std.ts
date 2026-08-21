@@ -6,9 +6,8 @@ import type { MIMEType } from '../types/MIME.std.ts';
 
 export async function canvasToBytes(
   canvas: HTMLCanvasElement,
-  mimeType?: MIMEType,
-  quality?: number
+  mimeType?: MIMEType
 ): Promise<Uint8Array<ArrayBuffer>> {
-  const blob = await canvasToBlob(canvas, mimeType, quality);
+  const blob = await canvasToBlob(canvas, mimeType);
   return new Uint8Array(await blob.arrayBuffer());
 }
