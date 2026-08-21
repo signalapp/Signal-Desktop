@@ -46,6 +46,7 @@ import {
 import { SmartPinMessageDialog } from './PinMessageDialog.preload.tsx';
 import { SmartGroupMemberLabelInfoModal } from './GroupMemberLabelInfoModal.preload.tsx';
 import { SmartTerminateGroupFailedModal } from './TerminateGroupFailedModal.preload.tsx';
+import { SmartPinReminderModal } from './PinReminderModal.preload.tsx';
 
 function renderCallLinkAddNameModal(): JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -123,6 +124,10 @@ function renderPinMessageDialog(): JSX.Element {
   return <SmartPinMessageDialog />;
 }
 
+function renderPinReminderModal(): JSX.Element {
+  return <SmartPinReminderModal />;
+}
+
 function renderPlaintextExportWorkflow(): JSX.Element {
   return <SmartPlaintextExportWorkflow />;
 }
@@ -186,6 +191,7 @@ export const SmartGlobalModalContainer = memo(
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
       pinMessageDialogData,
+      pinReminderState,
       isProfileNameWarningModalVisible,
       profileNameWarningModalConversationType,
       isShortcutGuideModalVisible,
@@ -356,6 +362,7 @@ export const SmartGlobalModalContainer = memo(
         }
         renderNotePreviewModal={renderNotePreviewModal}
         renderPinMessageDialog={renderPinMessageDialog}
+        renderPinReminderModal={renderPinReminderModal}
         renderPlaintextExportWorkflow={renderPlaintextExportWorkflow}
         renderLocalBackupExportWorkflow={renderLocalBackupExportWorkflow}
         renderProfileNameWarningModal={renderProfileNameWarningModal}
@@ -378,6 +385,7 @@ export const SmartGlobalModalContainer = memo(
         toggleSignalConnectionsModal={toggleSignalConnectionsModal}
         userNotFoundModalState={userNotFoundModalState}
         usernameOnboardingState={usernameOnboardingState}
+        pinReminderState={pinReminderState}
         profileNameWarningModalConversationType={
           profileNameWarningModalConversationType
         }

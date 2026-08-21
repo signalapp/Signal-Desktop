@@ -25,6 +25,7 @@ import {
   type goToCreatePINStage as doGoToCreatePINStage,
   type createPIN as doCreatePIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
+import { PIN_MAX_BYTES, PIN_MAX_GRAPHEMES } from './VerifyPIN.dom.tsx';
 
 export function CreatePINConfirmScreen({
   createPIN,
@@ -66,8 +67,8 @@ export function CreatePINConfirmScreen({
         <AxoPasswordField.Root
           disabled={pending}
           autoFocus
-          maxBytes={10}
-          maxGraphemes={10}
+          maxBytes={PIN_MAX_BYTES}
+          maxGraphemes={PIN_MAX_GRAPHEMES}
           onValueChange={onChangePIN}
           placeholder={i18n(
             'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'

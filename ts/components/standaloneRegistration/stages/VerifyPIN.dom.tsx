@@ -41,6 +41,8 @@ const FIRST_NON_REGLOCK_TRIES_THRESHOLD = 3;
 const SECOND_NON_REGLOCK_TRIES_THRESHOLD = 1;
 
 export const PIN_LENGTH_MINIMUM = 4;
+export const PIN_MAX_BYTES = 256;
+export const PIN_MAX_GRAPHEMES = 64;
 
 export function VerifyPINScreen({
   verifyPIN,
@@ -246,8 +248,8 @@ export function VerifyPINScreen({
         <AxoPasswordField.Root
           ref={inputRef}
           autoFocus
-          maxBytes={10}
-          maxGraphemes={10}
+          maxBytes={PIN_MAX_BYTES}
+          maxGraphemes={PIN_MAX_GRAPHEMES}
           onValueChange={onChangePIN}
           disabled={pending}
           placeholder={i18n(

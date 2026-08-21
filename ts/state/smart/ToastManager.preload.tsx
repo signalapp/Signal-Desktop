@@ -7,7 +7,10 @@ import { getHeapSnapshot } from 'node:v8';
 
 import type { AnyActionableMegaphone } from '../../types/Megaphone.std.ts';
 import { MegaphoneType } from '../../types/Megaphone.std.ts';
-import { UsernameOnboardingState } from '../../types/globalModals.std.ts';
+import {
+  PinReminderState,
+  UsernameOnboardingState,
+} from '../../types/globalModals.std.ts';
 import OS from '../../util/os/osMain.node.ts';
 import { drop } from '../../util/drop.std.ts';
 import { getIntl } from '../selectors/user.std.ts';
@@ -40,6 +43,7 @@ import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.ts';
 import { saveAttachmentToDisk } from '../../windows/main/attachments.preload.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
+import { pinReminderService } from '../../services/pinReminder.preload.ts';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -104,7 +108,8 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { onUndoArchive } = useConversationsActions();
   const { retryCallQualitySurvey } = useCallingActions();
   const { openFileInFolder, hideToast } = useToastActions();
-  const { toggleUsernameOnboarding } = useGlobalModalActions();
+  const { togglePinReminder, toggleUsernameOnboarding } =
+    useGlobalModalActions();
   const { interactWithMegaphone } = useMegaphonesActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
@@ -127,6 +132,16 @@ export const SmartToastManager = memo(function SmartToastManager({
       ...megaphones[0]!,
       type: MegaphoneType.Remote,
       onInteractWithMegaphone: interactWithMegaphone,
+    };
+  } else if (globalModals.pinReminderState === PinReminderState.Megaphone) {
+    megaphone = {
+      type: MegaphoneType.PinReminder,
+      onShowModal: () => {
+        togglePinReminder(PinReminderState.Modal);
+      },
+      onDismiss: () => {
+        pinReminderService.handleSkipReminder();
+      },
     };
   }
 

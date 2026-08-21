@@ -115,3 +115,8 @@ export const getPinMessageDialogData: StateSelector<PinMessageDialogData | null>
     getGlobalModalsState,
     ({ pinMessageDialogData }) => pinMessageDialogData
   );
+
+export const getPinReminderModalProps = createSelector(
+  getGlobalModalsState,
+  ({ pinReminderState }) => pinReminderState
+);

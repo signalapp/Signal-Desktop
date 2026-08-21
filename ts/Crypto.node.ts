@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
-import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import * as Bytes from './Bytes.std.ts';
 import { Crypto } from './context/Crypto.node.ts';

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { unicodeNumber } from 'unicode-number';
 import { v7 as generateUuid } from 'uuid';
 import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 
@@ -49,7 +48,6 @@ import {
 } from '../../services/storage.preload.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { FatalErrorType } from '../../types/StandaloneRegistration.std.ts';
-import { getSegmenter } from '../../util/grapheme.std.ts';
 import {
   deleteAvatar,
   readAttachmentData,
@@ -80,6 +78,7 @@ import type { OpenInboxActionType } from './app.preload.ts';
 import type { RestoreResponseType } from '../../textsecure/WebAPI.preload.ts';
 import type { NoopActionType } from './noop.std.ts';
 import type { AvatarDataType } from '../../types/Avatar.std.ts';
+import { normalizePin } from '../../util/normalizePin.std.ts';
 
 const log = createLogger('ducks/standaloneInstaller');
 
@@ -1464,32 +1463,6 @@ function secondsToTimestamp(seconds: number | undefined) {
     return undefined;
   }
   return Date.now() + seconds * SECOND;
-}
-
-const IS_ALL_DIGITS = /^\p{Nd}+$/u;
-const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export function normalizePin(pin: string): string {
-  let result = pin.trim();
-
-  if (IS_ALL_DIGITS.test(result)) {
-    const segmenter = getSegmenter();
-    const segments = segmenter.segment(result);
-
-    let updated = '';
-    for (const segment of segments) {
-      const parsedValue = unicodeNumber(segment.segment);
-      if (isNumber(parsedValue) && DIGITS.includes(parsedValue)) {
-        updated += parsedValue.toString();
-      } else {
-        updated += segment.segment;
-      }
-    }
-
-    result = updated;
-  }
-
-  return result.normalize('NFKD');
 }
 
 // Reducer

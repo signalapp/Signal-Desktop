@@ -122,6 +122,7 @@ import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditC
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
 import type { ZoomFactorType } from '../../types/StorageKeys.std.ts';
 import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
+import { pinReminderService } from '../../services/pinReminder.preload.ts';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -773,6 +774,14 @@ export function SmartPreferences(): JSX.Element | null {
     );
   };
 
+  const [hasPinReminders, onPinRemindersChange] = createItemsAccess(
+    'pinReminders',
+    true,
+    value => {
+      drop(pinReminderService.handlePinRemindersSettingChanged(Boolean(value)));
+    }
+  );
+
   const [hasRelayCalls, onRelayCallsChange] = createItemsAccess(
     'always-relay-calls',
     false
@@ -972,6 +981,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasMinimizeToSystemTray={hasMinimizeToSystemTray}
         hasNotificationAttention={hasNotificationAttention}
         hasNotifications={hasNotifications}
+        hasPinReminders={hasPinReminders}
         hasPreferContactAvatars={hasPreferContactAvatars}
         hasReactionNotifications={hasReactionNotifications}
         hasReadReceipts={hasReadReceipts}
@@ -1018,6 +1028,7 @@ export function SmartPreferences(): JSX.Element | null {
         onHasKeyTransparencyDisabledChanged={
           onHasKeyTransparencyDisabledChanged
         }
+        onPinRemindersChange={onPinRemindersChange}
         onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
         onHideMenuBarChange={onHideMenuBarChange}
         onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}

@@ -302,6 +302,7 @@ import { registrationJobQueue } from './jobs/registrationJobQueue.preload.ts';
 import { PartialRegistrationType } from './types/StandaloneRegistration.std.ts';
 import { PhoneNumberDiscoverability } from './util/phoneNumberDiscoverability.std.ts';
 import { getProfileData } from './state/ducks/standaloneInstaller.preload.ts';
+import { pinReminderService } from './services/pinReminder.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -2252,6 +2253,7 @@ async function startApp(): Promise<void> {
 
     drop(initializeDonationService());
     initMegaphoneCheckService();
+    pinReminderService.init();
 
     if (isFromMessageReceiver) {
       drop(

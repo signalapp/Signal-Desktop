@@ -22,7 +22,7 @@ import {
   setupRegistrationLock,
   storeWithSVR2,
 } from '../textsecure/WebAPI.preload.ts';
-import { normalizePin } from '../state/ducks/standaloneInstaller.preload.ts';
+import { normalizePin } from '../util/normalizePin.std.ts';
 
 import type { Job } from './Job.std.ts';
 import type { ParsedJob } from './types.std.ts';

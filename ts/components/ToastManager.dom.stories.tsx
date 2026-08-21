@@ -216,6 +216,8 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.PinnedMessageNotFound:
       return { toastType: ToastType.PinnedMessageNotFound };
+    case ToastType.PinReminderCompleted:
+      return { toastType: ToastType.PinReminderCompleted };
     case ToastType.PollNotFound:
       return { toastType: ToastType.PollNotFound };
     case ToastType.ReactionFailed:
@@ -314,6 +316,12 @@ function getMegaphone(megaphoneType: MegaphoneType): AnyActionableMegaphone {
       return {
         type: megaphoneType,
         onLearnMore: action('onLearnMore'),
+        onDismiss: action('onDismiss'),
+      };
+    case MegaphoneType.PinReminder:
+      return {
+        type: megaphoneType,
+        onShowModal: action('onShowModal'),
         onDismiss: action('onDismiss'),
       };
     case MegaphoneType.Remote:

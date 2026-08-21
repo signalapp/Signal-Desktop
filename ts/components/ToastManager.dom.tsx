@@ -25,6 +25,7 @@ import type { Location } from '../types/Nav.std.ts';
 import { I18n } from './I18n.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
 import { RemoteMegaphone } from './RemoteMegaphone.dom.tsx';
+import { PinReminderMegaphone } from './PinReminderMegaphone.dom.tsx';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -797,6 +798,12 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.PinReminderCompleted) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:PinReminderCompletedToast')}</Toast>
+    );
+  }
+
   if (toastType === ToastType.ReactionFailed) {
     return <Toast onClose={hideToast}>{i18n('icu:Reactions--error')}</Toast>;
   }
@@ -1058,12 +1065,25 @@ function renderMegaphone({
     return <UsernameMegaphone i18n={i18n} {...megaphone} />;
   }
 
+  const isFullSize = containerWidthBreakpoint !== WidthBreakpoint.Narrow;
+
   if (megaphone.type === MegaphoneType.Remote) {
     return (
       <RemoteMegaphone
         {...megaphone}
         i18n={i18n}
-        isFullSize={containerWidthBreakpoint !== WidthBreakpoint.Narrow}
+        isFullSize={isFullSize}
+        onClickNarrowMegaphone={expandNarrowLeftPane}
+      />
+    );
+  }
+
+  if (megaphone.type === MegaphoneType.PinReminder) {
+    return (
+      <PinReminderMegaphone
+        {...megaphone}
+        i18n={i18n}
+        isFullSize={isFullSize}
         onClickNarrowMegaphone={expandNarrowLeftPane}
       />
     );

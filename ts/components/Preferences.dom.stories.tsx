@@ -481,6 +481,7 @@ export default {
     hasMinimizeToSystemTray: true,
     hasNotificationAttention: false,
     hasNotifications: true,
+    hasPinReminders: false,
     hasPreferContactAvatars: true,
     hasReactionNotifications: true,
     hasReadReceipts: true,
@@ -607,6 +608,7 @@ export default {
       'onIncomingCallNotificationsChange'
     ),
     onKeepMutedChatsArchivedChange: action('onKeepMutedChatsArchivedChange'),
+    onPinRemindersChange: action('onHasPinRemindersChange'),
     onLocaleChange: action('onLocaleChange'),
     onLastSyncTimeChange: action('onLastSyncTimeChange'),
     onLinkPreviewsChange: action('onLinkPreviewsChange'),
@@ -1114,6 +1116,12 @@ PrivacyBlockedManyBoth.args = {
 export const PrivacyWhenPrimary = Template.bind({});
 PrivacyWhenPrimary.args = {
   settingsLocation: { page: SettingsPage.Privacy },
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimary = Template.bind({});
+GeneralWhenPrimary.args = {
+  settingsLocation: { page: SettingsPage.General },
   weArePrimaryDevice: true,
 };
 

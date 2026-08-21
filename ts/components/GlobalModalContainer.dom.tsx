@@ -17,6 +17,7 @@ import type {
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import {
   type ContactModalStateType,
+  PinReminderState,
   UsernameOnboardingState,
 } from '../types/globalModals.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
@@ -180,6 +181,9 @@ export type PropsType = {
   // TerminateGroupFailedModal
   terminateGroupFailedModal: { conversationId: string } | null;
   renderTerminateGroupFailedModal: () => JSX.Element | null;
+  // PinReminderModal
+  pinReminderState: PinReminderState;
+  renderPinReminderModal: () => JSX.Element | null;
 };
 
 export function GlobalModalContainer({
@@ -245,6 +249,9 @@ export function GlobalModalContainer({
   // PinMessageDialog
   pinMessageDialogData,
   renderPinMessageDialog,
+  // PinReminderModal
+  pinReminderState,
+  renderPinReminderModal,
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
@@ -411,6 +418,10 @@ export function GlobalModalContainer({
 
   if (pinMessageDialogData) {
     return renderPinMessageDialog();
+  }
+
+  if (pinReminderState === PinReminderState.Modal) {
+    return renderPinReminderModal();
   }
 
   if (isProfileNameWarningModalVisible) {

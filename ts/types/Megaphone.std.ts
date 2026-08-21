@@ -13,6 +13,7 @@ export const SNOOZE_DEFAULT_DURATION = SNOOZE_DEFAULT_DURATION_DAYS * DAY;
 
 export enum MegaphoneType {
   UsernameOnboarding = 'UsernameOnboarding',
+  PinReminder = 'PinReminder',
   Remote = 'Remote',
 }
 
@@ -25,6 +26,15 @@ export type UsernameOnboardingActionableMegaphoneType =
     onLearnMore: () => void;
     onDismiss: () => void;
   };
+
+export type PinReminderMegaphoneType = {
+  type: MegaphoneType.PinReminder;
+};
+
+export type PinReminderActionableMegaphoneType = PinReminderMegaphoneType & {
+  onShowModal: () => void;
+  onDismiss: () => void;
+};
 
 export type VisibleRemoteMegaphoneType = Simplify<
   Omit<RemoteMegaphoneType, 'primaryCtaId' | 'secondaryCtaId'> & {
@@ -60,6 +70,7 @@ export type RemoteActionableMegaphoneType = RemoteMegaphoneDisplayType & {
 
 export type AnyActionableMegaphone =
   | UsernameOnboardingActionableMegaphoneType
+  | PinReminderActionableMegaphoneType
   | RemoteActionableMegaphoneType;
 
 export type RemoteMegaphoneId = string & { RemoteMegaphoneId: never }; // uuid

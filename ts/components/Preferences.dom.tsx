@@ -149,6 +149,7 @@ export type PropsDataType = {
   hasHideMenuBar?: boolean;
   hasIncomingCallNotifications: boolean;
   hasKeyTransparencyDisabled: boolean;
+  hasPinReminders: boolean | undefined;
   hasLinkPreviews: boolean;
   hasMediaCameraPermissions: boolean | undefined;
   hasMediaPermissions: boolean | undefined;
@@ -344,6 +345,7 @@ type PropsFunctionType = {
   onNotificationAttentionChange: CheckboxChangeHandlerType;
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
+  onPinRemindersChange: CheckboxChangeHandlerType;
   onPreferContactAvatarsChange: CheckboxChangeHandlerType;
   onReactionNotificationsChange: CheckboxChangeHandlerType;
   onReadReceiptsChange: CheckboxChangeHandlerType;
@@ -476,6 +478,7 @@ export function Preferences({
   hasMinimizeToSystemTray,
   hasNotificationAttention,
   hasNotifications,
+  hasPinReminders,
   hasPreferContactAvatars,
   hasReactionNotifications,
   hasReadReceipts,
@@ -533,6 +536,7 @@ export function Preferences({
   onNotificationAttentionChange,
   onNotificationContentChange,
   onNotificationsChange,
+  onPinRemindersChange,
   onPreferContactAvatarsChange,
   onReactionNotificationsChange,
   onReadReceiptsChange,
@@ -837,6 +841,16 @@ export function Preferences({
             value={deviceName}
           />
         </List>
+        {weArePrimaryDevice && (
+          <List title={i18n('icu:Preferences--signal-pin')}>
+            <SwitchItem
+              title={i18n('icu:Preferences--pin-reminders--header')}
+              description={i18n('icu:Preferences--pin-reminders--description')}
+              checked={hasPinReminders ?? false}
+              onCheckedChange={onPinRemindersChange}
+            />
+          </List>
+        )}
         <List title={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
             <SwitchItem

@@ -3,6 +3,6 @@
 
 @use '../mixins';
 
-.RemoteMegaphoneTooltip {
+.MegaphoneTooltip {
   @include mixins.tooltip;
 }

@@ -32,7 +32,11 @@ import type {
   startConfirmingPIN as doStartConfirmingPIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
-import { PIN_LENGTH_MINIMUM } from './VerifyPIN.dom.tsx';
+import {
+  PIN_LENGTH_MINIMUM,
+  PIN_MAX_BYTES,
+  PIN_MAX_GRAPHEMES,
+} from './VerifyPIN.dom.tsx';
 
 export function CreatePINScreen({
   completeRegistration,
@@ -128,8 +132,8 @@ export function CreatePINScreen({
       >
         <AxoPasswordField.Root
           autoFocus
-          maxBytes={10}
-          maxGraphemes={10}
+          maxBytes={PIN_MAX_BYTES}
+          maxGraphemes={PIN_MAX_GRAPHEMES}
           onValueChange={onChangePIN}
           placeholder={i18n(
             'icu:StandaloneRegistration--CreatePIN--placeholder'

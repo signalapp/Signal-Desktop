@@ -8068,6 +8068,18 @@
     "messageformat": "Advanced",
     "description": "Title for advanced settings"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN",
+    "description": "Title for Signal PIN settings"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders",
+    "description": "Header for Signal PIN reminders setting"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time",
+    "description": "Description for Signal PIN reminders setting"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content",
     "description": "Label for the notification content setting select box"
@@ -10665,6 +10677,46 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "Dismiss",
     "description": "Text of the secondary button on username megaphone"
+  },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN",
+    "description": "Title of Signal PIN reminder megaphone"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it.",
+    "description": "Body of Signal PIN reminder megaphone"
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify",
+    "description": "Text of the primary button on Signal PIN reminder megaphone"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now",
+    "description": "Text of the secondary button on Signal PIN reminder megaphone"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN",
+    "description": "Title of Signal PIN reminder dialog"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time.",
+    "description": "Body of Signal PIN reminder dialog"
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN",
+    "description": "Placeholder text of PIN input box in Signal PIN reminder dialog"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again",
+    "description": "Error text shown in PIN input box in Signal PIN reminder dialog, when the input was incorrect"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm",
+    "description": "Confirm button in Signal PIN reminder dialog"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later.",
+    "description": "Toast message when Signal PIN reminder was completed successfully."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop will no longer support your computer’s version of {OS} soon. To keep using Signal, update your computer’s operating system by {expirationDate}. <learnMoreLink>Learn more</learnMoreLink>",

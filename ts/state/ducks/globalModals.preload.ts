@@ -21,7 +21,10 @@ import type { StateType as RootStateType } from '../reducer.preload.ts';
 import * as SingleServePromise from '../../services/singleServePromise.std.ts';
 import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.ts';
 import * as Stickers from '../../types/Stickers.preload.ts';
-import type { ContactModalStateType } from '../../types/globalModals.std.ts';
+import {
+  type ContactModalStateType,
+  PinReminderState,
+} from '../../types/globalModals.std.ts';
 import { UsernameOnboardingState } from '../../types/globalModals.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import {
@@ -161,6 +164,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   notePreviewModalProps: NotePreviewModalPropsType | null;
   pinMessageDialogData: PinMessageDialogData | null;
+  pinReminderState: PinReminderState;
   usernameOnboardingState: UsernameOnboardingState;
   mediaPermissionsModalProps?: {
     mediaType: 'camera' | 'microphone';
@@ -223,6 +227,7 @@ const TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL =
 export const SHOW_CALL_QUALITY_SURVEY = 'globalModals/SHOW_CALL_QUALITY_SURVEY';
 export const HIDE_CALL_QUALITY_SURVEY = 'globalModals/HIDE_CALL_QUALITY_SURVEY';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
+const TOGGLE_PIN_REMINDER = 'globalModals/TOGGLE_PIN_REMINDER';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
 export const SHOW_SEND_ANYWAY_DIALOG = 'globalModals/SHOW_SEND_ANYWAY_DIALOG';
@@ -555,6 +560,12 @@ type TogglePinMessageDialogActionType = ReadonlyDeep<{
   payload: PinMessageDialogData | null;
 }>;
 
+// Not to be confused with pinned messages
+type TogglePinReminderActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_PIN_REMINDER;
+  payload: PinReminderState;
+}>;
+
 export type ShowTerminateGroupFailedModalActionType = ReadonlyDeep<{
   type: typeof SHOW_TERMINATE_GROUP_FAILED_MODAL;
   payload: {
@@ -624,6 +635,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleGroupMemberLabelInfoModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
+  | TogglePinReminderActionType
   | ToggleProfileNameWarningModalActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
@@ -656,6 +668,7 @@ export const actions = {
   hideTerminateGroupFailedModal,
   hideUserNotFoundModal,
   hideWhatsNewModal,
+  maybeShowPinReminder,
   showBackfillFailureModal,
   showBlockingSafetyNumberChangeDialog,
   showCallQualitySurvey,
@@ -691,6 +704,7 @@ export const actions = {
   toggleGroupMemberLabelInfoModal,
   toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
+  togglePinReminder,
   toggleProfileNameWarningModal,
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
@@ -1184,6 +1198,35 @@ function toggleConfirmationModal(
   };
 }
 
+function maybeShowPinReminder(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  TogglePinReminderActionType
+> {
+  return async (dispatch, getState) => {
+    // Ignore if pin reminder megaphone or dialog is visible
+    const existingState = getState().globalModals.pinReminderState;
+    if (existingState !== PinReminderState.None) {
+      return;
+    }
+
+    dispatch({
+      type: TOGGLE_PIN_REMINDER,
+      payload: PinReminderState.Megaphone,
+    });
+  };
+}
+
+function togglePinReminder(
+  payload: PinReminderState
+): TogglePinReminderActionType {
+  return {
+    type: TOGGLE_PIN_REMINDER,
+    payload,
+  };
+}
+
 function toggleUsernameOnboarding(): ToggleUsernameOnboardingActionType {
   return { type: TOGGLE_USERNAME_ONBOARDING };
 }
@@ -1570,6 +1613,7 @@ export function getEmptyState(): GlobalModalsStateType {
     isKeyTransparencyErrorVisible: false,
     isKeyTransparencyOnboardingVisible: false,
     lowDiskSpaceBackupImportModal: null,
+    pinReminderState: PinReminderState.None,
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
     messageRequestActionsConfirmationProps: null,
     tapToViewNotAvailableModalData: null,
@@ -1811,6 +1855,13 @@ export function reducer(
     return {
       ...state,
       isStoriesSettingsVisible: true,
+    };
+  }
+
+  if (action.type === TOGGLE_PIN_REMINDER) {
+    return {
+      ...state,
+      pinReminderState: action.payload,
     };
   }
 
