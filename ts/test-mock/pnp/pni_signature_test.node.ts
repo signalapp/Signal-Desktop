@@ -19,11 +19,6 @@ import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import type { App } from '../bootstrap.node.ts';
 import {
-  DELETE_SENT_PROTO_BATCHER_WAIT_MS,
-  RECEIPT_BATCHER_WAIT_MS,
-} from '../../types/Receipt.std.ts';
-import { sleep } from '../../util/sleep.std.ts';
-import {
   acceptConversation,
   expectSystemMessages,
   typeIntoInput,
@@ -214,10 +209,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
         ],
         timestamp: receiptTimestamp,
       });
-      // Wait for receipts to be batched and processed (+ buffer)
-      await sleep(
-        RECEIPT_BATCHER_WAIT_MS + DELETE_SENT_PROTO_BATCHER_WAIT_MS + 20
-      );
+      await app.waitForPhoneNumberSharedWith(stranger.device.aci);
     }
 
     debug('Enter third message text');

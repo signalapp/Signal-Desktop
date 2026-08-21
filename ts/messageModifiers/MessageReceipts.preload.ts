@@ -302,6 +302,8 @@ const deleteSentProtoBatcher = createWaitBatcher({
       // `deleteSentProtoRecipient` has already updated the database so there
       // is no need in calling `updateConversation`
       convo.set({ shareMyPhoneNumber: undefined });
+
+      window.SignalCI?.handleEvent(`sharedPhoneNumber:${serviceId}`, null);
     }
   },
 });

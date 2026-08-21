@@ -154,6 +154,12 @@ export class App extends EventEmitter {
     return this.#waitForEvent('receipts');
   }
 
+  public async waitForPhoneNumberSharedWith(
+    serviceId: string
+  ): Promise<ChallengeRequestType> {
+    return this.#waitForEvent(`sharedPhoneNumber:${serviceId}`);
+  }
+
   public async waitForReleaseNoteAndMegaphoneFetcher(): Promise<void> {
     return this.#waitForEvent('release_notes_fetcher_complete');
   }
