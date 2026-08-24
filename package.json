@@ -139,7 +139,7 @@
     "@babel/plugin-transform-typescript": "7.28.6",
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
-    "@changesets/cli": "3.0.0-next.8",
+    "@changesets/cli": "3.0.1",
     "@csstools/stylelint-formatter-github": "2.0.0",
     "@electron/asar": "3.4.1",
     "@electron/fuses": "1.5.0",

@@ -42,7 +42,7 @@ jobs:
 
       - name: Publish
         id: changesets
-        uses: changesets/action@c47fa68bd43bb8ae0bae7e558622593deebf5955
+        uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
           commit-message: Publish Packages
           pr-title: Publish Packages
