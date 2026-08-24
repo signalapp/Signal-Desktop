@@ -21,50 +21,21 @@
   font-weight: normal;
   font-size: 14px;
   white-space: nowrap;
-
-  @include mixins.light-theme() {
-    background-color: colors.$color-gray-05;
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    background-color: colors.$color-gray-65;
-    color: colors.$color-gray-05;
-  }
+  background-color: light-dark(colors.$color-gray-05, colors.$color-gray-65);
+  color: light-dark(colors.$color-gray-90, colors.$color-gray-05);
 
   &:hover {
-    @include mixins.light-theme() {
-      background-color: color.mix(
-        colors.$color-black,
-        colors.$color-gray-05,
-        15%
-      );
-    }
-
-    @include mixins.dark-theme() {
-      background-color: color.mix(
-        colors.$color-white,
-        colors.$color-gray-65,
-        15%
-      );
-    }
+    background-color: light-dark(
+      color.mix(colors.$color-black, colors.$color-gray-05, 15%),
+      color.mix(colors.$color-white, colors.$color-gray-65, 15%)
+    );
   }
 
   &:active {
-    @include mixins.light-theme() {
-      background-color: color.mix(
-        colors.$color-black,
-        colors.$color-gray-05,
-        25%
-      );
-    }
-    @include mixins.dark-theme() {
-      background-color: color.mix(
-        colors.$color-white,
-        colors.$color-gray-65,
-        25%
-      );
-    }
+    background-color: light-dark(
+      color.mix(colors.$color-black, colors.$color-gray-05, 25%),
+      color.mix(colors.$color-white, colors.$color-gray-65, 25%)
+    );
   }
 
   &:disabled {
@@ -75,48 +46,20 @@
 .primary {
   composes: base;
   background-color: colors.$color-ultramarine;
-
-  @include mixins.light-theme() {
-    color: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-  }
+  color: light-dark(colors.$color-white, colors.$color-white);
 
   &:hover {
-    @include mixins.light-theme() {
-      background-color: color.mix(
-        colors.$color-black,
-        colors.$color-ultramarine,
-        15%
-      );
-    }
-
-    @include mixins.dark-theme() {
-      background-color: color.mix(
-        colors.$color-white,
-        colors.$color-ultramarine,
-        15%
-      );
-    }
+    background-color: light-dark(
+      color.mix(colors.$color-black, colors.$color-ultramarine, 15%),
+      color.mix(colors.$color-white, colors.$color-ultramarine, 15%)
+    );
   }
 
   &:active {
-    @include mixins.light-theme() {
-      background-color: color.mix(
-        colors.$color-black,
-        colors.$color-ultramarine,
-        25%
-      );
-    }
-    @include mixins.dark-theme() {
-      background-color: color.mix(
-        colors.$color-white,
-        colors.$color-ultramarine,
-        25%
-      );
-    }
+    background-color: light-dark(
+      color.mix(colors.$color-black, colors.$color-ultramarine, 25%),
+      color.mix(colors.$color-white, colors.$color-ultramarine, 25%)
+    );
   }
 }
 
@@ -126,32 +69,17 @@
   border-radius: 15px;
   padding-block: 0;
   padding-inline: 17px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-    border: 1px solid colors.$color-gray-90;
-    background: transparent;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-    border: 1px solid colors.$color-white;
-    background: transparent;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
+  border: 1px solid light-dark(colors.$color-gray-90, colors.$color-white);
+  background: transparent;
 }
 
 .pill-primary {
   composes: pill;
-
-  @include mixins.light-theme() {
-    border: none;
-    background-color: colors.$color-ultramarine;
-    color: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    border: none;
-    background-color: colors.$color-ultramarine-light;
-    color: colors.$color-white;
-  }
+  border: none;
+  background-color: light-dark(
+    colors.$color-ultramarine,
+    colors.$color-ultramarine-light
+  );
+  color: light-dark(colors.$color-white, colors.$color-white);
 }

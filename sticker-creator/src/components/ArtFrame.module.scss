@@ -39,28 +39,17 @@ $emoji-height: 64px;
     width: $border-width;
     style: solid;
   }
-
-  @include mixins.light-theme() {
-    border-color: colors.$color-gray-25;
-    background: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: colors.$color-gray-60;
-    background: colors.$color-gray-90;
-  }
+  border-color: light-dark(colors.$color-gray-25, colors.$color-gray-60);
+  background: light-dark(colors.$color-white, colors.$color-gray-90);
 
   width: $width;
   height: $height;
 
   &[data-drag-active='true'] {
-    @include mixins.light-theme() {
-      border-color: colors.$color-ultramarine;
-    }
-
-    @include mixins.dark-theme() {
-      border-color: colors.$color-ultramarine-light;
-    }
+    border-color: light-dark(
+      colors.$color-ultramarine,
+      colors.$color-ultramarine-light
+    );
   }
 }
 
@@ -79,26 +68,12 @@ $emoji-height: 64px;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-25;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-60;
-  }
+  color: light-dark(colors.$color-gray-25, colors.$color-gray-60);
 }
 
 .emoji-picker-spinner {
   composes: spinner;
-
-  @include mixins.light-theme() {
-    background-color: colors.$color-gray-05;
-  }
-
-  @include mixins.dark-theme() {
-    background-color: colors.$color-gray-75;
-  }
+  background-color: light-dark(colors.$color-gray-05, colors.$color-gray-75);
 
   padding: 4px;
   border-radius: 6px;
@@ -113,13 +88,7 @@ $emoji-height: 64px;
     width: $border-width;
     style: dashed;
   }
-  @include mixins.light-theme() {
-    border-color: colors.$color-gray-25;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: colors.$color-gray-60;
-  }
+  border-color: light-dark(colors.$color-gray-25, colors.$color-gray-60);
 
   width: $width - (2 * $guide-offset);
   height: $height - (2 * $guide-offset);
@@ -177,14 +146,7 @@ $emoji-height: 64px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  @include mixins.light-theme() {
-    background-color: colors.$color-gray-05;
-  }
-
-  @include mixins.dark-theme() {
-    background-color: colors.$color-gray-75;
-  }
+  background-color: light-dark(colors.$color-gray-05, colors.$color-gray-75);
 }
 
 .emoji {
@@ -206,6 +168,8 @@ $emoji-height: 64px;
   background-color: transparent;
   font-size: 14px;
   font-family: fonts.$inter;
+  border: 1px solid light-dark(colors.$color-gray-15, colors.$color-gray-60);
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 
   &::placeholder {
     color: colors.$color-gray-45;
@@ -214,15 +178,5 @@ $emoji-height: 64px;
   &:focus {
     outline: 0;
     border-color: colors.$color-accent-blue;
-  }
-
-  @include mixins.light-theme() {
-    border: 1px solid colors.$color-gray-15;
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    border: 1px solid colors.$color-gray-60;
-    color: colors.$color-white;
   }
 }

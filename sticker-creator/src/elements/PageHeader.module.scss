@@ -22,14 +22,7 @@
   flex-direction: row;
   align-items: center;
   flex-shrink: 0;
-
-  @include mixins.light-theme() {
-    border-bottom-color: colors.$color-gray-15;
-  }
-
-  @include mixins.dark-theme() {
-    border-bottom-color: colors.$color-gray-75;
-  }
+  border-bottom-color: light-dark(colors.$color-gray-15, colors.$color-gray-75);
 }
 
 .guidelines {

@@ -16,14 +16,6 @@
   font-size: 14px;
   line-height: 18px;
   cursor: pointer;
-
-  @include mixins.light-theme() {
-    background-color: colors.$color-gray-75;
-    color: colors.$color-gray-05;
-  }
-
-  @include mixins.dark-theme() {
-    background-color: colors.$color-gray-15;
-    color: colors.$color-gray-95;
-  }
+  background-color: light-dark(colors.$color-gray-75, colors.$color-gray-15);
+  color: light-dark(colors.$color-gray-05, colors.$color-gray-95);
 }

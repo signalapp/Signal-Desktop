@@ -1,18 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@mixin light-theme() {
-  & {
-    @content;
-  }
-}
-
-@mixin dark-theme() {
-  @media (prefers-color-scheme: dark) {
-    @content;
-  }
-}
-
 // Other
 
 @mixin small-screen() {

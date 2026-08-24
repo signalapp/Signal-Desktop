@@ -15,14 +15,7 @@
   flex-direction: column;
   border-radius: 8px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 20px 0 rgba(0, 0, 0, 0.33);
-
-  @include mixins.light-theme() {
-    background: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    background: colors.$color-gray-75;
-  }
+  background: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .grow {
@@ -35,28 +28,14 @@
     size: 14px;
   }
   margin: 0;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-05;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-gray-05);
 }
 
 .title {
   composes: text;
   font-weight: 500;
   margin-bottom: 12px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 }
 
 .bottom {
@@ -73,32 +52,17 @@
   border-radius: 15px;
   padding-block: 0;
   padding-inline: 17px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-    border: 1px solid colors.$color-gray-90;
-    background: transparent;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-    border: 1px solid colors.$color-white;
-    background: transparent;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
+  border: 1px solid light-dark(colors.$color-gray-90, colors.$color-white);
+  background: transparent;
 }
 
 .pill-primary {
   composes: pill;
-
-  @include mixins.light-theme() {
-    border: none;
-    background-color: colors.$color-ultramarine;
-    color: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    border: none;
-    background-color: colors.$color-ultramarine-light;
-    color: colors.$color-white;
-  }
+  border: none;
+  background-color: light-dark(
+    colors.$color-ultramarine,
+    colors.$color-ultramarine-light
+  );
+  color: light-dark(colors.$color-white, colors.$color-white);
 }

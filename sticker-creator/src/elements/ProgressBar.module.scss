@@ -8,14 +8,7 @@
   height: 4px;
   width: 100%;
   max-width: 448px;
-
-  @include mixins.light-theme() {
-    background: colors.$color-gray-15;
-  }
-
-  @include mixins.dark-theme() {
-    background: colors.$color-gray-75;
-  }
+  background: light-dark(colors.$color-gray-15, colors.$color-gray-75);
 }
 
 .bar {

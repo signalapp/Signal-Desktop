@@ -11,15 +11,8 @@
 }
 
 .text {
-  @include mixins.light-theme() {
-    border: 1px solid colors.$color-gray-15;
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    border: 1px solid colors.$color-gray-60;
-    color: colors.$color-white;
-  }
+  border: 1px solid light-dark(colors.$color-gray-15, colors.$color-gray-60);
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 }
 
 .button {

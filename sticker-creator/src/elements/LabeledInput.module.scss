@@ -31,32 +31,18 @@
   background-color: transparent;
   font-size: 14px;
   font-family: fonts.$inter;
+  border: 1px solid light-dark(colors.$color-gray-15, colors.$color-gray-60);
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 
   &::placeholder {
     color: colors.$color-gray-45;
-  }
-
-  @include mixins.light-theme() {
-    border: 1px solid colors.$color-gray-15;
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    border: 1px solid colors.$color-gray-60;
-    color: colors.$color-white;
   }
 
   &:focus {
     outline: none;
     padding-block: 0;
     padding-inline: 11px;
-
-    @include mixins.light-theme() {
-      border: 2px solid colors.$color-ultramarine;
-    }
-
-    @include mixins.dark-theme() {
-      border: 2px solid colors.$color-ultramarine-light;
-    }
+    border: 2px solid
+      light-dark(colors.$color-ultramarine, colors.$color-ultramarine-light);
   }
 }

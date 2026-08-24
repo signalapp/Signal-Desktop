@@ -31,14 +31,7 @@
   font-family: fonts.$inter;
   font-weight: 500;
   margin: 0;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 }
 
 .cover-image {
@@ -68,22 +61,13 @@
     width: 1px;
   }
 
-  @include mixins.light-theme() {
-    border-color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: colors.$color-gray-25;
-  }
+  border-color: light-dark(colors.$color-gray-60, colors.$color-gray-25);
 
   &[data-drag-active='true'] {
-    @include mixins.light-theme() {
-      border-color: colors.$color-ultramarine;
-    }
-
-    @include mixins.dark-theme() {
-      border-color: colors.$color-ultramarine-light;
-    }
+    border-color: light-dark(
+      colors.$color-ultramarine,
+      colors.$color-ultramarine-light
+    );
   }
 }
 
@@ -95,14 +79,7 @@
   width: 32px;
   height: 32px;
   border-radius: 16px;
-
-  @include mixins.light-theme() {
-    background-color: colors.$color-gray-05;
-  }
-
-  @include mixins.dark-theme() {
-    background-color: colors.$color-gray-75;
-  }
+  background-color: light-dark(colors.$color-gray-05, colors.$color-gray-75);
 
   &::after {
     display: block;
@@ -116,13 +93,6 @@
     mask-size: 22px;
     -webkit-mask-image: url(/src/assets/icons/compose-outline-24.svg);
     -webkit-mask-size: 22px;
-
-    @include mixins.light-theme() {
-      background: colors.$color-black;
-    }
-
-    @include mixins.dark-theme() {
-      background: colors.$color-white-alpha-75;
-    }
+    background: light-dark(colors.$color-black, colors.$color-white-alpha-75);
   }
 }

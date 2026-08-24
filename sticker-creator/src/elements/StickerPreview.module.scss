@@ -12,14 +12,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 13px 3px rgba(0, 0, 0, 0.3);
   position: relative;
-
-  @include mixins.light-theme() {
-    background: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    background: colors.$color-gray-75;
-  }
+  background: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .frame {
@@ -51,54 +44,32 @@
   composes: arrow;
   border-width: 0 8px 8px 8px;
   top: -8px;
-
-  @include mixins.light-theme() {
-    border-color: transparent transparent colors.$color-white transparent;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: transparent transparent colors.$color-gray-75 transparent;
-  }
+  border-color: transparent;
+  border-bottom-color: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .arrow-bottom {
   composes: arrow;
   border-width: 8px 8px 0 8px;
   bottom: -8px;
-
-  @include mixins.light-theme() {
-    border-color: colors.$color-white transparent transparent transparent;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: colors.$color-gray-75 transparent transparent transparent;
-  }
+  border-color: transparent;
+  border-top-color: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .arrow-left {
   composes: arrow;
   border-width: 8px 8px 8px 0;
   inset-inline-start: -8px;
-
-  @include mixins.light-theme() {
-    border-color: transparent colors.$color-white transparent transparent;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: transparent colors.$color-gray-75 transparent transparent;
-  }
+  border-color: transparent;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  border-right-color: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .arrow-right {
   composes: arrow;
   border-width: 8px 0 8px 8px;
   inset-inline-end: -8px;
-
-  @include mixins.light-theme() {
-    border-color: transparent transparent transparent colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: transparent transparent transparent colors.$color-gray-75;
-  }
+  border-color: transparent;
+  /* stylelint-disable-next-line liberty/use-logical-spec */
+  border-left-color: light-dark(colors.$color-white, colors.$color-gray-75);
 }

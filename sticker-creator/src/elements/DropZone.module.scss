@@ -13,14 +13,7 @@
   align-items: center;
   flex-direction: column;
   flex-grow: 1;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-45;
-  }
+  color: light-dark(colors.$color-gray-60, colors.$color-gray-45);
 }
 
 .text {
@@ -29,42 +22,23 @@
   font-family: fonts.$inter;
   font-size: 14px;
   font-weight: normal;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-45;
-  }
+  color: light-dark(colors.$color-gray-60, colors.$color-gray-45);
 }
 
 .standalone {
   composes: base;
   border-radius: 12px;
   border: 0;
-
-  @include mixins.light-theme() {
-    background: colors.$color-gray-02;
-    color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme() {
-    background: colors.$color-gray-80;
-    color: colors.$color-gray-25;
-  }
+  background: light-dark(colors.$color-gray-02, colors.$color-gray-80);
+  color: light-dark(colors.$color-gray-60, colors.$color-gray-25);
 }
 
 .active {
   composes: standalone;
-
-  @include mixins.light-theme() {
-    border-color: colors.$color-ultramarine;
-    outline: 3px solid colors.$color-ultramarine;
-  }
-
-  @include mixins.dark-theme() {
-    border-color: colors.$color-ultramarine-light;
-    outline: 3px solid colors.$color-ultramarine-light;
-  }
+  border-color: light-dark(
+    colors.$color-ultramarine,
+    colors.$color-ultramarine-light
+  );
+  outline: 3px solid
+    light-dark(colors.$color-ultramarine, colors.$color-ultramarine-light);
 }

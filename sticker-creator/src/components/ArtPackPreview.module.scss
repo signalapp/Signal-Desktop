@@ -6,13 +6,7 @@
 @use '../fonts.scss';
 
 @mixin background() {
-  @include mixins.light-theme() {
-    background: colors.$color-white;
-  }
-
-  @include mixins.dark-theme() {
-    background: colors.$color-gray-75;
-  }
+  background: light-dark(colors.$color-white, colors.$color-gray-75);
 }
 
 .container {
@@ -44,13 +38,7 @@
 
   @include background();
 
-  @include mixins.light-theme {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme {
-    color: colors.$color-gray-05;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-gray-05);
 }
 
 .scroller {
@@ -81,14 +69,7 @@
   padding-block: 18px;
   padding-inline: 16px;
   display: flex;
-
-  @include mixins.light-theme {
-    background: colors.$color-white;
-  }
-
-  @include mixins.dark-theme {
-    background: colors.$color-gray-60;
-  }
+  background: light-dark(colors.$color-white, colors.$color-gray-60);
 }
 
 .meta-text {
@@ -111,13 +92,7 @@
     weight: 600;
   }
 
-  @include mixins.light-theme {
-    color: colors.$color-gray-95;
-  }
-
-  @include mixins.dark-theme {
-    color: colors.$color-gray-05;
-  }
+  color: light-dark(colors.$color-gray-95, colors.$color-gray-05);
 }
 
 .meta-author {
@@ -127,12 +102,5 @@
     size: 13px;
     weight: 400;
   }
-
-  @include mixins.light-theme {
-    color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme {
-    color: colors.$color-gray-25;
-  }
+  color: light-dark(colors.$color-gray-60, colors.$color-gray-25);
 }

@@ -19,14 +19,7 @@
   composes: heading;
   font-size: 16px;
   line-height: 20px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-05;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-gray-05);
 }
 
 .h2 {
@@ -34,28 +27,14 @@
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 8px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 }
 
 .text {
   composes: base;
   font-size: 13px;
   line-height: 18px;
-
-  @include mixins.light-theme() {
-    color: colors.$color-gray-90;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-white;
-  }
+  color: light-dark(colors.$color-gray-90, colors.$color-white);
 
   a {
     color: colors.$color-ultramarine;
@@ -69,11 +48,5 @@
 }
 
 .secondary {
-  @include mixins.light-theme() {
-    color: colors.$color-gray-60;
-  }
-
-  @include mixins.dark-theme() {
-    color: colors.$color-gray-25;
-  }
+  color: light-dark(colors.$color-gray-60, colors.$color-gray-25);
 }
