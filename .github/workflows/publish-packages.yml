@@ -50,5 +50,5 @@ jobs:
           publish-script: pnpm changeset:publish
           create-github-releases: false
           push-git-tags: true
-          commit-mode: github-api
+          push-with-git-cli: false
           github-token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
