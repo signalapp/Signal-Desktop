@@ -12,7 +12,11 @@ import {
 } from './ConversationDetailsIcon.dom.tsx';
 import { Select } from '../../Select.dom.tsx';
 import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
-import { getMuteOptions } from '../../../util/getMuteOptions.std.ts';
+import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
+import {
+  getMuteOptions,
+  isMuteDurationOption,
+} from '../../../util/getMuteOptions.std.ts';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.ts';
 
 export type PropsType = {
@@ -44,22 +48,21 @@ export function ConversationNotificationsSettings({
   const mentionsSelectId = useId();
   const muteOptions = useMemo(
     () => [
-      ...(isConversationMuted({ muteExpiresAt })
-        ? []
-        : [
-            {
-              disabled: true,
-              text: i18n('icu:notMuted'),
-              value: -1,
-            },
-          ]),
-      ...getMuteOptions(muteExpiresAt, i18n).map(
-        ({ disabled, name, value }) => ({
+      {
+        disabled: true,
+        text:
+          muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
+            ? getMutedUntilText(muteExpiresAt, i18n)
+            : i18n('icu:notMuted'),
+        value: -1,
+      },
+      ...getMuteOptions(muteExpiresAt, i18n)
+        .filter(isMuteDurationOption)
+        .map(({ disabled, name, value }) => ({
           disabled,
           text: name,
           value,
-        })
-      ),
+        })),
     ],
     [i18n, muteExpiresAt]
   );

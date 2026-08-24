@@ -5298,6 +5298,62 @@
     "messageformat": "Unmute",
     "description": "Label for unmuting the conversation"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…",
+    "description": "Header shown at the top of the mute notifications menu when the chat is not currently muted"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…",
+    "description": "Header shown at the top of the mute notifications menu for a chat folder, which mutes every chat in the folder"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour",
+    "description": "Label for muting the conversation for one hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours",
+    "description": "Label for muting the conversation for eight hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day",
+    "description": "Label for muting the conversation for one day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week",
+    "description": "Label for muting the conversation for one week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…",
+    "description": "Label for muting the conversation until a date and time the user picks. Opens a dialog."
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always",
+    "description": "Label for muting the conversation forever"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date",
+    "description": "Title of the popup for choosing a date, only read out by screen readers"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time",
+    "description": "Title of the popup for choosing a time, only read out by screen readers"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…",
+    "description": "Title of the dialog where a date and time to mute the conversation until is picked"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date",
+    "description": "Accessible label for the date field in the dialog where a date and time to mute the conversation until is picked"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time",
+    "description": "Accessible label for the time field in the dialog where a date and time to mute the conversation until is picked"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}",
+    "description": "Note below the date and time fields telling the user which time zone the times are in. {timeZone} is a time zone name, like 'Eastern Time'."
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Muted always",
     "description": "Shown in the mute notifications submenu whenever a conversation has been muted"

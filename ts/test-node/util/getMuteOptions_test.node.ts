@@ -5,85 +5,218 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import i18n from './i18n.node.ts';
 
-import { getMuteOptions } from '../../util/getMuteOptions.std.ts';
+import type { MuteOption } from '../../util/getMuteOptions.std.ts';
+import {
+  getConversationMuteMenu,
+  getMuteOptions,
+  getMuteValuesOptions,
+  isMuteDurationOption,
+} from '../../util/getMuteOptions.std.ts';
 
 describe('getMuteOptions', () => {
   const HOUR = 3600000;
   const DAY = HOUR * 24;
   const WEEK = DAY * 7;
-  const EXPECTED_DEFAULT_OPTIONS = [
+
+  const UNMUTE_OPTION: MuteOption = {
+    name: 'Unmute',
+    value: 0,
+  };
+
+  const expectedAlwaysOption = (
+    isCurrentlyMutedAlways = false
+  ): MuteOption => ({
+    name: 'Always',
+    disabled: isCurrentlyMutedAlways,
+    value: Number.MAX_SAFE_INTEGER,
+  });
+
+  const expectedDefaultOptions = ({
+    isCurrentlyMutedAlways = false,
+  }: { isCurrentlyMutedAlways?: boolean } = {}): Array<MuteOption> => [
     {
-      name: 'Mute for one hour',
+      name: '1 hour',
       value: HOUR,
     },
     {
-      name: 'Mute for eight hours',
+      name: '8 hours',
       value: HOUR * 8,
     },
     {
-      name: 'Mute for one day',
+      name: '1 day',
       value: DAY,
     },
     {
-      name: 'Mute for one week',
+      name: '1 week',
       value: WEEK,
     },
     {
-      name: 'Mute always',
-      value: Number.MAX_SAFE_INTEGER,
+      name: 'Until…',
+      value: 'custom',
     },
+    expectedAlwaysOption(isCurrentlyMutedAlways),
   ];
 
-  describe('when not muted', () => {
-    it('returns the 5 default options', () => {
+  let sandbox: sinon.SinonSandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.useFakeTimers({
+      now: new Date(2000, 3, 20, 12, 0, 0),
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('getMuteValuesOptions', () => {
+    it('returns the 6 default options', () => {
       assert.deepStrictEqual(
-        getMuteOptions(undefined, i18n),
-        EXPECTED_DEFAULT_OPTIONS
+        getMuteValuesOptions(i18n),
+        expectedDefaultOptions()
+      );
+    });
+
+    it('disables "Always" when already muted always', () => {
+      assert.deepStrictEqual(
+        getMuteValuesOptions(i18n, { isCurrentlyMutedAlways: true }),
+        expectedDefaultOptions({ isCurrentlyMutedAlways: true })
+      );
+    });
+
+    it('returns only "Always" when that is the only allowed duration', () => {
+      assert.deepStrictEqual(
+        getMuteValuesOptions(i18n, { canOnlyBeMutedAlways: true }),
+        [expectedAlwaysOption()]
+      );
+    });
+
+    it('disables the only option when muted always and only "Always" is allowed', () => {
+      assert.deepStrictEqual(
+        getMuteValuesOptions(i18n, {
+          canOnlyBeMutedAlways: true,
+          isCurrentlyMutedAlways: true,
+        }),
+        [expectedAlwaysOption(true)]
       );
     });
   });
 
-  describe('when muted', () => {
-    let sandbox: sinon.SinonSandbox;
+  describe('getMuteOptions', () => {
+    describe('when not muted', () => {
+      it('returns the default options with no "Unmute"', () => {
+        assert.deepStrictEqual(
+          getMuteOptions(undefined, i18n),
+          expectedDefaultOptions()
+        );
+      });
 
-    beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.useFakeTimers({
-        now: new Date(2000, 3, 20, 12, 0, 0),
+      it('treats a null mute expiry as not muted', () => {
+        assert.deepStrictEqual(
+          getMuteOptions(null, i18n),
+          expectedDefaultOptions()
+        );
+      });
+
+      it('treats an expired mute as not muted', () => {
+        assert.deepStrictEqual(
+          getMuteOptions(new Date(2000, 3, 20, 11, 0, 0).valueOf(), i18n),
+          expectedDefaultOptions()
+        );
       });
     });
 
-    afterEach(() => {
-      sandbox.restore();
+    describe('when muted', () => {
+      it('returns an "Unmute" option, and then the default options', () => {
+        assert.deepStrictEqual(
+          getMuteOptions(new Date(2000, 3, 20, 18, 30, 0).valueOf(), i18n),
+          [UNMUTE_OPTION, ...expectedDefaultOptions()]
+        );
+      });
+
+      it('disables "Always" when muted always', () => {
+        assert.deepStrictEqual(getMuteOptions(Number.MAX_SAFE_INTEGER, i18n), [
+          UNMUTE_OPTION,
+          ...expectedDefaultOptions({ isCurrentlyMutedAlways: true }),
+        ]);
+      });
+
+      it('returns "Unmute" and a disabled "Always" when only "Always" is allowed', () => {
+        assert.deepStrictEqual(
+          getMuteOptions(Number.MAX_SAFE_INTEGER, i18n, {
+            canOnlyBeMutedAlways: true,
+          }),
+          [UNMUTE_OPTION, expectedAlwaysOption(true)]
+        );
+      });
+    });
+  });
+
+  describe('getConversationMuteMenu', () => {
+    describe('when not muted', () => {
+      it('returns the mute label and the default options', () => {
+        assert.deepStrictEqual(getConversationMuteMenu(undefined, i18n), {
+          label: 'Mute this chat for…',
+          options: expectedDefaultOptions(),
+        });
+      });
+
+      it('returns only "Always" when that is the only allowed duration', () => {
+        assert.deepStrictEqual(
+          getConversationMuteMenu(null, i18n, { canOnlyBeMutedAlways: true }),
+          {
+            label: 'Mute this chat for…',
+            options: [expectedAlwaysOption()],
+          }
+        );
+      });
     });
 
-    it('returns a current mute label, an "Unmute" option, and then the 5 default options', () => {
-      assert.deepStrictEqual(
-        getMuteOptions(new Date(2000, 3, 20, 18, 30, 0).valueOf(), i18n),
-        [
+    describe('when muted', () => {
+      it('returns a "Muted until" label and only an "Unmute" option', () => {
+        assert.deepStrictEqual(
+          getConversationMuteMenu(
+            new Date(2000, 3, 20, 18, 30, 0).valueOf(),
+            i18n
+          ),
           {
-            disabled: true,
-            name: 'Muted until 6:30 PM',
-            value: -1,
-          },
+            label: 'Muted until 6:30 PM',
+            options: [UNMUTE_OPTION],
+          }
+        );
+      });
+
+      it("includes a date in the label if it's on a different day", () => {
+        assert.deepStrictEqual(
+          getConversationMuteMenu(
+            new Date(2000, 3, 21, 18, 30, 0).valueOf(),
+            i18n
+          ).label,
+          'Muted until 04/21/2000, 6:30 PM'
+        );
+      });
+
+      it('returns a "Muted always" label when muted always', () => {
+        assert.deepStrictEqual(
+          getConversationMuteMenu(Number.MAX_SAFE_INTEGER, i18n),
           {
-            name: 'Unmute',
-            value: 0,
-          },
-          ...EXPECTED_DEFAULT_OPTIONS,
-        ]
-      );
+            label: 'Muted always',
+            options: [UNMUTE_OPTION],
+          }
+        );
+      });
+    });
+  });
+
+  describe('isMuteDurationOption', () => {
+    it('is true for numeric durations', () => {
+      assert.isTrue(isMuteDurationOption({ name: '1 hour', value: HOUR }));
+      assert.isTrue(isMuteDurationOption(UNMUTE_OPTION));
     });
 
-    it("renders the current mute label with a date if it's on a different day", () => {
-      assert.deepStrictEqual(
-        getMuteOptions(new Date(2000, 3, 21, 18, 30, 0).valueOf(), i18n)[0],
-        {
-          disabled: true,
-          name: 'Muted until 04/21/2000, 6:30 PM',
-          value: -1,
-        }
-      );
+    it('is false for the "custom" option', () => {
+      assert.isFalse(isMuteDurationOption({ name: 'Until…', value: 'custom' }));
     });
   });
 });

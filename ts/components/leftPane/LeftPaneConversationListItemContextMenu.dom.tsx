@@ -8,7 +8,8 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import { isConversationUnread } from '../../util/isConversationUnread.std.ts';
 import { drop } from '../../util/drop.std.ts';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.tsx';
-import { getMuteOptions } from '../../util/getMuteOptions.std.ts';
+import { MuteNotificationsSubMenu } from '../MuteNotificationsMenu.dom.tsx';
+import { getConversationMuteMenu } from '../../util/getMuteOptions.std.ts';
 import {
   CHAT_FOLDER_DEFAULTS,
   ChatFolderType,
@@ -79,8 +80,8 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       );
     }, [selectedChatFolder]);
 
-    const muteOptions = useMemo(() => {
-      return getMuteOptions(muteExpiresAt, i18n, {
+    const muteMenu = useMemo(() => {
+      return getConversationMuteMenu(muteExpiresAt, i18n, {
         canOnlyBeMutedAlways: canConversationOnlyBeMutedAlways(conversation),
       });
     }, [muteExpiresAt, i18n, conversation]);
@@ -181,25 +182,14 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
                 {i18n('icu:unpinConversation')}
               </AxoContextMenu.Item>
             )}
-            <AxoContextMenu.Sub>
-              <AxoContextMenu.SubTrigger symbol="bell-slash">
-                {i18n('icu:muteNotificationsTitle')}
-              </AxoContextMenu.SubTrigger>
-              <AxoContextMenu.SubContent>
-                {muteOptions.map(muteOption => {
-                  return (
-                    <ContextMenuMuteNotificationsItem
-                      key={muteOption.value}
-                      value={muteOption.value}
-                      disabled={muteOption.disabled}
-                      onSelect={handleUpdateMute}
-                    >
-                      {muteOption.name}
-                    </ContextMenuMuteNotificationsItem>
-                  );
-                })}
-              </AxoContextMenu.SubContent>
-            </AxoContextMenu.Sub>
+            <MuteNotificationsSubMenu
+              i18n={i18n}
+              renderer="AxoContextMenu"
+              title={i18n('icu:muteNotificationsTitle')}
+              options={muteMenu.options}
+              label={muteMenu.label}
+              onMuteDuration={handleUpdateMute}
+            />
             {!props.isActivelySearching &&
               isSelectedChatFolderAllChats &&
               props.currentChatFolders.hasAnyCurrentCustomChatFolders && (
@@ -303,23 +293,6 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       </>
     );
   });
-
-function ContextMenuMuteNotificationsItem(props: {
-  disabled?: boolean;
-  value: number;
-  onSelect: (value: number) => void;
-  children: ReactNode;
-}): JSX.Element {
-  const { value, onSelect } = props;
-  const handleSelect = useCallback(() => {
-    onSelect(value);
-  }, [onSelect, value]);
-  return (
-    <AxoContextMenu.Item disabled={props.disabled} onSelect={handleSelect}>
-      {props.children}
-    </AxoContextMenu.Item>
-  );
-}
 
 function ContextMenuCopyTextItem(props: {
   value: string;

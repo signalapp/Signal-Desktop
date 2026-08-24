@@ -9,10 +9,12 @@ import { SmartGlobalModalContainer } from './GlobalModalContainer.preload.tsx';
 import { SmartLightbox } from './Lightbox.preload.tsx';
 import { SmartStoryViewer } from './StoryViewer.preload.tsx';
 import {
+  getIntl,
   getIsMainWindowMaximized,
   getIsMainWindowFullScreen,
   getTheme,
 } from '../selectors/user.std.ts';
+import { MuteUntilDialogProvider } from '../../components/MuteNotificationsMenu.dom.tsx';
 import { hasSelectedStoryData as getHasSelectedStoryData } from '../selectors/stories.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
@@ -65,6 +67,7 @@ function renderStoryViewer(closeView: () => unknown): JSX.Element {
 }
 
 export const SmartApp = memo(function SmartApp() {
+  const i18n = useSelector(getIntl);
   const state = useSelector(getApp);
   const isMaximized = useSelector(getIsMainWindowMaximized);
   const isFullScreen = useSelector(getIsMainWindowFullScreen);
@@ -78,23 +81,25 @@ export const SmartApp = memo(function SmartApp() {
 
   return (
     <SmartFunProvider>
-      <App
-        state={state}
-        isMaximized={isMaximized}
-        isFullScreen={isFullScreen}
-        osClassName={osClassName}
-        renderCallManager={renderCallManager}
-        renderGlobalModalContainer={renderGlobalModalContainer}
-        renderInstallScreen={renderInstallScreen}
-        renderLightbox={renderLightbox}
-        renderStandaloneRegistration={renderStandaloneRegistration}
-        hasSelectedStoryData={hasSelectedStoryData}
-        renderStoryViewer={renderStoryViewer}
-        renderInbox={renderInbox}
-        theme={theme}
-        scrollToMessage={scrollToMessage}
-        viewStory={viewStory}
-      />
+      <MuteUntilDialogProvider i18n={i18n}>
+        <App
+          state={state}
+          isMaximized={isMaximized}
+          isFullScreen={isFullScreen}
+          osClassName={osClassName}
+          renderCallManager={renderCallManager}
+          renderGlobalModalContainer={renderGlobalModalContainer}
+          renderInstallScreen={renderInstallScreen}
+          renderLightbox={renderLightbox}
+          renderStandaloneRegistration={renderStandaloneRegistration}
+          hasSelectedStoryData={hasSelectedStoryData}
+          renderStoryViewer={renderStoryViewer}
+          renderInbox={renderInbox}
+          theme={theme}
+          scrollToMessage={scrollToMessage}
+          viewStory={viewStory}
+        />
+      </MuteUntilDialogProvider>
     </SmartFunProvider>
   );
 });

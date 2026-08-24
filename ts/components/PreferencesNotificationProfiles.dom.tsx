@@ -1,13 +1,17 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+} from 'react';
 import type { MutableRefObject, JSX, ReactNode } from 'react';
-import { DateInput, DateSegment, TimeField } from 'react-aria-components';
-import { Time } from '@internationalized/date';
-import { sample, isEqual, noop, range } from 'lodash';
+import { sample, isEqual, noop } from 'lodash';
 import classNames from 'classnames';
-import { Popper } from 'react-popper';
 
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
@@ -21,23 +25,13 @@ import { Input } from './Input.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
 import { AvatarColorMap, AvatarColors } from '../types/Colors.std.ts';
 import { PreferencesSelectChatsDialog } from './preferences/PreferencesSelectChatsDialog.dom.tsx';
-import {
-  DayOfWeek,
-  getMidnight,
-  scheduleToTime,
-} from '../types/NotificationProfile.std.ts';
+import { DayOfWeek } from '../types/NotificationProfile.std.ts';
 import { Avatar } from './Avatar.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
-import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
-import { themeClassName2 } from '../util/theme.std.ts';
-import { useRefMerger } from '../hooks/useRefMerger.std.ts';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
-import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -49,10 +43,10 @@ import type {
   ScheduleDays,
 } from '../types/NotificationProfile.std.ts';
 import type { SettingsLocation } from '../types/Nav.std.ts';
-import { addLeadingZero } from '../util/timestamp.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { NotificationProfilesOnboardingDialog } from './preferences/notificationProfiles/NotificationProfilesOnboardingDialog.dom.tsx';
+import { formatTimeForDisplay, TimePicker } from './TimePicker.dom.tsx';
 
 enum CreateFlowPage {
   Name = 'Name',
@@ -141,96 +135,6 @@ type HomeProps = {
   theme: ThemeType;
   updateProfile: (profile: NotificationProfileType) => void;
 };
-
-function formatTimeForDisplay(time: number): string {
-  const midnight = getMidnight(Date.now());
-  const ms = scheduleToTime(midnight, time);
-  return formatTimestamp(ms, { timeStyle: 'short' });
-}
-
-function need24HourTime(): boolean {
-  const formatted = formatTimeForDisplay(FIVE_PM);
-  return formatted.includes('17');
-}
-
-function formatTimeForInput(time: number): Time {
-  const { hours, minutes } = getTimeDetails(time, true);
-  return new Time(hours, minutes);
-}
-
-function parseTimeFromInput(time: Time): number {
-  return time.hour * 100 + time.minute;
-}
-
-type PERIOD = 'AM' | 'PM';
-function hourTo24HourTime(hours: number, period: PERIOD) {
-  if (period === 'AM' && hours === 12) {
-    return 0;
-  }
-  if (period === 'AM') {
-    return hours;
-  }
-  if (period === 'PM' && hours < 12) {
-    return hours + 12;
-  }
-
-  return hours;
-}
-function hourFrom24HourTime(hours: number): { hours: number; period: PERIOD } {
-  if (hours === 0) {
-    return {
-      hours: 12,
-      period: 'AM',
-    };
-  }
-  if (hours === 12) {
-    return {
-      hours: 12,
-      period: 'PM',
-    };
-  }
-  if (hours > 12) {
-    return {
-      hours: hours - 12,
-      period: 'PM',
-    };
-  }
-  return {
-    hours,
-    period: 'AM',
-  };
-}
-function makeTime(
-  rawHours: number,
-  minutes: number,
-  period: PERIOD | undefined
-): number {
-  if (!period) {
-    return rawHours * 100 + minutes;
-  }
-
-  const hours = hourTo24HourTime(rawHours, period);
-  return hours * 100 + minutes;
-}
-
-function getTimeDetails(
-  time: number,
-  use24HourTime: boolean
-): { hours: number; minutes: number; period: PERIOD | undefined } {
-  const rawHours = Math.floor(time / 100);
-  const minutes = time % 100;
-
-  if (use24HourTime) {
-    return { hours: rawHours, minutes, period: undefined };
-  }
-
-  const { hours, period } = hourFrom24HourTime(rawHours);
-  return {
-    hours,
-    minutes,
-    period,
-  };
-}
 
 const ARGB_BITS = 0xff000000;
 const A100_BACKGROUND_ARGB = 0xffe3e3fe;
@@ -884,6 +788,9 @@ function NotificationProfilesSchedulePage({
   onSetEndTime: (value: number) => void;
   theme: ThemeType;
 }) {
+  const startLabelId = useId();
+  const endLabelId = useId();
+
   const daysInUIOrder = useMemo(() => {
     return [
       {
@@ -962,14 +869,14 @@ function NotificationProfilesSchedulePage({
           </h2>
         </FullWidthRow>
         <FullWidthRow className={tw('flex min-h-[40px] items-center')}>
-          <span id="start-label" className={tw('grow')}>
+          <span id={startLabelId} className={tw('grow')}>
             {i18n('icu:NotificationProfiles--schedule-from')}
           </span>
           <span className={tw('shrink-0')}>
             <TimePicker
               i18n={i18n}
               isDisabled={!isEnabled}
-              labelId="start-label"
+              aria-labelledby={startLabelId}
               onUpdateTime={onSetStartTime}
               theme={theme}
               time={startTime}
@@ -977,14 +884,14 @@ function NotificationProfilesSchedulePage({
           </span>
         </FullWidthRow>
         <FullWidthRow className={tw('flex min-h-[40px] items-center')}>
-          <span id="end-label" className={tw('grow')}>
+          <span id={endLabelId} className={tw('grow')}>
             {i18n('icu:NotificationProfiles--schedule-until')}
           </span>
           <span className={tw('shrink-0')}>
             <TimePicker
               i18n={i18n}
               isDisabled={!isEnabled}
-              labelId="end-label"
+              aria-labelledby={endLabelId}
               onUpdateTime={onSetEndTime}
               theme={theme}
               time={endTime}
@@ -1808,269 +1715,4 @@ function ScheduleSummary({
   });
 
   return result;
-}
-
-const HOURS_24 = range(0, 24);
-const HOURS_12 = range(1, 13);
-const MINUTES = range(0, 60);
-
-function TimePicker({
-  i18n,
-  isDisabled,
-  labelId,
-  theme,
-  time,
-  onUpdateTime,
-}: {
-  i18n: LocalizerType;
-  isDisabled: boolean;
-  labelId: string;
-  theme: ThemeType;
-  time: number;
-  onUpdateTime: (value: number) => void;
-}) {
-  const [isShowingPopup, setIsShowingPopup] = useState(false);
-  const use24HourTime = need24HourTime();
-  const AM_PM: Array<PERIOD> = ['AM', 'PM'];
-  const periodLookup = useMemo(() => {
-    return {
-      AM: i18n('icu:NotificationProfile--am'),
-      PM: i18n('icu:NotificationProfile--pm'),
-    };
-  }, [i18n]);
-  const [timeFieldElement, setTimeFieldElement] = useState<
-    HTMLDivElement | undefined
-  >();
-  const [popupElement, setPopupElement] = useState<
-    HTMLDivElement | undefined
-  >();
-  const { minutes, hours, period } = getTimeDetails(time, use24HourTime);
-  const refMerger = useRefMerger();
-  const selectedHour = useRef<HTMLButtonElement | null>(null);
-  const selectedMinute = useRef<HTMLButtonElement | null>(null);
-
-  useEffect(() => {
-    if (!isShowingPopup || !popupElement) {
-      return noop;
-    }
-    return handleOutsideClick(
-      (_target, event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        setIsShowingPopup(false);
-        return true;
-      },
-      {
-        containerElements: [popupElement],
-        name: 'TimePicker.popup',
-      }
-    );
-  }, [isShowingPopup, popupElement, setIsShowingPopup]);
-
-  useEffect(() => {
-    if (!isShowingPopup || !popupElement) {
-      return;
-    }
-    if (selectedHour.current) {
-      selectedHour.current.focus();
-    }
-    if (selectedMinute.current) {
-      selectedMinute.current.scrollIntoView();
-    }
-  }, [isShowingPopup, popupElement, setIsShowingPopup]);
-
-  useEscapeHandling(
-    isShowingPopup ? () => setIsShowingPopup(false) : undefined
-  );
-
-  return (
-    <>
-      {isShowingPopup && (
-        <Popper
-          placement="bottom-end"
-          modifiers={[offsetDistanceModifier(6)]}
-          referenceElement={timeFieldElement}
-        >
-          {({ ref, style }) => (
-            <div
-              ref={refMerger(ref, (element: HTMLDivElement | null) =>
-                setPopupElement(element ?? undefined)
-              )}
-              style={style}
-              className={classNames(
-                'TimePickerPopup',
-                tw(
-                  'flex h-[244px] rounded-[10px] bg-surface-secondary p-1 shadow-elevation-1'
-                ),
-                use24HourTime ? tw('w-[102px]') : tw('w-[150px]'),
-                theme ? themeClassName2(theme) : undefined
-              )}
-            >
-              <div
-                className={tw(
-                  'w-[46px] scrollbar-width-none overflow-y-scroll'
-                )}
-              >
-                {(use24HourTime ? HOURS_24 : HOURS_12).map(hour => {
-                  const isSelected = hour === hours;
-
-                  return (
-                    <button
-                      key={hour.toString()}
-                      ref={isSelected ? selectedHour : null}
-                      className={classNames(
-                        tw(
-                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
-                        ),
-                        isSelected ? tw('bg-primary') : null
-                      )}
-                      type="button"
-                      onClick={() => {
-                        const newTime = makeTime(hour, minutes, period);
-                        onUpdateTime(newTime);
-                      }}
-                    >
-                      {hour}
-                    </button>
-                  );
-                })}
-              </div>
-              <div
-                className={tw(
-                  'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
-                )}
-              >
-                {MINUTES.map(minute => {
-                  const isSelected = minute === minutes;
-
-                  return (
-                    <button
-                      key={minute.toString()}
-                      ref={isSelected ? selectedMinute : null}
-                      className={classNames(
-                        tw(
-                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
-                        ),
-                        isSelected ? tw('bg-primary') : null
-                      )}
-                      type="button"
-                      onClick={() => {
-                        const newTime = makeTime(hours, minute, period);
-                        onUpdateTime(newTime);
-                      }}
-                    >
-                      {addLeadingZero(minute)}
-                    </button>
-                  );
-                })}
-              </div>
-              {!use24HourTime ? (
-                <div
-                  className={tw(
-                    'ms-0.5 w-[46px] scrollbar-width-none overflow-y-scroll'
-                  )}
-                >
-                  {AM_PM.map(item => {
-                    const isSelected = item === period;
-
-                    return (
-                      <button
-                        key={item}
-                        className={classNames(
-                          tw(
-                            'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
-                          ),
-                          isSelected ? tw('bg-primary') : null
-                        )}
-                        type="button"
-                        onClick={() => {
-                          const newTime = makeTime(hours, minutes, item);
-                          onUpdateTime(newTime);
-                        }}
-                      >
-                        {periodLookup[item]}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : null}
-            </div>
-          )}
-        </Popper>
-      )}
-      <TimeField
-        ref={element => {
-          setTimeFieldElement(element ?? undefined);
-        }}
-        className={tw(
-          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 keyboard-mode:focus-within:axo-focus-ring'
-        )}
-        aria-labelledby={labelId}
-        hourCycle={use24HourTime ? 24 : 12}
-        isDisabled={isDisabled}
-        minValue={new Time(0, 0)}
-        maxValue={new Time(23, 59)}
-        onChange={value => {
-          if (!value) {
-            return;
-          }
-          onUpdateTime(parseTimeFromInput(value));
-        }}
-        value={formatTimeForInput(time)}
-      >
-        <DateInput className={tw('inline-flex min-w-[5em] items-center')}>
-          {segment => {
-            // We don't need the space between the time and the am/pm
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts#using_formattoparts
-            // https://github.com/adobe/react-spectrum/blob/36fdd8bca2df281fa955117d946e6dd9718241e4/packages/react-stately/src/datepicker/useDateFieldState.ts#L443-L470
-            if (
-              segment.type === 'literal' &&
-              (segment.text === ' ' ||
-                segment.text === '\u2066' ||
-                segment.text === '\u2069')
-            ) {
-              return <span />;
-            }
-            if (segment.type === 'literal') {
-              // oxlint-disable-next-line no-param-reassign
-              segment.text = i18n('icu:NotificationProfile--time-separator');
-            }
-            return (
-              <DateSegment
-                className={classNames(
-                  tw(
-                    'inline-block px-px type-body-medium outline-none focus:bg-secondary'
-                  ),
-                  segment.type === 'literal' ? tw('px-[3px]') : null,
-                  segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
-                  segment.type === 'hour' ? tw('grow text-end') : null,
-                  isDisabled ? tw('text-placeholder') : null
-                )}
-                segment={segment}
-              />
-            );
-          }}
-        </DateInput>
-        <button
-          className={classNames(
-            tw('ms-3 p-0.5 outline-none focus-visible:bg-secondary'),
-            isDisabled ? tw('text-placeholder') : null
-          )}
-          type="button"
-          onClick={() => {
-            if (isDisabled) {
-              return;
-            }
-            setIsShowingPopup(!isShowingPopup);
-          }}
-        >
-          <AxoSymbol.Icon
-            size={14}
-            symbol="chevron-down"
-            label={i18n('icu:NotificationProfiles--open-time-picker')}
-          />
-        </button>
-      </TimeField>
-    </>
-  );
 }

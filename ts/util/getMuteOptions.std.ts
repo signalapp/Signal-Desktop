@@ -9,8 +9,16 @@ import { isConversationMuted } from './isConversationMuted.std.ts';
 export type MuteOption = {
   name: string;
   disabled?: boolean;
-  value: number;
+  value: number | 'custom';
 };
+
+export type MuteDurationOption = MuteOption & { value: number };
+
+export function isMuteDurationOption(
+  option: MuteOption
+): option is MuteDurationOption {
+  return typeof option.value === 'number';
+}
 
 export function getMuteValuesOptions(
   i18n: LocalizerType,
@@ -20,13 +28,10 @@ export function getMuteValuesOptions(
   } = {}
 ): ReadonlyArray<MuteOption> {
   const muteAlwaysOption: MuteOption = {
-    name: i18n('icu:muteAlways'),
+    name: i18n('icu:MuteMenu__always'),
+    disabled: options.isCurrentlyMutedAlways === true,
     value: Number.MAX_SAFE_INTEGER,
   };
-
-  if (options.canOnlyBeMutedAlways && options.isCurrentlyMutedAlways) {
-    return [];
-  }
 
   if (options.canOnlyBeMutedAlways) {
     return [muteAlwaysOption];
@@ -34,22 +39,26 @@ export function getMuteValuesOptions(
 
   return [
     {
-      name: i18n('icu:muteHour'),
+      name: i18n('icu:MuteMenu__hour'),
       value: durations.HOUR,
     },
     {
-      name: i18n('icu:muteEightHours'),
+      name: i18n('icu:MuteMenu__eightHours'),
       value: 8 * durations.HOUR,
     },
     {
-      name: i18n('icu:muteDay'),
+      name: i18n('icu:MuteMenu__day'),
       value: durations.DAY,
     },
     {
-      name: i18n('icu:muteWeek'),
+      name: i18n('icu:MuteMenu__week'),
       value: durations.WEEK,
     },
-    ...(options.isCurrentlyMutedAlways ? [] : [muteAlwaysOption]),
+    {
+      name: i18n('icu:MuteMenu__until'),
+      value: 'custom' as const,
+    },
+    muteAlwaysOption,
   ];
 }
 
@@ -64,11 +73,6 @@ export function getMuteOptions(
     ...(muteExpiresAt && isConversationMuted({ muteExpiresAt })
       ? [
           {
-            name: getMutedUntilText(muteExpiresAt, i18n),
-            disabled: true,
-            value: -1,
-          },
-          {
             name: i18n('icu:unmute'),
             value: 0,
           },
@@ -79,4 +83,36 @@ export function getMuteOptions(
       isCurrentlyMutedAlways: (muteExpiresAt ?? 0) >= Number.MAX_SAFE_INTEGER,
     }),
   ];
+}
+
+export type MuteMenu = Readonly<{
+  label: string;
+  options: ReadonlyArray<MuteOption>;
+}>;
+
+export function getConversationMuteMenu(
+  muteExpiresAt: null | undefined | number,
+  i18n: LocalizerType,
+  options: {
+    canOnlyBeMutedAlways?: boolean;
+  } = {}
+): MuteMenu {
+  if (muteExpiresAt != null && isConversationMuted({ muteExpiresAt })) {
+    return {
+      label: getMutedUntilText(muteExpiresAt, i18n),
+      options: [
+        {
+          name: i18n('icu:unmute'),
+          value: 0,
+        },
+      ],
+    };
+  }
+
+  return {
+    label: i18n('icu:MuteMenu__label'),
+    options: getMuteValuesOptions(i18n, {
+      canOnlyBeMutedAlways: options.canOnlyBeMutedAlways,
+    }),
+  };
 }

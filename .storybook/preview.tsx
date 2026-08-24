@@ -28,6 +28,7 @@ import { Environment, setEnvironment } from '../ts/environment.std.ts';
 import { parseUnknown } from '../ts/util/schemas.std.ts';
 import { LocaleEmojiListSchema } from '../ts/types/emoji.std.ts';
 import { FunProvider } from '../ts/components/fun/FunProvider.dom.tsx';
+import { MuteUntilDialogProvider } from '../ts/components/MuteNotificationsMenu.dom.tsx';
 import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/test-helpers/funPickerMocks.dom.tsx';
 import { NavTab } from '../ts/types/Nav.std.ts';
 
@@ -309,7 +310,16 @@ function withAppProvider(Story, context) {
   );
 }
 
+function withMutedUntilDialogProvider(Story, context) {
+  return (
+    <MuteUntilDialogProvider i18n={window.SignalContext.i18n}>
+      <Story {...context} />
+    </MuteUntilDialogProvider>
+  );
+}
+
 export const decorators = [
+  withMutedUntilDialogProvider,
   withAppProvider,
   withGlobalTypesProvider,
   withMockStoreProvider,
