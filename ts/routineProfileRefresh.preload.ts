@@ -60,6 +60,12 @@ export class RoutineProfileRefresher {
     }
     this.#started = true;
 
+    // This avoids routine profile fetches leading to races in mock tests
+    if (window.SignalCI) {
+      log.info(`${logId}: skipping in CI mode`);
+      return;
+    }
+
     const { storage, getAllConversations, getOurConversationId } =
       this.#options;
 

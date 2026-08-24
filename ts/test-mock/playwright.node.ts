@@ -168,6 +168,10 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
+  public async waitForQueuedStickerPacks(): Promise<void> {
+    return this.#waitForEvent('queuedStickerPacksDownloaded');
+  }
+
   public async waitForSVRStore(): Promise<StoreParameters> {
     return this.#waitForEvent('svrStore');
   }

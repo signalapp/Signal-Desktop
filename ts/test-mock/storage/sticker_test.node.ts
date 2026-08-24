@@ -59,6 +59,9 @@ describe('stickers', function (this: Mocha.Suite) {
       '.Inbox__conversation > .ConversationView'
     );
 
+    debug('waiting for blessed sticker packs to be downloaded');
+    await app.waitForQueuedStickerPacks();
+
     debug('sending two sticker pack links');
     await firstContact.sendText(
       desktop,

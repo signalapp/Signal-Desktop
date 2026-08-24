@@ -678,6 +678,13 @@ describe('editing', function (this: Mocha.Suite) {
       debug('sending edit message v2 desktop -> friend');
       await sendEditedMessage(page, originalMessageTimestamp, '2', '1');
 
+      debug("waiting for message on friend's device (original)");
+      const { editMessage: editMessageV2 } = await friend.waitForEditMessage();
+      assert.strictEqual(editMessageV2.dataMessage?.body, editMessageV2Text);
+      debug('v2 message', {
+        timestamp: toNumber(editMessageV2.dataMessage?.timestamp),
+      });
+
       {
         const readReceiptTimestamp = bootstrap.getTimestamp();
         debug('sending read receipt for original message friend -> desktop', {
@@ -704,7 +711,7 @@ describe('editing', function (this: Mocha.Suite) {
       }
 
       debug("testing message's send state (current(v2) and original (v1))");
-      {
+      await expect(async () => {
         const message = await getMessageFromApp(originalMessageTimestamp);
         strictAssert(message.editHistory, 'edit history exists');
         // oxlint-disable-next-line typescript/no-unused-vars
@@ -719,14 +726,7 @@ describe('editing', function (this: Mocha.Suite) {
           SendStatus.Read,
           'original message is marked read'
         );
-      }
-
-      debug("waiting for message on friend's device (original)");
-      const { editMessage: editMessageV2 } = await friend.waitForEditMessage();
-      assert.strictEqual(editMessageV2.dataMessage?.body, editMessageV2Text);
-      debug('v2 message', {
-        timestamp: toNumber(editMessageV2.dataMessage?.timestamp),
-      });
+      }).toPass();
 
       // Sending a v3 edited message targetting v2
       // v3 will be read after we receive v4

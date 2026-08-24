@@ -319,6 +319,15 @@ export function downloadQueuedPacks(): void {
   }
 
   packsToDownload = {};
+
+  if (window.SignalCI) {
+    drop(
+      (async () => {
+        await downloadQueue.onIdle();
+        window.SignalCI?.handleEvent('queuedStickerPacksDownloaded', null);
+      })()
+    );
+  }
 }
 
 function capturePacksToDownload(
