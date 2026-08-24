@@ -1,9 +1,11 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../mixins.scss';
-@import '../colors.scss';
-@import '../fonts.scss';
+@use 'sass:color';
+
+@use '../mixins.scss';
+@use '../colors.scss';
+@use '../fonts.scss';
 
 .base {
   border: none;
@@ -15,37 +17,53 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: $inter;
+  font-family: fonts.$inter;
   font-weight: normal;
   font-size: 14px;
   white-space: nowrap;
 
-  @include light-theme() {
-    background-color: $color-gray-05;
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    background-color: colors.$color-gray-05;
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    background-color: $color-gray-65;
-    color: $color-gray-05;
+  @include mixins.dark-theme() {
+    background-color: colors.$color-gray-65;
+    color: colors.$color-gray-05;
   }
 
   &:hover {
-    @include light-theme() {
-      background-color: mix($color-black, $color-gray-05, 15%);
+    @include mixins.light-theme() {
+      background-color: color.mix(
+        colors.$color-black,
+        colors.$color-gray-05,
+        15%
+      );
     }
 
-    @include dark-theme() {
-      background-color: mix($color-white, $color-gray-65, 15%);
+    @include mixins.dark-theme() {
+      background-color: color.mix(
+        colors.$color-white,
+        colors.$color-gray-65,
+        15%
+      );
     }
   }
 
   &:active {
-    @include light-theme() {
-      background-color: mix($color-black, $color-gray-05, 25%);
+    @include mixins.light-theme() {
+      background-color: color.mix(
+        colors.$color-black,
+        colors.$color-gray-05,
+        25%
+      );
     }
-    @include dark-theme() {
-      background-color: mix($color-white, $color-gray-65, 25%);
+    @include mixins.dark-theme() {
+      background-color: color.mix(
+        colors.$color-white,
+        colors.$color-gray-65,
+        25%
+      );
     }
   }
 
@@ -56,32 +74,48 @@
 
 .primary {
   composes: base;
-  background-color: $color-ultramarine;
+  background-color: colors.$color-ultramarine;
 
-  @include light-theme() {
-    color: $color-white;
+  @include mixins.light-theme() {
+    color: colors.$color-white;
   }
 
-  @include dark-theme() {
-    color: $color-white;
+  @include mixins.dark-theme() {
+    color: colors.$color-white;
   }
 
   &:hover {
-    @include light-theme() {
-      background-color: mix($color-black, $color-ultramarine, 15%);
+    @include mixins.light-theme() {
+      background-color: color.mix(
+        colors.$color-black,
+        colors.$color-ultramarine,
+        15%
+      );
     }
 
-    @include dark-theme() {
-      background-color: mix($color-white, $color-ultramarine, 15%);
+    @include mixins.dark-theme() {
+      background-color: color.mix(
+        colors.$color-white,
+        colors.$color-ultramarine,
+        15%
+      );
     }
   }
 
   &:active {
-    @include light-theme() {
-      background-color: mix($color-black, $color-ultramarine, 25%);
+    @include mixins.light-theme() {
+      background-color: color.mix(
+        colors.$color-black,
+        colors.$color-ultramarine,
+        25%
+      );
     }
-    @include dark-theme() {
-      background-color: mix($color-white, $color-ultramarine, 25%);
+    @include mixins.dark-theme() {
+      background-color: color.mix(
+        colors.$color-white,
+        colors.$color-ultramarine,
+        25%
+      );
     }
   }
 }
@@ -93,15 +127,15 @@
   padding-block: 0;
   padding-inline: 17px;
 
-  @include light-theme() {
-    color: $color-gray-90;
-    border: 1px solid $color-gray-90;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-90;
+    border: 1px solid colors.$color-gray-90;
     background: transparent;
   }
 
-  @include dark-theme() {
-    color: $color-white;
-    border: 1px solid $color-white;
+  @include mixins.dark-theme() {
+    color: colors.$color-white;
+    border: 1px solid colors.$color-white;
     background: transparent;
   }
 }
@@ -109,15 +143,15 @@
 .pill-primary {
   composes: pill;
 
-  @include light-theme() {
+  @include mixins.light-theme() {
     border: none;
-    background-color: $color-ultramarine;
-    color: $color-white;
+    background-color: colors.$color-ultramarine;
+    color: colors.$color-white;
   }
 
-  @include dark-theme() {
+  @include mixins.dark-theme() {
     border: none;
-    background-color: $color-ultramarine-light;
-    color: $color-white;
+    background-color: colors.$color-ultramarine-light;
+    color: colors.$color-white;
   }
 }

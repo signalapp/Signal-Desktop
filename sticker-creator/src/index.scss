@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import './mixins.scss';
-@import './colors.scss';
-@import './fonts.scss';
+@use './mixins.scss';
+@use './colors.scss';
+@use './fonts.scss';
 
 html {
   height: 100%;
@@ -25,16 +25,16 @@ body {
   margin: 0;
   user-select: none;
 
-  @include font-family;
-  @include font-body-1;
+  @include fonts.font-family;
+  @include fonts.font-body-1;
 
-  @include light-theme() {
-    background-color: $color-white;
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    background-color: colors.$color-white;
+    color: colors.$color-gray-90;
   }
-  @include dark-theme() {
-    background-color: $color-gray-95;
-    color: $color-gray-05;
+  @include mixins.dark-theme() {
+    background-color: colors.$color-gray-95;
+    color: colors.$color-gray-05;
   }
 }
 
@@ -54,31 +54,31 @@ button {
 
 button.grey {
   border-radius: 5px;
-  border: solid 1px $color-gray-25;
+  border: solid 1px colors.$color-gray-25;
   cursor: pointer;
   margin-block: 1em;
   margin-inline: auto;
   padding: 1em;
   font-family: inherit;
 
-  @include light-theme {
-    color: $color-gray-60;
-    background: $color-gray-02;
-    box-shadow: 0 0 10px -5px $color-black-alpha-40;
+  @include mixins.light-theme {
+    color: colors.$color-gray-60;
+    background: colors.$color-gray-02;
+    box-shadow: 0 0 10px -5px colors.$color-black-alpha-40;
   }
-  @include dark-theme {
-    border: solid 1px $color-gray-25;
-    color: $color-gray-60;
-    background: $color-gray-02;
-    box-shadow: 0 0 10px -5px $color-white-alpha-60;
+  @include mixins.dark-theme {
+    border: solid 1px colors.$color-gray-25;
+    color: colors.$color-gray-60;
+    background: colors.$color-gray-02;
+    box-shadow: 0 0 10px -5px colors.$color-white-alpha-60;
   }
 
   &:hover {
-    @include light-theme {
-      box-shadow: 0 0 10px -3px $color-black-alpha-60;
+    @include mixins.light-theme {
+      box-shadow: 0 0 10px -3px colors.$color-black-alpha-60;
     }
-    @include dark-theme {
-      box-shadow: 0 0 10px -3px $color-white-alpha-80;
+    @include mixins.dark-theme {
+      box-shadow: 0 0 10px -3px colors.$color-white-alpha-80;
     }
   }
 
@@ -93,11 +93,11 @@ button.grey {
 }
 
 a {
-  @include light-theme() {
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-90;
   }
-  @include dark-theme() {
-    color: $color-gray-05;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-05;
   }
 }
 
@@ -106,12 +106,12 @@ a {
   flex-direction: column;
   min-height: 100vh;
 
-  @include light-theme() {
-    background-color: $color-white;
+  @include mixins.light-theme() {
+    background-color: colors.$color-white;
   }
 
-  @include dark-theme() {
-    background-color: $color-gray-90;
+  @include mixins.dark-theme() {
+    background-color: colors.$color-gray-90;
   }
 }
 
@@ -122,7 +122,7 @@ a {
 
   .epr-search,
   .epr-emoji-category-label {
-    font-family: $inter;
+    font-family: fonts.$inter;
   }
 
   button.epr-emoji {

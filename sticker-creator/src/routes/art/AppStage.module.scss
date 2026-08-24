@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../../mixins.scss';
+@use '../../mixins.scss';
 
 .container {
   display: flex;
@@ -34,7 +34,7 @@
   padding-block: 0;
   padding-inline: 64px;
 
-  @include small-screen() {
+  @include mixins.small-screen() {
     padding-block: 0;
     padding-inline: 32px;
   }
@@ -55,7 +55,7 @@
   flex-direction: row;
   align-items: center;
 
-  @include small-screen() {
+  @include mixins.small-screen() {
     margin-block: 16px;
     margin-inline: 32px;
   }

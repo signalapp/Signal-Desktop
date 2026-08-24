@@ -1,17 +1,17 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../mixins.scss';
-@import '../colors.scss';
-@import '../fonts.scss';
+@use '../mixins.scss';
+@use '../colors.scss';
+@use '../fonts.scss';
 
 @mixin background() {
-  @include light-theme() {
-    background: $color-white;
+  @include mixins.light-theme() {
+    background: colors.$color-white;
   }
 
-  @include dark-theme() {
-    background: $color-gray-75;
+  @include mixins.dark-theme() {
+    background: colors.$color-gray-75;
   }
 }
 
@@ -36,7 +36,7 @@
   flex-direction: row;
   align-items: center;
   font: {
-    family: $inter;
+    family: fonts.$inter;
     size: 14px;
     weight: 500;
   }
@@ -44,12 +44,12 @@
 
   @include background();
 
-  @include light-theme {
-    color: $color-gray-90;
+  @include mixins.light-theme {
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: colors.$color-gray-05;
   }
 }
 
@@ -67,7 +67,7 @@
   overflow: auto;
   justify-items: center;
 
-  @include small-screen() {
+  @include mixins.small-screen() {
     gap: 4px;
   }
 }
@@ -82,12 +82,12 @@
   padding-inline: 16px;
   display: flex;
 
-  @include light-theme {
-    background: $color-white;
+  @include mixins.light-theme {
+    background: colors.$color-white;
   }
 
-  @include dark-theme {
-    background: $color-gray-60;
+  @include mixins.dark-theme {
+    background: colors.$color-gray-60;
   }
 }
 
@@ -100,7 +100,7 @@
 }
 
 .text {
-  font-family: $inter;
+  font-family: fonts.$inter;
 }
 
 .meta-title {
@@ -111,12 +111,12 @@
     weight: 600;
   }
 
-  @include light-theme {
-    color: $color-gray-95;
+  @include mixins.light-theme {
+    color: colors.$color-gray-95;
   }
 
-  @include dark-theme {
-    color: $color-gray-05;
+  @include mixins.dark-theme {
+    color: colors.$color-gray-05;
   }
 }
 
@@ -128,11 +128,11 @@
     weight: 400;
   }
 
-  @include light-theme {
-    color: $color-gray-60;
+  @include mixins.light-theme {
+    color: colors.$color-gray-60;
   }
 
-  @include dark-theme {
-    color: $color-gray-25;
+  @include mixins.dark-theme {
+    color: colors.$color-gray-25;
   }
 }

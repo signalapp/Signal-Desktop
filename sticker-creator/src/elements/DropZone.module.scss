@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../colors.scss';
-@import '../mixins.scss';
-@import '../fonts.scss';
+@use '../colors.scss';
+@use '../mixins.scss';
+@use '../fonts.scss';
 
 .base {
   width: 100%;
@@ -14,28 +14,28 @@
   flex-direction: column;
   flex-grow: 1;
 
-  @include light-theme() {
-    color: $color-gray-60;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-60;
   }
 
-  @include dark-theme() {
-    color: $color-gray-45;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-45;
   }
 }
 
 .text {
   margin-block: 16px 0;
   margin-inline: 0;
-  font-family: $inter;
+  font-family: fonts.$inter;
   font-size: 14px;
   font-weight: normal;
 
-  @include light-theme() {
-    color: $color-gray-60;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-60;
   }
 
-  @include dark-theme() {
-    color: $color-gray-45;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-45;
   }
 }
 
@@ -44,27 +44,27 @@
   border-radius: 12px;
   border: 0;
 
-  @include light-theme() {
-    background: $color-gray-02;
-    color: $color-gray-60;
+  @include mixins.light-theme() {
+    background: colors.$color-gray-02;
+    color: colors.$color-gray-60;
   }
 
-  @include dark-theme() {
-    background: $color-gray-80;
-    color: $color-gray-25;
+  @include mixins.dark-theme() {
+    background: colors.$color-gray-80;
+    color: colors.$color-gray-25;
   }
 }
 
 .active {
   composes: standalone;
 
-  @include light-theme() {
-    border-color: $color-ultramarine;
-    outline: 3px solid $color-ultramarine;
+  @include mixins.light-theme() {
+    border-color: colors.$color-ultramarine;
+    outline: 3px solid colors.$color-ultramarine;
   }
 
-  @include dark-theme() {
-    border-color: $color-ultramarine-light;
-    outline: 3px solid $color-ultramarine-light;
+  @include mixins.dark-theme() {
+    border-color: colors.$color-ultramarine-light;
+    outline: 3px solid colors.$color-ultramarine-light;
   }
 }

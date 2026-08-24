@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../colors.scss';
-@import '../mixins.scss';
-@import '../fonts.scss';
+@use '../colors.scss';
+@use '../mixins.scss';
+@use '../fonts.scss';
 
 .base {
-  font-family: $inter;
+  font-family: fonts.$inter;
   margin: 0;
 }
 
@@ -20,12 +20,12 @@
   font-size: 16px;
   line-height: 20px;
 
-  @include light-theme() {
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    color: $color-gray-05;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-05;
   }
 }
 
@@ -35,12 +35,12 @@
   line-height: 18px;
   margin-bottom: 8px;
 
-  @include light-theme() {
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    color: $color-white;
+  @include mixins.dark-theme() {
+    color: colors.$color-white;
   }
 }
 
@@ -49,16 +49,16 @@
   font-size: 13px;
   line-height: 18px;
 
-  @include light-theme() {
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    color: $color-white;
+  @include mixins.dark-theme() {
+    color: colors.$color-white;
   }
 
   a {
-    color: $color-ultramarine;
+    color: colors.$color-ultramarine;
     text-decoration: none;
   }
 }
@@ -69,11 +69,11 @@
 }
 
 .secondary {
-  @include light-theme() {
-    color: $color-gray-60;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-60;
   }
 
-  @include dark-theme() {
-    color: $color-gray-25;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-25;
   }
 }

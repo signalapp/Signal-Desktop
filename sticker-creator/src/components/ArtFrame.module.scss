@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../mixins.scss';
-@import '../colors.scss';
-@import '../fonts.scss';
+@use '../mixins.scss';
+@use '../colors.scss';
+@use '../fonts.scss';
 
 $width: 186px;
 $height: 186px;
@@ -40,26 +40,26 @@ $emoji-height: 64px;
     style: solid;
   }
 
-  @include light-theme() {
-    border-color: $color-gray-25;
-    background: $color-white;
+  @include mixins.light-theme() {
+    border-color: colors.$color-gray-25;
+    background: colors.$color-white;
   }
 
-  @include dark-theme() {
-    border-color: $color-gray-60;
-    background: $color-gray-90;
+  @include mixins.dark-theme() {
+    border-color: colors.$color-gray-60;
+    background: colors.$color-gray-90;
   }
 
   width: $width;
   height: $height;
 
   &[data-drag-active='true'] {
-    @include light-theme() {
-      border-color: $color-ultramarine;
+    @include mixins.light-theme() {
+      border-color: colors.$color-ultramarine;
     }
 
-    @include dark-theme() {
-      border-color: $color-ultramarine-light;
+    @include mixins.dark-theme() {
+      border-color: colors.$color-ultramarine-light;
     }
   }
 }
@@ -80,24 +80,24 @@ $emoji-height: 64px;
   justify-content: center;
   align-items: center;
 
-  @include light-theme() {
-    color: $color-gray-25;
+  @include mixins.light-theme() {
+    color: colors.$color-gray-25;
   }
 
-  @include dark-theme() {
-    color: $color-gray-60;
+  @include mixins.dark-theme() {
+    color: colors.$color-gray-60;
   }
 }
 
 .emoji-picker-spinner {
   composes: spinner;
 
-  @include light-theme() {
-    background-color: $color-gray-05;
+  @include mixins.light-theme() {
+    background-color: colors.$color-gray-05;
   }
 
-  @include dark-theme() {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme() {
+    background-color: colors.$color-gray-75;
   }
 
   padding: 4px;
@@ -113,12 +113,12 @@ $emoji-height: 64px;
     width: $border-width;
     style: dashed;
   }
-  @include light-theme() {
-    border-color: $color-gray-25;
+  @include mixins.light-theme() {
+    border-color: colors.$color-gray-25;
   }
 
-  @include dark-theme() {
-    border-color: $color-gray-60;
+  @include mixins.dark-theme() {
+    border-color: colors.$color-gray-60;
   }
 
   width: $width - (2 * $guide-offset);
@@ -147,18 +147,18 @@ $emoji-height: 64px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: $inter;
+  font-family: fonts.$inter;
   border: none;
   background: none;
   padding: 0;
 
-  filter: drop-shadow(0px 0px 2px $color-black-alpha-60);
+  filter: drop-shadow(0px 0px 2px colors.$color-black-alpha-60);
 
   &::after {
     content: '';
     width: 20px;
     height: 20px;
-    background: $color-white;
+    background: colors.$color-white;
     mask-image: url(/src/assets/icons/x-20.svg);
     -webkit-mask-image: url(/src/assets/icons/x-20.svg);
   }
@@ -178,12 +178,12 @@ $emoji-height: 64px;
   justify-content: center;
   align-items: center;
 
-  @include light-theme() {
-    background-color: $color-gray-05;
+  @include mixins.light-theme() {
+    background-color: colors.$color-gray-05;
   }
 
-  @include dark-theme() {
-    background-color: $color-gray-75;
+  @include mixins.dark-theme() {
+    background-color: colors.$color-gray-75;
   }
 }
 
@@ -205,24 +205,24 @@ $emoji-height: 64px;
   border-radius: 4px;
   background-color: transparent;
   font-size: 14px;
-  font-family: $inter;
+  font-family: fonts.$inter;
 
   &::placeholder {
-    color: $color-gray-45;
+    color: colors.$color-gray-45;
   }
 
   &:focus {
     outline: 0;
-    border-color: $color-accent-blue;
+    border-color: colors.$color-accent-blue;
   }
 
-  @include light-theme() {
-    border: 1px solid $color-gray-15;
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    border: 1px solid colors.$color-gray-15;
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    border: 1px solid $color-gray-60;
-    color: $color-white;
+  @include mixins.dark-theme() {
+    border: 1px solid colors.$color-gray-60;
+    color: colors.$color-white;
   }
 }

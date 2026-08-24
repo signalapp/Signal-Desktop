@@ -1,18 +1,18 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../colors.scss';
-@import '../fonts.scss';
+@use '../colors.scss';
+@use '../fonts.scss';
 
 .base {
-  background-color: $color-ultramarine;
+  background-color: colors.$color-ultramarine;
   padding-block: 6px;
   padding-inline: 12px;
   border-radius: 18px;
-  color: $color-white-alpha-90;
+  color: colors.$color-white-alpha-90;
   font: {
     size: 12px;
-    family: $inter;
+    family: fonts.$inter;
     weight: normal;
   }
 }

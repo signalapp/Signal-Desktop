@@ -1,9 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@import '../colors.scss';
-@import '../mixins.scss';
-@import '../fonts.scss';
+@use '../colors.scss';
+@use '../mixins.scss';
+@use '../fonts.scss';
 
 .container {
   display: flex;
@@ -16,7 +16,7 @@
 .label {
   user-select: none;
   font-size: 13px;
-  font-family: $inter;
+  font-family: fonts.$inter;
   font-weight: 500;
 }
 
@@ -30,20 +30,20 @@
   border-radius: 4px;
   background-color: transparent;
   font-size: 14px;
-  font-family: $inter;
+  font-family: fonts.$inter;
 
   &::placeholder {
-    color: $color-gray-45;
+    color: colors.$color-gray-45;
   }
 
-  @include light-theme() {
-    border: 1px solid $color-gray-15;
-    color: $color-gray-90;
+  @include mixins.light-theme() {
+    border: 1px solid colors.$color-gray-15;
+    color: colors.$color-gray-90;
   }
 
-  @include dark-theme() {
-    border: 1px solid $color-gray-60;
-    color: $color-white;
+  @include mixins.dark-theme() {
+    border: 1px solid colors.$color-gray-60;
+    color: colors.$color-white;
   }
 
   &:focus {
@@ -51,12 +51,12 @@
     padding-block: 0;
     padding-inline: 11px;
 
-    @include light-theme() {
-      border: 2px solid $color-ultramarine;
+    @include mixins.light-theme() {
+      border: 2px solid colors.$color-ultramarine;
     }
 
-    @include dark-theme() {
-      border: 2px solid $color-ultramarine-light;
+    @include mixins.dark-theme() {
+      border: 2px solid colors.$color-ultramarine-light;
     }
   }
 }
