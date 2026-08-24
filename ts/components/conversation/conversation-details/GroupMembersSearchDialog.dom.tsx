@@ -459,7 +459,9 @@ function MemberItem(props: MemberItemProps): ReactNode {
       }
       title={
         <>
-          <UserText text={conversation.title} />
+          <UserText
+            text={conversation.isMe ? i18n('icu:you') : conversation.title}
+          />
           {inSystemContacts && (
             <>
               &nbsp;
