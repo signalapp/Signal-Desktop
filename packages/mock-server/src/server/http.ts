@@ -848,7 +848,7 @@ export const createHandler = (
       return;
     }
 
-    const manifest = await server.getStorageManifest(device);
+    const manifest = server.getStorageManifest(device);
     if (!manifest) {
       return send(res, 404, { error: 'Manifest not found' });
     }
@@ -866,7 +866,7 @@ export const createHandler = (
 
       assert(req.params.after != null, 'Missing after param');
       const after = BigInt(req.params.after);
-      const manifest = await server.getStorageManifest(device);
+      const manifest = server.getStorageManifest(device);
       if (manifest === undefined) {
         return send(res, 404);
       }
@@ -912,7 +912,7 @@ export const createHandler = (
 
     const keys = readOperation.readKey.map((key) => Buffer.from(key));
 
-    const items = await server.getStorageItems(device, keys);
+    const items = server.getStorageItems(device, keys);
     if (!items) {
       return send(res, 413, { error: 'Requested too many items' });
     }

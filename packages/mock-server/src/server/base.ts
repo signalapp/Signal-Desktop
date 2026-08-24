@@ -1038,9 +1038,9 @@ export abstract class Server {
     return auth.device;
   }
 
-  public async getStorageManifest(
+  public getStorageManifest(
     device: Device,
-  ): Promise<Proto.StorageManifest.Params | undefined> {
+  ): Proto.StorageManifest.Params | undefined {
     return this.storageManifestByAci.get(device.aci);
   }
 
@@ -1056,7 +1056,7 @@ export abstract class Server {
       return { error: 'missing `writeOperation.manifest.version`' };
     }
 
-    const existing = await this.getStorageManifest(device);
+    const existing = this.getStorageManifest(device);
     if (existing) {
       // Atomicity
       assert(existing.version, 'consistency check');
@@ -1072,27 +1072,25 @@ export abstract class Server {
 
     if (clearAll) {
       debug('clearing storage items for=%j', device.debugId);
-      await this.clearStorageItems(device);
+      this.clearStorageItems(device);
     }
 
-    const inserts = (insertItem ?? []).map(async (item) => {
+    for (const item of insertItem ?? []) {
       assert(item.key instanceof Uint8Array, 'insertItem.key must be a Buffer');
       assert(
         item.value instanceof Uint8Array,
         'insertItem.value must be a Buffer',
       );
-      return this.setStorageItem(
+      this.setStorageItem(
         device,
         Buffer.from(item.key),
         Buffer.from(item.value),
       );
-    });
-    await Promise.all(inserts);
+    }
 
-    const deletes = (deleteKey ?? []).map(async (key) => {
-      return this.deleteStorageItem(device, Buffer.from(key));
-    });
-    await Promise.all(deletes);
+    for (const key of deleteKey ?? []) {
+      this.deleteStorageItem(device, Buffer.from(key));
+    }
 
     debug(
       'updating storage manifest to version=%d for=%j',
@@ -1108,15 +1106,15 @@ export abstract class Server {
     return { updated: true };
   }
 
-  private async clearStorageItems(device: Device): Promise<void> {
+  private clearStorageItems(device: Device): void {
     this.storageItemsByAci.get(device.aci)?.clear();
   }
 
-  private async setStorageItem(
+  private setStorageItem(
     device: Device,
     key: Buffer<ArrayBuffer>,
     value: Buffer<ArrayBuffer>,
-  ): Promise<void> {
+  ): void {
     let map = this.storageItemsByAci.get(device.aci);
     if (!map) {
       map = new Map();
@@ -1126,10 +1124,10 @@ export abstract class Server {
     map.set(key.toString('hex'), value);
   }
 
-  public async getStorageItem(
+  public getStorageItem(
     device: Device,
     key: Buffer<ArrayBuffer>,
-  ): Promise<Buffer<ArrayBuffer> | undefined> {
+  ): Buffer<ArrayBuffer> | undefined {
     const map = this.storageItemsByAci.get(device.aci);
     if (!map) {
       return undefined;
@@ -1138,9 +1136,7 @@ export abstract class Server {
     return map.get(key.toString('hex'));
   }
 
-  public async getAllStorageKeys(
-    device: Device,
-  ): Promise<Array<Buffer<ArrayBuffer>>> {
+  public getAllStorageKeys(device: Device): Array<Buffer<ArrayBuffer>> {
     const map = this.storageItemsByAci.get(device.aci);
     if (!map) {
       return [];
@@ -1149,28 +1145,23 @@ export abstract class Server {
     return Array.from(map.keys()).map((hex) => Buffer.from(hex, 'hex'));
   }
 
-  public async getStorageItems(
+  public getStorageItems(
     device: Device,
     keys: ReadonlyArray<Buffer<ArrayBuffer>>,
-  ): Promise<Array<Proto.StorageItem.Params> | undefined> {
+  ): Array<Proto.StorageItem.Params> | undefined {
     const result = new Array<Proto.StorageItem.Params>();
 
-    await Promise.all(
-      keys.map(async (key) => {
-        const value = await this.getStorageItem(device, key);
-        if (value !== undefined) {
-          result.push({ key, value });
-        }
-      }),
-    );
+    for (const key of keys) {
+      const value = this.getStorageItem(device, key);
+      if (value !== undefined) {
+        result.push({ key, value });
+      }
+    }
 
     return result;
   }
 
-  public async deleteStorageItem(
-    device: Device,
-    key: Buffer<ArrayBuffer>,
-  ): Promise<void> {
+  public deleteStorageItem(device: Device, key: Buffer<ArrayBuffer>): void {
     const map = this.storageItemsByAci.get(device.aci);
     if (!map) {
       return;

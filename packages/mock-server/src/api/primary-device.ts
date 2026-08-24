@@ -117,11 +117,9 @@ export type Config = Readonly<{
   modifyGroup: (options: ModifyGroupOptions) => Promise<ModifyGroupResult>;
   waitForGroupUpdate: (group: GroupData) => Promise<void>;
 
-  getStorageManifest: () => Promise<Proto.StorageManifest.Params | undefined>;
-  getStorageItem: (
-    key: Buffer<ArrayBuffer>,
-  ) => Promise<Buffer<ArrayBuffer> | undefined>;
-  getAllStorageKeys: () => Promise<Array<Buffer<ArrayBuffer>>>;
+  getStorageManifest: () => Proto.StorageManifest.Params | undefined;
+  getStorageItem: (key: Buffer<ArrayBuffer>) => Buffer<ArrayBuffer> | undefined;
+  getAllStorageKeys: () => Array<Buffer<ArrayBuffer>>;
   waitForStorageManifest: (afterVersion?: bigint) => Promise<void>;
   applyStorageWrite: (
     operation: Proto.WriteOperation.Params,
@@ -1187,7 +1185,7 @@ export class PrimaryDevice {
   }
 
   public async getStorageState(): Promise<StorageState | undefined> {
-    const manifest = await this.config.getStorageManifest();
+    const manifest = this.config.getStorageManifest();
     if (!manifest) {
       return undefined;
     }
@@ -1228,13 +1226,13 @@ export class PrimaryDevice {
   }
 
   public async getOrphanedStorageKeys(): Promise<Array<Buffer<ArrayBuffer>>> {
-    const manifest = await this.config.getStorageManifest();
+    const manifest = this.config.getStorageManifest();
     if (!manifest) {
       return [];
     }
 
-    const state = await this.convertManifestToStorageState(manifest);
-    const keys = await this.config.getAllStorageKeys();
+    const state = this.convertManifestToStorageState(manifest);
+    const keys = this.config.getAllStorageKeys();
 
     return keys.filter((key) => !state.hasKey(key));
   }
@@ -2453,41 +2451,37 @@ export class PrimaryDevice {
     );
   }
 
-  private async convertManifestToStorageState(
+  private convertManifestToStorageState(
     manifest: Proto.StorageManifest.Params,
-  ): Promise<StorageState> {
+  ): StorageState {
     const decryptedManifest = decryptStorageManifest(this.storageKey, manifest);
     assert(decryptedManifest.version, 'Consistency check');
 
     const version = decryptedManifest.version;
-    const items = await Promise.all(
-      decryptedManifest.identifiers.map(async ({ type, raw: key }) => {
-        const keyBuffer = Buffer.from(key);
-        const item = await this.config.getStorageItem(keyBuffer);
-        if (!item) {
-          throw new Error(`Missing item ${keyBuffer.toString('base64')}`);
-        }
+    const items = decryptedManifest.identifiers.map(({ type, raw: key }) => {
+      const keyBuffer = Buffer.from(key);
+      const item = this.config.getStorageItem(keyBuffer);
+      if (!item) {
+        throw new Error(`Missing item ${keyBuffer.toString('base64')}`);
+      }
 
-        const decrypted = decryptStorageItem({
-          storageKey: this.storageKey,
-          recordIkm: this.storageRecordIkm,
-          item: {
-            key,
-            value: item,
-          },
-        });
-        if (!decrypted.record) {
-          throw new Error(
-            `Missing item record ${keyBuffer.toString('base64')}`,
-          );
-        }
-        return {
-          type: type as Proto.ManifestRecord.Identifier.Type,
-          key: keyBuffer,
-          record: decrypted.record,
-        };
-      }),
-    );
+      const decrypted = decryptStorageItem({
+        storageKey: this.storageKey,
+        recordIkm: this.storageRecordIkm,
+        item: {
+          key,
+          value: item,
+        },
+      });
+      if (!decrypted.record) {
+        throw new Error(`Missing item record ${keyBuffer.toString('base64')}`);
+      }
+      return {
+        type: type as Proto.ManifestRecord.Identifier.Type,
+        key: keyBuffer,
+        record: decrypted.record,
+      };
+    });
 
     return new StorageState(version, items);
   }

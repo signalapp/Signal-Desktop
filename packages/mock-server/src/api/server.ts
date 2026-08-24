@@ -856,10 +856,10 @@ export class Server extends BaseServer {
 
   // Override `getStorageItems` to provide configurable limit for maximum
   // storage read keys.
-  public override async getStorageItems(
+  public override getStorageItems(
     device: Device,
     keys: ReadonlyArray<Buffer<ArrayBuffer>>,
-  ): Promise<Array<Proto.StorageItem.Params> | undefined> {
+  ): Array<Proto.StorageItem.Params> | undefined {
     if (
       this.config.maxStorageReadKeys !== undefined &&
       keys.length > this.config.maxStorageReadKeys
