@@ -886,18 +886,33 @@ export function SmartPreferences(): JSX.Element | null {
   const setDredDuration = useCallback((value: number | undefined) => {
     drop(itemStorage.put('dredDuration', value));
   }, []);
-  const setIsDirectVp9Enabled = useCallback((value: boolean | undefined) => {
-    drop(itemStorage.put('isDirectVp9Enabled', value));
+  const setCallStatsIntervalSecs = useCallback((value: number | undefined) => {
+    drop(itemStorage.put('callStatsIntervalSecs', value));
+  }, []);
+  const setEnableVp9Encode = useCallback((value: boolean | undefined) => {
+    drop(itemStorage.put('enableVp9Encode', value));
+  }, []);
+  const setEnableVp9Decode = useCallback((value: boolean | undefined) => {
+    drop(itemStorage.put('enableVp9Decode', value));
   }, []);
   const setDirectMaxBitrate = useCallback((value: number | undefined) => {
     drop(itemStorage.put('directMaxBitrate', value));
   }, []);
-  const setIsGroupVp9Enabled = useCallback((value: boolean | undefined) => {
-    drop(itemStorage.put('isGroupVp9Enabled', value));
-  }, []);
   const setGroupMaxBitrate = useCallback((value: number | undefined) => {
     drop(itemStorage.put('groupMaxBitrate', value));
   }, []);
+  const setIsGroupSvcEnabled = useCallback((value: boolean | undefined) => {
+    drop(itemStorage.put('isGroupSvcEnabled', value));
+  }, []);
+  const setGroupSvcMode = useCallback((value: string | undefined) => {
+    drop(itemStorage.put('groupSvcMode', value));
+  }, []);
+  const setGroupSvcModeForScreenshare = useCallback(
+    (value: string | undefined) => {
+      drop(itemStorage.put('groupSvcModeForScreenshare', value));
+    },
+    []
+  );
   const setSfuUrl = useCallback((value: string | undefined) => {
     drop(itemStorage.put('sfuUrl', value));
   }, []);
@@ -1127,14 +1142,22 @@ export function SmartPreferences(): JSX.Element | null {
         setCqsTestMode={setCqsTestMode}
         dredDuration={items.dredDuration}
         setDredDuration={setDredDuration}
-        setIsDirectVp9Enabled={setIsDirectVp9Enabled}
-        isDirectVp9Enabled={items.isDirectVp9Enabled}
+        callStatsIntervalSecs={items.callStatsIntervalSecs}
+        setCallStatsIntervalSecs={setCallStatsIntervalSecs}
+        enableVp9Encode={items.enableVp9Encode}
+        setEnableVp9Encode={setEnableVp9Encode}
+        enableVp9Decode={items.enableVp9Decode}
+        setEnableVp9Decode={setEnableVp9Decode}
         setDirectMaxBitrate={setDirectMaxBitrate}
         directMaxBitrate={items.directMaxBitrate}
-        setIsGroupVp9Enabled={setIsGroupVp9Enabled}
-        isGroupVp9Enabled={items.isGroupVp9Enabled}
         setGroupMaxBitrate={setGroupMaxBitrate}
         groupMaxBitrate={items.groupMaxBitrate}
+        isGroupSvcEnabled={items.isGroupSvcEnabled}
+        setIsGroupSvcEnabled={setIsGroupSvcEnabled}
+        groupSvcMode={items.groupSvcMode}
+        setGroupSvcMode={setGroupSvcMode}
+        groupSvcModeForScreenshare={items.groupSvcModeForScreenshare}
+        setGroupSvcModeForScreenshare={setGroupSvcModeForScreenshare}
         sfuUrl={items.sfuUrl}
         setSfuUrl={setSfuUrl}
         forceKeyTransparencyCheck={forceKeyTransparencyCheck}

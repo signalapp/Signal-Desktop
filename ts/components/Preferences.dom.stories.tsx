@@ -63,6 +63,10 @@ import { BackupLevel } from '../services/backups/types.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
+import {
+  SVC_DEFAULT_MODE,
+  SVC_DEFAULT_MODE_FOR_SCREENSHARE,
+} from '../calling/constants.std.ts';
 
 const { shuffle } = lodash;
 
@@ -691,14 +695,22 @@ export default {
     setCqsTestMode: action('setCqsTestMode'),
     dredDuration: 0,
     setDredDuration: action('setDredDuration'),
+    callStatsIntervalSecs: undefined,
+    setCallStatsIntervalSecs: action('setCallStatsIntervalSecs'),
     directMaxBitrate: 1000000,
     setDirectMaxBitrate: action('setDirectMaxBitrate'),
-    isDirectVp9Enabled: true,
-    setIsDirectVp9Enabled: action('setIsDirectVp9Enabled'),
-    groupMaxBitrate: 1000000,
+    enableVp9Encode: true,
+    setEnableVp9Encode: action('setEnableVp9Encode'),
+    enableVp9Decode: true,
+    setEnableVp9Decode: action('setEnableVp9Decode'),
+    groupMaxBitrate: undefined,
     setGroupMaxBitrate: action('setGroupMaxBitrate'),
-    isGroupVp9Enabled: false,
-    setIsGroupVp9Enabled: action('setIsDirectVp9Enabled'),
+    isGroupSvcEnabled: false,
+    setIsGroupSvcEnabled: action('setIsGroupSvcEnabled'),
+    groupSvcMode: SVC_DEFAULT_MODE,
+    setGroupSvcMode: action('setGroupSvcMode'),
+    groupSvcModeForScreenshare: SVC_DEFAULT_MODE_FOR_SCREENSHARE,
+    setGroupSvcModeForScreenshare: action('setGroupSvcModeForScreenshare'),
     sfuUrl: 'https://sfu.voip.signal.org',
     setSfuUrl: action('setSfuUrl'),
     forceKeyTransparencyCheck: async () => {

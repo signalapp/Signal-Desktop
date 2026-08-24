@@ -19,3 +19,9 @@ export const REQUESTED_SCREEN_SHARE_FRAMERATE = 5;
 export const MAX_FRAME_WIDTH = 2880;
 export const MAX_FRAME_HEIGHT = 1800;
 export const FRAME_BUFFER_SIZE = MAX_FRAME_WIDTH * MAX_FRAME_HEIGHT * 4;
+
+// SVC defaults for camera and screenshare video
+// Possible mode values are defined in the SVC spec:
+// https://www.w3.org/TR/webrtc-svc/#dependencydiagrams*
+export const SVC_DEFAULT_MODE = 'L3T3_KEY';
+export const SVC_DEFAULT_MODE_FOR_SCREENSHARE = 'L1T3';

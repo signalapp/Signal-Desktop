@@ -331,11 +331,15 @@ export type StorageAccessType = {
 
   // Used for manually controlling calling settings
   dredDuration: number | undefined;
-  isDirectVp9Enabled: boolean | undefined;
+  enableVp9Encode: boolean | undefined;
+  enableVp9Decode: boolean | undefined;
   directMaxBitrate: number | undefined;
-  isGroupVp9Enabled: boolean | undefined;
   groupMaxBitrate: number | undefined;
+  isGroupSvcEnabled: boolean | undefined;
+  groupSvcMode: string | undefined;
+  groupSvcModeForScreenshare: string | undefined;
   sfuUrl: string | undefined;
+  callStatsIntervalSecs: number | undefined;
 
   // Deprecated
   'challenge:retry-message-ids': never;
@@ -356,6 +360,8 @@ export type StorageAccessType = {
   callQualitySurveyCooldownDisabled: never;
   localDeleteWarningShown: never;
   backupKeyViewed: never;
+  isDirectVp9Enabled: never;
+  isGroupVp9Enabled: never;
 };
 
 export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
@@ -580,8 +586,14 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'callQualitySurveyCooldownDisabled',
   'dredDuration',
   'directMaxBitrate',
-  'isDirectVp9Enabled',
+  'enableVp9Encode',
+  'enableVp9Decode',
+  'callStatsIntervalSecs',
   'groupMaxBitrate',
+  'isGroupSvcEnabled',
+  'groupSvcMode',
+  'groupSvcModeForScreenshare',
+  'isDirectVp9Enabled',
   'isGroupVp9Enabled',
   'sfuUrl',
   'svrPin',

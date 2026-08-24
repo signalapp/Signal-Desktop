@@ -141,6 +141,12 @@ if (
     setSfuUrl: async (url: string) => {
       await itemStorage.put('sfuUrl', url);
     },
+    setGroupSvcMode: async (scalabilityMode: string) => {
+      await itemStorage.put('groupSvcMode', scalabilityMode);
+    },
+    setGroupSvcModeForScreenshare: async (scalabilityMode: string) => {
+      await itemStorage.put('groupSvcModeForScreenshare', scalabilityMode);
+    },
     setIceServerOverride: (
       override: GetIceServersResultType | string | undefined
     ) => {

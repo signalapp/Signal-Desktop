@@ -928,6 +928,15 @@ async function startApp(): Promise<void> {
         );
       }
 
+      if (window.isBeforeVersion(lastVersion, '8.28.0-alpha')) {
+        await removeStorageKeyJobQueue.add({
+          key: 'isDirectVp9Enabled',
+        });
+        await removeStorageKeyJobQueue.add({
+          key: 'isGroupVp9Enabled',
+        });
+      }
+
       if (window.isBeforeVersion(lastVersion, '6.45.0-alpha')) {
         await removeStorageKeyJobQueue.add({
           key: 'previousAudioDeviceModule',

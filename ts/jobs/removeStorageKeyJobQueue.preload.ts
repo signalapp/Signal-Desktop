@@ -17,6 +17,8 @@ const removeStorageKeyJobDataSchema = z.object({
     'nextSignedKeyRotationTime',
     'senderCertificateWithUuid',
     'signedKeyRotationRejected',
+    'isDirectVp9Enabled',
+    'isGroupVp9Enabled',
   ]),
 });
 

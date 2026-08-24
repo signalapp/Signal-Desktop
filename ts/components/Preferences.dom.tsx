@@ -223,10 +223,14 @@ export type PropsDataType = {
 
   // calling internal preferences
   dredDuration: number | undefined;
-  isDirectVp9Enabled: boolean | undefined;
+  callStatsIntervalSecs: number | undefined;
+  enableVp9Encode: boolean | undefined;
+  enableVp9Decode: boolean | undefined;
   directMaxBitrate: number | undefined;
-  isGroupVp9Enabled: boolean | undefined;
   groupMaxBitrate: number | undefined;
+  isGroupSvcEnabled: boolean | undefined;
+  groupSvcMode: string | undefined;
+  groupSvcModeForScreenshare: string | undefined;
   sfuUrl: string | undefined;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
@@ -372,10 +376,14 @@ type PropsFunctionType = {
   cqsTestMode: boolean;
   setCqsTestMode: (value: boolean) => void;
   setDredDuration: (value: number | undefined) => void;
-  setIsDirectVp9Enabled: (value: boolean | undefined) => void;
+  setCallStatsIntervalSecs: (value: number | undefined) => void;
+  setEnableVp9Encode: (value: boolean | undefined) => void;
+  setEnableVp9Decode: (value: boolean | undefined) => void;
   setDirectMaxBitrate: (value: number | undefined) => void;
-  setIsGroupVp9Enabled: (value: boolean | undefined) => void;
   setGroupMaxBitrate: (value: number | undefined) => void;
+  setIsGroupSvcEnabled: (value: boolean | undefined) => void;
+  setGroupSvcMode: (value: string | undefined) => void;
+  setGroupSvcModeForScreenshare: (value: string | undefined) => void;
   setSfuUrl: (value: string | undefined) => void;
   forceKeyTransparencyCheck: () => Promise<void>;
   keyTransparencySelfHealth: StorageAccessType['keyTransparencySelfHealth'];
@@ -610,14 +618,22 @@ export function Preferences({
   setCqsTestMode,
   setDredDuration,
   dredDuration,
-  setIsDirectVp9Enabled,
-  isDirectVp9Enabled,
+  callStatsIntervalSecs,
+  setCallStatsIntervalSecs,
+  setEnableVp9Encode,
+  enableVp9Encode,
+  setEnableVp9Decode,
+  enableVp9Decode,
   setDirectMaxBitrate,
   directMaxBitrate,
-  setIsGroupVp9Enabled,
-  isGroupVp9Enabled,
   setGroupMaxBitrate,
   groupMaxBitrate,
+  isGroupSvcEnabled,
+  setIsGroupSvcEnabled,
+  groupSvcMode,
+  setGroupSvcMode,
+  groupSvcModeForScreenshare,
+  setGroupSvcModeForScreenshare,
   setSfuUrl,
   sfuUrl,
   forceKeyTransparencyCheck,
@@ -2254,14 +2270,22 @@ export function Preferences({
             setCqsTestMode={setCqsTestMode}
             dredDuration={dredDuration}
             setDredDuration={setDredDuration}
-            setIsDirectVp9Enabled={setIsDirectVp9Enabled}
-            isDirectVp9Enabled={isDirectVp9Enabled}
+            callStatsIntervalSecs={callStatsIntervalSecs}
+            setCallStatsIntervalSecs={setCallStatsIntervalSecs}
+            setEnableVp9Encode={setEnableVp9Encode}
+            enableVp9Encode={enableVp9Encode}
+            setEnableVp9Decode={setEnableVp9Decode}
+            enableVp9Decode={enableVp9Decode}
             setDirectMaxBitrate={setDirectMaxBitrate}
             directMaxBitrate={directMaxBitrate}
-            setIsGroupVp9Enabled={setIsGroupVp9Enabled}
-            isGroupVp9Enabled={isGroupVp9Enabled}
             setGroupMaxBitrate={setGroupMaxBitrate}
             groupMaxBitrate={groupMaxBitrate}
+            isGroupSvcEnabled={isGroupSvcEnabled}
+            setIsGroupSvcEnabled={setIsGroupSvcEnabled}
+            groupSvcMode={groupSvcMode}
+            setGroupSvcMode={setGroupSvcMode}
+            groupSvcModeForScreenshare={groupSvcModeForScreenshare}
+            setGroupSvcModeForScreenshare={setGroupSvcModeForScreenshare}
             sfuUrl={sfuUrl}
             setSfuUrl={setSfuUrl}
             forceKeyTransparencyCheck={forceKeyTransparencyCheck}
