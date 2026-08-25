@@ -3007,7 +3007,7 @@ export class Message extends PureComponent<Props, State> {
     this.setState(oldState => {
       const { reactionViewerRoot } = oldState;
       if (reactionViewerRoot) {
-        document.body.removeChild(reactionViewerRoot);
+        reactionViewerRoot.parentNode?.removeChild(reactionViewerRoot);
 
         oldState.reactionViewerOutsideClickDestructor?.();
 
