@@ -92,6 +92,10 @@ export function initializeRedux(data: ReduxInitData): void {
       store.dispatch
     ),
     megaphones: bindActionCreators(actionCreators.megaphones, store.dispatch),
+    messageTranslation: bindActionCreators(
+      actionCreators.messageTranslation,
+      store.dispatch
+    ),
     nav: bindActionCreators(actionCreators.nav, store.dispatch),
     network: bindActionCreators(actionCreators.network, store.dispatch),
     notificationProfiles: bindActionCreators(

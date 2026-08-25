@@ -25,6 +25,7 @@ import { actions as lightbox } from './ducks/lightbox.preload.ts';
 import { actions as linkPreviews } from './ducks/linkPreviews.preload.ts';
 import { actions as mediaGallery } from './ducks/mediaGallery.preload.ts';
 import { actions as megaphones } from './ducks/megaphones.preload.ts';
+import { actions as messageTranslation } from './ducks/messageTranslation.preload.ts';
 import { actions as nav } from './ducks/nav.std.ts';
 import { actions as network } from './ducks/network.dom.ts';
 import { actions as notificationProfiles } from './ducks/notificationProfiles.preload.ts';
@@ -65,6 +66,7 @@ export const actionCreators: ReduxActions = {
   linkPreviews,
   mediaGallery,
   megaphones,
+  messageTranslation,
   nav,
   network,
   notificationProfiles,

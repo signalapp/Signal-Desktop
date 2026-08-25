@@ -82,6 +82,7 @@ export const CallingNotification: FC<PropsType> = memo(
         onRetryMessageSend={null}
         onRetryDeleteForEveryone={null}
         onCopy={null}
+        onTranslate={null}
         onSelect={null}
         onForward={null}
         onMoreInfo={null}

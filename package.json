@@ -128,6 +128,7 @@
     "@signalapp/mute-state-change": "workspace:*",
     "@signalapp/ringrtc": "2.70.2",
     "@signalapp/sqlcipher": "4.0.5",
+    "@signalapp/translate-native": "workspace:*",
     "@signalapp/types": "workspace:*",
     "@signalapp/windows-ucv": "workspace:*",
     "google-libphonenumber": "3.2.44"
@@ -624,6 +625,7 @@
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/@signalapp/windows-ucv/build/Release/*.node",
       "node_modules/@signalapp/mute-state-change/build/Release/*.node",
+      "node_modules/@signalapp/translate-native/build/Release/*.node",
       "node_modules/@indutny/simple-windows-notifications/prebuilds/${platform}-${arch}/*.node",
       "node_modules/@indutny/mac-screen-share/prebuilds/${platform}-${arch}/*.node",
       "node_modules/fs-xattr/build/Release/*.node",

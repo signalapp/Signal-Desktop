@@ -16,6 +16,7 @@ const external = [
   '@signalapp/sqlcipher',
   '@signalapp/mute-state-change',
   '@signalapp/windows-ucv',
+  '@signalapp/translate-native',
   '@indutny/simple-windows-notifications',
   '@indutny/mac-screen-share',
   '@napi-rs/canvas',

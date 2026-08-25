@@ -347,6 +347,10 @@
     "messageformat": "No Suggestions",
     "description": "Shown in the context menu for a misspelled word to indicate that there are no suggestions to replace the misspelled word"
   },
+  "icu:contextMenuTranslate": {
+    "messageformat": "Translate",
+    "description": "Shown in the context menu for selected text to indicate that the user can translate it using the system Translate feature (macOS only)"
+  },
   "icu:avatarMenuViewArchive": {
     "messageformat": "View Archive",
     "description": "One of the menu options available in the Avatar popup menu"
@@ -1549,6 +1553,38 @@
   "icu:MessageContextMenu__download": {
     "messageformat": "Download",
     "description": "Shown on the drop-down menu for an individual message when there isnt room for a dedicated button and when there's only a single attachment, downloads an attachment"
+  },
+  "icu:MessageContextMenu__translate": {
+    "messageformat": "Translate",
+    "description": "Shown on the drop-down menu for an individual message, translates the message body inline (macOS only)"
+  },
+  "icu:MessageTranslation__pending": {
+    "messageformat": "Translating…",
+    "description": "Shown below a message body while its inline translation is in progress"
+  },
+  "icu:MessageTranslation__error": {
+    "messageformat": "Couldn't translate this message",
+    "description": "Shown below a message body when its inline translation failed"
+  },
+  "icu:MessageTranslation__language-not-installed": {
+    "messageformat": "Download this language in System Settings to translate",
+    "description": "Shown below a message body when translation failed because the language pack isn't downloaded yet — not retryable until the user installs it"
+  },
+  "icu:MessageTranslation__retry": {
+    "messageformat": "Retry",
+    "description": "Button shown below a message body to retry a failed translation"
+  },
+  "icu:MessageTranslation__translated-from": {
+    "messageformat": "Translated from {language}",
+    "description": "Shown below a translated message body, naming the detected source language"
+  },
+  "icu:MessageTranslation__see-original": {
+    "messageformat": "See original",
+    "description": "Button shown below a translated message body to switch back to the original text"
+  },
+  "icu:MessageTranslation__show-translation": {
+    "messageformat": "Show translation",
+    "description": "Button shown below a message body (when currently showing the original) to switch to the translated text"
   },
   "icu:MessageContextMenu__deleteMessage": {
     "messageformat": "Delete",

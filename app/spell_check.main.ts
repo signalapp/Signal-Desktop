@@ -13,6 +13,7 @@ import { strictAssert } from '../ts/util/assert.std.ts';
 import type { LoggerType } from '../ts/types/Logging.std.ts';
 import { createLogger } from '../ts/logging/log.std.ts';
 import { handleAttachmentRequest } from './attachment_channel.main.ts';
+import translateNative from '@signalapp/translate-native';
 
 const log = createLogger('spell_check');
 
@@ -125,6 +126,17 @@ export const setup = (
             enabled: false,
           });
         }
+        template.push({ type: 'separator' });
+      }
+
+      const selectionText = params.selectionText.trim();
+      if (selectionText && translateNative?.isAvailable()) {
+        template.push({
+          label: i18n('icu:contextMenuTranslate'),
+          click: () => {
+            translateNative?.showTranslation(selectionText);
+          },
+        });
         template.push({ type: 'separator' });
       }
 

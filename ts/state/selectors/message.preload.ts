@@ -1001,6 +1001,7 @@ const getPropsForMessage = (
           }),
     payment,
     canCopy: canCopy(message),
+    canTranslate: canTranslate(message, bodyRanges),
     canEditMessage: canEditMessage(message) && !isGroupTerminated,
     canDeleteForEveryone: canDeleteForEveryoneInSelector(message, {
       conversation,
@@ -2444,6 +2445,29 @@ function canCopy(
   message: Pick<MessageWithUIFieldsType, 'body' | 'deletedForEveryone'>
 ): boolean {
   return !message.deletedForEveryone && Boolean(message.body);
+}
+
+// Native-availability (macOS 26+) is checked separately, in the component
+// layer where redux state is reachable — this only reflects whether the
+// message itself is the kind of thing that could ever be translated.
+//
+// Messages with a spoiler range are excluded entirely: translated text has
+// no reliable mapping back to the original's spoiler byte offsets (the
+// renderer already has to drop bodyRanges wholesale when showing translated
+// text — see Message.dom.tsx renderText()), so there is no safe way to keep
+// the spoiler hidden in the translated view. Never risk exposing it.
+export function canTranslate(
+  message: Pick<MessageWithUIFieldsType, 'body' | 'deletedForEveryone'>,
+  bodyRanges: HydratedBodyRangesType | undefined
+): boolean {
+  const hasSpoiler = bodyRanges?.some(
+    range => 'style' in range && range.style === BodyRange.Style.SPOILER
+  );
+  return (
+    !message.deletedForEveryone &&
+    Boolean(message.body?.trim()) &&
+    !hasSpoiler
+  );
 }
 
 type CanDeleteForEveryoneConversation = Pick<

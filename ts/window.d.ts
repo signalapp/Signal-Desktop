@@ -35,6 +35,18 @@ export type IPCType = {
     writeToLog: () => Promise<void>;
     erase: () => Promise<void>;
   };
+  translate: {
+    isAvailable: () => Promise<{ available: boolean }>;
+    detect: (texts: ReadonlyArray<string>) => Promise<ReadonlyArray<string>>;
+    batch: (
+      sourceLang: string,
+      targetLang: string,
+      texts: ReadonlyArray<string>
+    ) => Promise<
+      | { ok: true; texts: ReadonlyArray<string> }
+      | { ok: false; code: string }
+    >;
+  };
   drawAttention: () => void;
   getAutoLaunch: () => Promise<boolean | undefined>;
   getMediaAccessStatus: (

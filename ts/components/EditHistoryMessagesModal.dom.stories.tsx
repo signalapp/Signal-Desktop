@@ -19,6 +19,7 @@ function getMockMessageProps(): MessagePropsType {
     id: '',
     author: getDefaultConversation(),
     canCopy: false,
+    canTranslate: false,
     canDeleteForEveryone: false,
     canDownload: false,
     canEditMessage: false,

@@ -99,6 +99,12 @@ const IPC: IPCType = {
     writeToLog: () => ipc.invoke('crash-reports:write-to-log'),
     erase: () => ipc.invoke('crash-reports:erase'),
   },
+  translate: {
+    isAvailable: () => ipc.invoke('translate:is-available'),
+    detect: texts => ipc.invoke('translate:detect', texts),
+    batch: (sourceLang, targetLang, texts) =>
+      ipc.invoke('translate:batch', { sourceLang, targetLang, texts }),
+  },
   drawAttention: () => {
     log.info('draw attention');
     ipc.send('draw-attention');

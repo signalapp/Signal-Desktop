@@ -8,6 +8,13 @@ import { useSelector } from 'react-redux';
 import { TimelineItem } from '../../components/conversation/TimelineItem.dom.tsx';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
+import { useMessageTranslationActions } from '../ducks/messageTranslation.preload.ts';
+import {
+  getMessageTranslationAvailability,
+  getMessageTranslationEntry,
+  getMessageTranslationShowingOriginal,
+} from '../selectors/messageTranslation.std.ts';
+import type { StateType } from '../reducer.preload.ts';
 import { useComposerActions } from '../ducks/composer.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useAccountsActions } from '../ducks/accounts.preload.ts';
@@ -184,6 +191,16 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     toggleSelectMessage,
   } = useConversationsActions();
 
+  const { translateMessage, toggleShowOriginal } =
+    useMessageTranslationActions();
+  const translationAvailable = useSelector(getMessageTranslationAvailability);
+  const translation = useSelector((state: StateType) =>
+    getMessageTranslationEntry(state, messageId)
+  );
+  const translationShowingOriginal = useSelector((state: StateType) =>
+    getMessageTranslationShowingOriginal(state, messageId)
+  );
+
   const { pushPanelForConversation } = useNavActions();
 
   const {
@@ -285,6 +302,11 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       endPoll={endPoll}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      translationAvailable={translationAvailable}
+      translateMessage={translateMessage}
+      translation={translation}
+      translationShowingOriginal={translationShowingOriginal}
+      onToggleShowOriginalTranslation={toggleShowOriginal}
       handleDebugMessage={handleDebugMessage}
       onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
       onOpenMessageRequestActionsConfirmation={

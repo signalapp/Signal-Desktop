@@ -1265,6 +1265,14 @@ async function startApp(): Promise<void> {
       window.reduxActions.crashReports.setCrashReportCount(
         await window.IPC.crashReports.getCount()
       );
+
+      const translateAvailability = await window.IPC.translate.isAvailable();
+      window.reduxActions.messageTranslation.setMessageTranslationAvailability(
+        translateAvailability.available ? 'available' : 'unavailable'
+      );
+      window.reduxActions.messageTranslation.setTargetLanguage(
+        window.SignalContext.getResolvedMessagesLocale().split(/[-_]/)[0]
+      );
     }
   });
   // end of storage.onready() callback

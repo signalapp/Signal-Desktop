@@ -394,6 +394,7 @@ function CollapseSetButton(
       onRetryMessageSend={null}
       onRetryDeleteForEveryone={null}
       onCopy={null}
+      onTranslate={null}
       onSelect={props.onSelect}
       onForward={null}
       onMoreInfo={null}

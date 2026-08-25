@@ -27,6 +27,7 @@ import { reducer as lightbox } from './ducks/lightbox.preload.ts';
 import { reducer as linkPreviews } from './ducks/linkPreviews.preload.ts';
 import { reducer as mediaGallery } from './ducks/mediaGallery.preload.ts';
 import { reducer as megaphones } from './ducks/megaphones.preload.ts';
+import { reducer as messageTranslation } from './ducks/messageTranslation.preload.ts';
 import { reducer as nav } from './ducks/nav.std.ts';
 import { reducer as network } from './ducks/network.dom.ts';
 import { reducer as notificationProfiles } from './ducks/notificationProfiles.preload.ts';
@@ -67,6 +68,7 @@ export const reducer = combineReducers({
   linkPreviews,
   mediaGallery,
   megaphones,
+  messageTranslation,
   nav,
   network,
   notificationProfiles,

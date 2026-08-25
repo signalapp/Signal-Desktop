@@ -12,6 +12,8 @@ import type {
   MouseEvent,
 } from 'react';
 import { forwardRef, useRef, PureComponent, createRef } from 'react';
+import type { MessageTranslationEntryType } from '../../state/ducks/messageTranslation.preload.ts';
+import { MessageTranslationFooter } from './MessageTranslationFooter.dom.tsx';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { direction as getDirection } from 'direction';
@@ -81,6 +83,7 @@ import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.t
 import { getIncrement } from '../../util/timer.std.ts';
 import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { BodyRange } from '../../types/BodyRange.std.ts';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 
@@ -222,6 +225,11 @@ export type PropsData = {
   displayLimit?: number;
   activeCallConversationId?: string;
   text?: string;
+  // Both optional and supplied outside the getPropsForMessage selector chain
+  // (by TimelineMessage, from the messageTranslation redux slice) — see the
+  // note on `canTranslate` in TimelineMessage.dom.tsx for why.
+  translation?: MessageTranslationEntryType;
+  translationShowingOriginal?: boolean;
   textDirection: TextDirection;
   textAttachment?: AttachmentForUIType;
   isEditedMessage?: boolean;
@@ -368,6 +376,8 @@ export type PropsActions = {
   endPoll: (messageId: string) => void;
   showContactModal: (payload: ContactModalStateType) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
+  onToggleShowOriginalTranslation?: (messageId: string) => void;
+  translateMessage?: (messageId: string, text: string) => void;
 
   cancelAttachmentDownload: (options: { messageId: string }) => void;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
@@ -2449,6 +2459,10 @@ export class Message extends PureComponent<Props, State> {
       showConversation,
       showSpoiler,
       status,
+      translation,
+      translationShowingOriginal,
+      onToggleShowOriginalTranslation,
+      translateMessage,
 
       textAttachment,
     } = this.props;
@@ -2458,6 +2472,28 @@ export class Message extends PureComponent<Props, State> {
     if (messageStatusContents == null && text == null) {
       return null;
     }
+
+    // Defense in depth: canTranslate() (message.preload.ts) already excludes
+    // spoiler messages from ever being translated, but never trust a single
+    // gate for something privacy-critical — re-check here too, so a stale
+    // translation fetched before a hypothetical future edit-in-spoiler path
+    // can never render unredacted spoiler text.
+    const hasSpoiler = bodyRanges?.some(
+      range => 'style' in range && range.style === BodyRange.Style.SPOILER
+    );
+    const showingTranslation =
+      !hasSpoiler &&
+      translation?.status === 'done' &&
+      translation.translatedText != null &&
+      !translationShowingOriginal;
+    const displayText = showingTranslation
+      ? translation.translatedText
+      : text;
+    // Mention/spoiler/style bodyRanges are byte offsets into the *original*
+    // text — applying them to translated text would misalign or crash the
+    // renderer. Losing that formatting on the translated view is the
+    // correct trade; "See original" restores both the text and the ranges.
+    const displayBodyRanges = showingTranslation ? undefined : bodyRanges;
 
     // Payment notifications are rendered in renderPayment, but they may have additional
     // text in message.body for backwards-compatibility that we don't want to render
@@ -2498,7 +2534,7 @@ export class Message extends PureComponent<Props, State> {
         {messageStatusContents != null && messageStatusContents}
         {messageStatusContents == null && text != null && (
           <MessageBodyReadMore
-            bodyRanges={bodyRanges}
+            bodyRanges={displayBodyRanges}
             direction={direction}
             disableLinks={!this.#areLinksEnabled()}
             displayLimit={displayLimit}
@@ -2520,12 +2556,28 @@ export class Message extends PureComponent<Props, State> {
             showConversation={showConversation}
             renderLocation={RenderLocation.Timeline}
             onExpandSpoiler={data => showSpoiler(id, data)}
-            text={text}
+            text={displayText ?? text}
             textAttachment={textAttachment}
           />
         )}
         {this.#getMetadataPlacement() === MetadataPlacement.InlineWithText && (
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
+        )}
+        {translation != null && onToggleShowOriginalTranslation != null && (
+          <MessageTranslationFooter
+            i18n={i18n}
+            direction={direction}
+            translation={translation}
+            showingOriginal={Boolean(translationShowingOriginal)}
+            onToggleShowOriginal={() =>
+              onToggleShowOriginalTranslation(id)
+            }
+            onRetry={() => {
+              if (text) {
+                translateMessage?.(id, text);
+              }
+            }}
+          />
         )}
       </div>
     );

@@ -22,6 +22,7 @@ import type {
   PropsHousekeeping,
 } from './Message.dom.tsx';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.ts';
+import type { MessageTranslationEntryType } from '../../state/ducks/messageTranslation.preload.ts';
 import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.tsx';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts.dom.tsx';
 import { PanelType } from '../../types/Panels.std.ts';
@@ -46,6 +47,18 @@ const { noop } = lodash;
 export type PropsData = {
   canDownload: boolean;
   canCopy: boolean;
+  // Purely message-shape-derived (has non-empty text). Whether translation
+  // is actually *available* on this platform/OS is a separate, global
+  // capability supplied outside the per-message selector chain — see
+  // `translationAvailable` in PropsActions below (this type flows through
+  // `getPropsForMessage`, which has no reach into the messageTranslation
+  // redux slice; `translationAvailable` deliberately doesn't).
+  canTranslate: boolean;
+  // Resolved by the smart container (TimelineItem.preload.tsx) from the
+  // messageTranslation redux slice for this specific message id, then
+  // spread straight through to <Message> below via {...props}.
+  translation?: MessageTranslationEntryType;
+  translationShowingOriginal?: boolean;
   canEditMessage: boolean;
   canEndPoll: boolean;
   canForward: boolean;
@@ -75,6 +88,11 @@ export type PropsActions = {
     optionIndexes: ReadonlyArray<number>;
   }) => void;
   copyMessageText: (id: string) => void;
+  // Global capability flag — not derived from this message. See the note on
+  // `canTranslate` in PropsData above for why it lives here instead.
+  translationAvailable: boolean;
+  translateMessage: (id: string, text: string) => void;
+  onToggleShowOriginalTranslation?: (id: string) => void;
   retryDeleteForEveryone: (id: string) => void;
   setMessageToEdit: (conversationId: string, messageId: string) => unknown;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
@@ -107,6 +125,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     attachments,
     canDownload,
     canCopy,
+    canTranslate,
     canEditMessage,
     canEndPoll,
     canForward,
@@ -127,6 +146,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     isTargeted,
     kickOffAttachmentDownload,
     copyMessageText,
+    translationAvailable,
+    translateMessage,
     endPoll,
     expirationLength,
     handleDebugMessage,
@@ -144,6 +165,8 @@ export function TimelineMessage(props: Props): JSX.Element {
     setQuoteByMessageId,
     setMessageToEdit,
     text,
+    translation,
+    translationShowingOriginal,
     timestamp,
     toggleDeleteMessagesModal,
     toggleForwardMessagesModal,
@@ -268,8 +291,17 @@ export function TimelineMessage(props: Props): JSX.Element {
     ]
   );
 
+  // Reflect the text actually on screen, not the pre-translation original —
+  // otherwise a message that reads short in its original language but long
+  // once translated computes this from stale length info.
+  const displayedText =
+    translation?.status === 'done' &&
+    translation.translatedText != null &&
+    !translationShowingOriginal
+      ? translation.translatedText
+      : text;
   const shouldShowAdditional =
-    doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
+    doesMessageBodyOverflow(displayedText || '') || !isWindowWidthNotNarrow;
 
   const canSelect = interactivity === MessageInteractivity.Normal;
 
@@ -340,6 +372,11 @@ export function TimelineMessage(props: Props): JSX.Element {
             canRetryDeleteForEveryone ? () => retryDeleteForEveryone(id) : null
           }
           onCopy={canCopy ? () => copyMessageText(id) : null}
+          onTranslate={
+            canTranslate && translationAvailable
+              ? () => translateMessage(id, text)
+              : null
+          }
           onSelect={
             canSelect
               ? () => toggleSelectMessage(conversationId, id, false, true)
@@ -378,6 +415,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     },
     [
       canCopy,
+      canTranslate,
       canEditMessage,
       canForward,
       canPinMessage,
@@ -387,6 +425,8 @@ export function TimelineMessage(props: Props): JSX.Element {
       canRetryDeleteForEveryone,
       conversationId,
       copyMessageText,
+      translationAvailable,
+      translateMessage,
       handleDebugMessage,
       handleDownload,
       handleReact,
@@ -397,6 +437,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       i18n,
       id,
       isPinned,
+      text,
       pushPanelForConversation,
       retryDeleteForEveryone,
       retryMessageSend,

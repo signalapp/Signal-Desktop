@@ -21,6 +21,7 @@ type MessageContextMenuProps = Readonly<{
   onRetryMessageSend: (() => void) | null;
   onRetryDeleteForEveryone: (() => void) | null;
   onCopy: (() => void) | null;
+  onTranslate: (() => void) | null;
   onForward: (() => void) | null;
   onDeleteMessage: (() => void) | null;
   onPinMessage: (() => void) | null;
@@ -44,6 +45,7 @@ export function MessageContextMenu({
   onEndPoll,
   onMoreInfo,
   onCopy,
+  onTranslate,
   onSelect,
   onRetryMessageSend,
   onRetryDeleteForEveryone,
@@ -130,6 +132,11 @@ export function MessageContextMenu({
         {onCopy && (
           <AxoMenuBuilder.Item symbol="copy" onSelect={onCopy}>
             {i18n('icu:copy')}
+          </AxoMenuBuilder.Item>
+        )}
+        {onTranslate && (
+          <AxoMenuBuilder.Item symbol="globe" onSelect={onTranslate}>
+            {i18n('icu:MessageContextMenu__translate')}
           </AxoMenuBuilder.Item>
         )}
         {onPinMessage && (
