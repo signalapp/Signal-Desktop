@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode, JSX } from 'react';
 import { memo, useCallback, useMemo, useState } from 'react';
-import type { MuteExpiration } from '@signalapp/types';
+import { MuteExpiration } from '@signalapp/types';
 
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
 import type { LocalizerType } from '../../types/I18N.std.ts';
@@ -88,6 +88,10 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       });
     }, [muteExpiresAt, i18n, conversation]);
 
+    const isMuted = useMemo(() => {
+      return isConversationMuted(conversation);
+    }, [conversation]);
+
     const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] =
       useState(false);
 
@@ -125,6 +129,10 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
       },
       [onUpdateMute, conversationId]
     );
+
+    const handleUnmute = useCallback(() => {
+      onUpdateMute(conversationId, MuteExpiration.UNMUTED);
+    }, [onUpdateMute, conversationId]);
 
     const handleArchive = useCallback(() => {
       onArchive(conversationId);
@@ -184,14 +192,20 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
                 {i18n('icu:unpinConversation')}
               </AxoContextMenu.Item>
             )}
-            <MuteNotificationsSubMenu
-              i18n={i18n}
-              renderer="AxoContextMenu"
-              title={i18n('icu:muteNotificationsTitle')}
-              options={muteMenu.options}
-              label={muteMenu.label}
-              onMuteExpiration={handleUpdateMute}
-            />
+            {isMuted ? (
+              <AxoContextMenu.Item symbol="bell" onSelect={handleUnmute}>
+                {i18n('icu:unmute')}
+              </AxoContextMenu.Item>
+            ) : (
+              <MuteNotificationsSubMenu
+                i18n={i18n}
+                renderer="AxoContextMenu"
+                title={i18n('icu:muteNotificationsTitle')}
+                options={muteMenu.options}
+                label={muteMenu.label}
+                onMuteExpiration={handleUpdateMute}
+              />
+            )}
             {!props.isActivelySearching &&
               isSelectedChatFolderAllChats &&
               props.currentChatFolders.hasAnyCurrentCustomChatFolders && (

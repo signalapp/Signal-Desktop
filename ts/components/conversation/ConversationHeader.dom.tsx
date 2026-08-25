@@ -667,6 +667,7 @@ function HeaderDropdownMenuContent({
   onViewConversationDetails: () => void;
 }) {
   const muteMenu = getConversationMuteMenu(conversation.muteExpiresAt, i18n);
+  const isMuted = isConversationMuted(conversation);
   const isGroup = conversation.type === 'group';
   const disableTimerChanges =
     !conversation.canChangeTimer ||
@@ -700,6 +701,10 @@ function HeaderDropdownMenuContent({
     },
     [onChangeDisappearingMessages]
   );
+
+  const onUnmute = useCallback(() => {
+    onChangeMuteExpiration(MuteExpiration.UNMUTED);
+  }, [onChangeMuteExpiration]);
 
   if (isSelectMode) {
     return null;
@@ -842,14 +847,20 @@ function HeaderDropdownMenuContent({
               </AxoDropdownMenu.SubContent>
             </AxoDropdownMenu.Sub>
           )}
-          <MuteNotificationsSubMenu
-            i18n={i18n}
-            renderer="AxoDropdownMenu"
-            title={i18n('icu:muteNotificationsTitle')}
-            label={muteMenu.label}
-            options={muteMenu.options}
-            onMuteExpiration={onChangeMuteExpiration}
-          />
+          {isMuted ? (
+            <AxoDropdownMenu.Item symbol="bell" onSelect={onUnmute}>
+              {i18n('icu:unmute')}
+            </AxoDropdownMenu.Item>
+          ) : (
+            <MuteNotificationsSubMenu
+              i18n={i18n}
+              renderer="AxoDropdownMenu"
+              title={i18n('icu:muteNotificationsTitle')}
+              label={muteMenu.label}
+              options={muteMenu.options}
+              onMuteExpiration={onChangeMuteExpiration}
+            />
+          )}
           {!isGroup || hasGV2AdminEnabled ? (
             <AxoDropdownMenu.Item
               symbol="settings"
