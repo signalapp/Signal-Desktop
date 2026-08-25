@@ -3,6 +3,8 @@
 
 import { memo, useCallback, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
+import type { MuteExpiration } from '@signalapp/types';
+
 import { useContactNameData } from '../../components/conversation/ContactName.dom.tsx';
 import {
   ConversationHeader,
@@ -141,7 +143,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     onMarkUnread,
     onMoveToInbox,
     setDisappearingMessages,
-    setMuteDuration,
+    setMuteExpiration,
     setPinned,
     toggleSelectMode,
     acceptConversation,
@@ -227,10 +229,10 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   }, [onMarkUnread, conversation.id]);
 
   const onConversationMuteExpirationChange = useCallback(
-    (seconds: number) => {
-      setMuteDuration(conversation.id, seconds);
+    (expiration: MuteExpiration) => {
+      setMuteExpiration(conversation.id, expiration);
     },
-    [setMuteDuration, conversation.id]
+    [setMuteExpiration, conversation.id]
   );
 
   const onConversationPin = useCallback(() => {

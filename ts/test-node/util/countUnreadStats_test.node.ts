@@ -3,6 +3,8 @@
 
 import assert from 'node:assert/strict';
 import { v4 as generateUuid } from 'uuid';
+import { MuteExpiration } from '@signalapp/types';
+
 import {
   _canCountConversation,
   _countConversation,
@@ -23,11 +25,11 @@ import type { ChatFolderId } from '../../types/ChatFolder.std.ts';
 import { CHAT_FOLDER_DEFAULTS } from '../../types/ChatFolder.std.ts';
 
 function getFutureMutedTimestamp() {
-  return Date.now() + 12345;
+  return MuteExpiration.fromNumber(Date.now() + 12345);
 }
 
 function getPastMutedTimestamp() {
-  return Date.now() - 1000;
+  return MuteExpiration.fromNumber(Date.now() - 1000);
 }
 
 type ChatProps = Partial<ConversationPropsForUnreadStats>;

@@ -11,9 +11,9 @@ import {
   getCheckedTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils.std.ts';
 import { MAX_SAFE_DATE } from '../../util/timestamp.std.ts';
-import { MAX_VALUE } from '../../util/long.std.ts';
 
 import { toNumber } from '../../util/toNumber.std.ts';
+import { BigInt64 } from '@signalapp/types';
 
 describe('getSafeLongFromTimestamp', () => {
   it('returns zero when passed undefined', () => {
@@ -33,10 +33,10 @@ describe('getSafeLongFromTimestamp', () => {
     );
   });
 
-  it('returns MAX_VALUE when passed Infinity and overriden', () => {
+  it('returns BigInt64.MAX when passed Infinity and overriden', () => {
     assert.strictEqual(
-      getSafeLongFromTimestamp(Infinity, MAX_VALUE),
-      MAX_VALUE
+      getSafeLongFromTimestamp(Infinity, BigInt64.MAX),
+      BigInt64.MAX
     );
   });
 
@@ -57,8 +57,8 @@ describe('getTimestampFromLong', () => {
     assert.equal(getTimestampFromLong(0n), 0);
   });
 
-  it('returns MAX_SAFE_DATE when passed MAX_VALUE', () => {
-    assert.equal(getTimestampFromLong(MAX_VALUE), MAX_SAFE_DATE);
+  it('returns MAX_SAFE_DATE when passed BigInt64.MAX', () => {
+    assert.equal(getTimestampFromLong(BigInt64.MAX), MAX_SAFE_DATE);
   });
 
   it('returns a normal number', () => {
@@ -79,8 +79,8 @@ describe('getCheckedTimestampFromLong', () => {
     assert.throws(() => getCheckedTimestampFromLong(BigInt(-1)));
   });
 
-  it('throws on MAX_VALUE', () => {
-    assert.throws(() => getCheckedTimestampFromLong(MAX_VALUE));
+  it('throws on BigInt64.MAX', () => {
+    assert.throws(() => getCheckedTimestampFromLong(BigInt64.MAX));
   });
 
   it('does not throw otherwise', () => {
@@ -93,8 +93,8 @@ describe('getTimestampOrUndefinedFromLong', () => {
     assert.equal(getTimestampOrUndefinedFromLong(0n), undefined);
   });
 
-  it('returns MAX_SAFE_DATE when passed MAX_VALUE', () => {
-    assert.equal(getTimestampOrUndefinedFromLong(MAX_VALUE), MAX_SAFE_DATE);
+  it('returns MAX_SAFE_DATE when passed BigInt64.MAX', () => {
+    assert.equal(getTimestampOrUndefinedFromLong(BigInt64.MAX), MAX_SAFE_DATE);
   });
 
   it('returns a normal number', () => {

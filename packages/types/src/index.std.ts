@@ -27,6 +27,7 @@ export { DurationMs } from './datetime/DurationMs.std.ts';
 export { DurationSecs } from './datetime/DurationSecs.std.ts';
 export { DurationDays } from './datetime/DurationDays.std.ts';
 export { PlainTimeHourMin } from './datetime/PlainTimeHourMin.std.ts';
+export { MuteExpiration } from './datetime/MuteExpiration.std.ts';
 
 export { Bytes } from './encodings/Bytes.std.ts';
 export { Base64 } from './encodings/Base64.std.ts';

@@ -4,6 +4,7 @@
 import { useContext, type JSX } from 'react';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
+import { MuteExpiration } from '@signalapp/types';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Row, PropsType } from './ConversationList.dom.tsx';
@@ -510,7 +511,7 @@ export const ConversationMissingText = (): JSX.Element =>
 
 export const ConversationMutedConversation = (): JSX.Element =>
   renderConversation({
-    muteExpiresAt: Date.now() + 1000 * 60 * 60,
+    muteExpiresAt: MuteExpiration.fromNumber(Date.now() + 1000 * 60 * 60),
   });
 
 export const ConversationAtMention = (): JSX.Element =>

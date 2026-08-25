@@ -8,6 +8,7 @@ import pTimeout from 'p-timeout';
 import { Readable } from 'node:stream';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
+import { MuteExpiration } from '@signalapp/types';
 
 import { Backups, SignalService } from '../../protobuf/index.std.ts';
 import {
@@ -187,7 +188,6 @@ import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import { expiresTooSoonForBackup } from './util/expiration.std.ts';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
-import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.ts';
 import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
 import { safeParseStrict } from '../../util/schemas.std.ts';
 import type { WithRequiredProperties } from '../../types/Util.std.ts';
@@ -662,7 +662,7 @@ export class BackupExportStream extends Readable {
               : null,
           expireTimerVersion: attributes.expireTimerVersion,
           muteUntilMs: attributes.muteExpiresAt
-            ? getSafeLongFromTimestamp(attributes.muteExpiresAt, LONG_MAX_VALUE)
+            ? MuteExpiration.toProto(attributes.muteExpiresAt)
             : null,
           markedUnread: attributes.markedUnread === true,
           dontNotifyForMentionsIfMuted:

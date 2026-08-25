@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode, JSX } from 'react';
 import { memo, useCallback, useMemo, useState } from 'react';
+import type { MuteExpiration } from '@signalapp/types';
+
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
@@ -43,7 +45,7 @@ export type LeftPaneConversationListItemContextMenuProps = Readonly<{
   onMarkRead: (conversationId: string) => void;
   onPin: (conversationId: string) => void;
   onUnpin: (conversationId: string) => void;
-  onUpdateMute: (conversationId: string, muteExpiresAt: number) => void;
+  onUpdateMute: (conversationId: string, muteExpiresAt: MuteExpiration) => void;
   onArchive: (conversationId: string) => void;
   onUnarchive: (conversationId: string) => void;
   onDelete: (conversationId: string) => void;
@@ -118,8 +120,8 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
     }, [onUnpin, conversationId]);
 
     const handleUpdateMute = useCallback(
-      (value: number) => {
-        onUpdateMute(conversationId, value);
+      (expiration: MuteExpiration) => {
+        onUpdateMute(conversationId, expiration);
       },
       [onUpdateMute, conversationId]
     );
@@ -188,7 +190,7 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
               title={i18n('icu:muteNotificationsTitle')}
               options={muteMenu.options}
               label={muteMenu.label}
-              onMuteDuration={handleUpdateMute}
+              onMuteExpiration={handleUpdateMute}
             />
             {!props.isActivelySearching &&
               isSelectedChatFolderAllChats &&

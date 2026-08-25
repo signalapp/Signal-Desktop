@@ -3,6 +3,7 @@
 
 import type { ComponentProps, JSX } from 'react';
 import { useContext } from 'react';
+import { MuteExpiration } from '@signalapp/types';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import { times } from 'lodash';
@@ -230,7 +231,9 @@ export function PrivateConvo(): JSX.Element {
           type: 'direct',
           id: '9',
           acceptedMessageRequest: true,
-          muteExpiresAt: new Date('3000-10-18T11:11:11Z').valueOf(),
+          muteExpiresAt: MuteExpiration.fromNumber(
+            new Date('3000-10-18T11:11:11Z').valueOf()
+          ),
         }),
       },
     },
@@ -336,7 +339,7 @@ export function Group(): JSX.Element {
           expireTimer: DurationInSeconds.fromSeconds(10),
           acceptedMessageRequest: true,
 
-          muteExpiresAt: Infinity,
+          muteExpiresAt: MuteExpiration.ALWAYS,
         }),
       },
     },

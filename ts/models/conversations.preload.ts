@@ -5,6 +5,7 @@ import lodash from 'lodash';
 import { v4 as generateGuid } from 'uuid';
 import PQueue from 'p-queue';
 import { ContentHint } from '@signalapp/libsignal-client';
+import { MuteExpiration } from '@signalapp/types';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -5781,15 +5782,20 @@ export class ConversationModel {
     this.#muteTimer = undefined;
 
     const muteExpiresAt = this.get('muteExpiresAt');
-    if (isNumber(muteExpiresAt) && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
+    if (isNumber(muteExpiresAt) && !MuteExpiration.isAlways(muteExpiresAt)) {
       const delay = muteExpiresAt - Date.now();
       if (delay <= 0) {
-        this.setMuteExpiration(0, { viaStorageServiceSync });
+        this.setMuteExpiration(MuteExpiration.UNMUTED, {
+          viaStorageServiceSync,
+        });
         return;
       }
 
       this.#muteTimer =
-        safeSetTimeout(() => this.setMuteExpiration(0), delay) ?? undefined;
+        safeSetTimeout(
+          () => this.setMuteExpiration(MuteExpiration.UNMUTED),
+          delay
+        ) ?? undefined;
     }
   }
 
@@ -5804,17 +5810,17 @@ export class ConversationModel {
   }
 
   setMuteExpiration(
-    expiresAt = 0,
+    expiresAt: MuteExpiration = MuteExpiration.UNMUTED,
     { viaStorageServiceSync = false } = {}
   ): void {
     let muteExpiresAt = expiresAt;
 
     if (
-      muteExpiresAt > 0 &&
+      muteExpiresAt > MuteExpiration.UNMUTED &&
       canConversationOnlyBeMutedAlways(this.attributes)
     ) {
       log.error('Invalid mute expiration for only-always-mute conversation');
-      muteExpiresAt = Number.MAX_SAFE_INTEGER;
+      muteExpiresAt = MuteExpiration.ALWAYS;
     }
 
     const prevExpiration = this.get('muteExpiresAt');

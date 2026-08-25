@@ -7,6 +7,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ConversationNotificationsSettings.dom.tsx';
 import { ConversationNotificationsSettings } from './ConversationNotificationsSettings.dom.tsx';
+import { MuteExpiration } from '@signalapp/types';
 
 const { i18n } = window.SignalContext;
 
@@ -22,7 +23,7 @@ const getCommonProps = () => ({
   dontNotifyForMentionsIfMuted: false,
   i18n,
   setDontNotifyForMentionsIfMuted: action('setDontNotifyForMentionsIfMuted'),
-  setMuteDuration: action('setMuteDuration'),
+  setMuteExpiration: action('setMuteExpiration'),
 });
 
 export function GroupConversationAllDefault(): JSX.Element {
@@ -33,7 +34,7 @@ export function GroupConversationMuted(): JSX.Element {
   return (
     <ConversationNotificationsSettings
       {...getCommonProps()}
-      muteExpiresAt={Date.UTC(2099, 5, 9)}
+      muteExpiresAt={MuteExpiration.fromNumber(Date.UTC(2099, 5, 9))}
     />
   );
 }

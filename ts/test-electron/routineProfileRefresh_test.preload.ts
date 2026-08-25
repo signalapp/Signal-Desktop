@@ -3,6 +3,7 @@
 
 import * as sinon from 'sinon';
 import { v4 as generateUuid } from 'uuid';
+import { MuteExpiration } from '@signalapp/types';
 
 import lodash from 'lodash';
 import { ConversationModel } from '../models/conversations.preload.ts';
@@ -50,7 +51,7 @@ describe('routineProfileRefresh', () => {
       messageCount: 2,
       messageCountBeforeMessageRequests: 0,
       messageRequestResponseType: 0,
-      muteExpiresAt: 0,
+      muteExpiresAt: MuteExpiration.UNMUTED,
       profileAvatar: undefined,
       profileKeyCredential: generateUuid(),
       profileKeyCredentialExpiration: Date.now() + 2 * DAY,

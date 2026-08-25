@@ -10,12 +10,15 @@ import {
   useMemo,
   useState,
 } from 'react';
+import type { MuteExpiration } from '@signalapp/types';
+
 import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import type { MuteOption } from '../util/getMuteOptions.std.ts';
+import { getMuteExpiration } from '../util/getMuteOptions.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { MuteUntilDialog } from './MuteUntilDialog.dom.tsx';
 
@@ -32,7 +35,7 @@ function getMenuComponents(renderer: AxoMenuBuilder.Renderer) {
 
 type MuteNotificationsMenuValue = Readonly<{
   i18n: LocalizerType;
-  onMuteUntilClick: (onSubmit: (durationMs: number) => void) => void;
+  onMuteUntilClick: (onSubmit: (expiration: MuteExpiration) => void) => void;
 }>;
 
 const MuteUntilDialogContext = createContext<MuteNotificationsMenuValue | null>(
@@ -57,7 +60,7 @@ export function MuteUntilDialogProvider(
   props: MuteUntilDialogProviderProps
 ): JSX.Element {
   const [muteUntilDialog, setMuteUntilDialog] = useState<
-    false | { show: true; onSubmit: (durationMs: number) => void }
+    false | { show: true; onSubmit: (expiration: MuteExpiration) => void }
   >(false);
 
   const handleMuteUntilClose = useCallback(() => {
@@ -65,12 +68,12 @@ export function MuteUntilDialogProvider(
   }, []);
 
   const handleMuteUntilSubmit = useCallback(
-    (durationMs: number) => {
+    (expiration: MuteExpiration) => {
       if (muteUntilDialog === false) {
         return;
       }
       setMuteUntilDialog(false);
-      muteUntilDialog.onSubmit(durationMs);
+      muteUntilDialog.onSubmit(expiration);
     },
     [muteUntilDialog]
   );
@@ -78,7 +81,7 @@ export function MuteUntilDialogProvider(
   const value = useMemo((): MuteNotificationsMenuValue => {
     return {
       i18n: props.i18n,
-      onMuteUntilClick: (onSubmit: (durationMs: number) => void) =>
+      onMuteUntilClick: (onSubmit: (expiration: MuteExpiration) => void) =>
         setMuteUntilDialog({ show: true, onSubmit }),
     };
   }, [props.i18n]);
@@ -101,13 +104,13 @@ type MuteNotificationsMenuItemsProps = Readonly<{
   renderer: AxoMenuBuilder.Renderer;
   label?: string;
   options: ReadonlyArray<MuteOption>;
-  onMuteDuration: (durationMs: number) => void;
+  onMuteExpiration: (expiration: MuteExpiration) => void;
   onMuteUntilClick: () => void;
 }>;
 
 const MuteNotificationsMenuItems: FC<MuteNotificationsMenuItemsProps> = memo(
   function MuteNotificationsMenuItems(props) {
-    const { label, options, onMuteDuration, onMuteUntilClick } = props;
+    const { label, options, onMuteExpiration, onMuteUntilClick } = props;
     const Menu = getMenuComponents(props.renderer);
 
     return (
@@ -120,10 +123,10 @@ const MuteNotificationsMenuItems: FC<MuteNotificationsMenuItemsProps> = memo(
               key={option.name}
               disabled={option.disabled}
               onSelect={() => {
-                if (value === 'custom') {
+                if (value.type === 'custom') {
                   onMuteUntilClick();
                 } else {
-                  onMuteDuration(value);
+                  onMuteExpiration(getMuteExpiration(value));
                 }
               }}
             >
@@ -143,7 +146,7 @@ export type MuteNotificationsSubMenuProps = Readonly<{
   label?: string;
   options: ReadonlyArray<MuteOption>;
   children?: ReactNode;
-  onMuteDuration: (durationMs: number) => void;
+  onMuteExpiration: (expiration: MuteExpiration) => void;
 }>;
 
 /**
@@ -164,8 +167,8 @@ export const MuteNotificationsSubMenu: FC<MuteNotificationsSubMenuProps> = memo(
             renderer={props.renderer}
             label={props.label}
             options={props.options}
-            onMuteDuration={props.onMuteDuration}
-            onMuteUntilClick={() => onMuteUntilClick(props.onMuteDuration)}
+            onMuteExpiration={props.onMuteExpiration}
+            onMuteUntilClick={() => onMuteUntilClick(props.onMuteExpiration)}
           />
         </Menu.SubContent>
       </Menu.Sub>
@@ -177,23 +180,23 @@ export type MuteNotificationsDropdownMenuProps = Readonly<{
   i18n: LocalizerType;
   label: string;
   options: ReadonlyArray<MuteOption>;
-  onMuteDuration: (durationMs: number) => void;
+  onMuteExpiration: (expiration: MuteExpiration) => void;
   /** The button that opens the menu. */
   children: ReactNode;
 }>;
 
 export const MuteNotificationsDropdownMenu: FC<MuteNotificationsDropdownMenuProps> =
   memo(function MuteNotificationsDropdownMenu(props) {
-    const { i18n, options, onMuteDuration } = props;
+    const { i18n, options, onMuteExpiration } = props;
     const [isShowingMuteUntilDialog, setIsShowingMuteUntilDialog] =
       useState(false);
 
     const handleMuteUntilSubmit = useCallback(
-      (durationMs: number) => {
+      (expiration: MuteExpiration) => {
         setIsShowingMuteUntilDialog(false);
-        onMuteDuration(durationMs);
+        onMuteExpiration(expiration);
       },
-      [onMuteDuration]
+      [onMuteExpiration]
     );
 
     return (
@@ -206,7 +209,7 @@ export const MuteNotificationsDropdownMenu: FC<MuteNotificationsDropdownMenuProp
               renderer="AxoDropdownMenu"
               label={props.label}
               options={options}
-              onMuteDuration={onMuteDuration}
+              onMuteExpiration={onMuteExpiration}
               onMuteUntilClick={() => setIsShowingMuteUntilDialog(true)}
             />
           </AxoDropdownMenu.Content>

@@ -1,23 +1,47 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as durations from './durations/index.std.ts';
+import { DurationMs, MuteExpiration } from '@signalapp/types';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { getMutedUntilText } from './getMutedUntilText.std.ts';
 import { isConversationMuted } from './isConversationMuted.std.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
+
+export type MuteOptionValue =
+  | { type: 'unmute' }
+  | { type: 'duration'; durationMs: DurationMs }
+  | { type: 'always' }
+  | { type: 'custom' };
 
 export type MuteOption = {
   name: string;
   disabled?: boolean;
-  value: number | 'custom';
+  value: MuteOptionValue;
 };
 
-export type MuteDurationOption = MuteOption & { value: number };
+export type MuteExpirationOption = MuteOption & {
+  value: Exclude<MuteOptionValue, { type: 'custom' }>;
+};
 
-export function isMuteDurationOption(
+export function isMuteExpirationOption(
   option: MuteOption
-): option is MuteDurationOption {
-  return typeof option.value === 'number';
+): option is MuteExpirationOption {
+  return option.value.type !== 'custom';
+}
+
+export function getMuteExpiration(
+  value: MuteExpirationOption['value']
+): MuteExpiration {
+  switch (value.type) {
+    case 'unmute':
+      return MuteExpiration.UNMUTED;
+    case 'always':
+      return MuteExpiration.ALWAYS;
+    case 'duration':
+      return MuteExpiration.fromDuration(value.durationMs);
+    default:
+      throw missingCaseError(value);
+  }
 }
 
 export function getMuteValuesOptions(
@@ -30,7 +54,7 @@ export function getMuteValuesOptions(
   const muteAlwaysOption: MuteOption = {
     name: i18n('icu:MuteMenu__always'),
     disabled: options.isCurrentlyMutedAlways === true,
-    value: Number.MAX_SAFE_INTEGER,
+    value: { type: 'always' },
   };
 
   if (options.canOnlyBeMutedAlways) {
@@ -40,30 +64,30 @@ export function getMuteValuesOptions(
   return [
     {
       name: i18n('icu:MuteMenu__hour'),
-      value: durations.HOUR,
+      value: { type: 'duration', durationMs: DurationMs.HOUR },
     },
     {
       name: i18n('icu:MuteMenu__eightHours'),
-      value: 8 * durations.HOUR,
+      value: { type: 'duration', durationMs: DurationMs.fromHours(8) },
     },
     {
       name: i18n('icu:MuteMenu__day'),
-      value: durations.DAY,
+      value: { type: 'duration', durationMs: DurationMs.DAY },
     },
     {
       name: i18n('icu:MuteMenu__week'),
-      value: durations.WEEK,
+      value: { type: 'duration', durationMs: DurationMs.fromDays(7) },
     },
     {
       name: i18n('icu:MuteMenu__until'),
-      value: 'custom' as const,
+      value: { type: 'custom' },
     },
     muteAlwaysOption,
   ];
 }
 
 export function getMuteOptions(
-  muteExpiresAt: null | undefined | number,
+  muteExpiresAt: null | undefined | MuteExpiration,
   i18n: LocalizerType,
   options: {
     canOnlyBeMutedAlways?: boolean;
@@ -74,13 +98,15 @@ export function getMuteOptions(
       ? [
           {
             name: i18n('icu:unmute'),
-            value: 0,
+            value: { type: 'unmute' } as const,
           },
         ]
       : []),
     ...getMuteValuesOptions(i18n, {
       canOnlyBeMutedAlways: options.canOnlyBeMutedAlways,
-      isCurrentlyMutedAlways: (muteExpiresAt ?? 0) >= Number.MAX_SAFE_INTEGER,
+      isCurrentlyMutedAlways: MuteExpiration.isAlways(
+        muteExpiresAt ?? MuteExpiration.UNMUTED
+      ),
     }),
   ];
 }
@@ -91,7 +117,7 @@ export type MuteMenu = Readonly<{
 }>;
 
 export function getConversationMuteMenu(
-  muteExpiresAt: null | undefined | number,
+  muteExpiresAt: null | undefined | MuteExpiration,
   i18n: LocalizerType,
   options: {
     canOnlyBeMutedAlways?: boolean;
@@ -103,7 +129,7 @@ export function getConversationMuteMenu(
       options: [
         {
           name: i18n('icu:unmute'),
-          value: 0,
+          value: { type: 'unmute' },
         },
       ],
     };

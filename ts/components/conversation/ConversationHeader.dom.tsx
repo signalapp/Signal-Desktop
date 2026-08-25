@@ -4,6 +4,8 @@
 import type { RefObject, JSX, ReactNode } from 'react';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
+import { MuteExpiration } from '@signalapp/types';
+
 import type { BadgeType } from '../../badges/types.std.ts';
 import {
   useKeyboardShortcuts,
@@ -169,7 +171,7 @@ export type PropsActionsType = {
   ) => void;
   onConversationLeaveGroup: () => void;
   onConversationMarkUnread: () => void;
-  onConversationMuteExpirationChange: (seconds: number) => void;
+  onConversationMuteExpirationChange: (muteExpiresAt: MuteExpiration) => void;
   onConversationPin: () => void;
   onConversationUnpin: () => void;
   onConversationReportSpam: () => void;
@@ -366,7 +368,7 @@ export const ConversationHeader = memo(function ConversationHeader({
                   variant="implied-secondary"
                   onClick={() =>
                     onConversationMuteExpirationChange(
-                      isMuted ? 0 : Number.MAX_SAFE_INTEGER
+                      isMuted ? MuteExpiration.UNMUTED : MuteExpiration.ALWAYS
                     )
                   }
                   label={isMuted ? i18n('icu:unmute') : i18n('icu:mute')}
@@ -645,7 +647,7 @@ function HeaderDropdownMenuContent({
   isSignalConversation: boolean;
   isTerminated: boolean;
   onChangeDisappearingMessages: (seconds: DurationInSeconds) => void;
-  onChangeMuteExpiration: (seconds: number) => void;
+  onChangeMuteExpiration: (muteExpiresAt: MuteExpiration) => void;
   onConversationAccept: () => void;
   onConversationArchive: () => void;
   onConversationBlock: () => void;
@@ -846,7 +848,7 @@ function HeaderDropdownMenuContent({
             title={i18n('icu:muteNotificationsTitle')}
             label={muteMenu.label}
             options={muteMenu.options}
-            onMuteDuration={onChangeMuteExpiration}
+            onMuteExpiration={onChangeMuteExpiration}
           />
           {!isGroup || hasGV2AdminEnabled ? (
             <AxoDropdownMenu.Item

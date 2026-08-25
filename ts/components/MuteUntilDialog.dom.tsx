@@ -9,6 +9,8 @@ import {
   toCalendarDateTime,
   today,
 } from '@internationalized/date';
+import { MuteExpiration, TimestampMs } from '@signalapp/types';
+
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -22,7 +24,7 @@ const DEFAULT_TIME = 800;
 export type PropsType = Readonly<{
   open: boolean;
   i18n: LocalizerType;
-  onSubmit: (durationMs: number) => void;
+  onSubmit: (muteExpiresAt: MuteExpiration) => void;
   onClose: () => void;
 }>;
 
@@ -57,7 +59,7 @@ export function MuteUntilDialog({
     if (muteExpiresAt == null) {
       return;
     }
-    onSubmit(Math.max(0, muteExpiresAt - Date.now()));
+    onSubmit(MuteExpiration.fromTimestamp(muteExpiresAt));
   }, [muteExpiresAt, onSubmit]);
 
   return (
@@ -120,15 +122,20 @@ export function MuteUntilDialog({
   );
 }
 
-function getTimestamp(date: CalendarDate | null, time: number): number | null {
+function getTimestamp(
+  date: CalendarDate | null,
+  time: number
+): TimestampMs | null {
   if (date == null) {
     return null;
   }
 
   const { hours, minutes } = getTimeDetails(time, true);
-  return toCalendarDateTime(date, new Time(hours, minutes))
-    .toDate(getLocalTimeZone())
-    .valueOf();
+  return TimestampMs.fromNumber(
+    toCalendarDateTime(date, new Time(hours, minutes))
+      .toDate(getLocalTimeZone())
+      .valueOf()
+  );
 }
 
 function getTimeZoneDisplayName(): string {

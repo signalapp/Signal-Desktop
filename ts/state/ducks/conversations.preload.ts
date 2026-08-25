@@ -263,6 +263,7 @@ import type { Emoji } from '../../axo/emoji.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import {
   type DurationSecs,
+  MuteExpiration,
   SentTimestampMs,
   TimestampMs,
 } from '@signalapp/types';
@@ -418,7 +419,7 @@ export type ConversationType = ReadonlyDeep<
       aci: AciString;
     }>;
     bannedMemberships?: ReadonlyArray<ServiceIdString>;
-    muteExpiresAt?: number;
+    muteExpiresAt?: MuteExpiration;
     dontNotifyForMentionsIfMuted?: boolean;
     isMe: boolean;
     lastUpdated?: number;
@@ -1263,7 +1264,7 @@ export const actions = {
   setIsNearBottom,
   setMessageLoadingState,
   setMessageToEdit,
-  setMuteDuration,
+  setMuteExpiration,
   setChatFolderMuteExpiration,
   setPinned,
   setPreJoinConversation,
@@ -1787,7 +1788,7 @@ function setDontNotifyForMentionsIfMuted(
 
 function setChatFolderMuteExpiration(
   chatFolderId: ChatFolderId,
-  muteDuration: number
+  muteExpiration: MuteExpiration
 ): ThunkAction<void, RootStateType, unknown, NoopActionType> {
   return async (dispatch, getState) => {
     const chatFolderConversations = _getAllConversationsInChatFolder(
@@ -1796,29 +1797,23 @@ function setChatFolderMuteExpiration(
     );
 
     for (const conversation of chatFolderConversations) {
-      dispatch(setMuteDuration(conversation.id, muteDuration));
+      dispatch(setMuteExpiration(conversation.id, muteExpiration));
     }
   };
 }
 
-function setMuteDuration(
+function setMuteExpiration(
   conversationId: string,
-  muteDuration = 0
+  muteExpiration: MuteExpiration = MuteExpiration.UNMUTED
 ): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('setMuteDuration: No conversation found');
+    throw new Error('setMuteExpiration: No conversation found');
   }
 
-  if (muteDuration === 0) {
-    conversation.setMuteExpiration(0);
-  } else {
-    conversation.setMuteExpiration(
-      Math.min(Date.now() + muteDuration, Number.MAX_SAFE_INTEGER)
-    );
-  }
+  conversation.setMuteExpiration(muteExpiration);
 
-  return noopAction('setMuteDuration');
+  return noopAction('setMuteExpiration');
 }
 
 function setPinned(

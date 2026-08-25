@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
+import type { MuteExpiration } from '@signalapp/types';
 
 import type { GroupV2ChangeType } from './types/groups.std.ts';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.ts';
@@ -411,7 +412,7 @@ export type ConversationAttributesType = {
   messageCountBeforeMessageRequests?: number | null;
   messageRequestResponseType?: number;
   messagesDeleted?: boolean;
-  muteExpiresAt?: number;
+  muteExpiresAt?: MuteExpiration;
   dontNotifyForMentionsIfMuted?: boolean;
   sharingPhoneNumber?: boolean;
   profileAvatar?: ContactAvatarType | null;

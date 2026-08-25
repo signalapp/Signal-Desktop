@@ -126,7 +126,7 @@ const createProps = (
     deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
     replaceAvatar: action('replaceAvatar'),
     saveAvatarToDisk: action('saveAvatarToDisk'),
-    setMuteDuration: action('setMuteDuration'),
+    setMuteExpiration: action('setMuteExpiration'),
     showToast: action('showToast'),
     userAvatarData: [],
     reportSpam: action('reportSpam'),

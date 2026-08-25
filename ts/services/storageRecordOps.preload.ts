@@ -4,6 +4,8 @@
 import lodash, { isNumber, omit, partition, without } from 'lodash';
 
 import { ServiceId } from '@signalapp/libsignal-client';
+import { MuteExpiration } from '@signalapp/types';
+
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto.node.ts';
 import * as Bytes from '../Bytes.std.ts';
@@ -131,7 +133,6 @@ import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.ts';
 import { keyTransparency } from './keyTransparency.preload.ts';
 import { toNumber } from '../util/toNumber.std.ts';
-import { MAX_VALUE } from '../util/long.std.ts';
 import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { getOurAddress } from '../util/sendToGroup.preload.ts';
@@ -371,9 +372,8 @@ export async function toContactRecord(
     whitelisted: Boolean(conversation.get('profileSharing')),
     archived: Boolean(conversation.get('isArchived')),
     markedUnread: Boolean(conversation.get('markedUnread')),
-    mutedUntilTimestamp: getSafeLongFromTimestamp(
-      conversation.get('muteExpiresAt'),
-      MAX_VALUE
+    mutedUntilTimestamp: MuteExpiration.toProto(
+      conversation.get('muteExpiresAt')
     ),
     avatarColor: conversation.get('colorFromPrimary') ?? null,
     hideStory: hideStory ?? null,
@@ -637,9 +637,8 @@ export function toAccountRecord({
     releaseNotesChatMarkedUnread: Boolean(
       signalConversation?.get('markedUnread')
     ),
-    releaseNotesChatMutedUntilTimestamp: getSafeLongFromTimestamp(
-      signalConversation?.get('muteExpiresAt'),
-      MAX_VALUE
+    releaseNotesChatMutedUntilTimestamp: MuteExpiration.toProto(
+      signalConversation?.get('muteExpiresAt')
     ),
     releaseNotesChatBlocked,
     releaseNotesChatBlockedAt: releaseNotesChatBlockedAt
@@ -693,9 +692,8 @@ export function toGroupV2Record(
     whitelisted: Boolean(conversation.get('profileSharing')),
     archived: Boolean(conversation.get('isArchived')),
     markedUnread: Boolean(conversation.get('markedUnread')),
-    mutedUntilTimestamp: getSafeLongFromTimestamp(
-      conversation.get('muteExpiresAt'),
-      MAX_VALUE
+    mutedUntilTimestamp: MuteExpiration.toProto(
+      conversation.get('muteExpiresAt')
     ),
     dontNotifyForMentionsIfMuted: Boolean(
       conversation.get('dontNotifyForMentionsIfMuted')
@@ -1319,10 +1317,7 @@ export async function mergeGroupV2Record(
   }
 
   conversation.setMuteExpiration(
-    getTimestampFromLong(
-      groupV2Record.mutedUntilTimestamp,
-      Number.MAX_SAFE_INTEGER
-    ),
+    MuteExpiration.fromProto(groupV2Record.mutedUntilTimestamp),
     {
       viaStorageServiceSync: true,
     }
@@ -1565,10 +1560,7 @@ export async function mergeContactRecord(
   }
 
   conversation.setMuteExpiration(
-    getTimestampFromLong(
-      contactRecord.mutedUntilTimestamp,
-      Number.MAX_SAFE_INTEGER
-    ),
+    MuteExpiration.fromProto(contactRecord.mutedUntilTimestamp),
     {
       viaStorageServiceSync: true,
     }
@@ -2104,10 +2096,7 @@ export async function mergeAccountRecord(
 
   if (releaseNotesChatMutedUntilTimestamp != null) {
     signalConversation.setMuteExpiration(
-      getTimestampFromLong(
-        releaseNotesChatMutedUntilTimestamp,
-        Number.MAX_SAFE_INTEGER
-      ),
+      MuteExpiration.fromProto(releaseNotesChatMutedUntilTimestamp),
       {
         viaStorageServiceSync: true,
       }

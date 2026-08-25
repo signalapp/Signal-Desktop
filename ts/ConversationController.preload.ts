@@ -4,6 +4,7 @@
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as generateUuid } from 'uuid';
+import { MuteExpiration } from '@signalapp/types';
 
 import { DataReader, DataWriter } from './sql/Client.preload.ts';
 import { createLogger } from './logging/log.std.ts';
@@ -691,7 +692,7 @@ export class ConversationController {
 
   async getOrCreateSignalConversation(): Promise<ConversationModel> {
     const conversation = await this.getOrCreateAndWait(SIGNAL_ACI, 'private', {
-      muteExpiresAt: Number.MAX_SAFE_INTEGER,
+      muteExpiresAt: MuteExpiration.ALWAYS,
       profileAvatar: { path: SIGNAL_AVATAR_PATH },
       profileName: 'Signal',
       profileSharing: true,

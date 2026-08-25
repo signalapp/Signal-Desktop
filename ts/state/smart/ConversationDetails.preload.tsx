@@ -137,7 +137,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     reportSpam,
     saveAvatarToDisk,
     setDisappearingMessages,
-    setMuteDuration,
+    setMuteExpiration,
     showConversation,
     startAvatarDownload,
     terminateGroup,
@@ -312,7 +312,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       searchInConversation={searchInConversation}
       selectedNavTab={selectedNavTab}
       setDisappearingMessages={setDisappearingMessages}
-      setMuteDuration={setMuteDuration}
+      setMuteExpiration={setMuteExpiration}
       showContactModal={showContactModal}
       showConversation={showConversation}
       showToast={showToast}

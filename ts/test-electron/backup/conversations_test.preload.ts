@@ -3,6 +3,8 @@
 
 import { assert } from 'chai';
 import { randomBytes } from 'node:crypto';
+import { MuteExpiration } from '@signalapp/types';
+
 import { getRandomBytes } from '../../Crypto.node.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { setupBasics, symmetricRoundtripHarness } from './helpers.preload.ts';
@@ -52,7 +54,7 @@ describe('backup/conversations', () => {
       nicknameFamilyName: 'nicknameFamilyName',
       hideStory: true,
       username: 'username.12',
-      muteExpiresAt: Number.MAX_SAFE_INTEGER,
+      muteExpiresAt: MuteExpiration.ALWAYS,
       note: 'note',
       e164: '+16175550000',
       pni: generatePni(),

@@ -11,6 +11,7 @@ import pMap from 'p-map';
 import { Writable } from 'node:stream';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
+import { MuteExpiration, TimestampMs } from '@signalapp/types';
 
 import { Backups, SignalService } from '../../protobuf/index.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
@@ -65,7 +66,6 @@ import {
   getCheckedTimestampOrUndefinedFromLong,
   getTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils.std.ts';
-import { MAX_SAFE_DATE } from '../../util/timestamp.std.ts';
 import { DurationInSeconds, SECOND } from '../../util/durations/index.std.ts';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
 import { dropNull } from '../../util/dropNull.std.ts';
@@ -169,7 +169,6 @@ import type { ThemeType } from '../../util/preload.preload.ts';
 import { toNumber } from '../../util/toNumber.std.ts';
 import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
-import { TimestampMs } from '@signalapp/types';
 
 const { isNumber } = lodash;
 
@@ -1551,17 +1550,7 @@ export class BackupImportStream extends Writable {
         : undefined;
     conversation.expireTimerVersion = chat.expireTimerVersion || 1;
 
-    if (
-      chat.muteUntilMs != null &&
-      toNumber(chat.muteUntilMs) >= MAX_SAFE_DATE
-    ) {
-      // Muted forever
-      conversation.muteExpiresAt = Number.MAX_SAFE_INTEGER;
-    } else {
-      conversation.muteExpiresAt = getCheckedTimestampOrUndefinedFromLong(
-        chat.muteUntilMs
-      );
-    }
+    conversation.muteExpiresAt = MuteExpiration.fromProto(chat.muteUntilMs);
     conversation.markedUnread = chat.markedUnread;
     conversation.dontNotifyForMentionsIfMuted =
       chat.dontNotifyForMentionsIfMuted;

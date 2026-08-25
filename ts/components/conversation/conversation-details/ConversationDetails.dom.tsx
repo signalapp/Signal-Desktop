@@ -4,6 +4,7 @@
 import type { ReactNode, JSX } from 'react';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
+import type { MuteExpiration } from '@signalapp/types';
 
 import type {
   ConversationType,
@@ -143,7 +144,10 @@ type ActionProps = {
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   searchInConversation: (id: string) => unknown;
   setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
-  setMuteDuration: (id: string, muteDuration: undefined | number) => unknown;
+  setMuteExpiration: (
+    id: string,
+    expiration: MuteExpiration | undefined
+  ) => unknown;
   showContactModal: (payload: ContactModalStateType) => void;
   showConversation: ShowConversationType;
   terminateGroup: (conversationId: string) => void;
@@ -218,7 +222,7 @@ export function ConversationDetails({
   searchInConversation,
   selectedNavTab,
   setDisappearingMessages,
-  setMuteDuration,
+  setMuteExpiration,
   showContactModal,
   showConversation,
   showToast,
@@ -270,11 +274,11 @@ export function ConversationDetails({
     });
   }, [conversation, i18n]);
 
-  const handleMuteDuration = useCallback(
-    (durationMs: number) => {
-      setMuteDuration(conversation.id, durationMs);
+  const handleMuteExpiration = useCallback(
+    (expiration: MuteExpiration) => {
+      setMuteExpiration(conversation.id, expiration);
     },
-    [setMuteDuration, conversation.id]
+    [setMuteExpiration, conversation.id]
   );
 
   let modalNode: ReactNode;
@@ -465,7 +469,7 @@ export function ConversationDetails({
             i18n={i18n}
             label={muteMenu.label}
             options={muteMenu.options}
-            onMuteDuration={handleMuteDuration}
+            onMuteExpiration={handleMuteExpiration}
           >
             <AxoStackedButton.Root
               symbol={isMuted ? 'bell-slash' : 'bell'}

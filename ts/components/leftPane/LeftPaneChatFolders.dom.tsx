@@ -1,5 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import { MuteExpiration } from '@signalapp/types';
+
 import {
   useCallback,
   useMemo,
@@ -41,7 +43,10 @@ export type LeftPaneChatFoldersProps = Readonly<{
   selectedChatFolder: ChatFolder | null;
   onSelectedChatFolderIdChange: (newValue: ChatFolderId) => void;
   onChatFolderMarkRead: (chatFolderId: ChatFolderId) => void;
-  onChatFolderUpdateMute: (chatFolderId: ChatFolderId, value: number) => void;
+  onChatFolderUpdateMute: (
+    chatFolderId: ChatFolderId,
+    muteExpiresAt: MuteExpiration
+  ) => void;
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
 }>;
 
@@ -227,7 +232,10 @@ function ChatFolderSegmentedControlItem(props: {
   unreadStats: UnreadStats | null;
   mutedStats: MutedStats | null;
   onChatFolderMarkRead: (chatFolderId: ChatFolderId) => void;
-  onChatFolderUpdateMute: (chatFolderId: ChatFolderId, value: number) => void;
+  onChatFolderUpdateMute: (
+    chatFolderId: ChatFolderId,
+    muteExpiresAt: MuteExpiration
+  ) => void;
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
 }): JSX.Element {
   const { i18n, unreadStats } = props;
@@ -272,7 +280,10 @@ function ChatFolderSegmentedControlItemContextMenu(props: {
   unreadStats: UnreadStats | null;
   mutedStats: MutedStats | null;
   onChatFolderMarkRead: (chatFolderId: ChatFolderId) => void;
-  onChatFolderUpdateMute: (chatFolderId: ChatFolderId, value: number) => void;
+  onChatFolderUpdateMute: (
+    chatFolderId: ChatFolderId,
+    muteExpiresAt: MuteExpiration
+  ) => void;
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
   children: ReactNode;
 }) {
@@ -301,14 +312,14 @@ function ChatFolderSegmentedControlItemContextMenu(props: {
   }, [chatFolderId, onChatFolderMarkRead]);
 
   const handleChatFolderUpdateMute = useCallback(
-    (value: number) => {
-      onChatFolderUpdateMute(chatFolderId, value);
+    (muteExpiresAt: MuteExpiration) => {
+      onChatFolderUpdateMute(chatFolderId, muteExpiresAt);
     },
     [chatFolderId, onChatFolderUpdateMute]
   );
 
   const handleChatFolderUnmuteAll = useCallback(() => {
-    onChatFolderUpdateMute(chatFolderId, 0);
+    onChatFolderUpdateMute(chatFolderId, MuteExpiration.UNMUTED);
   }, [chatFolderId, onChatFolderUpdateMute]);
 
   const handleChatFolderOpenSettings = useCallback(() => {
@@ -335,7 +346,7 @@ function ChatFolderSegmentedControlItemContextMenu(props: {
               'icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications'
             )}
             options={muteValuesOptions}
-            onMuteDuration={handleChatFolderUpdateMute}
+            onMuteExpiration={handleChatFolderUpdateMute}
           >
             {someChatsMuted && (
               <AxoContextMenu.Item onSelect={handleChatFolderUnmuteAll}>
