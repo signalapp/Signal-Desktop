@@ -99,7 +99,7 @@ jobs:
   macos:
     name: MacOS
     needs: lint
-    runs-on: macos-26-arm64
+    runs-on: macos-26
     if: github.ref == 'refs/heads/main'
     timeout-minutes: 30
 
