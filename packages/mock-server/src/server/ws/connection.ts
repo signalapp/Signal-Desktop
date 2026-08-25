@@ -19,7 +19,6 @@ import { signalservice as Proto } from '../../../protos/compiled';
 import { Device } from '../../data/device';
 import {
   AtomicLinkingDataSchema,
-  BackupHeadersSchema,
   CreateCallLinkAuthSchema,
   CreateVerificationSessionSchema,
   DeviceKeysSchema,
@@ -899,34 +898,6 @@ export class Connection extends Service {
           },
         ];
       }),
-    );
-
-    this.router.get(
-      '/v1/archives/media',
-      async (_params, _body, headers, query = {}) => {
-        if (this.device) {
-          return [400, { error: 'Extraneous authentication' }];
-        }
-
-        if (typeof query.limit !== 'string') {
-          return [400, { error: 'Missing limit param' }];
-        }
-
-        const limit = parseInt(query.limit, 10);
-        if (limit <= 0) {
-          return [400, { error: 'Invalid limit' }];
-        }
-
-        const cursor = query.cursor;
-
-        return [
-          200,
-          await this.server.listBackupMedia(
-            BackupHeadersSchema.parse(headers),
-            { cursor: cursor != null ? String(cursor) : undefined, limit },
-          ),
-        ];
-      },
     );
 
     //

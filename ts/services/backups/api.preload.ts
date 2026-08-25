@@ -70,12 +70,12 @@ export class BackupAPI {
   }
 
   async #refreshType(type: BackupCredentialType): Promise<void> {
-    const auth = (await this.#credentials.getForToday(type)).backupAuth;
+    const auth = await this.#credentials.getForToday(type);
     return refreshBackup({ auth });
   }
 
   public async getMessageBackupInfo(): Promise<GetMessageBackupInfoResponseType> {
-    const { backupAuth } = await this.#credentials.getForToday(
+    const backupAuth = await this.#credentials.getForToday(
       BackupCredentialType.Messages
     );
     const backupInfo = await getMessageBackupInfo({ auth: backupAuth });
@@ -84,7 +84,7 @@ export class BackupAPI {
   }
 
   public async getMediaBackupInfo(): Promise<GetMediaBackupInfoResponseType> {
-    const { backupAuth } = await this.#credentials.getForToday(
+    const backupAuth = await this.#credentials.getForToday(
       BackupCredentialType.Media
     );
     const backupInfo = await getMediaBackupInfo({ auth: backupAuth });
@@ -109,7 +109,7 @@ export class BackupAPI {
   }
 
   public async upload(filePath: string, fileSize: number): Promise<void> {
-    const { backupAuth } = await this.#credentials.getForToday(
+    const backupAuth = await this.#credentials.getForToday(
       BackupCredentialType.Messages
     );
 
@@ -202,7 +202,7 @@ export class BackupAPI {
   public async getMediaUploadForm(
     uploadSize: number
   ): Promise<AttachmentUploadFormType> {
-    const { backupAuth } = await this.#credentials.getForToday(
+    const backupAuth = await this.#credentials.getForToday(
       BackupCredentialType.Media
     );
 
@@ -216,13 +216,11 @@ export class BackupAPI {
     cursor?: string;
     limit: number;
   }): Promise<BackupListMediaResponseType> {
-    return backupListMedia({
-      headers: await this.#credentials.getHeadersForToday(
-        BackupCredentialType.Media
-      ),
-      cursor,
-      limit,
-    });
+    const backupAuth = await this.#credentials.getForToday(
+      BackupCredentialType.Media
+    );
+
+    return backupListMedia({ auth: backupAuth, cursor, limit });
   }
 
   public async getSubscriptionInfo(): Promise<BackupsSubscriptionType> {

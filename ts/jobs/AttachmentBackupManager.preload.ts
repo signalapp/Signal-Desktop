@@ -594,10 +594,9 @@ async function copyToBackupTier({
     mediaTier: MediaTier.STANDARD,
   });
 
-  const { backupAuth } =
-    await dependencies.backupsService.credentials.getForToday(
-      BackupCredentialType.Media
-    );
+  const backupAuth = await dependencies.backupsService.credentials.getForToday(
+    BackupCredentialType.Media
+  );
 
   const outcomes = await dependencies.copyBackupMedia({
     auth: backupAuth,

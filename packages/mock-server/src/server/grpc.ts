@@ -31,10 +31,11 @@ import {
   BackupAuthError,
   BackupInfo,
   BackupMediaBatchResult,
+  BackupMediaList,
   Server,
 } from './base';
 import { parsePassword } from './common';
-import { toURLSafeBase64 } from '../util';
+import { fromURLSafeBase64, toURLSafeBase64 } from '../util';
 
 const debug = createDebug('mock:grpc');
 
@@ -620,6 +621,46 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onListBackupMedia = grpcRoute(
+    'org.signal.chat.backup.BackupsAnonymous/ListMedia',
+    async ({ signedPresentation, cursor, limit }) => {
+      assert(signedPresentation != null);
+      assert(limit > 0, 'Missing or invalid limit');
+
+      let list: BackupMediaList;
+      try {
+        list = await server.listBackupMedia(signedPresentation, {
+          cursor: cursor ?? undefined,
+          limit,
+        });
+      } catch (error) {
+        if (error instanceof BackupAuthError) {
+          return {
+            response: { failedAuthentication: { description: error.message } },
+          };
+        }
+        throw error;
+      }
+
+      return {
+        response: {
+          listResult: {
+            page: list.storedMediaObjects.map(
+              ({ cdn, mediaId, objectLength }) => ({
+                cdn,
+                mediaId: fromURLSafeBase64(mediaId),
+                length: BigInt(objectLength),
+              }),
+            ),
+            backupDir: list.backupDir,
+            mediaDir: list.mediaDir,
+            cursor: list.cursor ?? null,
+          },
+        },
+      };
+    },
+  );
+
   const onReserveUsername = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ReserveUsernameHash',
     async ({ usernameHashes }, device) => {
@@ -720,6 +761,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onGetMessageBackupInfo,
     onGetMediaBackupInfo,
     onCopyBackupMedia,
+    onListBackupMedia,
 
     ...ALL_METHODS.map((method) => method('/*', notFoundAfterAuth)),
   );

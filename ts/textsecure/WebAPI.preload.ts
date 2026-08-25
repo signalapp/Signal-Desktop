@@ -803,7 +803,6 @@ const CHAT_CALLS = {
   multiRecipient: 'v1/messages/multi_recipient',
   phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
   profile: 'v1/profile',
-  backupMedia: 'v1/archives/media',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
   callQualitySurvey: 'v1/call_quality_survey',
@@ -1297,27 +1296,21 @@ export type CopyBackupMediaOptionsType = Readonly<{
 }>;
 
 export type BackupListMediaOptionsType = Readonly<{
-  headers: BackupPresentationHeadersType;
+  auth: BackupAuth;
   cursor?: string;
   limit: number;
 }>;
 
-export const backupListMediaResponseSchema = z.object({
-  storedMediaObjects: z
-    .object({
-      cdn: z.number(),
-      mediaId: z.string(),
-      objectLength: z.number(),
-    })
-    .array(),
-  backupDir: z.string(),
-  mediaDir: z.string(),
-  cursor: z.string().nullish(),
-});
-
-export type BackupListMediaResponseType = z.infer<
-  typeof backupListMediaResponseSchema
->;
+export type BackupListMediaResponseType = Readonly<{
+  storedMediaObjects: ReadonlyArray<{
+    cdn: number;
+    mediaId: string;
+    objectLength: number;
+  }>;
+  backupDir: string;
+  mediaDir: string;
+  cursor?: string;
+}>;
 
 export type BackupDeleteMediaItemType = Readonly<{
   cdn: number;
@@ -3417,28 +3410,29 @@ export async function copyBackupMedia({
 }
 
 export async function backupListMedia({
-  headers,
+  auth,
   cursor,
   limit,
 }: BackupListMediaOptionsType): Promise<BackupListMediaResponseType> {
-  const params = new Array<string>();
+  return _retry(async () => {
+    const unauthChat = await socketManager.getUnauthenticatedApi();
+    const {
+      items,
+      backupDir,
+      mediaDir,
+      cursor: nextCursor,
+    } = await unauthChat.listBackupMedia({ auth, cursor, limit });
 
-  if (cursor != null) {
-    params.push(`cursor=${encodeURIComponent(cursor)}`);
-  }
-  params.push(`limit=${limit}`);
-
-  return _ajax({
-    host: 'chatService',
-    call: 'backupMedia',
-    httpType: 'GET',
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    headers,
-    responseType: 'json',
-    urlParameters: `?${params.join('&')}`,
-    zodSchema: backupListMediaResponseSchema,
+    return {
+      storedMediaObjects: items.map(({ cdn, mediaId, objectLength }) => ({
+        cdn,
+        mediaId: Bytes.toBase64url(mediaId),
+        objectLength: Number(objectLength),
+      })),
+      backupDir,
+      mediaDir,
+      cursor: nextCursor,
+    };
   });
 }
 
