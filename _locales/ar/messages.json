@@ -2396,9 +2396,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "التحقُّق من رقم اﻷمان"
   },
-  "icu:safetyNumberChanged": {
-    "messageformat": "تمَّ تغيير رقم الأمان"
-  },
   "icu:safetyNumberChanges": {
     "messageformat": "التغيُّرات في رقم الأمان"
   },
@@ -3992,6 +3989,48 @@
   "icu:unmute": {
     "messageformat": "إلغاء الكتم"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…"
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}"
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "مكتومة دائمًا"
   },
@@ -5208,7 +5247,7 @@
     "messageformat": "إضافة عضو"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "إضافة أعضاء"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "الدعوة عبر رابط المجموعة"
@@ -5965,6 +6004,12 @@
   "icu:Preferences__message-audio-description": {
     "messageformat": "اسمع صوت تنبيه للرسائل المُرسَلة والمُستلَمة بينما تكون داخل المحادثة."
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
   },
@@ -6064,8 +6109,29 @@
   "icu:Preferences--advanced": {
     "messageformat": "مُتقدِّم"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "محتوى الإشعار"
+  },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "هل ترغبُ بتصدير سجل الدردشة؟"
@@ -6693,6 +6759,9 @@
   },
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "عند إلغاء التفعيل، لن ترى مؤشرات الكتابة من الآخرين."
+  },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "التحديثات"
@@ -8000,6 +8069,36 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "تجاهُل"
   },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سيتوقف تطبيق سيجنال الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام سيجنال، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
@@ -8432,9 +8531,6 @@
   "icu:DonationReceipt__type-value--one-time": {
     "messageformat": "مرّة واحدة"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة. مُعرِّفنا الضريبي هو 4506840-82."
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة سيجنال‬ للتكنولوجيا هي منظمة غير ربحية معفاة من الضرائب ومُسجَّلة في الولايات المتحدة ضمن البند 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82. لا يُقدِّم سيجنال أي بضائع أو خدمات مقابل هذه المساهمة."
   },
@@ -8745,16 +8841,13 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "تعرَّفوا على ميزة اختفاء المكالمات: المكالمات الفائتة، والصادرة، والواردة التي تتم بعد تثبيت هذا التحديث سَتختفي الآن تلقائيًا في أي دردشة تمَّ تفعيل ميزة اختفاء الرسائل فيها."
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "يمكنك الآن إعادة ترتيب حزم المُلصَقات المُثبَّتة حتى لا تظل مُلصَقاتك المفضلة الجديدة في مؤخرة القائمة."
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "سهَّلنا عملية البحث عن أعضاء المجموعة في صفحة إعدادات المجموعة، لتتمكن سريعًا من معرفة ما إذا كانت والدتك قد أضافت قريبًا آخر من أفراد العائلة إلى مجموعة حفل الشواء العائلي السنوي الثالث."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "أضفنا مستويين جديدين للتكبير في إعدادات المظهر، لتتمكن من تخصيص عرض رسائلك بسهولة، سواء أردتها أكبر بنسبة 110% أو أصغر بنسبة 90%."
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
   }
 }

@@ -2396,9 +2396,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "Verifica o número de seguranza"
   },
-  "icu:safetyNumberChanged": {
-    "messageformat": "O número de seguranza cambiou"
-  },
   "icu:safetyNumberChanges": {
     "messageformat": "Cambios no número de seguranza"
   },
@@ -3992,6 +3989,48 @@
   "icu:unmute": {
     "messageformat": "Activar o son"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…"
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}"
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "En silencio sempre"
   },
@@ -5208,7 +5247,7 @@
     "messageformat": "Engadir membro"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Engadir membros"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invitar cun enlace grupal"
@@ -5965,6 +6004,12 @@
   "icu:Preferences__message-audio-description": {
     "messageformat": "Escoita unha notificación de son ao recibir e enviar mensaxes mentres estás dentro conversa."
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "Xeral"
   },
@@ -6064,8 +6109,29 @@
   "icu:Preferences--advanced": {
     "messageformat": "Avanzado"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "Contido das notificacións"
+  },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportar historal do chat"
@@ -6693,6 +6759,9 @@
   },
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "Se non está activado, non poderás ver o indicador de escritura dos demais."
+  },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Actualizacións"
@@ -8000,6 +8069,36 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "Rexeitar"
   },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop deixará de funcionar na túa versión do ordenador de {OS}. Para seguir empregando Signal, actualiza o sistema operativo do teu ordenador antes do {expirationDate}. <learnMoreLink>Máis información</learnMoreLink>"
   },
@@ -8432,9 +8531,6 @@
   "icu:DonationReceipt__type-value--one-time": {
     "messageformat": "Unha vez"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "Grazas por apoiar a Signal. A túa contribución impulsa a nosa misión de protexer a liberdade de expresión e asegurar a comunicación global para millóns de persoas arredor do mundo mediante unha tecnoloxía privada de código aberto. Se es residente dos Estados Unidos, garda este comprobante para para a túa declaración fiscal. Signal Technology Foundation é una organización benéfica independente sen ánimo de lucro e está exenta de impostos de acordo coa sección 501c3 do Código de impostos internos dos Estados Unidos. O noso número de identificación fiscal federal é 82-4506840."
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Grazas por apoiar a Signal. A túa contribución impulsa a nosa misión de protexer a liberdade de expresión e asegurar a comunicación global para millóns de persoas arredor do mundo mediante unha tecnoloxía privada de código aberto. Se es residente dos Estados Unidos, garda este comprobante para a túa declaración fiscal. Signal Technology Foundation é una organización benéfica independente sen ánimo de lucro e está exenta de impostos de acordo coa sección 501c3 do «Internal Revenue Code». O noso identificador «Federal Tax ID» é 82-4506840. Signal non proporcionou bens nin servizos en contraprestación por esta contribución."
   },
@@ -8745,16 +8841,13 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "Novidade: os avisos de chamadas agora tamén desaparecen. As chamadas perdidas, saíntes e recibidas que se produzan despois de instalar esta actualización eliminaranse automaticamente nas conversas con mensaxes temporais."
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "Agora podes reorganizar os paquetes de stickers instalados e colocar os teus novos favoritos onde queiras."
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Agora é máis doado buscar membros na páxina de configuración do grupo."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Engadimos dous novos niveis de zoom na configuración da aparencia (110 % e 90 %)."
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
   }
 }

@@ -2396,9 +2396,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "Қауіпсіздік нөмірін верификациялау"
   },
-  "icu:safetyNumberChanged": {
-    "messageformat": "Қауіпсіздік нөмірі өзгерді"
-  },
   "icu:safetyNumberChanges": {
     "messageformat": "Қауіпсіздік нөмірінің өзгерістері"
   },
@@ -3992,6 +3989,48 @@
   "icu:unmute": {
     "messageformat": "Дыбысын қосу"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…"
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}"
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Дыбысы біржола өшірілді"
   },
@@ -5208,7 +5247,7 @@
     "messageformat": "Мүше қосу"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Мүшелерді қосу"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Топтық сілтеме арқылы шақыру"
@@ -5965,6 +6004,12 @@
   "icu:Preferences__message-audio-description": {
     "messageformat": "Чатты қолданып жатқанда, жіберілген немесе алынған хаттар туралы хабарландыру дауыстарын естіңіз."
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "Жалпы"
   },
@@ -6064,8 +6109,29 @@
   "icu:Preferences--advanced": {
     "messageformat": "Озық"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "Хабарландыру мазмұны"
+  },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Чат тарихын экспорттау"
@@ -6693,6 +6759,9 @@
   },
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "Бұл мүмкіндік өшірулі тұрса, басқа пайдаланушылардың мәтін теріп жатқаны туралы белгі көрсетілмейді."
+  },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "Жаңартулар"
@@ -8000,6 +8069,36 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "Жабу"
   },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal-дың компьютерлік нұсқасы жақында компьютеріңіздегі {OS} нұсқасымен жұмыс істемейтін болады. Signal-ды пайдалана беру үшін {expirationDate} күніне дейін компьютеріңіздің операциялық жүйесін жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>"
   },
@@ -8432,9 +8531,6 @@
   "icu:DonationReceipt__type-value--one-time": {
     "messageformat": "Бір рет"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840."
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Signal-ға қолдау көрсеткеніңіз үшін рақмет. Сіздің қосқан үлесіңіз ашық кодты құпиялық технологиясы арқылы әлемдегі миллиондаған адам үшін сөз еркіндігін қорғау және жаһандық байланыс орнату қауіпсіздігін қамтамасыз ету миссиясын жүзеге асыруға ықпал етеді. Егер Америка Құрама Штаттарының резиденті болсаңыз, осы түбіртекті салық жазбалары үшін сақтап қойыңыз. Signal Technology Foundation – Салық кодексінің 501c3 бөліміне сәйкес Америка Құрама Штаттарындағы салықтан босатылған коммерциялық емес ұйым. Біздің федералдық салық идентификаторымыз: 82-4506840. Signal осы жарнаның орнына ешқандай тауар немесе қызмет ұсынған жоқ."
   },
@@ -8745,16 +8841,13 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "Ғайып болатын қоңырау оқиғалары мүмкіндігімен танысыңыз. Осы жаңа нұсқаны орнатқаннан кейін, қандай да бір чатта жойылатын хабарлар функциясы қосылып тұрғанда, қабылданбаған, шығыс және қабылданған қоңыраулар автоматты түрде жоғалып кетеді."
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "Енді орнатылған стикерлер жинақтарының ретін өзгерте аласыз, осылайша жаңа таңдаулы стикерлеріңіз тізімнің соңында қалып кетпейді."
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "★ Топ параметрлері бетінде топ мүшелерін оңай іздеуге болады. Енді жыл сайын өткізілетін үшінші үлкен отбасылық жиынның барбекю тобына анаңыздың бөлеңізді қосқанын не қоспағанын көре аласыз."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Көрініс параметрлеріне масштабтаудың екі жаңа деңгейін қостық. Енді хабарларыңызды 110%-ға (немесе 90%-ға) оп-оңай жеткізе аласыз."
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
   }
 }

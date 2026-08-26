@@ -2396,9 +2396,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "নিরাপত্তা নাম্বার যাচাই করুন"
   },
-  "icu:safetyNumberChanged": {
-    "messageformat": "নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে"
-  },
   "icu:safetyNumberChanges": {
     "messageformat": "নিরাপত্তা নাম্বার পরিবর্তিত হয়"
   },
@@ -3992,6 +3989,48 @@
   "icu:unmute": {
     "messageformat": "আনমিউট করুন"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…"
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}"
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "সবসময়ের জন্য মিউট করা হয়েছে"
   },
@@ -5208,7 +5247,7 @@
     "messageformat": "সদস্যকে যোগ করুন"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "সদস্যকে যোগ করুন"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "গ্রুপ লিংকের মাধ্যমে আমন্ত্রণ জানান"
@@ -5965,6 +6004,12 @@
   "icu:Preferences__message-audio-description": {
     "messageformat": "চ্যাটে থাকাকালীন পাঠানো ও প্রাপ্ত ম্যাসেজের জন্য নোটিফিকেশনের একটি শব্দ শুনুন।"
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "সাধারন"
   },
@@ -6064,8 +6109,29 @@
   "icu:Preferences--advanced": {
     "messageformat": "অ্যাডভান্সড"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "নোটিফিকেশনের বিষয়বস্তু"
+  },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "চ্যাট-এর ইতিহাস এক্সপোর্ট করুন"
@@ -6693,6 +6759,9 @@
   },
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের টাইপিং সূচক দেখতে পাবেন না।"
+  },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
   },
   "icu:Preferences--updates": {
     "messageformat": "আপডেট"
@@ -8000,6 +8069,36 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "বাতিল করুন"
   },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "কিছুদিনের মধ্যে Signal আর আপনার কম্পিউটারের {OS} সংস্করণ সমর্থন করবে না। Signal ব্যবহার চালিয়ে যেতে, {expirationDate}-এর মধ্যে আপনার কম্পিউটারের অপারেটিং সিস্টেম আপডেট করুন। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
@@ -8432,9 +8531,6 @@
   "icu:DonationReceipt__type-value--one-time": {
     "messageformat": "একবার"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "Signal-এর পাশে থাকার জন্য আপনাকে ধন্যবাদ। আপনার অবদান ওপেন সোর্স গোপনীয়তা প্রযুক্তির মাধ্যমে বিশ্বজুড়ে লক্ষ লক্ষ মানুষের জন্য স্বাধীন মত প্রকাশের সুরক্ষা এবং বিশ্বব্যাপী নিরাপদ যোগাযোগ সক্ষম করার লক্ষ্যকে আরো এগিয়ে নিয়ে যেতে সাহায্য করবে। আপনি যদি মার্কিন যুক্তরাষ্ট্রের অধিবাসী হয়ে থাকেন, তাহলে অনুগ্রহ করে আপনার ট্যাক্স রেকর্ডের জন্য এই রিসিপ্টটি সংরক্ষণ করুন। Signal টেকনোলজি ফাউন্ডেশন হলো অভ্যন্তরীণ রাজস্ব কোডের ধারা 501c3-এর অধীনে মার্কিন যুক্তরাষ্ট্রের একটি কর-মুক্ত অলাভজনক সংস্থা। আমাদের ফেডারেল ট্যাক্স আইডি হলো 82-4506840।"
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Signal-এর পাশে থাকার জন্য আপনাকে ধন্যবাদ। আপনার অবদান ওপেন সোর্স গোপনীয়তা প্রযুক্তির মাধ্যমে বিশ্বজুড়ে লক্ষ লক্ষ মানুষের জন্য স্বাধীন মত প্রকাশের সুরক্ষা এবং বিশ্বব্যাপী নিরাপদ যোগাযোগ সক্ষম করার লক্ষ্যকে আরো এগিয়ে নিয়ে যেতে সাহায্য করবে। আপনি যদি মার্কিন যুক্তরাষ্ট্রের অধিবাসী হয়ে থাকেন, তাহলে অনুগ্রহ করে আপনার ট্যাক্স রেকর্ডের জন্য এই রিসিপ্টটি সংরক্ষণ করুন। Signal টেকনোলজি ফাউন্ডেশন হলো অভ্যন্তরীণ রাজস্ব কোডের ধারা 501c3-এর অধীনে মার্কিন যুক্তরাষ্ট্রের একটি কর-মুক্ত অলাভজনক সংস্থা। আমাদের ফেডারেল ট্যাক্স আইডি হলো 82-4506840। এই অবদানের বিনিময়ে Signal কোনো পণ্য বা সার্ভিস প্রদান করেনি।"
   },
@@ -8745,16 +8841,13 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "চলে এলো অদৃশ্য হতে যাওয়া কল ইভেন্ট: এই আপডেটটি ইনস্টল করার পর হওয়া মিসড, আউটগোয়িং এবং রিসিভ করা কলগুলো এখন থেকে অদৃশ্য হতে যাওয়া মেসেজ চালু থাকা যেকোনো চ্যাট থেকে স্বয়ংক্রিয়ভাবে অদৃশ্য হয়ে যাবে।"
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "এখন আপনি ইনস্টল করা স্টিকার প্যাকগুলোর ক্রম পরিবর্তন করতে পারবেন, যাতে আপনার নতুন পছন্দের লিস্টের শেষে আটকে না যায়।"
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "আমরা গ্ৰুপ সেটিংস পেইজে গ্রুপ সদস্যদের খোঁজা আরো সহজ করে দিয়েছি।"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "আমরা অ্যাপিয়ারেন্স সেটিংসে দু'টি নতুন জুম লেভেল (১১০% এবং ৯০%) যোগ করেছি।"
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
   }
 }

@@ -1,1 +1,1 @@
-signal,messaggi,chiamate,vocali,crittografia,private,sicure,privacy,gruppo,video,chat,storie
+signal,messaggi,chiamate,vocali,crittografia,privato,sicuro,privacy,gruppo,video,chat,storie

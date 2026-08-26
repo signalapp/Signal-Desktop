@@ -2160,7 +2160,7 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
     "messageformat": "Chat folders",
-    "description": "Preferences > Chats Page > Chat Folders Section > Title"
+    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Title"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Add a chat folder",
@@ -2180,11 +2180,11 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
     "messageformat": "Set up",
-    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button"
+    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
     "messageformat": "Manage",
-    "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button (with chat folders)"
+    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button (with chat folders)"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Edit folder",
@@ -3183,10 +3183,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "Verify Safety Number",
     "description": "Title for the modal for safety number verification"
-  },
-  "icu:safetyNumberChanged": {
-    "messageformat": "Safety Number has changed",
-    "description": "(Deleted 2026/07/22) A notification shown in the conversation when a contact reinstalls"
   },
   "icu:safetyNumberChanges": {
     "messageformat": "Safety Number Changes",
@@ -5276,23 +5272,23 @@
   },
   "icu:muteHour": {
     "messageformat": "Mute for one hour",
-    "description": "Label for muting the conversation"
+    "description": "(Deleted 2026/08/26) Label for muting the conversation"
   },
   "icu:muteEightHours": {
     "messageformat": "Mute for eight hours",
-    "description": "Label for muting the conversation"
+    "description": "(Deleted 2026/08/26) Label for muting the conversation"
   },
   "icu:muteDay": {
     "messageformat": "Mute for one day",
-    "description": "Label for muting the conversation"
+    "description": "(Deleted 2026/08/26) Label for muting the conversation"
   },
   "icu:muteWeek": {
     "messageformat": "Mute for one week",
-    "description": "Label for muting the conversation"
+    "description": "(Deleted 2026/08/26) Label for muting the conversation"
   },
   "icu:muteAlways": {
     "messageformat": "Mute always",
-    "description": "Label for muting the conversation"
+    "description": "(Deleted 2026/08/26) Label for muting the conversation"
   },
   "icu:unmute": {
     "messageformat": "Unmute",
@@ -5304,7 +5300,7 @@
   },
   "icu:MuteMenu__labelChatFolder": {
     "messageformat": "Mute these chats for…",
-    "description": "Header shown at the top of the mute notifications menu for a chat folder, which mutes every chat in the folder"
+    "description": "(Deleted 2026/08/26) Header shown at the top of the mute notifications menu for a chat folder, which mutes every chat in the folder"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 hour",
@@ -6564,7 +6560,7 @@
   },
   "icu:ConversationDetails__unmute--title": {
     "messageformat": "Unmute this chat?",
-    "description": "Title for the modal to unmute a chat"
+    "description": "(Deleted 2026/08/26) Title for the modal to unmute a chat"
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link",
@@ -8358,7 +8354,7 @@
   },
   "icu:NotificationProfiles--setup": {
     "messageformat": "Set up",
-    "description": "Button text to setup notification profiles"
+    "description": "(Deleted 2026/08/26) Button text to setup notification profiles"
   },
   "icu:NotificationProfiles--title": {
     "messageformat": "Notification Profiles",
@@ -8378,7 +8374,7 @@
   },
   "icu:NotificationProfiles--manage-profiles": {
     "messageformat": "{profileCount, plural, one {One profile} other {# profiles}}",
-    "description": "Button text to take user to profile list page when they already have notification profiles"
+    "description": "(Deleted 2026/08/26) Button text to take user to profile list page when they already have notification profiles"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Create profile",
@@ -8914,7 +8910,7 @@
   },
   "icu:Preferences__pnp__row--button": {
     "messageformat": "Change…",
-    "description": "Text of Phone Number row button in Privacy section of Preferences window"
+    "description": "(Deleted 2026/08/26) Text of Phone Number row button in Privacy section of Preferences window"
   },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Who can see my number",
@@ -8982,7 +8978,7 @@
   },
   "icu:Preferences--read-receipts--description": {
     "messageformat": "If disabled, you won't see read receipts from others.",
-    "description": "Description for the read receipts setting"
+    "description": "(Deleted 2026/08/26) Description for the read receipts setting"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators",
@@ -8990,7 +8986,7 @@
   },
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "If disabled, you won't see typing indicators from others.",
-    "description": "Description for the typing indicators setting"
+    "description": "(Deleted 2026/08/26) Description for the typing indicators setting"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others.",
@@ -11350,10 +11346,6 @@
     "messageformat": "One time",
     "description": "Value shown for one-time donations on donation receipt"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840.",
-    "description": "(Deleted 2026/07/22) Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Thank you for supporting Signal. Your contribution helps fuel the mission of protecting free expression and enabling secure global communication for millions around the world, through open source privacy technology. If you’re a resident of the United States, please retain this receipt for your tax records. Signal Technology Foundation is a tax-exempt nonprofit organization in the United States under section 501c3 of the Internal Revenue Code. Our Federal Tax ID is 82-4506840. Signal did not provide any goods or services in consideration of this contribution.",
     "description": "Footer text shown on donation receipts explaining tax deductibility and Signal's mission"
@@ -11771,7 +11763,7 @@
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",
-    "description": "Release notes for 8.25"
+    "description": "(Deleted 2026/08/26) Release notes for 8.25"
   },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier.",

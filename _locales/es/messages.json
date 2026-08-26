@@ -2396,9 +2396,6 @@
   "icu:SafetyNumberModal__title": {
     "messageformat": "Verificar número de seguridad"
   },
-  "icu:safetyNumberChanged": {
-    "messageformat": "El número de seguridad ha cambiado"
-  },
   "icu:safetyNumberChanges": {
     "messageformat": "Cambios en el número de seguridad"
   },
@@ -2763,13 +2760,13 @@
     "messageformat": "Donación"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {Queda {days,number} día} other {Quedan {days,number} días}}"
+    "messageformat": "{days, plural, one {Caduca en {days,number} día} other {Caduca en {days,number} días}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {Queda {hours,number} hora} other {Quedan {hours,number} horas}}"
+    "messageformat": "{hours, plural, one {Caduca en {hours,number} hora} other {Caduca en {hours,number} horas}}"
   },
   "icu:message--donation--remaining--minutes": {
-    "messageformat": "{minutes, plural, one {Queda {minutes,number} minuto} other {Quedan {minutes,number} minutos}}"
+    "messageformat": "{minutes, plural, one {Caduca en {minutes,number} minuto} other {Caduca en {minutes,number} minutos}}"
   },
   "icu:message--donation--expired": {
     "messageformat": "Caducada"
@@ -3992,6 +3989,48 @@
   "icu:unmute": {
     "messageformat": "Reactivar"
   },
+  "icu:MuteMenu__label": {
+    "messageformat": "Mute this chat for…"
+  },
+  "icu:MuteMenu__labelChatFolder": {
+    "messageformat": "Mute these chats for…"
+  },
+  "icu:MuteMenu__hour": {
+    "messageformat": "1 hour"
+  },
+  "icu:MuteMenu__eightHours": {
+    "messageformat": "8 hours"
+  },
+  "icu:MuteMenu__day": {
+    "messageformat": "1 day"
+  },
+  "icu:MuteMenu__week": {
+    "messageformat": "1 week"
+  },
+  "icu:MuteMenu__until": {
+    "messageformat": "Until…"
+  },
+  "icu:MuteMenu__always": {
+    "messageformat": "Always"
+  },
+  "icu:DatePicker__popupTitle": {
+    "messageformat": "Choose a date"
+  },
+  "icu:TimePicker__popupTitle": {
+    "messageformat": "Choose a time"
+  },
+  "icu:MuteUntilDialog__title": {
+    "messageformat": "Mute this chat until…"
+  },
+  "icu:MuteUntilDialog__dateLabel": {
+    "messageformat": "Date"
+  },
+  "icu:MuteUntilDialog__timeLabel": {
+    "messageformat": "Time"
+  },
+  "icu:MuteUntilDialog__timeZoneNote": {
+    "messageformat": "All times in {timeZone}"
+  },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Silenciado para siempre"
   },
@@ -5208,7 +5247,7 @@
     "messageformat": "Añadir"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Añadir participantes"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invitar mediante enlace al grupo"
@@ -5965,6 +6004,12 @@
   "icu:Preferences__message-audio-description": {
     "messageformat": "Reproducir un sonido de notificación al enviar y recibir mensajes dentro del chat."
   },
+  "icu:Preferences__reaction-notifications-title": {
+    "messageformat": "Reaction notifications"
+  },
+  "icu:Preferences__reaction-notifications-description": {
+    "messageformat": "Notify when someone reacts to your message"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "General"
   },
@@ -6064,8 +6109,29 @@
   "icu:Preferences--advanced": {
     "messageformat": "Ajustes avanzados"
   },
+  "icu:Preferences--signal-pin": {
+    "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--pin-reminders--header": {
+    "messageformat": "PIN reminders"
+  },
+  "icu:Preferences--pin-reminders--description": {
+    "messageformat": "You'll be asked less frequently over time"
+  },
   "icu:Preferences--notification-content": {
     "messageformat": "Contenido de las notificaciones"
+  },
+  "icu:Preferences__Chats__TextInputSection__Title": {
+    "messageformat": "Text input"
+  },
+  "icu:Preferences__Chats__ChatFoldersSection__Title": {
+    "messageformat": "Chat folders"
+  },
+  "icu:Preferences__Notifications__SoundsSection__Title": {
+    "messageformat": "Sounds"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title": {
+    "messageformat": "App badge"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportar historial de chat"
@@ -6694,6 +6760,9 @@
   "icu:Preferences--typing-indicators--description": {
     "messageformat": "Si desactivas esta opción, no podrás ver los indicadores de escritura de nadie."
   },
+  "icu:Preferences--messaging-help": {
+    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+  },
   "icu:Preferences--updates": {
     "messageformat": "Actualizaciones"
   },
@@ -6893,7 +6962,7 @@
     "messageformat": "Error de verificación"
   },
   "icu:StandaloneRegistration--Captcha--Error--description": {
-    "messageformat": "Intenta hacer la verificación de nuevo para seguir con el registro."
+    "messageformat": "Intenta completar la verificación de nuevo para continuar con el registro."
   },
   "icu:StandaloneRegistration--Captcha--Error--try-again": {
     "messageformat": "Reintentar"
@@ -6995,7 +7064,7 @@
     "messageformat": "No podemos enviarte la clave"
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodePermanent--description": {
-    "messageformat": "No podemos enviarte una clave de verificación al número de teléfono que has introducido. Asegúrate de que el número que has introducido es correcto o prueba con uno distinto."
+    "messageformat": "No podemos enviarte una clave de verificación al número de teléfono que has introducido. Comprueba que el número que has introducido sea correcto o prueba con otro número."
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodePermanent--ok-button": {
     "messageformat": "Aceptar"
@@ -7058,7 +7127,7 @@
     "messageformat": "{triesRemaining, plural, one {PIN incorrecto. Te queda {triesRemaining,number} intento.} other {PIN incorrecto. Te quedan {triesRemaining,number} intentos.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} intento más.} other {{triesRemaining,number} intentos más.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento.} other {Te quedan {triesRemaining,number} intentos.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "¿Necesitas ayuda?"
@@ -7082,10 +7151,10 @@
     "messageformat": "PIN incorrecto"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--no-reglock": {
-    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrarte y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos. Cuando los agotes, podrás crear un nuevo PIN. Podrás registrar y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrarte y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrar y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--reglock": {
-    "messageformat": "{triesRemaining, plural, one {Tienes {triesRemaining,number} intento más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.} other {Tienes {triesRemaining,number} intentos más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--button": {
     "messageformat": "Aceptar"
@@ -7145,7 +7214,7 @@
     "messageformat": "Desactivar PIN"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--header": {
-    "messageformat": "Advertencia"
+    "messageformat": "Aviso importante"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
     "messageformat": "Si desactivas el PIN, perderás todos los datos de tu cuenta al volver a registrarte en Signal. No puedes activar el bloqueo de registro si el PIN está desactivado."
@@ -7181,7 +7250,7 @@
     "messageformat": "Cuenta bloqueada"
   },
   "icu:StandaloneRegistration--AccountLocked--description": {
-    "messageformat": "Se ha bloqueado tu cuenta para proteger tu privacidad y seguridad. Después de 7 días con tu cuenta inactiva, podrás volver a registrarte con este número de teléfono sin necesidad de introducir tu PIN. Se eliminará todo el contenido de tu cuenta."
+    "messageformat": "Se ha bloqueado tu cuenta para proteger tu privacidad y seguridad. Después de 7 días con tu cuenta inactiva, podrás volver a registrarte usando este número de teléfono sin necesidad de introducir tu PIN. Se eliminará todo el contenido de tu cuenta."
   },
   "icu:StandaloneRegistration--AccountLocked--start-over-button": {
     "messageformat": "Usar otro número"
@@ -8000,6 +8069,36 @@
   "icu:UsernameMegaphone__dismiss": {
     "messageformat": "Cerrar"
   },
+  "icu:PinReminderMegaphone__title": {
+    "messageformat": "Verify your Signal PIN"
+  },
+  "icu:PinReminderMegaphone__body": {
+    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+  },
+  "icu:PinReminderMegaphone__verify": {
+    "messageformat": "Verify"
+  },
+  "icu:PinReminderMegaphone__not-now": {
+    "messageformat": "Not now"
+  },
+  "icu:PinReminderModal__title": {
+    "messageformat": "Enter your Signal PIN"
+  },
+  "icu:PinReminderModal__body": {
+    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+  },
+  "icu:PinReminderModal__pin-input-placeholder": {
+    "messageformat": "Enter your PIN"
+  },
+  "icu:PinReminderModal__pin-input-error": {
+    "messageformat": "Incorrect PIN. Try again"
+  },
+  "icu:PinReminderModal__confirm": {
+    "messageformat": "Confirm"
+  },
+  "icu:PinReminderCompletedToast": {
+    "messageformat": "PIN correct. We’ll remind you again later."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop pronto dejará de ser compatible con la versión del {OS} de tu equipo de escritorio. Para seguir usando Signal, actualiza el sistema operativo de tu equipo antes del {expirationDate}. <learnMoreLink>Más información</learnMoreLink>"
   },
@@ -8432,9 +8531,6 @@
   "icu:DonationReceipt__type-value--one-time": {
     "messageformat": "Puntual"
   },
-  "icu:DonationReceipt__footer-text": {
-    "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir que millones de personas en todo el mundo se comuniquen de forma segura a través de tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840."
-  },
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Gracias por apoyar a Signal. Con tu contribución, impulsas nuestra misión de proteger la libertad de expresión y permitir que millones de personas en todo el mundo se comuniquen de forma segura a través de tecnología de código abierto centrada en la privacidad. Si resides en Estados Unidos, guarda este recibo para tus declaraciones fiscales. Signal Technology Foundation es una organización sin ánimo de lucro exenta de impuestos en Estados Unidos bajo la sección 501(c)(3) del código tributario de EE. UU. (Internal Revenue Code). Nuestro número de identificación fiscal es 82-4506840. Signal no ha proporcionado bienes ni servicios a cambio de esta contribución."
   },
@@ -8745,16 +8841,13 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "Presentamos las notificaciones de llamadas temporales: todas las llamadas perdidas y aquellas que hagas o recibas después de instalar esta actualización desaparecerán de cualquier chat en el que estén habilitados los mensajes temporales."
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "Ahora puedes ordenar los paquete de stickers que tengas instalados como quieras y tener siempre tus stickers favoritos a mano."
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Hemos facilitado la búsqueda de participantes en los chats grupales. Ideal para confirmar que tu cuñado no está en el chat secreto antes de enviar la foto del regalo de cumpleaños sorpresa."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Hemos añadido dos nuevas opciones de zoom en los ajustes de apariencia, así que ahora podrás ampliar tus mensajes al 110% o al 90%."
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
   }
 }
