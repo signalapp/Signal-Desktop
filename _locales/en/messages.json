@@ -11765,14 +11765,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.20--0": {
-    "messageformat": "Introducing disappearing call events: Missed, outgoing, and received calls that occur after you install this update will now automatically disappear in any chat where disappearing messages are enabled.",
-    "description": "(Deleted 2026/07/22) Release notes for 8.20"
-  },
-  "icu:WhatsNew__8.20--1": {
-    "messageformat": "Now you can reorder installed sticker packs so your new favorites don’t get stuck in the back of the line.",
-    "description": "(Deleted 2026/07/22) Release notes for 8.20"
-  },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group.",
     "description": "(Deleted 2026/08/19) Release notes for 8.24"
@@ -11780,5 +11772,9 @@
   "icu:WhatsNew__8.25--0": {
     "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",
     "description": "Release notes for 8.25"
+  },
+  "icu:WhatsNew__8.26--0": {
+    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier.",
+    "description": "Release notes for 8.26"
   }
 }
