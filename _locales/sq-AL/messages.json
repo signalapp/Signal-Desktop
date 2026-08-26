@@ -5208,7 +5208,7 @@
     "messageformat": "Shto anëtarë"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Shtoni anëtarë"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Fto përmes lidhjes së grupit"
@@ -8755,6 +8755,6 @@
     "messageformat": "E bëmë më të lehtë kërkimin e anëtarëve të grupit në faqen e parametrave të grupit."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Shtuam dy nivele të reja zmadhimi te parametrat e pamjes (110% dhe 90%)."
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "添加成员"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "添加成员"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "通过群组链接邀请"
@@ -8755,6 +8755,6 @@
     "messageformat": "在群组设置页面搜索群组成员现更容易。"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "我们在外观设置中新增了两个缩放级别（110% 和 90%）。"
   }
 }

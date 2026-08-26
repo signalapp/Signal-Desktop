@@ -5208,7 +5208,7 @@
     "messageformat": "اضافه کردن کاربر"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "افزودن اعضا"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "دعوت از‌طریق لینک گروه"
@@ -8755,6 +8755,6 @@
     "messageformat": "جستجوی اعضای گروه را در صفحه تنظیمات گروه آسان‌تر کرده‌ایم."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "دو سطح بزرگ‌نمایی جدید در تنظیمات نمای ظاهری (‎%۱۱۰ و ‎%۹۰) اضافه کردیم."
   }
 }

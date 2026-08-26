@@ -5208,7 +5208,7 @@
     "messageformat": "Legg til medlem"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Legg til medlemmer"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Inviter via gruppelenke"
@@ -8755,6 +8755,6 @@
     "messageformat": "Vi har gjort det enklere å søke etter gruppemedlemmer på siden for gruppeinnstillinger."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Vi har lagt til to nye zoom-nivå i designinnstillingene (90 % og 110 %)."
   }
 }

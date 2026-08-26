@@ -5208,7 +5208,7 @@
     "messageformat": "குழுஉறுப்பினர் சேர்க்"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "உறுப்பினர்களைச் சேர்க்கவும்"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "குழு இணைப்பு வழியாக அழை"
@@ -8755,6 +8755,6 @@
     "messageformat": "தொகுப்பு அமைப்புகளின் பக்கத்தில் தொகுப்பு உறுப்பினர்களைத் தேடுவதை எளிதாக்கியுள்ளோம்."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "தோற்ற அமைப்புகளில் இரண்டு புதிய சூம் நிலைகளைச் (110% மற்றும் 90%) சேர்த்துள்ளோம்."
   }
 }

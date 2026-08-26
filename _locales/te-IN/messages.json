@@ -5208,7 +5208,7 @@
     "messageformat": "సభ్యుడిని జోడించండి"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "సభ్యులను జోడించండి"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "గ్రూప్ లింక్ ద్వారా ఆహ్వానించండి"
@@ -8755,6 +8755,6 @@
     "messageformat": "గ్రూప్ సెట్టింగ్‌ల పేజీలో గ్రూప్ సభ్యుల కోసం వెతకడాన్ని మేము సులభతరం చేశాము."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "మేము రూపం సెట్టింగ్‌లలో రెండు కొత్త జూమ్ స్థాయిలను (110% మరియు 90%) జోడించాము."
   }
 }

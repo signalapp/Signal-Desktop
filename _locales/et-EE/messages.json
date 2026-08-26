@@ -5208,7 +5208,7 @@
     "messageformat": "Lisa liige"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Lisa liikmed"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Kutsu grupilingi kaudu"
@@ -8755,6 +8755,6 @@
     "messageformat": "Lihtsustasime grupiliikmete otsimist grupisätete lehel."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Lisasime välimuse sätetesse kaks uut suumimise taset (110% ja 90%)."
   }
 }

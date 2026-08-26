@@ -5208,7 +5208,7 @@
     "messageformat": "Lisää jäsen"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Lisää jäseniä"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Kutsu ryhmälinkillä"
@@ -8755,6 +8755,6 @@
     "messageformat": "Olemme myös helpottaneet ryhmän jäsenten hakua ryhmän asetussivulla."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Lisäsimme ulkoasuasetuksiin kaksi uutta suurennustasoa (110 % ja 90 %)."
   }
 }

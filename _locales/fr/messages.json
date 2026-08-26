@@ -3909,7 +3909,7 @@
     "messageformat": "Barre latérale"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Haut-parleur"
+    "messageformat": "Intervenant"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Partagez votre écran"
@@ -5208,7 +5208,7 @@
     "messageformat": "Ajouter des membres"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Ajouter des membres"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Inviter via un lien de groupe"
@@ -8755,6 +8755,6 @@
     "messageformat": "Il devient plus facile de rechercher des membres via les paramètres du groupe. Pratique pour savoir en un coup d'œil si votre petite sœur a déjà ajouté votre petite-cousine dans le groupe \"La petite famille\" !"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Deux autres niveaux de zoom débarquent dans les paramètres d'apparence : 90 % et 110 %. Avec la rentrée qui approche, on a envie de voir les choses en grand."
   }
 }

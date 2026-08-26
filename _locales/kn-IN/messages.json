@@ -5208,7 +5208,7 @@
     "messageformat": "ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ಗುಂಪು ಲಿಂಕ್ ಮೂಲಕ ಆಹ್ವಾನಿಸಿ"
@@ -8755,6 +8755,6 @@
     "messageformat": "ಗುಂಪು ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪುಟದಲ್ಲಿ ಗುಂಪಿನ ಸದಸ್ಯರನ್ನು ಹುಡುಕುವುದನ್ನು ಇನ್ನಷ್ಟು ಸುಲಭಗೊಳಿಸಿದ್ದೇವೆ. ಹಾಗಾಗಿ, ಮೂರನೇ ವರ್ಷದ ವಿಸ್ತೃತ ಕುಟುಂಬ ಪುನರ್ಮಿಲನ BBQ ಗುಂಪಿಗೆ ನಿಮ್ಮ ಅಮ್ಮ ನಿಮ್ಮ ಎರಡನೇ ಕಸಿನ್‌ರನ್ನು ಈಗಾಗಲೇ ಸೇರಿಸಿದ್ದಾರೆಯೇ ಎಂದು ಕ್ಷಣದಲ್ಲೇ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "ರೂಪದ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನಾವು ಎರಡು ಹೊಸ ಝೂಮ್ ಹಂತಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ, ಹಾಗಾಗಿ ತೀರಾ ಕಡಿಮೆ ಶ್ರಮದೊಂದಿಗೆ ಸಹ ನೀವು ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳಿಗೆ 110% (ಅಥವಾ 90%) ನೀಡಬಹುದು."
   }
 }

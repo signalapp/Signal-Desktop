@@ -5208,7 +5208,7 @@
     "messageformat": "წევრის დამატება"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "წევრების დამატება"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ჯგუფის ბმულით მოწვევა"
@@ -8755,6 +8755,6 @@
     "messageformat": "ჯგუფის პარამეტრების გვერდზე ჯგუფის წევრების ძიება გავამარტივეთ."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "ვიზუალის პარამეტრებში მიახლოების ორი ახალი დონე დავამატეთ (110% და 90%)."
   }
 }

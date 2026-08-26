@@ -5208,7 +5208,7 @@
     "messageformat": "Tag hozzáadása"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Tagok hozzáadása"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Meghívás csoportlinken keresztül"
@@ -8755,6 +8755,6 @@
     "messageformat": "Megkönnyítettük a csoporttagok keresését a csoportbeállítások oldalon."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Két új nagyítási szintet adtunk hozzá a megjelenési beállításokhoz (110% és 90%)."
   }
 }

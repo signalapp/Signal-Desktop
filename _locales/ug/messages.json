@@ -5208,7 +5208,7 @@
     "messageformat": "ئەزا قوش"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "ئەزا قوشۇش"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "گۇرۇپپا ئۇلانمىسى ئارقىلىق تەكلىپ قىلىش"
@@ -8755,6 +8755,6 @@
     "messageformat": "گۇرۇپپا تەڭشەكلىرى بېتىدە گۇرۇپپا ئەزالىرىنى ئىزدەشنى تېخىمۇ قولايلاشتۇردۇق. 8.24 نەشرىنىڭ يېڭىلىقلىرى"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "كۆرۈنۈش تەڭشەكلىرىگە ئىككى يېڭى چوڭايتىش ئىقتىدار دەرىجىسى قوشۇلدى (%90 ۋە %110 ).8.25 نەشر نۇسخىسىنىڭ يېڭىلىقلىرى"
   }
 }

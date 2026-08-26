@@ -5208,7 +5208,7 @@
     "messageformat": "メンバーを追加する"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "メンバーを追加する"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "グループリンクで招待"
@@ -8755,6 +8755,6 @@
     "messageformat": "★グループ設定のページでのメンバー検索がより簡単になりました。"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "外観設定に、2つの新しいZoomレベル（110％と90％）を追加しました。"
   }
 }

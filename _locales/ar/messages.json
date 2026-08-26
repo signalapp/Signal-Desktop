@@ -5208,7 +5208,7 @@
     "messageformat": "إضافة عضو"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "إضافة أعضاء"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "الدعوة عبر رابط المجموعة"
@@ -8755,6 +8755,6 @@
     "messageformat": "سهَّلنا عملية البحث عن أعضاء المجموعة في صفحة إعدادات المجموعة، لتتمكن سريعًا من معرفة ما إذا كانت والدتك قد أضافت قريبًا آخر من أفراد العائلة إلى مجموعة حفل الشواء العائلي السنوي الثالث."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "أضفنا مستويين جديدين للتكبير في إعدادات المظهر، لتتمكن من تخصيص عرض رسائلك بسهولة، سواء أردتها أكبر بنسبة 110% أو أصغر بنسبة 90%."
   }
 }

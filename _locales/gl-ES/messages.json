@@ -5208,7 +5208,7 @@
     "messageformat": "Engadir membro"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Engadir membros"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invitar cun enlace grupal"
@@ -8755,6 +8755,6 @@
     "messageformat": "Agora é máis doado buscar membros na páxina de configuración do grupo."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Engadimos dous novos niveis de zoom na configuración da aparencia (110 % e 90 %)."
   }
 }

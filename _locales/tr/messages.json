@@ -5208,7 +5208,7 @@
     "messageformat": "Üye ekle"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Üye ekle"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Grup bağlantısıyla davet et"
@@ -8755,6 +8755,6 @@
     "messageformat": "Grup ayarları sayfasında grup üyelerini aramayı kolaylaştırdık."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Görünüm ayarlarına iki yeni yakınlaştırma seviyesi ekledik (%110 ve %90)."
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "Adaugă membru"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Adăugare membri"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invită prin linkul de grup"
@@ -8755,6 +8755,6 @@
     "messageformat": "Am simplificat căutarea membrilor grupului pe pagina de setări a grupului, astfel încât să poți afla rapid dacă mama ta l-a adăugat deja pe vărul tău de gradul al doilea în grupul dedicat celui de-al treilea grătar anual de reuniune a familiei extinse."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Am adăugat două noi niveluri de mărire în setările de aspect, astfel încât, chiar și cu foarte puțin efort, poți totuși să-ți personalizezi mesajele la 110% (sau 90%)."
   }
 }

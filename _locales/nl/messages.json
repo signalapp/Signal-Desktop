@@ -3909,7 +3909,7 @@
     "messageformat": "Zijbalk"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Luidspreker"
+    "messageformat": "Spreker"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Je scherm delen"
@@ -5208,7 +5208,7 @@
     "messageformat": "Lid toevoegen"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Leden toevoegen"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Uitnodigen via groepslink"
@@ -8752,9 +8752,9 @@
     "messageformat": "Je kunt nu je stickerpakketten herschikken, zodat je favorieten niet achteraan verdwijnen."
   },
   "icu:WhatsNew__8.24--1": {
-    "messageformat": "We hebben het makkelijker gemaakt om op de pagina met groepsinstellingen naar groepsleden te zoeken. Zo kun je snel zien of je achterneef al is toegevoegd aan de groep voor de derde, jaarlijkse familiebarbecue."
+    "messageformat": "We hebben het makkelijker gemaakt om in groepsinstellingen naar groepsleden te zoeken. Zo kun je snel zien of je achterneef al is toegevoegd aan de groep voor de derde, jaarlijkse familiebarbecue."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "We hebben twee nieuwe zoomniveaus toegevoegd. Zo kun je je berichten voortaan met gemak op 110% (of 90%) bekijken."
   }
 }

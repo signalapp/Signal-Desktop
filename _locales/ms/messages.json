@@ -5208,7 +5208,7 @@
     "messageformat": "Tambah ahli"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Tambah ahli"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Jemput melalui pautan kumpulan"
@@ -8755,6 +8755,6 @@
     "messageformat": "Kami memudahkan pencarian ahli kumpulan pada halaman tetapan kumpulan."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Kami menambahkan dua tahap zum baharu dalam tetapan gaya (110% dan 90%)."
   }
 }

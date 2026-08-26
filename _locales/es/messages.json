@@ -2763,13 +2763,13 @@
     "messageformat": "Donación"
   },
   "icu:message--donation--remaining--days": {
-    "messageformat": "{days, plural, one {Queda {days,number} día} other {Quedan {days,number} días}}"
+    "messageformat": "{days, plural, one {Caduca en {days,number} día} other {Caduca en {days,number} días}}"
   },
   "icu:message--donation--remaining--hours": {
-    "messageformat": "{hours, plural, one {Queda {hours,number} hora} other {Quedan {hours,number} horas}}"
+    "messageformat": "{hours, plural, one {Caduca en {hours,number} hora} other {Caduca en {hours,number} horas}}"
   },
   "icu:message--donation--remaining--minutes": {
-    "messageformat": "{minutes, plural, one {Queda {minutes,number} minuto} other {Quedan {minutes,number} minutos}}"
+    "messageformat": "{minutes, plural, one {Caduca en {minutes,number} minuto} other {Caduca en {minutes,number} minutos}}"
   },
   "icu:message--donation--expired": {
     "messageformat": "Caducada"
@@ -5208,7 +5208,7 @@
     "messageformat": "Añadir"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Añadir participantes"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invitar mediante enlace al grupo"
@@ -6893,7 +6893,7 @@
     "messageformat": "Error de verificación"
   },
   "icu:StandaloneRegistration--Captcha--Error--description": {
-    "messageformat": "Intenta hacer la verificación de nuevo para seguir con el registro."
+    "messageformat": "Intenta completar la verificación de nuevo para continuar con el registro."
   },
   "icu:StandaloneRegistration--Captcha--Error--try-again": {
     "messageformat": "Reintentar"
@@ -6995,7 +6995,7 @@
     "messageformat": "No podemos enviarte la clave"
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodePermanent--description": {
-    "messageformat": "No podemos enviarte una clave de verificación al número de teléfono que has introducido. Asegúrate de que el número que has introducido es correcto o prueba con uno distinto."
+    "messageformat": "No podemos enviarte una clave de verificación al número de teléfono que has introducido. Comprueba que el número que has introducido sea correcto o prueba con otro número."
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodePermanent--ok-button": {
     "messageformat": "Aceptar"
@@ -7058,7 +7058,7 @@
     "messageformat": "{triesRemaining, plural, one {PIN incorrecto. Te queda {triesRemaining,number} intento.} other {PIN incorrecto. Te quedan {triesRemaining,number} intentos.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--just-count": {
-    "messageformat": "{triesRemaining, plural, one {{triesRemaining,number} intento más.} other {{triesRemaining,number} intentos más.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento.} other {Te quedan {triesRemaining,number} intentos.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--NeedHelp--header": {
     "messageformat": "¿Necesitas ayuda?"
@@ -7082,10 +7082,10 @@
     "messageformat": "PIN incorrecto"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--no-reglock": {
-    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrarte y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos. Cuando los agotes, podrás crear un nuevo PIN. Podrás registrar y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrarte y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos. Si agotas los intentos, podrás crear un nuevo PIN. Podrás registrar y usar tu cuenta pero perderás algunos ajustes ya guardados, como tu información de perfil. <learnMore>Más información</learnMore>.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--description--reglock": {
-    "messageformat": "{triesRemaining, plural, one {Tienes {triesRemaining,number} intento más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.} other {Tienes {triesRemaining,number} intentos más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.}}"
+    "messageformat": "{triesRemaining, plural, one {Te queda {triesRemaining,number} intento más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.} other {Te quedan {triesRemaining,number} intentos más. Si agotas los intentos, tu cuenta quedará bloqueada durante 7 días. Después de 7 días de inactividad, podrás volver a registrarte sin tener que introducir tu PIN. Se eliminará todo tu contenido. <learnMore>Más información</learnMore>.}}"
   },
   "icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--button": {
     "messageformat": "Aceptar"
@@ -7145,7 +7145,7 @@
     "messageformat": "Desactivar PIN"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--header": {
-    "messageformat": "Advertencia"
+    "messageformat": "Aviso importante"
   },
   "icu:StandaloneRegistration--CreatePIN--DisableWarning--description": {
     "messageformat": "Si desactivas el PIN, perderás todos los datos de tu cuenta al volver a registrarte en Signal. No puedes activar el bloqueo de registro si el PIN está desactivado."
@@ -7181,7 +7181,7 @@
     "messageformat": "Cuenta bloqueada"
   },
   "icu:StandaloneRegistration--AccountLocked--description": {
-    "messageformat": "Se ha bloqueado tu cuenta para proteger tu privacidad y seguridad. Después de 7 días con tu cuenta inactiva, podrás volver a registrarte con este número de teléfono sin necesidad de introducir tu PIN. Se eliminará todo el contenido de tu cuenta."
+    "messageformat": "Se ha bloqueado tu cuenta para proteger tu privacidad y seguridad. Después de 7 días con tu cuenta inactiva, podrás volver a registrarte usando este número de teléfono sin necesidad de introducir tu PIN. Se eliminará todo el contenido de tu cuenta."
   },
   "icu:StandaloneRegistration--AccountLocked--start-over-button": {
     "messageformat": "Usar otro número"
@@ -8746,15 +8746,15 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__8.20--0": {
-    "messageformat": "Presentamos las notificaciones de llamadas temporales: todas las llamadas perdidas y aquellas que hagas o recibas después de instalar esta actualización desaparecerán de cualquier chat en el que estén habilitados los mensajes temporales."
+    "messageformat": "Presentamos las notificaciones temporales de llamadas: todas las llamadas perdidas y aquellas que hagas o recibas después de instalar esta actualización desaparecerán de cualquier chat en el que estén habilitados los mensajes temporales."
   },
   "icu:WhatsNew__8.20--1": {
-    "messageformat": "Ahora puedes ordenar los paquete de stickers que tengas instalados como quieras y tener siempre tus stickers favoritos a mano."
+    "messageformat": "Ahora puedes ordenar como quieras los paquetes de stickers instalados para tener siempre a mano tus stickers favoritos."
   },
   "icu:WhatsNew__8.24--1": {
     "messageformat": "Hemos facilitado la búsqueda de participantes en los chats grupales. Ideal para confirmar que tu cuñado no está en el chat secreto antes de enviar la foto del regalo de cumpleaños sorpresa."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Hemos añadido dos nuevas opciones de zoom en los ajustes de apariencia, así que ahora podrás ampliar tus mensajes al 110% o al 90%."
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "Cuir ball leis"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Cuir baill leis"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Tabhair cuireadh trí nasc grúpa"
@@ -8755,6 +8755,6 @@
     "messageformat": "Rinneamar cuardach le haghaidh baill den ghrúpa níos éasca ar leathanach socruithe an ghrúpa."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Chuireamar dhá leibhéal zúmála leis i socruithe na cuma, mar sin is féidir 110% (nó 90%) a thabhairt do do theachtaireachtaí gan ach fíorbheagán iarrachta."
   }
 }

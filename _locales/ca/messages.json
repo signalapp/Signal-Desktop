@@ -5208,7 +5208,7 @@
     "messageformat": "Afegeix membre"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Afegeix-hi membres"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Convidar mitjançant enllaç de grup"
@@ -8755,6 +8755,6 @@
     "messageformat": "Hem fet que sigui més fàcil buscar membres del grup a la pàgina d'ajustos."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Hem afegit dos nous nivells de zoom als ajustos d'aparença (110% i 90%)."
   }
 }

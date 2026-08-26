@@ -5208,7 +5208,7 @@
     "messageformat": "Mitglied hinzufügen"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Mitglieder hinzufügen"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Über Gruppen-Link einladen"
@@ -8755,6 +8755,6 @@
     "messageformat": "Bei den Gruppeneinstellungen haben wir die Suche nach Gruppenmitgliedern vereinfacht, damit du sofort sehen kannst, ob deine Mama deinen Cousin zweiten Grades bereits zur Gruppe für das jährlich stattfindende Großfamilien-Grillfest hinzugefügt hat."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Wir haben in den Darstellungseinstellungen zwei neue Zoomstufen hinzugefügt, sodass du deinen Nachrichten auch mit sehr geringem Aufwand immer noch 110 % (oder 90 %) Ausdruck verleihen kannst."
   }
 }

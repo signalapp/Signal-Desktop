@@ -5208,7 +5208,7 @@
     "messageformat": "അംഗത്തെ ചേർക്കുക"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "അംഗങ്ങളെ ചേർക്കുക"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "ഗ്രൂപ്പ് ലിങ്ക് വഴി ക്ഷണിക്കുക"
@@ -8755,6 +8755,6 @@
     "messageformat": "ഗ്രൂപ്പ് ക്രമീകരണ പേജിൽ ഗ്രൂപ്പ് അംഗങ്ങളെ തിരയുന്നത് ഞങ്ങൾ കൂടുതൽ എളുപ്പമാക്കിയിരിക്കുന്നു, അതിനാൽ നിങ്ങളുടെ അമ്മ നിങ്ങളുടെ ബന്ധുവിനെ മൂന്നാമത് വാർഷിക കുടുംബ സംഗമ ബാർബിക്യു ഗ്രൂപ്പിൽ ചേർത്തോ എന്ന് നിങ്ങൾക്ക് വേഗത്തിൽ കണ്ടെത്താനാകും."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "ഞങ്ങൾ രൂപഭാവ ക്രമീകരണത്തിൽ രണ്ട് പുതിയ സൂം ലെവലുകൾ ചേർത്തു, അതിനാൽ വളരെ കുറഞ്ഞ പരിശ്രമം കൊണ്ടുതന്നെ നിങ്ങളുടെ സന്ദേശങ്ങൾക്ക് 110% (അല്ലെങ്കിൽ 90%) നൽകാനാകും."
   }
 }

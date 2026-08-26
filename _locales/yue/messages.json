@@ -5208,7 +5208,7 @@
     "messageformat": "加谷友"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "加谷友"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "用谷拎嚟邀請"
@@ -8755,6 +8755,6 @@
     "messageformat": "我哋令你更容易喺谷嘅設定頁面度搵谷友，咁你就可以即刻知道阿媽係咪已經將二表弟加咗入去「第三屆家族年度BBQ團聚」個谷度。"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "我哋喺外觀設定加咗兩個新嘅縮放級別，所以你輕輕郁一郁手指就可以將訊息放大到 110%（或縮到 90%）。"
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "Tilføj medlem"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Tilføj medlemmer"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Inviter via gruppelink"
@@ -8755,6 +8755,6 @@
     "messageformat": "Vi har gjort det nemmere at søge efter gruppemedlemmer i gruppeindstillingerne, så du hurtigt kan se, om din mor allerede har tilføjet din grandkusine til den årlige familiekomsammen."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Vi har tilføjet to nye zoomniveauer under udseendeindstillingerne, så du selv med en meget lille indsats stadig kan give dine beskeder 110 % (eller 90 %)."
   }
 }

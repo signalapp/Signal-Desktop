@@ -5208,7 +5208,7 @@
     "messageformat": "Ongeza mwanachama"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Ongeza wanachama"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Alikuwa kupitia kiungo cha kikundi"
@@ -8755,6 +8755,6 @@
     "messageformat": "Tumerahisisha utafutaji kwa wanakikundi kwenye ukurasa wa mipangilio ya kikundi, ili uweze kujua kwa haraka kama Mama yako tayari amemuweka binamu yako wa pili kwenye kikundi cha hafla ya tatu ya kila mwaka ya NYAMACHOMA ya familia."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Tumeweka ngazi mbili mpya za zoom katika mipangilio ya mwonekano ili hata kwa jitihada kidogo unaweza kuzipa jumbe zako ubora wa 110% (au 90%)."
   }
 }

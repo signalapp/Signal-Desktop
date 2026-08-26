@@ -5208,7 +5208,7 @@
     "messageformat": "ممبر شامل کریں"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "ممبران شامل کریں"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "گروپ لنک کے ذریعے مدعو کریں"
@@ -8755,6 +8755,6 @@
     "messageformat": "ہم نے گروپ سیٹنگز کے صفحے پر گروپ ممبرز کو تلاش کرنا مزید آسان بنا دیا ہے تاکہ اب آپ فٹافٹ جان لیں کہ آپ کی ممی نے آپ کے سیکنڈ کزن کو پورے خاندان کے تیسرے سالانہ باربی کیو ری یونین گروپ میں شامل کر دیا ہے یا نہیں۔"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "ہم نے رنگ روپ کی سیٹنگز میں زوم کے دو نئے لیولز شامل کیے ہیں یعنی آپ بہت تھوڑی سی محنت سے اپنے میسج کو 110% (یا 90%) دے سکتے ہیں۔"
   }
 }

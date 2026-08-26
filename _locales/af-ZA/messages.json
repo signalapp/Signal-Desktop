@@ -5208,7 +5208,7 @@
     "messageformat": "Voeg lid by"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Voeg lede by"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Nooi via groepskakel"
@@ -8755,6 +8755,6 @@
     "messageformat": "Ons het dit makliker gemaak om vir groeplede op die groepinstellings-webblad te soek."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Ons het twee nuwe zoemvlakke (110% en 90%) in die voorkomsinstellings bygevoeg."
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "멤버 추가"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "멤버 추가"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "그룹 링크를 통해 초대하기"
@@ -8755,6 +8755,6 @@
     "messageformat": "그룹 설정 페이지에서 그룹 멤버를 더 쉽게 검색할 수 있도록 개선했습니다."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "디자인 설정에 두 가지 확대/축소 비율(110%와 90%)이 추가되었습니다."
   }
 }

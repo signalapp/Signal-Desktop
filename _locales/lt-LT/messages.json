@@ -5208,7 +5208,7 @@
     "messageformat": "Pridėti narį"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Pridėti narius"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Kviesti per grupės nuorodą"
@@ -8755,6 +8755,6 @@
     "messageformat": "Palengvinome galimybę ieškoti grupės narių grupės nustatymų puslapyje."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Išvaizdos nustatymuose pridėjome du naujus mastelio lygius (110 % ir 90 %)."
   }
 }

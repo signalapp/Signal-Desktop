@@ -5208,7 +5208,7 @@
     "messageformat": "সদস্যকে যোগ করুন"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "সদস্যকে যোগ করুন"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "গ্রুপ লিংকের মাধ্যমে আমন্ত্রণ জানান"
@@ -8755,6 +8755,6 @@
     "messageformat": "আমরা গ্ৰুপ সেটিংস পেইজে গ্রুপ সদস্যদের খোঁজা আরো সহজ করে দিয়েছি।"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "আমরা অ্যাপিয়ারেন্স সেটিংসে দু'টি নতুন জুম লেভেল (১১০% এবং ৯০%) যোগ করেছি।"
   }
 }

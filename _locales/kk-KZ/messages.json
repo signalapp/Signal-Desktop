@@ -5208,7 +5208,7 @@
     "messageformat": "Мүше қосу"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Мүшелерді қосу"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Топтық сілтеме арқылы шақыру"
@@ -8755,6 +8755,6 @@
     "messageformat": "★ Топ параметрлері бетінде топ мүшелерін оңай іздеуге болады. Енді жыл сайын өткізілетін үшінші үлкен отбасылық жиынның барбекю тобына анаңыздың бөлеңізді қосқанын не қоспағанын көре аласыз."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Көрініс параметрлеріне масштабтаудың екі жаңа деңгейін қостық. Енді хабарларыңызды 110%-ға (немесе 90%-ға) оп-оңай жеткізе аласыз."
   }
 }

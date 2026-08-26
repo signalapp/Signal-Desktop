@@ -5208,7 +5208,7 @@
     "messageformat": "Partaidea gehitu"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Gehitu kideak"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Gonbidatu taldeko estekaren bidez"
@@ -8755,6 +8755,6 @@
     "messageformat": "Taldeen ezarpenen orrian taldeko kideak bilatzeko aukera erraztu dugu."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Bi zoom-maila berri gehitu ditugu itxuraren ezarpenetan (% 110 eta % 90)."
   }
 }

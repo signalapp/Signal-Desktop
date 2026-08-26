@@ -5208,7 +5208,7 @@
     "messageformat": "Thêm thành viên"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Thêm thành viên"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Mời qua đường dẫn nhóm"
@@ -8755,6 +8755,6 @@
     "messageformat": "Chúng tôi cũng đã đơn giản hóa việc tìm thành viên nhóm trên trang cài đặt nhóm."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Chúng tôi đã thêm hai mức thu phóng mới vào phần cài đặt giao diện (110% và 90%)."
   }
 }

@@ -5208,7 +5208,7 @@
     "messageformat": "Добавить участника"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Добавить участников"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Пригласить в группу через ссылку"
@@ -8755,6 +8755,6 @@
     "messageformat": "Мы упростили поиск участников группы на странице настроек группы, так что вы сможете быстро выяснить, добавила ли ваша мама вашего троюродного брата в список участников третьего ежегодного семейного барбекю."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Мы добавили два новых уровня масштабирования в настройках интерфейса, так что вы без особых усилий сможете увеличить свои сообщения на 110% (или на 90%)."
   }
 }

@@ -2811,7 +2811,7 @@
     "messageformat": "Condivisi con te"
   },
   "icu:stickers--StickerManager--ReceivedPacksDescription": {
-    "messageformat": "Quando ti viene inviato un adesivo in chat, il relativo pacchetto lo troverai qui."
+    "messageformat": "I pacchetti degli adesivi che ricevi in chat appariranno qui."
   },
   "icu:stickers--StickerManager--Install": {
     "messageformat": "Installa"
@@ -2826,7 +2826,7 @@
     "messageformat": "Potresti non essere più in grado di reinstallare questo pacchetto di adesivi se non hai più il messaggio di origine."
   },
   "icu:stickers--StickerManagerHeader--All": {
-    "messageformat": "Tutte"
+    "messageformat": "Tutti"
   },
   "icu:stickers--StickerManagerHeader--MyStickers": {
     "messageformat": "I miei adesivi"
@@ -5208,7 +5208,7 @@
     "messageformat": "Aggiungi partecipante"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Aggiungi membri"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Invita tramite link del gruppo"
@@ -8755,6 +8755,6 @@
     "messageformat": "Da adesso è più semplice cercare le persone in un gruppo dalle Impostazioni della chat di gruppo. Puoi vedere i nuovi utenti e apportare modifiche, magari aggiungendo quella persona che ci rimane male se non è la prima a partecipare in un nuovo gruppo."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "Abbiamo aggiunto due nuovi livelli di zoom nelle Impostazioni per l'Aspetto, così basta davvero poco per godersi i propri messaggi con lo zoom ideale (al 110% o 90%)."
   }
 }

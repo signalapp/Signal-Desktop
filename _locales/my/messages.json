@@ -5208,7 +5208,7 @@
     "messageformat": "မန်ဘာ ပေါင်းထည့်ရန်"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "အဖွဲ့ဝင်များ ထည့်သွင်းရန်"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "အဖွဲ့လင့်ခ်ဖြင့် ဖိတ်ကြားပါ"
@@ -8755,6 +8755,6 @@
     "messageformat": "အဖွဲ့ဆက်တင်စာမျက်နှာတွင် အဖွဲ့ဝင်များကို ရှာဖွေရာတွင် ပိုမိုလွယ်ကူအောင် ပြုလုပ်ထားပါသည်။"
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "ပုံပန်းသွင်ပြင် ဆက်တင်တွင် ချဲ့ကြည့်နိုင်သည့် အဆင့်အသစ် နှစ်ခုကို ထည့်သွင်းထားပါသည် (110% နှင့် 90%)။"
   }
 }

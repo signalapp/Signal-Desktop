@@ -5208,7 +5208,7 @@
     "messageformat": "Dodaj člana"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "Dodaj člane_ice"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "Povabi prek povezave skupine"
@@ -8755,6 +8755,6 @@
     "messageformat": "Iskanje članov skupine na strani z nastavitvami skupine smo poenostavili."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "V nastavitve videza smo dodali dve novi stopnji povečave (110 % in 90 %)."
   }
 }

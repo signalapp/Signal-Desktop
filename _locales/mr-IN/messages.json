@@ -5208,7 +5208,7 @@
     "messageformat": "सदस्य जोडा"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
-    "messageformat": "Add members"
+    "messageformat": "सदस्य जोडा"
   },
   "icu:GroupMembersSearchDialog__BottomActions__InviteViaGroupLink": {
     "messageformat": "गट लिंकद्वारे बोलवा"
@@ -8755,6 +8755,6 @@
     "messageformat": "गट सेटिंग्ज पानावर गट सदस्यांना शोधणेसुद्धा आम्ही सोपे केले आहे."
   },
   "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%)."
+    "messageformat": "आम्ही स्वरूप सेटिंग्जमध्ये दोन नवीन झूमच्या पातळ्या जोडल्या आहेत (110% आणि 90%)."
   }
 }
