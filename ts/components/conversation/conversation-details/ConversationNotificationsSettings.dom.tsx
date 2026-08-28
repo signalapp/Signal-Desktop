@@ -1,38 +1,26 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useMemo, useId, type JSX } from 'react';
-import type { MuteExpiration } from '@signalapp/types';
+import { useCallback, useId, useMemo, type JSX } from 'react';
+import { MuteExpiration } from '@signalapp/types';
 
-import type { ConversationTypeType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { PanelSection } from './PanelSection.dom.tsx';
-import { PanelRow } from './PanelRow.dom.tsx';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
-import { Select } from '../../Select.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
+import { MuteNotificationsDropdownMenu } from '../../MuteNotificationsMenu.dom.tsx';
 import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
-import {
-  getMuteExpiration,
-  getMuteOptions,
-  isMuteExpirationOption,
-} from '../../../util/getMuteOptions.std.ts';
-import { parseIntOrThrow } from '../../../util/parseIntOrThrow.std.ts';
-import { strictAssert } from '../../../util/assert.std.ts';
+import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';
+import type { NotifyWhileMuted } from '../../../util/notifyWhileMuted.std.ts';
 
 export type PropsType = {
   id: string;
-  conversationType: ConversationTypeType;
-  dontNotifyForMentionsIfMuted: boolean;
   i18n: LocalizerType;
+  isGroup: boolean;
   muteExpiresAt: undefined | MuteExpiration;
-  setDontNotifyForMentionsIfMuted: (
-    conversationId: string,
-    dontNotifyForMentionsIfMuted: boolean
-  ) => unknown;
+  notifyWhileMuted: NotifyWhileMuted;
+  onOpenWhileMutedSettings: () => unknown;
   setMuteExpiration: (
     conversationId: string,
     muteExpiresAt: undefined | MuteExpiration
@@ -41,121 +29,137 @@ export type PropsType = {
 
 export function ConversationNotificationsSettings({
   id,
-  conversationType,
-  dontNotifyForMentionsIfMuted,
   i18n,
+  isGroup,
   muteExpiresAt,
+  notifyWhileMuted,
+  onOpenWhileMutedSettings,
   setMuteExpiration,
-  setDontNotifyForMentionsIfMuted,
 }: PropsType): JSX.Element {
-  const muteNotificationsSelectId = useId();
-  const mentionsSelectId = useId();
+  const whileMutedTitleId = useId();
 
-  const selectableMuteOptions = useMemo(
-    () => getMuteOptions(muteExpiresAt, i18n).filter(isMuteExpirationOption),
+  const mutedUntilText =
+    muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
+      ? getMutedUntilText(muteExpiresAt, i18n)
+      : null;
+
+  const muteMenu = useMemo(
+    () => getConversationMuteMenu(muteExpiresAt, i18n),
     [i18n, muteExpiresAt]
   );
 
-  const muteOptions = useMemo(
-    () => [
-      {
-        disabled: true,
-        text:
-          muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
-            ? getMutedUntilText(muteExpiresAt, i18n)
-            : i18n('icu:notMuted'),
-        value: -1,
-      },
-      ...selectableMuteOptions.map(({ disabled, name }, index) => ({
-        disabled,
-        text: name,
-        value: index,
-      })),
-    ],
-    [i18n, muteExpiresAt, selectableMuteOptions]
+  const handleMuteExpiration = useCallback(
+    (expiration: MuteExpiration) => {
+      setMuteExpiration(id, expiration);
+    },
+    [id, setMuteExpiration]
   );
 
-  const onMuteChange = (rawValue: string) => {
-    const index = parseIntOrThrow(
-      rawValue,
-      'NotificationSettings: mute option index was not an integer'
-    );
-    const option = selectableMuteOptions[index];
-    strictAssert(
-      option != null,
-      `NotificationSettings: no mute option at index ${index}`
-    );
-    setMuteExpiration(id, getMuteExpiration(option.value));
-  };
-
-  const onChangeDontNotifyForMentionsIfMuted = (rawValue: string) => {
-    setDontNotifyForMentionsIfMuted(id, rawValue === 'yes');
-  };
+  const handleUnmute = useCallback(() => {
+    setMuteExpiration(id, MuteExpiration.UNMUTED);
+  }, [id, setMuteExpiration]);
 
   return (
-    <div className="conversation-details-panel">
-      <PanelSection>
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:muteNotificationsTitle')}
-              icon={IconType.mute}
-            />
-          }
-          label={
-            <label htmlFor={muteNotificationsSelectId}>
-              {i18n('icu:muteNotificationsTitle')}
-            </label>
-          }
-          right={
-            <Select
-              id={muteNotificationsSelectId}
-              options={muteOptions}
-              onChange={onMuteChange}
-              value={-1}
-            />
-          }
-        />
-        {conversationType === 'group' && (
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n(
-                  'icu:ConversationNotificationsSettings__mentions__label'
-                )}
-                icon={IconType.mention}
-              />
-            }
-            label={
-              <label htmlFor={mentionsSelectId}>
-                {i18n('icu:ConversationNotificationsSettings__mentions__label')}
-              </label>
-            }
-            info={i18n('icu:ConversationNotificationsSettings__mentions__info')}
-            right={
-              <Select
-                id={mentionsSelectId}
-                options={[
-                  {
-                    text: i18n(
-                      'icu:ConversationNotificationsSettings__mentions__select__always-notify'
-                    ),
-                    value: 'no',
-                  },
-                  {
-                    text: i18n(
-                      'icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted'
-                    ),
-                    value: 'yes',
-                  },
-                ]}
-                onChange={onChangeDontNotifyForMentionsIfMuted}
-                value={dontNotifyForMentionsIfMuted ? 'yes' : 'no'}
-              />
-            }
-          />
-        )}
-      </PanelSection>
+    <div className={tw('mx-auto flex w-full max-w-[750px] flex-col gap-4')}>
+      <AxoList.Root
+        accessibilityLabel={i18n('icu:ConversationDetails--notifications')}
+      >
+        <AxoList.Body>
+          <AxoItem.Group>
+            <AxoItem.Root>
+              <AxoItem.Icon symbol="bell-slash" />
+              <AxoItem.Content>
+                <AxoItem.Body>
+                  <AxoItem.Title>
+                    {i18n('icu:muteNotificationsTitle')}
+                  </AxoItem.Title>
+                  <AxoItem.Description>
+                    {mutedUntilText ?? i18n('icu:notMuted')}
+                  </AxoItem.Description>
+                </AxoItem.Body>
+                <AxoItem.Accessory>
+                  {mutedUntilText != null ? (
+                    <AxoItem.Action
+                      variant="subtle-secondary"
+                      onClick={handleUnmute}
+                    >
+                      {i18n('icu:unmute')}
+                    </AxoItem.Action>
+                  ) : (
+                    <MuteNotificationsDropdownMenu
+                      i18n={i18n}
+                      label={muteMenu.label}
+                      options={muteMenu.options}
+                      onMuteExpiration={handleMuteExpiration}
+                    >
+                      <AxoItem.Action variant="subtle-secondary">
+                        {i18n('icu:mute')}
+                      </AxoItem.Action>
+                    </MuteNotificationsDropdownMenu>
+                  )}
+                </AxoItem.Accessory>
+              </AxoItem.Content>
+            </AxoItem.Root>
+            <AxoItem.Root>
+              <AxoItem.Icon symbol="bell-badge" />
+              <AxoItem.Content>
+                <AxoItem.Body>
+                  <AxoItem.Title id={whileMutedTitleId}>
+                    {i18n('icu:WhileMuted__title')}
+                  </AxoItem.Title>
+                  <AxoItem.Value>
+                    {getNotifyWhileMutedText(notifyWhileMuted, isGroup, i18n)}
+                  </AxoItem.Value>
+                  <AxoItem.Description>
+                    {i18n('icu:WhileMuted__description')}
+                  </AxoItem.Description>
+                  <AxoItem.HiddenTrigger
+                    labelledby={whileMutedTitleId}
+                    onClick={onOpenWhileMutedSettings}
+                  />
+                </AxoItem.Body>
+              </AxoItem.Content>
+              <AxoItem.Arrow />
+            </AxoItem.Root>
+          </AxoItem.Group>
+        </AxoList.Body>
+      </AxoList.Root>
     </div>
   );
+}
+
+function getNotifyWhileMutedText(
+  notifyWhileMuted: NotifyWhileMuted,
+  isGroup: boolean,
+  i18n: LocalizerType
+): string {
+  const { calls } = notifyWhileMuted;
+  // Mentions and replies only apply to groups, and the "While muted" panel
+  // hides those rows for 1:1 chats, so don't summarize them here either.
+  const mentions = isGroup && notifyWhileMuted.mentions;
+  const replies = isGroup && notifyWhileMuted.replies;
+
+  if (calls && mentions && replies) {
+    return i18n('icu:WhileMuted__value--calls-mentions-replies');
+  }
+  if (calls && mentions) {
+    return i18n('icu:WhileMuted__value--calls-mentions');
+  }
+  if (calls && replies) {
+    return i18n('icu:WhileMuted__value--calls-replies');
+  }
+  if (mentions && replies) {
+    return i18n('icu:WhileMuted__value--mentions-replies');
+  }
+  if (calls) {
+    return i18n('icu:WhileMuted__value--calls');
+  }
+  if (mentions) {
+    return i18n('icu:WhileMuted__value--mentions');
+  }
+  if (replies) {
+    return i18n('icu:WhileMuted__value--replies');
+  }
+
+  return i18n('icu:WhileMuted__value--none');
 }

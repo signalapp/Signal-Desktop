@@ -666,7 +666,10 @@ export class BackupExportStream extends Readable {
             : null,
           markedUnread: attributes.markedUnread === true,
           dontNotifyForMentionsIfMuted:
-            attributes.dontNotifyForMentionsIfMuted === true,
+            attributes.notifyForMentionsIfMuted === false,
+          notifyForCallsIfMuted: attributes.notifyForCallsIfMuted ?? null,
+          notifyForMentionsIfMuted: attributes.notifyForMentionsIfMuted ?? null,
+          notifyForRepliesIfMuted: attributes.notifyForRepliesIfMuted ?? null,
 
           style: this.#toChatStyle({
             wallpaperPhotoPointer: attributes.wallpaperPhotoPointerBase64

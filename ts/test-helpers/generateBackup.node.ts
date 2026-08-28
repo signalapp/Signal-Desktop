@@ -240,6 +240,9 @@ function* createRecords({
         muteUntilMs: 0n,
         markedUnread: false,
         dontNotifyForMentionsIfMuted: false,
+        notifyForCallsIfMuted: null,
+        notifyForRepliesIfMuted: null,
+        notifyForMentionsIfMuted: null,
         style: {
           wallpaper: null,
           bubbleColor: {

@@ -23,12 +23,6 @@ export type MuteExpirationOption = MuteOption & {
   value: Exclude<MuteOptionValue, { type: 'custom' }>;
 };
 
-export function isMuteExpirationOption(
-  option: MuteOption
-): option is MuteExpirationOption {
-  return option.value.type !== 'custom';
-}
-
 export function getMuteExpiration(
   value: MuteExpirationOption['value']
 ): MuteExpiration {
@@ -83,31 +77,6 @@ export function getMuteValuesOptions(
       value: { type: 'custom' },
     },
     muteAlwaysOption,
-  ];
-}
-
-export function getMuteOptions(
-  muteExpiresAt: null | undefined | MuteExpiration,
-  i18n: LocalizerType,
-  options: {
-    canOnlyBeMutedAlways?: boolean;
-  } = {}
-): Array<MuteOption> {
-  return [
-    ...(muteExpiresAt && isConversationMuted({ muteExpiresAt })
-      ? [
-          {
-            name: i18n('icu:unmute'),
-            value: { type: 'unmute' } as const,
-          },
-        ]
-      : []),
-    ...getMuteValuesOptions(i18n, {
-      canOnlyBeMutedAlways: options.canOnlyBeMutedAlways,
-      isCurrentlyMutedAlways: MuteExpiration.isAlways(
-        muteExpiresAt ?? MuteExpiration.UNMUTED
-      ),
-    }),
   ];
 }
 

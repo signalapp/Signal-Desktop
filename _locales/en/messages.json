@@ -6874,6 +6874,70 @@
     "messageformat": "Note",
     "description": "Input placeholder for the note input in the edit nickname and note modal"
   },
+  "icu:WhileMuted__title": {
+    "messageformat": "While muted",
+    "description": "Title of the panel, and label of the row that opens it, for choosing which notifications still come through while a chat is muted"
+  },
+  "icu:WhileMuted__description": {
+    "messageformat": "Choose notifications to show while this chat is muted.",
+    "description": "Sub-label of the row in conversation notification settings that opens the 'While muted' panel"
+  },
+  "icu:WhileMuted__calls__title": {
+    "messageformat": "Calls",
+    "description": "In the 'While muted' panel, label for the switch that allows call notifications while the chat is muted"
+  },
+  "icu:WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started while this chat is muted.",
+    "description": "In the 'While muted' panel, sub-label for the switch that allows call notifications while the chat is muted"
+  },
+  "icu:WhileMuted__mentions__title": {
+    "messageformat": "Mentions",
+    "description": "In the 'While muted' panel, label for the switch that allows @mention notifications while the chat is muted"
+  },
+  "icu:WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are @mentioned while this chat is muted.",
+    "description": "In the 'While muted' panel, sub-label for the switch that allows @mention notifications while the chat is muted"
+  },
+  "icu:WhileMuted__replies__title": {
+    "messageformat": "Replies",
+    "description": "In the 'While muted' panel, label for the switch that allows reply notifications while the chat is muted"
+  },
+  "icu:WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message while this chat is muted.",
+    "description": "In the 'While muted' panel, sub-label for the switch that allows reply notifications while the chat is muted"
+  },
+  "icu:WhileMuted__value--none": {
+    "messageformat": "None",
+    "description": "Summary shown on the 'While muted' row when no notifications come through while the chat is muted"
+  },
+  "icu:WhileMuted__value--calls": {
+    "messageformat": "Calls",
+    "description": "Summary shown on the 'While muted' row when only calls notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--mentions": {
+    "messageformat": "Mentions",
+    "description": "Summary shown on the 'While muted' row when only mentions notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--replies": {
+    "messageformat": "Replies",
+    "description": "Summary shown on the 'While muted' row when only replies notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--calls-mentions": {
+    "messageformat": "Calls, mentions",
+    "description": "Summary shown on the 'While muted' row when calls and mentions notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--calls-replies": {
+    "messageformat": "Calls, replies",
+    "description": "Summary shown on the 'While muted' row when calls and replies notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--mentions-replies": {
+    "messageformat": "Mentions, replies",
+    "description": "Summary shown on the 'While muted' row when mentions and replies notify while the chat is muted"
+  },
+  "icu:WhileMuted__value--calls-mentions-replies": {
+    "messageformat": "Calls, mentions, replies",
+    "description": "Summary shown on the 'While muted' row when calls, mentions, and replies all notify while the chat is muted"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
     "description": "In the conversation notifications settings, this is the label for the mentions option"

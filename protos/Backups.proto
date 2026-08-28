@@ -311,8 +311,8 @@ message Group {
     repeated MemberPendingProfileKey membersPendingProfileKey = 8;
     repeated MemberPendingAdminApproval membersPendingAdminApproval = 9;
     bytes inviteLinkPassword = 10;
-    bool announcements_only = 12;
-    repeated MemberBanned members_banned = 13;
+    bool announcementsOnly = 12;
+    repeated MemberBanned membersBanned = 13;
     bool terminated = 14;
   }
 
@@ -333,13 +333,13 @@ message Group {
       ADMINISTRATOR = 2;
     }
 
-    bytes user_id = 1;
+    bytes userId = 1;
     Role role = 2;
     reserved /*profileKey*/ 3; // This field is ignored in Backups, in favor of Contact frames for members
     reserved /*presentation*/ 4; // This field is deprecated in the context of static group state
     uint32 joinedAtVersion = 5;
-    string label_emoji = 6;
-    string label_string = 7;
+    string labelEmoji = 6;
+    string labelString = 7;
   }
 
   message MemberPendingProfileKey {
@@ -349,14 +349,14 @@ message Group {
   }
 
   message MemberPendingAdminApproval {
-    bytes user_id = 1;
+    bytes userId = 1;
     reserved /*profileKey*/ 2; // This field is ignored in Backups, in favor of Contact frames for members
     reserved /*presentation*/ 3; // This field is deprecated in the context of static group state
     uint64 timestamp = 4;
   }
 
   message MemberBanned {
-    bytes user_id = 1;
+    bytes userId = 1;
     uint64 timestamp = 2;
   }
 
@@ -390,9 +390,12 @@ message Chat {
   optional uint64 expirationTimerMs = 5;
   optional uint64 muteUntilMs = 6; // INT64_MAX (2^63 - 1) = "always muted".
   bool markedUnread = 7;
-  bool dontNotifyForMentionsIfMuted = 8;
+  bool dontNotifyForMentionsIfMuted = 8; // will be deprecated in favor of [notifyForMentionsIfMuted]
   ChatStyle style = 9;
   uint32 expireTimerVersion = 10;
+  optional bool notifyForCallsIfMuted = 11; // If unset, use default global settings
+  optional bool notifyForMentionsIfMuted = 12; // If unset, use default global settings. Only for groups. If [dontNotifyForMentionsIfMuted] is true, this should be initialized to false.
+  optional bool notifyForRepliesIfMuted = 13; // If unset, use default global settings. Only for groups.
 }
 
 /**

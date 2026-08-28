@@ -11,6 +11,7 @@ import { getActiveProfile } from '../state/selectors/notificationProfiles.dom.ts
 import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.std.ts';
 import { NotificationType } from '../types/notifications.std.ts';
 import { isMessageUnread } from '../util/isMessageUnread.std.ts';
+import { getNotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
 import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
 import { isExpiringMessage } from '../types/Message2.preload.ts';
 import { notificationService } from '../services/notifications.preload.ts';
@@ -68,25 +69,27 @@ type MaybeNotifyArgs = {
   conversation: ConversationModel;
 } & NotifyData;
 
-function isMentionOrReply(args: MaybeNotifyArgs): boolean {
-  if (
-    args.kind === 'reaction' ||
-    args.kind === 'pollVote' ||
-    args.kind === 'pollTerminate'
-  ) {
+function isMention(args: MaybeNotifyArgs): boolean {
+  if (args.kind !== 'normalMessage') {
     return false;
   }
 
-  if (args.message.mentionsMe) {
-    return true;
+  return Boolean(args.message.mentionsMe);
+}
+
+function isReplyToMe(args: MaybeNotifyArgs): boolean {
+  if (args.kind !== 'normalMessage') {
+    return false;
   }
 
   const quoteAuthorAci = args.message.quote?.authorAci;
-  if (quoteAuthorAci && itemStorage.user.isOurServiceId(quoteAuthorAci)) {
-    return true;
-  }
+  return Boolean(
+    quoteAuthorAci && itemStorage.user.isOurServiceId(quoteAuthorAci)
+  );
+}
 
-  return false;
+function isMentionOrReply(args: MaybeNotifyArgs): boolean {
+  return isMention(args) || isReplyToMe(args);
 }
 
 export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
@@ -292,9 +295,19 @@ function isAllowedByConversation(args: MaybeNotifyArgs): boolean {
     return true;
   }
 
-  if (conversation.get('dontNotifyForMentionsIfMuted')) {
+  if (isDirectConversation(conversation.attributes)) {
     return false;
   }
 
-  return isMentionOrReply(args);
+  const notifyWhileMuted = getNotifyWhileMuted(conversation.attributes);
+
+  if (notifyWhileMuted.mentions && isMention(args)) {
+    return true;
+  }
+
+  if (notifyWhileMuted.replies && isReplyToMe(args)) {
+    return true;
+  }
+
+  return false;
 }

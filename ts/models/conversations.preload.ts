@@ -32,6 +32,7 @@ import {
 } from '../util/migrations.preload.ts';
 import { drop } from '../util/drop.std.ts';
 import { isShallowEqual } from '../util/isShallowEqual.std.ts';
+import type { NotifyWhileMutedKey } from '../util/notifyWhileMuted.std.ts';
 import { getInitials } from '../util/getInitials.std.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
@@ -5766,7 +5767,9 @@ export class ConversationModel {
   // [X] whitelisted
   // [X] archived
   // [X] markedUnread
-  // [X] dontNotifyForMentionsIfMuted
+  // [X] notifyForCallsIfMuted
+  // [X] notifyForMentionsIfMuted
+  // [X] notifyForRepliesIfMuted
   // [x] firstUnregisteredAt
   captureChange(logMessage: string): void {
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
@@ -6108,15 +6111,30 @@ export class ConversationModel {
     }
   }
 
-  setDontNotifyForMentionsIfMuted(newValue: boolean): void {
-    const previousValue = Boolean(this.get('dontNotifyForMentionsIfMuted'));
-    if (previousValue === newValue) {
+  setNotifyWhileMuted(key: NotifyWhileMutedKey, newValue: boolean): void {
+    let attributeName: keyof ConversationAttributesType;
+    switch (key) {
+      case 'calls':
+        attributeName = 'notifyForCallsIfMuted';
+        break;
+      case 'mentions':
+        attributeName = 'notifyForMentionsIfMuted';
+        break;
+      case 'replies':
+        attributeName = 'notifyForRepliesIfMuted';
+        break;
+      default:
+        throw missingCaseError(key);
+    }
+
+    if (this.get(attributeName) === newValue) {
       return;
     }
 
-    this.set({ dontNotifyForMentionsIfMuted: newValue });
+    this.set({ [attributeName]: newValue });
+
     drop(DataWriter.updateConversation(this.attributes));
-    this.captureChange('dontNotifyForMentionsIfMuted');
+    this.captureChange(attributeName);
   }
 
   acknowledgeGroupMemberNameCollisions(

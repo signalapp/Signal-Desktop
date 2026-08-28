@@ -413,7 +413,10 @@ export type ConversationAttributesType = {
   messageRequestResponseType?: number;
   messagesDeleted?: boolean;
   muteExpiresAt?: MuteExpiration;
-  dontNotifyForMentionsIfMuted?: boolean;
+  // Ternary: undefined means unset, see DEFAULT_NOTIFY_WHILE_MUTED
+  notifyForCallsIfMuted?: boolean;
+  notifyForMentionsIfMuted?: boolean;
+  notifyForRepliesIfMuted?: boolean;
   sharingPhoneNumber?: boolean;
   profileAvatar?: ContactAvatarType | null;
   profileKeyCredential?: string | null;

@@ -90,6 +90,7 @@ import {
   getGroupSizeHardLimit,
 } from '../../groups/limits.dom.ts';
 import { isMessageUnread } from '../../util/isMessageUnread.std.ts';
+import type { NotifyWhileMutedKey } from '../../util/notifyWhileMuted.std.ts';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition.std.ts';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.ts';
 import { writeProfile } from '../../services/writeProfile.preload.ts';
@@ -420,7 +421,9 @@ export type ConversationType = ReadonlyDeep<
     }>;
     bannedMemberships?: ReadonlyArray<ServiceIdString>;
     muteExpiresAt?: MuteExpiration;
-    dontNotifyForMentionsIfMuted?: boolean;
+    notifyForCallsIfMuted?: boolean;
+    notifyForMentionsIfMuted?: boolean;
+    notifyForRepliesIfMuted?: boolean;
     isMe: boolean;
     lastUpdated?: number;
     // This is used by the CompositionInput for @mentions
@@ -1259,12 +1262,12 @@ export const actions = {
   setComposeSearchTerm,
   setComposeSelectedRegion,
   setDisappearingMessages,
-  setDontNotifyForMentionsIfMuted,
   setIsFetchingUUID,
   setIsNearBottom,
   setMessageLoadingState,
   setMessageToEdit,
   setMuteExpiration,
+  setNotifyWhileMuted,
   setChatFolderMuteExpiration,
   setPinned,
   setPreJoinConversation,
@@ -1772,18 +1775,19 @@ function setDisappearingMessages(
   };
 }
 
-function setDontNotifyForMentionsIfMuted(
+function setNotifyWhileMuted(
   conversationId: string,
+  key: NotifyWhileMutedKey,
   newValue: boolean
 ): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
-    throw new Error('setDontNotifyForMentionsIfMuted: No conversation found');
+    throw new Error('setNotifyWhileMuted: No conversation found');
   }
 
-  conversation.setDontNotifyForMentionsIfMuted(newValue);
+  conversation.setNotifyWhileMuted(key, newValue);
 
-  return noopAction('setDontNotifyForMentionsIfMuted');
+  return noopAction('setNotifyWhileMuted');
 }
 
 function setChatFolderMuteExpiration(

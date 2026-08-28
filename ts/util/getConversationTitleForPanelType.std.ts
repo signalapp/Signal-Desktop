@@ -59,6 +59,10 @@ export function getConversationTitleForPanelType(
     return undefined;
   }
 
+  if (panelType === PanelType.WhileMuted) {
+    return i18n('icu:WhileMuted__title');
+  }
+
   if (
     panelType === PanelType.GroupV1Members ||
     panelType === PanelType.MessageDetails

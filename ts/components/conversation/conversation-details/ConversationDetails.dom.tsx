@@ -673,27 +673,25 @@ export function ConversationDetails({
               }
             />
           )}
-          {isGroup && (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails--notifications')}
-                  icon={IconType.notifications}
-                />
-              }
-              label={i18n('icu:ConversationDetails--notifications')}
-              onClick={() =>
-                pushPanelForConversation({
-                  type: PanelType.NotificationSettings,
-                })
-              }
-              right={
-                conversation.muteExpiresAt
-                  ? getMutedUntilText(conversation.muteExpiresAt, i18n)
-                  : undefined
-              }
-            />
-          )}
+          <PanelRow
+            icon={
+              <ConversationDetailsIcon
+                ariaLabel={i18n('icu:ConversationDetails--notifications')}
+                icon={IconType.notifications}
+              />
+            }
+            label={i18n('icu:ConversationDetails--notifications')}
+            onClick={() =>
+              pushPanelForConversation({
+                type: PanelType.NotificationSettings,
+              })
+            }
+            right={
+              conversation.muteExpiresAt
+                ? getMutedUntilText(conversation.muteExpiresAt, i18n)
+                : undefined
+            }
+          />
           {hasMedia && (
             <PanelRow
               icon={

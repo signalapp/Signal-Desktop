@@ -10,7 +10,6 @@ import type { MuteOption } from '../../util/getMuteOptions.std.ts';
 import {
   getConversationMuteMenu,
   getMuteExpiration,
-  getMuteOptions,
   getMuteValuesOptions,
 } from '../../util/getMuteOptions.std.ts';
 
@@ -99,56 +98,6 @@ describe('getMuteOptions', () => {
         }),
         [expectedAlwaysOption(true)]
       );
-    });
-  });
-
-  describe('getMuteOptions', () => {
-    describe('when not muted', () => {
-      it('returns the default options with no "Unmute"', () => {
-        assert.deepStrictEqual(
-          getMuteOptions(undefined, i18n),
-          expectedDefaultOptions()
-        );
-      });
-
-      it('treats a null mute expiry as not muted', () => {
-        assert.deepStrictEqual(
-          getMuteOptions(null, i18n),
-          expectedDefaultOptions()
-        );
-      });
-
-      it('treats an expired mute as not muted', () => {
-        assert.deepStrictEqual(
-          getMuteOptions(mutedUntil(new Date(2000, 3, 20, 11, 0, 0)), i18n),
-          expectedDefaultOptions()
-        );
-      });
-    });
-
-    describe('when muted', () => {
-      it('returns an "Unmute" option, and then the default options', () => {
-        assert.deepStrictEqual(
-          getMuteOptions(mutedUntil(new Date(2000, 3, 20, 18, 30, 0)), i18n),
-          [UNMUTE_OPTION, ...expectedDefaultOptions()]
-        );
-      });
-
-      it('disables "Always" when muted always', () => {
-        assert.deepStrictEqual(getMuteOptions(MuteExpiration.ALWAYS, i18n), [
-          UNMUTE_OPTION,
-          ...expectedDefaultOptions({ isCurrentlyMutedAlways: true }),
-        ]);
-      });
-
-      it('returns "Unmute" and a disabled "Always" when only "Always" is allowed', () => {
-        assert.deepStrictEqual(
-          getMuteOptions(MuteExpiration.ALWAYS, i18n, {
-            canOnlyBeMutedAlways: true,
-          }),
-          [UNMUTE_OPTION, expectedAlwaysOption(true)]
-        );
-      });
     });
   });
 

@@ -17,6 +17,7 @@ export enum PanelType {
   NotificationSettings = 'NotificationSettings',
   PinnedMessages = 'PinnedMessages',
   StickerManager = 'StickerManager',
+  WhileMuted = 'WhileMuted',
 }
 
 type PanelsWithArgs = ReadonlyDeep<

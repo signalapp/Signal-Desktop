@@ -145,7 +145,8 @@ message ContactRecord {
   bytes aciBinary = 25; // 16-byte UUID
   bytes pniBinary = 26; // 16-byte UUID
   uint64 blockedAtTimestamp = 27; // if `blocked` is true, 0 means unknown block time
-  // Next ID: 28
+  OptionalBool notifyForCallsIfMuted = 28; // If unset, use the default settings
+  // Next ID: 30
 }
 
 message GroupV1Record {
@@ -170,13 +171,16 @@ message GroupV2Record {
   bool archived = 4;
   bool markedUnread = 5;
   uint64 mutedUntilTimestamp = 6;
-  bool dontNotifyForMentionsIfMuted = 7;
+  bool dontNotifyForMentionsIfMuted = 7; // will be deprecated in favor of [notifyForMentionsIfMuted]
   bool hideStory = 8;
   reserved 9;
   StorySendMode storySendMode = 10;
   optional AvatarColor avatarColor = 11;
   bytes verifiedNameHash = 12; // SHA-256 of UTF-8 encoded decrypted group title that was last verified
   uint64 blockedAtTimestamp = 13; // if `blocked` is true, 0 means unknown block time
+  OptionalBool notifyForCallsIfMuted = 14; // If unset, use the default settings
+  OptionalBool notifyForMentionsIfMuted = 15; // If unset, use the default settings. If [dontNotifyForMentionsIfMuted] is true, this should be initialized to false.
+  OptionalBool notifyForRepliesIfMuted = 16; // If unset, use the default settings
 }
 
 message Payments {
@@ -330,7 +334,7 @@ message StickerPackRecord {
                      //   info = "Sticker Pack"
                      // )
   uint32 position = 3; // When displayed sticker packs should be first sorted
-                       // in descending order by zero-based `position` and
+                       // in ascending order by zero-based `position` and
                        // then by ascending `packId` (lexicographically,
                        // packId can be treated as a hex string).
                        // When installing a sticker pack the client should find

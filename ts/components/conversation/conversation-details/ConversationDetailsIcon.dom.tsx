@@ -27,8 +27,6 @@ export enum IconType {
   'link' = 'link',
   'lock' = 'lock',
   'media' = 'media',
-  'mention' = 'mention',
-  'mute' = 'mute',
   'notifications' = 'notifications',
   'official' = 'official',
   'reset' = 'reset',

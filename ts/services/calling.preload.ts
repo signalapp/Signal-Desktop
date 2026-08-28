@@ -110,6 +110,7 @@ import {
   makeSfuRequest,
 } from '../textsecure/WebAPI.preload.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { getNotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.std.ts';
 import { requestCameraPermissions } from '../util/callingPermissions.dom.ts';
 import {
@@ -3489,6 +3490,13 @@ class CallingClass {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, null);
       } else if (this.#areAnyCallsActiveOrRinging()) {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
+      } else if (
+        conversation.isMuted() &&
+        !getNotifyWhileMuted(conversation.attributes).calls
+      ) {
+        log.info(
+          `${logId}: not notifying for calls while muted. Ignoring ring request`
+        );
       } else if (getIncomingCallNotification()) {
         shouldRing = true;
       } else {
@@ -3622,6 +3630,31 @@ class CallingClass {
       log.warn(`${logId}: ${conversation.idForLogging()} is blocked`);
       return false;
     }
+
+    if (
+      conversation.isMuted() &&
+      !getNotifyWhileMuted(conversation.attributes).calls
+    ) {
+      log.info(`${logId}: not notifying for calls while muted, ignoring`);
+
+      const eventTimestamp = Date.now();
+      const callEvent = getCallEventDetails({
+        callDetails: getCallDetailsFromDirectCall({
+          peerId: getPeerIdFromConversation(conversation.attributes),
+          call,
+          eventTimestamp,
+        }),
+        event: LocalCallEvent.Missed,
+        eventSource: 'CallingClass.handleIncomingCall',
+        eventTimestamp,
+      });
+      await updateCallHistoryFromLocalEvent({
+        callEvent,
+      });
+
+      return false;
+    }
+
     try {
       // The peer must be 'trusted' before accepting a call from them.
       // This is mostly the safety number check, unverified meaning that they were
@@ -4352,11 +4385,15 @@ class CallingClass {
     );
     const isAnybodyElseInGroupCall = Boolean(peekInfo?.devices.length);
 
+    const isAllowedWhileMuted =
+      !conversation.isMuted() ||
+      getNotifyWhileMuted(conversation.attributes).calls;
+
     if (
       isNewCall &&
       !wasStartedByMe &&
       isAnybodyElseInGroupCall &&
-      !conversation.isMuted()
+      isAllowedWhileMuted
     ) {
       await this.#notifyForGroupCall(conversation, creatorConversation);
     }

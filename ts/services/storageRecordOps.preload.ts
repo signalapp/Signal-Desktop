@@ -18,6 +18,7 @@ import { assertDev, strictAssert } from '../util/assert.std.ts';
 import { dropNull } from '../util/dropNull.std.ts';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { resolveLegacyNotifyForMentionsIfMuted } from '../util/notifyWhileMuted.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import {
   PhoneNumberSharingMode,
@@ -194,6 +195,29 @@ function fromRecordVerified(
       return VERIFIED_ENUM.UNVERIFIED;
     default:
       return VERIFIED_ENUM.DEFAULT;
+  }
+}
+
+function toOptionalBool(value: boolean | undefined): Proto.OptionalBool {
+  if (value === true) {
+    return Proto.OptionalBool.ENABLED;
+  }
+  if (value === false) {
+    return Proto.OptionalBool.DISABLED;
+  }
+  return Proto.OptionalBool.UNSET;
+}
+
+function fromOptionalBool(
+  value: Proto.$NullableOptionalBool | null | undefined
+): boolean | undefined {
+  switch (value) {
+    case Proto.OptionalBool.ENABLED:
+      return true;
+    case Proto.OptionalBool.DISABLED:
+      return false;
+    default:
+      return undefined;
   }
 }
 
@@ -374,6 +398,9 @@ export async function toContactRecord(
     markedUnread: Boolean(conversation.get('markedUnread')),
     mutedUntilTimestamp: MuteExpiration.toProto(
       conversation.get('muteExpiresAt')
+    ),
+    notifyForCallsIfMuted: toOptionalBool(
+      conversation.get('notifyForCallsIfMuted')
     ),
     avatarColor: conversation.get('colorFromPrimary') ?? null,
     hideStory: hideStory ?? null,
@@ -695,8 +722,18 @@ export function toGroupV2Record(
     mutedUntilTimestamp: MuteExpiration.toProto(
       conversation.get('muteExpiresAt')
     ),
-    dontNotifyForMentionsIfMuted: Boolean(
-      conversation.get('dontNotifyForMentionsIfMuted')
+    // Deprecated, but still derived from its replacement so that older clients keep
+    // honoring the setting.
+    dontNotifyForMentionsIfMuted:
+      conversation.get('notifyForMentionsIfMuted') === false,
+    notifyForCallsIfMuted: toOptionalBool(
+      conversation.get('notifyForCallsIfMuted')
+    ),
+    notifyForMentionsIfMuted: toOptionalBool(
+      conversation.get('notifyForMentionsIfMuted')
+    ),
+    notifyForRepliesIfMuted: toOptionalBool(
+      conversation.get('notifyForRepliesIfMuted')
     ),
     hideStory: Boolean(conversation.get('hideStory')),
     avatarColor: avatarColor ?? null,
@@ -1298,7 +1335,16 @@ export async function mergeGroupV2Record(
     hideStory: groupV2Record.hideStory,
     isArchived: groupV2Record.archived,
     markedUnread: groupV2Record.markedUnread,
-    dontNotifyForMentionsIfMuted: groupV2Record.dontNotifyForMentionsIfMuted,
+    notifyForCallsIfMuted: fromOptionalBool(
+      groupV2Record.notifyForCallsIfMuted
+    ),
+    notifyForMentionsIfMuted: resolveLegacyNotifyForMentionsIfMuted(
+      groupV2Record.dontNotifyForMentionsIfMuted,
+      fromOptionalBool(groupV2Record.notifyForMentionsIfMuted)
+    ).notifyForMentionsIfMuted,
+    notifyForRepliesIfMuted: fromOptionalBool(
+      groupV2Record.notifyForRepliesIfMuted
+    ),
     storageID,
     storageVersion,
     storySendMode,
@@ -1542,6 +1588,9 @@ export async function mergeContactRecord(
     hideStory: contactRecord.hideStory,
     isArchived: contactRecord.archived,
     markedUnread: contactRecord.markedUnread,
+    notifyForCallsIfMuted: fromOptionalBool(
+      contactRecord.notifyForCallsIfMuted
+    ),
     storageID,
     storageVersion,
     needsStorageServiceSync: false,

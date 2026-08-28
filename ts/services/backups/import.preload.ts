@@ -69,6 +69,7 @@ import {
 import { DurationInSeconds, SECOND } from '../../util/durations/index.std.ts';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
 import { dropNull } from '../../util/dropNull.std.ts';
+import { resolveLegacyNotifyForMentionsIfMuted } from '../../util/notifyWhileMuted.std.ts';
 import {
   deriveGroupID,
   deriveGroupSecretParams,
@@ -1552,8 +1553,15 @@ export class BackupImportStream extends Writable {
 
     conversation.muteExpiresAt = MuteExpiration.fromProto(chat.muteUntilMs);
     conversation.markedUnread = chat.markedUnread;
-    conversation.dontNotifyForMentionsIfMuted =
-      chat.dontNotifyForMentionsIfMuted;
+    conversation.notifyForCallsIfMuted = dropNull(chat.notifyForCallsIfMuted);
+    conversation.notifyForMentionsIfMuted =
+      resolveLegacyNotifyForMentionsIfMuted(
+        chat.dontNotifyForMentionsIfMuted,
+        chat.notifyForMentionsIfMuted ?? undefined
+      ).notifyForMentionsIfMuted;
+    conversation.notifyForRepliesIfMuted = dropNull(
+      chat.notifyForRepliesIfMuted
+    );
 
     const chatStyle = this.#fromChatStyle(chat.style);
 
