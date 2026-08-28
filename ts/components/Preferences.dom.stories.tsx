@@ -632,6 +632,7 @@ export default {
     onReactionNotificationsChange: action('onReactionNotificationsChange'),
     onReadReceiptsChange: action('onReadReceiptsChange'),
     onRelayCallsChange: action('onRelayCallsChange'),
+    onResetNotificationSettings: action('onResetNotificationSettings'),
     onSealedSenderIndicatorsChange: action('onSealedSenderIndicatorsChange'),
     onSelectedCameraChange: action('onSelectedCameraChange'),
     onSelectedMicrophoneChange: action('onSelectedMicrophoneChange'),

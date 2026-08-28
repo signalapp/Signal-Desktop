@@ -100,6 +100,7 @@ import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import moment from 'moment';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
@@ -364,6 +365,7 @@ type PropsFunctionType = {
   onReactionNotificationsChange: CheckboxChangeHandlerType;
   onReadReceiptsChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
+  onResetNotificationSettings: () => unknown;
   onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
@@ -561,6 +563,7 @@ export function Preferences({
   onReactionNotificationsChange,
   onReadReceiptsChange,
   onRelayCallsChange,
+  onResetNotificationSettings,
   onSealedSenderIndicatorsChange,
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
@@ -657,6 +660,8 @@ export function Preferences({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
   const [confirmContentProtection, setConfirmContentProtection] =
+    useState(false);
+  const [confirmResetNotifications, setConfirmResetNotifications] =
     useState(false);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
@@ -1607,6 +1612,46 @@ export function Preferences({
               })
             }
           />
+        </List>
+
+        <List>
+          <ItemWithAction
+            title={i18n('icu:Preferences__Notifications__Reset__title')}
+            action={
+              <AxoItem.Action
+                variant="subtle-destructive"
+                onClick={() => setConfirmResetNotifications(true)}
+              >
+                {i18n('icu:Preferences__Notifications__Reset__button')}
+              </AxoItem.Action>
+            }
+          />
+          <AxoAlertDialog.Root
+            open={confirmResetNotifications}
+            onOpenChange={setConfirmResetNotifications}
+          >
+            <AxoAlertDialog.Content escape="cancel-is-noop">
+              <AxoAlertDialog.Title screenReaderOnly>
+                {i18n('icu:Preferences__Notifications__Reset__title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Body>
+                <AxoAlertDialog.Description>
+                  {i18n('icu:Preferences__Notifications__Reset__modal--body')}
+                </AxoAlertDialog.Description>
+              </AxoAlertDialog.Body>
+              <AxoAlertDialog.Footer>
+                <AxoAlertDialog.Cancel />
+                <AxoAlertDialog.Action
+                  variant="strong-destructive"
+                  onClick={onResetNotificationSettings}
+                >
+                  {i18n(
+                    'icu:Preferences__Notifications__Reset__modal--confirm'
+                  )}
+                </AxoAlertDialog.Action>
+              </AxoAlertDialog.Footer>
+            </AxoAlertDialog.Content>
+          </AxoAlertDialog.Root>
         </List>
       </ListGroup>
     );

@@ -1234,6 +1234,7 @@ export const actions = {
   repairOldestMessage,
   replaceAvatar,
   resetAllChatColors,
+  resetAllNotifyWhileMuted,
   copyMessageText,
   retryDeleteForEveryone,
   retryMessageSend,
@@ -2401,6 +2402,14 @@ function resetAllChatColors(): ThunkAction<
       },
     });
   };
+}
+
+function resetAllNotifyWhileMuted(): NoopActionType {
+  for (const conversation of window.ConversationController.getAll()) {
+    conversation.resetNotifyWhileMuted();
+  }
+
+  return noopAction('resetAllNotifyWhileMuted');
 }
 
 function kickOffAttachmentDownload(

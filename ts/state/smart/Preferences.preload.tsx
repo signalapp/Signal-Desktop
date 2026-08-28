@@ -129,6 +129,20 @@ import { pinReminderService } from '../../services/pinReminder.preload.ts';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
+// Defaults for the settings that "Reset notification settings" restores
+const NOTIFICATION_SETTING_DEFAULTS = {
+  'notification-setting': DEFAULT_NOTIFICATION_SETTING,
+  'call-system-notification': true,
+  'reaction-notification': true,
+  'notification-draw-attention': false,
+  'audio-notification': false,
+  audioMessage: false,
+  'badge-count-muted-conversations': false,
+  notifyForCallsIfMuted: undefined,
+  notifyForMentionsIfMuted: undefined,
+  notifyForRepliesIfMuted: undefined,
+} as const satisfies Partial<StorageAccessType>;
+
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
@@ -228,8 +242,11 @@ export function SmartPreferences(): JSX.Element | null {
     setGlobalDefaultConversationColor,
     toggleNavTabsCollapse,
   } = useItemsActions();
-  const { removeCustomColorOnConversations, resetAllChatColors } =
-    useConversationsActions();
+  const {
+    removeCustomColorOnConversations,
+    resetAllChatColors,
+    resetAllNotifyWhileMuted: resetAllPerChatNotifyWhileMutedSettings,
+  } = useConversationsActions();
   const { startUpdate } = useUpdatesActions();
   const { changeLocation } = useNavActions();
   const { showToast, openFileInFolder } = useToastActions();
@@ -720,7 +737,7 @@ export function SmartPreferences(): JSX.Element | null {
 
   const [hasAudioNotifications, onAudioNotificationsChange] = createItemsAccess(
     'audio-notification',
-    false
+    NOTIFICATION_SETTING_DEFAULTS['audio-notification']
   );
   const [hasAutoConvertEmoji, onAutoConvertEmojiChange] = createItemsAccess(
     'autoConvertEmoji',
@@ -738,16 +755,20 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasCallNotifications, onCallNotificationsChange] = createItemsAccess(
     'call-system-notification',
-    true
+    NOTIFICATION_SETTING_DEFAULTS['call-system-notification']
   );
   const [hasIncomingCallNotifications, onIncomingCallNotificationsChange] =
     createItemsAccess('incoming-call-notification', true);
   const [hasCallRingtoneNotification, onCallRingtoneNotificationChange] =
     createItemsAccess('call-ringtone-notification', true);
   const [hasCountMutedConversations, onCountMutedConversationsChange] =
-    createItemsAccess('badge-count-muted-conversations', false, () => {
-      window.Whisper.events.emit('updateUnreadCount');
-    });
+    createItemsAccess(
+      'badge-count-muted-conversations',
+      NOTIFICATION_SETTING_DEFAULTS['badge-count-muted-conversations'],
+      () => {
+        window.Whisper.events.emit('updateUnreadCount');
+      }
+    );
   const [hasHideMenuBar, onHideMenuBarChange] = createItemsAccess(
     'hide-menu-bar',
     false,
@@ -758,16 +779,22 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasMessageAudio, onMessageAudioChange] = createItemsAccess(
     'audioMessage',
-    false
+    NOTIFICATION_SETTING_DEFAULTS.audioMessage
   );
   const [hasNotificationAttention, onNotificationAttentionChange] =
-    createItemsAccess('notification-draw-attention', false);
+    createItemsAccess(
+      'notification-draw-attention',
+      NOTIFICATION_SETTING_DEFAULTS['notification-draw-attention']
+    );
   const [hasReactionNotifications, onReactionNotificationsChange] =
-    createItemsAccess('reaction-notification', true);
+    createItemsAccess(
+      'reaction-notification',
+      NOTIFICATION_SETTING_DEFAULTS['reaction-notification']
+    );
 
   const [notificationContent, onNotificationContentChange] = createItemsAccess(
     'notification-setting',
-    'message'
+    NOTIFICATION_SETTING_DEFAULTS['notification-setting']
   );
   const hasNotifications = notificationContent !== 'off';
   const onNotificationsChange = (value: boolean) => {
@@ -786,6 +813,41 @@ export function SmartPreferences(): JSX.Element | null {
     putItem(itemKey, value);
     const account = window.ConversationController.getOurConversationOrThrow();
     account.captureChange(itemKey);
+  };
+
+  const onResetNotificationSettings = () => {
+    // Reset global settings
+    onNotificationContentChange(
+      NOTIFICATION_SETTING_DEFAULTS['notification-setting']
+    );
+    onCallNotificationsChange(
+      NOTIFICATION_SETTING_DEFAULTS['call-system-notification']
+    );
+    onReactionNotificationsChange(
+      NOTIFICATION_SETTING_DEFAULTS['reaction-notification']
+    );
+    onNotificationAttentionChange(
+      NOTIFICATION_SETTING_DEFAULTS['notification-draw-attention']
+    );
+    onAudioNotificationsChange(
+      NOTIFICATION_SETTING_DEFAULTS['audio-notification']
+    );
+    onMessageAudioChange(NOTIFICATION_SETTING_DEFAULTS.audioMessage);
+    onCountMutedConversationsChange(
+      NOTIFICATION_SETTING_DEFAULTS['badge-count-muted-conversations']
+    );
+
+    const account = window.ConversationController.getOurConversationOrThrow();
+    for (const itemKey of Object.values(NOTIFY_WHILE_MUTED_FIELDS)) {
+      if (itemStorage.get(itemKey) === NOTIFICATION_SETTING_DEFAULTS[itemKey]) {
+        continue;
+      }
+      drop(itemStorage.put(itemKey, NOTIFICATION_SETTING_DEFAULTS[itemKey]));
+      account.captureChange(itemKey);
+    }
+
+    // Reset per-chat settings
+    resetAllPerChatNotifyWhileMutedSettings();
   };
 
   const [hasPinReminders, onPinRemindersChange] = createItemsAccess(
@@ -1082,6 +1144,7 @@ export function SmartPreferences(): JSX.Element | null {
         onReactionNotificationsChange={onReactionNotificationsChange}
         onReadReceiptsChange={onReadReceiptsChange}
         onRelayCallsChange={onRelayCallsChange}
+        onResetNotificationSettings={onResetNotificationSettings}
         onSealedSenderIndicatorsChange={onSealedSenderIndicatorsChange}
         onSelectedCameraChange={onSelectedCameraChange}
         onSelectedMicrophoneChange={onSelectedMicrophoneChange}

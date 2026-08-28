@@ -8232,6 +8232,22 @@
     "messageformat": "App badge",
     "description": "Preferences > Notifications > App Badge Section > Title"
   },
+  "icu:Preferences__Notifications__Reset__title": {
+    "messageformat": "Reset notification settings to default, including custom settings for your chats.",
+    "description": "Preferences > Notifications > Reset Section > Text of the row that restores the default notification settings"
+  },
+  "icu:Preferences__Notifications__Reset__button": {
+    "messageformat": "Reset",
+    "description": "Preferences > Notifications > Reset Section > Label of the button that restores the default notification settings"
+  },
+  "icu:Preferences__Notifications__Reset__modal--body": {
+    "messageformat": "Reset all notification settings to default for all chats?",
+    "description": "Preferences > Notifications > Reset Section > Confirmation Modal > Body. The modal has no visible title, so this is the only text in it."
+  },
+  "icu:Preferences__Notifications__Reset__modal--confirm": {
+    "messageformat": "Reset",
+    "description": "Preferences > Notifications > Reset Section > Confirmation Modal > Label of the button that confirms restoring the default notification settings"
+  },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Export chat history",
     "description": "Shown in the Preferences/Chats page, header for a row"

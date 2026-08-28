@@ -32,7 +32,10 @@ import {
 } from '../util/migrations.preload.ts';
 import { drop } from '../util/drop.std.ts';
 import { isShallowEqual } from '../util/isShallowEqual.std.ts';
-import type { NotifyWhileMutedKey } from '../util/notifyWhileMuted.std.ts';
+import type {
+  NotifyWhileMutedFields,
+  NotifyWhileMutedKey,
+} from '../util/notifyWhileMuted.std.ts';
 import { NOTIFY_WHILE_MUTED_FIELDS } from '../util/notifyWhileMuted.std.ts';
 import { getInitials } from '../util/getInitials.std.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
@@ -6123,6 +6126,22 @@ export class ConversationModel {
 
     drop(DataWriter.updateConversation(this.attributes));
     this.captureChange(attributeName);
+  }
+
+  resetNotifyWhileMuted(): void {
+    const attributeNames = Object.values(NOTIFY_WHILE_MUTED_FIELDS);
+    if (attributeNames.every(name => this.get(name) === undefined)) {
+      return;
+    }
+
+    this.set({
+      notifyForCallsIfMuted: undefined,
+      notifyForMentionsIfMuted: undefined,
+      notifyForRepliesIfMuted: undefined,
+    } satisfies Record<keyof NotifyWhileMutedFields, undefined>);
+
+    drop(DataWriter.updateConversation(this.attributes));
+    this.captureChange('resetNotifyWhileMuted');
   }
 
   acknowledgeGroupMemberNameCollisions(
