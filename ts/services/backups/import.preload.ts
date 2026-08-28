@@ -940,6 +940,17 @@ export class BackupImportStream extends Writable {
       accountSettings?.hasSeenAdminDeleteEducationDialog === true
     );
     await itemStorage.put(
+      'badge-count-muted-conversations',
+      // unset should be treated as false
+      accountSettings?.includeMutedChatsInBadge === true
+    );
+
+    await itemStorage.put(
+      'reaction-notification',
+      // unset should be treated as true
+      accountSettings?.reactionNotifications !== false
+    );
+    await itemStorage.put(
       'preferredReactionEmoji',
       accountSettings?.preferredReactionEmoji?.map(emoji => {
         return Emoji.unsafeCastMaybeInvalidStringToVariant(emoji);

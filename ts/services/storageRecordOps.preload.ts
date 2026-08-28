@@ -661,6 +661,13 @@ export function toAccountRecord({
     hasSeenAdminDeleteEducationDialog:
       itemStorage.get('hasSeenAdminDeleteEducationDialog') ?? null,
 
+    includeMutedChatsInBadge: toOptionalBool(
+      itemStorage.get('badge-count-muted-conversations')
+    ),
+    reactionNotifications: toOptionalBool(
+      itemStorage.get('reaction-notification')
+    ),
+
     avatarColor: ourConversation.get('colorFromPrimary') ?? null,
     automaticKeyVerificationDisabled:
       itemStorage.get('hasKeyTransparencyDisabled') === true,
@@ -1684,6 +1691,8 @@ export async function mergeAccountRecord(
     hasSeenAdminDeleteEducationDialog,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
+    includeMutedChatsInBadge,
+    reactionNotifications,
     storiesDisabled,
     storyViewReceiptsEnabled,
     username,
@@ -1989,6 +1998,23 @@ export async function mergeAccountRecord(
   await itemStorage.put(
     'hasSeenAdminDeleteEducationDialog',
     hasSeenAdminDeleteEducationDialog ?? false
+  );
+  {
+    // default to false (exclude muted chats)
+    const countMutedConversations =
+      fromOptionalBool(includeMutedChatsInBadge) ?? false;
+    const previous = itemStorage.get('badge-count-muted-conversations', false);
+    await itemStorage.put(
+      'badge-count-muted-conversations',
+      countMutedConversations
+    );
+    if (previous !== countMutedConversations) {
+      window.Whisper.events.emit('updateUnreadCount');
+    }
+  }
+  await itemStorage.put(
+    'reaction-notification',
+    fromOptionalBool(reactionNotifications) ?? true
   );
   {
     await itemStorage.put(

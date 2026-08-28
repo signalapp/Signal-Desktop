@@ -312,6 +312,8 @@ message AccountRecord {
   optional bool releaseNotesChatBlocked = 50;
   optional bool releaseNotesChatMarkedUnread = 51;
   optional uint64 releaseNotesChatBlockedAt = 52; // only set if known (>0)
+  OptionalBool includeMutedChatsInBadge = 54; // If unset, consider this off
+  OptionalBool reactionNotifications = 55; // If unset, consider this on
   OptionalBool notifyForCallsIfMuted = 56; // If unset, consider this off
   OptionalBool notifyForMentionsIfMuted = 57; // If unset, consider this on
   OptionalBool notifyForRepliesIfMuted = 58; // If unset, consider this on

@@ -138,6 +138,8 @@ message AccountData {
     bool allowSealedSenderFromAnyone = 30;
     bool allowAutomaticKeyVerification = 31;
     bool hasSeenAdminDeleteEducationDialog = 32;
+    optional bool includeMutedChatsInBadge = 34; // If unset, consider this disabled
+    optional bool reactionNotifications = 35; // If unset, consider this enabled
     optional bool notifyForCallsIfMuted = 36; // If unset, consider this disabled
     optional bool notifyForMentionsIfMuted = 37; // If unset, consider this enabled
     optional bool notifyForRepliesIfMuted = 38; // If unset, consider this enabled

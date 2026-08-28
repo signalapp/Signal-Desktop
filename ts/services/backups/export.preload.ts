@@ -1101,6 +1101,9 @@ export class BackupExportStream extends Readable {
           itemStorage.get('hasSeenGroupStoryEducationSheet') ?? null,
         hasSeenAdminDeleteEducationDialog:
           itemStorage.get('hasSeenAdminDeleteEducationDialog') ?? null,
+        includeMutedChatsInBadge:
+          itemStorage.get('badge-count-muted-conversations') ?? null,
+        reactionNotifications: itemStorage.get('reaction-notification') ?? null,
         phoneNumberSharingMode,
         // Note that this should be called before `toDefaultChatStyle` because
         // it builds `customColorIdByUuid`

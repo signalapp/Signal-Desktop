@@ -767,6 +767,9 @@ export function SmartPreferences(): JSX.Element | null {
       NOTIFICATION_SETTING_DEFAULTS['badge-count-muted-conversations'],
       () => {
         window.Whisper.events.emit('updateUnreadCount');
+        const account =
+          window.ConversationController.getOurConversationOrThrow();
+        account.captureChange('badge-count-muted-conversations');
       }
     );
   const [hasHideMenuBar, onHideMenuBarChange] = createItemsAccess(
@@ -789,7 +792,12 @@ export function SmartPreferences(): JSX.Element | null {
   const [hasReactionNotifications, onReactionNotificationsChange] =
     createItemsAccess(
       'reaction-notification',
-      NOTIFICATION_SETTING_DEFAULTS['reaction-notification']
+      NOTIFICATION_SETTING_DEFAULTS['reaction-notification'],
+      () => {
+        const account =
+          window.ConversationController.getOurConversationOrThrow();
+        account.captureChange('reaction-notification');
+      }
     );
 
   const [notificationContent, onNotificationContentChange] = createItemsAccess(

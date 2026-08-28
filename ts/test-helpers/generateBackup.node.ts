@@ -135,6 +135,8 @@ function* createRecords({
         hasSeenGroupStoryEducationSheet: true,
         hasCompletedUsernameOnboarding: true,
         hasSeenAdminDeleteEducationDialog: false,
+        includeMutedChatsInBadge: true,
+        reactionNotifications: true,
         phoneNumberSharingMode:
           Backups.AccountData.PhoneNumberSharingMode.EVERYBODY,
         defaultChatStyle: {
