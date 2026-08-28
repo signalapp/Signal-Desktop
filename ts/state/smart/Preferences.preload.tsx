@@ -18,6 +18,7 @@ import {
 import {
   getBackupKey,
   getCustomColors,
+  getGlobalNotifyWhileMuted,
   getItems,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
@@ -113,6 +114,8 @@ import {
 
 import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
+import type { NotifyWhileMutedKey } from '../../util/notifyWhileMuted.std.ts';
+import { NOTIFY_WHILE_MUTED_FIELDS } from '../../util/notifyWhileMuted.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import type { StateType } from '../reducer.preload.ts';
@@ -774,6 +777,17 @@ export function SmartPreferences(): JSX.Element | null {
     );
   };
 
+  const notifyWhileMuted = useSelector(getGlobalNotifyWhileMuted);
+  const onNotifyWhileMutedChange = (
+    key: NotifyWhileMutedKey,
+    value: boolean
+  ) => {
+    const itemKey = NOTIFY_WHILE_MUTED_FIELDS[key];
+    putItem(itemKey, value);
+    const account = window.ConversationController.getOurConversationOrThrow();
+    account.captureChange(itemKey);
+  };
+
   const [hasPinReminders, onPinRemindersChange] = createItemsAccess(
     'pinReminders',
     true,
@@ -1029,6 +1043,7 @@ export function SmartPreferences(): JSX.Element | null {
         me={me}
         navTabsCollapsed={navTabsCollapsed}
         notificationContent={notificationContent}
+        notifyWhileMuted={notifyWhileMuted}
         onAudioNotificationsChange={onAudioNotificationsChange}
         onAutoConvertEmojiChange={onAutoConvertEmojiChange}
         onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
@@ -1061,6 +1076,7 @@ export function SmartPreferences(): JSX.Element | null {
         onNotificationAttentionChange={onNotificationAttentionChange}
         onNotificationContentChange={onNotificationContentChange}
         onNotificationsChange={onNotificationsChange}
+        onNotifyWhileMutedChange={onNotifyWhileMutedChange}
         onStartUpdate={startUpdate}
         onPreferContactAvatarsChange={onPreferContactAvatarsChange}
         onReactionNotificationsChange={onReactionNotificationsChange}

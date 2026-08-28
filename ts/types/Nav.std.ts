@@ -87,6 +87,7 @@ export enum SettingsPage {
   EditChatFolder = 'EditChatFolder',
   NotificationProfilesHome = 'NotificationProfilesHome',
   NotificationProfilesCreateFlow = 'NotificationProfilesCreateFlow',
+  WhileMuted = 'WhileMuted',
   PNP = 'PNP',
   BackupsDetails = 'BackupsDetails',
   LocalBackups = 'LocalBackups',

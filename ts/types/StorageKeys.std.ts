@@ -215,6 +215,9 @@ export type StorageAccessType = {
   backupsSubscriberOriginalTransactionId: string;
   displayBadgesOnProfile: boolean;
   keepMutedChatsArchived: boolean;
+  notifyForCallsIfMuted: boolean | undefined;
+  notifyForMentionsIfMuted: boolean | undefined;
+  notifyForRepliesIfMuted: boolean | undefined;
   usernameLastIntegrityCheck: number;
   usernameCorrupted: boolean;
   usernameLinkCorrupted: boolean;
@@ -429,6 +432,9 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'universalExpireTimer',
   'displayBadgesOnProfile',
   'keepMutedChatsArchived',
+  'notifyForCallsIfMuted',
+  'notifyForMentionsIfMuted',
+  'notifyForRepliesIfMuted',
   'hasSetMyStoriesPrivacy',
   'hasViewedOnboardingStory',
   'hasKeyTransparencyDisabled',

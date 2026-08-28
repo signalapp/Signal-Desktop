@@ -515,6 +515,7 @@ export default {
     me,
     navTabsCollapsed: false,
     notificationContent: 'name',
+    notifyWhileMuted: { calls: false, mentions: true, replies: true },
     osName: 'windows',
     otherTabsUnreadStats: {
       unreadCount: 0,
@@ -626,6 +627,7 @@ export default {
     onNotificationAttentionChange: action('onNotificationAttentionChange'),
     onNotificationContentChange: action('onNotificationContentChange'),
     onNotificationsChange: action('onNotificationsChange'),
+    onNotifyWhileMutedChange: action('onNotifyWhileMutedChange'),
     onPreferContactAvatarsChange: action('onPreferContactAvatarsChange'),
     onReactionNotificationsChange: action('onReactionNotificationsChange'),
     onReadReceiptsChange: action('onReadReceiptsChange'),
@@ -774,6 +776,10 @@ Calls.args = {
 export const Notifications = Template.bind({});
 Notifications.args = {
   settingsLocation: { page: SettingsPage.Notifications },
+};
+export const NotificationsWhileMuted = Template.bind({});
+NotificationsWhileMuted.args = {
+  settingsLocation: { page: SettingsPage.WhileMuted },
 };
 export const Privacy = Template.bind({});
 Privacy.args = {

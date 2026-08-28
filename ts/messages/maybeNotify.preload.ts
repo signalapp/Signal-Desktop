@@ -11,7 +11,7 @@ import { getActiveProfile } from '../state/selectors/notificationProfiles.dom.ts
 import { shouldNotify as shouldNotifyDuringNotificationProfile } from '../types/NotificationProfile.std.ts';
 import { NotificationType } from '../types/notifications.std.ts';
 import { isMessageUnread } from '../util/isMessageUnread.std.ts';
-import { getNotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
+import { getNotifyWhileMutedForConversation } from '../util/notifyWhileMuted.preload.ts';
 import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
 import { isExpiringMessage } from '../types/Message2.preload.ts';
 import { notificationService } from '../services/notifications.preload.ts';
@@ -299,7 +299,9 @@ function isAllowedByConversation(args: MaybeNotifyArgs): boolean {
     return false;
   }
 
-  const notifyWhileMuted = getNotifyWhileMuted(conversation.attributes);
+  const notifyWhileMuted = getNotifyWhileMutedForConversation(
+    conversation.attributes
+  );
 
   if (notifyWhileMuted.mentions && isMention(args)) {
     return true;

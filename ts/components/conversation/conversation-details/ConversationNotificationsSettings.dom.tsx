@@ -13,6 +13,7 @@ import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
 import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';
 import type { NotifyWhileMuted } from '../../../util/notifyWhileMuted.std.ts';
+import { getNotifyWhileMutedSummary } from '../../../util/notifyWhileMuted.std.ts';
 
 export type PropsType = {
   id: string;
@@ -42,6 +43,16 @@ export function ConversationNotificationsSettings({
     muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
       ? getMutedUntilText(muteExpiresAt, i18n)
       : null;
+
+  const whileMutedSummary = useMemo(() => {
+    // Mentions and replies only apply to groups, and the "While muted" panel
+    // hides those rows for 1:1 chats, so don't summarize them here either.
+    const summarized = isGroup
+      ? notifyWhileMuted
+      : { ...notifyWhileMuted, mentions: false, replies: false };
+
+    return getNotifyWhileMutedSummary(summarized, i18n);
+  }, [i18n, isGroup, notifyWhileMuted]);
 
   const muteMenu = useMemo(
     () => getConversationMuteMenu(muteExpiresAt, i18n),
@@ -107,9 +118,7 @@ export function ConversationNotificationsSettings({
                   <AxoItem.Title id={whileMutedTitleId}>
                     {i18n('icu:WhileMuted__title')}
                   </AxoItem.Title>
-                  <AxoItem.Value>
-                    {getNotifyWhileMutedText(notifyWhileMuted, isGroup, i18n)}
-                  </AxoItem.Value>
+                  <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
                   <AxoItem.Description>
                     {i18n('icu:WhileMuted__description')}
                   </AxoItem.Description>
@@ -126,40 +135,4 @@ export function ConversationNotificationsSettings({
       </AxoList.Root>
     </div>
   );
-}
-
-function getNotifyWhileMutedText(
-  notifyWhileMuted: NotifyWhileMuted,
-  isGroup: boolean,
-  i18n: LocalizerType
-): string {
-  const { calls } = notifyWhileMuted;
-  // Mentions and replies only apply to groups, and the "While muted" panel
-  // hides those rows for 1:1 chats, so don't summarize them here either.
-  const mentions = isGroup && notifyWhileMuted.mentions;
-  const replies = isGroup && notifyWhileMuted.replies;
-
-  if (calls && mentions && replies) {
-    return i18n('icu:WhileMuted__value--calls-mentions-replies');
-  }
-  if (calls && mentions) {
-    return i18n('icu:WhileMuted__value--calls-mentions');
-  }
-  if (calls && replies) {
-    return i18n('icu:WhileMuted__value--calls-replies');
-  }
-  if (mentions && replies) {
-    return i18n('icu:WhileMuted__value--mentions-replies');
-  }
-  if (calls) {
-    return i18n('icu:WhileMuted__value--calls');
-  }
-  if (mentions) {
-    return i18n('icu:WhileMuted__value--mentions');
-  }
-  if (replies) {
-    return i18n('icu:WhileMuted__value--replies');
-  }
-
-  return i18n('icu:WhileMuted__value--none');
 }

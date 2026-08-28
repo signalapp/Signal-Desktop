@@ -110,7 +110,7 @@ import {
   makeSfuRequest,
 } from '../textsecure/WebAPI.preload.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { getNotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
+import { getNotifyWhileMutedForConversation } from '../util/notifyWhileMuted.preload.ts';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp.std.ts';
 import { requestCameraPermissions } from '../util/callingPermissions.dom.ts';
 import {
@@ -3492,7 +3492,7 @@ class CallingClass {
         RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
       } else if (
         conversation.isMuted() &&
-        !getNotifyWhileMuted(conversation.attributes).calls
+        !getNotifyWhileMutedForConversation(conversation.attributes).calls
       ) {
         log.info(
           `${logId}: not notifying for calls while muted. Ignoring ring request`
@@ -3633,7 +3633,7 @@ class CallingClass {
 
     if (
       conversation.isMuted() &&
-      !getNotifyWhileMuted(conversation.attributes).calls
+      !getNotifyWhileMutedForConversation(conversation.attributes).calls
     ) {
       log.info(`${logId}: not notifying for calls while muted, ignoring`);
 
@@ -4387,7 +4387,7 @@ class CallingClass {
 
     const isAllowedWhileMuted =
       !conversation.isMuted() ||
-      getNotifyWhileMuted(conversation.attributes).calls;
+      getNotifyWhileMutedForConversation(conversation.attributes).calls;
 
     if (
       isNewCall &&

@@ -638,6 +638,16 @@ export function toAccountRecord({
     displayBadgesOnProfile: itemStorage.get('displayBadgesOnProfile') ?? null,
     keepMutedChatsArchived: itemStorage.get('keepMutedChatsArchived') ?? null,
 
+    notifyForCallsIfMuted: toOptionalBool(
+      itemStorage.get('notifyForCallsIfMuted')
+    ),
+    notifyForMentionsIfMuted: toOptionalBool(
+      itemStorage.get('notifyForMentionsIfMuted')
+    ),
+    notifyForRepliesIfMuted: toOptionalBool(
+      itemStorage.get('notifyForRepliesIfMuted')
+    ),
+
     hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy') ?? null,
     hasViewedOnboardingStory:
       itemStorage.get('hasViewedOnboardingStory') ?? null,
@@ -1666,6 +1676,9 @@ export async function mergeAccountRecord(
     backupTier,
     displayBadgesOnProfile,
     keepMutedChatsArchived,
+    notifyForCallsIfMuted,
+    notifyForMentionsIfMuted,
+    notifyForRepliesIfMuted,
     hasCompletedUsernameOnboarding,
     hasSeenGroupStoryEducationSheet,
     hasSeenAdminDeleteEducationDialog,
@@ -1944,6 +1957,18 @@ export async function mergeAccountRecord(
 
   await itemStorage.put('displayBadgesOnProfile', displayBadgesOnProfile);
   await itemStorage.put('keepMutedChatsArchived', keepMutedChatsArchived);
+  await itemStorage.put(
+    'notifyForCallsIfMuted',
+    fromOptionalBool(notifyForCallsIfMuted) ?? undefined
+  );
+  await itemStorage.put(
+    'notifyForMentionsIfMuted',
+    fromOptionalBool(notifyForMentionsIfMuted) ?? undefined
+  );
+  await itemStorage.put(
+    'notifyForRepliesIfMuted',
+    fromOptionalBool(notifyForRepliesIfMuted) ?? undefined
+  );
   await itemStorage.put('hasSetMyStoriesPrivacy', hasSetMyStoriesPrivacy);
   {
     await itemStorage.put('hasViewedOnboardingStory', hasViewedOnboardingStory);

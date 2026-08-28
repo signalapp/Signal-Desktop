@@ -33,6 +33,7 @@ import {
 import { drop } from '../util/drop.std.ts';
 import { isShallowEqual } from '../util/isShallowEqual.std.ts';
 import type { NotifyWhileMutedKey } from '../util/notifyWhileMuted.std.ts';
+import { NOTIFY_WHILE_MUTED_FIELDS } from '../util/notifyWhileMuted.std.ts';
 import { getInitials } from '../util/getInitials.std.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.ts';
@@ -6112,20 +6113,7 @@ export class ConversationModel {
   }
 
   setNotifyWhileMuted(key: NotifyWhileMutedKey, newValue: boolean): void {
-    let attributeName: keyof ConversationAttributesType;
-    switch (key) {
-      case 'calls':
-        attributeName = 'notifyForCallsIfMuted';
-        break;
-      case 'mentions':
-        attributeName = 'notifyForMentionsIfMuted';
-        break;
-      case 'replies':
-        attributeName = 'notifyForRepliesIfMuted';
-        break;
-      default:
-        throw missingCaseError(key);
-    }
+    const attributeName = NOTIFY_WHILE_MUTED_FIELDS[key];
 
     if (this.get(attributeName) === newValue) {
       return;

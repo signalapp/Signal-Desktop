@@ -890,6 +890,19 @@ export class BackupImportStream extends Writable {
       'keepMutedChatsArchived',
       accountSettings?.keepMutedChatsArchived === true
     );
+
+    await itemStorage.put(
+      'notifyForCallsIfMuted',
+      accountSettings?.notifyForCallsIfMuted ?? undefined
+    );
+    await itemStorage.put(
+      'notifyForMentionsIfMuted',
+      accountSettings?.notifyForMentionsIfMuted ?? undefined
+    );
+    await itemStorage.put(
+      'notifyForRepliesIfMuted',
+      accountSettings?.notifyForRepliesIfMuted ?? undefined
+    );
     await itemStorage.put(
       'hasSetMyStoriesPrivacy',
       accountSettings?.hasSetMyStoriesPrivacy === true

@@ -11,6 +11,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { PanelType } from '../../types/Panels.std.ts';
 import { getNotifyWhileMuted } from '../../util/notifyWhileMuted.std.ts';
+import { getGlobalNotifyWhileMuted } from '../selectors/items.dom.ts';
 
 export type SmartConversationNotificationsSettingsProps = {
   conversationId: string;
@@ -24,13 +25,14 @@ export const SmartConversationNotificationsSettings = memo(
     const conversationSelector = useSelector(getConversationByIdSelector);
     const { setMuteExpiration } = useConversationsActions();
     const { pushPanelForConversation } = useNavActions();
+    const globalNotifyWhileMuted = useSelector(getGlobalNotifyWhileMuted);
     const conversation = conversationSelector(conversationId);
     strictAssert(conversation, 'Expected a conversation to be found');
     const { muteExpiresAt, type: conversationType } = conversation;
 
     const notifyWhileMuted = useMemo(
-      () => getNotifyWhileMuted(conversation),
-      [conversation]
+      () => getNotifyWhileMuted(conversation, globalNotifyWhileMuted),
+      [conversation, globalNotifyWhileMuted]
     );
 
     const handleOpenWhileMutedSettings = useCallback(() => {

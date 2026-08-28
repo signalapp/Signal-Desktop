@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { LocalizerType } from '../types/Util.std.ts';
 
 /**
  * Which notifications still come through while a chat is muted.
@@ -14,20 +14,23 @@ export type NotifyWhileMuted = Readonly<{
 
 export type NotifyWhileMutedKey = keyof NotifyWhileMuted;
 
-export const DEFAULT_NOTIFY_WHILE_MUTED: NotifyWhileMuted = {
-  calls: true,
+export const DEFAULT_NOTIFY_IF_MUTED: NotifyWhileMuted = {
+  calls: false,
   mentions: true,
   replies: true,
 };
 
-type NotifyWhileMutedFields = Readonly<
-  Pick<
-    ConversationAttributesType,
-    | 'notifyForCallsIfMuted'
-    | 'notifyForMentionsIfMuted'
-    | 'notifyForRepliesIfMuted'
-  >
->;
+export type NotifyWhileMutedFields = Readonly<{
+  notifyForCallsIfMuted?: boolean | undefined;
+  notifyForMentionsIfMuted?: boolean | undefined;
+  notifyForRepliesIfMuted?: boolean | undefined;
+}>;
+
+export const NOTIFY_WHILE_MUTED_FIELDS = {
+  calls: 'notifyForCallsIfMuted',
+  mentions: 'notifyForMentionsIfMuted',
+  replies: 'notifyForRepliesIfMuted',
+} as const satisfies Record<NotifyWhileMutedKey, keyof NotifyWhileMutedFields>;
 
 /**
  * Reconciles an incoming record's deprecated `dontNotifyForMentionsIfMuted`
@@ -55,13 +58,43 @@ export function resolveLegacyNotifyForMentionsIfMuted(
 }
 
 export function getNotifyWhileMuted(
-  fields: NotifyWhileMutedFields
+  conversation: NotifyWhileMutedFields,
+  globalNotifyWhileMuted: NotifyWhileMuted
 ): NotifyWhileMuted {
   return {
-    calls: fields.notifyForCallsIfMuted ?? DEFAULT_NOTIFY_WHILE_MUTED.calls,
+    calls: conversation.notifyForCallsIfMuted ?? globalNotifyWhileMuted.calls,
     mentions:
-      fields.notifyForMentionsIfMuted ?? DEFAULT_NOTIFY_WHILE_MUTED.mentions,
+      conversation.notifyForMentionsIfMuted ?? globalNotifyWhileMuted.mentions,
     replies:
-      fields.notifyForRepliesIfMuted ?? DEFAULT_NOTIFY_WHILE_MUTED.replies,
+      conversation.notifyForRepliesIfMuted ?? globalNotifyWhileMuted.replies,
   };
+}
+
+export function getNotifyWhileMutedSummary(
+  { calls, mentions, replies }: NotifyWhileMuted,
+  i18n: LocalizerType
+): string {
+  if (calls && mentions && replies) {
+    return i18n('icu:WhileMuted__value--calls-mentions-replies');
+  }
+  if (calls && mentions) {
+    return i18n('icu:WhileMuted__value--calls-mentions');
+  }
+  if (calls && replies) {
+    return i18n('icu:WhileMuted__value--calls-replies');
+  }
+  if (mentions && replies) {
+    return i18n('icu:WhileMuted__value--mentions-replies');
+  }
+  if (calls) {
+    return i18n('icu:WhileMuted__value--calls');
+  }
+  if (mentions) {
+    return i18n('icu:WhileMuted__value--mentions');
+  }
+  if (replies) {
+    return i18n('icu:WhileMuted__value--replies');
+  }
+
+  return i18n('icu:WhileMuted__value--none');
 }

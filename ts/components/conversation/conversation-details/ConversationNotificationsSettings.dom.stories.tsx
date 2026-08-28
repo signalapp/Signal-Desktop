@@ -8,7 +8,6 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './ConversationNotificationsSettings.dom.tsx';
 import { ConversationNotificationsSettings } from './ConversationNotificationsSettings.dom.tsx';
 import { MuteExpiration } from '@signalapp/types';
-import { DEFAULT_NOTIFY_WHILE_MUTED } from '../../../util/notifyWhileMuted.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -21,7 +20,7 @@ const getCommonProps = () => ({
   id: 'conversation-id',
   isGroup: true,
   muteExpiresAt: undefined,
-  notifyWhileMuted: DEFAULT_NOTIFY_WHILE_MUTED,
+  notifyWhileMuted: { calls: false, mentions: true, replies: true },
   i18n,
   onOpenWhileMutedSettings: action('onOpenWhileMutedSettings'),
   setMuteExpiration: action('setMuteExpiration'),

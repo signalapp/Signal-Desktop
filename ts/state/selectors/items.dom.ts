@@ -14,6 +14,8 @@ import type {
 import type { AciString } from '../../types/ServiceId.std.ts';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
+import type { NotifyWhileMuted } from '../../util/notifyWhileMuted.std.ts';
+import { DEFAULT_NOTIFY_IF_MUTED } from '../../util/notifyWhileMuted.std.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
@@ -215,6 +217,16 @@ export const getBadgeCountMutedConversations = createSelector(
   (state: ItemsStateType): boolean => {
     return state['badge-count-muted-conversations'] ?? false;
   }
+);
+
+export const getGlobalNotifyWhileMuted = createSelector(
+  getItems,
+  (state: ItemsStateType): NotifyWhileMuted => ({
+    calls: state.notifyForCallsIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.calls,
+    mentions:
+      state.notifyForMentionsIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.mentions,
+    replies: state.notifyForRepliesIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.replies,
+  })
 );
 
 export const getTextFormattingEnabled = createSelector(

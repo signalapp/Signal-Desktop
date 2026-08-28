@@ -1451,6 +1451,21 @@ async function startApp(): Promise<void> {
         window.ConversationController.repairPinnedConversations();
       }
 
+      // Existing accounts keep notifying for calls in muted chats; new installs
+      // leave this unset, which means calls will not ring in muted chats.
+      if (
+        window.isBeforeVersion(lastVersion, '8.29.0-alpha') &&
+        itemStorage.get('notifyForCallsIfMuted') == null
+      ) {
+        log.info(
+          'Defaulting notifyForCallsIfMuted to true for existing account'
+        );
+        await itemStorage.put('notifyForCallsIfMuted', true);
+        window.ConversationController.getOurConversation()?.captureChange(
+          'notifyForCallsIfMuted'
+        );
+      }
+
       if (!itemStorage.get('avatarsHaveBeenMigrated', false)) {
         window.ConversationController.migrateAvatarsForNonAcceptedConversations();
       }

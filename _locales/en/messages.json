@@ -6938,6 +6938,22 @@
     "messageformat": "Calls, mentions, replies",
     "description": "Summary shown on the 'While muted' row when calls, mentions, and replies all notify while the chat is muted"
   },
+  "icu:Preferences__WhileMuted__description": {
+    "messageformat": "Choose notifications to show for muted chats.",
+    "description": "Sub-label of the row in notification settings that opens the global 'While muted' page"
+  },
+  "icu:Preferences__WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started in muted chats.",
+    "description": "On the global 'While muted' settings page, sub-label for the switch that allows call notifications in muted chats"
+  },
+  "icu:Preferences__WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are mentioned in muted chats.",
+    "description": "On the global 'While muted' settings page, sub-label for the switch that allows @mention notifications in muted chats"
+  },
+  "icu:Preferences__WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message in muted chats.",
+    "description": "On the global 'While muted' settings page, sub-label for the switch that allows reply notifications in muted chats"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
     "description": "In the conversation notifications settings, this is the label for the mentions option"

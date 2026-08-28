@@ -7,7 +7,6 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './WhileMutedSettings.dom.tsx';
 import { WhileMutedSettings } from './WhileMutedSettings.dom.tsx';
-import { DEFAULT_NOTIFY_WHILE_MUTED } from '../../../util/notifyWhileMuted.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -18,7 +17,7 @@ export default {
 const getCommonProps = () => ({
   i18n,
   isGroup: true,
-  notifyWhileMuted: DEFAULT_NOTIFY_WHILE_MUTED,
+  notifyWhileMuted: { calls: false, mentions: true, replies: true },
   setNotifyWhileMuted: action('setNotifyWhileMuted'),
 });
 

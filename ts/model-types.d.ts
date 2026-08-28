@@ -413,7 +413,7 @@ export type ConversationAttributesType = {
   messageRequestResponseType?: number;
   messagesDeleted?: boolean;
   muteExpiresAt?: MuteExpiration;
-  // Ternary: undefined means unset, see DEFAULT_NOTIFY_WHILE_MUTED
+  // Ternary: undefined means unset, so the chat follows the global setting
   notifyForCallsIfMuted?: boolean;
   notifyForMentionsIfMuted?: boolean;
   notifyForRepliesIfMuted?: boolean;

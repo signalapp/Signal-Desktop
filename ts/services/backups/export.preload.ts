@@ -1080,6 +1080,11 @@ export class BackupExportStream extends Readable {
           itemStorage.get('displayBadgesOnProfile') ?? null,
         keepMutedChatsArchived:
           itemStorage.get('keepMutedChatsArchived') ?? null,
+        notifyForCallsIfMuted: itemStorage.get('notifyForCallsIfMuted') ?? null,
+        notifyForMentionsIfMuted:
+          itemStorage.get('notifyForMentionsIfMuted') ?? null,
+        notifyForRepliesIfMuted:
+          itemStorage.get('notifyForRepliesIfMuted') ?? null,
         hasSetMyStoriesPrivacy:
           itemStorage.get('hasSetMyStoriesPrivacy') ?? null,
         hasViewedOnboardingStory:

@@ -9,37 +9,31 @@ import {
 } from '../../util/notifyWhileMuted.std.ts';
 
 describe('getNotifyWhileMuted', () => {
-  it('falls back to the defaults when nothing is set', () => {
-    assert.deepEqual(getNotifyWhileMuted({}), {
-      calls: true,
-      mentions: true,
-      replies: true,
-    });
+  const GLOBAL = { calls: true, mentions: true, replies: true };
+
+  it('follows the global setting when the chat has no settings', () => {
+    assert.deepEqual(getNotifyWhileMuted({}, GLOBAL), GLOBAL);
   });
 
-  it('honors each setting once it is set', () => {
+  it('lets the chat override the global setting', () => {
     assert.deepEqual(
-      getNotifyWhileMuted({
-        notifyForCallsIfMuted: true,
-        notifyForMentionsIfMuted: false,
-        notifyForRepliesIfMuted: false,
-      }),
-      { calls: true, mentions: false, replies: false }
+      getNotifyWhileMuted(
+        {
+          notifyForCallsIfMuted: false,
+          notifyForMentionsIfMuted: false,
+          notifyForRepliesIfMuted: false,
+        },
+        GLOBAL
+      ),
+      { calls: false, mentions: false, replies: false }
     );
   });
 
-  it('defaults each setting independently', () => {
-    assert.deepEqual(getNotifyWhileMuted({ notifyForMentionsIfMuted: false }), {
-      calls: true,
-      mentions: false,
-      replies: true,
-    });
-
-    assert.deepEqual(getNotifyWhileMuted({ notifyForCallsIfMuted: true }), {
-      calls: true,
-      mentions: true,
-      replies: true,
-    });
+  it('mixes chat overrides with the global setting', () => {
+    assert.deepEqual(
+      getNotifyWhileMuted({ notifyForCallsIfMuted: false }, GLOBAL),
+      { calls: false, mentions: true, replies: true }
+    );
   });
 });
 

@@ -6,6 +6,7 @@ import { memo, useCallback, useMemo } from 'react';
 import { WhileMutedSettings } from '../../components/conversation/conversation-details/WhileMutedSettings.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
 import { getConversationByIdSelector } from '../selectors/conversations.dom.ts';
+import { getGlobalNotifyWhileMuted } from '../selectors/items.dom.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import {
@@ -23,12 +24,13 @@ export const SmartWhileMutedSettings = memo(function SmartWhileMutedSettings({
   const i18n = useSelector(getIntl);
   const conversationSelector = useSelector(getConversationByIdSelector);
   const { setNotifyWhileMuted } = useConversationsActions();
+  const globalNotifyWhileMuted = useSelector(getGlobalNotifyWhileMuted);
   const conversation = conversationSelector(conversationId);
   strictAssert(conversation, 'Expected a conversation to be found');
 
   const notifyWhileMuted = useMemo(
-    () => getNotifyWhileMuted(conversation),
-    [conversation]
+    () => getNotifyWhileMuted(conversation, globalNotifyWhileMuted),
+    [conversation, globalNotifyWhileMuted]
   );
   const setNotifyWhileMutedForConversation = useCallback(
     (key: NotifyWhileMutedKey, value: boolean) =>

@@ -54,6 +54,11 @@ import type {
   ZoomFactorType,
   StorageAccessType,
 } from '../types/StorageKeys.std.ts';
+import type {
+  NotifyWhileMuted,
+  NotifyWhileMutedKey,
+} from '../util/notifyWhileMuted.std.ts';
+import { getNotifyWhileMutedSummary } from '../util/notifyWhileMuted.std.ts';
 import type { ThemeSettingType } from '../util/theme.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
 import { ToastType } from '../types/Toast.dom.tsx';
@@ -171,6 +176,7 @@ export type PropsDataType = {
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
+  notifyWhileMuted: NotifyWhileMuted;
   osName: 'linux' | 'macos' | 'windows' | undefined;
   phoneNumber: string | undefined;
   selectedCamera?: string;
@@ -349,6 +355,10 @@ type PropsFunctionType = {
   onNotificationAttentionChange: CheckboxChangeHandlerType;
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
+  onNotifyWhileMutedChange: (
+    key: NotifyWhileMutedKey,
+    value: boolean
+  ) => unknown;
   onPinRemindersChange: CheckboxChangeHandlerType;
   onPreferContactAvatarsChange: CheckboxChangeHandlerType;
   onReactionNotificationsChange: CheckboxChangeHandlerType;
@@ -517,6 +527,7 @@ export function Preferences({
   me,
   navTabsCollapsed,
   notificationContent,
+  notifyWhileMuted,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
   onAutoDownloadAttachmentChange,
@@ -544,6 +555,7 @@ export function Preferences({
   onNotificationAttentionChange,
   onNotificationContentChange,
   onNotificationsChange,
+  onNotifyWhileMutedChange,
   onPinRemindersChange,
   onPreferContactAvatarsChange,
   onReactionNotificationsChange,
@@ -1546,6 +1558,16 @@ export function Preferences({
               },
             ]}
           />
+          <ClickableItem
+            title={i18n('icu:WhileMuted__title')}
+            value={getNotifyWhileMutedSummary(notifyWhileMuted, i18n)}
+            description={i18n('icu:Preferences__WhileMuted__description')}
+            arrow
+            disabled={!hasNotifications}
+            onClick={() =>
+              setSettingsLocation({ page: SettingsPage.WhileMuted })
+            }
+          />
         </List>
 
         <List
@@ -2236,6 +2258,64 @@ export function Preferences({
         title={pageTitle}
       />
     );
+  } else if (settingsLocation.page === SettingsPage.WhileMuted) {
+    const backButton = (
+      <button
+        aria-label={i18n('icu:goBack')}
+        className="Preferences__back-icon"
+        onClick={() =>
+          setSettingsLocation({ page: SettingsPage.Notifications })
+        }
+        type="button"
+      />
+    );
+    const pageContents = (
+      <ListGroup>
+        <List>
+          <SwitchItem
+            symbol="phone"
+            title={i18n('icu:WhileMuted__calls__title')}
+            description={i18n(
+              'icu:Preferences__WhileMuted__calls__description'
+            )}
+            checked={notifyWhileMuted.calls}
+            onCheckedChange={checked =>
+              onNotifyWhileMutedChange('calls', checked)
+            }
+          />
+          <SwitchItem
+            symbol="at"
+            title={i18n('icu:WhileMuted__mentions__title')}
+            description={i18n(
+              'icu:Preferences__WhileMuted__mentions__description'
+            )}
+            checked={notifyWhileMuted.mentions}
+            onCheckedChange={checked =>
+              onNotifyWhileMutedChange('mentions', checked)
+            }
+          />
+          <SwitchItem
+            symbol="reply"
+            title={i18n('icu:WhileMuted__replies__title')}
+            description={i18n(
+              'icu:Preferences__WhileMuted__replies__description'
+            )}
+            checked={notifyWhileMuted.replies}
+            onCheckedChange={checked =>
+              onNotifyWhileMutedChange('replies', checked)
+            }
+          />
+        </List>
+      </ListGroup>
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:WhileMuted__title')}
+      />
+    );
   } else if (settingsLocation.page === SettingsPage.NotificationProfilesHome) {
     content = renderNotificationProfilesHome({
       setSettingsLocation,
@@ -2451,7 +2531,8 @@ export function Preferences({
                   Preferences__button: true,
                   'Preferences__button--notifications': true,
                   'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Notifications,
+                    settingsLocation.page === SettingsPage.Notifications ||
+                    settingsLocation.page === SettingsPage.WhileMuted,
                 })}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Notifications })
@@ -2625,6 +2706,7 @@ function List(props: ListProps): ReactNode {
 }
 
 type SwitchItemProps = Readonly<{
+  symbol?: AxoSymbol.Name;
   title: ReactNode;
   description?: ReactNode;
   disabled?: boolean;
@@ -2635,6 +2717,7 @@ type SwitchItemProps = Readonly<{
 function SwitchItem(props: SwitchItemProps): ReactNode {
   return (
     <AxoItem.Root>
+      {props.symbol != null && <AxoItem.Icon symbol={props.symbol} />}
       <AxoItem.Content>
         <AxoItem.Body>
           <AxoItem.Title>{props.title}</AxoItem.Title>
