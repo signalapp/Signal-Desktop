@@ -60,7 +60,12 @@ export namespace AxoSymbol {
         <>
           <span
             aria-hidden
-            className={tw('font-symbols select-none', WeightStyles.get(weight))}
+            className={tw(
+              'font-symbols select-none',
+              // Ensure forced-colors mode treats this as inline text
+              'text-inherit forced-color-adjust-none',
+              WeightStyles.get(weight)
+            )}
           >
             {glyph}
           </span>

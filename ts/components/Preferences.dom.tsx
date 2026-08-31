@@ -102,6 +102,7 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges.prelo
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import moment from 'moment';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
@@ -2513,153 +2514,97 @@ export function Preferences({
                   </button>
                 )}
               </div>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--general': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.General,
-                })}
+              <PreferencesButton
+                symbol="settings"
+                label={i18n('icu:Preferences__button--general')}
+                current={settingsLocation.page === SettingsPage.General}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.General })
                 }
-              >
-                {i18n('icu:Preferences__button--general')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--appearance': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Appearance ||
-                    settingsLocation.page === SettingsPage.ChatColor,
-                })}
+              />
+              <PreferencesButton
+                symbol="appearance"
+                label={i18n('icu:Preferences__button--appearance')}
+                current={
+                  settingsLocation.page === SettingsPage.Appearance ||
+                  settingsLocation.page === SettingsPage.ChatColor
+                }
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Appearance })
                 }
-              >
-                {i18n('icu:Preferences__button--appearance')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--chats': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Chats,
-                })}
+              />
+              <PreferencesButton
+                symbol="message"
+                label={i18n('icu:Preferences__button--chats')}
+                current={settingsLocation.page === SettingsPage.Chats}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Chats })
                 }
-              >
-                {i18n('icu:Preferences__button--chats')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--calls': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Calls,
-                })}
+              />
+              <PreferencesButton
+                symbol="phone"
+                label={i18n('icu:Preferences__button--calls')}
+                current={settingsLocation.page === SettingsPage.Calls}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Calls })
                 }
-              >
-                {i18n('icu:Preferences__button--calls')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--notifications': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Notifications ||
-                    settingsLocation.page === SettingsPage.WhileMuted,
-                })}
+              />
+              <PreferencesButton
+                symbol="bell"
+                label={i18n('icu:Preferences__button--notifications')}
+                current={
+                  settingsLocation.page === SettingsPage.Notifications ||
+                  settingsLocation.page === SettingsPage.WhileMuted
+                }
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Notifications })
                 }
-              >
-                {i18n('icu:Preferences__button--notifications')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--privacy': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.Privacy ||
-                    settingsLocation.page === SettingsPage.PNP ||
-                    settingsLocation.page === SettingsPage.Blocked,
-                })}
+              />
+              <PreferencesButton
+                symbol="lock"
+                label={i18n('icu:Preferences__button--privacy')}
+                current={
+                  settingsLocation.page === SettingsPage.Privacy ||
+                  settingsLocation.page === SettingsPage.PNP ||
+                  settingsLocation.page === SettingsPage.Blocked
+                }
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Privacy })
                 }
-              >
-                {i18n('icu:Preferences__button--privacy')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--data-usage': true,
-                  'Preferences__button--selected':
-                    settingsLocation.page === SettingsPage.DataUsage,
-                })}
+              />
+              <PreferencesButton
+                symbol="piechart"
+                label={i18n('icu:Preferences__button--data-usage')}
+                current={settingsLocation.page === SettingsPage.DataUsage}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.DataUsage })
                 }
-              >
-                {i18n('icu:Preferences__button--data-usage')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--backups': true,
-                  'Preferences__button--selected': isBackupPage(
-                    settingsLocation.page
-                  ),
-                })}
+              />
+              <PreferencesButton
+                symbol="backup"
+                label={i18n('icu:Preferences__button--backups')}
+                current={isBackupPage(settingsLocation.page)}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Backups })
                 }
-              >
-                {i18n('icu:Preferences__button--backups')}
-              </button>
-              <button
-                type="button"
-                className={classNames({
-                  Preferences__button: true,
-                  'Preferences__button--donations': true,
-                  'Preferences__button--selected': isDonationsPage(
-                    settingsLocation.page
-                  ),
-                })}
+              />
+              <PreferencesButton
+                symbol="heart"
+                label={i18n('icu:Preferences__button--donate')}
+                current={isDonationsPage(settingsLocation.page)}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Donations })
                 }
-              >
-                {i18n('icu:Preferences__button--donate')}
-              </button>
+              />
               {isInternalUser ? (
-                <button
-                  type="button"
-                  className={classNames({
-                    Preferences__button: true,
-                    'Preferences__button--internal': true,
-                    'Preferences__button--selected':
-                      settingsLocation.page === SettingsPage.Internal,
-                  })}
+                <PreferencesButton
+                  symbol="bolt"
+                  label={i18n('icu:Preferences__button--internal')}
+                  current={settingsLocation.page === SettingsPage.Internal}
                   onClick={() =>
                     setSettingsLocation({ page: SettingsPage.Internal })
                   }
-                >
-                  {i18n('icu:Preferences__button--internal')}
-                </button>
+                />
               ) : null}
             </div>
           </div>
@@ -2945,5 +2890,45 @@ function ItemWithAction(props: ItemWithActionProps): ReactNode {
         <AxoItem.Accessory>{props.action}</AxoItem.Accessory>
       </AxoItem.Content>
     </AxoItem.Root>
+  );
+}
+
+type PreferencesButtonProps = Readonly<{
+  label: ReactNode;
+  symbol: AxoSymbol.Name;
+  current: boolean;
+  onClick: () => void;
+}>;
+
+function PreferencesButton({
+  label,
+  symbol,
+  current,
+  onClick,
+}: PreferencesButtonProps): ReactNode {
+  return (
+    <button
+      type="button"
+      aria-current={current ? 'page' : undefined}
+      className={tw(
+        'flex items-center gap-3',
+        'my-0.5 w-full px-4.5 py-2.5',
+        'rounded-xl',
+        'hover:bg-primary active:bg-primary-pressed',
+        'aria-[current=page]:bg-primary-pressed',
+        'not-forced-colors:outline-none keyboard-mode:focus:axo-focus-ring',
+        'forced-colors:border forced-colors:border-[ButtonBorder]',
+        'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
+        'forced-colors:aria-[current=page]:bg-[SelectedItem]',
+        'forced-colors:aria-[current=page]:text-[SelectedItemText]'
+      )}
+      onClick={onClick}
+    >
+      <AxoSymbol.Icon size={18} symbol={symbol} label={null} />
+      {/* Needed for forced-color mode with aria-current=page styles */}
+      <span className={tw('text-inherit forced-color-adjust-none')}>
+        {label}
+      </span>
+    </button>
   );
 }
