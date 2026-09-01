@@ -104,13 +104,14 @@ export namespace AxoCheckbox {
         className={tw(
           RootStyles.get(props.variant),
           'flex items-center justify-center',
-          'border border-primary inset-shadow-on-color',
+          'border border-secondary',
           'data-[state=unchecked]:bg-control',
+          'data-[state=unchecked]:enabled:inset-shadow-on-color',
           'data-[state=unchecked]:enabled:active:bg-control-pressed',
           'data-[state=checked]:bg-accent',
           'data-[state=checked]:text-primary-oncolor',
+          'data-[state=checked]:enabled:shadow-[0_1px_1px_var(--axo-shadow-color-elevation-1)]',
           'data-[state=checked]:enabled:active:bg-accent-pressed',
-          'data-disabled:border-secondary',
           'data-[state=checked]:data-disabled:text-disabled-oncolor',
           'outline-none keyboard-mode:focus:axo-focus-ring',
           'overflow-hidden'

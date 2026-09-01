@@ -862,12 +862,24 @@
     "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?",
     "description": "Key Transparency Error Dialog > Title"
   },
+  "icu:KeyTransparencyErrorDialog__Title-v2": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?",
+    "description": "Key Transparency Error Dialog > Title"
+  },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
     "description": "Key Transparency Error Dialog > Description"
   },
+  "icu:KeyTransparencyErrorDialog__Description-v2": {
+    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional.",
+    "description": "Key Transparency Error Dialog > Description"
+  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
+    "description": "Key Transparency Error Dialog > Share debug log > Label"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
+    "messageformat": "Include debug log",
     "description": "Key Transparency Error Dialog > Share debug log > Label"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
@@ -877,6 +889,10 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Submit",
     "description": "Primary button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will open a support page"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks",
+    "description": "Cancel button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will close the dialog"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal can now auto-verify encryption",

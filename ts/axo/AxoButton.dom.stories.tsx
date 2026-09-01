@@ -318,3 +318,22 @@ export function WidthsTest(): JSX.Element {
     </div>
   );
 }
+
+export function Arrows(): ReactNode {
+  return (
+    <div className={tw('flex gap-2')}>
+      <AxoButton.Root variant="subtle-primary" size="md" arrow="collapse">
+        Collapse
+      </AxoButton.Root>
+      <AxoButton.Root variant="subtle-primary" size="md" arrow="expand">
+        Expand
+      </AxoButton.Root>
+      <AxoButton.Root variant="subtle-primary" size="md" arrow="next">
+        Next
+      </AxoButton.Root>
+      <AxoButton.Root variant="subtle-primary" size="md" arrow="external-link">
+        External Link
+      </AxoButton.Root>
+    </div>
+  );
+}

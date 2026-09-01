@@ -103,8 +103,8 @@ function Template(props: {
           </AxoAlertDialog.Cancel>
           <AxoAlertDialog.Action
             variant="strong-primary"
-            symbol={props.extraLongText ? 'check' : undefined}
-            arrow={props.extraLongText}
+            symbol={props.extraLongText ? 'check' : null}
+            arrow={props.extraLongText ? 'next' : null}
             onClick={action('Action clicked')}
           >
             {props.extraLongText ? EXAMPLE_ACTION_LONG : EXAMPLE_ACTION}

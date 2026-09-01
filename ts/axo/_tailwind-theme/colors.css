@@ -465,7 +465,7 @@
 /* prettier-ignore */
 @theme {
   --axo-color-border-primary:               light-dark(--alpha(#000000 / 6%), --alpha(#ffffff / 6%));
-  --axo-color-border-secondary:             light-dark(--alpha(#000000 / 10%), --alpha(#ffffff / 10%));
+  --axo-color-border-secondary:             light-dark(--alpha(#000000 / 12%), --alpha(#ffffff / 12%));
   --axo-color-border-tertiary:              light-dark(--alpha(#000000 / 24%), --alpha(#ffffff / 24%));
   --axo-color-border-selected:              light-dark(#4655ff, #c9ceff);
   --axo-color-border-selected-oncolor:      light-dark(#fafafa, #fafafa);

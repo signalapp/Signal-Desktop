@@ -65,7 +65,7 @@ export namespace AxoButton {
    * Note: Omitted 'prev' because arrow appears on trailing side,
    * back buttons should probably all use AxoIconButton.
    */
-  export type Arrow = 'collapse' | 'expand' | 'next';
+  export type Arrow = 'collapse' | 'expand' | 'next' | 'external-link';
 
   const baseStyles = tw(
     'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full',
@@ -211,6 +211,7 @@ export namespace AxoButton {
     collapse: 'chevron-up',
     expand: 'chevron-down',
     next: 'chevron-[end]',
+    'external-link': 'open',
   });
 
   /** @testexport */
@@ -248,7 +249,7 @@ export namespace AxoButton {
     /**
      * Optional leading icon.
      */
-    symbol?: AxoSymbol.Name;
+    symbol?: AxoSymbol.Name | null;
     /**
      * Optional trailing arrow icon.
      */

@@ -661,6 +661,8 @@ export namespace AxoDialog {
     | 'subtle-destructive'
     | 'subtle-secondary';
 
+  export type Arrow = 'next' | 'external-link';
+
   export type ActionProps = Readonly<{
     /**
      * Visual style of the button.
@@ -673,7 +675,7 @@ export namespace AxoDialog {
     /**
      * When `true`, shows a forward arrow on the trailing side.
      */
-    arrow?: boolean | null;
+    arrow?: Arrow | null;
     /**
      * When `true`, shows a loading spinner and prevents interaction.
      */
@@ -700,7 +702,7 @@ export namespace AxoDialog {
       <AxoButton.Root
         variant={props.variant}
         symbol={props.symbol}
-        arrow={props.arrow ? 'next' : null}
+        arrow={props.arrow}
         pending={props.pending}
         disabled={props.disabled}
         size="md"
