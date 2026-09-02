@@ -13,7 +13,7 @@ import { CallsTab } from '../../components/CallsTab.dom.tsx';
 import {
   getAllConversations,
   getConversationSelector,
-  getOtherTabsUnreadStats,
+  getOtherTabsUnreadCount,
 } from '../selectors/conversations.dom.ts';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
 import type {
@@ -152,7 +152,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
 
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const otherTabsUnreadCount = useSelector(getOtherTabsUnreadCount);
 
   const {
     createCallLink,
@@ -223,7 +223,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
     <CallsTab
       activeCall={activeCall}
       allConversations={allConversations}
-      otherTabsUnreadStats={otherTabsUnreadStats}
+      otherTabsUnreadCount={otherTabsUnreadCount}
       getConversation={getConversation}
       getCallIdFromEra={getCallIdFromEra}
       getCallHistoryGroupsCount={getCallHistoryGroupsCount}

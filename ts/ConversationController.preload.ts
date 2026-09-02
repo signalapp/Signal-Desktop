@@ -41,7 +41,11 @@ import { getTitleNoDefault } from './util/getTitle.preload.ts';
 import * as StorageService from './services/storage.preload.ts';
 import { cdsLookup } from './textsecure/WebAPI.preload.ts';
 import type { ConversationPropsForUnreadStats } from './util/countUnreadStats.std.ts';
-import { countAllConversationsUnreadStats } from './util/countUnreadStats.std.ts';
+import {
+  countAllConversationsUnreadStats,
+  getUnreadCountForBadge,
+} from './util/countUnreadStats.std.ts';
+import { STORAGE_KEY_DEFAULTS } from './types/StorageKeys.std.ts';
 import { isTestOrMockEnvironment } from './environment.std.ts';
 import { isConversationAccepted } from './util/isConversationAccepted.preload.ts';
 import { areWePending } from './util/groupMembershipUtils.preload.ts';
@@ -390,6 +394,9 @@ export class ConversationController {
 
     const badgeCountMutedConversationsSetting =
       itemStorage.get('badge-count-muted-conversations') || false;
+    const unreadCountBadgeType =
+      itemStorage.get('unreadCountBadgeType') ??
+      STORAGE_KEY_DEFAULTS.unreadCountBadgeType;
     const { activeProfile } = window.reduxStore.getState().notificationProfiles;
 
     const unreadStats = countAllConversationsUnreadStats(
@@ -420,22 +427,12 @@ export class ConversationController {
 
     drop(itemStorage.put('unreadCount', unreadStats.unreadCount));
 
-    if (unreadStats.unreadCount > 0) {
-      const total =
-        unreadStats.unreadCount + unreadStats.readChatsMarkedUnreadCount;
-      window.IPC.setBadge(total);
-      window.IPC.updateTrayIcon(total);
-      window.document.title = `${window.getTitle()} (${total})`;
-    } else if (unreadStats.readChatsMarkedUnreadCount > 0) {
-      const total = unreadStats.readChatsMarkedUnreadCount;
-      window.IPC.setBadge(total);
-      window.IPC.updateTrayIcon(total);
-      window.document.title = `${window.getTitle()} (${total})`;
-    } else {
-      window.IPC.setBadge(0);
-      window.IPC.updateTrayIcon(0);
-      window.document.title = window.getTitle();
-    }
+    const total = getUnreadCountForBadge(unreadStats, unreadCountBadgeType);
+
+    window.IPC.setBadgeCount(total);
+    window.IPC.updateTrayIcon(total);
+    window.document.title =
+      total > 0 ? `${window.getTitle()} (${total})` : window.getTitle();
   }
 
   onEmpty(): void {

@@ -52,6 +52,7 @@ import type { MediaDeviceSettings } from '../types/Calling.std.ts';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
   AutoDownloadAttachmentType,
+  UnreadCountBadgeType,
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
@@ -81,7 +82,6 @@ import type {
   BackupsSubscriptionType,
   BackupStatusType,
 } from '../types/backups.node.ts';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
@@ -194,6 +194,7 @@ export type PropsDataType = {
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
+  unreadCountBadgeType: UnreadCountBadgeType;
   whoCanFindMe: PhoneNumberDiscoverability;
   whoCanSeeMe: PhoneNumberSharingMode;
   zoomFactor: ZoomFactorType | undefined;
@@ -210,7 +211,7 @@ export type PropsDataType = {
   initialSpellCheckSetting: boolean;
   me: ConversationType;
   navTabsCollapsed: boolean;
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   preferredWidthFromStorage: number;
   shouldShowUpdateDialog: boolean;
   theme: ThemeType;
@@ -385,6 +386,7 @@ type PropsFunctionType = {
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onTypingIndicatorsChange: CheckboxChangeHandlerType;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
+  onUnreadCountBadgeTypeChange: SelectChangeHandlerType<UnreadCountBadgeType>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
@@ -583,10 +585,11 @@ export function Preferences({
   onToggleNavTabsCollapse,
   onTypingIndicatorsChange,
   onUniversalExpireTimerChange,
+  onUnreadCountBadgeTypeChange,
   onWhoCanFindMeChange,
   onWhoCanSeeMeChange,
   onZoomFactorChange,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   settingsLocation,
   phoneNumber = '',
   pickLocalBackupFolder,
@@ -626,6 +629,7 @@ export function Preferences({
   theme,
   themeSetting,
   universalExpireTimer,
+  unreadCountBadgeType,
   validateBackup,
   whoCanFindMe,
   whoCanSeeMe,
@@ -1705,6 +1709,33 @@ export function Preferences({
         <List
           label={i18n('icu:Preferences__Notifications__AppBadgeSection__Title')}
         >
+          <AxoSelectItem.Root
+            label={i18n(
+              'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label'
+            )}
+            description={i18n(
+              'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description'
+            )}
+            value={unreadCountBadgeType}
+            onValueChange={value => {
+              onUnreadCountBadgeTypeChange(value as UnreadCountBadgeType);
+            }}
+            placeholder=""
+            options={[
+              {
+                label: i18n(
+                  'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages'
+                ),
+                value: 'unread-messages',
+              },
+              {
+                label: i18n(
+                  'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats'
+                ),
+                value: 'unread-chats',
+              },
+            ]}
+          />
           <AxoSwitchItem.Root
             label={i18n('icu:countMutedConversationsDescription')}
             checked={hasCountMutedConversations}
@@ -2543,7 +2574,7 @@ export function Preferences({
         <NavSidebar
           title={i18n('icu:Preferences--header')}
           i18n={i18n}
-          otherTabsUnreadStats={otherTabsUnreadStats}
+          otherTabsUnreadCount={otherTabsUnreadCount}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={false}
           navTabsCollapsed={navTabsCollapsed}

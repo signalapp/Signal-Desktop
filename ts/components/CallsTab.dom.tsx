@@ -17,7 +17,6 @@ import type {
   ActiveCallStateType,
   PeekNotConnectedGroupCallType,
 } from '../state/ducks/calling.preload.ts';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { getCallIdFromEra } from '../util/callDisposition.preload.ts';
 import type { CallLinkType } from '../types/CallLink.std.ts';
 import type { CallStateType } from '../state/selectors/calling.std.ts';
@@ -35,7 +34,7 @@ enum CallsTabSidebarView {
 type CallsTabProps = Readonly<{
   activeCall: ActiveCallStateType | undefined;
   allConversations: ReadonlyArray<ConversationType>;
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   getCallHistoryGroupsCount: (
     options: CallHistoryFilterOptions
   ) => Promise<number>;
@@ -95,7 +94,7 @@ export type CallsTabSelectedView =
 export function CallsTab({
   activeCall,
   allConversations,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   getCallHistoryGroupsCount,
   getCallHistoryGroups,
   getCallIdFromEra,
@@ -205,7 +204,7 @@ export function CallsTab({
               ? i18n('icu:CallsTab__HeaderTitle--CallsList')
               : i18n('icu:CallsTab__HeaderTitle--NewCall')
           }
-          otherTabsUnreadStats={otherTabsUnreadStats}
+          otherTabsUnreadCount={otherTabsUnreadCount}
           hasFailedStorySends={hasFailedStorySends}
           hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}

@@ -22,7 +22,7 @@ import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
 import { getHasPendingUpdate } from '../selectors/updates.std.ts';
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
 import {
-  getOtherTabsUnreadStats,
+  getOtherTabsUnreadCount,
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.ts';
@@ -46,7 +46,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
-  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const otherTabsUnreadCount = useSelector(getOtherTabsUnreadCount);
   const selectedConversationId = useSelector(getSelectedConversationId);
   const targetedMessageId = useSelector(getTargetedMessage)?.id;
   const targetedMessageSource = useSelector(getTargetedMessageSource);
@@ -132,7 +132,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
 
   return (
     <ChatsTab
-      otherTabsUnreadStats={otherTabsUnreadStats}
+      otherTabsUnreadCount={otherTabsUnreadCount}
       i18n={i18n}
       isStaging={isStagingServer()}
       hasFailedStorySends={hasFailedStorySends}

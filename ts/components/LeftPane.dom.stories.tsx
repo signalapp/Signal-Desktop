@@ -146,11 +146,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   const isUpdateDownloaded = false;
 
   return {
-    otherTabsUnreadStats: {
-      unreadCount: 0,
-      unreadMentionsCount: 0,
-      readChatsMarkedUnreadCount: 0,
-    },
+    otherTabsUnreadCount: 0,
     backupMediaDownloadProgress: {
       isBackupMediaEnabled: true,
       downloadBannerDismissed: false,
@@ -341,6 +337,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         currentChatFolders={CurrentChatFolders.createEmpty()}
         allChatFoldersUnreadStats={new Map()}
         allChatFoldersMutedStats={new Map()}
+        unreadCountBadgeType="unread-messages"
         selectedChatFolder={null}
         onSelectedChatFolderIdChange={action('onSelectedChatFolderIdChange')}
         onChatFolderMarkRead={action('onChatFolderMarkRead')}

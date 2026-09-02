@@ -21,6 +21,7 @@ import type {
   AllChatFoldersUnreadStats,
   UnreadStats,
 } from '../../util/countUnreadStats.std.ts';
+import { getUnreadCountForBadge } from '../../util/countUnreadStats.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
 import { AxoSelect } from '../../axo/AxoSelect.dom.tsx';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
@@ -33,12 +34,14 @@ import type {
 import type { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
+import type { UnreadCountBadgeType } from '../../types/StorageKeys.std.ts';
 
 export type LeftPaneChatFoldersProps = Readonly<{
   i18n: LocalizerType;
   navSidebarWidthBreakpoint: WidthBreakpoint | null;
   currentChatFolders: CurrentChatFolders;
   allChatFoldersUnreadStats: AllChatFoldersUnreadStats;
+  unreadCountBadgeType: UnreadCountBadgeType;
   allChatFoldersMutedStats: AllChatFoldersMutedStats;
   selectedChatFolder: ChatFolder | null;
   onSelectedChatFolderIdChange: (newValue: ChatFolderId) => void;
@@ -50,17 +53,15 @@ export type LeftPaneChatFoldersProps = Readonly<{
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
 }>;
 
-function getBadgeValue(unreadStats: UnreadStats | null): number | null {
+function getBadgeValue(
+  unreadStats: UnreadStats | null,
+  unreadCountBadgeType: UnreadCountBadgeType
+): number | null {
   if (unreadStats == null) {
     return null;
   }
-  if (unreadStats.unreadCount > 0) {
-    return unreadStats.unreadCount + unreadStats.readChatsMarkedUnreadCount;
-  }
-  if (unreadStats.readChatsMarkedUnreadCount > 0) {
-    return unreadStats.readChatsMarkedUnreadCount;
-  }
-  return null;
+  const total = getUnreadCountForBadge(unreadStats, unreadCountBadgeType);
+  return total > 0 ? total : null;
 }
 
 function getChatFolderLabel(
@@ -143,6 +144,7 @@ export function LeftPaneChatFolders(
                   i18n={i18n}
                   chatFolder={chatFolder}
                   unreadStats={unreadStats}
+                  unreadCountBadgeType={props.unreadCountBadgeType}
                 />
               );
             })}
@@ -177,6 +179,7 @@ export function LeftPaneChatFolders(
               i18n={i18n}
               chatFolder={chatFolder}
               unreadStats={unreadStats}
+              unreadCountBadgeType={props.unreadCountBadgeType}
               mutedStats={mutedStats}
               onChatFolderMarkRead={props.onChatFolderMarkRead}
               onChatFolderUpdateMute={props.onChatFolderUpdateMute}
@@ -195,12 +198,13 @@ function ChatFolderSelectItem(props: {
   i18n: LocalizerType;
   chatFolder: ChatFolder;
   unreadStats: UnreadStats | null;
+  unreadCountBadgeType: UnreadCountBadgeType;
 }): JSX.Element {
-  const { i18n, unreadStats } = props;
+  const { i18n, unreadStats, unreadCountBadgeType } = props;
 
   const badgeValue = useMemo(() => {
-    return getBadgeValue(unreadStats);
-  }, [unreadStats]);
+    return getBadgeValue(unreadStats, unreadCountBadgeType);
+  }, [unreadStats, unreadCountBadgeType]);
 
   return (
     <AxoSelect.Item
@@ -230,6 +234,7 @@ function ChatFolderSegmentedControlItem(props: {
   i18n: LocalizerType;
   chatFolder: ChatFolder;
   unreadStats: UnreadStats | null;
+  unreadCountBadgeType: UnreadCountBadgeType;
   mutedStats: MutedStats | null;
   onChatFolderMarkRead: (chatFolderId: ChatFolderId) => void;
   onChatFolderUpdateMute: (
@@ -238,11 +243,11 @@ function ChatFolderSegmentedControlItem(props: {
   ) => void;
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
 }): JSX.Element {
-  const { i18n, unreadStats } = props;
+  const { i18n, unreadStats, unreadCountBadgeType } = props;
 
   const badgeValue = useMemo(() => {
-    return getBadgeValue(unreadStats);
-  }, [unreadStats]);
+    return getBadgeValue(unreadStats, unreadCountBadgeType);
+  }, [unreadStats, unreadCountBadgeType]);
 
   return (
     <ChatFolderSegmentedControlItemContextMenu

@@ -51,6 +51,8 @@ export type SentMediaQualitySettingType = 'standard' | 'high';
 
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
+export type UnreadCountBadgeType = 'unread-messages' | 'unread-chats';
+
 export type IdentityKeyMap = Record<
   ServiceIdString,
   {
@@ -194,6 +196,7 @@ export type StorageAccessType = {
   preferredReactionEmoji: ReadonlyArray<Emoji.Variant>;
   emojiSkinToneDefault: Emoji.SkinTone;
   unreadCount: number;
+  unreadCountBadgeType: UnreadCountBadgeType;
   'challenge:conversations': ReadonlyArray<RegisteredChallengeType>;
 
   deviceNameEncrypted: boolean;
@@ -399,6 +402,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'showStickersIntroduction',
   'emojiSkinToneDefault',
   'textFormatting',
+  'unreadCountBadgeType',
   'zoomFactor',
 
   // Bookkeeping keys
@@ -647,3 +651,17 @@ export type AssertStorageUnlinkKeysAreExhaustive = AssertTrue<
     keyof StorageAccessType
   >
 >;
+
+export const STORAGE_KEY_DEFAULTS = {
+  'audio-notification': false,
+  'badge-count-muted-conversations': false,
+  'call-system-notification': true,
+  'notification-draw-attention': false,
+  'notification-setting': 'message',
+  'reaction-notification': true,
+  audioMessage: false,
+  notifyForCallsIfMuted: undefined,
+  notifyForMentionsIfMuted: undefined,
+  notifyForRepliesIfMuted: undefined,
+  unreadCountBadgeType: 'unread-messages',
+} as const satisfies Partial<StorageAccessType>;

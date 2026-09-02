@@ -60,6 +60,7 @@ import {
   getBadgeCountMutedConversations,
   getPinnedConversationIds,
   getStoriesEnabled,
+  getUnreadCountBadgeType,
 } from './items.dom.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.ts';
@@ -85,6 +86,7 @@ import {
 import {
   countAllChatFoldersUnreadStats,
   countAllConversationsUnreadStats,
+  getUnreadCountForBadge,
 } from '../../util/countUnreadStats.std.ts';
 import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
@@ -769,22 +771,14 @@ export const getAllChatFoldersUnreadStats: StateSelector<AllChatFoldersUnreadSta
   createSelector(
     getCurrentChatFolders,
     getAllConversations,
-    getBadgeCountMutedConversations,
     getActiveProfile,
-    (
-      currentChatFolders,
-      allConversations,
-      badgeCountMutedConversations,
-      activeProfile
-    ) => {
+    (currentChatFolders, allConversations, activeProfile) => {
       return countAllChatFoldersUnreadStats(
         currentChatFolders,
         allConversations,
         {
           activeProfile,
-          includeMuted: badgeCountMutedConversations
-            ? 'setting-on'
-            : 'setting-off',
+          includeMuted: 'force-include',
         }
       );
     }
@@ -1510,42 +1504,38 @@ const getStoriesNotificationCount = createSelector(
   }
 );
 
-export const getOtherTabsUnreadStats = createSelector(
+export const getOtherTabsUnreadCount = createSelector(
   getSelectedNavTab,
   getAllConversationsUnreadStats,
+  getUnreadCountBadgeType,
   getCallHistoryUnreadCount,
   getStoriesNotificationCount,
   (
     selectedNavTab,
     conversationsUnreadStats,
+    unreadCountBadgeType,
     callHistoryUnreadCount,
     storiesNotificationCount
-  ): UnreadStats => {
-    let unreadCount = 0;
-    let unreadMentionsCount = 0;
-    let readChatsMarkedUnreadCount = 0;
+  ): number => {
+    let count = 0;
 
     if (selectedNavTab !== NavTab.Chats) {
-      unreadCount += conversationsUnreadStats.unreadCount;
-      unreadMentionsCount += conversationsUnreadStats.unreadMentionsCount;
-      readChatsMarkedUnreadCount +=
-        conversationsUnreadStats.readChatsMarkedUnreadCount;
+      count += getUnreadCountForBadge(
+        conversationsUnreadStats,
+        unreadCountBadgeType
+      );
     }
 
     // Note: Conversation unread stats includes the call history unread count.
     if (selectedNavTab !== NavTab.Calls) {
-      unreadCount += callHistoryUnreadCount;
+      count += callHistoryUnreadCount;
     }
 
     if (selectedNavTab !== NavTab.Stories) {
-      unreadCount += storiesNotificationCount;
+      count += storiesNotificationCount;
     }
 
-    return {
-      unreadCount,
-      unreadMentionsCount,
-      readChatsMarkedUnreadCount,
-    };
+    return count;
   }
 );
 

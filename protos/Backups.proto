@@ -105,6 +105,12 @@ message AccountData {
   }
 
   message AccountSettings {
+    enum UnreadBadgeType {
+      UNKNOWN_BADGE_TYPE = 0; // Interpret as "Unread messages"
+      UNREAD_MESSAGES = 1;
+      UNREAD_CHATS = 2;
+    }
+
     bool readReceipts = 1;
     bool sealedSenderIndicators = 2;
     bool typingIndicators = 3;
@@ -138,6 +144,7 @@ message AccountData {
     bool allowSealedSenderFromAnyone = 30;
     bool allowAutomaticKeyVerification = 31;
     bool hasSeenAdminDeleteEducationDialog = 32;
+    UnreadBadgeType unreadBadgeType = 33;
     optional bool includeMutedChatsInBadge = 34; // If unset, consider this disabled
     optional bool reactionNotifications = 35; // If unset, consider this enabled
     optional bool notifyForCallsIfMuted = 36; // If unset, consider this disabled

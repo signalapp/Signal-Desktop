@@ -11,7 +11,10 @@ import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
 } from '../selectors/stories.preload.ts';
-import { getStoriesEnabled } from '../selectors/items.dom.ts';
+import {
+  getStoriesEnabled,
+  getUnreadCountBadgeType,
+} from '../selectors/items.dom.ts';
 import { getSelectedNavTab } from '../selectors/nav.std.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { getHasPendingUpdate } from '../selectors/updates.std.ts';
@@ -38,6 +41,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 }: SmartNavTabsProps): JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
+  const unreadCountBadgeType = useSelector(getUnreadCountBadgeType);
   const storiesEnabled = useSelector(getStoriesEnabled);
   const unreadConversationsStats = useSelector(getAllConversationsUnreadStats);
   const unreadStoriesCount = useSelector(getStoriesNotificationCount);
@@ -60,6 +64,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
 
   return (
     <NavTabs
+      unreadCountBadgeType={unreadCountBadgeType}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       i18n={i18n}

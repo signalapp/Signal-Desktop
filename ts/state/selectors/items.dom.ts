@@ -12,6 +12,8 @@ import type {
   CustomColorType,
 } from '../../types/Colors.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
+import type { UnreadCountBadgeType } from '../../types/StorageKeys.std.ts';
+import { STORAGE_KEY_DEFAULTS } from '../../types/StorageKeys.std.ts';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
 import type { NotifyWhileMuted } from '../../util/notifyWhileMuted.std.ts';
@@ -227,6 +229,15 @@ export const getGlobalNotifyWhileMuted = createSelector(
       state.notifyForMentionsIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.mentions,
     replies: state.notifyForRepliesIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.replies,
   })
+);
+
+export const getUnreadCountBadgeType = createSelector(
+  getItems,
+  (state: ItemsStateType): UnreadCountBadgeType => {
+    return (
+      state.unreadCountBadgeType ?? STORAGE_KEY_DEFAULTS.unreadCountBadgeType
+    );
+  }
 );
 
 export const getTextFormattingEnabled = createSelector(

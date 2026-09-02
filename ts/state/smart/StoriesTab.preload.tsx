@@ -10,7 +10,7 @@ import { getMaximumOutgoingVideoSize } from '../../types/AttachmentSize.std.ts';
 import { getValue, type ConfigKeyType } from '../../RemoteConfig.dom.ts';
 import {
   getMe,
-  getOtherTabsUnreadStats,
+  getOtherTabsUnreadCount,
 } from '../selectors/conversations.dom.ts';
 import { getIntl, getTheme } from '../selectors/user.std.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
@@ -65,7 +65,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
   const hasViewReceiptSetting = useSelector(getHasStoryViewReceiptSetting);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
-  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const otherTabsUnreadCount = useSelector(getOtherTabsUnreadCount);
   const remoteConfig = useSelector(getRemoteConfig);
 
   const maxAttachmentVideoSize = getMaximumOutgoingVideoSize(
@@ -108,7 +108,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
 
   return (
     <StoriesTab
-      otherTabsUnreadStats={otherTabsUnreadStats}
+      otherTabsUnreadCount={otherTabsUnreadCount}
       addStoryData={addStoryData}
       getPreferredBadge={getPreferredBadge}
       hasFailedStorySends={hasFailedStorySends}

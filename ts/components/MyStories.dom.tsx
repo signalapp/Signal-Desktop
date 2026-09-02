@@ -20,13 +20,12 @@ import { resolveStorySendStatus } from '../util/resolveStorySendStatus.std.ts';
 import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.tsx';
 import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 
 export type PropsType = {
   i18n: LocalizerType;
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   hasFailedStorySends: boolean;
   hasPendingUpdate: boolean;
   navTabsCollapsed: boolean;
@@ -51,7 +50,7 @@ export type PropsType = {
 
 export function MyStories({
   i18n,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   hasFailedStorySends,
   hasPendingUpdate,
   navTabsCollapsed,
@@ -101,7 +100,7 @@ export function MyStories({
       <NavSidebar
         i18n={i18n}
         title={i18n('icu:MyStories__title')}
-        otherTabsUnreadStats={otherTabsUnreadStats}
+        otherTabsUnreadCount={otherTabsUnreadCount}
         hasFailedStorySends={hasFailedStorySends}
         hasPendingUpdate={hasPendingUpdate}
         navTabsCollapsed={navTabsCollapsed}

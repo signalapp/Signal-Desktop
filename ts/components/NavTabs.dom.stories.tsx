@@ -28,9 +28,11 @@ const createProps = (
   unreadCallsCount: overrideProps.unreadCallsCount ?? 0,
   unreadConversationsStats: overrideProps.unreadConversationsStats ?? {
     unreadCount: 0,
+    unreadChatsCount: 0,
     unreadMentionsCount: 0,
     readChatsMarkedUnreadCount: 0,
   },
+  unreadCountBadgeType: overrideProps.unreadCountBadgeType ?? 'unread-messages',
   unreadStoriesCount: overrideProps.unreadStoriesCount ?? 0,
 });
 

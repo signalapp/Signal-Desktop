@@ -20,7 +20,6 @@ import {
   getWidthFromPreferredWidth,
 } from '../util/leftPaneWidth.std.ts';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
 
@@ -67,7 +66,7 @@ export type NavSidebarProps = Readonly<{
   requiresFullWidth: boolean;
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   renderToastManager: (_: SmartToastManagerPropsType) => JSX.Element;
 }>;
 
@@ -91,7 +90,7 @@ export function NavSidebar({
   requiresFullWidth,
   savePreferredLeftPaneWidth,
   title,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   renderToastManager,
 }: NavSidebarProps): JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
@@ -190,7 +189,7 @@ export function NavSidebar({
                   onToggleNavTabsCollapse={onToggleNavTabsCollapse}
                   hasFailedStorySends={hasFailedStorySends}
                   hasPendingUpdate={hasPendingUpdate}
-                  otherTabsUnreadStats={otherTabsUnreadStats}
+                  otherTabsUnreadCount={otherTabsUnreadCount}
                 />
               )}
               <div

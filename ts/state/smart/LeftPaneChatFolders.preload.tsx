@@ -12,6 +12,7 @@ import {
   getAllChatFoldersMutedStats,
   getAllChatFoldersUnreadStats,
 } from '../selectors/conversations.dom.ts';
+import { getUnreadCountBadgeType } from '../selectors/items.dom.ts';
 import { useChatFolderActions } from '../ducks/chatFolders.preload.ts';
 import { NavSidebarWidthBreakpointContext } from '../../components/NavSidebar.dom.tsx';
 import { useNavActions } from '../ducks/nav.std.ts';
@@ -26,6 +27,7 @@ export const SmartLeftPaneChatFolders = memo(
     const currentChatFolders = useSelector(getCurrentChatFolders);
     const allChatFoldersUnreadStats = useSelector(getAllChatFoldersUnreadStats);
     const allChatFoldersMutedStats = useSelector(getAllChatFoldersMutedStats);
+    const unreadCountBadgeType = useSelector(getUnreadCountBadgeType);
     const selectedChatFolder = useSelector(getSelectedChatFolder);
     const navSidebarWidthBreakpoint = useContext(
       NavSidebarWidthBreakpointContext
@@ -59,6 +61,7 @@ export const SmartLeftPaneChatFolders = memo(
         currentChatFolders={currentChatFolders}
         allChatFoldersUnreadStats={allChatFoldersUnreadStats}
         allChatFoldersMutedStats={allChatFoldersMutedStats}
+        unreadCountBadgeType={unreadCountBadgeType}
         selectedChatFolder={selectedChatFolder}
         onSelectedChatFolderIdChange={updateSelectedChatFolderId}
         onChatFolderMarkRead={markChatFolderRead}

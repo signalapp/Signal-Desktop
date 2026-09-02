@@ -8324,6 +8324,22 @@
     "messageformat": "Reset",
     "description": "Preferences > Notifications > Reset Section > Confirmation Modal > Label of the button that confirms restoring the default notification settings"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
+    "messageformat": "Badge count",
+    "description": "Preferences > Notifications > App Badge Section > Label for the badge count setting select box"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
+    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats",
+    "description": "Preferences > Notifications > App Badge Section > Description for the badge count setting select box"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
+    "messageformat": "Unread messages",
+    "description": "Preferences > Notifications > App Badge Section > Option for showing the number of unread messages in the badge count"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
+    "messageformat": "Unread chats",
+    "description": "Preferences > Notifications > App Badge Section > Option for showing the number of unread chats in the badge count"
+  },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Export chat history",
     "description": "Shown in the Preferences/Chats page, header for a row"

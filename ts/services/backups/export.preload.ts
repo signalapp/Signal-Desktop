@@ -72,6 +72,7 @@ import {
   parsePhoneNumberSharingMode,
 } from '../../types/PhoneNumberSharingMode.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import { STORAGE_KEY_DEFAULTS } from '../../types/StorageKeys.std.ts';
 import {
   isCallHistory,
   isChatSessionRefreshed,
@@ -1031,6 +1032,23 @@ export class BackupExportStream extends Readable {
         throw missingCaseError(rawPhoneNumberSharingMode);
     }
 
+    const UNREAD_BADGE_TYPE_ENUM =
+      Backups.AccountData.AccountSettings.UnreadBadgeType;
+    const unreadCountBadgeType =
+      itemStorage.get('unreadCountBadgeType') ??
+      STORAGE_KEY_DEFAULTS.unreadCountBadgeType;
+    let unreadBadgeType: Backups.AccountData.AccountSettings.UnreadBadgeType;
+    switch (unreadCountBadgeType) {
+      case 'unread-messages':
+        unreadBadgeType = UNREAD_BADGE_TYPE_ENUM.UNREAD_MESSAGES;
+        break;
+      case 'unread-chats':
+        unreadBadgeType = UNREAD_BADGE_TYPE_ENUM.UNREAD_CHATS;
+        break;
+      default:
+        throw missingCaseError(unreadCountBadgeType);
+    }
+
     const usernameLink = itemStorage.get('usernameLink');
 
     const subscriberId = itemStorage.get('subscriberId');
@@ -1101,6 +1119,7 @@ export class BackupExportStream extends Readable {
           itemStorage.get('notifyForMentionsIfMuted') ?? null,
         notifyForRepliesIfMuted:
           itemStorage.get('notifyForRepliesIfMuted') ?? null,
+        unreadBadgeType,
         hasSetMyStoriesPrivacy:
           itemStorage.get('hasSetMyStoriesPrivacy') ?? null,
         hasViewedOnboardingStory:

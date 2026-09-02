@@ -170,6 +170,10 @@ import type { ThemeType } from '../../util/preload.preload.ts';
 import { toNumber } from '../../util/toNumber.std.ts';
 import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import {
+  STORAGE_KEY_DEFAULTS,
+  type UnreadCountBadgeType,
+} from '../../types/StorageKeys.std.ts';
 
 const { isNumber } = lodash;
 
@@ -903,6 +907,22 @@ export class BackupImportStream extends Writable {
       'notifyForRepliesIfMuted',
       accountSettings?.notifyForRepliesIfMuted ?? undefined
     );
+
+    let unreadCountBadgeType: UnreadCountBadgeType;
+    switch (accountSettings?.unreadBadgeType) {
+      case Backups.AccountData.AccountSettings.UnreadBadgeType.UNREAD_CHATS:
+        unreadCountBadgeType = 'unread-chats';
+        break;
+      case Backups.AccountData.AccountSettings.UnreadBadgeType.UNREAD_MESSAGES:
+        unreadCountBadgeType = 'unread-messages';
+        break;
+      case Backups.AccountData.AccountSettings.UnreadBadgeType
+        .UNKNOWN_BADGE_TYPE:
+      default:
+        unreadCountBadgeType = STORAGE_KEY_DEFAULTS.unreadCountBadgeType;
+    }
+
+    await itemStorage.put('unreadCountBadgeType', unreadCountBadgeType);
     await itemStorage.put(
       'hasSetMyStoriesPrivacy',
       accountSettings?.hasSetMyStoriesPrivacy === true

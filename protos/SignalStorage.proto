@@ -189,6 +189,12 @@ message Payments {
 }
 
 message AccountRecord {
+  enum UnreadBadgeType {
+    UNKNOWN_BADGE_TYPE = 0; // Interpret as "Unread messages"
+    UNREAD_MESSAGES = 1;
+    UNREAD_CHATS = 2;
+  }
+
   enum PhoneNumberSharingMode {
     UNKNOWN = 0;
     EVERYBODY = 1;
@@ -312,6 +318,7 @@ message AccountRecord {
   optional bool releaseNotesChatBlocked = 50;
   optional bool releaseNotesChatMarkedUnread = 51;
   optional uint64 releaseNotesChatBlockedAt = 52; // only set if known (>0)
+  UnreadBadgeType unreadBadgeType = 53;
   OptionalBool includeMutedChatsInBadge = 54; // If unset, consider this off
   OptionalBool reactionNotifications = 55; // If unset, consider this on
   OptionalBool notifyForCallsIfMuted = 56; // If unset, consider this off

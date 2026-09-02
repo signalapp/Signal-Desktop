@@ -158,6 +158,7 @@ function* createRecords({
         callsUseLessDataSetting: null,
         allowSealedSenderFromAnyone: null,
         allowAutomaticKeyVerification: null,
+        unreadBadgeType: null,
       },
       username: null,
       usernameLink: null,

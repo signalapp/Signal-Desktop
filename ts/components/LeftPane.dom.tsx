@@ -63,7 +63,6 @@ import {
   NavSidebarActionButton,
   NavSidebarSearchHeader,
 } from './NavSidebar.dom.tsx';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.tsx';
 import type {
   ServerAlertsType,
@@ -89,7 +88,7 @@ export type PropsType = {
     isPaused: boolean;
     downloadBannerDismissed: boolean;
   };
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   hasAnyCurrentCustomChatFolders: boolean;
   hasClockSkewDialog: boolean;
   hasExpiredDialog: boolean;
@@ -225,7 +224,7 @@ export type PropsType = {
 
 export function LeftPane({
   backupMediaDownloadProgress,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   blockConversation,
   cancelBackupMediaDownload,
   challengeStatus,
@@ -811,7 +810,7 @@ export function LeftPane({
       title={i18n('icu:LeftPane--chats')}
       hideHeader={hideHeader}
       i18n={i18n}
-      otherTabsUnreadStats={otherTabsUnreadStats}
+      otherTabsUnreadCount={otherTabsUnreadCount}
       hasFailedStorySends={hasFailedStorySends}
       hasPendingUpdate={hasPendingUpdate}
       navTabsCollapsed={navTabsCollapsed}

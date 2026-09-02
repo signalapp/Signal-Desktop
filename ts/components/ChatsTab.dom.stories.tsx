@@ -18,11 +18,7 @@ export default {
   },
   args: {
     i18n,
-    otherTabsUnreadStats: {
-      unreadCount: 0,
-      unreadMentionsCount: 0,
-      readChatsMarkedUnreadCount: 0,
-    },
+    otherTabsUnreadCount: 0,
     isStaging: false,
     hasPendingUpdate: false,
     hasFailedStorySends: false,

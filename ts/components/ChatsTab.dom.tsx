@@ -6,12 +6,11 @@ import type { JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { NavTabPanelProps } from './NavTabs.dom.tsx';
 import { WhatsNewLink } from './WhatsNewLink.dom.tsx';
-import type { UnreadStats } from '../util/countUnreadStats.std.ts';
 import type { SmartConversationViewProps } from '../state/smart/ConversationView.preload.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 export type ChatsTabProps = Readonly<{
-  otherTabsUnreadStats: UnreadStats;
+  otherTabsUnreadCount: number;
   i18n: LocalizerType;
   isStaging: boolean;
   hasPendingUpdate: boolean;
@@ -26,7 +25,7 @@ export type ChatsTabProps = Readonly<{
 }>;
 
 export function ChatsTab({
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
   i18n,
   isStaging,
   hasPendingUpdate,
@@ -43,7 +42,7 @@ export function ChatsTab({
     <>
       <div id="LeftPane">
         {renderLeftPane({
-          otherTabsUnreadStats,
+          otherTabsUnreadCount,
           collapsed: navTabsCollapsed,
           hasPendingUpdate,
           hasFailedStorySends,

@@ -316,7 +316,7 @@ async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
 export const SmartLeftPane = memo(function SmartLeftPane({
   hasFailedStorySends,
   hasPendingUpdate,
-  otherTabsUnreadStats,
+  otherTabsUnreadCount,
 }: NavTabPanelProps) {
   const challengeStatus = useSelector(getChallengeStatus);
   const composerStep = useSelector(getComposerStep);
@@ -488,7 +488,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       openUsernameReservationModal={openUsernameReservationModal}
-      otherTabsUnreadStats={otherTabsUnreadStats}
+      otherTabsUnreadCount={otherTabsUnreadCount}
       pauseBackupMediaDownload={pauseBackupMediaDownload}
       preferredWidthFromStorage={preferredWidthFromStorage}
       preloadConversation={maybePreloadConversation}

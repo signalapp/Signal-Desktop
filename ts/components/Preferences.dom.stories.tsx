@@ -517,11 +517,7 @@ export default {
     notificationContent: 'name',
     notifyWhileMuted: { calls: false, mentions: true, replies: true },
     osName: 'windows',
-    otherTabsUnreadStats: {
-      unreadCount: 0,
-      unreadMentionsCount: 0,
-      readChatsMarkedUnreadCount: 0,
-    },
+    otherTabsUnreadCount: 0,
     settingsLocation: {
       page: SettingsPage.Profile,
       state: ProfileEditorPage.None,
@@ -539,6 +535,7 @@ export default {
     themeSetting: 'system',
     theme: ThemeType.light,
     universalExpireTimer: DurationInSeconds.HOUR,
+    unreadCountBadgeType: 'unread-messages',
     weArePrimaryDevice: false,
     whoCanFindMe: PhoneNumberDiscoverability.Discoverable,
     whoCanSeeMe: PhoneNumberSharingMode.Everybody,
@@ -645,6 +642,7 @@ export default {
     onToggleNavTabsCollapse: action('onToggleNavTabsCollapse'),
     onTypingIndicatorsChange: action('onTypingIndicatorsChange'),
     onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
+    onUnreadCountBadgeTypeChange: action('onUnreadCountBadgeTypeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onZoomFactorChange: action('onZoomFactorChange'),
@@ -1432,20 +1430,12 @@ export const NavTabsCollapsedWithBadges = Template.bind({});
 NavTabsCollapsedWithBadges.args = {
   navTabsCollapsed: true,
   hasFailedStorySends: false,
-  otherTabsUnreadStats: {
-    unreadCount: 1,
-    unreadMentionsCount: 2,
-    readChatsMarkedUnreadCount: 0,
-  },
+  otherTabsUnreadCount: 1,
 };
 
 export const NavTabsCollapsedWithExclamation = Template.bind({});
 NavTabsCollapsedWithExclamation.args = {
   navTabsCollapsed: true,
   hasFailedStorySends: true,
-  otherTabsUnreadStats: {
-    unreadCount: 1,
-    unreadMentionsCount: 2,
-    readChatsMarkedUnreadCount: 0,
-  },
+  otherTabsUnreadCount: 1,
 };

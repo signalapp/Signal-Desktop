@@ -13,7 +13,7 @@ import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,
   getMe,
-  getOtherTabsUnreadStats,
+  getOtherTabsUnreadCount,
 } from '../selectors/conversations.dom.ts';
 import {
   getBackupKey,
@@ -123,25 +123,12 @@ import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
-import type { ZoomFactorType } from '../../types/StorageKeys.std.ts';
+import {
+  STORAGE_KEY_DEFAULTS,
+  type ZoomFactorType,
+} from '../../types/StorageKeys.std.ts';
 import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
-
-const DEFAULT_NOTIFICATION_SETTING = 'message';
-
-// Defaults for the settings that "Reset notification settings" restores
-const NOTIFICATION_SETTING_DEFAULTS = {
-  'notification-setting': DEFAULT_NOTIFICATION_SETTING,
-  'call-system-notification': true,
-  'reaction-notification': true,
-  'notification-draw-attention': false,
-  'audio-notification': false,
-  audioMessage: false,
-  'badge-count-muted-conversations': false,
-  notifyForCallsIfMuted: undefined,
-  notifyForMentionsIfMuted: undefined,
-  notifyForRepliesIfMuted: undefined,
-} as const satisfies Partial<StorageAccessType>;
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -267,7 +254,7 @@ export function SmartPreferences(): JSX.Element | null {
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const me = useSelector(getMe);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
-  const otherTabsUnreadStats = useSelector(getOtherTabsUnreadStats);
+  const otherTabsUnreadCount = useSelector(getOtherTabsUnreadCount);
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const theme = useSelector(getTheme);
@@ -737,7 +724,7 @@ export function SmartPreferences(): JSX.Element | null {
 
   const [hasAudioNotifications, onAudioNotificationsChange] = createItemsAccess(
     'audio-notification',
-    NOTIFICATION_SETTING_DEFAULTS['audio-notification']
+    STORAGE_KEY_DEFAULTS['audio-notification']
   );
   const [hasAutoConvertEmoji, onAutoConvertEmojiChange] = createItemsAccess(
     'autoConvertEmoji',
@@ -755,7 +742,7 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasCallNotifications, onCallNotificationsChange] = createItemsAccess(
     'call-system-notification',
-    NOTIFICATION_SETTING_DEFAULTS['call-system-notification']
+    STORAGE_KEY_DEFAULTS['call-system-notification']
   );
   const [hasIncomingCallNotifications, onIncomingCallNotificationsChange] =
     createItemsAccess('incoming-call-notification', true);
@@ -764,12 +751,23 @@ export function SmartPreferences(): JSX.Element | null {
   const [hasCountMutedConversations, onCountMutedConversationsChange] =
     createItemsAccess(
       'badge-count-muted-conversations',
-      NOTIFICATION_SETTING_DEFAULTS['badge-count-muted-conversations'],
+      STORAGE_KEY_DEFAULTS['badge-count-muted-conversations'],
       () => {
         window.Whisper.events.emit('updateUnreadCount');
         const account =
           window.ConversationController.getOurConversationOrThrow();
         account.captureChange('badge-count-muted-conversations');
+      }
+    );
+  const [unreadCountBadgeType, onUnreadCountBadgeTypeChange] =
+    createItemsAccess(
+      'unreadCountBadgeType',
+      STORAGE_KEY_DEFAULTS.unreadCountBadgeType,
+      () => {
+        const account =
+          window.ConversationController.getOurConversationOrThrow();
+        account.captureChange('unreadCountBadgeType');
+        window.Whisper.events.emit('updateUnreadCount');
       }
     );
   const [hasHideMenuBar, onHideMenuBarChange] = createItemsAccess(
@@ -782,17 +780,17 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [hasMessageAudio, onMessageAudioChange] = createItemsAccess(
     'audioMessage',
-    NOTIFICATION_SETTING_DEFAULTS.audioMessage
+    STORAGE_KEY_DEFAULTS.audioMessage
   );
   const [hasNotificationAttention, onNotificationAttentionChange] =
     createItemsAccess(
       'notification-draw-attention',
-      NOTIFICATION_SETTING_DEFAULTS['notification-draw-attention']
+      STORAGE_KEY_DEFAULTS['notification-draw-attention']
     );
   const [hasReactionNotifications, onReactionNotificationsChange] =
     createItemsAccess(
       'reaction-notification',
-      NOTIFICATION_SETTING_DEFAULTS['reaction-notification'],
+      STORAGE_KEY_DEFAULTS['reaction-notification'],
       () => {
         const account =
           window.ConversationController.getOurConversationOrThrow();
@@ -802,13 +800,13 @@ export function SmartPreferences(): JSX.Element | null {
 
   const [notificationContent, onNotificationContentChange] = createItemsAccess(
     'notification-setting',
-    NOTIFICATION_SETTING_DEFAULTS['notification-setting']
+    STORAGE_KEY_DEFAULTS['notification-setting']
   );
   const hasNotifications = notificationContent !== 'off';
   const onNotificationsChange = (value: boolean) => {
     putItem(
       'notification-setting',
-      value ? DEFAULT_NOTIFICATION_SETTING : 'off'
+      value ? STORAGE_KEY_DEFAULTS['notification-setting'] : 'off'
     );
   };
 
@@ -825,32 +823,27 @@ export function SmartPreferences(): JSX.Element | null {
 
   const onResetNotificationSettings = () => {
     // Reset global settings
-    onNotificationContentChange(
-      NOTIFICATION_SETTING_DEFAULTS['notification-setting']
-    );
-    onCallNotificationsChange(
-      NOTIFICATION_SETTING_DEFAULTS['call-system-notification']
-    );
+    onNotificationContentChange(STORAGE_KEY_DEFAULTS['notification-setting']);
+    onCallNotificationsChange(STORAGE_KEY_DEFAULTS['call-system-notification']);
     onReactionNotificationsChange(
-      NOTIFICATION_SETTING_DEFAULTS['reaction-notification']
+      STORAGE_KEY_DEFAULTS['reaction-notification']
     );
     onNotificationAttentionChange(
-      NOTIFICATION_SETTING_DEFAULTS['notification-draw-attention']
+      STORAGE_KEY_DEFAULTS['notification-draw-attention']
     );
-    onAudioNotificationsChange(
-      NOTIFICATION_SETTING_DEFAULTS['audio-notification']
-    );
-    onMessageAudioChange(NOTIFICATION_SETTING_DEFAULTS.audioMessage);
+    onAudioNotificationsChange(STORAGE_KEY_DEFAULTS['audio-notification']);
+    onMessageAudioChange(STORAGE_KEY_DEFAULTS.audioMessage);
+    onUnreadCountBadgeTypeChange(STORAGE_KEY_DEFAULTS.unreadCountBadgeType);
     onCountMutedConversationsChange(
-      NOTIFICATION_SETTING_DEFAULTS['badge-count-muted-conversations']
+      STORAGE_KEY_DEFAULTS['badge-count-muted-conversations']
     );
 
     const account = window.ConversationController.getOurConversationOrThrow();
     for (const itemKey of Object.values(NOTIFY_WHILE_MUTED_FIELDS)) {
-      if (itemStorage.get(itemKey) === NOTIFICATION_SETTING_DEFAULTS[itemKey]) {
+      if (itemStorage.get(itemKey) === STORAGE_KEY_DEFAULTS[itemKey]) {
         continue;
       }
-      drop(itemStorage.put(itemKey, NOTIFICATION_SETTING_DEFAULTS[itemKey]));
+      drop(itemStorage.put(itemKey, STORAGE_KEY_DEFAULTS[itemKey]));
       account.captureChange(itemKey);
     }
 
@@ -1164,12 +1157,13 @@ export function SmartPreferences(): JSX.Element | null {
         onToggleNavTabsCollapse={toggleNavTabsCollapse}
         onTypingIndicatorsChange={onTypingIndicatorsChange}
         onUniversalExpireTimerChange={onUniversalExpireTimerChange}
+        onUnreadCountBadgeTypeChange={onUnreadCountBadgeTypeChange}
         onWhoCanFindMeChange={onWhoCanFindMeChange}
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}
         openFileInFolder={openFileInFolder}
         osName={osName}
-        otherTabsUnreadStats={otherTabsUnreadStats}
+        otherTabsUnreadCount={otherTabsUnreadCount}
         settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
         preferredSystemLocales={preferredSystemLocales}
@@ -1212,6 +1206,7 @@ export function SmartPreferences(): JSX.Element | null {
         theme={theme}
         themeSetting={themeSetting}
         universalExpireTimer={universalExpireTimer}
+        unreadCountBadgeType={unreadCountBadgeType}
         validateBackup={validateBackup}
         whoCanFindMe={whoCanFindMe}
         whoCanSeeMe={whoCanSeeMe}
