@@ -213,24 +213,27 @@ import {
 } from './Interface.std.ts';
 import {
   _removeAllCallLinks,
-  beginDeleteAllCallLinks,
-  beginDeleteCallLink,
   callLinkExists,
-  defunctCallLinkExists,
   deleteCallHistoryByRoomId,
   deleteCallLinkAndHistory,
-  deleteCallLinkFromSync,
-  finalizeDeleteCallLink,
+  deleteCallLink,
+  deleteDefunctCallLink,
+  deleteExpiredCallLinks,
+  deleteExpiredDefunctCallLinks,
   getAllAdminCallLinks,
-  getAllCallLinkRecordsWithAdminKey,
+  getAllCallLinkRecordsForStorageService,
   getAllCallLinks,
-  getAllDefunctCallLinksWithAdminKey,
-  getAllMarkedDeletedCallLinkRoomIds,
+  getAllDefunctCallLinksForStorageService,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
+  getDefunctCallLinkByRoomId,
+  getTimestampOfOldestDefunctCallLink,
+  getTimestampOfOldestDeletedCallLink,
   insertCallLink,
   insertDefunctCallLink,
   insertOrUpdateCallLinkFromSync,
+  markAllCallLinksDeleted,
+  markCallLinkDeleted,
   updateCallLink,
   updateCallLinkState,
   updateDefunctCallLink,
@@ -264,6 +267,7 @@ import {
   updateChatFolderPositions,
   updateChatFolderDeletedAtTimestampMsFromSync,
   deleteExpiredChatFolders,
+  deleteChatFolderById,
 } from './server/chatFolders.std.ts';
 import {
   getAllPinnedMessages,
@@ -529,14 +533,16 @@ export const DataReader: ServerReadableInterface = {
   getNextExpiringPinnedMessageAcrossConversations,
 
   callLinkExists,
-  defunctCallLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
+  getDefunctCallLinkByRoomId,
   getAllAdminCallLinks,
-  getAllCallLinkRecordsWithAdminKey,
-  getAllDefunctCallLinksWithAdminKey,
-  getAllMarkedDeletedCallLinkRoomIds,
+  getAllCallLinkRecordsForStorageService,
+  getAllDefunctCallLinksForStorageService,
+  getTimestampOfOldestDefunctCallLink,
+  getTimestampOfOldestDeletedCallLink,
+
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
   getMostRecentAddressableMessages,
@@ -685,15 +691,22 @@ export const DataWriter: ServerWritableInterface = {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
-  beginDeleteAllCallLinks,
-  beginDeleteCallLink,
+  markAllCallLinksDeleted,
+  markCallLinkDeleted,
+  deleteCallLink,
+  deleteDefunctCallLink,
+
   deleteCallHistoryByRoomId,
   deleteCallLinkAndHistory,
-  finalizeDeleteCallLink,
+
   _removeAllCallLinks,
-  deleteCallLinkFromSync,
+
   insertDefunctCallLink,
   updateDefunctCallLink,
+
+  deleteExpiredCallLinks,
+  deleteExpiredDefunctCallLinks,
+
   migrateConversationMessages,
   saveEditedMessage,
   saveEditedMessages,
@@ -791,6 +804,7 @@ export const DataWriter: ServerWritableInterface = {
   updateChatFolderDeletedAtTimestampMsFromSync,
   markChatFolderDeleted,
   deleteExpiredChatFolders,
+  deleteChatFolderById,
 
   createMegaphone,
   updateMegaphone,
@@ -8584,6 +8598,14 @@ function markNotificationProfileDeleted(
   id: string
 ): number | undefined {
   const now = new Date().getTime();
+
+  const existing = getNotificationProfileById(db, id);
+  if (existing && existing.deletedAtTimestampMs) {
+    logger.warn(
+      `markNotificationProfileDeleted: Notification profile ${id} already had deletedAtTimestampMs set`
+    );
+    return existing.deletedAtTimestampMs;
+  }
 
   const [query, parameters] = sql`
       UPDATE notificationProfiles

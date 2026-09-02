@@ -3558,6 +3558,7 @@ export default class MessageReceiver
         type: callLinkUpdateSyncType,
         rootKey,
         adminKey,
+        timestamp: envelope.timestamp,
       },
       this.#removeFromCache.bind(this, envelope)
     );

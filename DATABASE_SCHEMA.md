@@ -349,6 +349,15 @@ CREATE INDEX callLinks_deleted ON callLinks (deleted, roomId)
 </details>
 
 <details>
+<summary>Index: callLinks → callLinks_expiring</summary>
+
+```sql
+CREATE INDEX callLinks_expiring ON callLinks (deletedAt)
+```
+
+</details>
+
+<details>
 <summary>Index: callLinks → sqlite_autoindex_callLinks_1</summary>
 
 ```text
@@ -601,9 +610,19 @@ CREATE TABLE defunctCallLinks (
   storageID TEXT,
   storageVersion INTEGER,
   storageUnknownFields BLOB,
-  storageNeedsSync INTEGER NOT NULL DEFAULT 0
+  storageNeedsSync INTEGER NOT NULL DEFAULT 0,
+  addedAt INTEGER NOT NULL
 ) STRICT
 ```
+
+<details>
+<summary>Index: defunctCallLinks → defunctCallLinks_expiring</summary>
+
+```sql
+CREATE INDEX defunctCallLinks_expiring ON defunctCallLinks (addedAt)
+```
+
+</details>
 
 <details>
 <summary>Index: defunctCallLinks → sqlite_autoindex_defunctCallLinks_1</summary>

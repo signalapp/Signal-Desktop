@@ -123,7 +123,6 @@ import {
   getPresentingSource,
 } from '../selectors/calling.std.ts';
 import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
-import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.ts';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.ts';
 import {
   isOnline,
@@ -135,6 +134,7 @@ import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { SignalService } from '../../protobuf/index.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 import type { ErrorModalDataProps } from '../../components/ErrorModal.dom.tsx';
+import { callLinkCleanupService } from '../../services/expiring/callLinkCleanupService.preload.ts';
 
 const { omit } = lodash;
 
@@ -2360,7 +2360,10 @@ function deleteCallLink(
       return;
     }
 
-    const isStorageSyncNeeded = await DataWriter.beginDeleteCallLink(roomId);
+    const isStorageSyncNeeded = await DataWriter.markCallLinkDeleted(
+      roomId,
+      Date.now()
+    );
     if (isStorageSyncNeeded) {
       runStorageServiceUploadJob({ reason: 'deleteCallLink' });
     }
@@ -2368,13 +2371,7 @@ function deleteCallLink(
       if (isCallLinkAdmin(callLink)) {
         // This throws if call link is active or network is unavailable.
         await calling.deleteCallLink(callLink);
-        // Wait for storage service sync before finalizing delete.
-        drop(
-          CallLinkFinalizeDeleteManager.addJob(
-            { roomId: callLink.roomId },
-            { delay: 10000 }
-          )
-        );
+        drop(callLinkCleanupService.trigger('deleted call link'));
       }
 
       await DataWriter.deleteCallHistoryByRoomId(callLink.roomId);

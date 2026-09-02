@@ -387,3 +387,12 @@ export function deleteExpiredChatFolders(
   `;
   return db.prepare(query, { pluck: true }).all<ChatFolderId>(params);
 }
+
+// Note: this should only be used in unusual situations; usually we want to mark deleted
+export function deleteChatFolderById(db: WritableDB, id: ChatFolderId): void {
+  const [query, params] = sql`
+    DELETE FROM chatFolders
+    WHERE id = ${id}
+  `;
+  db.prepare(query).run(params);
+}

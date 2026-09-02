@@ -46,9 +46,10 @@ import {
   TOGGLE_DISCARD_DRAFT_DIALOG,
 } from './globalModals.preload.ts';
 import {
-  MODIFY_LIST,
   DELETE_LIST,
   HIDE_MY_STORIES_FROM,
+  MARK_AS_DELETED,
+  MODIFY_LIST,
   VIEWERS_CHANGED,
 } from './storyDistributionLists.preload.ts';
 import type { StoryDistributionListsActionType } from './storyDistributionLists.preload.ts';
@@ -6156,7 +6157,7 @@ export function reducer(
       verificationDataByConversation: nextVerificationData,
     };
   }
-  if (action.type === DELETE_LIST) {
+  if (action.type === DELETE_LIST || action.type === MARK_AS_DELETED) {
     const { listId } = action.payload;
 
     const nextVerificationData = visitListsInVerificationData(

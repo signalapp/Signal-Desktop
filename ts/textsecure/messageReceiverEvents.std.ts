@@ -549,6 +549,7 @@ export type CallLinkUpdateSyncEventData = Readonly<{
   type: CallLinkUpdateSyncType;
   rootKey: Uint8Array<ArrayBuffer> | undefined;
   adminKey: Uint8Array<ArrayBuffer> | undefined;
+  timestamp: number;
 }>;
 
 export class CallLinkUpdateSyncEvent extends ConfirmableEvent {

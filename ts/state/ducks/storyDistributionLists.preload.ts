@@ -47,6 +47,7 @@ export type StoryDistributionListStateType = ReadonlyDeep<{
 
 const ALLOW_REPLIES_CHANGED = 'storyDistributionLists/ALLOW_REPLIES_CHANGED';
 const CREATE_LIST = 'storyDistributionLists/CREATE_LIST';
+export const MARK_AS_DELETED = 'storyDistributionLists/MARK_AS_DELETED';
 export const DELETE_LIST = 'storyDistributionLists/DELETE_LIST';
 export const HIDE_MY_STORIES_FROM =
   'storyDistributionLists/HIDE_MY_STORIES_FROM';
@@ -67,11 +68,18 @@ type CreateListActionType = ReadonlyDeep<{
   payload: StoryDistributionListDataType;
 }>;
 
+type MarkAsDeletedActionType = ReadonlyDeep<{
+  type: typeof MARK_AS_DELETED;
+  payload: {
+    listId: string;
+    deletedAtTimestamp: number;
+  };
+}>;
+
 type DeleteListActionType = ReadonlyDeep<{
   type: typeof DELETE_LIST;
   payload: {
     listId: string;
-    deletedAtTimestamp: number;
   };
 }>;
 
@@ -108,6 +116,7 @@ export type StoryDistributionListsActionType = ReadonlyDeep<
   | AllowRepliesChangedActionType
   | CreateListActionType
   | DeleteListActionType
+  | MarkAsDeletedActionType
   | HideMyStoriesFromActionType
   | ModifyListActionType
   | ResetMyStoriesActionType
@@ -208,7 +217,7 @@ function createDistributionList(
 
 function deleteDistributionList(
   listId: string
-): ThunkAction<void, RootStateType, unknown, DeleteListActionType> {
+): ThunkAction<void, RootStateType, unknown, MarkAsDeletedActionType> {
   return async (dispatch, getState) => {
     const deletedAtTimestamp = Date.now();
 
@@ -257,12 +266,21 @@ function deleteDistributionList(
     runStorageServiceUploadJob({ reason: 'deleteDistributionList' });
 
     dispatch({
-      type: DELETE_LIST,
+      type: MARK_AS_DELETED,
       payload: {
         listId,
         deletedAtTimestamp,
       },
     });
+  };
+}
+
+function distributionListWasDeleted(listId: string): DeleteListActionType {
+  return {
+    type: DELETE_LIST,
+    payload: {
+      listId,
+    },
   };
 }
 
@@ -515,6 +533,7 @@ export const actions = {
   allowsRepliesChanged,
   createDistributionList,
   deleteDistributionList,
+  distributionListWasDeleted,
   hideMyStoriesFrom,
   modifyDistributionList,
   removeMembersFromDistributionList,
@@ -607,7 +626,7 @@ export function reducer(
     };
   }
 
-  if (action.type === DELETE_LIST) {
+  if (action.type === MARK_AS_DELETED) {
     const distributionLists = replaceDistributionListData(
       state.distributionLists,
       action.payload.listId,
@@ -619,6 +638,15 @@ export function reducer(
     );
 
     return distributionLists ? { distributionLists } : state;
+  }
+
+  if (action.type === DELETE_LIST) {
+    const { listId } = action.payload;
+    const distributionLists = state.distributionLists.filter(
+      item => item.id !== listId
+    );
+
+    return { distributionLists };
   }
 
   if (action.type === HIDE_MY_STORIES_FROM) {

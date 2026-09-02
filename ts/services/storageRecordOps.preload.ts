@@ -138,6 +138,8 @@ import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { getOurAddress } from '../util/sendToGroup.preload.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { callLinkCleanupService } from './expiring/callLinkCleanupService.preload.ts';
+import { defunctCallLinkCleanupService } from './expiring/defunctCallLinkCleanupService.preload.ts';
 
 const { isEqual } = lodash;
 
@@ -842,24 +844,37 @@ export function toCallLinkRecord(
   };
 }
 
-export function toDefunctOrPendingCallLinkRecord(
-  callLink: DefunctCallLinkType | PendingCallLinkType
+export function toPendingCallLinkRecord(
+  callLink: PendingCallLinkType
 ): Proto.CallLinkRecord.Params {
   const rootKey = toRootKeyBytes(callLink.rootKey);
   const adminPasskey = callLink.adminKey
     ? toAdminKeyBytes(callLink.adminKey)
     : null;
 
-  strictAssert(rootKey, 'toDefunctOrPendingCallLinkRecord: no rootKey');
-  strictAssert(
-    adminPasskey,
-    'toDefunctOrPendingCallLinkRecord: no adminPasskey'
-  );
+  strictAssert(rootKey, 'toPendingCallLinkRecord: no rootKey');
+  strictAssert(adminPasskey, 'toPendingCallLinkRecord: no adminPasskey');
 
   return {
     rootKey,
     adminPasskey,
     deletedAtTimestampMs: null,
+    $unknown: fromStorageUnknownFields(callLink.storageUnknownFields),
+  };
+}
+
+export function toDefunctCallLinkRecord(
+  callLink: DefunctCallLinkType
+): Proto.CallLinkRecord.Params {
+  const rootKey = toRootKeyBytes(callLink.rootKey);
+  const deletedAtTimestampMs = BigInt(callLink.addedAt);
+
+  strictAssert(rootKey, 'toDefunctCallLinkRecord: no rootKey');
+
+  return {
+    rootKey,
+    adminPasskey: null,
+    deletedAtTimestampMs,
     $unknown: fromStorageUnknownFields(callLink.storageUnknownFields),
   };
 }
@@ -2530,6 +2545,19 @@ export async function mergeStickerPackRecord(
   };
 }
 
+function getEarliestTimestamp(
+  ...timestamps: Array<number | null | undefined>
+): number | undefined {
+  const normalized = timestamps.filter(
+    (timestamp): timestamp is number => timestamp != null && timestamp > 0
+  );
+  if (normalized.length === 0) {
+    return undefined;
+  }
+
+  return Math.min(...normalized);
+}
+
 export async function mergeCallLinkRecord(
   storageID: string,
   storageVersion: number,
@@ -2554,6 +2582,7 @@ export async function mergeCallLinkRecord(
 
   const localCallLinkDbRecord =
     await DataReader.getCallLinkRecordByRoomId(roomId);
+  const defunctCallLink = await DataReader.getDefunctCallLinkByRoomId(roomId);
 
   const details = logRecordChanges(
     localCallLinkDbRecord == null
@@ -2562,9 +2591,12 @@ export async function mergeCallLinkRecord(
     callLinkRecord
   );
 
-  // Note deletedAtTimestampMs can be 0
-  const deletedAtTimestampMs = toNumber(callLinkRecord.deletedAtTimestampMs);
-  const deletedAt = deletedAtTimestampMs || null;
+  const deletedAt =
+    getEarliestTimestamp(
+      toNumber(callLinkRecord.deletedAtTimestampMs),
+      localCallLinkDbRecord?.deletedAt,
+      defunctCallLink?.addedAt
+    ) || null;
   const shouldDrop = Boolean(
     deletedAt && isOlderThan(deletedAt, getMessageQueueTime())
   );
@@ -2593,12 +2625,39 @@ export async function mergeCallLinkRecord(
 
   if (!localCallLinkDbRecord) {
     if (deletedAt) {
-      details.push(
-        `skipping deleted call link with no matching local record deletedAt=${deletedAt}`
-      );
-    } else if (await DataReader.defunctCallLinkExists(roomId)) {
-      details.push('skipping known defunct call link');
-    } else if (callLinkRefreshJobQueue.hasPendingCallLink(storageID)) {
+      if (defunctCallLink) {
+        details.push(
+          `updating known defunct call link; deletedAt=${deletedAt}`
+        );
+        await DataWriter.updateDefunctCallLink({
+          roomId,
+          rootKey: rootKeyString,
+          adminKey: null,
+          addedAt: deletedAt,
+          storageID,
+          storageVersion,
+          storageUnknownFields: callLinkDbRecord.storageUnknownFields,
+          storageNeedsSync: false,
+        });
+      } else {
+        details.push(
+          `creating defunct call link, given no matching local record; deletedAt=${deletedAt}`
+        );
+        await DataWriter.insertDefunctCallLink({
+          roomId,
+          rootKey: rootKeyString,
+          adminKey: null,
+          addedAt: deletedAt,
+          storageID,
+          storageVersion,
+          storageUnknownFields: callLinkDbRecord.storageUnknownFields,
+          storageNeedsSync: false,
+        });
+        drop(
+          defunctCallLinkCleanupService.trigger('just added defunct call link')
+        );
+      }
+    } else if (callLinkRefreshJobQueue.hasPendingCallLink(rootKeyString)) {
       details.push('pending call link refresh, updating storage fields');
       callLinkRefreshJobQueue.updatePendingCallLinkStorageFields(
         rootKeyString,
@@ -2658,11 +2717,12 @@ export async function mergeCallLinkRecord(
   // Deleted in storage but we have it locally: Delete locally too and update redux
   if (deletedAt && localCallLinkDbRecord.deleted !== 1) {
     // Another device deleted the link and uploaded to storage, and we learned about it
-    log.info(`${logId}: Discovered deleted call link, deleting locally`);
-    details.push('deleting locally');
+    log.info(`${logId}: Discovered deleted call link, marking deleted locally`);
+    details.push('marking deleted locally');
     // No need to delete via RingRTC as we assume the originating device did that already
-    await DataWriter.deleteCallLinkAndHistory(roomId);
+    await DataWriter.markCallLinkDeleted(roomId, deletedAt);
     window.reduxActions.calling.handleCallLinkDelete({ roomId });
+    drop(callLinkCleanupService.trigger('marked call link deleted'));
   } else if (!deletedAt && localCallLinkDbRecord.deleted === 1) {
     // Not deleted in storage, but we've marked it as deleted locally.
     // Skip doing anything, we will update things locally after sync.
@@ -2761,6 +2821,14 @@ export async function mergeChatFolderRecord(
 
   const idString = bytesToUuid(remoteChatFolderRecord.id) as ChatFolderId;
   const logPrefix = `mergeChatFolderRecord(${redactedStorageID}, idString)`;
+  const localChatFolder = await DataReader.getChatFolder(idString);
+
+  const localDeletedAt = localChatFolder?.deletedAtTimestampMs ?? 0;
+  const deletedAtTimestampMs: number =
+    getEarliestTimestamp(
+      toNumber(remoteChatFolderRecord.deletedAtTimestampMs),
+      localChatFolder?.deletedAtTimestampMs
+    ) || 0;
 
   const remoteChatFolder: ChatFolder = {
     id: idString,
@@ -2783,8 +2851,8 @@ export async function mergeChatFolderRecord(
       remoteChatFolderRecord.excludedRecipients ?? [],
       logPrefix
     ),
-    deletedAtTimestampMs:
-      toNumber(remoteChatFolderRecord.deletedAtTimestampMs) ?? 0,
+    deletedAtTimestampMs,
+
     storageID,
     storageVersion,
     storageUnknownFields:
@@ -2794,34 +2862,19 @@ export async function mergeChatFolderRecord(
     storageNeedsSync: false,
   };
 
-  const localChatFolder = await DataReader.getChatFolder(remoteChatFolder.id);
-
-  let deletedAtTimestampMs: number;
-
-  const remoteDeletedAt = remoteChatFolder.deletedAtTimestampMs;
-  const localDeletedAt = localChatFolder?.deletedAtTimestampMs ?? 0;
-
-  if (remoteDeletedAt > 0 && localDeletedAt > 0) {
-    if (remoteDeletedAt < localDeletedAt) {
-      deletedAtTimestampMs = remoteDeletedAt;
-    } else {
-      deletedAtTimestampMs = localDeletedAt;
-    }
-  } else if (remoteDeletedAt > 0) {
-    deletedAtTimestampMs = remoteDeletedAt;
-  } else if (localDeletedAt > 0) {
-    deletedAtTimestampMs = localDeletedAt;
-  } else {
-    deletedAtTimestampMs = remoteDeletedAt;
-  }
-
   if (remoteChatFolder.folderType === ChatFolderType.ALL) {
     log.info(`${logPrefix}: Updating or inserting all chats folder`);
     await DataWriter.upsertAllChatsChatFolderFromSync(remoteChatFolder);
   } else if (deletedAtTimestampMs > 0) {
     if (localChatFolder == null) {
       log.info(
-        `${logPrefix}: skipping deleted chat folder, no local record found`
+        `${logPrefix}: creating deleted chat folder with deletedAtTimestampMs=${deletedAtTimestampMs}`
+      );
+      await DataWriter.createChatFolder(remoteChatFolder);
+      drop(
+        chatFolderCleanupService.trigger(
+          'mergeChatFolderRecord: created deleted chat folder'
+        )
       );
     } else if (localDeletedAt === deletedAtTimestampMs) {
       log.info(
@@ -2905,8 +2958,9 @@ export function prepareForDisabledNotificationProfileSync(): {
 
   const notDeletedProfiles = profiles.filter(
     profile =>
-      (profile.storageID && profile.deletedAtTimestampMs == null) ||
-      profile.deletedAtTimestampMs === 0
+      profile.storageID &&
+      (profile.deletedAtTimestampMs == null ||
+        profile.deletedAtTimestampMs === 0)
   );
 
   const toAdd: Array<NotificationProfileType> = [];
@@ -3116,9 +3170,7 @@ export async function mergeNotificationProfileRecord(
           : Proto.NotificationProfile.DayOfWeek.UNKNOWN;
       })
     ),
-    deletedAtTimestampMs: localDeletedAt
-      ? Math.min(localDeletedAt, deletedAt ?? Number.MAX_SAFE_INTEGER)
-      : dropNull(deletedAt),
+    deletedAtTimestampMs: getEarliestTimestamp(localDeletedAt, deletedAt),
     storageID,
     storageVersion,
     storageUnknownFields:
@@ -3130,15 +3182,11 @@ export async function mergeNotificationProfileRecord(
     window.reduxActions.notificationProfiles;
 
   if (!localProfile) {
-    if (deletedAt) {
-      details.push(
-        `skipping deleted notification profile with no matching local record deletedAt=${deletedAt}`
-      );
-    } else {
-      details.push('created new notification profile');
-      await DataWriter.createNotificationProfile(newProfile);
-      profileWasCreated(newProfile);
-    }
+    details.push(
+      `created new notification profile; deletedAtTimestampMs=${newProfile.deletedAtTimestampMs}`
+    );
+    await DataWriter.createNotificationProfile(newProfile);
+    profileWasCreated(newProfile);
 
     return {
       details,

@@ -55,8 +55,8 @@ import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/global
 import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.ts';
 import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.ts';
 import {
-  DELETE_LIST,
   HIDE_MY_STORIES_FROM,
+  MARK_AS_DELETED,
   MODIFY_LIST,
   VIEWERS_CHANGED,
 } from '../../../state/ducks/storyDistributionLists.preload.ts';
@@ -2376,7 +2376,7 @@ describe('both/state/ducks/conversations', () => {
         });
       });
     });
-    describe('DELETE_LIST', () => {
+    describe('MARK_AS_DELETED', () => {
       const state: ConversationsStateType = {
         ...getEmptyState(),
         verificationDataByConversation: {
@@ -2401,7 +2401,7 @@ describe('both/state/ducks/conversations', () => {
 
       it('eliminates deleted list entirely', async () => {
         const action: StoryDistributionListsActionType = {
-          type: DELETE_LIST,
+          type: MARK_AS_DELETED,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,
@@ -2443,7 +2443,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const action: StoryDistributionListsActionType = {
-          type: DELETE_LIST,
+          type: MARK_AS_DELETED,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,
@@ -2475,7 +2475,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const action: StoryDistributionListsActionType = {
-          type: DELETE_LIST,
+          type: MARK_AS_DELETED,
           payload: {
             deletedAtTimestamp: Date.now(),
             listId: LIST_ID_1,

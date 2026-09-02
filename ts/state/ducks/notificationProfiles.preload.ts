@@ -210,7 +210,7 @@ function markProfileDeleted(
 // If called based on a local change, this function is run before the storage service
 // upload. If called based on a storage service update, it is called at the end of
 // processing, as the AccountRecord is processed. All profiles have been processed at
-// that point, and the override from AccountRecord has been processed as well.
+// that point, and the override from AccountRecord is just about to be processed.
 function setIsSyncEnabled(
   enabled: boolean,
   { fromStorageService }: { fromStorageService: boolean }
@@ -316,8 +316,15 @@ function setProfileOverride(
     const state = getState();
     const currentOverride = getOverride(state);
 
+    const isNotificationProfileSyncEnabled = !itemStorage.get(
+      'notificationProfileSyncDisabled',
+      false
+    );
+
     const me = window.ConversationController.getOurConversationOrThrow();
-    me.captureChange(logId);
+    if (isNotificationProfileSyncEnabled) {
+      me.captureChange(logId);
+    }
 
     if (enabled) {
       if (
@@ -344,7 +351,9 @@ function setProfileOverride(
         payload: newOverride,
       });
       fastUpdateProfileService();
-      updateStorageService(logId);
+      if (isNotificationProfileSyncEnabled) {
+        updateStorageService(logId);
+      }
 
       return;
     }
@@ -359,7 +368,9 @@ function setProfileOverride(
       payload: newOverride,
     });
     fastUpdateProfileService();
-    updateStorageService(logId);
+    if (isNotificationProfileSyncEnabled) {
+      updateStorageService(logId);
+    }
   };
 }
 
@@ -400,7 +411,12 @@ function updateOverride(
       payload,
     });
 
-    if (!fromStorageService) {
+    const isNotificationProfileSyncEnabled = !itemStorage.get(
+      'notificationProfileSyncDisabled',
+      false
+    );
+
+    if (!fromStorageService && isNotificationProfileSyncEnabled) {
       const me = window.ConversationController.getOurConversationOrThrow();
       me.captureChange(logId);
       updateStorageService(logId);

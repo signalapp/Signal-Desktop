@@ -1022,14 +1022,21 @@ type ReadableInterface = {
     receivedAt: number
   ) => string | null;
   callLinkExists: (roomId: string) => boolean;
-  defunctCallLinkExists: (roomId: string) => boolean;
   getAllCallLinks: () => ReadonlyArray<CallLinkType>;
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
   getCallLinkRecordByRoomId: (roomId: string) => CallLinkRecord | undefined;
+  getDefunctCallLinkByRoomId: (
+    roomId: string
+  ) => DefunctCallLinkType | undefined;
   getAllAdminCallLinks: () => ReadonlyArray<CallLinkType>;
-  getAllCallLinkRecordsWithAdminKey: () => ReadonlyArray<CallLinkRecord>;
-  getAllDefunctCallLinksWithAdminKey: () => ReadonlyArray<DefunctCallLinkType>;
-  getAllMarkedDeletedCallLinkRoomIds: () => ReadonlyArray<string>;
+  getAllCallLinkRecordsForStorageService: () => ReadonlyArray<CallLinkRecord>;
+  getAllDefunctCallLinksForStorageService: () => ReadonlyArray<DefunctCallLinkType>;
+  getTimestampOfOldestDefunctCallLink: () =>
+    | { roomId: string; addedAt: number }
+    | undefined;
+  getTimestampOfOldestDeletedCallLink():
+    | { roomId: string; deletedAt: number }
+    | undefined;
   getMessagesBetween: (
     conversationId: string,
     options: GetMessagesBetweenOptions
@@ -1319,15 +1326,19 @@ type WritableInterface = {
     roomId: string,
     callLinkState: CallLinkStateType
   ) => CallLinkType;
-  beginDeleteAllCallLinks: () => boolean;
-  beginDeleteCallLink: (roomId: string) => boolean;
+  markAllCallLinksDeleted: () => boolean;
+  markCallLinkDeleted: (roomId: string, deletedAt: number) => boolean;
+  deleteCallLink: (roomId: string) => boolean;
+  deleteDefunctCallLink: (roomId: string) => boolean;
   deleteCallHistoryByRoomId: (roomid: string) => void;
   deleteCallLinkAndHistory: (roomId: string) => void;
-  finalizeDeleteCallLink: (roomId: string) => void;
+  deleteExpiredDefunctCallLinks(
+    messageQueueTime: number
+  ): ReadonlyArray<string>;
+  deleteExpiredCallLinks(messageQueueTime: number): ReadonlyArray<string>;
   _removeAllCallLinks: () => void;
   insertDefunctCallLink: (defunctCallLink: DefunctCallLinkType) => void;
   updateDefunctCallLink: (defunctCallLink: DefunctCallLinkType) => void;
-  deleteCallLinkFromSync: (roomId: string) => void;
   migrateConversationMessages: (obsoleteId: string, currentId: string) => void;
   saveEditedMessage: (
     mainMessage: ReadonlyDeep<MessageType>,
@@ -1498,6 +1509,7 @@ type WritableInterface = {
   deleteExpiredChatFolders: (
     messageQueueTime: number
   ) => ReadonlyArray<ChatFolderId>;
+  deleteChatFolderById: (id: ChatFolderId) => void;
 
   createMegaphone: (megaphone: RemoteMegaphoneType) => void;
   updateMegaphone: (megaphone: RemoteMegaphoneType) => void;

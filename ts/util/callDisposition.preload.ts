@@ -64,7 +64,6 @@ import type { ConversationModel } from '../models/conversations.preload.ts';
 import { drop } from './drop.std.ts';
 import { sendCallLinkUpdateSync } from './sendCallLinkUpdateSync.preload.ts';
 import { runStorageServiceUploadJob } from '../services/storage.preload.ts';
-import { CallLinkFinalizeDeleteManager } from '../jobs/CallLinkFinalizeDeleteManager.preload.ts';
 import { parseLoose, parseStrict } from './schemas.std.ts';
 import { calling } from '../services/calling.preload.ts';
 import { cleanupMessages } from './cleanup.preload.ts';
@@ -74,6 +73,7 @@ import { update as updateExpiringMessagesService } from '../services/expiringMes
 import type { DurationInSeconds } from './durations/duration-in-seconds.std.ts';
 import { isFeaturedEnabledNoRedux } from './isFeatureEnabled.dom.ts';
 import type { GetUnreadCallMessagesAndMarkReadResult } from '../sql/Interface.std.ts';
+import { callLinkCleanupService } from '../services/expiring/callLinkCleanupService.preload.ts';
 
 const { isEqual } = lodash;
 
@@ -1463,7 +1463,7 @@ export async function clearCallHistoryDataAndSync(
     );
     // This skips call history for admin call links.
     const messageIds = await DataWriter.clearCallHistory(latestCall);
-    const isStorageSyncNeeded = await DataWriter.beginDeleteAllCallLinks();
+    const isStorageSyncNeeded = await DataWriter.markAllCallLinksDeleted();
     if (isStorageSyncNeeded) {
       runStorageServiceUploadJob({ reason: 'clearCallHistoryDataAndSync' });
     }
@@ -1489,19 +1489,13 @@ export async function clearCallHistoryDataAndSync(
           await calling.deleteCallLink(callLink);
           // oxlint-disable-next-line no-await-in-loop
           await DataWriter.deleteCallHistoryByRoomId(callLink.roomId);
-          // Wait for storage service sync before finalizing delete.
-          drop(
-            CallLinkFinalizeDeleteManager.addJob(
-              { roomId: callLink.roomId },
-              { delay: 10000 }
-            )
-          );
           successCount += 1;
         } catch (error) {
           log.warn('clearCallHistory: Failed to delete admin call link', error);
           failCount += 1;
         }
       }
+      drop(callLinkCleanupService.trigger('deleted all call links'));
       log.info(
         `clearCallHistory: Deleted admin call links, success=${successCount} failed=${failCount}`
       );

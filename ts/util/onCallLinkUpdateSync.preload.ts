@@ -2,14 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { fromAdminKeyBytes } from './callLinks.std.ts';
 import { getRoomIdFromRootKey } from './callLinksRingrtc.node.ts';
 import { strictAssert } from './assert.std.ts';
 import { CallLinkUpdateSyncType } from '../types/CallLink.std.ts';
-import { DataWriter } from '../sql/Client.preload.ts';
+import { DataWriter, DataReader } from '../sql/Client.preload.ts';
+import { drop } from './drop.std.ts';
+
+import type { CallLinkUpdateSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
+import { callLinkCleanupService } from '../services/expiring/callLinkCleanupService.preload.ts';
+import { defunctCallLinkCleanupService } from '../services/expiring/defunctCallLinkCleanupService.preload.ts';
 
 const log = createLogger('onCallLinkUpdateSync');
 
@@ -17,7 +21,7 @@ export async function onCallLinkUpdateSync(
   syncEvent: CallLinkUpdateSyncEvent
 ): Promise<void> {
   const { callLinkUpdate, confirm } = syncEvent;
-  const { type, rootKey, adminKey } = callLinkUpdate;
+  const { type, rootKey, adminKey, timestamp } = callLinkUpdate;
 
   if (!rootKey) {
     log.warn('Missing rootKey, invalid sync message');
@@ -50,8 +54,31 @@ export async function onCallLinkUpdateSync(
         adminKey: adminKeyString,
       });
     } else if (type === CallLinkUpdateSyncType.Delete) {
-      log.info(`${logId}: Deleting call link record ${roomId}`);
-      await DataWriter.deleteCallLinkFromSync(roomId);
+      if (await DataReader.callLinkExists(roomId)) {
+        log.info(`${logId}: Marking call link ${roomId} deleted`);
+        await DataWriter.markCallLinkDeleted(roomId, timestamp);
+        drop(
+          callLinkCleanupService.trigger('onCallLinkUpdateSync, marked deleted')
+        );
+      } else {
+        const defunctCallLink =
+          await DataReader.getDefunctCallLinkByRoomId(roomId);
+        if (defunctCallLink && defunctCallLink.addedAt > timestamp) {
+          log.info(
+            `${logId}: Updating timestamp for defunct call link ${roomId}`
+          );
+          const updated = { ...defunctCallLink, addedAt: timestamp };
+          await DataWriter.updateDefunctCallLink(updated);
+          drop(
+            defunctCallLinkCleanupService.trigger(
+              'onCallLinkUpdateSync, updated addedAt'
+            )
+          );
+        } else if (!defunctCallLink) {
+          log.info(`${logId}: No local record for deleted call link ${roomId}`);
+        }
+      }
+
       window.reduxActions.calling.handleCallLinkDelete({ roomId });
     }
 

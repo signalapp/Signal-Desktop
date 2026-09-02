@@ -253,33 +253,22 @@ export function deleteCallHistoryByRoomId(
   );
 }
 
-// This should only be called from a sync message to avoid accidentally deleting
-// on the client but not the server
-export function deleteCallLinkFromSync(db: WritableDB, roomId: string): void {
-  db.transaction(() => {
-    const [query, params] = sql`
-      DELETE FROM callLinks
-      WHERE roomId = ${roomId};
-    `;
-
-    db.prepare(query).run(params);
-
-    deleteCallHistoryByRoomId(db, roomId);
-  })();
-}
-
 /**
  * Deletes a non-admin call link from the local database, or if it's an admin call link,
  * then marks it for deletion and storage sync.
  *
  *  @returns boolean: True if storage sync is needed; False if not
  */
-export function beginDeleteCallLink(db: WritableDB, roomId: string): boolean {
+export function markCallLinkDeleted(
+  db: WritableDB,
+  roomId: string,
+  deletedAt: number
+): boolean {
   return db.transaction(() => {
     // If adminKey is null, then we should delete the call link
     const [deleteNonAdminCallLinksQuery, deleteNonAdminCallLinksParams] = sql`
       DELETE FROM callLinks
-      WHERE adminKey IS NULL
+      WHERE (adminKey IS NULL AND storageID IS NULL)
       AND roomId = ${roomId};
     `;
 
@@ -293,8 +282,6 @@ export function beginDeleteCallLink(db: WritableDB, roomId: string): boolean {
       return false;
     }
 
-    const deletedAt = new Date().getTime();
-
     // If the admin key is not null, we should mark it for deletion
     const [markAdminCallLinksDeletedQuery, markAdminCallLinksDeletedParams] =
       sql`
@@ -303,7 +290,7 @@ export function beginDeleteCallLink(db: WritableDB, roomId: string): boolean {
           deleted = 1,
           deletedAt = ${deletedAt},
           storageNeedsSync = 1
-        WHERE adminKey IS NOT NULL
+        WHERE (adminKey IS NOT NULL OR storageID IS NOT NULL)
         AND deleted IS NOT 1
         AND roomId = ${roomId};
       `;
@@ -340,27 +327,28 @@ export function deleteCallLinkAndHistory(db: WritableDB, roomId: string): void {
  *
  *  @returns boolean: True if storage sync is needed; False if not
  */
-export function beginDeleteAllCallLinks(db: WritableDB): boolean {
+export function markAllCallLinksDeleted(db: WritableDB): boolean {
   const deletedAt = new Date().getTime();
   return db.transaction(() => {
     const [markAdminCallLinksDeletedQuery, markAdminCallLinksDeletedParams] =
       sql`
-      UPDATE callLinks
-      SET
-        deleted = 1,
-        deletedAt = ${deletedAt},
-        storageNeedsSync = 1
-      WHERE adminKey IS NOT NULL
-      AND deleted IS NOT 1;
-    `;
+        UPDATE callLinks
+        SET
+          deleted = 1,
+          deletedAt = ${deletedAt},
+          storageNeedsSync = 1
+        WHERE (adminKey IS NOT NULL OR storageID IS NOT NULL)
+        AND deleted IS NOT 1;
+      `;
 
     const markAdminCallLinksDeletedResult = db
       .prepare(markAdminCallLinksDeletedQuery)
       .run(markAdminCallLinksDeletedParams);
 
+    // We can delete these immediately because they were never synced to Storage Service
     const [deleteNonAdminCallLinksQuery] = sql`
       DELETE FROM callLinks
-      WHERE adminKey IS NULL;
+      WHERE (adminKey IS NULL AND storageID IS NULL);
     `;
 
     db.prepare(deleteNonAdminCallLinksQuery).run();
@@ -371,12 +359,13 @@ export function beginDeleteAllCallLinks(db: WritableDB): boolean {
 }
 
 // When you need to access the deleted field
-export function getAllCallLinkRecordsWithAdminKey(
+export function getAllCallLinkRecordsForStorageService(
   db: ReadableDB
 ): ReadonlyArray<CallLinkRecord> {
   const [query] = sql`
     SELECT * FROM callLinks
-      WHERE adminKey IS NOT NULL
+    WHERE
+      (adminKey IS NOT NULL OR storageID IS NOT NULL)
       AND rootKey IS NOT NULL;
   `;
   return db
@@ -388,33 +377,9 @@ export function getAllCallLinkRecordsWithAdminKey(
 export function getAllAdminCallLinks(
   db: ReadableDB
 ): ReadonlyArray<CallLinkType> {
-  return getAllCallLinkRecordsWithAdminKey(db).map((record: CallLinkRecord) =>
-    callLinkFromRecord(record)
+  return getAllCallLinkRecordsForStorageService(db).map(
+    (record: CallLinkRecord) => callLinkFromRecord(record)
   );
-}
-
-export function getAllMarkedDeletedCallLinkRoomIds(
-  db: ReadableDB
-): ReadonlyArray<string> {
-  const [query] = sql`
-    SELECT roomId FROM callLinks WHERE deleted = 1;
-  `;
-  return db
-    .prepare(query, {
-      pluck: true,
-    })
-    .all();
-}
-
-// TODO: Run this after uploading storage records, maybe periodically on startup
-export function finalizeDeleteCallLink(db: WritableDB, roomId: string): void {
-  const [query, params] = sql`
-    DELETE FROM callLinks
-      WHERE roomId = ${roomId}
-      AND deleted = 1
-      AND storageNeedsSync = 0;
-  `;
-  db.prepare(query).run(params);
 }
 
 export function _removeAllCallLinks(db: WritableDB): void {
@@ -424,28 +389,13 @@ export function _removeAllCallLinks(db: WritableDB): void {
   db.prepare(query).run(params);
 }
 
-export function defunctCallLinkExists(db: ReadableDB, roomId: string): boolean {
-  const [query, params] = sql`
-    SELECT 1
-    FROM defunctCallLinks
-    WHERE roomId = ${roomId};
-  `;
-  return (
-    db
-      .prepare(query, {
-        pluck: true,
-      })
-      .get(params) === 1
-  );
-}
-
-export function getAllDefunctCallLinksWithAdminKey(
+export function getAllDefunctCallLinksForStorageService(
   db: ReadableDB
 ): ReadonlyArray<DefunctCallLinkType> {
   const [query] = sql`
     SELECT *
     FROM defunctCallLinks
-    WHERE adminKey IS NOT NULL;
+    WHERE (adminKey IS NOT NULL OR storageID IS NOT NULL);
   `;
   return db
     .prepare(query)
@@ -453,6 +403,26 @@ export function getAllDefunctCallLinksWithAdminKey(
     .map((item: unknown) =>
       defunctCallLinkFromRecord(parseUnknown(defunctCallLinkRecordSchema, item))
     );
+}
+
+export function getDefunctCallLinkByRoomId(
+  db: ReadableDB,
+  roomId: string
+): DefunctCallLinkType | undefined {
+  const [query, params] = sql`
+    SELECT *
+    FROM defunctCallLinks
+    WHERE roomId = ${roomId}
+  `;
+
+  const item = db.prepare(query).get(params);
+  if (!item) {
+    return undefined;
+  }
+
+  return defunctCallLinkFromRecord(
+    parseUnknown(defunctCallLinkRecordSchema, item as unknown)
+  );
 }
 
 export function insertDefunctCallLink(
@@ -469,6 +439,7 @@ export function insertDefunctCallLink(
       roomId,
       rootKey,
       adminKey,
+      addedAt,
       storageID,
       storageVersion,
       storageUnknownFields,
@@ -477,6 +448,7 @@ export function insertDefunctCallLink(
       $roomId,
       $rootKey,
       $adminKey,
+      $addedAt,
       $storageID,
       $storageVersion,
       $storageUnknownFields,
@@ -498,8 +470,9 @@ export function updateDefunctCallLink(
   // Do not write roomId or rootKey since they should never change
   db.prepare(
     `
-    UPDATE callLinks
+    UPDATE defunctCallLinks
     SET
+      addedAt = $addedAt,
       storageID = $storageID,
       storageVersion = $storageVersion,
       storageUnknownFields = $storageUnknownFields,
@@ -507,4 +480,77 @@ export function updateDefunctCallLink(
     WHERE roomId = $roomId
     `
   ).run(data);
+}
+
+export function getTimestampOfOldestDefunctCallLink(
+  db: ReadableDB
+): { roomId: string; addedAt: number } | undefined {
+  const [query, params] = sql`
+    SELECT roomId, addedAt FROM defunctCallLinks
+    ORDER BY addedAt ASC
+    LIMIT 1
+  `;
+  return db.prepare(query).get(params);
+}
+
+// Note: this should only be used in unusual situations; defunct call links will expire
+// normally based on addedAt
+export function deleteDefunctCallLink(db: WritableDB, roomId: string): boolean {
+  const [query, params] = sql`
+    DELETE FROM defunctCallLinks
+    WHERE roomId = ${roomId}
+  `;
+  const result = db.prepare(query).run(params);
+
+  return result.changes > 0;
+}
+
+export function deleteExpiredDefunctCallLinks(
+  db: WritableDB,
+  messageQueueTime: number
+): ReadonlyArray<string> {
+  const before = Date.now() - messageQueueTime;
+  const [query, params] = sql`
+    DELETE FROM defunctCallLinks
+    WHERE addedAt < ${before}
+    RETURNING roomId
+  `;
+  return db.prepare(query, { pluck: true }).all<string>(params);
+}
+
+export function getTimestampOfOldestDeletedCallLink(
+  db: ReadableDB
+): { roomId: string; deletedAt: number } | undefined {
+  const [query, params] = sql`
+    SELECT roomId, deletedAt FROM callLinks
+    WHERE deletedAt > 0
+    ORDER BY deletedAt ASC
+    LIMIT 1
+  `;
+  return db.prepare(query).get(params);
+}
+
+// Note: this should only be used in unusual situations; usually we want to mark deleted.
+export function deleteCallLink(db: WritableDB, roomId: string): boolean {
+  const [query, params] = sql`
+    DELETE FROM callLinks
+    WHERE roomId = ${roomId}
+  `;
+  const result = db.prepare(query).run(params);
+
+  return result.changes > 0;
+}
+
+export function deleteExpiredCallLinks(
+  db: WritableDB,
+  messageQueueTime: number
+): ReadonlyArray<string> {
+  const before = Date.now() - messageQueueTime;
+  const [query, params] = sql`
+    DELETE FROM callLinks
+    WHERE deletedAt > 0
+      AND deletedAt < ${before}
+    RETURNING roomId
+  `;
+  return db.prepare(query, { pluck: true }).all<string>(params);
 }

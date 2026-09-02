@@ -24,6 +24,8 @@ import { parseUnknown } from '../util/schemas.std.ts';
 import { getRoomIdFromRootKey } from '../util/callLinksRingrtc.node.ts';
 import { toCallHistoryFromUnusedCallLink } from '../util/callLinks.std.ts';
 import type { StorageServiceFieldsType } from '../sql/Interface.std.ts';
+import { defunctCallLinkCleanupService } from '../services/expiring/defunctCallLinkCleanupService.preload.ts';
+import { drop } from '../util/drop.std.ts';
 
 const globalLogger = createLogger('callLinkRefreshJobQueue');
 
@@ -137,10 +139,10 @@ class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
   }
 
   protected getPendingCallLinkStorageFields(
-    storageID: string,
+    rootKey: string,
     jobData: CallLinkRefreshJobData
   ): StorageServiceFieldsType | undefined {
-    const storageFields = this.#pendingCallLinks.get(storageID);
+    const storageFields = this.#pendingCallLinks.get(rootKey);
     if (storageFields) {
       return {
         storageID: storageFields.storageID,
@@ -240,9 +242,15 @@ class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
           roomId,
           rootKey,
           adminKey: data.adminKey ?? null,
+          addedAt: Date.now(),
           ...storageFields,
-          storageNeedsSync: false,
+          storageNeedsSync: true,
         });
+        drop(
+          defunctCallLinkCleanupService.trigger(
+            'callLinkRefreshJobQueue: added defunct call link'
+          )
+        );
       } else {
         log.info(
           `${logId}: Call link not found on server but present locally, ignoring`
