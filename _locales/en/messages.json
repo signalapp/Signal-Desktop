@@ -8240,6 +8240,10 @@
     "messageformat": "Chat folders",
     "description": "Preferences > Chats > Chat Folders Section > Title"
   },
+  "icu:Preferences__Notifications__Show__Label": {
+    "messageformat": "Show",
+    "description": "Preferences > Notifications > Label for the select box choosing how much content notifications display"
+  },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sounds",
     "description": "Preferences > Notifications > Sounds Section > Title"

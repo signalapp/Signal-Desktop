@@ -72,6 +72,7 @@ export namespace AxoSwitch {
             'w-5.5 rounded-s-full',
             'group-data-disabled:w-7.5 group-data-disabled:rounded-full',
             'opacity-0 group-data-[state=checked]:opacity-100',
+            'group-data-disabled:group-data-[state=checked]:opacity-25',
             '-translate-x-3.5 group-data-[state=checked]:translate-x-0 rtl:translate-x-3.5',
             'bg-accent group-enabled:group-active:bg-accent-pressed',
             'transition-all duration-200 ease-out-cubic',

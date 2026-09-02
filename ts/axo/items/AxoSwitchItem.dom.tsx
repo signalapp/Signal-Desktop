@@ -26,7 +26,7 @@ export namespace AxoSwitchItem {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaList.Item asChild>
-        <AxoBaseItem.Root>
+        <AxoBaseItem.Root disabled={props.disabled}>
           {props.symbol != null && (
             <AxoBaseItem.Leading>
               <AxoBaseItem.Icon symbol={props.symbol} />

@@ -113,30 +113,55 @@ export namespace AxoBaseItem {
     sm: tw('py-1.5'),
   });
 
+  /** @internal */
+  type RootContextType = Readonly<{
+    disabled: boolean;
+  }>;
+
+  /** @internal */
+  const RootContext = createStrictContext<RootContextType>('AxoBaseItem.Root');
+
+  /** @internal */
+  function useRootDisabled(): boolean {
+    return useStrictContext(RootContext).disabled;
+  }
+
   export type RootProps = Readonly<{
+    /**
+     * Dims the contents of the item and disables its `HiddenTrigger`.
+     * Accessories (switches, selects, button) must be disabled separately.
+     */
+    disabled?: boolean;
     children: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { children, ...rest } = props;
+    const { disabled = false, children, ...rest } = props;
     const groupContext = useStrictContext(GroupContext);
 
+    const context = useMemo((): RootContextType => {
+      return { disabled };
+    }, [disabled]);
+
     return (
-      <AriaClickable.Root asChild>
-        <div
-          className={tw(AXO_ITEM_ROOT_CLASS, 'group')}
-          {...forwardExtraPropsForRadix(rest)}
-        >
+      <RootContext value={context}>
+        <AriaClickable.Root asChild>
           <div
-            className={tw(
-              AXO_ITEM_ROOT_INNER_CLASS,
-              RootSpacing.get(groupContext.spacing)
-            )}
+            className={tw(AXO_ITEM_ROOT_CLASS, 'group')}
+            {...forwardExtraPropsForRadix(rest)}
           >
-            {children}
+            <div
+              className={tw(
+                AXO_ITEM_ROOT_INNER_CLASS,
+                RootSpacing.get(groupContext.spacing),
+                disabled && 'text-disabled'
+              )}
+            >
+              {children}
+            </div>
           </div>
-        </div>
-      </AriaClickable.Root>
+        </AriaClickable.Root>
+      </RootContext>
     );
   });
 
@@ -271,10 +296,15 @@ export namespace AxoBaseItem {
 
   export const Label: FC<LabelProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
+    const disabled = useRootDisabled();
     return (
       <div
         ref={ref}
-        className={tw(AXO_ITEM_LABEL_CLASS, truncate && 'truncate')}
+        className={tw(
+          AXO_ITEM_LABEL_CLASS,
+          truncate && 'truncate',
+          disabled && 'text-disabled forced-colors:text-[GrayText]'
+        )}
         {...forwardExtraPropsForRadix(rest)}
       >
         {children}
@@ -296,10 +326,14 @@ export namespace AxoBaseItem {
 
   export const Value: FC<ValueProps> = memo(props => {
     const { ref, children, ...rest } = props;
+    const disabled = useRootDisabled();
     return (
       <div
         ref={ref}
-        className={AXO_ITEM_VALUE_CLASS}
+        className={tw(
+          AXO_ITEM_VALUE_CLASS,
+          disabled && 'text-disabled forced-colors:text-[GrayText]'
+        )}
         {...forwardExtraPropsForRadix(rest)}
       >
         {children}
@@ -322,10 +356,15 @@ export namespace AxoBaseItem {
 
   export const Description: FC<DescriptionProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
+    const disabled = useRootDisabled();
     return (
       <div
         ref={ref}
-        className={tw(AXO_ITEM_DESCRIPTION_CLASS, truncate && 'truncate')}
+        className={tw(
+          AXO_ITEM_DESCRIPTION_CLASS,
+          truncate && 'truncate',
+          disabled && 'text-disabled'
+        )}
         {...forwardExtraPropsForRadix(rest)}
       >
         {children}
@@ -347,6 +386,12 @@ export namespace AxoBaseItem {
   }>;
 
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
+    const disabled = useRootDisabled();
+
+    if (disabled) {
+      return null;
+    }
+
     return (
       <AriaClickable.HiddenTrigger
         label={props.label}
@@ -466,8 +511,14 @@ export namespace AxoBaseItem {
    */
 
   export const Arrow: FC = memo(() => {
+    const disabled = useRootDisabled();
     return (
-      <div className={AXO_ITEM_ARROW_CLASS}>
+      <div
+        className={tw(
+          AXO_ITEM_ARROW_CLASS,
+          disabled && 'text-disabled forced-colors:text-[GrayText]'
+        )}
+      >
         <AxoSymbol.InlineGlyph label={null} symbol="chevron-[end]" />
       </div>
     );

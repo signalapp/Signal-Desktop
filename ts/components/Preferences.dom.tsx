@@ -1521,34 +1521,15 @@ export function Preferences({
             checked={hasNotifications}
             onCheckedChange={onNotificationsChange}
           />
-          <AxoSwitchItem.Root
-            label={i18n('icu:callSystemNotificationDescription')}
-            checked={hasCallNotifications}
-            onCheckedChange={onCallNotificationsChange}
-          />
-          <AxoSwitchItem.Root
-            label={i18n('icu:Preferences__reaction-notifications-title')}
-            description={i18n(
-              'icu:Preferences__reaction-notifications-description'
-            )}
-            checked={hasReactionNotifications}
-            onCheckedChange={onReactionNotificationsChange}
-          />
-          {isNotificationAttentionSupported && (
-            <AxoSwitchItem.Root
-              label={i18n('icu:notificationDrawAttention')}
-              checked={hasNotificationAttention}
-              onCheckedChange={onNotificationAttentionChange}
-            />
-          )}
           <AxoSelectItem.Root
-            label={i18n('icu:Preferences--notification-content')}
+            label={i18n('icu:Preferences__Notifications__Show__Label')}
             disabled={!hasNotifications}
-            value={notificationContent}
+            value={hasNotifications ? notificationContent : null}
             onValueChange={value => {
               onNotificationContentChange(value as NotificationSettingType);
             }}
-            placeholder=""
+            // Falls back to the first option while notifications are off
+            placeholder={i18n('icu:nameAndMessage')}
             options={[
               {
                 label: i18n('icu:nameAndMessage'),
@@ -1576,11 +1557,38 @@ export function Preferences({
           />
         </List>
 
+        <List>
+          <AxoSwitchItem.Root
+            label={i18n('icu:callSystemNotificationDescription')}
+            disabled={!hasNotifications}
+            checked={hasCallNotifications}
+            onCheckedChange={onCallNotificationsChange}
+          />
+          <AxoSwitchItem.Root
+            label={i18n('icu:Preferences__reaction-notifications-title')}
+            description={i18n(
+              'icu:Preferences__reaction-notifications-description'
+            )}
+            disabled={!hasNotifications}
+            checked={hasReactionNotifications}
+            onCheckedChange={onReactionNotificationsChange}
+          />
+          {isNotificationAttentionSupported && (
+            <AxoSwitchItem.Root
+              label={i18n('icu:notificationDrawAttention')}
+              disabled={!hasNotifications}
+              checked={hasNotificationAttention}
+              onCheckedChange={onNotificationAttentionChange}
+            />
+          )}
+        </List>
+
         <List
           label={i18n('icu:Preferences__Notifications__SoundsSection__Title')}
         >
           <AxoSwitchItem.Root
             label={i18n('icu:audioNotificationDescription')}
+            disabled={!hasNotifications}
             checked={hasAudioNotifications ?? false}
             onCheckedChange={onAudioNotificationsChange}
           />

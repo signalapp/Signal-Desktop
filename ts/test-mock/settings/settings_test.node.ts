@@ -49,7 +49,7 @@ describe('settings', function (this: Mocha.Suite) {
 
     await window.getByRole('button', { name: 'Notifications' }).click();
     await window
-      .getByRole('listitem', { name: 'Notification content' })
+      .getByRole('listitem', { name: 'Enable notifications' })
       .waitFor();
 
     await window.getByRole('button', { name: 'Privacy' }).click();

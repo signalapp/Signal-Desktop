@@ -25,7 +25,7 @@ export namespace AxoClickableItem {
   export const Root: FC<RootProps> = memo(props => {
     const id = useId();
     return (
-      <AxoItem.Root>
+      <AxoItem.Root disabled={props.disabled}>
         {props.symbol != null && (
           <AxoItem.Leading>
             <AxoItem.Icon symbol={props.symbol} />
@@ -40,9 +40,7 @@ export namespace AxoClickableItem {
             {props.description != null && (
               <AxoItem.Description>{props.description}</AxoItem.Description>
             )}
-            {!props.disabled && (
-              <AxoItem.HiddenTrigger labelledby={id} onClick={props.onClick} />
-            )}
+            <AxoItem.HiddenTrigger labelledby={id} onClick={props.onClick} />
             {props.accessory && (
               <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
             )}

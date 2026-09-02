@@ -778,6 +778,12 @@ export const Notifications = Template.bind({});
 Notifications.args = {
   settingsLocation: { page: SettingsPage.Notifications },
 };
+export const NotificationsDisabled = Template.bind({});
+NotificationsDisabled.args = {
+  settingsLocation: { page: SettingsPage.Notifications },
+  hasNotifications: false,
+  notificationContent: 'off',
+};
 export const NotificationsWhileMuted = Template.bind({});
 NotificationsWhileMuted.args = {
   settingsLocation: { page: SettingsPage.WhileMuted },

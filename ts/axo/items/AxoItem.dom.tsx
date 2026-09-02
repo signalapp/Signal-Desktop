@@ -64,13 +64,20 @@ export namespace AxoItem {
 
   export type RootProps = Readonly<{
     id?: string;
+    /**
+     * Dims the contents of the item and disables its `HiddenTrigger`.
+     * Accessories (switches, selects, button) must be disabled separately.
+     */
+    disabled?: boolean;
     children: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaList.Item asChild id={props.id}>
-        <AxoBaseItem.Root>{props.children}</AxoBaseItem.Root>
+        <AxoBaseItem.Root disabled={props.disabled}>
+          {props.children}
+        </AxoBaseItem.Root>
       </AriaList.Item>
     );
   });
