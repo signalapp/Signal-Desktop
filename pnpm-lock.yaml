@@ -82,7 +82,7 @@ importers:
         version: 7.28.6
       '@babel/plugin-transform-runtime':
         specifier: 7.29.0
-        version: 7.29.0(@babel/core@7.29.0)
+        version: 7.29.0(@babel/core@7.29.0)(supports-color@8.1.1)
       '@babel/plugin-transform-typescript':
         specifier: 7.28.6
         version: 7.28.6(@babel/core@7.29.0)
@@ -402,8 +402,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1
       electron:
-        specifier: 43.4.1
-        version: 43.4.1(supports-color@8.1.1)
+        specifier: 43.5.0
+        version: 43.5.0(supports-color@8.1.1)
       electron-builder:
         specifier: 26.11.1
         version: 26.11.1(electron-builder-squirrel-windows@26.11.1)
@@ -730,10 +730,10 @@ importers:
         version: 0.100.0
       '@tus/file-store':
         specifier: ^1.5.1
-        version: 1.5.1
+        version: 1.5.1(supports-color@8.1.1)
       '@tus/server':
         specifier: ^1.10.2
-        version: 1.10.2
+        version: 1.10.2(supports-color@8.1.1)
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@8.1.1)
@@ -6972,8 +6972,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@43.4.1:
-    resolution: {integrity: sha512-5b+EuiwkgG5iRcsEL34rimgRpkYp15SsfZOa0pC5kXs0Tb82TH4n95rpQzTZa7yRCbA7tm0WoEbuBL6NaAhAcA==, tarball: https://registry.npmjs.org/electron/-/electron-43.4.1.tgz}
+  electron@43.5.0:
+    resolution: {integrity: sha512-nV2aWuKatmUrxrAWP2pNIynNX7dy83TCAz+6KnsbK7hDVLE+6fa2iouOtir41AboZTa+J5w2UgicWHAqUaaUJw==, tarball: https://registry.npmjs.org/electron/-/electron-43.5.0.tgz}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -11741,7 +11741,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/helper-define-polyfill-provider@0.6.8(@babel/core@7.29.0)':
+  '@babel/helper-define-polyfill-provider@0.6.8(@babel/core@7.29.0)(supports-color@8.1.1)':
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
       '@babel/helper-compilation-targets': 7.28.6
@@ -11936,12 +11936,12 @@ snapshots:
       '@babel/helper-annotate-as-pure': 7.27.3
       '@babel/helper-plugin-utils': 7.28.6
 
-  '@babel/plugin-transform-runtime@7.29.0(@babel/core@7.29.0)':
+  '@babel/plugin-transform-runtime@7.29.0(@babel/core@7.29.0)(supports-color@8.1.1)':
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
       '@babel/helper-module-imports': 7.28.6
       '@babel/helper-plugin-utils': 7.28.6
-      babel-plugin-polyfill-corejs2: 0.4.17(@babel/core@7.29.0)
+      babel-plugin-polyfill-corejs2: 0.4.17(@babel/core@7.29.0)(supports-color@8.1.1)
       babel-plugin-polyfill-corejs3: 0.13.0(@babel/core@7.29.0)
       babel-plugin-polyfill-regenerator: 0.6.8(@babel/core@7.29.0)
       semver: 6.3.1
@@ -16078,7 +16078,7 @@ snapshots:
   '@tsconfig/node16@1.0.4':
     optional: true
 
-  '@tus/file-store@1.5.1':
+  '@tus/file-store@1.5.1(supports-color@8.1.1)':
     dependencies:
       '@tus/utils': 0.5.1
       debug: 4.4.3(supports-color@8.1.1)
@@ -16087,14 +16087,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@tus/server@1.10.2':
+  '@tus/server@1.10.2(supports-color@8.1.1)':
     dependencies:
       '@tus/utils': 0.5.1
       debug: 4.4.3(supports-color@8.1.1)
       lodash.throttle: 4.1.1
     optionalDependencies:
       '@redis/client': 1.6.1
-      ioredis: 5.11.1
+      ioredis: 5.11.1(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -17113,11 +17113,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-polyfill-corejs2@0.4.17(@babel/core@7.29.0):
+  babel-plugin-polyfill-corejs2@0.4.17(@babel/core@7.29.0)(supports-color@8.1.1):
     dependencies:
       '@babel/compat-data': 7.29.0
       '@babel/core': 7.29.0(supports-color@8.1.1)
-      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)
+      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)(supports-color@8.1.1)
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -17125,7 +17125,7 @@ snapshots:
   babel-plugin-polyfill-corejs3@0.13.0(@babel/core@7.29.0):
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
-      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)
+      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)(supports-color@8.1.1)
       core-js-compat: 3.49.0
     transitivePeerDependencies:
       - supports-color
@@ -17133,7 +17133,7 @@ snapshots:
   babel-plugin-polyfill-regenerator@0.6.8(@babel/core@7.29.0):
     dependencies:
       '@babel/core': 7.29.0(supports-color@8.1.1)
-      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)
+      '@babel/helper-define-polyfill-provider': 0.6.8(@babel/core@7.29.0)(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -18172,7 +18172,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@43.4.1(supports-color@8.1.1):
+  electron@43.5.0(supports-color@8.1.1):
     dependencies:
       '@electron-internal/extract-zip': 1.0.4
       '@electron/get': 5.0.0(supports-color@8.1.1)
@@ -19575,7 +19575,7 @@ snapshots:
       '@formatjs/fast-memoize': 3.1.1
       '@formatjs/icu-messageformat-parser': 3.5.3
 
-  ioredis@5.11.1:
+  ioredis@5.11.1(supports-color@8.1.1):
     dependencies:
       '@ioredis/commands': 1.10.0
       cluster-key-slot: 1.1.1
