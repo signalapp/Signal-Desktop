@@ -27,7 +27,7 @@ export namespace AxoFieldList {
       <AxoList.Root>
         {props.title != null && (
           <AxoList.Header>
-            <AxoList.Title>{props.title}</AxoList.Title>
+            <AxoList.Label>{props.title}</AxoList.Label>
             {/* We probably don't ever want to show a description without a title */}
             {props.description != null && (
               <AxoList.Description>{props.description}</AxoList.Description>
@@ -37,7 +37,7 @@ export namespace AxoFieldList {
         <AxoList.Body>{props.children}</AxoList.Body>
         {props.help != null && (
           <AxoList.Footer>
-            <AxoList.Help>{props.help}</AxoList.Help>
+            <AxoList.FooterDescription>{props.help}</AxoList.FooterDescription>
           </AxoList.Footer>
         )}
       </AxoList.Root>

@@ -865,30 +865,32 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
       <ListGroup>
-        <List help={i18n('icu:Preferences--device-name__description')}>
+        <List
+          footerDescription={i18n('icu:Preferences--device-name__description')}
+        >
           <ValueItem
-            title={i18n('icu:Preferences--phone-number')}
+            label={i18n('icu:Preferences--phone-number')}
             value={phoneNumber}
           />
           <ValueItem
-            title={i18n('icu:Preferences--device-name')}
+            label={i18n('icu:Preferences--device-name')}
             value={deviceName}
           />
         </List>
         {weArePrimaryDevice && (
-          <List title={i18n('icu:Preferences--signal-pin')}>
+          <List label={i18n('icu:Preferences--signal-pin')}>
             <SwitchItem
-              title={i18n('icu:Preferences--pin-reminders--header')}
+              label={i18n('icu:Preferences--pin-reminders--header')}
               description={i18n('icu:Preferences--pin-reminders--description')}
               checked={hasPinReminders ?? false}
               onCheckedChange={onPinRemindersChange}
             />
           </List>
         )}
-        <List title={i18n('icu:Preferences--system')}>
+        <List label={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
             <SwitchItem
-              title={i18n('icu:autoLaunchDescription')}
+              label={i18n('icu:autoLaunchDescription')}
               disabled={hasAutoLaunch === undefined}
               checked={hasAutoLaunch ?? false}
               onCheckedChange={onAutoLaunchChange}
@@ -896,7 +898,7 @@ export function Preferences({
           )}
           {isHideMenuBarSupported && (
             <SwitchItem
-              title={i18n('icu:hideMenuBar')}
+              label={i18n('icu:hideMenuBar')}
               checked={hasHideMenuBar ?? false}
               onCheckedChange={onHideMenuBarChange}
             />
@@ -904,14 +906,14 @@ export function Preferences({
           {isSystemTraySupported && (
             <>
               <SwitchItem
-                title={i18n('icu:SystemTraySetting__minimize-to-system-tray')}
+                label={i18n('icu:SystemTraySetting__minimize-to-system-tray')}
                 disabled={hasMinimizeToSystemTray === undefined}
                 checked={hasMinimizeToSystemTray ?? false}
                 onCheckedChange={onMinimizeToSystemTrayChange}
               />
               {isMinimizeToAndStartInSystemTraySupported && (
                 <SwitchItem
-                  title={i18n(
+                  label={i18n(
                     'icu:SystemTraySetting__minimize-to-and-start-in-system-tray'
                   )}
                   disabled={
@@ -925,24 +927,24 @@ export function Preferences({
             </>
           )}
         </List>
-        <List title={i18n('icu:permissions')}>
+        <List label={i18n('icu:permissions')}>
           <SwitchItem
-            title={i18n('icu:mediaPermissionsDescription')}
+            label={i18n('icu:mediaPermissionsDescription')}
             disabled={hasMediaPermissions === undefined}
             checked={hasMediaPermissions ?? false}
             onCheckedChange={onMediaPermissionsChange}
           />
           <SwitchItem
-            title={i18n('icu:mediaCameraPermissionsDescription')}
+            label={i18n('icu:mediaCameraPermissionsDescription')}
             disabled={hasMediaCameraPermissions === undefined}
             checked={hasMediaCameraPermissions ?? false}
             onCheckedChange={onMediaCameraPermissionsChange}
           />
         </List>
         {isAutoDownloadUpdatesSupported && (
-          <List title={i18n('icu:Preferences--updates')}>
+          <List label={i18n('icu:Preferences--updates')}>
             <SwitchItem
-              title={i18n('icu:Preferences__download-update')}
+              label={i18n('icu:Preferences__download-update')}
               checked={hasAutoDownloadUpdate}
               onCheckedChange={onAutoDownloadUpdateChange}
             />
@@ -952,7 +954,7 @@ export function Preferences({
         <List>
           {!weArePrimaryDevice && (
             <ItemWithAction
-              title={i18n('icu:clearDataHeader')}
+              label={i18n('icu:clearDataHeader')}
               description={i18n('icu:clearDataExplanation')}
               action={
                 <AxoItem.Action
@@ -981,7 +983,7 @@ export function Preferences({
 
           {weArePrimaryDevice && (
             <ItemWithAction
-              title={i18n('icu:deleteAccountHeader')}
+              label={i18n('icu:deleteAccountHeader')}
               description={i18n('icu:deleteAccountExplanation')}
               action={
                 <AxoItem.Action
@@ -1051,7 +1053,7 @@ export function Preferences({
         <List>
           <ClickableItem
             symbol="globe"
-            title={i18n('icu:Preferences__Language__Label')}
+            label={i18n('icu:Preferences__Language__Label')}
             arrow
             value={
               <span
@@ -1177,7 +1179,7 @@ export function Preferences({
           )}
           <SelectItem
             symbol="contrast"
-            title={i18n('icu:Preferences--theme')}
+            label={i18n('icu:Preferences--theme')}
             disabled={themeSetting === undefined}
             value={themeSetting ?? null}
             onValueChange={value => {
@@ -1201,8 +1203,8 @@ export function Preferences({
           />
           <ClickableItem
             symbol="palette"
-            title={i18n('icu:showChatColorEditor')}
-            arrow={false}
+            label={i18n('icu:showChatColorEditor')}
+            arrow
             onClick={() => {
               setSettingsLocation({ page: SettingsPage.ChatColor });
             }}
@@ -1219,7 +1221,7 @@ export function Preferences({
           />
           <SelectItem
             symbol="zoom-in"
-            title={i18n('icu:Preferences--zoom')}
+            label={i18n('icu:Preferences--zoom')}
             disabled={zoomFactor === undefined}
             value={zoomFactor != null ? String(zoomFactor) : null}
             onValueChange={onZoomSelectChange}
@@ -1259,7 +1261,7 @@ export function Preferences({
       <ListGroup>
         <List accessibilityLabel={i18n('icu:Preferences__button--chats')}>
           <SwitchItem
-            title={i18n('icu:Preferences__address-book-photos--title')}
+            label={i18n('icu:Preferences__address-book-photos--title')}
             description={i18n(
               'icu:Preferences__address-book-photos--description'
             )}
@@ -1267,7 +1269,7 @@ export function Preferences({
             onCheckedChange={onPreferContactAvatarsChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__keep-muted-chats-archived--title')}
+            label={i18n('icu:Preferences__keep-muted-chats-archived--title')}
             description={i18n(
               'icu:Preferences__keep-muted-chats-archived--description'
             )}
@@ -1275,21 +1277,21 @@ export function Preferences({
             onCheckedChange={onKeepMutedChatsArchivedChange}
           />
         </List>
-        <List title={i18n('icu:Preferences__Chats__TextInputSection__Title')}>
+        <List label={i18n('icu:Preferences__Chats__TextInputSection__Title')}>
           <SwitchItem
-            title={i18n('icu:spellCheckDescription')}
+            label={i18n('icu:spellCheckDescription')}
             description={spellCheckDirtyText}
             disabled={hasSpellCheck === undefined}
             checked={hasSpellCheck ?? false}
             onCheckedChange={onSpellCheckChange}
           />
           <SwitchItem
-            title={i18n('icu:textFormattingDescription')}
+            label={i18n('icu:textFormattingDescription')}
             checked={hasTextFormatting}
             onCheckedChange={onTextFormattingChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__link-previews--title')}
+            label={i18n('icu:Preferences__link-previews--title')}
             description={i18n(
               'icu:Preferences__link-previews--new-description'
             )}
@@ -1297,7 +1299,7 @@ export function Preferences({
             onCheckedChange={onLinkPreviewsChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__auto-convert-emoji--title')}
+            label={i18n('icu:Preferences__auto-convert-emoji--title')}
             description={
               <I18n
                 i18n={i18n}
@@ -1309,11 +1311,9 @@ export function Preferences({
           />
           <AxoItem.Root>
             <AxoItem.Content>
-              <AxoItem.Body>
-                <AxoItem.Title>
-                  {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
-                </AxoItem.Title>
-              </AxoItem.Body>
+              <AxoItem.Label>
+                {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
+              </AxoItem.Label>
               <AxoItem.Accessory>
                 <FunSkinTonesList
                   i18n={i18n}
@@ -1325,9 +1325,9 @@ export function Preferences({
             </AxoItem.Content>
           </AxoItem.Root>
         </List>
-        <List title={i18n('icu:Preferences__Chats__ChatFoldersSection__Title')}>
+        <List label={i18n('icu:Preferences__Chats__ChatFoldersSection__Title')}>
           <ClickableItem
-            title={
+            label={
               hasAnyCurrentCustomChatFolders
                 ? i18n(
                     'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
@@ -1359,7 +1359,7 @@ export function Preferences({
 
         <List>
           <ItemWithAction
-            title={i18n('icu:PlaintextExport--PreferencesRow--Header')}
+            label={i18n('icu:PlaintextExport--PreferencesRow--Header')}
             description={i18n(
               'icu:PlaintextExport--PreferencesRow--Description'
             )}
@@ -1377,7 +1377,7 @@ export function Preferences({
         {isSyncSupported && (
           <List>
             <ItemWithAction
-              title={i18n('icu:sync')}
+              label={i18n('icu:sync')}
               description={
                 <>
                   <div>
@@ -1431,19 +1431,19 @@ export function Preferences({
       <ListGroup>
         <List accessibilityLabel={i18n('icu:calling')}>
           <SwitchItem
-            title={i18n('icu:incomingCallNotificationDescription')}
+            label={i18n('icu:incomingCallNotificationDescription')}
             checked={hasIncomingCallNotifications}
             onCheckedChange={onIncomingCallNotificationsChange}
           />
           <SwitchItem
-            title={i18n('icu:callRingtoneNotificationDescription')}
+            label={i18n('icu:callRingtoneNotificationDescription')}
             checked={hasCallRingtoneNotification}
             onCheckedChange={onCallRingtoneNotificationChange}
           />
         </List>
-        <List title={i18n('icu:Preferences__devices')}>
+        <List label={i18n('icu:Preferences__devices')}>
           <SelectItem
-            title={i18n('icu:callingDeviceSelection__label--video')}
+            label={i18n('icu:callingDeviceSelection__label--video')}
             disabled={!availableCameras.length}
             emptyOptionsLabel={i18n(
               'icu:callingDeviceSelection__select--no-device'
@@ -1459,7 +1459,7 @@ export function Preferences({
             })}
           />
           <SelectItem
-            title={i18n('icu:callingDeviceSelection__label--audio-input')}
+            label={i18n('icu:callingDeviceSelection__label--audio-input')}
             disabled={!availableMicrophones.length}
             value={
               selectedMicrophone != null
@@ -1480,7 +1480,7 @@ export function Preferences({
           />
 
           <SelectItem
-            title={i18n('icu:callingDeviceSelection__label--audio-output')}
+            label={i18n('icu:callingDeviceSelection__label--audio-output')}
             disabled={!availableSpeakers.length}
             value={
               selectedSpeaker != null ? String(selectedSpeaker.index) : null
@@ -1498,10 +1498,10 @@ export function Preferences({
             })}
           />
         </List>
-        <List title={i18n('icu:Preferences--advanced')}>
+        <List label={i18n('icu:Preferences--advanced')}>
           <SwitchItem
             description={i18n('icu:alwaysRelayCallsDetail')}
-            title={i18n('icu:alwaysRelayCallsDescription')}
+            label={i18n('icu:alwaysRelayCallsDescription')}
             checked={hasRelayCalls ?? false}
             onCheckedChange={onRelayCallsChange}
           />
@@ -1520,17 +1520,17 @@ export function Preferences({
       <ListGroup>
         <List>
           <SwitchItem
-            title={i18n('icu:Preferences__enable-notifications')}
+            label={i18n('icu:Preferences__enable-notifications')}
             checked={hasNotifications}
             onCheckedChange={onNotificationsChange}
           />
           <SwitchItem
-            title={i18n('icu:callSystemNotificationDescription')}
+            label={i18n('icu:callSystemNotificationDescription')}
             checked={hasCallNotifications}
             onCheckedChange={onCallNotificationsChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__reaction-notifications-title')}
+            label={i18n('icu:Preferences__reaction-notifications-title')}
             description={i18n(
               'icu:Preferences__reaction-notifications-description'
             )}
@@ -1539,13 +1539,13 @@ export function Preferences({
           />
           {isNotificationAttentionSupported && (
             <SwitchItem
-              title={i18n('icu:notificationDrawAttention')}
+              label={i18n('icu:notificationDrawAttention')}
               checked={hasNotificationAttention}
               onCheckedChange={onNotificationAttentionChange}
             />
           )}
           <SelectItem
-            title={i18n('icu:Preferences--notification-content')}
+            label={i18n('icu:Preferences--notification-content')}
             disabled={!hasNotifications}
             value={notificationContent}
             onValueChange={onNotificationContentChange}
@@ -1565,7 +1565,7 @@ export function Preferences({
             ]}
           />
           <ClickableItem
-            title={i18n('icu:WhileMuted__title')}
+            label={i18n('icu:WhileMuted__title')}
             value={getNotifyWhileMutedSummary(notifyWhileMuted, i18n)}
             description={i18n('icu:Preferences__WhileMuted__description')}
             arrow
@@ -1577,15 +1577,15 @@ export function Preferences({
         </List>
 
         <List
-          title={i18n('icu:Preferences__Notifications__SoundsSection__Title')}
+          label={i18n('icu:Preferences__Notifications__SoundsSection__Title')}
         >
           <SwitchItem
-            title={i18n('icu:audioNotificationDescription')}
+            label={i18n('icu:audioNotificationDescription')}
             checked={hasAudioNotifications ?? false}
             onCheckedChange={onAudioNotificationsChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__message-audio-title')}
+            label={i18n('icu:Preferences__message-audio-title')}
             description={i18n('icu:Preferences__message-audio-description')}
             checked={hasMessageAudio}
             onCheckedChange={onMessageAudioChange}
@@ -1593,10 +1593,10 @@ export function Preferences({
         </List>
 
         <List
-          title={i18n('icu:Preferences__Notifications__AppBadgeSection__Title')}
+          label={i18n('icu:Preferences__Notifications__AppBadgeSection__Title')}
         >
           <SwitchItem
-            title={i18n('icu:countMutedConversationsDescription')}
+            label={i18n('icu:countMutedConversationsDescription')}
             checked={hasCountMutedConversations}
             onCheckedChange={onCountMutedConversationsChange}
           />
@@ -1604,7 +1604,7 @@ export function Preferences({
 
         <List>
           <ClickableItem
-            title={i18n('icu:NotificationProfiles--setting')}
+            label={i18n('icu:NotificationProfiles--setting')}
             description={i18n('icu:NotificationProfiles--manage-description')}
             arrow
             onClick={() =>
@@ -1617,7 +1617,7 @@ export function Preferences({
 
         <List>
           <ItemWithAction
-            title={i18n('icu:Preferences__Notifications__Reset__title')}
+            label={i18n('icu:Preferences__Notifications__Reset__title')}
             action={
               <AxoItem.Action
                 variant="subtle-destructive"
@@ -1689,7 +1689,7 @@ export function Preferences({
       <ListGroup>
         <List>
           <ClickableItem
-            title={i18n('icu:Preferences__pnp__row--title')}
+            label={i18n('icu:Preferences__pnp__row--title')}
             description={i18n('icu:Preferences__pnp__row--body')}
             arrow
             onClick={() => setSettingsLocation({ page: SettingsPage.PNP })}
@@ -1697,7 +1697,7 @@ export function Preferences({
         </List>
         <List>
           <ClickableItem
-            title={i18n('icu:Preferences--blocked')}
+            label={i18n('icu:Preferences--blocked')}
             description={blockedDescription}
             arrow
             disabled={!blockedContacts.length && !blockedGroups.length}
@@ -1705,16 +1705,16 @@ export function Preferences({
           />
         </List>
         <List
-          title={i18n('icu:Preferences--messaging')}
-          help={i18n('icu:Preferences--messaging-help')}
+          label={i18n('icu:Preferences--messaging')}
+          footerDescription={i18n('icu:Preferences--messaging-help')}
         >
           <SwitchItem
-            title={i18n('icu:Preferences--read-receipts')}
+            label={i18n('icu:Preferences--read-receipts')}
             checked={hasReadReceipts}
             onCheckedChange={onReadReceiptsChange}
           />
           <SwitchItem
-            title={i18n('icu:Preferences--typing-indicators')}
+            label={i18n('icu:Preferences--typing-indicators')}
             checked={hasTypingIndicators}
             onCheckedChange={onTypingIndicatorsChange}
           />
@@ -1727,9 +1727,9 @@ export function Preferences({
             onSubmit={onUniversalExpireTimerChange}
           />
         )}
-        <List title={i18n('icu:disappearingMessages')}>
+        <List label={i18n('icu:disappearingMessages')}>
           <SelectItem
-            title={i18n('icu:settings__DisappearingMessages__timer__label')}
+            label={i18n('icu:settings__DisappearingMessages__timer__label')}
             description={i18n('icu:settings__DisappearingMessages__footer')}
             value={String(universalExpireTimer)}
             onValueChange={value => {
@@ -1761,12 +1761,12 @@ export function Preferences({
           />
         </List>
         {isContentProtectionSupported && (
-          <List title={i18n('icu:Preferences__Privacy__Application')}>
+          <List label={i18n('icu:Preferences__Privacy__Application')}>
             <SwitchItem
               description={i18n(
                 'icu:Preferences__content-protection--description'
               )}
-              title={i18n('icu:Preferences__content-protection--label')}
+              label={i18n('icu:Preferences__content-protection--label')}
               disabled={hasContentProtection === undefined}
               checked={hasContentProtection ?? false}
               onCheckedChange={handleContentProtectionChange}
@@ -1791,9 +1791,9 @@ export function Preferences({
             </AxoConfirmDialog.Action>
           </AxoConfirmDialog.Root>
         ) : null}
-        <List title={i18n('icu:Stories__title')}>
+        <List label={i18n('icu:Stories__title')}>
           <ItemWithAction
-            title={i18n('icu:Stories__settings-toggle--title')}
+            label={i18n('icu:Stories__settings-toggle--title')}
             description={i18n('icu:Stories__settings-toggle--description')}
             action={
               hasStoriesDisabled ? (
@@ -1814,9 +1814,9 @@ export function Preferences({
             }
           />
         </List>
-        <List title={i18n('icu:Preferences--advanced')}>
+        <List label={i18n('icu:Preferences--advanced')}>
           <SwitchItem
-            title={
+            label={
               <>
                 {i18n('icu:Preferences__PrivacyPage__ShowStatusIcon__Label')}
                 <div className="Preferences__Privacy__StatusIcon" />
@@ -1830,7 +1830,7 @@ export function Preferences({
           />
           {isKeyTransparencyAvailable && (
             <SwitchItem
-              title={i18n(
+              label={i18n(
                 'icu:Preferences__PrivacyPage__KeyTransparency__Label'
               )}
               description={
@@ -1889,11 +1889,13 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List
-          title={i18n('icu:Preferences__media-auto-download')}
-          help={i18n('icu:Preferences__media-auto-download__description')}
+          label={i18n('icu:Preferences__media-auto-download')}
+          footerDescription={i18n(
+            'icu:Preferences__media-auto-download__description'
+          )}
         >
           <SwitchItem
-            title={i18n('icu:Preferences__media-auto-download__photos')}
+            label={i18n('icu:Preferences__media-auto-download__photos')}
             checked={autoDownloadAttachment.photos}
             onCheckedChange={(newValue: boolean) => {
               onAutoDownloadAttachmentChange({
@@ -1903,7 +1905,7 @@ export function Preferences({
             }}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__media-auto-download__videos')}
+            label={i18n('icu:Preferences__media-auto-download__videos')}
             checked={autoDownloadAttachment.videos}
             onCheckedChange={(newValue: boolean) => {
               onAutoDownloadAttachmentChange({
@@ -1913,7 +1915,7 @@ export function Preferences({
             }}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__media-auto-download__audio')}
+            label={i18n('icu:Preferences__media-auto-download__audio')}
             checked={autoDownloadAttachment.audio}
             onCheckedChange={(newValue: boolean) => {
               onAutoDownloadAttachmentChange({
@@ -1923,7 +1925,7 @@ export function Preferences({
             }}
           />
           <SwitchItem
-            title={i18n('icu:Preferences__media-auto-download__documents')}
+            label={i18n('icu:Preferences__media-auto-download__documents')}
             checked={autoDownloadAttachment.documents}
             onCheckedChange={(newValue: boolean) => {
               onAutoDownloadAttachmentChange({
@@ -1935,7 +1937,7 @@ export function Preferences({
         </List>
         <List>
           <SelectItem
-            title={i18n('icu:Preferences__sent-media-quality')}
+            label={i18n('icu:Preferences__sent-media-quality')}
             description={i18n(
               'icu:Preferences__sent-media-quality__description'
             )}
@@ -2320,7 +2322,7 @@ export function Preferences({
         <List>
           <SwitchItem
             symbol="phone"
-            title={i18n('icu:WhileMuted__calls__title')}
+            label={i18n('icu:WhileMuted__calls__title')}
             description={i18n(
               'icu:Preferences__WhileMuted__calls__description'
             )}
@@ -2331,7 +2333,7 @@ export function Preferences({
           />
           <SwitchItem
             symbol="at"
-            title={i18n('icu:WhileMuted__mentions__title')}
+            label={i18n('icu:WhileMuted__mentions__title')}
             description={i18n(
               'icu:Preferences__WhileMuted__mentions__description'
             )}
@@ -2342,7 +2344,7 @@ export function Preferences({
           />
           <SwitchItem
             symbol="reply"
-            title={i18n('icu:WhileMuted__replies__title')}
+            label={i18n('icu:WhileMuted__replies__title')}
             description={i18n(
               'icu:Preferences__WhileMuted__replies__description'
             )}
@@ -2670,25 +2672,27 @@ function ListGroup(props: ListGroupProps): ReactNode {
 
 type ListProps = Readonly<{
   accessibilityLabel?: string;
-  title?: string;
-  help?: ReactNode;
+  label?: string;
+  footerDescription?: ReactNode;
   children: ReactNode;
 }>;
 
 function List(props: ListProps): ReactNode {
   return (
     <AxoList.Root accessibilityLabel={props.accessibilityLabel}>
-      {props.title != null && (
+      {props.label != null && (
         <AxoList.Header>
-          <AxoList.Title>{props.title}</AxoList.Title>
+          <AxoList.Label>{props.label}</AxoList.Label>
         </AxoList.Header>
       )}
       <AxoList.Body>
         <AxoItem.Group>{props.children}</AxoItem.Group>
       </AxoList.Body>
-      {props.help != null && (
+      {props.footerDescription != null && (
         <AxoList.Footer>
-          <AxoList.Help>{props.help}</AxoList.Help>
+          <AxoList.FooterDescription>
+            {props.footerDescription}
+          </AxoList.FooterDescription>
         </AxoList.Footer>
       )}
     </AxoList.Root>
@@ -2697,7 +2701,7 @@ function List(props: ListProps): ReactNode {
 
 type SwitchItemProps = Readonly<{
   symbol?: AxoSymbol.Name;
-  title: ReactNode;
+  label: ReactNode;
   description?: ReactNode;
   disabled?: boolean;
   checked: boolean;
@@ -2707,21 +2711,25 @@ type SwitchItemProps = Readonly<{
 function SwitchItem(props: SwitchItemProps): ReactNode {
   return (
     <AxoItem.Root>
-      {props.symbol != null && <AxoItem.Icon symbol={props.symbol} />}
+      {props.symbol != null && (
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol={props.symbol} />
+        </AxoItem.Leading>
+      )}
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title>{props.title}</AxoItem.Title>
+          <AxoItem.Label>{props.label}</AxoItem.Label>
           {props.description != null && (
             <AxoItem.Description>{props.description}</AxoItem.Description>
           )}
         </AxoItem.Body>
-        <AxoItem.Accessory>
+        <AxoItem.Trailing>
           <AxoSwitch.Root
             disabled={props.disabled}
             checked={props.checked}
             onCheckedChange={props.onCheckedChange}
           />
-        </AxoItem.Accessory>
+        </AxoItem.Trailing>
       </AxoItem.Content>
     </AxoItem.Root>
   );
@@ -2735,7 +2743,7 @@ type SelectItemOption<T extends string> = Readonly<{
 
 type SelectItemProps<T extends string> = Readonly<{
   symbol?: AxoSymbol.Name;
-  title: ReactNode;
+  label: ReactNode;
   description?: ReactNode;
   disabled?: boolean;
   placeholder?: string;
@@ -2780,43 +2788,47 @@ function SelectItem<T extends string>(props: SelectItemProps<T>): ReactNode {
 
   return (
     <AxoItem.Root>
-      {props.symbol != null && <AxoItem.Icon symbol={props.symbol} />}
+      {props.symbol != null && (
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol={props.symbol} />
+        </AxoItem.Leading>
+      )}
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title>{props.title}</AxoItem.Title>
+          <AxoItem.Label>{props.label}</AxoItem.Label>
           {props.description != null && (
             <AxoItem.Description>{props.description}</AxoItem.Description>
           )}
+          <AxoItem.Accessory>
+            <AxoSelect.Root
+              disabled={props.disabled}
+              value={props.value}
+              onValueChange={handleValueChange}
+            >
+              <AxoSelect.Trigger placeholder={renderPlaceholder} />
+              <AxoSelect.Content>
+                {options.map(item => {
+                  return (
+                    <AxoSelect.Item
+                      key={item.value}
+                      value={item.value}
+                      disabled={item.disabled}
+                    >
+                      <AxoSelect.ItemText>{item.label}</AxoSelect.ItemText>
+                    </AxoSelect.Item>
+                  );
+                })}
+              </AxoSelect.Content>
+            </AxoSelect.Root>
+          </AxoItem.Accessory>
         </AxoItem.Body>
-        <AxoItem.Accessory>
-          <AxoSelect.Root
-            disabled={props.disabled}
-            value={props.value}
-            onValueChange={handleValueChange}
-          >
-            <AxoSelect.Trigger placeholder={renderPlaceholder} />
-            <AxoSelect.Content>
-              {options.map(item => {
-                return (
-                  <AxoSelect.Item
-                    key={item.value}
-                    value={item.value}
-                    disabled={item.disabled}
-                  >
-                    <AxoSelect.ItemText>{item.label}</AxoSelect.ItemText>
-                  </AxoSelect.Item>
-                );
-              })}
-            </AxoSelect.Content>
-          </AxoSelect.Root>
-        </AxoItem.Accessory>
       </AxoItem.Content>
     </AxoItem.Root>
   );
 }
 
 type ValueItemProps = Readonly<{
-  title: ReactNode;
+  label: ReactNode;
   value: ReactNode;
 }>;
 
@@ -2826,7 +2838,7 @@ function ValueItem(props: ValueItemProps): ReactNode {
     <AxoItem.Root>
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title id={id}>{props.title}</AxoItem.Title>
+          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
           <AxoItem.Value>{props.value}</AxoItem.Value>
         </AxoItem.Body>
       </AxoItem.Content>
@@ -2836,7 +2848,7 @@ function ValueItem(props: ValueItemProps): ReactNode {
 
 type ClickableItemProps = Readonly<{
   symbol?: AxoSymbol.Name;
-  title: ReactNode;
+  label: ReactNode;
   description?: ReactNode;
   value?: ReactNode;
   accessory?: ReactNode;
@@ -2849,10 +2861,14 @@ function ClickableItem(props: ClickableItemProps): ReactNode {
   const id = useId();
   return (
     <AxoItem.Root>
-      {props.symbol != null && <AxoItem.Icon symbol={props.symbol} />}
+      {props.symbol != null && (
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol={props.symbol} />
+        </AxoItem.Leading>
+      )}
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title id={id}>{props.title}</AxoItem.Title>
+          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
           {props.value != null && <AxoItem.Value>{props.value}</AxoItem.Value>}
           {props.description != null && (
             <AxoItem.Description>{props.description}</AxoItem.Description>
@@ -2860,18 +2876,22 @@ function ClickableItem(props: ClickableItemProps): ReactNode {
           {!props.disabled && (
             <AxoItem.HiddenTrigger labelledby={id} onClick={props.onClick} />
           )}
+          {props.accessory != null && (
+            <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
+          )}
         </AxoItem.Body>
-        {props.accessory != null && (
-          <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
-        )}
       </AxoItem.Content>
-      {props.arrow && !props.disabled && <AxoItem.Arrow />}
+      {props.arrow && !props.disabled && (
+        <AxoItem.Trailing>
+          <AxoItem.Arrow />
+        </AxoItem.Trailing>
+      )}
     </AxoItem.Root>
   );
 }
 
 type ItemWithActionProps = Readonly<{
-  title: ReactNode;
+  label: ReactNode;
   description?: ReactNode;
   action: ReactNode;
 }>;
@@ -2882,12 +2902,12 @@ function ItemWithAction(props: ItemWithActionProps): ReactNode {
     <AxoItem.Root>
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title id={id}>{props.title}</AxoItem.Title>
+          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
           {props.description != null && (
             <AxoItem.Description>{props.description}</AxoItem.Description>
           )}
+          <AxoItem.Accessory>{props.action}</AxoItem.Accessory>
         </AxoItem.Body>
-        <AxoItem.Accessory>{props.action}</AxoItem.Accessory>
       </AxoItem.Content>
     </AxoItem.Root>
   );

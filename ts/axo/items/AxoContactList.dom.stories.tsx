@@ -178,7 +178,6 @@ export function ItemActions(): ReactNode {
         <AxoContactList.Item
           avatar={<LegacyAvatar title="Adrian" />}
           title="Adrian"
-          value="Admin"
           onClick={action('onClick')}
           accessory={
             <AxoContactList.ItemAction variant="subtle-secondary">
@@ -235,7 +234,6 @@ export function ItemIconActions(): ReactNode {
         <AxoContactList.Item
           avatar={<LegacyAvatar title="Adrian" />}
           title="Adrian"
-          value="Admin"
           onClick={action('onClick')}
           accessory={
             <AxoContactList.ItemIconAction

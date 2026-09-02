@@ -26,7 +26,7 @@ export namespace AxoContactList {
       <AxoList.Root>
         {props.title != null && (
           <AxoList.Header>
-            <AxoList.Title>{props.title}</AxoList.Title>
+            <AxoList.Label>{props.title}</AxoList.Label>
           </AxoList.Header>
         )}
         <AxoList.Body>
@@ -58,11 +58,11 @@ export namespace AxoContactList {
     return (
       <AriaList.Item asChild>
         <AxoBaseItem.Root>
-          <AxoBaseItem.LeadingSlot>{props.avatar}</AxoBaseItem.LeadingSlot>
+          <AxoBaseItem.Leading>{props.avatar}</AxoBaseItem.Leading>
           <AxoBaseItem.Content>
             <AxoBaseItem.Body>
               <AriaList.Label asChild id={id}>
-                <AxoBaseItem.Title>{props.title}</AxoBaseItem.Title>
+                <AxoBaseItem.Label>{props.title}</AxoBaseItem.Label>
               </AriaList.Label>
               {props.value != null && (
                 <AriaList.Label asChild>
@@ -82,10 +82,10 @@ export namespace AxoContactList {
                   onClick={props.onClick}
                 />
               )}
+              {props.accessory != null && (
+                <AxoBaseItem.Accessory>{props.accessory}</AxoBaseItem.Accessory>
+              )}
             </AxoBaseItem.Body>
-            {props.accessory != null && (
-              <AxoBaseItem.Accessory>{props.accessory}</AxoBaseItem.Accessory>
-            )}
           </AxoBaseItem.Content>
         </AxoBaseItem.Root>
       </AriaList.Item>
@@ -173,11 +173,13 @@ export namespace AxoContactList {
     return (
       <AriaList.Item asChild>
         <AxoBaseItem.Root>
-          <AxoBaseItem.IconAvatar size={32} symbol={props.symbol} />
+          <AxoBaseItem.Leading>
+            <AxoBaseItem.IconAvatar size={32} symbol={props.symbol} />
+          </AxoBaseItem.Leading>
           <AxoBaseItem.Content>
             <AxoBaseItem.Body>
               <AriaList.Label asChild id={id}>
-                <AxoBaseItem.Title>{props.title}</AxoBaseItem.Title>
+                <AxoBaseItem.Label>{props.title}</AxoBaseItem.Label>
               </AriaList.Label>
               {props.onClick != null && (
                 <AxoBaseItem.HiddenTrigger
@@ -210,9 +212,9 @@ export namespace AxoContactList {
           <AxoBaseItem.Content>
             <AxoBaseItem.Body>
               <AriaList.Label asChild>
-                <AxoBaseItem.Title truncate>
+                <AxoBaseItem.Label truncate>
                   <span className={tw('text-secondary')}>{props.title}</span>
-                </AxoBaseItem.Title>
+                </AxoBaseItem.Label>
               </AriaList.Label>
             </AxoBaseItem.Body>
           </AxoBaseItem.Content>

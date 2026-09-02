@@ -37,7 +37,7 @@ export function ConversationNotificationsSettings({
   onOpenWhileMutedSettings,
   setMuteExpiration,
 }: PropsType): JSX.Element {
-  const whileMutedTitleId = useId();
+  const whileMutedLabelId = useId();
 
   const mutedUntilText =
     muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
@@ -81,9 +81,9 @@ export function ConversationNotificationsSettings({
               <AxoItem.Icon symbol="bell-slash" />
               <AxoItem.Content>
                 <AxoItem.Body>
-                  <AxoItem.Title>
+                  <AxoItem.Label>
                     {i18n('icu:muteNotificationsTitle')}
-                  </AxoItem.Title>
+                  </AxoItem.Label>
                   <AxoItem.Description>
                     {mutedUntilText ?? i18n('icu:notMuted')}
                   </AxoItem.Description>
@@ -115,15 +115,15 @@ export function ConversationNotificationsSettings({
               <AxoItem.Icon symbol="bell-badge" />
               <AxoItem.Content>
                 <AxoItem.Body>
-                  <AxoItem.Title id={whileMutedTitleId}>
+                  <AxoItem.Label id={whileMutedLabelId}>
                     {i18n('icu:WhileMuted__title')}
-                  </AxoItem.Title>
+                  </AxoItem.Label>
                   <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
                   <AxoItem.Description>
                     {i18n('icu:WhileMuted__description')}
                   </AxoItem.Description>
                   <AxoItem.HiddenTrigger
-                    labelledby={whileMutedTitleId}
+                    labelledby={whileMutedLabelId}
                     onClick={onOpenWhileMutedSettings}
                   />
                 </AxoItem.Body>

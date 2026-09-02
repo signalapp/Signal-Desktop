@@ -36,7 +36,7 @@ export function WhileMutedSettings({
             <WhileMutedSwitch
               settingKey="calls"
               symbol="phone"
-              title={i18n('icu:WhileMuted__calls__title')}
+              label={i18n('icu:WhileMuted__calls__title')}
               description={i18n('icu:WhileMuted__calls__description')}
               checked={notifyWhileMuted.calls}
               setNotifyWhileMuted={setNotifyWhileMuted}
@@ -46,7 +46,7 @@ export function WhileMutedSettings({
                 <WhileMutedSwitch
                   settingKey="mentions"
                   symbol="at"
-                  title={i18n('icu:WhileMuted__mentions__title')}
+                  label={i18n('icu:WhileMuted__mentions__title')}
                   description={i18n('icu:WhileMuted__mentions__description')}
                   checked={notifyWhileMuted.mentions}
                   setNotifyWhileMuted={setNotifyWhileMuted}
@@ -54,7 +54,7 @@ export function WhileMutedSettings({
                 <WhileMutedSwitch
                   settingKey="replies"
                   symbol="reply"
-                  title={i18n('icu:WhileMuted__replies__title')}
+                  label={i18n('icu:WhileMuted__replies__title')}
                   description={i18n('icu:WhileMuted__replies__description')}
                   checked={notifyWhileMuted.replies}
                   setNotifyWhileMuted={setNotifyWhileMuted}
@@ -71,7 +71,7 @@ export function WhileMutedSettings({
 type WhileMutedSwitchProps = Readonly<{
   settingKey: NotifyWhileMutedKey;
   symbol: AxoSymbol.Name;
-  title: string;
+  label: string;
   description: string;
   checked: boolean;
   setNotifyWhileMuted: PropsType['setNotifyWhileMuted'];
@@ -80,7 +80,7 @@ type WhileMutedSwitchProps = Readonly<{
 function WhileMutedSwitch({
   settingKey,
   symbol,
-  title,
+  label,
   description,
   checked,
   setNotifyWhileMuted,
@@ -97,12 +97,12 @@ function WhileMutedSwitch({
       <AxoItem.Icon symbol={symbol} />
       <AxoItem.Content>
         <AxoItem.Body>
-          <AxoItem.Title>{title}</AxoItem.Title>
+          <AxoItem.Label>{label}</AxoItem.Label>
           <AxoItem.Description>{description}</AxoItem.Description>
         </AxoItem.Body>
         <AxoItem.Accessory>
           <label>
-            <span className={tw('sr-only')}>{title}</span>
+            <span className={tw('sr-only')}>{label}</span>
             <AxoSwitch.Root
               checked={checked}
               onCheckedChange={handleCheckedChange}

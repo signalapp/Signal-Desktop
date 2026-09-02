@@ -42,15 +42,15 @@ export namespace AxoList {
   Header.displayName = 'AxoList.Header';
 
   /**
-   * <AxoList.Title>
+   * <AxoList.Label>
    * --------------------------------------------------------------------------
    */
 
-  export type TitleProps = Readonly<{
+  export type LabelProps = Readonly<{
     children: ReactNode;
   }>;
 
-  export const Title: FC<TitleProps> = memo(props => {
+  export const Label: FC<LabelProps> = memo(props => {
     return (
       <AriaLabelled.Label asChild>
         <h2 className={tw('type-body-medium font-semibold')}>
@@ -60,7 +60,7 @@ export namespace AxoList {
     );
   });
 
-  Title.displayName = 'AxoList.Title';
+  Label.displayName = 'AxoList.Label';
 
   /**
    * <AxoList.Description>
@@ -95,7 +95,7 @@ export namespace AxoList {
       <div
         className={tw(
           'min-w-fit',
-          'curved-20 bg-surface-card p-1.5 shadow-elevation-0',
+          'curved-2xl bg-surface-card p-1 shadow-elevation-0',
           'forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]',
           'forced-colors:border forced-colors:border-[ButtonBorder]'
         )}
@@ -123,15 +123,15 @@ export namespace AxoList {
   Footer.displayName = 'AxoList.Footer';
 
   /**
-   * <AxoList.Help>
+   * <AxoList.FooterDescription>
    * --------------------------------------------------------------------------
    */
 
-  export type HelpProps = Readonly<{
+  export type FooterDescriptionProps = Readonly<{
     children: ReactNode;
   }>;
 
-  export const Help: FC<HelpProps> = memo(props => {
+  export const FooterDescription: FC<FooterDescriptionProps> = memo(props => {
     return (
       <AriaLabelled.Description asChild>
         <p
@@ -146,5 +146,5 @@ export namespace AxoList {
     );
   });
 
-  Help.displayName = 'AxoList.Help';
+  FooterDescription.displayName = 'AxoList.FooterDescription';
 }

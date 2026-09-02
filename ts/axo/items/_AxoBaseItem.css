@@ -1,0 +1,138 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@utility axo-item-centering-to-max-height {
+  @apply flex h-full min-h-fit items-center;
+  /* --axo-leading-body-medium + --axo-leading-body-small + (description margin top) */
+  max-height: 38px;
+}
+
+@layer components {
+  .axo-item-group {
+    @apply grid;
+    @apply min-w-90;
+    grid-template-columns:
+      [axo-item-leading] min-content
+      [axo-item-content] auto;
+  }
+
+  :where(.axo-item-group) .axo-item-root:where(.group) {
+    @apply p-0.5;
+    /* Forward Grid */
+    @apply col-span-full grid grid-cols-subgrid;
+  }
+
+  :where(.axo-item-root) .axo-item-root-inner {
+    /* Forward Grid */
+    @apply col-span-full grid grid-cols-subgrid;
+    @apply gap-x-3 curved-xl px-3 text-primary;
+    /* Hovered */
+    @apply group-data-hovered:bg-secondary;
+    /* Pressed */
+    @apply group-data-pressed:bg-secondary-pressed;
+    /* Focus ring */
+    @apply outline-none;
+    @apply keyboard-mode:group-data-focused:axo-focus-ring;
+    @apply keyboard-mode:group-focus:axo-focus-ring;
+  }
+
+  :where(.axo-item-root-inner) .axo-item-leading {
+    grid-column: axo-item-leading;
+    @apply self-start;
+    @apply axo-item-centering-to-max-height;
+  }
+
+  :where(.axo-item-root-inner) .axo-item-content {
+    grid-column: axo-item-content;
+    @apply self-center;
+    @apply min-w-0;
+    /* Leave room for focus rings */
+    @apply -m-1;
+  }
+
+  :where(.axo-item-content) .axo-item-content-inner {
+    @apply flex;
+    @apply p-1;
+    @apply h-full;
+  }
+
+  :where(.axo-item-content-inner) .axo-item-body {
+    @apply shrink grow;
+    @apply grid;
+  }
+
+  :where(.axo-item-body) .axo-item-label {
+    @apply type-body-medium text-primary;
+  }
+
+  :where(.axo-item-body) .axo-item-value {
+    @apply type-body-medium text-secondary;
+  }
+
+  :where(.axo-item-body) .axo-item-description {
+    @apply mt-0.5;
+    @apply type-body-small text-secondary forced-colors:text-[GrayText];
+    @apply min-w-[min(max-content,120px)];
+    @apply wrap-break-word [word-break:auto-phrase];
+  }
+
+  :where(.axo-item-body) .axo-item-accessory {
+    @apply flex items-center gap-1.5;
+  }
+
+  :where(.axo-item-content-inner) .axo-item-trailing {
+    @apply axo-item-centering-to-max-height;
+    @apply ml-1.5;
+  }
+
+  :where(.axo-item-trailing) .axo-item-arrow {
+    @apply type-body-medium text-placeholder;
+  }
+
+  /* When not overflowing container */
+  @container scroll-state(scrollable: none) {
+    .axo-item-body {
+      grid-template:
+        'axo-item-label       axo-item-value axo-item-accessory' 1fr
+        'axo-item-description axo-item-value axo-item-accessory' min-content / auto min-content min-content;
+    }
+
+    .axo-item-label {
+      grid-area: axo-item-label;
+      @apply self-center;
+      @apply text-nowrap;
+    }
+
+    .axo-item-value {
+      grid-area: axo-item-value;
+      @apply w-fit text-nowrap;
+      @apply ms-3;
+      @apply axo-item-centering-to-max-height;
+    }
+
+    .axo-item-description {
+      grid-area: axo-item-description;
+      @apply contain-inline-size contain-layout;
+    }
+
+    .axo-item-accessory {
+      grid-area: axo-item-accessory;
+      @apply ms-3;
+    }
+  }
+
+  /* When overflowing container */
+  @container scroll-state(scrollable: inline) {
+    .axo-item-content-inner {
+      width: calc(100% + 1px);
+      padding-inline-end: 1px;
+    }
+
+    .axo-item-accessory {
+      @apply mt-0.5;
+      @apply flex-col items-stretch;
+    }
+  }
+}

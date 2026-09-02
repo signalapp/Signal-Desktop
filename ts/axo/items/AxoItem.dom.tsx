@@ -13,24 +13,28 @@ import { AriaList } from '../aria/AriaList.dom.tsx';
  * ```tsx
  * <AxoItem.Group>
  *   <AxoItem.Root>
- *     <AxoItem.Icon />
+ *     <AxoItem.Leading>
+ *       <AxoItem.Icon />
+ *     </AxoItem.Leading>
  *     <AxoItem.Content>
  *       <AxoItem.Body>
- *         <AxoItem.Title />
- *         <AxoItem.Value />
+ *         <AxoItem.Label />
+ *         <AxoItem.Value/>
  *         <AxoItem.Description />
  *         <AxoItem.HiddenTrigger />
+ *         <AxoItem.Accessory>
+ *           <AxoItem.Action />
+ *           <AxoItem.IconAction />
+ *           <AxoSelect.Root />
+ *           <AxoSwitch.Root />
+ *         </AxoItem.Accessory>
  *       </AxoItem.Body>
- *       <AxoItem.Accessory>
- *         <AxoItem.Action />
- *         <AxoItem.IconAction />
- *         <AxoSelect.Root />
- *         <AxoSwitch.Root />
- *       </AxoItem.Accessory>
+ *       <AxoItem.Trailing>
+ *         <AxoItem.Arrow />
+ *       </AxoItem.Trailing>
  *     </AxoItem.Content>
- *     <AxoItem.Arrow />
  *   </AxoItem.Root>
- * </AxoItem.Layout>
+ * </AxoItem.Group>
  * ```
  */
 export namespace AxoItem {
@@ -74,6 +78,21 @@ export namespace AxoItem {
   Root.displayName = 'AxoItem.Root';
 
   /**
+   * <AxoItem.Leading>
+   * --------------------------------------------------------------------------
+   */
+
+  export type LeadingProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const Leading: FC<LeadingProps> = memo(props => {
+    return <AxoBaseItem.Leading>{props.children}</AxoBaseItem.Leading>;
+  });
+
+  Leading.displayName = 'AxoItem.Leading';
+
+  /**
    * <AxoItem.Icon>
    * --------------------------------------------------------------------------
    */
@@ -87,6 +106,24 @@ export namespace AxoItem {
   });
 
   Icon.displayName = 'AxoItem.Icon';
+
+  /**
+   * <AxoItem.IconAvatar>
+   * --------------------------------------------------------------------------
+   */
+
+  export type IconAvatarSize = AxoBaseItem.IconAvatarSize;
+
+  export type IconAvatarProps = Readonly<{
+    size: IconAvatarSize;
+    symbol: AxoSymbol.Name;
+  }>;
+
+  export const IconAvatar: FC<IconAvatarProps> = memo(props => {
+    return <AxoBaseItem.IconAvatar size={props.size} symbol={props.symbol} />;
+  });
+
+  IconAvatar.displayName = 'AxoItem.IconAvatar';
 
   /**
    * <AxoItem.Content>
@@ -119,24 +156,24 @@ export namespace AxoItem {
   Body.displayName = 'AxoItem.Body';
 
   /**
-   * <AxoItem.Title>
+   * <AxoItem.Label>
    * --------------------------------------------------------------------------
    */
 
-  export type TitleProps = Readonly<{
+  export type LabelProps = Readonly<{
     id?: string;
     children: ReactNode;
   }>;
 
-  export const Title: FC<TitleProps> = memo(props => {
+  export const Label: FC<LabelProps> = memo(props => {
     return (
       <AriaList.Label asChild id={props.id}>
-        <AxoBaseItem.Title>{props.children}</AxoBaseItem.Title>
+        <AxoBaseItem.Label>{props.children}</AxoBaseItem.Label>
       </AriaList.Label>
     );
   });
 
-  Title.displayName = 'AxoItem.Title';
+  Label.displayName = 'AxoItem.Label';
 
   /**
    * <AxoItem.Value>
@@ -285,6 +322,21 @@ export namespace AxoItem {
   });
 
   IconAction.displayName = 'AxoItem.IconAction';
+
+  /**
+   * <AxoItem.Trailing>
+   * --------------------------------------------------------------------------
+   */
+
+  export type TrailingProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const Trailing: FC<TrailingProps> = memo(props => {
+    return <AxoBaseItem.Trailing>{props.children}</AxoBaseItem.Trailing>;
+  });
+
+  Trailing.displayName = 'AxoItem.Trailing';
 
   /**
    * <AxoItem.Arrow>

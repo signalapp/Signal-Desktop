@@ -18,10 +18,12 @@ function ExampleItems() {
   return (
     <AxoItem.Group>
       <AxoItem.Root>
-        <AxoItem.Icon symbol="info" />
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol="info-circle" />
+        </AxoItem.Leading>
         <AxoItem.Content>
           <AxoItem.Body>
-            <AxoItem.Title>First Item</AxoItem.Title>
+            <AxoItem.Label>First Item</AxoItem.Label>
             <AxoItem.Description>
               Description of the first item
             </AxoItem.Description>
@@ -30,10 +32,12 @@ function ExampleItems() {
         </AxoItem.Content>
       </AxoItem.Root>
       <AxoItem.Root>
-        <AxoItem.Icon symbol="info" />
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol="info-circle" />
+        </AxoItem.Leading>
         <AxoItem.Content>
           <AxoItem.Body>
-            <AxoItem.Title>Second Item</AxoItem.Title>
+            <AxoItem.Label>Second Item</AxoItem.Label>
             <AxoItem.Description>
               Description of the second item
             </AxoItem.Description>
@@ -42,10 +46,12 @@ function ExampleItems() {
         </AxoItem.Content>
       </AxoItem.Root>
       <AxoItem.Root>
-        <AxoItem.Icon symbol="info" />
+        <AxoItem.Leading>
+          <AxoItem.Icon symbol="info-circle" />
+        </AxoItem.Leading>
         <AxoItem.Content>
           <AxoItem.Body>
-            <AxoItem.Title>Third Item</AxoItem.Title>
+            <AxoItem.Label>Third Item</AxoItem.Label>
             <AxoItem.Description>
               Description of the third item
             </AxoItem.Description>
@@ -74,7 +80,7 @@ export function WithTitle(): React.JSX.Element {
     <div className={tw('bg-surface-secondary p-8')}>
       <AxoList.Root>
         <AxoList.Header>
-          <AxoList.Title>List Title</AxoList.Title>
+          <AxoList.Label>List Title</AxoList.Label>
         </AxoList.Header>
         <AxoList.Body>
           <ExampleItems />
@@ -89,7 +95,7 @@ export function WithDescription(): React.JSX.Element {
     <div className={tw('bg-surface-secondary p-8')}>
       <AxoList.Root>
         <AxoList.Header>
-          <AxoList.Title>List Title</AxoList.Title>
+          <AxoList.Label>List Title</AxoList.Label>
           <AxoList.Description>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </AxoList.Description>
@@ -102,20 +108,20 @@ export function WithDescription(): React.JSX.Element {
   );
 }
 
-export function WithHelp(): React.JSX.Element {
+export function WithFooterDescription(): React.JSX.Element {
   return (
     <div className={tw('bg-surface-secondary p-8')}>
       <AxoList.Root>
         <AxoList.Header>
-          <AxoList.Title>List Title</AxoList.Title>
+          <AxoList.Label>List Title</AxoList.Label>
         </AxoList.Header>
         <AxoList.Body>
           <ExampleItems />
         </AxoList.Body>
         <AxoList.Footer>
-          <AxoList.Help>
+          <AxoList.FooterDescription>
             This is some helpful text that describes the section above.
-          </AxoList.Help>
+          </AxoList.FooterDescription>
         </AxoList.Footer>
       </AxoList.Root>
     </div>
@@ -133,19 +139,21 @@ export function MultipleLists(): React.JSX.Element {
 
       <AxoList.Root>
         <AxoList.Header>
-          <AxoList.Title>Second Section</AxoList.Title>
+          <AxoList.Label>Second Section</AxoList.Label>
         </AxoList.Header>
         <AxoList.Body>
           <ExampleItems />
         </AxoList.Body>
         <AxoList.Footer>
-          <AxoList.Help>Help text for the second section.</AxoList.Help>
+          <AxoList.FooterDescription>
+            Help text for the second section.
+          </AxoList.FooterDescription>
         </AxoList.Footer>
       </AxoList.Root>
 
       <AxoList.Root>
         <AxoList.Header>
-          <AxoList.Title>Third Section</AxoList.Title>
+          <AxoList.Label>Third Section</AxoList.Label>
         </AxoList.Header>
         <AxoList.Body>
           <ExampleItems />
