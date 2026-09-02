@@ -106,9 +106,10 @@ import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import moment from 'moment';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
-import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
-import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
-import type { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { AxoSwitchItem } from '../axo/items/AxoSwitchItem.dom.tsx';
+import { AxoSelectItem } from '../axo/items/AxoSelectItem.dom.tsx';
+import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
+import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -868,18 +869,18 @@ export function Preferences({
         <List
           footerDescription={i18n('icu:Preferences--device-name__description')}
         >
-          <ValueItem
+          <AxoTextItem.Root
             label={i18n('icu:Preferences--phone-number')}
             value={phoneNumber}
           />
-          <ValueItem
+          <AxoTextItem.Root
             label={i18n('icu:Preferences--device-name')}
             value={deviceName}
           />
         </List>
         {weArePrimaryDevice && (
           <List label={i18n('icu:Preferences--signal-pin')}>
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n('icu:Preferences--pin-reminders--header')}
               description={i18n('icu:Preferences--pin-reminders--description')}
               checked={hasPinReminders ?? false}
@@ -889,7 +890,7 @@ export function Preferences({
         )}
         <List label={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n('icu:autoLaunchDescription')}
               disabled={hasAutoLaunch === undefined}
               checked={hasAutoLaunch ?? false}
@@ -897,7 +898,7 @@ export function Preferences({
             />
           )}
           {isHideMenuBarSupported && (
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n('icu:hideMenuBar')}
               checked={hasHideMenuBar ?? false}
               onCheckedChange={onHideMenuBarChange}
@@ -905,14 +906,14 @@ export function Preferences({
           )}
           {isSystemTraySupported && (
             <>
-              <SwitchItem
+              <AxoSwitchItem.Root
                 label={i18n('icu:SystemTraySetting__minimize-to-system-tray')}
                 disabled={hasMinimizeToSystemTray === undefined}
                 checked={hasMinimizeToSystemTray ?? false}
                 onCheckedChange={onMinimizeToSystemTrayChange}
               />
               {isMinimizeToAndStartInSystemTraySupported && (
-                <SwitchItem
+                <AxoSwitchItem.Root
                   label={i18n(
                     'icu:SystemTraySetting__minimize-to-and-start-in-system-tray'
                   )}
@@ -928,13 +929,13 @@ export function Preferences({
           )}
         </List>
         <List label={i18n('icu:permissions')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:mediaPermissionsDescription')}
             disabled={hasMediaPermissions === undefined}
             checked={hasMediaPermissions ?? false}
             onCheckedChange={onMediaPermissionsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:mediaCameraPermissionsDescription')}
             disabled={hasMediaCameraPermissions === undefined}
             checked={hasMediaCameraPermissions ?? false}
@@ -943,7 +944,7 @@ export function Preferences({
         </List>
         {isAutoDownloadUpdatesSupported && (
           <List label={i18n('icu:Preferences--updates')}>
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n('icu:Preferences__download-update')}
               checked={hasAutoDownloadUpdate}
               onCheckedChange={onAutoDownloadUpdateChange}
@@ -1051,7 +1052,7 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List>
-          <ClickableItem
+          <AxoClickableItem.Root
             symbol="globe"
             label={i18n('icu:Preferences__Language__Label')}
             arrow
@@ -1177,15 +1178,15 @@ export function Preferences({
               </AxoConfirmDialog.Action>
             </AxoConfirmDialog.Root>
           )}
-          <SelectItem
+          <AxoSelectItem.Root
             symbol="contrast"
             label={i18n('icu:Preferences--theme')}
             disabled={themeSetting === undefined}
-            value={themeSetting ?? null}
+            value={themeSetting ?? 'system'}
+            placeholder=""
             onValueChange={value => {
               onThemeChange(value as ThemeType);
             }}
-            fallbackToFirstOption
             options={[
               {
                 label: i18n('icu:themeSystem'),
@@ -1201,7 +1202,7 @@ export function Preferences({
               },
             ]}
           />
-          <ClickableItem
+          <AxoClickableItem.Root
             symbol="palette"
             label={i18n('icu:showChatColorEditor')}
             arrow
@@ -1219,11 +1220,12 @@ export function Preferences({
               />
             }
           />
-          <SelectItem
+          <AxoSelectItem.Root
             symbol="zoom-in"
             label={i18n('icu:Preferences--zoom')}
             disabled={zoomFactor === undefined}
-            value={zoomFactor != null ? String(zoomFactor) : null}
+            value={String(zoomFactor ?? 1.0)}
+            placeholder=""
             onValueChange={onZoomSelectChange}
             options={
               zoomFactors?.map(item => {
@@ -1260,7 +1262,7 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List accessibilityLabel={i18n('icu:Preferences__button--chats')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__address-book-photos--title')}
             description={i18n(
               'icu:Preferences__address-book-photos--description'
@@ -1268,7 +1270,7 @@ export function Preferences({
             checked={hasPreferContactAvatars}
             onCheckedChange={onPreferContactAvatarsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__keep-muted-chats-archived--title')}
             description={i18n(
               'icu:Preferences__keep-muted-chats-archived--description'
@@ -1278,19 +1280,19 @@ export function Preferences({
           />
         </List>
         <List label={i18n('icu:Preferences__Chats__TextInputSection__Title')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:spellCheckDescription')}
             description={spellCheckDirtyText}
             disabled={hasSpellCheck === undefined}
             checked={hasSpellCheck ?? false}
             onCheckedChange={onSpellCheckChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:textFormattingDescription')}
             checked={hasTextFormatting}
             onCheckedChange={onTextFormattingChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__link-previews--title')}
             description={i18n(
               'icu:Preferences__link-previews--new-description'
@@ -1298,7 +1300,7 @@ export function Preferences({
             checked={hasLinkPreviews}
             onCheckedChange={onLinkPreviewsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__auto-convert-emoji--title')}
             description={
               <I18n
@@ -1311,22 +1313,24 @@ export function Preferences({
           />
           <AxoItem.Root>
             <AxoItem.Content>
-              <AxoItem.Label>
-                {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
-              </AxoItem.Label>
-              <AxoItem.Accessory>
-                <FunSkinTonesList
-                  i18n={i18n}
-                  emoji={Emoji.HAND}
-                  skinTone={emojiSkinToneDefault}
-                  onSelectSkinTone={onEmojiSkinToneDefaultChange}
-                />
-              </AxoItem.Accessory>
+              <AxoItem.Body>
+                <AxoItem.Label>
+                  {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
+                </AxoItem.Label>
+                <AxoItem.Accessory>
+                  <FunSkinTonesList
+                    i18n={i18n}
+                    emoji={Emoji.HAND}
+                    skinTone={emojiSkinToneDefault}
+                    onSelectSkinTone={onEmojiSkinToneDefaultChange}
+                  />
+                </AxoItem.Accessory>
+              </AxoItem.Body>
             </AxoItem.Content>
           </AxoItem.Root>
         </List>
         <List label={i18n('icu:Preferences__Chats__ChatFoldersSection__Title')}>
-          <ClickableItem
+          <AxoClickableItem.Root
             label={
               hasAnyCurrentCustomChatFolders
                 ? i18n(
@@ -1430,27 +1434,24 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List accessibilityLabel={i18n('icu:calling')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:incomingCallNotificationDescription')}
             checked={hasIncomingCallNotifications}
             onCheckedChange={onIncomingCallNotificationsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:callRingtoneNotificationDescription')}
             checked={hasCallRingtoneNotification}
             onCheckedChange={onCallRingtoneNotificationChange}
           />
         </List>
         <List label={i18n('icu:Preferences__devices')}>
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--video')}
             disabled={!availableCameras.length}
-            emptyOptionsLabel={i18n(
-              'icu:callingDeviceSelection__select--no-device'
-            )}
-            value={selectedCamera ?? null}
+            value={selectedCamera ?? availableCameras.at(0)?.deviceId ?? null}
             onValueChange={onSelectedCameraChange}
-            fallbackToFirstOption
+            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
             options={availableCameras.map(device => {
               return {
                 label: localizeDefault(i18n, device.label),
@@ -1458,19 +1459,16 @@ export function Preferences({
               };
             })}
           />
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--audio-input')}
             disabled={!availableMicrophones.length}
             value={
-              selectedMicrophone != null
-                ? String(selectedMicrophone.index)
-                : null
+              selectedMicrophone?.index.toString() ??
+              availableMicrophones.at(0)?.index.toString() ??
+              null
             }
             onValueChange={onAudioInputSelectChange}
-            fallbackToFirstOption
-            emptyOptionsLabel={i18n(
-              'icu:callingDeviceSelection__select--no-device'
-            )}
+            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
             options={availableMicrophones.map(device => {
               return {
                 label: localizeDefault(i18n, device.name),
@@ -1479,17 +1477,16 @@ export function Preferences({
             })}
           />
 
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--audio-output')}
             disabled={!availableSpeakers.length}
             value={
-              selectedSpeaker != null ? String(selectedSpeaker.index) : null
+              selectedSpeaker?.index.toString() ??
+              availableSpeakers.at(0)?.index.toString() ??
+              null
             }
             onValueChange={onAudioOutputSelectChange}
-            fallbackToFirstOption
-            emptyOptionsLabel={i18n(
-              'icu:callingDeviceSelection__select--no-device'
-            )}
+            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
             options={availableSpeakers.map(device => {
               return {
                 label: localizeDefault(i18n, device.name),
@@ -1499,7 +1496,7 @@ export function Preferences({
           />
         </List>
         <List label={i18n('icu:Preferences--advanced')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             description={i18n('icu:alwaysRelayCallsDetail')}
             label={i18n('icu:alwaysRelayCallsDescription')}
             checked={hasRelayCalls ?? false}
@@ -1519,17 +1516,17 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__enable-notifications')}
             checked={hasNotifications}
             onCheckedChange={onNotificationsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:callSystemNotificationDescription')}
             checked={hasCallNotifications}
             onCheckedChange={onCallNotificationsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__reaction-notifications-title')}
             description={i18n(
               'icu:Preferences__reaction-notifications-description'
@@ -1538,17 +1535,20 @@ export function Preferences({
             onCheckedChange={onReactionNotificationsChange}
           />
           {isNotificationAttentionSupported && (
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n('icu:notificationDrawAttention')}
               checked={hasNotificationAttention}
               onCheckedChange={onNotificationAttentionChange}
             />
           )}
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:Preferences--notification-content')}
             disabled={!hasNotifications}
             value={notificationContent}
-            onValueChange={onNotificationContentChange}
+            onValueChange={value => {
+              onNotificationContentChange(value as NotificationSettingType);
+            }}
+            placeholder=""
             options={[
               {
                 label: i18n('icu:nameAndMessage'),
@@ -1564,7 +1564,7 @@ export function Preferences({
               },
             ]}
           />
-          <ClickableItem
+          <AxoClickableItem.Root
             label={i18n('icu:WhileMuted__title')}
             value={getNotifyWhileMutedSummary(notifyWhileMuted, i18n)}
             description={i18n('icu:Preferences__WhileMuted__description')}
@@ -1579,12 +1579,12 @@ export function Preferences({
         <List
           label={i18n('icu:Preferences__Notifications__SoundsSection__Title')}
         >
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:audioNotificationDescription')}
             checked={hasAudioNotifications ?? false}
             onCheckedChange={onAudioNotificationsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__message-audio-title')}
             description={i18n('icu:Preferences__message-audio-description')}
             checked={hasMessageAudio}
@@ -1595,7 +1595,7 @@ export function Preferences({
         <List
           label={i18n('icu:Preferences__Notifications__AppBadgeSection__Title')}
         >
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:countMutedConversationsDescription')}
             checked={hasCountMutedConversations}
             onCheckedChange={onCountMutedConversationsChange}
@@ -1603,7 +1603,7 @@ export function Preferences({
         </List>
 
         <List>
-          <ClickableItem
+          <AxoClickableItem.Root
             label={i18n('icu:NotificationProfiles--setting')}
             description={i18n('icu:NotificationProfiles--manage-description')}
             arrow
@@ -1688,7 +1688,7 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List>
-          <ClickableItem
+          <AxoClickableItem.Root
             label={i18n('icu:Preferences__pnp__row--title')}
             description={i18n('icu:Preferences__pnp__row--body')}
             arrow
@@ -1696,7 +1696,7 @@ export function Preferences({
           />
         </List>
         <List>
-          <ClickableItem
+          <AxoClickableItem.Root
             label={i18n('icu:Preferences--blocked')}
             description={blockedDescription}
             arrow
@@ -1708,12 +1708,12 @@ export function Preferences({
           label={i18n('icu:Preferences--messaging')}
           footerDescription={i18n('icu:Preferences--messaging-help')}
         >
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences--read-receipts')}
             checked={hasReadReceipts}
             onCheckedChange={onReadReceiptsChange}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences--typing-indicators')}
             checked={hasTypingIndicators}
             onCheckedChange={onTypingIndicatorsChange}
@@ -1728,9 +1728,10 @@ export function Preferences({
           />
         )}
         <List label={i18n('icu:disappearingMessages')}>
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:settings__DisappearingMessages__timer__label')}
             description={i18n('icu:settings__DisappearingMessages__footer')}
+            placeholder=""
             value={String(universalExpireTimer)}
             onValueChange={value => {
               if (value === String(universalExpireTimer) || value === '-1') {
@@ -1762,7 +1763,7 @@ export function Preferences({
         </List>
         {isContentProtectionSupported && (
           <List label={i18n('icu:Preferences__Privacy__Application')}>
-            <SwitchItem
+            <AxoSwitchItem.Root
               description={i18n(
                 'icu:Preferences__content-protection--description'
               )}
@@ -1815,7 +1816,7 @@ export function Preferences({
           />
         </List>
         <List label={i18n('icu:Preferences--advanced')}>
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={
               <>
                 {i18n('icu:Preferences__PrivacyPage__ShowStatusIcon__Label')}
@@ -1829,7 +1830,7 @@ export function Preferences({
             onCheckedChange={onSealedSenderIndicatorsChange}
           />
           {isKeyTransparencyAvailable && (
-            <SwitchItem
+            <AxoSwitchItem.Root
               label={i18n(
                 'icu:Preferences__PrivacyPage__KeyTransparency__Label'
               )}
@@ -1894,7 +1895,7 @@ export function Preferences({
             'icu:Preferences__media-auto-download__description'
           )}
         >
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__media-auto-download__photos')}
             checked={autoDownloadAttachment.photos}
             onCheckedChange={(newValue: boolean) => {
@@ -1904,7 +1905,7 @@ export function Preferences({
               });
             }}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__media-auto-download__videos')}
             checked={autoDownloadAttachment.videos}
             onCheckedChange={(newValue: boolean) => {
@@ -1914,7 +1915,7 @@ export function Preferences({
               });
             }}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__media-auto-download__audio')}
             checked={autoDownloadAttachment.audio}
             onCheckedChange={(newValue: boolean) => {
@@ -1924,7 +1925,7 @@ export function Preferences({
               });
             }}
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__media-auto-download__documents')}
             checked={autoDownloadAttachment.documents}
             onCheckedChange={(newValue: boolean) => {
@@ -1936,11 +1937,12 @@ export function Preferences({
           />
         </List>
         <List>
-          <SelectItem
+          <AxoSelectItem.Root
             label={i18n('icu:Preferences__sent-media-quality')}
             description={i18n(
               'icu:Preferences__sent-media-quality__description'
             )}
+            placeholder=""
             value={sentMediaQualitySetting}
             onValueChange={value => {
               onSentMediaQualityChange(value as SentMediaQualityType);
@@ -2320,7 +2322,7 @@ export function Preferences({
     const pageContents = (
       <ListGroup>
         <List>
-          <SwitchItem
+          <AxoSwitchItem.Root
             symbol="phone"
             label={i18n('icu:WhileMuted__calls__title')}
             description={i18n(
@@ -2331,7 +2333,7 @@ export function Preferences({
               onNotifyWhileMutedChange('calls', checked)
             }
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             symbol="at"
             label={i18n('icu:WhileMuted__mentions__title')}
             description={i18n(
@@ -2342,7 +2344,7 @@ export function Preferences({
               onNotifyWhileMutedChange('mentions', checked)
             }
           />
-          <SwitchItem
+          <AxoSwitchItem.Root
             symbol="reply"
             label={i18n('icu:WhileMuted__replies__title')}
             description={i18n(
@@ -2696,197 +2698,6 @@ function List(props: ListProps): ReactNode {
         </AxoList.Footer>
       )}
     </AxoList.Root>
-  );
-}
-
-type SwitchItemProps = Readonly<{
-  symbol?: AxoSymbol.Name;
-  label: ReactNode;
-  description?: ReactNode;
-  disabled?: boolean;
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-}>;
-
-function SwitchItem(props: SwitchItemProps): ReactNode {
-  return (
-    <AxoItem.Root>
-      {props.symbol != null && (
-        <AxoItem.Leading>
-          <AxoItem.Icon symbol={props.symbol} />
-        </AxoItem.Leading>
-      )}
-      <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label>{props.label}</AxoItem.Label>
-          {props.description != null && (
-            <AxoItem.Description>{props.description}</AxoItem.Description>
-          )}
-        </AxoItem.Body>
-        <AxoItem.Trailing>
-          <AxoSwitch.Root
-            disabled={props.disabled}
-            checked={props.checked}
-            onCheckedChange={props.onCheckedChange}
-          />
-        </AxoItem.Trailing>
-      </AxoItem.Content>
-    </AxoItem.Root>
-  );
-}
-
-type SelectItemOption<T extends string> = Readonly<{
-  value: T;
-  label: string;
-  disabled?: boolean;
-}>;
-
-type SelectItemProps<T extends string> = Readonly<{
-  symbol?: AxoSymbol.Name;
-  label: ReactNode;
-  description?: ReactNode;
-  disabled?: boolean;
-  placeholder?: string;
-  value: T | null;
-  onValueChange: (value: T) => void;
-  options: ReadonlyArray<SelectItemOption<T>>;
-  fallbackToFirstOption?: boolean;
-  emptyOptionsLabel?: string;
-}>;
-
-function SelectItem<T extends string>(props: SelectItemProps<T>): ReactNode {
-  const {
-    onValueChange,
-    options,
-    placeholder,
-    fallbackToFirstOption,
-    emptyOptionsLabel,
-  } = props;
-
-  const handleValueChange = useCallback(
-    (value: string) => {
-      onValueChange(value as T);
-    },
-    [onValueChange]
-  );
-
-  const renderPlaceholder = useMemo(() => {
-    if (options.length === 0 && emptyOptionsLabel != null) {
-      return emptyOptionsLabel;
-    }
-
-    if (placeholder != null) {
-      return placeholder;
-    }
-
-    if (fallbackToFirstOption) {
-      return options.at(0)?.label ?? '';
-    }
-
-    return '';
-  }, [placeholder, options, emptyOptionsLabel, fallbackToFirstOption]);
-
-  return (
-    <AxoItem.Root>
-      {props.symbol != null && (
-        <AxoItem.Leading>
-          <AxoItem.Icon symbol={props.symbol} />
-        </AxoItem.Leading>
-      )}
-      <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label>{props.label}</AxoItem.Label>
-          {props.description != null && (
-            <AxoItem.Description>{props.description}</AxoItem.Description>
-          )}
-          <AxoItem.Accessory>
-            <AxoSelect.Root
-              disabled={props.disabled}
-              value={props.value}
-              onValueChange={handleValueChange}
-            >
-              <AxoSelect.Trigger placeholder={renderPlaceholder} />
-              <AxoSelect.Content>
-                {options.map(item => {
-                  return (
-                    <AxoSelect.Item
-                      key={item.value}
-                      value={item.value}
-                      disabled={item.disabled}
-                    >
-                      <AxoSelect.ItemText>{item.label}</AxoSelect.ItemText>
-                    </AxoSelect.Item>
-                  );
-                })}
-              </AxoSelect.Content>
-            </AxoSelect.Root>
-          </AxoItem.Accessory>
-        </AxoItem.Body>
-      </AxoItem.Content>
-    </AxoItem.Root>
-  );
-}
-
-type ValueItemProps = Readonly<{
-  label: ReactNode;
-  value: ReactNode;
-}>;
-
-function ValueItem(props: ValueItemProps): ReactNode {
-  const id = useId();
-  return (
-    <AxoItem.Root>
-      <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
-          <AxoItem.Value>{props.value}</AxoItem.Value>
-        </AxoItem.Body>
-      </AxoItem.Content>
-    </AxoItem.Root>
-  );
-}
-
-type ClickableItemProps = Readonly<{
-  symbol?: AxoSymbol.Name;
-  label: ReactNode;
-  description?: ReactNode;
-  value?: ReactNode;
-  accessory?: ReactNode;
-  arrow: boolean;
-  disabled?: boolean;
-  onClick: () => void;
-}>;
-
-function ClickableItem(props: ClickableItemProps): ReactNode {
-  const id = useId();
-  return (
-    <AxoItem.Root>
-      {props.symbol != null && (
-        <AxoItem.Leading>
-          <AxoItem.Icon symbol={props.symbol} />
-        </AxoItem.Leading>
-      )}
-      <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
-          {props.value != null && <AxoItem.Value>{props.value}</AxoItem.Value>}
-          {props.description != null && (
-            <AxoItem.Description>{props.description}</AxoItem.Description>
-          )}
-          {!props.disabled && (
-            <AxoItem.HiddenTrigger labelledby={id} onClick={props.onClick} />
-          )}
-          {props.accessory != null && (
-            <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
-          )}
-        </AxoItem.Body>
-      </AxoItem.Content>
-      {props.arrow && !props.disabled && (
-        <AxoItem.Trailing>
-          <AxoItem.Arrow />
-        </AxoItem.Trailing>
-      )}
-    </AxoItem.Root>
   );
 }
 
