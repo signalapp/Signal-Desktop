@@ -43,12 +43,14 @@ export const AutoSizeTextArea = forwardRef(function AutoSizeTextArea(
     return () => {
       textarea.removeEventListener('input', onInput);
     };
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, []);
 
   useLayoutEffect(() => {
     strictAssert(ownRef.current, 'inputRef.current should be defined');
     const textarea = ownRef.current;
     textarea.style.height = 'auto';
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     update(textarea);
   }, [props.value]);
 

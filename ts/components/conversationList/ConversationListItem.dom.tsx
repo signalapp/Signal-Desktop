@@ -109,6 +109,7 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
     serviceId,
     renderConversationListItemContextMenu,
   }) {
+    // oxlint-disable-next-line react/purity
     const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
     const isSomeoneTyping =
       Object.keys(typingContactIdTimestamps ?? {}).length > 0;

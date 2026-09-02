@@ -159,6 +159,7 @@ export function PreferencesLocalBackups({
         toLogFormat(e)
       );
       setAuthError('error');
+      // oxlint-disable-next-line react/todo
     } finally {
       setIsAuthPending(false);
     }
@@ -436,6 +437,7 @@ function DisableLocalBackupsDialog({
         toLogFormat(e)
       );
       onError(e);
+      // oxlint-disable-next-line react/todo
     } finally {
       setIsPending(false);
     }

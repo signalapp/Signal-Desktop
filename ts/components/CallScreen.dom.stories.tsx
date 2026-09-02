@@ -857,6 +857,7 @@ export function GroupCallReactionsSkinTones(): JSX.Element {
 }
 
 export function GroupCallReactionsManyInOrder(): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const timestamp = Date.now();
   const remoteParticipants = allRemoteParticipants.slice(0, 5);
   const reactions = remoteParticipants.map((participant, i) => {
@@ -1039,6 +1040,7 @@ export function GroupCallSomeoneMissingMediaKeys(): JSX.Element {
           .slice(0, 5)
           .map((participant, index) => ({
             ...participant,
+            // oxlint-disable-next-line react/purity
             addedTime: index === 1 ? Date.now() - 60000 : undefined,
             hasRemoteAudio: false,
             hasRemoteVideo: false,
@@ -1078,6 +1080,7 @@ export function CallLinkUnknownContactMissingMediaKeys(): JSX.Element {
             title: index === 1 ? 'Unknown Contact' : participant.title,
             titleNoDefault:
               index === 1 ? undefined : participant.titleNoDefault,
+            // oxlint-disable-next-line react/purity
             addedTime: index === 1 ? Date.now() - 60000 : undefined,
             hasRemoteAudio: false,
             hasRemoteVideo: false,
@@ -1094,6 +1097,7 @@ export function RemoteMuteYouRemoteMutedByOther(): JSX.Element {
     createProps({ callMode: CallMode.Group })
   );
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setProps(
       createProps({
         callMode: CallMode.Group,
@@ -1113,6 +1117,7 @@ export function RemoteMuteYouRemoteMutedBySelf(): JSX.Element {
   );
   const myAci = conversation.serviceId as AciString;
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setProps(
       createProps({
         callMode: CallMode.Group,
@@ -1151,6 +1156,7 @@ export function RemoteMuteObserveMuteYouSent(): JSX.Element {
     createProps({ callMode: CallMode.Group })
   );
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setProps(
       createProps({
         callMode: CallMode.Group,
@@ -1168,6 +1174,7 @@ export function RemoteMuteObserveMuteOtherSent(): JSX.Element {
     createProps({ callMode: CallMode.Group })
   );
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setProps(
       createProps({
         callMode: CallMode.Group,
@@ -1186,6 +1193,7 @@ export function RemoteMuteObserveIgnoreSelfMute(): JSX.Element {
   );
   const myAci = conversation.serviceId as AciString;
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setProps(
       createProps({
         callMode: CallMode.Group,

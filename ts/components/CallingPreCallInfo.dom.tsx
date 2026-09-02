@@ -105,6 +105,7 @@ export function CallingPreCallInfo({
       let hasYou = false;
       const participantNames = visibleParticipants.map(participant => {
         if (participant.serviceId === me.serviceId) {
+          // oxlint-disable-next-line react/immutability
           hasYou = true;
           return i18n('icu:you');
         }

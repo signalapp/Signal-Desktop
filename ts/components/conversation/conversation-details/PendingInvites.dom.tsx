@@ -416,17 +416,20 @@ function MembersPendingProfileKey({
     membership => membership.metadata.addedByUserId
   );
 
-  const { [ourAci]: ourPendingMemberships, ...otherPendingMembershipGroups } =
-    groupedPendingMemberships;
-
+  let ourPendingMemberships: Array<GroupV2PendingMembership> | undefined;
   const otherPendingMemberships: Array<{
     member: ConversationType;
     pendingMemberships: Array<GroupV2PendingMembership>;
   }> = [];
 
   for (const [id, pendingMemberships] of Object.entries(
-    otherPendingMembershipGroups
+    groupedPendingMemberships
   )) {
+    if (id === ourAci) {
+      ourPendingMemberships = pendingMemberships;
+      continue;
+    }
+
     const member = members.find(m => m.serviceId === id);
     if (member == null) {
       continue;

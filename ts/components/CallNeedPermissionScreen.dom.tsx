@@ -36,6 +36,7 @@ export function CallNeedPermissionScreen({
 }: Props): JSX.Element {
   const title = conversation.title || i18n('icu:unknownContact');
 
+  // oxlint-disable-next-line react/purity
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);
   useEffect(() => {
     const timeout = setTimeout(close, autoCloseAtRef.current - Date.now());

@@ -68,6 +68,10 @@ export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
     [fromY, toY, values]
   );
 
+  const [emojis, setEmojis] = useState<Array<AnimatedEmojiProps>>([
+    generateEmojiProps(0),
+  ]);
+
   // Calculate target Y position before first render. Emojis need to animate Y upwards
   // by the value of the container's top, plus the emoji's maximum height.
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -79,10 +83,6 @@ export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
       setEmojis([{ ...generateEmojiProps(0), toY: calculatedToY }]);
     }
   }, [generateEmojiProps]);
-
-  const [emojis, setEmojis] = useState<Array<AnimatedEmojiProps>>([
-    generateEmojiProps(0),
-  ]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -98,7 +98,13 @@ export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
     return () => {
       clearInterval(timer);
     };
-  }, [fromY, toY, values, generateEmojiProps]);
+  }, [
+    fromY,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    toY,
+    values,
+    generateEmojiProps,
+  ]);
 
   return (
     <div className="CallReactionBurstEmoji" ref={containerRef}>

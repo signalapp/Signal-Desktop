@@ -34,6 +34,7 @@ export function Muted(): JSX.Element {
   return (
     <ConversationNotificationsSettings
       {...getCommonProps()}
+      // oxlint-disable-next-line react/capitalized-calls
       muteExpiresAt={MuteExpiration.fromNumber(Date.UTC(2099, 5, 9))}
     />
   );

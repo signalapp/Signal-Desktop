@@ -253,7 +253,9 @@ export const Input = forwardRef<
     placeholder,
     readOnly,
     ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
+      // oxlint-disable-next-line react/refs
       ref,
+      // oxlint-disable-next-line react/refs
       innerRef
     ),
     type: 'text',

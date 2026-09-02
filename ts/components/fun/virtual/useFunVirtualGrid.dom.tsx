@@ -444,6 +444,7 @@ export function useFunVirtualGrid({
     [list]
   );
 
+  // oxlint-disable-next-line react/incompatible-library
   const virtualizer = useVirtualizer<HTMLDivElement, HTMLDivElement>({
     count: list.count,
     getScrollElement,

@@ -603,6 +603,7 @@ export const CompositionArea = memo(function CompositionArea({
     if (setDraftTextRef.current?.conversationId === conversationId) {
       return;
     }
+    // oxlint-disable-next-line react/todo
     try {
       if (!draftText) {
         inputApiRef.current?.setContents('');
@@ -617,7 +618,12 @@ export const CompositionArea = memo(function CompositionArea({
     } finally {
       setDraftTextRef.current = { conversationId };
     }
-  }, [conversationId, draftBodyRanges, draftText]);
+  }, [
+    conversationId,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    draftBodyRanges,
+    draftText,
+  ]);
 
   const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);

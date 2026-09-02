@@ -93,6 +93,7 @@ export function ContextMenu<T>({
     useState<HTMLButtonElement | null>(null);
 
   const { styles, attributes } = usePopper(
+    // oxlint-disable-next-line react/refs
     virtualElement.current,
     popperElement,
     {
@@ -135,6 +136,7 @@ export function ContextMenu<T>({
 
     const div = document.createElement('div');
     document.body.appendChild(div);
+    // oxlint-disable-next-line react/set-state-in-effect
     setPortalNode(div);
 
     return () => {
@@ -145,6 +147,7 @@ export function ContextMenu<T>({
   const handleKeyDown = (ev: KeyboardEvent) => {
     if ((ev.key === 'Enter' || ev.key === 'Space') && !isMenuShowing) {
       closeCurrentOpenContextMenu?.();
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
       if (referenceElement) {
         const box = referenceElement.getBoundingClientRect();
@@ -185,6 +188,7 @@ export function ContextMenu<T>({
         focusedOption.onClick(focusedOption.value);
       }
       setIsMenuShowing(false);
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = undefined;
       ev.stopPropagation();
       ev.preventDefault();
@@ -192,6 +196,7 @@ export function ContextMenu<T>({
 
     if (ev.key === 'Escape') {
       setIsMenuShowing(false);
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = undefined;
       ev.stopPropagation();
       ev.preventDefault();
@@ -201,9 +206,11 @@ export function ContextMenu<T>({
   const handleClick = (ev: MouseEvent) => {
     if (isMenuShowing && ev.type !== 'contextmenu') {
       setIsMenuShowing(false);
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = undefined;
     } else {
       closeCurrentOpenContextMenu?.();
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = () => setIsMenuShowing(false);
       virtualElement.current = generateVirtualElement(ev.clientX, ev.clientY);
       setIsMenuShowing(true);
@@ -239,6 +246,7 @@ export function ContextMenu<T>({
       option.onClick(option.value);
       setIsMenuShowing(false);
 
+      // oxlint-disable-next-line react/globals
       closeCurrentOpenContextMenu = undefined;
     };
 
@@ -312,6 +320,7 @@ export function ContextMenu<T>({
   if (typeof children === 'function') {
     buttonNode = (
       <>
+        {/* oxlint-disable-next-line react/refs */}
         {children({
           onClick: onClick || handleClick,
           onKeyDown: handleKeyDown,

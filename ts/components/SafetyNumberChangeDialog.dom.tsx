@@ -106,13 +106,18 @@ export function SafetyNumberChangeDialog({
     if (cancelButtonRef && cancelButtonRef.current) {
       cancelButtonRef.current.focus();
     }
-  }, [cancelButtonRef, contacts]);
+  }, [
+    cancelButtonRef,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    contacts,
+  ]);
 
   useEffect(() => {
     if (
       dialogState === DialogState.ExplicitReviewStep &&
       (totalCount === 0 || allVerified)
     ) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setDialogState(DialogState.ExplicitReviewComplete);
     }
   }, [allVerified, dialogState, setDialogState, totalCount]);

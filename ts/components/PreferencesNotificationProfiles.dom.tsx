@@ -206,6 +206,7 @@ export function NotificationProfilesCreateFlow({
 
     confirmDiscardIf(isDirty, discardChanges);
   }, [confirmDiscardIf, emoji, name, page]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   function makeNotificationProfile(): ProfileToSave {
@@ -215,6 +216,7 @@ export function NotificationProfilesCreateFlow({
 
       color,
 
+      // oxlint-disable-next-line react/purity
       createdAtMs: Date.now(),
 
       allowAllCalls,
@@ -361,6 +363,7 @@ export function NotificationProfilesHome({
   useEffect(() => {
     if (page === HomePage.List && !hasOnboardingBeenSeen) {
       if (allProfiles.length === 0) {
+        // oxlint-disable-next-line react/set-state-in-effect
         setIsShowingOnboardModal(true);
       } else {
         setHasOnboardingBeenSeen(true);
@@ -978,6 +981,7 @@ function NotificationProfilesListPage({
   >([]);
   useEffect(() => {
     if (!loading) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setCachedProfiles(allProfiles);
     }
   }, [loading, allProfiles]);

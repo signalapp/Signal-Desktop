@@ -131,6 +131,7 @@ export const SmartTimeline = memo(function SmartTimeline({
   } = conversationMessages;
 
   const previousCollapseSet = useRef<Array<CollapseSet> | undefined>(undefined);
+  // oxlint-disable-next-line react/purity
   const midnightToday = getMidnight(Date.now());
   const { collapseSets, updatedOldestLastSeenIndex, updatedScrollToIndex } =
     useMemo(() => {
@@ -154,12 +155,16 @@ export const SmartTimeline = memo(function SmartTimeline({
       // But we need to massage items based on the values from these params. So, if we
       // generate the same data, we would like to return the same object.
       if (
+        // oxlint-disable-next-line react/refs
         previousCollapseSet.current &&
+        // oxlint-disable-next-line react/refs
         isEqual(resultSets, previousCollapseSet.current)
       ) {
+        // oxlint-disable-next-line react/refs
         resultSets = previousCollapseSet.current;
       }
 
+      // oxlint-disable-next-line react/refs
       previousCollapseSet.current = resultSets;
 
       return {

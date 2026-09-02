@@ -320,7 +320,8 @@ export function MessageDetail({
   }
 
   const timeRemaining = message.expirationTimestamp
-    ? DurationInSeconds.fromMillis(message.expirationTimestamp - Date.now())
+    ? // oxlint-disable-next-line react/purity
+      DurationInSeconds.fromMillis(message.expirationTimestamp - Date.now())
     : undefined;
 
   return (

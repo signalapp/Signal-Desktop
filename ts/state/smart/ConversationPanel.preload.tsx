@@ -129,8 +129,12 @@ export const ConversationPanel = memo(function ConversationPanel({
   }, [wasAnimated]);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setLastPanelDoneAnimating(null);
-  }, [panelInformation?.prevPanel]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    panelInformation?.prevPanel,
+  ]);
 
   const onAnimationDone = useCallback(
     (panel: PanelArgsType | null) => {
@@ -202,6 +206,7 @@ export const ConversationPanel = memo(function ConversationPanel({
     isRTL,
     onAnimationDone,
     panelAnimationStarted,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     panelInformation?.currPanel,
     panelInformation?.direction,
     panelInformation?.prevPanel,

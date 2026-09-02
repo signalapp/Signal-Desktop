@@ -75,7 +75,11 @@ function FunImageReducedMotion(props: FunImageProps) {
       controller.abort();
       image.removeEventListener('load', onLoad);
     };
-  }, [props.src, reducedMotion]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    props.src,
+    reducedMotion,
+  ]);
 
   // Ensure we always revoke the object URL.
   useEffect(() => {

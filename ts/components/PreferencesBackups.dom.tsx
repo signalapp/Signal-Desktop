@@ -325,6 +325,7 @@ export function PreferencesBackups({
                       toLogFormat(e)
                     );
                     setAuthError(true);
+                    // oxlint-disable-next-line react/todo
                   } finally {
                     setIsAuthPending(false);
                   }

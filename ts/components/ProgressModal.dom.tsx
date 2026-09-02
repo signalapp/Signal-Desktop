@@ -23,6 +23,7 @@ export const ProgressModal = memo(function ProgressModalInner({
   useEffect(() => {
     const div = document.createElement('div');
     document.body.appendChild(div);
+    // oxlint-disable-next-line react/set-state-in-effect
     setRoot(div);
 
     return () => {

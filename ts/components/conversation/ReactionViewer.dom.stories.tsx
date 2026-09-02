@@ -139,6 +139,7 @@ export function PickedReaction(): JSX.Element {
           isMe: true,
           title: 'Amelia',
         }),
+        // oxlint-disable-next-line react/purity
         timestamp: Date.now(),
       },
       {
@@ -149,6 +150,7 @@ export function PickedReaction(): JSX.Element {
           profileName: 'Joel Ferrari',
           title: 'Joel',
         }),
+        // oxlint-disable-next-line react/purity
         timestamp: Date.now(),
       },
     ],
@@ -168,6 +170,7 @@ export function PickedMissingReaction(): JSX.Element {
           isMe: true,
           title: 'Amelia',
         }),
+        // oxlint-disable-next-line react/purity
         timestamp: Date.now(),
       },
       {
@@ -178,6 +181,7 @@ export function PickedMissingReaction(): JSX.Element {
           profileName: 'Joel Ferrari',
           title: 'Joel',
         }),
+        // oxlint-disable-next-line react/purity
         timestamp: Date.now(),
       },
     ],
@@ -212,9 +216,11 @@ export function ReactionSkinTones(): JSX.Element {
     pickedReaction: Emoji.RAGE,
     reactions: [
       ...thumbsUpHands.map((emoji, n) =>
+        // oxlint-disable-next-line react/purity
         createReaction(emoji, `Thumbs Up ${n + 1}`, Date.now() + n * 1000)
       ),
       ...okHands.map((emoji, n) =>
+        // oxlint-disable-next-line react/purity
         createReaction(emoji, `Ok Hand ${n + 1}`, Date.now() + n * 1000)
       ),
     ],

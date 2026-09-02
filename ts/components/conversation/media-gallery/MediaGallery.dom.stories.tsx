@@ -105,6 +105,7 @@ function Panel(props: Props): JSX.Element {
 }
 
 export function Populated(): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const documents = createRandomDocuments(Date.now() - days(5), days(5));
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
@@ -127,9 +128,13 @@ export function NoMedia(): JSX.Element {
 }
 
 export function OneEach(): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
+  // oxlint-disable-next-line react/purity
   const audio = createRandomAudio(Date.now(), days(1)).slice(0, 1);
+  // oxlint-disable-next-line react/purity
   const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
+  // oxlint-disable-next-line react/purity
   const links = createRandomLinks(Date.now(), days(1)).slice(0, 1);
 
   const props = createProps({ documents, audio, media, links });

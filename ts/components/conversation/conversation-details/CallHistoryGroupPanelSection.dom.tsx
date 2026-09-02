@@ -92,6 +92,7 @@ export function CallHistoryGroupPanelSection({
                 )}
               </span>
               <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
+                {/* oxlint-disable-next-line react/purity */}
                 {formatTime(i18n, child.timestamp, Date.now(), false)}
               </span>
             </li>

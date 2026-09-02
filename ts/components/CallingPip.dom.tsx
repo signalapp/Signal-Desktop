@@ -302,6 +302,7 @@ export function CallingPip({
     const existingPortraitAspectRatio = height / width;
 
     if (isWindowLarge) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setWidth(PIP_WIDTH_LARGE);
       setHeight(PIP_WIDTH_LARGE * existingPortraitAspectRatio);
     } else {
@@ -325,6 +326,7 @@ export function CallingPip({
     height,
     isWindowLarge,
     localVideoHeight,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     localVideoWidth,
     previousIsWindowLarge,
     setHeight,

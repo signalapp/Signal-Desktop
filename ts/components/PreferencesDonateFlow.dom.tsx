@@ -619,6 +619,7 @@ function AmountPicker({
       initialAmount &&
       presetAmountOptions.find(option => option === initialAmount)
     ) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setPresetAmount(initialAmount);
       setCustomAmount('');
     } else {
@@ -751,6 +752,7 @@ function AmountPicker({
   useEffect(() => {
     // While entering custom amount, clear error as soon as we see a valid value.
     if (error == null) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsCustomAmountErrorVisible(false);
     }
   }, [error]);

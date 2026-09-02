@@ -377,6 +377,7 @@ export function CallScreen({
   const [showSelfViewControls, setShowSelfViewControls] = useState(false);
   useEffect(() => {
     if (selfViewHover) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setShowSelfViewControls(true);
       return;
     }
@@ -385,7 +386,12 @@ export function CallScreen({
       setShowSelfViewControls(false);
     }, 2000);
     return clearTimeout.bind(null, timer);
-  }, [showSelfViewControls, setShowSelfViewControls, selfViewHover]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    showSelfViewControls,
+    setShowSelfViewControls,
+    selfViewHover,
+  ]);
 
   useEffect(() => {
     if (!showReactionPicker) {
@@ -562,6 +568,7 @@ export function CallScreen({
 
     const existingAspectRatio = localPreviewWidth / localPreviewHeight;
     if (selfViewExpanded) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setLocalPreviewHeight(LOCAL_PREVIEW_HEIGHT_LARGE);
       setLocalPreviewWidth(LOCAL_PREVIEW_HEIGHT_LARGE * existingAspectRatio);
     } else {
@@ -872,7 +879,14 @@ export function CallScreen({
         </div>
       );
     },
-    [i18n, localDemuxId, conversationsByDemuxId, toggleRaiseHand]
+    [
+      i18n,
+      // oxlint-disable-next-line react/preserve-manual-memoization
+      localDemuxId,
+      // oxlint-disable-next-line react/preserve-manual-memoization
+      conversationsByDemuxId,
+      toggleRaiseHand,
+    ]
   );
 
   const raisedHandsCount: number = raisedHands?.size ?? 0;
@@ -909,13 +923,17 @@ export function CallScreen({
     return null;
   }, [
     i18n,
+    // oxlint-disable-next-line react/preserve-manual-memoization
     isConnecting,
+    // oxlint-disable-next-line react/preserve-manual-memoization
     isRinging,
+    // oxlint-disable-next-line react/preserve-manual-memoization
     isConnected,
     activeCall.callMode,
     activeCall.joinedAt,
     isReconnecting,
     isGroupCall,
+    // oxlint-disable-next-line react/preserve-manual-memoization
     participantCount,
     hasLocalVideo,
     hasLocalAudio,
@@ -1362,6 +1380,7 @@ function useViewModeChangedToast({
     showToast,
     hideToast,
     i18n,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     activeCall,
     viewMode,
     previousViewMode,
@@ -1406,6 +1425,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
   const { showToast } = useCallingToasts();
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect react/no-deriving-state-in-effects
     setPreviousReactions(reactions);
   }, [reactions]);
 

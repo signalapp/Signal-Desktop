@@ -47,6 +47,7 @@ export function MuteUntilDialog({
     return getTimestamp(date, time);
   }, [date, time]);
 
+  // oxlint-disable-next-line react/purity
   const isValid = muteExpiresAt && muteExpiresAt > Date.now();
 
   const timeZoneNote = useMemo(() => {

@@ -416,6 +416,7 @@ function PreferencesReceiptList({
       showToast({
         toastType: ToastType.ReceiptSaveFailed,
       });
+      // oxlint-disable-next-line react/todo
     } finally {
       setIsDownloading(false);
     }
@@ -608,6 +609,7 @@ export function PreferencesDonations({
 
   useEffect(() => {
     if (lastError) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsSubmitted(false);
     }
 

@@ -85,5 +85,5 @@ export function useScrollerLock({
       });
     }
     return undefined;
-  }, [reason, scrollerLock, lockScrollWhen, onUserInterrupt]);
+  }, [reason, scrollerLock, lockScrollWhen]);
 }

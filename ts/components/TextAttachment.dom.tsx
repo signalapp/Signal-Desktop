@@ -139,11 +139,18 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
 
       node.focus();
       node.setSelectionRange(node.value.length, node.value.length);
-    }, [isEditingText]);
+    }, [
+      // oxlint-disable-next-line react/exhaustive-effect-dependencies
+      isEditingText,
+    ]);
 
     useEffect(() => {
+      // oxlint-disable-next-line react/set-state-in-effect
       setLinkPreviewOffsetTop(undefined);
-    }, [textAttachment.preview?.url]);
+    }, [
+      // oxlint-disable-next-line react/exhaustive-effect-dependencies
+      textAttachment.preview?.url,
+    ]);
 
     const [isHoveringOverTooltip, setIsHoveringOverTooltip] = useState(false);
 

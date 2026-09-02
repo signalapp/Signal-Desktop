@@ -34,6 +34,7 @@ export function useRetryStorySend(
       sendStatus === ResolvedSendStatus.Failed ||
       sendStatus === ResolvedSendStatus.PartiallySent
     ) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setHasSendFailedAlert(true);
     }
   }, [previousSendStatus, sendStatus, wasManuallyRetried]);

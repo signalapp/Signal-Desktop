@@ -108,6 +108,7 @@ export function AvatarEditor({
     const onDiscard = () => undefined;
     confirmDiscardIf(hasChanges, onDiscard);
   }, [confirmDiscardIf, hasChanges]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   const selectedAvatar = getSelectedAvatar(provisionalSelectedAvatar);

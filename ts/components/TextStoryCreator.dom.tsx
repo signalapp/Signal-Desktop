@@ -152,6 +152,7 @@ export function TextStoryCreator({
   const onTryClose = useCallback(() => {
     confirmDiscardIf(true, onClose);
   }, [confirmDiscardIf, onClose]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   const [isEditingText, setIsEditingText] = useState(false);
@@ -228,6 +229,7 @@ export function TextStoryCreator({
     const links = findLinks(text);
 
     const shouldApplyLinkPreview = links.includes(linkPreview.url);
+    // oxlint-disable-next-line react/set-state-in-effect
     setLinkPreviewApplied(oldValue => {
       if (oldValue === LinkPreviewApplied.Manual) {
         return oldValue;
@@ -289,6 +291,7 @@ export function TextStoryCreator({
     isColorPickerShowing,
     isEditingText,
     isLinkPreviewInputShowing,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     colorPickerPopperButtonRef,
     onTryClose,
   ]);

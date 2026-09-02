@@ -42,6 +42,7 @@ export function useDelayedValue<Value>(newValue: Value, delay: number): Value {
   }, [state, delay]);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setState(prevState => {
       if (prevState.type === 'transition') {
         return {

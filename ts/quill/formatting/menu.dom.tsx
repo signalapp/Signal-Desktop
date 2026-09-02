@@ -441,7 +441,9 @@ function FormattingButton({
 
   return (
     <>
+      {/* oxlint-disable-next-line react/refs */}
       {(isFadingOut || (hasLongHovered && isHovered)) && buttonRef.current ? (
+        // oxlint-disable-next-line react/refs
         <Popper placement="top" referenceElement={buttonRef.current}>
           {({ ref, style: popperStyles }) => {
             const opacity = !popperStyles.transform || isFadingOut ? 0 : 1;

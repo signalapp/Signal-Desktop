@@ -178,6 +178,7 @@ export const ReactionViewer = forwardRef<HTMLDivElement, Props>(
         !reactionCategories.find(({ id }) => id === selectedReactionCategory)
       ) {
         if (reactionsWithEmojiData.length > 0) {
+          // oxlint-disable-next-line react/set-state-in-effect
           setSelectedReactionCategory('all');
         } else if (onClose) {
           onClose();

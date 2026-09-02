@@ -473,6 +473,7 @@ export function InboxCriticalIdlePrimaryDeviceAlert(): JSX.Element {
       {...useProps({
         serverAlerts: {
           [ServerAlert.CRITICAL_IDLE_PRIMARY_DEVICE]: {
+            // oxlint-disable-next-line react/purity
             firstReceivedAt: Date.now(),
           },
         },
@@ -486,6 +487,7 @@ export function InboxIdlePrimaryDeviceAlert(): JSX.Element {
       {...useProps({
         serverAlerts: {
           [ServerAlert.IDLE_PRIMARY_DEVICE]: {
+            // oxlint-disable-next-line react/purity
             firstReceivedAt: Date.now(),
           },
         },
@@ -499,7 +501,9 @@ export function InboxIdlePrimaryDeviceAlertNonDismissable(): JSX.Element {
       {...useProps({
         serverAlerts: {
           [ServerAlert.IDLE_PRIMARY_DEVICE]: {
+            // oxlint-disable-next-line react/purity
             firstReceivedAt: Date.now() - 10 * DAY,
+            // oxlint-disable-next-line react/purity
             dismissedAt: Date.now() - 8 * DAY,
           },
         },

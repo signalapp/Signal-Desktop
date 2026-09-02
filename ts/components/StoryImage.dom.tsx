@@ -90,8 +90,13 @@ export function StoryImage({
   }, [isPaused, onMediaPlaybackStart]);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setHasImgError(false);
-  }, [attachment?.url, attachment?.thumbnail?.url]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    attachment?.url,
+    attachment?.thumbnail?.url,
+  ]);
 
   if (!attachment) {
     return null;

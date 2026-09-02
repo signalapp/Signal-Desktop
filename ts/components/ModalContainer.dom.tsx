@@ -21,6 +21,7 @@ export const ModalContainer = ({ children, className }: Props): JSX.Element => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   return ReactDOM.createPortal(
     <div ref={containerRef} className={className}>
+      {/* oxlint-disable-next-line react/refs */}
       <ModalContainerContext.Provider value={containerRef.current}>
         {children}
       </ModalContainerContext.Provider>

@@ -234,6 +234,7 @@ export function NoMediaKeys(): JSX.Element {
           width: 120,
         },
         {
+          // oxlint-disable-next-line react/purity
           addedTime: Date.now() - MINUTE,
           hasRemoteAudio: true,
           mediaKeysReceived: false,
@@ -251,7 +252,10 @@ export function NoMediaKeysBlockedIntermittent(): JSX.Element {
     }, 6000);
 
     return () => clearInterval(interval);
-  }, [isBlocked]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    isBlocked,
+  ]);
 
   const [mediaKeysReceived, setMediaKeysReceived] = useState(false);
   useEffect(() => {
@@ -260,7 +264,10 @@ export function NoMediaKeysBlockedIntermittent(): JSX.Element {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [mediaKeysReceived]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    mediaKeysReceived,
+  ]);
 
   return (
     <GroupCallRemoteParticipant
@@ -273,6 +280,7 @@ export function NoMediaKeysBlockedIntermittent(): JSX.Element {
           width: 120,
         },
         {
+          // oxlint-disable-next-line react/purity
           addedTime: Date.now() - 60 * 1000,
           hasRemoteAudio: true,
           mediaKeysReceived,

@@ -189,6 +189,7 @@ function TypingBubbleGroupAvatars({
   }, [typingContactIds]);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setAllContactsById(prevMap => {
       const map = new Map([...prevMap]);
       for (const id of typingContactIds) {

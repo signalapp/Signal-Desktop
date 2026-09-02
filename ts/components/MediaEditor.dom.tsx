@@ -216,6 +216,8 @@ export function MediaEditor({
   const [imageState, setImageState] =
     useState<ImageStateType>(INITIAL_IMAGE_STATE);
 
+  const [editMode, setEditMode] = useState<EditMode | undefined>();
+
   const handleEmojiPickerOpenChange = useCallback((open: boolean) => {
     setEmojiPickerOpen(open);
   }, []);
@@ -376,9 +378,8 @@ export function MediaEditor({
       img.onload = noop;
       img.onerror = noop;
     };
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [canvasId, fabricCanvas, imageSrc, onClose, takeSnapshot]);
-
-  const [editMode, setEditMode] = useState<EditMode | undefined>();
 
   const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -404,6 +405,7 @@ export function MediaEditor({
     hasHighQualityChange,
     onClose,
   ]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   // Keyboard support
@@ -614,6 +616,7 @@ export function MediaEditor({
     });
     fabricCanvas.setZoom(zoom);
   }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     containerHeight,
     containerWidth,
     fabricCanvas,
@@ -676,6 +679,7 @@ export function MediaEditor({
     }
 
     if (editMode === EditMode.Crop) {
+      // oxlint-disable-next-line react/immutability
       fabricCanvas.uniformScaling = cropAspectRatioLock;
     } else {
       fabricCanvas.uniformScaling = true;
@@ -703,6 +707,7 @@ export function MediaEditor({
     }
 
     if (editMode !== EditMode.Draw) {
+      // oxlint-disable-next-line react/immutability
       fabricCanvas.isDrawingMode = false;
       return;
     }
@@ -779,6 +784,7 @@ export function MediaEditor({
     fabricCanvas.viewportCenterObject(rect);
     rect.setCoords();
 
+    // oxlint-disable-next-line react/set-state-in-effect
     setCanCrop(true);
   }, [cropPreset, fabricCanvas, imageState.height, imageState.width, zoom]);
 
@@ -834,6 +840,7 @@ export function MediaEditor({
       });
     }
 
+    // oxlint-disable-next-line react/set-state-in-effect
     setCanCrop(false);
   }, [editMode, fabricCanvas, imageState.height, imageState.width, zoom]);
 
@@ -929,6 +936,7 @@ export function MediaEditor({
     } catch (err) {
       onTryClose();
       throw err;
+      // oxlint-disable-next-line react/todo
     } finally {
       setIsSaving(false);
     }
@@ -1262,6 +1270,7 @@ export function MediaEditor({
               )}
               onClick={() => {
                 if (fabricCanvas) {
+                  // oxlint-disable-next-line react/immutability
                   fabricCanvas.uniformScaling = !cropAspectRatioLock;
                 }
                 setCropAspectRatioLock(!cropAspectRatioLock);

@@ -491,7 +491,15 @@ export function UsernameLinkEditor({
     return () => {
       isAborted = true;
     };
-  }, [i18n, link, username, colorId, bgColor, fgColor]);
+  }, [
+    i18n,
+    link,
+    username,
+    colorId,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    bgColor,
+    fgColor,
+  ]);
 
   const onSave = useCallback(
     (e: MouseEvent) => {
@@ -578,6 +586,7 @@ export function UsernameLinkEditor({
       return;
     }
 
+    // oxlint-disable-next-line react/set-state-in-effect
     setShowError(true);
   }, [usernameLinkState]);
 
@@ -589,6 +598,7 @@ export function UsernameLinkEditor({
   const isResettingLink = usernameLinkCorrupted || !isReady;
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setRecoveryModalVisibility(x => {
       // Initial mount shouldn't show the modal
       if (x === RecoveryModalVisibility.NotMounted || isResettingLink) {
@@ -614,6 +624,7 @@ export function UsernameLinkEditor({
     const onDiscard = noop;
     confirmDiscardIf(showColors && colorId !== initialColorId, onDiscard);
   }, [colorId, confirmDiscardIf, initialColorId, showColors]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
   const onUsernameLinkColorCancel = useCallback(() => {
     const onDiscard = () => {

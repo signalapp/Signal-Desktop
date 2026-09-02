@@ -100,6 +100,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
 
   const handleSelectSticker = useCallback(
     (stickerSelection: FunStickerSelection) => {
+      // oxlint-disable-next-line react/hooks
       onUseSticker(stickerSelection.stickerPackId, stickerSelection.stickerId);
     },
     [onUseSticker]

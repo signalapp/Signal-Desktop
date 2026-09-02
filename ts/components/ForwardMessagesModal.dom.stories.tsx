@@ -136,6 +136,7 @@ export function LinkPreview(): JSX.Element {
             previews: [
               {
                 description: LONG_DESCRIPTION,
+                // oxlint-disable-next-line react/purity
                 date: Date.now(),
                 domain: 'https://www.signal.org',
                 url: 'signal.org',

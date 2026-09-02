@@ -234,6 +234,7 @@ export function StoryViewsNRepliesModal({
   const onTryClose = useCallback(() => {
     confirmDiscardIf(emojiPickerOpen || messageBodyText.length > 0, onClose);
   }, [confirmDiscardIf, emojiPickerOpen, messageBodyText, onClose]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   if (group && group.left) {

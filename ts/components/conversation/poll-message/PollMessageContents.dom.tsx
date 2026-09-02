@@ -183,6 +183,7 @@ export function PollMessageContents({
   useEffect(() => {
     if (!hasPendingVotes) {
       // Vote completed, clear pending state
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsPending(false);
       clearTimeout(pendingCheckTimer.current ?? undefined);
       pendingCheckTimer.current = null;

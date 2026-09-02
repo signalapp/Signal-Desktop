@@ -121,6 +121,7 @@ export function CallReactionBurstProvider({
   const [container, setContainer] = useState(document.body);
   useLayoutEffect(() => {
     if (region?.current) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setContainer(region.current);
     }
   }, [region]);

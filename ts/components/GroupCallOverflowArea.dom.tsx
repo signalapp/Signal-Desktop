@@ -60,8 +60,10 @@ export function GroupCallOverflowArea({
   //   we should add these values to the component's state.
   let visibleHeight: number;
   let scrollMax: number;
+  // oxlint-disable-next-line react/refs
   if (overflowRef.current) {
     visibleHeight = overflowRef.current.clientHeight;
+    // oxlint-disable-next-line react/refs
     scrollMax = overflowRef.current.scrollHeight - visibleHeight;
   } else {
     visibleHeight = 0;
@@ -74,6 +76,7 @@ export function GroupCallOverflowArea({
     // If there aren't any overflowed participants, we want to clear the scroll position
     //   so we don't hold onto stale values.
     if (!hasOverflowedParticipants) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setOverflowScrollTop(0);
     }
   }, [hasOverflowedParticipants]);

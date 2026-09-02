@@ -64,6 +64,7 @@ export function BetterAvatar({
     if (avatarBuffer) {
       const url = URL.createObjectURL(new Blob([avatarBuffer]));
 
+      // oxlint-disable-next-line react/set-state-in-effect
       setAvatarURL(url);
     }
   }, [avatarBuffer]);

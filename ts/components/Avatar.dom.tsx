@@ -130,8 +130,12 @@ export function Avatar({
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setImageBroken(false);
-  }, [avatarUrl]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    avatarUrl,
+  ]);
 
   useEffect(() => {
     if (!avatarUrl) {

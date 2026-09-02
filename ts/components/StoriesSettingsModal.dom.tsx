@@ -301,6 +301,7 @@ export function StoriesSettingsModal({
   const onTryClose = useCallback(() => {
     confirmDiscardIf(selectedContacts.length > 0, hideStoriesSettings);
   }, [confirmDiscardIf, selectedContacts, hideStoriesSettings]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   const resetChooseViewersScreen = useCallback(() => {

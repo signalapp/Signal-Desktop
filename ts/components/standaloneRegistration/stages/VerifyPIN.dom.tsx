@@ -120,9 +120,11 @@ export function VerifyPINScreen({
   let helperElement: ReactNode | undefined;
 
   if (
+    // oxlint-disable-next-line react/refs
     previousTriesRemaining.current !== triesRemaining &&
     isNumber(triesRemaining)
   ) {
+    // oxlint-disable-next-line react/refs
     previousTriesRemaining.current = triesRemaining;
 
     if (
@@ -152,12 +154,14 @@ export function VerifyPINScreen({
       (!hasReglock && triesRemaining <= FIRST_NON_REGLOCK_TRIES_THRESHOLD)
     ) {
       if (isIncorrectPin) {
+        // oxlint-disable-next-line react/refs
         inputRef.current?.setCustomValidity('invalid');
         setShouldShowIncorrectPIN({
           type: 'error-with-count',
           count: triesRemaining,
         });
       } else {
+        // oxlint-disable-next-line react/refs
         inputRef.current?.setCustomValidity('invalid');
         setShouldShowIncorrectPIN({
           type: 'count',
@@ -165,6 +169,7 @@ export function VerifyPINScreen({
         });
       }
     } else if (isIncorrectPin) {
+      // oxlint-disable-next-line react/refs
       inputRef.current?.setCustomValidity('invalid');
       setShouldShowIncorrectPIN({ type: 'error' });
     }

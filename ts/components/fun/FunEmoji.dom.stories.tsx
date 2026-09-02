@@ -40,6 +40,7 @@ export function All(props: AllProps): JSX.Element {
     return props.size;
   }, [props.size]);
 
+  // oxlint-disable-next-line react/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement,

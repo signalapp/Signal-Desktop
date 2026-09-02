@@ -101,6 +101,7 @@ export function StoriesPane({
 
   useEffect(() => {
     if (searchTerm) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setRenderedStories(search(stories, searchTerm));
     } else {
       setRenderedStories(stories);

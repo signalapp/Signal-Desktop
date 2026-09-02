@@ -24,6 +24,7 @@ export function InContactsIcon(props: PropsType): JSX.Element {
         {
           name: 'preventOverflow',
           options: {
+            // oxlint-disable-next-line react/refs
             boundary: tooltipContainerRef?.current || undefined,
           },
         },

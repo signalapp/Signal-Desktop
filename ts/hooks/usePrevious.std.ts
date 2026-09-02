@@ -35,7 +35,9 @@ export function usePrevious<T>(value: T): T | null {
 /** @deprecated */
 export function usePreviousDeprecated<T>(initialValue: T, currentValue: T): T {
   const previousValueRef = useRef<T>(initialValue);
+  // oxlint-disable-next-line react/refs
   const result = previousValueRef.current;
+  // oxlint-disable-next-line react/refs
   previousValueRef.current = currentValue;
   return result;
 }
@@ -43,6 +45,7 @@ export function usePreviousDeprecated<T>(initialValue: T, currentValue: T): T {
 /** @deprecated */
 export function usePreviousEffect<T>(initialValue: T, currentValue: T): T {
   const previousValueRef = useRef<T>(initialValue);
+  // oxlint-disable-next-line react/refs
   const result = previousValueRef.current;
   useEffect(() => {
     previousValueRef.current = currentValue;

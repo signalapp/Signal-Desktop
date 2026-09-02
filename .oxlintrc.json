@@ -402,11 +402,11 @@
     // [correctness] (💡 suggestion) Require all forwardRef components include a ref parameter
     "react/forward-ref-uses-ref": "error",
     // [correctness] react-compiler: Disallows assigning to or mutating variables declared outside a component or hook during render; side effects must run outside of render.
-    "react/globals": "off", // DECIDEME (errors: 6)
+    "react/globals": "error",
     // [correctness] react-comiler: Disallows mutating props, state, hook arguments, hook return values, and other values that are immutable by the Rules of React.
-    "react/immutability": "off", // DECIDEME (errors: 10)
+    "react/immutability": "error",
     // [correctness] react-compiler: Warns on usage of library APIs known to be incompatible with memoization
-    "react/incompatible-library": "off", // DECIDEME (errors: 3)
+    "react/incompatible-library": "error",
     // [correctness] Disallow missing key props in iterators/collection literals
     "react/jsx-key": "off",
     // [correctness] Disallow duplicate properties in JSX
@@ -440,15 +440,15 @@
     // [correctness] Disallow usage of setState in componentWillUpdate
     "react/no-will-update-set-state": "error",
     // [correctness] react-compiler: Validates that existing manual memoization (useMemo, useCallback, React.memo) is preserved by the React Compiler
-    "react/preserve-manual-memoization": "off", // DECIDEME (errors: 11)
+    "react/preserve-manual-memoization": "error",
     // [correctness] react-compiler: Validates that components and hooks are pure by checking that they do not call known-impure functions such as Math.random(), Date.now(), or performance.now() during render.
-    "react/purity": "off", // DECIDEME (errors: 103)
+    "react/purity": "error",
     // [correctness] react-compiler: Validates correct usage of refs: ref.current may not be read or written during render, only in event handlers and effects.
-    "react/refs": "off", // DECIDEME (errors: 99)
+    "react/refs": "error",
     // [correctness] react-compiler: Disallows calling setState synchronously inside an effect body.
-    "react/set-state-in-effect": "off", // DECIDEME (errors: 64)
+    "react/set-state-in-effect": "error",
     // [correctness] react-compiler: Validates usage of the useMemo() hook against common mistakes
-    "react/use-memo": "off", // DECIDEME (errors: 1)
+    "react/use-memo": "error",
     // [correctness] Disallow void DOM elements (e.g. <img />, <br />) from receiving children
     "react/void-dom-elements-no-children": "error",
     // [correctness] (✅ recommended) (💡 suggestion) (💭 needs type info)
@@ -873,7 +873,7 @@
     // ------------------------------------------------------------------------
 
     // [perf] react-compiler: Disallows deriving values from state inside an effect and storing them back into state
-    "react/no-deriving-state-in-effects": "off", // DECIDEME (errors: 2)
+    "react/no-deriving-state-in-effects": "error",
     // [perf] Disallows using object, array, function, class, regex, JSX, or new-constructed values as default values for destructured React component props.
     "react/no-object-type-as-default-prop": "off", // DECIDEME (errors: 11)
 
@@ -1039,7 +1039,7 @@
     // [restriction] Disallow certain elements
     "react/forbid-elements": "error",
     // [restriction] react-compiler: Reports internal React Compiler invariant violations
-    "react/invariant": "off", // DECIDEME (errors: 1)
+    "react/invariant": "error",
     // [restriction] (🚧 planned autofix) Disallow file extensions that may contain JSX
     "react/jsx-filename-extension": "off", // DECIDEME (errors: 884)
     // [restriction]
@@ -1061,7 +1061,7 @@
     // [restriction] react-compiler: Reports Oxlint suppressions of React rules inside a component or hook
     "react/rule-suppression": "off", // DECIDEME (errors: 18)
     // [restriction] react-compiler: Reports code that React Compiler cannot yet analyze because it uses features the compiler has not implemented
-    "react/todo": "off", // DECIDEME (errors: 14)
+    "react/todo": "error",
     // [restriction] Require explicit return types on functions and class methods
     "typescript/explicit-function-return-type": "off", // DECIDEME (errors: 2062)
     // [restriction] Require explicit accessibility modifiers on class properties and methods.
@@ -1629,11 +1629,11 @@
     // [suspicious] Disallow using promises inside of callbacks.
     "promise/no-promise-in-callback": "error",
     // [suspicious] react-compiler: Disallows calling capitalized functions or methods directly during render instead of rendering them with JSX, since capitalized names are reserved for components.
-    "react/capitalized-calls": "off", // DECIDEME (errors: 1)
+    "react/capitalized-calls": "error",
     // [suspicious] react-compiler: Validates that effect dependency arrays are exhaustive and contain no extraneous values.
-    "react/exhaustive-effect-dependencies": "off", // DECIDEME (errors: 40)
+    "react/exhaustive-effect-dependencies": "error",
     // [suspicious] react-compiler: Validates hooks must be called unconditionally, in a consistent order, at the top level of a component or hook, and not be used as first-class values.
-    "react/hooks": "off", // DECIDEME (errors: 1)
+    "react/hooks": "error",
     // [suspicious] (🚧 planned autofix) Enforce sandbox attribute on iframe elements
     "react/iframe-missing-sandbox": "error",
     // [suspicious] Disallow comments from being inserted as text nodes
@@ -1641,7 +1641,7 @@
     // [suspicious] (🚧 planned autofix) Disallow usage of javascript: URLs
     "react/jsx-no-script-url": "error",
     // [suspicious] react-compiler: Validates that useMemo() and useCallback() declare comprehensive dependency lists without extraneous values.
-    "react/memo-dependencies": "off", // DECIDEME (errors: 7)
+    "react/memo-dependencies": "error",
     // [suspicious] Enforce that namespaces are not used in React elements
     "react/no-namespace": "error",
     // [suspicious] Disallows defining React components inside other components.

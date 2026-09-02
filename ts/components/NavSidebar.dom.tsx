@@ -146,12 +146,14 @@ export function NavSidebar({
     // Save the preferred width when the drag ends. We can't do this in onMoveEnd
     // because the width is not updated yet.
     if (dragState === DragState.DRAGEND) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setPreferredWidth(width);
       savePreferredLeftPaneWidth(width);
       setDragState(DragState.INITIAL);
     }
   }, [
     dragState,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     preferredLeftPaneWidth,
     preferredWidth,
     savePreferredLeftPaneWidth,

@@ -634,8 +634,12 @@ function ThumbnailImage({
   }, [src]);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setLoadedSrc(null);
-  }, [src]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    src,
+  ]);
 
   useEffect(() => {
     const image = imageRef.current;

@@ -209,6 +209,7 @@ export function StoryViewer({
   );
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setCurrentViewTarget(viewTarget ?? null);
   }, [viewTarget]);
 
@@ -235,12 +236,14 @@ export function StoryViewer({
   >({});
 
   const caption = useMemo(() => {
-    if (!attachment?.caption) {
+    const value = attachment?.caption;
+
+    if (!value) {
       return;
     }
 
     return graphemeAndLinkAwareSlice(
-      attachment.caption,
+      value,
       hasExpandedCaption ? CAPTION_MAX_LENGTH : CAPTION_INITIAL_LENGTH,
       CAPTION_BUFFER
     );
@@ -248,9 +251,13 @@ export function StoryViewer({
 
   // Reset expansion if messageId changes
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setHasExpandedCaption(false);
     setIsSpoilerExpanded({});
-  }, [messageId]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    messageId,
+  ]);
 
   // messageId is set as a dependency so that we can reset the story duration
   // when a new story is selected in case the same story (and same attachment)
@@ -277,7 +284,11 @@ export function StoryViewer({
     return () => {
       shouldCancel = true;
     };
-  }, [attachment, messageId]);
+  }, [
+    attachment,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    messageId,
+  ]);
 
   // This guarantees that we'll have a valid ref to the animation when we need it
   strictAssert(currentIndex != null, "StoryViewer: currentIndex can't be null");
@@ -293,6 +304,7 @@ export function StoryViewer({
         setLongPress(true);
       }, 200);
     } else {
+      // oxlint-disable-next-line react/set-state-in-effect
       setLongPress(false);
     }
     return () => {
@@ -304,12 +316,14 @@ export function StoryViewer({
 
   useEffect(() => {
     if (!isWindowActive) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setPauseStory(true);
     }
   }, [isWindowActive]);
 
   // Reset the stuff that pauses a story when you switch story views
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setConfirmDeleteStory(undefined);
     setHasConfirmHideStory(false);
     setHasExpandedCaption(false);
@@ -317,7 +331,10 @@ export function StoryViewer({
     setIsShowingContextMenu(false);
     setPauseStory(false);
     setStoryDuration(undefined);
-  }, [story.messageId]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    story.messageId,
+  ]);
 
   const alertElement = renderAlert();
 

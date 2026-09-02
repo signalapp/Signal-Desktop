@@ -51,6 +51,7 @@ function SampleMessage({
             <span
               className={`module-message__metadata__date module-message__metadata__date--${direction}`}
             >
+              {/* oxlint-disable-next-line react/purity */}
               {formatTime(i18n, Date.now() - timestampDeltaFromNow, Date.now())}
             </span>
             {direction === 'outgoing' && (

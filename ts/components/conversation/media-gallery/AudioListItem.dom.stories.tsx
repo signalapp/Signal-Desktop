@@ -28,6 +28,7 @@ export function Multiple(): JSX.Element {
           i18n={i18n}
           key={index}
           mediaItem={mediaItem}
+          // oxlint-disable-next-line react/purity
           isPlayed={Math.random() > 0.5}
           authorTitle="Alice"
           onClick={action('onClick')}

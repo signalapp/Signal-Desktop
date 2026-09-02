@@ -78,6 +78,7 @@ export function useScreenSharingStoppedToast({
       });
     }
   }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     activeCall,
     hideToast,
     currentPresenter,
@@ -264,6 +265,7 @@ function useRaisedHandsToast({
     toastLastShownAt.current = Date.now();
   }, [
     raisedHands,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     previousRaisedHands,
     newHands,
     handsForLastShownToast,

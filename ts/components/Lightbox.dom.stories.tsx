@@ -109,7 +109,9 @@ export function Multimedia(): JSX.Element {
           type: 'incoming',
           id: 'image-msg',
           receivedAt: 1,
+          // oxlint-disable-next-line react/purity
           receivedAtMs: Date.now(),
+          // oxlint-disable-next-line react/purity
           sentAt: Date.now(),
           // Unused for now
           source: undefined,
@@ -133,7 +135,9 @@ export function Multimedia(): JSX.Element {
           type: 'incoming',
           id: 'video-msg',
           receivedAt: 2,
+          // oxlint-disable-next-line react/purity
           receivedAtMs: Date.now(),
+          // oxlint-disable-next-line react/purity
           sentAt: Date.now(),
           // Unused for now
           source: undefined,
@@ -176,7 +180,9 @@ export function MissingMedia(): JSX.Element {
           type: 'incoming',
           id: 'image-msg',
           receivedAt: 3,
+          // oxlint-disable-next-line react/purity
           receivedAtMs: Date.now(),
+          // oxlint-disable-next-line react/purity
           sentAt: Date.now(),
 
           // Unused for now

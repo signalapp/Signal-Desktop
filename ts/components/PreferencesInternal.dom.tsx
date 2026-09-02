@@ -32,6 +32,11 @@ import {
 
 const log = createLogger('PreferencesInternal');
 
+const stripAndParseString = (input: string): number | undefined => {
+  const stripped = input.replace(/\D/g, '');
+  return stripped.length !== 0 ? parseInt(stripped, 10) : undefined;
+};
+
 export function PreferencesInternal({
   i18n,
   validateBackup: doValidateBackup,
@@ -140,11 +145,6 @@ export function PreferencesInternal({
     RowType<object>
   > | null>(null);
 
-  const stripAndParseString = (input: string): number | undefined => {
-    const stripped = input.replace(/\D/g, '');
-    return stripped.length !== 0 ? parseInt(stripped, 10) : undefined;
-  };
-
   const handleDredDurationUpdate = useCallback(
     (input: string) => {
       const parsed = stripAndParseString(input);
@@ -229,6 +229,7 @@ export function PreferencesInternal({
       setValidationResult(await doValidateBackup());
     } catch (error) {
       setValidationResult({ error: toLogFormat(error) });
+      // oxlint-disable-next-line react/todo
     } finally {
       setIsValidationPending(false);
     }
@@ -319,6 +320,7 @@ export function PreferencesInternal({
         }
       } catch (error) {
         log.error('Error generating receipt:', toLogFormat(error));
+        // oxlint-disable-next-line react/todo
       } finally {
         setIsGeneratingReceipt(false);
       }
@@ -340,8 +342,10 @@ export function PreferencesInternal({
 
   const handleKeyTransparencyCheck = useCallback(async () => {
     setIsKeyTransparencyRunning(true);
+    const promise = forceKeyTransparencyCheck();
+    // oxlint-disable-next-line react/todo
     try {
-      await forceKeyTransparencyCheck();
+      await promise;
     } finally {
       setIsKeyTransparencyRunning(false);
     }

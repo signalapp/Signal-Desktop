@@ -104,6 +104,7 @@ export function AvatarPreview({
   // Ensures that when avatarValue changes we generate new URLs
   useEffect(() => {
     if (avatarValue) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setAvatarPreview(avatarValue);
     } else {
       setAvatarPreview(undefined);
@@ -115,6 +116,7 @@ export function AvatarPreview({
 
   useEffect(() => {
     if (!avatarPreview) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setObjectUrl(undefined);
       return noop;
     }

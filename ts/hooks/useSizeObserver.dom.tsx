@@ -103,6 +103,7 @@ export function SizeObserver({
   // oxlint-disable-next-line typescript/no-explicit-any
   const ref = useRef<any>(null);
   const size = useSizeObserver(ref, onSizeChange);
+  // oxlint-disable-next-line react/refs
   return children(ref, size);
 }
 

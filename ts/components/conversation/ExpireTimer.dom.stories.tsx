@@ -35,6 +35,7 @@ export const _2Minutes = (): JSX.Element => {
 
 export function InProgress(): JSX.Element {
   const props = createProps({
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 15 * 1000,
   });
 
@@ -43,6 +44,7 @@ export function InProgress(): JSX.Element {
 
 export function Expired(): JSX.Element {
   const props = createProps({
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() - 30 * 1000,
   });
 
@@ -51,6 +53,7 @@ export function Expired(): JSX.Element {
 
 export function ExpirationTooFarOut(): JSX.Element {
   const props = createProps({
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 150 * 1000,
   });
 

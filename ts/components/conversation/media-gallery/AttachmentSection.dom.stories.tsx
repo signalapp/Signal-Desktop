@@ -31,21 +31,25 @@ export default {
 } satisfies Meta<Props>;
 
 export function Documents(args: Props): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const mediaItems = createRandomDocuments(Date.now(), days(1));
   return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }
 
 export function Media(args: Props): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const mediaItems = createRandomMedia(Date.now(), days(1));
   return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }
 
 export function Audio(args: Props): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const mediaItems = createRandomAudio(Date.now(), days(1));
   return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }
 
 export function Links(args: Props): JSX.Element {
+  // oxlint-disable-next-line react/purity
   const mediaItems = createRandomLinks(Date.now(), days(1));
   return <AttachmentSection {...args} mediaItems={mediaItems} />;
 }

@@ -241,6 +241,7 @@ export function SendStoryModal({
 
   useEffect(() => {
     if (listIdToEdit) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setPage(Page.EditingDistributionList);
     } else {
       setPage(Page.SendStory);
@@ -290,6 +291,7 @@ export function SendStoryModal({
     let url: undefined | string;
 
     if (draftAttachment.url) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setObjectUrl(draftAttachment.url);
     } else if (draftAttachment.data) {
       url = makeObjectUrl(draftAttachment.data, draftAttachment.contentType);

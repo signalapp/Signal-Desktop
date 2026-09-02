@@ -62,6 +62,7 @@ export function EditConversationAttributesModal({
   const focusDescriptionRef = useRef<undefined | boolean>(
     initiallyFocusDescription
   );
+  // oxlint-disable-next-line react/refs
   const focusDescription = focusDescriptionRef.current;
 
   const startingTitleRef = useRef<string>(externalTitle);
@@ -97,7 +98,9 @@ export function EditConversationAttributesModal({
   };
 
   const hasChangedExternally =
+    // oxlint-disable-next-line react/refs
     startingAvatarUrlRef.current !== externalAvatarUrl ||
+    // oxlint-disable-next-line react/refs
     startingTitleRef.current !== externalTitle;
   const hasTitleChanged = trimmedTitle !== externalTitle.trim();
   const hasGroupDescriptionChanged =
@@ -131,6 +134,7 @@ export function EditConversationAttributesModal({
     hasTitleChanged,
     onClose,
   ]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   function onRequestSubmit() {

@@ -200,7 +200,8 @@ export function StoryDetailsModal({
   }
 
   const timeRemaining = expirationTimestamp
-    ? DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
+    ? // oxlint-disable-next-line react/purity
+      DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
     : undefined;
 
   const menuOptions = [

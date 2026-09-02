@@ -604,6 +604,7 @@ function useInvisibleParticipants(
     const remoteParticipantDemuxIds = new Set<number>(
       remoteParticipants.map(r => r.demuxId)
     );
+    // oxlint-disable-next-line react/set-state-in-effect
     setInvisibleDemuxIds(oldInvisibleDemuxIds => {
       const staleIds = filter(
         oldInvisibleDemuxIds,
@@ -629,6 +630,7 @@ function useVideoRequestMode(): VideoRequestMode {
 
   useEffect(() => {
     if (isPageVisible) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setResult(VideoRequestMode.Normal);
       return noop;
     }

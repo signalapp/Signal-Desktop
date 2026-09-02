@@ -80,6 +80,7 @@ type TemplateInputProps = Readonly<{
 }>;
 
 function TemplateInput(props: TemplateInputProps) {
+  const { ref } = props;
   const fallbackValue =
     props.showCount || props.showClear ? 'jamie was here' : '';
   const defaultValue = props.defaultValue ?? fallbackValue;
@@ -87,7 +88,7 @@ function TemplateInput(props: TemplateInputProps) {
 
   return (
     <AxoTextField.Input
-      ref={props.ref}
+      ref={ref}
       placeholder={props.placeholder ?? 'Type something'}
       value={value}
       onValueChange={setValue}
@@ -116,6 +117,7 @@ type TemplateProps = Readonly<{
 }>;
 
 function Template(props: TemplateProps): ReactNode {
+  const { ref } = props;
   return (
     <TemplateRoot
       width={props.width}
@@ -124,7 +126,7 @@ function Template(props: TemplateProps): ReactNode {
     >
       {props.leading}
       <TemplateInput
-        ref={props.ref}
+        ref={ref}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
         showCount={props.showCount}

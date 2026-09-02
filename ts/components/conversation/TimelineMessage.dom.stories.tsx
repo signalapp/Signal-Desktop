@@ -150,6 +150,7 @@ function MessageAudioContainer({
 
     return {
       loadAndPlay(url: string, positionAsRatio: number) {
+        // oxlint-disable-next-line react/immutability
         onLoadedData = () => {
           play(positionAsRatio);
         };
@@ -159,12 +160,15 @@ function MessageAudioContainer({
       pause() {
         a.pause();
       },
+      // oxlint-disable-next-line react/todo
       set playbackRate(rate: number) {
         a.playbackRate = rate;
       },
+      // oxlint-disable-next-line react/todo
       set currentTime(value: number) {
         a.currentTime = value;
       },
+      // oxlint-disable-next-line react/todo
       get duration() {
         return a.duration;
       },
@@ -184,6 +188,7 @@ function MessageAudioContainer({
   };
 
   const setPlaybackRateAction = (rate: number) => {
+    // oxlint-disable-next-line react/immutability
     audioPlayer.playbackRate = rate;
     setPlaybackRate(rate);
   };
@@ -198,6 +203,7 @@ function MessageAudioContainer({
   };
 
   const setPosition = (value: number) => {
+    // oxlint-disable-next-line react/immutability
     audioPlayer.currentTime = value * audioPlayer.duration;
     setCurrentTime(audioPlayer.currentTime);
   };
@@ -977,6 +983,7 @@ DeletedWithExpireTimer.args = {
 
 export function DeletedPending(): JSX.Element {
   const props = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -990,6 +997,7 @@ export function DeletedPending(): JSX.Element {
 
 export function AdminDeletedPending(): JSX.Element {
   const props = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1004,6 +1012,7 @@ export function AdminDeletedPending(): JSX.Element {
     direction: 'outgoing',
   });
   const propsIncoming = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1028,6 +1037,7 @@ export function AdminDeletedPending(): JSX.Element {
 
 export function DeletedWithError(): JSX.Element {
   const propsPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1036,6 +1046,7 @@ export function DeletedWithError(): JSX.Element {
     direction: 'outgoing',
   });
   const propsError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1054,6 +1065,7 @@ export function DeletedWithError(): JSX.Element {
 
 export function DeletedWithErrorCanRetry(): JSX.Element {
   const propsPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1063,6 +1075,7 @@ export function DeletedWithErrorCanRetry(): JSX.Element {
     direction: 'outgoing',
   });
   const propsError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1090,6 +1103,7 @@ export function AdminDeletedWithError(): JSX.Element {
     },
   };
   const propsOutgoingPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1099,6 +1113,7 @@ export function AdminDeletedWithError(): JSX.Element {
     direction: 'outgoing',
   });
   const propsOutgoingError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1108,6 +1123,7 @@ export function AdminDeletedWithError(): JSX.Element {
     direction: 'outgoing',
   });
   const propsIncomingPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1117,6 +1133,7 @@ export function AdminDeletedWithError(): JSX.Element {
     direction: 'incoming',
   });
   const propsIncomingError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1146,6 +1163,7 @@ export function AdminDeletedWithErrorCanRetry(): JSX.Element {
     },
   };
   const propsOutgoingPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1156,6 +1174,7 @@ export function AdminDeletedWithErrorCanRetry(): JSX.Element {
     direction: 'outgoing',
   });
   const propsOutgoingError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1166,6 +1185,7 @@ export function AdminDeletedWithErrorCanRetry(): JSX.Element {
     direction: 'outgoing',
   });
   const propsIncomingPartialError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1176,6 +1196,7 @@ export function AdminDeletedWithErrorCanRetry(): JSX.Element {
     direction: 'incoming',
   });
   const propsIncomingError = createProps({
+    // oxlint-disable-next-line react/purity
     timestamp: Date.now() - 60 * 1000,
     conversationType: 'group',
     contactNameColor: '100',
@@ -1802,6 +1823,7 @@ export function BrokenImageWithExpirationTimer(): JSX.Element {
       }),
     ],
     expirationLength: 30 * 1000,
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 30 * 1000,
     status: 'sent',
   });
@@ -1816,6 +1838,7 @@ export function BrokenImageWithExpirationTimer(): JSX.Element {
       }),
     ],
     expirationLength: 30 * 1000,
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 30 * 1000,
     status: 'sent',
   });
@@ -2049,6 +2072,7 @@ export function BrokenVideoWithExpirationTimer(): JSX.Element {
       }),
     ],
     expirationLength: 30 * 1000,
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 30 * 1000,
     status: 'sent',
   });
@@ -2070,6 +2094,7 @@ export function BrokenVideoWithExpirationTimer(): JSX.Element {
       }),
     ],
     expirationLength: 30 * 1000,
+    // oxlint-disable-next-line react/purity
     expirationTimestamp: Date.now() + 30 * 1000,
     status: 'sent',
   });

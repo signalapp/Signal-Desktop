@@ -21,6 +21,7 @@ export const ShortcutGuideModal = memo(function ShortcutGuideModalInner(
   useEffect(() => {
     const div = document.createElement('div');
     document.body.appendChild(div);
+    // oxlint-disable-next-line react/set-state-in-effect
     setRoot(div);
 
     return () => {

@@ -87,8 +87,7 @@ function Timestamp({
   }, [timestamp]);
 
   const formatted = useMemo(() => {
-    void now; // Use this as a dep so we update
-    return formatDateTimeShort(i18n, timestamp);
+    return formatDateTimeShort(i18n, timestamp, now);
   }, [i18n, timestamp, now]);
 
   return <time dateTime={dateTime}>{formatted}</time>;
@@ -449,7 +448,10 @@ export function CallsList({
   }, [getPeerIdsToPeek, peekNotConnectedGroupCall]);
 
   const enqueueCallPeeks = useCallback(
-    (callItems: ReadonlyArray<CallHistoryGroup>, isFirstRun: boolean): void => {
+    function _enqueueCallPeeks(
+      callItems: ReadonlyArray<CallHistoryGroup>,
+      isFirstRun: boolean
+    ): void {
       let peekCount = 0;
       let inactiveCallLinksToPeek = 0;
       for (const item of callItems) {
@@ -514,7 +516,7 @@ export function CallsList({
       log.info('Starting background call peek.');
       peekQueueTimerRef.current = setInterval(() => {
         if (searchStateItemsRef.current) {
-          enqueueCallPeeks(searchStateItemsRef.current, false);
+          _enqueueCallPeeks(searchStateItemsRef.current, false);
         }
 
         if (peekQueueRef.current.size > 0) {
@@ -618,7 +620,13 @@ export function CallsList({
     return () => {
       controller.abort();
     };
-  }, [queryInput, statusInput, callHistoryEdition, enqueueCallPeeks]);
+  }, [
+    queryInput,
+    statusInput,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    callHistoryEdition,
+    enqueueCallPeeks,
+  ]);
 
   const loadMoreRows = useCallback(
     async (props: IndexRange) => {

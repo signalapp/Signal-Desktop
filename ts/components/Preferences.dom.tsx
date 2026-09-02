@@ -766,7 +766,10 @@ export function Preferences({
       return;
     }
     elements[0]?.focus();
-  }, [settingsLocation.page]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    settingsLocation.page,
+  ]);
 
   const onAudioOutputSelectChange = useCallback(
     (value: string) => {
@@ -871,6 +874,7 @@ export function Preferences({
   let content: JSX.Element | undefined;
 
   if (settingsLocation.page === SettingsPage.Profile) {
+    // oxlint-disable-next-line react/refs
     content = renderProfileEditor({
       contentsRef: settingsPaneRef,
     });
@@ -1127,6 +1131,7 @@ export function Preferences({
       />
     );
   } else if (isDonationsPage(settingsLocation.page)) {
+    // oxlint-disable-next-line react/refs
     content = renderDonationsPane({
       contentsRef: settingsPaneRef,
       settingsLocation,
@@ -1516,6 +1521,7 @@ export function Preferences({
                       onLastSyncTimeChange(Date.now());
                     } catch (err) {
                       setShowSyncFailed(true);
+                      // oxlint-disable-next-line react/todo
                     } finally {
                       setNowSyncing(false);
                     }
@@ -2146,12 +2152,14 @@ export function Preferences({
       />
     );
   } else if (settingsLocation.page === SettingsPage.ChatFolders) {
+    // oxlint-disable-next-line react/refs
     content = renderPreferencesChatFoldersPage({
       previousLocation: settingsLocation.previousLocation,
       onOpenEditChatFoldersPage: handleOpenEditChatFoldersPage,
       settingsPaneRef,
     });
   } else if (settingsLocation.page === SettingsPage.EditChatFolder) {
+    // oxlint-disable-next-line react/refs
     content = renderPreferencesEditChatFolderPage({
       previousLocation: settingsLocation.previousLocation,
       settingsPaneRef,
@@ -2508,6 +2516,7 @@ export function Preferences({
       />
     );
   } else if (settingsLocation.page === SettingsPage.NotificationProfilesHome) {
+    // oxlint-disable-next-line react/refs
     content = renderNotificationProfilesHome({
       setSettingsLocation,
       contentsRef: settingsPaneRef,
@@ -2515,6 +2524,7 @@ export function Preferences({
   } else if (
     settingsLocation.page === SettingsPage.NotificationProfilesCreateFlow
   ) {
+    // oxlint-disable-next-line react/refs
     content = renderNotificationProfilesCreateFlow({
       setSettingsLocation,
       contentsRef: settingsPaneRef,

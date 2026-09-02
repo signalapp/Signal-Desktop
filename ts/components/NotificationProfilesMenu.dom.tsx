@@ -52,6 +52,7 @@ export function NotificationProfilesMenu({
   setProfileOverride,
 }: Props): JSX.Element {
   const enabledOverrideEndTime = currentOverride?.enabled?.endsAtMs;
+  // oxlint-disable-next-line react/purity
   const [now, setNow] = useState(Date.now());
   const [cachedProfiles, setCachedProfiles] = useState<
     ReadonlyArray<NotificationProfileType>
@@ -59,6 +60,7 @@ export function NotificationProfilesMenu({
 
   useEffect(() => {
     if (!loading) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setCachedProfiles(allProfiles);
     }
   }, [loading, allProfiles]);

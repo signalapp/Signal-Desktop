@@ -115,6 +115,7 @@ export function useInfiniteQuery<Query, Page>(
             hasNextPage: false,
           });
         }
+        // oxlint-disable-next-line react/todo
       } finally {
         clearTimeout(pendingStatusTimer);
       }
@@ -126,7 +127,12 @@ export function useInfiniteQuery<Query, Page>(
       clearTimeout(pendingStatusTimer);
       controller.abort();
     };
-  }, [options.query, edition, update]);
+  }, [
+    options.query,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    edition,
+    update,
+  ]);
 
   const fetchNextPage = useCallback(() => {
     strictAssert(

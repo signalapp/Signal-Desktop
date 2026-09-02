@@ -45,6 +45,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
   id: '',
   conversationId: '',
+  // oxlint-disable-next-line react/purity
   sentAt: Date.now() - 24 * 60 * 1000,
   snippet: overrideProps.snippet || "What's <<left>>going<<right>> on?",
   body: overrideProps.body || "What's going on?",

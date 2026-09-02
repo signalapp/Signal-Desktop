@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useContext, type JSX } from 'react';
+import { useContext, useState, type JSX } from 'react';
 import lodash from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 import { MuteExpiration } from '@signalapp/types';
@@ -458,12 +458,14 @@ Line 4, well.`,
 }
 
 export function ConversationsVariousTimes(): JSX.Element {
-  const pairs: Array<[number, string]> = [
-    [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
-    [Date.now() - 24 * 60 * 60 * 1000, 'One day ago'],
-    [Date.now() - 7 * 24 * 60 * 60 * 1000, 'One week ago'],
-    [Date.now() - 365 * 24 * 60 * 60 * 1000, 'One year ago'],
-  ];
+  const [pairs] = useState((): Array<[number, string]> => {
+    return [
+      [Date.now() - 5 * 60 * 60 * 1000, 'Five hours ago'],
+      [Date.now() - 24 * 60 * 60 * 1000, 'One day ago'],
+      [Date.now() - 7 * 24 * 60 * 60 * 1000, 'One week ago'],
+      [Date.now() - 365 * 24 * 60 * 60 * 1000, 'One year ago'],
+    ];
+  });
 
   return (
     <Wrapper

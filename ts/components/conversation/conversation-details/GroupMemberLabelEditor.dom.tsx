@@ -119,6 +119,7 @@ export function GroupMemberLabelEditor({
 
   useEffect(() => {
     if (!canAddLabel && isActive && !isShowingPermissionsError) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setIsShowingPermissionsError(true);
     }
   }, [
@@ -144,6 +145,7 @@ export function GroupMemberLabelEditor({
     // If leaving the screen because we no longer have permission, no confirm discard
     confirmDiscardIf(isDirty && canAddLabel, discardChanges);
   }, [canAddLabel, confirmDiscardIf, isDirty]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   // Popping the panel here after a save is far safer; we may not have re-rendered with
@@ -228,6 +230,7 @@ export function GroupMemberLabelEditor({
               isSMS={false}
               isVoiceMessagePlayed={false}
               direction="incoming"
+              // oxlint-disable-next-line react/purity
               timestamp={Date.now()}
               conversationType="group"
               previews={[]}

@@ -116,7 +116,11 @@ export function GIF(props: Props): JSX.Element {
     } else {
       video.pause();
     }
-  }, [isPlaying, repeatCount]);
+  }, [
+    isPlaying,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    repeatCount,
+  ]);
 
   //
   // Change `isPlaying` in response to focus, play time, and repeat count

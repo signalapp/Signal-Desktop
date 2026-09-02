@@ -147,6 +147,7 @@ export function UsernameEditor({
     if (customDiscriminator !== '' || !reservation) {
       return;
     }
+    // oxlint-disable-next-line react/set-state-in-effect
     setCustomDiscriminator(undefined);
   }, [customDiscriminator, reservation]);
 
@@ -321,6 +322,7 @@ export function UsernameEditor({
     customDiscriminator,
     nickname,
   ]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   let title = i18n('icu:ProfileEditor--username--title');

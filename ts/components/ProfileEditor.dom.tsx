@@ -297,7 +297,10 @@ export function ProfileEditor({
 
     focusNode.focus();
     focusNode.setSelectionRange(focusNode.value.length, focusNode.value.length);
-  }, [editState]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    editState,
+  ]);
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
@@ -325,6 +328,7 @@ export function ProfileEditor({
 
     confirmDiscardIf(hasNameChanges || hasAboutChanges, onDiscard);
   }, [confirmDiscardIf, stagedProfile, fullName, fullBio, setStagedProfile]);
+  // oxlint-disable-next-line react/refs
   tryClose.current = onTryClose;
 
   let content: JSX.Element;

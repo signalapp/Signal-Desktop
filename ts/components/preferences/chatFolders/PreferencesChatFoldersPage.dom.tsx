@@ -151,6 +151,7 @@ export function PreferencesChatFoldersPage(
     useState(sortedChatFolders);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect react/no-deriving-state-in-effects
     setChatFoldersReordered(sortedChatFolders);
   }, [sortedChatFolders]);
 

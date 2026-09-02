@@ -354,6 +354,7 @@ export function FunPanelGifs({
     [items]
   );
 
+  // oxlint-disable-next-line react/incompatible-library
   const virtualizer = useVirtualizer<HTMLDivElement, HTMLDivElement>({
     count,
     getScrollElement,

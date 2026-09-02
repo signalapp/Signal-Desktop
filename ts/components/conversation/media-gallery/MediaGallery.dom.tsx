@@ -160,6 +160,7 @@ function MediaSection({
     return <EmptyState i18n={i18n} tab={tab} />;
   }
 
+  // oxlint-disable-next-line react/purity
   const now = Date.now();
   const groupedItems = groupMediaItemsByDate(now, mediaItems);
 
@@ -257,6 +258,7 @@ export function MediaGallery({
   // Reset local state when redux finishes loading
   useEffect(() => {
     if (!reduxLoading) {
+      // oxlint-disable-next-line react/set-state-in-effect
       setLoading(false);
     }
   }, [reduxLoading]);
@@ -290,6 +292,7 @@ export function MediaGallery({
     audio.length,
     links.length,
     documents.length,
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
     sortOrder,
   ]);
 
@@ -326,6 +329,7 @@ export function MediaGallery({
     } else {
       throw missingCaseError(tab);
     }
+    // oxlint-disable-next-line react/set-state-in-effect
     setLoading(true);
   }, [
     observerEntry,

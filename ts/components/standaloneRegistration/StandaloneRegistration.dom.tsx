@@ -140,7 +140,9 @@ export function StandaloneRegistration({
     useState(false);
 
   const previousFatalError = useRef<FatalErrorType>(undefined);
+  // oxlint-disable-next-line react/refs
   if (fatalError !== previousFatalError.current) {
+    // oxlint-disable-next-line react/refs
     previousFatalError.current = fatalError;
 
     if (!fatalError) {

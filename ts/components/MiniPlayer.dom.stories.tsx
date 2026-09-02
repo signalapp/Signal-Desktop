@@ -52,6 +52,7 @@ export function Default(): JSX.Element {
       audio.removeEventListener('timeupdate', handleUpdateTime);
       audio.removeEventListener('ended', handleEnded);
     };
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [setCurrentTime]);
 
   const playAction = () => {

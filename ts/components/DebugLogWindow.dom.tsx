@@ -53,6 +53,7 @@ export function DebugLogWindow({
   useEscapeHandling(closeWindow);
 
   useEffect(() => {
+    // oxlint-disable-next-line react/set-state-in-effect
     setLoadState(LoadState.Started);
 
     let shouldCancel = false;

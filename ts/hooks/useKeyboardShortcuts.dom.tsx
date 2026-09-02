@@ -338,6 +338,7 @@ export function useKeyboardShortcuts(
   ...eventHandlers: Array<KeyboardShortcutHandlerType>
 ): void {
   const handlersRef = useRef(eventHandlers);
+  // oxlint-disable-next-line react/refs
   handlersRef.current = eventHandlers;
 
   useEffect(() => {

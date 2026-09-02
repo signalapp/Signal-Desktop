@@ -89,6 +89,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
 ) {
   const { i18n, pins, current, onCurrentChange } = props;
 
+  // oxlint-disable-next-line react/preserve-manual-memoization
   const currentEntry = useMemo(() => {
     if (current == null) {
       return null;

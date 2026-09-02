@@ -889,6 +889,7 @@ function LightboxHeader({
   const { message } = item;
   const conversation = getConversation(message.conversationId);
 
+  // oxlint-disable-next-line react/purity
   const now = Date.now();
 
   return (

@@ -55,6 +55,7 @@ export function AutoSizeInput({
     const elem = document.createElement('div');
     document.body.appendChild(elem);
 
+    // oxlint-disable-next-line react/set-state-in-effect
     setRoot(elem);
 
     return () => {
@@ -64,7 +65,11 @@ export function AutoSizeInput({
 
   useEffect(() => {
     setWidth(hiddenRef.current?.clientWidth || undefined);
-  }, [value, root]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    value,
+    root,
+  ]);
 
   return (
     <div className={getClassName('__container')}>

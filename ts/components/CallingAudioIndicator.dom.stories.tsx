@@ -59,7 +59,11 @@ export function Random(args: Props): JSX.Element {
     return () => {
       clearTimeout(timer);
     };
-  }, [audioLevel, setAudioLevel]);
+  }, [
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
+    audioLevel,
+    setAudioLevel,
+  ]);
 
   const isSpeaking = useValueAtFixedRate(audioLevel > 0, SPEAKING_LINGER_MS);
 
