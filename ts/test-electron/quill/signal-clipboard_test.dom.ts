@@ -67,22 +67,13 @@ function createMockClipboardEvent(
   textData: string | null = null,
   signalData: string | null = null
 ): ClipboardEvent {
-  const event = new Event('paste') as ClipboardEvent;
-  Object.defineProperty(event, 'clipboardData', {
-    value: {
-      getData: (format: string) => {
-        if (format === 'text/plain') {
-          return textData || '';
-        }
-        if (format === 'text/signal') {
-          return signalData || '';
-        }
-        return '';
-      },
-      files: null,
-    } as unknown as DataTransfer,
-    writable: false,
-  });
+  const clipboardData = new DataTransfer();
+
+  clipboardData.setData('text/plain', textData ?? '');
+  clipboardData.setData('text/signal', signalData ?? '');
+
+  const event = new ClipboardEvent('paste', { clipboardData });
+
   return event;
 }
 

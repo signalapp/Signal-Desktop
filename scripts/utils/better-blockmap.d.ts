@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 declare module 'better-blockmap' {
-  import { Writable } from 'node:stream';
+  import type { Writable } from 'node:stream';
 
   type BlockMapOptions = {
     detectZipBoundary?: boolean;

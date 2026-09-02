@@ -626,8 +626,7 @@ describe('SignalProtocolStore', () => {
         await testInvalidAttributes();
       });
       it('rejects invalid timestamp', async () => {
-        // oxlint-disable-next-line typescript/no-explicit-any
-        attributes.timestamp = NaN as any;
+        attributes.timestamp = NaN;
         await testInvalidAttributes();
       });
       it('rejects invalid verified', async () => {

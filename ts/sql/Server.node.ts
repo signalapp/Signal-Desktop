@@ -3740,7 +3740,9 @@ function getUnreadByConversationAndMarkRead(
     return rows.map(msg => {
       return {
         originalReadStatus:
-          msg.readStatus == null ? undefined : (msg.readStatus as ReadStatus),
+          msg.readStatus == null
+            ? undefined
+            : (msg.readStatus satisfies ReadStatus),
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         id: msg.id,
@@ -6552,6 +6554,7 @@ function _getAttachmentDownloadJob(
     return undefined;
   }
   const { attachmentJson, ...fields } = row;
+  // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
   return parseUnknown(attachmentDownloadJobSchema, {
     ...fields,
     active: Boolean(row.active),
@@ -6671,6 +6674,7 @@ function getNextAttachmentDownloadJobs(
   try {
     return allJobs.map(row => {
       try {
+        // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
         return parseUnknown(attachmentDownloadJobSchema, {
           ...row,
           active: Boolean(row.active),
@@ -6910,6 +6914,7 @@ function getNextAttachmentBackupJobs(
   }>(params);
   return rows
     .map(row => {
+      // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
       const parseResult = safeParseUnknown(attachmentBackupJobSchema, {
         ...row,
         active: Boolean(row.active),

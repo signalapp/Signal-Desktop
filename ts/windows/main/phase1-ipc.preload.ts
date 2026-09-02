@@ -222,7 +222,7 @@ window.open = () => null;
 
 // Playwright uses `eval` for `.evaluate()` API
 if (config.ciMode !== 'full' && config.environment !== Environment.Test) {
-  // oxlint-disable-next-line no-multi-assign
+  // oxlint-disable-next-line no-multi-assign, no-eval
   window.eval = global.eval = () => null;
 }
 

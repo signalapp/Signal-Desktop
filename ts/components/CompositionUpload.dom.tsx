@@ -62,8 +62,6 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
         : null;
 
     return (
-      // FIXME
-      // oxlint-disable-next-line jsx-a11y/control-has-associated-label
       <input
         data-testid={testId ?? 'attachfile-input'}
         hidden

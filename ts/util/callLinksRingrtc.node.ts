@@ -79,7 +79,7 @@ export function toRootKeyBytes(rootKey: string): Uint8Array<ArrayBuffer> {
 }
 
 export function fromRootKeyBytes(rootKey: Uint8Array<ArrayBuffer>): string {
-  return CallLinkRootKey.fromBytes(rootKey as Buffer<ArrayBuffer>).toString();
+  return CallLinkRootKey.fromBytes(rootKey).toString();
 }
 
 /**

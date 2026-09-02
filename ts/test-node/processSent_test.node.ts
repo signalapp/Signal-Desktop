@@ -41,6 +41,7 @@ describe('processSent', () => {
 
     const out = processSent(input);
 
+    // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
     assert.deepStrictEqual(out, {
       ...omit(input, 'destinationServiceIdBinary', '$unknown'),
       destinationServiceId,

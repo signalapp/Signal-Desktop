@@ -1,5 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 /*
  * WebSocket-Resources
@@ -142,7 +143,6 @@ export type SendRequestOptions = Readonly<{
   headers?: ReadonlyArray<[string, string]>;
 }>;
 
-// oxlint-disable-next-line max-classes-per-file
 export class CloseEvent extends Event {
   public readonly code: number;
   public readonly reason: string;

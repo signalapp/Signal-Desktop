@@ -6,7 +6,7 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
  */
 
-// oxlint-disable-next-line typescript/explicit-module-boundary-types, typescript/no-explicit-any
+// oxlint-disable-next-line typescript/no-explicit-any
 export type EventHandler = (event: any) => unknown;
 
 export default class EventTarget {

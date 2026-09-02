@@ -1,5 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import { ipcRenderer, type DesktopCapturerSource } from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
@@ -87,7 +88,6 @@ export type DesktopCapturerBaton = Readonly<{
   __desktop_capturer_baton: never;
 }>;
 
-// oxlint-disable-next-line max-classes-per-file
 export class DesktopCapturer {
   readonly #options: DesktopCapturerOptionsType;
   #state: State;

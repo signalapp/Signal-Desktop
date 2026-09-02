@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadStatus } from '../messages/MessageReadStatus.std.ts';
-import type { SeenStatus } from '../MessageSeenStatus.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { dropNull, shallowDropNull } from '../util/dropNull.std.ts';
 import type {
@@ -125,8 +123,8 @@ function hydrateMessageTableColumns(row: MessageTypeUnhydrated): MessageType {
     sourceDevice: dropNull(sourceDevice),
     storyId: dropNull(storyId),
     type: type as MessageType['type'],
-    readStatus: readStatus == null ? undefined : (readStatus as ReadStatus),
-    seenStatus: seenStatus == null ? undefined : (seenStatus as SeenStatus),
+    readStatus: readStatus == null ? undefined : readStatus,
+    seenStatus: seenStatus == null ? undefined : seenStatus,
     timestamp: timestamp || 0,
     serverTimestamp: dropNull(serverTimestamp),
     unidentifiedDeliveryReceived: toBoolean(unidentifiedDeliveryReceived),

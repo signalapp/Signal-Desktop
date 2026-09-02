@@ -115,13 +115,7 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
     lookup:
       port !== undefined
         ? (host, opts, callback) =>
-            drop(
-              happyLookupWithCallback(
-                host,
-                opts,
-                callback as CoercedCallbackType
-              )
-            )
+            drop(happyLookupWithCallback(host, opts, callback))
         : undefined,
   } satisfies Pick<TcpSocketConnectOpts, 'lookup'>);
 }

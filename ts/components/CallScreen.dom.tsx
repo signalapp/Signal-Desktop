@@ -1010,6 +1010,7 @@ export function CallScreen({
   }
 
   return (
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       className={classNames(
         'module-calling__container',

@@ -423,7 +423,7 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
         : { 'User-Agent': getUserAgent(options.version) }),
       'X-Signal-Agent': 'OWD',
       ...options.headers,
-    } as FetchHeaderListType,
+    } satisfies FetchHeaderListType,
     redirect: options.redirect,
     agent,
     ca: options.certificateAuthority,

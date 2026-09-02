@@ -798,8 +798,7 @@ export function CompositionInput(props: Props): ReactElement {
 
     const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberAcis);
 
-    // oxlint-disable-next-line typescript/no-explicit-any
-    quill.updateContents(newDelta as any);
+    quill.updateContents(newDelta);
   };
 
   const memberIdList = useMemo(() => {

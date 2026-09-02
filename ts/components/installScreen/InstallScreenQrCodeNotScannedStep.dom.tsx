@@ -330,6 +330,7 @@ function QRCodeImage({
   }, [isCopying]);
 
   return (
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <svg
       role="img"
       aria-label={i18n('icu:Install__scan-this-code')}

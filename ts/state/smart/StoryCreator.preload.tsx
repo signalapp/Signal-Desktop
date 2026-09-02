@@ -93,7 +93,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   if (addStoryData?.type === 'Media') {
     // Note that the source type is ReadonlyDeep<File>, but browser APIs don't
     // support that. Hence the cast.
-    file = addStoryData.file as File;
+    file = addStoryData.file;
   }
 
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);

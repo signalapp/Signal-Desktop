@@ -138,6 +138,7 @@ describe('schemas', () => {
 
     // { prop: string }
     {
+      // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
       const input = valid as { prop: string };
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));
@@ -202,7 +203,7 @@ describe('schemas', () => {
     }
     // { prop: any }
     {
-      // oxlint-disable-next-line typescript/no-explicit-any
+      // oxlint-disable-next-line typescript/no-explicit-any typescript/no-unnecessary-type-assertion
       const input = valid as { prop: any };
       // @ts-expect-error: not unknown
       assertShape(parseUnknown(schema, input));

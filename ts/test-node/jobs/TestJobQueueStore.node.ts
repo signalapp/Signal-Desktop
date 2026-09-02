@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import EventEmitter, { once } from 'node:events';
 
@@ -79,7 +80,6 @@ export class TestJobQueueStore implements JobQueueStore {
   }
 }
 
-// oxlint-disable-next-line max-classes-per-file
 class Pipe implements AsyncIterable<StoredJob> {
   #queue: Array<StoredJob> = [];
   readonly #eventEmitter = new EventEmitter();

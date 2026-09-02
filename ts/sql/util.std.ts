@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import lodash from 'lodash';
 
@@ -403,7 +404,6 @@ export function getCountFromTable(db: ReadableDB, table: TableType): number {
   throw new Error(`getCountFromTable: Unable to get count from table ${table}`);
 }
 
-// oxlint-disable-next-line max-classes-per-file
 export class TableIterator<ObjectType extends { id: string }> {
   readonly #db: ReadableDB;
   readonly #table: TableType;

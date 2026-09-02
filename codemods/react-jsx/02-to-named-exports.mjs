@@ -37,7 +37,7 @@ export default declare(function transform({ types: t }) {
         }
 
         // (Mistake) Ignore type imports. Should have considered these
-        // but other linting managed to fix it up.
+        // but other linting managed to fix it up.
         if (path.node.importKind === 'type') {
           return;
         }

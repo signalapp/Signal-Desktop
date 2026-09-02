@@ -1,5 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import { z } from 'zod';
 import PQueue from 'p-queue';
@@ -748,7 +749,6 @@ export function addPniSignatureMessageToProto({
   };
 }
 
-// oxlint-disable-next-line max-classes-per-file
 export class MessageSender {
   pendingMessages: {
     [id: string]: PQueue;

@@ -185,8 +185,6 @@ function TextInputField(props: { placeholder: string }) {
 
   return (
     <div className={tw('py-1.5')} style={style}>
-      {/* FIXME */}
-      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <input
         placeholder={props.placeholder}
         className={tw(
@@ -360,8 +358,6 @@ export function ExampleLanguageDialog(): JSX.Element {
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Search>
-          {/* FIXME */}
-          {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input
             type="search"
             autoFocus

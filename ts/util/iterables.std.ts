@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import { getOwn } from './getOwn.std.ts';
 
@@ -63,7 +64,6 @@ export function filter<T>(
   return new FilterIterable(iterable, predicate);
 }
 
-// oxlint-disable-next-line max-classes-per-file
 class FilterIterable<T> implements Iterable<T> {
   readonly #iterable: Iterable<T>;
   readonly #predicate: (value: T) => unknown;

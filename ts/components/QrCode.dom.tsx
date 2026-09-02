@@ -54,6 +54,7 @@ export function QrCode(props: PropsType): ReactElement {
   };
 
   return (
+    // oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <img
       alt={alt}
       className={className}

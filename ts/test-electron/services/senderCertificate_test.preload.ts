@@ -74,7 +74,7 @@ describe('SenderCertificateService', () => {
     fakeEvents = {
       on: sinon.stub(),
       off: sinon.stub(),
-    } as unknown as typeof fakeEvents;
+    };
 
     fakeStorage = {
       get: sinon.stub(),

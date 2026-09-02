@@ -70,7 +70,7 @@ const getCommonActiveCallData = (overrides: Overrides) => ({
 const getDefaultCall = (overrides: Overrides): ActiveDirectCallType => {
   return {
     ...getCommonActiveCallData(overrides),
-    callMode: CallMode.Direct as CallMode.Direct,
+    callMode: CallMode.Direct,
     callState: CallState.Accepted,
     peekedParticipants: [],
     hasRemoteAudio: true,

@@ -436,7 +436,7 @@ export default {
           'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
         groupId:
           '63ee218d2446869e40adfc958ff98263e51f74382b0143328ee4826f20a76f47',
-        kind: 'videoinput' as MediaDeviceKind,
+        kind: 'videoinput',
         label: 'FaceTime HD Camera (Built-in) (9fba:bced)',
       },
       {
@@ -444,7 +444,7 @@ export default {
           'e2db196a31d50ff9b135299dc0beea67f65b1a25a06d8a4ce76976751bb7a08d',
         groupId:
           '218ba7f00d7b1239cca15b9116769e5e7d30cc01104ebf84d667643661e0ecf9',
-        kind: 'videoinput' as MediaDeviceKind,
+        kind: 'videoinput',
         label: 'Logitech Webcam (4e72:9058)',
       },
     ],

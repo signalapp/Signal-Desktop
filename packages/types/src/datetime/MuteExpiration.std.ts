@@ -43,7 +43,7 @@ export namespace MuteExpiration {
     if (input <= 0) {
       return UNMUTED;
     }
-    return Schema.parse(Math.min(input, ALWAYS) as MuteExpiration);
+    return Schema.parse(Math.min(input, ALWAYS));
   }
 
   /** @public */

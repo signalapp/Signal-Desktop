@@ -618,6 +618,7 @@ export function Lightbox({
               onClick={zoomButtonHandler}
               type="button"
             >
+              {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
               <img
                 alt={i18n('icu:lightboxImageAlt')}
                 className="Lightbox__object"
@@ -656,8 +657,6 @@ export function Lightbox({
       const shouldLoop = isAttachmentGIF || isViewOnce;
 
       content = (
-        // FIXME
-        // oxlint-disable-next-line jsx-a11y/control-has-associated-label
         <video
           className="Lightbox__object Lightbox__object--video"
           controls={!shouldLoop}

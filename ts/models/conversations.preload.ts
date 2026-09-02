@@ -5229,8 +5229,7 @@ export class ConversationModel {
 
   async getProfiles(): Promise<void> {
     // request all conversation members' keys
-    const conversations =
-      this.getMembers() as unknown as Array<ConversationModel>;
+    const conversations = this.getMembers();
 
     const groupId = isGroupV2(this.attributes)
       ? (this.get('groupId') ?? null)

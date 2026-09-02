@@ -498,7 +498,7 @@ function prepareFileUrl(
   options: PrepareUrlOptions = {}
 ): string {
   const filePath = join(...pathSegments);
-  const fileUrl = pathToFileURL(filePath) as URL;
+  const fileUrl = pathToFileURL(filePath);
   return prepareUrl(fileUrl, options);
 }
 

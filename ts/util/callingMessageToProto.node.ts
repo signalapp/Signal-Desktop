@@ -44,7 +44,7 @@ export function callingMessageToProto(
           // oxlint-disable-next-line typescript/no-misused-spread
           ...offer,
           id: offer.callId,
-          type: offer.type as number,
+          type: offer.type as unknown as Proto.CallMessage.Offer.Type,
           opaque: opaqueToBytes(offer.opaque),
         }
       : null,
@@ -78,7 +78,7 @@ export function callingMessageToProto(
           // oxlint-disable-next-line typescript/no-misused-spread
           ...hangup,
           id: hangup.callId,
-          type: hangup.type as number,
+          type: hangup.type as unknown as Proto.CallMessage.Hangup.Type,
         }
       : null,
     destinationDeviceId: destinationDeviceId ?? null,

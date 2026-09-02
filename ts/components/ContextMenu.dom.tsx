@@ -312,7 +312,7 @@ export function ContextMenu<T>({
   if (typeof children === 'function') {
     buttonNode = (
       <>
-        {(children as (props: RenderButtonProps) => JSX.Element)({
+        {children({
           onClick: onClick || handleClick,
           onKeyDown: handleKeyDown,
           isMenuShowing,

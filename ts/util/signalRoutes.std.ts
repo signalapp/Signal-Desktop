@@ -19,7 +19,7 @@ function toUrl(input: URL | string): URL | null {
     return input;
   }
   try {
-    return new NodeURL(input) as URL;
+    return new NodeURL(input);
   } catch {
     return null;
   }

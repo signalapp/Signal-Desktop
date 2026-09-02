@@ -248,8 +248,6 @@ export const DonateInputAmount = memo(function DonateInputAmount(
   }, [currencyFormat, onBlur, onValueChange, value]);
 
   return (
-    // FIXME
-    // oxlint-disable-next-line jsx-a11y/control-has-associated-label
     <input
       className={props.className}
       ref={inputRef}

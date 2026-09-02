@@ -17,9 +17,11 @@ try {
   });
 }
 
+// oxlint-disable-next-line typescript/no-var-requires
 const { Util } = require('config/lib/util.js');
 
 // Must be loaded after parsing SIGNAL_CI_CONFIG
+// oxlint-disable-next-line typescript/no-var-requires
 const config = require('./bundles/config.js').default;
 
 Util.extendDeep(config, parsedConfig);

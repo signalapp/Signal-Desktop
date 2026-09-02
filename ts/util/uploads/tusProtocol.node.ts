@@ -131,8 +131,7 @@ export async function _tusCreateWithUploadRequest({
           'Content-Type': 'application/offset+octet-stream',
         },
         timeout: MINUTE,
-        // oxlint-disable-next-line typescript/no-explicit-any
-        body: readable as any,
+        body: readable,
       }),
       readable
     );
@@ -259,8 +258,7 @@ export async function _tusResumeUploadRequest({
           'Content-Type': 'application/offset+octet-stream',
         },
         timeout: MINUTE,
-        // oxlint-disable-next-line typescript/no-explicit-any
-        body: readable as any,
+        body: readable,
       }),
       readable
     );
@@ -313,8 +311,7 @@ export async function tusUpload({
     headers,
     fileName,
     fileSize,
-    // oxlint-disable-next-line typescript/no-explicit-any
-    readable: readable as any,
+    readable,
     onProgress,
     onCaughtError,
     signal,

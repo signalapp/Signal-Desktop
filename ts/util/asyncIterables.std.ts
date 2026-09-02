@@ -1,5 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 export type MaybeAsyncIterable<T> = Iterable<T> | AsyncIterable<T>;
 
@@ -32,7 +33,6 @@ export function wrapPromise<T>(
   return new WrapPromiseAsyncIterable(promise);
 }
 
-// oxlint-disable-next-line max-classes-per-file
 class WrapPromiseAsyncIterable<T> implements AsyncIterable<T> {
   readonly #promise: Promise<MaybeAsyncIterable<T>>;
 

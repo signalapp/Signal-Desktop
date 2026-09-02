@@ -45,8 +45,6 @@ export const Checkbox = forwardRef(function CheckboxInner(
 
   const checkboxNode = (
     <div className={getClassName('__checkbox')}>
-      {/* FIXME */}
-      {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
       <input
         checked={Boolean(checked)}
         disabled={disabled}

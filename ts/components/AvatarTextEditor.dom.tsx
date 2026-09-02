@@ -163,8 +163,6 @@ export function AvatarTextEditor({
               width: BUBBLE_SIZE,
             }}
           >
-            {/* FIXME */}
-            {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
             <input
               className="AvatarTextEditor__input"
               onChange={handleChange}

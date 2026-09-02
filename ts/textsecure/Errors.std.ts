@@ -1,5 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import type {
   ChatServiceInactive,
@@ -46,7 +47,6 @@ class ReplayableError extends Error {
   }
 }
 
-// oxlint-disable-next-line max-classes-per-file
 export class SessionNotAllowedToRequestCodeError extends ReplayableError {
   constructor(message: string) {
     super({ name: 'SessionNotAllowedToRequestCodeError', message });

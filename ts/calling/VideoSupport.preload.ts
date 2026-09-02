@@ -1,5 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable max-classes-per-file
 
 import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
 import type { VideoFrameSender, VideoFrameSource } from '@signalapp/ringrtc';
@@ -43,7 +44,6 @@ export type SetLocalPreviewType = {
   sizeCallback: SizeCallbackType | undefined;
 };
 
-// oxlint-disable-next-line max-classes-per-file
 export class GumVideoCapturer {
   private localPreview?: HTMLVideoElement;
   private sizeCallback?: SizeCallbackType;

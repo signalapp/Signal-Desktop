@@ -81,7 +81,7 @@ export function getPropForTimestamp<
     return message[prop];
   }
 
-  return targetEdit[prop] as Attrs[T];
+  return targetEdit[prop];
 }
 
 export function getChangesForPropAtTimestamp<T extends keyof EditHistoryType>({

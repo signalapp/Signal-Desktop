@@ -19,7 +19,7 @@ export const AppProvider: FC<AppProviderProps> = memo(
 
     const resolvedAppLocale: AxoIntl.ResolvedAppLocale = {
       tag: locale as AxoIntl.AppLocaleTag,
-      direction: direction as AxoIntl.Direction,
+      direction,
     };
 
     const systemPreferredLanguages: AxoIntl.SystemPreferredLanguages = new Set(

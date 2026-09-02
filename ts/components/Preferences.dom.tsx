@@ -710,7 +710,7 @@ export function Preferences({
   const onZoomSelectChange = useCallback(
     (value: string) => {
       const number = parseFloat(value);
-      onZoomFactorChange(number as unknown as ZoomFactorType);
+      onZoomFactorChange(number);
     },
     [onZoomFactorChange]
   );

@@ -26,6 +26,7 @@ export default declare(function transform({ types: t }) {
    * }} State
    */
 
+  // oxlint-disable typescript/no-unnecessary-type-assertion
   /** @type {PluginObj<State>} */
   return {
     // Setup state for the transform, we don't want to re-import

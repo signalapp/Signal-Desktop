@@ -471,8 +471,6 @@ export namespace AxoBaseField {
           'peer-has-[input]:overflow-hidden'
         )}
       >
-        {/* FIXME */}
-        {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
         <input
           ref={mergedRef}
           id={segmentContext.id}
