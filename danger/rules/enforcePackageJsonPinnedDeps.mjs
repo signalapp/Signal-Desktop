@@ -29,6 +29,11 @@ function isPinnedVersion(depSpec) {
   if (depSpec.startsWith('workspace:')) {
     return depSpec === 'workspace:*'; // pnpm 11 default
   }
+  if (depSpec.startsWith('npm:')) {
+    const lastIndex = depSpec.lastIndexOf('@');
+    const version = depSpec.slice(lastIndex + 1);
+    return semver.valid(version) != null;
+  }
   return semver.valid(depSpec) != null;
 }
 

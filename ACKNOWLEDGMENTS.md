@@ -5704,7 +5704,7 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-## @typescript/native-preview
+## @typescript/native
 
     Apache License
 

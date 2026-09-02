@@ -36,7 +36,7 @@
     "node": ">=24.17.0"
   },
   "scripts": {
-    "check": "tsgo --noEmit",
+    "check": "tsc --noEmit",
     "build": "tsdown",
     "prepare": "pnpm run build"
   },
@@ -48,9 +48,9 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@arethetypeswrong/core": "0.18.4",
-    "@typescript/native-preview": "7.0.0-dev.20260515.1",
+    "@arethetypeswrong/core": "0.18.5",
+    "typescript": "7.0.2",
     "publint": "0.3.21",
-    "tsdown": "0.22.3"
+    "tsdown": "0.22.14"
   }
 }
