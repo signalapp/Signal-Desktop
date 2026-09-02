@@ -652,7 +652,10 @@ export default {
     pickLocalBackupFolder: () =>
       Promise.resolve('/home/signaluser/Signal Backups/'),
     disableLocalBackups: () => Promise.resolve(),
-    promptOSAuth: () => Promise.resolve('success'),
+    promptOSAuth: async () => {
+      await sleep(1000);
+      return 'success';
+    },
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),
@@ -742,6 +745,22 @@ const Template: StoryFn<PropsType> = args => {
 
 export const _Preferences = Template.bind({});
 
+export const Account = Template.bind({});
+Account.args = {
+  settingsLocation: { page: SettingsPage.Account },
+};
+export const AccountE164Less = Template.bind({});
+AccountE164Less.args = {
+  phoneNumber: undefined,
+  me: { ...me, phoneNumber: undefined },
+  settingsLocation: { page: SettingsPage.Account },
+};
+export const AccountKeys = Template.bind({});
+AccountKeys.args = {
+  phoneNumber: undefined,
+  me: { ...me, phoneNumber: undefined },
+  settingsLocation: { page: SettingsPage.AccountKeys },
+};
 export const General = Template.bind({});
 General.args = {
   settingsLocation: { page: SettingsPage.General },

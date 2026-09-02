@@ -67,6 +67,7 @@ export enum NavTab {
 export enum SettingsPage {
   // Accessible through left nav
   Profile = 'Profile',
+  Account = 'Account',
   General = 'General',
   Donations = 'Donations',
   Appearance = 'Appearance',
@@ -79,6 +80,7 @@ export enum SettingsPage {
   Internal = 'Internal',
 
   // Sub pages
+  AccountKeys = 'AccountKeys',
   Blocked = 'Blocked',
   ChatColor = 'ChatColor',
   ChatFolders = 'ChatFolders',

@@ -99,6 +99,22 @@
     "messageformat": "Donate to Signal",
     "description": "The title of the preferences pane for donating to signal"
   },
+  "icu:LinkedDevicesOnboardingDialog__description": {
+    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices.",
+    "description": "Description of the Linked Devices Onboarding Dialog"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--1": {
+    "messageformat": "You can link a desktop, tablet or additional phone.",
+    "description": "First bullet point of the Linked Devices Onboarding Dialog"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--2": {
+    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices.",
+    "description": "Second bullet point of the Linked Devices Onboarding Dialog"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
+    "messageformat": "Account settings are managed on your primary device only, including account settings and backups.",
+    "description": "Third bullet point of the Linked Devices Onboarding Dialog"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard",
     "description": "Label text for standard media quality option"
@@ -8084,6 +8100,10 @@
     "messageformat": "Notify when someone reacts to your message",
     "description": "Description of setting to enable/disable system notifications when someone reacts to your message"
   },
+  "icu:Preferences__button--account": {
+    "messageformat": "Account",
+    "description": "Button to switch the settings view"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "General",
     "description": "Button to switch the settings view"
@@ -8175,6 +8195,42 @@
   "icu:Preferences--system": {
     "messageformat": "System",
     "description": "Title for system type settings"
+  },
+  "icu:Preferences--signal-login": {
+    "messageformat": "Signal Login",
+    "description": "Title for Signal Login part of Account settings"
+  },
+  "icu:Preferences--signal-login-description": {
+    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>.",
+    "description": "Footer for Signal Login part of Account settings"
+  },
+  "icu:Preferences--signal-login-description--learn-more": {
+    "messageformat": "Learn more",
+    "description": "Footer for Signal Login part of Account settings > Learn More"
+  },
+  "icu:Preferences__SignalAccount__label": {
+    "messageformat": "Account & Recovery",
+    "description": "Label for Signal Login preferences item"
+  },
+  "icu:Preferences__SignalAccount__description": {
+    "messageformat": "2 keys",
+    "description": "Description for Signal Login preferences item"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountKey": {
+    "messageformat": "Account key",
+    "description": "Label for the Account Key in Signal Account Keys preferences page"
+  },
+  "icu:Preferences__SignalAccountKeys__RecoveryKey": {
+    "messageformat": "Recovery key",
+    "description": "Label for the Recovery Key in Signal Account Keys preferences page"
+  },
+  "icu:Preferences__Account__LinkedDevice__label": {
+    "messageformat": "This is a linked device",
+    "description": "Label of linked device section of Account settings"
+  },
+  "icu:Preferences__Account__LinkedDevice__description": {
+    "messageformat": "To manage your account settings, open Signal on your primary device.",
+    "description": "Description of linked device section of Account settings"
   },
   "icu:Preferences--zoom": {
     "messageformat": "Zoom level",

@@ -22,7 +22,10 @@ import { WidthBreakpoint } from './_util.std.ts';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
-import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
+import {
+  KEY_TRANSPARENCY_URL,
+  RESTORE_ACCOUNT_URL,
+} from '../types/support.std.ts';
 import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
@@ -98,6 +101,9 @@ import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 import { isDonationsPage } from './PreferencesDonations.dom.tsx';
 import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.ts';
 import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
+import { LinkedDevicesOnboardingDialog } from './preferences/LinkedDevicesOnboardingDialog.dom.tsx';
+import { SignalAccountKeys } from './preferences/SignalAccountKeys.dom.tsx';
+import { SignalAccountKeysButton } from './preferences/SignalAccountKeysButton.dom.tsx';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
@@ -678,6 +684,7 @@ export function Preferences({
   const [languageSearchInput, setLanguageSearchInput] = useState('');
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
+  const [linkedDevicesOnboarding, setLinkedDevicesOnboarding] = useState(false);
 
   const handleOpenEditChatFoldersPage = useCallback(
     (chatFolderId: ChatFolderId | null) => {
@@ -863,16 +870,111 @@ export function Preferences({
     content = renderProfileEditor({
       contentsRef: settingsPaneRef,
     });
+  } else if (settingsLocation.page === SettingsPage.Account) {
+    const pageContents = (
+      <ListGroup>
+        {!weArePrimaryDevice && (
+          <>
+            <List>
+              <AxoClickableItem.Root
+                symbol="device-laptop"
+                label={i18n('icu:Preferences__Account__LinkedDevice__label')}
+                arrow
+                description={i18n(
+                  'icu:Preferences__Account__LinkedDevice__description'
+                )}
+                onClick={() => setLinkedDevicesOnboarding(true)}
+              />
+            </List>
+            {linkedDevicesOnboarding && (
+              <LinkedDevicesOnboardingDialog
+                i18n={i18n}
+                onDismiss={() => setLinkedDevicesOnboarding(false)}
+              />
+            )}
+          </>
+        )}
+        {!phoneNumber && (
+          <List
+            label={i18n('icu:Preferences--signal-login')}
+            footerDescription={
+              <I18n
+                i18n={i18n}
+                id="icu:Preferences--signal-login-description"
+                components={{
+                  learnMoreLink: () => (
+                    <a
+                      href={RESTORE_ACCOUNT_URL}
+                      rel="noreferrer"
+                      target="_blank"
+                      className={tw('text-primary')}
+                    >
+                      {i18n(
+                        'icu:Preferences--signal-login-description--learn-more'
+                      )}
+                    </a>
+                  ),
+                }}
+              />
+            }
+          >
+            <SignalAccountKeysButton
+              i18n={i18n}
+              promptOSAuth={promptOSAuth}
+              onClick={() => {
+                setSettingsLocation({ page: SettingsPage.AccountKeys });
+              }}
+            />
+          </List>
+        )}
+      </ListGroup>
+    );
+    content = (
+      <PreferencesContent
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences__button--account')}
+      />
+    );
+  } else if (settingsLocation.page === SettingsPage.AccountKeys) {
+    const backButton = (
+      <button
+        aria-label={i18n('icu:goBack')}
+        className="Preferences__back-icon"
+        onClick={() => setSettingsLocation({ page: SettingsPage.Account })}
+        type="button"
+      />
+    );
+
+    const pageContents = (
+      <div className={tw('px-4')}>
+        <SignalAccountKeys
+          i18n={i18n}
+          serviceId={me.serviceId}
+          backupKey={backupKey}
+        />
+      </div>
+    );
+    content = (
+      <PreferencesContent
+        backButton={backButton}
+        contents={pageContents}
+        contentsRef={settingsPaneRef}
+        title={i18n('icu:Preferences--signal-login')}
+      />
+    );
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
       <ListGroup>
         <List
           footerDescription={i18n('icu:Preferences--device-name__description')}
         >
-          <AxoTextItem.Root
-            label={i18n('icu:Preferences--phone-number')}
-            value={phoneNumber}
-          />
+          {phoneNumber && (
+            <AxoTextItem.Root
+              label={i18n('icu:Preferences--phone-number')}
+              value={phoneNumber}
+            />
+          )}
           <AxoTextItem.Root
             label={i18n('icu:Preferences--device-name')}
             value={deviceName}
@@ -2486,9 +2588,11 @@ export function Preferences({
                   <div className="Preferences__profile-chip__name">
                     {me.title}
                   </div>
-                  <div className="Preferences__profile-chip__number">
-                    {me.phoneNumber}
-                  </div>
+                  {me.phoneNumber && (
+                    <div className="Preferences__profile-chip__number">
+                      {me.phoneNumber}
+                    </div>
+                  )}
                   {me.username && (
                     <div className="Preferences__profile-chip__username">
                       {me.username}
@@ -2526,6 +2630,28 @@ export function Preferences({
                   </button>
                 )}
               </div>
+              {(!weArePrimaryDevice || !phoneNumber) && (
+                <PreferencesButton
+                  symbol="person-circle"
+                  label={i18n('icu:Preferences__button--account')}
+                  current={
+                    settingsLocation.page === SettingsPage.Account ||
+                    settingsLocation.page === SettingsPage.AccountKeys
+                  }
+                  onClick={() =>
+                    setSettingsLocation({ page: SettingsPage.Account })
+                  }
+                />
+              )}
+              <PreferencesButton
+                symbol="heart"
+                label={i18n('icu:Preferences__button--donate')}
+                current={isDonationsPage(settingsLocation.page)}
+                onClick={() =>
+                  setSettingsLocation({ page: SettingsPage.Donations })
+                }
+              />
+              <div className={tw('mx-3.5 my-2 border-be border-primary')} />
               <PreferencesButton
                 symbol="settings"
                 label={i18n('icu:Preferences__button--general')}
@@ -2598,14 +2724,6 @@ export function Preferences({
                 current={isBackupPage(settingsLocation.page)}
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.Backups })
-                }
-              />
-              <PreferencesButton
-                symbol="heart"
-                label={i18n('icu:Preferences__button--donate')}
-                current={isDonationsPage(settingsLocation.page)}
-                onClick={() =>
-                  setSettingsLocation({ page: SettingsPage.Donations })
                 }
               />
               {isInternalUser ? (

@@ -12,6 +12,7 @@ import {
   SettingsRow,
 } from './PreferencesUtil.dom.tsx';
 import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups.dom.tsx';
+import { OSAuthErrorDialog } from './preferences/OSAuthErrorDialog.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
@@ -348,32 +349,11 @@ export function PreferencesLocalBackups({
         />
       ) : null}
 
-      {authError ? (
-        <AxoAlertDialog.Root
-          open
-          onOpenChange={open => {
-            if (!open) {
-              setAuthError(undefined);
-            }
-          }}
-        >
-          <AxoAlertDialog.Content escape="cancel-is-noop">
-            <AxoAlertDialog.Title screenReaderOnly>
-              {i18n('icu:Toast--error')}
-            </AxoAlertDialog.Title>
-            <AxoAlertDialog.Body>
-              <AxoAlertDialog.Description>
-                {i18n(
-                  'icu:Preferences__local-backups-auth-error--unauthorized'
-                )}
-              </AxoAlertDialog.Description>
-            </AxoAlertDialog.Body>
-            <AxoAlertDialog.Footer>
-              <AxoAlertDialog.Cancel>{i18n('icu:ok')}</AxoAlertDialog.Cancel>
-            </AxoAlertDialog.Footer>
-          </AxoAlertDialog.Content>
-        </AxoAlertDialog.Root>
-      ) : null}
+      <OSAuthErrorDialog
+        i18n={i18n}
+        open={authError != null}
+        onOpenChange={newOpen => setAuthError(newOpen ? 'error' : undefined)}
+      />
 
       {isShowingBackupKeyChangedModal ? (
         <AxoAlertDialog.Root
