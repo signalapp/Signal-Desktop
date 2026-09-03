@@ -3990,46 +3990,46 @@
     "messageformat": "Ontdemp"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Demp hierdie klets vir…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Demp hierdie kletse vir…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 uur"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 uur"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 dag"
   },
   "icu:MuteMenu__week": {
     "messageformat": "1 week"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Tot…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Altyd"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Kies 'n datum"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Kies 'n tyd"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Demp hierdie klets tot…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Datum"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Tyd"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Alle tye in {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Altyd gedemp"
@@ -6005,10 +6005,10 @@
     "messageformat": "Hoor 'n kennisgewingklank vir gestuurde en ontvangde boodskappe terwyl jy in die klets is."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Reaksiekennisgewings"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Stel in kennis wanneer iemand op jou boodskap reageer"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Algemeen"
@@ -6110,28 +6110,28 @@
     "messageformat": "Gevorderd"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal-PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN-herinnerings"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Jy sal mettertyd al hoe minder gevra word"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Kennisgewinginhoud"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Teksinvoer"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Kletsvouers"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Klanke"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Toepassingswapen"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Voer kletsgeskiedenis uit"
@@ -6761,7 +6761,7 @@
     "messageformat": "Indien dit gedeaktiveer is, sal jy nie tikaanwysers vanaf andere kan sien nie."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Sien en deel wanneer boodskap gelees of getik word. Indien dit gedeaktiveer is, sal jy nie leesbewyse of tikaanwysers van andere af ontvang nie."
   },
   "icu:Preferences--updates": {
     "messageformat": "Bywerkings"
@@ -8070,34 +8070,34 @@
     "messageformat": "Wys weg"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Verifieer jou Signal-PIN"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Ons sal jou af en toe vra om jou PIN te verifieer sodat jy dit kan onthou."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Verifieer"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Nie nou nie"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Voer jou Signal-PIN in"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Om jou te help om jou PIN te memoriseer, sal ons jou af en toe vra om dit in te voer. Ons sal dit mettertyd al minder vra."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Voer jou PIN in"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Verkeerde PIN. Probeer weer"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Bevestig"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN korrek. Ons sal jou weer later herinner."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal vir rekenaars sal binnekort nie meer jou rekenaar se weergawe van {OS} ondersteun nie. Om voort te gaan om Signal te gebruik, doen 'n opdatering van jou rekenaar se bedryfstelsel teen {expirationDate}. <learnMoreLink>Vind meer uit</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Ons het twee nuwe zoemvlakke (110% en 90%) in die voorkomsinstellings bygevoeg."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Verbeterings in soektogte vir groeplede."
   }
 }

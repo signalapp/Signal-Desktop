@@ -3990,46 +3990,46 @@
     "messageformat": "Вкл. звук"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Отключить звуки чата на…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Отключить уведомления для этих чатов на…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 час"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 часов"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 день"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 неделю"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "До…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Всегда"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Выбор даты"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Выбор времени"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Отключить уведомления для этого чата до…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Дате"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Время"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Время всегда в {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Звук отключён навсегда"
@@ -6005,10 +6005,10 @@
     "messageformat": "Прослушивайте звуковой сигнал уведомления об отправленных и полученных сообщениях во время общения в чате."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Уведомления о реакциях"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Уведомлять, когда кто-то реагирует на ваше сообщение"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Общие"
@@ -6110,28 +6110,28 @@
     "messageformat": "Расширенные"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "PIN-код Signal"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Напоминания PIN-кода"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Напоминания будут появляться реже со временем"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Содержимое уведомления"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Ввод текста"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Папки чатов"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Звуки"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Значок приложения"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Экспортировать историю чата"
@@ -6761,7 +6761,7 @@
     "messageformat": "Если отключено, вы не будете видеть индикаторы набора текста других пользователей."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Узнавайте и делитесь информацией, когда сообщения читаются и набираются. Если отключено, вы не будете видеть уведомления о прочтении или индикаторы набора текста другими пользователями."
   },
   "icu:Preferences--updates": {
     "messageformat": "Обновления"
@@ -8070,34 +8070,34 @@
     "messageformat": "Закрыть"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Подтвердите свой PIN-код Signal"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Иногда мы будем просить вас подтвердить свой Пин-код, чтобы вы его не забывали."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Подтвердить"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Не сейчас"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Введите свой PIN-код"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Чтобы помочь вам запомнить свой Пин-код, мы будем периодически просить вас вводить его. Со временем это будет происходить реже."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Введите свой PIN-код"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Неверный Пин-код. Попробовать ещё раз"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Подтвердить"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "Пин-код правильный. Мы напомним вам позже."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "В скором времени Signal перестанет поддерживать версию {OS}, установленную на вашем компьютере. Чтобы продолжить использование Signal, обновите ОС на вашем компьютере до {expirationDate}. <learnMoreLink>Узнать больше</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Мы добавили два новых уровня масштабирования в настройках интерфейса, так что вы без особых усилий сможете увеличить свои сообщения на 110% (или на 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "В поисках себя можно находиться всю жизнь, но теперь в поиске участников группы вы будете отображаться как «Вы» — так будет немного проще."
   }
 }

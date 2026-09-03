@@ -3990,46 +3990,46 @@
     "messageformat": "取消靜音"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "將此聊天設為靜音…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "將這些聊天設為靜音…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 小時"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 小時"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 天"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 週"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "直到…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "總是"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "選擇日期"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "選擇時間"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "將此聊天設為靜音直到…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "日期"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "時間"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "所有時間均為 {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "總是靜音"
@@ -6005,10 +6005,10 @@
     "messageformat": "在聊天當中聽到已傳送和接收訊息的通知音效。"
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "心情回應通知"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "有人對你的訊息傳送心情回應時發送通知"
   },
   "icu:Preferences__button--general": {
     "messageformat": "一般"
@@ -6110,28 +6110,28 @@
     "messageformat": "進階"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal PIN 碼"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN 碼提醒"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "隨著時間過去，詢問您的次數會減少"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "通知內容"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "文字輸入"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "聊天資料夾"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "聲音"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "應用程式徽章"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "匯出聊天紀錄"
@@ -6761,7 +6761,7 @@
     "messageformat": "如果停用，你就無法看到別人的輸入狀態。"
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "查看並分享訊息已讀與輸入中的狀態。如果停用，你將無法看到其他人的已讀標記或輸入狀態。"
   },
   "icu:Preferences--updates": {
     "messageformat": "更新"
@@ -8070,34 +8070,34 @@
     "messageformat": "解除"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "驗證您的 Signal PIN 碼"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "我們偶爾會要求您驗證您的 PIN 碼，以確保您能記住它。"
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "驗證"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "現在不要"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "輸入您的 Signal PIN 碼"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "為幫助您記住您的 PIN 碼，我們將定期要求您輸入 PIN 碼。隨著時間過去，我們會減少要求。"
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "輸入你的 PIN 碼"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN 碼不正確。再試一次"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "確認"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN 碼正確。我們稍後會再次提醒你。"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 桌面版即將停止支援你的電腦使用的 {OS} 版本。如要繼續使用 Signal，請在 {expirationDate}前更新電腦的作業系統。<learnMoreLink>了解更多</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "我們在外觀設定中新增了兩個縮放級別，因此你不費吹灰之力，就能將訊息放大到 110%（或縮到 90%）。"
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "尋找自我可能是一輩子的過程，但現在你在群組成員搜尋中會顯示為「你」，讓尋找自己容易一些。"
   }
 }

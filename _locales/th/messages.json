@@ -3990,46 +3990,46 @@
     "messageformat": "เปิดเสียง"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "ปิดเสียงแชทนี้เป็นเวลา…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "ปิดการแจ้งเตือนแชทนี้เป็นเวลา…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 ชั่วโมง"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 ชั่วโมง"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 วัน"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 สัปดาห์"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "จนถึง…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "ตลอดเวลา"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "เลือกวันที่"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "เลือกเวลา"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "ปิดการแจ้งเตือนแชทนี้จนถึง…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "วันที่"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "เวลา"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "เวลาทั้งหมดอยู่ในเขตเวลา {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "ปิดเสียงตลอดอยู่"
@@ -6005,10 +6005,10 @@
     "messageformat": "เปิดเสียงแจ้งเตือนเมื่อมีการส่งหรือได้รับข้อความในระหว่างที่เปิดแชท"
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "การแจ้งเตือนการแสดงความรู้สึก"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "แจ้งให้ทราบเมื่อมีคนแสดงความรู้สึกต่อข้อความของคุณ"
   },
   "icu:Preferences__button--general": {
     "messageformat": "ทั่วไป"
@@ -6113,25 +6113,25 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "เตือนความจำรหัส PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "ระบบจะสอบถามคุณน้อยลงเรื่อยๆ"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ข้อความแจ้งเตือน"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "การพิมพ์ข้อความ"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "โฟลเดอร์แชท"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "เสียง"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "ป้ายกำกับแอป"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ส่งออกประวัติการแชท"
@@ -6761,7 +6761,7 @@
     "messageformat": "หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "มองเห็นและแชร์สถานะเมื่อมีการอ่านหรือพิมพ์ข้อความ หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์การแจ้งว่าอ่านแล้วหรือสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
   },
   "icu:Preferences--updates": {
     "messageformat": "การปรับรุ่น"
@@ -8070,34 +8070,34 @@
     "messageformat": "ปิด"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "ตรวจยืนยัน Signal PIN ของคุณ"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "เราจะถามให้คุณตรวจยืนยันรหัส PIN ของคุณเป็นระยะ เพื่อให้คุณจำมันได้"
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "ตรวจยืนยัน"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ไว้ทีหลัง"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "ใส่ Signal PIN ของคุณ"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "เพื่อช่วยให้คุณจดจำรหัส PIN ได้ เราจะขอให้คุณใส่รหัส PIN เป็นระยะ เราจะถามคุณน้อยลงเมื่อเวลาผ่านไป"
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "ใส่รหัส PIN ของคุณ"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN ไม่ถูกต้อง ลองอีกครั้ง"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "ยืนยัน"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN ถูกต้อง เราจะแจ้งเตือนคุณอีกครั้งในภายหลัง"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal เดสก์ท็อปกำลังจะหยุดรองรับเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่ เพื่อการใช้งานอย่างต่อเนื่อง กรุณาอัปเดตระบบปฏิบัติการของคอมพิวเตอร์ภายใน {expirationDate} <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "เราเพิ่มระดับการซูมใหม่ให้คุณอีกสองเลเวล (110% และ 90%) ลองเข้าไปปรับใช้ได้เลยในการตั้งค่า “ลักษณะ”"
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "พัฒนาระบบค้นหาสมาชิกในกลุ่มให้สะดวกยิ่งขึ้นอีก"
   }
 }

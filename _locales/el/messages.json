@@ -3990,46 +3990,46 @@
     "messageformat": "Αναίρεση σίγασης"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Σίγαση συνομιλίας για…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Σίγαση συνομιλιών για…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 ώρα"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 ώρες"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 ημέρα"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 εβδομάδα"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Μέχρι..."
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Πάντα"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Επίλεξε μία ημερομηνία"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Επίλεξε μία ώρα"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Σίγαση συνομιλίας έως..."
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Ημερομηνία"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Ώρα"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Όλες οι ώρες σε {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Πάντα σε σίγαση"
@@ -6005,10 +6005,10 @@
     "messageformat": "Άκου έναν ήχο ειδοποίησης για απεσταλμένα και ληφθέντα μηνύματα κατά τη διάρκεια της συνομιλίας."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Ειδοποιήσεις αντιδράσεων"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Ειδοποίηση όταν κάποιος αντέδρασε στο μήνυμά σου"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Γενικά"
@@ -6110,28 +6110,28 @@
     "messageformat": "Για προχωρημένους"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "PIN Signal"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Υπενθυμίσεις PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Θα στο ζητάμε όχι τόσο συχνά όσο περνάει ο καιρός"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Περιεχόμενο ειδοποίησης"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Εισαγωγή κειμένου"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Φάκελοι συνομιλιών"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Ήχοι"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Σήμα εφαρμογής"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Εξαγωγή ιστορικού συνομιλιών"
@@ -6761,7 +6761,7 @@
     "messageformat": "Αν είναι απενεργοποιημένα, δε θα μπορείς να δεις ενδείξεις πληκτρολόγησης από άλλους/ες."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Δες και μοιράσου όταν τα μηνύματα έχουν διαβαστεί και πληκτρολογούνται. Αν απενεργοποιηθεί, δεν θα βλέπεις τα αποδεικτικά ανάγνωσης ή τις ενδείξεις πληκτρολόγησης από άλλους."
   },
   "icu:Preferences--updates": {
     "messageformat": "Αναβαθμίσεις"
@@ -8070,34 +8070,34 @@
     "messageformat": "Απόρριψη"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Επιβεβαίωσε το Signal PIN σου"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Περιστασιακά θα σε ρωτάμε να επαληθεύσεις το PIN ώστε να το θυμάσαι."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Επιβεβαίωση"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Όχι τώρα"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Γράψε το Signal PIN σου"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Για να σε βοηθήσουμε να θυμάσαι το PIN, θα σε προτρέπουμε να το γράφεις κάθε τόσο. Θα σε ρωτάμε ολοένα και πιο σπάνια."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Γράψε το PIN σου"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Λάθος ΡΙΝ. Ξαναπροσπάθησε"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Επιβεβαίωση"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "Το PIN είναι σωστό. Θα στο θυμίσουμε πάλι αργότερα."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Το Signal desktop δεν θα υποστηρίζει πλέον την έκδοση του υπολογιστή σου {OS} σύντομα. Για να συνεχίσεις να χρησιμοποιείς τη Signal, ενημέρωσε το λειτουργικό σύστημα του υπολογιστή σου έως τις {expirationDate}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Προσθέσαμε δύο νέα επίπεδα μεγέθυνσης στις ρυθμίσεις εμφάνισης (110% και 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Βελτιώσεις στην αναζήτηση των μελών ομάδας."
   }
 }

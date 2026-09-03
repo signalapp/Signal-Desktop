@@ -3990,46 +3990,46 @@
     "messageformat": "Вклучи известувања"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Исклучете ги известувањата за овој разговор за…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Исклучете ги известувањата за овие разговори за…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 час"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 часа"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 ден"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 недела"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "До…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Секогаш"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Одберете датум"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Одберете време"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Исклучете ги известувањата за овој разговор до…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Датум"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Време"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Сите часови се изразени во {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Секогаш исклучени известувања"
@@ -6005,10 +6005,10 @@
     "messageformat": "Слушнете звук за известување за испратени и примени пораки додека сте во разговорот."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Известувања за реакции"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Известување кога некој ќе реагира на ваша порака"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Општо"
@@ -6113,25 +6113,25 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Потсетувања за PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Со тек на време ќе Ве потсетуваме се поретко."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Содржина на известување"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Поле за пишување текст"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Папки со разговори"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Звуци"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Беџови на апликацијата"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Извоз на историјата на разговори"
@@ -6761,7 +6761,7 @@
     "messageformat": "Ако оваа опција е оневозможена, нема да гледате индикатори за пишување од другите."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Видете и споделете дека пораките се прочитани или дека во тек е пишување на порака. Ако оваа опција е оневозможена, нема да гледате потврда за прочитана порака или индикатори за пишување од другите."
   },
   "icu:Preferences--updates": {
     "messageformat": "Ажурирања"
@@ -8070,34 +8070,34 @@
     "messageformat": "Откажи"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Проверете го Вашиот Signal PIN"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Повремено ќе бараме да го потврдите вашиот PIN со цел да го запомните."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Верифицирај"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Не сега"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Внесете го Вашиот Signal PIN"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "За да ви помогнеме да го запомните PIN-от, одвреме навреме ќе бараме да го внесете. Со тек на време ќе ве потсетуваме поретко."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Внесете го Вашиот PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Погрешен PIN. Обиди се повторно"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Потврди"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN-от е точен. Ќе ве потсетиме пак подоцна."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal за десктоп наскоро ќе престане да ја поддржува верзијата на {OS} на вашиот компјутер. За да продолжите да користите Signal, ажурирајте го оперативниот систем на вашиот компјутер до {expirationDate}. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Додадовме две нови нивоа на зголемување на сликата во поставувањата за изглед на екран (110% и 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Подобрувања при пребарувањата на членови на групата."
   }
 }

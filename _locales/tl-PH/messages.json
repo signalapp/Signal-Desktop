@@ -3990,46 +3990,46 @@
     "messageformat": "I-unmute"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "I-mute ang chat na ito nang…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "I-mute ang chats na ito nang…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 oras"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 oras"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 araw"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 linggo"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Hanggang…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Palagi"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Pumili ng petsa"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Pumili ng oras"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "I-mute ang chat na ito hanggang…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Petsa"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Oras"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Lahat ng mga oras ay {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Naka-mute palagi"
@@ -6008,7 +6008,7 @@
     "messageformat": "Reaction notifications"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Mag-notify kapag may nag-react sa message mo"
   },
   "icu:Preferences__button--general": {
     "messageformat": "General"
@@ -6116,7 +6116,7 @@
     "messageformat": "PIN reminders"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Hindi ka na tatanungin nang madalas"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content"
@@ -6761,7 +6761,7 @@
     "messageformat": "Kapag naka-disable ito, hindi mo makikita ang typing indicators mula sa iba."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Makita at i-share kapag nabasa na at tina-type ang isang message. Kapag naka-disable ito, hindi mo makikita ang read receipts o typing indicators mula sa iba."
   },
   "icu:Preferences--updates": {
     "messageformat": "Updates"
@@ -8070,34 +8070,34 @@
     "messageformat": "I-dismiss"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "I-verify ang PIN ng iyong Signal"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Ipapa-verify namin sa 'yo ang PIN mo paminsan-minsan para matandaan mo ito."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "I-verify"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Hindi na muna"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Ilagay ang iyong Signal PIN"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Para tulungan kang ma-memorize ang PIN mo, hihingin namin ito sa 'yo paminsan-minsan. Babawasan namin ang paghingi nito habang tumatagal."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Ilagay ang iyong PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Mali ang PIN. Subukan ulit"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Kumpirmahin"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "Tama ang PIN. Ipapaalala namin ulit ito sa 'yo mamaya."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Malapit nang hindi masuportahan ng Signal ang {OS} version ng iyong computer. Para patuloy na magamit ang Signal, i-update ang operating system ng computer mo bago sumapit ang {expirationDate}. <learnMoreLink>Matuto pa</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Nagdagdag kami ng dalawang bagong zoom levels sa appearance settings (110% at 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Improvements sa group member search."
   }
 }

@@ -3990,46 +3990,46 @@
     "messageformat": "Įjungti garsą"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Nutildyti šį pokalbį…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Nutildyti šiuos pokalbius…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 valanda"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 valandos"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 diena"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 savaitė"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Iki…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Visada"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Rinktis datą"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Rinktis laiką"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Nutildyti šį pokalbį iki…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Data"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Laikas"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Rodomas laikas: {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Visada nutildytas"
@@ -6005,10 +6005,10 @@
     "messageformat": "Girdėti pranešimo garsą, kai pokalbyje išsiunčiamos ir gaunamos žinutės."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Reakcijų pranešimai"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Pranešti, kai kas nors sureaguoja į jūsų žinutę"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Bendra"
@@ -6110,28 +6110,28 @@
     "messageformat": "Išplėstiniai"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal PIN kodas"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN kodo priminimai"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Bėgant laikui, jūsų bus klausiama vis rečiau"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Pranešimų turinys"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Teksto įvestis"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Pokalbių aplankai"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Garsai"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Programėlės ženklelis"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportuoti pokalbių istoriją"
@@ -6761,7 +6761,7 @@
     "messageformat": "Išjungę nebegalėsite matyti kitų žmonių rašymo indikatorių."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Žiūrėti ir dalintis, kai žinutė perskaitoma ir rašoma. Išjungę nebegalėsite matyti kitų žmonių perskaitymo pranešimų ir rašymo indikatorių."
   },
   "icu:Preferences--updates": {
     "messageformat": "Atnaujinimai"
@@ -8070,34 +8070,34 @@
     "messageformat": "Atmesti"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Patvirtinkite savo Signal PIN kodą"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Retkarčiais, tam kad prisimintumėte savo PIN kodą, prašysime jūsų jį patvirtinti."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Patvirtinti"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Ne dabar"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Įveskite savo Signal PIN kodą"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Tam, kad įsimintumėte savo PIN kodą, mes laikas nuo laiko prašysime jį įvesti. Bėgant laikui, mes tai darysime rečiau."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Įveskite savo PIN kodą"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Neteisingas PIN. Bandykite dar kartą"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Patvirtinti"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN kodas teisingas. Vėliau dar kartą priminsime."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Netrukus „Signal“ nebepalaikys tavo kompiuteryje esančios {OS} versijos. Jei nori toliau naudoti „Signal“, atnaujink kompiuterio operacinę sistemą iki {expirationDate}. <learnMoreLink>Sužinok daugiau</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Išvaizdos nustatymuose pridėjome du naujus mastelio lygius (110 % ir 90 %)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Grupės narių paieškos patobulinimai."
   }
 }

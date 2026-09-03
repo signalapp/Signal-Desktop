@@ -3990,46 +3990,46 @@
     "messageformat": "Увімкнути сповіщення"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Вимкнути сповіщення чату на…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Вимкнути сповіщення цих чатів на…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 годину"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 годин"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 день"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 тиждень"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "До…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Назавжди"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Виберіть дату"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Виберіть час"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Вимкнути сповіщення чату до…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Дата"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Час"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Зазначений час — {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Сповіщення завжди вимкнено"
@@ -6005,10 +6005,10 @@
     "messageformat": "Надсилати й отримувати повідомлення зі звуковим сповіщенням, якщо чат відкрито."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Сповіщення про реакції"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Отримувати сповіщення, коли на ваші повідомлення реагують"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Загальні"
@@ -6110,28 +6110,28 @@
     "messageformat": "Додаткові налаштування"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "PIN-код Signal"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Нагадувати PIN-код"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "З часом нагадування з'являтимуться рідше"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Зміст сповіщень"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Введення тексту"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Папки для чатів"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Звуки"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Значок застосунку"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Експортувати історію чатів"
@@ -6761,7 +6761,7 @@
     "messageformat": "Якщо вимкнути, ви не будете бачити індикатор набору тексту, коли інші користувачі набиратимуть повідомлення."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Ці функції дають вам і вашим співрозмовникам змогу бачити, що повідомлення прочитано / триває набір тексту. Якщо їх вимкнути, ви не будете бачити відміток про читання ваших повідомлень і індикаторів набору тексту."
   },
   "icu:Preferences--updates": {
     "messageformat": "Оновлення"
@@ -8070,34 +8070,34 @@
     "messageformat": "Закрити"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Підтвердьте свій PIN-код Signal"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Періодично ми проситимемо вас підтверджувати PIN-код, щоб ви його не забували."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Підтвердити"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Не зараз"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Ввести PIN-код Signal"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Щоб ви запам'ятали свій PIN-код, ми періодично проситимемо вас його вводити. Згодом це ставатиметься рідше."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Введіть свій PIN-код"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Неправильний PIN-код. Спробувати знов"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Підтвердити"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN-код правильний. Згодом ми нагадаємо знов."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Незабаром Signal Desktop перестане підтримувати версію {OS} вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Ми додали два нові рівні збільшення масштабу в налаштуваннях вигляду, щоб навіть із мінімальними зусиллями ваші повідомлення виглядали на всі 110% (або 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Пошук себе може тривати все життя, але принаймні тепер ви легко можете знайти себе в пошуку учасників групи, просто написавши «ти»."
   }
 }

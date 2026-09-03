@@ -3990,46 +3990,46 @@
     "messageformat": "အသံပြန်ဖွင့်ရန်"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားရန်..."
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "ဤချက်(တ်)များကို အသံပိတ်ထားရန်…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 နာရီ"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 နာရီ"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 ရက်"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 ပတ်"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "… အထိ"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "အမြဲ"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "ရက်စွဲတစ်ခု ရွေးရန်"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "အချိန်တစ်ခု ရွေးရန်"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားရန်..."
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "ရက်စွဲ"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "အချိန်"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "အချိန်အားလုံးကို {timeZone} ဖြင့် ပြသထားပါသည်"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "အမြဲ အသံပိတ်ထားပြီး"
@@ -6005,10 +6005,10 @@
     "messageformat": "ချက်(တ်)အတွင်း ရှိနေစဉ် ပေးပို့လိုက်သော မက်ဆေ့ချ်နှင့် လက်ခံရရှိသော မက်ဆေ့ချ်များအတွက် အသိပေးချက်အသံကို ကြားရမည်။"
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "တုံ့ပြန်မှု အသိပေးချက်များ"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ယောက်က တုံ့ပြန်ပါက အသိပေးချက် ပြရန်"
   },
   "icu:Preferences__button--general": {
     "messageformat": "အ​ထွေထွေ"
@@ -6113,25 +6113,25 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN သတိပေးချက်များ"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "အချိန်ကြာလာသည် နှင့်အမျှ သင့်ကို မေးမြန်းသည့်အကြိမ် နည်းသွားပါမည်"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "အသိပေးချက် အကြောင်းအရာ"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "စာရိုက်ထည့်ရန်"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ချက်(တ်)ဖိုင်တွဲများ"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "အသံ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "အက်ပ် ဘဲ့ဂျ်"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူပါ"
@@ -6761,7 +6761,7 @@
     "messageformat": "ပိတ်ထားပါက အခြားသူများထံမှ စာရိုက်နေကြောင်း အချက်ပြမှုကို သင်မမြင်ရပါ။"
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "မက်ဆေ့ချ်များကို ဖတ်ပြီးကြောင်းနှင့် စာရိုက်နေကြောင်းကို မြင်နိုင်ပြီး မျှဝေနိုင်ပါသည်။ ပိတ်ထားပါက အခြားသူများထံမှ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် စာရိုက်နေကြောင်း အချက်ပြမှုများကို မြင်ရမည်မဟုတ်ပါ။"
   },
   "icu:Preferences--updates": {
     "messageformat": "အပ်ဒိတ်များ"
@@ -8070,34 +8070,34 @@
     "messageformat": "ပယ်ရန်"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "မှတ်မိနေစေရန် အလို့ငှာ သင်၏ PIN ကို အတည်ပြုရန် မကြာခဏ ကျွန်ုပ်တို့တောင်းဆိုပါမည်။"
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "စစ်ဆေးအတည်ပြုမည်"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ယခု မလုပ်သေးပါ"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "သင့် Signal PIN ကို ရိုက်ထည့်ပါ"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "သင့် PIN ကို မှတ်မိလွယ်စေရန် အခါအားလျော်စွာ PIN ကို ပြန်လည်ထည့်သွင်းခိုင်းပါမည်။ အချိန်ကြာလာသည်နှင့်အမျှ မေးမြန်းမှု အကြိမ်ရေ လျော့နည်းသွားပါမည်။"
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "သင်၏ PIN ကို ထည့်ပါ"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN မှားနေသည်။ ထပ်မံကြိုးစားမည်"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "အတည်ပြုရန်"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN မှန်ကန်ပါသည်။ နောက်မှ ထပ်ပြီးသတိပေးပါမည်။"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို Signal Desktop က မကြာမီ ပံ့ပိုးပေးတော့မည် မဟုတ်ပါ။ Signal ကို ဆက်သုံးရန် သင့်ကွန်ပျူတာ၏ လုပ်ဆောင်မှုစနစ်ကို {expirationDate} မတိုင်မီ အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "ပုံပန်းသွင်ပြင် ဆက်တင်တွင် ချဲ့ကြည့်နိုင်သည့် အဆင့်အသစ် နှစ်ခုကို ထည့်သွင်းထားပါသည် (110% နှင့် 90%)။"
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "အဖွဲ့ဝင်ရှာဖွေမှုကို ကောင်းမွန်အောင် မွမ်းမံထားခြင်း။"
   }
 }

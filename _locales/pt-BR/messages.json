@@ -3990,46 +3990,46 @@
     "messageformat": "Reativar"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Silenciar este chat por…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Silenciar estas conversas por…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 hora"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 horas"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 dia"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 semana"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Até…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Sempre"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Escolha uma data"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Escolha uma hora"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Silenciar esta conversa até…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Data"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Hora"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Todos os horários estão sendo exibidos em {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Silenciada para sempre"
@@ -6005,10 +6005,10 @@
     "messageformat": "Ouvir um som de notificação para mensagens enviadas e recebidas enquanto estiver no chat."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Notificações de reação"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Notificar quando alguém reagir à sua mensagem"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Geral"
@@ -6110,28 +6110,28 @@
     "messageformat": "Avançadas"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "PIN do Signal"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Lembretes do PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Você será questionado com menos frequência ao longo do tempo"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Conteúdo da notificação"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Entrada de texto"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Pastas de conversas"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Sons"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Selo do app"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportar histórico de conversa"
@@ -6761,7 +6761,7 @@
     "messageformat": "Se este recurso estiver desabilitado, você não verá os indicadores de digitação de outras pessoas."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Ver e mostrar quando mensagens estiverem sendo lidas e digitadas. Se essa opção for desativada, você não verá as confirmações de leitura e os indicadores de digitação de outras pessoas."
   },
   "icu:Preferences--updates": {
     "messageformat": "Atualizações"
@@ -8070,34 +8070,34 @@
     "messageformat": "Ignorar"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Verifique seu PIN do Signal"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Pediremos que você verifique seu PIN de tempos em tempos para mantê-lo fresco na sua memória."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Verificar"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Agora não"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Digite seu PIN do Signal"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Para ajudar a memorizar seu PIN, pediremos que você o insira periodicamente. Esses pedidos diminuirão com o passar do tempo."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Digite seu PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN incorreto. Tentar novamente"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Confirmar"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN correto. Vamos lembrar você novamente mais tarde."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "O Signal para desktop não será mais compatível com a versão do {OS} do seu computador em breve. Para continuar usando o Signal, atualize o sistema operacional do seu computador até {expirationDate}. <learnMoreLink>Saiba mais</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Adicionamos dois novos níveis de zoom nas configurações de aparência. "
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Agora você aparecerá como “Você” na busca por membros do grupo para facilitar um pouco. "
   }
 }

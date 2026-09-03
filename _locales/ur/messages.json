@@ -3990,46 +3990,46 @@
     "messageformat": "غیر خاموش کریں"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "اس چیٹ کو خاموش کریں تا وقتیکہ…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "ان چیٹس کو میوٹ کریں تاوقتیکہ…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 گھنٹا"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 گھنٹے"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 دن"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 ہفتہ"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "اس وقت تک…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "ہمیشہ"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "تاریخ منتخب کریں"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "وقت منتخب کریں"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "اس چیٹ کو میوٹ کریں تاوقتیکہ…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "تاریخ"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "وقت"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "{timeZone} کے تمام اوقات"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "ہمیشہ کے لیے خاموش کردہ"
@@ -6005,10 +6005,10 @@
     "messageformat": "چیٹ کے دوران بھیجے جانے والے اور موصول ہونے والے میسجز کے لیے اطلاعاتی آواز سنیں۔"
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "ری ایکشن کی اطلاعات"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "جب کوئی آپ کے میسج پر ری ایکٹ کرے تو اطلاع دیں"
   },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
@@ -6110,28 +6110,28 @@
     "messageformat": "اعلی' درجے کی"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal پن"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN یاددہانی"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "وقت کے ساتھ آپ سے کم پوچھا جائے گا"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "اطلاعی مواد"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "ٹیکسٹ ان پٹ"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "چیٹ فولڈرز"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "آوازیں"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "ایپ بیج"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "چیٹ ہسٹری ایکسپورٹ کریں"
@@ -6761,7 +6761,7 @@
     "messageformat": "اگر غیر فعال ہو، تو آپ دوسروں کے ٹائپنگ کے اشارے نہیں دیکھ پائیں گے۔"
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "جب میسج کو پڑھا اور ٹائپ کیا جا رہا ہو تو انہیں دیکھیں اور شیئر کریں۔ اگر غیر فعال ہے، تو آپ کو دوسروں کی طرف سے پڑھنے کا ثبوت یا ٹائپنگ کے اشارے دکھائی نہیں دیں گے۔"
   },
   "icu:Preferences--updates": {
     "messageformat": "اپ ڈیٹس"
@@ -8070,34 +8070,34 @@
     "messageformat": "منسوخ کریں"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "اپنے Signal پن کی تصدیق کریں"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "ہم کبھی کبھار آپ سے اپنے پن کی تصدیق کرنے کے لئے کہیں گے تاکہ آپ اسے یاد رکھیں۔"
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "تصدیق کریں"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ابھی نہیں"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "اپنا Signal پن داخل کریں"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "اپنا پن یاد رکھنے میں مدد کیلئے،ہم وقتآ فوقتآ داخل کرنے کا کہیں گے۔ہم وقت کیساتھ کم کہیں گے۔"
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "اپنا پن داخل کریں"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "غلط پن۔ دوبارہ کوشش کریں"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "تصدیق کریں"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "پِن درست ہے۔ ہم آپ کو بعد میں دوبارہ یاد کروائیں گے۔"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal ڈیسک ٹاپ جلد ہی {OS} کے آپ کے کمپیوٹر ورژن کی مزید معاونت نہیں کرے گا۔ Signal استعمال کرنا جاری رکھنے کے لیے، اپنے کمپیوٹر کے آپریٹنگ سسٹم کو {expirationDate} تک اپ ڈیٹ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "ہم نے رنگ روپ کی سیٹنگز میں زوم کے دو نئے لیولز شامل کیے ہیں یعنی آپ بہت تھوڑی سی محنت سے اپنے میسج کو 110% (یا 90%) دے سکتے ہیں۔"
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "خود کو تلاش کرنا ساری زندگی کا سفر ہے، لیکن اب آپ گروپ ممبرز کی سرچ میں آپ اپنے منفرد انداز میں نظر آئیں گے تاکہ ان کے لیے آسانی ہو۔"
   }
 }

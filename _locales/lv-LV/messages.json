@@ -3990,46 +3990,46 @@
     "messageformat": "Ieslēgt"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Izslēgt skaņu šajā sarunā uz…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Izslēgt skaņu šajās sarunās uz..."
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 stunda"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 stundas"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 diena"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 nedēļa"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Līdz..."
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Vienmēr"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Izvēlieties datumu"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Izvēlieties laiku"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Izslēgt skaņu šajā sarunā līdz..."
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Datums"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Laiks"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Visi laiki norādīti {timeZone} laika zonā"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Paziņojumi izslēgti vienmēr"
@@ -6005,10 +6005,10 @@
     "messageformat": "Atvērtā sarunā dzirdiet paziņojuma skaņu par nosūtītām un saņemtām ziņām."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Reakciju paziņojumi"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Rādīt paziņojumu, ja kāds reaģē uz jūsu ziņu"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Vispārīgi"
@@ -6113,25 +6113,25 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN atgādinājumi"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Laika gaitā jums tiks jautāts retāk"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Paziņojuma saturs"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Teksta ievade"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Sarunu mapes"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Skaņas"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Lietotnes nozīmīte"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportēt sarunu vēsturi"
@@ -6761,7 +6761,7 @@
     "messageformat": "Ja tie ir atspējoti, jūs neredzēsiet citu personu rakstīšanas indikatorus."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Redziet un ļaujiet citiem redzēt, kad esat izlasījuši vai rakstāt ziņas. Ja to atspējosiet, jūs neredzēsiet citu personu izlasīšanas apliecinājumus vai rakstīšanas indikatorus."
   },
   "icu:Preferences--updates": {
     "messageformat": "Atjauninājumi"
@@ -8070,34 +8070,34 @@
     "messageformat": "Nerādīt"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Signal PIN pārbaude"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Mēs jums reizēm pieprasīsim pārbaudīt jūsu PIN, lai jūs to atcerētos."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Verificēt"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Ne tagad"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Ievadiet jūsu Signal PIN"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Lai palīdzētu jums iegaumēt PIN, mēs jums lūgsim periodiski to ievadīt. Mēs pakāpeniski to lūgism retāk."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Ievadiet jūsu PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Nepareizs PIN. Mēģiniet vēlreiz"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Apstiprināt"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN pareizs. Atgādināsim vēlreiz vēlāk."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Drīzumā Signal Desktop vairs neatbalstīs jūsu datora {OS} versiju. Lai turpinātu lietot Signal, atjauniniet datora operētājsistēmu līdz {expirationDate}. <learnMoreLink>Lasīt vairāk</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Mēs izskata iestatījumos pievienojām divus jaunus tālummaiņas līmeņus, kas ļauj skatīt ziņas 110% vai 90% mērogā."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Tagad jūs grupas biedru meklēšanā citu lietotāju vidū tiksiet rādīts kā “jūs”."
   }
 }

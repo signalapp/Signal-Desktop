@@ -3990,46 +3990,46 @@
     "messageformat": "Eemalda vaigistus"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Vaigista see vestlus perioodiks …"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Vaigista need vestlused perioodiks …"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 tund"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 tundi"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 päev"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 nädal"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Kuni …"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Alati"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Vali kuupäev"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Vali kellaaeg"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Vaigista see vestlus kuni …"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Kuupäev"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Aeg"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Kõik ajad on vööndis {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Alati vaigistatud"
@@ -6005,10 +6005,10 @@
     "messageformat": "Kuule saadetud ja vastuvõetud sõnumite heli, kui vestlus on avatud."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Reaktsioonide teavitused"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Teavita, kui keegi su sõnumile reageerib"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Üldine"
@@ -6110,28 +6110,28 @@
     "messageformat": "Täpsemad sätted"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signali PIN-kood"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN-koodi meeldetuletused"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Aja möödudes hakatakse seda sinult harvemini küsima"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Teavituse sisu"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Teksti sisestamine"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Vestluste kaustad"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Helid"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Äpi märk"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Ekspordi vestlusajalugu"
@@ -6761,7 +6761,7 @@
     "messageformat": "Kui kirjutamisindikaatorid on keelatud, ei näe sa neid ka teiste puhul."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Vaata ja jaga, kui sõnumeid loetakse ja kirjutatakse. Kui see on välja lülitatud, ei näe sa lugemiskinnitusi ega seda, kui teised parasjagu sõnumit kirjutavad."
   },
   "icu:Preferences--updates": {
     "messageformat": "Uuendused"
@@ -8070,34 +8070,34 @@
     "messageformat": "Tühista"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Kinnita Signali PIN-kood"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Palume aeg-ajalt sul PIN-koodi kinnitada, et see sulle meelde jääks."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Kontrolli"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Mitte praegu"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Sisesta Signali PIN-kood"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Selleks, et aidata sul PIN-koodi pähe õppida, palume sul seda regulaarselt sisestada. Aja möödudes hakkame seda vähem küsima."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Sisesta enda PIN-kood"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Vale PIN-kood. Proovi uuesti"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Kinnita"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN-kood õige. Tuletame sulle hiljem uuesti meelde."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signali veebiversioon lõpetab varsti sinu arvuti {OS} versiooni toetamise. Kui soovid jätkata Signali kasutamist, uuenda oma arvuti operatsioonisüsteemi hiljemalt {expirationDate}. <learnMoreLink>Rohkem teavet</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Lisasime välimuse sätetesse kaks uut suumimise taset (110% ja 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Grupi liikmete otsingu parendused."
   }
 }

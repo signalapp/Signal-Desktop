@@ -3990,46 +3990,46 @@
     "messageformat": "Səsi aç"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Bu çatın səsini bağla…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Bu çatların səsini bağla…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 saat"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 saat"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 gün"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 həftə"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Bu vaxta qədər…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Həmişə"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Tarix seç"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Vaxt seç"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "… qədər bu çatın səsini bağla"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Tarixə görə"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Vaxt"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "{timeZone} saat qurşağındakı bütün saatlar"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Həmişəlik səsi bağlandı"
@@ -6005,10 +6005,10 @@
     "messageformat": "Çatda ikən göndərilən və qəbul edilən mesajlar üçün bildiriş səsini eşidin."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Reaksiya bildirişləri"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Mesajıma biri reaksiya verdiyi zaman bildiriş göndər"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Ümumi"
@@ -6110,28 +6110,28 @@
     "messageformat": "Qabaqcıl"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal PIN-i"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN xatırladıcıları"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Vaxt keçdikcə daha az soruşulacaq"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Bildiriş məzmunu"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Mətnin daxil edilməsi"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Çat qovluqları"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Səslər"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Tətbiq nişanı"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Çat tarixçəsini ixrac et"
@@ -6761,7 +6761,7 @@
     "messageformat": "Qeyri-aktiv edildikdə başqaları ilə yazışarkən, onların yazma göstəricilərini görməyəcəksiniz."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Mesajlar oxunduğu və ya yazıldığı zaman baxın və paylaşın. Qeyri-aktiv edildikdə oxunma bildirişlərini və ya yazma göstəricilərini görə bilməyəcəksiniz."
   },
   "icu:Preferences--updates": {
     "messageformat": "Yeniləmələr"
@@ -8070,34 +8070,34 @@
     "messageformat": "Rədd et"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Signal PIN-inizi təsdiqləyin"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "PIN kodunuzu yadda saxlamağınıza kömək etmək üçün onu vaxtaşırı daxil etməyinizi xahiş edəcəyik."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Yoxla"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "İndi yox"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Signal PIN-inizi daxil edin"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "PIN kodunuzu xatırlamağınıza kömək etmək üçün onu vaxtaşırı daxil etməyinizi xahiş edəcəyik. Zaman keçdikcə bunu daha az tez-tez tələb edəcəyik."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "PIN-inizi daxil edin"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Yanlış PIN. Yenidən sına"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Təsdiqlə"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN doğrudur. Daha sonra sizə təkrar xatırladacağıq."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop tezliklə kompüterinizin {OS} versiyasını artıq dəstəkləməyəcək. Signal-dan istifadəyə davam etmək üçün kompüterinizin əməliyyat sistemini {expirationDate} tarixinə qədər yeniləyin. <learnMoreLink>Daha ətraflı</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Görünüş parametrlərinə iki yeni yaxınlaşdırma səviyyəsi əlavə etdik ki, çox az bir səylə belə mesajlarınızı 110% (və ya 90%) yaxınlaşdıra biləsiniz."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Həyatda özünü tapmaq çətin olsa da, qrup üzvü axtarışı panelində \"Sən\"i tapmaq asandır."
   }
 }

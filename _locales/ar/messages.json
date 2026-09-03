@@ -3990,46 +3990,46 @@
     "messageformat": "إلغاء الكتم"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "كتم الدردشة لمدة…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "كتم صوت هذه الدردشات لمدة…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "ساعة واحدة"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "ثمانِ ساعات"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "يوم واحد"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "أسبوع واحد"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "إلى غاية…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "دائمًا"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "اختر تاريخًا"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "اختر وقتًا"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "كتم صوت هذه الدردشة حتى…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "التاريخ"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "التوقيت"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "جميع الأوقات بحسب {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "مكتومة دائمًا"
@@ -6005,10 +6005,10 @@
     "messageformat": "اسمع صوت تنبيه للرسائل المُرسَلة والمُستلَمة بينما تكون داخل المحادثة."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "إشعارات التفاعلات"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "إشعاري عند تفاعل شخص ما مع رسالتي"
   },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
@@ -6110,28 +6110,28 @@
     "messageformat": "مُتقدِّم"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "رقم PIN على سيجنال"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "تذكيرات رقم التعريف الشخصي (PIN)"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "سيُطلَب منك بعدد مرّاتٍ أقل مع مرور الوقت."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "محتوى الإشعار"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "حقل إدخال النص"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "اﻷصوات"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "شارة التطبيق"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "هل ترغبُ بتصدير سجل الدردشة؟"
@@ -6761,7 +6761,7 @@
     "messageformat": "عند إلغاء التفعيل، لن ترى مؤشرات الكتابة من الآخرين."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "رؤية ومشاركة حالة الرسائل عند القراءة والكتابة. في حال التعطيل، لن تتمكَّن من رؤية إيصالات القراءة أو مؤشرات الكتابة من الآخرين."
   },
   "icu:Preferences--updates": {
     "messageformat": "التحديثات"
@@ -8070,34 +8070,34 @@
     "messageformat": "تجاهُل"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "التحقُّق من ‫رقم التعريف الشخصي (PIN) على سيجنال"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "من حين لآخر سنُطالبك بالتحقُّق من رقم التعريف الشخصي (PIN) حتى يسهل عليك تذكره."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "التحقُّق"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ليس الآن"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "أدخِل رقم التعريف الشخصي (PIN) الخاص بك على سيجنال"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "لمُساعدتك في حفظ رقم التعريف الشخصي (PIN) الخاص بك، سوف نسألك لإدخاله من حينٍ لآخر. سنسألك عنه بشكلٍ أقل مع مرور الوقت."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "أدخِل رقم PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "رقم التعريف الشخصي (PIN) غير صحيح. حاوِل مُجدَّدًا"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "تأكيد"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "رقم التعريف الشخصي (PIN) صحيح. سنُذكِّرك مرّة أخرى لاحقًا."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سيتوقف تطبيق سيجنال الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام سيجنال، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "أضفنا مستويين جديدين للتكبير في إعدادات المظهر، لتتمكن من تخصيص عرض رسائلك بسهولة، سواء أردتها أكبر بنسبة 110% أو أصغر بنسبة 90%."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "قد يكون البحث عن ذاتك رحلة مستمرة مدى الحياة، ولكن لتسهيل الأمر قليلًا، سَتظهر الآن باسم \"أنت\" في نافذة البحث عن أعضاء المجموعة."
   }
 }

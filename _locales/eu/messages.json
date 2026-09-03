@@ -3990,46 +3990,46 @@
     "messageformat": "Aktibatu jakinarazpenak"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Desaktibatu txat honen jakinarazpenak…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Desaktibatu txat hauen jakinarazpenak epe honeterako…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "ordubete"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 ordu"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "egun 1"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "astebete"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Noiz arte…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Beti"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Aukeratu data bat"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Aukeratu ordu bat"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Desaktibatu txat honen jakinarazpenak data eta ordu hauetara arte…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Data"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Ordua"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Ordu guztiak ({timeZone})"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Jakinarazpenak beti desaktibatuta"
@@ -6005,10 +6005,10 @@
     "messageformat": "Entzun bidalitako eta jasotako mezuen jakinarazpen-soinua txatean zauden bitartean."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Erreakzio-jakinarazpenak"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Jakinarazi norbaitek zure mezuaren aurrean errakzionatzen duenean"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Orokorra"
@@ -6113,25 +6113,25 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN gogorarazleak"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Gero eta gutxiago galdetuko dizute denbora joan ahala"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Jakinarazpenen edukia"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Idazketa"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Txat-karpetak"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Soinuak"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Aplikazioaren bereizgarria"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Esportatu txat-historia"
@@ -6761,7 +6761,7 @@
     "messageformat": "Desgaituta badago, ez dituzu ikusiko besteen idazketa-adierazleak."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Ikusi eta partekatu mezuak irakurri eta idazten direnean. Desgaituta badago, ez dituzu ikusiko besteen irakurragiriak edo idazketa-adierazleak."
   },
   "icu:Preferences--updates": {
     "messageformat": "Eguneraketak"
@@ -8070,34 +8070,34 @@
     "messageformat": "Baztertu"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Zure Signal PINa egiaztatu"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Noizean behin PINa egiaztatzeko eskatuko dizugu, gogora dezazun."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Baieztatu"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Orain ez"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Idatzi zure Signal PIN-a"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Zure PINa gogoratzen laguntzeko, idazteko eskatuko dizugu noizbehinka. Denbora igaro ahala, gero eta gutxiago eskatuko dizugu."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Idatzi zure PINa"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN okerra. Saiatu berriro"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Onartu"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN zuzena. Geroago gogoraraziko dizugu berriro."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ordenagailurako Signal aplikazioak laster ez du onartuko ordenagailuaren bertsioa ({OS}). Signal erabiltzen jarraitzeko, eguneratu ordenagailuaren sistema eragilea {expirationDate} aurretik. <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Bi zoom-maila berri gehitu ditugu itxuraren ezarpenetan (% 110 eta % 90)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Hobekuntzak egin dira taldeko kideak bilatzeko prozesuan."
   }
 }

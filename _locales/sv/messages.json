@@ -3990,46 +3990,46 @@
     "messageformat": "Avtysta"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Tysta denna chatt i …"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Tysta de här chattarna i …"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 timme"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 timmar"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 dag"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 vecka"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Tills …"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Alltid"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Välj ett datum"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Välj en tid"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Tysta den här chatten tills …"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Datum"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Tid"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Alla tider i {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Tystad för alltid"
@@ -6005,10 +6005,10 @@
     "messageformat": "Hör ett aviseringsljud för skickade och mottagna meddelanden när du är i chatten."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Aviseringar för reaktioner"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Avisera när någon reagerar på ditt meddelande"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Allmänt"
@@ -6110,28 +6110,28 @@
     "messageformat": "Avancerat"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal PIN-kod"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN-kodspåminnelser"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Du blir ombedd mindre ofta över tiden"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Aviseringsinnehåll"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Textinmatning"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Chattmappar"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Ljud"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Appmärke"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportera chatthistorik"
@@ -6761,7 +6761,7 @@
     "messageformat": "Om det är inaktiverat ser du inte skrivindikatorer från andra."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Se och dela när meddelanden läses och skrivs. Om det är inaktiverat ser du inte läskvitton eller skrivindikatorer från andra."
   },
   "icu:Preferences--updates": {
     "messageformat": "Uppdateringar"
@@ -8070,34 +8070,34 @@
     "messageformat": "Avfärda"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Verifiera din Signal PIN-kod"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Vi ber dig ibland att verifiera din PIN-kod så att du kommer ihåg den."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Verifiera"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Inte nu"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Ange din Signal PIN-kod"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "För att hjälpa dig att memorera din PIN-kod ber vi dig att skriva in den regelbundet. Vi frågar mindre med tiden."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Ange din PIN-kod"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Felaktig pinkod. Försök igen"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Bekräfta"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "Pinkoden är korrekt. Vi påminner dig igen senare."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Snart stöder Signal Desktop inte längre din dators version av{OS}. Uppdatera datorns operativsystem senast den {expirationDate} för att fortsätta använda Signal. <learnMoreLink>Läs mer</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Vi har lagt till två nya zoomnivåer i utseendeinställningarna (110 % och 90 %)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Förbättringar av gruppmedlemssökning."
   }
 }

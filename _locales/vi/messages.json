@@ -3990,46 +3990,46 @@
     "messageformat": "Bỏ tắt tiếng"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "Tắt tiếng cuộc trò chuyện này trong…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "Tắt tiếng các cuộc trò chuyện này trong…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 giờ"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 tiếng"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 ngày"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 tuần"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "Cho đến…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "Luôn luôn"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "Chọn ngày"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "Chọn thời gian"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "Tắt tiếng cuộc trò chuyện này cho đến…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "Ngày"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "Thời gian"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "Thời gian hiển thị là {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "Đã tắt tiếng mãi mãi"
@@ -6005,10 +6005,10 @@
     "messageformat": "Nghe một âm thanh thông báo cho tin nhắn gửi đi hoặc nhận được khi trò chuyện."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "Thông báo về bày tỏ cảm xúc"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "Thông báo khi có người bày tỏ cảm xúc với tin nhắn của bạn"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Chung"
@@ -6110,28 +6110,28 @@
     "messageformat": "Nâng cao"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Mã PIN Signal"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "Nhắc nhở PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "Bạn sẽ dần được hỏi ít thường xuyên hơn qua thời gian"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Nội dung thông báo"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "Nhập văn bản"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "Thư mục trò chuyện"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "Âm thanh"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "Huy hiệu ứng dụng"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Xuất lịch sử trò chuyện"
@@ -6761,7 +6761,7 @@
     "messageformat": "Nếu tắt, bạn sẽ không thấy thông báo đang nhập tin nhắn từ người khác."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "Xem và chia sẻ khi tin nhắn được đọc và đang được nhập. Nếu tắt, bạn sẽ không thấy chỉ báo đã đọc hay đang nhập từ người khác."
   },
   "icu:Preferences--updates": {
     "messageformat": "Cập nhật"
@@ -8070,34 +8070,34 @@
     "messageformat": "Bỏ qua"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "Xác minh mã PIN Signal của bạn"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "Thỉnh thoảng chúng tôi sẽ yêu cầu bạn nhập lại mã PIN để giúp bạn ghi nhớ."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "Xác minh"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "Để sau"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "Nhập mã PIN Signal của bạn"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "Để giúp bạn nhớ mã PIN của mình, chúng tôi sẽ yêu cầu bạn nhập lại mã định kỳ. Chúng tôi sẽ dần hỏi ít hơn."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "Nhập mã PIN của bạn"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "Mã PIN không chính xác. Thử lại"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "Xác nhận"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "Mã PIN đúng. Chúng tôi sẽ nhắc bạn lại sau."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop sẽ sớm không còn hỗ trợ phiên bản hiện tại của hệ điều hành {OS} trên máy tính bạn. Để có thể tiếp tục sử dụng Signal, cập nhật phiên bản hệ điều hành trên máy tính bạn trước {expirationDate}. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "Chúng tôi đã thêm hai mức thu phóng mới vào phần cài đặt giao diện (110% và 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "Cải thiện chức năng tìm thành viên nhóm."
   }
 }

@@ -3990,46 +3990,46 @@
     "messageformat": "અનમ્યૂટ કરો"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "આ ચેટને આટલા સમય માટે મ્યૂટ કરો…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "આ ચેટને આટલા સમય માટે મ્યૂટ કરો…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 કલાક"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 કલાક"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 દિવસ"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 અઠવાડિયું"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "આ સમય સુધી…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "હંમેશાં"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "તારીખ પસંદ કરો"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "સમય પસંદ કરો"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "આ ચેટને આટલા સમય સુધી મ્યૂટ કરો…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "તારીખ"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "સમય"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "બધા સમય {timeZone}માં"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "હંમેશા માટે મ્યૂટ કરો"
@@ -6005,10 +6005,10 @@
     "messageformat": "ચેટમાં હોય ત્યારે મોકલેલા અને પ્રાપ્ત થયેલા મેસેજ માટે નોટિફિકેશન સાઉન્ડ સાંભળો."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "પ્રતિક્રિયા નોટિફિકેશન"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "કોઈ તમારા મેસેજનો જવાબ આપે ત્યારે સૂચિત કરો"
   },
   "icu:Preferences__button--general": {
     "messageformat": "સામાન્ય"
@@ -6110,28 +6110,28 @@
     "messageformat": "વધુ"
   },
   "icu:Preferences--signal-pin": {
-    "messageformat": "Signal PIN"
+    "messageformat": "Signal પિન"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "પિન રિમાઇન્ડર"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "સમય જતાં તમને ઓછી વાર પૂછવામાં આવશે"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "નોટિફિકેશન કન્ટેન્ટ"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "ટેક્સ્ટ ઇનપુટ"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ચેટના ફોલ્ડર"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "અવાજો"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "ઍપ બૅજ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ચેટ હિસ્ટ્રી નિકાસ કરો"
@@ -6761,7 +6761,7 @@
     "messageformat": "જો અક્ષમ કરવામાં આવે, તો તમે અન્ય લોકો પાસેથી ટાઇપિંગ સૂચક જોઈ શકશો નહીં."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "જ્યારે મેસેજ વાંચવામાં આવે છે અને ટાઇપ કરવામાં આવે છે ત્યારે જુઓ અને શેર કરો. જો અક્ષમ કરેલ હોય, તો અન્ય લોકોએ વાંચી લીધાની રસીદો અથવા ટાઇપિંગ સૂચકો તમને દેખાશે નહીં."
   },
   "icu:Preferences--updates": {
     "messageformat": "અપડેટ્સ"
@@ -8070,34 +8070,34 @@
     "messageformat": "કાઢી નાખો"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "તમારા Signal પિનને વેરિફાય કરો"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "અમે તમને ક્યારેક ક્યારેક તમારો પિન પિનને વેરિફાય કરવા માટે કહીશું જેથી કરીને તમે તેને યાદ કરો."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "વેરિફાય કરો"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "અત્યારે નહીં"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "તમારો Signal પિન દાખલ કરો"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "તમને તમારો પિન યાદ રાખવામાં મદદ કરવા માટે, અમે તમને તે સમયાંતરે દાખલ કરવા માટે કહીશું. અમે સમય જતાં ઓછુ પૂછશું."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "તમારો પિન દાખલ કરો"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "ખોટો પિન. ફરીથી પ્રયત્ન કરો"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "કન્ફર્મ કરો"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "પિન સાચો છે. અમે તમને પછી ફરીથી યાદ કરાવીશું."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal હવે ટૂંક સમયમાં તમારા ડિવાઇસના {OS} વર્ઝનને સપોર્ટ કરશે નહીં. Signalનો ઉપયોગ ચાલુ રાખવા માટે, તમારા કમ્પ્યુટરની ઓપરેટિંગ સિસ્ટમને {expirationDate} સુધીમાં અપડેટ કરો. <learnMoreLink>વધુ જાણો</learnMoreLink>"
@@ -8848,6 +8848,6 @@
     "messageformat": "અમે દેખાવ સેટિંગ્સમાં બે નવા ઝૂમ સ્તર ઉમેર્યા છે (110% અને 90%)."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "ગ્રૂપના સભ્યોને શોધવામાં સુધારણાઓ કર્યા."
   }
 }
