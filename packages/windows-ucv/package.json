@@ -15,7 +15,7 @@
   "scripts": {
     "watch": "npm run build -- --watch",
     "preinstall": "npm run build",
-    "build": "tsc",
+    "build": "tsc6",
     "clean": "rm -rf dist"
   },
   "keywords": [

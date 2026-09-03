@@ -349,6 +349,16 @@
   "engines": {
     "node": "24.17.0"
   },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.19.0"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.24.0"
+    }
+  },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
     "nativeRebuilder": "parallel",
