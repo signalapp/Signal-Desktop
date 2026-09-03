@@ -163,6 +163,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     clearTargetedMessage: clearSelectedMessage,
     copyMessageText,
     doubleCheckMissingQuoteReference,
+    dragAttachment,
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     messageExpanded,
@@ -300,6 +301,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       sendPollVote={sendPollVote}
       renderItem={renderItem}
       returnToActiveCall={returnToActiveCall}
+      dragAttachment={dragAttachment}
       saveAttachment={saveAttachment}
       saveAttachments={saveAttachments}
       scrollToPollMessage={scrollToPollMessage}
