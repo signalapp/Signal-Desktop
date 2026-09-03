@@ -1,6 +1,5 @@
 {
   "$schema": "./package.schema.json",
-  "packageManager": "pnpm@11.24.0",
   "private": true,
   "name": "signal-desktop",
   "productName": "Signal",
