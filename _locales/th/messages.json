@@ -65,6 +65,18 @@
   "icu:Preferences__DonateTitle": {
     "messageformat": "บริจาคให้ Signal"
   },
+  "icu:LinkedDevicesOnboardingDialog__description": {
+    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--1": {
+    "messageformat": "You can link a desktop, tablet or additional phone."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--2": {
+    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
+    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "มาตรฐาน"
   },
@@ -638,17 +650,29 @@
   "icu:KeyTransparencyErrorDialog__Title": {
     "messageformat": "ไม่สามารถใช้การตรวจยืนยันโดยอัตโนมัติได้บนอุปกรณ์ของคุณ คุณต้องการส่งบันทึกดีบักหรือไม่"
   },
+  "icu:KeyTransparencyErrorDialog__Title-v2": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+  },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "บันทึกดีบักจะช่วยให้เราสามารถตรวจสอบและแก้ไขปัญหาได้ โดยที่ในบันทึกจะไม่มีข้อมูลที่ใช้ระบุตัวตน"
   },
+  "icu:KeyTransparencyErrorDialog__Description-v2": {
+    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "แชร์บันทึกดีบัก"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
+    "messageformat": "Include debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "ดู"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "ส่ง"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "ไม่ ขอบคุณ"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal สามารถตรวจยืนยันการเข้ารหัสโดยอัตโนมัติได้แล้ว"
@@ -3990,46 +4014,46 @@
     "messageformat": "เปิดเสียง"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "ปิดเสียงแชทนี้เป็นเวลา…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "ปิดการแจ้งเตือนแชทนี้เป็นเวลา…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 ชั่วโมง"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 ชั่วโมง"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 วัน"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 สัปดาห์"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "จนถึง…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "ตลอดเวลา"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "เลือกวันที่"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "เลือกเวลา"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "ปิดการแจ้งเตือนแชทนี้จนถึง…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "วันที่"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "เวลา"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "เวลาทั้งหมดอยู่ในเขตเวลา {timeZone}"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "ปิดเสียงตลอดอยู่"
@@ -5174,6 +5198,66 @@
   "icu:EditNicknameAndNoteModal__Note__Placeholder": {
     "messageformat": "โน้ต"
   },
+  "icu:WhileMuted__title": {
+    "messageformat": "While muted"
+  },
+  "icu:WhileMuted__description": {
+    "messageformat": "Choose notifications to show while this chat is muted."
+  },
+  "icu:WhileMuted__calls__title": {
+    "messageformat": "Calls"
+  },
+  "icu:WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started while this chat is muted."
+  },
+  "icu:WhileMuted__mentions__title": {
+    "messageformat": "Mentions"
+  },
+  "icu:WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are @mentioned while this chat is muted."
+  },
+  "icu:WhileMuted__replies__title": {
+    "messageformat": "Replies"
+  },
+  "icu:WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message while this chat is muted."
+  },
+  "icu:WhileMuted__value--none": {
+    "messageformat": "None"
+  },
+  "icu:WhileMuted__value--calls": {
+    "messageformat": "Calls"
+  },
+  "icu:WhileMuted__value--mentions": {
+    "messageformat": "Mentions"
+  },
+  "icu:WhileMuted__value--replies": {
+    "messageformat": "Replies"
+  },
+  "icu:WhileMuted__value--calls-mentions": {
+    "messageformat": "Calls, mentions"
+  },
+  "icu:WhileMuted__value--calls-replies": {
+    "messageformat": "Calls, replies"
+  },
+  "icu:WhileMuted__value--mentions-replies": {
+    "messageformat": "Mentions, replies"
+  },
+  "icu:WhileMuted__value--calls-mentions-replies": {
+    "messageformat": "Calls, mentions, replies"
+  },
+  "icu:Preferences__WhileMuted__description": {
+    "messageformat": "Choose notifications to show for muted chats."
+  },
+  "icu:Preferences__WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started in muted chats."
+  },
+  "icu:Preferences__WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are mentioned in muted chats."
+  },
+  "icu:Preferences__WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message in muted chats."
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "การกล่าวถึง"
   },
@@ -6005,10 +6089,13 @@
     "messageformat": "เปิดเสียงแจ้งเตือนเมื่อมีการส่งหรือได้รับข้อความในระหว่างที่เปิดแชท"
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "การแจ้งเตือนการแสดงความรู้สึก"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "แจ้งให้ทราบเมื่อมีคนแสดงความรู้สึกต่อข้อความของคุณ"
+  },
+  "icu:Preferences__button--account": {
+    "messageformat": "Account"
   },
   "icu:Preferences__button--general": {
     "messageformat": "ทั่วไป"
@@ -6079,6 +6166,33 @@
   "icu:Preferences--system": {
     "messageformat": "ระบบ"
   },
+  "icu:Preferences--signal-login": {
+    "messageformat": "Signal Login"
+  },
+  "icu:Preferences--signal-login-description": {
+    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--signal-login-description--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences__SignalAccount__label": {
+    "messageformat": "Account & Recovery"
+  },
+  "icu:Preferences__SignalAccount__description": {
+    "messageformat": "2 keys"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountKey": {
+    "messageformat": "Account key"
+  },
+  "icu:Preferences__SignalAccountKeys__RecoveryKey": {
+    "messageformat": "Recovery key"
+  },
+  "icu:Preferences__Account__LinkedDevice__label": {
+    "messageformat": "This is a linked device"
+  },
+  "icu:Preferences__Account__LinkedDevice__description": {
+    "messageformat": "To manage your account settings, open Signal on your primary device."
+  },
   "icu:Preferences--zoom": {
     "messageformat": "ระดับการซูม"
   },
@@ -6113,25 +6227,52 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "เตือนความจำรหัส PIN"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "ระบบจะสอบถามคุณน้อยลงเรื่อยๆ"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ข้อความแจ้งเตือน"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "การพิมพ์ข้อความ"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "โฟลเดอร์แชท"
+  },
+  "icu:Preferences__Notifications__Show__Label": {
+    "messageformat": "Show"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "เสียง"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "ป้ายกำกับแอป"
+  },
+  "icu:Preferences__Notifications__Reset__title": {
+    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+  },
+  "icu:Preferences__Notifications__Reset__button": {
+    "messageformat": "Reset"
+  },
+  "icu:Preferences__Notifications__Reset__modal--body": {
+    "messageformat": "Reset all notification settings to default for all chats?"
+  },
+  "icu:Preferences__Notifications__Reset__modal--confirm": {
+    "messageformat": "Reset"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
+    "messageformat": "Badge count"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
+    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
+    "messageformat": "Unread messages"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
+    "messageformat": "Unread chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ส่งออกประวัติการแชท"
@@ -6761,7 +6902,7 @@
     "messageformat": "หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "มองเห็นและแชร์สถานะเมื่อมีการอ่านหรือพิมพ์ข้อความ หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์การแจ้งว่าอ่านแล้วหรือสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
   },
   "icu:Preferences--updates": {
     "messageformat": "การปรับรุ่น"
@@ -8070,34 +8211,34 @@
     "messageformat": "ปิด"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "ตรวจยืนยัน Signal PIN ของคุณ"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "เราจะถามให้คุณตรวจยืนยันรหัส PIN ของคุณเป็นระยะ เพื่อให้คุณจำมันได้"
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "ตรวจยืนยัน"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ไว้ทีหลัง"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "ใส่ Signal PIN ของคุณ"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "เพื่อช่วยให้คุณจดจำรหัส PIN ได้ เราจะขอให้คุณใส่รหัส PIN เป็นระยะ เราจะถามคุณน้อยลงเมื่อเวลาผ่านไป"
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "ใส่รหัส PIN ของคุณ"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN ไม่ถูกต้อง ลองอีกครั้ง"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "ยืนยัน"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN ถูกต้อง เราจะแจ้งเตือนคุณอีกครั้งในภายหลัง"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal เดสก์ท็อปกำลังจะหยุดรองรับเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่ เพื่อการใช้งานอย่างต่อเนื่อง กรุณาอัปเดตระบบปฏิบัติการของคอมพิวเตอร์ภายใน {expirationDate} <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -8848,6 +8989,9 @@
     "messageformat": "เราเพิ่มระดับการซูมใหม่ให้คุณอีกสองเลเวล (110% และ 90%) ลองเข้าไปปรับใช้ได้เลยในการตั้งค่า “ลักษณะ”"
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "พัฒนาระบบค้นหาสมาชิกในกลุ่มให้สะดวกยิ่งขึ้นอีก"
+  },
+  "icu:WhatsNew__8.27--0": {
+    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
   }
 }

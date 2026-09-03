@@ -517,7 +517,7 @@
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "Marked unread",
-    "description": "Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
+    "description": "(Deleted 2026/09/03) Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
   },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Chats",
@@ -876,7 +876,7 @@
   },
   "icu:KeyTransparencyErrorDialog__Title": {
     "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?",
-    "description": "Key Transparency Error Dialog > Title"
+    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Title"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?",
@@ -884,7 +884,7 @@
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
-    "description": "Key Transparency Error Dialog > Description"
+    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Description"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional.",
@@ -892,7 +892,7 @@
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
-    "description": "Key Transparency Error Dialog > Share debug log > Label"
+    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Share debug log > Label"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Include debug log",
@@ -6988,19 +6988,19 @@
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
-    "description": "In the conversation notifications settings, this is the label for the mentions option"
+    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the label for the mentions option"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
     "messageformat": "Receive notifications when you're mentioned in muted chats",
-    "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
+    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the sub-label for the mentions option"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
     "messageformat": "Always notify",
-    "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
+    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the option that always notifies you for @mentions"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
     "messageformat": "Don't notify if muted",
-    "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
+    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
   },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Group link copied.",
@@ -8286,7 +8286,7 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content",
-    "description": "Label for the notification content setting select box"
+    "description": "(Deleted 2026/09/03) Label for the notification content setting select box"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Text input",
@@ -11955,7 +11955,7 @@
   },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier.",
-    "description": "Release notes for 8.26"
+    "description": "(Deleted 2026/09/03) Release notes for 8.26"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore.",

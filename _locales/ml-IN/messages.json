@@ -65,6 +65,18 @@
   "icu:Preferences__DonateTitle": {
     "messageformat": "Signal-ന് സംഭാവന ചെയ്യുക"
   },
+  "icu:LinkedDevicesOnboardingDialog__description": {
+    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--1": {
+    "messageformat": "You can link a desktop, tablet or additional phone."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--2": {
+    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
+    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "സ്റ്റാൻഡേർഡ്"
   },
@@ -638,17 +650,29 @@
   "icu:KeyTransparencyErrorDialog__Title": {
     "messageformat": "നിങ്ങളുടെ ഉപകരണത്തിന് നിലവിൽ ഓട്ടോമാറ്റിക്ക് കീ വെരിഫിക്കേഷന്‍ ലഭ്യമല്ല. ഡീബഗ് ലോഗ് സമർപ്പിക്കണോ?"
   },
+  "icu:KeyTransparencyErrorDialog__Title-v2": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+  },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "പ്രശ്‌നം നിർണ്ണയിക്കാനും പരിഹരിക്കാനും ഡീബഗ് ലോഗുകൾ ഞങ്ങളെ സഹായിക്കുന്നു, അവയിൽ തിരിച്ചറിയാനാകുന്ന വിവരങ്ങൾ ഉൾപ്പെടുന്നുമില്ല."
   },
+  "icu:KeyTransparencyErrorDialog__Description-v2": {
+    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ഡീബഗ് ലോഗ് പങ്കിടുക"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
+    "messageformat": "Include debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "കാണുക"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "സമർപ്പിക്കുക"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "വേണ്ട"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
     "messageformat": "Signal-ന് ഇപ്പോൾ എൻക്രിപ്ഷൻ സ്വയമേവ പരിശോധിച്ചുറപ്പിക്കാന്‍ കഴിയും"
@@ -3990,46 +4014,46 @@
     "messageformat": "അൺമ്യൂട്ട് ചെയ്യുക"
   },
   "icu:MuteMenu__label": {
-    "messageformat": "Mute this chat for…"
+    "messageformat": "ഇത്ര സമയം ഈ ചാറ്റ് മ്യൂട്ട് ചെയ്യുക…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…"
+    "messageformat": "ഇത്ര സമയം ഈ ചാറ്റുകൾ മ്യൂട്ട് ചെയ്യുക…"
   },
   "icu:MuteMenu__hour": {
-    "messageformat": "1 hour"
+    "messageformat": "1 മണിക്കൂർ"
   },
   "icu:MuteMenu__eightHours": {
-    "messageformat": "8 hours"
+    "messageformat": "8 മണിക്കൂർ"
   },
   "icu:MuteMenu__day": {
-    "messageformat": "1 day"
+    "messageformat": "1 ദിവസം"
   },
   "icu:MuteMenu__week": {
-    "messageformat": "1 week"
+    "messageformat": "1 ആഴ്ച"
   },
   "icu:MuteMenu__until": {
-    "messageformat": "Until…"
+    "messageformat": "ഇതുവരെ…"
   },
   "icu:MuteMenu__always": {
-    "messageformat": "Always"
+    "messageformat": "എല്ലായ്പ്പോഴും"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choose a date"
+    "messageformat": "ഒരു തീയതി തിരഞ്ഞെടുക്കുക"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choose a time"
+    "messageformat": "ഒരു സമയം തിരഞ്ഞെടുക്കുക"
   },
   "icu:MuteUntilDialog__title": {
-    "messageformat": "Mute this chat until…"
+    "messageformat": "ഇതുവരെ ഈ ചാറ്റ് മ്യൂട്ട് ചെയ്യുക…"
   },
   "icu:MuteUntilDialog__dateLabel": {
-    "messageformat": "Date"
+    "messageformat": "തീയതി"
   },
   "icu:MuteUntilDialog__timeLabel": {
-    "messageformat": "Time"
+    "messageformat": "സമയം"
   },
   "icu:MuteUntilDialog__timeZoneNote": {
-    "messageformat": "All times in {timeZone}"
+    "messageformat": "എല്ലാ സമയവും {timeZone}-ൽ"
   },
   "icu:muteExpirationLabelAlways": {
     "messageformat": "എപ്പോഴും മ്യൂട്ടാക്കി വെച്ചു"
@@ -5174,6 +5198,66 @@
   "icu:EditNicknameAndNoteModal__Note__Placeholder": {
     "messageformat": "കുറിപ്പ്"
   },
+  "icu:WhileMuted__title": {
+    "messageformat": "While muted"
+  },
+  "icu:WhileMuted__description": {
+    "messageformat": "Choose notifications to show while this chat is muted."
+  },
+  "icu:WhileMuted__calls__title": {
+    "messageformat": "Calls"
+  },
+  "icu:WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started while this chat is muted."
+  },
+  "icu:WhileMuted__mentions__title": {
+    "messageformat": "Mentions"
+  },
+  "icu:WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are @mentioned while this chat is muted."
+  },
+  "icu:WhileMuted__replies__title": {
+    "messageformat": "Replies"
+  },
+  "icu:WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message while this chat is muted."
+  },
+  "icu:WhileMuted__value--none": {
+    "messageformat": "None"
+  },
+  "icu:WhileMuted__value--calls": {
+    "messageformat": "Calls"
+  },
+  "icu:WhileMuted__value--mentions": {
+    "messageformat": "Mentions"
+  },
+  "icu:WhileMuted__value--replies": {
+    "messageformat": "Replies"
+  },
+  "icu:WhileMuted__value--calls-mentions": {
+    "messageformat": "Calls, mentions"
+  },
+  "icu:WhileMuted__value--calls-replies": {
+    "messageformat": "Calls, replies"
+  },
+  "icu:WhileMuted__value--mentions-replies": {
+    "messageformat": "Mentions, replies"
+  },
+  "icu:WhileMuted__value--calls-mentions-replies": {
+    "messageformat": "Calls, mentions, replies"
+  },
+  "icu:Preferences__WhileMuted__description": {
+    "messageformat": "Choose notifications to show for muted chats."
+  },
+  "icu:Preferences__WhileMuted__calls__description": {
+    "messageformat": "Ring or notify when a call is started in muted chats."
+  },
+  "icu:Preferences__WhileMuted__mentions__description": {
+    "messageformat": "Notify when you are mentioned in muted chats."
+  },
+  "icu:Preferences__WhileMuted__replies__description": {
+    "messageformat": "Notify when someone replies to your message in muted chats."
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "സൂചനകൾ"
   },
@@ -6005,10 +6089,13 @@
     "messageformat": "ചാറ്റിലായിരിക്കുമ്പോൾ അയയ്ക്കുന്നതും ലഭിക്കുന്നതുമായ സന്ദേശങ്ങൾക്ക് അറിയിപ്പ് കേൾക്കുക."
   },
   "icu:Preferences__reaction-notifications-title": {
-    "messageformat": "Reaction notifications"
+    "messageformat": "പ്രതികരണ അറിയിപ്പുകൾ"
   },
   "icu:Preferences__reaction-notifications-description": {
-    "messageformat": "Notify when someone reacts to your message"
+    "messageformat": "ആരെങ്കിലും നിങ്ങളുടെ സന്ദേശത്തോട് പ്രതികരിക്കുമ്പോൾ അറിയിക്കുക"
+  },
+  "icu:Preferences__button--account": {
+    "messageformat": "Account"
   },
   "icu:Preferences__button--general": {
     "messageformat": "പൊതുവായ"
@@ -6079,6 +6166,33 @@
   "icu:Preferences--system": {
     "messageformat": "സിസ്റ്റം"
   },
+  "icu:Preferences--signal-login": {
+    "messageformat": "Signal Login"
+  },
+  "icu:Preferences--signal-login-description": {
+    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+  },
+  "icu:Preferences--signal-login-description--learn-more": {
+    "messageformat": "Learn more"
+  },
+  "icu:Preferences__SignalAccount__label": {
+    "messageformat": "Account & Recovery"
+  },
+  "icu:Preferences__SignalAccount__description": {
+    "messageformat": "2 keys"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountKey": {
+    "messageformat": "Account key"
+  },
+  "icu:Preferences__SignalAccountKeys__RecoveryKey": {
+    "messageformat": "Recovery key"
+  },
+  "icu:Preferences__Account__LinkedDevice__label": {
+    "messageformat": "This is a linked device"
+  },
+  "icu:Preferences__Account__LinkedDevice__description": {
+    "messageformat": "To manage your account settings, open Signal on your primary device."
+  },
   "icu:Preferences--zoom": {
     "messageformat": "സൂം നില"
   },
@@ -6113,25 +6227,52 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--pin-reminders--header": {
-    "messageformat": "PIN reminders"
+    "messageformat": "PIN ഓർമ്മപ്പെടുത്തലുകൾ"
   },
   "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time"
+    "messageformat": "കാലക്രമേണ നിങ്ങളോട് കുറച്ച് തവണ ചോദിക്കും"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "നോട്ടിഫിക്കേഷൻ ഉള്ളടക്കം"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Text input"
+    "messageformat": "ടെക്‌സ്‌റ്റ് ഇൻപുട്ട്"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
+    "messageformat": "ചാറ്റ് ഫോൾഡറുകൾ"
+  },
+  "icu:Preferences__Notifications__Show__Label": {
+    "messageformat": "Show"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
-    "messageformat": "Sounds"
+    "messageformat": "ശബ്ദങ്ങൾ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge"
+    "messageformat": "ആപ്പ് ബാഡ്ജ്"
+  },
+  "icu:Preferences__Notifications__Reset__title": {
+    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+  },
+  "icu:Preferences__Notifications__Reset__button": {
+    "messageformat": "Reset"
+  },
+  "icu:Preferences__Notifications__Reset__modal--body": {
+    "messageformat": "Reset all notification settings to default for all chats?"
+  },
+  "icu:Preferences__Notifications__Reset__modal--confirm": {
+    "messageformat": "Reset"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
+    "messageformat": "Badge count"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
+    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
+    "messageformat": "Unread messages"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
+    "messageformat": "Unread chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുക"
@@ -6761,7 +6902,7 @@
     "messageformat": "ഇത് പ്രവർത്തനരഹിതമാക്കിയാൽ, മറ്റുള്ളവർ സന്ദേശം ടൈപ്പ് ചെയ്യുന്നത് നിങ്ങൾക്ക് കാണാൻ കഴിയില്ല."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others."
+    "messageformat": "സന്ദേശങ്ങൾ വായിക്കുമ്പോഴും ടൈപ്പ് ചെയ്യുമ്പോഴും കാണുകയും പങ്കിടുകയും ചെയ്യുക. പ്രവർത്തനരഹിതമാക്കിയാൽ, മറ്റുള്ളവരുടെ റീഡ് രസീതുകളോ ടൈപ്പിംഗ് സൂചകങ്ങളോ നിങ്ങൾക്ക് കാണാൻ കഴിയില്ല."
   },
   "icu:Preferences--updates": {
     "messageformat": "അപ്‌ഡേറ്റുകൾ"
@@ -8070,34 +8211,34 @@
     "messageformat": "ഒഴിവാക്കുക"
   },
   "icu:PinReminderMegaphone__title": {
-    "messageformat": "Verify your Signal PIN"
+    "messageformat": "നിങ്ങളുടെ Signal PIN പരിശോധിക്കുക"
   },
   "icu:PinReminderMegaphone__body": {
-    "messageformat": "We’ll occasionally ask you to verify your PIN so that you remember it."
+    "messageformat": "നിങ്ങൾ അത് ഓർക്കാൻ ഞങ്ങൾ ഇടയ്ക്കിടെ നിങ്ങളുടെ PIN പരിശോധിച്ചുറപ്പിക്കാൻ ആവശ്യപ്പെടും."
   },
   "icu:PinReminderMegaphone__verify": {
-    "messageformat": "Verify"
+    "messageformat": "പരിശോധിച്ചുറപ്പിക്കുക"
   },
   "icu:PinReminderMegaphone__not-now": {
-    "messageformat": "Not now"
+    "messageformat": "ഇപ്പോൾ വേണ്ട"
   },
   "icu:PinReminderModal__title": {
-    "messageformat": "Enter your Signal PIN"
+    "messageformat": "നിങ്ങളുടെ Signal PIN നൽകുക"
   },
   "icu:PinReminderModal__body": {
-    "messageformat": "To help you memorize your PIN, we’ll ask you to enter it periodically. We’ll ask less over time."
+    "messageformat": "നിങ്ങളുടെ PIN ഓർമ്മിക്കാൻ സഹായിക്കുന്നതിന്, അത് ഇടയ്ക്കിടെ നൽകാൻ ഞങ്ങൾ നിങ്ങളോട് ആവശ്യപ്പെടും. കാലക്രമേണ ഞങ്ങൾ ചോദിക്കുന്നത് കുറയ്ക്കും."
   },
   "icu:PinReminderModal__pin-input-placeholder": {
-    "messageformat": "Enter your PIN"
+    "messageformat": "നിങ്ങളുടെ PIN നൽകുക"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Incorrect PIN. Try again"
+    "messageformat": "PIN തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:PinReminderModal__confirm": {
-    "messageformat": "Confirm"
+    "messageformat": "സ്ഥിരീകരിക്കുക"
   },
   "icu:PinReminderCompletedToast": {
-    "messageformat": "PIN correct. We’ll remind you again later."
+    "messageformat": "PIN ശരിയാണ്. ഞങ്ങൾ പിന്നീട് നിങ്ങളെ വീണ്ടും ഓർമ്മിപ്പിക്കും."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിലെ {OS} പതിപ്പിനുള്ള പിന്തുണ Signal ഡെസ്‌ക്ടോപ്പിൽ ഉടൻ അവസാനിക്കും. Signal ഉപയോഗിക്കുന്നത് തുടരാൻ {expirationDate}-ന് മുമ്പ് നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
@@ -8848,6 +8989,9 @@
     "messageformat": "ഞങ്ങൾ രൂപഭാവ ക്രമീകരണത്തിൽ രണ്ട് പുതിയ സൂം ലെവലുകൾ ചേർത്തു, അതിനാൽ വളരെ കുറഞ്ഞ പരിശ്രമം കൊണ്ടുതന്നെ നിങ്ങളുടെ സന്ദേശങ്ങൾക്ക് 110% (അല്ലെങ്കിൽ 90%) നൽകാനാകും."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier."
+    "messageformat": "സ്വയം കണ്ടെത്തുന്നത് ഒരു ആജീവനാന്ത പ്രക്രിയയായിരിക്കാം, എന്നാൽ ഇത് കുറച്ചുകൂടി എളുപ്പമാക്കുന്നതിന് ഗ്രൂപ്പ് അംഗങ്ങളുടെ തിരയലിൽ ഇനി മുതൽ നിങ്ങൾ “നിങ്ങൾ” എന്ന് ദൃശ്യമാകും."
+  },
+  "icu:WhatsNew__8.27--0": {
+    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
   }
 }
