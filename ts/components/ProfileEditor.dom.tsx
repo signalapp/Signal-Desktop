@@ -8,17 +8,11 @@ import { AvatarColors } from '../types/Colors.std.ts';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import { Input } from './Input.dom.tsx';
-import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
 import { UsernameEditState } from '../state/ducks/usernameEnums.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
-import { assertDev } from '../util/assert.std.ts';
+import { strictAssert } from '../util/assert.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { UsernameLinkEditor } from './UsernameLinkEditor.dom.tsx';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './conversation/conversation-details/ConversationDetailsIcon.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
@@ -53,6 +47,13 @@ import { Emoji } from '../axo/emoji.std.ts';
 import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoList } from '../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
+import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
+import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { drop } from '../util/drop.std.ts';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 type ProfileEditorData = {
   firstName: string;
@@ -497,32 +498,41 @@ export function ProfileEditor({
           whenToShowRemainingCount={40}
         />
 
-        {defaultBios.map(defaultBio => {
-          const emojiVariant = Emoji.getVariant(
-            defaultBio.emojiParent,
-            emojiSkinToneDefault ?? Emoji.SkinTone.None
-          );
+        <AxoList.Root>
+          <AxoList.Body>
+            <AxoItem.Group>
+              {defaultBios.map(defaultBio => {
+                const emojiVariant = Emoji.getVariant(
+                  defaultBio.emojiParent,
+                  emojiSkinToneDefault ?? Emoji.SkinTone.None
+                );
 
-          return (
-            <PanelRow
-              className="ProfileEditor__row"
-              key={defaultBio.emojiParent}
-              icon={
-                <div className="ProfileEditor__icon--container">
-                  <BioEmoji emoji={emojiVariant} />
-                </div>
-              }
-              label={defaultBio.i18nLabel}
-              onClick={() => {
-                setStagedProfile(profileData => ({
-                  ...profileData,
-                  aboutEmoji: emojiVariant,
-                  aboutText: defaultBio.i18nLabel,
-                }));
-              }}
-            />
-          );
-        })}
+                return (
+                  <AxoItem.Root key={defaultBio.emojiParent}>
+                    <AxoItem.Leading>
+                      <BioEmoji emoji={emojiVariant} />
+                    </AxoItem.Leading>
+                    <AxoItem.Content>
+                      <AxoItem.Body>
+                        <AxoItem.Label>{defaultBio.i18nLabel}</AxoItem.Label>
+                        <AxoItem.HiddenTrigger
+                          label={defaultBio.i18nLabel}
+                          onClick={() => {
+                            setStagedProfile(profileData => ({
+                              ...profileData,
+                              aboutEmoji: emojiVariant,
+                              aboutText: defaultBio.i18nLabel,
+                            }));
+                          }}
+                        />
+                      </AxoItem.Body>
+                    </AxoItem.Content>
+                  </AxoItem.Root>
+                );
+              })}
+            </AxoItem.Group>
+          </AxoList.Body>
+        </AxoList.Root>
 
         <div className="ProfileEditor__button-footer">
           <AxoButton.Root
@@ -574,86 +584,85 @@ export function ProfileEditor({
       />
     );
   } else if (editState === ProfileEditorPage.None) {
-    let actions: JSX.Element | undefined;
-    let alwaysShowActions = false;
+    let usernameAccessory: ReactNode | undefined;
 
     if (usernameEditState === UsernameEditState.Deleting) {
-      actions = (
-        <ConversationDetailsIcon
-          ariaLabel={i18n('icu:ProfileEditor--username--deleting-username')}
-          icon={IconType.spinner}
-          disabled
-          fakeButton
+      usernameAccessory = (
+        <AxoItem.IconAction
+          pending
+          variant="implied-secondary"
+          symbol="more"
+          label={i18n('icu:ProfileEditor--username--deleting-username')}
         />
       );
+    } else if (usernameCorrupted) {
+      usernameAccessory = (
+        <span className={tw('text-destructive')}>
+          <AxoSymbol.Icon
+            size={20}
+            symbol="error-circle"
+            label={i18n('icu:ProfileEditor__username__error-icon')}
+          />
+        </span>
+      );
     } else {
-      const menuOptions = [
-        {
-          group: 'copy',
-          icon: 'ProfileEditor__username-menu__copy-icon',
-          label: i18n('icu:ProfileEditor--username--copy'),
-          onClick: () => {
-            assertDev(
-              username !== undefined,
-              'Should not be visible without username'
-            );
-            void window.navigator.clipboard.writeText(username);
-            showToast({ toastType: ToastType.CopiedUsername });
-          },
-        },
-        {
-          // Different group to display a divider above it
-          group: 'delete',
+      usernameAccessory = (
+        <AriaClickable.DeadArea>
+          <AxoDropdownMenu.Root>
+            <AxoDropdownMenu.Trigger>
+              <AxoItem.IconAction
+                variant="implied-secondary"
+                symbol="more"
+                label={i18n('icu:ProfileEditor--username--context-menu')}
+              />
+            </AxoDropdownMenu.Trigger>
+            <AxoDropdownMenu.Content>
+              <AxoDropdownMenu.Item
+                symbol="copy"
+                onSelect={() => {
+                  strictAssert(username, 'Missing username');
+                  drop(window.navigator.clipboard.writeText(username));
+                  showToast({ toastType: ToastType.CopiedUsername });
+                }}
+              >
+                {i18n('icu:ProfileEditor--username--copy')}
+              </AxoDropdownMenu.Item>
 
-          icon: 'ProfileEditor__username-menu__trash-icon',
-          label: i18n('icu:ProfileEditor--username--delete'),
-          onClick: () => {
-            setUsernameEditState(UsernameEditState.ConfirmingDelete);
-          },
-        },
-      ];
-
-      if (usernameCorrupted) {
-        actions = (
-          <i
-            className="ProfileEditor__error-icon"
-            title={i18n('icu:ProfileEditor__username__error-icon')}
-          />
-        );
-        alwaysShowActions = true;
-      } else if (username) {
-        actions = (
-          <ContextMenu
-            i18n={i18n}
-            menuOptions={menuOptions}
-            popperOptions={{ placement: 'bottom', strategy: 'absolute' }}
-            moduleClassName="ProfileEditor__username-menu"
-            ariaLabel={i18n('icu:ProfileEditor--username--context-menu')}
-          />
-        );
-      }
+              <AxoDropdownMenu.Item
+                symbol="trash"
+                onSelect={() => {
+                  setUsernameEditState(UsernameEditState.ConfirmingDelete);
+                }}
+              >
+                {i18n('icu:ProfileEditor--username--delete')}
+              </AxoDropdownMenu.Item>
+            </AxoDropdownMenu.Content>
+          </AxoDropdownMenu.Root>
+        </AriaClickable.DeadArea>
+      );
     }
 
     let maybeUsernameLinkRow: JSX.Element | undefined;
     if (username && !usernameCorrupted) {
-      let linkActions: JSX.Element | undefined;
+      let usernameLinkAccessory: JSX.Element | undefined;
 
       if (usernameLinkCorrupted) {
-        linkActions = (
-          <i
-            className="ProfileEditor__error-icon"
-            title={i18n('icu:ProfileEditor__username-link__error-icon')}
-          />
+        usernameLinkAccessory = (
+          <span className={tw('text-destructive')}>
+            <AxoSymbol.Icon
+              size={20}
+              symbol="error-circle"
+              label={i18n('icu:ProfileEditor__username-link__error-icon')}
+            />
+          </span>
         );
       }
 
       maybeUsernameLinkRow = (
-        <PanelRow
-          className="ProfileEditor__row"
-          icon={
-            <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username-link" />
-          }
+        <AxoClickableItem.Root
+          symbol="qrcode"
           label={i18n('icu:ProfileEditor__username-link')}
+          accessory={usernameLinkAccessory}
           onClick={() => {
             markCompletedUsernameLinkOnboarding();
 
@@ -664,8 +673,6 @@ export function ProfileEditor({
 
             setEditState(ProfileEditorPage.UsernameLink);
           }}
-          alwaysShowActions
-          actions={linkActions}
         />
       );
 
@@ -682,36 +689,37 @@ export function ProfileEditor({
     }
 
     const usernameRows = (
-      <>
-        <hr className="ProfileEditor__divider" />
-        <PanelRow
-          className="ProfileEditor__row"
-          icon={
-            <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--username" />
-          }
-          label={
-            (!usernameCorrupted && username) ||
-            i18n('icu:ProfileEditor--username')
-          }
-          onClick={() => {
-            if (usernameCorrupted) {
-              setIsResettingUsername(true);
-              return;
-            }
+      <AxoList.Root>
+        <AxoList.Body>
+          <AxoItem.Group>
+            <AxoClickableItem.Root
+              symbol="at"
+              label={
+                (!usernameCorrupted && username) ||
+                i18n('icu:ProfileEditor--username')
+              }
+              onClick={() => {
+                if (usernameCorrupted) {
+                  setIsResettingUsername(true);
+                  return;
+                }
 
-            openUsernameReservationModal();
-            setEditState(ProfileEditorPage.Username);
-          }}
-          alwaysShowActions={alwaysShowActions}
-          actions={actions}
-        />
-        {maybeUsernameLinkRow}
-        <div className="ProfileEditor__info">
-          {username
-            ? i18n('icu:ProfileEditor--info--pnp')
-            : i18n('icu:ProfileEditor--info--pnp--no-username')}
-        </div>
-      </>
+                openUsernameReservationModal();
+                setEditState(ProfileEditorPage.Username);
+              }}
+              accessory={usernameAccessory}
+            />
+            {maybeUsernameLinkRow}
+          </AxoItem.Group>
+        </AxoList.Body>
+        <AxoList.Footer>
+          <AxoList.FooterDescription>
+            {username
+              ? i18n('icu:ProfileEditor--info--pnp')
+              : i18n('icu:ProfileEditor--info--pnp--no-username')}
+          </AxoList.FooterDescription>
+        </AxoList.Footer>
+      </AxoList.Root>
     );
 
     content = (
@@ -742,42 +750,61 @@ export function ProfileEditor({
             {i18n('icu:ProfileEditor--edit-photo')}
           </AxoButton.Root>
         </div>
-        <PanelRow
-          className="ProfileEditor__row"
-          icon={
-            <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--name" />
-          }
-          label={<UserText text={getFullNameText()} />}
-          onClick={() => {
-            setEditState(ProfileEditorPage.ProfileName);
-          }}
-        />
-        <PanelRow
-          className="ProfileEditor__row"
-          icon={
-            fullBio.aboutEmoji && Emoji.isEmoji(fullBio.aboutEmoji) ? (
-              <div className="ProfileEditor__icon--container">
-                <BioEmoji
-                  emoji={Emoji.ignorePreferredSkinTone(fullBio.aboutEmoji)}
+
+        <AxoList.Group>
+          <AxoList.Root>
+            <AxoList.Body>
+              <AxoItem.Group>
+                <AxoClickableItem.Root
+                  symbol="person"
+                  label={<UserText text={getFullNameText()} />}
+                  onClick={() => {
+                    setEditState(ProfileEditorPage.ProfileName);
+                  }}
                 />
-              </div>
-            ) : (
-              <i className="ProfileEditor__icon--container ProfileEditor__icon ProfileEditor__icon--bio" />
-            )
-          }
-          label={
-            <UserText
-              text={fullBio.aboutText || i18n('icu:ProfileEditor--about')}
-            />
-          }
-          onClick={() => {
-            setEditState(ProfileEditorPage.Bio);
-          }}
-        />
-        <div className="ProfileEditor__info">
-          {i18n('icu:ProfileEditor--info--general')}
-        </div>
-        {usernameRows}
+
+                <AxoItem.Root>
+                  <AxoItem.Leading>
+                    {fullBio.aboutEmoji && Emoji.isEmoji(fullBio.aboutEmoji) ? (
+                      <BioEmoji
+                        emoji={Emoji.ignorePreferredSkinTone(
+                          fullBio.aboutEmoji
+                        )}
+                      />
+                    ) : (
+                      <AxoItem.Icon symbol="pencil" />
+                    )}
+                  </AxoItem.Leading>
+                  <AxoItem.Content>
+                    <AxoItem.Body>
+                      <AxoItem.Label>
+                        <UserText
+                          text={
+                            fullBio.aboutText ||
+                            i18n('icu:ProfileEditor--about')
+                          }
+                        />
+                      </AxoItem.Label>
+                      <AxoItem.HiddenTrigger
+                        label={i18n('icu:ProfileEditor--about')}
+                        onClick={() => {
+                          setEditState(ProfileEditorPage.Bio);
+                        }}
+                      />
+                    </AxoItem.Body>
+                  </AxoItem.Content>
+                </AxoItem.Root>
+              </AxoItem.Group>
+            </AxoList.Body>
+            <AxoList.Footer>
+              <AxoList.FooterDescription>
+                {i18n('icu:ProfileEditor--info--general')}
+              </AxoList.FooterDescription>
+            </AxoList.Footer>
+          </AxoList.Root>
+
+          {usernameRows}
+        </AxoList.Group>
       </>
     );
   } else {

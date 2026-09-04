@@ -199,7 +199,9 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('opening username editor');
     const profileEditor = window.locator('.ProfileEditor');
-    await profileEditor.getByRole('button', { name: 'Username' }).click();
+    await profileEditor
+      .getByRole('button', { name: 'Username', exact: true })
+      .click();
 
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
@@ -266,9 +268,9 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('deleting username');
     await profileEditor
-      .locator('button[aria-label="Copy or delete username"]')
+      .getByRole('button', { name: 'Copy or delete username' })
       .click();
-    await profileEditor.locator('button[aria-label="Delete"]').click();
+    await window.getByRole('menuitem', { name: 'Delete' }).click();
     await window
       .getByRole('alertdialog')
       .filter({
@@ -278,7 +280,9 @@ describe('pnp/username', function (this: Mocha.Suite) {
       })
       .getByRole('button', { name: 'Delete' })
       .click();
-    await profileEditor.getByRole('button', { name: 'Username' }).waitFor();
+    await profileEditor
+      .getByRole('button', { name: 'Username', exact: true })
+      .waitFor();
 
     // Make sure we get a sync message
     await phone.waitForSyncMessage(entry => {

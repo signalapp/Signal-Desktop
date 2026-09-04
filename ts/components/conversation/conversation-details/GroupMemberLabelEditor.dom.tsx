@@ -37,6 +37,8 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import type { Location } from '../../../types/Nav.std.ts';
 import { usePreviousDeprecated } from '../../../hooks/usePrevious.std.ts';
 import type { Emoji } from '../../../axo/emoji.std.ts';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
 
 export type PropsDataType = {
   canAddLabel: boolean;
@@ -200,162 +202,167 @@ export function GroupMemberLabelEditor({
             value={labelString}
             whenToShowRemainingCount={20}
           />
-          <div className={tw('type-body-small text-secondary')}>
+          <div className={tw('mt-2 mb-4 type-body-small text-secondary')}>
             {i18n('icu:ConversationDetails--member-label--description')}
           </div>
-          <div className={tw('mt-[30px] type-body-medium font-semibold')}>
-            {i18n('icu:ConversationDetails--member-label--preview')}
-          </div>
-          <div
-            className={tw('mt-2.5 rounded-[27px] bg-control-pressed px-2 py-6')}
-            ref={messageContainer}
-          >
-            <Message
-              text={i18n('icu:ConversationDetails--member-label--hello')}
-              author={{ ...me, isMe: false }}
-              contactLabel={contactLabelForMessage}
-              contactNameColor={ourColor}
-              renderingContext="ConversationDetails/GroupMemberLabelEditor"
-              theme={theme}
-              id="fake-id"
-              conversationColor={
-                group.conversationColor ?? ConversationColors[0]
-              }
-              conversationTitle={group.title}
-              conversationId={group.id}
-              textDirection={TextDirection.LeftToRight}
-              isSelected={false}
-              isSelectMode={false}
-              isSignalConversation={false}
-              isSMS={false}
-              isVoiceMessagePlayed={false}
-              direction="incoming"
-              // oxlint-disable-next-line react/purity
-              timestamp={Date.now()}
-              conversationType="group"
-              previews={[]}
-              isPinned={false}
-              canDeleteForEveryone={false}
-              canRetryDeleteForEveryone={false}
-              canSendPollVote={false}
-              retryDeleteForEveryone={noop}
-              isBlocked={false}
-              isMessageRequestAccepted={false}
-              containerElementRef={messageContainer}
-              containerWidthBreakpoint={WidthBreakpoint.Wide}
-              i18n={i18n}
-              interactivity={MessageInteractivity.Static}
-              interactionMode="mouse"
-              platform="unused"
-              shouldCollapseAbove={false}
-              shouldCollapseBelow={false}
-              shouldHideMetadata={false}
-              clearTargetedMessage={noop}
-              getPreferredBadge={getPreferredBadge}
-              renderAudioAttachment={() => <div />}
-              doubleCheckMissingQuoteReference={noop}
-              messageExpanded={noop}
-              checkForAccount={noop}
-              startConversation={noop}
-              showConversation={noop}
-              openGiftBadge={noop}
-              pushPanelForConversation={noop}
-              retryMessageSend={noop}
-              sendPollVote={noop}
-              endPoll={noop}
-              showContactModal={noop}
-              showSpoiler={noop}
-              cancelAttachmentDownload={noop}
-              kickOffAttachmentDownload={noop}
-              markAttachmentAsCorrupted={noop}
-              saveAttachment={noop}
-              saveAttachments={noop}
-              showLightbox={noop}
-              showLightboxForViewOnceMedia={noop}
-              scrollToQuotedMessage={noop}
-              showAttachmentDownloadStillInProgressToast={noop}
-              showExpiredIncomingTapToViewToast={noop}
-              showExpiredOutgoingTapToViewToast={noop}
-              showMediaNoLongerAvailableToast={noop}
-              showTapToViewNotAvailableModal={noop}
-              viewStory={noop}
-              onToggleSelect={noop}
-              onReplyToMessage={noop}
-            />
-          </div>
-          <div
-            className={tw('mt-[30px] mb-2.5 type-body-medium font-semibold')}
-          >
-            {i18n('icu:ConversationDetails--member-label--list-header')}
-          </div>
-          <div>
-            {membersWithLabel.length === 0 && (
-              <div className={tw('type-body-medium text-secondary')}>
-                {i18n('icu:ConversationDetails--member-label--no-members')}
-              </div>
-            )}
-            {membersWithLabel.map(membership => {
-              const {
-                contactNameColor,
-                isAdmin,
-                labelEmoji: memberLabelEmoji,
-                labelString: memberLabelString,
-                member,
-              } = membership;
 
-              return (
-                <div
-                  className={tw(
-                    'flex w-full flex-row items-center overflow-hidden py-2'
-                  )}
-                  key={member.serviceId}
-                >
-                  <div className={tw('pe-3')}>
-                    <Avatar
-                      conversationType="direct"
-                      badge={getPreferredBadge(member.badges)}
-                      i18n={i18n}
-                      size={AvatarSize.THIRTY_SIX}
-                      theme={theme}
-                      {...member}
-                    />
-                  </div>
+          <AxoList.Group>
+            <AxoList.Root>
+              <AxoList.Header>
+                <AxoList.Label>
+                  {i18n('icu:ConversationDetails--member-label--preview')}
+                </AxoList.Label>
+              </AxoList.Header>
+              <AxoList.Body ref={messageContainer}>
+                <Message
+                  text={i18n('icu:ConversationDetails--member-label--hello')}
+                  author={{ ...me, isMe: false }}
+                  contactLabel={contactLabelForMessage}
+                  contactNameColor={ourColor}
+                  renderingContext="ConversationDetails/GroupMemberLabelEditor"
+                  theme={theme}
+                  id="fake-id"
+                  conversationColor={
+                    group.conversationColor ?? ConversationColors[0]
+                  }
+                  conversationTitle={group.title}
+                  conversationId={group.id}
+                  textDirection={TextDirection.LeftToRight}
+                  isSelected={false}
+                  isSelectMode={false}
+                  isSignalConversation={false}
+                  isSMS={false}
+                  isVoiceMessagePlayed={false}
+                  direction="incoming"
+                  // oxlint-disable-next-line react/purity
+                  timestamp={Date.now()}
+                  conversationType="group"
+                  previews={[]}
+                  isPinned={false}
+                  canDeleteForEveryone={false}
+                  canRetryDeleteForEveryone={false}
+                  canSendPollVote={false}
+                  retryDeleteForEveryone={noop}
+                  isBlocked={false}
+                  isMessageRequestAccepted={false}
+                  containerElementRef={messageContainer}
+                  containerWidthBreakpoint={WidthBreakpoint.Wide}
+                  i18n={i18n}
+                  interactivity={MessageInteractivity.Static}
+                  interactionMode="mouse"
+                  platform="unused"
+                  shouldCollapseAbove={false}
+                  shouldCollapseBelow={false}
+                  shouldHideMetadata={false}
+                  clearTargetedMessage={noop}
+                  getPreferredBadge={getPreferredBadge}
+                  renderAudioAttachment={() => <div />}
+                  doubleCheckMissingQuoteReference={noop}
+                  messageExpanded={noop}
+                  checkForAccount={noop}
+                  startConversation={noop}
+                  showConversation={noop}
+                  openGiftBadge={noop}
+                  pushPanelForConversation={noop}
+                  retryMessageSend={noop}
+                  sendPollVote={noop}
+                  endPoll={noop}
+                  showContactModal={noop}
+                  showSpoiler={noop}
+                  cancelAttachmentDownload={noop}
+                  kickOffAttachmentDownload={noop}
+                  markAttachmentAsCorrupted={noop}
+                  saveAttachment={noop}
+                  saveAttachments={noop}
+                  showLightbox={noop}
+                  showLightboxForViewOnceMedia={noop}
+                  scrollToQuotedMessage={noop}
+                  showAttachmentDownloadStillInProgressToast={noop}
+                  showExpiredIncomingTapToViewToast={noop}
+                  showExpiredOutgoingTapToViewToast={noop}
+                  showMediaNoLongerAvailableToast={noop}
+                  showTapToViewNotAvailableModal={noop}
+                  viewStory={noop}
+                  onToggleSelect={noop}
+                  onReplyToMessage={noop}
+                />
+              </AxoList.Body>
+            </AxoList.Root>
+
+            <AxoList.Root>
+              <AxoList.Header>
+                <AxoList.Label>
+                  {i18n('icu:ConversationDetails--member-label--list-header')}
+                </AxoList.Label>
+              </AxoList.Header>
+              <AxoList.Body>
+                {membersWithLabel.length === 0 ? (
                   <div
                     className={tw(
-                      'flex grow flex-col items-start overflow-hidden'
+                      'px-3.5 py-2 type-body-medium text-secondary'
                     )}
                   >
-                    <div>
-                      <UserText
-                        text={member.isMe ? i18n('icu:you') : member.title}
-                      />
-                    </div>
-                    {memberLabelString && contactNameColor && (
-                      <div
-                        className={tw(
-                          'max-w-full min-w-0 overflow-hidden type-body-small'
-                        )}
-                      >
-                        <GroupMemberLabel
-                          contactNameColor={contactNameColor}
-                          contactLabel={{
-                            labelEmoji: memberLabelEmoji,
-                            labelString: memberLabelString,
-                          }}
-                          context="list"
-                        />
-                      </div>
-                    )}
+                    {i18n('icu:ConversationDetails--member-label--no-members')}
                   </div>
-                  {isAdmin && (
-                    <div className={tw('ms-2 text-secondary')}>
-                      {i18n('icu:GroupV2--admin')}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                ) : (
+                  <AxoItem.Group>
+                    {membersWithLabel.map(membership => {
+                      const {
+                        contactNameColor,
+                        isAdmin,
+                        labelEmoji: memberLabelEmoji,
+                        labelString: memberLabelString,
+                        member,
+                      } = membership;
+
+                      return (
+                        <AxoItem.Root key={member.serviceId}>
+                          <AxoItem.Leading>
+                            <Avatar
+                              conversationType="direct"
+                              badge={getPreferredBadge(member.badges)}
+                              i18n={i18n}
+                              size={AvatarSize.THIRTY_SIX}
+                              theme={theme}
+                              {...member}
+                            />
+                          </AxoItem.Leading>
+                          <AxoItem.Content>
+                            <AxoItem.Body>
+                              <AxoItem.Label>
+                                <UserText
+                                  text={
+                                    member.isMe ? i18n('icu:you') : member.title
+                                  }
+                                />
+                              </AxoItem.Label>
+                              {isAdmin && (
+                                <AxoItem.Value>
+                                  {i18n('icu:GroupV2--admin')}
+                                </AxoItem.Value>
+                              )}
+                              {memberLabelString && contactNameColor && (
+                                <AxoItem.Description>
+                                  <GroupMemberLabel
+                                    contactNameColor={contactNameColor}
+                                    contactLabel={{
+                                      labelEmoji: memberLabelEmoji,
+                                      labelString: memberLabelString,
+                                    }}
+                                    context="list"
+                                  />
+                                </AxoItem.Description>
+                              )}
+                            </AxoItem.Body>
+                          </AxoItem.Content>
+                        </AxoItem.Root>
+                      );
+                    })}
+                  </AxoItem.Group>
+                )}
+              </AxoList.Body>
+            </AxoList.Root>
+          </AxoList.Group>
         </div>
       </div>
       <div

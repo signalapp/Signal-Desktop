@@ -309,25 +309,42 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
-  export type IconActionVariant = 'implied-secondary';
+  export type IconActionVariant =
+    | 'implied-secondary'
+    | 'subtle-affirmative'
+    | 'subtle-destructive';
 
   export type IconActionProps = Readonly<{
     ref?: Ref<HTMLButtonElement | null>;
     variant: IconActionVariant;
     label: string;
     symbol: AxoSymbol.Name;
+    disabled?: boolean;
+    pending?: boolean;
     tooltip?: AxoIconButton.RootProps['tooltip'];
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
   export const IconAction: FC<IconActionProps> = memo(props => {
-    const { ref, variant, label, symbol, onClick, tooltip, ...rest } = props;
+    const {
+      ref,
+      variant,
+      label,
+      symbol,
+      onClick,
+      disabled,
+      pending,
+      tooltip,
+      ...rest
+    } = props;
     return (
       <AxoBaseItem.IconAction
         ref={ref}
         variant={variant}
         label={label}
         symbol={symbol}
+        disabled={disabled}
+        pending={pending}
         onClick={onClick}
         tooltip={tooltip}
         {...forwardExtraPropsForRadix(rest)}

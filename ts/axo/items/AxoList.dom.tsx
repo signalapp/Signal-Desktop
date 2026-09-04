@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactNode, Ref } from 'react';
 import { memo } from 'react';
 import { tw } from '../tw.dom.tsx';
 import { AriaLabelled } from '../aria/AriaLabelled.dom.tsx';
@@ -16,7 +16,11 @@ export namespace AxoList {
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
-    return <div className={tw('flex flex-col gap-4')}>{props.children}</div>;
+    return (
+      <div className={tw('group/axo-list-group flex flex-col gap-4')}>
+        {props.children}
+      </div>
+    );
   });
 
   Group.displayName = 'AxoList.Group';
@@ -34,7 +38,9 @@ export namespace AxoList {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaLabelled.Root asChild label={props.accessibilityLabel}>
-        <section>{props.children}</section>
+        <section className={tw('group/axo-list-root')}>
+          {props.children}
+        </section>
       </AriaLabelled.Root>
     );
   });
@@ -102,13 +108,18 @@ export namespace AxoList {
    */
 
   export type BodyProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     children: ReactNode;
   }>;
 
   export const Body: FC<BodyProps> = memo(props => {
     return (
       <div
+        ref={props.ref}
         className={tw(
+          // Add some extra space so shadows don't get cut off
+          'group-first/axo-list-group:group-first/axo-list-root:first:mt-px',
+          'group-last/axo-list-group:group-last/axo-list-root:last:mb-0.75',
           'min-w-fit',
           'curved-2xl bg-surface-card p-1 shadow-elevation-0',
           'forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]',

@@ -1,20 +1,18 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useId, useState, type JSX } from 'react';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
-import { PanelRow } from './PanelRow.dom.tsx';
-import { PanelSection } from './PanelSection.dom.tsx';
-import { Select } from '../../Select.dom.tsx';
 import { SignalService as Proto } from '../../../protobuf/index.std.ts';
 import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.ts';
 import { drop } from '../../../util/drop.std.ts';
-import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus.dom.ts';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
+import { AxoSwitchItem } from '../../../axo/items/AxoSwitchItem.dom.tsx';
+import { AxoClickableItem } from '../../../axo/items/AxoClickableItem.dom.tsx';
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
@@ -40,34 +38,21 @@ export function GroupLinkManagement({
   i18n,
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
-}: PropsType): JSX.Element {
-  const groupLinkSelectId = useId();
-  const approveSelectId = useId();
-
+}: PropsType): ReactNode {
   if (conversation === undefined) {
     throw new Error('GroupLinkManagement rendered without a conversation');
   }
-
-  const [focusRef] = useDelayedRestoreFocus();
-
-  const createEventHandler = (
-    handleEvent: (id: string, x: boolean) => unknown
-  ) => {
-    return (value: string) => {
-      handleEvent(conversation.id, value === 'true');
-    };
-  };
 
   const membersNeedAdminApproval =
     conversation.accessControlAddFromInviteLink ===
     AccessControlEnum.ADMINISTRATOR;
 
   const hasGroupLink =
-    conversation.groupLink &&
+    conversation.groupLink != null &&
     conversation.accessControlAddFromInviteLink !==
       AccessControlEnum.UNSATISFIABLE;
 
-  let groupLinkInfo: JSX.Element | undefined;
+  let groupLinkInfo: ReactNode;
   if (hasGroupLink) {
     groupLinkInfo = (
       <button
@@ -87,69 +72,41 @@ export function GroupLinkManagement({
     useState(false);
 
   return (
-    <>
-      {hasGenerateNewLinkDialog && (
-        <AxoConfirmDialog.Root
-          open
-          onOpenChange={() => {
-            setHasGenerateNewLinkDialog(false);
+    <AxoContainer.Root>
+      <AxoConfirmDialog.Root
+        open={hasGenerateNewLinkDialog}
+        onOpenChange={setHasGenerateNewLinkDialog}
+        title={i18n('icu:GroupLinkManagement--confirm-reset')}
+        // @ts-expect-error ConfirmationDialog migration: Needs description
+        description={null}
+      >
+        <AxoConfirmDialog.Cancel />
+        <AxoConfirmDialog.Action
+          variant="strong-destructive"
+          onClick={() => {
+            generateNewGroupLink(conversation.id);
           }}
-          title={i18n('icu:GroupLinkManagement--confirm-reset')}
-          // @ts-expect-error ConfirmationDialog migration: Needs description
-          description={null}
         >
-          <AxoConfirmDialog.Cancel />
-          <AxoConfirmDialog.Action
-            variant="strong-destructive"
-            onClick={() => {
-              generateNewGroupLink(conversation.id);
-            }}
-          >
-            {i18n('icu:GroupLinkManagement--reset')}
-          </AxoConfirmDialog.Action>
-        </AxoConfirmDialog.Root>
-      )}
-      <PanelSection>
-        <PanelRow
-          info={groupLinkInfo}
-          label={
-            <label htmlFor={groupLinkSelectId}>
-              {i18n('icu:ConversationDetails--group-link')}
-            </label>
-          }
-          right={
-            isAdmin ? (
-              <Select
-                id={groupLinkSelectId}
-                onChange={createEventHandler(changeHasGroupLink)}
-                options={[
-                  {
-                    text: i18n('icu:on'),
-                    value: 'true',
-                  },
-                  {
-                    text: i18n('icu:off'),
-                    value: 'false',
-                  },
-                ]}
-                ref={focusRef}
-                value={String(Boolean(hasGroupLink))}
-              />
-            ) : null
-          }
-        />
-      </PanelSection>
+          {i18n('icu:GroupLinkManagement--reset')}
+        </AxoConfirmDialog.Action>
+      </AxoConfirmDialog.Root>
 
-      {hasGroupLink ? (
-        <>
-          <PanelSection>
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:GroupLinkManagement--share')}
-                  icon={IconType.share}
-                />
-              }
+      <AxoList.Group>
+        <List>
+          <AxoSwitchItem.Root
+            label={i18n('icu:ConversationDetails--group-link')}
+            description={groupLinkInfo}
+            checked={hasGroupLink}
+            onCheckedChange={checked => {
+              changeHasGroupLink(conversation.id, checked);
+            }}
+          />
+        </List>
+
+        {hasGroupLink && (
+          <List>
+            <AxoClickableItem.Root
+              symbol="copy"
               label={i18n('icu:GroupLinkManagement--share')}
               onClick={() => {
                 if (conversation.groupLink) {
@@ -157,53 +114,45 @@ export function GroupLinkManagement({
                 }
               }}
             />
-            {isAdmin ? (
-              <PanelRow
-                icon={
-                  <ConversationDetailsIcon
-                    ariaLabel={i18n('icu:GroupLinkManagement--reset')}
-                    icon={IconType.reset}
-                  />
-                }
-                label={i18n('icu:GroupLinkManagement--reset')}
-                onClick={() => setHasGenerateNewLinkDialog(true)}
-              />
-            ) : null}
-          </PanelSection>
 
-          {isAdmin ? (
-            <PanelSection>
-              <PanelRow
-                info={i18n('icu:GroupLinkManagement--approve-info')}
-                label={
-                  <label htmlFor={approveSelectId}>
-                    {i18n('icu:GroupLinkManagement--approve-label')}
-                  </label>
-                }
-                right={
-                  <Select
-                    id={approveSelectId}
-                    onChange={createEventHandler(
-                      setAccessControlAddFromInviteLinkSetting
-                    )}
-                    options={[
-                      {
-                        text: i18n('icu:on'),
-                        value: 'true',
-                      },
-                      {
-                        text: i18n('icu:off'),
-                        value: 'false',
-                      },
-                    ]}
-                    value={String(membersNeedAdminApproval)}
-                  />
-                }
-              />
-            </PanelSection>
-          ) : null}
-        </>
-      ) : null}
-    </>
+            <AxoClickableItem.Root
+              symbol="arrow-clockwise"
+              label={i18n('icu:GroupLinkManagement--reset')}
+              onClick={() => setHasGenerateNewLinkDialog(true)}
+            />
+          </List>
+        )}
+
+        {hasGroupLink && isAdmin && (
+          <List>
+            <AxoSwitchItem.Root
+              label={i18n('icu:GroupLinkManagement--approve-label')}
+              description={i18n('icu:GroupLinkManagement--approve-info')}
+              checked={membersNeedAdminApproval}
+              onCheckedChange={checked => {
+                setAccessControlAddFromInviteLinkSetting(
+                  conversation.id,
+                  checked
+                );
+              }}
+            />
+          </List>
+        )}
+      </AxoList.Group>
+    </AxoContainer.Root>
+  );
+}
+
+type ListProps = Readonly<{
+  children: ReactNode;
+}>;
+
+function List(props: ListProps) {
+  return (
+    <AxoList.Root>
+      <AxoList.Body>
+        <AxoItem.Group>{props.children}</AxoItem.Group>
+      </AxoList.Body>
+    </AxoList.Root>
   );
 }

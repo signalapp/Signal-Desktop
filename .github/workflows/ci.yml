@@ -118,6 +118,10 @@ jobs:
         background: true
         run: pnpm run oxlint:ci
 
+      - name: Check unused icons
+        background: true
+        run: pnpm run check:unused-icons
+
   macos:
     name: MacOS
     runs-on: macos-26

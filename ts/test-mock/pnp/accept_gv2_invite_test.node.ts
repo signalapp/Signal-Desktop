@@ -14,6 +14,7 @@ import {
 import { Bootstrap } from '../bootstrap.node.ts';
 import type { App } from '../bootstrap.node.ts';
 import { acceptConversation, expectSystemMessages } from '../helpers.node.ts';
+import { expect } from 'playwright/test';
 
 export const debug = createDebug('mock:test:gv2');
 
@@ -295,15 +296,10 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     await conversationStack
       .getByRole('button', { name: 'Requests & Invites' })
       .click();
-    await conversationStack
-      .locator('.ConversationDetails__tabs__tab >> text=Invites (1)')
-      .click();
-    await conversationStack
-      .locator(
-        '.ConversationDetails-panel-row__root >> ' +
-          `text=/${first.profileName}.*Invited 1/i`
-      )
-      .waitFor();
+    await conversationStack.getByRole('tab', { name: 'Invites' }).click();
+    await expect(
+      conversationStack.getByRole('listitem', { name: first.profileName })
+    ).toContainText('Invited 1');
   });
 
   it('should decline ACI invite with extra PNI on the invite list', async () => {

@@ -110,6 +110,7 @@
     "build:preload-cache": "node scripts/generate-preload-cache.mjs",
     "electron:install-app-deps": "electron-builder install-app-deps",
     "check-upgradeable-deps": "node scripts/check-upgradeable-deps.mjs",
+    "check:unused-icons": "node scripts/check-unused-icons.mjs",
     "react-devtools": "react-devtools",
     "run-with-devtools": "cross-env REACT_DEVTOOLS=1 run-p --print-label react-devtools start",
     "update-signal-symbols": "node scripts/update-signal-symbols.mjs",

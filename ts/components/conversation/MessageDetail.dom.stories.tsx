@@ -66,6 +66,7 @@ export default {
         isOutgoingKeyError: false,
         isUnidentifiedDelivery: false,
         status: SendStatus.Delivered,
+        statusTimestamp: Date.now(),
       },
     ],
     errors: [],
@@ -152,8 +153,10 @@ export function MessageStatuses(args: Props): JSX.Element {
             title: 'Max',
           }),
           isOutgoingKeyError: false,
-          isUnidentifiedDelivery: false,
+          isUnidentifiedDelivery: true,
           status: SendStatus.Sent,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
@@ -162,14 +165,18 @@ export function MessageStatuses(args: Props): JSX.Element {
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
           status: SendStatus.Pending,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
             title: 'Terry',
           }),
           isOutgoingKeyError: false,
-          isUnidentifiedDelivery: false,
+          isUnidentifiedDelivery: true,
           status: SendStatus.Failed,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
@@ -178,14 +185,18 @@ export function MessageStatuses(args: Props): JSX.Element {
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: false,
           status: SendStatus.Delivered,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
             title: 'Nikki',
           }),
           isOutgoingKeyError: false,
-          isUnidentifiedDelivery: false,
+          isUnidentifiedDelivery: true,
           status: SendStatus.Read,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
       ]}
       message={{
@@ -244,6 +255,8 @@ export function AllErrors(args: Props): JSX.Element {
           isOutgoingKeyError: true,
           isUnidentifiedDelivery: false,
           status: SendStatus.Failed,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
@@ -258,6 +271,8 @@ export function AllErrors(args: Props): JSX.Element {
           isOutgoingKeyError: false,
           isUnidentifiedDelivery: true,
           status: SendStatus.Failed,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
         {
           ...getDefaultConversation({
@@ -266,6 +281,8 @@ export function AllErrors(args: Props): JSX.Element {
           isOutgoingKeyError: true,
           isUnidentifiedDelivery: true,
           status: SendStatus.Failed,
+          // oxlint-disable-next-line react/purity
+          statusTimestamp: Date.now(),
         },
       ]}
     />

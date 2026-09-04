@@ -84,6 +84,7 @@
 
   :where(.axo-item-content-inner) .axo-item-trailing {
     @apply axo-item-centering-to-max-height;
+    @apply flex items-center gap-1.5;
     @apply ml-1.5;
   }
 

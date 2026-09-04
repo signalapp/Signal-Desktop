@@ -11,16 +11,20 @@ export namespace AxoTextItem {
    * --------------------------------------------------------------------------
    */
 
+  export type Variant = 'secondary' | 'destructive';
+
   export type RootProps = Readonly<{
+    variant?: Variant;
     symbol?: AxoSymbol.Name | null;
     label: ReactNode;
     value?: ReactNode;
     description?: ReactNode;
+    trailing?: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
     return (
-      <AxoItem.Root>
+      <AxoItem.Root variant={props.variant}>
         {props.symbol != null && (
           <AxoItem.Leading>
             <AxoItem.Icon symbol={props.symbol} />
@@ -33,9 +37,12 @@ export namespace AxoTextItem {
               <AxoItem.Value>{props.value}</AxoItem.Value>
             )}
             {props.description != null && (
-              <AxoItem.Value>{props.description}</AxoItem.Value>
+              <AxoItem.Description>{props.description}</AxoItem.Description>
             )}
           </AxoItem.Body>
+          {props.trailing != null && (
+            <AxoItem.Trailing>{props.trailing}</AxoItem.Trailing>
+          )}
         </AxoItem.Content>
       </AxoItem.Root>
     );

@@ -112,10 +112,6 @@ button.ListTile {
       @include mixins.dark-theme {
         background-color: variables.$color-white-alpha-06;
       }
-
-      & .ConversationDetails-panel-row__actions {
-        opacity: 1;
-      }
     }
   }
 }

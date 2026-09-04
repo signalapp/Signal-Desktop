@@ -93,13 +93,3 @@ Item.args = {
   subtitle: 'Hello my friend',
   clickable: true,
 };
-
-export const PanelRow = TemplateList(800).bind({});
-PanelRow.args = {
-  leading: circleAvatar,
-  title: 'Some user',
-  subtitle: 'Hello my friend',
-  trailing: <div className="ConversationDetails-panel-row__right">Admin</div>,
-  clickable: false,
-  variant: 'panelrow',
-};
