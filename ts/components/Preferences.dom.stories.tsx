@@ -419,6 +419,9 @@ function renderNotificationProfilesHome(
 export default {
   title: 'Components/Preferences',
   component: Preferences,
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: {
     i18n,
     backupKey:

@@ -86,16 +86,14 @@ export function DisappearingTimerSelect(props: Props): JSX.Element {
   let info: ReactNode;
   if (isCustomTimeSelected) {
     info = (
-      <div
-        className={tw('absolute mt-1 ps-3.5', 'type-body-small text-secondary')}
-      >
+      <div className={tw('mt-1 ps-3.5', 'type-body-small text-secondary')}>
         {expirationTimer.format(i18n, value)}
       </div>
     );
   }
 
   return (
-    <div className={tw('relative')}>
+    <div className={tw('inline-flex flex-col')}>
       <AxoSelect.Root
         disabled={disabled}
         value={String(isCustomTimeSelected ? -1 : value)}

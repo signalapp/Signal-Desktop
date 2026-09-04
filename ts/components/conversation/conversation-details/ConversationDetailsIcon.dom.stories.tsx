@@ -17,7 +17,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
   ariaLabel: overrideProps.ariaLabel || '',
-  icon: overrideProps.icon || IconType.timer,
+  icon: overrideProps.icon || IconType.trash,
   onClick: overrideProps.onClick,
 });
 
@@ -34,14 +34,7 @@ export function All(): JSX.Element {
 }
 
 export function ClickableIcons(): JSX.Element {
-  const icons = [
-    IconType.timer,
-    IconType.trash,
-    IconType.invites,
-    IconType.block,
-    IconType.leave,
-    IconType.down,
-  ];
+  const icons = [IconType.edit, IconType.trash];
 
   const onClick = action('onClick');
 

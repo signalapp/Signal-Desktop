@@ -116,6 +116,7 @@ import { AxoSwitchItem } from '../axo/items/AxoSwitchItem.dom.tsx';
 import { AxoSelectItem } from '../axo/items/AxoSelectItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
+import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -882,14 +883,14 @@ export function Preferences({
     });
   } else if (settingsLocation.page === SettingsPage.Account) {
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         {!weArePrimaryDevice && (
           <>
             <List>
               <AxoClickableItem.Root
                 symbol="device-laptop"
                 label={i18n('icu:Preferences__Account__LinkedDevice__label')}
-                arrow
+                arrow="next"
                 description={i18n(
                   'icu:Preferences__Account__LinkedDevice__description'
                 )}
@@ -937,7 +938,7 @@ export function Preferences({
             />
           </List>
         )}
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
       <PreferencesContent
@@ -975,7 +976,7 @@ export function Preferences({
     );
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List
           footerDescription={i18n('icu:Preferences--device-name__description')}
         >
@@ -1134,14 +1135,17 @@ export function Preferences({
             </AxoConfirmDialog.Action>
           </AxoConfirmDialog.Root>
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--general')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--general')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (isDonationsPage(settingsLocation.page)) {
     // oxlint-disable-next-line react/refs
@@ -1174,12 +1178,12 @@ export function Preferences({
     }
 
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List>
           <AxoClickableItem.Root
             symbol="globe"
             label={i18n('icu:Preferences__Language__Label')}
-            arrow
+            arrow="next"
             value={
               <span
                 className="Preferences__LanguageButton"
@@ -1329,7 +1333,7 @@ export function Preferences({
           <AxoClickableItem.Root
             symbol="palette"
             label={i18n('icu:showChatColorEditor')}
-            arrow
+            arrow="next"
             onClick={() => {
               setSettingsLocation({ page: SettingsPage.ChatColor });
             }}
@@ -1361,14 +1365,17 @@ export function Preferences({
             }
           />
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--appearance')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--appearance')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Chats) {
     let spellCheckDirtyText: string | undefined;
@@ -1384,7 +1391,7 @@ export function Preferences({
     const lastSyncDate = new Date(lastSyncTime || 0);
 
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List accessibilityLabel={i18n('icu:Preferences__button--chats')}>
           <AxoSwitchItem.Root
             label={i18n('icu:Preferences__address-book-photos--title')}
@@ -1475,7 +1482,7 @@ export function Preferences({
                   )
                 : null
             }
-            arrow
+            arrow="next"
             onClick={() => {
               setSettingsLocation({
                 page: SettingsPage.ChatFolders,
@@ -1546,18 +1553,21 @@ export function Preferences({
             />
           </List>
         )}
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--chats')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--chats')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Calls) {
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List accessibilityLabel={i18n('icu:calling')}>
           <AxoSwitchItem.Root
             label={i18n('icu:incomingCallNotificationDescription')}
@@ -1628,18 +1638,21 @@ export function Preferences({
             onCheckedChange={onRelayCallsChange}
           />
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--calls')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--calls')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Notifications) {
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List>
           <AxoSwitchItem.Root
             label={i18n('icu:Preferences__enable-notifications')}
@@ -1674,7 +1687,7 @@ export function Preferences({
             label={i18n('icu:WhileMuted__title')}
             value={getNotifyWhileMutedSummary(notifyWhileMuted, i18n)}
             description={i18n('icu:Preferences__WhileMuted__description')}
-            arrow
+            arrow="next"
             disabled={!hasNotifications}
             onClick={() =>
               setSettingsLocation({ page: SettingsPage.WhileMuted })
@@ -1766,7 +1779,7 @@ export function Preferences({
           <AxoClickableItem.Root
             label={i18n('icu:NotificationProfiles--setting')}
             description={i18n('icu:NotificationProfiles--manage-description')}
-            arrow
+            arrow="next"
             onClick={() =>
               setSettingsLocation({
                 page: SettingsPage.NotificationProfilesHome,
@@ -1814,14 +1827,17 @@ export function Preferences({
             </AxoAlertDialog.Content>
           </AxoAlertDialog.Root>
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--notifications')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--notifications')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Privacy) {
     const isCustomDisappearingMessageValue =
@@ -1846,12 +1862,12 @@ export function Preferences({
     }
 
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List>
           <AxoClickableItem.Root
             label={i18n('icu:Preferences__pnp__row--title')}
             description={i18n('icu:Preferences__pnp__row--body')}
-            arrow
+            arrow="next"
             onClick={() => setSettingsLocation({ page: SettingsPage.PNP })}
           />
         </List>
@@ -1859,7 +1875,7 @@ export function Preferences({
           <AxoClickableItem.Root
             label={i18n('icu:Preferences--blocked')}
             description={blockedDescription}
-            arrow
+            arrow="next"
             disabled={!blockedContacts.length && !blockedGroups.length}
             onClick={() => setSettingsLocation({ page: SettingsPage.Blocked })}
           />
@@ -2037,18 +2053,21 @@ export function Preferences({
             {i18n('icu:Preferences__turn-stories-off--action')}
           </AxoConfirmDialog.Action>
         </AxoConfirmDialog.Root>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--privacy')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--privacy')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.DataUsage) {
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List
           label={i18n('icu:Preferences__media-auto-download')}
           footerDescription={i18n(
@@ -2119,14 +2138,17 @@ export function Preferences({
             ]}
           />
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences__button--data-usage')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Label>
+            {i18n('icu:Preferences__button--data-usage')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.ChatColor) {
     const backButton = (
@@ -2471,18 +2493,8 @@ export function Preferences({
       />
     );
   } else if (settingsLocation.page === SettingsPage.WhileMuted) {
-    const backButton = (
-      <button
-        aria-label={i18n('icu:goBack')}
-        className="Preferences__back-icon"
-        onClick={() =>
-          setSettingsLocation({ page: SettingsPage.Notifications })
-        }
-        type="button"
-      />
-    );
     const pageContents = (
-      <ListGroup>
+      <AxoList.Group>
         <List>
           <AxoSwitchItem.Root
             symbol="phone"
@@ -2518,15 +2530,20 @@ export function Preferences({
             }
           />
         </List>
-      </ListGroup>
+      </AxoList.Group>
     );
     content = (
-      <PreferencesContent
-        backButton={backButton}
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:WhileMuted__title')}
-      />
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Back
+            onClick={() =>
+              setSettingsLocation({ page: SettingsPage.Notifications })
+            }
+          />
+          <AxoPanel.Label>{i18n('icu:WhileMuted__title')}</AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.NotificationProfilesHome) {
     // oxlint-disable-next-line react/refs
@@ -2836,18 +2853,6 @@ export function PreferencesContent({
         <div className="Preferences__settings-pane-spacer" />
       </div>
       {actions && <div className="Preferences__actions">{actions}</div>}
-    </div>
-  );
-}
-
-type ListGroupProps = Readonly<{
-  children: ReactNode;
-}>;
-
-function ListGroup(props: ListGroupProps): ReactNode {
-  return (
-    <div className={tw('flex max-w-[750px] flex-col gap-4 px-4 pt-2 pb-4')}>
-      {props.children}
     </div>
   );
 }

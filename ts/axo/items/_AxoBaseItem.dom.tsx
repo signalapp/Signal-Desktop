@@ -113,20 +113,29 @@ export namespace AxoBaseItem {
     sm: tw('py-1.5'),
   });
 
+  export type Variant = 'secondary' | 'destructive';
+
+  const Variants = variants<Variant>('AxoBaseItem.Variant', {
+    secondary: tw('text-primary'),
+    destructive: tw('text-destructive'),
+  });
+
+  const DisabledVariants = variants<Variant>('AxoBaseItem.Root', {
+    secondary: tw('text-disabled forced-colors:text-[GrayText]'),
+    destructive: tw('text-destructive-disabled forced-colors:text-[GrayText]'),
+  });
+
   /** @internal */
   type RootContextType = Readonly<{
+    variant: Variant;
     disabled: boolean;
   }>;
 
   /** @internal */
   const RootContext = createStrictContext<RootContextType>('AxoBaseItem.Root');
 
-  /** @internal */
-  function useRootDisabled(): boolean {
-    return useStrictContext(RootContext).disabled;
-  }
-
   export type RootProps = Readonly<{
+    variant?: Variant;
     /**
      * Dims the contents of the item and disables its `HiddenTrigger`.
      * Accessories (switches, selects, button) must be disabled separately.
@@ -136,12 +145,17 @@ export namespace AxoBaseItem {
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { disabled = false, children, ...rest } = props;
+    const {
+      variant = 'secondary',
+      disabled = false,
+      children,
+      ...rest
+    } = props;
     const groupContext = useStrictContext(GroupContext);
 
     const context = useMemo((): RootContextType => {
-      return { disabled };
-    }, [disabled]);
+      return { variant, disabled };
+    }, [variant, disabled]);
 
     return (
       <RootContext value={context}>
@@ -192,7 +206,16 @@ export namespace AxoBaseItem {
   }>;
 
   export const Icon: FC<IconProps> = memo(props => {
-    return <AxoSymbol.Icon size={18} symbol={props.symbol} label={null} />;
+    const { variant, disabled } = useStrictContext(RootContext);
+    return (
+      <span
+        className={
+          disabled ? DisabledVariants.get(variant) : Variants.get(variant)
+        }
+      >
+        <AxoSymbol.Icon size={18} symbol={props.symbol} label={null} />
+      </span>
+    );
   });
 
   Icon.displayName = 'AxoBaseItem.Icon';
@@ -296,14 +319,14 @@ export namespace AxoBaseItem {
 
   export const Label: FC<LabelProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
-    const disabled = useRootDisabled();
+    const { variant, disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
         className={tw(
           AXO_ITEM_LABEL_CLASS,
           truncate && 'truncate',
-          disabled && 'text-disabled forced-colors:text-[GrayText]'
+          disabled ? DisabledVariants.get(variant) : Variants.get(variant)
         )}
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -326,7 +349,7 @@ export namespace AxoBaseItem {
 
   export const Value: FC<ValueProps> = memo(props => {
     const { ref, children, ...rest } = props;
-    const disabled = useRootDisabled();
+    const { disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
@@ -356,7 +379,7 @@ export namespace AxoBaseItem {
 
   export const Description: FC<DescriptionProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
-    const disabled = useRootDisabled();
+    const { disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
@@ -380,23 +403,23 @@ export namespace AxoBaseItem {
    */
 
   export type HiddenTriggerProps = Readonly<{
+    ref?: Ref<HTMLButtonElement>;
     label?: string;
     labelledby?: string;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
-    const disabled = useRootDisabled();
-
-    if (disabled) {
-      return null;
-    }
-
+    const { disabled } = useStrictContext(RootContext);
+    const { ref, label, labelledby, onClick, ...rest } = props;
     return (
       <AriaClickable.HiddenTrigger
-        label={props.label}
-        labelledby={props.labelledby}
-        onClick={props.onClick}
+        ref={ref}
+        label={label}
+        labelledby={labelledby}
+        disabled={disabled}
+        onClick={onClick}
+        {...forwardExtraPropsForRadix(rest)}
       />
     );
   });
@@ -510,8 +533,23 @@ export namespace AxoBaseItem {
    * --------------------------------------------------------------------------
    */
 
-  export const Arrow: FC = memo(() => {
-    const disabled = useRootDisabled();
+  export type ArrowKind = 'next' | 'external-link';
+
+  const ArrowKinds = variants<ArrowKind, AxoSymbol.Name>(
+    'AxoBaseItem.ArrowKind',
+    {
+      next: 'chevron-[end]',
+      'external-link': 'open',
+    }
+  );
+
+  export type ArrowProps = Readonly<{
+    kind?: ArrowKind;
+  }>;
+
+  export const Arrow: FC<ArrowProps> = memo(props => {
+    const { kind = 'next' } = props;
+    const { disabled } = useStrictContext(RootContext);
     return (
       <div
         className={tw(
@@ -519,7 +557,7 @@ export namespace AxoBaseItem {
           disabled && 'text-disabled forced-colors:text-[GrayText]'
         )}
       >
-        <AxoSymbol.InlineGlyph label={null} symbol="chevron-[end]" />
+        <AxoSymbol.InlineGlyph label={null} symbol={ArrowKinds.get(kind)} />
       </div>
     );
   });

@@ -3,7 +3,6 @@
 
 import type { ReactNode, JSX } from 'react';
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import classNames from 'classnames';
 import type { MuteExpiration } from '@signalapp/types';
 
 import type {
@@ -24,15 +23,9 @@ import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect.dom.tsx';
 
-import { PanelRow } from './PanelRow.dom.tsx';
-import { PanelSection } from './PanelSection.dom.tsx';
 import { AddGroupMembersModal } from './AddGroupMembersModal.dom.tsx';
 import { ConversationDetailsActions } from './ConversationDetailsActions.dom.tsx';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader.dom.tsx';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.tsx';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.tsx';
 import type {
@@ -54,13 +47,10 @@ import { ConversationDetailsGroups } from './ConversationDetailsGroups.dom.tsx';
 import { PanelType } from '../../../types/Panels.std.ts';
 import { type CallHistoryGroup } from '../../../types/CallDisposition.std.ts';
 import { NavTab } from '../../../types/Nav.std.ts';
-import { ContextMenu } from '../../ContextMenu.dom.tsx';
 import { canHaveNicknameAndNote } from '../../../util/nicknames.dom.ts';
 import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom.tsx';
 import { InAnotherCallTooltip } from '../InAnotherCallTooltip.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
-import type { ShowToastAction } from '../../../state/ducks/toast.preload.ts';
-import { ToastType } from '../../../types/Toast.dom.tsx';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
 import { canConversationOnlyBeMutedAlways } from '../../../conversations/canConversationOnlyBeMutedAlways.dom.ts';
@@ -68,6 +58,13 @@ import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
 import { AxoStackedButton } from '../../../axo/AxoStackedButton.dom.tsx';
 import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';
 import { MuteNotificationsDropdownMenu } from '../../MuteNotificationsMenu.dom.tsx';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
+import { AxoClickableItem } from '../../../axo/items/AxoClickableItem.dom.tsx';
+import { AxoTextItem } from '../../../axo/items/AxoTextItem.dom.tsx';
+import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
 
 enum ModalState {
   AddingGroupMembers,
@@ -103,7 +100,6 @@ export type StateProps = {
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingAvatarDownload?: boolean;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
-  showToast: ShowToastAction;
   selectedNavTab: NavTab;
   startAvatarDownload: () => void;
   theme: ThemeType;
@@ -225,7 +221,6 @@ export function ConversationDetails({
   setMuteExpiration,
   showContactModal,
   showConversation,
-  showToast,
   startAvatarDownload,
   terminateGroup,
   theme,
@@ -397,7 +392,7 @@ export function ConversationDetails({
   const isMuted = isConversationMuted(conversation);
 
   return (
-    <div className="conversation-details-panel">
+    <AxoContainer.Root>
       <ConversationDetailsHeader
         areWeASubscriber={areWeASubscriber}
         badges={badges}
@@ -489,395 +484,329 @@ export function ConversationDetails({
         </AxoStackedButton.Row>
       </div>
 
-      {isSignalConversation && (
-        <>
-          <PanelSection>
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationHero--signal-official-chat')}
-                  icon={IconType.official}
-                />
-              }
-              label={i18n('icu:ConversationHero--signal-official-chat')}
-            />
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationHero--release-notes')}
-                  icon={IconType.bell}
-                />
-              }
-              label={i18n('icu:ConversationHero--release-notes')}
-            />
-          </PanelSection>
+      <AxoList.Group>
+        {isSignalConversation && (
+          <>
+            <List>
+              <AxoTextItem.Root
+                symbol="officialbadge"
+                label={i18n('icu:ConversationHero--signal-official-chat')}
+              />
+              <AxoTextItem.Root
+                symbol="bell"
+                label={i18n('icu:ConversationHero--release-notes')}
+              />
+            </List>
 
-          <PanelSection title={i18n('icu:ConversationDetails--help-section')}>
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails--support-center')}
-                  icon={IconType.help}
-                />
-              }
-              label={i18n('icu:ConversationDetails--support-center')}
-              onClick={() => {
-                openLinkInWebBrowser('https://support.signal.org');
-              }}
-            />
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:contactUs')}
-                  icon={IconType.invite}
-                />
-              }
-              label={i18n('icu:contactUs')}
-              onClick={() => {
-                openLinkInWebBrowser(CONTACT_SUPPORT_URL);
-              }}
-            />
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:BadgeDialog__become-a-sustainer-button')}
-                  icon={IconType.heart}
-                />
-              }
-              label={i18n('icu:BadgeDialog__become-a-sustainer-button')}
-              onClick={onNavigateToDonate}
-            />
-          </PanelSection>
-        </>
-      )}
+            <List label={i18n('icu:ConversationDetails--help-section')}>
+              <AxoClickableItem.Root
+                symbol="help-circle"
+                label={i18n('icu:ConversationDetails--support-center')}
+                arrow="external-link"
+                onClick={() => {
+                  openLinkInWebBrowser('https://support.signal.org');
+                }}
+              />
+              <AxoClickableItem.Root
+                symbol="invite"
+                label={i18n('icu:contactUs')}
+                arrow="external-link"
+                onClick={() => {
+                  openLinkInWebBrowser(CONTACT_SUPPORT_URL);
+                }}
+              />
+              <AxoClickableItem.Root
+                symbol="heart"
+                label={i18n('icu:BadgeDialog__become-a-sustainer-button')}
+                onClick={onNavigateToDonate}
+              />
+            </List>
+          </>
+        )}
 
-      {callHistoryGroup && (
-        <CallHistoryGroupPanelSection
-          callHistoryGroup={callHistoryGroup}
-          i18n={i18n}
-        />
-      )}
+        {callHistoryGroup && (
+          <CallHistoryGroupPanelSection
+            callHistoryGroup={callHistoryGroup}
+            i18n={i18n}
+          />
+        )}
 
-      {!isSignalConversation && (
-        <PanelSection>
-          {!isGroup || canEditGroupInfo || conversation.expireTimer != null ? (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n(
-                    'icu:ConversationDetails--disappearing-messages-label'
-                  )}
-                  icon={IconType.timer}
-                />
-              }
-              info={
-                isGroup
-                  ? i18n(
-                      'icu:ConversationDetails--disappearing-messages-info--group'
-                    )
-                  : i18n(
-                      'icu:ConversationDetails--disappearing-messages-info--direct'
-                    )
-              }
-              label={i18n(
-                'icu:ConversationDetails--disappearing-messages-label'
-              )}
-              right={
-                <DisappearingTimerSelect
-                  i18n={i18n}
-                  value={conversation.expireTimer || DurationInSeconds.ZERO}
-                  disabled={
-                    isGroup && (!canEditGroupInfo || conversation.terminated)
-                  }
-                  onChange={value =>
-                    setDisappearingMessages(conversation.id, value)
-                  }
-                />
-              }
-            />
-          ) : null}
-          {canHaveNicknameAndNote(conversation) && (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails--nickname-label')}
-                  icon={IconType.edit}
-                />
-              }
-              label={i18n('icu:ConversationDetails--nickname-label')}
-              onClick={onOpenEditNicknameAndNoteModal}
-              actions={
-                (conversation.nicknameGivenName ||
-                  conversation.nicknameFamilyName ||
-                  conversation.note) && (
-                  <ContextMenu
-                    i18n={i18n}
-                    portalToRoot
-                    popperOptions={{
-                      placement: 'bottom',
-                      strategy: 'absolute',
-                    }}
-                    menuOptions={[
-                      {
-                        icon: 'ConversationDetails--nickname-actions--delete',
-                        label: i18n(
-                          'icu:ConversationDetails--nickname-actions--delete'
-                        ),
-                        onClick: () => {
-                          setModalState(
-                            ModalState.ConfirmDeleteNicknameAndNote
-                          );
-                        },
-                      },
-                    ]}
-                  >
-                    {({ onClick }) => {
-                      return (
-                        <button
-                          type="button"
-                          className="ConversationDetails--nickname-actions"
-                          onClick={onClick}
+        {!isSignalConversation && (
+          <List>
+            {(!isGroup ||
+              canEditGroupInfo ||
+              conversation.expireTimer != null) && (
+              <AxoItem.Root>
+                <AxoItem.Leading>
+                  <AxoItem.Icon symbol="timer-slash" />
+                </AxoItem.Leading>
+                <AxoItem.Content>
+                  <AxoItem.Body>
+                    <AxoItem.Label>
+                      {i18n(
+                        'icu:ConversationDetails--disappearing-messages-label'
+                      )}
+                    </AxoItem.Label>
+                    <AxoItem.Description>
+                      {isGroup
+                        ? i18n(
+                            'icu:ConversationDetails--disappearing-messages-info--group'
+                          )
+                        : i18n(
+                            'icu:ConversationDetails--disappearing-messages-info--direct'
+                          )}
+                    </AxoItem.Description>
+                    <AxoItem.Accessory>
+                      <DisappearingTimerSelect
+                        i18n={i18n}
+                        value={
+                          conversation.expireTimer || DurationInSeconds.ZERO
+                        }
+                        disabled={
+                          isGroup &&
+                          (!canEditGroupInfo || conversation.terminated)
+                        }
+                        onChange={value =>
+                          setDisappearingMessages(conversation.id, value)
+                        }
+                      />
+                    </AxoItem.Accessory>
+                  </AxoItem.Body>
+                </AxoItem.Content>
+              </AxoItem.Root>
+            )}
+            {canHaveNicknameAndNote(conversation) && (
+              <AxoClickableItem.Root
+                symbol="pencil"
+                label={i18n('icu:ConversationDetails--nickname-label')}
+                onClick={onOpenEditNicknameAndNoteModal}
+                accessory={
+                  <AriaClickable.DeadArea>
+                    <AxoDropdownMenu.Root>
+                      <AxoDropdownMenu.Trigger>
+                        <AxoItem.IconAction
+                          variant="implied-secondary"
+                          symbol="more"
+                          label={i18n(
+                            'icu:ConversationDetails--nickname-actions'
+                          )}
+                        />
+                      </AxoDropdownMenu.Trigger>
+                      <AxoDropdownMenu.Content>
+                        <AxoDropdownMenu.Item
+                          symbol="trash"
+                          onSelect={() => {
+                            setModalState(
+                              ModalState.ConfirmDeleteNicknameAndNote
+                            );
+                          }}
                         >
-                          <span className="ConversationDetails--nickname-actions-label">
-                            {i18n('icu:ConversationDetails--nickname-actions')}
-                          </span>
-                        </button>
-                      );
-                    }}
-                  </ContextMenu>
-                )
-              }
-            />
-          )}
-          {selectedNavTab === NavTab.Chats && (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:showChatColorEditor')}
-                  icon={IconType.color}
-                />
-              }
-              label={i18n('icu:showChatColorEditor')}
-              onClick={() => {
-                pushPanelForConversation({
-                  type: PanelType.ChatColorEditor,
-                });
-              }}
-              right={
-                <div
-                  className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
-                  style={{
-                    ...getCustomColorStyle(conversation.customColor),
-                  }}
-                />
-              }
-            />
-          )}
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:ConversationDetails--notifications')}
-                icon={IconType.notifications}
-              />
-            }
-            label={i18n('icu:ConversationDetails--notifications')}
-            onClick={() =>
-              pushPanelForConversation({
-                type: PanelType.NotificationSettings,
-              })
-            }
-            right={
-              conversation.muteExpiresAt
-                ? getMutedUntilText(conversation.muteExpiresAt, i18n)
-                : undefined
-            }
-          />
-          {hasMedia && (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetailsMediaList--title')}
-                  icon={IconType.media}
-                />
-              }
-              label={i18n('icu:ConversationDetailsMediaList--title')}
-              onClick={() => {
-                pushPanelForConversation({
-                  type: PanelType.AllMedia,
-                });
-              }}
-            />
-          )}
-          {!isGroup && !conversation.isMe && (
-            <PanelRow
-              onClick={() => toggleSafetyNumberModal(conversation.id)}
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails__viewSafetyNumber')}
-                  icon={IconType.verify}
-                />
-              }
-              label={
-                <div className="ConversationDetails__safety-number">
-                  {i18n('icu:ConversationDetails__viewSafetyNumber')}
-                </div>
-              }
-            />
-          )}
-        </PanelSection>
-      )}
-      {isGroup && (
-        <ConversationDetailsMembershipList
-          canAddLabel={canAddLabel}
-          canAddNewMembers={canAddNewMembers}
-          canInviteViaGroupLink={hasGroupLink}
-          groupLink={conversation.groupLink ?? null}
-          conversationId={conversation.id}
-          getPreferredBadge={getPreferredBadge}
-          i18n={i18n}
-          isEditMemberLabelEnabled={isEditMemberLabelEnabled}
-          isTerminated={isGroupTerminated}
-          memberships={memberships}
-          memberColors={memberColors}
-          showContactModal={showContactModal}
-          showLabelEditor={() => {
-            pushPanelForConversation({
-              type: PanelType.GroupMemberLabelEditor,
-            });
-          }}
-          startAddingNewMembers={() => {
-            setModalState(ModalState.AddingGroupMembers);
-          }}
-          theme={theme}
-        />
-      )}
-
-      {isGroup && !isGroupTerminated && (
-        <PanelSection>
-          {isAdmin || hasGroupLink ? (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails--group-link')}
-                  icon={IconType.link}
-                />
-              }
-              label={i18n('icu:ConversationDetails--group-link')}
-              onClick={() =>
-                pushPanelForConversation({
-                  type: PanelType.GroupLinkManagement,
-                })
-              }
-              right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
-            />
-          ) : null}
-          {isEditMemberLabelEnabled && areWeMember ? (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:ConversationDetails--member-label')}
-                  icon={IconType.tag}
-                  disabled={!canAddLabel}
-                />
-              }
-              label={
-                <div
-                  className={classNames(
-                    !canAddLabel
-                      ? 'ConversationDetails__MemberLabel--disabled'
-                      : null
-                  )}
-                >
-                  {i18n('icu:ConversationDetails--member-label')}
-                </div>
-              }
-              onClick={() => {
-                if (!canAddLabel) {
-                  showToast({ toastType: ToastType.CannotAddMemberLabel });
-                  return;
+                          {i18n(
+                            'icu:ConversationDetails--nickname-actions--delete'
+                          )}
+                        </AxoDropdownMenu.Item>
+                      </AxoDropdownMenu.Content>
+                    </AxoDropdownMenu.Root>
+                  </AriaClickable.DeadArea>
                 }
-
-                pushPanelForConversation({
-                  type: PanelType.GroupMemberLabelEditor,
-                });
-              }}
-            />
-          ) : null}
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n(
-                  'icu:ConversationDetails--requests-and-invites'
-                )}
-                icon={IconType.invites}
               />
-            }
-            label={i18n('icu:ConversationDetails--requests-and-invites')}
-            onClick={() =>
-              pushPanelForConversation({
-                type: PanelType.GroupInvites,
-              })
-            }
-            right={invitesCount}
-          />
-          {isAdmin ? (
-            <PanelRow
-              icon={
-                <ConversationDetailsIcon
-                  ariaLabel={i18n('icu:permissions')}
-                  icon={IconType.lock}
-                />
-              }
-              label={i18n('icu:permissions')}
+            )}
+            {selectedNavTab === NavTab.Chats && (
+              <AxoClickableItem.Root
+                symbol="palette"
+                label={i18n('icu:showChatColorEditor')}
+                onClick={() => {
+                  pushPanelForConversation({
+                    type: PanelType.ChatColorEditor,
+                  });
+                }}
+                accessory={
+                  <div
+                    className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
+                    style={{
+                      ...getCustomColorStyle(conversation.customColor),
+                    }}
+                  />
+                }
+              />
+            )}
+            <AxoClickableItem.Root
+              symbol="bell"
+              label={i18n('icu:ConversationDetails--notifications')}
               onClick={() =>
                 pushPanelForConversation({
-                  type: PanelType.GroupPermissions,
+                  type: PanelType.NotificationSettings,
+                })
+              }
+              value={
+                conversation.muteExpiresAt
+                  ? getMutedUntilText(conversation.muteExpiresAt, i18n)
+                  : null
+              }
+            />
+            {hasMedia && (
+              <AxoClickableItem.Root
+                symbol="album"
+                label={i18n('icu:ConversationDetailsMediaList--title')}
+                onClick={() => {
+                  pushPanelForConversation({
+                    type: PanelType.AllMedia,
+                  });
+                }}
+              />
+            )}
+            {!isGroup && !conversation.isMe && (
+              <AxoClickableItem.Root
+                symbol="shield-check"
+                label={i18n('icu:ConversationDetails__viewSafetyNumber')}
+                onClick={() => toggleSafetyNumberModal(conversation.id)}
+              />
+            )}
+          </List>
+        )}
+        {isGroup && (
+          <ConversationDetailsMembershipList
+            canAddLabel={canAddLabel}
+            canAddNewMembers={canAddNewMembers}
+            canInviteViaGroupLink={hasGroupLink}
+            groupLink={conversation.groupLink ?? null}
+            conversationId={conversation.id}
+            getPreferredBadge={getPreferredBadge}
+            i18n={i18n}
+            isEditMemberLabelEnabled={isEditMemberLabelEnabled}
+            isTerminated={isGroupTerminated}
+            memberships={memberships}
+            memberColors={memberColors}
+            showContactModal={showContactModal}
+            showLabelEditor={() => {
+              pushPanelForConversation({
+                type: PanelType.GroupMemberLabelEditor,
+              });
+            }}
+            startAddingNewMembers={() => {
+              setModalState(ModalState.AddingGroupMembers);
+            }}
+            theme={theme}
+          />
+        )}
+
+        {isGroup && !isGroupTerminated && (
+          <List>
+            {(isAdmin || hasGroupLink) && (
+              <AxoClickableItem.Root
+                symbol="link"
+                label={i18n('icu:ConversationDetails--group-link')}
+                value={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
+                onClick={() => {
+                  pushPanelForConversation({
+                    type: PanelType.GroupLinkManagement,
+                  });
+                }}
+              />
+            )}
+            {isEditMemberLabelEnabled && areWeMember && (
+              <AxoClickableItem.Root
+                symbol="label"
+                disabled={!canAddLabel}
+                label={i18n('icu:ConversationDetails--member-label')}
+                tooltip={
+                  !canAddLabel
+                    ? i18n('icu:ToastManager__CannotAddMemberLabel')
+                    : null
+                }
+                onClick={() => {
+                  pushPanelForConversation({
+                    type: PanelType.GroupMemberLabelEditor,
+                  });
+                }}
+              />
+            )}
+            <AxoClickableItem.Root
+              symbol="group"
+              label={i18n('icu:ConversationDetails--requests-and-invites')}
+              value={invitesCount}
+              onClick={() =>
+                pushPanelForConversation({
+                  type: PanelType.GroupInvites,
                 })
               }
             />
-          ) : null}
-        </PanelSection>
-      )}
+            {isAdmin && (
+              <AxoClickableItem.Root
+                symbol="key"
+                label={i18n('icu:permissions')}
+                onClick={() =>
+                  pushPanelForConversation({
+                    type: PanelType.GroupPermissions,
+                  })
+                }
+              />
+            )}
+          </List>
+        )}
 
-      {!isGroup && !conversation.isMe && !isSignalConversation && (
-        <ConversationDetailsGroups
-          contactId={conversation.id}
-          i18n={i18n}
-          groupsInCommon={groupsInCommon}
-          toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
-          showConversation={showConversation}
-        />
-      )}
+        {!isGroup && !conversation.isMe && !isSignalConversation && (
+          <ConversationDetailsGroups
+            contactId={conversation.id}
+            i18n={i18n}
+            groupsInCommon={groupsInCommon}
+            toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
+            showConversation={showConversation}
+          />
+        )}
 
-      {!conversation.isMe && (
-        <ConversationDetailsActions
-          acceptConversation={acceptConversation}
-          blockConversation={blockConversation}
-          cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
-          canTerminateGroup={canTerminateGroup}
-          conversationId={conversation.id}
-          conversationTitle={conversation.title}
-          i18n={i18n}
-          isArchived={Boolean(conversation.isArchived)}
-          isBlocked={Boolean(conversation.isBlocked)}
-          isGroup={isGroup}
-          isGroupTerminated={isGroupTerminated}
-          isSignalConversation={isSignalConversation}
-          left={Boolean(conversation.left)}
-          onArchive={onConversationArchive}
-          onDelete={onConversationDeleteMessages}
-          onUnarchive={onConversationUnarchive}
-          onLeave={() => leaveGroup(conversation.id)}
-          onReportSpam={() => reportSpam(conversation.id)}
-          onReportSpamAndBlock={() => {
-            reportSpam(conversation.id);
-            blockConversation(conversation.id);
-          }}
-          onTerminateGroup={() => terminateGroup(conversation.id)}
-        />
-      )}
+        {!conversation.isMe && (
+          <ConversationDetailsActions
+            acceptConversation={acceptConversation}
+            blockConversation={blockConversation}
+            cannotLeaveBecauseYouAreLastAdmin={
+              cannotLeaveBecauseYouAreLastAdmin
+            }
+            canTerminateGroup={canTerminateGroup}
+            conversationId={conversation.id}
+            conversationTitle={conversation.title}
+            i18n={i18n}
+            isArchived={Boolean(conversation.isArchived)}
+            isBlocked={Boolean(conversation.isBlocked)}
+            isGroup={isGroup}
+            isGroupTerminated={isGroupTerminated}
+            isSignalConversation={isSignalConversation}
+            left={Boolean(conversation.left)}
+            onArchive={onConversationArchive}
+            onDelete={onConversationDeleteMessages}
+            onUnarchive={onConversationUnarchive}
+            onLeave={() => leaveGroup(conversation.id)}
+            onReportSpam={() => reportSpam(conversation.id)}
+            onReportSpamAndBlock={() => {
+              reportSpam(conversation.id);
+              blockConversation(conversation.id);
+            }}
+            onTerminateGroup={() => terminateGroup(conversation.id)}
+          />
+        )}
+      </AxoList.Group>
 
       {modalNode}
-    </div>
+    </AxoContainer.Root>
+  );
+}
+
+type ListProps = Readonly<{
+  label?: string;
+  children: ReactNode;
+}>;
+
+function List(props: ListProps): ReactNode {
+  return (
+    <AxoList.Root>
+      {props.label != null && (
+        <AxoList.Header>
+          <AxoList.Label>{props.label}</AxoList.Label>
+        </AxoList.Header>
+      )}
+      <AxoList.Body>
+        <AxoItem.Group>{props.children}</AxoItem.Group>
+      </AxoList.Body>
+    </AxoList.Root>
   );
 }

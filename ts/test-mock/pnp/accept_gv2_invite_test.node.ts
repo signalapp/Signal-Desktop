@@ -158,19 +158,15 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     debug(
       'Checking that we see all members of group, including (previously) unknown contact'
     );
-    await window
-      .locator('.ConversationDetails-panel-section__title >> "4 members"')
-      .waitFor();
+    await window.getByRole('region', { name: '4 members' }).waitFor();
 
     await window
-      .locator('.conversation-details-panel')
-      .getByText(unknownContact.profileName)
+      .getByRole('listitem', { name: unknownContact.profileName })
       .waitFor();
 
     debug('Leave the group through settings');
 
     await conversationStack
-      .locator('.conversation-details-panel')
       .getByRole('button', { name: 'Leave group' })
       .click();
 

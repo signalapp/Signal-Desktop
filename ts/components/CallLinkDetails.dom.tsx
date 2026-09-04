@@ -1,19 +1,12 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useState, type JSX } from 'react';
-import classNames from 'classnames';
+import { type ReactNode, useState, type JSX } from 'react';
 import type { CallHistoryGroup } from '../types/CallDisposition.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { CallHistoryGroupPanelSection } from './conversation/conversation-details/CallHistoryGroupPanelSection.dom.tsx';
-import { PanelSection } from './conversation/conversation-details/PanelSection.dom.tsx';
 import {
-  ConversationDetailsIcon,
-  IconType,
-} from './conversation/conversation-details/ConversationDetailsIcon.dom.tsx';
-import { PanelRow } from './conversation/conversation-details/PanelRow.dom.tsx';
-import type {
   CallLinkRestrictions,
-  CallLinkType,
+  type CallLinkType,
 } from '../types/CallLink.std.ts';
 import { linkCallRoute } from '../util/signalRoutes.std.ts';
 import { drop } from '../util/drop.std.ts';
@@ -21,12 +14,14 @@ import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { copyCallLink } from '../util/copyLinksWithToast.dom.ts';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 import { isCallLinkAdmin } from '../types/CallLink.std.ts';
-import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.tsx';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
-import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoList } from '../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
+import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
+import { AxoContainer } from '../axo/AxoContainer.dom.tsx';
+import { AxoSwitchItem } from '../axo/items/AxoSwitchItem.dom.tsx';
 
 function toUrlWithoutProtocol(url: URL): string {
   return `${url.hostname}${url.pathname}${url.search}${url.hash}`;
@@ -71,17 +66,9 @@ export function CallLinkDetails({
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
   });
-  const callLinkRestrictionsSelect = (
-    <CallLinkRestrictionsSelect
-      disabled={isCallActiveOnServer}
-      i18n={i18n}
-      value={callLink.restrictions}
-      onChange={onUpdateCallLinkRestrictions}
-    />
-  );
 
   return (
-    <div className="CallLinkDetails__Container">
+    <AxoContainer.Root>
       <header className="CallLinkDetails__Header">
         <Avatar
           className="CallLinkDetails__HeaderAvatar"
@@ -122,114 +109,80 @@ export function CallLinkDetails({
           </InAnotherCallTooltip>
         </div>
       </header>
-      <CallHistoryGroupPanelSection
-        callHistoryGroup={callHistoryGroup}
-        i18n={i18n}
-      />
-      {isCallLinkAdmin(callLink) && (
-        <PanelSection>
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:CallLinkDetails__AddCallNameLabel')}
-                icon={IconType.edit}
-              />
-            }
-            label={
-              callLink.name === ''
-                ? i18n('icu:CallLinkDetails__AddCallNameLabel')
-                : i18n('icu:CallLinkDetails__EditCallNameLabel')
-            }
-            onClick={onOpenCallLinkAddNameModal}
-          />
-          <PanelRow
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
-                icon={IconType.approveAllMembers}
-              />
-            }
-            label={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
-            right={
-              isCallActiveOnServer ? (
-                <Tooltip
-                  className="CallLinkDetails__ApproveAllMembersDisabledTooltip"
-                  content={i18n(
-                    'icu:CallLinkDetails__SettingTooltip--disabled-for-active-call'
-                  )}
-                  direction={TooltipPlacement.Top}
-                  popperModifiers={[offsetDistanceModifier(5)]}
-                >
-                  {callLinkRestrictionsSelect}
-                </Tooltip>
-              ) : (
-                callLinkRestrictionsSelect
-              )
-            }
-          />
-        </PanelSection>
-      )}
-      <PanelSection>
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:CallLinkDetails__CopyLink')}
-              icon={IconType.share}
-            />
-          }
-          label={i18n('icu:CallLinkDetails__CopyLink')}
-          onClick={() => {
-            drop(copyCallLink(webUrl.toString()));
-          }}
+      <AxoList.Group>
+        <CallHistoryGroupPanelSection
+          callHistoryGroup={callHistoryGroup}
+          i18n={i18n}
         />
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:CallLinkDetails__ShareLinkViaSignal')}
-              icon={IconType.forward}
+        {isCallLinkAdmin(callLink) && (
+          <List>
+            <AxoClickableItem.Root
+              symbol="pencil"
+              label={
+                callLink.name === ''
+                  ? i18n('icu:CallLinkDetails__AddCallNameLabel')
+                  : i18n('icu:CallLinkDetails__EditCallNameLabel')
+              }
+              arrow="next"
+              onClick={onOpenCallLinkAddNameModal}
             />
-          }
-          label={i18n('icu:CallLinkDetails__ShareLinkViaSignal')}
-          onClick={onShareCallLinkViaSignal}
-        />
-      </PanelSection>
-      {isCallLinkAdmin(callLink) && (
-        <PanelSection>
-          <PanelRow
-            className={classNames({
-              CallLinkDetails__DeleteLink: true,
-              'CallLinkDetails__DeleteLink--disabled-for-active-call':
-                isCallActiveOnServer,
-            })}
-            disabled={isCallActiveOnServer}
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n('icu:CallLinkDetails__DeleteLink')}
-                icon={IconType.trash}
-              />
-            }
-            label={
-              isCallActiveOnServer ? (
-                <Tooltip
-                  className="CallLinkDetails__DeleteLinkTooltip"
-                  content={i18n(
-                    'icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call'
-                  )}
-                  direction={TooltipPlacement.Top}
-                  popperModifiers={[offsetDistanceModifier(5)]}
-                >
-                  {i18n('icu:CallLinkDetails__DeleteLink')}
-                </Tooltip>
-              ) : (
-                i18n('icu:CallLinkDetails__DeleteLink')
-              )
-            }
+            <AxoSwitchItem.Root
+              symbol="person-check"
+              label={i18n('icu:CallLinkDetails__ApproveAllMembersLabel')}
+              disabled={isCallActiveOnServer}
+              tooltip={
+                isCallActiveOnServer
+                  ? i18n(
+                      'icu:CallLinkDetails__SettingTooltip--disabled-for-active-call'
+                    )
+                  : null
+              }
+              checked={callLink.restrictions !== CallLinkRestrictions.None}
+              onCheckedChange={checked => {
+                onUpdateCallLinkRestrictions(
+                  checked
+                    ? CallLinkRestrictions.AdminApproval
+                    : CallLinkRestrictions.None
+                );
+              }}
+            />
+          </List>
+        )}
+        <List>
+          <AxoClickableItem.Root
+            symbol="copy"
+            label={i18n('icu:CallLinkDetails__CopyLink')}
             onClick={() => {
-              setIsDeleteCallLinkModalOpen(true);
+              drop(copyCallLink(webUrl.toString()));
             }}
           />
-        </PanelSection>
-      )}
+          <AxoClickableItem.Root
+            symbol="share"
+            label={i18n('icu:CallLinkDetails__ShareLinkViaSignal')}
+            onClick={onShareCallLinkViaSignal}
+          />
+        </List>
+        {isCallLinkAdmin(callLink) && (
+          <List>
+            <AxoClickableItem.Root
+              variant="destructive"
+              symbol="trash"
+              disabled={isCallActiveOnServer}
+              label={i18n('icu:CallLinkDetails__DeleteLink')}
+              tooltip={
+                isCallActiveOnServer
+                  ? i18n(
+                      'icu:CallLinkDetails__DeleteLinkTooltip--disabled-for-active-call'
+                    )
+                  : null
+              }
+              onClick={() => {
+                setIsDeleteCallLinkModalOpen(true);
+              }}
+            />
+          </List>
+        )}
+      </AxoList.Group>
       <AxoConfirmDialog.Root
         open={isDeleteCallLinkModalOpen}
         onOpenChange={setIsDeleteCallLinkModalOpen}
@@ -244,7 +197,7 @@ export function CallLinkDetails({
           {i18n('icu:CallLinkDetails__DeleteLinkModal__Delete')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    </div>
+    </AxoContainer.Root>
   );
 }
 
@@ -274,5 +227,15 @@ function renderMissingCallLink({
         i18n={i18n}
       />
     </div>
+  );
+}
+
+function List(props: { children: ReactNode }) {
+  return (
+    <AxoList.Root>
+      <AxoList.Body>
+        <AxoItem.Group>{props.children}</AxoItem.Group>
+      </AxoList.Body>
+    </AxoList.Root>
   );
 }

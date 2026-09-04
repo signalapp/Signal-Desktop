@@ -16,7 +16,7 @@ export default {
   title: 'Components/Conversation/ConversationDetails/PanelRow',
   argTypes: {},
   args: {
-    icon: <ConversationDetailsIcon ariaLabel="timer" icon={IconType.timer} />,
+    icon: <ConversationDetailsIcon ariaLabel="trash" icon={IconType.trash} />,
     label: '',
     info: '',
     right: '',

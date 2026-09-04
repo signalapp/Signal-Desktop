@@ -171,10 +171,7 @@ describe('groups/terminate', function (this: Mocha.Suite) {
 
     await window.getByRole('menuitem', { name: 'Group settings' }).click();
 
-    await conversationStack
-      .locator('.conversation-details-panel')
-      .getByRole('button', { name: 'End group' })
-      .click();
+    await conversationStack.getByRole('button', { name: 'End group' }).click();
 
     await window
       .getByRole('alertdialog', { name: `End "${group.title}"?` })

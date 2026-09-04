@@ -1,10 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC } from 'react';
+import type { FC, Ref } from 'react';
 import { memo } from 'react';
 import { Switch } from 'radix-ui';
 import { tw } from './tw.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
+import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
 
 /**
  * A control that allows the user to toggle between checked and not checked.
@@ -27,6 +28,10 @@ export namespace AxoSwitch {
    */
 
   export type RootProps = Readonly<{
+    ref?: Ref<HTMLButtonElement>;
+    id?: string;
+    label?: string;
+    labelledby?: string;
     /** The controlled state of the switch. Must be used in conjunction with `onCheckedChange`. */
     checked: boolean;
     /** Event handler called when the state of the switch changes. */
@@ -50,61 +55,85 @@ export namespace AxoSwitch {
    * ```
    */
   export const Root: FC<RootProps> = memo(props => {
+    const {
+      ref,
+      id,
+      label,
+      labelledby,
+      checked,
+      onCheckedChange,
+      disabled,
+      required,
+      ...rest
+    } = props;
     return (
       <Switch.Root
-        checked={props.checked}
-        onCheckedChange={props.onCheckedChange}
-        disabled={props.disabled}
-        required={props.required}
+        asChild
+        ref={ref}
+        id={id}
+        aria-label={label}
+        aria-labelledby={labelledby}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        disabled={disabled}
+        required={required}
         className={tw(
           'group relative z-0 flex h-[18px] w-8 items-center rounded-full',
           'border border-secondary inset-shadow-on-color',
           'bg-primary',
           'data-disabled:bg-control',
-          'enabled:active:bg-primary-pressed',
+          'not-data-disabled:active:bg-primary-pressed',
           'outline-none keyboard-mode:focus:axo-focus-ring',
           'overflow-hidden'
         )}
+        {...forwardExtraPropsForRadix(rest)}
       >
-        <span
-          className={tw(
-            'absolute inset-y-0',
-            'w-5.5 rounded-s-full',
-            'group-data-disabled:w-7.5 group-data-disabled:rounded-full',
-            'opacity-0 group-data-[state=checked]:opacity-100',
-            'group-data-disabled:group-data-[state=checked]:opacity-25',
-            '-translate-x-3.5 group-data-[state=checked]:translate-x-0 rtl:translate-x-3.5',
-            'bg-accent group-enabled:group-active:bg-accent-pressed',
-            'transition-all duration-200 ease-out-cubic',
-            'forced-colors:bg-[AccentColor]',
-            'forced-colors:group-data-disabled:bg-[GrayText]'
-          )}
-        />
-        <span
-          className={tw(
-            'invisible forced-colors:visible',
-            'absolute inset-s-0.5 z-0 text-[12px]',
-            'forced-color-adjust-none',
-            'forced-colors:text-[AccentColorText]'
-          )}
-        >
-          <AxoSymbol.InlineGlyph symbol="check" label={null} />
-        </span>
-        <Switch.Thumb
-          className={tw(
-            'z-10 block size-4 rounded-full',
-            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-            'shadow-[#000]/12',
-            'shadow-[0.5px_0_0.5px_0.5px,-0.5px_0_0.5px_0.5px]',
-            'bg-(--axo-color-label-primary-oncolor)',
-            'data-disabled:bg-(--axo-color-label-disabled-oncolor)',
-            'transition-all duration-200 ease-out-cubic',
-            'data-[state=checked]:translate-x-3.5',
-            'rtl:data-[state=checked]:-translate-x-3.5',
-            'forced-colors:border',
-            'forced-colors:data-disabled:bg-[ButtonFace]'
-          )}
-        />
+        {/**
+         * Need to pass <Switch.Root disabled={true}> above to get the right
+         * behavior but we want want the button to be focusable so we use
+         * `asChild` and make it use `aria-disabled` instead.
+         */}
+        <button type="button" disabled={false} aria-disabled={disabled}>
+          <span
+            className={tw(
+              'absolute inset-y-0',
+              'w-5.5 rounded-s-full',
+              'group-data-disabled:w-7.5 group-data-disabled:rounded-full',
+              'opacity-0 group-data-[state=checked]:opacity-100',
+              'group-data-disabled:group-data-[state=checked]:opacity-25',
+              '-translate-x-3.5 group-data-[state=checked]:translate-x-0 rtl:translate-x-3.5',
+              'bg-accent group-not-data-disabled:group-active:bg-accent-pressed',
+              'transition-all duration-200 ease-out-cubic',
+              'forced-colors:bg-[AccentColor]',
+              'forced-colors:group-data-disabled:bg-[GrayText]'
+            )}
+          />
+          <span
+            className={tw(
+              'invisible forced-colors:visible',
+              'absolute inset-s-0.5 z-0 text-[12px]',
+              'forced-color-adjust-none',
+              'forced-colors:text-[AccentColorText]'
+            )}
+          >
+            <AxoSymbol.InlineGlyph symbol="check" label={null} />
+          </span>
+          <Switch.Thumb
+            className={tw(
+              'z-10 block size-4 rounded-full',
+              // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+              'shadow-[#000]/12',
+              'shadow-[0.5px_0_0.5px_0.5px,-0.5px_0_0.5px_0.5px]',
+              'bg-(--axo-color-label-primary-oncolor)',
+              'data-disabled:bg-(--axo-color-label-disabled-oncolor)',
+              'transition-all duration-200 ease-out-cubic',
+              'data-[state=checked]:translate-x-3.5',
+              'rtl:data-[state=checked]:-translate-x-3.5',
+              'forced-colors:border',
+              'forced-colors:data-disabled:bg-[ButtonFace]'
+            )}
+          />
+        </button>
       </Switch.Root>
     );
   });

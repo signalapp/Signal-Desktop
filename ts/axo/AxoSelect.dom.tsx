@@ -224,6 +224,10 @@ export namespace AxoSelect {
 
   export type TriggerProps = Readonly<{
     /**
+     * HTML `id` used to associate a `<label htmlFor={id}>` with this button.
+     */
+    id?: string;
+    /**
      * Visual style of the button. Defaults to `default`.
      */
     variant?: TriggerVariant;
@@ -263,6 +267,7 @@ export namespace AxoSelect {
 
     return (
       <Select.Trigger
+        id={props.id}
         className={tw(TriggerVariants.get(variant), TriggerWidths.get(width))}
       >
         <div className={TriggerChevronContentStyles.get(chevron)}>

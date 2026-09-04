@@ -9,35 +9,11 @@ import { Spinner } from '../../Spinner.dom.tsx';
 import { bemGenerator } from './util.std.ts';
 
 export enum IconType {
-  'archive' = 'archive',
-  'approveAllMembers' = 'approveAllMembers',
-  'bell' = 'bell',
-  'block' = 'block',
   'edit' = 'edit',
-  'unblock' = 'unblock',
-  'color' = 'color',
-  'delete' = 'delete',
-  'down' = 'down',
-  'forward' = 'forward',
-  'heart' = 'heart',
-  'help' = 'help',
-  'invite' = 'invite',
-  'invites' = 'invites',
-  'leave' = 'leave',
-  'link' = 'link',
-  'lock' = 'lock',
-  'media' = 'media',
-  'notifications' = 'notifications',
-  'official' = 'official',
   'reset' = 'reset',
   'share' = 'share',
-  'spam' = 'spam',
   'spinner' = 'spinner',
-  'tag' = 'tag',
-  'terminate' = 'terminate',
-  'timer' = 'timer',
   'trash' = 'trash',
-  'verify' = 'verify',
 }
 
 export type Props = {

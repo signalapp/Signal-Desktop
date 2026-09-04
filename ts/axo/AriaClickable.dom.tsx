@@ -210,6 +210,8 @@ export namespace AriaClickable {
      */
     labelledby?: string;
 
+    disabled?: boolean;
+
     /** Called when the button is clicked. */
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
@@ -224,7 +226,7 @@ export namespace AriaClickable {
    *   before any <AriaClickable.SubWidget>.
    */
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
-    const { onClick } = props;
+    const { ref, label, labelledby, disabled, onClick, ...rest } = props;
 
     const innerRef = useRef<HTMLButtonElement>(null);
     const onTriggerStateUpdate = useStrictContext(TriggerStateUpdateContext);
@@ -240,8 +242,10 @@ export namespace AriaClickable {
 
       function update() {
         onTriggerStateUpdateRef.current({
-          hovered: button.matches(':hover:not(:disabled)'),
-          pressed: button.matches(':active:not(:disabled)'),
+          hovered: button.matches(':hover:not(:disabled,[aria-disabled=true])'),
+          pressed: button.matches(
+            ':active:not(:disabled,[aria-disabled=true])'
+          ),
           focused: button.matches('.keyboard-mode :focus'),
         });
       }
@@ -289,19 +293,25 @@ export namespace AriaClickable {
     const handleClick = useCallback(
       (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
+        if (disabled) {
+          event.preventDefault();
+          return;
+        }
         onClick(event);
       },
-      [onClick]
+      [disabled, onClick]
     );
 
     return (
       <button
-        ref={mergeRefs(props.ref, innerRef)}
+        ref={mergeRefs(ref, innerRef)}
         type="button"
-        aria-label={props.label}
-        aria-labelledby={props.labelledby}
+        aria-label={label}
+        aria-labelledby={labelledby}
+        aria-disabled={disabled}
         onClick={handleClick}
         className={tw('absolute inset-0 z-10 outline-none')}
+        {...forwardExtraPropsForRadix(rest)}
       />
     );
   });

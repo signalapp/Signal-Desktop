@@ -8,12 +8,7 @@ import type {
 } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
-import { PanelRow } from './PanelRow.dom.tsx';
-import { PanelSection } from './PanelSection.dom.tsx';
+import { AxoContactList } from '../../../axo/items/AxoContactList.dom.tsx';
 
 type Props = {
   contactId: string;
@@ -39,7 +34,7 @@ export function ConversationDetailsGroups({
     : maxShownGroupCount;
 
   return (
-    <PanelSection
+    <AxoContactList.Root
       title={
         groupsInCommon.length > 0
           ? i18n('icu:ConversationDetailsGroups--title', {
@@ -50,13 +45,13 @@ export function ConversationDetailsGroups({
             )
       }
     >
-      <PanelRow
-        icon={<div className="ConversationDetails-groups__add-to-group-icon" />}
-        label={i18n('icu:ConversationDetailsGroups--add-to-group')}
+      <AxoContactList.ActionItem
+        symbol="plus"
+        title={i18n('icu:ConversationDetailsGroups--add-to-group')}
         onClick={() => toggleAddUserToAnotherGroupModal(contactId)}
       />
       {groupsInCommon.slice(0, groupsToShow).map(group => (
-        <PanelRow
+        <AxoContactList.Item
           key={group.id}
           onClick={() =>
             showConversation({
@@ -64,7 +59,7 @@ export function ConversationDetailsGroups({
               switchToAssociatedView: true,
             })
           }
-          icon={
+          avatar={
             <Avatar
               conversationType="group"
               badge={undefined}
@@ -73,21 +68,16 @@ export function ConversationDetailsGroups({
               {...group}
             />
           }
-          label={group.title}
+          title={group.title}
         />
       ))}
       {!showAllGroups && isMoreThanMaxShown && (
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:ConversationDetailsGroups--show-all')}
-              icon={IconType.down}
-            />
-          }
+        <AxoContactList.ActionItem
+          symbol="chevron-down"
+          title={i18n('icu:ConversationDetailsGroups--show-all')}
           onClick={() => setShowAllGroups(true)}
-          label={i18n('icu:ConversationDetailsGroups--show-all')}
         />
       )}
-    </PanelSection>
+    </AxoContactList.Root>
   );
 }
