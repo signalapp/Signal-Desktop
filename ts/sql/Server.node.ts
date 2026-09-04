@@ -9186,7 +9186,8 @@ function pageBackupMessages(
       ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE
-      rowid >= ${cursor?.nextRowid ?? 0}
+      rowid > ${cursor?.lastRowId ?? 0}
+    ORDER BY rowid ASC
     LIMIT ${LIMIT}
   `;
   const rows: Array<MessageTypeUnhydrated & { rowid: number }> = db
@@ -9194,7 +9195,7 @@ function pageBackupMessages(
     .all(params);
   return {
     cursor: {
-      nextRowid: rows.at(-1)?.rowid ?? 0,
+      lastRowId: rows.at(-1)?.rowid ?? 0,
       done: rows.length < LIMIT,
     } as PageBackupMessagesCursorType,
     messages: hydrateMessages(db, rows),

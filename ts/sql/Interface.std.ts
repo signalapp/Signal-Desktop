@@ -589,7 +589,7 @@ export type PageMessagesResultType = Readonly<{
 export type PageBackupMessagesCursorType = Readonly<{
   __page_backup_messages_cursor: never;
 
-  nextRowid: number;
+  lastRowId: number;
   done: boolean;
 }>;
 
