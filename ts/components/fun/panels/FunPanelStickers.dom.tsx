@@ -244,17 +244,19 @@ export function FunPanelStickers({
 
   const sections = useMemo(() => {
     if (searchQuery !== '') {
-      const emojis = new Set<Emoji.Parent>(Emoji.search(searchQuery));
+      const emojis = new Set<string>(
+        Emoji.search(searchQuery).map(emoji => {
+          return Emoji.normalizeForComparator(emoji);
+        })
+      );
 
       const allStickers = installedStickerPacks.flatMap(pack => pack.stickers);
       const matchingStickers = allStickers.filter(sticker => {
         if (sticker.emoji == null) {
           return false;
         }
-        if (!Emoji.isParent(sticker.emoji)) {
-          return false;
-        }
-        return emojis.has(sticker.emoji);
+        const stickerEmoji = Emoji.normalizeForComparator(sticker.emoji);
+        return emojis.has(stickerEmoji);
       });
 
       return [
