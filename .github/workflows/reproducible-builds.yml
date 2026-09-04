@@ -100,6 +100,12 @@ jobs:
         NODE_VERSION=$(cat .nvmrc)
         echo "version=$NODE_VERSION" >> $GITHUB_OUTPUT
 
+    - name: Get pnpm version for docker build arg
+      id: pnpm_version
+      run: |
+        PNPM_VERSION=$(grep -A 2 '^\s*pnpm:' pnpm-lock.yaml | grep 'version:' | awk '{print $2}')
+        echo "pnpm_version=$PNPM_VERSION" >> $GITHUB_OUTPUT
+
     - name: Set up docker Buildx
       uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3
     - name: Build docker image
@@ -115,6 +121,7 @@ jobs:
         build-args: |
           SOURCE_DATE_EPOCH=1
           NODE_VERSION=${{ steps.node_version.outputs.version }}
+          PNPM_VERSION=${{ steps.pnpm_version.outputs.pnpm_version }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
