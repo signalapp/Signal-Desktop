@@ -84,7 +84,7 @@ describe('resolveDraftAttachmentOnDisk', () => {
     assert.match(result.url ?? '', /^attachment:\/\//);
   });
 
-  it('does not create a URL for a attachment without a screenshot', () => {
+  it('does not create URL for an attachment without screenshot', () => {
     const attachment = createAttachment();
 
     const result = resolveDraftAttachmentOnDisk(attachment);
