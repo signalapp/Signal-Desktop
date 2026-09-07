@@ -54,6 +54,7 @@ import {
   shouldMinimizeToSystemTray,
   SystemTraySetting,
 } from '../../types/SystemTraySetting.std.ts';
+import { HourCyclePreferenceSetting } from '../../types/I18N.std.ts';
 import { calling } from '../../services/calling.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
@@ -431,6 +432,8 @@ export function SmartPreferences(): JSX.Element | null {
   // Ephemeral settings, via async IPC, all can be modiified
 
   const [localeOverride, setLocaleOverride] = useState<string | null>();
+  const [hourCyclePreferenceSetting, setHourCyclePreferenceSetting] =
+    useState<HourCyclePreferenceSetting>();
   const [systemTraySettings, setSystemTraySettings] =
     useState<SystemTraySetting>();
   const [hasContentProtection, setContentProtection] = useState<boolean>();
@@ -448,6 +451,15 @@ export function SmartPreferences(): JSX.Element | null {
       setLocaleOverride(value);
     };
     drop(loadOverride());
+
+    const loadHourCyclePreferenceSetting = async () => {
+      const value = await window.Events.getHourCyclePreference();
+      if (canceled) {
+        return;
+      }
+      setHourCyclePreferenceSetting(value);
+    };
+    drop(loadHourCyclePreferenceSetting());
 
     const loadSystemTraySettings = async () => {
       const value = await window.Events.getSystemTraySetting();
@@ -490,6 +502,13 @@ export function SmartPreferences(): JSX.Element | null {
   const onLocaleChange = async (locale: string | null | undefined) => {
     setLocaleOverride(locale);
     await window.Events.setLocaleOverride(locale ?? null);
+  };
+
+  const onHourCyclePreferenceChange = (
+    setting: HourCyclePreferenceSetting
+  ) => {
+    setHourCyclePreferenceSetting(setting);
+    drop(window.Events.setHourCyclePreference(setting));
   };
 
   const { hasMinimizeToAndStartInSystemTray, hasMinimizeToSystemTray } =
@@ -1091,6 +1110,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
         hasUnreadReminders={hasUnreadReminders}
+        hourCyclePreferenceSetting={hourCyclePreferenceSetting}
         i18n={i18n}
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
@@ -1137,6 +1157,7 @@ export function SmartPreferences(): JSX.Element | null {
         onLastSyncTimeChange={onLastSyncTimeChange}
         onLinkPreviewsChange={onLinkPreviewsChange}
         onLocaleChange={onLocaleChange}
+        onHourCyclePreferenceChange={onHourCyclePreferenceChange}
         onMediaCameraPermissionsChange={onMediaCameraPermissionsChange}
         onMediaPermissionsChange={onMediaPermissionsChange}
         onMessageAudioChange={onMessageAudioChange}

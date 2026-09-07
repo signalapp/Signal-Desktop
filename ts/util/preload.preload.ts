@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { strictAssert } from './assert.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import type { IPCEventsValuesType } from './createIPCEvents.preload.ts';
+import type { HourCyclePreferenceSetting } from '../types/I18N.std.ts';
 import type { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 
 type SettingOptionsType = {
@@ -22,6 +23,7 @@ export type ThemeType = 'light' | 'dark' | 'system';
 
 export type EphemeralSettings = {
   localeOverride: string | null;
+  hourCyclePreference: HourCyclePreferenceSetting;
   spellCheck: boolean;
   contentProtection: boolean;
   systemTraySetting: SystemTraySetting;
