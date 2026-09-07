@@ -21,6 +21,7 @@ import {
 import { DialogUpdate } from './DialogUpdate.dom.tsx';
 import { DialogType } from '../types/Dialogs.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
+import { HourCyclePreferenceSetting } from '../types/I18N.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -496,6 +497,7 @@ export default {
     hasTextFormatting: true,
     hasTypingIndicators: true,
     hasKeepMutedChatsArchived: false,
+    hourCyclePreferenceSetting: HourCyclePreferenceSetting.FollowSystem,
     initialSpellCheckSetting: true,
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
@@ -612,6 +614,7 @@ export default {
     onKeepMutedChatsArchivedChange: action('onKeepMutedChatsArchivedChange'),
     onPinRemindersChange: action('onHasPinRemindersChange'),
     onLocaleChange: action('onLocaleChange'),
+    onHourCyclePreferenceChange: action('onHourCyclePreferenceChange'),
     onLastSyncTimeChange: action('onLastSyncTimeChange'),
     onLinkPreviewsChange: action('onLinkPreviewsChange'),
     onMediaCameraPermissionsChange: action('onMediaCameraPermissionsChange'),

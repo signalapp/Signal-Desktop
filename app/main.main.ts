@@ -120,7 +120,11 @@ import { getHeicConverter } from '../ts/workers/heicConverterMain.main.ts';
 import type { LocaleDirection, LocaleType } from './locale.node.ts';
 import { load as loadLocale } from './locale.node.ts';
 
-import { HourCyclePreference } from '../ts/types/I18N.std.ts';
+import {
+  HourCyclePreference,
+  HourCyclePreferenceSetting,
+  HourCyclePreferenceSettingSchema,
+} from '../ts/types/I18N.std.ts';
 import { ScreenShareStatus } from '../ts/types/Calling.std.ts';
 import type { ParsedSignalRoute } from '../ts/util/signalRoutes.std.ts';
 import { parseSignalRoute } from '../ts/util/signalRoutes.std.ts';
@@ -475,9 +479,38 @@ function getResolvedMessagesLocale(): LocaleType {
   return resolvedTranslationsLocale;
 }
 
+function getHourCyclePreferenceSetting(): HourCyclePreferenceSetting {
+  const value = ephemeralConfig.get('hourCyclePreference');
+  const parsed = HourCyclePreferenceSettingSchema.safeParse(value);
+  if (parsed.success) {
+    log.info('got fast hour cycle preference setting', parsed.data);
+    return parsed.data;
+  }
+
+  // Default to `FollowSystem` if setting doesn't exist yet
+  ephemeralConfig.set(
+    'hourCyclePreference',
+    HourCyclePreferenceSetting.FollowSystem
+  );
+
+  log.info(
+    'initializing hour cycle preference setting',
+    HourCyclePreferenceSetting.FollowSystem
+  );
+
+  return HourCyclePreferenceSetting.FollowSystem;
+}
+
 function getHourCyclePreference(): HourCyclePreference {
+  const preferenceSetting = getHourCyclePreferenceSetting();
+  if (preferenceSetting === HourCyclePreferenceSetting.AlwaysUse24Hour) {
+    return HourCyclePreference.Prefer24;
+  }
+  if (preferenceSetting === HourCyclePreferenceSetting.AlwaysUse12Hour) {
+    return HourCyclePreference.Prefer12;
+  }
   if (process.platform !== 'darwin') {
-    return HourCyclePreference.UnknownPreference;
+    return HourCyclePreference.Prefer24;
   }
   if (systemPreferences.getUserDefault('AppleICUForce24HourTime', 'boolean')) {
     return HourCyclePreference.Prefer24;

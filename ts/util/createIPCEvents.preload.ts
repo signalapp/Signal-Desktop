@@ -33,6 +33,7 @@ import type {
   SettingsValuesType,
   ThemeType,
 } from './preload.preload.ts';
+import { HourCyclePreferenceSetting } from '../types/I18N.std.ts';
 import { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 import { putStickers } from '../textsecure/WebAPI.preload.ts';
 import OS from './os/osPreload.preload.ts';
@@ -86,6 +87,7 @@ type ValuesWithGetters = Omit<
   // Async - we'll redefine these in IPCEventsGettersType
   | 'autoLaunch'
   | 'localeOverride'
+  | 'hourCyclePreference'
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
   | 'spellCheck'
@@ -120,6 +122,7 @@ export type IPCEventsGettersType = {
   // Async
   getAutoLaunch: () => Promise<boolean>;
   getLocaleOverride: () => Promise<string | null>;
+  getHourCyclePreference: () => Promise<HourCyclePreferenceSetting>;
   getMediaPermissions: () => Promise<boolean>;
   getMediaCameraPermissions: () => Promise<boolean>;
   getSpellCheck: () => Promise<boolean>;
@@ -200,6 +203,16 @@ export function createIPCEvents(
     },
     setLocaleOverride: async (value: string | null) => {
       await setEphemeralSetting('localeOverride', value);
+      window.SignalContext.restartApp();
+    },
+    getHourCyclePreference: async () => {
+      return (
+        (await getEphemeralSetting('hourCyclePreference')) ??
+        HourCyclePreferenceSetting.FollowSystem
+      );
+    },
+    setHourCyclePreference: async (value: HourCyclePreferenceSetting) => {
+      await setEphemeralSetting('hourCyclePreference', value);
       window.SignalContext.restartApp();
     },
     getContentProtection: async () => {

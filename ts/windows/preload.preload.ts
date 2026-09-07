@@ -5,6 +5,7 @@ import { installEphemeralSetting } from '../util/preload.preload.ts';
 
 installEphemeralSetting('contentProtection');
 installEphemeralSetting('localeOverride');
+installEphemeralSetting('hourCyclePreference');
 installEphemeralSetting('spellCheck');
 installEphemeralSetting('systemTraySetting');
 installEphemeralSetting('themeSetting');

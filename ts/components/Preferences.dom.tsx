@@ -77,6 +77,7 @@ import type {
   SentMediaQualityType,
   ThemeType,
 } from '../types/Util.std.ts';
+import { HourCyclePreferenceSetting } from '../types/I18N.std.ts';
 import type {
   BackupMediaDownloadStatusType,
   BackupsSubscriptionType,
@@ -204,6 +205,7 @@ export type PropsDataType = {
   localeOverride: string | null | undefined;
   preferredSystemLocales: ReadonlyArray<string>;
   resolvedLocale: string;
+  hourCyclePreferenceSetting: HourCyclePreferenceSetting | undefined;
 
   // Other props
   badge: BadgeType | undefined;
@@ -358,6 +360,9 @@ type PropsFunctionType = {
   onLastSyncTimeChange: (time: number) => unknown;
   onLinkPreviewsChange: CheckboxChangeHandlerType;
   onLocaleChange: (locale: string | null | undefined) => void;
+  onHourCyclePreferenceChange: (
+    setting: HourCyclePreferenceSetting
+  ) => unknown;
   onMediaCameraPermissionsChange: CheckboxChangeHandlerType;
   onMediaPermissionsChange: CheckboxChangeHandlerType;
   onMessageAudioChange: CheckboxChangeHandlerType;
@@ -560,6 +565,7 @@ export function Preferences({
   onLastSyncTimeChange,
   onLinkPreviewsChange,
   onLocaleChange,
+  onHourCyclePreferenceChange,
   onMediaCameraPermissionsChange,
   onMediaPermissionsChange,
   onMessageAudioChange,
@@ -628,6 +634,7 @@ export function Preferences({
   startLocalBackupExport,
   startPlaintextExport,
   localeOverride,
+  hourCyclePreferenceSetting,
   theme,
   themeSetting,
   universalExpireTimer,
@@ -688,6 +695,10 @@ export function Preferences({
     string | null | undefined
   >(localeOverride);
   const [languageSearchInput, setLanguageSearchInput] = useState('');
+  const [
+    hourCycleDialogSetting,
+    setHourCycleDialogSetting,
+  ] = useState<HourCyclePreferenceSetting | null>(null);
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
   const [linkedDevicesOnboarding, setLinkedDevicesOnboarding] = useState(false);
@@ -1302,6 +1313,35 @@ export function Preferences({
               </AxoConfirmDialog.Action>
             </AxoConfirmDialog.Root>
           )}
+          {hourCycleDialogSetting != null && (
+            <AxoConfirmDialog.Root
+              open
+              onOpenChange={open => {
+                if (!open) {
+                  setHourCycleDialogSetting(null);
+                }
+              }}
+              title={i18n(
+                'icu:Preferences__HourCyclePreference__Restart__Title'
+              )}
+              description={i18n(
+                'icu:Preferences__HourCyclePreference__Restart__Description'
+              )}
+            >
+              <AxoConfirmDialog.Cancel>
+                {i18n('icu:cancel')}
+              </AxoConfirmDialog.Cancel>
+              <AxoConfirmDialog.Action
+                variant="strong-primary"
+                onClick={() => {
+                  onHourCyclePreferenceChange(hourCycleDialogSetting);
+                  setHourCycleDialogSetting(null);
+                }}
+              >
+                {i18n('icu:Preferences__HourCyclePreference__Restart__Button')}
+              </AxoConfirmDialog.Action>
+            </AxoConfirmDialog.Root>
+          )}
           <AxoSelectItem.Root
             symbol="contrast"
             label={i18n('icu:Preferences--theme')}
@@ -1323,6 +1363,33 @@ export function Preferences({
               {
                 label: i18n('icu:themeDark'),
                 value: 'dark',
+              },
+            ]}
+          />
+          <AxoSelectItem.Root
+            symbol="clock"
+            label={i18n('icu:Preferences__HourCyclePreference__Label')}
+            disabled={hourCyclePreferenceSetting === undefined}
+            value={
+              hourCyclePreferenceSetting ??
+              HourCyclePreferenceSetting.FollowSystem
+            }
+            placeholder=""
+            onValueChange={value => {
+              setHourCycleDialogSetting(value as HourCyclePreferenceSetting);
+            }}
+            options={[
+              {
+                label: i18n(
+                  'icu:Preferences__HourCyclePreference__FollowSystem'
+                ),
+                value: HourCyclePreferenceSetting.FollowSystem,
+              },
+              {
+                label: i18n(
+                  'icu:Preferences__HourCyclePreference__AlwaysUse12Hour'
+                ),
+                value: HourCyclePreferenceSetting.AlwaysUse12Hour,
               },
             ]}
           />
