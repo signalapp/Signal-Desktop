@@ -497,8 +497,12 @@ export function CompositionInput(props: Props): ReactElement {
     }
 
     if (emojiCompletion.results.length) {
-      emojiCompletion.completeEmoji();
-      return false;
+      if (emojiCompletion.index === -1) {
+        emojiCompletion.reset();
+      } else {
+        emojiCompletion.completeEmoji();
+        return false;
+      }
     }
 
     if (mentionCompletion.results.length) {
@@ -529,8 +533,12 @@ export function CompositionInput(props: Props): ReactElement {
     }
 
     if (emojiCompletion.results.length) {
-      emojiCompletion.completeEmoji();
-      return false;
+      if (emojiCompletion.index === -1) {
+        emojiCompletion.reset();
+      } else {
+        emojiCompletion.completeEmoji();
+        return false;
+      }
     }
 
     if (mentionCompletion.results.length) {
