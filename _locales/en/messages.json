@@ -7471,6 +7471,10 @@
     "messageformat": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
     "description": "First paragraph in the captcha dialog"
   },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Continue",
+    "description": "Continue action in dialog"
+  },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Continue without verifying?",
     "description": "Header in the captcha dialog that can be closed"

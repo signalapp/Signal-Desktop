@@ -27,7 +27,7 @@ export const SmartCaptchaDialog = memo(function SmartCaptchaDialog({
   return (
     <CaptchaDialog
       i18n={i18n}
-      isPending={isPending}
+      pending={isPending}
       onSkip={onSkip}
       onContinue={handleContinue}
     />

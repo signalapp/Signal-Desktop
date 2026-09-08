@@ -16,13 +16,16 @@ export namespace AxoConfirmDialog {
     title: string | ReactElement;
     description: string | ReactElement;
     forceAlwaysBreakToSeparateLines?: boolean | null;
+    escape?: AxoAlertDialog.ContentEscape;
     children?: ReactNode;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AxoAlertDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
-        <AxoAlertDialog.Content escape="cancel-is-destructive">
+        <AxoAlertDialog.Content
+          escape={props.escape ?? 'cancel-is-destructive'}
+        >
           <AxoAlertDialog.Body>
             <AxoAlertDialog.Title>{props.title}</AxoAlertDialog.Title>
             <AxoAlertDialog.Description>
