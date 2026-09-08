@@ -1,0 +1,42 @@
+diff --git a/lib/ensure/file.js b/lib/ensure/file.js
+index a55c2d96351919ea10da7e388bf9e98637203da2..014b2fbc76d608ba684c9f6ef6c192505f03dbe9 100644
+--- a/lib/ensure/file.js
++++ b/lib/ensure/file.js
+@@ -5,6 +5,19 @@ const path = require('path')
+ const fs = require('../fs')
+ const mkdir = require('../mkdirs')
+ 
++async function makeFile (file) {
++  try {
++    await fs.writeFile(file, '')
++  } catch (err) {
++    if (process.platform === 'linux' && process.arch === 'arm64') {
++      // creating empty files may result in EFAULT on Raspberry Pi and Chromebooks
++      // even when if it succeeds
++    } else {
++      throw err
++    }
++  }
++}
++
+ async function createFile (file) {
+   let stats
+   try {
+@@ -21,7 +34,7 @@ async function createFile (file) {
+     // if the directory doesn't exist, make it
+     if (err.code === 'ENOENT') {
+       await mkdir.mkdirs(dir)
+-      await fs.writeFile(file, '')
++      await makeFile(file)
+       return
+     } else {
+       throw err
+@@ -29,7 +42,7 @@ async function createFile (file) {
+   }
+ 
+   if (dirStats.isDirectory()) {
+-    await fs.writeFile(file, '')
++    await makeFile(file)
+   } else {
+     // parent is not a directory
+     // This is just to cause an internal ENOTDIR error to be thrown
