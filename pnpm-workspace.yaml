@@ -111,7 +111,7 @@ allowBuilds:
   '@tailwindcss/oxide@4.3.0': true
   'electron@23.3.13': false # duplicate package
   'electron@39.8.10': true # duplicate package through react-devtools
-  'electron@43.0.0': true
+  'electron@44.2.0': true
   'fs-xattr@0.4.0': true
 
   # Disabled Builds: Use wildcard version
