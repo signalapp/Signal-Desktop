@@ -409,6 +409,7 @@ type PropsFunctionType = {
   setGroupSvcMode: (value: string | undefined) => void;
   setGroupSvcModeForScreenshare: (value: string | undefined) => void;
   setSfuUrl: (value: string | undefined) => void;
+  saveAccountKeysPDF: () => Promise<void>;
   forceKeyTransparencyCheck: () => Promise<void>;
   keyTransparencySelfHealth: StorageAccessType['keyTransparencySelfHealth'];
 
@@ -666,6 +667,7 @@ export function Preferences({
   setGroupSvcModeForScreenshare,
   setSfuUrl,
   sfuUrl,
+  saveAccountKeysPDF,
   forceKeyTransparencyCheck,
   keyTransparencySelfHealth,
   weArePrimaryDevice,
@@ -963,6 +965,7 @@ export function Preferences({
           i18n={i18n}
           serviceId={me.serviceId}
           backupKey={backupKey}
+          saveAccountKeysPDF={saveAccountKeysPDF}
         />
       </div>
     );

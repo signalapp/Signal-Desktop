@@ -996,6 +996,18 @@ export function SmartPreferences(): JSX.Element | null {
     drop(itemStorage.put('sfuUrl', value));
   }, []);
 
+  const saveAccountKeysPDF = useCallback(async () => {
+    const data = await window.Events.generatePDF({
+      view: 'account-keys',
+      serviceId: me.serviceId,
+      backupKey,
+    });
+    await saveAttachmentToDisk({
+      name: 'Signal_AccountKeys.pdf',
+      data,
+    });
+  }, [me.serviceId, backupKey]);
+
   if (currentLocation.tab !== NavTab.Settings) {
     return null;
   }
@@ -1246,6 +1258,7 @@ export function SmartPreferences(): JSX.Element | null {
         sfuUrl={items.sfuUrl}
         setSfuUrl={setSfuUrl}
         forceKeyTransparencyCheck={forceKeyTransparencyCheck}
+        saveAccountKeysPDF={saveAccountKeysPDF}
         keyTransparencySelfHealth={items.keyTransparencySelfHealth}
         weArePrimaryDevice={weArePrimaryDevice}
       />

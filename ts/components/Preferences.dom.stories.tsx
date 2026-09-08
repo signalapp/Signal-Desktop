@@ -721,6 +721,9 @@ export default {
     setGroupSvcModeForScreenshare: action('setGroupSvcModeForScreenshare'),
     sfuUrl: 'https://sfu.voip.signal.org',
     setSfuUrl: action('setSfuUrl'),
+    saveAccountKeysPDF: async () => {
+      await sleep(1000);
+    },
     forceKeyTransparencyCheck: async () => {
       await sleep(1000);
     },

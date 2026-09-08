@@ -35,6 +35,7 @@ import type {
 } from './preload.preload.ts';
 import { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 import { putStickers } from '../textsecure/WebAPI.preload.ts';
+import type { PDFWindowPropsType } from '../windows/pdf/types.std.ts';
 import OS from './os/osPreload.preload.ts';
 
 const { noop } = lodash;
@@ -60,6 +61,7 @@ export type IPCEventsCallbacksType = {
     mediaType: 'screen' | 'microphone' | 'camera'
   ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
+  generatePDF: (args: PDFWindowPropsType) => Promise<Uint8Array<ArrayBuffer>>;
   requestCloseConfirmation: () => Promise<boolean>;
   setMediaPlaybackDisabled: (playbackDisabled: boolean) => void;
   showConversationViaNotification: (data: NotificationClickData) => void;
@@ -273,6 +275,9 @@ export function createIPCEvents(
         finalStatus: 'installed',
         actionSource: 'ui',
       });
+    },
+    generatePDF: (args: PDFWindowPropsType) => {
+      return ipcRenderer.invoke('pdf:generate', args);
     },
     requestCloseConfirmation: async (): Promise<boolean> => {
       try {
