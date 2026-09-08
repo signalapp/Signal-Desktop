@@ -14,6 +14,7 @@ import {
   typeIntoInput,
   waitForEnabledComposer,
 } from '../helpers.node.ts';
+import { expect } from 'playwright/test';
 
 export const debug = createDebug('mock:test:challenge:receipts');
 
@@ -282,11 +283,12 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     /** First, challenge returns 428 (try again) */
     debug('Waiting for challenge');
     const firstChallengeRequest = await app.waitForChallenge();
-    const challengeDialog = await window
-      .getByTestId('CaptchaDialog.pending')
-      .elementHandle();
+    const challengeDialog = window.getByRole('alertdialog', {
+      name: 'Verify to continue messaging',
+    });
 
-    assert.exists(challengeDialog);
+    await expect(challengeDialog).toBeVisible();
+
     server.respondToChallengesWith(428);
 
     debug('Solving challenge');

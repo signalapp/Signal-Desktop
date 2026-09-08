@@ -283,7 +283,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     renderCaptchaDialog: () => (
       <CaptchaDialog
         i18n={i18n}
-        isPending={overrideProps.challengeStatus === 'pending'}
+        pending={overrideProps.challengeStatus === 'pending'}
         onContinue={action('onCaptchaContinue')}
         onSkip={action('onCaptchaSkip')}
       />
