@@ -37,6 +37,9 @@
 
     &:focus {
       border-color: variables.$color-ultramarine;
+    }
+
+    &:focus-visible {
       outline: none;
     }
 

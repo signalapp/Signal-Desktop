@@ -63,9 +63,6 @@
     z-index: variables.$z-index-above-above-base;
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -93,10 +90,6 @@
     font-size: 13px;
     font-weight: 500;
     color: variables.$color-ultramarine-pastel;
-  }
-
-  &:focus {
-    outline: none;
   }
 
   &:focus-visible {

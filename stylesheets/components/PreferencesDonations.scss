@@ -101,10 +101,6 @@
       );
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -436,9 +432,6 @@
     background: light-dark(variables.$color-gray-04, variables.$color-gray-80);
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

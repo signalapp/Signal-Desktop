@@ -17,11 +17,11 @@
     border-bottom: 4px solid transparent;
 
     &:focus {
-      outline: none;
+      border-bottom-color: variables.$color-ultramarine;
     }
 
     &:focus-visible {
-      border-bottom-color: variables.$color-ultramarine;
+      @include mixins.axo-focus-ring;
     }
 
     &--selected {

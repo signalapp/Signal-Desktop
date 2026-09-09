@@ -310,7 +310,7 @@ export namespace AriaClickable {
         aria-labelledby={labelledby}
         aria-disabled={disabled}
         onClick={handleClick}
-        className={tw('absolute inset-0 z-10 outline-none')}
+        className={tw('absolute inset-0 z-10', 'focus-visible:outline-none')}
         {...forwardExtraPropsForRadix(rest)}
       />
     );

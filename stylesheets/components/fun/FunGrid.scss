@@ -64,10 +64,6 @@
     background: var(--axo-color-fill-primary);
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring-inset;
   }
@@ -100,10 +96,6 @@ $popover-margin: 12px;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-
-  &:focus {
-    outline: none;
-  }
 
   &:focus-visible {
     @include mixins.axo-focus-ring-inset;

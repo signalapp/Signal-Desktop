@@ -26,10 +26,6 @@
   inset-inline-start: 20px;
   text-align: start;
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
   }
@@ -58,10 +54,6 @@
     padding-inline: 16px;
     white-space: nowrap;
     color: variables.$color-ios-blue-tint;
-
-    &:focus {
-      outline: none;
-    }
 
     &:focus-visible {
       @include mixins.axo-focus-ring;

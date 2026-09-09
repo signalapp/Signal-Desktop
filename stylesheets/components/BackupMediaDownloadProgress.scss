@@ -69,9 +69,6 @@ button.BackupMediaDownloadProgress__button {
       color: variables.$color-ultramarine-light;
     }
   }
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -102,9 +99,6 @@ button.BackupMediaDownloadProgress__button-more {
       );
     }
   }
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -133,9 +127,6 @@ button.BackupMediaDownloadProgress__button-close {
         variables.$color-gray-20
       );
     }
-  }
-  &:focus {
-    outline: none;
   }
   &:focus-visible {
     @include mixins.axo-focus-ring;

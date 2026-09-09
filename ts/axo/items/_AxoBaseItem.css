@@ -33,7 +33,7 @@
     /* Pressed */
     @apply group-data-pressed:bg-secondary-pressed;
     /* Focus ring */
-    @apply outline-none;
+    @apply focus-visible:outline-none;
     @apply group-data-focused:axo-focus-ring;
     @apply group-focus-visible:axo-focus-ring;
   }

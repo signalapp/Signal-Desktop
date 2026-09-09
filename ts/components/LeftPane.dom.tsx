@@ -826,9 +826,7 @@ export function LeftPane({
               <AxoDropdownMenu.Trigger>
                 <button
                   type="button"
-                  className={tw(
-                    'rounded-full focus:outline-none focus-visible:axo-focus-ring'
-                  )}
+                  className={tw('rounded-full focus-visible:axo-focus-ring')}
                 >
                   <ProfileAvatar i18n={i18n} size="medium-small" />
                 </button>

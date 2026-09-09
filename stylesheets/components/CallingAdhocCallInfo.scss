@@ -72,9 +72,6 @@
 }
 
 .CallingAdhocCallInfo__MenuItem {
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -145,9 +142,6 @@
 }
 
 .CallingAdhocCallInfo__UnknownContactInfoButton {
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

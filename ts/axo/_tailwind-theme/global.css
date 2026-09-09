@@ -17,7 +17,7 @@
   }
 
   a[href] {
-    @apply text-accent underline focus:outline-none focus-visible:axo-focus-ring;
+    @apply text-accent underline focus-visible:axo-focus-ring;
   }
 }
 

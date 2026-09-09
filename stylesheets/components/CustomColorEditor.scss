@@ -48,8 +48,11 @@
   }
 
   &__hue-slider__handle {
-    &:focus {
+    &:focus-visible {
       outline: none;
+    }
+
+    &:focus {
       border: 2px solid variables.$color-white;
       border-radius: 8px;
     }

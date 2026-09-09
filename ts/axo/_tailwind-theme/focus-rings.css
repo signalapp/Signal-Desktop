@@ -4,6 +4,7 @@
  */
 
 @utility axo-focus-ring {
+  @apply outline-none;
   @apply ring-[2.5px] ring-(--axo-color-border-focused-outer);
   @apply ring-offset-[1.5px] ring-offset-(--axo-color-border-focused-inner);
   @apply forced-colors:outline-2 forced-colors:outline-[Highlight] forced-colors:outline-solid;

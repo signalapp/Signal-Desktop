@@ -204,7 +204,7 @@ export function TimePicker(props: PropsType): JSX.Element {
                     className={classNames(
                       tw(
                         'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                        'focus:outline-none focus-visible:axo-focus-ring'
+                        'focus-visible:axo-focus-ring'
                       ),
                       isSelected ? tw('bg-primary') : null
                     )}
@@ -234,7 +234,7 @@ export function TimePicker(props: PropsType): JSX.Element {
                     className={classNames(
                       tw(
                         'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                        'focus:outline-none focus-visible:axo-focus-ring'
+                        'focus-visible:axo-focus-ring'
                       ),
                       isSelected ? tw('bg-primary') : null
                     )}
@@ -264,7 +264,7 @@ export function TimePicker(props: PropsType): JSX.Element {
                       className={classNames(
                         tw(
                           'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
-                          'focus:outline-none focus-visible:axo-focus-ring'
+                          'focus-visible:axo-focus-ring'
                         ),
                         isSelected ? tw('bg-primary') : null
                       )}
@@ -323,7 +323,7 @@ export function TimePicker(props: PropsType): JSX.Element {
               <DateSegment
                 className={classNames(
                   tw(
-                    'inline-block px-px type-body-medium outline-none focus:bg-secondary'
+                    'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
                   ),
                   segment.type === 'literal' ? tw('px-[3px]') : null,
                   segment.type === 'dayPeriod' ? tw('ps-[2px]') : null,
@@ -337,7 +337,10 @@ export function TimePicker(props: PropsType): JSX.Element {
         </DateInput>
         <button
           className={classNames(
-            tw('ms-3 p-0.5 outline-none focus-visible:bg-secondary'),
+            tw(
+              'ms-3 p-0.5',
+              'focus-visible:bg-secondary focus-visible:outline-none'
+            ),
             isDisabled ? tw('text-placeholder') : null
           )}
           type="button"

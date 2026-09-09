@@ -158,7 +158,7 @@ button:not(:disabled, [aria-disabled='true']) {
 }
 
 //yellow border fix
-.inbox:focus {
+.inbox:focus-visible {
   outline: none;
 }
 

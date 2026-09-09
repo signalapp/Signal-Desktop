@@ -13,7 +13,7 @@
 .FunSkinTones__ListBoxItem {
   padding: 1px;
 
-  &:focus {
+  &:focus-visible {
     // Handled in .FunSkinTones__ListBoxItem
     outline: none;
   }

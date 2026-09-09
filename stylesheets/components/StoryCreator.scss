@@ -43,8 +43,8 @@
     text-align: center;
     top: 50%;
 
-    &:focus {
-      outline: none;
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 

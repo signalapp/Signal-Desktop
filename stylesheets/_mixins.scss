@@ -390,7 +390,7 @@ $rtl-icon-map: (
 // Individual traits
 
 @mixin button-focus-outline {
-  &:focus {
+  &:focus-visible {
     @include axo-focus-ring;
   }
 }
@@ -785,8 +785,6 @@ $rtl-icon-map: (
   }
 
   &:focus {
-    outline: none;
-
     @include light-theme {
       border-color: variables.$color-ultramarine;
     }
@@ -1001,7 +999,6 @@ $rtl-icon-map: (
   align-items: center;
   background-color: $background;
   color: variables.$color-white;
-  outline: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1031,6 +1028,7 @@ $rtl-icon-map: (
     }
 
     &:focus-visible {
+      outline: none;
       background-color: color.adjust($background, $lightness: -16%);
     }
   }
@@ -1056,12 +1054,14 @@ $rtl-icon-map: (
 }
 
 @mixin axo-focus-ring {
+  outline: none;
   box-shadow:
     0 0 0 1.5px var(--axo-color-border-focused-inner),
     0 0 0 4px var(--axo-color-border-focused-outer);
 }
 
 @mixin axo-focus-ring-inset {
+  outline: none;
   box-shadow:
     inset 0 0 0 2.5px var(--axo-color-border-focused-outer),
     inset 0 0 0 4px var(--axo-color-border-focused-inner);

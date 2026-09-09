@@ -16,10 +16,6 @@
       font-weight: bold;
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -46,6 +42,9 @@
 
     &:focus {
       border: 1px solid variables.$color-black;
+    }
+
+    &:focus-visible {
       outline: none;
     }
 

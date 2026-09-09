@@ -76,8 +76,8 @@
     );
   }
 
-  &:focus {
-    outline: none;
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -101,9 +101,6 @@
   padding-inline: 16px;
   border-radius: 40px;
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

@@ -44,8 +44,6 @@
     }
 
     &:focus-within {
-      outline: none;
-
       @include mixins.light-theme {
         border-color: variables.$color-ultramarine;
       }
@@ -90,7 +88,7 @@
       color: variables.$color-gray-05;
     }
 
-    &:focus {
+    &:focus-visible {
       outline: none;
     }
   }

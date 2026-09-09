@@ -13,7 +13,6 @@
   display: flex;
   border-radius: 18px;
   border: none;
-  outline: none;
   align-items: center;
   justify-content: center;
 
@@ -26,6 +25,10 @@
   }
   @include mixins.dark-theme {
     background-color: variables.$color-gray-75;
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 
   &__icon--unread-mentions {

@@ -33,10 +33,6 @@
     margin-inline-start: 16px;
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

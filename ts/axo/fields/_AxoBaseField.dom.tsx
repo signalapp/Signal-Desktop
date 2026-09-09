@@ -232,7 +232,7 @@ export namespace AxoBaseField {
             ContainerWidths.get(width),
             ContainerVariants.get(variant),
             'placeholder:text-placeholder',
-            '-outline-offset-1 has-[input:focus]:axo-focus-ring',
+            '-outline-offset-1 has-[input:focus-visible]:axo-focus-ring',
             'forced-colors:border forced-colors:border-[ButtonBorder]',
             'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
             'forced-colors:has-user-invalid:border-[LinkText]'
@@ -495,7 +495,7 @@ export namespace AxoBaseField {
             'py-1.5',
             'indent-1',
             'text-primary',
-            'outline-none',
+            'focus-visible:outline-none',
             'disabled:text-disabled',
 
             '[&::-webkit-search-cancel-button]:appearance-none'
@@ -626,7 +626,7 @@ export namespace AxoBaseField {
           'z-10',
           'px-0.5 first:ps-1.5 last:pe-1.5',
           'group/clear group-has-[input:placeholder-shown]:hidden',
-          'outline-none'
+          'focus-visible:outline-none'
         )}
         onClick={handleClear}
         disabled={segmentContext.disabled}
@@ -719,9 +719,10 @@ export namespace AxoBaseField {
         aria-disabled={disabled}
         aria-pressed={props.pressed}
         className={tw(
-          'group/action z-10 outline-none',
+          'group/action z-10',
           'first:ps-1 last:pe-1',
-          'aria-disabled:cursor-default'
+          'aria-disabled:cursor-default',
+          'focus-visible:outline-none'
         )}
         onClick={handleClick}
       >

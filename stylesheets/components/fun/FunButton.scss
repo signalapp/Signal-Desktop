@@ -16,10 +16,6 @@
     align-items: center;
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

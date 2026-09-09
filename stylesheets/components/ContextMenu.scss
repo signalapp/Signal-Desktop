@@ -32,9 +32,6 @@
 
   &__button {
     @include mixins.button-reset();
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -115,7 +112,6 @@
     }
 
     &--focused {
-      outline: none;
       &:focus-visible {
         @include mixins.axo-focus-ring;
       }

@@ -41,10 +41,8 @@
     );
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
+    outline: none;
     &::before {
       @include mixins.axo-focus-ring;
     }

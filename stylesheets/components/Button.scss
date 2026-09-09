@@ -15,9 +15,6 @@
     -webkit-app-region: no-drag;
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

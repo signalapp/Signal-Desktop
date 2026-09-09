@@ -56,8 +56,7 @@
         pointer-events: none;
       }
 
-      &:focus {
-        border: none;
+      &:focus-visible {
         outline: none;
       }
     }

@@ -15,7 +15,6 @@
     cursor: pointer;
     height: 40px;
     min-width: 124px;
-    outline: 0;
     padding: 10px;
     padding-inline: 12px 32px;
     text-overflow: ellipsis;
@@ -29,6 +28,7 @@
     }
 
     &:focus-visible {
+      outline: none;
       border: 3px solid variables.$color-ultramarine;
       line-height: 14px;
       padding-inline-start: 10px;

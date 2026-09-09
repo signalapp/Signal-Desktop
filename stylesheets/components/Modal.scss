@@ -62,10 +62,6 @@
       );
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -90,10 +86,6 @@
         '../images/icons/v3/x/x.svg',
         var(--axo-color-label-secondary)
       );
-    }
-
-    &:focus {
-      outline: none;
     }
 
     &:focus-visible {

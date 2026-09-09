@@ -99,7 +99,7 @@ export namespace AxoStackedButton {
           className={tw(
             'group relative',
             'inline-flex max-w-full flex-col items-center-safe justify-center-safe gap-1.5',
-            'focus:outline-none'
+            'focus-visible:outline-none'
           )}
           aria-disabled={(pending || disabled) ?? undefined}
           aria-label={pending ? intl.get('AxoButton.Pending') : undefined}

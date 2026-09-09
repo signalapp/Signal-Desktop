@@ -29,7 +29,10 @@
     flex-grow: 1;
     // To ensure that a large image doesn't overflow the flex layout
     min-height: 50px;
-    outline: none;
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
   }
 
   &__buttons {
@@ -99,8 +102,11 @@
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
-    outline: none;
     width: auto;
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
 
     &--container {
       display: inline-flex;
@@ -332,10 +338,6 @@
       width: 100%;
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -395,10 +397,6 @@
 
       &:hover {
         opacity: 1;
-      }
-
-      &:focus {
-        outline: none;
       }
 
       &:focus-visible {

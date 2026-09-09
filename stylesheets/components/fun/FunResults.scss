@@ -42,9 +42,6 @@
     color: var(--axo-color-label-primary);
     @include mixins.font-subtitle;
   }
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

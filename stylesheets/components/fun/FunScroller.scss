@@ -67,7 +67,7 @@
   $track: transparent;
   scrollbar-color: $thumb $track;
 
-  &:focus {
+  &:focus-visible {
     /* Handled by .FunScroller__Container */
     outline: none;
   }

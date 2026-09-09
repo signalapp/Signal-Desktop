@@ -55,7 +55,7 @@ export namespace AxoBaseMenu {
     'text-primary',
     'data-highlighted:bg-primary-pressed',
     'data-disabled:text-disabled',
-    'focus:outline-none focus-visible:axo-focus-ring',
+    'focus-visible:axo-focus-ring',
     'forced-colors:text-[CanvasText]',
     'forced-colors:data-highlighted:bg-[Highlight]',
     'forced-colors:data-highlighted:text-[HighlightText]',

@@ -25,10 +25,6 @@
     background: var(--axo-color-fill-primary);
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring-inset;
   }

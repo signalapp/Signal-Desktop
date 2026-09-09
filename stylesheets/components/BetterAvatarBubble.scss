@@ -33,9 +33,6 @@
     }
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     border-color: variables.$color-ultramarine;
   }

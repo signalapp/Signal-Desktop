@@ -240,7 +240,7 @@ function Row(props: { children: ReactNode }) {
         'contain-strict',
         'flex h-14 items-center pe-3',
         'rounded-xs',
-        'outline-none data-focused:axo-focus-ring'
+        'data-focused:axo-focus-ring'
       )}
     >
       {props.children}
@@ -328,7 +328,8 @@ function TabTrigger(props: {
         pinNumber: props.pinNumber,
       })}
       className={tw(
-        'group flex-1 px-[7px] focus:outline-none',
+        'group flex-1 px-[7px]',
+        'not-forced-colors:focus-visible:outline-none',
         props.pinsCount === 3 ? 'py-px' : 'py-0.5'
       )}
     >

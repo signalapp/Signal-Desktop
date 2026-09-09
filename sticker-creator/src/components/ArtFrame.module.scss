@@ -176,7 +176,10 @@ $emoji-height: 64px;
   }
 
   &:focus {
-    outline: 0;
     border-color: colors.$color-accent-blue;
+  }
+
+  &:focus-visible {
+    outline: none;
   }
 }

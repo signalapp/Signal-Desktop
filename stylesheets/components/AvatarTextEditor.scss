@@ -1,16 +1,21 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use '../mixins';
+
 .AvatarTextEditor {
   &__input {
     background: transparent;
     border: none;
     color: inherit;
-    outline: none;
     padding: 0;
     text-align: center;
     transition: font-size 30ms linear;
     width: 100%;
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
   }
 
   &__measure {

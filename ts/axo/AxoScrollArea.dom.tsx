@@ -217,7 +217,7 @@ export namespace AxoScrollArea {
     'overflow-auto',
     'overscroll-none',
     // <Root> handles the focus ring
-    'outline-none'
+    'focus-visible:outline-none'
   );
 
   const ViewportScrollbarWidths = variants<ScrollbarWidth>(

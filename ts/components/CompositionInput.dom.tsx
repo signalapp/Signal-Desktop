@@ -1123,7 +1123,7 @@ export function CompositionInput(props: Props): ReactElement {
                     onClick={onToggleViewOnce}
                     className={tw(
                       'flex cursor-default items-center justify-center rounded-full',
-                      'not-forced-colors:focus:outline-none not-forced-colors:focus-visible:axo-focus-ring',
+                      'focus-visible:axo-focus-ring',
                       'forced-colors:border forced-colors:border-[ButtonBorder]'
                     )}
                   >

@@ -359,7 +359,10 @@ export function MediaGallery({
 
   return (
     <div
-      className={tw('flex size-full grow flex-col outline-none')}
+      className={tw(
+        'flex size-full grow flex-col',
+        'focus-visible:axo-focus-ring'
+      )}
       tabIndex={-1}
       ref={focusRef}
     >

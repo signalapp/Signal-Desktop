@@ -17,7 +17,6 @@
   width: 364px;
   padding-inline: 0;
   padding-block-start: 0;
-  outline: 0;
 }
 
 .CallingPendingParticipants--Expandable {
@@ -32,8 +31,11 @@
   display: flex;
   padding-block: 12px;
   padding-inline: 12px;
-  outline: none;
   align-items: center;
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
+  }
 }
 
 .CallingPendingParticipants__CompactParticipantNameColumn {
@@ -45,9 +47,6 @@
 }
 
 .CallingPendingParticipants__ParticipantButton {
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -159,9 +158,6 @@
 }
 
 .CallingPendingParticipants__ShowAllRequestsButton {
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

@@ -7,7 +7,10 @@
 .module-sticker-manager {
   padding-block: 0;
   padding-inline: 16px;
-  outline: none;
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
+  }
 }
 
 .module-sticker-manager__pack-row {
@@ -20,9 +23,6 @@
     padding-inline-start: 8px;
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }

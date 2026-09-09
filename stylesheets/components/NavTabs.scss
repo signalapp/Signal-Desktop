@@ -42,7 +42,7 @@ $NavTabs__ProfileAvatar__size: 28px;
   border: none;
   background: transparent;
   cursor: pointer;
-  &:focus {
+  &:focus-visible {
     // Handled by .NavTabs__ItemButton
     outline: none;
   }
@@ -65,9 +65,6 @@ $NavTabs__ProfileAvatar__size: 28px;
   .NavTabs__Item:hover &,
   .NavTabs__Item:focus & {
     background: var(--axo-color-fill-primary);
-  }
-  .NavTabs__Item:focus & {
-    outline: none;
   }
   .NavTabs__Item:focus-visible & {
     @include mixins.axo-focus-ring;

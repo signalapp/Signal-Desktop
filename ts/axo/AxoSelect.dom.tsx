@@ -158,8 +158,8 @@ export namespace AxoSelect {
     'group relative inline-flex items-center',
     'rounded-full text-start type-body-medium font-medium text-primary',
     'disabled:text-disabled',
-    'focus:outline-none focus-visible:axo-focus-ring',
-    'forced-colors:border'
+    'forced-colors:border',
+    'focus-visible:axo-focus-ring'
   );
 
   const TriggerVariants = variants<TriggerVariant>('AxoSelect.TriggerVariant', {

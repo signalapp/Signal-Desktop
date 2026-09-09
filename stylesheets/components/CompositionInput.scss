@@ -125,8 +125,8 @@
       border: $border-size solid transparent;
     }
 
-    &:focus {
-      outline: 0;
+    &:focus-visible {
+      outline: none;
     }
 
     &[data-focus-visible='true'] {
@@ -386,8 +386,8 @@
         height: 40px;
       }
 
-      &:focus {
-        outline: 0;
+      &:focus-visible {
+        outline: none;
       }
 
       & {

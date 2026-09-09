@@ -83,7 +83,6 @@
 }
 
 .module-shortcut-guide__scroll-container {
-  outline: none;
   overflow-y: scroll;
 }
 
@@ -101,9 +100,9 @@
 
   padding-inline-start: 4px;
   min-height: 40px;
-  outline: none;
 
   &:focus-visible {
+    outline: none;
     @include mixins.light-theme {
       background-color: variables.$color-gray-05;
     }

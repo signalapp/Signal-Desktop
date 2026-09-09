@@ -67,9 +67,6 @@
       @include button-icon('../images/icons/v2/text-24.svg');
     }
 
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }

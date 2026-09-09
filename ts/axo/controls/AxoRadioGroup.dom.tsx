@@ -114,7 +114,11 @@ export namespace AxoRadioGroup {
         value={props.value}
         disabled={props.disabled}
       >
-        <div className={tw('flex gap-3 py-2.5')}>
+        <div
+          className={tw(
+            'flex gap-3 rounded-xs py-2.5 focus-visible:axo-focus-ring'
+          )}
+        >
           <AxoBaseRadioGroup.Indicator />
           {props.children}
         </div>

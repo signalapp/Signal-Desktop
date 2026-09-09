@@ -63,11 +63,14 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  outline: none;
   padding-inline: 16px;
   transition-property: background, translate;
   transition-duration: 0.1s;
   transition-timing-function: ease-out;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .module-message__quote-story-reaction-header {
@@ -322,7 +325,6 @@ $message-padding-horizontal: 12px;
   position: relative;
   display: inline-block;
   border-radius: 18px;
-  outline: none;
   margin-bottom: 6px;
   margin-top: 6px;
   min-width: 0px;
@@ -331,6 +333,10 @@ $message-padding-horizontal: 12px;
   padding-inline: $message-padding-horizontal;
   padding-top: $message-padding-vertical;
   padding-bottom: $message-padding-vertical;
+
+  &:focus-visible {
+    outline: none;
+  }
 
   .module-message--collapsed-above & {
     margin-top: 1px;
@@ -931,14 +937,13 @@ $message-padding-horizontal: 12px;
 
     margin-inline: -$message-padding-horizontal;
     width: calc(100% + 24px);
-    outline: none;
 
     margin-top: -$message-padding-vertical;
     margin-bottom: 5px;
     overflow: hidden;
 
     &:focus-visible {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+      @include mixins.axo-focus-ring;
     }
   }
 }
@@ -1085,7 +1090,6 @@ $message-padding-horizontal: 12px;
 
   a {
     text-decoration: underline;
-    outline: none;
     // Allow links to be broken anywhere so they don't force extra line breaks
     // when surrounded by text.
     word-break: break-all;
@@ -1118,7 +1122,6 @@ $message-padding-horizontal: 12px;
 
   a {
     text-decoration: underline;
-    outline: none;
 
     @include mixins.light-theme {
       color: variables.$color-gray-90;
@@ -1726,11 +1729,8 @@ $message-padding-horizontal: 12px;
     }
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
+    outline: none;
     box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 
@@ -2069,10 +2069,10 @@ $timer-icons:
 // Module: Inline Notification Wrapper
 
 .module-inline-notification-wrapper {
-  outline: none;
   position: relative;
 
   &:focus-visible {
+    outline: none;
     @include mixins.light-theme {
       background: variables.$color-selected-message-background-light;
     }
@@ -2094,8 +2094,8 @@ $timer-icons:
   text-align: center;
   cursor: pointer;
 
-  &:focus {
-    outline: 0;
+  &:focus-visible {
+    outline: none;
   }
 
   &:focus-visible &__message {
@@ -2265,12 +2265,15 @@ button.ConversationDetails__action-button {
     }
   }
 
+  &:focus-visible {
+    outline: none;
+  }
+
   &:focus {
     span {
       background-color: variables.$color-gray-75;
       border: 4px solid variables.$color-ultramarine;
       box-sizing: border-box;
-      outline: none;
     }
   }
 }
@@ -2522,9 +2525,6 @@ button.module-image__border-overlay:focus-visible {
     );
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -2871,9 +2871,6 @@ button.module-image__border-overlay:focus-visible {
     }
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -2923,9 +2920,6 @@ button.module-image__border-overlay:focus-visible {
     }
   }
 
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -3218,10 +3212,8 @@ button.module-image__border-overlay:focus-visible {
         margin-inline-start: 4px;
       }
 
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
+        outline: none;
         box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
@@ -3668,9 +3660,12 @@ button.module-image__border-overlay:focus-visible {
             padding-inline: 4px;
             margin-inline: 0;
             opacity: 0;
-            outline: none;
             transition: opacity 200ms ease-out;
             width: 24px;
+
+            &:focus-visible {
+              @include mixins.axo-focus-ring;
+            }
           }
         }
 
@@ -4569,9 +4564,6 @@ button.module-calling-participants-list__contact {
         }
       }
 
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
         @include mixins.axo-focus-ring;
       }
@@ -4704,7 +4696,7 @@ button.module-calling-participants-list__contact {
           cursor: inherit;
         }
 
-        &:focus {
+        &:focus-visible {
           outline: none;
         }
       }
@@ -5068,7 +5060,7 @@ button.module-calling-participants-list__contact {
           border: 1px solid variables.$color-gray-80;
         }
 
-        &:focus {
+        &:focus-visible {
           outline: none;
         }
 
@@ -5463,7 +5455,6 @@ button.module-calling-participants-list__contact {
   padding-inline: 1em;
   width: 100%;
   text-align: center;
-  outline: none;
 }
 
 .module-left-pane__no-search-results,
@@ -5472,7 +5463,6 @@ button.module-calling-participants-list__contact {
   padding-inline: 1em;
   width: 100%;
   text-align: center;
-  outline: none;
 }
 
 .module-left-pane__compose-no-contacts {
@@ -5498,7 +5488,6 @@ button.module-calling-participants-list__contact {
 .module-left-pane__list--measure {
   flex-grow: 1;
   flex-shrink: 1;
-  outline: none;
 }
 
 .module-left-pane__list--wrapper {
@@ -5507,7 +5496,6 @@ button.module-calling-participants-list__contact {
 
 .module-left-pane__list {
   position: absolute;
-  outline: none;
 }
 
 .module-left-pane__footer {
@@ -5613,10 +5601,6 @@ button.module-calling-participants-list__contact {
   display: flex;
   flex-direction: column;
   gap: 14px;
-}
-
-.ReactVirtualized__List {
-  outline: none;
 }
 
 .CollapseSet__height-container {
@@ -5848,9 +5832,6 @@ button.module-calling-participants-list__contact {
       background-color: variables.$color-gray-05;
     }
   }
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -6045,7 +6026,7 @@ button.module-calling-participants-list__contact {
     @include mixins.button-reset;
 
     &:focus-visible {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
+      @include mixins.axo-focus-ring;
     }
 
     & {
@@ -6064,7 +6045,6 @@ button.module-calling-participants-list__contact {
       border-radius: 4px;
       border-style: solid;
       border-width: 1px;
-      outline: none;
       padding-block: 7px;
       padding-inline: 12px;
     }

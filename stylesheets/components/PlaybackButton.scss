@@ -12,8 +12,11 @@
     flex-shrink: 0;
     margin-inline-end: MessageAudio.$audio-attachment-button-margin-big;
 
-    outline: none;
     border-radius: 18px;
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 
   &::before {

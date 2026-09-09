@@ -87,10 +87,6 @@
     background: var(--axo-color-fill-primary);
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -135,10 +131,6 @@
   // Disable browser handling of gestures so element can be dragged with touch events
   touch-action: none;
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -178,10 +170,6 @@
 
   &:active {
     background: var(--axo-color-fill-primary-pressed);
-  }
-
-  &:focus {
-    outline: none;
   }
 
   &:focus-visible {

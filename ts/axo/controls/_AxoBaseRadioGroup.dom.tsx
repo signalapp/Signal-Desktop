@@ -60,7 +60,6 @@ export namespace AxoBaseRadioGroup {
             'data-[state=checked]:bg-accent',
             'data-[state=checked]:active:bg-accent-pressed',
             'data-disabled:border-secondary',
-            'focus:outline-none focus-visible:axo-focus-ring',
             'overflow-hidden',
             'forced-colors:data-[state=checked]:bg-[SelectedItem]'
           )}

@@ -22,13 +22,9 @@
       border: 0;
       padding: 0;
       margin: 0;
-      outline: none;
     }
 
     @at-root button#{&} {
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
         @include mixins.axo-focus-ring;
       }
@@ -145,11 +141,7 @@
       background-position: center center;
       background-size: contain;
       border: 0;
-      outline: none;
 
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
         @include mixins.axo-focus-ring;
         border-radius: 6px;

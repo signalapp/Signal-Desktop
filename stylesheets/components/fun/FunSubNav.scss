@@ -80,8 +80,11 @@ $image-radius: $button-radius - $image-margin;
   scroll-behavior: smooth;
   scrollbar-width: none;
   scroll-padding: 100px;
-  // Handled by .FunPicker__SubNavScroller
-  outline: none;
+
+  &:focus-visible {
+    // Handled by .FunPicker__SubNavScroller
+    outline: none;
+  }
 }
 
 .FunSubNav__ScrollerViewportInner {
@@ -121,10 +124,6 @@ $image-radius: $button-radius - $image-margin;
     background: var(--axo-color-fill-primary);
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
@@ -142,7 +141,7 @@ $image-radius: $button-radius - $image-margin;
   padding: 1px;
   cursor: pointer;
 
-  &:focus {
+  &:focus-visible {
     // Handled by .FunSubNav__ListBoxItem__ButtonIndicator
     outline: none;
   }
@@ -187,10 +186,6 @@ $image-radius: $button-radius - $image-margin;
   width: 100%;
   height: 100%;
   background: var(--axo-color-fill-primary-pressed);
-
-  .FunSubNav__ListBoxItem[data-focused='true'] & {
-    outline: none;
-  }
 
   .FunSubNav__ListBoxItem[data-focus-visible='true'] & {
     @include mixins.axo-focus-ring;

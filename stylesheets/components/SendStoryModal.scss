@@ -193,11 +193,8 @@
       position: absolute;
       width: 0;
 
-      &:focus {
-        outline: none;
-      }
-
       &:focus-visible {
+        outline: none;
         &::before {
           border-color: variables.$color-ultramarine;
         }

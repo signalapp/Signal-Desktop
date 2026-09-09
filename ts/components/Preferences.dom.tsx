@@ -2935,7 +2935,7 @@ function PreferencesButton({
         'rounded-xl',
         'hover:bg-primary active:bg-primary-pressed',
         'aria-[current=page]:bg-primary-pressed',
-        'not-forced-colors:focus:outline-none focus-visible:axo-focus-ring',
+        'focus-visible:axo-focus-ring',
         'forced-colors:border forced-colors:border-[ButtonBorder]',
         'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
         'forced-colors:aria-[current=page]:bg-[SelectedItem]',

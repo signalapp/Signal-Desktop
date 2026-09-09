@@ -64,7 +64,7 @@ export function DatePicker(props: PropsType): JSX.Element {
             <DateSegment
               className={classNames(
                 tw(
-                  'inline-block px-px type-body-medium outline-none focus:bg-secondary'
+                  'inline-block px-px type-body-medium focus:bg-secondary focus-visible:outline-none'
                 ),
                 isDisabled ? tw('text-placeholder') : null
               )}
@@ -74,7 +74,9 @@ export function DatePicker(props: PropsType): JSX.Element {
         </DateInput>
         <Button
           className={classNames(
-            tw('ms-auto p-0.5 outline-none focus-visible:bg-secondary'),
+            tw(
+              'ms-auto p-0.5 focus-visible:bg-secondary focus-visible:outline-none'
+            ),
             isDisabled ? tw('text-placeholder') : null
           )}
         >
@@ -116,7 +118,7 @@ export function DatePicker(props: PropsType): JSX.Element {
             className={tw(
               'overflow-auto',
               'rounded-[10px] bg-surface-secondary shadow-elevation-1',
-              'focus:outline-none data-focus-visible:axo-focus-ring'
+              'focus-visible:outline-none data-focus-visible:axo-focus-ring'
             )}
           >
             <RadixDialog.Title className={tw('sr-only')}>
@@ -159,7 +161,7 @@ export function DatePicker(props: PropsType): JSX.Element {
                           'data-focused:bg-primary',
                           'data-today:font-semibold',
                           'data-selected:bg-secondary-pressed',
-                          'focus:outline-none data-focus-visible:axo-focus-ring'
+                          'focus-visible:outline-none data-focus-visible:axo-focus-ring'
                         )}
                         date={date}
                       />
@@ -192,7 +194,7 @@ function ArrowButton(props: ArrowButtonProps) {
         'data-hovered:bg-primary',
         'data-focused:bg-primary',
         'data-selected:bg-secondary-pressed',
-        'focus:outline-none data-focus-visible:axo-focus-ring'
+        'focus-visible:outline-none data-focus-visible:axo-focus-ring'
       )}
     >
       <AxoSymbol.Icon

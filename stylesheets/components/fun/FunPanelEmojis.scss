@@ -22,10 +22,6 @@
     background: var(--axo-color-fill-primary);
   }
 
-  &:focus {
-    outline: none;
-  }
-
   &:focus-visible {
     @include mixins.axo-focus-ring-inset;
   }
@@ -68,10 +64,6 @@
   border-radius: 8px;
   background: FunConstants.$Fun__BgColor;
   backdrop-filter: FunConstants.$Fun__BgFilter;
-
-  &:focus {
-    outline: none;
-  }
 
   &:focus-visible {
     @include mixins.axo-focus-ring-inset;

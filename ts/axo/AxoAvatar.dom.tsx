@@ -256,10 +256,7 @@ export namespace AxoAvatar {
       <button
         type="button"
         aria-label={props.label ?? undefined}
-        className={tw(
-          baseContentStyles,
-          'focus:outline-none focus-visible:axo-focus-ring'
-        )}
+        className={tw(baseContentStyles, 'focus-visible:axo-focus-ring')}
         onClick={handleClick}
       >
         {props.children}
@@ -468,7 +465,7 @@ export namespace AxoAvatar {
           'flex flex-col items-center-safe justify-center-safe gap-2',
           // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
           'bg-[#000]/20 text-[#fff] hover:bg-[#000]/40',
-          'focus:outline-none focus-visible:axo-focus-ring'
+          'focus-visible:axo-focus-ring'
         )}
       >
         <AxoSymbol.Icon size={24} symbol="press" label={null} />
@@ -723,10 +720,7 @@ export namespace AxoAvatar {
         type="button"
         aria-label={props.label}
         onClick={handleClick}
-        className={tw(
-          baseBadgeStyles,
-          'focus:outline-none focus-visible:axo-focus-ring'
-        )}
+        className={tw(baseBadgeStyles, 'focus-visible:axo-focus-ring')}
       >
         {props.children}
       </button>

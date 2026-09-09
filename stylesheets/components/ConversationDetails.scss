@@ -27,7 +27,6 @@
     margin-inline-start: -5px;
     padding-inline-start: 5px;
     font-weight: 500;
-    outline: none;
     border-radius: 5px;
 
     display: flex;
@@ -36,6 +35,10 @@
       rgba(variables.$color-black, 0.55),
       rgba(variables.$color-white, 0.55)
     );
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
 
     &__chevron-icon {
       height: 16px;

@@ -55,9 +55,6 @@
         variables.$color-gray-25
       );
     }
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }

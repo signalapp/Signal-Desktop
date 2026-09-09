@@ -72,10 +72,8 @@
       }
     }
 
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
+      outline: none;
       @include mixins.light-theme {
         &::before {
           @include mixins.color-svg($icon, variables.$color-white);

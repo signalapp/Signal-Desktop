@@ -84,8 +84,8 @@
         z-index: 1;
         inset: 0;
       }
-      &:focus {
-        outline: none;
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
     }
 
@@ -140,9 +140,6 @@
 
       &:active {
         background: var(--axo-color-fill-secondary);
-      }
-      &:focus {
-        outline: none;
       }
       &:focus-visible {
         @include mixins.axo-focus-ring;
@@ -371,9 +368,6 @@
       &:focus {
         background: var(--axo-color-fill-primary);
       }
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
         @include mixins.axo-focus-ring;
       }
@@ -429,9 +423,6 @@
       @include mixins.position-absolute-center-y;
     }
 
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -517,10 +508,8 @@
       background: var(--axo-color-fill-primary);
     }
   }
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
+    outline: none;
     .Preferences__LanguageModal__Item__Inner {
       @include mixins.axo-focus-ring;
     }
@@ -775,7 +764,6 @@
   background: variables.$color-gray-02;
   border-radius: 12px;
   border-width: 0;
-  outline: none;
   color: variables.$color-gray-90;
   font-family: 'MonoSpecial', variables.$monospace;
   font-size: 16px;
@@ -788,6 +776,10 @@
   &::placeholder {
     color: var(--axo-color-label-placeholder);
     text-transform: none;
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -920,10 +912,8 @@
 }
 
 .Preferences__ChatFolders__ChatSelection__Item {
-  &:focus {
-    outline: none;
-  }
   &:focus-visible {
+    outline: none;
     .Preferences__ChatFolders__ChatSelection__ItemContent {
       @include mixins.axo-focus-ring-inset;
     }
@@ -1020,9 +1010,6 @@
   & {
     color: var(--axo-color-label-destructive);
     border-radius: 1px;
-  }
-  &:focus {
-    outline: none;
   }
 
   &:focus-visible {

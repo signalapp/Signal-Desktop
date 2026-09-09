@@ -19,7 +19,7 @@ function Card(props: { children: ReactNode }) {
         'group flex items-center gap-4 rounded-md border border-secondary p-4',
         'data-hovered:bg-surface-secondary',
         'data-pressed:bg-primary-pressed',
-        'outline-none data-focused:axo-focus-ring'
+        'data-focused:axo-focus-ring'
       )}
     >
       {props.children}

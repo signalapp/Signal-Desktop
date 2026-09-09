@@ -189,7 +189,7 @@ export const StickerManager = memo(function StickerManagerInner({
 
   return (
     <div
-      className={tw('m-auto max-w-152 px-4 py-0 outline-none')}
+      className={tw('m-auto max-w-152 px-4 py-0 focus-visible:axo-focus-ring')}
       data-testid="StickerManager"
       tabIndex={-1}
       ref={focusRef}

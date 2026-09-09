@@ -53,13 +53,19 @@
   &__container {
     flex-grow: 1;
     overflow: hidden;
-    outline: none;
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
   }
 
   &__story {
     max-height: 100%;
-    outline: none;
     width: auto;
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
 
     &__image {
       object-fit: contain;
@@ -188,9 +194,6 @@
       color: variables.$color-gray-05;
     }
 
-    &:focus {
-      outline: none;
-    }
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -248,10 +251,6 @@
       );
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -276,10 +275,6 @@
       );
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -298,10 +293,6 @@
       );
     }
 
-    &:focus {
-      outline: none;
-    }
-
     &:focus-visible {
       @include mixins.axo-focus-ring;
     }
@@ -318,10 +309,6 @@
         '../images/icons/v3/play/play-fill.svg',
         variables.$color-white
       );
-    }
-
-    &:focus {
-      outline: none;
     }
 
     &:focus-visible {
@@ -398,8 +385,8 @@
       transition: opacity 200ms ease-in-out;
     }
 
-    &:focus {
-      outline: none;
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
 
     &--left {
