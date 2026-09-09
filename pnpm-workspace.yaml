@@ -36,36 +36,26 @@ auditConfig:
     - GHSA-3xgq-45jj-v275 # react-devtools > cross-spawn
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG)
     - GHSA-5c6j-r48x-rmvq # @storybook/addon-webpack5-compiler-swc > serialize-javascript
-    - GHSA-532v-xpq5-8h95 # react-devtools > electron
-    - GHSA-8337-3p73-46f4 # react-devtools > electron
-    - GHSA-jjp3-mq3x-295m # react-devtools > electron
-    - GHSA-9wfr-w7mm-pc7f # react-devtools > electron
-    - GHSA-c27g-q93r-2cwf # sticker-creator > vite
     - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
-    - GHSA-23hp-3jrh-7fpw # node-tar, only used at dev-time
-    - GHSA-3jxr-9vmj-r5cp # brace-expansion, only used at dev-time
-    - GHSA-52cp-r559-cp3m # js-yaml, only used at dev-time
-    - GHSA-8x88-c5mf-7j5w # tar, only used at dev-time
     - GHSA-395f-4hp3-45gv # shell-quote, only used at dev-time
     - GHSA-gcfj-64vw-6mp9 # axios, only used at dev-time
     - GHSA-v56q-mh7h-f735 # used by sass, only used at dev-time
     - GHSA-xvcm-6775-5m9r # used by sass, only used at dev-time
-    - GHSA-2p49-hgcm-8545 # svgo, only used at dev-time
-    - GHSA-v2hh-gcrm-f6hx # fast-uri, only used at dev-time
-    - GHSA-4c8g-83qw-93j6 # fast-uri, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
     - GHSA-jmr9-qjv8-65gv # react-devtools > electron > extract-zip
-    - GHSA-r292-9mhp-454m # tar, only used at dev-time
+    - GHSA-7pqw-9j4j-h8q3 # react-devtools > electron > extract-zip
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
   '@electron/rebuild>node-abi': '4.34.0'
+  '@xmldom/xmldom@0.8': '^0.8.15'
   'brace-expansion@5': '^5.0.9'
   'brace-expansion@2': '^2.1.4'
   'brace-expansion@1': '^1.1.18'
   'builder-util-runtime': '9.7.0'
   'canvas': '-'
   'danger@13.0.10>undici': '6.27.0'
+  'js-yaml@3': '^3.15.2'
   'jsdom': '-'
   'react-popper@2.3.0>react-dom': '19.2.4'
   'react-popper@2.3.0>react': '19.2.4'
@@ -145,7 +135,6 @@ peerDependencyRules:
 allowedDeprecatedVersions:
   '@humanwhocodes/config-array': '0.11.14'
   '@humanwhocodes/object-schema': '2.0.3'
-  '@xmldom/xmldom': '0.8.13 || 0.9.10'
   'boolean': '3.2.0'
   'deep-diff': '0.3.8'
   'eslint': '8.38.0'
