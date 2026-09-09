@@ -123,9 +123,10 @@ $image-radius: $button-radius - $image-margin;
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -189,9 +190,10 @@ $image-radius: $button-radius - $image-margin;
 
   .FunSubNav__ListBoxItem[data-focused='true'] & {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+
+  .FunSubNav__ListBoxItem[data-focus-visible='true'] & {
+    @include mixins.axo-focus-ring;
   }
 }
 

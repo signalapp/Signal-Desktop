@@ -686,7 +686,6 @@ function ReplyOrReactionMessage({
         platform={platform}
         id={reply.id}
         interactivity={MessageInteractivity.Normal}
-        interactionMode="mouse"
         isSpoilerExpanded={isSpoilerExpanded}
         isSignalConversation={false}
         isVoiceMessagePlayed={false}

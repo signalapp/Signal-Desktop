@@ -28,10 +28,8 @@
     background: var(--axo-color-fill-primary);
   }
 
-  .FunSkinTones__ListBoxItem:focus & {
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring-inset;
-    }
+  .FunSkinTones__ListBoxItem:focus-visible & {
+    @include mixins.axo-focus-ring-inset;
   }
 
   .FunSkinTones__ListBoxItem[data-selected='true'] & {

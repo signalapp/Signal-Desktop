@@ -30,9 +30,9 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 
   &__reaction-emoji {
@@ -74,9 +74,9 @@
   // To preserve contrast
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -284,10 +284,8 @@
 
   background-color: variables.$color-black-alpha-40;
 
-  @include mixins.keyboard-mode {
-    &:focus-within {
-      background-color: variables.$color-ultramarine;
-    }
+  @include mixins.focus-visible-within {
+    background-color: variables.$color-ultramarine;
   }
 }
 

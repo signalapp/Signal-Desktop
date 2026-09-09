@@ -29,7 +29,7 @@ export namespace AxoIconButton {
 
   const baseStyles = tw(
     'relative rounded-full leading-none',
-    'not-forced-colors:outline-none keyboard-mode:focus:axo-focus-ring',
+    'not-forced-colors:focus:outline-none focus-visible:axo-focus-ring',
     'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
     'forced-colors:aria-disabled:text-[GrayText]',
     'forced-colors:aria-pressed:bg-[SelectedItem] forced-colors:aria-pressed:text-[SelectedItemText]'

@@ -116,12 +116,12 @@
       }
     }
 
-    &:focus {
-      @include mixins.keyboard-mode {
+    &:focus-visible {
+      @include mixins.light-theme {
         background-color: variables.$color-gray-02;
       }
 
-      @include mixins.dark-keyboard-mode {
+      @include mixins.dark-theme {
         background-color: variables.$color-gray-80;
       }
     }

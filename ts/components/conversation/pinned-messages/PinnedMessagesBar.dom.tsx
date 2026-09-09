@@ -328,7 +328,7 @@ function TabTrigger(props: {
         pinNumber: props.pinNumber,
       })}
       className={tw(
-        'group flex-1 px-[7px] outline-none',
+        'group flex-1 px-[7px] focus:outline-none',
         props.pinsCount === 3 ? 'py-px' : 'py-0.5'
       )}
     >
@@ -337,7 +337,7 @@ function TabTrigger(props: {
           'block h-full w-0.5 rounded-full',
           'bg-(--axo-color-label-disabled)',
           'group-data-[state=active]:bg-(--axo-color-label-primary)',
-          'keyboard-mode:group-focus:axo-focus-ring'
+          'group-focus-visible:axo-focus-ring'
         )}
       />
     </Tabs.Trigger>

@@ -19,7 +19,6 @@ import type { Theme } from '../util/theme.std.ts';
 import { themeClassName } from '../util/theme.std.ts';
 import { refMerger } from '../util/refMerger.std.ts';
 import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
-import { getInteractionMode } from '../services/InteractionMode.dom.ts';
 
 const { noop } = lodash;
 
@@ -49,9 +48,7 @@ const TooltipEventWrapper = forwardRef<HTMLSpanElement, EventWrapperPropsType>(
     }, [onHoverChanged]);
 
     const onFocus = useCallback(() => {
-      if (getInteractionMode() === 'keyboard') {
-        on();
-      }
+      on();
     }, [on]);
 
     useEffect(() => {

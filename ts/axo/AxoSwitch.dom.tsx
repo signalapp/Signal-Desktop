@@ -83,7 +83,7 @@ export namespace AxoSwitch {
           'bg-primary',
           'data-disabled:bg-control',
           'not-data-disabled:active:bg-primary-pressed',
-          'outline-none keyboard-mode:focus:axo-focus-ring',
+          'focus:outline-none focus-visible:axo-focus-ring',
           'overflow-hidden'
         )}
         {...forwardExtraPropsForRadix(rest)}

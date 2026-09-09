@@ -34,9 +34,9 @@
     @include mixins.button-reset();
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 
@@ -116,7 +116,7 @@
 
     &--focused {
       outline: none;
-      @include mixins.keyboard-mode {
+      &:focus-visible {
         @include mixins.axo-focus-ring;
       }
     }

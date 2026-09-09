@@ -366,7 +366,6 @@ const renderItem = ({
     isSignalConversation={false}
     i18n={i18n}
     interactivity={MessageInteractivity.Normal}
-    interactionMode="keyboard"
     isNextItemCallingNotification={false}
     theme={ThemeType.light}
     platform="darwin"

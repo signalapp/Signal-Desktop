@@ -105,7 +105,6 @@ const defaultMessageProps: TimelineMessagesProps = {
   id: 'messageId',
   // renderingContext: 'storybook',
   interactivity: MessageInteractivity.Normal,
-  interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,
   isPinned: false,

@@ -15,11 +15,9 @@
     text-decoration: underline;
   }
 
-  &:focus {
-    @include mixins.keyboard-mode {
-      outline: auto;
-      text-decoration: none;
-    }
+  &:focus-visible {
+    outline: auto;
+    text-decoration: none;
   }
 }
 

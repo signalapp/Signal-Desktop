@@ -147,9 +147,8 @@
       '../images/icons/v3/x/x.svg',
       variables.$color-gray-60
     );
-  }
-  @include mixins.keyboard-mode {
-    &:focus {
+
+    &:focus-visible {
       @include mixins.color-svg(
         '../images/icons/v3/x/x.svg',
         variables.$color-ultramarine
@@ -162,9 +161,8 @@
       '../images/icons/v3/x/x.svg',
       variables.$color-gray-25
     );
-  }
-  @include mixins.dark-keyboard-mode {
-    &:focus {
+
+    &:focus-visible {
       @include mixins.color-svg(
         '../images/icons/v3/x/x.svg',
         variables.$color-ultramarine-light

@@ -44,9 +44,11 @@
   @include mixins.button-reset();
 }
 
-.CallingPendingParticipants__ParticipantButton:focus {
-  outline: none;
-  @include mixins.keyboard-mode {
+.CallingPendingParticipants__ParticipantButton {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
     @include mixins.axo-focus-ring;
   }
 }
@@ -156,9 +158,11 @@
   }
 }
 
-.CallingPendingParticipants__ShowAllRequestsButton:focus {
-  outline: none;
-  @include mixins.keyboard-mode {
+.CallingPendingParticipants__ShowAllRequestsButton {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
     @include mixins.axo-focus-ring;
   }
 }

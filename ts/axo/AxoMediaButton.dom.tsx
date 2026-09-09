@@ -59,7 +59,7 @@ export namespace AxoMediaButton {
           'bg-material-quaternary backdrop-blur-thin',
           'text-primary',
           'aria-disabled:text-placeholder',
-          'not-forced-colors:outline-none keyboard-mode:focus:axo-focus-ring',
+          'not-forced-colors:focus:outline-none focus-visible:axo-focus-ring',
           'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
           'forced-colors:aria-disabled:text-[GrayText]'
         )}

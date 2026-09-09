@@ -199,19 +199,19 @@
   }
 
   .module-message--targeted & {
-    @include mixins.mouse-mode {
+    @include mixins.light-theme {
       background-color: variables.$color-gray-60;
     }
-    @include mixins.dark-mouse-mode {
+    @include mixins.dark-theme {
       background-color: variables.$color-white;
     }
   }
 
-  .module-message:focus & {
-    @include mixins.keyboard-mode {
+  .module-message:focus-visible & {
+    @include mixins.light-theme {
       background-color: variables.$color-gray-60;
     }
-    @include mixins.dark-keyboard-mode {
+    @include mixins.dark-theme {
       background-color: variables.$color-white;
     }
   }
@@ -354,12 +354,13 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--targeted {
-  @include mixins.mouse-mode {
+  &.module-message__container--pointer-mode {
     animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
+
 .module-message__container--targeted-lighter {
-  @include mixins.mouse-mode {
+  &.module-message__container--pointer-mode {
     animation: module-message__highlight-lighter 1.2s
       cubic-bezier(0.17, 0.17, 0, 1);
   }
@@ -437,12 +438,14 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message:focus-within {
-  @include mixins.keyboard-mode {
-    background: variables.$color-selected-message-background-light;
-  }
-  @include mixins.dark-keyboard-mode {
-    background: variables.$color-selected-message-background-dark;
+.module-message {
+  @include mixins.focus-visible-within {
+    @include mixins.light-theme {
+      background: variables.$color-selected-message-background-light;
+    }
+    @include mixins.dark-theme {
+      background: variables.$color-selected-message-background-dark;
+    }
   }
 }
 
@@ -661,18 +664,14 @@ $message-padding-horizontal: 12px;
     border-radius: 4px;
   }
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 }
 
 .module-message__container--outgoing .module-message__simple-attachment {
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-white;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-white;
   }
 }
 
@@ -905,10 +904,9 @@ $message-padding-horizontal: 12px;
 
 .module-message__undownloadable-attachment-learn-more {
   @include mixins.button-reset;
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 
   & {
@@ -939,10 +937,8 @@ $message-padding-horizontal: 12px;
     margin-bottom: 5px;
     overflow: hidden;
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-      }
+    &:focus-visible {
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 }
@@ -1096,18 +1092,16 @@ $message-padding-horizontal: 12px;
 
     @include mixins.light-theme {
       color: variables.$color-white-alpha-90;
-    }
-    @include mixins.keyboard-mode {
-      &:focus {
+
+      &:focus-visible {
         outline: 1px solid variables.$color-gray-90;
       }
     }
 
     @include mixins.dark-theme {
       color: variables.$color-white-alpha-90;
-    }
-    @include mixins.dark-keyboard-mode {
-      &:focus {
+
+      &:focus-visible {
         outline: 1px solid variables.$color-white-alpha-90;
       }
     }
@@ -1128,18 +1122,16 @@ $message-padding-horizontal: 12px;
 
     @include mixins.light-theme {
       color: variables.$color-gray-90;
-    }
-    @include mixins.keyboard-mode {
-      &:focus {
+
+      &:focus-visible {
         outline: 1px solid variables.$color-gray-90;
       }
     }
 
     @include mixins.dark-theme {
       color: variables.$color-gray-05;
-    }
-    @include mixins.dark-keyboard-mode {
-      &:focus {
+
+      &:focus-visible {
         outline: 1px solid variables.$color-gray-05;
       }
     }
@@ -1306,10 +1298,8 @@ $message-padding-horizontal: 12px;
     }
   }
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 }
 
@@ -1582,11 +1572,11 @@ $message-padding-horizontal: 12px;
 
       // Disabling hover
       &:hover {
-        @include mixins.mouse-mode {
+        @include mixins.light-theme {
           background-color: variables.$color-white;
         }
 
-        @include mixins.dark-mouse-mode {
+        @include mixins.dark-theme {
           background-color: variables.$color-gray-62;
         }
       }
@@ -1602,38 +1592,19 @@ $message-padding-horizontal: 12px;
         background-color: variables.$color-white-alpha-80;
       }
       &:hover {
-        @include mixins.mouse-mode {
+        @include mixins.light-theme {
           background-color: variables.$color-white-alpha-90;
         }
 
-        @include mixins.dark-mouse-mode {
+        @include mixins.dark-theme {
           background-color: variables.$color-white-alpha-90;
         }
       }
-      &:focus {
-        @include mixins.keyboard-mode {
-          box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
-        }
-        @include mixins.dark-keyboard-mode {
-          box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
-        }
+      &:focus-visible {
+        box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
       }
       &:active {
-        // We need to include all four here for specificity precedence
-
-        @include mixins.mouse-mode {
-          background-color: variables.$color-white;
-        }
-        @include mixins.dark-mouse-mode {
-          background-color: variables.$color-white;
-        }
-
-        @include mixins.keyboard-mode {
-          background-color: variables.$color-white;
-        }
-        @include mixins.dark-keyboard-mode {
-          background-color: variables.$color-white;
-        }
+        background-color: variables.$color-white;
       }
     }
 
@@ -1759,10 +1730,8 @@ $message-padding-horizontal: 12px;
     outline: none;
   }
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 
   & {
@@ -1890,18 +1859,14 @@ $timer-icons:
   width: 52px;
   border-radius: 26px;
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 }
 
 .module-embedded-contact--outgoing .module-embedded-contact__avatar-container {
-  @include mixins.keyboard-mode {
-    &:focus {
-      box-shadow: 0px 0px 0px 2px variables.$color-white;
-    }
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2px variables.$color-white;
   }
 }
 
@@ -2107,11 +2072,11 @@ $timer-icons:
   outline: none;
   position: relative;
 
-  &:focus {
-    @include mixins.keyboard-mode {
+  &:focus-visible {
+    @include mixins.light-theme {
       background: variables.$color-selected-message-background-light;
     }
-    @include mixins.dark-keyboard-mode {
+    @include mixins.dark-theme {
       background: variables.$color-selected-message-background-dark;
     }
   }
@@ -2130,15 +2095,11 @@ $timer-icons:
   cursor: pointer;
 
   &:focus {
-    @include mixins.keyboard-mode {
-      outline: 0;
-    }
+    outline: 0;
   }
 
-  &:focus &__message {
-    @include mixins.keyboard-mode {
-      opacity: 1;
-    }
+  &:focus-visible &__message {
+    opacity: 1;
   }
 
   &__message {
@@ -2216,13 +2177,11 @@ $timer-icons:
     );
   }
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      @include mixins.color-svg(
-        '../images/icons/v3/person/person-circle-compact.svg',
-        variables.$color-ultramarine
-      );
-    }
+  &:focus-visible {
+    @include mixins.color-svg(
+      '../images/icons/v3/person/person-circle-compact.svg',
+      variables.$color-ultramarine
+    );
   }
 }
 
@@ -2421,10 +2380,8 @@ button.ConversationDetails__action-button {
   }
 }
 
-button.module-image__border-overlay:focus {
-  @include mixins.keyboard-mode {
-    box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
-  }
+button.module-image__border-overlay:focus-visible {
+  box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
 }
 
 .module-image__border-overlay--dark {
@@ -2567,9 +2524,9 @@ button.module-image__border-overlay:focus {
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -2599,10 +2556,8 @@ button.module-image__border-overlay:focus {
     justify-content: center;
   }
 
-  @include mixins.keyboard-mode {
-    &:focus .module-image-grid__download-pill {
-      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  &:focus-visible .module-image-grid__download-pill {
+    box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
   }
 }
 
@@ -2823,10 +2778,8 @@ button.module-image__border-overlay:focus {
     }
   }
 
-  @include mixins.keyboard-mode {
-    &:focus {
-      @include mixins.color-svg($icon, variables.$color-ultramarine);
-    }
+  &:focus-visible {
+    @include mixins.color-svg($icon, variables.$color-ultramarine);
   }
 }
 
@@ -2920,9 +2873,9 @@ button.module-image__border-overlay:focus {
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -2972,9 +2925,9 @@ button.module-image__border-overlay:focus {
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -3268,10 +3221,8 @@ button.module-image__border-overlay:focus {
       &:focus {
         outline: none;
       }
-      @include mixins.keyboard-mode {
-        &:focus {
-          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-        }
+      &:focus-visible {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
       background: none;
@@ -4475,10 +4426,8 @@ button.module-image__border-overlay:focus {
       z-index: variables.$z-index-above-base;
     }
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        background: variables.$color-ultramarine;
-      }
+    &:focus-visible {
+      background: variables.$color-ultramarine;
     }
   }
 
@@ -4622,9 +4571,9 @@ button.module-calling-participants-list__contact {
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
 
       &__icon {
@@ -4773,10 +4722,8 @@ button.module-calling-participants-list__contact {
         --conversation-item-bg: var(--axo-color-fill-primary);
       }
 
-      @include mixins.keyboard-mode {
-        &:focus:not(:disabled, &--disabled) {
-          @include mixins.axo-focus-ring-inset;
-        }
+      &:focus-visible:not(:disabled, &--disabled) {
+        @include mixins.axo-focus-ring-inset;
       }
 
       &--is-selected {
@@ -5125,8 +5072,8 @@ button.module-calling-participants-list__contact {
           outline: none;
         }
 
-        @include mixins.keyboard-mode {
-          &:focus {
+        @include mixins.light-theme {
+          &:focus-visible {
             border-width: 2px;
             border-color: variables.$color-ultramarine;
             &:checked {
@@ -5134,8 +5081,8 @@ button.module-calling-participants-list__contact {
             }
           }
         }
-        @include mixins.dark-keyboard-mode {
-          &:focus {
+        @include mixins.dark-theme {
+          &:focus-visible {
             border-width: 2px;
             border-color: variables.$color-ultramarine-light;
 
@@ -5339,9 +5286,9 @@ button.module-calling-participants-list__contact {
           );
         }
       }
-      @include mixins.keyboard-mode {
+      @include mixins.light-theme {
         &:dir(ltr) {
-          &:focus {
+          &:focus-visible {
             @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-left.svg',
               variables.$color-ultramarine
@@ -5372,9 +5319,9 @@ button.module-calling-participants-list__contact {
           );
         }
       }
-      @include mixins.dark-keyboard-mode {
+      @include mixins.dark-theme {
         &:dir(ltr) {
-          &:hover {
+          &:focus-visible {
             @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-left.svg',
               variables.$color-ultramarine-light
@@ -5382,7 +5329,7 @@ button.module-calling-participants-list__contact {
           }
         }
         &:dir(rtl) {
-          &:hover {
+          &:focus-visible {
             @include mixins.color-svg(
               '../images/icons/v3/chevron/chevron-right.svg',
               variables.$color-ultramarine-light
@@ -5772,12 +5719,10 @@ button.module-calling-participants-list__contact {
     z-index: variables.$z-index-above-base;
   }
 
-  @include mixins.keyboard-mode {
-    &:focus,
-    &:active,
-    &:hover {
-      background-color: variables.$color-ultramarine;
-    }
+  &:focus-visible,
+  &:active,
+  &:hover {
+    background-color: variables.$color-ultramarine;
   }
 }
 
@@ -5905,9 +5850,9 @@ button.module-calling-participants-list__contact {
   }
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -5995,11 +5940,11 @@ button.module-calling-participants-list__contact {
     }
   }
 
-  &:focus {
-    @include mixins.keyboard-mode {
+  &:focus-visible {
+    @include mixins.light-theme {
       background-color: variables.$color-ultramarine;
     }
-    @include mixins.dark-keyboard-mode {
+    @include mixins.dark-theme {
       background-color: variables.$color-ultramarine-light;
     }
   }
@@ -6099,10 +6044,8 @@ button.module-calling-participants-list__contact {
     @include mixins.font-body-2;
     @include mixins.button-reset;
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-      }
+    &:focus-visible {
+      box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
     }
 
     & {

@@ -81,7 +81,7 @@ export type PropsData = {
   platform: string;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-} & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
+} & Pick<MessagePropsType, 'getPreferredBadge'>;
 
 export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 
@@ -141,7 +141,6 @@ export function MessageDetail({
   endPoll,
   getPreferredBadge,
   i18n,
-  interactionMode,
   kickOffAttachmentDownload,
   markAttachmentAsCorrupted,
   messageExpanded,
@@ -202,7 +201,6 @@ export function MessageDetail({
               getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               interactivity={MessageInteractivity.Static}
-              interactionMode={interactionMode}
               kickOffAttachmentDownload={kickOffAttachmentDownload}
               markAttachmentAsCorrupted={markAttachmentAsCorrupted}
               messageExpanded={messageExpanded}

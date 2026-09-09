@@ -334,9 +334,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
 
     &:disabled {
@@ -396,16 +397,14 @@
         opacity: 1;
       }
 
-      outline: none;
       &:focus {
         outline: none;
       }
 
-      @include mixins.keyboard-mode {
-        &:focus {
-          opacity: 1;
-        }
+      &:focus-visible {
+        opacity: 1;
       }
+
       @include mixins.button-focus-outline;
     }
 

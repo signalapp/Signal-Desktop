@@ -190,9 +190,9 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
 
     &__arrow {
@@ -250,9 +250,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 
@@ -277,9 +278,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 
@@ -298,9 +300,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 
@@ -319,9 +322,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 
@@ -337,10 +341,9 @@
       '../images/icons/v3/speaker/speaker-slash.svg',
       variables.$color-white
     );
-    @include mixins.keyboard-mode {
-      &:focus {
-        background-color: variables.$color-white-alpha-80;
-      }
+
+    &:focus-visible {
+      background-color: variables.$color-white-alpha-80;
     }
   }
 
@@ -356,10 +359,9 @@
       '../images/icons/v3/speaker/speaker-x.svg',
       variables.$color-white
     );
-    @include mixins.keyboard-mode {
-      &:focus {
-        background-color: variables.$color-white-alpha-80;
-      }
+
+    &:focus-visible {
+      background-color: variables.$color-white-alpha-80;
     }
   }
 

@@ -125,11 +125,12 @@
       border: $border-size solid transparent;
     }
 
-    &:focus-within {
+    &:focus {
       outline: 0;
-      @include mixins.keyboard-mode {
-        border: $border-size solid variables.$color-ultramarine;
-      }
+    }
+
+    &[data-focus-visible='true'] {
+      border: $border-size solid variables.$color-ultramarine;
     }
   }
 
@@ -172,12 +173,12 @@
         margin-inline-end: 0;
       }
 
-      @include mixins.mouse-mode {
+      @include mixins.light-theme {
         &:hover {
           background-color: variables.$color-gray-05;
         }
       }
-      @include mixins.dark-mouse-mode {
+      @include mixins.dark-theme {
         &:hover {
           background-color: variables.$color-gray-60;
         }
@@ -191,12 +192,12 @@
           background-color: rgba(variables.$color-gray-45, 30%);
         }
 
-        @include mixins.mouse-mode {
+        @include mixins.light-theme {
           &:hover {
             background-color: variables.$color-gray-15;
           }
         }
-        @include mixins.dark-mouse-mode {
+        @include mixins.dark-theme {
           &:hover {
             background-color: rgba(variables.$color-gray-45, 50%);
           }

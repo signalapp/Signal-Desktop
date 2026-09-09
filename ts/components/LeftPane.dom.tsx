@@ -827,7 +827,7 @@ export function LeftPane({
                 <button
                   type="button"
                   className={tw(
-                    'rounded-full outline-none keyboard-mode:focus:axo-focus-ring'
+                    'rounded-full focus:outline-none focus-visible:axo-focus-ring'
                   )}
                 >
                   <ProfileAvatar i18n={i18n} size="medium-small" />

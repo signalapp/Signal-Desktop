@@ -21,19 +21,17 @@
     color: variables.$color-gray-05;
   }
 
-  @include mixins.keyboard-mode {
-    &:focus-within {
-      @include mixins.axo-focus-ring;
+  @include mixins.focus-visible-within {
+    @include mixins.axo-focus-ring;
 
-      @include mixins.light-theme {
-        background: variables.$color-gray-45;
-        color: variables.$color-white;
-      }
+    @include mixins.light-theme {
+      background: variables.$color-gray-45;
+      color: variables.$color-white;
+    }
 
-      @include mixins.dark-theme {
-        background: variables.$color-gray-25;
-        color: variables.$color-gray-90;
-      }
+    @include mixins.dark-theme {
+      background: variables.$color-gray-25;
+      color: variables.$color-gray-90;
     }
   }
 
@@ -76,12 +74,14 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
+    }
+    &:focus-visible {
+      @include mixins.light-theme {
         &::before {
           @include mixins.color-svg($icon, variables.$color-white);
         }
       }
-      @include mixins.dark-keyboard-mode {
+      @include mixins.dark-theme {
         &::before {
           @include mixins.color-svg($icon, variables.$color-gray-90);
         }

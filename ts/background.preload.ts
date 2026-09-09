@@ -207,7 +207,6 @@ import { isAciString } from './util/isAciString.std.ts';
 import { normalizeAci } from './util/normalizeAci.std.ts';
 import { createLogger } from './logging/log.std.ts';
 import { deleteAllLogs } from './util/deleteAllLogs.preload.ts';
-import { startInteractionMode } from './services/InteractionMode.dom.ts';
 import { calling } from './services/calling.preload.ts';
 import { ReactionSource } from './reactions/ReactionSource.std.ts';
 import { singleProtoJobQueue } from './jobs/singleProtoJobQueue.preload.ts';
@@ -419,8 +418,6 @@ async function startApp(): Promise<void> {
     'cut',
     createEventHandler({ deleteSelection: true })
   );
-
-  startInteractionMode();
 
   // We add this to window here because the default Node context is erased at the end
   //   of preload.js processing

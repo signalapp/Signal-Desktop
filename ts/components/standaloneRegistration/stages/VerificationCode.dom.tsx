@@ -237,7 +237,7 @@ export function VerificationCodeScreen({
             className={classNames(
               tw(
                 'me-2.5 size-8 rounded-xl border-[0.5px] border-primary p-2.5 type-body-medium shadow-elevation-0',
-                'focus:outline-none keyboard-mode:focus:axo-focus-ring'
+                'focus:outline-none focus-visible:axo-focus-ring'
               ),
               i === 2 ? tw('me-6') : undefined
             )}

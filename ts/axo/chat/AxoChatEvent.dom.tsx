@@ -187,7 +187,7 @@ export namespace AxoChatEvent {
         className={tw(
           'inline',
           'hover:underline focus:underline active:text-primary',
-          'rounded-xs outline-none keyboard-mode:focus:axo-focus-ring',
+          'rounded-xs focus:outline-none focus-visible:axo-focus-ring',
           'forced-colors:underline',
           'forced-colors:text-[LinkText]'
         )}

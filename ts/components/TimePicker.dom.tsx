@@ -163,7 +163,7 @@ export function TimePicker(props: PropsType): JSX.Element {
 
   return (
     <>
-      {/* We wrap React Aria's Popover with a "dummy" RadixDialog to help them play nicely together. 
+      {/* We wrap React Aria's Popover with a "dummy" RadixDialog to help them play nicely together.
       See DatePicker for more info. */}
       <RadixDialog.Root open={isShowingPopup} modal>
         <RadixDialog.Overlay asChild>{null}</RadixDialog.Overlay>
@@ -203,7 +203,8 @@ export function TimePicker(props: PropsType): JSX.Element {
                     ref={isSelected ? selectedHour : null}
                     className={classNames(
                       tw(
-                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
+                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
+                        'focus:outline-none focus-visible:axo-focus-ring'
                       ),
                       isSelected ? tw('bg-primary') : null
                     )}
@@ -232,7 +233,8 @@ export function TimePicker(props: PropsType): JSX.Element {
                     ref={isSelected ? selectedMinute : null}
                     className={classNames(
                       tw(
-                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
+                        'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
+                        'focus:outline-none focus-visible:axo-focus-ring'
                       ),
                       isSelected ? tw('bg-primary') : null
                     )}
@@ -261,7 +263,8 @@ export function TimePicker(props: PropsType): JSX.Element {
                       key={item}
                       className={classNames(
                         tw(
-                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none keyboard-mode:focus:axo-focus-ring'
+                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium',
+                          'focus:outline-none focus-visible:axo-focus-ring'
                         ),
                         isSelected ? tw('bg-primary') : null
                       )}
@@ -284,7 +287,8 @@ export function TimePicker(props: PropsType): JSX.Element {
       <TimeField
         ref={timeFieldRef}
         className={tw(
-          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 keyboard-mode:focus-within:axo-focus-ring'
+          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5',
+          'focus-visible-within:axo-focus-ring'
         )}
         aria-label={props['aria-label']}
         aria-labelledby={props['aria-labelledby']}

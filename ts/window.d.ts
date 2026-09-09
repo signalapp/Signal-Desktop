@@ -149,13 +149,10 @@ declare global {
   // We want to extend various globals, so we need to use interfaces.
   // oxlint-disable-next-line typescript/consistent-type-definitions
   interface Window {
-    enterKeyboardMode: () => void;
-    enterMouseMode: () => void;
     getAppInstance: () => string | undefined;
     getBuildCreation: () => number;
     getBuildExpiration: () => number;
     getHostName: () => string;
-    getInteractionMode: () => 'mouse' | 'keyboard';
     getServerPublicParams: () => string;
     getGenericServerPublicParams: () => string;
     getBackupServerPublicParams: () => string;

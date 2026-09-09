@@ -99,7 +99,7 @@ export namespace AxoStackedButton {
           className={tw(
             'group relative',
             'inline-flex max-w-full flex-col items-center-safe justify-center-safe gap-1.5',
-            'outline-none'
+            'focus:outline-none'
           )}
           aria-disabled={(pending || disabled) ?? undefined}
           aria-label={pending ? intl.get('AxoButton.Pending') : undefined}
@@ -113,7 +113,7 @@ export namespace AxoStackedButton {
               'rounded-full bg-primary',
               !(disabled || pending) && 'group-active:bg-primary-pressed',
               disabled || discouraged ? 'text-disabled' : 'text-primary',
-              'keyboard-mode:group-focus:axo-focus-ring',
+              'group-focus-visible:axo-focus-ring',
               'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace]',
               disabled || discouraged
                 ? 'forced-colors:text-[GrayText]'

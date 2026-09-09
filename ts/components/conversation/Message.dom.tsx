@@ -22,7 +22,6 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   ConversationTypeType,
-  InteractionModeType,
   PushPanelForConversationActionType,
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
@@ -125,6 +124,7 @@ import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { getInteractionModality } from '@react-aria/interactions';
 
 const { drop, take, unescape } = lodash;
 
@@ -339,7 +339,6 @@ export type PropsHousekeeping = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   interactivity: MessageInteractivity;
-  interactionMode: InteractionModeType;
   platform: string;
   renderAudioAttachment: (props: RenderAudioAttachmentProps) => JSX.Element;
   shouldCollapseAbove: boolean;
@@ -688,9 +687,10 @@ export class Message extends PureComponent<Props, State> {
   }
 
   public handleFocus = (): void => {
-    const { interactionMode, isTargeted } = this.props;
+    const { isTargeted } = this.props;
 
-    if (interactionMode === 'keyboard' && !isTargeted) {
+    const viaKeyboard = getInteractionModality() === 'keyboard';
+    if (viaKeyboard && !isTargeted) {
       this.setTargeted();
     }
   };
@@ -889,10 +889,11 @@ export class Message extends PureComponent<Props, State> {
   }
 
   public startTargetedTimer(): void {
-    const { clearTargetedMessage, interactionMode } = this.props;
+    const { clearTargetedMessage } = this.props;
     const { isTargeted } = this.state;
 
-    if (interactionMode === 'keyboard' || !isTargeted) {
+    const viaKeyboard = getInteractionModality() === 'keyboard';
+    if (viaKeyboard || !isTargeted) {
       return;
     }
 
@@ -3305,7 +3306,6 @@ export class Message extends PureComponent<Props, State> {
       return;
     }
 
-    window.enterKeyboardMode();
     this.handleOpen(event);
   };
 
@@ -3341,6 +3341,8 @@ export class Message extends PureComponent<Props, State> {
     } = this.props;
     const { isTargeted, imageBroken } = this.state;
 
+    const isPointerMode = getInteractionModality() === 'pointer';
+
     const width = this.getWidth();
     const isEmojiOnly = this.#canRenderStickerLikeEmoji();
     const isStickerLike =
@@ -3371,6 +3373,7 @@ export class Message extends PureComponent<Props, State> {
         : null,
       isTargeted ? 'module-message__container--targeted' : null,
       lighterSelect ? 'module-message__container--targeted-lighter' : null,
+      isPointerMode ? 'module-message__container--pointer-mode' : null,
       isStickerLike ? 'module-message__container--sticker-like' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,

@@ -56,11 +56,8 @@
       outline: none;
     }
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        border-color: variables.$color-ultramarine;
-        outline: none;
-      }
+    &:focus-visible {
+      border-color: variables.$color-ultramarine;
     }
   }
 }

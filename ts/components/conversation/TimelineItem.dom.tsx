@@ -7,7 +7,6 @@ import { memo } from 'react';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { GetSharedGroupNamesType } from '../../util/sharedGroupNames.dom.ts';
 
-import type { InteractionModeType } from '../../state/ducks/conversations.preload.ts';
 import { TimelineDateHeader } from './TimelineDateHeader.dom.tsx';
 import type {
   Props as AllMessageProps,
@@ -240,7 +239,6 @@ type PropsLocalType = {
   renderUniversalTimerNotification: () => JSX.Element;
   renderItem: (props: RenderItemProps) => JSX.Element;
   i18n: LocalizerType;
-  interactionMode: InteractionModeType;
   targetedMessage: TargetedMessageType | undefined;
   theme: ThemeType;
 };

@@ -373,7 +373,7 @@ function BigCircleButton(props: {
       type="button"
       className={tw(
         'group flex w-24 flex-col items-center gap-3 rounded-lg p-3',
-        'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:axo-focus-ring'
+        'not-forced-colors:outline-none not-forced-colors:focus-visible:axo-focus-ring'
       )}
       onClick={props.onClick}
     >

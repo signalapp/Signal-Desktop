@@ -4,7 +4,8 @@
  */
 
 @custom-variant dark (&:where(.dark-theme, .dark-theme *));
-@custom-variant keyboard-mode (&:where(.keyboard-mode *));
+
+@custom-variant focus-visible-within (&:is(:focus-visible, :has(:focus-visible)));
 
 @custom-variant transparency-safe (@media (prefers-reduced-transparency: no-preference));
 @custom-variant transparency-reduce (@media (prefers-reduced-transparency: reduce));

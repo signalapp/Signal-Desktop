@@ -7,10 +7,11 @@ import type {
   KeyboardEvent,
   ReactNode,
 } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, useCallback } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
+import { mergeProps, useFocusRing } from 'react-aria';
 
 export type PropTypes = Readonly<{
   children?: ReactNode;
@@ -52,6 +53,31 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
     ref
   ) {
     const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
+
+    const { isFocusVisible, focusProps } = useFocusRing({
+      within: true,
+      isTextInput: true,
+    });
+
+    const handleKeydown = useCallback(
+      (event: KeyboardEvent<HTMLInputElement>) => {
+        const { ctrlKey, key } = event;
+
+        // On Linux, this key combo selects all text.
+        if (window.platform === 'linux' && ctrlKey && key === '/') {
+          event.preventDefault();
+          event.stopPropagation();
+        } else if (key === 'Escape' && onClear) {
+          onClear();
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        onKeyDown?.(event);
+      },
+      [onKeyDown, onClear]
+    );
+
     return (
       <div
         className={classNames(
@@ -71,27 +97,16 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
           )}
           dir="auto"
           disabled={disabled}
-          onBlur={onBlur}
-          onChange={onChange}
-          onKeyDown={event => {
-            const { ctrlKey, key } = event;
-
-            // On Linux, this key combo selects all text.
-            if (window.platform === 'linux' && ctrlKey && key === '/') {
-              event.preventDefault();
-              event.stopPropagation();
-            } else if (key === 'Escape' && onClear) {
-              onClear();
-              event.preventDefault();
-              event.stopPropagation();
-            }
-
-            onKeyDown?.(event);
-          }}
           placeholder={placeholder}
           ref={ref}
           type="text"
           value={value}
+          data-focus-visible={isFocusVisible}
+          {...mergeProps(focusProps, {
+            onBlur,
+            onChange,
+            onKeyDown: handleKeydown,
+          })}
         />
         {value && onClear && (
           <button

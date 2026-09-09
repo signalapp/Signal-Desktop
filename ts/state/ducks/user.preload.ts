@@ -19,7 +19,6 @@ import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 export type UserStateType = Readonly<{
   attachmentsPath: string;
   i18n: LocalizerType;
-  interactionMode: 'mouse' | 'keyboard';
   isMainWindowFullScreen: boolean;
   isMainWindowMaximized: boolean;
   localeMessages: LocaleMessagesType;
@@ -49,7 +48,6 @@ type UserChangedActionType = ReadonlyDeep<{
     ourPni?: PniString;
     ourNumber?: string;
     regionCode?: string;
-    interactionMode?: 'mouse' | 'keyboard';
     theme?: ThemeType;
     isMainWindowMaximized?: boolean;
     isMainWindowFullScreen?: boolean;
@@ -85,7 +83,6 @@ function eraseStorageServiceState(): EraseStorageServiceStateAction {
 }
 
 function userChanged(attributes: {
-  interactionMode?: 'mouse' | 'keyboard';
   ourConversationId?: string;
   ourDeviceId?: number;
   ourNumber?: string;
@@ -137,7 +134,6 @@ export function getEmptyState(): UserStateType {
       trackUsage: intlNotSetup,
       stopTrackingUsage: intlNotSetup,
     }),
-    interactionMode: 'mouse',
     isMainWindowMaximized: false,
     isMainWindowFullScreen: false,
     localeMessages: {},

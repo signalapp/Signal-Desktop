@@ -15,12 +15,7 @@ import { useLightboxActions } from '../ducks/lightbox.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
 import { useCallingActions } from '../ducks/calling.preload.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
-import {
-  getIntl,
-  getInteractionMode,
-  getTheme,
-  getPlatform,
-} from '../selectors/user.std.ts';
+import { getIntl, getTheme, getPlatform } from '../selectors/user.std.ts';
 import {
   getSelectedMessageIds,
   getTargetedMessage,
@@ -94,7 +89,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const messageId = item.id;
   const i18n = useSelector(getIntl);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
-  const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
   const selectedMessageIds = useSelector(getSelectedMessageIds);
@@ -267,7 +261,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       showEditHistoryModal={showEditHistoryModal}
       i18n={i18n}
       interactivity={interactivity}
-      interactionMode={interactionMode}
       isBlocked={isBlocked}
       isGroup={isGroup}
       theme={theme}

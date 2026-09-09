@@ -32,7 +32,7 @@ export namespace AxoContactName {
             'size-fit',
             'rounded-full',
             'leading-none',
-            'focus:outline-none keyboard-mode:focus:axo-focus-ring'
+            'focus:outline-none focus-visible:axo-focus-ring'
           )}
         >
           <AxoSymbol.InlineGlyph label={null} symbol="person-circle" />

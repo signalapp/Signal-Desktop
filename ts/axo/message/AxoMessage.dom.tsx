@@ -343,7 +343,7 @@ export namespace AxoMessage {
         type="button"
         onClick={handleClick}
         className={tw(
-          'rounded-xs outline-0 keyboard-mode:focus:axo-focus-ring'
+          'rounded-xs focus:outline-none focus-visible:axo-focus-ring'
         )}
       >
         {props.children}

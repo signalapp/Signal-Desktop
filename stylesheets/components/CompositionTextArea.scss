@@ -14,22 +14,8 @@
       border-radius: 0;
       height: 100%;
 
-      &:focus-within {
-        border: none;
-      }
-
-      @include mixins.dark-theme() {
-        border: none;
-
-        &:focus-within {
-          border: none;
-        }
-      }
-
-      @include mixins.keyboard-mode {
-        &:focus-within {
-          border: solid 1px variables.$color-ultramarine;
-        }
+      &[data-focus-visible='true'] {
+        border: solid 1px variables.$color-ultramarine;
       }
     }
 

@@ -91,10 +91,8 @@
         &:hover {
           background: variables.$color-gray-05;
         }
-        @include mixins.keyboard-mode {
-          &:focus {
-            background: variables.$color-gray-05;
-          }
+        &:focus-visible {
+          background: variables.$color-gray-05;
         }
       }
 
@@ -104,10 +102,8 @@
         &:hover {
           background: variables.$color-gray-45;
         }
-        @include mixins.dark-keyboard-mode {
-          &:focus {
-            background: variables.$color-gray-45;
-          }
+        &:focus-visible {
+          background: variables.$color-gray-45;
         }
       }
 
@@ -158,20 +154,13 @@
       }
 
       &--emoji {
-        @mixin focus-or-hover-styles {
+        &:hover,
+        &:focus-visible {
           .FunStaticEmoji {
             transform: scale(
                 math.div($big-emoji-size, $emoji-size-from-component)
               )
               translateY(-16px);
-          }
-        }
-        &:hover {
-          @include focus-or-hover-styles;
-        }
-        @include mixins.keyboard-mode {
-          &:focus {
-            @include focus-or-hover-styles;
           }
         }
       }
@@ -190,13 +179,13 @@
 
   &--menu-style {
     #{$root-selector}__button {
-      @include mixins.keyboard-mode {
-        &:focus {
+      @include mixins.light-theme {
+        &:focus-visible {
           background: variables.$color-black-alpha-20;
         }
       }
-      @include mixins.dark-keyboard-mode {
-        &:focus {
+      @include mixins.dark-theme {
+        &:focus-visible {
           background: variables.$color-white-alpha-40;
         }
       }

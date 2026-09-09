@@ -58,10 +58,8 @@
         );
       }
 
-      &:focus {
-        @include mixins.keyboard-mode {
-          background-color: variables.$color-ultramarine;
-        }
+      &:focus-visible {
+        background-color: variables.$color-ultramarine;
       }
     }
 

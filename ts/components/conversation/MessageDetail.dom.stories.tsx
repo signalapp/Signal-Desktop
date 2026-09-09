@@ -77,7 +77,6 @@ export default {
     getPreferredBadge: () => getFakeBadge(),
     i18n,
     platform: 'darwin',
-    interactionMode: 'keyboard',
     theme: ThemeType.light,
 
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),

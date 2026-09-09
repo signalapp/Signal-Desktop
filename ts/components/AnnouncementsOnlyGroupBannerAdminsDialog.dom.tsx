@@ -83,7 +83,7 @@ function GroupAdminItem(props: {
         onClick={handleClick}
         className={tw(
           'flex w-full flex-row items-center p-2',
-          'outline-none keyboard-mode:focus:axo-focus-ring'
+          'focus:outline-none focus-visible:axo-focus-ring'
         )}
       >
         <div className={tw('pe-3')}>

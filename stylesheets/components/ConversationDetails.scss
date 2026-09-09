@@ -17,13 +17,11 @@
     @include mixins.font-body-small;
     @include mixins.button-focus-outline;
 
-    @include mixins.mouse-mode {
-      &:hover {
-        background-color: light-dark(
-          variables.$color-gray-02,
-          variables.$color-gray-90
-        );
-      }
+    &:hover {
+      background-color: light-dark(
+        variables.$color-gray-02,
+        variables.$color-gray-90
+      );
     }
 
     margin-inline-start: -5px;

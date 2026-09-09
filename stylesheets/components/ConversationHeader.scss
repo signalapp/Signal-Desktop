@@ -62,13 +62,13 @@
         padding-inline-start: 0;
       }
 
-      @include mixins.keyboard-mode {
-        &:focus {
+      @include mixins.light-theme {
+        &:focus-visible {
           color: variables.$color-ultramarine;
         }
       }
-      @include mixins.dark-keyboard-mode {
-        &:focus {
+      @include mixins.dark-theme {
+        &:focus-visible {
           color: variables.$color-ultramarine-light;
         }
       }

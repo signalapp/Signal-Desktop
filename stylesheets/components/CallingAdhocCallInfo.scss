@@ -71,9 +71,11 @@
   justify-content: center;
 }
 
-.CallingAdhocCallInfo__MenuItem:focus {
-  outline: none;
-  @include mixins.keyboard-mode {
+.CallingAdhocCallInfo__MenuItem {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
     @include mixins.axo-focus-ring;
   }
 }
@@ -142,9 +144,11 @@
   }
 }
 
-.CallingAdhocCallInfo__UnknownContactInfoButton:focus {
-  outline: none;
-  @include mixins.keyboard-mode {
+.CallingAdhocCallInfo__UnknownContactInfoButton {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
     @include mixins.axo-focus-ring;
   }
 }

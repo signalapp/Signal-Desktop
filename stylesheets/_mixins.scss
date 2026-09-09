@@ -293,10 +293,10 @@ $rtl-icon-map: (
   $stretch: true,
   $mask-origin: null
 ) {
-  @include light-theme() {
+  @include light-theme {
     @include color-svg($svg, $light-theme-color, $stretch, $mask-origin);
   }
-  @include dark-theme() {
+  @include dark-theme {
     @include color-svg($svg, $dark-theme-color, $stretch, $mask-origin);
   }
 }
@@ -323,28 +323,8 @@ $rtl-icon-map: (
   }
 }
 
-// Keyboard
-
-@mixin keyboard-mode() {
-  .keyboard-mode & {
-    @content;
-  }
-}
-
-@mixin mouse-mode() {
-  .mouse-mode & {
-    @content;
-  }
-}
-
-@mixin dark-keyboard-mode() {
-  .dark-theme.keyboard-mode & {
-    @content;
-  }
-}
-
-@mixin dark-mouse-mode() {
-  .dark-theme.mouse-mode & {
+@mixin focus-visible-within {
+  &:is(:focus-visible, :has(:focus-visible)) {
     @content;
   }
 }
@@ -440,7 +420,7 @@ $rtl-icon-map: (
   }
 
   &:hover {
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-ultramarine,
@@ -448,7 +428,7 @@ $rtl-icon-map: (
       );
     }
 
-    @include dark-mouse-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-ultramarine,
@@ -458,33 +438,16 @@ $rtl-icon-map: (
   }
 
   &:active {
-    // We need to include all four here for specificity precedence
-
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-ultramarine,
         25%
       );
     }
-    @include dark-mouse-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
-        variables.$color-ultramarine,
-        25%
-      );
-    }
-
-    @include keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
-        variables.$color-ultramarine,
-        25%
-      );
-    }
-    @include dark-keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
         variables.$color-ultramarine,
         25%
       );
@@ -505,7 +468,7 @@ $rtl-icon-map: (
   }
 
   &:hover {
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-gray-05,
@@ -513,7 +476,7 @@ $rtl-icon-map: (
       );
     }
 
-    @include dark-mouse-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-gray-65,
@@ -523,31 +486,14 @@ $rtl-icon-map: (
   }
 
   &:active {
-    // We need to include all four here for specificity precedence
-
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-gray-05,
         25%
       );
     }
-    @include dark-mouse-mode {
-      background-color: color.mix(
-        variables.$color-white,
-        variables.$color-gray-65,
-        25%
-      );
-    }
-
-    @include keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
-        variables.$color-gray-05,
-        25%
-      );
-    }
-    @include dark-keyboard-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-gray-65,
@@ -575,7 +521,7 @@ $rtl-icon-map: (
   }
 
   &:hover {
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-gray-02,
@@ -583,7 +529,7 @@ $rtl-icon-map: (
       );
     }
 
-    @include dark-mouse-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-gray-75,
@@ -593,31 +539,14 @@ $rtl-icon-map: (
   }
 
   &:active {
-    // We need to include all four here for specificity precedence
-
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-gray-02,
         20%
       );
     }
-    @include dark-mouse-mode {
-      background-color: color.mix(
-        variables.$color-white,
-        variables.$color-gray-75,
-        20%
-      );
-    }
-
-    @include keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
-        variables.$color-gray-02,
-        20%
-      );
-    }
-    @include dark-keyboard-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-gray-75,
@@ -645,7 +574,7 @@ $rtl-icon-map: (
   }
 
   &:hover {
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-accent-red,
@@ -653,7 +582,7 @@ $rtl-icon-map: (
       );
     }
 
-    @include dark-mouse-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-accent-red,
@@ -665,29 +594,14 @@ $rtl-icon-map: (
   &:active {
     // We need to include all four here for specificity precedence
 
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         variables.$color-accent-red,
         25%
       );
     }
-    @include dark-mouse-mode {
-      background-color: color.mix(
-        variables.$color-white,
-        variables.$color-accent-red,
-        25%
-      );
-    }
-
-    @include keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
-        variables.$color-accent-red,
-        25%
-      );
-    }
-    @include dark-keyboard-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         variables.$color-accent-red,
@@ -708,29 +622,14 @@ $rtl-icon-map: (
   &:active {
     // We need to include all four here for specificity precedence
 
-    @include mouse-mode {
+    @include light-theme {
       background-color: color.mix(
         variables.$color-black,
         $background-color,
         25%
       );
     }
-    @include dark-mouse-mode {
-      background-color: color.mix(
-        variables.$color-white,
-        $background-color,
-        25%
-      );
-    }
-
-    @include keyboard-mode {
-      background-color: color.mix(
-        variables.$color-black,
-        $background-color,
-        25%
-      );
-    }
-    @include dark-keyboard-mode {
+    @include dark-theme {
       background-color: color.mix(
         variables.$color-white,
         $background-color,
@@ -795,11 +694,11 @@ $rtl-icon-map: (
     @include color-svg('../images/icons/v3/x/x.svg', variables.$color-gray-15);
   }
 
-  &:focus {
-    @include keyboard-mode {
+  &:focus-visible {
+    @include light-theme {
       background-color: variables.$color-ultramarine;
     }
-    @include dark-keyboard-mode {
+    @include dark-theme {
       background-color: variables.$color-ultramarine-light;
     }
   }
@@ -1131,10 +1030,8 @@ $rtl-icon-map: (
       }
     }
 
-    &:focus {
-      @include keyboard-mode {
-        background-color: color.adjust($background, $lightness: -16%);
-      }
+    &:focus-visible {
+      background-color: color.adjust($background, $lightness: -16%);
     }
   }
 }

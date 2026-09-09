@@ -282,7 +282,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   id: overrideProps.id ?? 'random-message-id',
   // renderingContext: 'storybook',
   interactivity: MessageInteractivity.Normal,
-  interactionMode: overrideProps.interactionMode || 'keyboard',
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker
     : false,

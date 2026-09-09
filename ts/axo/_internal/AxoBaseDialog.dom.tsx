@@ -80,7 +80,7 @@ export namespace AxoBaseDialog {
     'overflow-hidden',
     'curved-3xl bg-material-dialog text-primary shadow-elevation-3',
     'backdrop-blur-thick',
-    'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:axo-focus-ring',
+    'not-forced-colors:focus:outline-none not-forced-colors:focus-visible:axo-focus-ring',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-opacity-0 animate-scale-98 animate-translate-y-1',
     'will-change-transform',

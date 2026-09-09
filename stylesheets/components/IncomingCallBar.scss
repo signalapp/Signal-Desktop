@@ -95,15 +95,14 @@
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
       }
 
-      @include mixins.mouse-mode {
-        &:hover {
-          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-        }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+      }
+
+      &:hover {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
       div {
@@ -123,15 +122,13 @@
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
 
-      @include mixins.mouse-mode {
-        &:hover {
-          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-        }
+      &:hover {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
       div {
@@ -151,15 +148,14 @@
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
       }
 
-      @include mixins.mouse-mode {
-        &:hover {
-          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-        }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+      }
+
+      &:hover {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
       div {
@@ -179,15 +175,14 @@
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
       }
 
-      @include mixins.mouse-mode {
-        &:hover {
-          box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
-        }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+      }
+
+      &:hover {
+        box-shadow: 0px 0px 0px 2px variables.$color-ultramarine;
       }
 
       div {

@@ -51,7 +51,6 @@ export function addGlobalKeyboardShortcuts(): void {
       (commandOrCtrl && key === 'F6') ||
       (commandOrCtrl && !shiftKey && (key === 't' || key === 'T'))
     ) {
-      window.enterKeyboardMode();
       const focusedElement = document.activeElement;
       const targets = Array.from(
         document.querySelectorAll<HTMLElement>('[data-supertab="true"]')
@@ -109,7 +108,6 @@ export function addGlobalKeyboardShortcuts(): void {
         log.warn(
           `supertab: could not find focus for DOM node ${node.nodeName}<${nodeInfo}>`
         );
-        window.enterMouseMode();
         const { activeElement } = document;
         if (
           activeElement &&
@@ -282,7 +280,6 @@ export function addGlobalKeyboardShortcuts(): void {
       !shiftKey &&
       (key === 'j' || key === 'J')
     ) {
-      window.enterKeyboardMode();
       const item: HTMLElement | null =
         document.querySelector(
           '.module-last-seen-indicator ~ div .module-message'

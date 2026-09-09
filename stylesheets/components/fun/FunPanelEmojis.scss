@@ -24,9 +24,10 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring-inset;
-    }
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring-inset;
   }
 }
 
@@ -70,9 +71,10 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring-inset;
-    }
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring-inset;
   }
 }
 

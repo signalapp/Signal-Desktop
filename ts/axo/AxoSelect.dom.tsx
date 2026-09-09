@@ -158,7 +158,7 @@ export namespace AxoSelect {
     'group relative inline-flex items-center',
     'rounded-full text-start type-body-medium font-medium text-primary',
     'disabled:text-disabled',
-    'outline-none keyboard-mode:focus:axo-focus-ring',
+    'focus:outline-none focus-visible:axo-focus-ring',
     'forced-colors:border'
   );
 

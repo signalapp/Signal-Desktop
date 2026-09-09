@@ -71,9 +71,9 @@ button.BackupMediaDownloadProgress__button {
   }
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -104,9 +104,9 @@ button.BackupMediaDownloadProgress__button-more {
   }
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 button.BackupMediaDownloadProgress__button-close {
@@ -136,9 +136,9 @@ button.BackupMediaDownloadProgress__button-close {
   }
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 

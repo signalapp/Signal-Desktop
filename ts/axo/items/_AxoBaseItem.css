@@ -34,8 +34,8 @@
     @apply group-data-pressed:bg-secondary-pressed;
     /* Focus ring */
     @apply outline-none;
-    @apply keyboard-mode:group-data-focused:axo-focus-ring;
-    @apply keyboard-mode:group-focus:axo-focus-ring;
+    @apply group-data-focused:axo-focus-ring;
+    @apply group-focus-visible:axo-focus-ring;
   }
 
   :where(.axo-item-root-inner) .axo-item-leading {

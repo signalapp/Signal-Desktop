@@ -28,9 +28,9 @@
     @at-root button#{&} {
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
     }
   }
@@ -149,10 +149,10 @@
 
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-          border-radius: 6px;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+        border-radius: 6px;
       }
     }
   }

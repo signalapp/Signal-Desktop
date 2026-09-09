@@ -246,7 +246,7 @@ export namespace AriaClickable {
           pressed: button.matches(
             ':active:not(:disabled,[aria-disabled=true])'
           ),
-          focused: button.matches('.keyboard-mode :focus'),
+          focused: button.matches(':focus-visible'),
         });
       }
 

@@ -29,15 +29,16 @@ button.ListTile {
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        inset: 0;
-        border-radius: 12px;
-        @include mixins.axo-focus-ring-inset;
-      }
+  }
+
+  &:focus-visible {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      @include mixins.axo-focus-ring-inset;
     }
   }
 

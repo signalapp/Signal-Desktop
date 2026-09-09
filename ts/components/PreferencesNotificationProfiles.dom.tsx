@@ -1108,7 +1108,8 @@ function NotificationProfilesEditPage({
       <Container contentsRef={contentsRef}>
         <AriaClickable.Root
           className={tw(
-            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none keyboard-mode:data-focused:axo-focus-ring'
+            'group mb-3 flex min-h-[80px] w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px]',
+            'focus:outline-none data-focus-visible:axo-focus-ring'
           )}
         >
           <ProfileAvatar i18n={i18n} profile={profile} size="medium" />
@@ -1252,7 +1253,8 @@ function FullWidthButton({
     <button
       className={classNames(
         tw(
-          'flex w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px] outline-none keyboard-mode:focus:axo-focus-ring'
+          'flex w-full items-center rounded-md border-[2.5px] border-transparent px-[11.5px]',
+          'focus:outline-none focus-visible:axo-focus-ring'
         ),
         className
       )}

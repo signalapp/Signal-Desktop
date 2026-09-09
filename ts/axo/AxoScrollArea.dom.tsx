@@ -194,7 +194,7 @@ export namespace AxoScrollArea {
             'rounded-[2px]',
             // Move the outline from the viewport to the parent
             // so it doesn't get cut off by <Mask>
-            'keyboard-mode:has-[[data-axo-scroll-area-viewport]:focus]:axo-focus-ring'
+            'has-[[data-axo-scroll-area-viewport]:focus-visible]:axo-focus-ring'
           )}
           style={style}
         >

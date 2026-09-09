@@ -43,10 +43,10 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      &::before {
-        @include mixins.axo-focus-ring;
-      }
+  }
+  &:focus-visible {
+    &::before {
+      @include mixins.axo-focus-ring;
     }
   }
 }

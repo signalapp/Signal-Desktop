@@ -190,7 +190,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
           className={tw(
             'relative flex min-w-0 items-center justify-center px-3 py-[5px]',
             'cursor-pointer rounded-full type-body-medium font-medium text-primary',
-            'outline-focused-inner not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:axo-focus-ring',
+            'outline-focused-inner not-forced-colors:focus:outline-none not-forced-colors:focus-visible:axo-focus-ring',
             'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
             'forced-colors:data-[axo-contextmenu-state=open]:text-[HighlightText]',
             ItemWidths.get(context.itemWidth),

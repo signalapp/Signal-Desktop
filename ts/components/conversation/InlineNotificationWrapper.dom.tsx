@@ -6,8 +6,6 @@ import classNames from 'classnames';
 
 import type { ReactNode, JSX, MouseEvent, KeyboardEvent } from 'react';
 
-import { getInteractionMode } from '../../services/InteractionMode.dom.ts';
-
 export type Props = {
   id: string;
   conversationId: string;
@@ -46,9 +44,7 @@ export function InlineNotificationWrapper({
   }, [isTargeted]);
 
   const handleFocus = useCallback(() => {
-    if (getInteractionMode() === 'keyboard') {
-      targetMessage(id, conversationId);
-    }
+    targetMessage(id, conversationId);
   }, [id, conversationId, targetMessage]);
 
   if (isSelectMode) {

@@ -63,11 +63,11 @@
     z-index: variables.$z-index-above-above-base;
   }
 
-  @include mixins.keyboard-mode {
+  &:focus {
     outline: none;
-    &:focus {
-      @include mixins.axo-focus-ring;
-    }
+  }
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 
@@ -95,10 +95,11 @@
     color: variables.$color-ultramarine-pastel;
   }
 
-  @include mixins.keyboard-mode {
+  &:focus {
     outline: none;
-    &:focus {
-      @include mixins.axo-focus-ring;
-    }
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }

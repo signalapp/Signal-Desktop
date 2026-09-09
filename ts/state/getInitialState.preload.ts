@@ -44,7 +44,6 @@ import { getEmptyState as userEmptyState } from './ducks/user.preload.ts';
 import { getEmptyState as usernameEmptyState } from './ducks/username.preload.ts';
 
 import OS from '../util/os/osMain.node.ts';
-import { getInteractionMode } from '../services/InteractionMode.dom.ts';
 import { makeLookup } from '../util/makeLookup.std.ts';
 import {
   ATTACHMENTS_PATH,
@@ -229,7 +228,6 @@ function generateUserState({
     ...userEmptyState(),
     attachmentsPath: ATTACHMENTS_PATH,
     i18n: window.SignalContext.i18n,
-    interactionMode: getInteractionMode(),
     isMainWindowFullScreen: mainWindowStats.isFullScreen,
     isMainWindowMaximized: mainWindowStats.isMaximized,
     localeMessages: window.SignalContext.i18n.getLocaleMessages(),

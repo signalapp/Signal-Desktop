@@ -28,12 +28,10 @@
       color: variables.$color-gray-05;
     }
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        border: 3px solid variables.$color-ultramarine;
-        line-height: 14px;
-        padding-inline-start: 10px;
-      }
+    &:focus-visible {
+      border: 3px solid variables.$color-ultramarine;
+      line-height: 14px;
+      padding-inline-start: 10px;
     }
   }
 

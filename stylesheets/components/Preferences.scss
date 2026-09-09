@@ -70,10 +70,8 @@
       background: var(--axo-color-fill-primary-pressed);
     }
 
-    &:has(.Preferences__profile-chip__button:focus) {
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    &:has(.Preferences__profile-chip__button:focus-visible) {
+      @include mixins.axo-focus-ring;
     }
     &:has(.Preferences__profile-chip__button:hover):not(&--selected) {
       background: var(--axo-color-fill-primary);
@@ -145,9 +143,9 @@
       }
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
     }
     &__qr-icon {
@@ -375,9 +373,9 @@
       }
       &:focus {
         outline: none;
-        @include mixins.keyboard-mode {
-          @include mixins.axo-focus-ring;
-        }
+      }
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
       }
     }
   }
@@ -433,9 +431,9 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
 
     &::before {
@@ -521,10 +519,10 @@
   }
   &:focus {
     outline: none;
+  }
+  &:focus-visible {
     .Preferences__LanguageModal__Item__Inner {
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+      @include mixins.axo-focus-ring;
     }
   }
 }
@@ -921,9 +919,11 @@
   }
 }
 
-.Preferences__ChatFolders__ChatSelection__Item:focus {
-  outline: none;
-  @include mixins.keyboard-mode {
+.Preferences__ChatFolders__ChatSelection__Item {
+  &:focus {
+    outline: none;
+  }
+  &:focus-visible {
     .Preferences__ChatFolders__ChatSelection__ItemContent {
       @include mixins.axo-focus-ring-inset;
     }
@@ -1021,11 +1021,12 @@
     color: var(--axo-color-label-destructive);
     border-radius: 1px;
   }
-  @include mixins.keyboard-mode {
+  &:focus {
     outline: none;
-    &:focus {
-      @include mixins.axo-focus-ring;
-    }
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 }
 

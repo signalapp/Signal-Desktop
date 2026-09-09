@@ -84,21 +84,17 @@
       border-radius: 8px;
     }
 
-    @include mixins.mouse-mode {
-      &:hover {
-        @include mixins.light-theme {
-          background-color: variables.$color-black-alpha-06;
-        }
-        @include mixins.dark-theme {
-          background-color: variables.$color-white-alpha-12;
-        }
+    &:hover {
+      @include mixins.light-theme {
+        background-color: variables.$color-black-alpha-06;
+      }
+      @include mixins.dark-theme {
+        background-color: variables.$color-white-alpha-12;
       }
     }
 
-    @include mixins.keyboard-mode {
-      &:focus {
-        box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
-      }
+    &:focus-visible {
+      box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
     }
   }
 

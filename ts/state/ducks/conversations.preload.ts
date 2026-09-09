@@ -284,20 +284,11 @@ export type DBConversationType = ReadonlyDeep<{
   type: string;
 }>;
 
-export const InteractionModes = ['mouse', 'keyboard'] as const;
-export type InteractionModeType = ReadonlyDeep<
-  (typeof InteractionModes)[number]
->;
-
 export type MessageTimestamps = ReadonlyDeep<
   Pick<ReadonlyMessageAttributesType, 'sent_at' | 'received_at'>
 >;
 
-export type MessageType = ReadonlyDeep<
-  ReadonlyMessageAttributesType & {
-    interactionType?: InteractionModeType;
-  }
->;
+export type MessageType = ReadonlyDeep<ReadonlyMessageAttributesType>;
 export type MessageWithUIFieldsType = ReadonlyDeep<
   ReadonlyMessageAttributesType & {
     displayLimit?: number;

@@ -249,7 +249,6 @@ export function GroupMemberLabelEditor({
                   containerWidthBreakpoint={WidthBreakpoint.Wide}
                   i18n={i18n}
                   interactivity={MessageInteractivity.Static}
-                  interactionMode="mouse"
                   platform="unused"
                   shouldCollapseAbove={false}
                   shouldCollapseBelow={false}

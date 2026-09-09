@@ -28,9 +28,10 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
-    }
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
   }
 
   .ToastManager--narrow-sidebar & {
@@ -60,9 +61,10 @@
 
     &:focus {
       outline: none;
-      @include mixins.keyboard-mode {
-        @include mixins.axo-focus-ring;
-      }
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
     }
   }
 }

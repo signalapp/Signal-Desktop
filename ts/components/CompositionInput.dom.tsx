@@ -95,6 +95,7 @@ import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { RecoveryKeyPasteWarning } from './RecoveryKeyPasteWarning.dom.tsx';
+import { mergeProps, useFocusRing } from 'react-aria';
 
 const log = createLogger('CompositionInput');
 
@@ -235,6 +236,11 @@ export function CompositionInput(props: Props): ReactElement {
   const memberRepositoryRef = useRef<MemberRepository>(new MemberRepository());
 
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+
+  const { isFocusVisible, focusProps } = useFocusRing({
+    isTextInput: true,
+    within: true,
+  });
 
   const generateDelta = (
     text: string,
@@ -1031,7 +1037,6 @@ export function CompositionInput(props: Props): ReactElement {
     <Manager>
       <Reference>
         {({ ref }) => (
-          // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
           <div
             className={classNames(
               getClassName('__input'),
@@ -1042,7 +1047,8 @@ export function CompositionInput(props: Props): ReactElement {
             ref={ref}
             data-testid="CompositionInput"
             data-enabled={isInputEnabled ? 'true' : 'false'}
-            onMouseDown={onMouseDown}
+            data-focus-visible={isFocusVisible}
+            {...mergeProps(focusProps, { onMouseDown })}
           >
             {onRecoveryKeyPasteConfirm ? (
               <RecoveryKeyPasteWarning
@@ -1117,7 +1123,7 @@ export function CompositionInput(props: Props): ReactElement {
                     onClick={onToggleViewOnce}
                     className={tw(
                       'flex cursor-default items-center justify-center rounded-full',
-                      'not-forced-colors:outline-none not-forced-colors:keyboard-mode:focus:axo-focus-ring',
+                      'not-forced-colors:focus:outline-none not-forced-colors:focus-visible:axo-focus-ring',
                       'forced-colors:border forced-colors:border-[ButtonBorder]'
                     )}
                   >

@@ -35,9 +35,9 @@
 
   &:focus {
     outline: none;
-    @include mixins.keyboard-mode {
-      border-color: variables.$color-ultramarine;
-    }
+  }
+  &:focus-visible {
+    border-color: variables.$color-ultramarine;
   }
 
   &--editable {

@@ -113,7 +113,7 @@ export namespace AxoCheckbox {
           'data-[state=checked]:enabled:shadow-[0_1px_1px_var(--axo-shadow-color-elevation-1)]',
           'data-[state=checked]:enabled:active:bg-accent-pressed',
           'data-[state=checked]:data-disabled:text-disabled-oncolor',
-          'outline-none keyboard-mode:focus:axo-focus-ring',
+          'focus:outline-none focus-visible:axo-focus-ring',
           'overflow-hidden'
         )}
       >

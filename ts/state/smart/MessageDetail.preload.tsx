@@ -7,12 +7,7 @@ import { useSelector } from 'react-redux';
 import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.tsx';
 import { MessageDetail } from '../../components/conversation/MessageDetail.dom.tsx';
 import { getContactNameColorSelector } from '../selectors/conversations.dom.ts';
-import {
-  getIntl,
-  getInteractionMode,
-  getTheme,
-  getPlatform,
-} from '../selectors/user.std.ts';
+import { getIntl, getTheme, getPlatform } from '../selectors/user.std.ts';
 import { getMessageDetailsSelector } from '../selectors/message.preload.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.tsx';
@@ -46,7 +41,6 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
-  const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const { checkForAccount } = useAccountsActions();
   const { endPoll } = useComposerActions();
@@ -120,7 +114,6 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       platform={platform}
-      interactionMode={interactionMode}
       cancelAttachmentDownload={cancelAttachmentDownload}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}

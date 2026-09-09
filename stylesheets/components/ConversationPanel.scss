@@ -93,13 +93,13 @@
         );
       }
 
-      @include mixins.keyboard-mode {
-        &:focus {
+      @include mixins.light-theme {
+        &:focus-visible {
           background-color: variables.$color-ultramarine;
         }
       }
-      @include mixins.dark-keyboard-mode {
-        &:focus {
+      @include mixins.dark-theme {
+        &:focus-visible {
           background-color: variables.$color-ultramarine-light;
         }
       }

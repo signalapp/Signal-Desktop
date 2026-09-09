@@ -118,11 +118,8 @@
         transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
       }
 
-      // Using keyboard/mouse classes directly; mixins were doing weird things
-      .mouse-mode #{$row}:hover & {
-        opacity: 1;
-      }
-      .keyboard-mode #{$row}:focus-within & {
+      #{$row}:hover &,
+      #{$row}:is(:focus-visible, :has(:focus-visible)) & {
         opacity: 1;
       }
 
@@ -169,21 +166,19 @@
         transition: opacity 150ms cubic-bezier(0.17, 0.17, 0, 1);
       }
 
-      // Using keyboard/mouse classes directly; mixins were doing weird things
-      .mouse-mode #{$row}:hover & {
-        opacity: 1;
-      }
-      .keyboard-mode #{$row}:focus-within & {
+      #{$row}:hover &,
+      #{$row}:is(:focus-visible, :has(:focus-visible)) & {
         opacity: 1;
       }
 
-      @include mixins.keyboard-mode {
-        &:focus {
+      @include mixins.light-theme {
+        &:focus-visible {
           border-color: variables.$color-ultramarine;
         }
       }
-      @include mixins.dark-keyboard-mode {
-        &:focus {
+
+      @include mixins.dark-theme {
+        &:focus-visible {
           border-color: variables.$color-ultramarine-light;
         }
       }
