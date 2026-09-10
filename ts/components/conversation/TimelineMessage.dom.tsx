@@ -527,17 +527,15 @@ function MessageMenu({
                   : undefined;
 
                 return (
-                  // FIXME: Menus should be keyboard accessible
-                  // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
-                  <div
+                  <button
                     ref={maybePopperRef}
+                    type="button"
                     onClick={(event: MouseEvent) => {
                       event.stopPropagation();
                       event.preventDefault();
 
                       onReact();
                     }}
-                    role="button"
                     className="module-message__buttons__react"
                     aria-label={i18n('icu:reactToMessage')}
                     onDoubleClick={ev => {
@@ -551,11 +549,9 @@ function MessageMenu({
           )}
 
           {onDownload && (
-            // FIXME: Menus should be keyboard accessible
-            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
-            <div
+            <button
+              type="button"
               onClick={onDownload}
-              role="button"
               aria-label={i18n('icu:downloadAttachment')}
               className={classNames(
                 'module-message__buttons__download',
@@ -569,16 +565,14 @@ function MessageMenu({
           )}
 
           {onReplyToMessage && (
-            // FIXME: Menus should be keyboard accessible
-            // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
-            <div
+            <button
+              type="button"
               onClick={(event: MouseEvent) => {
                 event.stopPropagation();
                 event.preventDefault();
 
                 onReplyToMessage();
               }}
-              role="button"
               aria-label={i18n('icu:replyToMessage')}
               className={classNames(
                 'module-message__buttons__reply',

@@ -155,7 +155,9 @@
 }
 
 .module-message:hover .module-message__buttons,
-.module-message__buttons:has([data-axo-contextmenu-state='open']) {
+.module-message:is(:focus-visible, :has(:focus-visible))
+  .module-message__buttons,
+.module-message__buttons:has([data-axo-dropdownmenu-state='open']) {
   opacity: 1;
 }
 
@@ -182,41 +184,32 @@
   }
 }
 
-@mixin module-message__buttons__button($light-icon, $dark-icon: $light-icon) {
-  cursor: pointer;
-  height: 20px;
-  width: 20px;
+@mixin module-message__buttons__button($icon) {
+  color: variables.$color-gray-45;
+  border-radius: 9999px;
 
-  @include mixins.light-theme {
-    @include mixins.color-svg($light-icon, variables.$color-gray-45);
-    &:hover {
-      @include mixins.color-svg($light-icon, variables.$color-gray-90);
-    }
+  &::before {
+    content: '';
+    display: block;
+    height: 20px;
+    width: 20px;
+    @include mixins.color-svg($icon, currentColor);
   }
 
-  @include mixins.dark-theme {
-    @include mixins.color-svg($dark-icon, variables.$color-gray-45);
-    &:hover {
-      @include mixins.color-svg($dark-icon, variables.$color-gray-02);
-    }
+  &:hover {
+    color: light-dark(variables.$color-gray-90, variables.$color-gray-02);
+  }
+
+  &:focus-visible {
+    @include mixins.axo-focus-ring;
   }
 
   .module-message--targeted & {
-    @include mixins.light-theme {
-      background-color: variables.$color-gray-60;
-    }
-    @include mixins.dark-theme {
-      background-color: variables.$color-white;
-    }
+    color: light-dark(variables.$color-gray-60, variables.$color-white);
   }
 
-  .module-message:focus-visible & {
-    @include mixins.light-theme {
-      background-color: variables.$color-gray-60;
-    }
-    @include mixins.dark-theme {
-      background-color: variables.$color-white;
-    }
+  .module-message:focus & {
+    color: light-dark(variables.$color-gray-60, variables.$color-white);
   }
 }
 
