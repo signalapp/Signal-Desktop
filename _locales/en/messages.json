@@ -115,6 +115,10 @@
     "messageformat": "Account settings are managed on your primary device only, including account settings and backups.",
     "description": "Third bullet point of the Linked Devices Onboarding Dialog"
   },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device.",
+    "description": "Third bullet point of the Linked Devices Onboarding Dialog"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard",
     "description": "Label text for standard media quality option"

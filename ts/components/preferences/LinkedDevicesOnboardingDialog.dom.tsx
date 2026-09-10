@@ -51,7 +51,7 @@ export function LinkedDevicesOnboardingDialog(
             <ul className={tw('mb-10 list-disc ps-4 [&>li]:mt-3')}>
               <li>{i18n('icu:LinkedDevicesOnboardingDialog__bullet--1')}</li>
               <li>{i18n('icu:LinkedDevicesOnboardingDialog__bullet--2')}</li>
-              <li>{i18n('icu:LinkedDevicesOnboardingDialog__bullet--3')}</li>
+              <li>{i18n('icu:LinkedDevicesOnboardingDialog__bullet--3--1')}</li>
             </ul>
           </div>
         </AxoDialog.Body>
