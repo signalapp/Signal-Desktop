@@ -686,6 +686,7 @@ export function ConversationDetails({
             startAddingNewMembers={() => {
               setModalState(ModalState.AddingGroupMembers);
             }}
+            hasOtherModalOpen={modalState !== ModalState.NothingOpen}
             theme={theme}
           />
         )}

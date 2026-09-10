@@ -33,6 +33,7 @@ export type Props = {
   groupLink: string | null;
   conversationId: string;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasOtherModalOpen: boolean;
   i18n: LocalizerType;
   isEditMemberLabelEnabled: boolean;
   isTerminated: boolean;
@@ -91,6 +92,7 @@ export function ConversationDetailsMembershipList({
   groupLink,
   conversationId,
   getPreferredBadge,
+  hasOtherModalOpen,
   i18n,
   isEditMemberLabelEnabled,
   isTerminated,
@@ -136,7 +138,6 @@ export function ConversationDetailsMembershipList({
   );
 
   const handleSearchDialogSelectAddMember = useCallback(() => {
-    setSearchDialogOpen(false);
     startAddingNewMembers?.();
   }, [startAddingNewMembers]);
 
@@ -250,7 +251,7 @@ export function ConversationDetailsMembershipList({
       </AxoContactList.Root>
       <GroupMembersSearchDialog
         i18n={i18n}
-        open={searchDialogOpen}
+        open={searchDialogOpen && !hasOtherModalOpen}
         onOpenChange={setSearchDialogOpen}
         canInviteViaGroupLink={canInviteViaGroupLink}
         canAddNewMembers={canAddNewMembers}

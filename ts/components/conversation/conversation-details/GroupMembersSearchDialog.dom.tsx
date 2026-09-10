@@ -95,9 +95,8 @@ export function GroupMembersSearchDialog(
   );
 
   const handleSelectAddMember = useCallback(() => {
-    onOpenChange(false);
     onSelectAddMember();
-  }, [onOpenChange, onSelectAddMember]);
+  }, [onSelectAddMember]);
 
   const handleSelectInviteViaGroupLink = useCallback(() => {
     strictAssert(canInviteViaGroupLink, 'cannot invite via group link');

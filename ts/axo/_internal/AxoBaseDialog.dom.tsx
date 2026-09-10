@@ -108,6 +108,7 @@ export namespace AxoBaseDialog {
   ): (event: Event) => void {
     return useCallback(
       event => {
+        event.stopPropagation();
         if (escape === 'cancel-is-destructive') {
           event.preventDefault();
         }
