@@ -66,16 +66,19 @@
     "messageformat": "Egin dohaintza Signal-i"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Lotutako gailuekin</bold>, modu seguruan atzitu ahalko dituzu Signal-eko kontua eta mezuak gailu gehigarrietan."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Ordenagailu, tableta edo telefono gehigarri bat lot dezakezu."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Gailu nagusiarekin, zer lotzen den kudeatzen da; gehienez, 5 gailu lot ditzakezu."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Kontuaren ezarpenak gailu nagusian bakarrik kudea daitezke; besteak beste, kontuaren ezarpenak eta babeskopiak."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estandarra"
@@ -651,19 +654,19 @@
     "messageformat": "Une honetan, gako-egiaztapen automatikoa ez dago erabilgarri zure gailuan. Arazketa-erregistroa bidali nahi duzu?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Une honetan, gako-egiaztapen automatikoa ez dago erabilgarri zure gailuan. Txosten bat bidali nahi duzu, hobetzen laguntzeko?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Arazketa-erregistroak eransten badituzu, arazoa diagnostikatu eta konpondu ahalko dugu. Erregistro horiek ez dute zu identifikatzeko balio duen informaziorik. Haiek partekatzea aukerakoa da."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Partekatu arazketa-erregistroa"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Erantsi arazketa-erregistroa"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Ikusi"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Ezin duzu eranskin gehiago gehitu mezu honetara."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Barkatu, aukeratutako fitxategiak ezarri den tamaina muga gainditzen du. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Barkatu, hautatutako bideo-fitxategiak mezuen tamaina-murriztapenak gainditzen ditu. {limit,number} {units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Ezin da bidali fitxategi hau, handiegia baita. Bidal daitezkeen fitxategien gehieneko tamaina: {limit,number} {units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimizatu aurrebista"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Aldatu ikuspegia"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Sareta ikuspegia"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Alboko barrako ikuspegia"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Hizlariaren ikuspegia"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Eguneratu da ikuspegia"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Oharra"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Jakinarazpenak desaktibatuta daudenean"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Aukeratu txataren jakinarazpenak desaktibatuta dauden bitartean jakinarazpenak erakustea."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Deiak"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Jo edo jakinarazi dei bat hasten denean txata isilarazita dagoemn bitartean"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Aipamenak"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Jakinarazi @aipatzen zaituztenean txataren jakinarazpenak desaktibatuta dauden bitartean."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Erantzunak"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Jakinarazi norbaitek zure mezua erantzuten duenean txata isilarazita dagoen bitartean."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Bat ere ez"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Deiak"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Aipamenak"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Erantzunak"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Deiak, aipamenak"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Deiak, erantzunak"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Aipamenak, erantzunak"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Deiak, aipamenak, erantzunak"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Aukeratu jakinarazpenak desaktibatuta dauzkaten txaten jakinarazpenak erakustea."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Jo edo jakinarazi dei bat hasten denean isilarazitako txatetan."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Jakinarazi isilarazitako txatetan aipatzen zaituztenean."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Jakinarazi norbaitek zure mezuei erantzuten dienean isilarazitako txatetan."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Aipamenak"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Egiaztatu ondoren, mzuak bidaltzen jarrai dezakezu. Etendako mezuak automatikoki bidaliko dira."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Jarraitu"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Egiaztatu gabe jarraitu?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Jakinarazi norbaitek zure mezuaren aurrean errakzionatzen duenean"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Kontua"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Orokorra"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Login kontua berreskuratzeko eta leheneratzeko erabiltzen da. Mantendu gako hauek seguru gordeta pasahitz-kudeatzaile fidagarri batean. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Kontua eta berreskuratzea"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 gako"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Kontuaren gakoa"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Kontu-identifikatzailea"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Berreskuratze-gakoa"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Gorde"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Hau lotutako gailu bat da"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Kontuaren ezarpenak kudeatzeko, ireki Signal gailu nagusian."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Zoom maila"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Aurreratua"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Aldatu zure PINa"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Aldatu"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Txat-karpetak"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Erakutsi"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Soinuak"
@@ -6251,28 +6257,28 @@
     "messageformat": "Aplikazioaren bereizgarria"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Berrezarri jakinarazpenen ezarpen lehenetsiak, txaten ezarpen pertsonalizatuak barne."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Berrabiarazi"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Jakinarazpenen ezarpen guztiak lehenetsi gisa ezarri nahi dituzu txat guztietan?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Berrabiarazi"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Bereizgarri kopurua"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Hautatu bereizgarri kopuruak irakurri gabeko mezuen kopurua ala irakurri gabeko txaten kopurua erakutsi behar duten"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Irakurri gabeko mezuak"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Irakurri gabeko txatak"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Esportatu txat-historia"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Eguneratu behar da"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{currentBytes}/{totalBytes} deskargatzen ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Mezuak sinkronizatzen amaitzeko, eguneratu Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Eguneratu"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Eguneratu behar da"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN okerra. Saiatu berriro"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Onartu"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN zuzena. Geroago gogoraraziko dizugu berriro."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Zure PIN-a alda dezakezu gailua erregistratuta dagoen bitartean. <learnMoreLink>Informazio gehiago</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Berretsi zure Signal PIN-a"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Berretsi PINa"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Utzi"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Jarraitu"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Onartu"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ordenagailurako Signal aplikazioak laster ez du onartuko ordenagailuaren bertsioa ({OS}). Signal erabiltzen jarraitzeko, eguneratu ordenagailuaren sistema eragilea {expirationDate} aurretik. <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Hobekuntzak egin dira taldeko kideak bilatzeko prozesuan."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Jakinarazpenen ezarpenak hobetu dira; orain, jakinarazpenak noiz eta nola agertzen diren erabakitzeko aukera hedatuak dituzte."
   }
 }

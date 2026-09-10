@@ -66,16 +66,19 @@
     "messageformat": "Donează pentru Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Funcția <bold>Dispozitive conectate</bold> te lasă să accesezi mesajele și contul Signal în siguranță pe oricare dintre dispozitivele tale suplimentare."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Poți conecta un computer, o tabletă sau un telefon suplimentar."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Dispozitivul principal gestionează dispozitivele conectate; poți asocia până la 5 dispozitive."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Anumite setări ale contului sunt gestionate exclusiv pe dispozitivul principal, inclusiv setările contului și copiile de rezervă."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -651,19 +654,19 @@
     "messageformat": "Verificarea automată a codului nu este disponibilă în prezent pentru dispozitivul tău. Trimiți jurnalul de depanare?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Verificarea automată a codului nu este disponibilă în prezent pentru dispozitivul tău. Trimiți un raport ca să ne ajuți să ne îmbunătățim?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Jurnalele de depanare ne ajută să diagnosticăm și să remediem problema și nu conțin informații de identificare."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Dacă incluzi jurnalele de depanare ne ajută să diagnosticăm și să remediem problema și nu conțin informații de identificare. Împărtășirea este opțională."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Trimite jurnalul de depanare"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Includere jurnale depanare"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Vizualizare"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Nu mai poți adăuga alte atașamente la acest mesaj."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Ne pare rău, fișierul selectat depășește limita de mărime a mesajului. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Ne pare rău, fișierul video selectat depășește limita de mărime pentru mesaje. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Nu se poate trimite acest fișier pentru că e prea mare. Poți să trimiți fișiere de până la {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimizează previzualizarea"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Schimbă vizualizarea"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Vizualizare grilă"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Vizualizare bara laterală"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Vizualizare vorbitor"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Vizualizare actualizată"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Notă"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "În timp ce sunetul e dezactivat"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Alege notificările pe care să le vezi când sunetul conversației este dezactivat."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Apeluri"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Sună sau anunță când un apel a început în timp ce conversația este pe silențios."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Mențiuni"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Notifică atunci când cineva te menționează în timp ce conversația este pe silențios."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Răspunsuri"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Notifică atunci când cineva răspunde la mesaje atunci când acea conversația este pe silențios."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Niciunul"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Apeluri"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Mențiuni"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Răspunsuri"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Apeluri, mențiuni"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Apeluri, răspunsuri"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Mențiuni, răspunsuri"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Apeluri, mențiuni, răspunsuri"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Alege notificările care să apară la conversațiile pe silențios."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Sună sau anunță când un apel începe în conversațiile pe silențios."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Anunță când te menționează cineva în conversațiile pe silențios."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Anunță când cineva răspunde la mesajul tău în timp ce conversațiile sunt pe silențios."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mențiuni"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "După verificare, poți continua să trimiți mesaje. Toate mesajele aflate în pauză vor fi trimise automat."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Continuă"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Continui fără verificare?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Anunță când cineva reacționează la mesajul tău"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Cont"
   },
   "icu:Preferences__button--general": {
     "messageformat": "General"
@@ -6167,31 +6155,43 @@
     "messageformat": "Sistem"
   },
   "icu:Preferences--signal-login": {
-    "messageformat": "Signal Login"
+    "messageformat": "Login Signal"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Loginul Signal este folosit pentru a-ți recupera și restaura contul. Păstrează aceste coduri cheie în siguranță într-un manager de parole în care ai încredere. <learnMoreLink>Află mai multe</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Află mai multe"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Cont și recuperare"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 coduri"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Login-ul tău Signal"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Cod pentru cont"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID cont"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Cod de recuperare"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Salvează"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Acesta este un dispozitiv asociat"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Ca să-ți gestionezi setările contului, deschide Signal pe dispozitivul principal."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Nivel zoom"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Avansat"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Modificare PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Schimbă"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN Signal"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Dosare de conversații"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Afișează"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sunete"
@@ -6251,28 +6257,28 @@
     "messageformat": "Insigna aplicației"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Resetează setările notificărilor la standard, inclusiv setările personalizate pentru conversațiile tale."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Resetare"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Resetezi toate setările notificărilor la standard pentru toate conversațiile?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Resetare"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Număr insignă"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Selectează dacă numărul de insigne afișează numărul de mesaje necitite sau numărul de conversații necitite"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Mesaje necitite"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Conversații necitite"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportă istoricul conversațiilor"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Actualizare necesară"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Se descarcă {currentBytes} din {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Pentru a finaliza sincronizarea mesajelor, actualizează acum Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Actualizează"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualizare necesară"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN incorect. Încearcă din nou"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Confirmă"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN corect. Îți reamintim din nou mai târziu."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Poți schimba codul PIN atât timp cât acest dispozitiv este înregistrat. <learnMoreLink>Află mai multe</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Confirmă PIN-ul tău Signal"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Introdu codul PIN pe care tocmai l-ai creat."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Confirmare PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Anulează"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Continuă"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Confirmă"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop nu va mai accepta versiunea calculatorului tău de {OS} în curând. Ca să continui să folosești Signal, actualizează-ți sistemul de operare al calculatorului până la {expirationDate}. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Descoperirea de sine poate fi un proces care durează toată viața, dar de acum înainte vei apărea ca „Tu” în căutarea membrilor grupului, pentru a-ți ușura puțin sarcina."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Această actualizare introduce setări mai detaliate, pentru a-ți oferi un control mult mai mare asupra notificărilor din Signal. Acum poți alege ce apare pe pictograma aplicației, poți seta preferințele de notificare pentru discuțiile cu notificări dezactivate și multe altele! Am adăugat și un buton util pentru a restabili setările implicite ale notificărilor, în cazul în care faci atâtea modificări încât nu mai știi cum să te descurci."
   }
 }

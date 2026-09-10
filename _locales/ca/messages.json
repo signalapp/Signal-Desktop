@@ -66,16 +66,19 @@
     "messageformat": "Feu una donació a Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Dispositius connectats</bold> et permet accedir de forma segura al teu compte i als teus missatges de Signal des de qualsevol dels teus dispositius addicionals."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Pots vincular un ordinador, una tablet o un altre telèfon."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "El teu dispositiu principal gestiona què està vinculat, i pots connectar fins a 5 dispositius."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Els ajustos del compte només es poden editar des del teu dispositiu principal, com els ajustos del compte i les còpies de seguretat."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estàndard"
@@ -651,19 +654,19 @@
     "messageformat": "Actualment, la verificació automàtica de claus no està disponible al teu dispositiu. Vols enviar un registre de depuració?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Actualment, la verificació automàtica de claus no està disponible al teu dispositiu. Vols enviar-nos un informe per ajudar-nos a millorar?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Els registres de depuració ens ajuden a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Incloure els teus registres de depuració ens ajuda a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te. Compartir-los és opcional."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Compartir registre de depuració"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Inclou-hi el registre de depuració."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Mostra"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "No podeu afegir cap altre adjunt a aquest missatge."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Perdoneu, el fitxer seleccionat excedeix les restriccions de mida dels missatges. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Vaja, el vídeo seleccionat excedeix les restriccions de mida dels missatges. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "No es pot enviar aquest arxiu perquè és massa gran. Pots enviar arxius de fins a {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimitzar vista prèvia"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Canviar la vista"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Vista de graella"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Vista de la barra lateral"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Vista de l'orador"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Vista actualitzada"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Barra lateral"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Altaveu"
+    "messageformat": "Orador"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Compartiu la pantalla"
@@ -5199,64 +5184,64 @@
     "messageformat": "Nota"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Mentre està silenciat"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Selecciona quines notificacions vols veure mentre aquest xat estigui silenciat."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Trucades"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Sonar o notificar quan s'iniciï una trucada mentre aquest xat estigui silenciat."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Mencions"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Notificar quan se't @mencioni mentre aquest xat estigui silenciat."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Respostes"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Notificar quan algú respongui als teus missatges mentre aquest xat estigui silenciat."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Cap"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Trucades"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Mencions"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Respostes"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Trucades, mencions"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Trucades, respostes"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Mencions, respostes"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Trucades, mencions, respostes"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Selecciona quines notificacions vols veure pels xats silenciats."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Sonar o notificar quan s'iniciï una trucada en xats silenciats."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Notificar quan se't mencioni en xats silenciats."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Notificar quan algú respongui als teus missatges en xats silenciats."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mencions"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Després de verificar-ho, podeu continuar enviant missatges. Qualsevol missatge interromput s'enviarà automàticament."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Continua"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Voleu continuar sense la verificació?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Notificar quan algú reaccioni als teus missatges"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Compte"
   },
   "icu:Preferences__button--general": {
     "messageformat": "General"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "El teu Signal Login serveix per recuperar i restaurar el teu compte. Guarda aquestes claus de forma segura en un gestor de contrasenyes de confiança. <learnMoreLink>Més informació</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Més informació"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Compte i recuperació"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 claus"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "El teu Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Clau del compte"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID del compte"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Clau de recuperació"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Desa"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Aquest és un dispositiu vinculat"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Per gestionar els ajustos del teu compte, obre Signal al teu dispositiu principal."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Nivell de l'ampliació"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Avançada"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Canvieu el PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Canviar"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN del Signal"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Carpetes de xats"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Mostra"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sons"
@@ -6251,28 +6257,28 @@
     "messageformat": "Insígnia de l'app"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Restablir els ajustos de notificacions a la seva configuració per defecte, inclosos els ajustos personalitzats dels teus xats."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Restableix"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Restablir tots els ajustos de notificacions a la seva configuració per defecte per a tots els xats?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Restableix"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Recompte d'insígnies"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Selecciona si el comptador mostra el nombre de missatges per llegir o el nombre de xats sense llegir."
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Missatges per llegir"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Xats sense llegir"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportar l'historial del xat"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Actualització necessària"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Descarregant {currentBytes} de {totalBytes} ({percentage,number,percent})…"
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Per completar la sincronització dels missatges, actualitza ara Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Actualitza-la"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualització necessària"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN incorrecte. Torna a provar-ho"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Confirmar"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN correcte. T'ho recordarem més tard."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Podeu canviar el PIN sempre que aquest dispositiu estigui registrat. <learnMoreLink>Més informació</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Confirmeu el PIN del Signal"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Marqueu el PIN que heu creat."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Confirmeu-lo"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Cancel·la"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Continua"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Confirmar"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal per a Escriptori aviat deixarà de ser compatible amb la versió de {OS} del teu ordinador. Per continuar utilitzant Signal, actualitza el sistema operatiu de l'ordinador abans de {expirationDate}. <learnMoreLink>Més informació</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Millores a la cerca de membres del grup."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Millores als ajustos de les notificacions, amb més opcions per com i quan vols veure notificacions."
   }
 }

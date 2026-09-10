@@ -66,16 +66,19 @@
     "messageformat": "Dhuroni për Signal-in"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Pajisjet e lidhura</bold> të lejojnë të përdorësh llogarinë dhe mesazhet në Signal në mënyrë të sigurt nga çdo pajisje tjetër shtesë."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Mund të lidhësh një kompjuter, tablet ose një telefon shtesë."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Pajisja kryesore menaxhon pajisjet e lidhura. Mund të lidhësh deri në 5 pajisje."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Parametrat e llogarisë menaxhohen vetëm në pajisjen kryesore, duke përfshirë parametrat e llogarisë dhe kopjeruajtjet."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -651,19 +654,19 @@
     "messageformat": "Verifikimi automatik i kodit nuk është aktualisht i disponrueshëm për pajisjen tënde. Të dërgohet regjistri i diagnostikimeve?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Verifikimi automatik i kodit nuk është aktualisht i disponueshëm për pajisjen. Dëshiron të dërgosh një raport për të na ndihmuar të përmirësohemi?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Regjistrat e diagnostifikimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Përfshirja e regjistrave të diagnostikimit na ndihmojnë të diagnostikojmë dhe të zgjidhim problemin dhe nuk përmban informacion identifikues. Shpërndarja është opsionale."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Ndaj regjistrin e diagnostikimit"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Përfshij regjistër diagnostikimi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Shih"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "S’mund të shtoni më tepër bashkëngjitje te ky mesazh."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Na ndjeni, kartela e përzgjedhur tejkalon kufizimet për madhësi mesazhesh. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Ju kërkojmë ndjesë, por skedari i përzgjedhur i videos i tejkalon kufizimet për madhësi mesazhesh. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Nuk mund ta dërgosh këtë skedar sepse është shumë i madh. Mund të dërgosh skedarë deri në {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimizo shfaqjen paraprake"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Ndrysho pamjen"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Pamje rrjetë"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Pamje me kolona"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Pamje me në qendër folësin"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Pamja e përditësuar"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Shirit anësor"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Altoparlant"
+    "messageformat": "Folësi"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Ndani ekranin tuaj me të tjerë"
@@ -5199,64 +5184,64 @@
     "messageformat": "Shënim"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Ndërkohë që është pa zë"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Zgjidh njoftimet që dëshiron të shfaqen ndërkohë që kjo bisedë është pa zë."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Thirrje"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Bëj që të bjerë zilja ose shfaq një njoftim kur nis një thirrje ndërkohë që kjo bisedë është pa zë."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Përmendje"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Njoftohu kur të përmendin teksa biseda është pa zë."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Përgjigje"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Njoftohu kur dikush i përgjigjet mesazhit ndërkohë që kjo bisedë është bërë pa zë."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Asnjë"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Thirrje"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Përmendje"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Përgjigje"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Thirrjet, përmendjet"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Thirrjet, përgjigjet"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Përmendjet, përgjigjet"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Thirrjet, përmendjet, përgjigjet"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Zgjidh njoftimet që dëshiron të shfaqen për bisedat e bëra pa zë."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Bëj që të bjerë zilja ose shfaq një njoftim kur nis një thirrje në bisedat që i ke bërë pa zë."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Njoftohu kur të përmendin në bisedat që i ke bërë pa zë."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Njoftohu kur dikush i përgjigjet mesazhit tënd në bisedat që i ke bërë pa zë."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Përmendje"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Pas verifikimit, mund të vazhdoni të shkëmbeni mesazhe. Çfarëdo mesazhesh të ndalur do të dërgohen automatikisht."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Vazhdo"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Të vazhdohet pa e verifikuar?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Njoftohu kur dikush reagon ndaj mesazhit tënd"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Llogari"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Të përgjithshme"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Login përdoret për të rikthyer dhe rivendosur llogarinë. Ruaji kode në mënyrë të sigurt në një menaxher fjalëkalimesh të cilit i beson. <learnMoreLink>Mëso më shumë</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Mëso më shumë"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Llogaria dhe rikthimi"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 kode"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Kodi i llogarisë"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID-ja e llogarisë"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kodi i rikthimit"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Ruaje"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Kjo është një pajisje e lidhur"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Për të menaxhuar parametrat e llogarisë, hap Signal në pajisjen kryesore."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Shkallë zoom-i"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Të mëtejshme"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Ndryshoni PIN-in tuaj"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Ndrysho"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN Signal-i"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Dosjet e bisedës"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Shfaqe"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Tingujt"
@@ -6251,28 +6257,28 @@
     "messageformat": "Distinktivi i aplikacionit"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Rikthe parametrat e njoftimeve me parazgjedhje, duke përfshirë parametrat e personalizuara për bisedat."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Riktheje"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Të rikthehen të gjitha parametrat e njoftimeve në parazgjedhje për të gjitha bisedat?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Riktheje"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Numri i distinktivit"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Zgjidh nëse numri i distinktivit shfaq numrin e mesazheve të palexuara apo numrin e bisedave të palexuara"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Mesazhe të palexuara"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Biseda të palexuara"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksporto historikun e bisedës"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Kërkohet përditësim"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Po shkarkohen {currentBytes} nga {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Për të përfunduar sinkronizimin e mesazheve, përditëso tani Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Përditësoje"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Kërkohet përditësim"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN i pasaktë. Riprovo"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Konfirmoje"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "Kodi PIN i saktë. Do të ta rikujtojmë më vonë."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Mundeni ta ndryshoni PIN-in tuaj, sa kohë që kjo pajisje është e regjistruar. <learnMoreLink>Mëso më shumë</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Ripohoni PIN-in tuaj për Signal"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Ripohoni PIN-in"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Anulo"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Vazhdo"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Konfirmoje"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop së shpejti nuk do të mbështesë më versionin e {OS} të kompjuterit tënd. Për të vazhduar përdorimin e Signal, përditëso sistemin operativ të kompjuterit tënd deri më {expirationDate}. <learnMoreLink>Mëso më tepër</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Përmirësime në kërkimin e anëtarëve të grupit."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Parametra të përmirësuara të njoftimeve, me mundësi të zgjeruara për mënyrën dhe kohën e shfaqjes së tyre."
   }
 }

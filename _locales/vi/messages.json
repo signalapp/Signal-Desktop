@@ -66,16 +66,19 @@
     "messageformat": "Ủng hộ Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Tính năng <bold>Liên kết thiết bị</bold> cho phép bạn truy cập tài khoản Signal và tin nhắn một cách an toàn trên thiết bị bổ sung bất kỳ của bạn."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Bạn có thể liên kết máy tính để bàn, máy tính bảng hoặc điện thoại bổ sung."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Thiết bị chính của bạn sẽ quản lý các thiết bị đã liên kết, bạn có thể liên kết tối đa 5 thiết bị."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Cài đặt tài khoản chỉ được quản lý trên thiết bị chính của bạn, bao gồm cài đặt tài khoản và bản sao lưu."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Tiêu chuẩn"
@@ -651,19 +654,19 @@
     "messageformat": "Xác minh mã khóa tự động hiện không khả dụng cho thiết bị của bạn. Gửi nhật ký gỡ lỗi?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Xác minh mã khóa tự động hiện không khả dụng cho thiết bị của bạn. Gửi báo cáo để giúp chúng tôi cải thiện?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Nhật ký gỡ lỗi giúp chúng tôi xác định và khắc phục vấn đề, và không chứa thông tin nhận dạng."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Việc gửi kèm nhật ký gỡ lỗi giúp chúng tôi chẩn đoán và khắc phục sự cố, đồng thời không chứa thông tin định danh cá nhân. Bạn có thể chọn chia sẻ hoặc không."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Chia sẻ nhật ký gỡ lỗi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Thêm nhật ký gỡ lỗi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Xem"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Bạn không thể thêm bất kì tập tin đính kèm nào cho tin nhắn này."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Rất tiếc, tập tin đã chọn vượt quá giới hạn kích thước của tin nhắn. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Rất tiếc, tập tin video đã chọn vượt quá giới hạn dung lượng của tin nhắn. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Không thể gửi tập tin này vì dung lượng quá lớn. Bạn có thể gửi tập tin có dung lượng lên đến {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Thu nhỏ khung xem trước"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Đổi chế độ hiển thị"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Hiển thị theo ô"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Hiển thị thanh bên"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Hiển thị người phát biểu"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Chế độ hiển thị đã cập nhật"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Ghi chú"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Khi đang tắt tiếng"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Chọn thông báo sẽ hiển thị khi cuộc trò chuyện này đang bị tắt tiếng."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Cuộc gọi"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Đổ chuông hoặc gửi thông báo khi có cuộc gọi bắt đầu trong lúc cuộc trò chuyện này đang bị tắt tiếng."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Nhắc tên"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Thông báo khi bạn được @nhắc đến trong lúc cuộc trò chuyện này đang bị tắt tiếng."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Câu trả lời"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Thông báo khi có người trả lời tin nhắn của bạn trong khi cuộc trò chuyện này đang bị tắt tiếng."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Không"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Cuộc gọi"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Nhắc tên"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Câu trả lời"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Cuộc gọi, lượt nhắc tên"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Cuộc gọi, câu trả lời"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Lượt nhắc tên, câu trả lời"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Cuộc gọi, lượt nhắc tên, câu trả lời"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Chọn thông báo sẽ hiển thị cho các cuộc trò chuyện đã bị tắt tiếng."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Đổ chuông hoặc gửi thông báo khi có cuộc gọi bắt đầu trong các cuộc trò chuyện đã tắt tiếng."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Thông báo khi bạn được nhắc đến trong các cuộc trò chuyện đã tắt tiếng."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Thông báo khi có người trả lời tin nhắn của bạn trong các cuộc trò chuyện đã tắt tiếng."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Nhắc tên"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Sau khi xác minh, bạn có thể tiếp tục nhắn tin. Những tin nhắn đang tạm dừng sẽ được tự động gửi."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Tiếp tục"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Tiếp tục mà không cần xác minh?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Thông báo khi có người bày tỏ cảm xúc với tin nhắn của bạn"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Tài khoản"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Chung"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Thông tin Signal Login được sử dụng để khôi phục và phục hồi tài khoản của bạn. Lưu trữ an toàn các mã khóa này trong một công cụ quản lý mật khẩu mà bạn tin tưởng. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Tài khoản & khôi phục"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 mã khóa"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login của bạn"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Mã khóa tài khoản"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID tài khoản"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Mã khóa khôi phục"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Lưu"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Đây là một thiết bị đã liên kết"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Để quản lý phần cài đặt tài khoản, mở Signal trên thiết bị chính của bạn."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Mức độ phóng to"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Nâng cao"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Thay đổi mã PIN của bạn."
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Thay đổi"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Mã PIN Signal"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Thư mục trò chuyện"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Hiển thị"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Âm thanh"
@@ -6251,28 +6257,28 @@
     "messageformat": "Huy hiệu ứng dụng"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Khôi phục cài đặt thông báo về mặc định, bao gồm cả các cài đặt tùy chỉnh cho các cuộc trò chuyện của bạn."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Đặt lại"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Đặt lại tất cả cài đặt thông báo về mặc định cho mọi cuộc trò chuyện?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Đặt lại"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Số lượng hiển thị"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Chọn xem số lượng hiển thị là số tin nhắn chưa đọc hay số cuộc trò chuyện chưa đọc"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Tin nhắn chưa đọc"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Cuộc trò chuyện chưa đọc"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Xuất lịch sử trò chuyện"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Yêu cầu Cập nhật"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Hiện tải được {currentBytes} của tổng {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Để hoàn thành đồng bộ tin nhắn, cập nhật Signal Desktop ngay."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Cập nhật"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Yêu cầu Cập nhật"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Mã PIN không chính xác. Thử lại"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Xác nhận"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "Mã PIN đúng. Chúng tôi sẽ nhắc bạn lại sau."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Bạn có thể thay đổi mã PIN của bạn với điều kiện thiết bị được đăng ký. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Xác nhận mã PIN Signal"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Xác nhận mã PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Hủy"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Tiếp tục"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Xác nhận"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop sẽ sớm không còn hỗ trợ phiên bản hiện tại của hệ điều hành {OS} trên máy tính bạn. Để có thể tiếp tục sử dụng Signal, cập nhật phiên bản hệ điều hành trên máy tính bạn trước {expirationDate}. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Cải thiện chức năng tìm thành viên nhóm."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Cải thiện cài đặt thông báo với các tùy chọn mở rộng về cách thức và thời điểm hiển thị thông báo."
   }
 }

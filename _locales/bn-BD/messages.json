@@ -66,16 +66,19 @@
     "messageformat": "Signal-এ দান করুন"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>লিংককৃত ডিভাইস</bold> আপনাকে আপনার আরো যেকোনো ডিভাইসে নিরাপদে আপনার Signal অ্যাকাউন্ট এবং মেসেজ অ্যাক্সেস করতে দেয়।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "আপনি একটি ডেস্কটপ, ট্যাবলেট বা আরো একটি ফোন লিংক করতে পারেন।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "আপনার মূল ডিভাইসটি লিংক করা ডিভাইসগুলো পরিচালনা করে, আপনি সর্বোচ্চ 5-টি ডিভাইস লিংক করতে পারবেন।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "কিছু অ্যাকাউন্ট সেটিংস শুধুমাত্র আপনার মূল ডিভাইসে ম্যানেজ করা হয়, যার মধ্যে অ্যাকাউন্ট সেটিংস এবং ব্যাকআপ অন্তর্ভুক্ত।"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "স্ট্যান্ডার্ড"
@@ -651,19 +654,19 @@
     "messageformat": "আপনার ডিভাইসের জন্য বর্তমানে স্বয়ংক্রিয় 'কি' যাচাইকরণ পাওয়া যাচ্ছে না। ডিবাগ লগ জমা দেবেন?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "আপনার ডিভাইসের জন্য বর্তমানে স্বয়ংক্রিয় 'কি' যাচাইকরণ পাওয়া যাচ্ছে না। আমাদের উন্নতিতে সাহায্য করার জন্য একটি রিপোর্ট জমা দিবেন?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ডিবাগ লগ আমাদের সমস্যা নির্ণয় ও সমাধান করতে সাহায্য করে এবং শনাক্তকরণের তথ্য ধারণ করে না।"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "আপনার ডিবাগ লগ অন্তর্ভুক্ত করলে তা আমাদের সমস্যাটি নির্ণয় ও সমাধান করতে সাহায্য করে এবং এতে কোনো শনাক্তকারী তথ্য থাকে না। ইচ্ছা হলে শেয়ার করবেন।"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ডিবাগ লগ শেয়ার করুন"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "ডিবাগ লগ অন্তর্ভুক্ত করুন"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "দেখান"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "আপনি এই মেসেজটিতে আর কোনও সংযুক্তি যোগ করতে পারবেন না।"
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "দুঃখিত, নির্বাচিত ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "দুঃখিত, বেছে নেওয়া ভিডিও ফাইলটি মেসেজের আকারের সীমা অতিক্রম করেছে। {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "এই ফাইলটি বড় হবার কারণে পাঠানো যাচ্ছে না। আপনি একবারে {limit,number}{units}-টি ফাইল পাঠাতে পারেন"
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "প্রিভিউ ছোট করুন"
   },
-  "icu:calling__change-view": {
-    "messageformat": "ভিউ পরিবর্তন করুন"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "গ্রিড ভিউ"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "সাইডবার ভিউ"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "স্পিকার ভিউ"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "ভিউ আপডেট করা হয়েছে"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "নোট"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "মিউট থাকা অবস্থায়"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "এই চ্যাটটি মিউট করা থাকাকালীন কোন নোটিফিকেশনগুলো দেখানো হবে তা বেছে নিন।"
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "কল"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "এই চ্যাটটি মিউট থাকা অবস্থায় কল শুরু হলে রিং বা নোটিফাই করুন।"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "উল্লেখ"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "এই চ্যাটটি মিউট থাকা অবস্থায় আপনাকে মেনশন করা হলে নোটিফাই করুন।"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "রিপ্লাই"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "এই চ্যাটটি মিউট থাকা অবস্থায় কেউ আপনার মেসেজের উত্তর দিলে নোটিফাই করুন।"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "কিছুই না"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "কল"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "উল্লেখ"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "রিপ্লাই"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "কল, মেনশন"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "কল, রিপ্লাই"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "মেনশন, রিপ্লাই"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "কল, মেনশন, রিপ্লাই"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "মিউট করা চ্যাটের জন্য কোন নোটিফিকেশন দেখানো হবে তা বেছে নিন।"
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "মিউট করা চ্যাটে কল শুরু হলে রিং বা নোটিফাই করুন।"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "মিউট করা চ্যাটে আপনাকে মেনশন করা হলে নোটিফাই করুন।"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "মিউট করা চ্যাটে কেউ আপনার মেসেজের উত্তর দিলে নোটিফাই করুন।"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "উল্লেখ"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "ভেরিফাই করার পর আপনি মেসেজ পাঠানো চালিয়ে যেতে পারবেন। পজ করা যেকোনও মেসেজ স্বয়ংক্রিয়ভাবে পাঠানো হবে।"
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "চালিয়ে যান"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "যাচাই না করেই চালিয়ে যাবেন?"
@@ -6095,7 +6083,7 @@
     "messageformat": "কেউ আপনার মেসেজে রিঅ্যাক্ট দিলে নোটিফিকেশন পান"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "অ্যাকাউন্ট"
   },
   "icu:Preferences__button--general": {
     "messageformat": "সাধারন"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "আপনার অ্যাকাউন্ট পুনরুদ্ধার এবং পুনর্বহাল করতে আপনার SIgnal Login ব্যবহার করা হয়। এই 'কি'-গুলো আপনার আস্থাভাজন কোনো পাসওয়ার্ড ম্যানেজারে নিরাপদে সংরক্ষণ করুন। <learnMoreLink>আরো জানুন</learnMoreLink>।"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "অ্যাকাউন্ট ও পুনরুদ্ধার"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2-টি 'কি'"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "আপনার Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "অ্যাকাউন্ট 'কি'"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "অ্যাকাউন্ট আইডি"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "পুনরুদ্ধার 'কি'"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "সংরক্ষণ"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "এটি একটি লিংক করা ডিভাইস"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "আপনার অ্যাকাউন্ট সেটিংস ম্যানেজ করতে, আপনার মূল ডিভাইসে Signal খুলুন।"
   },
   "icu:Preferences--zoom": {
     "messageformat": "জুম স্তর"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "অ্যাডভান্সড"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "আপনার পিন পরিবর্তন করুন"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "পরিবর্তন করুন"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal পিন"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "চ্যাট ফোল্ডার"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "দেখান"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "শব্দসমূহ"
@@ -6251,28 +6257,28 @@
     "messageformat": "অ্যাপ ব্যাজ"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "আপনার চ্যাটের কাস্টম সেটিংস সহ নোটিফিকেশন সেটিংস ডিফল্টে রিসেট করুন।"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "রিসেট করুন"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "সব চ্যাটের জন্য সমস্ত নোটিফিকেশন সেটিংস ডিফল্টে রিসেট করবেন?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "রিসেট করুন"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "ব্যাজের সংখ্যা"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "ব্যাজ কাউন্টটি পড়া হয়নি এমন মেসেজের অপঠিত বার্তার সংখ্যা দেখাবে নাকি পড়া হয়নি এমন চ্যাটের সংখ্যা দেখাবে, তা বেছে নিন"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "পড়া হয়নি এমন মেসেজ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "পড়া হয়নি এমন চ্যাট"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "চ্যাট-এর ইতিহাস এক্সপোর্ট করুন"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "আপডেট করা প্রয়োজন"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{totalBytes}-এর মধ্যে {currentBytes} ({percentage,number,percent}) ডাউনলোড হচ্ছে..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "আপনার মেসেজ সিঙ্ক করা সম্পন্ন করতে, এখনই Signal Desktop আপডেট করুন।"
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "আপডেট করুন"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "আপডেট করা প্রয়োজন"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "ভুল পিন। আবার চেষ্টা করুন"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "নিশ্চিত করুন"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "পিনটি সঠিক। আমরা পরে আপনাকে আবার মনে করিয়ে দেবো।"
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "এই ডিভাইস রেজিস্টার থাকা অবধি আপনি আপনার পিন পরিবর্তন করতে পারবেন। <learnMoreLink>আরো জানুন</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "আপনার Signal পিনটি নিশ্চিত করুন"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "আপনার এইমাত্র তৈরি করা পিনটি লিখুন।"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "পিনটি সমর্থন করুন"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "বাতিল করুন"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "চালিয়ে যান"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "নিশ্চিত করুন"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "কিছুদিনের মধ্যে Signal আর আপনার কম্পিউটারের {OS} সংস্করণ সমর্থন করবে না। Signal ব্যবহার চালিয়ে যেতে, {expirationDate}-এর মধ্যে আপনার কম্পিউটারের অপারেটিং সিস্টেম আপডেট করুন। <learnMoreLink>আরো জানুন</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "গ্রুপ সদস্য সার্চ উন্নত করা হয়েছে।"
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "নোটিফিকেশন কীভাবে এবং কখন প্রদর্শিত হবে, সেই সংক্রান্ত অপশন আরো বাড়িয়ে নোটিফিকেশন সেটিংস উন্নত করা হয়েছে।"
   }
 }

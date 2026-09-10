@@ -66,16 +66,19 @@
     "messageformat": "تبرَّع لسيجنال"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "تُتيح لك <bold>الأجهزة المُرتبِطة</bold> الوصول إلى حسابك على سيجنال ورسائلك بأمان على أي من أجهزتك الإضافية."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "يُمكنك ربط جهاز كمبيوتر، أو جهاز لوحي، أو هاتف إضافي."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "جهازك الأساسي هو المسؤول عن إدارة الأجهزة المُرتبِطة، ويمكنك ربط حتى 5 أجهزة."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "تُدَار بعض إعدادات الحساب على جهازك الأساسي فقط، بما في ذلك إعدادات الحساب والنسخ الاحتياطية."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "قياسية"
@@ -651,19 +654,19 @@
     "messageformat": "التحقُّق التلقائي من المفاتيح غير متاح حاليًا على جهازك. هل ترغبُ بإرسال سجل الأخطاء؟"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "التحقُّق التلقائي من المفاتيح غير متاح حاليًا على جهازك. هل ترغبُ بإرسال تقرير لمساعدتنا في التحسين؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "تساعدنا سِجلات الأخطاء في تشخيص المشكلة وإصلاحها، وهي لا تحتوي على معلومات تعريفية عن المُستخدِم."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "يساعدنا إرفاق سجلات تصحيح الأخطاء في تشخيص المشكلة وإصلاحها، ولا تحتوي هذه السجلات على أي معلومات تُعرِّف بهويتك. المشاركة اختيارية."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "مشاركة سجل الأخطاء"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "تضمين سجل الأخطاء"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "عرض"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "لا يمكنك إضافة المزيد من الملفات المُرفقَة لهذه الرسالة."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "عُذرًا، حجم الملف المُحدَّد يتجاوز قيود الحجم الأقصى للرسالة. {limit,number}{units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "عذرًا، يتجاوز ملف الفيديو المُحدَّد الحد الأقصى لِحجم الرسالة. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "تعذَّر إرسال هذا الملف لأنه حجمه كبير. يمكنك إرسال الملفات التي يصل حجمها إلى {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "تصغير المعاينة"
   },
-  "icu:calling__change-view": {
-    "messageformat": "تغيير طريقة العرض"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "عرض شبكي"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "عرض بطريقة الشريط الجانبي"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "عرض المُتحدِّث"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "تمَّ تحديث طريقة العرض"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "مُلاحظة"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "عند الكتم"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "اختَر الإشعارات التي تريد إظهارها أثناء كتم هذه الدردشة."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "المكالمات"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "الرنين أو الإشعار عند بدء مكالمة بينما هذه المحادثة مكتومة."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "الإشارات"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "الإشعار عند ذكرك بينما هذه المحادثة مكتومة."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "الردود"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "الإشعار عند رد شخص ما على رسالتك بينما هذه المحادثة مكتومة."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "لا شيء"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "المكالمات"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "الإشارات"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "الردود"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "المكالمات، الإشارات"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "المكالمات، الردود"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "الإشارات، الردود"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "المكالمات، الإشارات، الردود"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "اختَر الإشعارات التي تريد إظهارها للدردشات المكتومة."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "الرنين أو الإشعار عند بدء مكالمة في المحادثات المكتومة."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "الإشعار عند ذكرك في الدردشات المكتومة."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "الإشعار عند رد شخص ما على رسالتك في الدردشات المكتومة."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "الإشارات"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "بعد التحقُّق، يمكنك مواصلة التراسُل. كل الرسائل المتوقفة مؤقتًا سوف تُرسَل تلقائيًا."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "متابعة"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "هل ترغبُ بالمتابعة دون تَحقُّق؟"
@@ -6095,7 +6083,7 @@
     "messageformat": "إشعاري عند تفاعل شخص ما مع رسالتي"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "الحِساب"
   },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "يُستخدَم Signal Login الخاص بك لاسترداد حسابك واستعادته. احتفِظ بهذه المفاتيح مُخزَّنة بأمان في مدير كلمات المرور الذي تثق به. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "اعرف المزيد"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "الحساب والاستعادة"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "مفتاحان"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login الخاص بك"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "مفتاح الحساب"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "مُعرِّف الحساب"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "مفتاح الاستعادة"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "حفظ"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "هذا جهاز مُرتبِط"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "لإدارة إعدادات حسابك، افتح تطبيق سيجنال على جهازك الأساسي."
   },
   "icu:Preferences--zoom": {
     "messageformat": "مستوى التقريب"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "مُتقدِّم"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "تغيير رقم الـ PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "تغيير"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "رقم PIN على سيجنال"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "مجلدات الدردشة"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "إظهار"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "اﻷصوات"
@@ -6251,28 +6257,28 @@
     "messageformat": "شارة التطبيق"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "إعادة تعيين إعدادات الإشعارات إلى الوضع الافتراضي، بما في ذلك الإعدادات المُخصَّصة لدردشاتك"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "إعادة التعيين"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "هل تريد إعادة تعيين جميع إعدادات الإشعارات إلى الوضع الافتراضي لكل المحادثات؟"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "إعادة التعيين"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "شارة التعداد"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "حدِّد ما إذا كان عداد الشارة يعرض عدد الرسائل غير المقروءة أم عدد الدردشات غير المقروءة"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "الرسائل غير المقروءة"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "الدردشات غير المقروءة"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "هل ترغبُ بتصدير سجل الدردشة؟"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "التحديث مطلوب"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "جارٍ تنزيل {currentBytes} من أصل {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "لإكمال مزامنة رسائلك، قُم بتحديث سيجنال Desktop الآن."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "تحديث"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "التحديث مطلوب"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "رقم التعريف الشخصي (PIN) غير صحيح. حاوِل مُجدَّدًا"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "تأكيد"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "رقم التعريف الشخصي (PIN) صحيح. سنُذكِّرك مرّة أخرى لاحقًا."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "يمكنك تغيير رقم التعريف الشخصي (PIN) في أي وقت طالما بقي هذا الجهاز مسجلًا. <learnMoreLink>اعرف المزيد</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "تأكيد رقم PIN على سيجنال"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "أدخِل رقم التعريف الشخصي (PIN) الذي أنشأته للتو."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "تأكيد رقم التعريف الشخصي (PIN)"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "إلغاء"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "متابعة"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "تأكيد"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سيتوقف تطبيق سيجنال الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام سيجنال، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "قد يكون البحث عن ذاتك رحلة مستمرة مدى الحياة، ولكن لتسهيل الأمر قليلًا، سَتظهر الآن باسم \"أنت\" في نافذة البحث عن أعضاء المجموعة."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "يُقدِّم هذا التحديث إعدادات أكثر تفصيلًا لمنحك تحكُّمًا أكبر بكثير في إشعارات سيجنال. يمكنك الآن اختيار ما يظهر على شارة التطبيق، وضبط تفضيلات الإشعارات للدردشات المكتومة، والمزيد! أضفنا أيضًا زرًا مناسبًا لاستعادة إعدادات الإشعارات الافتراضية إذا قُمتَ بإجراء الكثير من التغييرات ولم تعد تعرف كيفية ضبطها."
   }
 }

@@ -66,16 +66,19 @@
     "messageformat": "Signal-ды демеу"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Байланыстырылған құрылғылар</bold> Signal аккаунтыңызға және хабарларыңызға басқа құрылғыларыңыздан қауіпсіз қол жеткізуге мүмкіндік береді."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Компьютерді, планшетті немесе қосымша телефонды байланыстыруға болады."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Негізгі құрылғыңыз арқылы байланыстырылған құрылғыларды басқара аласыз. Ең көбі 5 құрылғы байланыстыруға болады."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Аккаунт параметрлерін тек негізгі құрылғыдан, соның ішінде аккаунт параметрлері мен сақтық көшірмелер бөлімінен басқаруға болады."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандарт"
@@ -651,19 +654,19 @@
     "messageformat": "\"Кілтті автоматты растау\" функциясы құрылғыңызда қазір қолжетімді емес. Ақауларды түзету журналын жіберу керек пе?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "\"Кілтті автоматты растау\" функциясы құрылғыңызда қазір қолжетімді емес. Қызметімізді жақсарту үшін есепті жіберу керек пе?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Ақауларды түзету журналдары диагностика жасап, ақауларды түзетуге мүмкіндік береді және онда жеке басты анықтайтын ақпарат болмайды."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Оның ішінде ақауларды түзету журналы мәселелерге диагностика жасап, оларды түзетуге көмектеседі және онда жеке басты анықтайтын ақпарат болмайды. Оны бөлісу не бөліспеу өз еркіңізде."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Ақауларды түзету журналын бөлісу"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Ақауларды түзету журналын қосу"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Көру"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Бұл хатқа басқа тіркеме қоса алмайсыз."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Кешіріңіз, таңдалған файл хат өлшемінің шектеулерінен асып кетті. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Кешіріңіз, таңдалған бейне файлы хабар өлшеміне қойылатын шектеулерден асып кетті. {limit,number} {units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Бұл файлды жіберу мүмкін емес, себебі ол өте үлкен. Ең көбі {limit,number} {units} файлдарды жібере аласыз."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Алғы көріністі барынша кішірейту"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Көріністі өзгерту"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Торлы көрініс"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Бүйірлік тақта көрінісі"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Динамик көрінісі"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Көрініс жаңартылды"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Бүйірлік жолақ"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Үндеткіш"
+    "messageformat": "Динамик"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Экраныңызды бөлісу"
@@ -5199,64 +5184,64 @@
     "messageformat": "Ескертпе"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Дыбысы өшірулі тұрғанда"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Бұл чаттың дыбысы өшіп тұрғанда көрсетілетін хабарландыруларды таңдаңыз."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Қоңыраулар"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Бұл чат дыбыссыз режимде тұрғанда, қоңырау шалынса, шырылдайды немесе хабарландыру жіберіледі."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Атап өтулер"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Бұл чат дыбыссыз режимде тұрғанда, сізді біреу @атап өтсе, хабарландыру жіберіледі."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Жауаптар"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Бұл чат дыбыссыз режимде тұрғанда, хабарыңызға біреу жауап берсе, хабарландыру жіберіледі."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Ешқайсы"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Қоңыраулар"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Атап өтулер"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Жауаптар"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Қоңыраулар, атап өтулер"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Қоңыраулар, жауаптар"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Атап өтулер, жауаптар"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Қоңыраулар, атап өтулер, жауаптар"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Дыбысы өшірілген чаттарды көрсету үшін хабарландыруларды таңдаңыз."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Дыбыссыз режимдегі чаттарда қоңырау басталғанда, шырылдайды немесе хабарландыру жіберіледі."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Дыбыссыз режимдегі чаттарда біреу сізді атап өтсе, хабарландыру жіберіледі."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Дыбыссыз режимдегі чаттарда біреу хабарыңызға жауап берсе, хабарландыру жіберіледі."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Атап өтулер"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Верификациядан өткен соң, әрі қарай хат алмаса аласыз. Жіберілмей қалған хаттардың барлығы автоматты түрде жіберіледі."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Жалғастыру"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Верификациясыз жалғастыру керек пе?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Хабарыңызға біреу реакция қалдырғанда хабарландыру алыңыз"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Аккаунт"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Жалпы"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Аккаунтыңызды қалпына келтіру үшін Signal Login тіркелу деректеріңіз қолданылады. Бұл кілттерді өзіңіз сенетін құпия сөз менеджерінде сақтап қойыңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Толық ақпарат"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Аккаунт және қалпына келтіру"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 кілт"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login тіркелу деректеріңіз"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Аккаунт кілті"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Аккуант идентификаторы"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Қалпына келтіру кілті"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Сақтау"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Бұл – байланыстырылған құрылғы"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Аккаунт параметрлерін басқару үшін негізгі құрылғыда Signal қолданбасын ашыңыз."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Масштабтау деңгейі"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Озық"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "PIN кодты өзгерту"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Өзгерту"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN коды"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Чат қалталары"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Көрсету"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Дыбыстар"
@@ -6251,28 +6257,28 @@
     "messageformat": "Қолданба танымбелгісі"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Хабарландырудың әдепкі параметрлерін, соның ішінде чаттарыңызға арналған арнаулы параметрлерді қайта орнатыңыз."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Бастапқы күйге қайтару"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Барлық чат үшін хабарландыруларды әдепкі параметрлерге қайтару керек пе?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Бастапқы күйге қайтару"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Статистика таңбасы"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Статистика таңбасы оқылмаған хабарлардың санын немесе оқылмаған чаттардың санын көрсететінін не көрсетпейтінін таңдаңыз."
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Оқылмаған хабарлар"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Оқылмаған чаттар"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Чат тарихын экспорттау"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Жаңарту керек"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{currentBytes}/{totalBytes} ({percentage,number,percent}) жүктеп алынып жатыр..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Хабарларды синхрондау процесін аяқтау үшін Signal Desktop қолданбасын қазір жаңартыңыз."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Жаңарту"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Жаңарту керек"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN коды дұрыс емес. Қайталап көру"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Растау"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN коды дұрыс. Кейінірек тағы есіңізге саламыз."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "PIN кодты осы құрылғы тіркелген сайын өзгертуге болады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Signal PIN кодын растау"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "PIN кодын растау"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Бас тарту"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Жалғастыру"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Растау"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal-дың компьютерлік нұсқасы жақында компьютеріңіздегі {OS} нұсқасымен жұмыс істемейтін болады. Signal-ды пайдалана беру үшін {expirationDate} күніне дейін компьютеріңіздің операциялық жүйесін жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Өз-өзіңізді іздеу өмір бойы жалғасса да, енді топ мүшелерінің арасынан өзіңізді \"Сіз\" деген белгі арқылы оңай таба аласыз."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Бұл жаңарту Signal хабарландыруларын бұрынғыдан да жақсы басқаруға мүмкіндік беретін жаңа параметрлерді ұсынады. Енді қолданба таңбасында не көрсетілетінін таңдауға, дыбысы өшірілген чаттардың хабарландыру параметрлерін реттеуге және т.б. әрекеттерді орындауға болады. Сондай-ақ хабарландыру параметрлеріне тым көп өзгеріс енгізіп, өзіңіз де қай параметрді қалай қойғаныңызды білмей қалсаңыз, әдепкі хабарландыру параметрлерін оңай қалпына келтіруге арналған ыңғайлы түймені қостық."
   }
 }

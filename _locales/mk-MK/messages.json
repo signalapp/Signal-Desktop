@@ -66,16 +66,19 @@
     "messageformat": "Донирај на Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Поврзаните уреди</bold> ви даваат безбеден пристап до вашата Signal корисничка сметка и пораките на кој било од вашите дополнителни уреди."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Можете да поврзете десктоп, таблет или дополнителен телефон."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Од вашиот примарен уред се управуваат поврзаните уреди, можете да поврзете до 5 уреди."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Со поставувањата на корисничката сметка можете да управувате само од примарниот уред, вклучувајќи ги и поставувањата за корисничка сметка и резервни копии."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандардно"
@@ -651,19 +654,19 @@
     "messageformat": "Автоматската верификација на клучот моментално не е достапна за вашиот уред. Сакате да испратите запис за отстранување грешки?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Автоматската верификација на клучот моментално не е достапна за вашиот уред. Сакате да испратите извештај за да ни помогнете да се подобриме?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Записите за дебагирање ни помагаат при дијагностицирање и отстранување на грешката и не содржат лични податоци."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Вклучувањето на твоите записи за отстранување грешки ни помага при дијагностицирање и отстранување на грешката и записите не содржат лични податоци. Споделувањето не е задолжително."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Споделете запис за дебагирање"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Вклучи запис за отстранување грешки"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Прегледај"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Не можете да додавате повеќе прилози за оваа порака."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Извинете, избраната датотека ги надминува рестрикциите за големина. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Жал ни е, избраното видео ги надминува рестрикциите за големина на порака. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Оваа датотека не може да се испрати бидејќи е преголема. Можете да испраќате датотеки до {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Намалете го прегледот"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Измени го прегледот на учесници"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Преглед како мрежа"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Преглед со странична лента"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Преглед на говорник"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Прегледот е ажуриран"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Страничен преглед"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Звучник"
+    "messageformat": "Говорник"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Споделете го екранот"
@@ -5199,64 +5184,64 @@
     "messageformat": "Белешка"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Додека се исклучени известувањата"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Изберете кои известувања ќе се прикажуваат кога се исклучени известувањата на овој разговор."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Повици"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Ѕвонење или известување кога ќе започне повик додека се исклучени известувањата за овој разговор."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Спомнувања"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Известување кога ќе ве спомнат додека се исклучени известувањата на овој разговор."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Одговори"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Известување кога некој ќе одговори на ваша порака додека се исклучени известувањата на овој разговор."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Ниедна"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Повици"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Спомнувања"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Одговори"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Повици, спомнувања"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Повици, одговори"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Спомнувања, одговори"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Повици, спомнувања, одговори"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Изберете кои известувања ќе се прикажуваат за разговорите со исклучени известувања."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Ѕвонење или известување кога ќе започне повик во разговори со исклучени известувња."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Известувања кога некој ќе ве спомне во разговори со исклучени известувања."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Известување кога некој ќе одговори на вашите пораки во разговори со исклучени известувања."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Спомнувања"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "По потврдувањето, можете да продолжите со испраќање пораки. Сите паузирани пораки автоматски ќе се испратат."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Продолжи"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Сакате да продолжите без да верифицирате?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Известување кога некој ќе реагира на ваша порака"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Сметка"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Општо"
@@ -6167,31 +6155,43 @@
     "messageformat": "Систем"
   },
   "icu:Preferences--signal-login": {
-    "messageformat": "Signal Login"
+    "messageformat": "Signal-најава"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Вашата Signal-најава се користи за добивање повторен пристап и враќање на вашата корисничка сметка. Овие клучеви чувајте ги безбедно во управувач со лозинки во кој имате доверба. <learnMoreLink>Дознајте повеќе</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Дознајте повеќе"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Корисничка сметка и добивање повторен пристап до неа"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 клуча"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Вашиот Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Клуч за корисничка сметка"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Идентификација на корисничка сметка"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Клуч за враќање резервни копии"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Зачувај"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Ова е поврзан уред"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "За да управувате со поставувањата на вашата корисничка сметка, отворете Signal на вашиот примарен уред."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Ниво на зум"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Напредно"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Сменете го Вашиот PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Изменете"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Папки со разговори"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Прикажи"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Звуци"
@@ -6251,28 +6257,28 @@
     "messageformat": "Беџови на апликацијата"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Се ресетираат известувањата на стандардните поставувања, вклучувајќи и прилагодени поставувања за вашите разговори."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Ресетираj"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Да се ресетираат известувањата на стандардните поставувања за сите разговори?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Ресетираj"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Број на известувања"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Изберете дали со „Број на известувања“ ќе се прикажува бројот на непрочитани пораки или бројот на непрочитани разговори"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Непрочитани пораки"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Непрочитани разговори"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Извоз на историјата на разговори"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Потребно е ажурирање"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Се преземаат {currentBytes} од {totalBytes} ({percentage,number,percent})…"
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "За да ја завршите синхронизацијата на вашите пораки, ажурирајте ја апликацијата Signal Desktop сега."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Aжурирај"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Потребно е ажурирање"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Погрешен PIN. Обиди се повторно"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Потврди"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN-от е точен. Ќе ве потсетиме пак подоцна."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Можете да го промените Вашиот PIN се додека овој уред е регистриран. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Потврдете го Вашиот Signal PIN"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Потврди PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Откажи"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Продолжи"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Потврди"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal за десктоп наскоро ќе престане да ја поддржува верзијата на {OS} на вашиот компјутер. За да продолжите да користите Signal, ажурирајте го оперативниот систем на вашиот компјутер до {expirationDate}. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Подобрувања при пребарувањата на членови на групата."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Подобрени поставувања за известувања со повеќе опции за тоа како и кога се појавуваат известувањата."
   }
 }

@@ -66,16 +66,19 @@
     "messageformat": "Aan Signal doneren"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Met <bold>gekoppelde apparaten</bold> heb je veilig toegang tot je Signal-account en berichten op al je apparaten."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Je kunt een desktop, tablet of extra telefoon koppelen."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Je primaire apparaat beheert welke apparaten gekoppeld zijn. Je kunt maximaal 5 gekoppelde apparaten tegelijk hebben."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Sommige instellingen kunnen alleen worden aangepast op je primaire apparaat, zoals accountinstellingen en back-ups."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standaard"
@@ -651,19 +654,19 @@
     "messageformat": "Automatische sleutelverificatie is momenteel niet beschikbaar voor jouw apparaat. Foutopsporingslog indienen?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automatische sleutelverificatie is momenteel niet beschikbaar voor jouw apparaat. Wil je een melding doen om ons te helpen verbeteren?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Foutopsporingslogs helpen ons het probleem op te sporen en op te lossen en bevatten geen identificeerbare informatie."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Met een foutopsporingslogs help je ons het probleem op te sporen en op te lossen. Het bevat geen identificeerbare informatie. Delen is optioneel."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Foutopsporingslog delen"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Foutopsporingslog bijvoegen"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Weergeven"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Je kunt niet nog meer bijlagen toevoegen aan dit bericht."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Sorry, het geselecteerde bestand overschrijdt de maximale grootte. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, het geselecteerde videobestand overschrijdt de maximale grootte. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Bestand kan niet verstuurd worden omdat het te groot is. Je kunt bestanden van maximaal {limit,number}{units} versturen."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Voorbeeld minimaliseren"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Weergave wijzigen"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Rasterweergave"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Zijbalkweergave"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Sprekerweergave"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Weergave bijgewerkt"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Notitie"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Indien gedempt"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Kies welke meldingen je wilt ontvangen terwijl deze chat is gedempt."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Oproepen"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Speel beltoon af en ontvang meldingen wanneer een oproep wordt gestart terwijl deze chat is gedempt"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Vermeldingen"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Ontvang meldingen wanneer je wordt @vermeld terwijl deze chat is gedempt."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Antwoorden"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Ontvang meldingen wanneer iemand op je bericht antwoordt terwijl deze chat is gedempt"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Niets"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Oproepen"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Vermeldingen"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Antwoorden"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Oproepen, vermeldingen"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Oproepen, antwoorden"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Vermeldingen, antwoorden"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Oproepen, vermeldingen, antwoorden"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Kies welke meldingen je wilt ontvangen voor gedempte chats."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Speel beltoon af en ontvang meldingen wanneer een oproep wordt gestart in een gedempte chat"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Ontvang meldingen wanneer je wordt vermeld in een gedempte chat"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Ontvang meldingen wanneer iemand op je bericht antwoordt in een gedempte chat"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Vermeldingen"
@@ -5622,6 +5607,9 @@
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Na de verificatie kun je doorgaan met het verzenden en ontvangen van berichten. Enig bericht waarvan verzenden is gepauzeerd zal dan automatisch worden verzonden."
   },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Doorgaan"
+  },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Doorgaan zonder te verifiëren?"
   },
@@ -5662,7 +5650,7 @@
     "messageformat": "Standaardkleur resetten"
   },
   "icu:ChatColorPicker__confirm-reset": {
-    "messageformat": "Alle chatkleuren resetten"
+    "messageformat": "Resetten"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
     "messageformat": "Wil je de chatkleuren van al je chats resetten?"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Je Signal Login wordt gebruikt om je account te identificeren en te herstellen. Bewaar deze sleutels veilig in een wachtwoordmanager die je vertrouwt. <learnMoreLink>Meer informatie</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Meer informatie"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Account en herstel"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 sleutels"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Je Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Accountsleutel"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Account-ID"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Herstelsleutel"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Opslaan"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Dit is een gekoppeld apparaat"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Open Signal op je primaire apparaat, om je accountinstellingen te beheren."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Vergrotingsniveau"
@@ -6200,13 +6200,13 @@
     "messageformat": "Linkvoorbeelden meesturen"
   },
   "icu:Preferences__link-previews--new-description": {
-    "messageformat": "Genereer voor elke link die je verzendt een voorbeeld van de website en stuur dit mee met je bericht"
+    "messageformat": "Genereer voor elke link die je verzendt een voorbeeld van de website en stuur dit mee met je bericht."
   },
   "icu:Preferences__address-book-photos--title": {
     "messageformat": "Profielfoto's uit telefooncontacten gebruiken"
   },
   "icu:Preferences__address-book-photos--description": {
-    "messageformat": "Geef indien beschikbaar de profielfoto's uit de contactenlijst van je telefoon weer"
+    "messageformat": "Geef indien beschikbaar de profielfoto's uit de contactenlijst van je telefoon weer."
   },
   "icu:Preferences__auto-convert-emoji--title": {
     "messageformat": "Converteer getypte emoticons naar emoji"
@@ -6222,6 +6222,12 @@
   },
   "icu:Preferences--advanced": {
     "messageformat": "Geavanceerd"
+  },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Pincode wijzigen"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Aanpassen"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal-pincode"
@@ -6242,7 +6248,7 @@
     "messageformat": "Chatmappen"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Weergeven"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Geluiden"
@@ -6251,28 +6257,28 @@
     "messageformat": "App-badge"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Zet meldingsinstellingen terug naar de standaardinstellingen, inclusief de aangepaste instellingen voor je chats."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Resetten"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Alle meldingsinstellingen voor alle chats terugzetten naar de standaardinstellingen?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Resetten"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Meldingenteller op badge"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Selecteer of de meldingenteller op de badge het aantal ongelezen berichten of het aantal ongelezen chats weergeeft"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Ongelezen berichten"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Ongelezen chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Chatgeschiedenis exporteren"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Update vereist"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{currentBytes} van {totalBytes} ({percentage,number,percent}) aan het downloaden…"
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Om het synchroniseren van je berichten te kunnen voltooien, moet je Signal Desktop nu bijwerken."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Bijwerken"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update vereist"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Onjuiste pincode. Opnieuw proberen"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Bevestigen"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "Juiste pincode. We zullen het later opnieuw vragen."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Zolang je telefoonnummer voor dit apparaat geregistreerd staat kun je je pincode nog wijzigen. <learnMoreLink>Meer informatie</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Bevestig je Signal-pincode"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Voer de pincode die je zojuist hebt aangemaakt opnieuw in."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Bevestig je pincode"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Annuleren"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Doorgaan"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Bevestigen"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop ondersteunt binnenkort jouw computers versie van {OS} niet meer. Als je Signal wilt blijven gebruiken, moet je het besturingssysteem van je computer vóór {expirationDate} bijwerken. <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Jezelf vinden is soms een levenslange zoektocht. In Signal hebben we die zoektocht nu makkelijker gemaakt: als je nu zoekt in groepsleden, verschijn je zelf als ‘Jij’."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Deze update geeft je meer mogelijkheden om je Signal-meldingen in te stellen. Je kunt nu kiezen wat er op de app-badge verschijnt, meldingsinstellingen voor gedempte chats aanpassen en meer! We hebben ook een handige knop toegevoegd waarmee je terug kunt naar de standaardmeldingsinstellingen, voor het geval je door de bomen het bos niet meer ziet."
   }
 }

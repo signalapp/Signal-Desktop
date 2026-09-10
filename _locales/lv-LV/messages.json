@@ -66,16 +66,19 @@
     "messageformat": "Ziedot Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Saistītās ierīces</bold> ļauj droši piekļūt savam Signal kontam un ziņām jebkurā papildu ierīcē."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Jūs varat piesaistīt datoru, planšetdatoru vai citu tālruni."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Jūs varat pārvaldīt piesaistītās ierīces savā galvenajā ierīcē. Piesaistīt var līdz 5 ierīcēm."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Konta iestatījumus var pārvaldīt tikai galvenajā ierīcē, tostarp konta iestatījumus un rezerves kopijas."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standarta"
@@ -651,19 +654,19 @@
     "messageformat": "Automātiskā atslēgu verifikācija jūsu ierīcei pašlaik nav pieejama. Vai iesniegt atkļūdošanas žurnālu?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automātiskā atslēgu verifikācija jūsu ierīcei pašlaik nav pieejama. Iesniegt ziņojumu, lai palīdzētu mums veikt uzlabojumus?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Atkļūdošanas žurnāli palīdz mums diagnosticēt un novērst problēmu, un tie nesatur identificējošu informāciju."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Atkļūdošanas žurnālu pievienošana palīdz mums diagnosticēt un novērst problēmu, tie nesatur identificējošu informāciju. Kopīgošana nav obligāta."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Kopīgot atkļūdošanas žurnālu"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Pievienojiet atkļūdošanas žurnālu"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Skatīt"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Šai ziņai vairs nevar pievienot citus pielikumus."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Diemžēl atlasītais fails pārsniedz ziņas izmēra ierobežojumus. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Diemžēl atlasītais video fails pārsniedz ziņas izmēra ierobežojumus. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Nevar nosūtīt šo failu, jo tas ir pārāk liels. Jūs varat sūtīt failus, kas nepārsniedz {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimizēt priekšskatījumu"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Mainīt skatu"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Režģa skats"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Sānjoslas skats"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Runātāja skats"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Skats atjaunināts"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Sānjosla"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Skaļrunis"
+    "messageformat": "Runātājs"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Ekrāna kopīgošana"
@@ -5199,64 +5184,64 @@
     "messageformat": "Piezīme"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Kad ir izslēgta skaņa"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Izvēlieties paziņojumus, ko rādīt, kamēr sarunai ir izslēgta skaņa."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Zvani"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Atskaņot zvana signālu vai rādīt paziņojumu, ja zvans tiek sākts, kamēr šai sarunai ir izslēgta skaņa."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Pieminējumi"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Rādīt paziņojumu, ja tiekat pieminēts ar @, kamēr sarunai ir izslēgta skaņa."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Atbildes"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Rādīt paziņojumu, ja kāds atbild uz jūsu ziņu, kamēr šai sarunai ir izslēgta skaņa."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Nav"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Zvani"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Pieminējumi"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Atbildes"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Zvani, pieminējumi"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Zvani, atbildes"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Pieminējumi, atbildes"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Zvani, pieminējumi, atbildes"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Izvēlieties paziņojumus, ko rādīt apklusinātām sarunām."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Atskaņot signālu vai rādīt paziņojumu, ja zvans tiek sākts sarunā, kurai ir izslēgta skaņa."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Rādīt paziņojumu, ja tiekat pieminēts sarunā, kurai ir izslēgta skaņa."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Rādīt paziņojumu, ja kāds atbild uz jūsu ziņu sarunā, kurai ir izslēgta skaņa."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Pieminējumi"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Pēc verifikācijas varat turpināt ziņapmaiņu. Visas pauzētās ziņas tiks automātiski nosūtītas."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Turpināt"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Vai turpināt bez verifikācijas?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Rādīt paziņojumu, ja kāds reaģē uz jūsu ziņu"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Konts"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Vispārīgi"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Login ļauj jums atgūt un atjaunot savu kontu. Glabājiet šīs atslēgas drošā vietā, izmantojot uzticamu paroļu pārvaldnieku. <learnMoreLink>Uzzināt vairāk</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Konts un atjaunošana"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 atslēgas"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Jūsu Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Konta atslēga"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Konta ID"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Atkopšanas atslēga"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Saglabāt"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Šī ir saistīta ierīce"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Lai pārvaldītu konta iestatījumus, atveriet Signal savā galvenajā ierīcē."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Tālummaiņas līmenis"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Papildu"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Labot jūsu PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Mainīt"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Sarunu mapes"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Rādīt"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Skaņas"
@@ -6251,28 +6257,28 @@
     "messageformat": "Lietotnes nozīmīte"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Atiestatiet paziņojumu iestatījumus uz noklusējuma vērtībām, tostarp atsevišķu sarunu pielāgotos iestatījumus."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Atstatīt"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Vai atiestatīt visu sarunu paziņojumu iestatījumus uz noklusējuma vērtībām?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Atstatīt"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Skaita nozīmīte"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Izvēlieties, vai skaita nozīmītē rādīt nelasīto ziņu skaitu vai nelasīto sarunu skaitu"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Nelasītas ziņas"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Nelasītas sarunas"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportēt sarunu vēsturi"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Nepieciešams atjauninājums"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Lejupielādē {currentBytes} no {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Lai pabeigtu ziņu sinhronizēšanu, atjauniniet Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Atjaunināt"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Nepieciešams atjauninājums"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Nepareizs PIN. Mēģiniet vēlreiz"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Apstiprināt"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN pareizs. Atgādināsim vēlreiz vēlāk."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Varat labot PIN kamēr ierīce ir reģistrēta. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Apstipriniet Signal PIN"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Apstiprināt PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Atcelt"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Turpināt"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Apstiprināt"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Drīzumā Signal Desktop vairs neatbalstīs jūsu datora {OS} versiju. Lai turpinātu lietot Signal, atjauniniet datora operētājsistēmu līdz {expirationDate}. <learnMoreLink>Lasīt vairāk</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Tagad jūs grupas biedru meklēšanā citu lietotāju vidū tiksiet rādīts kā “jūs”."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Šajā atjauninājumā ir ieviesti detalizētāki iestatījumi, kas sniedz plašākas iespējas kontrolēt Signal paziņojumus. Tagad varat izvēlēties, kas tiek rādīts lietotnes nozīmītē, pielāgot paziņojumu iestatījumus sarunās ar izslēgtu skaņu un daudz ko citu! Tāpat esam pievienojuši ērtu pogu, kas ļauj atjaunot paziņojumu noklusējuma iestatījumus, ja gadās apjukt visās veiktajās izmaiņās."
   }
 }

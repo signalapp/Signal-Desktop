@@ -66,16 +66,19 @@
     "messageformat": "Lahjoita Signalille"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Yhdistetyt laitteet</bold> mahdollistaa pääsyn Signal-tilille ja -viesteihin turvallisesti myös muilta laitteilta."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Voit yhdistää pöytäkoneen, tabletin tai toisen puhelimen."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Yhdistettyjä laitteita voi olla korkeintaan viisi, ja niitä hallinnoidaan ensisijaiselta laitteelta."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Asetuksia pystyy hallinnoimaan vain ensisijaiselta laitteelta, mukaan lukien tiliasetukset ja varmuuskopiointi."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Vakio"
@@ -651,19 +654,19 @@
     "messageformat": "Automaattinen avaimen vahvistus ei ole tällä hetkellä käytettävissä laitteellasi. Lähetetäänkö vianetsintäloki?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automaattinen avaimen vahvistus ei ole tällä hetkellä käytettävissä laitteellasi. Haluatko lähettää vikailmoituksen ja auttaa meitä kehittämään sovellusta?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Vianetsintälokit auttavat meitä diagnosoimaan ja korjaamaan ongelman, eivätkä ne sisällä tunnistetietoja."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Virheenkorjauslokien lähettäminen auttaa meitä diagnosoimaan ja korjaamaan ongelman, eivätkä ne sisällä tunnistetietoja. Jakaminen on vapaaehtoista."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Jaa vianetsintäloki"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Liitä virheenkorjausloki"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Näytä"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Tähän viestiin ei voida liittää enempää liitetiedostoja."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Tiedosto ylittää viestin kokorajoituksen. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Pahoittelut. Valittu videotiedosto ylittää viestin kokorajoituksen. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Lähetys ei onnistu, koska tiedosto on liian suuri. Suurin sallittu koko on {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Pienennä esikatselu"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Vaihda näkymää"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Ruudukkonäkymä"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Sivupalkin näkymä"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Aktiivisen puhujan näkymä"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Näkymä päivitetty"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "Sivupalkki"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Kaiutin"
+    "messageformat": "Äänessä"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Jaa näyttösi"
@@ -5199,64 +5184,64 @@
     "messageformat": "Huomautus"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Kun mykistetty"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Valitse näytettävät ilmoitukset, kun keskustelu on mykistetty."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Puhelut"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Soita tai ilmoita puhelun alkamisesta, kun keskustelu on mykistetty."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Maininnat"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Ilmoita, kun sinut mainitaan, kun keskustelu on mykistetty."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Vastaukset"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Ilmoita, kun joku vastaa viestiisi, kun keskustelu on mykistetty."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Ei mitään"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Puhelut"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Maininnat"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Vastaukset"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Puhelut, maininnat"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Puhelut, vastaukset"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Maininnat, vastaukset"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Puhelut, maininnat, vastaukset"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Näytä ilmoitukset mykistetyistä keskusteluista."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Soita tai ilmoita, kun mykistetyssä keskustelussa aloitetaan puhelu."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Ilmoita, kun sinut mainitaan mykistetyssä keskustelussa."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Ilmoita, kun joku vastaa viestiisi mykistetyssä keskustelussa."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Maininnat"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Voit jatkaa viestintää vahvistamisen jälkeen. Kaikki odottavat viestit lähetetään automaattisesti."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Jatka"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Jatketaanko tarkistamatta?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Ilmoita, kun joku reagoi viestiisi"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Tili"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Yleiset"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Login -kirjautumisen avulla voit palauttaa tilisi. Säilytä näitä avaimia turvallisesti salasananhallintaohjelmassa, johon luotat. <learnMoreLink>Lue lisää</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Lue lisää"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Tili ja palautus"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "Kaksi avainta"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Signal Login -kirjautuminen"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Tiliavain"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Tilin tunniste"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Palautusavain"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Tallenna"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Tämä on yhdistetty laite"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Avaa Signal ensisijaisella laitteellasi, niin pääset hallinnoimaan tiliasetuksia."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Suurennustaso"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Lisäasetukset"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Vaihda tunnusluku"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Vaihda"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal-tunnusluku"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Keskustelukansiot"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Näytä"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Äänet"
@@ -6251,28 +6257,28 @@
     "messageformat": "Sovelluksen merkki"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Palauta ilmoitusten asetukset oletusarvoihin, mukaan lukien keskusteluiden muokatut asetukset."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Palauta alkuasetuksiin"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Palautetaanko kaikki ilmoitusten asetukset oletusasetuksiin kaikissa keskusteluissa?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Palauta alkuasetuksiin"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Ilmoitusten lukumäärä"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Valitse, näyttääkö ilmoitusten laskin lukemattomat viestit vai lukemattomat keskustelut"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Lukemattomat viestit"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Lukemattomat keskustelut"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Vie keskusteluhistoria"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Päivitys vaaditaan"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Ladataan {currentBytes} / {totalBytes} ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Viimeistele viestien synkronointi päivittämällä Signal Desktop nyt."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Päivitä"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Päivitys vaaditaan"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Väärä PIN-koodi. Yritä uudelleen"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Vahvista"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "Oikea PIN-koodi. Muistutamme sinua jälleen myöhemmin."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Tunnusluvun voi vaihtaa vain laitteella, joka on rekisteröity. <learnMoreLink>Lue lisää</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Vahvista Signal-tunnuslukusi"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Syötä äsken luomasi tunnusluku uudelleen"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Vahvista tunnusluku"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Peruuta"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Jatka"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Vahvista"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signalin työpöytäsovelluksen tuki tietokoneesi {OS}-versiolle päättyy pian. Jos haluat jatkaa Signalin käyttöä, päivitä tietokoneesi käyttöjärjestelmä {expirationDate} mennessä. <learnMoreLink>Lue lisää</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Ryhmien jäsenten haun parannuksia."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Parannetut ilmoitusasetukset ja enemmän vaihtoehtoja ilmoitusten näyttämiseksi."
   }
 }
