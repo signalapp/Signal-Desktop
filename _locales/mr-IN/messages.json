@@ -66,16 +66,16 @@
     "messageformat": "Signal ला देणगी द्या"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>लिंक केलेले डिव्हाइस</bold> तुम्हाला तुमच्या कोणत्याही अतिरिक्त डिव्हाईसवर सुरक्षितपणे तुमचे Signal खाते आणि संदेश प्राप्त करू देतात."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "तुम्ही डेस्कटॉप, टॅबलेट किंवा आणखी फोन लिंक करू शकता."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "तुमचा मुख्य डिव्हाईस काय लिंक केलेले आहे त्याचे व्यवस्थापन करतो, तुम्ही कमाल 5 डिव्हाईस लिंक करू शकता."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "खाते सेटिंग्ज फक्त तुमच्या मुख्य डिव्हाईसवरूनच व्यवस्थापित करता येतात, ज्यात खाते सेटिंग्ज आणि बॅकअप्सचा समावेश होतो."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "मानक"
@@ -651,19 +651,19 @@
     "messageformat": "तुमच्या डिव्हाईस वर स्वयंचलित की पडताळणी सध्या अनुपलब्ध आहे. डीबग लॉग सबमिट करायचा?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "तुमच्या डिव्हाईसवर स्वयंचलित की पडताळणी सध्या अनुपलब्ध आहे. आम्हाला सुधारण्यास मदत करण्यासाठी एक अहवाल सादर कराल का?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "डीबग लॉग आम्हाला समस्येचे निदान करण्यास आणि ती दुरुस्त करण्यास मदत करते, आणि त्यामध्ये ओळख उघड करणारी माहिती नसते."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "तुमचे डीबग लॉग समाविष्ट केल्याने आम्हाला समस्येचे निदान आणि निराकरण करण्यास मदत होते, आणि यांमध्ये तुमची ओळख उघड करणारी माहिती नसते. माहिती देणे पर्यायी आहे."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "डीबग लॉग शेअर करा"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "डीबग लॉगचा समावेश करा"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "पहा"
@@ -3930,7 +3930,7 @@
     "messageformat": "साईडबार"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "स्पीकर"
+    "messageformat": "वक्ता"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "आपली स्क्रीन सामायिक करा"
@@ -5199,64 +5199,64 @@
     "messageformat": "टीप"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "म्युट असताना"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "हे चॅट म्युट असताना कोणत्या अधिसूचना दाखवायच्या ते निवडा."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "कॉल"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "हे चॅट म्युट केलेले असताना कॉल सुरु झाला तर रिंग वाजवा किंवा अधिसूचना द्या."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "उल्लेख"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "हे चॅट म्युट केलेले असताना तुमचा @उल्लेख झाला तर अधिसूचना द्या."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "प्रत्युत्तरे"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "हे चॅट म्युट केलेले असताना कोणी तुमच्या संदेशाला उत्तर दिले तर अधिसूचना द्या."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "कुठलेही नाही"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "कॉल"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "उल्लेख"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "प्रत्युत्तरे"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "कॉल्स, उल्लेख"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "कॉल्स, उत्तरे"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "उल्लेख, उत्तरे"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "कॉल्स, उल्लेख, उत्तरे"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "म्युट केलेल्या चॅट्सकरिता कोणत्या अधिसूचना दाखवायच्या ते निवडा."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "म्युट केलेल्या चॅट्समध्ये कॉल चालू झाला तर रिंग वाजवा किंवा अधिसूचना द्या."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "म्युट केलेल्या चॅट्समध्ये तुमचा उल्लेख झाला तर अधिसूचना द्या."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "म्युट केलेल्या चॅट्समध्ये कोणी तुमच्या संदेशाला उत्तर दिले तर अधिसूचना द्या."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "उल्लेख"
@@ -6095,7 +6095,7 @@
     "messageformat": "तुमच्या संदेशावर कोणी प्रतिक्रिया दिली तर सूचना द्या"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "खाते"
   },
   "icu:Preferences__button--general": {
     "messageformat": "सामान्य"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "तुमचे खाते पुन्हा मिळवण्यासाठी आणि रीस्टोर करण्यासाठी तुमचे Signal Login वापरले जाते. या कीज् तुमच्या विश्वासातील एका पासवर्ड व्यवस्थापकात सुरक्षितपणे साठवून ठेवा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "अधिक जाणून घ्या"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "खाते आणि पुनःप्राप्ती"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 कीज्"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "खाते की"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "रीकव्हरी की"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "हा लिंक केलेला डिव्हाइस आहे"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "तुमच्या खात्याचे सेटिंग्ज व्यवस्थापित करण्यासाठी, तुमच्या मुख्य डिव्हाईसवर Signal उघडा."
   },
   "icu:Preferences--zoom": {
     "messageformat": "झूम स्तर"
@@ -6242,7 +6242,7 @@
     "messageformat": "चॅट फोल्डर्स"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "दाखवा"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ध्वनी"
@@ -6251,28 +6251,28 @@
     "messageformat": "ॲप बॅज"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "अधिसूचना सेटिंग्ज डीफॉल्टवर रीसेट करा, अगदी तुमच्या चॅट्ससाठीच्या कस्टम सेटिंग्ज सुद्धा."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "रीसेट करा"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "सर्व चॅट्सकरिता सर्व अधिसूचना सेटिंग्ज डीफॉल्टवर रीसेट करायच्या का?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "रीसेट करा"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "बॅज गणना"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "बॅज संख्येमध्ये न वाचलेले संदेश किंवा न वाचलेली चॅट्स दिसावीत का ते निवडा"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "न वाचलेले संदेश"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "न वाचलेली चॅट्स"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "चॅट इतिहास एक्सपोर्ट करा"
@@ -8992,6 +8992,6 @@
     "messageformat": "स्वतःचा शोध घ्यायला अख्खं आयुष्य लागू शकतं, पण गट सदस्य शोधामध्ये ते थोडे सोपे होण्यासाठी तुम्ही आता \"तुम्ही\" या नावाने दिसाल."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "अधिसूचना कशा आणि कधी दिसाव्यात यासाठी विस्तारित पर्याय असलेल्या सुधारित अधिसूचना सेटिंग्ज. ॲप बॅज वर काय दिसावे ते आता तुम्ही निवडू शकता, म्युट केलेल्या थ्रेड्ससाठी अधिसूचना प्राधान्ये बदलू शकता, आणि आणखी बरेच काही! तुम्ही जर इतके बदल केलेत की ते तुमचे तुम्हालाच लक्षात राहिले नाहीत, तर आम्ही डीफॉल्ट अधिसूचना सेटिंग्ज पूर्ववत करण्यासाठी एक सोयीचे बटणही जोडले आहे."
   }
 }

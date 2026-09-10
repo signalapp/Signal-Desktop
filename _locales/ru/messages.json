@@ -66,16 +66,16 @@
     "messageformat": "Поддержать Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Связанные устройства</bold> позволяют вам безопасно получить доступ к вашей учётной записи Signal и сообщениям на любом из ваших дополнительных устройств."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Вы можете привязать ПК, планшет или дополнительный телефон."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Ваше основное устройство управляет связанными устройствами, и вы можете привязать до 5 устройств."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Настройки, включая настройки учётной записи и резервные копии, доступны только на вашем основном устройстве."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандартное"
@@ -651,19 +651,19 @@
     "messageformat": "Автоматическое подтверждение ключа в настоящее время недоступно для вашего устройства. Отправить журналы отладки?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Автоматическое подтверждение ключа в настоящее время недоступно для вашего устройства. Отправить отчёт, чтобы помочь нам стать лучше?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Приложенные журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации. Отправлять их необязательно."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Поделиться журналом отладки"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Добавить журнал отладки"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Просмотреть"
@@ -3930,7 +3930,7 @@
     "messageformat": "Боковая панель"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Громкая связь"
+    "messageformat": "Говорящий"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Показать ваш экран"
@@ -5199,64 +5199,64 @@
     "messageformat": "Заметка"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Когда уведомления отключены"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Выберите уведомления, которые будут отображаться, пока другие уведомления в этом чате отключены."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Звонки"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Подавать звуковой сигнал или уведомлять о входящем звонке, если в этом чате отключены уведомления."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Упоминания"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Уведомлять, когда вас @упоминают в чате с отключёнными уведомлениями."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Ответы"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Уведомлять, когда кто-то отвечает на ваше сообщение в чате с отключёнными уведомлениями."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Нет"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Звонки"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Упоминания"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Ответы"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Звонки, упоминания"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Звонки, ответы"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Упоминания, ответы"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Звонки, упоминания, ответы"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Выбрать уведомления для показа в чатах с отключёнными уведомлениями."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Подавать звуковой сигнал или уведомлять о начавшемся звонке в чатах с отключёнными уведомлениями."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Уведомлять, когда вас упоминают в чатах с отключёнными уведомлениями."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Уведомлять, когда кто-то отвечает на ваше сообщение в чатах с отключёнными уведомлениями."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Упоминания"
@@ -6095,7 +6095,7 @@
     "messageformat": "Уведомлять, когда кто-то реагирует на ваше сообщение"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Учётная запись"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Общие"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Ваш Signal Login используется для восстановления вашей учётной записи. Храните эти ключи в надёжном менеджере паролей, которому доверяете. <learnMoreLink>Узнать больше</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Учётная запись и восстановление"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 ключа"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Ключ к учётной записи"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Ключ восстановления"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Это связанное устройство"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Чтобы управлять настройками вашей учётной записи, откройте приложение Signal на основном устройстве."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Масштаб"
@@ -6242,7 +6242,7 @@
     "messageformat": "Папки чатов"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Показывать"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Звуки"
@@ -6251,28 +6251,28 @@
     "messageformat": "Значок приложения"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Сбросить настройки уведомлений до значений по умолчанию, включая пользовательские настройки для ваших чатов."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Сбросить"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Сбросить настройки уведомлений до значений по умолчанию для всех чатов?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Сбросить"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Значок статистики"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Выберите, что будет отображаться на значке статистики: количество непрочитанных сообщений или количество непрочитанных чатов"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Непрочитанные сообщения"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Непрочитанные чаты"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Экспортировать историю чата"
@@ -8992,6 +8992,6 @@
     "messageformat": "В поисках себя можно находиться всю жизнь, но теперь в поиске участников группы вы будете отображаться как «Вы» — так будет немного проще."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Это обновление добавляет более детальные настройки уведомлений, предоставляя вам значительно больше возможностей для управления ими в Signal. Теперь вы можете выбирать, что будет отображаться на значке приложения, настраивать параметры уведомлений для чатов с отключёнными уведомлениями и многое другое! Мы также добавили удобную кнопку для восстановления настроек уведомлений по умолчанию на случай, если вы внесёте столько изменений, что перестанете себя контролировать."
   }
 }

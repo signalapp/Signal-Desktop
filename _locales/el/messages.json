@@ -66,16 +66,16 @@
     "messageformat": "Κάνε μια δωρεά στο Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Οι συνδεδεμένες συσκευές</bold> σού επιτρέπουν να έχεις ασφαλή πρόσβαση στον λογαριασμό και στα μηνύματά σου στο Signal από οποιαδήποτε από τις επιπλέον συσκευές σου."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Μπορείς να συνδέσεις έναν επιτραπέζιο υπολογιστή, ένα tablet ή ένα επιπλέον κινητό τηλέφωνο."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Η κύρια συσκευή σου διαχειρίζεται τις συνδέσεις, μπορείς να συνδέσεις έως και 5 συσκευές."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Η διαχείριση των ρυθμίσεων λογαριασμού πραγματοποιείται αποκλειστικά στην κύρια συσκευή σου, συμπεριλαμβανομένων των ρυθμίσεων λογαριασμού και των αντιγράφων ασφαλείας."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Κανονική"
@@ -651,19 +651,19 @@
     "messageformat": "Η Αυτόματη Επαλήθευση Κλειδιού δεν είναι διαθέσιμη προς το παρόν για τη συσκευή σου. Αποστολή αρχείου καταγραφής αποσφαλμάτωσης;"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Η Αυτόματη επαλήθευση κλειδιού δεν είναι διαθέσιμη προς το παρόν για τη συσκευή σου. Θέλεις να υποβάλεις μια αναφορά για να μας βοηθήσεις να βελτιωθούμε;"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Η συμπερίληψη των αρχείων καταγραφής αποσφαλμάτωσης μας βοηθά να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης. Η κοινοποίηση είναι προαιρετική."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Συμπερίλαβε αρχείο καταγραφής εντοπισμού σφαλμάτων"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Εμφάνιση"
@@ -3930,7 +3930,7 @@
     "messageformat": "Πλαϊνή μπάρα"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Μεγάφωνο"
+    "messageformat": "Ομιλητής"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Διαμοιρασμός οθόνης"
@@ -5199,64 +5199,64 @@
     "messageformat": "Σημείωση"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Σε σίγαση"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Επίλεξε τις ειδοποιήσεις που θέλεις να εμφανίζονται όσο η συνομιλία βρίσκεται σε σίγαση."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Κλήσεις"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Κουδούνισμα ή ειδοποίηση όταν ξεκινά μια κλήση σε αυτή τη συνομιλία σε σίγαση."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Αναφορές"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Ειδοποίηση όταν σε @αναφέρουν σε συνομιλίες σε σίγαση."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Απαντήσεις"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Ειδοποίηση όταν κάποιος απαντάει σε μήνυμά σου σε αυτή τη συνομιλία σε σίγαση."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Καμία"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Κλήσεις"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Αναφορές"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Απαντήσεις"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Κλήσεις, αναφορές"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Κλήσεις, απαντήσεις"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Αναφορές, απαντήσεις"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Κλήσεις, αναφορές, απαντήσεις"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Επίλεξε τις ειδοποιήσεις που θέλεις να εμφανίζονται για τις συνομιλίες που έχεις θέσει σε σίγαση."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Κουδούνισμα ή ειδοποίηση όταν ξεκινά μια κλήση σε συνομιλίες σε σίγαση."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Ειδοποίηση όταν σε αναφέρουν σε συνομιλίες σε σίγαση."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Ειδοποίηση όταν κάποιος απαντάει σε μήνυμά σου σε συνομιλία σε σίγαση."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Αναφορές"
@@ -6095,7 +6095,7 @@
     "messageformat": "Ειδοποίηση όταν κάποιος αντέδρασε στο μήνυμά σου"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Λογαριασμός"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Γενικά"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Το Signal Login σου χρησιμοποιείται για ανάκτηση και επαναφορά του λογαριασμού σου. Αποθήκευσε αυτά τα κλειδιά σε έναν διαχειριστή κωδικών πρόσβασης που εμπιστεύεσαι. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Λογαριασμός και ανάκτηση"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 κλειδιά"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Κλειδί λογαριασμού"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Κλειδί ανάκτησης"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Αυτή είναι μία συνδεδεμένη συσκευή"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Για να διαχειριστείς τις ρυθμίσεις του λογαριασμού σου, άνοιξε την εφαρμογή Signal στην κύρια συσκευή σου."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Επίπεδο zoom"
@@ -6242,7 +6242,7 @@
     "messageformat": "Φάκελοι συνομιλιών"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Εμφάνιση"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Ήχοι"
@@ -6251,28 +6251,28 @@
     "messageformat": "Σήμα εφαρμογής"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Επαναφορά προκαθορισμένων ρυθμίσεων ειδοποιήσεων, συμπεριλαμβανομένων προσαρμοσμένων ρυθμίσεων στις συνομιλίες."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Επαναφορά"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Επαναφορά όλων των προκαθορισμέων ρυθμίσεων ειδοποιήσεων για όλες τις συνομιλίες;"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Επαναφορά"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Έμβλημα μέτρησης"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Επίλεξε αν ο αριθμός στο εικονίδιο θα εμφανίζει τον αριθμό των μη αναγνωσμένων μηνυμάτων ή τον αριθμό των μη αναγνωσμένων συνομιλιών"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Μη αναγνωσμένα μηνύματα"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Μη αναγνωσμένες συνομιλίες"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Εξαγωγή ιστορικού συνομιλιών"
@@ -8992,6 +8992,6 @@
     "messageformat": "Βελτιώσεις στην αναζήτηση των μελών ομάδας."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Βελτιωμένες ρυθμίσεις ειδοποιήσεων με περισσότερες επιλογές σχετικά με τον τρόπο και τον χρόνο εμφάνισης των ειδοποιήσεων."
   }
 }

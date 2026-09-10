@@ -66,16 +66,16 @@
     "messageformat": "Signal'e Bağış Yap"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Bağlı Cihazlar</bold>, eklediğin diğer cihazlardan Signal hesabına ve mesajlarına güvenli bir şekilde erişmeni sağlar."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Bir masaüstü, tablet veya ilave telefon bağlayabilirsin."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Ana cihazın, bağlı cihazları yönetir ve en fazla 5 cihaz bağlayabilirsin."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Hesap ayarları, hesap ayarları ve yedeklemeler de dahil olmak üzere yalnızca ana cihazından yönetilir."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standart"
@@ -651,19 +651,19 @@
     "messageformat": "Otomatik Anahtar Doğrulama şu anda cihazında kullanılamıyor. Hata ayıklama günlüğü gönderilsin mi?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Otomatik Anahtar Doğrulama şu anda cihazında kullanılamıyor. Gelişmemize yardımcı olmak için bir rapor göndermek ister misin?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Hata ayıklama günlükleri, sorunu teşhis etmemize ve düzeltmemize yardımcı olur ve tanımlayıcı bilgiler içermezler."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Hata ayıklama günlüklerin dahil olmak üzere bu günlükler, sorunu teşhis etmemize ve düzeltmemize yardımcı olur ve tanımlayıcı bilgiler içermezler. Paylaşım isteğe bağlıdır."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Hata ayıklama günlüğünü paylaş"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Hata ayıklama günlüğü eklensin"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Görüntüle"
@@ -3930,7 +3930,7 @@
     "messageformat": "Kenar çubuğu"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Hoparlör"
+    "messageformat": "Konuşmacı"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Ekran paylaş"
@@ -5199,64 +5199,64 @@
     "messageformat": "Not"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Sessizdeyken"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Bu sohbet sessize alındığında gösterilecek bildirimleri seç."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Aramalar"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Bu sohbet sessizdeyken bir arama başlatıldığında, çaldır veya bildirim gönder."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Bahsedilmeler"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Bu sohbet sessize alındığında, senden @bahsedildi ise bildirim gönder."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Yanıtlar"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Bu sohbet sessizdeyken birisi mesajını yanıtladığında bildirim gönder."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Hiçbiri"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Aramalar"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Bahsedilmeler"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Yanıtlar"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Aramalar, bahsetmeler"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Aramalar, yanıtlar"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Bahsetmeler, yanıtlar"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Aramalar, bahsetmeler, yanıtlar"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Sessize alınan sohbetleri göstermek için bildirimleri seç."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Sessize alınmış sohbetlerde, bir arama başlatıldığında çaldır veya bildirim gönder."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Sessize alınmış sohbetlerde, senden bahsedildiğinde bildirim gönder."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Sessize alınmış sohbetlerde, birisi mesajını yanıtladığında bildirim gönder."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Bahsedilmeler"
@@ -6095,7 +6095,7 @@
     "messageformat": "Birisi mesajına tepki verdiğinde bildirim gönder"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Hesap"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Genel"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Hesabını kurtarmak ve geri yüklemek için Signal Login'in kullanılır. Bu anahtarları güvendiğin bir parola yöneticisinde sakla. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha fazla bilgi"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Hesap ve kurtarma"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 anahtar"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Hesap anahtarı"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kurtarma anahtarı"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Bu bir bağlı cihazdır"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Hesap ayarlarını yönetmek için ana cihazında Signal'ı aç."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Yakınlaştırma seviyesi"
@@ -6242,7 +6242,7 @@
     "messageformat": "Sohbet klasörleri"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Göster"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sesler"
@@ -6251,28 +6251,28 @@
     "messageformat": "Uygulama rozeti"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Sohbetlerine özel ayarlar da dahil olmak üzere bildirim ayarlarını varsayılana sıfırla."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Sıfırla"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Bildirim ayarlarının tamamı tüm sohbetler için varsayılana sıfırlansın mı?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Sıfırla"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Rozet sayısı"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Rozet sayısı, okunmamış mesaj sayısını ya da okunmamış sohbet sayısını gösteriyorsa seç"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Okunmamış mesajlar"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Okunmamış sohbetler"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Sohbet geçmişini dışa aktar"
@@ -8992,6 +8992,6 @@
     "messageformat": "Grup üyesi arama iyileştirmeleri."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Bildirimlerin nasıl ve ne zaman görüneceğini belirlemek için daha fazla seçenek sunan geliştirilmiş bildirim ayarları eklendi. Bundan böyle uygulama rozetinde ne görüneceğini seçebilir, sessize alınmış konular için bildirim tercihlerini ayarlayabilir ve daha birçok şey yapabilirsin! Çok fazla değişiklik yaptığında işler bir noktada karmaşıklaşırsa, varsayılan bildirim ayarlarını geri yüklemen için kullanışlı bir düğme de ekledik."
   }
 }

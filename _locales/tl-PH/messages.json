@@ -66,16 +66,16 @@
     "messageformat": "Mag-donate sa Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Tinutulungan ka ng <bold>Linked Devices</bold> na i-access ang Signal account at messages mo nang ligtas sa anumang additional devices mo."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Maaari kang mag-link ng desktop, tablet o additional phone."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Mina-manage ng primary device mo kung anong naka-link, at maaari kang mag-link ng hanggang 5 devices."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Sa primary device mo lang pwedeng i-manage ang account settings mo, kasama ang account settings at backups."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -651,19 +651,19 @@
     "messageformat": "Ang Automatic Key Verification ay kasalukuyang hindi available para sa device mo. Gusto mo bang mag-submit ng debug log?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Ang Automatic Key Verification ay hindi available sa ngayon para sa device mo. Gusto mo bang mag-submit ng report para tulungan kaming mag-improve?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Kapag isinama mo ang debug logs mo, matutulungan kami nitong alamin at ayusin ang issue, at hindi ito naglalaman ng impormasyon tungkol sa pagkakakilanlan mo. Optional ang pag-share."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "I-share ang debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Isama ang debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Tingnan"
@@ -5199,34 +5199,34 @@
     "messageformat": "Note"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Habang naka-mute"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Piliin kung anong notifications ang ipapakita habang naka-mute ang chat na ito."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Mga Tawag"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Mag-ring o mag-notify kapag may sinimulang call habang naka-mute ang chat na ito."
   },
   "icu:WhileMuted__mentions__title": {
     "messageformat": "Mentions"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Mag-notify kapag ikaw ay na-mention habang naka-mute ang chat na ito."
   },
   "icu:WhileMuted__replies__title": {
     "messageformat": "Replies"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Mag-notify kapag may nag-reply sa message mo habang naka-mute ang chat na ito."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Wala"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Mga Tawag"
   },
   "icu:WhileMuted__value--mentions": {
     "messageformat": "Mentions"
@@ -5247,16 +5247,16 @@
     "messageformat": "Calls, mentions, replies"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Piliin kung anong notifications lang ang ipapakita sa naka-mute na chats."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Mag-ring o mag-notify kapag may sinimulang call sa naka-mute na chats."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Mag-notify kapag na-mention ka sa naka-mute na chats."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Mag-notify kapag may nag-reply sa message mo sa naka-mute na chats."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions"
@@ -6170,13 +6170,13 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Ginagamit ang Signal Login mo para i-recover at i-restore ang iyong account. Ingatan ang keys na ito sa password manager na pinagkakatiwalaan mo. <learnMoreLink>Matuto pa tungkol dito</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Account at recovery"
   },
   "icu:Preferences__SignalAccount__description": {
     "messageformat": "2 keys"
@@ -6188,10 +6188,10 @@
     "messageformat": "Recovery key"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Ito ay isang linked device"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Para i-manage ang account settings mo, buksan ang Signal sa iyong primary device."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Zoom level"
@@ -6242,7 +6242,7 @@
     "messageformat": "Chat folders"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Ipakita"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sounds"
@@ -6251,22 +6251,22 @@
     "messageformat": "App badge"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "I-reset sa default ang notification settings, kasama ang custom settings para sa chats mo."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "I-reset"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Ibalik sa default ang lahat ng notification settings para sa lahat ng chats?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "I-reset"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
     "messageformat": "Badge count"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Piliin kung ipinapakita ng badge count ang bilang ng unread messages o ang bilang ng unread chats"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
     "messageformat": "Unread messages"
@@ -8992,6 +8992,6 @@
     "messageformat": "Improvements sa group member search."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Mas pinagandang notification settings dahil sa pinalawak na options kung paano at kailan ipapakita ang notifications."
   }
 }

@@ -66,16 +66,16 @@
     "messageformat": "Adomány a Signal számára"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "A <bold>Kapcsolt eszközök</bold> funkcióval biztonságosan hozzáférhetsz a Signal-fiókodhoz és az üzeneteidhez bármelyik további eszközödön."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Asztali számítógépet, táblagépet vagy további telefont is csatlakoztathatsz."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "A csatolt eszközöket az elsődleges eszközöd kezeli, így akár 5 eszközt is összekapcsolhatsz."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Egyes beállítások csak az elsődleges eszközön kezelhetők, beleértve a fiókbeállításokat és a biztonsági mentéseket."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normál"
@@ -651,19 +651,19 @@
     "messageformat": "Az automatikus kulcsellenőrzés jelenleg nem érhető el az eszközödön. Hibanapló küldése?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Az automatikus kulcsellenőrzés jelenleg nem érhető el az eszközödön. Beküldesz egy jelentést, hogy segíts nekünk fejlődni?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "A hibanaplók segítenek diagnosztizálni és kijavítani a problémát, és nem tartalmaznak azonosító információkat."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "A hibakeresési naplók beillesztése segít a probléma diagnosztizálásában és megoldásában, és nem tartalmaz azonosító információkat. A megosztás opcionális."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Hibanapló megosztása"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Hibanapló csatolása"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Megtekintés"
@@ -5199,64 +5199,64 @@
     "messageformat": "Megjegyzés"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Némítás alatt"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Válaszd ki az értesítéseket, amelyeket meg szeretnél jeleníteni, amíg ez a csevegés némítva van."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Hívások"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Csengés vagy értesítés fogadása ebben a némított csevegésben hívásindításkor."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Említések"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Értesítés fogadása, ha ebben a némított csevegésben megemlítenek."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Válaszok"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Értesítés fogadása, ha ebben a némított csevegésben valaki válaszol az üzenetemre."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Nincs"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Hívások"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Említések"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Válaszok"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Hívások, említések"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Hívások, válaszok"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Említések, válaszok"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Hívások, említések, válaszok"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Válaszd ki a némított csevegésekhez megjelenítendő értesítéseket."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Csengés vagy értesítés fogadása egy némított csevegésben hívásindításkor."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Értesítés fogadása, ha egy némított csevegésben megemlítenek."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Értesítés fogadása, ha egy némított csevegésben valaki válaszol az üzenetemre."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Említések"
@@ -6095,7 +6095,7 @@
     "messageformat": "Értesítést kapsz, ha valaki reagál az üzenetedre"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Fiók"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Általános"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "A Signal Loginoddal visszaállíthatod a fiókodat. Tartsd ezeket a kulcsokat biztonságosan egy megbízható jelszókezelőben. <learnMoreLink>Tudj meg többet</learnMoreLink>!"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tudj meg többet!"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Fiók és visszaállítás"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 kulcs"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Fiókkulcs"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Helyreállítási kulcs"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Ez egy kapcsolt eszköz"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Fiókbeállításaid kezeléséhez nyisd meg a Signal alkalmazást az elsődleges eszközödön."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Nagyítás mértéke"
@@ -6242,7 +6242,7 @@
     "messageformat": "Csevegési mappák"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Megjelenítés"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Hangok"
@@ -6251,28 +6251,28 @@
     "messageformat": "Alkalmazásjelvény"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Értesítési beállítások visszaállítása alapértelmezettre, beleértve a csevegések egyéni beállításait is."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Visszaállítás"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Az összes csevegésnél alapértelmezettre állítod az összes értesítési beállítást?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Visszaállítás"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Üzenetszámláló"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Válaszd ki, hogy a jelvények száma az olvasatlan üzenetek vagy az olvasatlan csevegések számát jelenítse-e meg"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Olvasatlan üzenetek"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Olvasatlan csevegések"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Csevegési előzmények exportálása"
@@ -8992,6 +8992,6 @@
     "messageformat": "Csoporttagok keresésének fejlesztései."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Továbbfejlesztett értesítési beállítások kibővített lehetőségekkel az értesítések megjelenésének módjára és idejére vonatkozóan."
   }
 }

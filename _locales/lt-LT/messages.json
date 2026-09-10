@@ -66,16 +66,16 @@
     "messageformat": "Paaukokite Signal programėlei"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Susieti įrenginiai</bold> leidžia jums saugiai pasiekti „Signal“ paskyrą ir žinutes bet kuriuose papildomuose įrenginiuose."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Galite susieti kompiuterį, planšetę ar papildomą telefoną."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Galite susieti iki 5 įrenginių ir juos tvarkyti pagrindiniame įrenginyje."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Paskyros nustatymus galima tvarkyti tik pagrindiniame įrenginyje, įskaitant paskyros nustatymus ir atsargines kopijas."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standartinė"
@@ -651,19 +651,19 @@
     "messageformat": "Automatinis rakto patvirtinimas jūsų įrenginyje šiuo metu negalimas. Pateikti derinimo žurnalą?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automatinis rakto patvirtinimas jūsų įrenginyje šiuo metu negalimas. Pateikti ataskaitą, kad padėtumėte mums tobulėti?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Derinimo žurnalai padeda mums diagnozuoti ir išspręsti problemą, juose nėra identifikavimo informacijos."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Pridėję derinimo žurnalus padedate mums diagnozuoti ir išspręsti problemą, juose nėra identifikavimo informacijos. Bendrinti neprivaloma."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Bendrinti derinimo žurnalą"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Įtraukti derinimo žurnalą"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Žiūrėti"
@@ -3930,7 +3930,7 @@
     "messageformat": "Šoninė juosta"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Garsiai"
+    "messageformat": "Kalbėtojas"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Bendrinti savo ekraną"
@@ -5199,64 +5199,64 @@
     "messageformat": "Pastaba"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Kai nutildyta"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Pasirinkite pranešimus, kurie bus rodomi, kai pokalbis nutildytas."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Skambučiai"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Skambinti arba pranešti, kai gaunamas skambutis nutildytame pokalbyje."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Paminėjimai"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Pranešti, kai jus @paminėjo nutildytame pokalbyje."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Atsakymai"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Pranešti, kai kas nors atsako į jūsų žinutę nutildytame pokalbyje."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Nėra"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Skambučiai"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Paminėjimai"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Atsakymai"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Skambučiai, paminėjimai"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Skambučiai, atsakymai"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Paminėjimai, atsakymai"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Skambučiai, paminėjimai, atsakymai"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Pasirinkite pranešimus, kurie bus rodomi nutildytuose pokalbiuose."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Skambinti arba pranešti, kai pradedamas skambutis nutildytuose pokalbiuose."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Pranešti, kai jus pamini nutildytuose pokalbiuose."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Pranešti, kai kas nors atsako į jūsų žinutes nutildytuose pokalbiuose."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Paminėjimai"
@@ -6095,7 +6095,7 @@
     "messageformat": "Pranešti, kai kas nors sureaguoja į jūsų žinutę"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Paskyra"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Bendra"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Jūsų „Signal Login“ naudojamas atkurti paskyrą. Raktus saugiai laikykite slaptažodžių tvarkyklėje, kurios saugumu pasitikite. <learnMoreLink>Sužinoti daugiau</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Paskyra ir atkūrimas"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 raktai"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Paskyros raktas"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Atkūrimo raktas"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Tai susietas įrenginys"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Norėdami tvarkyti paskyros nustatymus, atverkite „Signal“ pagrindiniame įrenginyje."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Mastelio lygis"
@@ -6242,7 +6242,7 @@
     "messageformat": "Pokalbių aplankai"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Rodyti"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Garsai"
@@ -6251,28 +6251,28 @@
     "messageformat": "Programėlės ženklelis"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Atstatyti pranešimų nustatymus į numatytuosius, įskaitant tinkintus jūsų pokalbių nustatymus."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Atstatyti"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Visuose pokalbiuose atstatyti visus pranešimų nustatymus į numatytuosius?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Atstatyti"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Ženklelyje rodomas skaičius"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Pasirinkite, ar ženklelyje rodomas skaičius bus neperskaitytos žinutės, ar neperskaityti pokalbiai."
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Neperskaitytos žinutės"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Neperskaityti pokalbiai"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportuoti pokalbių istoriją"
@@ -8992,6 +8992,6 @@
     "messageformat": "Grupės narių paieškos patobulinimai."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Patobulinti pranešimų nustatymai su išplėstomis parinktimis kaip ir kada rodomi pranešimai."
   }
 }

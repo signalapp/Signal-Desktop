@@ -66,16 +66,16 @@
     "messageformat": "‫Signal غا ئىئانە قىلىڭ"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>ئۇلانغان ئۈسكۈنىلەر</bold> ھەرقانداق قوشۇمچە ئۈسكۈنىلىرىڭىزدە بىخەتەر ھالدا Signal ھېساباتىڭىزغا كىرىپ، ئۇچۇرلارنى زىيارەت قىلىشىڭىزغا يول قويىدۇ."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "سىز ئۈستەل كومپيۇتېرى، تاختا كومپيۇتېر(مەسىلەن: iPad) ياكى قوشۇمچە تېلېفوننى باغلىيالايسىز."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "ئاسالىق ئۈسكۈنىڭىزدە نېمىلەرگە باغلىيالايدىغانلىقىڭىزنى باشقۇرىسىز، ئەڭ كۆپ بولغاندا 5 تال ئۈسكۈنىنى باغلىيالايسىز."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "ھېسابات تەڭشەكلىرى ۋە زاپاسلارنى ئۆز ئىچىگە ئالغان بەزى ھېسابات تەڭشەكلىرى پەقەت سىزنىڭ ئاساسلىق ئۈسكۈنىڭىز تەرىپىدىنلا باشقۇرۇلىدۇ."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ئۆلچەملىك"
@@ -651,19 +651,19 @@
     "messageformat": "ئاپتوماتىك ئاچقۇچ دەلىللەشنى ھازىرچە ئۈسكۈنىڭىزدە ئىشلەتكىلى بولمايدۇ. كاشىلا ھەل قىلىش خاتىرىسىنى يوللامسىز؟"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "ئاپتوماتىك ئاچقۇچ دەلىللەشنى ھازىرچە ئۈسكۈنىڭىزدە ئىشلەتكىلى بولمايدۇ. بىزنىڭ ياخشىلىشىمىزغا ياردەم بېرىش ئۈچۈن دوكلات يوللامسىز؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى بىزنىڭ مەسىلىگە دىئاگنوز قويۇشىمىز ۋە ھەل قىلىشىمىزغا ياردەم بېرىدۇ، ھەمدە تونىتىش ئۇچۇرلىرىنى ئۆز ئىچىگە ئالمايدۇ."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى قوشسىڭىز، مەسىلىنى تەكشۈرۈپ ئۇنى ھەل قىلىشىمىزغا ياردەم بېرىدۇ، ھەمدە بۇ خاتىرىلەردە شەخسىيىتىڭىزگە مۇناسىۋەتلىك ئۇچۇرلار بولمايدۇ. ھەمبەھىرلىنىش بولسا ئىختىيارىي."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشىش"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "سازلاش خاتىرىسىنى ئۆز ئىچىگە ئالىدۇ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "كۆرسەت"
@@ -3930,7 +3930,7 @@
     "messageformat": "يانبالداق"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "ياڭراتقۇ"
+    "messageformat": "سۆزلىگۈچى"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "ئېكران ئورتاقلىشىش"
@@ -5199,64 +5199,64 @@
     "messageformat": "خاتىرە"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "ئۈنسىزلاندۇرۇلغاندا"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "بۇ ئۈنسىزلاندۇرۇلغان پاراڭ ئۈچۈن قايسى ئۇقتۇرۇشلارنىڭ كۆرۈنىدىغانلىقىنى تاللاڭ."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "چاقىرىشلار"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "بۇ پاراڭ ئۈنسىزلاندۇرۇلغان ۋاقىتتا تېلېفون كەلسە، جىرىڭلىتىش ياكى ئۇقتۇرۇشنى كۆرسىتىش."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "تىلغا ئالغانلار"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "بۇ پاراڭ ئۈنسىزلاندۇرۇلغان بولسىمۇ، سىز تىلغا ئېلىنغاندا (@mentioned) ئۇقتۇرۇش قىلىش."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "جاۋاب"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "بۇ پاراڭ ئۈنسىزلاندۇرۇلغان بولسىمۇ، بىرى سىزنىڭ ئۇچۇرىڭىزغا جاۋاب قايتۇرغاندا ئۇقتۇرۇش قىلىش."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "ھېچنېمە"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "چاقىرىشلار"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "تىلغا ئالغانلار"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "جاۋاب"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "چاقىرىقلار، تىلغا ئېلىشلار"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "چاقىرىقلار، قايتقان ئىنكاسلار"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "تىلغا ئېلىشلار، قايتقان ئىنكاسلار"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "چاقىرىقلار، تىلغا ئېلىشلار، قايتقان ئىنكاسلار"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "ئۈنسىزلاندۇرۇلغان پاراڭلار ئۈچۈن قايسى ئۇقتۇرۇشلارنىڭ كۆرۈنىدىغانلىقىنى تاللاڭ."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "ئۈنسىزلاندۇرۇلغان پاراڭلاردا تېلېفون باشلانغاندا جىرىڭلىتىش ياكى ئۇقتۇرۇش قىلىش."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "ئۈنسىزلاندۇرۇلغان پاراڭلاردا سىز تىلغا ئېلىنغاندا ئۇقتۇرۇش قىلىش."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "ئۈنسىزلاندۇرۇلغان پاراڭلاردا بىرى سىزنىڭ ئۇچۇرىڭىزغا جاۋاب قايتۇرغاندا ئۇقتۇرۇش قىلىش."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "تىلغا ئالغانلار"
@@ -6095,7 +6095,7 @@
     "messageformat": "بىرى سىزنىڭ ئۇچۇرىڭىزغا ئىنكاس قايتۇرغاندا ئۇقتۇرۇش قىلىش"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "ھېسابات"
   },
   "icu:Preferences__button--general": {
     "messageformat": "ئادەتتىكى"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "«Signal Login» ھوقوقىڭىز بولسا، ھېساباتىڭىزنى قايتۇرۇپ ئېلىش ۋە ئەسلىگە كەلتۈرۈش ئۈچۈن ئىشلىتىلىدۇ. بۇ ئاچقۇچلارنى سىز ئىشىنىدىغان بىر پارول باشقۇرغۇچىدا بىخەتەر ساقلاڭ. <learnMoreLink>تەپسىلاتى</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "ھېسابات & ئەسلىگە كەلتۈرۈش"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 تال ئاچقۇچ"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "ھېسابات ئاچقۇچى"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "ئەسلىگە كەلتۈرۈش ئاچقۇچى"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "بۇ بىر ئۇلانغان ئۈسكۈنە"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "ھېسابات تەڭشەكلىرىڭىزنى ئاكتىپ ھالەتتە ساقلاش ئۈچۈن ئاساسلىق ئۈسكۈنىڭىزدە Signal نى ئېچىڭ."
   },
   "icu:Preferences--zoom": {
     "messageformat": "چوڭايتىش دەرىجىسى"
@@ -6242,7 +6242,7 @@
     "messageformat": "پاراڭ ھۆججەت قىسقۇچلىرى"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "كۆرسەت"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ئاۋازلار"
@@ -6251,28 +6251,28 @@
     "messageformat": "ئەپ ئىزنىكى"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "پاراڭلىرىڭىزنىڭ كېيىن تەڭشەلگەن ھالىتىنى ئۆز ئىچىگە ئالغان ئۇقتۇرۇش تەڭشەكلىرىنى زاۋۇتتىن چىققان ھالەتكە قايتۇرۇش."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "ئەسلىگە قايتۇر"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "بارلىق پاراڭلارنىڭ ئۇقتۇرۇش تەڭشەكلىرىنى زاۋۇتتىن چىققان ھالەتكە قايتۇرامسىز؟"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "ئەسلىگە قايتۇر"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "بەلگە سانى"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "سىنبەلگە تاختىسىنىڭ، ئوقۇلمىغان ئۇچۇرلارنىڭ سانى ياكى ئوقۇلمىغان پاراڭلارنىڭ سانىنى كۆرسىتىش كۆرسەتمەسلىكىنى تاللاڭ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "ئوقۇلمىغان ئۇچۇرلار"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "ئوقۇلمىغان پاراڭلار"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "سۆھبەت تارىخىنى ئېكسپورت قىلىش"
@@ -8992,6 +8992,6 @@
     "messageformat": "گۇرۇپپا ئەزالىرىنى ئىزدەش ئىقتىدارىدىكى ياخشىلىنىشلار. 8.26 نەشىر نۇسخىسى ئۈچۈن تەييارلاندى."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "ئۇقتۇرۇش تەڭشەكلىرى ياخشىلاندى، ئۇقتۇرۇشلارنىڭ قانداق ۋە قاچان كۆرۈنىدىغانلىقىغا دائىر تېخىمۇ كۆپ تاللاشلار قوشۇلدى. 8.27 نەشرىنىڭ يېڭىلىقلىرى. ئەمدى ئەپ سىنبەلگىسى ئۈستىدىكى ئىزنەكتە نېمىنىڭ كۆرسىتىلىدىغانلىقىنى تاللىيالايسىز، ئۈنسىزلاندۇرۇلغان پاراڭلارنىڭ ئۇقتۇرۇش تەڭشەكلىرىنى تەڭشىيەلەيسىز ۋە باشقا تېخىمۇ كۆپ يېڭىلىقلاردىن پايدىلىنالايسىز! بىز يەنە، ئەگەر بەك كۆپ ئۆزگەرتىش قىلىپ، ئاخىرىدا تەڭشەكلەرنى قانداق قىلىپ ئەسلىگە كەلتۈرۈشنى بىلمەي قالغاندا، ئۈنسىزلاندۇرۇلغان ئۇقتۇرۇش تەڭشەكلىرىنى ئەسلىگە كەلتۈرۈش ئۈچۈن ئىشلىتىدىغان قولايلىق بىر كۇنۇپكا قوشتۇق."
   }
 }

@@ -66,16 +66,16 @@
     "messageformat": "Signal ကိုလှူဒါန်းပါ"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>ချိတ်ထားသည့် စက်များ</bold>ကို အသုံးပြု၍ အခြားစက်များပေါ်တွင်လည်း သင်၏ Signal အကောင့်နှင့် မက်ဆေ့ချ်များကို လုံခြုံစွာ အသုံးပြုနိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Deskop ၊ တက်ဘလက် သို့မဟုတ် အခြားဖုန်းတစ်လုံးကို ချိတ်ဆက်နိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "သင့် ပင်မစက်မှ ချိတ်ဆက်ထားသော စက်များကို စီမံခန့်ခွဲနိုင်ပြီး စက်အများဆုံး ၅ ခုအထိ ချိတ်ဆက်နိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "အကောင့်ဆက်တင်နှင့် ဘက်ခ်အပ် အပါအဝင် အချို့သော ဆက်တင်များကို သင့်ပင်မစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
@@ -651,19 +651,19 @@
     "messageformat": "အလိုအလျောက် ကီးအတည်ပြုခြင်းကို သင့်စက်အတွက် လောလောဆယ်တွင် မရရှိနိုင်ပါ။ ပြစ်ချက်မှတ်တမ်း ပေးပို့မည်လား။"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "အလိုအလျောက် ကီးအတည်ပြုခြင်းကို သင့်စက်အတွက် လောလောဆယ်တွင် မရရှိနိုင်ပါ။ အစီရင်ခံစာတစ်စောင် တင်ပြပြီး ကျွန်ုပ်တို့၏ဝန်ဆောင်မှုကို ပိုမိုကောင်းမွန်အောင် ကူညီမလား။"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်းများသည် ပြဿနာကို စစ်ဆေးရှာဖွေရန်နှင့် ဖြေရှင်းရန် ကျွန်ုပ်တို့ကို အကူအညီပေးပြီး မည်သူဖြစ်ကြောင်း ခွဲခြားနိုင်သည့် အချက်အလက်များ မပါရှိပါ။"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "သင့် ပြစ်ချက်မှတ်တမ်းကို ထည့်ပေးခြင်းဖြင့် ပြဿနာကို ရှာဖွေဖော်ထုတ်ပြီး ဖြေရှင်းနိုင်ရန် ကျွန်ုပ်တို့ကို အကူအညီပေးပြီး မည်သူဖြစ်ကြောင်း ခွဲခြားနိုင်သည့် အချက်အလက်များ မပါရှိပါ။ မျှဝေခြင်းသည် ဆန္ဒအလျောက်သာ ဖြစ်ပါသည်။"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်း မျှဝေရန်"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "ပြစ်ချက်မှတ်တမ်း ပါဝင်ပါသည်"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "ကြည့်ရန်"
@@ -5199,64 +5199,64 @@
     "messageformat": "မှတ်ချက်"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "အသံပိတ်ထားစဉ်"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားစဉ် ပြသမည့် အသိပေးချက်များကို ရွေးပါ။"
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုများ"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားစဉ် ဖုန်းခေါ်ဆိုမှု စတင်ပါက အသံပေးပါ သို့မဟုတ် အသိပေးချက် ပြပါ။"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "မန်းရှင်းများ"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားစဉ် သင့်ကို @မန်းရှင်းထားပါက အသိပေးချက် ပြပါ။"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "ပြန်စာများ"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားစဉ် သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ဦးက ပြန်လည်တုံ့ပြန်ပါက အသိပေးချက်ပြပါ။"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "မည်သည့်အရာမျှ မရှိ"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "ဖုန်းခေါ်ဆိုမှုများ"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "မန်းရှင်းများ"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "ပြန်စာများ"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "ဖုန်းကောလ်များ၊ မန်းရှင်းများ"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "ဖုန်းကောလ်များ၊ အကြောင်းပြန်စာများ"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "မန်းရှင်းများ၊ အကြောင်းပြန်စာများ"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "ဖုန်းကောလ်များ၊ မန်းရှင်းများ၊ အကြောင်းပြန်စာများ"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များအတွက် ပြသမည့် အသိပေးချက််များကို ရွေးပါ။"
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် ဖုန်းခေါ်ဆိုမှု စတင်ပါက အသံပေးပါ သို့မဟုတ် အသိပေးချက် ပြပါ။"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်ကို မန်းရှင်းထားပါက အသိပေးချက် ပြပါ။"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ဦးက အကြောင်းပြန်ပါက အသိပေးချက် ပြပါ။"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "မန်းရှင်းများ"
@@ -6095,7 +6095,7 @@
     "messageformat": "သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ယောက်က တုံ့ပြန်ပါက အသိပေးချက် ပြရန်"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "အကောင့်"
   },
   "icu:Preferences__button--general": {
     "messageformat": "အ​ထွေထွေ"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "သင့် Signal Login ဝင်ရောက်မှုကို သင့်အကောင့်အား ပြန်လည်ရယူပြီး ပြန်လည်အသုံးပြုနိုင်ရန် အသုံးပြုပါသည်။ ယုံကြည်စိတ်ချရသော စကားဝှက်စီမံရေးတွင် ဤကီးများကို လုံခြုံစွာ သိမ်းဆည်းထားပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>။"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "ပိုမိုသိရှိရန်"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "အကောင့်နှင့် ပြန်လည်ရယူခြင်း"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "ကီး ၂ ခု"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "အကောင့်ကီး"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "ပြန်လည်ရယူရေးကီး"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "ဤစက်သည် ချိတ်ထားသည့် စက်ဖြစ်သည်"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "သင့်အကောင့်ဆက်တင်ကို စီမံခန့်ခွဲရန် Signal ကို သင့် ပင်မစက်တွင် ဖွင့်ပါ။"
   },
   "icu:Preferences--zoom": {
     "messageformat": "ဇူးမ်အဆင့်"
@@ -6242,7 +6242,7 @@
     "messageformat": "ချက်(တ်)ဖိုင်တွဲများ"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "ပြပါ"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "အသံ"
@@ -6251,28 +6251,28 @@
     "messageformat": "အက်ပ် ဘဲ့ဂျ်"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "ချက်(တ်)များအတွက် သတ်မှတ်ထားသော စိတ်ကြိုက်ဆက်တင်အပါအဝင် အသိပေးချက်ဆက်တင်အားလုံးကို မူလပုံစံအတိုင်း ပြန်လည်သတ်မှတ်ပါ။"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "ပြန်လည်သတ်မှတ်ရန်"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "ချက်(တ်) အားလုံးအတွက် အသိပေးချက်ဆက်တင်များအားလုံးကို မူလအတိုင်း ပြန်လည်သတ်မှတ်မလား။"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "ပြန်လည်သတ်မှတ်ရန်"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "ဘဲ့ဂျ်အရေအတွက်"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "ဘဲ့ဂျ်အရေအတွက်သည် မဖတ်ရသေးသော မက်ဆေ့ချ်အရေအတွက်ကို ပြမည်လား သို့မဟုတ် မဖတ်ရသေးသော ချက်(တ်)အရေအတွက်ကို ပြမည်လား ရွေးပါ။"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်များ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "မဖတ်ရသေးသော ချက်(တ်)များ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူပါ"
@@ -8992,6 +8992,6 @@
     "messageformat": "အဖွဲ့ဝင်ရှာဖွေမှုကို ကောင်းမွန်အောင် မွမ်းမံထားခြင်း။"
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "အသိပေးချက်များ မည်သည့်အချိန်တွင် မည်သို့ ပေါ်လာမည်ကို ရွေးချယ်နိုင်မည့် တိုးချဲ့ထားသော ရွေးချယ်စရာများနှင့်အတူ အသိပေးချက်ဆက်တင်များကိုလည်း ပိုမိုကောင်းမွန်အောင် ပြုလုပ်ထားပါသည်။"
   }
 }

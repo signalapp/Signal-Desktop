@@ -66,16 +66,16 @@
     "messageformat": "Donér til Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Tilknyttede enheder</bold> giver dig sikker adgang til din Signal-konto og dine beskeder på dine andre enheder."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Du kan tilknytte en computer, en tablet eller en ekstra telefon."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Din primære enhed administrerer, hvilke enheder der er tilknyttet. Du kan tilknytte op til 5 enheder."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Kontoindstillinger administreres kun på din primære enhed, herunder kontoindstillinger og sikkerhedskopier."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -651,19 +651,19 @@
     "messageformat": "Automatisk nøgleverifikation er i øjeblikket ikke tilgængelig på din enhed. Vil du indsende fejlsøgningslog?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automatisk nøgleverifikation er i øjeblikket ikke tilgængelig på din enhed. Vil du sende en rapport, så vi kan forbedre appen?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Fejlfindingslogfiler hjælper os med at diagnosticere og løse problemet og indeholder ikke identificerende oplysninger."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Hvis du inkluderer dine fejlfindingslogfiler, hjælper det os med at diagnosticere og løse problemet, og de indeholder ikke identificerende oplysninger. Det er valgfrit at dele."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Del fejlsøgningslog"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Inkludér fejlsøgningslog"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Vis"
@@ -5199,64 +5199,64 @@
     "messageformat": "Note"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Mens lyden er slået fra"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Vælg, hvilke notifikationer der skal vises, mens lyden er slået fra for denne chat."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Opkald"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Ring eller send notifikationer ved opkald, selvom chatten er slået på lydløs."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Omtaler"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Send notifikationer ved @omtale, mens denne chat er slået på lydløs."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Svar"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Send notifikationer ved svar, selvom chatten er slået på lydløs."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Ingen"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Opkald"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Omtaler"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Svar"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Opkald, omtaler"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Opkald, svar"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Omtaler, svar"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Opkald, omtaler, svar"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Vælg, hvilke notifikationer der skal vises for chats på lydløs."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Ring eller send notifikationer ved opkald i chats, der er slået på lydløs."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Send notifikationer ved omtaler i chats, der er slået på lydløs."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Send notifikationer ved svar i chats, der er slået på lydløs."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Omtaler"
@@ -6095,7 +6095,7 @@
     "messageformat": "Få en notifikation, når nogen reagerer på din besked"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Konto"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Generelt"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Dit Signal Login bruges til at gendanne og genoprette din konto. Opbevar disse nøgler sikkert i en adgangskodeadministrator, du har tillid til. <learnMoreLink>Få mere at vide.</learnMoreLink>"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Læs mere"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Konto og gendannelse"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 nøgler"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Kontonøgle"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Gendannelsesnøgle"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Dette er en tilknyttet enhed"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Åbn Signal på din primære enhed for at administrere dine kontoindstillinger."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Zoomniveau"
@@ -6242,7 +6242,7 @@
     "messageformat": "Chatmapper"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Vis"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Lyde"
@@ -6251,28 +6251,28 @@
     "messageformat": "App Badge"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Nulstil notifikationsindstillingerne til standard, herunder tilpassede indstillinger for dine chats."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Nulstil"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Nulstil alle notifikationsindstillinger til standard for alle chats?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Nulstil"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Etiket på appsymbol"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Vælg, om etikettælleren skal vise antallet af ulæste beskeder eller ulæste chats"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Ulæste beskeder"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Ulæste chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportér chathistorik"
@@ -8992,6 +8992,6 @@
     "messageformat": "At finde sig selv kan være en livslang proces, men nu vises du som \"Dig\" i søgningen efter gruppemedlemmer, så det bliver lidt nemmere."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Denne opdatering giver dig mere detaljerede indstillinger, så du får langt bedre kontrol over dine Signal-notifikationer. Nu kan du vælge, hvad etiketten på appen skal vise, tilpasse notifikationsindstillingerne for chats på lydløs og meget mere! Vi har også tilføjet en praktisk knap, der gendanner standardindstillingerne for notifikationer, hvis du på et tidspunkt har ændret så meget, at du ikke længere kan finde hoved og hale i det."
   }
 }

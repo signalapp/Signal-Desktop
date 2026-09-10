@@ -66,16 +66,16 @@
     "messageformat": "Tabhair airgead do Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Cuirtear ar do chumas do chuntas agus teachtaireachtaí Signal a rochtain go slán ar aon cheann de do ghléasanna breise agus <bold>Gléasanna Nasctha</bold> in úsáid agat."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Is féidir leat ríomhaire deisce, táibléad nó guthán breise a nascadh."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Déanann do phríomhghléas bainistíocht ar a bhfuil nasctha, is féidir leat suas le 5 ghléas a nascadh."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Ar do phríomhghléas amháin a dhéantar socruithe cuntais a bhainistiú, socruithe agus cúltacaí an chuntais ina measc."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Caighdeánach"
@@ -651,19 +651,19 @@
     "messageformat": "Níl Uathfhíorú Eochracha ar fáil faoi láthair do do ghléas. Cuir isteach loga dífhabhtaithe?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Níl Uathfhíorú Eochracha ar fáil faoi láthair do do ghléas. Cuir isteach tuairisc chun cabhrú linn feabhsú?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Cabhraíonn logaí dífhabhtaithe linn an fhadhb a dhiagnóisiú agus a réiteach, agus ní bhíonn faisnéis aitheantais iontu."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Má chuireann tú do logaí dífhabhtaithe san áireamh, cabhróidh siad linn an fhadhb a dhiagnóisiú agus a réiteach, agus ní bhíonn faisnéis aitheantais iontu. Is rogha leat comhroinnt."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Comhroinn an loga dífhabhtaithe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Cuir an loga dífhabhtaithe san áireamh"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Féach air"
@@ -3930,7 +3930,7 @@
     "messageformat": "Taobh-bharra"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "Callaire"
+    "messageformat": "Cainteoir"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "Comhroinn do scáileán"
@@ -5199,64 +5199,64 @@
     "messageformat": "Nóta"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Agus é balbhaithe"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Roghnaigh fógraí le taispeáint nuair a bhíonn an comhrá seo balbhaithe."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Glaonna"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Buail nó tabhair fógra nuair a thosaítear glao agus an comhrá seo balbhaithe."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Nuair a luaitear mé"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Tabhair fógra nuair a @luaitear thú agus an comhrá seo balbhaithe."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Freagraí"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Tabhair fógra nuair a fhreagraíonn duine do theachtaireacht agus an comhrá seo balbhaithe."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Ceann ar bith"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Glaonna"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Nuair a luaitear mé"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Freagraí"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Glaonna, tráchtanna"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Glaonna, freagraí"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Tráchtanna, freagraí"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Glaonna, tráchtanna, freagraí"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Roghnaigh fógraí le taispeáint i gcás comhráite balbhaithe."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Buail nó tabhair fógra nuair a chuirtear tús le glao i gcomhráite balbhaithe."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Tabhair fógra nuair a luaitear i gcomhráite balbhaithe thú."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Tabhair fógra nuair a fhreagraíonn duine do theachtaireacht i gcomhráite balbhaithe."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Nuair a luaitear mé"
@@ -6095,7 +6095,7 @@
     "messageformat": "Tabhair fógra nuair a fhreagraíonn duine do do theachtaireacht"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Cuntas"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Coiteann"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Úsáidtear an Signal Login agat chun do chuntas a athshlánú agus a aischur. Coinnigh na heochracha seo stóráilte go slán i mbainisteoir pasfhocal a bhfuil iontaoibh agat as. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Cuntas agus athshlánú"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 eochair"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Eochair an chuntais"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Eochair athshlánaithe"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Gléas nasctha is ea é seo"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Chun socruithe do chuntais a bhainistiú, oscail Signal ar do phríomhghléas."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Leibhéal zúmála"
@@ -6242,7 +6242,7 @@
     "messageformat": "Fillteáin comhráite"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Taispeáin"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Fuaimeanna"
@@ -6251,28 +6251,28 @@
     "messageformat": "Suaitheantas na haipe"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Athshocraigh socruithe fógraí ag an réamhshocrú, socruithe saincheapa do do chomhráite san áireamh."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Athshocraigh"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Athshocraigh gach socrú fógra ag an réamhshocrú i gcás gach comhrá?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Athshocraigh"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Comhaireamh suaitheantas"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Roghnaigh má thaispeánann an comhaireamh suaitheantas líon na dteachtaireachtaí neamhléite nó líon na gcomhráite neamhléite"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Teachtaireachtaí neamhléite"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Comhráite neamhléite"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Easpórtáil an stair comhráite"
@@ -8992,6 +8992,6 @@
     "messageformat": "Feabhsuithe ar chuardach le haghaidh baill den ghrúpa."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Socruithe fógraí feabhsaithe le roghanna méadaithe ar an dóigh agus an uair a thaispeántar fógraí."
   }
 }

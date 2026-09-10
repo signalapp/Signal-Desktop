@@ -66,16 +66,16 @@
     "messageformat": "Signal-ისთვის დონაციის გაკეთება"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>მიბმული მოწყობილობები</bold> საშუალებას გაძლევს, შენს Signal-ის ანგარიშსა და წერილებზე შენი ნებისმიერი დამატებითი მოწყობილობიდან უსაფრთხო წვდომა გქონდეს."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "შეგიძლია დესკტოპი, ტაბლეტი ან დამატებითი მობილური მიაბა."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "შენი მთავარი მოწყობილობა მართავს რა იქნება მიბმული, შეგიძლია 5-მდე მოწყობილობა მიაბა."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "ანგარიშის პარამეტრები მხოლოდ შენს მთავარ მოწყობილობაზე იმართება, ანგარიშის პარამეტრებისა და სათადარიგო ასლების ჩათვლით."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "სტანდარტული"
@@ -651,19 +651,19 @@
     "messageformat": "შენს მოწყობილობაზე გასაღების ავტომატური ვერიფიკაცია ამჟამად ხელმისაწვდომი არაა. გსურს გაუმართაობის რეესტრის ატვირთვა?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "შენს მოწყობილობაზე გასაღების ავტომატური ვერიფიკაცია ამჟამად ხელმისაწვდომი არაა. გსურს რეპორტი გამოგვიგზავნო, რომ გაუმჯობესებაში დაგვეხმარო?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "გაუმართაობის რეესტრი პრობლემის დიაგნოსტიკასა და გამოსწორებაში გვეხმარება და საიდენტიფიკაციო ინფორმაციას არ შეიცავს."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "შენი გაუმართაობის რეესტრის ჩართვა პრობლემის დიაგნოსტიკასა და გამოსწორებაში გვეხმარება და საიდენტიფიკაციო ინფორმაციას არ შეიცავს. გაზიარება ნებაყოფლობითია."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "გაუმართაობის რეესტრის გაზიარება"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "გაუმართაობის რეესტრის ჩართვა"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "ნახვა"
@@ -5199,64 +5199,64 @@
     "messageformat": "ჩანიშვნა"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "სანამ დადუმებულია"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "აირჩიე რომელ შეტყობინებებს გიჩვენებთ, როცა ეს ჩატი დადუმებულია."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "ზარები"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "დავრეკავთ ან შეგატყობინებთ, როცა ზარი დაიწყება, სანამ ეს ჩატი დადუმებულია."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "მონიშვნები"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "შეგატყობინებთ, როცა @მოგნიშნავენ, სანამ ეს ჩატი დადუმებულია."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "პასუხები"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "შეგატყობინებთ, როცა ვინმე შენს წერილს უპასუხებს, სანამ ეს ჩატი დადუმებულია."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "არცერთი"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "ზარები"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "მონიშვნები"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "პასუხები"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "ზარები, მონიშვნები"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "ზარები, პასუხები"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "მონიშვნები, პასუხები"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "ზარები, მონიშვნები, პასუხები"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "აირჩიე რომელ შეტყობინებებს გიჩვენებთ დადუმებულ ჩატებზე."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "დავრეკავთ ან შეგატყობინებთ, როცა დადუმებულ ჩატებში ზარს წამოიწყებენ."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "შეგატყობინებთ, როცა დადუმებულ ჩატებში მოგნიშნავენ."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "შეგატყობინებთ, როცა დადუმებულ ჩატებში შენს წერილს ვინმე უპასუხებს."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "მონიშვნები"
@@ -6095,7 +6095,7 @@
     "messageformat": "შეტყობინება, როცა ვინმე შენს მესიჯზე რეაქციას გამოხატავს."
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "მონაცემები"
   },
   "icu:Preferences__button--general": {
     "messageformat": "ზოგადი"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "შენი Signal Login შენი ანგარიშის აღსადგენად გამოიყენება. ეს გასაღებები პაროლების სანდო მენეჯერში უსაფრთხოდ შეინახე. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "ანგარიში & აღდგენა"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 გასაღები"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "ანგარიშის გასაღები"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "აღდგენის გასაღები"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "ეს მიბმული მოწყობილობაა"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "შენი ანგარიშის პარამეტრების სამართავად შედი Signal-ზე შენი მთავარი მოწყობილობიდან."
   },
   "icu:Preferences--zoom": {
     "messageformat": "ზუმის დონე"
@@ -6242,7 +6242,7 @@
     "messageformat": "ჩატის საქაღალდეები"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "ჩვენება"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ხმები"
@@ -6251,28 +6251,28 @@
     "messageformat": "აპლიკაციის ემბლემა"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "შეტყობინებების პარამეტრების ნაგულისხმევზე დაყენება, შენს ჩატებზე მორგებული შეტყობინებების ჩათვლით."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "ახლიდან დაყენება"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "გსურს შეტყობინებების ყველა პარამეტრი ყველა ჩატისთვის დიფოლტზე დააყენო?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "ახლიდან დაყენება"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "რაოდენობის ემბლემა"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "აირჩიე რაოდენობის ემბლემა წაუკითხავი წერილების რიცხვს აჩვენებს თუ წაუკითხავი ჩატებისას"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "წაუკითხავი წერილები"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "წაუკითხავი ჩატები"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ჩატის ისტორიის გადატანა"
@@ -8992,6 +8992,6 @@
     "messageformat": "ჯგუფის წევრების ძიების გაუმჯობესებები."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "შეტყობინებების გაუმჯობესებული პარამეტრები გაფართოებული არჩევნით, თუ როგორ და როდის გამოჩნდება შეტყობინებები. ახლა უკვე შეგიძლია აირჩიო, რა გამოჩნდება აპის ემბლემაზე, შეტყობინებების პარამეტრები დადუმებულ მიმოწერებს მოარგო და მეტი! ასევე, შეტყობინებების ნაგულისხმევი პარამეტრების აღსადგენად მოსახერხებელი ღილაკი დავამატეთ."
   }
 }

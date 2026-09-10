@@ -66,16 +66,16 @@
     "messageformat": "Signal-க்கு நன்கொடை அளி"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>இணைக்கப்பட்ட சாதனங்கள்</bold> என்ற விருப்பத்தின் மூலம் உங்களின் கூடுதல் சாதனங்கள் எதிலும் உங்கள் Signal கணக்கையும் செய்திகளையும் பாதுகாப்பாக அணுக முடியும்."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "டெஸ்க்டாப், டேப்லெட் அல்லது மற்றொரு தொலைபேசியை நீங்கள் இணைக்கலாம்."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "இணைக்கப்பட்டுள்ள சாதனங்களை உங்களின் பிரதான சாதனமே நிர்வகிக்கும், அதிகபட்சமாக 5 சாதனங்கள் வரை நீங்கள் இணைக்கலாம்."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "கணக்கு அமைப்புகள் மற்றும் காப்புப்பிரதிகள் உட்பட, கணக்கு அமைப்புகள் உங்கள் பிரதான சாதனத்தில் மட்டுமே நிர்வகிக்கப்படும்."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "தரநிலை"
@@ -651,19 +651,19 @@
     "messageformat": "உங்கள் சாதனத்தில் தானியங்கி குறியீடு சரிபார்ப்பு தற்போது கிடைக்கவில்லை. பிழைத்திருத்தப் பதிவைச் சமர்ப்பிக்க வேண்டுமா?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "உங்கள் சாதனத்தில் தானியங்கி குறியீடு சரிபார்ப்பு தற்போது கிடைக்கவில்லை. நாங்கள் மேம்படுத்த உதவ ஓர் அறிக்கையைச் சமர்ப்பிக்கிறீர்களா?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "பிழைத்திருத்தப் பதிவுகள் சிக்கலைக் கண்டறிந்து சரிசெய்ய உதவுகின்றன, மேலும் அடையாளம் காணும் தகவலைக் கொண்டிருக்கவில்லை."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "பிழைத்திருத்தப் பதிவுகளைச் சேர்ப்பது, சிக்கலைக் கண்டறிந்து சரிசெய்ய எங்களுக்கு உதவுகிறது, மேலும் இவற்றில் அடையாளத்தைக் கண்டறியும் தகவல்கள் எதுவும் இருக்காது. பகிர்வது கட்டாயமல்ல."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "பிழைத்திருத்தப் பதிவைப் பகிருங்கள்"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "பிழைத்திருத்தப் பதிவைச் சேர்க்கவும்"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "காண்க"
@@ -3930,7 +3930,7 @@
     "messageformat": "பக்கப்பட்டி"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "ஒலி பெருக்கி"
+    "messageformat": "பேசுபவர்"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "பகிர் உங்கள் திரை"
@@ -5199,64 +5199,64 @@
     "messageformat": "குறிப்பு"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "ஒலியடக்கப்பட்டிருக்கும்போது"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "இந்த அரட்டை ஒலியடக்கப்பட்டிருக்கும்போது காட்ட வேண்டிய அறிவிப்புகளைத் தேர்வுசெய்யவும்."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "அழைப்புகள்"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "இந்த அரட்டை ஒலியடக்கப்பட்டிருக்கும்போது, அழைப்பு வந்தால் ரிங் செய்யும் அல்லது அறிவிக்கும்."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "பெயர் குறிப்பிடுவது"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "இந்த அரட்டை ஒலியடக்கப்பட்டிருக்கும்போது, யாராவது உங்களைக் @குறிப்பிட்டால் அறிவிக்கும்."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "பதில்கள்"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "இந்த அரட்டை ஒலியடக்கப்பட்டிருக்கும்போது, உங்கள் செய்திக்கு யாராவது பதிலளித்தால் அறிவிக்கும்."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "எதுவும் இல்லை"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "அழைப்புகள்"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "பெயர் குறிப்பிடுவது"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "பதில்கள்"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "அழைப்புகள், குறிப்பிடல்கள்"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "அழைப்புகள், பதில்கள்"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "குறிப்பிடல்கள், பதில்கள்"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "அழைப்புகள், குறிப்பிடல்கள், பதில்கள்"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "ஒலியடக்கப்பட்ட அரட்டைகளுக்குக் காட்ட வேண்டிய அறிவிப்புகளைத் தேர்வுசெய்யவும்."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "ஒலியடக்கப்பட்டிருக்கும் அரட்டைகளில், அழைப்பு வந்தால் ரிங் செய்யும் அல்லது அறிவிக்கும்."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "ஒலியடக்கப்பட்டிருக்கும் அரட்டைகளில், யாராவது உங்களைக் குறிப்பிட்டால் அறிவிக்கும்."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "ஒலியடக்கப்பட்டிருக்கும் அரட்டைகளில், உங்கள் செய்திக்கு யாராவது பதிலளித்தால் அறிவிக்கும்."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "பெயர் குறிப்பிடுவது"
@@ -6095,7 +6095,7 @@
     "messageformat": "உங்கள் செய்திக்கு யாராவது எதிர்வினையாற்றும்போது அறிவிக்கும்"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "பயனர் கணக்கு"
   },
   "icu:Preferences__button--general": {
     "messageformat": "பொது"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "உங்களின் கணக்கை மீட்டெடுக்கவும் மீட்டமைக்கவும் Signal Login பயன்படுத்தப்படுகிறது. நீங்கள் நம்பும் கடவுச்சொல் மேலாளரில் இந்தக் குறியீடுகளைப் பாதுகாப்பாகச் சேமித்து வைக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "மேலும் அறிக"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "கணக்கு & மீட்பு"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 குறியீடுகள்"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "கணக்குக் குறியீடு"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "மீட்புக் குறியீடு"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "இது ஒரு இணைக்கப்பட்ட சாதனம்"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "உங்கள் கணக்கு அமைப்புகளை நிர்வகிக்க, உங்களின் பிரதான சாதனத்தில் சிக்னலைத் திறக்கவும்."
   },
   "icu:Preferences--zoom": {
     "messageformat": "பெரிதாக்கு நிலை"
@@ -6242,7 +6242,7 @@
     "messageformat": "சாட் கோப்புறைகள்"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "காட்டு"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ஒலிகள்"
@@ -6251,28 +6251,28 @@
     "messageformat": "செயலி பேட்ஜ்"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "உங்கள் அரட்டைகள் பிரத்தியேக அமைப்புகள் உட்பட, அறிவிப்பு அமைப்புகளை இயல்புநிலைக்கு மீட்டமைக்கும்."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "மீட்டமைக்க"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "அனைத்து அரட்டைகளுக்கான அறிவிப்பு அமைப்புகளையும் இயல்புநிலைக்கு மீட்டமைக்கவா?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "மீட்டமைக்க"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "பேட்ஜ் எண்ணிக்கை"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "பேட்ஜ் எண்ணிக்கை படிக்கப்படாத செய்திகளின் எண்ணிக்கையைக் காட்ட வேண்டுமா அல்லது படிக்கப்படாத அரட்டைகளின் எண்ணிக்கையைக் காட்ட வேண்டுமா என்பதைத் தேர்ந்தெடுக்கவும்"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "படிக்கப்படாத செய்திகள்"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "படிக்கப்படாத அரட்டைகள்"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "சாட் வரலாற்றை ஏற்றுமதி செய்க"
@@ -8992,6 +8992,6 @@
     "messageformat": "தொகுப்பு உறுப்பினர்களின் தேடல் மேம்பாடுகள்."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "அறிவிப்புகள் எப்படி, எப்போது தோன்ற வேண்டும் என்பதற்கான விரிவான விருப்பங்களைக் கொண்ட மேம்படுத்தப்பட்ட அறிவிப்பு அமைப்புகள்."
   }
 }

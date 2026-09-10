@@ -66,16 +66,16 @@
     "messageformat": "Přispějte na službu Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Funkce <bold>Propojená zařízení</bold> vám umožňuje bezpečný přístup k účtu Signal a zprávám na kterémkoli z vašich dalších zařízení."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Můžete propojit stolní počítač, tablet nebo další telefon."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Propojená zařízení spravujete ze svého hlavního zařízení. Propojit můžete až 5 zařízení."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Nastavení účtu i záloh lze spravovat pouze z hlavního zařízení."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardní"
@@ -651,19 +651,19 @@
     "messageformat": "Automatické ověření klíče není momentálně na vašem zařízení k dispozici. Odeslat protokol ladění?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automatické ověření klíče není pro vaše zařízení momentálně dostupné. Chcete odeslat zprávu a pomoci nám s vylepšením?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Protokoly ladění nám pomáhají diagnostikovat a opravit problém a neobsahují identifikační informace."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Přiložení protokolů ladění nám pomůže problém diagnostikovat a opravit. Protokoly neobsahují žádné identifikační údaje. Sdílení je dobrovolné."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Odeslat protokol ladění"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Přiložit protokol ladění"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Zobrazit"
@@ -5199,64 +5199,64 @@
     "messageformat": "Poznámka"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Při ztlumení"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Vyberte, jaká oznámení se mají zobrazovat, když je tento chat ztlumený."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Volání"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Vyzvánět nebo upozornit při zahájení hovoru, i když je tento chat ztlumený."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Zmínky"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Upozornit, když vás někdo @zmíní, i když je tento chat ztlumený."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Odpovědi"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Upozornit, když někdo odpoví na vaši zprávu, i když je tento chat ztlumený."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Žádná"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Volání"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Zmínky"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Odpovědi"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Hovory, zmínky"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Hovory, odpovědi"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Zmínky, odpovědi"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Hovory, zmínky, odpovědi"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Vyberte, jaká oznámení se mají zobrazovat u ztlumených chatů."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Vyzvánět nebo upozornit při zahájení hovoru ve ztlumených chatech."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Upozornit, když vás někdo zmíní ve ztlumených chatech."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Upozornit, když někdo odpoví na vaši zprávu ve ztlumených chatech."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Zmínky"
@@ -6095,7 +6095,7 @@
     "messageformat": "Upozornit, když někdo reaguje na vaši zprávu"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Účet"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Obecné"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Váš Signal Login slouží k obnovení vašeho účtu. Tyto klíče si bezpečně uložte do důvěryhodného správce hesel. <learnMoreLink>Zjistit více</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Účet a obnovení"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 klíče"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Klíč účtu"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Klíč pro obnovení"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Toto je propojené zařízení"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Chcete-li spravovat nastavení účtu, otevřete Signal na svém hlavním zařízení."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Úroveň přiblížení"
@@ -6242,7 +6242,7 @@
     "messageformat": "Složky s chaty"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Zobrazit"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Zvuky"
@@ -6251,28 +6251,28 @@
     "messageformat": "Odznak aplikace"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Obnovit výchozí nastavení oznámení včetně vlastních nastavení pro jednotlivé chaty."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Obnovit"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Obnovit výchozí nastavení oznámení pro všechny chaty?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Obnovit"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Počet oznámení"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Zvolte, zda má počet oznámení zobrazovat počet nepřečtených zpráv, nebo nepřečtených chatů"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Nepřečtené zprávy"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Nepřečtené chaty"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportovat historii chatů"
@@ -8992,6 +8992,6 @@
     "messageformat": "Vylepšené vyhledávání členů skupiny."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Vylepšená nastavení oznámení s rozšířenými možnostmi, jak a kdy se oznámení zobrazují."
   }
 }

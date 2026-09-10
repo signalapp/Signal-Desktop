@@ -66,16 +66,16 @@
     "messageformat": "Signalへの寄付"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>リンク済み端末</bold>を使用すれば、追加したどの端末からでもSignalのアカウントやメッセージに安全にアクセスできます。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "パソコン、タブレット、お持ちの他のスマートフォンをリンクできます。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "リンクした端末はメイン端末で管理します。最大5台の端末がリンク可能です。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "アカウント設定や、バックアップなどの設定はメイン端末からのみ管理できます。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -651,19 +651,19 @@
     "messageformat": "お使いの端末では、キーの自動確認は現在ご利用いただけません。デバッグログを送信しますか？"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "お使いの端末では、キーの自動確認は現在ご利用いただけません。デバッグログを送信しますか？"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "デバッグログは、問題の診断と修正に役立てられます。個人を特定する情報は含まれません。"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "デバッグログを含めると、問題の診断と修正に役立てられます。個人を特定する情報は含まれません。共有は任意です。"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "デバッグログを共有する"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "デバッグログを添付する"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "表示"
@@ -5199,64 +5199,64 @@
     "messageformat": "メモ"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "ミュート中"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "このチャットをミュートしている間に表示する通知を選択してください。"
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "通話"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "このチャットをミュート中に通話が開始されたときに着信音を鳴らす、または通知します。"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "メンション"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "このチャットをミュート中にあなたが@メンションされた時に通知します。"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "返信"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "このチャットをミュート中にあなたのメッセージに誰かが返信したときに通知します。"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "なし"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "通話"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "メンション"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "返信"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "通話、メンション"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "通話、返信"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "メンション、返信"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "通話、メンション、返信"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "ミュートしたチャットについて表示する通知を選択してください。"
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "ミュート中のチャットで着信音を鳴らす、または通知します。"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "ミュート中のチャットでメンションされたとき通知します。"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "ミュート中のチャットであなたのメッセージに誰かが返信したときに通知します。"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "メンション"
@@ -6095,7 +6095,7 @@
     "messageformat": "あなたのメッセージに誰かがリアクションしたときに通知します。"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "アカウント"
   },
   "icu:Preferences__button--general": {
     "messageformat": "一般"
@@ -6167,31 +6167,31 @@
     "messageformat": "システム"
   },
   "icu:Preferences--signal-login": {
-    "messageformat": "Signal Login"
+    "messageformat": "Signal Loginキー"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Loginキーは、アカウントの回復と復元に使用します。これらのキーを信頼できるパスワードマネージャーに安全に保管してください。<learnMoreLink>詳しく見る</learnMoreLink>。"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "さらに詳しく"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "アカウントと復元"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2キー"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "アカウントキー"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "回復キー"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "この端末はリンク済み端末です"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "アカウント設定を管理するには、メイン端末でSignalを開いてください"
   },
   "icu:Preferences--zoom": {
     "messageformat": "ズームレベル"
@@ -6242,7 +6242,7 @@
     "messageformat": "チャットフォルダ"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "表示"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "着信音"
@@ -6251,28 +6251,28 @@
     "messageformat": "アプリバッジ"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "各チャットのカスタム設定を含め、通知設定をデフォルトに戻します"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "リセット"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "すべてのチャットの通知設定をデフォルトに戻しますか？"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "リセット"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "バッジ数"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "着信数バッジが未読メッセージ数と未読チャット数のどちらを表示するかを選択してください。"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "未読メッセージ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "未読チャット"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "チャット履歴をエクスポートする"
@@ -8992,6 +8992,6 @@
     "messageformat": "グループメンバーの検索がしやすくなりました。"
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "通知の設定を改善して、通知がどのようにいつ表示されるかオプションで選択できるようになりました。"
   }
 }

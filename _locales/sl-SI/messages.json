@@ -66,16 +66,16 @@
     "messageformat": "Podprite Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "Preko <bold>povezanih naprav</bold> lahko varno dostopate do računa Signal in sporočil v katerikoli dodatni napravi."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Povežete lahko namizni računalnik, tablico ali dodatni telefon."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Primarna naprava upravlja s povezanimi napravami, povežete pa jih lahko do 5."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Nekatere nastavitve računa lahko upravljate le v primarni napravi, vključno z nastavitvami računa in varnostnimi kopijami."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardna"
@@ -651,19 +651,19 @@
     "messageformat": "Samodejno preverjanje ključa trenutno ni na voljo za vašo napravo. Želite poslati sistemsko zabeležbo?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Samodejno preverjanje ključa trenutno ni na voljo za vašo napravo. Želite poslati poročilo, da nam pomagate izboljšati aplikacijo?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Sistemske zabeležbe nam pomagajo diagnosticirati in odpraviti težavo ter ne vsebujejo identifikacijskih podatkov."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Če vključite sistemske zabeležbe, nam boste pomagali diagnosticirati in odpraviti težavo. Dnevniki ne vsebujejo podatkov, na podlagi katerih bi vas bilo mogoče identificirati. Delitev ni obvezna."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Delite sistemske zabeležbe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Dodajte sistemsko zabeležbo"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Prikaz"
@@ -5199,64 +5199,64 @@
     "messageformat": "Zaznamek"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Med utišanjem"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Izberite obvestila, ki se smejo prikazati za utišane klepete."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Klici"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Zazvoni ali prikaži obvestilo, ko se začne klic v tem utišanem klepetu."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Omembe"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Obvesti me, ko me nekdo @omeni v tem utišanem klepetu."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Odgovori"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Obvesti me, ko nekdo odgovori na moje sporočilo v tem utišanem klepetu."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Brez"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Klici"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Omembe"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Odgovori"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Klici, omembe"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Klici, odgovori"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Omembe, odgovori"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Klici, omembe, odgovori"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Izberite obvestila, ki se smejo prikazati za utišane klepete."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Zazvoni ali prikaži obvestilo, ko se začne klic v utišanih klepetih."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Obvesti me, ko me nekdo omeni v utišanih klepetih."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Obvesti me, ko nekdo odgovori na moje sporočilo v utišanih klepetih."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Omembe"
@@ -6095,7 +6095,7 @@
     "messageformat": "Obvesti me, ko se nekdo odzove na moje sporočilo"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Račun"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Splošno"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Vaš Signal Login se uporablja za obnovitev in ponovno vzpostavitev vašega računa. Te ključe varno shranite v zaupanja vrednem upravitelju gesel. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Več o tem"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Račun in obnovitev"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 ključa"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Ključ računa"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Obnovitveni ključ"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "To je povezana naprava"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Za upravljanje nastavitev računa odprite Signal v primarni napravi."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Stopnja povečave"
@@ -6242,7 +6242,7 @@
     "messageformat": "Mape klepetov"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Prikaži"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Zvoki"
@@ -6251,28 +6251,28 @@
     "messageformat": "Značka aplikacije"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Ponastavite nastavitve obvestil na privzete, vključno z nastavitvami po meri za vaše klepete."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Ponastavi"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Želite ponastaviti vse nastavitve obvestil na privzete za vse klepete?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Ponastavi"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Število značk"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Izberite, ali značka prikazuje število neprebranih sporočil ali število neprebranih klepetov"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Neprebrana sporočila"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Neprebrani klepeti"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Želite izvoziti zgodovino klepeta?"
@@ -8992,6 +8992,6 @@
     "messageformat": "Izboljšave iskanja članov skupine."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Ta posodobitev prinaša podrobnejše nastavitve, ki vam omogočajo bistveno večji nadzor nad obvestili Signala. Zdaj lahko izberete, kaj bo prikazano na znački aplikacije, prilagodite nastavitve obvestil za utišane klepete in še več! Dodali smo tudi priročen gumb za obnovitev privzetih nastavitev obvestil, če jih boste kdaj toliko spremenili, da se boste v njih povsem izgubili."
   }
 }

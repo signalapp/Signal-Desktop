@@ -66,16 +66,16 @@
     "messageformat": "捐款俾 Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>「連結咗嘅裝置」</bold>俾你喺任何其他裝置上面安全咁存取 Signal 帳戶同埋訊息。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "你可以連結桌面電腦、平板電腦或者其他手機。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "你部主要裝置負責管理連結咗嘅機，最多可連結 5 部裝置。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "帳戶設定只可以喺主要裝置度管理，包括帳戶設定同備份。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -651,19 +651,19 @@
     "messageformat": "你嘅裝置而家冇得用「自動金鑰驗證」。係咪要提交除錯記錄？"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "你嘅裝置暫時用唔到「自動金鑰驗證」。係咪要提交報告幫下我哋改好啲？"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "提交除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。分唔分享係由你揀嘅。"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "一併送交除錯記錄檔"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "睇吓"
@@ -3930,7 +3930,7 @@
     "messageformat": "側欄"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "喇叭"
+    "messageformat": "發言人"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "分享你嘅畫面"
@@ -5199,64 +5199,64 @@
     "messageformat": "備註"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "當靜音嗰陣"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "揀選當呢個聊天設做靜音嗰陣要顯示嘅通知。"
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "通話"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "當呢個聊天設做靜音嗰陣，如果開始通話會響或者通知。"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "提及"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "當呢個聊天設做靜音嗰陣，如果你俾人@提及會通知。"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "回覆"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "當呢個聊天設做靜音嗰陣，如果有人回覆你嘅訊息會通知。"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "無"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "通話"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "提及"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "回覆"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "來電、提及"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "來電、回覆"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "提及、回覆"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "來電、提及、回覆"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "為靜音聊天揀選擇要顯示嘅通知。"
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "當有人喺靜音聊天入面開始通話嘅時候會響或者通知。"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "當有人喺靜音聊天入面提及你嘅時候會通知。"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "當有人喺靜音聊天入面回覆你訊息嘅時候會通知。"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "提及"
@@ -6095,7 +6095,7 @@
     "messageformat": "當有人對你嘅訊息傳送心情回應嘅時候會通知"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "帳戶"
   },
   "icu:Preferences__button--general": {
     "messageformat": "一般"
@@ -6170,28 +6170,28 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "你嘅 Signal Login 係用嚟恢復同還原帳戶。請將呢啲金鑰妥善儲存喺你信得過嘅密碼管理器入面。 <learnMoreLink>了解詳情</learnMoreLink>。"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "了解多啲"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "帳戶同恢復金鑰"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 個金鑰"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "帳戶金鑰"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "恢復金鑰"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "呢部係連結咗嘅裝置"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "要管理帳戶設定，請喺主要裝置度打開 Signal。"
   },
   "icu:Preferences--zoom": {
     "messageformat": "縮放程度"
@@ -6242,7 +6242,7 @@
     "messageformat": "聊天資料夾"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "顯示"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "聲音"
@@ -6251,28 +6251,28 @@
     "messageformat": "APP 徽章"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "將通知設定重設做預設值，包括聊天嘅自訂設定。"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "重設"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "係咪要將所有聊天嘅通知設定都重設返做預設值？"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "重設"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "未讀數字"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "揀選未讀通知數字顯示未讀訊息嘅數量，定係未讀聊天嘅數量"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "未讀訊息"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "未讀聊天"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "匯出聊天紀錄"
@@ -8992,6 +8992,6 @@
     "messageformat": "尋找自我可以用你一世時間，但而家你喺谷友搜尋入面會顯示做「你」，想搵返自己就容易得多啦。"
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "呢次更新引入咗更精細嘅設定選項，俾你對 Signal 嘅通知有更全面嘅控制。而家，你可以揀 APP 徽章上面顯示嘅內容、調整靜音討論串嘅通知偏好設定，同埋更多功能！我哋仲新加咗一個好就手嘅按鈕，等你喺設定度改咗太多、甚至唔記得改咗啲咩，可以輕鬆還原預設嘅通知設定。"
   }
 }
