@@ -31,6 +31,7 @@ const config = {
         'ts/windows/calldiagnostic/preload.preload.ts!',
         'ts/windows/debuglog/preload.preload.ts!',
         'ts/windows/loading/preload.preload.ts!',
+        'ts/windows/pdf/preload.preload.ts!',
         'ts/windows/permissions/preload.preload.ts!',
         'ts/windows/screenShare/preload.preload.ts!',
         'ts/windows/sticker-creator/preload.preload.ts!',
@@ -39,6 +40,7 @@ const config = {
         'ts/windows/calldiagnostic/app.dom.tsx!',
         'ts/windows/debuglog/app.dom.tsx!',
         'ts/windows/loading/start.dom.ts!',
+        'ts/windows/pdf/app.dom.tsx!',
         'ts/windows/permissions/app.dom.tsx!',
         'ts/windows/screenShare/app.dom.tsx!',
         // Others

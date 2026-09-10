@@ -29,7 +29,11 @@ import {
   safeStorage,
   protocol as electronProtocol,
 } from 'electron';
-import type { MenuItemConstructorOptions, Settings } from 'electron';
+import type {
+  MenuItemConstructorOptions,
+  Settings,
+  BrowserWindowConstructorOptions,
+} from 'electron';
 import { z } from 'zod';
 
 import { packageJson } from '../ts/util/packageJson.main.ts';
@@ -113,6 +117,7 @@ import { ChallengeMainHandler } from '../ts/main/challengeMain.main.ts';
 import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier.main.ts';
 import { PowerChannel } from '../ts/main/powerChannel.main.ts';
 import { SettingsChannel } from '../ts/main/settingsChannel.main.ts';
+import { PDFWindowPropsSchema } from '../ts/windows/pdf/types.std.ts';
 import '../ts/main/clipboardMain.main.ts';
 import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url.std.ts';
 import { getHeicConverter } from '../ts/workers/heicConverterMain.main.ts';
@@ -1136,6 +1141,67 @@ ipc.on('title-bar-double-click', () => {
     //   we add support for other operating systems.
     toggleMaximizedBrowserWindow(mainWindow);
   }
+});
+
+ipc.handle('pdf:generate', async (_event, data) => {
+  const props = PDFWindowPropsSchema.parse(data);
+
+  const options: BrowserWindowConstructorOptions = {
+    backgroundColor: '#ffffff',
+    show: false,
+    width: 612,
+    height: 792,
+    maximizable: false,
+    minimizable: false,
+    resizable: false,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      contextIsolation: true,
+      preload: join(rootDir, 'bundles', 'preload', 'pdf.js'),
+    },
+  };
+
+  const pdfWindow = new BrowserWindow(options);
+
+  pdfWindow.webContents.ipc.on('pdf:getProps', async event => {
+    // oxlint-disable-next-line no-param-reassign
+    event.returnValue = props;
+  });
+
+  await handleCommonWindowEvents(pdfWindow);
+
+  const { promise, resolve, reject } =
+    Promise.withResolvers<Uint8Array<ArrayBuffer>>();
+
+  try {
+    pdfWindow.webContents.on('did-finish-load', async () => {
+      try {
+        const pdf = await pdfWindow.webContents.printToPDF({
+          margins: {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          },
+          preferCSSPageSize: true,
+          printBackground: true,
+        });
+        pdfWindow.close();
+        resolve(pdf as Uint8Array<ArrayBuffer>);
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    await safeLoadURL(pdfWindow, prepareFileUrl([rootDir, 'pdf.html']));
+  } catch (error) {
+    reject(error);
+  }
+
+  return promise;
 });
 
 ipc.on('set-is-call-active', (_event, isCallActive) => {

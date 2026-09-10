@@ -45,6 +45,7 @@ const sandboxPreload = {
   'preload/about': 'ts/windows/about/preload.preload.ts',
   'preload/calldiagnostic': 'ts/windows/calldiagnostic/preload.preload.ts',
   'preload/debuglog': 'ts/windows/debuglog/preload.preload.ts',
+  'preload/pdf': 'ts/windows/pdf/preload.preload.ts',
   'preload/permissions': 'ts/windows/permissions/preload.preload.ts',
   'preload/screenShare': 'ts/windows/screenShare/preload.preload.ts',
   'preload/sticker-creator': 'ts/windows/sticker-creator/preload.preload.ts',
@@ -55,6 +56,7 @@ const sandboxDOM = {
   'dom/calldiagnostic': 'ts/windows/calldiagnostic/app.dom.tsx',
   'dom/debuglog': 'ts/windows/debuglog/app.dom.tsx',
   'dom/loading': 'ts/windows/loading/start.dom.ts',
+  'dom/pdf': 'ts/windows/pdf/app.dom.tsx',
   'dom/permissions': 'ts/windows/permissions/app.dom.tsx',
   'dom/screenShare': 'ts/windows/screenShare/app.dom.tsx',
 };

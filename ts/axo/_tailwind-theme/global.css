@@ -8,8 +8,12 @@
     @apply h-screen scheme-light-dark select-none;
   }
 
+  @page {
+    size: 612px 792px;
+  }
+
   body {
-    @apply h-screen w-screen bg-surface-primary font-sans type-body-large text-primary;
+    @apply h-screen w-screen bg-surface-primary print:bg-white font-sans type-body-large text-primary;
   }
 
   a[href] {

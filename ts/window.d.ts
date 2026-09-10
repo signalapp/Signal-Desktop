@@ -26,6 +26,7 @@ import type { WindowsNotificationData } from './services/notifications.preload.t
 import type { QueryStatsOptions } from './sql/main.main.ts';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
 import type { SignalClipboardType } from './windows/clipboard.preload.ts';
+import type { PDFWindowPropsType } from './windows/pdf/types.std.ts';
 
 export type IPCType = {
   addSetupMenuItems: () => void;
@@ -124,6 +125,7 @@ type SettingsWindowPropsType = {
 
 export type SignalCoreType = {
   AboutWindowProps?: AboutWindowPropsType;
+  PDFWindowProps?: PDFWindowPropsType;
   CallDiagnosticWindowProps?: CallDiagnosticWindowPropsType;
   DebugLogWindowProps?: DebugLogWindowPropsType;
   PermissionsWindowProps?: PermissionsWindowPropsType;

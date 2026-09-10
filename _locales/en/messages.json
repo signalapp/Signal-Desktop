@@ -8220,13 +8220,29 @@
     "messageformat": "2 keys",
     "description": "Description for Signal Login preferences item"
   },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Your Signal Login",
+    "description": "Title displayed in PDF version of Signal Account Keys preferences page"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone.",
+    "description": "Description displayed in PDF version of Signal Account Keys preferences page"
+  },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Account key",
     "description": "Label for the Account Key in Signal Account Keys preferences page"
   },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "Account ID",
+    "description": "Label for the Account ID in Signal Account Keys preferences page"
+  },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
     "messageformat": "Recovery key",
     "description": "Label for the Recovery Key in Signal Account Keys preferences page"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Save",
+    "description": "Text of button in Signal Account Keys preferences page"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
     "messageformat": "This is a linked device",
