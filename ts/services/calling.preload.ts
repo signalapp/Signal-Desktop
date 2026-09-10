@@ -4385,15 +4385,11 @@ class CallingClass {
     );
     const isAnybodyElseInGroupCall = Boolean(peekInfo?.devices.length);
 
-    const isAllowedWhileMuted =
-      !conversation.isMuted() ||
-      getNotifyWhileMutedForConversation(conversation.attributes).calls;
-
     if (
       isNewCall &&
       !wasStartedByMe &&
       isAnybodyElseInGroupCall &&
-      isAllowedWhileMuted
+      !conversation.isMuted()
     ) {
       await this.#notifyForGroupCall(conversation, creatorConversation);
     }
