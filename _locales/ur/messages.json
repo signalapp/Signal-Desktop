@@ -66,16 +66,19 @@
     "messageformat": "Signal کے لئے عطیہ کریں"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>لنک کردہ ڈیوائسز</bold> آپ کو اپنی کسی بھی اضافی ڈیوائسز پر اپنے Signal اکاؤنٹ اور میسجز تک محفوظ انداز میں رسائی حاصل کرنے کی اجازت دیتی ہیں۔"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "آپ ایک ڈیسک ٹاپ، ٹیبلٹ یا اضافی فون لنک کر سکتے ہیں۔"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "آپ کی پرائمری ڈیوائس لنک کردہ کو منظم کرتی ہے، نیز آپ 5 تک ڈیوائسز کو لنک کر سکتے ہیں۔"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "اکاؤنٹ کی سیٹنگز صرف آپ کی پرائمری ڈیوائس پر ہی منظم کی جاتی ہیں، بشمول اکاؤنٹ کی سیٹنگز اور بیک اپس۔"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "معیار"
@@ -651,19 +654,19 @@
     "messageformat": "آپ کی ڈیوائس پر خودکار کیی کی تصدیق فی الحال دستیاب نہیں ہے۔ ڈی بگ لاگ جمع کروائیں؟"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "آپ کی ڈیوائس پر خودکار کیی کی تصدیق فی الحال دستیاب نہیں ہے۔ ہمیں بہتر بنانے میں مدد کے لیے رپورٹ جمع کرائیں؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "آپ کے ڈی بگ لاگز شامل کرنے سے ہمیں مسئلے کی نشاندہی اور اسے حل کرنے میں مدد ملتی ہے، اور ان میں شناخت ظاہر کرنے والی معلومات شامل نہیں ہوتیں۔ شیئر کرنا اختیاری ہے۔"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ڈی بگ لاگ شیئر کریں"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "ڈیبگ لاگ شامل کریں"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "ویو"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "آپ اس پیغام میں مزید اٹیچمنٹس شامل نہیں کرسکتے ہیں۔ "
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "معذرت، منتخب شدہ فائل پیغام کے حجم کی پابندیوں سے بڑھ چکی ہے۔ {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "معذرت، منتخب شدہ ویڈیو فائل میسج کے سائز کی حدود سے تجاوز کر گئی ہے۔ {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "یہ فائل نہیں بھیجی جا سکتی کیونکہ یہ بہت بڑی ہے۔ آپ {limit,number}{units} تک کی فائلز بھیج سکتے ہیں۔"
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "پری ویو کو مختصر کریں"
   },
-  "icu:calling__change-view": {
-    "messageformat": "ویو تبدیل کریں"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "گرڈ ویو"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "سائیڈ بار ویو"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "اسپیکر ویو"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "ویو اپ ڈیٹ ہو گیا"
   },
@@ -3930,7 +3915,7 @@
     "messageformat": "سائیڈ بار"
   },
   "icu:calling__layout--speaker": {
-    "messageformat": "سپیکر"
+    "messageformat": "اسپیکر"
   },
   "icu:calling__SelectPresentingSourcesModal--title": {
     "messageformat": "اپنی اسکرین کا اشتراک کریں"
@@ -5199,64 +5184,64 @@
     "messageformat": "نوٹ"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "میوٹ ہونے کے دوران"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "منتخب کریں کہ یہ چیٹ میوٹ ہونے کے دوران کون سی اطلاعات دکھائی جائیں۔"
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "کالز"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "جب یہ چیٹ میوٹ ہو تو کال شروع ہونے پر گھنٹی بجائیں یا اطلاع دیں۔"
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "ذکر"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "اس چیٹ کے میوٹ ہونے کے دوران جب کوئی آپ کو @مینشن کرے تو اطلاع دیں۔"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "جوابات"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "اس چیٹ کے میوٹ ہونے کے دوران جب کوئی آپ کے میسج کا جواب دے تو اطلاع دیں۔"
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "کوئی نہیں"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "کالز"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "ذکر"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "جوابات"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "کالز، مینشنز"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "کالز، جوابات"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "مینشنز، جوابات"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "کالز، مینشنز، جوابات"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "میوٹ کردہ چیٹس کے لیے دکھائی جانے والی اطلاعات منتخب کریں۔"
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "میوٹ کردہ چیٹس میں کال شروع ہونے پر گھنٹی بجائیں یا اطلاع دیں۔"
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "میوٹ کردہ چیٹس میں آپ کو مینشن کیے جانے پر اطلاع دیں۔"
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "میوٹ کردہ چیٹس میں کوئی آپ کے میسج کا جواب دے تو اطلاع دیں۔"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ذکر"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "تصدیق کرنے کے بعد ، آپ پیغام رسانی جاری رکھ سکتے ہیں۔ کوئی موقوف پیغامات خودبخود بھیجے جائیں گے۔"
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "جاری رکھیں"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "بغیر تصدیق کیے جاری رکھیں؟"
@@ -6095,7 +6083,7 @@
     "messageformat": "جب کوئی آپ کے میسج پر ری ایکٹ کرے تو اطلاع دیں"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "اکاؤنٹ"
   },
   "icu:Preferences__button--general": {
     "messageformat": "عام"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "آپ کا Signal Login آپ کے اکاؤنٹ کی بحالی اور اسے ری اسٹور کرنے کے لیے استعمال ہوتا ہے۔ ان کییز کو کسی قابلِ اعتماد پاس ورڈ مینیجر میں محفوظ رکھیں۔ <learnMoreLink>مزید جانیں</learnMoreLink>۔"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "مزید جانیں"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "اکاؤنٹ اور بحالی"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 کییز"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "آپ کا Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "اکاؤنٹ کیی"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "اکاؤنٹ ID"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "ریکوری کیی"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "محفوظ کریں"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "یہ ایک لنک کردہ ڈیوائس ہے"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "اپنی اکاؤنٹ سیٹنگز کو منظم کرنے کے لیے، اپنی پرائمری ڈیوائس پر Signal کھولیں۔"
   },
   "icu:Preferences--zoom": {
     "messageformat": "زوم لیول"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "اعلی' درجے کی"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "اپنا پن تبدیل کریں"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "تبدیل کریں"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal پن"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "چیٹ فولڈرز"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "دکھائیں"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "آوازیں"
@@ -6251,28 +6257,28 @@
     "messageformat": "ایپ بیج"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "اطلاعات کی سیٹنگز کو ڈیفالٹ پر ری سیٹ کریں، بشمول اپنی چیٹس کے لیے مقرر کردہ حسبِ ضرورت سیٹنگز۔"
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "دوبارہ بحال کریں"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "تمام چیٹس کے لیے اطلاعات کی تمام سیٹنگز ڈیفالٹ پر ری سیٹ کریں؟"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "دوبارہ بحال کریں"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "بیج کی گنتی"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "منتخب کریں کہ آیا بیج کے شمار میں بغیر پڑھے ہوئے میسجز کی تعداد دکھائی جائے یا بغیر پڑھی ہوئی چیٹس کی تعداد۔"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "بغیر پڑھے ہوئے میسجز"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "بغیر پڑھی ہوئی چیٹس"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "چیٹ ہسٹری ایکسپورٹ کریں"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "اپ ڈیٹ درکار ہے"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{totalBytes} ({percentage,number,percent}) کا {currentBytes} ڈاؤن لوڈ ہو رہا ہے..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "اپنے میسجز کی سنک کا عمل مکمل کرنے کے لیے، Signal ڈیسک ٹاپ کو ابھی اپ ڈیٹ کریں۔"
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "اَپ ڈیٹ"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "اپ ڈیٹ درکار ہے"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "غلط پن۔ دوبارہ کوشش کریں"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "تصدیق کریں"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "پِن درست ہے۔ ہم آپ کو بعد میں دوبارہ یاد کروائیں گے۔"
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "جب تک یہ device رجسٹرڈ ہے آپ اپنا پن تبدیل کرسکتے ہیں۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "اپنے سگنل پن کی تصدیق کریں"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "آپ نے ابھی تیار کردہ پن درج کریں۔"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "پن کی تصدیق کریں"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "تصدیق کریں"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal ڈیسک ٹاپ جلد ہی {OS} کے آپ کے کمپیوٹر ورژن کی مزید معاونت نہیں کرے گا۔ Signal استعمال کرنا جاری رکھنے کے لیے، اپنے کمپیوٹر کے آپریٹنگ سسٹم کو {expirationDate} تک اپ ڈیٹ کریں۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "خود کو تلاش کرنا ساری زندگی کا سفر ہے، لیکن اب آپ گروپ ممبرز کی سرچ میں آپ اپنے منفرد انداز میں نظر آئیں گے تاکہ ان کے لیے آسانی ہو۔"
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "اس اپ ڈیٹ میں آپ کو Signal اطلاعات پر زیادہ کنٹرول دیا گیا ہے۔ اب آپ یہ بھی منتخب کر سکتے ہیں کہ ایپ بیج میں کیا نظر آئے، خاموش تھریڈس کے لیے اطلاعات کو ترجیحات طے کر سکتے ہیں اور بہت کچھ! اس کے ساتھ ڈیفالٹ اطلاعات ترتیبات بحال کرنے کے لیے ایک بٹن بھی شامل کیا گیا ہے، تاکہ آپ بے تحاشہ تبدیلیاں کر لیں تو پھر ایک ہی بٹن سے اصل ترتیبات بحال کر لیں۔"
   }
 }

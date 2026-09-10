@@ -113,7 +113,7 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
     "messageformat": "Account settings are managed on your primary device only, including account settings and backups.",
-    "description": "Third bullet point of the Linked Devices Onboarding Dialog"
+    "description": "(Deleted 2026/09/10) Third bullet point of the Linked Devices Onboarding Dialog"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Account settings and backups can only be managed on your primary device.",
@@ -1039,14 +1039,6 @@
   "icu:maximumAttachments": {
     "messageformat": "You cannot add any more attachments to this message.",
     "description": "An error popup when the user has attempted to add an attachment"
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Sorry, the selected file exceeds message size restrictions. {limit, number}{units}",
-    "description": "(Deleted 2026/08/05) Shown in a toast if the user tries to attach too-large file"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Sorry, the selected video file exceeds message size restrictions. {limit, number}{units}",
-    "description": "(Deleted 2026/08/05) Shown in a toast if the user tries to attach too-large video file"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Can’t send this file because it’s too large. You can send files up to {limit, number}{units}.",
@@ -5186,22 +5178,6 @@
     "messageformat": "Minimize preview",
     "description": "Title for button to make in-call video preview smaller"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Change view",
-    "description": "(Deleted 2026/08/05) Tooltip for changing the in-call layout of remote participants in a group call"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Grid view",
-    "description": "(Deleted 2026/08/05) Label for option to view participants in a group call in a paginated grid view"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Sidebar view",
-    "description": "(Deleted 2026/08/05) Label for option to view participants in a group call where videos that don't fit onto the page are put into a scrollable overflow sidebar"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Speaker view",
-    "description": "(Deleted 2026/08/05) Label for option to view participants where only the current speaker's video is fully visible and all others are put into a scrollable overflow sidebar"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "View updated",
     "description": "Toast shown whenver the calling view mode is changed (e.g. paginated view -> speaker view)"
@@ -8234,7 +8210,7 @@
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Account key",
-    "description": "Label for the Account Key in Signal Account Keys preferences page"
+    "description": "(Deleted 2026/09/10) Label for the Account Key in Signal Account Keys preferences page"
   },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Account ID",
@@ -11340,11 +11316,11 @@
   },
   "icu:CallLinkRestrictionsSelect__Option--Off": {
     "messageformat": "Off",
-    "description": "Call Link Edit Modal > Require admin approval checkbox > Option > Off"
+    "description": "(Deleted 2026/09/10) Call Link Edit Modal > Require admin approval checkbox > Option > Off"
   },
   "icu:CallLinkRestrictionsSelect__Option--On": {
     "messageformat": "On",
-    "description": "Call Link Edit Modal > Require admin approval checkbox > Option > On"
+    "description": "(Deleted 2026/09/10) Call Link Edit Modal > Require admin approval checkbox > Option > On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Add call name",
@@ -12051,6 +12027,6 @@
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore.",
-    "description": "Release notes for 8.27"
+    "description": "(Deleted 2026/09/10) Release notes for 8.27"
   }
 }

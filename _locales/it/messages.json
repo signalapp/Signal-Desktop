@@ -66,16 +66,19 @@
     "messageformat": "Dona a Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "I <bold>dispositivi collegati</bold> ti consentono di accedere al tuo account Signal e vedere i tuoi messaggi in modo sicuro su tutti i tuoi dispositivi."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Puoi collegare un computer, un tablet o un altro telefono."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Il tuo dispositivo principale gestisce i dispositivi collegati e puoi collegarne fino a 5."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Alcune Impostazioni del tuo account vengono gestite solo sul tuo dispositivo principale, tra cui le Impostazioni dell'account e dei backup."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normale"
@@ -651,19 +654,19 @@
     "messageformat": "La verifica automatica delle chiavi di crittografia non è disponibile per il tuo dispositivo. Vuoi inviarci un log di debug?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "La verifica automatica delle chiavi di crittografia non è disponibile per il tuo dispositivo. Vuoi inviare una segnalazione per aiutarci a migliorare il servizio?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "I log di debug ci aiutano a individuare e risolvere il problema. Non preoccuparti, non contengono informazioni identificative o personali."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Includere i tuoi log di debug ci aiuta a individuare e risolvere il problema. Non preoccuparti, non contengono informazioni identificative o personali. Decidi tu se condividerli o meno, non è obbligatorio."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Condividi log di debug"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Includi log di debug"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Mostra"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "Non puoi aggiungere altri allegati a questo messaggio."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Spiacente, il file selezionato supera la dimensione predefinita per il messaggio. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Spiacenti, il file video selezionato supera la dimensione massima consentita per il messaggio. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Impossibile inviare questo file perché è troppo grande. Puoi inviare file fino a {limit,number}{units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Riduci al minimo l'anteprima"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Cambia layout"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Griglia"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Barra laterale"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Speaker al centro"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Layout aggiornato"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Appunti"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Modalità silenziosa"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Scegli le notifiche da mostrare mentre questa chat è silenziata."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Chiamate"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Squilla o invia una notifica quando viene avviata una chiamata mentre questa chat è silenziata."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Menzioni"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Ricevi una notifica quando una persona ti @menziona mentre questa chat è silenziata."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Risposte"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Ricevi una notifica quando una persona risponde al tuo messaggio mentre questa chat è silenziata."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Nessuna"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Chiamate"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Menzioni"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Risposte"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Chiamate, menzioni"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Chiamate, risposte"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Menzioni, risposte"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Chiamate, menzioni, risposte"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Scegli le notifiche da mostrare per le chat silenziate."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Fai squillare o ricevi una notifica quando viene avviata una chiamata nelle chat silenziate."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Ricevi una notifica quando ti menzionano nelle chat silenziate."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Ricevi una notifica quando una persona risponde ai tuoi messaggi nelle chat silenziate."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Menzioni"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Dopo la verifica, puoi continuare a inviare messaggi. Tutti i messaggi in pausa verranno inviati automaticamente."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Continua"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Continuare senza verificare?"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Il tuo Signal Login viene usato per recuperare e ripristinare il tuo account. Conserva queste chiavi in un password manager sicuro. <learnMoreLink>Scopri di più</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Scopri di più"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Account e ripristino"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 chiavi"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Il tuo Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Chiave dell'account"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID account"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Chiave di ripristino"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Salva"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Questo è un dispositivo collegato"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Per gestire le Impostazioni del tuo account, apri Signal sul tuo dispositivo principale."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Livello zoom"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Avanzate"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Cambia il tuo PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Modifica"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN di Signal"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Cartelle delle chat"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Mostra"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Suoni"
@@ -6251,28 +6257,28 @@
     "messageformat": "Icona dell'app"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Resetta le impostazioni per le notifiche, incluse le impostazioni personalizzate per le tue chat."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Resetta"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Resettare tutte le impostazioni per le notifiche di tutte le chat?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Resetta"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Icona delle notifiche"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Scegli se l'icona delle notifiche deve mostrare il numero di messaggi o il numero di chat da leggere"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Messaggi da leggere"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Chat da leggere"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Esporta la cronologia chat"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Aggiornamento necessario"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Download {currentBytes} di {totalBytes} ({percentage,number,percent})…"
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Per completare la sincronizzazione dei tuoi messaggi, aggiorna ora Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Aggiorna"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Aggiornamento necessario"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN errato. Riprova"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Conferma"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN corretto. Te lo ricorderemo più tardi."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "Puoi cambiare il tuo PIN finché questo dispositivo è registrato. <learnMoreLink>Scopri di più</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Conferma il tuo PIN di Signal"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Inserisci il PIN che hai appena creato."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Conferma PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Annulla"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Continua"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Conferma"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Presto Signal desktop non supporterà più la versione di {OS} presente sul tuo computer. Per continuare a usare Signal, aggiorna il sistema operativo del tuo computer entro il {expirationDate}. <learnMoreLink>Scopri di più</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Ritrovare sé stessi può richiedere tutta la vita. Su Signal abbiamo trovato una scorciatoia: cerca il tuo nome nell'elenco degli utenti di un gruppo e ti troverai come \"Tu\"."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Questo aggiornamento introduce delle impostazioni ancora più avanzate per fornirti maggiore controllo sulle tue notifiche di Signal. Da ora puoi decidere che cosa appare sull'icona dell'app, modificare le preferenze per le notifiche sulle chat silenziate e molto altro! Abbiamo anche aggiunto un comodo pulsante per ripristinare le impostazioni predefinite, nel caso in cui le tue modifiche prendano una piega un po' troppo creativa."
   }
 }

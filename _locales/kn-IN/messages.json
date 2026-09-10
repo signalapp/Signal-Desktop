@@ -66,16 +66,19 @@
     "messageformat": "Signal ಗೆ ದಾನ ಮಾಡಿ"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನಗಳು</bold> ನಿಮ್ಮ ಯಾವುದೇ ಹೆಚ್ಚುವರಿ ಸಾಧನಗಳಲ್ಲಿ ನಿಮ್ಮ Signal ಖಾತೆ ಮತ್ತು ಮೆಸೇಜ್‌ಗಳನ್ನು ಆ್ಯಕ್ಸೆಸ್ ಮಾಡಲು ನಿಮಗೆ ಅವಕಾಶ ನೀಡುತ್ತವೆ."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "ನೀವು ಡೆಸ್ಕ್‌ಟಾಪ್, ಟ್ಯಾಬ್ಲೆಟ್ ಅಥವಾ ಹೆಚ್ಚುವರಿ ಫೋನ್ ಅನ್ನು ಲಿಂಕ್ ಮಾಡಬಹುದು."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನವು ನೀವು ಲಿಂಕ್ ಮಾಡಿರುವ ಸಾಧನಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತದೆ, ನೀವು ಗರಿಷ್ಠ 5 ಸಾಧನಗಳನ್ನು ಲಿಂಕ್ ಮಾಡಬಹುದು."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳು ಸೇರಿದಂತೆ, ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆ."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ಪ್ರಮಾಣಿತ"
@@ -651,19 +654,19 @@
     "messageformat": "ನಿಮ್ಮ ಸಾಧನಕ್ಕೆ ಸ್ವಯಂಚಾಲಿತ ಕೀ ದೃಢೀಕರಣವು ಪ್ರಸ್ತುತ ಲಭ್ಯವಿಲ್ಲ. ಡೀಬಗ್ ಲಾಗ್ ಸಲ್ಲಿಸಬೇಕೆ?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "ನಿಮ್ಮ ಸಾಧನಕ್ಕೆ ಸ್ವಯಂಚಾಲಿತ ಕೀ ದೃಢೀಕರಣವು ಪ್ರಸ್ತುತ ಲಭ್ಯವಿಲ್ಲ. ನಮಗೆ ಸುಧಾರಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ವರದಿಯನ್ನು ಸಲ್ಲಿಸಬೇಕೇ?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್‌ಗಳು ಸಮಸ್ಯೆಯನ್ನು ನಿರ್ಣಯಿಸಲು ಮತ್ತು ಸರಿಪಡಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತವೆ ಮತ್ತು ಗುರುತಿಸುವ ಮಾಹಿತಿಯನ್ನು ಹೊಂದಿರುವುದಿಲ್ಲ."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "ನಿಮ್ಮ ಡೀಬಗ್ ಲಾಗ್‌ಗಳನ್ನು ಸೇರಿಸುವುದರಿಂದ ಸಮಸ್ಯೆಯನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಮತ್ತು ಸರಿಪಡಿಸಲು ನಮಗೆ ಸಹಾಯವಾಗುತ್ತದೆ ಮತ್ತು ಗುರುತಿಸುವ ರೀತಿಯ ಮಾಹಿತಿಯನ್ನು ಅದು ಹೊಂದಿರುವುದಿಲ್ಲ. ಹಂಚಿಕೊಳ್ಳುವುದು ಐಚ್ಛಿಕವಾಗಿದೆ."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "ಡೀಬಗ್ ಲಾಗ್ ಸೇರಿಸಿ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "ವೀಕ್ಷಿಸಿ"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "ಈ ಸಂದೇಶಕ್ಕೆ ನೀವು ಇನ್ನಷ್ಟು ಲಗತ್ತುಗಳನ್ನು ಸೇರಿಸಲಾಗದು."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ಕಡತ ಸಂದೇಶದ ಗಾತ್ರ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "ಕ್ಷಮಿಸಿ, ಆಯ್ಕೆಮಾಡಿದ ವಿಡಿಯೋ ಫೈಲ್, ಮೆಸೇಜ್ ಗಾತ್ರದ ನಿರ್ಬಂಧಗಳನ್ನು ಮೀರಿದೆ. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "ಈ ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿರುವುದರಿಂದ ಅದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. {limit,number}{units} ವರೆಗಿನ ಫೈಲ್‌ಗಳನ್ನು ನೀವು ಕಳುಹಿಸಬಹುದು."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "ಪ್ರಿವ್ಯೂವನ್ನು ಕನಿಷ್ಠಗೊಳಿಸಿ"
   },
-  "icu:calling__change-view": {
-    "messageformat": "ವೀಕ್ಷಣೆಯನ್ನು ಬದಲಾಯಿಸಿ"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "ಗ್ರಿಡ್ ವೀಕ್ಷಣೆ"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "ಸೈಡ್‌ಬಾರ್ ವೀಕ್ಷಣೆ"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "ಸ್ಪೀಕರ್ ವೀಕ್ಷಣೆ"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "ವೀಕ್ಷಣೆ ನವೀಕರಣಗೊಂಡಿದೆ"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "ಟಿಪ್ಪಣಿ"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿರುವಾಗ"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿರುವಾಗ ತೋರಿಸಬೇಕಾದ ನೋಟಿಫಿಕೇಷನ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "ಕರೆಗಳು"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿರುವಾಗ ಕರೆ ಪ್ರಾರಂಭವಾದಾಗ ರಿಂಗ್ ಮಾಡಿ ಅಥವಾ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "ಉಲ್ಲೇಖಗಳು"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿರುವಾಗ ನಿಮ್ಮನ್ನು @ಉಲ್ಲೇಖಿಸಿದರೆ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "ಉತ್ತರಗಳು"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿರುವಾಗ ಯಾರಾದರೂ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ ಉತ್ತರಿಸಿದರೆ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "ಯಾವುದೂ ಇಲ್ಲ"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "ಕರೆಗಳು"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "ಉಲ್ಲೇಖಗಳು"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "ಉತ್ತರಗಳು"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "ಕರೆಗಳು, ಉಲ್ಲೇಖಗಳು"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "ಕರೆಗಳು, ಉತ್ತರಗಳು"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "ಉಲ್ಲೇಖಗಳು, ಉತ್ತರಗಳು"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "ಕರೆಗಳು, ಉಲ್ಲೇಖಗಳು, ಉತ್ತರಗಳು"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿದ ಚಾಟ್‌ಗಳಿಗೆ ನೋಟಿಫಿಕೇಷನ್‌ಗಳನ್ನು ಆರಿಸಿ."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ ಕರೆ ಪ್ರಾರಂಭವಾದಾಗ ರಿಂಗ್ ಮಾಡಿ ಅಥವಾ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ ನಿಮ್ಮನ್ನು ಉಲ್ಲೇಖಿಸಿದರೆ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ ಯಾರಾದರೂ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ ಉತ್ತರಿಸಿದರೆ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ಉಲ್ಲೇಖಗಳು"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "ಪರಿಶೀಲಿಸಿದ ನಂತರ, ಮೆಸೇಜ್ ಮಾಡುವುದನ್ನು ನೀವು ಮುಂದುವರಿಸಬಹುದು. ಯಾವುದೇ ವಿರಾಮಗೊಳಿಸಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಳುಹಿಸಲಾಗುತ್ತದೆ."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "ಪರಿಶೀಲಿಸದೇ ಮುಂದುವರಿಯುವುದೇ?"
@@ -6095,7 +6083,7 @@
     "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ ಯಾರಾದರೂ ಪ್ರತಿಕ್ರಿಯಿಸಿದಾಗ ತಿಳಿಸಿ"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "ಖಾತೆ"
   },
   "icu:Preferences__button--general": {
     "messageformat": "ಸಾಮಾನ್ಯ"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ನಿಮ್ಮ Signal Login ಅನ್ನು ನಿಮ್ಮ ಖಾತೆಯನ್ನು ರಿಕವರ್ ಮಾಡಲು ಮತ್ತು ರಿಸ್ಟೋರ್ ಮಾಡಲು ಬಳಸಲಾಗುತ್ತದೆ. ಈ ಕೀಗಳನ್ನು ನೀವು ವಿಶ್ವಾಸವಿಡುವ ಪಾಸ್‌ವರ್ಡ್ ಮ್ಯಾನೇಜರ್‌ನಲ್ಲಿ ಸುರಕ್ಷಿತವಾಗಿ ಇಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "ಖಾತೆ ಮತ್ತು ರಿಕವರಿ"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 ಕೀಗಳು"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "ನಿಮ್ಮ Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "ಖಾತೆ ಕೀ"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ಖಾತೆ ID"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "ರಿಕವರಿ ಕೀ"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "ಉಳಿಸಿ"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "ಇದು ಲಿಂಕ್ ಮಾಡಲಾದ ಸಾಧನ ಆಗಿದೆ"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "ನಿಮ್ಮ ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಲು, ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ Signal ತೆರೆಯಿರಿ."
   },
   "icu:Preferences--zoom": {
     "messageformat": "ಝೂಮ್ ಮಟ್ಟ"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "ಸುಧಾರಿತ"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "ನಿಮ್ಮ ಪಿನ್ ಬದಲಾಯಿಸಿ"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "ಬದಲಾಯಿಸಿ"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal ಪಿನ್"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಗಳು"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "ತೋರಿಸು"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ಶಬ್ದಗಳು"
@@ -6251,28 +6257,28 @@
     "messageformat": "ಆ್ಯಪ್ ಬ್ಯಾಡ್ಜ್"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "ನಿಮ್ಮ ಚಾಟ್‌ಗಳಿಗಾಗಿನ ಕಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಸೇರಿದಂತೆ, ನೋಟಿಫಿಕೇಷನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಡೀಫಾಲ್ಟ್‌ಗೆ ಮರುಹೊಂದಿಸಿ."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "ಮರುಹೊಂದಿಸಿ"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "ಎಲ್ಲಾ ಚಾಟ್‌ಗಳಿಗೂ ಎಲ್ಲಾ ನೋಟಿಫಿಕೇಷನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಡೀಫಾಲ್ಟ್‌ಗೆ ಮರುಹೊಂದಿಸುವುದೇ?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "ಮರುಹೊಂದಿಸಿ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "ಬ್ಯಾಡ್ಜ್ ಎಣಿಕೆ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "ಬ್ಯಾಡ್ಜ್ ಎಣಿಕೆಯು ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳ ಸಂಖ್ಯೆ ಅಥವಾ ಓದದಿರುವ ಚಾಟ್‌ಗಳ ಸಂಖ್ಯೆಯನ್ನು ತೋರಿಸಿದರೆ ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳು"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "ಓದದಿರುವ ಚಾಟ್‌ಗಳು"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ಚಾಟ್ ಇತಿಹಾಸವನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{totalBytes}ಯಲ್ಲಿ {currentBytes} ಅನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ ({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳನ್ನು ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು, ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಈಗ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "ನವೀಕರಿಸಿ"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "ತಪ್ಪು ಪಿನ್. ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "ದೃಢೀಕರಿಸಿ"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN ಸರಿಯಾಗಿದೆ. ನಾವು ನಂತರ ನಿಮಗೆ ಪುನಃ ರಿಮೈಂಡ್ ಮಾಡುತ್ತೇವೆ."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "ಈ ಸಾಧನವನ್ನು ನೋಂದಾಯಿಸಿರುವವರೆಗೆ ನಿಮ್ಮ ಪಿನ್ ಅನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "ನಿಮ್ಮ Signal ಪಿನ್ ಅನ್ನು ದೃಢಪಡಿಸಿ"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Enter the PIN you just created."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "ಪಿನ್ ದೃಢೀಕರಿಸಿ"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "ರದ್ದುಮಾಡಿ"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "ಮುಂದುವರಿಸಿ"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "ದೃಢೀಕರಿಸಿ"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು Signal desktop ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು {expirationDate} ನ ಒಳಗೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "ನಿಮ್ಮನ್ನು ನೀವು ಅರಿತುಕೊಳ್ಳಲು ಜೀವನವೇ ಬೇಕಾಗಬಹುದು. ಆದರೆ ಈಗ ಗುಂಪಿನ ಸದಸ್ಯರ ಹುಡುಕಾಟದಲ್ಲಿ ನಿಮ್ಮ ಹೆಸರು “ನೀವು” ಎಂದು ಕಾಣಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮನ್ನು ಗುರುತಿಸುವುದು ಇನ್ನಷ್ಟು ಸುಲಭ."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ನಿಮ್ಮ Signal ನೋಟಿಫಿಕೇಷನ್‌ಗಳ ಮೇಲೆ ಗಮನಾರ್ಹವಾಗಿ ಹೆಚ್ಚಿನ ನಿಯಂತ್ರಣವನ್ನು ನೀಡಲು ಹೆಚ್ಚು ಸೂಕ್ಷ್ಮವಾದ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ. ಈಗ ನೀವು ಆ್ಯಪ್ ಬ್ಯಾಡ್ಜ್‌ನಲ್ಲಿ ಏನು ಗೋಚರಿಸಬೇಕೆಂದು ಆಯ್ಕೆ ಮಾಡಬಹುದು, ಮ್ಯೂಟ್ ಮಾಡಿದ ಥ್ರೆಡ್‌ಗಳಿಗೆ ನೋಟಿಫಿಕೇಷನ್ ಆದ್ಯತೆಗಳನ್ನು ಹೊಂದಿಸಬಹುದು ಮತ್ತು ಇನ್ನೂ ಹೆಚ್ಚಿನದನ್ನು ಮಾಡಬಹುದು! ನೀವು ಎಂದಾದರೂ ಹಲವಾರು ಬದಲಾವಣೆಗಳನ್ನು ಮಾಡಿದರೆ, ನಿಮ್ಮನ್ನು ಹೇಗೆ ನಿಯಂತ್ರಿಸಿಕೊಳ್ಳುವುದು ಎಂದು ನಿಮಗೆ ತಿಳಿದಿಲ್ಲದಿದ್ದರೆ, ಡೀಫಾಲ್ಟ್ ನೋಟಿಫಿಕೇಷನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ನಾವು ಅನುಕೂಲಕರ ಬಟನ್ ಅನ್ನು ಸಹ ಸೇರಿಸಿದ್ದೇವೆ."
   }
 }

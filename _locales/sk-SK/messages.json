@@ -66,16 +66,19 @@
     "messageformat": "Prispieť na Signal"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>Prepojené zariadenia</bold> vám umožňujú bezpečne pristupovať k vášmu účtu Signal a správam na ďalších zariadeniach."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "Môžete prepojiť počítač, tablet alebo ďalší telefón."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "Vaše hlavné zariadenie určuje, ktoré ďalšie zariadenia sú s ním prepojené, pričom môžete prepojiť až 5 ďalších zariadení."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "Nastavenia účtu sa spravujú iba na vašom hlavnom zariadení, vrátane nastavení účtu a záloh."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Štandardná"
@@ -651,19 +654,19 @@
     "messageformat": "Automatické overenie kľúča momentálne nie je pre vaše zariadenie k dispozícii. Odoslať protokol ladenia?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "Automatické overenie kľúča momentálne nie je pre vaše zariadenie k dispozícii. Odoslať správu, ktorá nám pomôže zlepšiť sa?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Protokoly ladenia nám pomáhajú určiť a odstrániť problém a neobsahujú identifikačné údaje."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "Zahrnutie vašich protokolov ladenia nám pomáha určiť a odstrániť problém a neobsahuje identifikačné údaje. Zdieľanie je voliteľné."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Zdieľať protokol ladenia"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "Priložiť protokol ladenia"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "Zobraziť"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "K tejto správe nie je možné pridať ďalšie prílohy."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "Ospravedlňujeme sa, vybraný súbor prekročil limit pre veľkosť správy. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "Ospravedlňujeme sa, vybraný video súbor prekročil limit veľkosti správy. {limit,number} {units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "Súbor nie je možné odoslať, pretože je príliš veľký. Môžete odosielať súbory do veľkosti {limit,number} {units}."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "Minimalizovať náhľad"
   },
-  "icu:calling__change-view": {
-    "messageformat": "Zmeniť zobrazenie"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "Mriežka"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "Bočný panel"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "Práve hovoriaci"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "Zobrazenie aktualizované"
   },
@@ -5199,64 +5184,64 @@
     "messageformat": "Poznámka"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "Počas stlmenia"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "Vyberte upozornenia, ktoré sa majú zobrazovať, keď je tento čet stlmený."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "Volania"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "Zvoniť alebo upozorniť, keď počas stlmenia tohto četu začne hovor."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "Zmienky"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "Upozorniť na @zmienky, keď je tento čet stlmený"
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "Odpovede"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "Upozorniť, keď niekto odpovie na vašu správu, keď je tento čet stlmený."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "Žiadne"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "Volania"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "Zmienky"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "Odpovede"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "Hovory, zmienky"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "Hovory, odpovede"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "Zmienky, odpovede"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "Hovory, zmienky, odpovede"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "Vyberte upozornenia, ktoré sa majú zobrazovať pre stlmené čety."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "Zvoniť alebo upozorniť, keď sa v stlmených četoch začne hovor."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "Upozorniť, keď vás niekto spomenie v stlmených četoch."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "Upozorniť, keď niekto odpovie na vašu správu v stlmených četoch."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Spomenutia"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "Po overení, môžete pokračovať v zasielaní správ. Pozastavené správy sa automaticky odošlú."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "Pokračovať"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "Chcete pokračovať bez overenia?"
@@ -6095,7 +6083,7 @@
     "messageformat": "Upozorniť, keď niekto zareaguje na vašu správu"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "Účet"
   },
   "icu:Preferences__button--general": {
     "messageformat": "Všeobecné"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Váš Signal Login sa používa na obnovenie vášho účtu. Ponechajte si tieto kľúče bezpečne uložené v správcovi hesiel, ktorému dôverujete. <learnMoreLink>Zistiť viac</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "Zistiť viac"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "Účet a obnovenie"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "2 kľúče"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "Váš Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "Kľúč účtu"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "ID účtu"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "Kľúč na obnovenie"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "Uložiť"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "Toto je prepojené zariadenie"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "Ak chcete spravovať nastavenia svojho účtu, otvorte Signal na svojom hlavnom zariadení."
   },
   "icu:Preferences--zoom": {
     "messageformat": "Úroveň priblíženia"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "Pokročilé"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "Zmeňte si PIN"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "Zmeniť"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "Priečinky četov"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "Zobraziť"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Zvuky"
@@ -6251,28 +6257,28 @@
     "messageformat": "Odznak aplikácie"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "Resetovať nastavenia upozornení na predvolené, vrátane vlastných nastavení pre vaše čety."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "Resetovať"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "Resetovať všetky nastavenia upozornení pre všetky čety na predvolené?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "Resetovať"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "Počet oznámení"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "Vyberte, či počet oznámení zobrazuje množstvo neprečítaných správ alebo množstvo neprečítaných četov"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "Neprečítané správy"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "Neprečítané čety"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportovať históriu četov"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "Vyžaduje sa aktualizácia"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "Sťahuje sa {currentBytes} z {totalBytes} ({percentage,number,percent})…"
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "Ak chcete dokončiť synchronizáciu správ, aktualizujte Signal Desktop."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Aktualizovať"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Vyžaduje sa aktualizácia"
@@ -8234,11 +8252,44 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "Nesprávny PIN. Skúsiť znova"
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Potvrdiť"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "Zadaný PIN je správny. Pripomenieme vám to opäť neskôr."
+  },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "PIN si môžete zmeniť, kým je toto zariadenie registrované. <learnMoreLink>Zistiť viac</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Potvrďte svoj Signal PIN"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "Zadajte PIN, čo ste si práve vytvorili."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "Potvrďte PIN"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "Zrušiť"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "Pokračovať"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "Potvrdiť"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop už čoskoro nebude podporovať verziu {OS} na vašom počítači. Ak chcete naďalej používať Signal, aktualizujte operačný systém svojho počítača do {expirationDate}. <learnMoreLink>Zistiť viac</learnMoreLink>"
@@ -8992,6 +9043,6 @@
     "messageformat": "Vylepšenia vyhľadávania členov skupiny."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "Vylepšené nastavenia upozornení s rozšírenými možnosťami, ktoré určujú kedy a ako sa upozornenia zobrazia."
   }
 }

@@ -66,16 +66,19 @@
     "messageformat": "Signal 후원하기"
   },
   "icu:LinkedDevicesOnboardingDialog__description": {
-    "messageformat": "<bold>Linked Devices</bold> let you access your Signal account and messages securely on any of your additional devices."
+    "messageformat": "<bold>연동 기기</bold> 기능을 사용하면 다른 추가 기기에서도 Signal 계정과 메시지를 안전하게 이용할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--1": {
-    "messageformat": "You can link a desktop, tablet or additional phone."
+    "messageformat": "데스크톱, 태블릿 또는 추가 휴대폰을 연동할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices."
+    "messageformat": "연동 기기는 기본 기기에서 관리하며, 최대 5대까지 연동할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups."
+    "messageformat": "계정 설정 및 백업을 포함한 계정 설정은 기본 기기에서만 관리할 수 있습니다."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
+    "messageformat": "Account settings and backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
@@ -651,19 +654,19 @@
     "messageformat": "현재 기기에서 자동 키 인증을 사용할 수 없습니다. 디버그 로그를 제출하시겠어요?"
   },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?"
+    "messageformat": "현재 기기에서 자동 키 인증을 사용할 수 없습니다. 앱 서비스 개선을 위해 리포트를 제출하시겠어요?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "디버그 로그를 제출하면 문제를 진단하고 수정하는 데 도움이 됩니다. 디버그 로그에는 식별 정보가 포함되지 않습니다."
   },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
-    "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional."
+    "messageformat": "디버그 로그를 포함하면 문제를 진단하고 해결하는 데 도움이 되며, 개인을 식별할 수 있는 정보는 포함되지 않습니다. 제출 여부는 선택 사항입니다."
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "디버그 로그 공유"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
-    "messageformat": "Include debug log"
+    "messageformat": "디버그 로그 포함"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
     "messageformat": "보기"
@@ -769,12 +772,6 @@
   },
   "icu:maximumAttachments": {
     "messageformat": "이 메시지에 첨부 파일을 더 이상 추가할 수 없습니다."
-  },
-  "icu:fileSizeWarning": {
-    "messageformat": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number} {units}"
-  },
-  "icu:videoFileSizeWarning": {
-    "messageformat": "선택된 동영상 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number}{units}"
   },
   "icu:fileTooLargeWarning": {
     "messageformat": "파일 용량이 너무 커서 전송할 수 없습니다. 최대 {limit,number}{units}까지 파일 전송이 가능합니다."
@@ -3905,18 +3902,6 @@
   "icu:calling__preview--minimize": {
     "messageformat": "미리 보기 최소화"
   },
-  "icu:calling__change-view": {
-    "messageformat": "보기 변경"
-  },
-  "icu:calling__view_mode--paginated": {
-    "messageformat": "그리드 보기"
-  },
-  "icu:calling__view_mode--overflow": {
-    "messageformat": "사이드바 보기"
-  },
-  "icu:calling__view_mode--speaker": {
-    "messageformat": "말하는 사람 보기"
-  },
   "icu:calling__view_mode--updated": {
     "messageformat": "보기 업데이트 완료"
   },
@@ -4899,7 +4884,7 @@
     "messageformat": "메시지 수정"
   },
   "icu:countMutedConversationsDescription": {
-    "messageformat": "앱 아이콘 배지 숫자에 알림을 끈 대화 포함"
+    "messageformat": "알림 배지 숫자에 알림을 끈 대화 포함"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "별칭"
@@ -5199,64 +5184,64 @@
     "messageformat": "메모"
   },
   "icu:WhileMuted__title": {
-    "messageformat": "While muted"
+    "messageformat": "알림 끄기 설정 시"
   },
   "icu:WhileMuted__description": {
-    "messageformat": "Choose notifications to show while this chat is muted."
+    "messageformat": "대화 알림을 끈 상태에서 표시할 알림을 선택하세요."
   },
   "icu:WhileMuted__calls__title": {
-    "messageformat": "Calls"
+    "messageformat": "전화"
   },
   "icu:WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started while this chat is muted."
+    "messageformat": "알림을 끈 대화에서 통화가 시작되면 벨이 울리거나 알림이 뜹니다."
   },
   "icu:WhileMuted__mentions__title": {
-    "messageformat": "Mentions"
+    "messageformat": "멘션"
   },
   "icu:WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are @mentioned while this chat is muted."
+    "messageformat": "알림을 끈 대화에서 나를 @멘션하면 알림이 뜹니다."
   },
   "icu:WhileMuted__replies__title": {
-    "messageformat": "Replies"
+    "messageformat": "답장"
   },
   "icu:WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message while this chat is muted."
+    "messageformat": "알림을 끈 대화에서 누군가 내 메시지에 답장을 할 경우 알림이 뜹니다."
   },
   "icu:WhileMuted__value--none": {
-    "messageformat": "None"
+    "messageformat": "없음"
   },
   "icu:WhileMuted__value--calls": {
-    "messageformat": "Calls"
+    "messageformat": "전화"
   },
   "icu:WhileMuted__value--mentions": {
-    "messageformat": "Mentions"
+    "messageformat": "멘션"
   },
   "icu:WhileMuted__value--replies": {
-    "messageformat": "Replies"
+    "messageformat": "답장"
   },
   "icu:WhileMuted__value--calls-mentions": {
-    "messageformat": "Calls, mentions"
+    "messageformat": "전화, 멘션"
   },
   "icu:WhileMuted__value--calls-replies": {
-    "messageformat": "Calls, replies"
+    "messageformat": "전화, 답장"
   },
   "icu:WhileMuted__value--mentions-replies": {
-    "messageformat": "Mentions, replies"
+    "messageformat": "멘션, 답장"
   },
   "icu:WhileMuted__value--calls-mentions-replies": {
-    "messageformat": "Calls, mentions, replies"
+    "messageformat": "전화, 멘션, 답장"
   },
   "icu:Preferences__WhileMuted__description": {
-    "messageformat": "Choose notifications to show for muted chats."
+    "messageformat": "대화 알림을 끈 상태에서 표시할 알림을 선택하세요."
   },
   "icu:Preferences__WhileMuted__calls__description": {
-    "messageformat": "Ring or notify when a call is started in muted chats."
+    "messageformat": "알림을 끈 대화에서 통화가 시작되면 벨이 울리거나 알림이 뜹니다."
   },
   "icu:Preferences__WhileMuted__mentions__description": {
-    "messageformat": "Notify when you are mentioned in muted chats."
+    "messageformat": "알림을 끈 대화에서 나를 멘션하면 알림이 뜹니다."
   },
   "icu:Preferences__WhileMuted__replies__description": {
-    "messageformat": "Notify when someone replies to your message in muted chats."
+    "messageformat": "알림을 끈 대화에서 누군가 내 메시지에 답장을 할 경우 알림이 뜹니다."
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "멘션"
@@ -5621,6 +5606,9 @@
   },
   "icu:CaptchaDialog__second-paragraph": {
     "messageformat": "인증 완료 후 메시지를 계속 전송할 수 있습니다. 일시 중지된 메시지는 인증 후 자동으로 전송됩니다."
+  },
+  "icu:CaptchaDialog__continue": {
+    "messageformat": "계속"
   },
   "icu:CaptchaDialog--can-close__title": {
     "messageformat": "인증 없이 계속할까요?"
@@ -6095,7 +6083,7 @@
     "messageformat": "누군가 내 메시지에 공감 표시할 경우 알림 받기"
   },
   "icu:Preferences__button--account": {
-    "messageformat": "Account"
+    "messageformat": "계정"
   },
   "icu:Preferences__button--general": {
     "messageformat": "일반 설정"
@@ -6170,28 +6158,40 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Your Signal Login is used to recover and restore your account. Keep these keys stored safely in a password manager you trust. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Signal Login 정보는 계정을 복구하고 되살리는 데 사용됩니다. 이 키들을 신뢰할 수 있는 비밀번호 관리자에 안전하게 저장하세요. <learnMoreLink>자세히 알아보기</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
-    "messageformat": "Learn more"
+    "messageformat": "더 알아보기"
   },
   "icu:Preferences__SignalAccount__label": {
-    "messageformat": "Account & Recovery"
+    "messageformat": "계정 및 복구"
   },
   "icu:Preferences__SignalAccount__description": {
-    "messageformat": "2 keys"
+    "messageformat": "키 2개"
+  },
+  "icu:Preferences__SignalAccountKeys__Title": {
+    "messageformat": "내 Signal Login"
+  },
+  "icu:Preferences__SignalAccountKeys__Description": {
+    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key"
+    "messageformat": "계정 키"
+  },
+  "icu:Preferences__SignalAccountKeys__AccountID": {
+    "messageformat": "계정 ID"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
-    "messageformat": "Recovery key"
+    "messageformat": "복구 키"
+  },
+  "icu:Preferences__SignalAccountKeys__Save": {
+    "messageformat": "저장"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
-    "messageformat": "This is a linked device"
+    "messageformat": "이 기기는 연동 기기입니다"
   },
   "icu:Preferences__Account__LinkedDevice__description": {
-    "messageformat": "To manage your account settings, open Signal on your primary device."
+    "messageformat": "계정 설정을 관리하려면 기본 사용 기기에서 Signal을 열어 주세요."
   },
   "icu:Preferences--zoom": {
     "messageformat": "확대/축소"
@@ -6223,6 +6223,12 @@
   "icu:Preferences--advanced": {
     "messageformat": "고급"
   },
+  "icu:Preferences--change-signal-pin": {
+    "messageformat": "PIN 변경"
+  },
+  "icu:Preferences--change-signal-pin-button": {
+    "messageformat": "변경"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
@@ -6242,7 +6248,7 @@
     "messageformat": "대화 폴더"
   },
   "icu:Preferences__Notifications__Show__Label": {
-    "messageformat": "Show"
+    "messageformat": "표시"
   },
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "소리"
@@ -6251,28 +6257,28 @@
     "messageformat": "앱 배지"
   },
   "icu:Preferences__Notifications__Reset__title": {
-    "messageformat": "Reset notification settings to default, including custom settings for your chats."
+    "messageformat": "맞춤 대화 설정을 포함한 모든 알림 설정을 기본값으로 초기화합니다."
   },
   "icu:Preferences__Notifications__Reset__button": {
-    "messageformat": "Reset"
+    "messageformat": "초기화"
   },
   "icu:Preferences__Notifications__Reset__modal--body": {
-    "messageformat": "Reset all notification settings to default for all chats?"
+    "messageformat": "모든 대화의 알림 설정을 기본값으로 초기화할까요?"
   },
   "icu:Preferences__Notifications__Reset__modal--confirm": {
-    "messageformat": "Reset"
+    "messageformat": "초기화"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Label": {
-    "messageformat": "Badge count"
+    "messageformat": "알림 배지"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Select if the badge count displays the number of unread messages or the number of unread chats"
+    "messageformat": "알림 배지에 읽지 않은 메시지 수와 대화 수 중 무엇을 표시할지 선택하세요"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
-    "messageformat": "Unread messages"
+    "messageformat": "읽지 않은 메시지"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
-    "messageformat": "Unread chats"
+    "messageformat": "읽지 않은 대화"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "대화 기록 내보내기"
@@ -7006,11 +7012,23 @@
   "icu:InstallScreenUpdateDialog--update-required__title": {
     "messageformat": "업데이트 필요"
   },
+  "icu:InstallScreenUpdateDialog--checking-for-updates": {
+    "messageformat": "Checking for updates"
+  },
+  "icu:InstallScreenUpdateDialog--updating-signal": {
+    "messageformat": "Updating Signal"
+  },
+  "icu:InstallScreenUpdateDialog--download-progress": {
+    "messageformat": "{currentBytes}/{totalBytes} 다운로드 중({percentage,number,percent})..."
+  },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "메시지 동기화를 완료하려면 지금 Signal 데스크톱을 업데이트하세요."
+    "messageformat": "To continue, update Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "업데이트"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
+    "messageformat": "Go to the App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "업데이트 필요"
@@ -7952,10 +7970,10 @@
     "messageformat": "내 스토리를 본 사람을 확인하려면 열람 확인을 활성화하세요. 모바일 장치에서 Signal 앱을 열고 설정 > 스토리로 이동합니다."
   },
   "icu:StoryViewsNRepliesModal__no-replies": {
-    "messageformat": "답장 없음"
+    "messageformat": "아직 받은 답장이 없어요"
   },
   "icu:StoryViewsNRepliesModal__no-views": {
-    "messageformat": "아직 아무도 조회 안 함"
+    "messageformat": "아직 조회한 사람이 없어요"
   },
   "icu:StoryViewsNRepliesModal__tab--views": {
     "messageformat": "조회"
@@ -8234,17 +8252,50 @@
   "icu:PinReminderModal__pin-input-error": {
     "messageformat": "PIN이 일치하지 않습니다. 다시 시도해 주세요."
   },
+  "icu:PinReminderModal__forgot": {
+    "messageformat": "Forgot PIN"
+  },
   "icu:PinReminderModal__confirm": {
     "messageformat": "확인"
   },
   "icu:PinReminderCompletedToast": {
     "messageformat": "PIN이 확인되었습니다. 나중에 다시 확인 알림을 보내드릴게요."
   },
+  "icu:PinChangeModal__title--create": {
+    "messageformat": "Change your Signal PIN"
+  },
+  "icu:PinChangeModal__body--create": {
+    "messageformat": "이 기기가 등록된 동안 PIN은 언제든지 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+  },
+  "icu:PinChangeModal__title--confirm": {
+    "messageformat": "Signal PIN을 확인해 주세요"
+  },
+  "icu:PinChangeModal__body--confirm": {
+    "messageformat": "방금 만든 PIN을 입력하세요."
+  },
+  "icu:PinChangeModal__pin-input-placeholder--create": {
+    "messageformat": "Enter a new PIN"
+  },
+  "icu:PinChangeModal__pin-input-placeholder--confirm": {
+    "messageformat": "PIN을 확인해 주세요"
+  },
+  "icu:PinChangeModal__cancel": {
+    "messageformat": "취소"
+  },
+  "icu:PinChangeModal__continue": {
+    "messageformat": "계속"
+  },
+  "icu:PinChangeModal__confirm": {
+    "messageformat": "확인"
+  },
+  "icu:PinChangeCompletedToast": {
+    "messageformat": "New PIN created."
+  },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 데스크톱은 곧 이 컴퓨터의 {OS} 버전에 대한 지원을 종료합니다. 계속 사용하려면 {expirationDate}까지 운영 체제를 업데이트해야 합니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal 데스크톱이 이 컴퓨터에서 더 이상 작동하지 않습니다. Signal 데스크톱을 다시 사용하려면 컴퓨터의 {OS} 버전을 업데이트하세요. 자세히 알아보기"
+    "messageformat": "Signal 데스크톱이 이 컴퓨터에서 더 이상 작동하지 않습니다. Signal 데스크톱을 다시 사용하려면 컴퓨터의 {OS} 버전을 업데이트하세요. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
     "messageformat": "Signal 데스크톱이 이 컴퓨터에서 더 이상 작동하지 않습니다. Signal 데스크톱을 다시 사용하려면 컴퓨터의 {OS} 버전을 업데이트하세요."
@@ -8992,6 +9043,6 @@
     "messageformat": "그룹 멤버 검색 기능이 개선되었습니다."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "This update introduces more granular settings to give you significantly more control over your Signal notifications. Now you can choose what appears on the app badge, adjust notification preferences for muted threads, and more! We also added a convenient button to restore the default notification settings if you ever make so many changes that you don't even know how to get ahold of yourself anymore."
+    "messageformat": "알림을 받는 방식과 시점을 더 자유롭게 설정할 수 있도록 알림 설정 기능을 개선했습니다."
   }
 }
