@@ -669,7 +669,9 @@ export class BackupExportStream extends Readable {
           dontNotifyForMentionsIfMuted:
             attributes.notifyForMentionsIfMuted === false,
           notifyForCallsIfMuted: attributes.notifyForCallsIfMuted ?? null,
-          notifyForMentionsIfMuted: attributes.notifyForMentionsIfMuted ?? null,
+          notifyForMentionsIfMuted: isGroup(attributes)
+            ? (attributes.notifyForMentionsIfMuted ?? null)
+            : null,
           notifyForRepliesIfMuted: attributes.notifyForRepliesIfMuted ?? null,
 
           style: this.#toChatStyle({

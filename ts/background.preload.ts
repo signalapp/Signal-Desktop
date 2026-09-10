@@ -1054,6 +1054,10 @@ async function startApp(): Promise<void> {
         await itemStorage.remove('localDeleteWarningShown');
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v8.29.0-beta.1')) {
+        await itemStorage.put('callLinkAuthCredentials', []);
+      }
+
       if (
         itemStorage.get('backupKeyViewed') === true &&
         itemStorage.get('backupKeyViewedHash') == null

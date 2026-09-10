@@ -3442,6 +3442,7 @@ export async function callLinkCreateAuth(
   return _ajax({
     host: 'chatService',
     call: 'callLinkCreateAuth',
+    urlParameters: '?v101=true',
     httpType: 'POST',
     responseType: 'json',
     jsonData: { createCallLinkCredentialRequest: requestBase64 },
@@ -4551,6 +4552,7 @@ export async function getGroupCredentials({
     urlParameters:
       `?redemptionStartSeconds=${startDayInSeconds}&` +
       `redemptionEndSeconds=${endDayInSeconds}&` +
+      'v101=true&' +
       'zkcCredential=true',
     httpType: 'GET',
     responseType: 'json',

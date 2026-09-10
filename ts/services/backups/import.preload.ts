@@ -959,17 +959,19 @@ export class BackupImportStream extends Writable {
       'hasSeenAdminDeleteEducationDialog',
       accountSettings?.hasSeenAdminDeleteEducationDialog === true
     );
-    await itemStorage.put(
-      'badge-count-muted-conversations',
-      // unset should be treated as false
-      accountSettings?.includeMutedChatsInBadge === true
-    );
+    if (accountSettings?.includeMutedChatsInBadge != null) {
+      await itemStorage.put(
+        'badge-count-muted-conversations',
+        accountSettings.includeMutedChatsInBadge
+      );
+    }
 
-    await itemStorage.put(
-      'reaction-notification',
-      // unset should be treated as true
-      accountSettings?.reactionNotifications !== false
-    );
+    if (accountSettings?.reactionNotifications != null) {
+      await itemStorage.put(
+        'reaction-notification',
+        accountSettings.reactionNotifications
+      );
+    }
     await itemStorage.put(
       'preferredReactionEmoji',
       accountSettings?.preferredReactionEmoji?.map(emoji => {
