@@ -343,6 +343,21 @@ export function Arrow(): ReactNode {
             </AxoItem.Body>
           </AxoItem.Content>
         </AxoItem.Root>
+
+        <AxoItem.Root>
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Label>External link </AxoItem.Label>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Trailing>
+              <AxoItem.Arrow kind="external-link" />
+            </AxoItem.Trailing>
+          </AxoItem.Content>
+        </AxoItem.Root>
       </AxoItem.Group>
 
       <Story.Callout>
@@ -702,6 +717,7 @@ export function Disabled(): ReactNode {
           <AxoItem.Content>
             <AxoItem.Body>
               <AxoItem.Label>Title of item</AxoItem.Label>
+              <AxoItem.Value>Value of the item</AxoItem.Value>
               <AxoItem.Description>Description of the item</AxoItem.Description>
               <AxoItem.HiddenTrigger
                 label="Trigger"
@@ -718,7 +734,6 @@ export function Disabled(): ReactNode {
           <AxoItem.Content>
             <AxoItem.Body>
               <AxoItem.Label>Another title</AxoItem.Label>
-              <AxoItem.Value>Value of the item</AxoItem.Value>
               <AxoItem.Accessory>
                 <AxoSwitch.Root
                   disabled
@@ -740,6 +755,85 @@ export function Disabled(): ReactNode {
               <AxoItem.Accessory>
                 <AxoSelect.Root
                   disabled
+                  value="option1"
+                  onValueChange={action('onValueChange')}
+                >
+                  <AxoSelect.Trigger placeholder="Select an option" />
+                  <AxoSelect.Content>
+                    <AxoSelect.Item value="option1">
+                      <AxoSelect.ItemText>Option 1</AxoSelect.ItemText>
+                    </AxoSelect.Item>
+                  </AxoSelect.Content>
+                </AxoSelect.Root>
+              </AxoItem.Accessory>
+            </AxoItem.Body>
+          </AxoItem.Content>
+        </AxoItem.Root>
+      </AxoItem.Group>
+    </div>
+  );
+}
+
+export function Destructive(): ReactNode {
+  return (
+    <div className={tw('mx-auto max-w-150')}>
+      <AxoItem.Group>
+        <AxoItem.Root variant="destructive">
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Label>Title of item</AxoItem.Label>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+          </AxoItem.Content>
+        </AxoItem.Root>
+
+        <AxoItem.Root variant="destructive">
+          <AxoItem.Leading>
+            <AxoItem.Icon symbol="settings" />
+          </AxoItem.Leading>
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Label>Item with lots of stuff</AxoItem.Label>
+              <AxoItem.Value>Value of the item</AxoItem.Value>
+              <AxoItem.Description>Description of the item</AxoItem.Description>
+              <AxoItem.HiddenTrigger
+                label="Trigger"
+                onClick={action('onClick')}
+              />
+            </AxoItem.Body>
+            <AxoItem.Trailing>
+              <AxoItem.Arrow />
+            </AxoItem.Trailing>
+          </AxoItem.Content>
+        </AxoItem.Root>
+
+        <AxoItem.Root variant="destructive" disabled>
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Label>Disabled item</AxoItem.Label>
+              <AxoItem.Accessory>
+                <AxoSwitch.Root
+                  disabled
+                  checked
+                  onCheckedChange={action('onCheckedChange')}
+                />
+              </AxoItem.Accessory>
+            </AxoItem.Body>
+          </AxoItem.Content>
+        </AxoItem.Root>
+
+        <AxoItem.Root variant="destructive">
+          <AxoItem.Content>
+            <AxoItem.Body>
+              <AxoItem.Label>Yet another item</AxoItem.Label>
+              <AxoItem.Description>
+                Description that explains what this means
+              </AxoItem.Description>
+              <AxoItem.Accessory>
+                <AxoSelect.Root
                   value="option1"
                   onValueChange={action('onValueChange')}
                 >

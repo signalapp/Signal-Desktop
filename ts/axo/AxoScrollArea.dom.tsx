@@ -214,7 +214,8 @@ export namespace AxoScrollArea {
   const baseViewportStyles = tw(
     'relative z-0',
     'flex size-full flex-col',
-    'overscroll-contain',
+    'overflow-auto',
+    'overscroll-none',
     // <Root> handles the focus ring
     'outline-none'
   );
@@ -233,7 +234,7 @@ export namespace AxoScrollArea {
     {
       unstable: tw('scrollbar-gutter-auto'),
       'stable-one-edge': tw('scrollbar-gutter-stable'),
-      'stable-both-edges': tw('scrollbar-gutter-stable'),
+      'stable-both-edges': tw('scrollbar-gutter-stable-both-edges'),
     }
   );
 
@@ -286,7 +287,6 @@ export namespace AxoScrollArea {
    */
   export const Viewport: FC<ViewportProps> = memo(props => {
     const {
-      orientation,
       scrollbarWidth,
       scrollbarGutter,
       scrollbarVisibility,
@@ -295,46 +295,12 @@ export namespace AxoScrollArea {
     const [boundary, setBoundary] = useState<HTMLDivElement | null>(null);
 
     const style = useMemo((): CSSProperties => {
-      const hasVerticalScrollbar = orientation !== 'horizontal';
-      const hasHorizontalScrollbar = orientation !== 'vertical';
-
-      // `scrollbar-gutter: stable both-edges` is broken in Chrome
-      // See: https://issues.chromium.org/issues/40064879)
-      // Instead we use padding to polyfill the feature
-      let paddingTop: string | undefined;
-      let paddingInlineStart: string | undefined;
-      if (scrollbarGutter === 'stable-both-edges') {
-        if (hasVerticalScrollbar) {
-          paddingInlineStart = ScrollbarWidthGutterVertical.get(scrollbarWidth);
-        }
-        if (hasHorizontalScrollbar) {
-          paddingTop = ScrollbarWidthGutterHorizontal.get(scrollbarWidth);
-        }
-      }
-
-      // Enable overflow based on the orientation of the scroll area
-      let overflowY: CSSProperties['overflowY'] = 'hidden';
-      let overflowX: CSSProperties['overflowX'] = 'hidden';
-      if (hasVerticalScrollbar) {
-        overflowY = 'auto';
-      }
-      if (hasHorizontalScrollbar) {
-        // `scrollbar-gutter: stable` only applies to the vertical scrollbar.
-        // By using `overflow-x: scroll` we can emulate the same behavior
-        const needsScrollbarGutterFix = scrollbarGutter !== 'unstable';
-        overflowX = needsScrollbarGutterFix ? 'scroll' : 'auto';
-      }
-
       return {
-        overflowX,
-        overflowY,
-        paddingInlineStart,
-        paddingTop,
         // Add `scroll-timeline` so that components like <Hint> and <Mask> can
         // animated based on the current scroll position
         scrollTimeline: `${AXO_SCROLL_AREA_TIMELINE_VERTICAL} y, ${AXO_SCROLL_AREA_TIMELINE_HORIZONTAL} x`,
       };
-    }, [orientation, scrollbarWidth, scrollbarGutter]);
+    }, []);
 
     return (
       <AxoTooltip.CollisionBoundary boundary={boundary}>

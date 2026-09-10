@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { JSX } from 'react';
 
-import classNames from 'classnames';
 import {
   CallDirection,
   CallType,
@@ -15,8 +14,11 @@ import type {
 } from '../../../types/CallDisposition.std.ts';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { formatDate, formatTime } from '../../../util/formatTimestamp.dom.ts';
-import { PanelSection } from './PanelSection.dom.tsx';
 import { getDirectCallNotificationText } from '../../../util/callingNotification.std.ts';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
+import { AxoTextItem } from '../../../axo/items/AxoTextItem.dom.tsx';
+import type { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 
 function describeCallHistory(
   i18n: LocalizerType,
@@ -61,44 +63,45 @@ export function CallHistoryGroupPanelSection({
   i18n,
 }: CallHistoryPanelSectionProps): JSX.Element {
   return (
-    <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
-      <ol className="ConversationDetails__CallHistoryGroup__List">
-        {callHistoryGroup.children.map(child => {
-          return (
-            <li
-              key={child.callId}
-              className="ConversationDetails__CallHistoryGroup__Item"
-            >
-              <span
-                className={classNames(
-                  'ConversationDetails__CallHistoryGroup__ItemIcon',
-                  {
-                    'ConversationDetails__CallHistoryGroup__ItemIcon--Audio':
-                      callHistoryGroup.type === CallType.Audio,
-                    'ConversationDetails__CallHistoryGroup__ItemIcon--Video':
-                      callHistoryGroup.type === CallType.Video ||
-                      callHistoryGroup.type === CallType.Group,
-                    'ConversationDetails__CallHistoryGroup__ItemIcon--Adhoc':
-                      callHistoryGroup.type === CallType.Adhoc,
-                  }
-                )}
-              />
-              <span className="ConversationDetails__CallHistoryGroup__ItemLabel">
-                {describeCallHistory(
+    <AxoList.Root>
+      <AxoList.Header>
+        <AxoList.Label>
+          {formatDate(i18n, callHistoryGroup.timestamp)}
+        </AxoList.Label>
+      </AxoList.Header>
+      <AxoList.Body>
+        <AxoItem.Group>
+          {callHistoryGroup.children.map(child => {
+            let symbol: AxoSymbol.Name | null = null;
+
+            if (callHistoryGroup.type === CallType.Audio) {
+              symbol = 'phone';
+            } else if (
+              callHistoryGroup.type === CallType.Video ||
+              callHistoryGroup.type === CallType.Group
+            ) {
+              symbol = 'videocamera';
+            } else if (callHistoryGroup.type === CallType.Adhoc) {
+              symbol = 'link';
+            }
+
+            return (
+              <AxoTextItem.Root
+                key={child.callId}
+                symbol={symbol}
+                label={describeCallHistory(
                   i18n,
                   callHistoryGroup.type,
                   callHistoryGroup.direction,
                   callHistoryGroup.status
                 )}
-              </span>
-              <span className="ConversationDetails__CallHistoryGroup__ItemTimestamp">
-                {/* oxlint-disable-next-line react/purity */}
-                {formatTime(i18n, child.timestamp, Date.now(), false)}
-              </span>
-            </li>
-          );
-        })}
-      </ol>
-    </PanelSection>
+                // oxlint-disable-next-line react/purity
+                value={formatTime(i18n, child.timestamp, Date.now(), false)}
+              />
+            );
+          })}
+        </AxoItem.Group>
+      </AxoList.Body>
+    </AxoList.Root>
   );
 }

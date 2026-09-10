@@ -62,8 +62,11 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
+  export type Variant = 'secondary' | 'destructive';
+
   export type RootProps = Readonly<{
     id?: string;
+    variant?: Variant;
     /**
      * Dims the contents of the item and disables its `HiddenTrigger`.
      * Accessories (switches, selects, button) must be disabled separately.
@@ -75,7 +78,7 @@ export namespace AxoItem {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaList.Item asChild id={props.id}>
-        <AxoBaseItem.Root disabled={props.disabled}>
+        <AxoBaseItem.Root variant={props.variant} disabled={props.disabled}>
           {props.children}
         </AxoBaseItem.Root>
       </AriaList.Item>
@@ -228,17 +231,21 @@ export namespace AxoItem {
    */
 
   export type HiddenTriggerProps = Readonly<{
+    ref?: Ref<HTMLButtonElement>;
     label?: string;
     labelledby?: string;
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
+    const { ref, label, labelledby, onClick, ...rest } = props;
     return (
       <AxoBaseItem.HiddenTrigger
-        label={props.label}
-        labelledby={props.labelledby}
-        onClick={props.onClick}
+        ref={ref}
+        label={label}
+        labelledby={labelledby}
+        onClick={onClick}
+        {...forwardExtraPropsForRadix(rest)}
       />
     );
   });
@@ -350,8 +357,14 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
-  export const Arrow: FC = memo(() => {
-    return <AxoBaseItem.Arrow />;
+  export type ArrowKind = 'next' | 'external-link';
+
+  export type ArrowProps = Readonly<{
+    kind?: ArrowKind;
+  }>;
+
+  export const Arrow: FC<ArrowProps> = memo(props => {
+    return <AxoBaseItem.Arrow kind={props.kind} />;
   });
 
   Arrow.displayName = 'AxoItem.Arrow';

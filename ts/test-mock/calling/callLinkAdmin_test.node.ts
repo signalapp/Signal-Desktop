@@ -55,10 +55,11 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       );
       await callLinkDetails.waitFor();
 
-      const restrictionsSelect = window.locator(
-        '.CallLinkRestrictionsSelect select'
-      );
-      await expect(restrictionsSelect).toHaveJSProperty('value', '0');
+      const restrictions = window.getByRole('switch', {
+        name: 'Require admin approval',
+      });
+
+      await expect(restrictions).toBeChecked({ checked: false });
     }
 
     {
@@ -76,10 +77,11 @@ describe('calling/callLinkAdmin', function (this: Mocha.Suite) {
       );
       await callLinkDetails.waitFor();
 
-      const restrictionsSelect = window.locator(
-        '.CallLinkRestrictionsSelect select'
-      );
-      await expect(restrictionsSelect).toHaveJSProperty('value', '1');
+      const restrictions = window.getByRole('switch', {
+        name: 'Require admin approval',
+      });
+
+      await expect(restrictions).toBeChecked();
     }
   });
 });

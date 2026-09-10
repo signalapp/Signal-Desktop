@@ -13,6 +13,7 @@ import type {
   NotifyWhileMuted,
   NotifyWhileMutedKey,
 } from '../../../util/notifyWhileMuted.std.ts';
+import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -29,42 +30,44 @@ export function WhileMutedSettings({
   setNotifyWhileMuted,
 }: PropsType): JSX.Element {
   return (
-    <div className={tw('mx-auto flex w-full max-w-[750px] flex-col gap-4')}>
-      <AxoList.Root accessibilityLabel={i18n('icu:WhileMuted__title')}>
-        <AxoList.Body>
-          <AxoItem.Group>
-            <WhileMutedSwitch
-              settingKey="calls"
-              symbol="phone"
-              label={i18n('icu:WhileMuted__calls__title')}
-              description={i18n('icu:WhileMuted__calls__description')}
-              checked={notifyWhileMuted.calls}
-              setNotifyWhileMuted={setNotifyWhileMuted}
-            />
-            {isGroup && (
-              <>
-                <WhileMutedSwitch
-                  settingKey="mentions"
-                  symbol="at"
-                  label={i18n('icu:WhileMuted__mentions__title')}
-                  description={i18n('icu:WhileMuted__mentions__description')}
-                  checked={notifyWhileMuted.mentions}
-                  setNotifyWhileMuted={setNotifyWhileMuted}
-                />
-                <WhileMutedSwitch
-                  settingKey="replies"
-                  symbol="reply"
-                  label={i18n('icu:WhileMuted__replies__title')}
-                  description={i18n('icu:WhileMuted__replies__description')}
-                  checked={notifyWhileMuted.replies}
-                  setNotifyWhileMuted={setNotifyWhileMuted}
-                />
-              </>
-            )}
-          </AxoItem.Group>
-        </AxoList.Body>
-      </AxoList.Root>
-    </div>
+    <AxoContainer.Root>
+      <AxoList.Group>
+        <AxoList.Root accessibilityLabel={i18n('icu:WhileMuted__title')}>
+          <AxoList.Body>
+            <AxoItem.Group>
+              <WhileMutedSwitch
+                settingKey="calls"
+                symbol="phone"
+                label={i18n('icu:WhileMuted__calls__title')}
+                description={i18n('icu:WhileMuted__calls__description')}
+                checked={notifyWhileMuted.calls}
+                setNotifyWhileMuted={setNotifyWhileMuted}
+              />
+              {isGroup && (
+                <>
+                  <WhileMutedSwitch
+                    settingKey="mentions"
+                    symbol="at"
+                    label={i18n('icu:WhileMuted__mentions__title')}
+                    description={i18n('icu:WhileMuted__mentions__description')}
+                    checked={notifyWhileMuted.mentions}
+                    setNotifyWhileMuted={setNotifyWhileMuted}
+                  />
+                  <WhileMutedSwitch
+                    settingKey="replies"
+                    symbol="reply"
+                    label={i18n('icu:WhileMuted__replies__title')}
+                    description={i18n('icu:WhileMuted__replies__description')}
+                    checked={notifyWhileMuted.replies}
+                    setNotifyWhileMuted={setNotifyWhileMuted}
+                  />
+                </>
+              )}
+            </AxoItem.Group>
+          </AxoList.Body>
+        </AxoList.Root>
+      </AxoList.Group>
+    </AxoContainer.Root>
   );
 }
 

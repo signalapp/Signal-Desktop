@@ -3,17 +3,12 @@
 
 import type { ReactNode, JSX } from 'react';
 import { useState } from 'react';
-import classNames from 'classnames';
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { Tooltip, TooltipPlacement } from '../../Tooltip.dom.tsx';
-import { PanelRow } from './PanelRow.dom.tsx';
-import { PanelSection } from './PanelSection.dom.tsx';
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
 import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.tsx';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
+import { AxoClickableItem } from '../../../axo/items/AxoClickableItem.dom.tsx';
 
 export type Props = {
   acceptConversation: (id: string) => void;
@@ -75,136 +70,73 @@ export function ConversationDetailsActions({
   let leaveGroupNode: ReactNode;
   if (isGroup && !left && !isGroupTerminated) {
     leaveGroupNode = (
-      <PanelRow
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="leave"
+        label={i18n('icu:ConversationDetailsActions--leave-group')}
+        tooltip={
+          cannotLeaveBecauseYouAreLastAdmin
+            ? i18n(
+                'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
+              )
+            : null
+        }
         disabled={cannotLeaveBecauseYouAreLastAdmin}
         onClick={() => gLeave(true)}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={i18n('icu:ConversationDetailsActions--leave-group')}
-            disabled={cannotLeaveBecauseYouAreLastAdmin}
-            icon={IconType.leave}
-          />
-        }
-        label={
-          <div
-            className={classNames(
-              'ConversationDetails__leave-group',
-              cannotLeaveBecauseYouAreLastAdmin &&
-                'ConversationDetails__leave-group--disabled'
-            )}
-          >
-            {i18n('icu:ConversationDetailsActions--leave-group')}
-          </div>
-        }
       />
     );
-    if (cannotLeaveBecauseYouAreLastAdmin) {
-      leaveGroupNode = (
-        <Tooltip
-          content={i18n(
-            'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
-          )}
-          direction={TooltipPlacement.Top}
-        >
-          {leaveGroupNode}
-        </Tooltip>
-      );
-    }
   }
 
   let blockNode: ReactNode;
   if (isGroup && !isBlocked && !isGroupTerminated) {
     blockNode = (
-      <PanelRow
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="block"
+        label={i18n('icu:ConversationDetailsActions--block-group')}
         disabled={cannotLeaveBecauseYouAreLastAdmin}
+        tooltip={
+          cannotLeaveBecauseYouAreLastAdmin
+            ? i18n(
+                'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
+              )
+            : null
+        }
         onClick={() => gGroupBlock(true)}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={i18n('icu:ConversationDetailsActions--block-group')}
-            icon={IconType.block}
-          />
-        }
-        label={
-          <div className="ConversationDetails__block-group">
-            {i18n('icu:ConversationDetailsActions--block-group')}
-          </div>
-        }
       />
     );
   } else if (isGroup && isBlocked && !isGroupTerminated) {
     blockNode = (
-      <PanelRow
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="block"
+        label={i18n('icu:ConversationDetailsActions--unblock-group')}
         onClick={() => gGroupUnblock(true)}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={i18n('icu:ConversationDetailsActions--unblock-group')}
-            icon={IconType.unblock}
-          />
-        }
-        label={
-          <div className="ConversationDetails__unblock-group">
-            {i18n('icu:ConversationDetailsActions--unblock-group')}
-          </div>
-        }
       />
     );
   } else if (!isGroup) {
-    const label = isBlocked
-      ? i18n('icu:MessageRequests--unblock')
-      : i18n('icu:MessageRequests--block');
     blockNode = (
-      <PanelRow
-        onClick={() => (isBlocked ? gDirectUnblock(true) : gDirectBlock(true))}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={label}
-            icon={isBlocked ? IconType.unblock : IconType.block}
-          />
-        }
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="block"
         label={
-          <div
-            className={
-              isBlocked
-                ? 'ConversationDetails__unblock-group'
-                : 'ConversationDetails__block-group'
-            }
-          >
-            {label}
-          </div>
+          isBlocked
+            ? i18n('icu:MessageRequests--unblock')
+            : i18n('icu:MessageRequests--block')
         }
+        onClick={() => (isBlocked ? gDirectUnblock(true) : gDirectBlock(true))}
       />
-    );
-  }
-
-  if (cannotLeaveBecauseYouAreLastAdmin) {
-    blockNode = (
-      <Tooltip
-        content={i18n(
-          'icu:ConversationDetailsActions--leave-group-must-choose-new-admin'
-        )}
-        direction={TooltipPlacement.Top}
-      >
-        {blockNode}
-      </Tooltip>
     );
   }
 
   let reportSpamNode: ReactNode;
   if (!isSignalConversation) {
     reportSpamNode = (
-      <PanelRow
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="error-octagon"
+        label={i18n('icu:ConversationDetailsActions--report-spam')}
         onClick={() => gConfirmReportSpam(true)}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={i18n('icu:ConversationDetailsActions--report-spam')}
-            icon={IconType.spam}
-          />
-        }
-        label={
-          <div className="ConversationDetails__report-spam">
-            {i18n('icu:ConversationDetailsActions--report-spam')}
-          </div>
-        }
       />
     );
   }
@@ -212,19 +144,11 @@ export function ConversationDetailsActions({
   let terminateGroupNode: ReactNode;
   if (canTerminateGroup) {
     terminateGroupNode = (
-      <PanelRow
+      <AxoClickableItem.Root
+        variant="destructive"
+        symbol="x-circle"
+        label={i18n('icu:ConversationDetailsActions--terminate-group')}
         onClick={() => gPromptTerminateGroup(true)}
-        icon={
-          <ConversationDetailsIcon
-            ariaLabel={i18n('icu:ConversationDetailsActions--terminate-group')}
-            icon={IconType.terminate}
-          />
-        }
-        label={
-          <div className={classNames('ConversationDetails__terminate-group')}>
-            {i18n('icu:ConversationDetailsActions--terminate-group')}
-          </div>
-        }
       />
     );
   }
@@ -233,68 +157,42 @@ export function ConversationDetailsActions({
   if (isGroupTerminated) {
     if (isArchived) {
       archiveNode = (
-        <PanelRow
+        <AxoClickableItem.Root
+          symbol="archive"
+          label={i18n('icu:ConversationDetailsActions--unarchive')}
           onClick={onUnarchive}
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:ConversationDetailsActions--unarchive')}
-              icon={IconType.archive}
-            />
-          }
-          label={
-            <div className={classNames('ConversationDetails__unarchive')}>
-              {i18n('icu:ConversationDetailsActions--unarchive')}
-            </div>
-          }
         />
       );
     } else {
       archiveNode = (
-        <PanelRow
+        <AxoClickableItem.Root
+          symbol="archive"
+          label={i18n('icu:ConversationDetailsActions--archive')}
           onClick={onArchive}
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('icu:ConversationDetailsActions--archive')}
-              icon={IconType.archive}
-            />
-          }
-          label={
-            <div className={classNames('ConversationDetails__archive')}>
-              {i18n('icu:ConversationDetailsActions--archive')}
-            </div>
-          }
         />
       );
     }
   }
 
-  const deleteNode = isGroupTerminated ? (
-    <PanelRow
+  const deleteNode = isGroupTerminated && (
+    <AxoClickableItem.Root
+      variant="destructive"
+      symbol="trash"
+      label={i18n('icu:ConversationDetailsActions--delete')}
       onClick={() => gGroupDelete(true)}
-      icon={
-        <ConversationDetailsIcon
-          ariaLabel={i18n('icu:ConversationDetailsActions--delete')}
-          icon={IconType.delete}
-        />
-      }
-      label={
-        <div className={classNames('ConversationDetails__delete')}>
-          {i18n('icu:ConversationDetailsActions--delete')}
-        </div>
-      }
     />
-  ) : null;
+  );
 
   return (
     <>
-      <PanelSection>
+      <List>
         {leaveGroupNode}
         {blockNode}
         {archiveNode}
         {deleteNode}
         {reportSpamNode}
-      </PanelSection>
-      {terminateGroupNode && <PanelSection>{terminateGroupNode}</PanelSection>}
+      </List>
+      {terminateGroupNode && <List>{terminateGroupNode}</List>}
       <AxoConfirmDialog.Root
         open={confirmLeave}
         onOpenChange={gLeave}
@@ -477,5 +375,25 @@ export function ConversationDetailsActions({
         />
       )}
     </>
+  );
+}
+
+type ListProps = Readonly<{
+  label?: string;
+  children: ReactNode;
+}>;
+
+function List(props: ListProps): ReactNode {
+  return (
+    <AxoList.Root>
+      {props.label != null && (
+        <AxoList.Header>
+          <AxoList.Label>{props.label}</AxoList.Label>
+        </AxoList.Header>
+      )}
+      <AxoList.Body>
+        <AxoItem.Group>{props.children}</AxoItem.Group>
+      </AxoList.Body>
+    </AxoList.Root>
   );
 }

@@ -3,6 +3,7 @@
 import type { ReactNode, FC } from 'react';
 import { memo } from 'react';
 import { AxoItem } from './AxoItem.dom.tsx';
+import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 
 export namespace AxoTextItem {
   /**
@@ -11,6 +12,7 @@ export namespace AxoTextItem {
    */
 
   export type RootProps = Readonly<{
+    symbol?: AxoSymbol.Name | null;
     label: ReactNode;
     value?: ReactNode;
     description?: ReactNode;
@@ -19,6 +21,11 @@ export namespace AxoTextItem {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AxoItem.Root>
+        {props.symbol != null && (
+          <AxoItem.Leading>
+            <AxoItem.Icon symbol={props.symbol} />
+          </AxoItem.Leading>
+        )}
         <AxoItem.Content>
           <AxoItem.Body>
             <AxoItem.Label>{props.label}</AxoItem.Label>

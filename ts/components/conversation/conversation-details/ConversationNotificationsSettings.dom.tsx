@@ -7,13 +7,13 @@ import { MuteExpiration } from '@signalapp/types';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
-import { tw } from '../../../axo/tw.dom.tsx';
 import { MuteNotificationsDropdownMenu } from '../../MuteNotificationsMenu.dom.tsx';
 import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
 import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';
 import type { NotifyWhileMuted } from '../../../util/notifyWhileMuted.std.ts';
 import { getNotifyWhileMutedSummary } from '../../../util/notifyWhileMuted.std.ts';
+import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
 
 export type PropsType = {
   id: string;
@@ -71,68 +71,76 @@ export function ConversationNotificationsSettings({
   }, [id, setMuteExpiration]);
 
   return (
-    <div className={tw('mx-auto flex w-full max-w-[750px] flex-col gap-4')}>
-      <AxoList.Root
-        accessibilityLabel={i18n('icu:ConversationDetails--notifications')}
-      >
-        <AxoList.Body>
-          <AxoItem.Group>
-            <AxoItem.Root>
-              <AxoItem.Icon symbol="bell-slash" />
-              <AxoItem.Content>
-                <AxoItem.Body>
-                  <AxoItem.Label>
-                    {i18n('icu:muteNotificationsTitle')}
-                  </AxoItem.Label>
-                  <AxoItem.Description>
-                    {mutedUntilText ?? i18n('icu:notMuted')}
-                  </AxoItem.Description>
-                </AxoItem.Body>
-                <AxoItem.Accessory>
-                  {mutedUntilText != null ? (
-                    <AxoItem.Action
-                      variant="subtle-secondary"
-                      onClick={handleUnmute}
-                    >
-                      {i18n('icu:unmute')}
-                    </AxoItem.Action>
-                  ) : (
-                    <MuteNotificationsDropdownMenu
-                      i18n={i18n}
-                      label={muteMenu.label}
-                      options={muteMenu.options}
-                      onMuteExpiration={handleMuteExpiration}
-                    >
-                      <AxoItem.Action variant="subtle-secondary">
-                        {i18n('icu:mute')}
+    <AxoContainer.Root>
+      <AxoList.Group>
+        <AxoList.Root
+          accessibilityLabel={i18n('icu:ConversationDetails--notifications')}
+        >
+          <AxoList.Body>
+            <AxoItem.Group>
+              <AxoItem.Root>
+                <AxoItem.Leading>
+                  <AxoItem.Icon symbol="bell-slash" />
+                </AxoItem.Leading>
+                <AxoItem.Content>
+                  <AxoItem.Body>
+                    <AxoItem.Label>
+                      {i18n('icu:muteNotificationsTitle')}
+                    </AxoItem.Label>
+                    <AxoItem.Description>
+                      {mutedUntilText ?? i18n('icu:notMuted')}
+                    </AxoItem.Description>
+                  </AxoItem.Body>
+                  <AxoItem.Accessory>
+                    {mutedUntilText != null ? (
+                      <AxoItem.Action
+                        variant="subtle-secondary"
+                        onClick={handleUnmute}
+                      >
+                        {i18n('icu:unmute')}
                       </AxoItem.Action>
-                    </MuteNotificationsDropdownMenu>
-                  )}
-                </AxoItem.Accessory>
-              </AxoItem.Content>
-            </AxoItem.Root>
-            <AxoItem.Root>
-              <AxoItem.Icon symbol="bell-badge" />
-              <AxoItem.Content>
-                <AxoItem.Body>
-                  <AxoItem.Label id={whileMutedLabelId}>
-                    {i18n('icu:WhileMuted__title')}
-                  </AxoItem.Label>
-                  <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
-                  <AxoItem.Description>
-                    {i18n('icu:WhileMuted__description')}
-                  </AxoItem.Description>
-                  <AxoItem.HiddenTrigger
-                    labelledby={whileMutedLabelId}
-                    onClick={onOpenWhileMutedSettings}
-                  />
-                </AxoItem.Body>
-              </AxoItem.Content>
-              <AxoItem.Arrow />
-            </AxoItem.Root>
-          </AxoItem.Group>
-        </AxoList.Body>
-      </AxoList.Root>
-    </div>
+                    ) : (
+                      <MuteNotificationsDropdownMenu
+                        i18n={i18n}
+                        label={muteMenu.label}
+                        options={muteMenu.options}
+                        onMuteExpiration={handleMuteExpiration}
+                      >
+                        <AxoItem.Action variant="subtle-secondary">
+                          {i18n('icu:mute')}
+                        </AxoItem.Action>
+                      </MuteNotificationsDropdownMenu>
+                    )}
+                  </AxoItem.Accessory>
+                </AxoItem.Content>
+              </AxoItem.Root>
+              <AxoItem.Root>
+                <AxoItem.Leading>
+                  <AxoItem.Icon symbol="bell-badge" />
+                </AxoItem.Leading>
+                <AxoItem.Content>
+                  <AxoItem.Body>
+                    <AxoItem.Label id={whileMutedLabelId}>
+                      {i18n('icu:WhileMuted__title')}
+                    </AxoItem.Label>
+                    <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
+                    <AxoItem.Description>
+                      {i18n('icu:WhileMuted__description')}
+                    </AxoItem.Description>
+                    <AxoItem.HiddenTrigger
+                      labelledby={whileMutedLabelId}
+                      onClick={onOpenWhileMutedSettings}
+                    />
+                  </AxoItem.Body>
+                  <AxoItem.Trailing>
+                    <AxoItem.Arrow />
+                  </AxoItem.Trailing>
+                </AxoItem.Content>
+              </AxoItem.Root>
+            </AxoItem.Group>
+          </AxoList.Body>
+        </AxoList.Root>
+      </AxoList.Group>
+    </AxoContainer.Root>
   );
 }

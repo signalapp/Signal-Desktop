@@ -5,18 +5,18 @@ import type { ReactNode, JSX } from 'react';
 import { useMemo, useState } from 'react';
 import { v4 as generateUuid } from 'uuid';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import type {
+import {
   CallLinkRestrictions,
-  CallLinkType,
+  type CallLinkType,
 } from '../types/CallLink.std.ts';
 import { linkCallRoute } from '../util/signalRoutes.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
-import { CallLinkRestrictionsSelect } from './CallLinkRestrictionsSelect.dom.tsx';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
 
 const CallLinkEditModalRowIconClasses = {
   Edit: 'CallLinkEditModal__RowIcon--Edit',
@@ -166,11 +166,16 @@ export function CallLinkEditModal({
                 {i18n('icu:CallLinkEditModal__InputLabel--ApproveAllMembers')}
               </label>
             </RowText>
-            <CallLinkRestrictionsSelect
-              i18n={i18n}
+            <AxoSwitch.Root
               id={restrictionsId}
-              value={callLink.restrictions}
-              onChange={onUpdateCallLinkRestrictions}
+              checked={callLink.restrictions !== CallLinkRestrictions.None}
+              onCheckedChange={checked => {
+                onUpdateCallLinkRestrictions(
+                  checked
+                    ? CallLinkRestrictions.AdminApproval
+                    : CallLinkRestrictions.None
+                );
+              }}
             />
           </Row>
 

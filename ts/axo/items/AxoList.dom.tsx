@@ -7,6 +7,21 @@ import { AriaLabelled } from '../aria/AriaLabelled.dom.tsx';
 
 export namespace AxoList {
   /**
+   * <AxoList.Group>
+   * --------------------------------------------------------------------------
+   */
+
+  export type GroupProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const Group: FC<GroupProps> = memo(props => {
+    return <div className={tw('flex flex-col gap-4')}>{props.children}</div>;
+  });
+
+  Group.displayName = 'AxoList.Group';
+
+  /**
    * <AxoList.Root>
    * --------------------------------------------------------------------------
    */

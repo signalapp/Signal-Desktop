@@ -15,7 +15,6 @@ export enum ToastType {
   CallQualitySurveySuccess = 'CallQualitySurveySuccess',
   CaptchaFailed = 'CaptchaFailed',
   CaptchaSolved = 'CaptchaSolved',
-  CannotAddMemberLabel = 'CannotAddMemberLabel',
   CannotEditMessage = 'CannotEditMessage',
   CannotForwardEmptyMessage = 'CannotForwardEmptyMessage',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
@@ -132,7 +131,6 @@ export type AnyToast =
       parameters: { canRetry: boolean };
     }
   | { toastType: ToastType.CallQualitySurveySuccess }
-  | { toastType: ToastType.CannotAddMemberLabel }
   | { toastType: ToastType.CannotEditMessage }
   | { toastType: ToastType.CannotForwardEmptyMessage }
   | { toastType: ToastType.CannotMixMultiAndNonMultiAttachments }

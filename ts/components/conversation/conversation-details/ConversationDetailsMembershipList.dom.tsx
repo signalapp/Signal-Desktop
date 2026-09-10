@@ -2,19 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useCallback, useState, type JSX } from 'react';
-
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.ts';
-
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
-
-import {
-  ConversationDetailsIcon,
-  IconType,
-} from './ConversationDetailsIcon.dom.tsx';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.ts';
-import { PanelRow } from './PanelRow.dom.tsx';
-import { PanelSection } from './PanelSection.dom.tsx';
 import { GroupMemberLabel } from '../ContactName.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
@@ -25,6 +16,8 @@ import { isInSystemContacts } from '../../../util/isInSystemContacts.std.ts';
 import { InContactsIcon } from '../../InContactsIcon.dom.tsx';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
 import { GroupMembersSearchDialog } from './GroupMembersSearchDialog.dom.tsx';
+import { AxoContactList } from '../../../axo/items/AxoContactList.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
@@ -149,26 +142,26 @@ export function ConversationDetailsMembershipList({
 
   return (
     <>
-      <PanelSection
-        title={title}
-        actions={
-          <AxoIconButton.Root
-            variant="implied-secondary"
-            size="md"
-            symbol="search"
-            label={i18n(
-              'icu:ConversationDetailsMembershipList__Search__AccessibilityLabel'
-            )}
-            onClick={handleOpenSearchDialog}
-          />
+      <AxoContactList.Root
+        title={
+          <div className={tw('flex items-center')}>
+            <div className={tw('flex-1')}>{title}</div>
+            <AxoIconButton.Root
+              variant="implied-secondary"
+              size="md"
+              symbol="search"
+              label={i18n(
+                'icu:ConversationDetailsMembershipList__Search__AccessibilityLabel'
+              )}
+              onClick={handleOpenSearchDialog}
+            />
+          </div>
         }
       >
         {canAddNewMembers && !isTerminated && (
-          <PanelRow
-            icon={
-              <div className="ConversationDetails-membership-list__add-members-icon" />
-            }
-            label={i18n('icu:ConversationDetailsMembershipList--add-members')}
+          <AxoContactList.ActionItem
+            symbol="plus"
+            title={i18n('icu:ConversationDetailsMembershipList--add-members')}
             onClick={() => startAddingNewMembers?.()}
           />
         )}
@@ -178,12 +171,12 @@ export function ConversationDetailsMembershipList({
             const contactNameColor = memberColors.get(member.id);
 
             return (
-              <PanelRow
+              <AxoContactList.Item
                 key={member.id}
                 onClick={() =>
                   showContactModal({ contactId: member.id, conversationId })
                 }
-                icon={
+                avatar={
                   <Avatar
                     conversationType="direct"
                     badge={getPreferredBadge(member.badges)}
@@ -193,7 +186,7 @@ export function ConversationDetailsMembershipList({
                     {...member}
                   />
                 }
-                label={
+                title={
                   <div>
                     <div>
                       <UserText
@@ -243,26 +236,18 @@ export function ConversationDetailsMembershipList({
                       )}
                   </div>
                 }
-                right={isAdmin ? i18n('icu:GroupV2--admin') : ''}
+                value={isAdmin ? i18n('icu:GroupV2--admin') : null}
               />
             );
           })}
         {!showAllMembers && shouldHideRestMembers && (
-          <PanelRow
-            className="ConversationDetails-membership-list--show-all"
-            icon={
-              <ConversationDetailsIcon
-                ariaLabel={i18n(
-                  'icu:ConversationDetailsMembershipList--show-all'
-                )}
-                icon={IconType.down}
-              />
-            }
+          <AxoContactList.ActionItem
+            symbol="chevron-down"
+            title={i18n('icu:ConversationDetailsMembershipList--show-all')}
             onClick={() => setShowAllMembers(true)}
-            label={i18n('icu:ConversationDetailsMembershipList--show-all')}
           />
         )}
-      </PanelSection>
+      </AxoContactList.Root>
       <GroupMembersSearchDialog
         i18n={i18n}
         open={searchDialogOpen}
