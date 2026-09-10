@@ -4,27 +4,22 @@ import type { Meta } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import { AxoContactList } from './AxoContactList.dom.tsx';
-import { Avatar, AvatarSize } from '../../components/Avatar.dom.tsx';
 import { FunInlineEmoji } from '../../components/fun/FunEmoji.dom.tsx';
 import { Emoji } from '../emoji.std.ts';
 import { tw } from '../tw.dom.tsx';
-
-const { i18n } = window.SignalContext;
+import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 
 export default {
   title: 'Axo/Items/AxoContactList',
 } satisfies Meta;
 
-function LegacyAvatar(props: { title: string }): ReactNode {
+function Avatar(props: { label: string; initials: string }): ReactNode {
   return (
-    <Avatar
-      i18n={i18n}
-      conversationType="direct"
-      title={props.title}
-      size={AvatarSize.THIRTY_TWO}
-      badge={undefined}
-      theme={undefined}
-    />
+    <AxoAvatar.Root size={32}>
+      <AxoAvatar.Content label={props.label}>
+        <AxoAvatar.Initials initials={props.initials} color="A100" />
+      </AxoAvatar.Content>
+    </AxoAvatar.Root>
   );
 }
 
@@ -46,17 +41,17 @@ export function Basic(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoContactList.Root>
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Adrian" />}
+          avatar={<Avatar label="Adrian's Avatar" initials="AS" />}
           title="Adrian"
           onClick={action('onClick')}
         />
@@ -70,7 +65,7 @@ export function Description(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoContactList.Root>
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           description={
             <>
@@ -83,7 +78,7 @@ export function Description(): ReactNode {
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           description={
             <About
@@ -94,7 +89,7 @@ export function Description(): ReactNode {
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Adrian" />}
+          avatar={<Avatar label="Adrian's Avatar" initials="AS" />}
           title="Adrian"
           description={<About emoji={Emoji.COFFEE} label="Coffee lover" />}
           onClick={action('onClick')}
@@ -109,13 +104,13 @@ export function Value(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoContactList.Root>
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           value="Admin"
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           value="Admin"
           description={
@@ -127,7 +122,7 @@ export function Value(): ReactNode {
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Adrian" />}
+          avatar={<Avatar label="Adrian's Avatar" initials="AS" />}
           title="Adrian"
           value="Admin"
           description={
@@ -150,7 +145,7 @@ export function ItemActions(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoContactList.Root>
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           onClick={action('onClick')}
           accessory={
@@ -160,7 +155,7 @@ export function ItemActions(): ReactNode {
           }
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           description={
             <About
@@ -176,7 +171,7 @@ export function ItemActions(): ReactNode {
           }
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Adrian" />}
+          avatar={<Avatar label="Adrian's Avatar" initials="AS" />}
           title="Adrian"
           onClick={action('onClick')}
           accessory={
@@ -195,7 +190,7 @@ export function ItemIconActions(): ReactNode {
     <div className={tw('mx-auto max-w-150')}>
       <AxoContactList.Root>
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           onClick={action('onClick')}
           accessory={
@@ -207,7 +202,7 @@ export function ItemIconActions(): ReactNode {
           }
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           description={
             <About
@@ -232,7 +227,7 @@ export function ItemIconActions(): ReactNode {
           }
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Adrian" />}
+          avatar={<Avatar label="Adrian's Avatar" initials="AS" />}
           title="Adrian"
           onClick={action('onClick')}
           accessory={
@@ -258,13 +253,13 @@ export function ActionItems(): ReactNode {
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Jamie" />}
+          avatar={<Avatar label="Jamie's Avatar" initials="JK" />}
           title="Jamie"
           description={<About emoji={Emoji.COFFEE} label="Coffee lover" />}
           onClick={action('onClick')}
         />
         <AxoContactList.Item
-          avatar={<LegacyAvatar title="Tyler" />}
+          avatar={<Avatar label="Tyler's Avatar" initials="TN" />}
           title="Tyler"
           description={
             <About

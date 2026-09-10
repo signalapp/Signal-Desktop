@@ -287,6 +287,10 @@ export namespace AxoAvatar {
       <span
         className={tw(
           'flex size-full items-center justify-center',
+          'rounded-full',
+          'forced-colors:bg-[Canvas]',
+          'forced-colors:text-[CanvasText]',
+          'forced-colors:border',
           DefaultColor
         )}
         style={{ fontSize: size * 0.55 }}
@@ -378,6 +382,7 @@ export namespace AxoAvatar {
         onLoad={handleLoad}
         className={tw(
           'size-full object-cover object-center',
+          'rounded-full',
           props.blur && 'scale-110 blur-thin',
           'transition-[filter] duration-100 ease-out-cubic',
           !isLoaded && 'opacity-0'
@@ -422,7 +427,11 @@ export namespace AxoAvatar {
         src={src}
         width={1024}
         height={1024}
-        className={tw('size-full object-cover object-center')}
+        className={tw(
+          'size-full object-cover object-center',
+          'rounded-full',
+          'forced-color-adjust-none'
+        )}
         style={style}
       />
     );
@@ -506,7 +515,7 @@ export namespace AxoAvatar {
         width={256}
         height={256}
         viewBox="0 0 256 256"
-        className={tw('size-full fill-current')}
+        className={tw('size-full fill-current', 'rounded-full')}
         style={style}
       >
         <text

@@ -260,7 +260,8 @@ export namespace AxoBaseField {
       <span
         className={tw(
           'pointer-events-none z-10 flex items-center justify-center text-secondary',
-          'px-1 first:ps-2.5 last:pe-2.5'
+          'px-1 first:ps-2.5 last:pe-2.5',
+          'forced-colors:text-[GrayText]'
         )}
       >
         <AxoSymbol.Icon size={16} symbol={props.symbol} label={null} />
@@ -639,7 +640,9 @@ export namespace AxoBaseField {
             'text-secondary',
             'group-enabled/clear:group-hover/clear:text-primary',
             ClearVariants.get(containerContext.variant),
-            'group-focus-visible/clear:axo-focus-ring'
+            'group-focus-visible/clear:axo-focus-ring',
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+            'forced-colors:text-[ButtonText]!'
           )}
         >
           <AxoSymbol.Icon size={16} symbol="x" label={null} />
@@ -732,7 +735,9 @@ export namespace AxoBaseField {
             'text-secondary',
             'group-not-aria-disabled/action:group-hover/action:text-primary',
             ActionVariants.get(containerContext.variant),
-            'group-focus-visible/action:axo-focus-ring'
+            'group-focus-visible/action:axo-focus-ring',
+            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+            'forced-colors:text-[ButtonText]!'
           )}
         >
           <AxoSymbol.Icon size={18} symbol={props.symbol} label={null} />

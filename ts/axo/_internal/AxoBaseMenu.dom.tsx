@@ -59,8 +59,7 @@ export namespace AxoBaseMenu {
     'forced-colors:text-[CanvasText]',
     'forced-colors:data-highlighted:bg-[Highlight]',
     'forced-colors:data-highlighted:text-[HighlightText]',
-    'forced-colors:data-disabled:text-[GrayText]',
-    'forced-color-adjust-none'
+    'forced-colors:data-disabled:text-[GrayText]'
   );
 
   /**
@@ -152,7 +151,10 @@ export namespace AxoBaseMenu {
    * --------------------------------------------------------------------------
    */
 
-  export const itemTextStyles = tw('flex-auto grow-0 truncate text-start');
+  export const itemTextStyles = tw(
+    'flex-auto grow-0 truncate text-start',
+    'forced-color-adjust-none forced-colors:text-inherit'
+  );
 
   export type ItemTextProps = Readonly<{
     children: ReactNode;
@@ -232,7 +234,8 @@ export namespace AxoBaseMenu {
       <span
         dir="auto"
         className={tw(
-          'ms-auto px-1 type-body-medium text-secondary forced-colors:text-inherit'
+          'ms-auto px-1 type-body-medium text-secondary',
+          'forced-color-adjust-none forced-colors:text-inherit'
         )}
       >
         {props.keyboardShortcut}

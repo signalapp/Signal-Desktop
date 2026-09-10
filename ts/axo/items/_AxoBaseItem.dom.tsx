@@ -116,8 +116,8 @@ export namespace AxoBaseItem {
   export type Variant = 'secondary' | 'destructive';
 
   const Variants = variants<Variant>('AxoBaseItem.Variant', {
-    secondary: tw('text-primary'),
-    destructive: tw('text-destructive'),
+    secondary: tw('text-primary forced-colors:text-[CanvasText]'),
+    destructive: tw('text-destructive forced-color-adjust-none'),
   });
 
   const DisabledVariants = variants<Variant>('AxoBaseItem.Root', {

@@ -27,6 +27,7 @@
 
 .FunStaticEmoji__Text {
   padding-top: 1px;
+  font-variant-emoji: emoji;
 
   // Emoji font images are slightly higher than optical center
   @media (resolution >= 2x) {
@@ -169,6 +170,7 @@ $inline-emoji-container-name: inline-emoji;
   // Inline-block so copying multiple emoji does not insert newlines around
   // each one in the clipboard plain-text serialization.
   display: inline-block;
+  font-variant-emoji: emoji;
 
   // Emoji font images are slightly higher than optical center
   @container #{$inline-emoji-container-name} (width > 16px) {

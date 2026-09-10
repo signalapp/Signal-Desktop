@@ -453,8 +453,8 @@ export namespace AxoTooltip {
                 'text-primary-oncolor',
                 'min-w-12',
                 hasAccessory ? 'max-w-[228px]' : 'max-w-[192px]',
-                'forced-color-adjust-none',
-                'forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]'
+                'forced-colors:bg-transparent',
+                'forced-colors:text-[HighlightText]'
               )}
               onPointerDownOutside={handlePointerDownOutside}
             >
@@ -486,7 +486,8 @@ export namespace AxoTooltip {
                   'bg-material-dim-primary',
                   'backdrop-blur-thin',
                   'rounded-[14px]',
-                  'shadow-elevation-3 shadow-no-outline'
+                  'shadow-elevation-3 shadow-no-outline',
+                  'forced-colors:bg-[Highlight]'
                 )}
               />
               <Label
@@ -499,7 +500,8 @@ export namespace AxoTooltip {
                 <span
                   className={tw(
                     'type-body-small text-secondary-oncolor',
-                    'forced-colors:text-inherit forced-colors:italic'
+                    'forced-colors:text-inherit forced-colors:italic',
+                    'forced-color-adjust-none'
                   )}
                 >
                   {keyboardShortcut}
@@ -509,7 +511,8 @@ export namespace AxoTooltip {
                 <span
                   className={tw(
                     'type-caption whitespace-nowrap text-secondary-oncolor',
-                    'forced-colors:text-inherit forced-colors:italic'
+                    'forced-colors:text-inherit forced-colors:italic',
+                    'forced-color-adjust-none'
                   )}
                 >
                   {formattedTimestamp}
@@ -556,7 +559,9 @@ export namespace AxoTooltip {
         aria-hidden={props.tooltipRepeatsTriggerAccessibleName}
         className={tw(
           'relative',
-          'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto'
+          'line-clamp-4 max-h-full text-balance text-ellipsis hyphens-auto',
+          'forced-colors:text-inherit',
+          'forced-color-adjust-none'
         )}
       >
         <span ref={contentRef}>{props.label}</span>
