@@ -639,7 +639,7 @@ export function StressTests(): ReactNode {
 
       <Story.Legend label="Long label">
         <Story.Callout>
-          These should all break into a stacked layout.
+          Long labels should <em>not</em> break into a stacked layout.
         </Story.Callout>
 
         <StressTest label={LONG_LABEL} />

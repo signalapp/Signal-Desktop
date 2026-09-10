@@ -4,7 +4,7 @@
  */
 
 @utility axo-item-centering-to-max-height {
-  @apply flex h-full min-h-fit items-center;
+  @apply flex h-[stretch] min-h-fit items-center;
   /* --axo-leading-body-medium + --axo-leading-body-small + (description margin top) */
   max-height: 38px;
 }
@@ -50,6 +50,15 @@
     @apply min-w-0;
     /* Leave room for focus rings */
     @apply -m-1;
+
+    /* Provider scroll state container */
+    @apply @container-[scroll-state] overflow-x-hidden;
+  }
+
+  :where(.axo-item-content) .axo-item-content-force-scroll-state {
+    /* We need this fix or the item will get stuck in a layout cycle */
+    /* Force scroll-state to stay stuck as scrollable once it becomes scrollable */
+    @apply relative container-scrollable:w-[calc(100%+1px)];
   }
 
   :where(.axo-item-content) .axo-item-content-inner {
@@ -64,6 +73,7 @@
   }
 
   :where(.axo-item-body) .axo-item-label {
+    @apply min-w-50;
     @apply type-body-medium text-primary;
   }
 
@@ -72,9 +82,9 @@
   }
 
   :where(.axo-item-body) .axo-item-description {
+    @apply min-w-50;
     @apply mt-0.5;
     @apply type-body-small text-secondary forced-colors:text-[GrayText];
-    @apply min-w-[min(max-content,120px)];
     @apply wrap-break-word [word-break:auto-phrase];
   }
 
@@ -102,7 +112,7 @@
     .axo-item-label {
       grid-area: axo-item-label;
       @apply self-center;
-      @apply text-nowrap;
+      @apply contain-inline-size contain-layout;
     }
 
     .axo-item-value {
@@ -125,11 +135,6 @@
 
   /* When overflowing container */
   @container scroll-state(scrollable: inline) {
-    .axo-item-content-inner {
-      width: calc(100% + 1px);
-      padding-inline-end: 1px;
-    }
-
     .axo-item-accessory {
       @apply mt-0.5;
       @apply flex-col items-stretch;

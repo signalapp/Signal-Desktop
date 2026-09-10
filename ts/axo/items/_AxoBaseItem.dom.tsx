@@ -6,6 +6,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from '../_internal/StrictContext.dom.tsx';
+import { css } from '../_internal/css.dom.tsx';
 import { tw } from '../tw.dom.tsx';
 import { AriaClickable } from '../AriaClickable.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
@@ -15,21 +16,6 @@ import { AxoButton } from '../AxoButton.dom.tsx';
 import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 import { variants } from '../_internal/variants.dom.tsx';
-import { FlexWrapDetector } from '../_internal/FlexWrapDetector.dom.tsx';
-
-const AXO_ITEM_GROUP_CLASS = 'axo-item-group';
-const AXO_ITEM_ROOT_CLASS = 'axo-item-root';
-const AXO_ITEM_ROOT_INNER_CLASS = 'axo-item-root-inner';
-const AXO_ITEM_LEADING_CLASS = 'axo-item-leading';
-const AXO_ITEM_CONTENT_CLASS = 'axo-item-content';
-const AXO_ITEM_CONTENT_INNER_CLASS = 'axo-item-content-inner';
-const AXO_ITEM_BODY_CLASS = 'axo-item-body';
-const AXO_ITEM_LABEL_CLASS = 'axo-item-label';
-const AXO_ITEM_ACCESSORY_CLASS = 'axo-item-accessory';
-const AXO_ITEM_VALUE_CLASS = 'axo-item-value';
-const AXO_ITEM_DESCRIPTION_CLASS = 'axo-item-description';
-const AXO_ITEM_TRAILING_CLASS = 'axo-item-trailing';
-const AXO_ITEM_ARROW_CLASS = 'axo-item-arrow';
 
 /**
  * @example Anatomy
@@ -92,7 +78,7 @@ export namespace AxoBaseItem {
       <GroupContext value={context}>
         <div
           ref={ref}
-          className={AXO_ITEM_GROUP_CLASS}
+          className="axo-item-group"
           {...forwardExtraPropsForRadix(rest)}
         >
           {children}
@@ -161,14 +147,14 @@ export namespace AxoBaseItem {
       <RootContext value={context}>
         <AriaClickable.Root asChild>
           <div
-            className={tw(AXO_ITEM_ROOT_CLASS, 'group')}
+            className={css('axo-item-root', tw('group'))}
             {...forwardExtraPropsForRadix(rest)}
           >
             <div
-              className={tw(
-                AXO_ITEM_ROOT_INNER_CLASS,
+              className={css(
+                'axo-item-root-inner',
                 RootSpacing.get(groupContext.spacing),
-                disabled && 'text-disabled'
+                disabled && tw('text-disabled')
               )}
             >
               {children}
@@ -191,7 +177,7 @@ export namespace AxoBaseItem {
   }>;
 
   export const Leading: FC<LeadingProps> = memo(props => {
-    return <div className={AXO_ITEM_LEADING_CLASS}>{props.children}</div>;
+    return <div className="axo-item-leading">{props.children}</div>;
   });
 
   Leading.displayName = 'AxoBaseItem.Leading';
@@ -281,10 +267,9 @@ export namespace AxoBaseItem {
 
   export const Content: FC<ContentProps> = memo(props => {
     return (
-      <div className={AXO_ITEM_CONTENT_CLASS}>
-        <FlexWrapDetector>
-          <div className={AXO_ITEM_CONTENT_INNER_CLASS}>{props.children}</div>
-        </FlexWrapDetector>
+      <div className="axo-item-content">
+        <div className="axo-item-content-inner">{props.children}</div>
+        <div className="axo-item-content-force-scroll-state" />
       </div>
     );
   });
@@ -301,7 +286,7 @@ export namespace AxoBaseItem {
   }>;
 
   export const Body: FC<BodyProps> = memo(props => {
-    return <div className={AXO_ITEM_BODY_CLASS}>{props.children}</div>;
+    return <div className="axo-item-body">{props.children}</div>;
   });
 
   Body.displayName = 'AxoBaseItem.Body';
@@ -323,9 +308,9 @@ export namespace AxoBaseItem {
     return (
       <div
         ref={ref}
-        className={tw(
-          AXO_ITEM_LABEL_CLASS,
-          truncate && 'truncate',
+        className={css(
+          'axo-item-label',
+          truncate && tw('truncate'),
           disabled ? DisabledVariants.get(variant) : Variants.get(variant)
         )}
         {...forwardExtraPropsForRadix(rest)}
@@ -353,9 +338,9 @@ export namespace AxoBaseItem {
     return (
       <div
         ref={ref}
-        className={tw(
-          AXO_ITEM_VALUE_CLASS,
-          disabled && 'text-disabled forced-colors:text-[GrayText]'
+        className={css(
+          'axo-item-value',
+          disabled && tw('text-disabled forced-colors:text-[GrayText]')
         )}
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -383,10 +368,10 @@ export namespace AxoBaseItem {
     return (
       <div
         ref={ref}
-        className={tw(
-          AXO_ITEM_DESCRIPTION_CLASS,
-          truncate && 'truncate',
-          disabled && 'text-disabled'
+        className={css(
+          'axo-item-description',
+          truncate && tw('truncate'),
+          disabled && tw('text-disabled')
         )}
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -436,7 +421,7 @@ export namespace AxoBaseItem {
   }>;
 
   export const Accessory: FC<AccessoryProps> = memo(props => {
-    return <div className={AXO_ITEM_ACCESSORY_CLASS}>{props.children}</div>;
+    return <div className="axo-item-accessory">{props.children}</div>;
   });
 
   Accessory.displayName = 'AxoBaseItem.Accessory';
@@ -523,7 +508,7 @@ export namespace AxoBaseItem {
   }>;
 
   export const Trailing: FC<TrailingProps> = memo(props => {
-    return <div className={AXO_ITEM_TRAILING_CLASS}>{props.children}</div>;
+    return <div className="axo-item-trailing">{props.children}</div>;
   });
 
   Trailing.displayName = 'AxoBaseItem.Trailing';
@@ -552,9 +537,9 @@ export namespace AxoBaseItem {
     const { disabled } = useStrictContext(RootContext);
     return (
       <div
-        className={tw(
-          AXO_ITEM_ARROW_CLASS,
-          disabled && 'text-disabled forced-colors:text-[GrayText]'
+        className={css(
+          'axo-item-arrow',
+          disabled && tw('text-disabled forced-colors:text-[GrayText]')
         )}
       >
         <AxoSymbol.InlineGlyph label={null} symbol={ArrowKinds.get(kind)} />
