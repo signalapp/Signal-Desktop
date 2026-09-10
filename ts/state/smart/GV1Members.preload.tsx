@@ -60,6 +60,7 @@ export const SmartGV1Members = memo(function SmartGV1Members({
       isEditMemberLabelEnabled={false}
       isTerminated={false}
       getPreferredBadge={getPreferredBadge}
+      hasOtherModalOpen={false}
       maxShownMemberCount={32}
       memberColors={memberColors}
       memberships={memberships}
