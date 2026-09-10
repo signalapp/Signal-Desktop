@@ -10,6 +10,7 @@ ENV SOURCE_DATE_EPOCH=1
 # Due to some issues with NVM reading .nvmrc, we define the version
 # as an environment variable and use that instead.
 ARG NODE_VERSION
+ARG PNPM_VERSION
 
 ENV SIGNAL_ENV=production
 
@@ -50,7 +51,7 @@ ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 ENV CI=true
 
 # Install pnpm
-RUN npm install -g pnpm@10.18.1
+RUN npm install -g pnpm@${PNPM_VERSION}
 
 RUN git config --global --add safe.directory /project
 

@@ -18,7 +18,11 @@
 # all build dependencies at specific versions.
 # We set SOURCE_DATE_EPOCH to make system build timestamps deterministic.
 if [ -z "${SKIP_DOCKER_BUILD}" ]; then
-  docker build -t signal-desktop --build-arg SOURCE_DATE_EPOCH=1 --build-arg NODE_VERSION=$(cat ../.nvmrc) .
+  docker build -t signal-desktop \
+    --build-arg SOURCE_DATE_EPOCH=1 \
+    --build-arg NODE_VERSION="$(cat ../.nvmrc)" \
+    --build-arg PNPM_VERSION="$(grep -A 2 '^\s*pnpm:' ../pnpm-lock.yaml | grep 'version:' | awk '{print $2}')" \
+    .
 else
   echo "Skipping docker build step because SKIP_DOCKER_BUILD was set"
 fi
@@ -53,7 +57,7 @@ docker run --rm \
   --user "$(id -u):$(id -g)" \
   -e NPM_CONFIG_CACHE=/tmp/.npm-cache \
   -e PNPM_HOME=/tmp/.pnpm-home \
-  -e SOURCE_DATE_EPOCH=$source_date_epoch \
-  -e BUILD_TARGETS=$BUILD_TARGETS \
-  -e BUILD_ARCH=$BUILD_ARCH \
-  signal-desktop $1
+  -e SOURCE_DATE_EPOCH="$source_date_epoch" \
+  -e BUILD_TARGETS="$BUILD_TARGETS" \
+  -e BUILD_ARCH="$BUILD_ARCH" \
+  signal-desktop "$1"
