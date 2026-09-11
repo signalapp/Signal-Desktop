@@ -17,6 +17,7 @@ import {
   getTimelineMessageWithText,
   sendMessageWithAttachments,
   sendTextMessage,
+  waitForEnabledComposer,
 } from '../helpers.node.ts';
 import * as durations from '../../util/durations/index.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -181,5 +182,81 @@ describe('lightbox', function (this: Mocha.Suite) {
       // oxlint-disable-next-line no-await-in-loop
       await expectLightboxImage(attachment);
     }
+  });
+
+  it('does not let composer shortcuts focus the hidden composer', async () => {
+    const page = await app.getWindow();
+
+    await page.getByTestId(pinned.device.aci).click();
+
+    const fixturesDir = path.join(__dirname, '..', '..', '..', 'fixtures');
+    const imageCat = path.join(fixturesDir, 'cat-screenshot.png');
+
+    await sendMessageWithAttachments(page, pinned, 'Message with image', [
+      imageCat,
+    ]);
+
+    const Message = getTimelineMessageWithText(page, 'Message with image');
+    const FirstImage = Message.locator('.module-image').nth(0);
+
+    await FirstImage.click();
+
+    const Lightbox = page.locator('.Lightbox');
+    await expect(Lightbox).toBeVisible();
+
+    const composer = await waitForEnabledComposer(page);
+    const commandOrCtrl = await page.evaluate(() =>
+      Reflect.get(globalThis, 'platform') === 'darwin' ? 'Meta' : 'Control'
+    );
+    await page.keyboard.press(`${commandOrCtrl}+Shift+T`);
+    await page.keyboard.type('This should not send from behind Lightbox');
+    await page.keyboard.press('Enter');
+
+    const isComposerFocused = await composer.evaluate(el => {
+      const { activeElement } = el.ownerDocument;
+      return el === activeElement || el.contains(activeElement);
+    });
+
+    assert.isFalse(isComposerFocused);
+    await expect(
+      getTimelineMessageWithText(
+        page,
+        'This should not send from behind Lightbox'
+      )
+    ).not.toBeVisible();
+    await expect(Lightbox).toBeVisible();
+  });
+
+  it('does not let lightbox focus trigger shortcuts behind it', async () => {
+    const page = await app.getWindow();
+
+    await page.getByTestId(pinned.device.aci).click();
+
+    const fixturesDir = path.join(__dirname, '..', '..', '..', 'fixtures');
+    const imageCat = path.join(fixturesDir, 'cat-screenshot.png');
+
+    await sendMessageWithAttachments(page, pinned, 'Message with image', [
+      imageCat,
+    ]);
+
+    const Message = getTimelineMessageWithText(page, 'Message with image');
+    const FirstImage = Message.locator('.module-image').nth(0);
+
+    await FirstImage.click();
+
+    const Lightbox = page.locator('.Lightbox');
+    await expect(Lightbox).toBeVisible();
+
+    await Lightbox.locator('.Lightbox__button--close').focus();
+
+    const commandOrCtrl = await page.evaluate(() =>
+      Reflect.get(globalThis, 'platform') === 'darwin' ? 'Meta' : 'Control'
+    );
+    await page.keyboard.press(`${commandOrCtrl}+Shift+J`);
+
+    await expect(
+      page.getByRole('dialog', { name: 'Add an Emoji, Sticker, or GIF' })
+    ).not.toBeVisible();
+    await expect(Lightbox).toBeVisible();
   });
 });

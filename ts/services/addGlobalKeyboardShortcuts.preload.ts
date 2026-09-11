@@ -11,6 +11,7 @@ import { getQuotedMessageSelector } from '../state/selectors/composer.preload.ts
 import { removeLinkPreview } from './LinkPreview.preload.ts';
 import { ForwardMessagesModalType } from '../components/ForwardMessagesModal.dom.tsx';
 import { getSelectedConversationId } from '../state/selectors/nav.std.ts';
+import { shouldShowLightbox } from '../state/selectors/lightbox.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 
 const log = createLogger('addGlobalKeyboardShortcuts');
@@ -32,6 +33,10 @@ export function addGlobalKeyboardShortcuts(): void {
     );
 
     const key = KeyboardLayout.lookup(event);
+
+    if (shouldShowLightbox(state)) {
+      return;
+    }
 
     // NAVIGATION
 
