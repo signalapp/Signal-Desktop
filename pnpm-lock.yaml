@@ -10731,8 +10731,8 @@ packages:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==, tarball: https://registry.npmjs.org/smart-buffer/-/smart-buffer-4.2.0.tgz}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
 
-  smol-toml@1.6.1:
-    resolution: {integrity: sha512-dWUG8F5sIIARXih1DTaQAX4SsiTXhInKf1buxdY9DIg4ZYPZK5nGM1VRIYmEbDbsHt7USo99xSLFu5Q1IqTmsg==, tarball: https://registry.npmjs.org/smol-toml/-/smol-toml-1.6.1.tgz}
+  smol-toml@1.8.0:
+    resolution: {integrity: sha512-kCZr2V3ch9i00x8zXRhjUNVcjG9ijES5dDudkXvUVCT5QlJNQWElSJdZqyPemffHoLNUYwOcou0Fy+ojN0uHSQ==, tarball: https://registry.npmjs.org/smol-toml/-/smol-toml-1.8.0.tgz}
     engines: {node: '>= 18'}
 
   socks-proxy-agent@8.0.5:
@@ -20622,7 +20622,7 @@ snapshots:
       oxc-parser: 0.130.0
       oxc-resolver: 11.19.1(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)
       picomatch: 4.0.7
-      smol-toml: 1.6.1
+      smol-toml: 1.8.0
       strip-json-comments: 5.0.3
       tinyglobby: 0.2.17
       unbash: 3.0.0
@@ -22662,7 +22662,7 @@ snapshots:
 
   smart-buffer@4.2.0: {}
 
-  smol-toml@1.6.1: {}
+  smol-toml@1.8.0: {}
 
   socks-proxy-agent@8.0.5(supports-color@8.1.1):
     dependencies:
