@@ -99,7 +99,7 @@ import {
   SmartNotificationProfilesCreateFlow,
   SmartNotificationProfilesHome,
 } from './PreferencesNotificationProfiles.preload.tsx';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.ts';
 import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { AppProvider } from '../../windows/AppProvider.dom.tsx';

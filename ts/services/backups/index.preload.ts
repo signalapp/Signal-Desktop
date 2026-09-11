@@ -83,7 +83,7 @@ import {
 import { FileStream } from './util/FileStream.node.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
 import { isAdhoc, isNightly } from '../../util/version.std.ts';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.ts';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.ts';
 import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.ts';
 import {
   writeLocalBackupMetadata,
