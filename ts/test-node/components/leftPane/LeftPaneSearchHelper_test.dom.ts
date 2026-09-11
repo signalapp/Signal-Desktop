@@ -10,6 +10,7 @@ import {
 } from '../../../components/ConversationList.dom.tsx';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.ts';
 
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper.dom.tsx';
 import { LeftPaneSearchHelper } from '../../../components/leftPane/LeftPaneSearchHelper.dom.tsx';
 
 const baseSearchHelperArgs = {
@@ -24,10 +25,17 @@ const baseSearchHelperArgs = {
   startSearchCounter: 0,
 };
 describe('LeftPaneSearchHelper', () => {
-  const fakeMessage = () => ({
+  const fakeMessage = (
+    overrideProps: Partial<{
+      id: string;
+      type: string;
+      conversationId: string;
+    }> = {}
+  ) => ({
     id: uuid(),
     type: 'outgoing',
     conversationId: uuid(),
+    ...overrideProps,
   });
 
   describe('getBackAction', () => {
@@ -633,6 +641,222 @@ describe('LeftPaneSearchHelper', () => {
 
       // Verify clear filter row is skipped (index 2 doesn't map to a conversation)
       assert.isUndefined(helper.getConversationAndMessageAtIndex(2));
+    });
+  });
+
+  describe('getConversationAndMessageInDirection', () => {
+    it('returns the next result across conversations, contacts, and messages', () => {
+      const conversations = [getDefaultConversation()] as const;
+      const contacts = [getDefaultConversation()] as const;
+      const messages = [fakeMessage()] as const;
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        conversationResults: {
+          isLoading: false,
+          results: [...conversations],
+        },
+        contactResults: { isLoading: false, results: [...contacts] },
+        messageResults: { isLoading: false, results: [...messages] },
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          conversations[0].id,
+          undefined
+        ),
+        { conversationId: contacts[0].id }
+      );
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          contacts[0].id,
+          undefined
+        ),
+        {
+          conversationId: messages[0].conversationId,
+          messageId: messages[0].id,
+        }
+      );
+    });
+
+    it('uses the targeted message when moving through message results', () => {
+      const conversationId = uuid();
+      const messages = [
+        fakeMessage({ conversationId }),
+        fakeMessage({ conversationId }),
+      ] as const;
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        messageResults: { isLoading: false, results: [...messages] },
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          conversationId,
+          messages[0].id
+        ),
+        {
+          conversationId,
+          messageId: messages[1].id,
+        }
+      );
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Up, unreadOnly: false },
+          conversationId,
+          messages[1].id
+        ),
+        {
+          conversationId,
+          messageId: messages[0].id,
+        }
+      );
+    });
+
+    it('does not treat message results as selected without a targeted message', () => {
+      const conversationId = uuid();
+      const messages = [
+        fakeMessage({ conversationId }),
+        fakeMessage({ conversationId }),
+      ] as const;
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        messageResults: { isLoading: false, results: [...messages] },
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          conversationId,
+          undefined
+        ),
+        {
+          conversationId,
+          messageId: messages[0].id,
+        }
+      );
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Up, unreadOnly: false },
+          conversationId,
+          undefined
+        ),
+        {
+          conversationId,
+          messageId: messages[1].id,
+        }
+      );
+    });
+
+    it('wraps when moving past the first or last result', () => {
+      const conversations = [getDefaultConversation()] as const;
+      const messages = [fakeMessage()] as const;
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        conversationResults: {
+          isLoading: false,
+          results: [...conversations],
+        },
+        messageResults: { isLoading: false, results: [...messages] },
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Up, unreadOnly: false },
+          conversations[0].id,
+          undefined
+        ),
+        {
+          conversationId: messages[0].conversationId,
+          messageId: messages[0].id,
+        }
+      );
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          messages[0].conversationId,
+          messages[0].id
+        ),
+        { conversationId: conversations[0].id }
+      );
+    });
+
+    it('returns the first or last result if no conversation is selected', () => {
+      const conversations = [getDefaultConversation()] as const;
+      const messages = [fakeMessage()] as const;
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        conversationResults: {
+          isLoading: false,
+          results: [...conversations],
+        },
+        messageResults: { isLoading: false, results: [...messages] },
+      });
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          undefined,
+          undefined
+        ),
+        { conversationId: conversations[0].id }
+      );
+
+      assert.deepEqual(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Up, unreadOnly: false },
+          undefined,
+          undefined
+        ),
+        {
+          conversationId: messages[0].conversationId,
+          messageId: messages[0].id,
+        }
+      );
+    });
+
+    it('returns undefined while results are loading', () => {
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        conversationResults: { isLoading: true },
+        contactResults: {
+          isLoading: false,
+          results: [getDefaultConversation()],
+        },
+        messageResults: { isLoading: false, results: [fakeMessage()] },
+      });
+
+      assert.isUndefined(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: false },
+          undefined,
+          undefined
+        )
+      );
+    });
+
+    it('returns undefined for unread-only navigation', () => {
+      const helper = new LeftPaneSearchHelper({
+        ...baseSearchHelperArgs,
+        conversationResults: {
+          isLoading: false,
+          results: [getDefaultConversation({ markedUnread: true })],
+        },
+      });
+
+      assert.isUndefined(
+        helper.getConversationAndMessageInDirection(
+          { direction: FindDirection.Down, unreadOnly: true },
+          undefined,
+          undefined
+        )
+      );
     });
   });
 });
