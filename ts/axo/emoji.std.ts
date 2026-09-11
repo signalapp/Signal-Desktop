@@ -278,6 +278,8 @@ export namespace Emoji {
     FLAGS = 'FLAGS',
   }
 
+  const EMOJI_VARIATION_SElECTOR = '\u{FE0F}';
+
   export function getDebugLabel(input: string): string {
     return Array.from(input.slice(0, 12), char => {
       const num = char.codePointAt(0) ?? 0;
@@ -352,6 +354,15 @@ export namespace Emoji {
 
   export function ignorePreferredSkinTone(emoji: Emoji): Variant {
     return emoji as Variant;
+  }
+
+  export function normalizeForComparator(emoji: string): string {
+    return (
+      emoji
+        .normalize('NFD')
+        // Strip variation selectors for comparison (https://github.com/signalapp/Signal-Desktop/issues/8009)
+        .replaceAll(EMOJI_VARIATION_SElECTOR, '')
+    );
   }
 
   export const BAR_CHART = PARENT_AND_ONLY_VARIANT('📊');
