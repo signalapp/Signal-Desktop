@@ -415,6 +415,8 @@ type PropsFunctionType = {
 
   // Localization
   i18n: LocalizerType;
+  
+  onCloseSettings: () => void;
 };
 
 export type PropsType = PropsDataType & PropsFunctionType;
@@ -671,6 +673,7 @@ export function Preferences({
   forceKeyTransparencyCheck,
   keyTransparencySelfHealth,
   weArePrimaryDevice,
+  onCloseSettings,
 }: PropsType): JSX.Element {
   const languageId = useId();
 
@@ -2626,6 +2629,7 @@ export function Preferences({
           requiresFullWidth
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
           renderToastManager={renderToastManager}
+          onBack={navTabsCollapsed ? onCloseSettings : undefined}
         >
           <div className="Preferences__page-selector">
             {maybeUpdateDialog ? (

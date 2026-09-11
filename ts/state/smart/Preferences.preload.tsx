@@ -1024,6 +1024,7 @@ export function SmartPreferences(): JSX.Element | null {
   return (
     <AppProvider>
       <Preferences
+        onCloseSettings={() => changeLocation({ tab: NavTab.Chats, details: { conversationId: undefined } })}
         backupKey={backupKey}
         backupKeyHash={backupKeyHash}
         addCustomColor={addCustomColor}
