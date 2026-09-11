@@ -20,6 +20,7 @@ const EPHEMERAL_NAME_MAP = new Map([
   ['systemTraySetting', 'system-tray-setting'],
   ['themeSetting', 'theme-setting'],
   ['localeOverride', 'localeOverride'],
+  ['hourCyclePreference', 'hourCyclePreference'],
   ['contentProtection', 'contentProtection'],
 ]);
 
@@ -47,6 +48,7 @@ export class SettingsChannel extends EventEmitter {
     this.#installEphemeralSetting('themeSetting');
     this.#installEphemeralSetting('systemTraySetting');
     this.#installEphemeralSetting('localeOverride');
+    this.#installEphemeralSetting('hourCyclePreference');
     this.#installEphemeralSetting('spellCheck');
     this.#installEphemeralSetting('contentProtection');
 

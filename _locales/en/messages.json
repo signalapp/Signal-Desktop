@@ -2473,6 +2473,30 @@
     "messageformat": "Theme",
     "description": "Header for theme settings"
   },
+  "icu:Preferences__HourCyclePreference__Label": {
+    "messageformat": "Time format",
+    "description": "Header for how times are displayed in the app"
+  },
+  "icu:Preferences__HourCyclePreference__FollowSystem": {
+    "messageformat": "Default (24-hour)",
+    "description": "Option for using the default time format (24-hour, or the system time format on macOS)"
+  },
+  "icu:Preferences__HourCyclePreference__AlwaysUse12Hour": {
+    "messageformat": "12-hour",
+    "description": "Option for always using a 12-hour time format"
+  },
+  "icu:Preferences__HourCyclePreference__Restart__Title": {
+    "messageformat": "Restart Signal to change time format?",
+    "description": "Title of the confirmation dialog shown when changing the time format"
+  },
+  "icu:Preferences__HourCyclePreference__Restart__Description": {
+    "messageformat": "The new time format will be applied after Signal restarts.",
+    "description": "Description of the confirmation dialog shown when changing the time format"
+  },
+  "icu:Preferences__HourCyclePreference__Restart__Button": {
+    "messageformat": "Restart",
+    "description": "Button that restarts the app to apply the new time format"
+  },
   "icu:calling": {
     "messageformat": "Calling",
     "description": "Header for calling options on the settings screen"
