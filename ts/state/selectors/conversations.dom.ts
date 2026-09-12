@@ -200,23 +200,25 @@ export const getSafeConversationWithSameTitle = createSelector(
 export type TargetedMessageType = {
   id: string;
   counter: number;
+  source: TargetedMessageSource | null;
 };
 export const getTargetedMessage = createSelector(
   getConversations,
-  (state: ConversationsStateType): TargetedMessageType | undefined => {
+  (state: ConversationsStateType): TargetedMessageType | null => {
     if (!state.targetedMessage) {
-      return undefined;
+      return null;
     }
 
     return {
       id: state.targetedMessage,
       counter: state.targetedMessageCounter,
+      source: state.targetedMessageSource,
     };
   }
 );
 export const getTargetedMessageSource = createSelector(
   getConversations,
-  (state: ConversationsStateType): TargetedMessageSource | undefined => {
+  (state: ConversationsStateType): TargetedMessageSource | null => {
     return state.targetedMessageSource;
   }
 );

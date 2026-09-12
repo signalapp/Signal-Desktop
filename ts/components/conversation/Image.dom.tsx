@@ -33,7 +33,6 @@ export type Props = {
   width?: number;
   cropWidth?: number;
   cropHeight?: number;
-  tabIndex?: number;
 
   overlayText?: string;
 
@@ -86,7 +85,6 @@ export function Image({
   onError,
   overlayText,
   playIconOverlay,
-  tabIndex,
   theme,
   url,
   width = 0,
@@ -194,7 +192,6 @@ export function Image({
         onClick={startDownloadClick}
         onKeyDown={startDownloadKeyDown}
         style={curveStyles}
-        tabIndex={tabIndex}
       >
         <span className="module-image__overlay-circle">
           <span className="module-image__download-icon" />
@@ -212,7 +209,6 @@ export function Image({
         className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
         aria-label={i18n('icu:mediaNotAvailable')}
         onClick={undownloadableClick}
-        tabIndex={tabIndex}
       >
         <div className="module-image__undownloadable-icon" />
       </button>
@@ -229,7 +225,6 @@ export function Image({
           i18n,
           cancelDownloadClick,
           cancelDownloadKeyDown,
-          tabIndex,
         });
 
   return (
@@ -301,7 +296,6 @@ export function Image({
           style={curveStyles}
           onClick={showVisualAttachmentClick}
           onKeyDown={showVisualAttachmentKeyDown}
-          tabIndex={tabIndex}
         />
       ) : null}
       {closeButton ? (
@@ -329,13 +323,11 @@ export function getSpinner({
   cancelDownloadClick,
   cancelDownloadKeyDown,
   i18n,
-  tabIndex,
 }: {
   attachment: AttachmentForUIType;
   cancelDownloadClick: (event: MouseEvent) => void;
   cancelDownloadKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => void;
   i18n: LocalizerType;
-  tabIndex: number | undefined;
 }): JSX.Element | undefined {
   if (!attachment.pending) {
     return undefined;
@@ -354,7 +346,6 @@ export function getSpinner({
       aria-label={i18n('icu:cancelDownload')}
       onClick={cancelDownloadClick}
       onKeyDown={cancelDownloadKeyDown}
-      tabIndex={tabIndex}
     >
       <div className="module-image__stop-icon" />
       <div className="module-image__progress-circle-wrapper">

@@ -238,10 +238,6 @@ function FilterMenu(props: FilterMenuProps): ReactNode {
           variant="implied-secondary"
           label={i18n('icu:GroupMembersSearchDialog__FilterMenu__Label')}
           pressed={props.filter !== GroupMembersSearchDialogFilter.All}
-          tooltip={{
-            label: i18n('icu:GroupMembersSearchDialog__FilterMenu__Label'),
-            onlyShowOnFocusForUserInputDeviceEvents: true,
-          }}
         />
       </AxoDropdownMenu.Trigger>
       <AxoDropdownMenu.Content>

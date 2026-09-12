@@ -46,6 +46,7 @@ import { MessageInteractivity } from './Message.dom.tsx';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
+import { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
 
 const { first, get, isNumber, last, throttle } = lodash;
 
@@ -126,7 +127,11 @@ export type PropsActionsType = {
   ) => unknown;
   markMessageRead: (conversationId: string, messageId: string) => unknown;
   maybePeekGroupCall: (conversationId: string) => unknown;
-  targetMessage: (messageId: string, conversationId: string) => unknown;
+  targetMessage: (
+    messageId: string,
+    conversationId: string,
+    targetedMessageSource: TargetedMessageSource
+  ) => unknown;
   setCenterMessage: (
     conversationId: string,
     messageId: string | undefined
@@ -258,7 +263,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
       const lastIndex = items.length - 1;
       const lastItem = items[lastIndex];
       strictAssert(lastItem, 'Missing lastItem');
-      targetMessage(lastItem.id, id);
+      targetMessage(lastItem.id, id, TargetedMessageSource.Focus);
     } else {
       const containerEl = this.#containerRef.current;
       if (containerEl) {
@@ -319,7 +324,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
           if (setFocus) {
             const item = items[oldestUnseenIndex];
             strictAssert(item, 'Missing item at oldestUnseenIndex');
-            targetMessage(item.id, id);
+            targetMessage(item.id, id, TargetedMessageSource.Focus);
           } else {
             lastSeenElement.scrollIntoView();
           }
@@ -941,7 +946,11 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
             targetInnerMessage,
             'No message at targetIndex in items.messages'
           );
-          targetMessage(targetInnerMessage.id, id);
+          targetMessage(
+            targetInnerMessage.id,
+            id,
+            TargetedMessageSource.NavigateToMessage
+          );
 
           event.preventDefault();
           event.stopPropagation();
@@ -958,7 +967,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
       const targetItem = items[targetIndex];
       strictAssert(targetItem, 'Missing item at targetIndex');
       if (targetItem.type === 'none') {
-        targetMessage(targetItem.id, id);
+        targetMessage(targetItem.id, id, TargetedMessageSource.Focus);
 
         event.preventDefault();
         event.stopPropagation();
@@ -971,7 +980,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
           : first(targetItem.messages);
 
       strictAssert(targetInnerMessage, 'Expect to get first/last of target');
-      targetMessage(targetInnerMessage.id, id);
+      targetMessage(targetInnerMessage.id, id, TargetedMessageSource.Focus);
 
       event.preventDefault();
       event.stopPropagation();
@@ -1047,7 +1056,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
 
         if (direction === -1) {
           if (currentTop <= targetTop || index === 0) {
-            targetMessage(currentMessageId, id);
+            targetMessage(currentMessageId, id, TargetedMessageSource.Focus);
 
             event.preventDefault();
             event.stopPropagation();
@@ -1057,7 +1066,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
           const currentBottom = currentTop + currentRect.height;
 
           if (currentBottom > targetBottom || index === max - 1) {
-            targetMessage(currentMessageId, id);
+            targetMessage(currentMessageId, id, TargetedMessageSource.Focus);
 
             event.preventDefault();
             event.stopPropagation();
@@ -1071,7 +1080,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
     if (event.key === 'Home' || (commandOrCtrl && event.key === 'ArrowUp')) {
       const firstMessageId = first(items);
       if (firstMessageId) {
-        targetMessage(firstMessageId.id, id);
+        targetMessage(firstMessageId.id, id, TargetedMessageSource.Focus);
         event.preventDefault();
         event.stopPropagation();
       }

@@ -232,6 +232,9 @@ export function GroupMemberLabelEditor({
                   isSelectMode={false}
                   isSignalConversation={false}
                   isSMS={false}
+                  isTargeted={false}
+                  isTargetedCounter={null}
+                  isTargetedSource={null}
                   isVoiceMessagePlayed={false}
                   direction="incoming"
                   // oxlint-disable-next-line react/purity

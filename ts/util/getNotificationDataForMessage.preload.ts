@@ -441,7 +441,7 @@ export function getNotificationDataForMessage(
       callHistorySelector: getCallHistorySelector(state),
       conversationSelector: getConversationSelector(state),
       selectedMessageIds: getSelectedMessageIds(state),
-      targetedMessageId: getTargetedMessage(state)?.id,
+      targetedMessageId: getTargetedMessage(state)?.id ?? null,
     });
     if (callingNotification) {
       const text = getCallingNotificationText(callingNotification, i18n);

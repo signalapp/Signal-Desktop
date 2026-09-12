@@ -52,7 +52,7 @@ const getDefaultProps = () => ({
   isGroup: false,
   interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard' as const,
-  targetedMessage: undefined,
+  targetedMessage: null,
   theme: ThemeType.light,
   platform: 'darwin',
   handleDebugMessage: action('handleDebugMessage'),

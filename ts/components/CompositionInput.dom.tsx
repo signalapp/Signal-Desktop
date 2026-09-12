@@ -95,7 +95,7 @@ import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { RecoveryKeyPasteWarning } from './RecoveryKeyPasteWarning.dom.tsx';
-import { mergeProps, useFocusRing } from 'react-aria';
+import { mergeProps, useFocusVisible, useFocusWithin } from 'react-aria';
 
 const log = createLogger('CompositionInput');
 
@@ -114,6 +114,21 @@ Quill.register(
   },
   true
 );
+
+function usePreservedFocusVisibleWithin() {
+  const { isFocusVisible } = useFocusVisible({
+    isTextInput: true,
+  });
+
+  const [isFocusWithin, setFocusWithin] = useState(false);
+  const { focusWithinProps: focusVisibleWithinProps } = useFocusWithin({
+    onFocusWithinChange: setFocusWithin,
+  });
+
+  const isFocusVisibleWithin = isFocusWithin && isFocusVisible;
+
+  return { isFocusVisibleWithin, focusVisibleWithinProps };
+}
 
 export type InputApi = {
   focus: () => void;
@@ -237,10 +252,8 @@ export function CompositionInput(props: Props): ReactElement {
 
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
 
-  const { isFocusVisible, focusProps } = useFocusRing({
-    isTextInput: true,
-    within: true,
-  });
+  const { isFocusVisibleWithin, focusVisibleWithinProps } =
+    usePreservedFocusVisibleWithin();
 
   const generateDelta = (
     text: string,
@@ -1047,8 +1060,8 @@ export function CompositionInput(props: Props): ReactElement {
             ref={ref}
             data-testid="CompositionInput"
             data-enabled={isInputEnabled ? 'true' : 'false'}
-            data-focus-visible={isFocusVisible}
-            {...mergeProps(focusProps, { onMouseDown })}
+            data-focus-visible={isFocusVisibleWithin}
+            {...mergeProps(focusVisibleWithinProps, { onMouseDown })}
           >
             {onRecoveryKeyPasteConfirm ? (
               <RecoveryKeyPasteWarning

@@ -185,6 +185,7 @@ import type { PinnedMessageNotificationData } from '../../components/conversatio
 import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { isDownloadableOrBackfillable } from '../../util/downloadAttachment.preload.ts';
+import type { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -214,8 +215,9 @@ export type GetPropsForBubbleOptions = Readonly<{
   ourNumber?: string;
   ourAci: AciString | undefined;
   ourPni: PniString | undefined;
-  targetedMessageId?: string;
-  targetedMessageCounter?: number;
+  targetedMessageId: string | null;
+  targetedMessageCounter: number | null;
+  targetedMessageSource: TargetedMessageSource | null;
   pinnedMessagesMessageIds: ReadonlyArray<string> | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   regionCode?: string;
@@ -818,6 +820,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'ourNumber'
   | 'targetedMessageId'
   | 'targetedMessageCounter'
+  | 'targetedMessageSource'
   | 'pinnedMessagesMessageIds'
   | 'selectedMessageIds'
   | 'regionCode'
@@ -925,6 +928,7 @@ const getPropsForMessage = (
     regionCode,
     targetedMessageId,
     targetedMessageCounter,
+    targetedMessageSource,
     pinnedMessagesMessageIds,
     selectedMessageIds,
     contactNameColors,
@@ -1056,7 +1060,8 @@ const getPropsForMessage = (
     isSignalConversation: isSignalConversation(author),
     isSticker: Boolean(sticker),
     isTargeted,
-    isTargetedCounter: isTargeted ? targetedMessageCounter : undefined,
+    isTargetedCounter: isTargeted ? targetedMessageCounter : null,
+    isTargetedSource: isTargeted ? targetedMessageSource : null,
     isTapToView: isMessageTapToView,
     isTapToViewError:
       isMessageTapToView && isIncoming(message) && message.isTapToViewInvalid,
@@ -1121,8 +1126,9 @@ export const getMessagePropsSelector = createSelector(
         ourAci,
         ourPni,
         regionCode,
-        targetedMessageCounter: targetedMessage?.counter,
-        targetedMessageId: targetedMessage?.id,
+        targetedMessageCounter: targetedMessage?.counter ?? null,
+        targetedMessageId: targetedMessage?.id ?? null,
+        targetedMessageSource: targetedMessage?.source ?? null,
         pinnedMessagesMessageIds,
         selectedMessageIds,
         defaultConversationColor,
@@ -2992,6 +2998,9 @@ export const getMessageDetailsSelector = createSelector(
           regionCode,
           pinnedMessagesMessageIds,
           selectedMessageIds,
+          targetedMessageId: null,
+          targetedMessageCounter: null,
+          targetedMessageSource: null,
           defaultConversationColor,
           hasMediaBackups,
           getStoryReplyAttachment,

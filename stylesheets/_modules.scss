@@ -353,13 +353,13 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container--targeted {
-  &.module-message__container--pointer-mode {
+  .module-message--flashing & {
     animation: module-message__highlight 1.2s cubic-bezier(0.17, 0.17, 0, 1);
   }
 }
 
 .module-message__container--targeted-lighter {
-  &.module-message__container--pointer-mode {
+  .module-message--flashing & {
     animation: module-message__highlight-lighter 1.2s
       cubic-bezier(0.17, 0.17, 0, 1);
   }
@@ -437,14 +437,12 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message {
-  @include mixins.focus-visible-within {
-    @include mixins.light-theme {
-      background: variables.$color-selected-message-background-light;
-    }
-    @include mixins.dark-theme {
-      background: variables.$color-selected-message-background-dark;
-    }
+.module-message:focus-visible {
+  @include mixins.light-theme {
+    background: variables.$color-selected-message-background-light;
+  }
+  @include mixins.dark-theme {
+    background: variables.$color-selected-message-background-dark;
   }
 }
 
@@ -1368,15 +1366,7 @@ $message-padding-horizontal: 12px;
   }
 
   .module-Avatar__contents {
-    outline: 3px solid;
-
-    @include mixins.light-theme() {
-      outline-color: variables.$color-white;
-    }
-
-    @include mixins.dark-theme() {
-      outline-color: variables.$color-gray-95;
-    }
+    outline: 3px solid var(--axo-color-surface-primary);
   }
 }
 
@@ -2377,7 +2367,7 @@ button.ConversationDetails__action-button {
 }
 
 button.module-image__border-overlay:focus-visible {
-  box-shadow: inset 0px 0px 0px 2px variables.$color-ultramarine;
+  @include mixins.axo-focus-ring-inset;
 }
 
 .module-image__border-overlay--dark {

@@ -634,9 +634,9 @@ export type ConversationsStateType = ReadonlyDeep<{
   conversationsByGroupId: ConversationLookupType;
   conversationsByUsername: ConversationLookupType;
 
-  targetedMessage: string | undefined;
+  targetedMessage: string | null;
   targetedMessageCounter: number;
-  targetedMessageSource: TargetedMessageSource | undefined;
+  targetedMessageSource: TargetedMessageSource | null;
 
   lastSelectedMessage: MessageTimestamps | undefined;
   selectedMessageIds: ReadonlyArray<string> | undefined;
@@ -831,6 +831,7 @@ export type MessageTargetedActionType = ReadonlyDeep<{
   type: 'MESSAGE_TARGETED';
   payload: {
     messageId: string;
+    targetedMessageSource: TargetedMessageSource;
   };
 }>;
 export type ToggleSelectMessagesActionType = ReadonlyDeep<{
@@ -3149,7 +3150,8 @@ function removeAllConversations(): RemoveAllConversationsActionType {
 
 function targetMessage(
   messageId: string,
-  conversationId: string
+  conversationId: string,
+  targetedMessageSource: TargetedMessageSource
 ): ThunkAction<void, RootStateType, unknown, MessageTargetedActionType> {
   return async (dispatch, getState) => {
     const selectedConversationId = getSelectedConversationId(getState());
@@ -3165,6 +3167,7 @@ function targetMessage(
       type: 'MESSAGE_TARGETED',
       payload: {
         messageId,
+        targetedMessageSource,
       },
     });
   };
@@ -4895,7 +4898,7 @@ function showConversation({
 function onConversationOpened(
   conversationId: string,
   messageId: string | undefined,
-  targetedMessageSource: TargetedMessageSource | undefined
+  targetedMessageSource: TargetedMessageSource | null
 ): ThunkAction<
   void,
   RootStateType,
@@ -5267,9 +5270,9 @@ export function getEmptyState(): ConversationsStateType {
     lastCenterMessageByConversation: {},
     messagesByConversation: {},
     messagesLookup: {},
-    targetedMessage: undefined,
+    targetedMessage: null,
     targetedMessageCounter: 0,
-    targetedMessageSource: undefined,
+    targetedMessageSource: null,
     lastSelectedMessage: undefined,
     selectedMessageIds: undefined,
     showArchived: false,
@@ -6067,7 +6070,7 @@ export function reducer(
       ...state,
       targetedMessage: messageId,
       targetedMessageCounter: state.targetedMessageCounter + 1,
-      targetedMessageSource: TargetedMessageSource.Focus,
+      targetedMessageSource: action.payload.targetedMessageSource,
     };
   }
 
@@ -6830,9 +6833,9 @@ export function reducer(
   if (action.type === 'CLEAR_TARGETED_MESSAGE') {
     return {
       ...state,
-      targetedMessage: undefined,
+      targetedMessage: null,
       targetedMessageCounter: 0,
-      targetedMessageSource: undefined,
+      targetedMessageSource: null,
     };
   }
   if (action.type === 'CLEAR_UNREAD_METRICS') {
@@ -6871,7 +6874,7 @@ export function reducer(
           ? state.preloadData
           : undefined,
       hasContactSpoofingReview: false,
-      targetedMessage: messageId,
+      targetedMessage: messageId ?? null,
       targetedMessageSource: messageId
         ? TargetedMessageSource.NavigateToMessage
         : TargetedMessageSource.Reset,

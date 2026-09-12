@@ -55,7 +55,7 @@ export type PropsData = {
   canReply: boolean;
   canPinMessage: boolean;
   selectedReaction?: Emoji.Variant;
-  isTargeted?: boolean;
+  isTargeted: boolean;
   isSignalConversation: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 

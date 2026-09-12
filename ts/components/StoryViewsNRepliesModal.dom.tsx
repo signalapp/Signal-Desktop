@@ -700,6 +700,9 @@ function ReplyOrReactionMessage({
         showContactModal={showContactModal}
         showSpoiler={showSpoiler}
         text={reply.body}
+        isTargeted={false}
+        isTargetedCounter={null}
+        isTargetedSource={null}
         textDirection={TextDirection.Default}
         timestamp={reply.timestamp}
       />
