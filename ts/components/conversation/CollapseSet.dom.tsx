@@ -35,7 +35,7 @@ export type Props = CollapseSet & {
   isSelectMode: boolean;
   isSelected: boolean;
   renderItem: (props: RenderItemProps) => JSX.Element;
-  targetedMessage: TargetedMessageType | undefined;
+  targetedMessage: TargetedMessageType | null;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
   toggleSelectMessage: (
     conversationId: string,

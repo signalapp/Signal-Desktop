@@ -53,7 +53,6 @@ export default {
     cancelDownload: action('cancelDownload'),
     onError: action('onError'),
     stickerSize: 0,
-    tabIndex: 0,
     withContentAbove: false,
     withContentBelow: false,
   },

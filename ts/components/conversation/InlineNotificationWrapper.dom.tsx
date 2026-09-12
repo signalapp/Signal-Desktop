@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
 import type { ReactNode, JSX, MouseEvent, KeyboardEvent } from 'react';
+import { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
 
 export type Props = {
   id: string;
@@ -12,7 +13,11 @@ export type Props = {
   isTargeted: boolean;
   isSelectMode: boolean;
   isSelected: boolean;
-  targetMessage: (messageId: string, conversationId: string) => unknown;
+  targetMessage: (
+    messageId: string,
+    conversationId: string,
+    targetedMessageSource: TargetedMessageSource
+  ) => unknown;
   toggleSelectMessage: (
     conversationId: string,
     messageId: string,
@@ -44,7 +49,7 @@ export function InlineNotificationWrapper({
   }, [isTargeted]);
 
   const handleFocus = useCallback(() => {
-    targetMessage(id, conversationId);
+    targetMessage(id, conversationId, TargetedMessageSource.Focus);
   }, [id, conversationId, targetMessage]);
 
   if (isSelectMode) {

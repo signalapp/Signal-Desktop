@@ -421,7 +421,7 @@ export function addGlobalKeyboardShortcuts(): void {
 
       window.reduxActions.composer.setQuoteByMessageId(
         conversation.id,
-        quote ? undefined : targetedMessage
+        quote ? undefined : (targetedMessage ?? undefined)
       );
 
       return;

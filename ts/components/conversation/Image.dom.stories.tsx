@@ -47,7 +47,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onError: action('onError'),
   overlayText: overrideProps.overlayText || '',
   playIconOverlay: overrideProps.playIconOverlay || false,
-  tabIndex: overrideProps.tabIndex || 0,
   theme: overrideProps.theme || ('light' as ThemeType),
   url: 'url' in overrideProps ? overrideProps.url || '' : pngUrl,
   width: overrideProps.width || 300,

@@ -42,7 +42,7 @@ const defaultProps: Props = {
   isSelectMode: false,
   isSelected: false,
   renderItem,
-  targetedMessage: undefined,
+  targetedMessage: null,
   toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
   toggleSelectMessage: action('toggleSelectMessage'),
 };
@@ -83,6 +83,7 @@ export function AutoexpandIfTargeted(): JSX.Element {
     targetedMessage: {
       id: 'id1',
       counter: 1,
+      source: null,
     },
   };
   return <CollapseSetViewer {...props} />;

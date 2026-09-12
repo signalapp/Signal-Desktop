@@ -39,7 +39,6 @@ export type Props = {
   shouldCollapseAbove?: boolean;
   shouldCollapseBelow?: boolean;
   stickerSize?: number;
-  tabIndex?: number;
   withContentAbove?: boolean;
   withContentBelow?: boolean;
 
@@ -125,7 +124,6 @@ export function ImageGrid({
   startDownload,
   shouldCollapseAbove,
   shouldCollapseBelow,
-  tabIndex,
   theme,
   withContentAbove,
   withContentBelow,
@@ -229,7 +227,6 @@ export function ImageGrid({
           height={height}
           width={width}
           url={getUrl(attachment) ?? attachment.thumbnailFromBackup?.url}
-          tabIndex={tabIndex}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}

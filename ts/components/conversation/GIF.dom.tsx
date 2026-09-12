@@ -38,7 +38,6 @@ const MAX_GIF_TIME = 8;
 export type Props = {
   readonly attachment: AttachmentForUIType;
   readonly size?: number;
-  readonly tabIndex: number;
   // test-only, to force reduced motion experience
   readonly _forceTapToPlay?: boolean;
 
@@ -58,7 +57,6 @@ export function GIF(props: Props): JSX.Element {
   const {
     attachment,
     size,
-    tabIndex,
     _forceTapToPlay,
 
     i18n,
@@ -264,7 +262,6 @@ export function GIF(props: Props): JSX.Element {
     i18n,
     cancelDownloadClick,
     cancelDownloadKeyDown,
-    tabIndex,
   });
 
   let overlay: JSX.Element | undefined;
@@ -285,7 +282,6 @@ export function GIF(props: Props): JSX.Element {
         aria-label={i18n('icu:GIF--download')}
         onClick={onOverlayClick}
         onKeyDown={onOverlayKeyDown}
-        tabIndex={tabIndex}
       >
         <span />
       </button>
@@ -297,7 +293,6 @@ export function GIF(props: Props): JSX.Element {
         className="module-image__overlay-circle module-image__overlay-circle--undownloadable"
         aria-label={i18n('icu:mediaNotAvailable')}
         onClick={undownloadableClick}
-        tabIndex={tabIndex}
       >
         <div className="module-image__undownloadable-icon" />
       </button>

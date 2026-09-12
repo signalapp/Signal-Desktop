@@ -74,6 +74,7 @@ import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { CollapseSetViewer } from './CollapseSet.dom.tsx';
 import type { TargetedMessageType } from '../../state/selectors/conversations.dom.ts';
+import type { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -224,7 +225,11 @@ type PropsLocalType = {
     pollTimestamp: number,
     conversationId: string
   ) => unknown;
-  targetMessage: (messageId: string, conversationId: string) => unknown;
+  targetMessage: (
+    messageId: string,
+    conversationId: string,
+    targetedMessageSource: TargetedMessageSource
+  ) => void;
   toggleSelectMessage: (
     conversationId: string,
     messageId: string,
@@ -239,7 +244,7 @@ type PropsLocalType = {
   renderUniversalTimerNotification: () => JSX.Element;
   renderItem: (props: RenderItemProps) => JSX.Element;
   i18n: LocalizerType;
-  targetedMessage: TargetedMessageType | undefined;
+  targetedMessage: TargetedMessageType | null;
   theme: ThemeType;
 };
 

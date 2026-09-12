@@ -64,6 +64,9 @@ function mockMessageTimelineItem(
       isSignalConversation: false,
       isSMS: false,
       isSpoilerExpanded: {},
+      isTargeted: false,
+      isTargetedCounter: null,
+      isTargetedSource: null,
       isVoiceMessagePlayed: false,
       previews: [],
       readStatus: ReadStatus.Read,
@@ -385,7 +388,7 @@ const renderItem = ({
     shouldCollapseBelow={false}
     shouldHideMetadata={false}
     shouldRenderDateHeader={false}
-    targetedMessage={undefined}
+    targetedMessage={null}
     {...actions()}
   />
 );

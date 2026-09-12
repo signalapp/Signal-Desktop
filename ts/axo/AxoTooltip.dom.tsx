@@ -257,8 +257,6 @@ export namespace AxoTooltip {
     keyboardShortcut?: string | null;
     /** Forces the tooltip to stay open when the trigger is clicked. */
     keepOpenOnActivation?: boolean;
-    /** Forces the tooltip to stay closed when calling `.focus()` (ex: restoring focus on menu close) */
-    onlyShowOnFocusForUserInputDeviceEvents?: boolean;
   }>;
 
   export type RootProps = RootConfigProps &
@@ -303,7 +301,6 @@ export namespace AxoTooltip {
       keyboardShortcut,
       experimentalTimestamp,
       keepOpenOnActivation,
-      onlyShowOnFocusForUserInputDeviceEvents,
     } = props;
     const direction = useDirection();
     const collisionBoundary = useContext(CollisionBoundaryContext);
@@ -371,19 +368,14 @@ export namespace AxoTooltip {
       [keepOpenOnActivation]
     );
 
-    const handleFocus = useCallback(
-      (event: FocusEvent) => {
-        if (onlyShowOnFocusForUserInputDeviceEvents) {
-          // Only show the tooltip if the focus event was fired by an input device, not `.focus()`
-          // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/sourceCapabilities
-          // @ts-expect-error not available in type defs
-          if (event.nativeEvent.sourceCapabilities == null) {
-            event.preventDefault();
-          }
-        }
-      },
-      [onlyShowOnFocusForUserInputDeviceEvents]
-    );
+    const handleFocus = useCallback((event: FocusEvent) => {
+      // Only show the tooltip if the focus event was fired by an input device, not `.focus()`
+      // https://developer.mozilla.org/en-US/docs/Web/API/UIEvent/sourceCapabilities
+      // @ts-expect-error not available in type defs
+      if (event.nativeEvent.sourceCapabilities == null) {
+        event.preventDefault();
+      }
+    }, []);
 
     useEffect(() => {
       if (props.disabled) {
