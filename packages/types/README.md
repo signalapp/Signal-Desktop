@@ -72,6 +72,8 @@ type JsonValue = JsonPrimitive | JsonArray | JsonObject;
 type Utf8.Of<T extends string> = Tagged<T, 'Utf8.Of'>;
 
 // Formats
+type CountryCode = Tagged<string, 'CountryCode'>;
+type CurrencyCode = Tagged<string, 'CurrencyCode'>;
 type HexColor = Tagged<`#${string}`, 'HexColor'>;
 type HttpUrl = Tagged<string, 'HttpUrl'>;
 type LanguageTag = Tagged<string, 'LanguageTag'>;
@@ -80,6 +82,8 @@ type Semver = Tagged<string, 'Semver'>;
 type Uuid = Tagged<string, 'Uuid'>;
 
 // Service
+type AccountEntropyPool = Tagged<string, 'AccountEntropyPool'>;
+
 type E164 = E164.Decoded;
 type E164.Opaque = Tagged<`+${string}`, 'E164'>;
 type E164.Encoded = Utf8.Of<E164.Opaque>;
@@ -114,18 +118,56 @@ type Address.Encoded = Bytes.Of<Address.Opaque>;
 type AddressInfo = Tagged<AddressInfo.Params, 'AddressInfo'>;
 type AddressInfo.Params = Readonly<{ serviceId: ServiceId; deviceId: DeviceId; }>;
 
-type DistributionId = Utf8.Of<DistributionId.Opaque>;
-type DistributionId.Opaque = Tagged<Uuid, 'DistributionId'>;
+type Username = Tagged<Utf8.Of<`${UsernameNickname}.${UsernameDiscriminator}`>, 'Username'>;
+type Username.Params = Readonly<{ nickname: UsernameNickname; discriminator: UsernameDiscriminator }>;
+type UsernameNickname = Tagged<Utf8.Of<string>, 'UsernameNickname'>;
+type UsernameDiscriminator = Tagged<`${number}`, 'UsernameDiscriminator'>;
+type UsernameHash = Tagged<Bytes, 'UsernameHash'>;
+type UsernameProof = Tagged<Bytes, 'UsernameProof'>;
+
+type RegistrationId = Tagged<Uint16, 'RegistrationId'>;
 
 type DistributionId = DistributionId.Decoded;
 type DistributionId.Opaque = Tagged<Uuid, 'DistributionId'>;
 type DistributionId.Decoded = Utf8.Of<DistributionId.Opaque>;
 type DistributionId.Encoded = Bytes.Of<DistributionId.Opaque>;
 
+type ProfileKey = ProfileKey.Decoded;
+type ProfileKey.Opaque = Tagged<unknown, 'ProfileKey'>;
+type ProfileKey.Decoded = Base64.Of<ProfileKey.Opaque>;
+type ProfileKey.Encoded = Bytes.Of<ProfileKey.Opaque>;
+
+type ProfileKeyVersion = ProfileKeyVersion.Decoded;
+type ProfileKeyVersion.Opaque = Tagged<string, 'ProfileKeyVersion'>;
+type ProfileKeyVersion.Decoded = Utf8.Of<ProfileKeyVersion.Opaque>;
+type ProfileKeyVersion.Encoded = Bytes.Of<ProfileKeyVersion.Opaque>;
+
 type GroupId = GroupId.Decoded;
 type GroupId.Opaque = Tagged<unknown, 'GroupId'>;
 type GroupId.Decoded = Base64.Of<GroupId.Opaque>;
 type GroupId.Encoded = Bytes.Of<GroupId.Opaque>;
+
+type GroupVersion = Tagged<Uint32, 'GroupVersion'>;
+
+type GroupMasterKey = GroupMasterKey.Decoded;
+type GroupMasterKey.Opaque = Tagged<unknown, 'GroupMasterKey'>;
+type GroupMasterKey.Decoded = Base64.Of<GroupMasterKey.Opaque>;
+type GroupMasterKey.Encoded = Bytes.Of<GroupMasterKey.Opaque>;
+
+type GroupSecretParams = GroupSecretParams.Decoded;
+type GroupSecretParams.Opaque = Tagged<unknown, 'GroupSecretParams'>;
+type GroupSecretParams.Decoded = Base64.Of<GroupSecretParams.Opaque>;
+type GroupSecretParams.Encoded = Bytes.Of<GroupSecretParams.Opaque>;
+
+type GroupPublicParams = GroupPublicParams.Decoded;
+type GroupPublicParams.Opaque = Tagged<unknown, 'GroupPublicParams'>;
+type GroupPublicParams.Decoded = Base64.Of<GroupPublicParams.Opaque>;
+type GroupPublicParams.Encoded = Bytes.Of<GroupPublicParams.Opaque>;
+
+type GroupInviteLinkPassword = GroupInviteLinkPassword.Decoded;
+type GroupInviteLinkPassword.Opaque = Tagged<unknown, 'GroupInviteLinkPassword'>;
+type GroupInviteLinkPassword.Decoded = Base64.Of<GroupInviteLinkPassword.Opaque>;
+type GroupInviteLinkPassword.Encoded = Bytes.Of<GroupInviteLinkPassword.Opaque>;
 
 type DistributionListId = DistributionListId.Decoded;
 type DistributionListId.Opaque = Tagged<Uuid, 'DistributionListId'>;
@@ -142,6 +184,23 @@ type StorageItemKey = StorageItemKey.Decoded;
 type StorageItemKey.Opaque = Tagged<unknown, 'StorageItemKey'>;
 type StorageItemKey.Decoded = Base64.Of<Opaque>;
 type StorageItemKey.Encoded = Bytes.Of<Opaque>;
+
+type UnidentifiedAccessKey = UnidentifiedAccessKey.Decoded;
+type UnidentifiedAccessKey.Opaque = Tagged<unknown, 'UnidentifiedAccessKey'>;
+type UnidentifiedAccessKey.Decoded = Base64.Of<UnidentifiedAccessKey.Opaque>;
+type UnidentifiedAccessKey.Encoded = Bytes.Of<UnidentifiedAccessKey.Opaque>;
+
+type ServerGuid = ServerGuid.Decoded;
+type ServerGuid.Opaque = Tagged<Uuid, 'ServerGuid'>;
+type ServerGuid.Decoded = Utf8.Of<ServerGuid.Opaque>;
+type ServerGuid.Encoded = Bytes.Of<ServerGuid.Opaque>;
+
+type ReportSpamToken = ReportSpamToken.Decoded;
+type ReportSpamToken.Opaque = Tagged<unknown, 'ReportSpamToken'>;
+type ReportSpamToken.Decoded = Base64.Of<ReportSpamToken.Opaque>;
+type ReportSpamToken.Encoded = Bytes.Of<ReportSpamToken.Opaque>;
+
+type MuteExpiration = Tagged<Float64, 'MuteExpiration'>;
 ```
 
 ### Schemas
@@ -236,5 +295,4 @@ export namespace StorageItemKey {
   - [ ] `Protocol`
   - [ ] `Port`
 - Service:
-  - [ ] `Username`
   - [ ] `UserText` / `TrustedText`
