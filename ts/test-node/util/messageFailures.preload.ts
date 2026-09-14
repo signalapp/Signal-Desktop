@@ -136,6 +136,8 @@ export function notifyStorySendFailed(message: MessageModel): void {
     isExpiringMessage: false,
     sentAt: timestamp,
     type: NotificationType.Message,
+    iconUrl: null,
+    iconAbsolutePath: null,
   });
 }
 

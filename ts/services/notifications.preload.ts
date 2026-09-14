@@ -24,13 +24,14 @@ const { debounce } = lodash;
 
 const log = createLogger('notifications');
 
-type NotificationDataType = Readonly<{
+type QueuedNotificationData = Readonly<{
+  type: NotificationType.Message | NotificationType.Reaction;
   conversationId: string;
   isExpiringMessage: boolean;
   messageId: string;
   message: string;
-  notificationIconUrl?: undefined | string;
-  notificationIconAbsolutePath?: undefined | string;
+  iconUrl: string | null;
+  iconAbsolutePath: string | null;
   reaction?: {
     emoji: Emoji.Variant;
     targetAuthorAci: string;
@@ -44,10 +45,53 @@ type NotificationDataType = Readonly<{
   senderTitle: string;
   sentAt: number;
   storyId?: string;
-  type: NotificationType;
-  useTriToneSound?: boolean;
-  wasShown?: boolean;
 }>;
+
+export type ProcessedNotificationData = Readonly<
+  {
+    conversationId: string;
+    title: string;
+    body: string;
+    iconUrl: string | null;
+    iconAbsolutePath: string | null;
+    silent: boolean;
+  } & (
+    | {
+        type: NotificationType.Message | NotificationType.Reaction;
+        messageId: string;
+        sentAt: number;
+        storyId: string | null;
+        reaction?: {
+          emoji: Emoji.Variant;
+          targetAuthorAci: string;
+          targetTimestamp: number;
+        };
+        pollVote?: {
+          voterConversationId: string;
+          targetAuthorAci: string;
+          targetTimestamp: number;
+        };
+      }
+    | {
+        type: Exclude<
+          NotificationType,
+          NotificationType.Message | NotificationType.Reaction
+        >;
+      }
+  )
+>;
+
+type RemoveByOptions = Readonly<
+  {
+    emoji?: Emoji.Variant;
+    targetAuthorAci?: string;
+    targetTimestamp?: number;
+    onlyRemoveAssociatedPollVotes?: boolean;
+  } & (
+    | { conversationId: string; messageId?: string }
+    | { messageId: string; conversationId?: string }
+  )
+>;
 
 export type NotificationClickData = Readonly<{
   conversationId: string;
@@ -78,20 +122,44 @@ const parseNotificationSetting = makeEnumParser(
 
 export const FALLBACK_NOTIFICATION_TITLE = 'Signal';
 
+const SHOWN_EVENT = 'shown';
+
+function getSoundTypeFor(type: NotificationType): SoundType {
+  switch (type) {
+    case NotificationType.Message:
+    case NotificationType.Reaction:
+      return SoundType.Pop;
+    case NotificationType.IncomingCall:
+    case NotificationType.IncomingGroupCall:
+    case NotificationType.IsPresenting:
+      return SoundType.TriTone;
+    default:
+      throw missingCaseError(type);
+  }
+}
+
 // Electron, at least on Windows and macOS, only shows one notification at a time (see
 //   issues [#15364][0] and [#21646][1], among others). Because of that, we have a
 //   single slot for notifications, and once a notification is dismissed, all of
 //   Signal's notifications are dismissed.
 // [0]: https://github.com/electron/electron/issues/15364
 // [1]: https://github.com/electron/electron/issues/21646
-class NotificationService extends EventEmitter {
+export class NotificationService extends EventEmitter {
   #i18n?: LocalizerType;
   #storage?: StorageInterface;
 
   public isEnabled = false;
 
-  #lastNotification: null | Notification = null;
-  #notificationData: null | NotificationDataType = null;
+  // queued via add()
+  #queuedNotification: QueuedNotificationData | null = null;
+  // Last shown notification. NB: On Windows we currently do not retain a Notification object
+  #lastShown: {
+    notification: Notification | null;
+    data: ProcessedNotificationData;
+  } | null = null;
+
+  #shouldClearLastShown = false;
+
   #tokenData: { token: string; data: NotificationClickData } | undefined;
 
   // Testing indicated that trying to create/destroy notifications too quickly
@@ -140,14 +208,11 @@ class NotificationService extends EventEmitter {
   }
 
   /**
-   * A higher-level wrapper around `window.Notification`. You may prefer to use `notify`,
+   * A higher-level wrapper around `window.Notification`. You may prefer to use `rawNotify`,
    * which doesn't check permissions, do any filtering, etc.
    */
-  public add(notificationData: Omit<NotificationDataType, 'wasShown'>): void {
-    log.info(
-      'NotificationService: adding a notification and requesting an update'
-    );
-    this.#notificationData = notificationData;
+  public add(notificationData: QueuedNotificationData): void {
+    this.#queuedNotification = notificationData;
     this.#update();
   }
 
@@ -155,32 +220,27 @@ class NotificationService extends EventEmitter {
    * A lower-level wrapper around `window.Notification`. You may prefer to use `add`,
    * which includes debouncing and user permission logic.
    */
-  public notify({
-    conversationId,
-    iconUrl,
-    iconPath,
-    message,
-    messageId,
-    sentAt,
-    silent,
-    storyId,
-    title,
-    type,
-    useTriToneSound,
-  }: Readonly<{
-    conversationId: string;
-    iconUrl?: string;
-    iconPath?: string;
-    message: string;
-    messageId?: string;
-    sentAt: number;
-    silent: boolean;
-    storyId?: string;
-    title: string;
-    type: NotificationType;
-    useTriToneSound?: boolean;
-  }>): void {
-    log.info('NotificationService: showing a notification', sentAt);
+  public rawNotify(data: ProcessedNotificationData): void {
+    const {
+      conversationId,
+      iconUrl,
+      iconAbsolutePath,
+      body,
+      silent,
+      title,
+      type,
+    } = data;
+
+    const messageId = 'messageId' in data ? data.messageId : undefined;
+    const storyId = 'storyId' in data ? (data.storyId ?? undefined) : undefined;
+
+    log.info(
+      'NotificationService: showing a notification',
+      type,
+      'sentAt' in data ? data.sentAt : undefined
+    );
+
+    this.#closeLastShown();
 
     if (OS.isWindows()) {
       const token = this._createToken({
@@ -192,19 +252,19 @@ class NotificationService extends EventEmitter {
       // Note: showing a windows notification clears all previous notifications first
       drop(
         window.IPC.showWindowsNotification({
-          avatarPath: iconPath,
-          body: message,
+          avatarPath: iconAbsolutePath ?? undefined,
+          body,
           heading: title,
           type,
           token,
         })
       );
-    } else {
-      this.#lastNotification?.close();
 
+      this.#lastShown = { notification: null, data };
+    } else {
       const notification = new window.Notification(title, {
-        body: OS.isLinux() ? filterNotificationText(message) : message,
-        icon: iconUrl,
+        body: OS.isLinux() ? filterNotificationBody(body) : body,
+        icon: iconUrl ?? undefined,
         silent: true,
         tag: messageId,
       });
@@ -219,7 +279,7 @@ class NotificationService extends EventEmitter {
           window.Events.showConversationViaNotification({
             conversationId,
             messageId,
-            storyId,
+            storyId: storyId ?? undefined,
           });
         } else if (type === NotificationType.IncomingGroupCall) {
           window.IPC.showWindow();
@@ -236,14 +296,38 @@ class NotificationService extends EventEmitter {
         }
       };
 
-      this.#lastNotification = notification;
+      this.#lastShown = { notification, data };
     }
 
     if (!silent) {
-      const soundType =
-        messageId && !useTriToneSound ? SoundType.Pop : SoundType.TriTone;
       // We kick off the sound to be played. No need to await it.
-      drop(new Sound({ soundType }).play());
+      drop(new Sound({ soundType: getSoundTypeFor(type) }).play());
+    }
+
+    this.emit(SHOWN_EVENT, data);
+  }
+
+  public onShown(handler: (data: ProcessedNotificationData) => void): void {
+    this.on(SHOWN_EVENT, handler);
+  }
+
+  public offShown(handler: (data: ProcessedNotificationData) => void): void {
+    this.off(SHOWN_EVENT, handler);
+  }
+
+  #closeLastShown(): void {
+    const lastShown = this.#lastShown;
+    this.#lastShown = null;
+    this.#shouldClearLastShown = false;
+
+    if (lastShown?.notification != null) {
+      lastShown.notification.close();
+      return;
+    }
+
+    if (OS.isWindows()) {
+      this.#tokenData = undefined;
+      drop(window.IPC.clearAllWindowsNotifications());
     }
   }
 
@@ -252,19 +336,36 @@ class NotificationService extends EventEmitter {
   // 1. Either `conversationId` or `messageId` matches (if present)
   // 2. Reaction: `emoji`, `targetAuthorAci`, `targetTimestamp` matches
   // 3. Poll vote: `onlyRemoveAssociatedPollVotes` flag is true
-  public removeBy(
-    options: Readonly<
-      {
-        emoji?: Emoji.Variant;
-        targetAuthorAci?: string;
-        targetTimestamp?: number;
-        onlyRemoveAssociatedPollVotes?: boolean;
-      } & (
-        | { conversationId: string; messageId?: string }
-        | { messageId: string; conversationId?: string }
-      )
-    >
-  ): void {
+  public removeBy(identifier: RemoveByOptions): void {
+    if (
+      this.#queuedNotification &&
+      this.#matchesNotification(identifier, this.#queuedNotification)
+    ) {
+      log.info('Removing queued notification');
+      this.#queuedNotification = null;
+    }
+
+    if (
+      this.#lastShown &&
+      this.#matchesNotification(identifier, this.#lastShown.data)
+    ) {
+      log.info('Requesting dismissal of shown notification');
+      this.#shouldClearLastShown = true;
+      this.#update();
+    }
+  }
+
+  #matchesNotification(
+    identifier: RemoveByOptions,
+    data: QueuedNotificationData | ProcessedNotificationData
+  ): boolean {
+    if (
+      data.type !== NotificationType.Message &&
+      data.type !== NotificationType.Reaction
+    ) {
+      return false;
+    }
+
     const {
       conversationId,
       messageId,
@@ -272,38 +373,30 @@ class NotificationService extends EventEmitter {
       targetAuthorAci,
       targetTimestamp,
       onlyRemoveAssociatedPollVotes,
-    } = options;
-    if (!this.#notificationData) {
-      log.info('NotificationService#removeBy: no notification data');
-      return;
-    }
+    } = identifier;
 
-    let shouldClear = false;
-    if (
-      conversationId &&
-      this.#notificationData.conversationId === conversationId
-    ) {
-      log.info('NotificationService#removeBy: conversation ID matches');
-      shouldClear = true;
-    }
-    if (messageId && this.#notificationData.messageId === messageId) {
-      log.info('NotificationService#removeBy: message ID matches');
-      shouldClear = true;
-    }
+    const matchesConversationId =
+      conversationId != null && data.conversationId === conversationId;
+    const matchesMessageId = messageId != null && data.messageId === messageId;
 
-    if (!shouldClear) {
-      return;
+    if (!matchesConversationId && !matchesMessageId) {
+      return false;
     }
 
     // If reaction filters are provided, only remove reaction notifications that match
-    const { reaction } = this.#notificationData;
     const hasReactionFilters = Boolean(
       emoji && targetAuthorAci && targetTimestamp
     );
+
     if (hasReactionFilters) {
+      if (data.type !== NotificationType.Reaction) {
+        return false;
+      }
+
+      const { reaction } = data;
       if (!reaction) {
         // Looking for reactions but this isn't one
-        return;
+        return false;
       }
       if (
         reaction.emoji !== emoji ||
@@ -311,64 +404,52 @@ class NotificationService extends EventEmitter {
         reaction.targetTimestamp !== targetTimestamp
       ) {
         // Reaction doesn't match the filter
-        return;
+        return false;
       }
     }
 
     // If onlyRemoveAssociatedPollVotes is true, only remove poll vote notifications
     // that match the targetAuthorAci and targetTimestamp
     if (onlyRemoveAssociatedPollVotes && targetAuthorAci && targetTimestamp) {
-      const { pollVote } = this.#notificationData;
+      if (data.type !== NotificationType.Message) {
+        return false;
+      }
+
+      const { pollVote } = data;
       if (
         !pollVote ||
         pollVote.targetAuthorAci !== targetAuthorAci ||
         pollVote.targetTimestamp !== targetTimestamp
       ) {
         // Looking for poll votes but this isn't one
-        return;
+        return false;
       }
     }
 
-    this.clear();
-    this.#update();
+    return true;
   }
 
   #fastUpdate(): void {
     const storage = this.#getStorage();
     const i18n = this.#getI18n();
-    const notificationData = this.#notificationData;
+    const queuedNotificationData = this.#queuedNotification;
     const isAppFocused = window.SignalContext.activeWindowService.isActive();
     const userSetting = this.getNotificationSetting();
 
-    if (OS.isWindows()) {
-      // Note: notificationData will be set if we're replacing the previous notification
-      //   with a new one, so we won't clear here. That's because we always clear before
-      //   adding anythhing new; just one notification at a time. Electron forces it, so
-      //   we replicate it with our Windows notifications.
-      if (!notificationData) {
-        this.#tokenData = undefined;
-        drop(window.IPC.clearAllWindowsNotifications());
-      }
-    } else if (this.#lastNotification) {
-      this.#lastNotification.close();
-      this.#lastNotification = null;
+    if (this.#shouldClearLastShown) {
+      this.#closeLastShown();
     }
 
-    // This isn't a boolean because TypeScript isn't smart enough to know that, if
-    //   `Boolean(notificationData)` is true, `notificationData` is truthy.
-    const shouldShowNotification =
-      this.isEnabled && !isAppFocused && notificationData;
-    if (!shouldShowNotification) {
-      log.info(
-        `NotificationService not updating notifications. Notifications are ${
-          this.isEnabled ? 'enabled' : 'disabled'
-        }; app is ${isAppFocused ? '' : 'not '}focused; there is ${
-          notificationData ? '' : 'no '
-        }notification data`
-      );
-      if (isAppFocused) {
-        this.#notificationData = null;
-      }
+    if (isAppFocused) {
+      this.#queuedNotification = null;
+      return;
+    }
+
+    if (!this.isEnabled || queuedNotificationData == null) {
+      return;
+    }
+
+    if (userSetting === NotificationSetting.Off) {
       return;
     }
 
@@ -385,101 +466,37 @@ class NotificationService extends EventEmitter {
       window.IPC.drawAttention();
     }
 
-    let notificationTitle: string;
-    let notificationMessage: string;
-    let notificationIconUrl: undefined | string;
-    let notificationIconAbsolutePath: undefined | string;
+    const { conversationId, type } = queuedNotificationData;
 
-    const {
-      conversationId,
-      isExpiringMessage,
-      message,
-      messageId,
-      reaction,
-      pollVote,
-      senderTitle,
-      storyId,
-      sentAt,
-      useTriToneSound,
-      wasShown,
-      type,
-    } = notificationData;
+    this.#queuedNotification = null;
 
-    if (wasShown) {
-      log.info(
-        'NotificationService: not showing a notification because it was already shown'
-      );
-      return;
-    }
+    switch (type) {
+      case NotificationType.Message:
+      case NotificationType.Reaction: {
+        const content = redactMessageNotificationContent({
+          notificationData: queuedNotificationData,
+          contentSetting: userSetting,
+          i18n,
+        });
 
-    switch (userSetting) {
-      case NotificationSetting.Off:
-        log.info(
-          'NotificationService: not showing a notification because user has disabled it'
-        );
-        return;
-      case NotificationSetting.NameOnly:
-      case NotificationSetting.NameAndMessage: {
-        notificationTitle = senderTitle;
-        ({ notificationIconUrl, notificationIconAbsolutePath } =
-          notificationData);
-
-        if (
-          isExpiringMessage &&
-          shouldHideExpiringMessageBody(OS, os.release())
-        ) {
-          notificationMessage = i18n('icu:newMessage');
-        } else if (userSetting === NotificationSetting.NameOnly) {
-          notificationMessage = i18n('icu:newMessage');
-        } else if (storyId) {
-          notificationMessage = message;
-        } else if (reaction) {
-          notificationMessage = i18n('icu:notificationReactionMessage', {
-            sender: senderTitle,
-            emoji: reaction.emoji,
-            message,
-          });
-        } else if (pollVote) {
-          notificationMessage = i18n('icu:notificationPollVoteMessage', {
-            sender: senderTitle,
-            pollQuestion: message,
-          });
-        } else {
-          notificationMessage = message;
-        }
-        break;
+        return this.rawNotify({
+          conversationId,
+          type,
+          title: content.title,
+          body: content.body,
+          iconUrl: content.iconUrl,
+          iconAbsolutePath: content.iconAbsolutePath,
+          sentAt: queuedNotificationData.sentAt,
+          messageId: queuedNotificationData.messageId,
+          storyId: queuedNotificationData.storyId ?? null,
+          reaction: queuedNotificationData.reaction,
+          pollVote: queuedNotificationData.pollVote,
+          silent: !shouldPlayNotificationSound,
+        });
       }
-      case NotificationSetting.NoNameOrMessage:
-        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-        notificationMessage = i18n('icu:newMessage');
-        break;
       default:
-        log.error(toLogFormat(missingCaseError(userSetting)));
-        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
-        notificationMessage = i18n('icu:newMessage');
-        break;
+        throw missingCaseError(type);
     }
-
-    log.info('NotificationService: requesting a notification to be shown');
-
-    this.#notificationData = {
-      ...notificationData,
-      wasShown: true,
-    };
-
-    this.notify({
-      conversationId,
-      iconUrl: notificationIconUrl,
-      iconPath: notificationIconAbsolutePath,
-      messageId,
-      message: notificationMessage,
-      sentAt,
-      silent: !shouldPlayNotificationSound,
-      storyId,
-      title: notificationTitle,
-      type,
-      useTriToneSound,
-    });
   }
 
   public getNotificationSetting(): NotificationSetting {
@@ -515,10 +532,15 @@ class NotificationService extends EventEmitter {
   }
 
   public clear(): void {
-    log.info(
-      'NotificationService: clearing notification and requesting an update'
-    );
-    this.#notificationData = null;
+    if (this.#lastShown) {
+      log.info(
+        'NotificationService: clearing notification and requesting an update'
+      );
+    }
+    // We defer immediately clearing the notification so that we retain the token for
+    // Windows locally for a debounce interval
+    this.#shouldClearLastShown = true;
+    this.#queuedNotification = null;
     this.#update();
   }
 
@@ -527,7 +549,8 @@ class NotificationService extends EventEmitter {
   //   normal debounce.
   public fastClear(): void {
     log.info('NotificationService: clearing notification and updating');
-    this.#notificationData = null;
+    this.#closeLastShown();
+    this.#queuedNotification = null;
     this.#fastUpdate();
   }
 
@@ -548,7 +571,7 @@ class NotificationService extends EventEmitter {
 
 export const notificationService = new NotificationService();
 
-function filterNotificationText(text: string) {
+function filterNotificationBody(text: string) {
   return (text || '')
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -570,4 +593,74 @@ export function shouldSaveNotificationAvatarToDisk(): boolean {
     default:
       throw missingCaseError(notificationSetting);
   }
+}
+
+function redactMessageNotificationContent({
+  notificationData,
+  i18n,
+  contentSetting,
+}: {
+  notificationData: QueuedNotificationData & {
+    type: NotificationType.Message | NotificationType.Reaction;
+  };
+  i18n: LocalizerType;
+  contentSetting: Exclude<NotificationSetting, NotificationSetting.Off>;
+}): {
+  title: string;
+  body: string;
+  iconUrl: string | null;
+  iconAbsolutePath: string | null;
+} {
+  let title: string;
+  let body: string;
+  let iconUrl: string | null = null;
+  let iconAbsolutePath: string | null = null;
+
+  switch (contentSetting) {
+    case NotificationSetting.NameOnly:
+    case NotificationSetting.NameAndMessage: {
+      title = notificationData.senderTitle;
+      ({ iconUrl, iconAbsolutePath } = notificationData);
+
+      if (
+        notificationData.isExpiringMessage &&
+        shouldHideExpiringMessageBody(OS, os.release())
+      ) {
+        body = i18n('icu:newMessage');
+      } else if (contentSetting === NotificationSetting.NameOnly) {
+        body = i18n('icu:newMessage');
+      } else if (notificationData.storyId) {
+        body = notificationData.message;
+      } else if (notificationData.reaction) {
+        body = i18n('icu:notificationReactionMessage', {
+          sender: notificationData.senderTitle,
+          emoji: notificationData.reaction.emoji,
+          message: notificationData.message,
+        });
+      } else if (notificationData.pollVote) {
+        body = i18n('icu:notificationPollVoteMessage', {
+          sender: notificationData.senderTitle,
+          pollQuestion: notificationData.message,
+        });
+      } else {
+        body = notificationData.message;
+      }
+      break;
+    }
+    case NotificationSetting.NoNameOrMessage:
+      title = FALLBACK_NOTIFICATION_TITLE;
+      body = i18n('icu:newMessage');
+      break;
+    default:
+      log.error(toLogFormat(missingCaseError(contentSetting)));
+      title = FALLBACK_NOTIFICATION_TITLE;
+      body = i18n('icu:newMessage');
+      break;
+  }
+  return {
+    title,
+    body,
+    iconAbsolutePath,
+    iconUrl,
+  };
 }
