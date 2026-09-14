@@ -22,3 +22,15 @@ export function safeParseNumber(input: string): number | null {
   }
   return parsed;
 }
+
+export function safeParseBigInt(input: string): bigint | null {
+  const trimmed = input.trim();
+  if (trimmed === '') {
+    return null;
+  }
+  try {
+    return BigInt(input);
+  } catch {
+    return null;
+  }
+}

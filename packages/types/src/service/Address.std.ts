@@ -8,6 +8,7 @@ import { Utf8 } from '../encodings/Utf8.std.ts';
 import type { Bytes } from '../encodings/Bytes.std.ts';
 import { parseAddress } from '../_utils/address.std.ts';
 import type { AddressInfo } from './AddressInfo.std.ts';
+import { checkWithParser } from '../_utils/schemas.std.ts';
 
 /**
  * Address serialized as `"${serviceId}.${deviceId}"`.
@@ -25,18 +26,7 @@ export namespace Address {
 
   /** @public */
   export const Schema: z.ZodMiniType<Address, string> = z.pipe(
-    z.string().check(
-      z.superRefine((input, ctx) => {
-        const result = parseAddress(input);
-        if (!result.ok) {
-          ctx.issues.push({
-            code: 'custom',
-            message: result.error,
-            input,
-          });
-        }
-      })
-    ),
+    z.string().check(checkWithParser(parseAddress)),
     z.custom<Address>()
   );
 

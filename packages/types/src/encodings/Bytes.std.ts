@@ -3,7 +3,7 @@
 import type { Tagged } from 'type-fest';
 import * as z from 'zod/mini';
 
-type MaybeSharedBytes = Uint8Array<ArrayBuffer | SharedArrayBuffer>;
+export type MaybeSharedBytes = Uint8Array<ArrayBuffer | SharedArrayBuffer>;
 
 /**
  * A `Uint8Array` backed by a standard (non-shared) `ArrayBuffer`.

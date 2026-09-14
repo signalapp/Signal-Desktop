@@ -6,8 +6,8 @@ import { MAX_SAFE_DATE } from '../_utils/datetime.std.ts';
 import { bigIntToNumber } from '../_utils/numbers.std.ts';
 import { BigInt64 } from '../numbers/BigInt64.std.ts';
 import type { Float64 } from '../numbers/Float64.std.ts';
-import type { TimestampMs } from './TimestampMs.std.ts';
-import type { DurationMs } from './DurationMs.std.ts';
+import type { TimestampMs } from '../datetime/TimestampMs.std.ts';
+import type { DurationMs } from '../datetime/DurationMs.std.ts';
 
 export type MuteExpiration = Tagged<Float64, 'MuteExpiration'>;
 
