@@ -78,7 +78,7 @@
     "messageformat": "账户设置只能在您的主设备上管理，包括账户设置和备份。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "账户设置和备份只能在您的主设备上进行管理。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "标准"
@@ -6173,7 +6173,7 @@
     "messageformat": "您的 Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "请将此信息储存在安全的地方。您的登录信息是恢复账户和数据所必需的信息。切勿将其分享给任何人。"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "账户密钥"
@@ -7013,22 +7013,22 @@
     "messageformat": "需要更新"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "正在检查更新"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "正在更新 Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "正在下载 {currentBytes}/{totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "如要继续，请更新 Signal 桌面版。"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "更新"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "前往 App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "需要更新"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN 码不正确。重试"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "忘记 PIN 码"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "确认"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN 码正确。我们会在稍后再次提醒您。"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "更改您的 Signal PIN 码"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "你可以在你的已经登录过的设备上更改你的 PIN 码 <learnMoreLink>了解更多</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "输入你刚刚创建的 PIN 码。"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "输入新 PIN 码"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "确认 PIN 码"
@@ -8289,16 +8289,16 @@
     "messageformat": "确认"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "新 PIN 码已创建。"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal desktop 即将不再兼容您电脑的 {OS} 版本。如您希望继续使用 Signal，请在 {expirationDate}前更新电脑操作系统。<learnMoreLink>了解详情</learnMoreLink>"
+    "messageformat": "Signal 桌面版即将不再兼容您电脑的 {OS} 版本。如您希望继续使用 Signal，请在 {expirationDate}前更新电脑操作系统。<learnMoreLink>了解详情</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal desktop 无法在此电脑上运行。如您希望再次使用 Signal desktop，请更新您电脑的 {OS} 版本。<learnMoreLink>了解详情</learnMoreLink>"
+    "messageformat": "Signal 桌面版无法在此电脑上运行。如您希望再次使用 Signal 桌面版，请更新您电脑的 {OS} 版本。<learnMoreLink>了解详情</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal desktop 无法在此电脑上运行。如您希望再次使用 Signal desktop，请更新您电脑的 {OS} 版本。"
+    "messageformat": "Signal 桌面版无法在此电脑上运行。如您希望再次使用 Signal 桌面版，请更新您电脑的 {OS} 版本。"
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "编辑"

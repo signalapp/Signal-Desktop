@@ -78,7 +78,7 @@
     "messageformat": "အကောင့်ဆက်တင်နှင့် ဘက်ခ်အပ် အပါအဝင် အချို့သော ဆက်တင်များကို သင့်ပင်မစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "အကောင့် ဆက်တင်များနှင့် ဘက်ခ်အပ်များကို အဓိကစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
@@ -6173,7 +6173,7 @@
     "messageformat": "သင့် Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ဤအချက်အလက်ကို လုံခြုံသောနေရာတွင် သိမ်းဆည်းထားပါ။ သင့်အကောင့်နှင့် ဒေတာများကို ပြန်လည်ရယူရန် သင့် လော့ဂ်အင်အချက်အလက် လိုအပ်ပါသည်။ မည်သူ့ကိုမျှ မျှဝေခြင်းမပြုပါနှင့်။"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "အကောင့်ကီး"
@@ -6185,7 +6185,7 @@
     "messageformat": "ပြန်လည်ရယူရေးကီး"
   },
   "icu:Preferences__SignalAccountKeys__Save": {
-    "messageformat": "သိမ်းမယ်"
+    "messageformat": "သိမ်းမည်"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
     "messageformat": "ဤစက်သည် ချိတ်ထားသည့် စက်ဖြစ်သည်"
@@ -7013,22 +7013,22 @@
     "messageformat": "အပ်ဒိတ် လိုအပ်ပါသည်"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "အပ်ဒိတ်များကို စစ်ဆေးနေသည်"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal ကို အပ်ဒိတ်လုပ်နေသည်"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} ({percentage,number,percent}) မှ {currentBytes} ကို ဒေါင်းလုဒ်လုပ်နေသည်..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "ဆက်လက်လုပ်ဆောင်ရန် Signal Desktop ကို အပ်ဒိတ်လုပ်ပါ။"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "အပ်ဒိတ်လုပ်မည်"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store သို့ သွားပါ"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "အပ်ဒိတ် လိုအပ်ပါသည်"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN မှားနေသည်။ ထပ်မံကြိုးစားမည်"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN မေ့သွားပြီ"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "အတည်ပြုရန်"
@@ -8262,19 +8262,19 @@
     "messageformat": "PIN မှန်ကန်ပါသည်။ နောက်မှ ထပ်ပြီးသတိပေးပါမည်။"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "သင့် Signal PIN ကို ပြောင်းလဲပါ"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသည်၍ သင့်ပင်နံပါတ်ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+    "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသ၍ သင့် PIN ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "သင် ဖန်တီးလိုက်သော PIN ကို ထည့်သွင်းပါ။"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "PIN အသစ်တစ်ခု ထည့်သွင်းပါ"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN အတည်ပြုမည်"
@@ -8289,16 +8289,16 @@
     "messageformat": "အတည်ပြုရန်"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN အသစ်ကို ဖန်တီးပြီးပါပြီ။"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို Signal Desktop က မကြာမီ ပံ့ပိုးပေးတော့မည် မဟုတ်ပါ။ Signal ကို ဆက်သုံးရန် သင့်ကွန်ပျူတာ၏ လုပ်ဆောင်မှုစနစ်ကို {expirationDate} မတိုင်မီ အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop ကို ထပ်မံအသုံးပြုရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။"
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop ကို ထပ်မံအသုံးပြုရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။"
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "တည်းဖြတ်ပြီး"

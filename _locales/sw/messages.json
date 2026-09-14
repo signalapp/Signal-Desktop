@@ -78,7 +78,7 @@
     "messageformat": "Baadhi ya mipangilio ya akaunti inadhibitiwa kwenye kifaa chako cha msingi pekee, ikiwa ni pamoja na mipangilio ya akaunti na nakala zilizohifadhiwa."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Mipangilio ya akaunti na nakala inaweza tu kudhibitiwa kwenye kifaa chako kikuu."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Kiwango"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login Yako"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Hifadhi maelezo haya mahali salama, maelezo yako ya kuingia katika akaunti yanahitajika ili kurejesha akaunti na data yako. Usimpatie mtu yeyote."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Ufunguo wa akaunti"
@@ -7013,22 +7013,22 @@
     "messageformat": "Sasisho Linahitajika"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Inatafuta masasisho"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Inasasisha Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Inapakua {currentBytes} ya {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Ili uendelee, sasisha Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Sasisha"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Nenda kwenye App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Sasisho Linahitajika"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN sio sahihi. Jaribu tena"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Umesahau PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Thibitisha"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN ni sahihi. Tutakukumbusha tena baadae."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Badilisha PIN yako ya Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Unaweza kubadili PINI mradi tu kifaa hiki kimesajiliwa <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Thibitisha PINI yako ya Signal"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Weka PIN uliyotoka kuunda."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Weka PIN mpya"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Thibitisha PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Thibitisha"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN mpya uliyounda."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Muda si mrefu Signal desktop haitaikubali tena toleo lako la {OS} mfumo wa uendeshaji wa kompyuta yako. Ili kuendelea kutumia Signal, sasisha mfumo wa uendeshaji wa kompyuta kabla ya {expirationDate}. <learnMoreLink>Jifunze zaidi</learnMoreLink>"

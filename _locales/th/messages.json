@@ -78,7 +78,7 @@
     "messageformat": "การตั้งค่าเกี่ยวกับบัญชี (ซึ่งรวมถึงการตั้งค่าบัญชีและการสำรองข้อมูล) จะต้องใช้อุปกรณ์หลักในการจัดการเท่านั้น"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "สามารถจัดการการตั้งค่าบัญชีและการสำรองข้อมูลได้บนอุปกรณ์หลักเท่านั้น"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "มาตรฐาน"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login ของคุณ"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "คุณจำเป็นต้องใช้ข้อมูลลงชื่อเข้าใช้นี้ในการกู้คืนบัญชีและข้อมูล โปรดเก็บไว้ในที่ปลอดภัยและอย่าเปิดเผยกับใคร"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "กุญแจเข้าบัญชี"
@@ -7013,22 +7013,22 @@
     "messageformat": "จำเป็นต้องอัปเดต"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "กำลังตรวจหารุ่นอัปเดต"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "กำลังอัปเดต Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "กำลังดาวน์โหลด {currentBytes} จาก {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "โปรดอัปเดต Signal เดสก์ท็อปเพื่อดำเนินการต่อ"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "อัปเดต"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "ไปยัง App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "จำเป็นต้องอัปเดต"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN ไม่ถูกต้อง ลองอีกครั้ง"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "ฉันลืม PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "ยืนยัน"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN ถูกต้อง เราจะแจ้งเตือนคุณอีกครั้งในภายหลัง"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "เปลี่ยน Signal PIN ของคุณ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "คุณสามารถเปลี่ยนรหัส PIN ได้ตราบเท่าที่คุณยังลงทะเบียนอุปกรณ์นี้ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "ใส่รหัส PIN ที่คุณเพิ่งสร้าง"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "ใส่ PIN ใหม่"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "ยืนยันรหัส PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "ยืนยัน"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "สร้าง PIN ใหม่เรียบร้อยแล้ว"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal เดสก์ท็อปกำลังจะหยุดรองรับเวอร์ชันของ {OS} ที่คอมพิวเตอร์คุณใช้งานอยู่ เพื่อการใช้งานอย่างต่อเนื่อง กรุณาอัปเดตระบบปฏิบัติการของคอมพิวเตอร์ภายใน {expirationDate} <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"

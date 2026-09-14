@@ -78,7 +78,7 @@
     "messageformat": "কিছু অ্যাকাউন্ট সেটিংস শুধুমাত্র আপনার মূল ডিভাইসে ম্যানেজ করা হয়, যার মধ্যে অ্যাকাউন্ট সেটিংস এবং ব্যাকআপ অন্তর্ভুক্ত।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "অ্যাকাউন্টের সেটিংস এবং ব্যাকআপ শুধুমাত্র আপনার প্রাথমিক ডিভাইস থেকেই নিয়ন্ত্রণ করা যাবে।"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "স্ট্যান্ডার্ড"
@@ -6173,7 +6173,7 @@
     "messageformat": "আপনার Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "এটি একটি নিরাপদ স্থানে সেভ করুন; আপনার অ্যাকাউন্ট ও ডেটা পুনরুদ্ধার করার জন্য আপনার লগইনের তথ্যের প্রয়োজন হবে। এটি কখনোই কারো সাথে শেয়ার করবেন না।"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "অ্যাকাউন্ট 'কি'"
@@ -7013,22 +7013,22 @@
     "messageformat": "আপডেট করা প্রয়োজন"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "আপডেট চেক করা হচ্ছে"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal আপডেট করা হচ্ছে"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes}-এর মধ্যে {currentBytes} ({percentage,number,percent}) ডাউনলোড হচ্ছে..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "চালিয়ে যেতে, Signal Desktop আপডেট করুন।"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "আপডেট করুন"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store-এ যান"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "আপডেট করা প্রয়োজন"
@@ -8253,7 +8253,7 @@
     "messageformat": "ভুল পিন। আবার চেষ্টা করুন"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "পিন ভুলে গেছেন"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "নিশ্চিত করুন"
@@ -8262,7 +8262,7 @@
     "messageformat": "পিনটি সঠিক। আমরা পরে আপনাকে আবার মনে করিয়ে দেবো।"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "আপনার Signal পিন পরিবর্তন করুন"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "এই ডিভাইস রেজিস্টার থাকা অবধি আপনি আপনার পিন পরিবর্তন করতে পারবেন। <learnMoreLink>আরো জানুন</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "আপনার এইমাত্র তৈরি করা পিনটি লিখুন।"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "একটি নতুন পিন দিন"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "পিনটি সমর্থন করুন"
@@ -8289,7 +8289,7 @@
     "messageformat": "নিশ্চিত করুন"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "নতুন পিন তৈরি করা হয়েছে।"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "কিছুদিনের মধ্যে Signal আর আপনার কম্পিউটারের {OS} সংস্করণ সমর্থন করবে না। Signal ব্যবহার চালিয়ে যেতে, {expirationDate}-এর মধ্যে আপনার কম্পিউটারের অপারেটিং সিস্টেম আপডেট করুন। <learnMoreLink>আরো জানুন</learnMoreLink>"

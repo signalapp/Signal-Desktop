@@ -78,7 +78,7 @@
     "messageformat": "ఖాతా సెట్టింగ్‌లు మరియు బ్యాకప్‌లతో సహా కొన్ని ఖాతా సెట్టింగ్‌లు మీ ప్రాథమిక పరికరంలో మాత్రమే నిర్వహించబడతాయి."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ఖాతా సెట్టింగులు మరియు బ్యాకప్‌లను మీ ప్రాథమిక పరికరంలో మాత్రమే నిర్వహించగలరు."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ప్రామాణికం"
@@ -6173,7 +6173,7 @@
     "messageformat": "మీ Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "దీనిని ఒక సురక్షితమైన ప్రదేశంలో దాచండి, మీ ఖాతా మరియు డేటాను తిరిగి పొందడానికి మీ లాగిన్ సమాచారం అవసరమవుతుంది. ఎప్పుడూ ఎవరితోనూ దీనిని పంచుకోవద్దు."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "ఖాతా కీ"
@@ -7013,22 +7013,22 @@
     "messageformat": "అప్‌డేట్ అవసరం"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "అప్‌డేట్‌ల కోసం తనిఖీ చేస్తోంది"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal ను అప్‌డేట్ చేస్తోంది"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} లో {currentBytes} ({percentage,number,percent}) డౌన్‌లోడ్ అవుతోంది..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "కొనసాగడానికి, Signal Desktop ను అప్‌డేట్‌ చేయండి."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "నవీకరణ"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "యాప్ స్టోర్‌కు వెళ్ళండి"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "అప్‌డేట్ అవసరం"
@@ -8253,7 +8253,7 @@
     "messageformat": "తప్పు పిన్. మళ్ళీ ప్రయత్నించండి"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN మరచిపోయారా"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "నిర్ధారించండి"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN సరైనది. మేము మీకు తర్వాత మళ్ళీ గుర్తు చేస్తాము."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "మీ Signal PIN ను మార్చండి"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ఈ పరికరం నమోదు చేయబడినంత వరకు మీరు మీ పిన్‌ను మార్చవచ్చు. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "మీ Signal పిన్ను నిర్ధారించండి"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "మీరు ఇప్పుడే సృష్టించిన PIN ను ఎంటర్ చేయండి."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "ఒక కొత్త PIN ను ఎంటర్ చేయండి"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "పిన్ ని నిర్ధారించండి"
@@ -8289,7 +8289,7 @@
     "messageformat": "నిర్ధారించండి"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "కొత్త PIN సృష్టించబడింది."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "త్వరలో {OS} యొక్క మీ కంప్యూటర్ వెర్షన్‌కు Signal డెస్క్‌టాప్ ఇక ఏమాత్రం మద్దతు ఇవ్వదు. Signal ఉపయోగించడాన్నికొనసాగించేందుకు, {expirationDate} లోపు మీ కంప్యూటర్ ఆపరేటింగ్ సిస్టమ్‌ను అప్‌డేట్ చేసుకోండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"

@@ -78,7 +78,7 @@
     "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳು ಸೇರಿದಂತೆ, ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಬಹುದು."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ಪ್ರಮಾಣಿತ"
@@ -6173,7 +6173,7 @@
     "messageformat": "ನಿಮ್ಮ Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ಇದನ್ನು ಸುರಕ್ಷಿತ ಸ್ಥಳದಲ್ಲಿ ರಕ್ಷಿಸಿ, ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ರಿಕವರ್ ಮಾಡಲು ನಿಮ್ಮ ಲಾಗಿನ್ ಮಾಹಿತಿ ಅಗತ್ಯವಿದೆ. ಇದನ್ನು ಎಂದಿಗೂ ಯಾರೊಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳಬೇಡಿ."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "ಖಾತೆ ಕೀ"
@@ -7013,22 +7013,22 @@
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "ಅಪ್‌ಡೇಟ್‌ಗಳಿಗಾಗಿ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes}ಯಲ್ಲಿ {currentBytes} ಅನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "ಮುಂದುವರಿಯಲು, ಸಿಗ್ನಲ್ ಡೆಸ್ಕ್‌ಟಾಪ್ ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಿ."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "ನವೀಕರಿಸಿ"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "ಆ್ಯಪ್ ಸ್ಟೋರ್‌ಗೆ ಹೋಗಿ"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "ಅಪ್ಡೇಟ್ ಆಗಬೇಕಾಗಿದೆ"
@@ -8253,7 +8253,7 @@
     "messageformat": "ತಪ್ಪು ಪಿನ್. ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN ಮರೆತಿದ್ದೀರಾ"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "ದೃಢೀಕರಿಸಿ"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN ಸರಿಯಾಗಿದೆ. ನಾವು ನಂತರ ನಿಮಗೆ ಪುನಃ ರಿಮೈಂಡ್ ಮಾಡುತ್ತೇವೆ."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "ನಿಮ್ಮ Signal PIN ಬದಲಾಯಿಸಿ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ಈ ಸಾಧನವನ್ನು ನೋಂದಾಯಿಸಿರುವವರೆಗೆ ನಿಮ್ಮ ಪಿನ್ ಅನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "ನಿಮ್ಮ Signal ಪಿನ್ ಅನ್ನು ದೃಢಪಡಿಸಿ"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "ನೀವು ಈಗ ತಾನೇ ರಚಿಸಿದ PIN ನಮೂದಿಸಿ."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "ಹೊಸ PIN ನಮೂದಿಸಿ"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "ಪಿನ್ ದೃಢೀಕರಿಸಿ"
@@ -8289,7 +8289,7 @@
     "messageformat": "ದೃಢೀಕರಿಸಿ"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "ಹೊಸ PIN ರಚಿಸಲಾಗಿದೆ."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ {OS} ಆವೃತ್ತಿಯನ್ನು Signal desktop ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Signal ಬಳಕೆಯನ್ನು ಮುಂದುವರಿಸಲು, ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್ ಅನ್ನು {expirationDate} ನ ಒಳಗೆ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"

@@ -78,7 +78,7 @@
     "messageformat": "Pengaturan akun, termasuk cadangan, hanya dapat dikelola di perangkat utama Anda."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Pengaturan akun dan cadangan hanya dapat dikelola di perangkat utama Anda."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standar"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login Anda"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Simpan di tempat aman. Info login ini diperlukan untuk memulihkan akun dan data Anda. Jangan bagikan kepada siapa pun."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kunci akun"
@@ -7013,22 +7013,22 @@
     "messageformat": "Diperlukan Pembaruan"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Memeriksa pembaruan"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Memperbarui Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Mengunduh {currentBytes} dari {totalBytes} ({percentage,number,percent}) …"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Perbarui Signal Desktop untuk melanjutkan."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Perbarui"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Buka App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Diperlukan Pembaruan"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN salah. Coba lagi"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Lupa PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Konfirmasi"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN benar. Kami akan mengingatkan Anda lagi nanti."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Ganti PIN Signal Anda"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Anda dapat mengganti PIN Anda selama perangkat ini terdaftar. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Masukkan PIN yang baru Anda buat."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Masukkan PIN baru"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Konfimasi PIN"
@@ -8289,10 +8289,10 @@
     "messageformat": "Konfirmasi"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN baru dibuat."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop tidak lagi mendukung versi {OS} di komputer Anda dalam waktu dekat. Untuk terus menggunakan Signal, perbarui sistem operasi komputer Anda paling lambat {expirationDate}. <learnMoreLink>Selengkapnya</learnMoreLink>"
+    "messageformat": "Dalam waktu dekat, Signal Desktop tidak akan lagi mendukung versi {OS} di komputer Anda. Agar bisa terus menggunakan Signal, perbarui sistem operasi komputer Anda paling lambat {expirationDate}. <learnMoreLink>Selengkapnya</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Signal Desktop sudah tidak berfungsi di komputer ini. Untuk menggunakan Signal Desktop lagi, perbarui versi {OS} komputer Anda. <learnMoreLink>Selengkapnya</learnMoreLink>"

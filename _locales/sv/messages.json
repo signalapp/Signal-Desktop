@@ -78,7 +78,7 @@
     "messageformat": "Kontoinställningar hanteras endast på din primära enhet, inklusive kontoinställningar och säkerhetskopior."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Kontoinställningar och säkerhetskopior kan endast hanteras på din primära enhet."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Din Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Förvara detta på ett säkert ställe – dina inloggningsuppgifter krävs för att återställa ditt konto och dina data. Dela det aldrig med någon."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kontonyckel"
@@ -7013,22 +7013,22 @@
     "messageformat": "Uppdatering krävs"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Söker efter uppdateringar"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Uppdaterar Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Laddar ned {currentBytes} av {totalBytes} ({percentage,number,percent}) …"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Uppdatera Signal Desktop för att fortsätta."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Uppdatera"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Gå till App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Uppdatering krävs"
@@ -8253,7 +8253,7 @@
     "messageformat": "Felaktig pinkod. Försök igen"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Glömt pinkod"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Bekräfta"
@@ -8262,7 +8262,7 @@
     "messageformat": "Pinkoden är korrekt. Vi påminner dig igen senare."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Ändra din Signal-pinkod"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Du kan ändra din PIN-kod så länge denna enhet är registrerad. <learnMoreLink>Läs mer</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Ange PIN-koden du just skapat."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Ange en ny pinkod"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Bekräfta PIN-kod"
@@ -8289,7 +8289,7 @@
     "messageformat": "Bekräfta"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Ny pinkod skapad."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Snart stöder Signal Desktop inte längre din dators version av{OS}. Uppdatera datorns operativsystem senast den {expirationDate} för att fortsätta använda Signal. <learnMoreLink>Läs mer</learnMoreLink>"

@@ -78,7 +78,7 @@
     "messageformat": "アカウント設定や、バックアップなどの設定はメイン端末からのみ管理できます。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "アカウントの設定とバックアップは、メイン端末でのみ管理できます。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Loginキー"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "これは安全な場所に保管してください。ログイン情報は、アカウントとデータを復元する際に必要です。誰とも共有しないでください。"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "アカウントキー"
@@ -7013,22 +7013,22 @@
     "messageformat": "アップデートが必要です"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "アップデートを確認しています"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signalをアップデート中です"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
-    "messageformat": "{totalBytes} のうち {currentBytes}（{percentage,number,percent}）"
+    "messageformat": "ダウンロード中：{totalBytes} のうち {currentBytes} （{percentage,number,percent}）"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "続けるには、Signal Desktopをアップデートしてください。"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "アップデートする"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Storeへ移動"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "アップデートが必要です"
@@ -8253,7 +8253,7 @@
     "messageformat": "PINが違います。もう一度試す"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PINを忘れた"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "開く"
@@ -8262,7 +8262,7 @@
     "messageformat": "正しいPINが入力されました。後で、再度リマインドします。"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PINを変更"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "この端末が登録されていればPINの変更が可能です。 <learnMoreLink>さらに詳しく</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "先ほど作成したPINを入力してください。"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "新しいPINを入力"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PINを再入力"
@@ -8289,7 +8289,7 @@
     "messageformat": "開く"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "新しいPINを作成しました。"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktopは、まもなくお使いのコンピュータの{OS}バージョンのサポートを終了します。Signalを引き続き利用するには、{expirationDate}までにコンピュ―タのオペレーティングシステムを更新してください。<learnMoreLink>詳しく見る</learnMoreLink>"

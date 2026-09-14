@@ -78,7 +78,7 @@
     "messageformat": "Nastavenia účtu sa spravujú iba na vašom hlavnom zariadení, vrátane nastavení účtu a záloh."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Nastavenia účtu a zálohy je možné spravovať iba na vašom hlavnom zariadení."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Štandardná"
@@ -6173,7 +6173,7 @@
     "messageformat": "Váš Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Uložte si ho na bezpečnom mieste, vaše prihlasovacie údaje sú potrebné na obnovenie vášho účtu a údajov. Nikdy ho s nikým nezdieľajte."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kľúč účtu"
@@ -6224,7 +6224,7 @@
     "messageformat": "Pokročilé"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Zmeňte si PIN"
+    "messageformat": "Zmeniť si PIN"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Zmeniť"
@@ -7013,22 +7013,22 @@
     "messageformat": "Vyžaduje sa aktualizácia"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Overuje sa dostupnosť aktualizácie"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal sa aktualizuje"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Sťahuje sa {currentBytes} z {totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Ak chcete pokračovať, aktualizujte Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Aktualizovať"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Prejsť do App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Vyžaduje sa aktualizácia"
@@ -8253,7 +8253,7 @@
     "messageformat": "Nesprávny PIN. Skúsiť znova"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Zabudli ste PIN?"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Potvrdiť"
@@ -8262,7 +8262,7 @@
     "messageformat": "Zadaný PIN je správny. Pripomenieme vám to opäť neskôr."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Zmeňte svoj Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN si môžete zmeniť, kým je toto zariadenie registrované. <learnMoreLink>Zistiť viac</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Potvrďte svoj Signal PIN"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Zadajte PIN, čo ste si práve vytvorili."
+    "messageformat": "Zadajte PIN, ktorý ste si práve vytvorili."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Zadajte svoj nový PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Potvrďte PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Potvrdiť"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Bol vytvorený nový PIN."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop už čoskoro nebude podporovať verziu {OS} na vašom počítači. Ak chcete naďalej používať Signal, aktualizujte operačný systém svojho počítača do {expirationDate}. <learnMoreLink>Zistiť viac</learnMoreLink>"

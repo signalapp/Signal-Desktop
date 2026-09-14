@@ -78,7 +78,7 @@
     "messageformat": "ანგარიშის პარამეტრები მხოლოდ შენს მთავარ მოწყობილობაზე იმართება, ანგარიშის პარამეტრებისა და სათადარიგო ასლების ჩათვლით."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ანგარიშის პარამეტრებისა და სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "სტანდარტული"
@@ -6173,7 +6173,7 @@
     "messageformat": "შენი Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ეს უსაფრთხო ადგილას შეინახე, შენი შესვლის ინფორმაცია შენი ანგარიშისა და მონაცემების აღსადგენადაა საჭირო. არასდროს არავის გაუზიარო."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "ანგარიშის გასაღები"
@@ -7013,22 +7013,22 @@
     "messageformat": "საჭიროა განახლება"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "შეამოწმე განახლებების სანახავად"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "მიმდინარეობს Signal-ის განახლება"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "იწერება {currentBytes} {totalBytes}-დან ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "გასაგრძელებლად განაახლე Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "განახლება"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "შედი App Store-ში"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "საჭიროა განახლება"
@@ -8253,7 +8253,7 @@
     "messageformat": "არასწორი პინ-კოდი. სცადეთ ახლიდან"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "პინ-კოდი დამავიწყდა"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "დადასტურება"
@@ -8262,7 +8262,7 @@
     "messageformat": "პინ-კოდი სწორია. მოგვიანებით ისევ შეგახსენებთ."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "შეცვალე შენი Signal-ის პინ-კოდი"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "შენი პინ-კოდის შეცვლა შეგიძლია, სანამ ეს მოწყობილობა იქნება რეგისტრირებული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "დაადასტურე შენი Signal-ის პინ-კოდი"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "შეიყვანე შენ მიერ ახლახან შექმნილი პინ-კოდი."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "შეიყვანე ახალი პინ-კოდი"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "პინ-კოდის დადასტურება"
@@ -8289,7 +8289,7 @@
     "messageformat": "დადასტურება"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "ახალი პინ-კოდი შეიქმნა."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop-ს მალე აღარ ექნება შენი კომპიუტერის {OS} ვერსიის მხარდაჭერა. Signal-ის გამოყენების გასაგრძელებლად, განაახლე შენი კომპიუტერის ოპერაციული სისტემა {expirationDate}-მდე. <learnMoreLink>გაიგე მეტი</learnMoreLink>"

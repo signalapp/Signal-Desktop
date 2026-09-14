@@ -78,7 +78,7 @@
     "messageformat": "അക്കൗണ്ട് ക്രമീകരണങ്ങളും ബാക്കപ്പുകളും ഉൾപ്പെടെയുള്ള കാര്യങ്ങൾ നിങ്ങളുടെ പ്രൈമറി ഉപകരണത്തിൽ മാത്രമേ മാനേജ് ചെയ്യാനാകൂ."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "അക്കൗണ്ട് ക്രമീകരണങ്ങളും ബാക്കപ്പുകളും നിങ്ങളുടെ പ്രാഥമിക ഉപകരണത്തിൽ മാത്രമേ കൈകാര്യം ചെയ്യാൻ കഴിയൂ."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "സ്റ്റാൻഡേർഡ്"
@@ -6173,7 +6173,7 @@
     "messageformat": "നിങ്ങളുടെ Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ഇത് സുരക്ഷിതമായ ഒരു സ്ഥലത്ത് സൂക്ഷിക്കുക, നിങ്ങളുടെ അക്കൗണ്ടും ഡാറ്റയും വീണ്ടെടുക്കുന്നതിന് ലോഗിൻ വിവരങ്ങൾ ആവശ്യമാണ്. ഇത് ഒരിക്കലും ആരുമായും പങ്കിടരുത്."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "അക്കൗണ്ട് കീ"
@@ -7013,22 +7013,22 @@
     "messageformat": "അപ്‌ഡേറ്റ് ആവശ്യമാണ്"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "അപ്‌ഡേറ്റുകൾക്കായി പരിശോധിക്കുന്നു"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal അപ്‌ഡേറ്റ് ചെയ്യുന്നു"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes} / {totalBytes} ({percentage,number,percent}) ഡൗൺലോഡ് ചെയ്യുന്നു..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "തുടരുന്നതിന്, Signal ഡെസ്ക്ടോപ്പ് അപ്‌ഡേറ്റ് ചെയ്യുക."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "അപ്‌ഡേറ്റ് ചെയ്യുക"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store-ലേക്ക് പോകുക"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "അപ്‌ഡേറ്റ് ആവശ്യമാണ്"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN തെറ്റാണ്. വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN മറന്നു"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "സ്ഥിരീകരിക്കുക"
@@ -8262,19 +8262,19 @@
     "messageformat": "PIN ശരിയാണ്. ഞങ്ങൾ പിന്നീട് നിങ്ങളെ വീണ്ടും ഓർമ്മിപ്പിക്കും."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "നിങ്ങളുടെ Signal PIN മാറ്റുക"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "ഈ ഡിവൈസ് രജിസ്റ്റർ ചെയ്തിരിക്കുന്ന കാലത്തോളം നിങ്ങൾക്ക് നിങ്ങളുടെ PIN മാറ്റാവുന്നതാണ്. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
+    "messageformat": "ഈ ഉപകരണം രജിസ്റ്റർ ചെയ്തിരിക്കുന്ന കാലത്തോളം നിങ്ങൾക്ക് നിങ്ങളുടെ PIN മാറ്റാവുന്നതാണ്. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "നിങ്ങളുടെ Signal PIN ഉറപ്പാക്കു"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "നിങ്ങൾ ഇപ്പോൾ സൃഷ്ടിച്ച PIN നൽകുക."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "ഒരു പുതിയ PIN നൽകുക"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN ഉറപ്പാക്കു"
@@ -8289,7 +8289,7 @@
     "messageformat": "സ്ഥിരീകരിക്കുക"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "പുതിയ PIN സൃഷ്ടിച്ചു."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിലെ {OS} പതിപ്പിനുള്ള പിന്തുണ Signal ഡെസ്‌ക്ടോപ്പിൽ ഉടൻ അവസാനിക്കും. Signal ഉപയോഗിക്കുന്നത് തുടരാൻ {expirationDate}-ന് മുമ്പ് നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്‍റെ ഓപ്പറേറ്റിംഗ് സിസ്റ്റം അപ്ഡേറ്റ് ചെയ്യുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"

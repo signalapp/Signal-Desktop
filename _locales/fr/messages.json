@@ -6155,10 +6155,10 @@
     "messageformat": "Système"
   },
   "icu:Preferences--signal-login": {
-    "messageformat": "Identifiant Signal"
+    "messageformat": "Login Signal"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Votre identifiant Signal vous permet d'accéder à votre compte et de le restaurer. Conservez ces clés en lieu sûr, dans un gestionnaire de mots de passe fiable. <learnMoreLink>En savoir plus</learnMoreLink>."
+    "messageformat": "Votre login Signal vous permet d'identifier votre compte et de le restaurer. Conservez ces clés en lieu sûr, dans un gestionnaire de mots de passe fiable. <learnMoreLink>En savoir plus</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
     "messageformat": "En savoir plus"
@@ -6170,7 +6170,7 @@
     "messageformat": "2 clés"
   },
   "icu:Preferences__SignalAccountKeys__Title": {
-    "messageformat": "Votre identifiant Signal"
+    "messageformat": "Votre login Signal"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."

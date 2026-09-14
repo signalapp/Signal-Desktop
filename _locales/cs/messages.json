@@ -8265,7 +8265,7 @@
     "messageformat": "Change your Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "Můžete změnit váš PIN, dokud je toto zařízení registrováno. <learnMoreLink>Zjistit více</learnMoreLink>"
+    "messageformat": "Svůj PIN můžete změnit, dokud je toto zařízení zaregistrováno. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potvrdit svůj Signal PIN"

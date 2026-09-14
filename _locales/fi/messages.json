@@ -78,7 +78,7 @@
     "messageformat": "Asetuksia pystyy hallinnoimaan vain ensisijaiselta laitteelta, mukaan lukien tiliasetukset ja varmuuskopiointi."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Tilin asetuksia ja varmuuskopioita voi hallinnoida vain ensisijaisella laitteella."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Vakio"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login -kirjautuminen"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Talleta tieto turvallisesti. Kirjautumistietoa tarvitaan, jos tilisi ja tietosi täytyy palauttaa. Älä jaa sitä kenellekään."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Tiliavain"
@@ -7013,22 +7013,22 @@
     "messageformat": "Päivitys vaaditaan"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Tarkistetaan päivityksiä"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Päivitetään Signalia"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Ladataan {currentBytes} / {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Voit jatkaa päivittämällä Signal Desktop -sovelluksen."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Päivitä"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Siirry App Storeen"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Päivitys vaaditaan"
@@ -8253,7 +8253,7 @@
     "messageformat": "Väärä PIN-koodi. Yritä uudelleen"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Palauta PIN-koodi"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Vahvista"
@@ -8262,7 +8262,7 @@
     "messageformat": "Oikea PIN-koodi. Muistutamme sinua jälleen myöhemmin."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Vaihda Signal-PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Tunnusluvun voi vaihtaa vain laitteella, joka on rekisteröity. <learnMoreLink>Lue lisää</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Syötä äsken luomasi tunnusluku uudelleen"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Anna uusi PIN-koodi"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Vahvista tunnusluku"
@@ -8289,7 +8289,7 @@
     "messageformat": "Vahvista"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Uusi PIN-koodi luotu."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signalin työpöytäsovelluksen tuki tietokoneesi {OS}-versiolle päättyy pian. Jos haluat jatkaa Signalin käyttöä, päivitä tietokoneesi käyttöjärjestelmä {expirationDate} mennessä. <learnMoreLink>Lue lisää</learnMoreLink>"

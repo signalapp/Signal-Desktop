@@ -78,7 +78,7 @@
     "messageformat": "கணக்கு அமைப்புகள் மற்றும் காப்புப்பிரதிகள் உட்பட, கணக்கு அமைப்புகள் உங்கள் பிரதான சாதனத்தில் மட்டுமே நிர்வகிக்கப்படும்."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "கணக்கு அமைப்புகள் மற்றும் காப்புப்பிரதிகளை உங்கள் முதன்மைச் சாதனத்தில் மட்டுமே நிர்வகிக்க முடியும்."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "தரநிலை"
@@ -6173,7 +6173,7 @@
     "messageformat": "உங்களின் Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "இதனைப் பாதுகாப்பான இடத்தில் சேமித்து வைக்கவும், உங்கள் கணக்கையும் தரவையும் மீட்டெடுக்க உங்கள் உள்நுழைவுத் தகவல் தேவை. இதை ஒருபோதும் யாருடனும் பகிர வேண்டாம்."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "கணக்குக் குறியீடு"
@@ -7013,22 +7013,22 @@
     "messageformat": "புதுப்பித்தல் தேவை"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "புதுப்பிப்புகள் உள்ளதா எனப் பார்க்கிறது"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal புதுப்பிக்கப்படுகிறது"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} இல் {currentBytes} ஐப் பதிவிறக்குகிறது({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "தொடர, Signal Desktop-ஐப் புதுப்பிக்கவும்."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "புதுப்பிக்கப்பட்டது"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store-க்குச் செல்"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "புதுப்பித்தல் தேவை"
@@ -8253,7 +8253,7 @@
     "messageformat": "தவறான பின். மீண்டும் முயற்சிக்கவும்"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN மறந்துவிட்டதா"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "உறுதிப்படுத்துக"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN சரியானது. பின்னர் மீண்டும் நினைவூட்டுவோம்."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "உங்கள் Signal PIN-ஐ மாற்றவும்"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "நீங்கள் முடியும் மாற்றம் உங்கள் பின் இந்த வரை சாதனம் பதிவு செய்யப்பட்டுள்ளது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "உறுதிப்படுத்தவும் உங்கள் Signal பின்"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "நீங்கள் இப்போது உருவாக்கிய PIN-ஐ உள்ளிடவும்."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "புதிய PIN-ஐ உள்ளிடவும்"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "பின்னை உறுதிப்படுத்தவும்"
@@ -8289,7 +8289,7 @@
     "messageformat": "உறுதிப்படுத்துக"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "புதிய PIN உருவாக்கப்பட்டது."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal டெஸ்க்டாப் விரைவில் உங்கள் கணினியின் {OS} பதிப்பை ஆதரிக்காது. சிக்னலைத் தொடர்ந்து பயன்படுத்த, உங்கள் கணினியின் இயங்குதளத்தை {expirationDate} க்குள் புதுப்பிக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>"

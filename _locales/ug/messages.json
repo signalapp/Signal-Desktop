@@ -78,7 +78,7 @@
     "messageformat": "ھېسابات تەڭشەكلىرى ۋە زاپاسلارنى ئۆز ئىچىگە ئالغان بەزى ھېسابات تەڭشەكلىرى پەقەت سىزنىڭ ئاساسلىق ئۈسكۈنىڭىز تەرىپىدىنلا باشقۇرۇلىدۇ."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ھېسابات تەڭشەكلىرى ۋە زاپاسلارنى پەقەت ئاساسلىق ئۈسكۈنىدىلا باشقۇرغىلى بولىدۇ."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ئۆلچەملىك"
@@ -6173,7 +6173,7 @@
     "messageformat": "«Signal Login» ھوقوقىڭىز"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "كىرىش ئۇچۇرىڭىز، ھېساباتىڭىز ۋە سانلىق مەلۇماتلىرىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن كېرەك بولىدۇ، شۇڭا ئۇنى بىخەتەر جايدا ساقلاڭ. بۇنى ھېچكىم بىلەن ئورتاقلاشماڭ."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "ھېسابات ئاچقۇچى"
@@ -7013,22 +7013,22 @@
     "messageformat": "يېڭىلاش كېرەك"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "يېڭى نەشىر نۇسخىلىرىنى ئىزدەۋاتىدۇ"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal نى يېڭىلاش"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} نىڭ {currentBytes} تى چۈشۈۋاتىدۇ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "داۋاملاشتۇرۇش ئۈچۈن Signal ئۈستەليۈزى نۇسخىسىنى يېڭىلاڭ."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "يېڭىلا"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store غا كىرىڭ"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "يېڭىلاش كېرەك"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN نومۇرى خاتا. قايتا سىناڭ"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN نومۇرىنى ئۇنتۇپ قېلىش"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "جەزملەشتۈرۈش"
@@ -8262,7 +8262,7 @@
     "messageformat": "توغرا PIN نومۇر. كېيىنرەك سىزنى قايتا ئەسكەرتىمىز."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PIN نومۇرىڭىزنى ئۆزگەرتىڭ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "بۇ ئۈسكۈنە تىزىملىتىلغانلا بولسا PIN نى ئۆزگەرتەلەيسىز. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "بايا قۇرغان PIN نى كىرگۈزۈڭ."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "يېڭى PIN نومۇرىڭىزنى كىرگۈزۈڭ"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN نى جەزىملەڭ"
@@ -8289,7 +8289,7 @@
     "messageformat": "جەزملەشتۈرۈش"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "يېڭى PIN نومۇر قۇرۇلدى."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "قىسقا ۋاقىتتىن كېيىن Signal كومپيۇتېرىڭىزنىڭ {OS} نەشرىنى قوللىمايدۇ. Signal نى داۋاملىق ئىشلىتىش ئۈچۈن، كومپيۇتېرىڭىزنىڭ مەشغۇلات سىستېمىسىنى «{expirationDate}» دىن بۇرۇن يېڭىلاڭ <learnMoreLink>تەپسىلاتى</learnMoreLink>"

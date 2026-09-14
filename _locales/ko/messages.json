@@ -78,7 +78,7 @@
     "messageformat": "계정 설정 및 백업을 포함한 계정 설정은 기본 기기에서만 관리할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "계정 설정과 백업은 기본 기기에서만 관리할 수 있습니다."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
@@ -6173,7 +6173,7 @@
     "messageformat": "내 Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "로그인 정보를 안전하게 보관해 두세요. 계정과 데이터를 복구하려면 로그인 정보가 필요하며, 절대 다른 사람과 공유해서는 안 됩니다."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "계정 키"
@@ -7013,22 +7013,22 @@
     "messageformat": "업데이트 필요"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "업데이트 확인 중"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal 업데이트 중"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes}/{totalBytes} 다운로드 중({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "계속하려면 Signal 데스크톱을 업데이트하세요."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "업데이트"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store로 이동하기"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "업데이트 필요"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN이 일치하지 않습니다. 다시 시도해 주세요."
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN 찾기"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "확인"
@@ -8262,10 +8262,10 @@
     "messageformat": "PIN이 확인되었습니다. 나중에 다시 확인 알림을 보내드릴게요."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PIN 변경하기"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "이 기기가 등록된 동안 PIN은 언제든지 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+    "messageformat": "이 기기가 등록되어 있는 동안 언제든지 PIN을 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN을 확인해 주세요"
@@ -8274,7 +8274,7 @@
     "messageformat": "방금 만든 PIN을 입력하세요."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "새 PIN을 입력하세요"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN을 확인해 주세요"
@@ -8289,7 +8289,7 @@
     "messageformat": "확인"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "새 PIN이 생성되었습니다."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 데스크톱은 곧 이 컴퓨터의 {OS} 버전에 대한 지원을 종료합니다. 계속 사용하려면 {expirationDate}까지 운영 체제를 업데이트해야 합니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"

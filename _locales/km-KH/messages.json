@@ -78,7 +78,7 @@
     "messageformat": "ការកំណត់គណនីត្រូវបានគ្រប់គ្រងនៅលើឧបករណ៍ចម្បងរបស់អ្នកតែប៉ុណ្ណោះ រួមទាំងការកំណត់គណនី និងការបម្រុងទុក។"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ការកំណត់គណនី និងការបម្រុងទុកអាចគ្រប់គ្រងបានតែនៅលើឧបករណ៍ចម្បងរបស់អ្នកប៉ុណ្ណោះ។"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ស្ដង់ដារ"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login របស់អ្នក"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "សូមរក្សាទុកវាក្នុងកន្លែងដែលមានសុវត្ថិភាព ព្រោះព័ត៌មានចូលគណនីរបស់អ្នកគឺត្រូវមានជាចាំបាច់សម្រាប់ការស្តារគណនី និងទិន្នន័យរបស់អ្នក។ កុំចែករំលែកវាជាមួយនរណាម្នាក់ឱ្យសោះ។"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "លេខកូដគណនី"
@@ -7013,22 +7013,22 @@
     "messageformat": "តម្រូវឱ្យដំឡើងកំណែ"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "កំពុងរកមើលកំណែថ្មីៗ"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "កំពុងដំឡើងកំណែ Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "កំពុងទាញយក {currentBytes} នៃ {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "ដើម្បីបន្ត សូមដំឡើងកំណែ Signal Desktop។"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "ដំឡើងកំណែ"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "ចូលទៅកាន់ App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "តម្រូវឲ្យដំឡើងកំណែ"
@@ -8253,7 +8253,7 @@
     "messageformat": "លេខកូដសម្ងាត់មិនត្រឹមត្រូវ។ ព្យាយាមម្តងទៀត"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "ភ្លេចលេខកូដសម្ងាត់"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "បញ្ជាក់"
@@ -8262,19 +8262,19 @@
     "messageformat": "លេខកូដសម្ងាត់ត្រឹមត្រូវ។ យើងនឹងរំលឹកអ្នកម្តងទៀតនៅពេលក្រោយ។"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "ផ្លាស់ប្តូរលេខកូដសម្ងាត់ Signal របស់អ្នក"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "អ្នកអាចប្តូរលេខ PIN របស់អ្នក លុះត្រាឧបករណ៍នេះត្រូវបានចុះឈ្មោះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
+    "messageformat": "អ្នកអាចប្តូរលេខកូដសម្ងាត់របស់អ្នកបាន ដរាបណាឧបករណ៍នេះត្រូវបានចុះឈ្មោះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "បញ្ជាក់លេខកូដសម្ងាត់ Signal របស់អ្នក"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "បញ្ចូលលេខកូដសម្ងាត់ដែលអ្នកទើបតែបានបង្កើត។"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "បញ្ចូលលេខកូដសម្ងាត់ថ្មី"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "បញ្ជាក់លេខកូដសម្ងាត់"
@@ -8289,16 +8289,16 @@
     "messageformat": "បញ្ជាក់"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "លេខកូដសម្ងាត់ថ្មីត្រូវបានបង្កើត។"
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal desktop នឹងប្រើលែងបាននៅលើកំណែ {OS} របស់កុំព្យូទ័រអ្នកទៀតហើយក្នុងពេលឆាប់ៗនេះ។ ដើម្បីបន្តប្រើប្រាស់ Signal សូមដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការកុំព្យូទ័ររបស់អ្នកត្រឹម {expirationDate}។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
+    "messageformat": "Signal Desktop នឹងប្រើលែងបាននៅលើកំណែ {OS} របស់កុំព្យូទ័រអ្នកទៀតហើយក្នុងពេលឆាប់ៗនេះ។ ដើម្បីបន្តប្រើប្រាស់ Signal សូមដំឡើងកំណែប្រព័ន្ធប្រតិបត្តិការកុំព្យូទ័ររបស់អ្នកត្រឹម {expirationDate}។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
+    "messageformat": "Signal Desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal Desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។"
+    "messageformat": "Signal Desktop លែងដំណើរការលើកុំព្យូទ័រនេះទៀតហើយ។ ដើម្បីប្រើ Signal Desktop ម្តងទៀត សូមដំឡើងកំណែ {OS} របស់កុំព្យូទ័រអ្នក។"
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "បានកែ"

@@ -78,7 +78,7 @@
     "messageformat": "Η διαχείριση των ρυθμίσεων λογαριασμού πραγματοποιείται αποκλειστικά στην κύρια συσκευή σου, συμπεριλαμβανομένων των ρυθμίσεων λογαριασμού και των αντιγράφων ασφαλείας."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Η διαχείριση των ρυθμίσεων λογαριασμού και των αντιγράφων ασφαλείας μπορεί να πραγματοποιηθεί μόνο από την κύρια συσκευή σου."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Κανονική"
@@ -6173,7 +6173,7 @@
     "messageformat": "Το Signal Login σου"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Αποθήκευσέ το σε ασφαλές μέρος, καθώς θα χρειαστείς τα στοιχεία σύνδεσής σου για να ανακτήσεις τον λογαριασμό και τα δεδομένα σου. Μην το μοιράζεσαι ποτέ με κανέναν."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Κλειδί λογαριασμού"
@@ -7013,22 +7013,22 @@
     "messageformat": "Απαιτείται αναβάθμιση"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Έλεγχος για ενημερώσεις"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Ενημέρωση του Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Λήψη {currentBytes} από {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Για να συνεχίσεις, ενημέρωσε το Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Ενημέρωση"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Μετάβαση στο App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Απαιτείται αναβάθμιση"
@@ -8253,7 +8253,7 @@
     "messageformat": "Λάθος ΡΙΝ. Ξαναπροσπάθησε"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Ξέχασα το PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Επιβεβαίωση"
@@ -8262,7 +8262,7 @@
     "messageformat": "Το PIN είναι σωστό. Θα στο θυμίσουμε πάλι αργότερα."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Άλλαξε το PIN σου στο Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Μπορείς να αλλάξεις το PIN σου εφ' όσον αυτή η συσκευή είναι εγγεγραμμένη. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Συμπλήρωσε το PIN που μόλις δημιούργησες."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Γράψε ένα νέο PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Επιβεβαίωση PIN"
@@ -8289,10 +8289,10 @@
     "messageformat": "Επιβεβαίωση"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Δημιουργήθηκε νέο PIN."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Το Signal desktop δεν θα υποστηρίζει πλέον την έκδοση του υπολογιστή σου {OS} σύντομα. Για να συνεχίσεις να χρησιμοποιείς τη Signal, ενημέρωσε το λειτουργικό σύστημα του υπολογιστή σου έως τις {expirationDate}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
+    "messageformat": "Το Signal desktop δεν θα υποστηρίζει πλέον την έκδοση του υπολογιστή σου {OS} σύντομα. Για να συνεχίσεις να χρησιμοποιείς το Signal, ενημέρωσε το λειτουργικό σύστημα του υπολογιστή σου έως τις {expirationDate}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Το Signal desktop δεν λειτουργεί πλέον σε αυτόν τον υπολογιστή. Για να χρησιμοποιήσεις ξανά το Signal desktop, ενημέρωσε την έκδοση του υπολογιστή σου {OS}. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"

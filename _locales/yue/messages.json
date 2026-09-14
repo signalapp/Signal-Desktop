@@ -78,7 +78,7 @@
     "messageformat": "帳戶設定只可以喺主要裝置度管理，包括帳戶設定同備份。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "帳戶設定同備份淨係可以喺你部主機上面管理。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -6173,7 +6173,7 @@
     "messageformat": "你嘅 Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "請將你嘅登入資訊存放喺安全嘅地方，你需要呢個資訊先可以恢復帳戶同資料。千祈唔好同任何人分享呢個資訊。"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "帳戶金鑰"
@@ -7013,22 +7013,22 @@
     "messageformat": "需要更新"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "睇緊有冇更新"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "更新緊 Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
-    "messageformat": "下載緊 {currentBytes} / {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "下載緊 {currentBytes} / {totalBytes} ({percentage,number,percent})……"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "如果想繼續，請先更新 Signal 桌面版。"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "更新"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "跳去 App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "需要更新"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN 碼唔啱。再試一次"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "唔記得咗個 PIN 碼"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "確認"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN 碼正確。我哋遲啲會再提你。"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "更改你嘅 Signal PIN 碼"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "呢部機維持註冊其間，您個 PIN 碼都係任改唔嬲。 <learnMoreLink>了解詳情</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "確認您嘅 Signal PIN 碼"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "請打返您啱先建立嘅 PIN 碼。"
+    "messageformat": "請打返你頭先建立咗嘅 PIN 碼。"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "輸入新嘅 PIN 碼"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "確認 PIN 碼"
@@ -8289,7 +8289,7 @@
     "messageformat": "確認"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "建立咗新嘅 PIN 碼。"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 桌面版即將停止支援 {OS} 電腦版本。要繼續用 Signal 嘅話，請你喺 {expirationDate} 之前更新電腦嘅作業系統。<learnMoreLink>了解詳情</learnMoreLink>"

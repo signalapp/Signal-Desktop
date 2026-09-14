@@ -78,7 +78,7 @@
     "messageformat": "Parametrat e llogarisë menaxhohen vetëm në pajisjen kryesore, duke përfshirë parametrat e llogarisë dhe kopjeruajtjet."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Parametrat e llogarisë dhe kopjeruajtjet mund të menaxhohen vetëm në pajisjen kryesore."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Ruaje në një vend të sigurt; të dhënat e hyrjes nevojiten për të rikthyer llogarinë dhe të dhënat. Mos ia trego askujt."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kodi i llogarisë"
@@ -7013,22 +7013,22 @@
     "messageformat": "Kërkohet përditësim"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Po kontrollohen përditësimet"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Po përditësohet Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Po shkarkohen {currentBytes} nga {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Për të vazhduar, përditëso Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Përditësoje"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Shko tek App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Kërkohet përditësim"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN i pasaktë. Riprovo"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Ke harruar kodin PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Konfirmoje"
@@ -8262,7 +8262,7 @@
     "messageformat": "Kodi PIN i saktë. Do të ta rikujtojmë më vonë."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Ndrysho kodin PIN të Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mundeni ta ndryshoni PIN-in tuaj, sa kohë që kjo pajisje është e regjistruar. <learnMoreLink>Mëso më shumë</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Ripohoni PIN-in tuaj për Signal"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Vendos kodin PIN që sapo krijove."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Vendos një PIN të ri"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Ripohoni PIN-in"
@@ -8289,7 +8289,7 @@
     "messageformat": "Konfirmoje"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Kodi PIN i ri u krijua."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop së shpejti nuk do të mbështesë më versionin e {OS} të kompjuterit tënd. Për të vazhduar përdorimin e Signal, përditëso sistemin operativ të kompjuterit tënd deri më {expirationDate}. <learnMoreLink>Mëso më tepër</learnMoreLink>"

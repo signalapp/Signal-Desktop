@@ -78,7 +78,7 @@
     "messageformat": "Paskyros nustatymus galima tvarkyti tik pagrindiniame įrenginyje, įskaitant paskyros nustatymus ir atsargines kopijas."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Paskyros nustatymus ir atsargines kopijas tvarkyti galima tik pagrindiniame įrenginyje."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standartinė"
@@ -6173,7 +6173,7 @@
     "messageformat": "Jūsų „Signal Login“"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Išsaugokite tai saugioje vietoje, prisijungimo informacijos jums reikės norint atkurti paskyrą ir duomenis. Su niekuo ja nesidalykite."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Paskyros raktas"
@@ -7013,22 +7013,22 @@
     "messageformat": "Reikia atnaujinimo"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Tikrinama, ar yra naujinių"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Atnaujinamas „Signal“"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Atsisiunčiama {currentBytes} iš {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Norėdami tęsti, atnaujinkite „Signal Desktop“."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Atnaujinti"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Eiti į „App Store“"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Reikia atnaujinimo"
@@ -8253,7 +8253,7 @@
     "messageformat": "Neteisingas PIN. Bandykite dar kartą"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Užmiršau PIN kodą"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Patvirtinti"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN kodas teisingas. Vėliau dar kartą priminsime."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Keisti savo „Signal“ PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Kol šis įrenginys yra registruotas, galite keisti savo PIN kodą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Įveskite ką tik sukurtą PIN kodą."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Įvesti naują PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Patvirtinkite PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Patvirtinti"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Naujas PIN sukurtas."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Netrukus „Signal“ nebepalaikys tavo kompiuteryje esančios {OS} versijos. Jei nori toliau naudoti „Signal“, atnaujink kompiuterio operacinę sistemą iki {expirationDate}. <learnMoreLink>Sužinok daugiau</learnMoreLink>"

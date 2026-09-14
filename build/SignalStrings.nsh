@@ -16,7 +16,7 @@ LangString signalMinAppVersionErr 1036 "Une version plus récente de Signal est 
 LangString signalMinWinVersionErr 3082 "Signal Desktop ya no es compatible con este dispositivo. Para volver a usar Signal Desktop, actualiza la versión del Windows de tu equipo de escritorio."
 LangString signalMinAppVersionErr 3082 "Ya está instalada una versión más reciente de Signal. ¿Continuar de todos modos?"
 # zh_CN
-LangString signalMinWinVersionErr 2052 "Signal desktop 无法在此电脑上运行。如您希望再次使用 Signal desktop，请更新您电脑的 Windows 版本。"
+LangString signalMinWinVersionErr 2052 "Signal 桌面版无法在此电脑上运行。如您希望再次使用 Signal 桌面版，请更新您电脑的 Windows 版本。"
 LangString signalMinAppVersionErr 2052 "更新版 Signal 已安装完毕。您确定要继续吗？"
 # zh_TW
 LangString signalMinWinVersionErr 1028 "Signal 桌面版不再適用於此電腦。如要再次使用 Signal 桌面版，請更新電腦的 Windows 版本。"
@@ -40,7 +40,7 @@ LangString signalMinAppVersionErr 1030 "En nyere udgave af Signal er allerede in
 LangString signalMinWinVersionErr 1053 "Signal Desktop fungerar inte längre på den här datorn. Uppdatera datorns version av Windows för att använda Signal Desktop igen."
 LangString signalMinAppVersionErr 1053 "En nyare version av Signal är redan installerad. Är du säker på att du vill fortsätta?"
 # nb_NO
-LangString signalMinWinVersionErr 1044 "Signal Desktop fungerer ikke lenger på denne datamaskinen. Du må oppdatere til en nyere versjon av Windows for å kunne bruke Signal igjen."
+LangString signalMinWinVersionErr 1044 "Signal Desktop fungerer ikke lenger på denne datamaskinen. Du må oppdatere til en nyere versjon av Windows for å kunne bruke Signal Desktop igjen."
 LangString signalMinAppVersionErr 1044 "En nyere versjon av Signal er allerede installert. Er du sikker på at du vil fortsette?"
 # fi_FI
 LangString signalMinWinVersionErr 1035 "Signalin työpöytäsovellus ei enää toimi tässä tietokoneessa. Jos haluat käyttää Signalin työpöytäsovellusta uudelleen, päivitä tietokoneesi Windows-versio."
