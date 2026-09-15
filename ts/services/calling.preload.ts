@@ -4443,11 +4443,7 @@ class CallingClass {
     title: string,
     isVideoCall: boolean
   ): Promise<void> {
-    const shouldNotify =
-      !window.SignalContext.activeWindowService.isActive() &&
-      itemStorage.get('call-system-notification', true);
-
-    if (!shouldNotify) {
+    if (window.SignalContext.activeWindowService.isActive()) {
       return;
     }
 

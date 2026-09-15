@@ -84,7 +84,6 @@ export type StorageAccessType = {
   'blocked-groups': ReadonlyArray<BlockedGroup>;
   'blocked-uuids': ReadonlyArray<BlockedServiceId>;
   'call-ringtone-notification': boolean;
-  'call-system-notification': boolean;
   lastCallQualitySurveyTime: number;
   lastCallQualityFailureSurveyTime: number;
   cqsTestMode: boolean;
@@ -368,6 +367,7 @@ export type StorageAccessType = {
   backupKeyViewed: never;
   isDirectVp9Enabled: never;
   isGroupVp9Enabled: never;
+  'call-system-notification': never;
 };
 
 export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
@@ -379,7 +379,6 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'autoConvertEmoji',
   'badge-count-muted-conversations',
   'call-ringtone-notification',
-  'call-system-notification',
   'customColors',
   'defaultConversationColor',
   'existingOnboardingStoryMessageIds',
@@ -611,6 +610,7 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'pinReminderNextInterval',
   'backupKeyViewed',
   'payments',
+  'call-system-notification',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 // Ensure every storage key is explicitly marked to be preserved or removed on unlink.
@@ -655,7 +655,6 @@ export type AssertStorageUnlinkKeysAreExhaustive = AssertTrue<
 export const STORAGE_KEY_DEFAULTS = {
   'audio-notification': false,
   'badge-count-muted-conversations': false,
-  'call-system-notification': true,
   'notification-draw-attention': false,
   'notification-setting': 'message',
   'reaction-notification': true,

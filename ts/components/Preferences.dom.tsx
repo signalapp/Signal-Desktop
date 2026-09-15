@@ -157,7 +157,6 @@ export type PropsDataType = {
   hasAutoConvertEmoji: boolean;
   hasAutoDownloadUpdate: boolean;
   hasAutoLaunch: boolean | undefined;
-  hasCallNotifications: boolean;
   hasCallRingtoneNotification: boolean;
   hasContentProtection: boolean | undefined;
   hasCountMutedConversations: boolean;
@@ -346,7 +345,6 @@ type PropsFunctionType = {
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
   onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
-  onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
@@ -495,7 +493,6 @@ export function Preferences({
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
   hasAutoLaunch,
-  hasCallNotifications,
   hasCallRingtoneNotification,
   hasContentProtection,
   hasCountMutedConversations,
@@ -549,7 +546,6 @@ export function Preferences({
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
   onBackupKeyViewed,
-  onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onContentProtectionChange,
   onCountMutedConversationsChange,
@@ -1698,12 +1694,6 @@ export function Preferences({
 
         <List>
           <AxoSwitchItem.Root
-            label={i18n('icu:callSystemNotificationDescription')}
-            disabled={!hasNotifications}
-            checked={hasCallNotifications}
-            onCheckedChange={onCallNotificationsChange}
-          />
-          <AxoSwitchItem.Root
             label={i18n('icu:Preferences__reaction-notifications-title')}
             description={i18n(
               'icu:Preferences__reaction-notifications-description'
@@ -1740,7 +1730,9 @@ export function Preferences({
         </List>
 
         <List
-          label={i18n('icu:Preferences__Notifications__AppBadgeSection__Title')}
+          label={i18n(
+            'icu:Preferences__Notifications__AppBadgeSection__Title-v2'
+          )}
         >
           <AxoSelectItem.Root
             label={i18n(
@@ -1770,7 +1762,12 @@ export function Preferences({
             ]}
           />
           <AxoSwitchItem.Root
-            label={i18n('icu:countMutedConversationsDescription')}
+            label={i18n(
+              'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats'
+            )}
+            description={i18n(
+              'icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description'
+            )}
             checked={hasCountMutedConversations}
             onCheckedChange={onCountMutedConversationsChange}
           />

@@ -742,10 +742,6 @@ export function SmartPreferences(): JSX.Element | null {
     'auto-download-update',
     true
   );
-  const [hasCallNotifications, onCallNotificationsChange] = createItemsAccess(
-    'call-system-notification',
-    STORAGE_KEY_DEFAULTS['call-system-notification']
-  );
   const [hasIncomingCallNotifications, onIncomingCallNotificationsChange] =
     createItemsAccess('incoming-call-notification', true);
   const [hasCallRingtoneNotification, onCallRingtoneNotificationChange] =
@@ -826,7 +822,6 @@ export function SmartPreferences(): JSX.Element | null {
   const onResetNotificationSettings = () => {
     // Reset global settings
     onNotificationContentChange(STORAGE_KEY_DEFAULTS['notification-setting']);
-    onCallNotificationsChange(STORAGE_KEY_DEFAULTS['call-system-notification']);
     onReactionNotificationsChange(
       STORAGE_KEY_DEFAULTS['reaction-notification']
     );
@@ -1071,7 +1066,6 @@ export function SmartPreferences(): JSX.Element | null {
         hasAutoDownloadUpdate={hasAutoDownloadUpdate}
         hasAutoLaunch={hasAutoLaunch}
         hasKeepMutedChatsArchived={hasKeepMutedChatsArchived}
-        hasCallNotifications={hasCallNotifications}
         hasCallRingtoneNotification={hasCallRingtoneNotification}
         hasContentProtection={hasContentProtection}
         hasCountMutedConversations={hasCountMutedConversations}
@@ -1127,7 +1121,6 @@ export function SmartPreferences(): JSX.Element | null {
         onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
         onAutoLaunchChange={onAutoLaunchChange}
         onBackupKeyViewed={onBackupKeyViewed}
-        onCallNotificationsChange={onCallNotificationsChange}
         onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
         onContentProtectionChange={onContentProtectionChange}
         onCountMutedConversationsChange={onCountMutedConversationsChange}

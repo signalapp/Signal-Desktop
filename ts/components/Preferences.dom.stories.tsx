@@ -472,7 +472,6 @@ export default {
     hasAutoConvertEmoji: true,
     hasAutoDownloadUpdate: true,
     hasAutoLaunch: true,
-    hasCallNotifications: true,
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
     hasCountMutedConversations: false,
@@ -597,7 +596,6 @@ export default {
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
     onBackupKeyViewed: action('onBackupKeyViewed'),
-    onCallNotificationsChange: action('onCallNotificationsChange'),
     onCallRingtoneNotificationChange: action(
       'onCallRingtoneNotificationChange'
     ),

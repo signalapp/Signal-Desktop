@@ -1058,6 +1058,10 @@ async function startApp(): Promise<void> {
         await itemStorage.put('callLinkAuthCredentials', []);
       }
 
+      if (window.isBeforeVersion(lastVersion, 'v8.30.0-beta.1')) {
+        await itemStorage.remove('call-system-notification');
+      }
+
       if (
         itemStorage.get('backupKeyViewed') === true &&
         itemStorage.get('backupKeyViewedHash') == null
