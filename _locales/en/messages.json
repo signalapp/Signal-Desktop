@@ -8316,6 +8316,10 @@
     "messageformat": "App badge",
     "description": "Preferences > Notifications > App Badge Section > Title"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges",
+    "description": "Preferences > Notifications > App Badge Section > Title"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Reset notification settings to default, including custom settings for your chats.",
     "description": "Preferences > Notifications > Reset Section > Text of the row that restores the default notification settings"
@@ -8347,6 +8351,14 @@
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Unread chats",
     "description": "Preferences > Notifications > App Badge Section > Option for showing the number of unread chats in the badge count"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge",
+    "description": "Title for counting muted conversations in badge setting"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats",
+    "description": "Description for counting muted conversations in badge setting"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Export chat history",
