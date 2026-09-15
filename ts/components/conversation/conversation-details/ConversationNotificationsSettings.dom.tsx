@@ -83,14 +83,12 @@ export function ConversationNotificationsSettings({
                   <AxoItem.Icon symbol="bell-slash" />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label>
-                      {i18n('icu:muteNotificationsTitle')}
-                    </AxoItem.Label>
-                    <AxoItem.Description>
-                      {mutedUntilText ?? i18n('icu:notMuted')}
-                    </AxoItem.Description>
-                  </AxoItem.Body>
+                  <AxoItem.Label>
+                    {i18n('icu:muteNotificationsTitle')}
+                  </AxoItem.Label>
+                  <AxoItem.Description>
+                    {mutedUntilText ?? i18n('icu:notMuted')}
+                  </AxoItem.Description>
                   <AxoItem.Accessory>
                     {mutedUntilText != null ? (
                       <AxoItem.Action
@@ -119,19 +117,17 @@ export function ConversationNotificationsSettings({
                   <AxoItem.Icon symbol="bell-badge" />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label id={whileMutedLabelId}>
-                      {i18n('icu:WhileMuted__title')}
-                    </AxoItem.Label>
-                    <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
-                    <AxoItem.Description>
-                      {i18n('icu:WhileMuted__description')}
-                    </AxoItem.Description>
-                    <AxoItem.HiddenTrigger
-                      labelledby={whileMutedLabelId}
-                      onClick={onOpenWhileMutedSettings}
-                    />
-                  </AxoItem.Body>
+                  <AxoItem.Label id={whileMutedLabelId}>
+                    {i18n('icu:WhileMuted__title')}
+                  </AxoItem.Label>
+                  <AxoItem.Value>{whileMutedSummary}</AxoItem.Value>
+                  <AxoItem.Description>
+                    {i18n('icu:WhileMuted__description')}
+                  </AxoItem.Description>
+                  <AxoItem.HiddenTrigger
+                    labelledby={whileMutedLabelId}
+                    onClick={onOpenWhileMutedSettings}
+                  />
                   <AxoItem.Trailing>
                     <AxoItem.Arrow />
                   </AxoItem.Trailing>

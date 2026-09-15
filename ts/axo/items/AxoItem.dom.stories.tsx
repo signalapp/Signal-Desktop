@@ -33,37 +33,31 @@ export function Label(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>{LONG_LABEL}</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>{LONG_LABEL}</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -77,42 +71,36 @@ export function Description(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Description>Description of the item</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>
-                Description with more detail about the item
-              </AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>
+              Description with more detail about the item
+            </AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Yet another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Yet another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -129,13 +117,11 @@ export function Icon(): ReactNode {
             <AxoItem.Icon symbol="settings" />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
@@ -144,29 +130,25 @@ export function Icon(): ReactNode {
             <AxoItem.Icon symbol="appearance" />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Item without icon</AxoItem.Label>
-              <AxoItem.Description>
-                Notice it stays aligned with the other items
-              </AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Item without icon</AxoItem.Label>
+            <AxoItem.Description>
+              Notice it stays aligned with the other items
+            </AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -183,13 +165,11 @@ function IconAvatarTemplate(props: { size: AxoItem.IconAvatarSize }) {
             <AxoItem.IconAvatar symbol="settings" size={props.size} />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
@@ -198,29 +178,25 @@ function IconAvatarTemplate(props: { size: AxoItem.IconAvatarSize }) {
             <AxoItem.IconAvatar symbol="appearance" size={props.size} />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Item without icon avatar</AxoItem.Label>
-              <AxoItem.Description>
-                Notice it stays aligned with the other items
-              </AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Item without icon avatar</AxoItem.Label>
+            <AxoItem.Description>
+              Notice it stays aligned with the other items
+            </AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -245,44 +221,38 @@ export function Value(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.Value>+1 555 555-5555</AxoItem.Value>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Value>+1 555 555-5555</AxoItem.Value>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Value>Jamie-MacBook-Pro.local</AxoItem.Value>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Value>Jamie-MacBook-Pro.local</AxoItem.Value>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Yet another label</AxoItem.Label>
-              <AxoItem.Value>System Language</AxoItem.Value>
-              <AxoItem.Description>
-                Description that explains what this means
-              </AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Yet another label</AxoItem.Label>
+            <AxoItem.Value>System Language</AxoItem.Value>
+            <AxoItem.Description>
+              Description that explains what this means
+            </AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -301,13 +271,11 @@ export function Arrow(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>
@@ -316,15 +284,13 @@ export function Arrow(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.Value>Item value</AxoItem.Value>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.Value>Item value</AxoItem.Value>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>
@@ -333,26 +299,22 @@ export function Arrow(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Item without arrow</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Item without arrow</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>External link </AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>External link </AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow kind="external-link" />
             </AxoItem.Trailing>
@@ -379,45 +341,32 @@ export function Action(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.Accessory>
-                <AxoItem.Action variant="subtle-secondary">
-                  Action
-                </AxoItem.Action>
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Accessory>
+              <AxoItem.Action variant="subtle-secondary">Action</AxoItem.Action>
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
-              <AxoItem.Accessory>
-                <AxoItem.Action variant="subtle-secondary">
-                  Action
-                </AxoItem.Action>
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Description>Description of the item</AxoItem.Description>
+            <AxoItem.Accessory>
+              <AxoItem.Action variant="subtle-secondary">Action</AxoItem.Action>
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.Accessory>
-                <AxoItem.Action
-                  symbol="phone-fill"
-                  variant="strong-affirmative"
-                >
-                  Join
-                </AxoItem.Action>
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.Accessory>
+              <AxoItem.Action symbol="phone-fill" variant="strong-affirmative">
+                Join
+              </AxoItem.Action>
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -474,9 +423,7 @@ export function IconActions(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
             <AxoItem.Trailing>
               <DownloadIconAction />
             </AxoItem.Trailing>
@@ -485,10 +432,8 @@ export function IconActions(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
             <AxoItem.Trailing>
               <MoreIconActionWithMenu />
             </AxoItem.Trailing>
@@ -497,10 +442,8 @@ export function IconActions(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Yet another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-            </AxoItem.Body>
+            <AxoItem.Label>Yet another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
             <AxoItem.Trailing>
               <DownloadIconAction />
               <MoreIconActionWithMenu />
@@ -543,9 +486,7 @@ export function OtherAccessories(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
             <AxoItem.Trailing>
               <Switch />
             </AxoItem.Trailing>
@@ -554,21 +495,17 @@ export function OtherAccessories(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Accessory>
-                <Select />
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Accessory>
+              <Select />
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Label of item</AxoItem.Label>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
-            </AxoItem.Body>
+            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Description>Description of the item</AxoItem.Description>
             <AxoItem.Trailing>
               <Switch />
             </AxoItem.Trailing>
@@ -577,13 +514,11 @@ export function OtherAccessories(): ReactNode {
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another label</AxoItem.Label>
-              <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
-              <AxoItem.Accessory>
-                <Select />
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
+            <AxoItem.Accessory>
+              <Select />
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -603,19 +538,12 @@ function StressTest(props: {
           <AxoItem.Icon symbol="settings" />
         </AxoItem.Leading>
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label>{props.label}</AxoItem.Label>
-            {props.value != null && (
-              <AxoItem.Value>{props.value}</AxoItem.Value>
-            )}
-            {props.description != null && (
-              <AxoItem.Description>{props.description}</AxoItem.Description>
-            )}
-            <AxoItem.HiddenTrigger
-              label="Trigger"
-              onClick={action('onClick')}
-            />
-          </AxoItem.Body>
+          <AxoItem.Label>{props.label}</AxoItem.Label>
+          {props.value != null && <AxoItem.Value>{props.value}</AxoItem.Value>}
+          {props.description != null && (
+            <AxoItem.Description>{props.description}</AxoItem.Description>
+          )}
+          <AxoItem.HiddenTrigger label="Trigger" onClick={action('onClick')} />
           <AxoItem.Trailing>
             <AxoItem.Arrow />
           </AxoItem.Trailing>
@@ -715,15 +643,13 @@ export function Disabled(): ReactNode {
             <AxoItem.Icon symbol="settings" />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Title of item</AxoItem.Label>
-              <AxoItem.Value>Value of the item</AxoItem.Value>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Title of item</AxoItem.Label>
+            <AxoItem.Value>Value of the item</AxoItem.Value>
+            <AxoItem.Description>Description of the item</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>
@@ -732,41 +658,37 @@ export function Disabled(): ReactNode {
 
         <AxoItem.Root disabled>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Another title</AxoItem.Label>
-              <AxoItem.Accessory>
-                <AxoSwitch.Root
-                  disabled
-                  checked
-                  onCheckedChange={action('onCheckedChange')}
-                />
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Another title</AxoItem.Label>
+            <AxoItem.Accessory>
+              <AxoSwitch.Root
+                disabled
+                checked
+                onCheckedChange={action('onCheckedChange')}
+              />
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root disabled>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Yet another title</AxoItem.Label>
-              <AxoItem.Description>
-                Description that explains what this means
-              </AxoItem.Description>
-              <AxoItem.Accessory>
-                <AxoSelect.Root
-                  disabled
-                  value="option1"
-                  onValueChange={action('onValueChange')}
-                >
-                  <AxoSelect.Trigger placeholder="Select an option" />
-                  <AxoSelect.Content>
-                    <AxoSelect.Item value="option1">
-                      <AxoSelect.ItemText>Option 1</AxoSelect.ItemText>
-                    </AxoSelect.Item>
-                  </AxoSelect.Content>
-                </AxoSelect.Root>
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Yet another title</AxoItem.Label>
+            <AxoItem.Description>
+              Description that explains what this means
+            </AxoItem.Description>
+            <AxoItem.Accessory>
+              <AxoSelect.Root
+                disabled
+                value="option1"
+                onValueChange={action('onValueChange')}
+              >
+                <AxoSelect.Trigger placeholder="Select an option" />
+                <AxoSelect.Content>
+                  <AxoSelect.Item value="option1">
+                    <AxoSelect.ItemText>Option 1</AxoSelect.ItemText>
+                  </AxoSelect.Item>
+                </AxoSelect.Content>
+              </AxoSelect.Root>
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>
@@ -780,13 +702,11 @@ export function Destructive(): ReactNode {
       <AxoItem.Group>
         <AxoItem.Root variant="destructive">
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Title of item</AxoItem.Label>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Title of item</AxoItem.Label>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
           </AxoItem.Content>
         </AxoItem.Root>
 
@@ -795,15 +715,13 @@ export function Destructive(): ReactNode {
             <AxoItem.Icon symbol="settings" />
           </AxoItem.Leading>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Item with lots of stuff</AxoItem.Label>
-              <AxoItem.Value>Value of the item</AxoItem.Value>
-              <AxoItem.Description>Description of the item</AxoItem.Description>
-              <AxoItem.HiddenTrigger
-                label="Trigger"
-                onClick={action('onClick')}
-              />
-            </AxoItem.Body>
+            <AxoItem.Label>Item with lots of stuff</AxoItem.Label>
+            <AxoItem.Value>Value of the item</AxoItem.Value>
+            <AxoItem.Description>Description of the item</AxoItem.Description>
+            <AxoItem.HiddenTrigger
+              label="Trigger"
+              onClick={action('onClick')}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>
@@ -812,40 +730,36 @@ export function Destructive(): ReactNode {
 
         <AxoItem.Root variant="destructive" disabled>
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Disabled item</AxoItem.Label>
-              <AxoItem.Accessory>
-                <AxoSwitch.Root
-                  disabled
-                  checked
-                  onCheckedChange={action('onCheckedChange')}
-                />
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Disabled item</AxoItem.Label>
+            <AxoItem.Accessory>
+              <AxoSwitch.Root
+                disabled
+                checked
+                onCheckedChange={action('onCheckedChange')}
+              />
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root variant="destructive">
           <AxoItem.Content>
-            <AxoItem.Body>
-              <AxoItem.Label>Yet another item</AxoItem.Label>
-              <AxoItem.Description>
-                Description that explains what this means
-              </AxoItem.Description>
-              <AxoItem.Accessory>
-                <AxoSelect.Root
-                  value="option1"
-                  onValueChange={action('onValueChange')}
-                >
-                  <AxoSelect.Trigger placeholder="Select an option" />
-                  <AxoSelect.Content>
-                    <AxoSelect.Item value="option1">
-                      <AxoSelect.ItemText>Option 1</AxoSelect.ItemText>
-                    </AxoSelect.Item>
-                  </AxoSelect.Content>
-                </AxoSelect.Root>
-              </AxoItem.Accessory>
-            </AxoItem.Body>
+            <AxoItem.Label>Yet another item</AxoItem.Label>
+            <AxoItem.Description>
+              Description that explains what this means
+            </AxoItem.Description>
+            <AxoItem.Accessory>
+              <AxoSelect.Root
+                value="option1"
+                onValueChange={action('onValueChange')}
+              >
+                <AxoSelect.Trigger placeholder="Select an option" />
+                <AxoSelect.Content>
+                  <AxoSelect.Item value="option1">
+                    <AxoSelect.ItemText>Option 1</AxoSelect.ItemText>
+                  </AxoSelect.Item>
+                </AxoSelect.Content>
+              </AxoSelect.Root>
+            </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
       </AxoItem.Group>

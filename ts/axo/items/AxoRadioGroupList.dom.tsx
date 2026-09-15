@@ -81,9 +81,7 @@ export namespace AxoRadioGroupList {
           <AxoBaseItem.Leading>
             <AxoBaseRadioGroup.Indicator />
           </AxoBaseItem.Leading>
-          <AxoBaseItem.Content>
-            <AxoBaseItem.Body>{props.children}</AxoBaseItem.Body>
-          </AxoBaseItem.Content>
+          <AxoBaseItem.Content>{props.children}</AxoBaseItem.Content>
         </AxoBaseItem.Root>
       </AxoBaseRadioGroup.Item>
     );

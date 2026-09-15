@@ -4,10 +4,10 @@
 @use '../stylesheets/variables';
 
 #storybook-root {
-  height: 100%;
+  min-height: 100%;
 }
 #storybook-root > div {
-  height: 100%;
+  min-height: 100%;
 }
 
 .sb-show-errordisplay {

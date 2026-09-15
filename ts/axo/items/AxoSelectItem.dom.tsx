@@ -41,40 +41,38 @@ export namespace AxoSelectItem {
             </AxoBaseItem.Leading>
           )}
           <AxoBaseItem.Content>
-            <AxoBaseItem.Body>
-              <AriaList.Label asChild>
-                <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
-              </AriaList.Label>
-              {props.description != null && (
-                <AriaList.Description asChild>
-                  <AxoBaseItem.Description>
-                    {props.description}
-                  </AxoBaseItem.Description>
-                </AriaList.Description>
-              )}
-              <AxoBaseItem.Accessory>
-                <AxoSelect.Root
-                  disabled={props.disabled}
-                  value={props.value}
-                  onValueChange={props.onValueChange}
-                >
-                  <AxoSelect.Trigger placeholder={props.placeholder} />
-                  <AxoSelect.Content>
-                    {props.options.map(item => {
-                      return (
-                        <AxoSelect.Item
-                          key={item.value}
-                          value={item.value}
-                          disabled={item.disabled}
-                        >
-                          <AxoSelect.ItemText>{item.label}</AxoSelect.ItemText>
-                        </AxoSelect.Item>
-                      );
-                    })}
-                  </AxoSelect.Content>
-                </AxoSelect.Root>
-              </AxoBaseItem.Accessory>
-            </AxoBaseItem.Body>
+            <AriaList.Label asChild>
+              <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
+            </AriaList.Label>
+            {props.description != null && (
+              <AriaList.Description asChild>
+                <AxoBaseItem.Description>
+                  {props.description}
+                </AxoBaseItem.Description>
+              </AriaList.Description>
+            )}
+            <AxoBaseItem.Accessory>
+              <AxoSelect.Root
+                disabled={props.disabled}
+                value={props.value}
+                onValueChange={props.onValueChange}
+              >
+                <AxoSelect.Trigger placeholder={props.placeholder} />
+                <AxoSelect.Content>
+                  {props.options.map(item => {
+                    return (
+                      <AxoSelect.Item
+                        key={item.value}
+                        value={item.value}
+                        disabled={item.disabled}
+                      >
+                        <AxoSelect.ItemText>{item.label}</AxoSelect.ItemText>
+                      </AxoSelect.Item>
+                    );
+                  })}
+                </AxoSelect.Content>
+              </AxoSelect.Root>
+            </AxoBaseItem.Accessory>
           </AxoBaseItem.Content>
         </AxoBaseItem.Root>
       </AriaList.Item>

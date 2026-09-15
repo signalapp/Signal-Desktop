@@ -72,15 +72,13 @@ export function SignalAccountKeysButton({
           />
         </AxoItem.Leading>
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label id={id}>
-              {i18n('icu:Preferences__SignalAccount__label')}
-            </AxoItem.Label>
-            <AxoItem.Description>
-              {i18n('icu:Preferences__SignalAccount__description')}
-            </AxoItem.Description>
-            <AxoItem.HiddenTrigger labelledby={id} onClick={onClick} />
-          </AxoItem.Body>
+          <AxoItem.Label id={id}>
+            {i18n('icu:Preferences__SignalAccount__label')}
+          </AxoItem.Label>
+          <AxoItem.Description>
+            {i18n('icu:Preferences__SignalAccount__description')}
+          </AxoItem.Description>
+          <AxoItem.HiddenTrigger labelledby={id} onClick={onClick} />
           <AxoItem.Trailing>
             <AxoItem.Arrow />
           </AxoItem.Trailing>

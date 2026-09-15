@@ -1447,19 +1447,17 @@ export function Preferences({
           />
           <AxoItem.Root>
             <AxoItem.Content>
-              <AxoItem.Body>
-                <AxoItem.Label>
-                  {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
-                </AxoItem.Label>
-                <AxoItem.Accessory>
-                  <FunSkinTonesList
-                    i18n={i18n}
-                    emoji={Emoji.HAND}
-                    skinTone={emojiSkinToneDefault}
-                    onSelectSkinTone={onEmojiSkinToneDefaultChange}
-                  />
-                </AxoItem.Accessory>
-              </AxoItem.Body>
+              <AxoItem.Label>
+                {i18n('icu:Preferences__EmojiSkinToneDefaultSetting__Label')}
+              </AxoItem.Label>
+              <AxoItem.Accessory>
+                <FunSkinTonesList
+                  i18n={i18n}
+                  emoji={Emoji.HAND}
+                  skinTone={emojiSkinToneDefault}
+                  onSelectSkinTone={onEmojiSkinToneDefaultChange}
+                />
+              </AxoItem.Accessory>
             </AxoItem.Content>
           </AxoItem.Root>
         </List>
@@ -2900,13 +2898,11 @@ function ItemWithAction(props: ItemWithActionProps): ReactNode {
   return (
     <AxoItem.Root>
       <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
-          {props.description != null && (
-            <AxoItem.Description>{props.description}</AxoItem.Description>
-          )}
-          <AxoItem.Accessory>{props.action}</AxoItem.Accessory>
-        </AxoItem.Body>
+        <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
+        {props.description != null && (
+          <AxoItem.Description>{props.description}</AxoItem.Description>
+        )}
+        <AxoItem.Accessory>{props.action}</AxoItem.Accessory>
       </AxoItem.Content>
     </AxoItem.Root>
   );

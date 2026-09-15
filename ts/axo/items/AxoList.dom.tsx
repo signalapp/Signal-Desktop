@@ -38,7 +38,7 @@ export namespace AxoList {
   export const Root: FC<RootProps> = memo(props => {
     return (
       <AriaLabelled.Root asChild label={props.accessibilityLabel}>
-        <section className={tw('group/axo-list-root')}>
+        <section className={tw('group/axo-list-root min-w-min')}>
           {props.children}
         </section>
       </AriaLabelled.Root>

@@ -340,9 +340,7 @@ function MembersPendingAdminApproval({
                   />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label>{membership.member.title}</AxoItem.Label>
-                  </AxoItem.Body>
+                  <AxoItem.Label>{membership.member.title}</AxoItem.Label>
                   <AxoItem.Trailing>
                     <AxoItem.IconAction
                       symbol="x"
@@ -444,9 +442,7 @@ function MembersPendingProfileKey({
                   />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label>{membership.member.title}</AxoItem.Label>
-                  </AxoItem.Body>
+                  <AxoItem.Label>{membership.member.title}</AxoItem.Label>
                   {conversation.areWeAdmin && (
                     <AxoItem.Trailing>
                       <AxoItem.IconAction
@@ -489,14 +485,12 @@ function MembersPendingProfileKey({
                   />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label>{member.title}</AxoItem.Label>
-                    <AxoItem.Value>
-                      {i18n('icu:PendingInvites--invited-count', {
-                        number: otherMemberships.length,
-                      })}
-                    </AxoItem.Value>
-                  </AxoItem.Body>
+                  <AxoItem.Label>{member.title}</AxoItem.Label>
+                  <AxoItem.Value>
+                    {i18n('icu:PendingInvites--invited-count', {
+                      number: otherMemberships.length,
+                    })}
+                  </AxoItem.Value>
                   {conversation.areWeAdmin && (
                     <AxoItem.Trailing>
                       <AxoItem.IconAction

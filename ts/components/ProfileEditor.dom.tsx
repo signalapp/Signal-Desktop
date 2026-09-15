@@ -513,19 +513,17 @@ export function ProfileEditor({
                       <BioEmoji emoji={emojiVariant} />
                     </AxoItem.Leading>
                     <AxoItem.Content>
-                      <AxoItem.Body>
-                        <AxoItem.Label>{defaultBio.i18nLabel}</AxoItem.Label>
-                        <AxoItem.HiddenTrigger
-                          label={defaultBio.i18nLabel}
-                          onClick={() => {
-                            setStagedProfile(profileData => ({
-                              ...profileData,
-                              aboutEmoji: emojiVariant,
-                              aboutText: defaultBio.i18nLabel,
-                            }));
-                          }}
-                        />
-                      </AxoItem.Body>
+                      <AxoItem.Label>{defaultBio.i18nLabel}</AxoItem.Label>
+                      <AxoItem.HiddenTrigger
+                        label={defaultBio.i18nLabel}
+                        onClick={() => {
+                          setStagedProfile(profileData => ({
+                            ...profileData,
+                            aboutEmoji: emojiVariant,
+                            aboutText: defaultBio.i18nLabel,
+                          }));
+                        }}
+                      />
                     </AxoItem.Content>
                   </AxoItem.Root>
                 );
@@ -776,22 +774,19 @@ export function ProfileEditor({
                     )}
                   </AxoItem.Leading>
                   <AxoItem.Content>
-                    <AxoItem.Body>
-                      <AxoItem.Label>
-                        <UserText
-                          text={
-                            fullBio.aboutText ||
-                            i18n('icu:ProfileEditor--about')
-                          }
-                        />
-                      </AxoItem.Label>
-                      <AxoItem.HiddenTrigger
-                        label={i18n('icu:ProfileEditor--about')}
-                        onClick={() => {
-                          setEditState(ProfileEditorPage.Bio);
-                        }}
+                    <AxoItem.Label>
+                      <UserText
+                        text={
+                          fullBio.aboutText || i18n('icu:ProfileEditor--about')
+                        }
                       />
-                    </AxoItem.Body>
+                    </AxoItem.Label>
+                    <AxoItem.HiddenTrigger
+                      label={i18n('icu:ProfileEditor--about')}
+                      onClick={() => {
+                        setEditState(ProfileEditorPage.Bio);
+                      }}
+                    />
                   </AxoItem.Content>
                 </AxoItem.Root>
               </AxoItem.Group>

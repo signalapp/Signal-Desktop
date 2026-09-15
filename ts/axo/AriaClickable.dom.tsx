@@ -1,8 +1,15 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from 'react';
 import type { ReactNode, MouseEvent, FC, Ref, CSSProperties } from 'react';
-import { useLayoutEffect, mergeRefs } from '@react-aria/utils';
+import { mergeRefs } from '@react-aria/utils';
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { Slot } from 'radix-ui';
 import { tw } from './tw.dom.tsx';

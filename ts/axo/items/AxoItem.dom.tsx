@@ -17,18 +17,16 @@ import { AriaList } from '../aria/AriaList.dom.tsx';
  *       <AxoItem.Icon />
  *     </AxoItem.Leading>
  *     <AxoItem.Content>
- *       <AxoItem.Body>
- *         <AxoItem.Label />
- *         <AxoItem.Value/>
- *         <AxoItem.Description />
- *         <AxoItem.HiddenTrigger />
- *         <AxoItem.Accessory>
- *           <AxoItem.Action />
- *           <AxoItem.IconAction />
- *           <AxoSelect.Root />
- *           <AxoSwitch.Root />
- *         </AxoItem.Accessory>
- *       </AxoItem.Body>
+ *       <AxoItem.Label />
+ *       <AxoItem.Value/>
+ *       <AxoItem.Description />
+ *       <AxoItem.HiddenTrigger />
+ *       <AxoItem.Accessory>
+ *         <AxoItem.Action />
+ *         <AxoItem.IconAction />
+ *         <AxoSelect.Root />
+ *         <AxoSwitch.Root />
+ *       </AxoItem.Accessory>
  *       <AxoItem.Trailing>
  *         <AxoItem.Arrow />
  *       </AxoItem.Trailing>
@@ -149,21 +147,6 @@ export namespace AxoItem {
   });
 
   Content.displayName = 'AxoItem.Content';
-
-  /**
-   * <AxoItem.Body>
-   * --------------------------------------------------------------------------
-   */
-
-  export type BodyProps = Readonly<{
-    children: ReactNode;
-  }>;
-
-  export const Body: FC<BodyProps> = memo(props => {
-    return <AxoBaseItem.Body>{props.children}</AxoBaseItem.Body>;
-  });
-
-  Body.displayName = 'AxoItem.Body';
 
   /**
    * <AxoItem.Label>

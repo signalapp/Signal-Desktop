@@ -99,10 +99,8 @@ function WhileMutedSwitch({
     <AxoItem.Root>
       <AxoItem.Icon symbol={symbol} />
       <AxoItem.Content>
-        <AxoItem.Body>
-          <AxoItem.Label>{label}</AxoItem.Label>
-          <AxoItem.Description>{description}</AxoItem.Description>
-        </AxoItem.Body>
+        <AxoItem.Label>{label}</AxoItem.Label>
+        <AxoItem.Description>{description}</AxoItem.Description>
         <AxoItem.Accessory>
           <label>
             <span className={tw('sr-only')}>{label}</span>

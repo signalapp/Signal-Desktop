@@ -31,15 +31,11 @@ export namespace AxoTextItem {
           </AxoItem.Leading>
         )}
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label>{props.label}</AxoItem.Label>
-            {props.value != null && (
-              <AxoItem.Value>{props.value}</AxoItem.Value>
-            )}
-            {props.description != null && (
-              <AxoItem.Description>{props.description}</AxoItem.Description>
-            )}
-          </AxoItem.Body>
+          <AxoItem.Label>{props.label}</AxoItem.Label>
+          {props.value != null && <AxoItem.Value>{props.value}</AxoItem.Value>}
+          {props.description != null && (
+            <AxoItem.Description>{props.description}</AxoItem.Description>
+          )}
           {props.trailing != null && (
             <AxoItem.Trailing>{props.trailing}</AxoItem.Trailing>
           )}

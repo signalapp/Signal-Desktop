@@ -1,7 +1,22 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, MouseEvent, ReactNode, Ref } from 'react';
-import { memo, useMemo } from 'react';
+import type {
+  FC,
+  MouseEvent,
+  ReactNode,
+  Ref,
+  RefCallback,
+  RefObject,
+} from 'react';
+import {
+  memo,
+  useState,
+  useLayoutEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
+import { mergeRefs } from '@react-aria/utils';
 import {
   createStrictContext,
   useStrictContext,
@@ -16,6 +31,7 @@ import { AxoButton } from '../AxoButton.dom.tsx';
 import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 import { variants } from '../_internal/variants.dom.tsx';
+import { assert } from '../_internal/assert.std.tsx';
 
 /**
  * @example Anatomy
@@ -26,18 +42,16 @@ import { variants } from '../_internal/variants.dom.tsx';
  *       <AxoBaseItem.Icon />
  *     </AxoBaseItem.Leading>
  *     <AxoBaseItem.Content>
- *       <AxoBaseItem.Body>
- *         <AxoBaseItem.Label />
- *         <AxoBaseItem.Value />
- *         <AxoBaseItem.Description />
- *         <AxoBaseItem.HiddenTrigger />
- *         <AxoBaseItem.Accessory>
- *           <AxoBaseItem.Action />
- *           <AxoBaseItem.IconAction />
- *           <AxoSelect.Root />
- *           <AxoSwitch.Root />
- *         </AxoBaseItem.Accessory>
- *       </AxoBaseItem.Body>
+ *       <AxoBaseItem.Label />
+ *       <AxoBaseItem.Value />
+ *       <AxoBaseItem.Description />
+ *       <AxoBaseItem.HiddenTrigger />
+ *       <AxoBaseItem.Accessory>
+ *         <AxoBaseItem.Action />
+ *         <AxoBaseItem.IconAction />
+ *         <AxoSelect.Root />
+ *         <AxoSwitch.Root />
+ *       </AxoBaseItem.Accessory>
  *       <AxoBaseItem.Trailing>
  *         <AxoBaseItem.Arrow />
  *       </AxoBaseItem.Trailing>
@@ -47,19 +61,85 @@ import { variants } from '../_internal/variants.dom.tsx';
  * ```
  */
 export namespace AxoBaseItem {
-  export type Spacing = 'md' | 'sm';
+  function useItemsLayoutSwap(ref: RefObject<Element | null>) {
+    const observerRef = useRef<ResizeObserver | null>(null);
+
+    const [items] = useState(() => new Set<Element>());
+    const itemsRef = useRef(items);
+
+    const register: RefCallback<Element> = useCallback(maybeElement => {
+      const element = assert(maybeElement);
+
+      itemsRef.current.add(element);
+      observerRef.current?.observe(element);
+
+      return () => {
+        itemsRef.current.delete(element);
+        observerRef.current?.unobserve(element);
+      };
+    }, []);
+
+    useLayoutEffect(() => {
+      const group = assert(ref.current, 'Missing ref');
+
+      const observer = new ResizeObserver(entries => {
+        const invalidated = new Set<Element>();
+
+        for (const entry of entries) {
+          if (entry.target === group) {
+            for (const item of itemsRef.current) {
+              invalidated.add(item);
+            }
+            break;
+          }
+
+          invalidated.add(entry.target);
+        }
+
+        for (const item of invalidated) {
+          item.classList.remove('axo-item-root-stacked');
+
+          if (item.clientWidth > group.clientWidth) {
+            item.classList.add('axo-item-root-stacked');
+          }
+        }
+      });
+
+      observer.observe(group);
+
+      for (const item of itemsRef.current) {
+        observer.observe(item);
+      }
+
+      observerRef.current = observer;
+
+      return () => {
+        observer.disconnect();
+        observerRef.current = null;
+      };
+    }, [ref]);
+
+    return register;
+  }
 
   /**
    * <AxoBaseItem.Group>
    * --------------------------------------------------------------------------
    */
 
+  export type Spacing = 'md' | 'sm';
+
   type GroupContextType = Readonly<{
-    spacing: Spacing;
+    register: RefCallback<HTMLDivElement>;
   }>;
 
   const GroupContext =
     createStrictContext<GroupContextType>('AxoBaseItem.Group');
+
+  const Spacings = variants<Spacing>('AxoBaseItem.Spacing', {
+    md: css('axo-item-group-md'),
+    sm: css('axo-item-group-sm'),
+  });
 
   export type GroupProps = Readonly<{
     ref?: Ref<HTMLDivElement>;
@@ -69,16 +149,19 @@ export namespace AxoBaseItem {
 
   export const Group: FC<GroupProps> = memo(props => {
     const { ref, spacing, children, ...rest } = props;
+    const innerRef = useRef<HTMLDivElement>(null);
+
+    const register = useItemsLayoutSwap(innerRef);
 
     const context = useMemo((): GroupContextType => {
-      return { spacing };
-    }, [spacing]);
+      return { register };
+    }, [register]);
 
     return (
       <GroupContext value={context}>
         <div
-          ref={ref}
-          className="axo-item-group"
+          ref={mergeRefs(ref, innerRef)}
+          className={css('axo-item-group', Spacings.get(spacing))}
           {...forwardExtraPropsForRadix(rest)}
         >
           {children}
@@ -94,26 +177,15 @@ export namespace AxoBaseItem {
    * --------------------------------------------------------------------------
    */
 
-  const RootSpacing = variants<Spacing>('AxoBaseItem.Spacing', {
-    md: tw('py-2'),
-    sm: tw('py-1.5'),
-  });
-
   export type Variant = 'secondary' | 'destructive';
 
   const Variants = variants<Variant>('AxoBaseItem.Variant', {
-    secondary: tw('text-primary forced-colors:text-[CanvasText]'),
-    destructive: tw('text-destructive forced-color-adjust-none'),
-  });
-
-  const DisabledVariants = variants<Variant>('AxoBaseItem.Root', {
-    secondary: tw('text-disabled forced-colors:text-[GrayText]'),
-    destructive: tw('text-destructive-disabled forced-colors:text-[GrayText]'),
+    secondary: css('axo-item-root-secondary'),
+    destructive: css('axo-item-root-destructive'),
   });
 
   /** @internal */
   type RootContextType = Readonly<{
-    variant: Variant;
     disabled: boolean;
   }>;
 
@@ -121,6 +193,7 @@ export namespace AxoBaseItem {
   const RootContext = createStrictContext<RootContextType>('AxoBaseItem.Root');
 
   export type RootProps = Readonly<{
+    ref?: Ref<HTMLDivElement>;
     variant?: Variant;
     /**
      * Dims the contents of the item and disables its `HiddenTrigger`.
@@ -132,6 +205,7 @@ export namespace AxoBaseItem {
 
   export const Root: FC<RootProps> = memo(props => {
     const {
+      ref,
       variant = 'secondary',
       disabled = false,
       children,
@@ -140,21 +214,22 @@ export namespace AxoBaseItem {
     const groupContext = useStrictContext(GroupContext);
 
     const context = useMemo((): RootContextType => {
-      return { variant, disabled };
-    }, [variant, disabled]);
+      return { disabled };
+    }, [disabled]);
 
     return (
       <RootContext value={context}>
         <AriaClickable.Root asChild>
           <div
+            ref={mergeRefs(ref, groupContext.register)}
             className={css('axo-item-root', tw('group'))}
             {...forwardExtraPropsForRadix(rest)}
           >
             <div
               className={css(
                 'axo-item-root-inner',
-                RootSpacing.get(groupContext.spacing),
-                disabled && tw('text-disabled')
+                disabled && 'axo-item-root-disabled',
+                Variants.get(variant)
               )}
             >
               {children}
@@ -192,13 +267,8 @@ export namespace AxoBaseItem {
   }>;
 
   export const Icon: FC<IconProps> = memo(props => {
-    const { variant, disabled } = useStrictContext(RootContext);
     return (
-      <span
-        className={
-          disabled ? DisabledVariants.get(variant) : Variants.get(variant)
-        }
-      >
+      <span className="axo-item-icon">
         <AxoSymbol.Icon size={18} symbol={props.symbol} label={null} />
       </span>
     );
@@ -266,33 +336,13 @@ export namespace AxoBaseItem {
   }>;
 
   export const Content: FC<ContentProps> = memo(props => {
-    return (
-      <div className="axo-item-content">
-        <div className="axo-item-content-inner">{props.children}</div>
-        <div className="axo-item-content-force-scroll-state" />
-      </div>
-    );
+    return <div className="axo-item-content">{props.children}</div>;
   });
 
   Content.displayName = 'AxoBaseItem.Content';
 
   /**
-   * <AxoBaseItem.Body>
-   * --------------------------------------------------------------------------
-   */
-
-  export type BodyProps = Readonly<{
-    children: ReactNode;
-  }>;
-
-  export const Body: FC<BodyProps> = memo(props => {
-    return <div className="axo-item-body">{props.children}</div>;
-  });
-
-  Body.displayName = 'AxoBaseItem.Body';
-
-  /**
-   * <AxoBaseItem.Title>
+   * <AxoBaseItem.Label>
    * --------------------------------------------------------------------------
    */
 
@@ -304,18 +354,13 @@ export namespace AxoBaseItem {
 
   export const Label: FC<LabelProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
-    const { variant, disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
-        className={css(
-          'axo-item-label',
-          truncate && tw('truncate'),
-          disabled ? DisabledVariants.get(variant) : Variants.get(variant)
-        )}
+        className={css('axo-item-label', truncate && tw('truncate'))}
         {...forwardExtraPropsForRadix(rest)}
       >
-        {children}
+        <div className="axo-item-label-inner">{children}</div>
       </div>
     );
   });
@@ -334,14 +379,10 @@ export namespace AxoBaseItem {
 
   export const Value: FC<ValueProps> = memo(props => {
     const { ref, children, ...rest } = props;
-    const { disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
-        className={css(
-          'axo-item-value',
-          disabled && tw('text-disabled forced-colors:text-[GrayText]')
-        )}
+        className="axo-item-value"
         {...forwardExtraPropsForRadix(rest)}
       >
         {children}
@@ -364,15 +405,10 @@ export namespace AxoBaseItem {
 
   export const Description: FC<DescriptionProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
-    const { disabled } = useStrictContext(RootContext);
     return (
       <div
         ref={ref}
-        className={css(
-          'axo-item-description',
-          truncate && tw('truncate'),
-          disabled && tw('text-disabled')
-        )}
+        className={css('axo-item-description', truncate && tw('truncate'))}
         {...forwardExtraPropsForRadix(rest)}
       >
         {children}
@@ -551,14 +587,8 @@ export namespace AxoBaseItem {
 
   export const Arrow: FC<ArrowProps> = memo(props => {
     const { kind = 'next' } = props;
-    const { disabled } = useStrictContext(RootContext);
     return (
-      <div
-        className={css(
-          'axo-item-arrow',
-          disabled && tw('text-disabled forced-colors:text-[GrayText]')
-        )}
-      >
+      <div className="axo-item-arrow">
         <AxoSymbol.InlineGlyph label={null} symbol={ArrowKinds.get(kind)} />
       </div>
     );

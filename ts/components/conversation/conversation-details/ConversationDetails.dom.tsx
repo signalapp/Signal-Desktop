@@ -541,37 +541,33 @@ export function ConversationDetails({
                   <AxoItem.Icon symbol="timer-slash" />
                 </AxoItem.Leading>
                 <AxoItem.Content>
-                  <AxoItem.Body>
-                    <AxoItem.Label>
-                      {i18n(
-                        'icu:ConversationDetails--disappearing-messages-label'
-                      )}
-                    </AxoItem.Label>
-                    <AxoItem.Description>
-                      {isGroup
-                        ? i18n(
-                            'icu:ConversationDetails--disappearing-messages-info--group'
-                          )
-                        : i18n(
-                            'icu:ConversationDetails--disappearing-messages-info--direct'
-                          )}
-                    </AxoItem.Description>
-                    <AxoItem.Accessory>
-                      <DisappearingTimerSelect
-                        i18n={i18n}
-                        value={
-                          conversation.expireTimer || DurationInSeconds.ZERO
-                        }
-                        disabled={
-                          isGroup &&
-                          (!canEditGroupInfo || conversation.terminated)
-                        }
-                        onChange={value =>
-                          setDisappearingMessages(conversation.id, value)
-                        }
-                      />
-                    </AxoItem.Accessory>
-                  </AxoItem.Body>
+                  <AxoItem.Label>
+                    {i18n(
+                      'icu:ConversationDetails--disappearing-messages-label'
+                    )}
+                  </AxoItem.Label>
+                  <AxoItem.Description>
+                    {isGroup
+                      ? i18n(
+                          'icu:ConversationDetails--disappearing-messages-info--group'
+                        )
+                      : i18n(
+                          'icu:ConversationDetails--disappearing-messages-info--direct'
+                        )}
+                  </AxoItem.Description>
+                  <AxoItem.Accessory>
+                    <DisappearingTimerSelect
+                      i18n={i18n}
+                      value={conversation.expireTimer || DurationInSeconds.ZERO}
+                      disabled={
+                        isGroup &&
+                        (!canEditGroupInfo || conversation.terminated)
+                      }
+                      onChange={value =>
+                        setDisappearingMessages(conversation.id, value)
+                      }
+                    />
+                  </AxoItem.Accessory>
                 </AxoItem.Content>
               </AxoItem.Root>
             )}

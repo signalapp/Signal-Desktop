@@ -330,32 +330,30 @@ export function GroupMemberLabelEditor({
                             />
                           </AxoItem.Leading>
                           <AxoItem.Content>
-                            <AxoItem.Body>
-                              <AxoItem.Label>
-                                <UserText
-                                  text={
-                                    member.isMe ? i18n('icu:you') : member.title
-                                  }
+                            <AxoItem.Label>
+                              <UserText
+                                text={
+                                  member.isMe ? i18n('icu:you') : member.title
+                                }
+                              />
+                            </AxoItem.Label>
+                            {isAdmin && (
+                              <AxoItem.Value>
+                                {i18n('icu:GroupV2--admin')}
+                              </AxoItem.Value>
+                            )}
+                            {memberLabelString && contactNameColor && (
+                              <AxoItem.Description>
+                                <GroupMemberLabel
+                                  contactNameColor={contactNameColor}
+                                  contactLabel={{
+                                    labelEmoji: memberLabelEmoji,
+                                    labelString: memberLabelString,
+                                  }}
+                                  context="list"
                                 />
-                              </AxoItem.Label>
-                              {isAdmin && (
-                                <AxoItem.Value>
-                                  {i18n('icu:GroupV2--admin')}
-                                </AxoItem.Value>
-                              )}
-                              {memberLabelString && contactNameColor && (
-                                <AxoItem.Description>
-                                  <GroupMemberLabel
-                                    contactNameColor={contactNameColor}
-                                    contactLabel={{
-                                      labelEmoji: memberLabelEmoji,
-                                      labelString: memberLabelString,
-                                    }}
-                                    context="list"
-                                  />
-                                </AxoItem.Description>
-                              )}
-                            </AxoItem.Body>
+                              </AxoItem.Description>
+                            )}
                           </AxoItem.Content>
                         </AxoItem.Root>
                       );

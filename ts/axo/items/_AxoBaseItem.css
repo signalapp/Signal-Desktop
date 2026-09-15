@@ -4,7 +4,7 @@
  */
 
 @utility axo-item-centering-to-max-height {
-  @apply flex h-[stretch] min-h-fit items-center;
+  @apply h-[stretch] min-h-fit;
   /* --axo-leading-body-medium + --axo-leading-body-small + (description margin top) */
   max-height: 38px;
 }
@@ -12,6 +12,7 @@
 @layer components {
   .axo-item-group {
     @apply grid;
+    @apply contain-inline-size;
     @apply min-w-90;
     grid-template-columns:
       [axo-item-leading] min-content
@@ -27,7 +28,7 @@
   :where(.axo-item-root) .axo-item-root-inner {
     /* Forward Grid */
     @apply col-span-full grid grid-cols-subgrid;
-    @apply gap-x-3 curved-xl px-3 text-primary;
+    @apply curved-xl px-3;
     /* Hovered */
     @apply group-data-hovered:bg-secondary;
     /* Pressed */
@@ -40,59 +41,53 @@
 
   :where(.axo-item-root-inner) .axo-item-leading {
     grid-column: axo-item-leading;
+    @apply pe-3;
     @apply self-start;
+    @apply flex items-center;
     @apply axo-item-centering-to-max-height;
+  }
+
+  :where(.axo-item-leading) .axo-item-icon {
+    @apply text-primary forced-colors:text-[CanvasText];
   }
 
   :where(.axo-item-root-inner) .axo-item-content {
     grid-column: axo-item-content;
-    @apply self-center;
-    @apply min-w-0;
-    /* Leave room for focus rings */
-    @apply -m-1;
-
-    /* Provider scroll state container */
-    @apply @container-[scroll-state] overflow-x-hidden;
-  }
-
-  :where(.axo-item-content) .axo-item-content-force-scroll-state {
-    /* We need this fix or the item will get stuck in a layout cycle */
-    /* Force scroll-state to stay stuck as scrollable once it becomes scrollable */
-    @apply relative container-scrollable:w-[calc(100%+1px)];
-  }
-
-  :where(.axo-item-content) .axo-item-content-inner {
-    @apply flex;
-    @apply p-1;
-    @apply h-full;
-  }
-
-  :where(.axo-item-content-inner) .axo-item-body {
-    @apply shrink grow;
     @apply grid;
   }
 
-  :where(.axo-item-body) .axo-item-label {
-    @apply min-w-50;
-    @apply type-body-medium text-primary;
+  :where(.axo-item-content) .axo-item-label {
+    grid-area: axo-item-label;
+    @apply type-body-medium;
+    @apply text-primary forced-colors:text-[CanvasText];
   }
 
-  :where(.axo-item-body) .axo-item-value {
-    @apply type-body-medium text-secondary;
-  }
-
-  :where(.axo-item-body) .axo-item-description {
-    @apply min-w-50;
-    @apply mt-0.5;
-    @apply type-body-small text-secondary forced-colors:text-[GrayText];
+  :where(.axo-item-label) .axo-item-label-inner {
     @apply wrap-break-word [word-break:auto-phrase];
   }
 
-  :where(.axo-item-body) .axo-item-accessory {
+  :where(.axo-item-content) .axo-item-value {
+    grid-area: axo-item-value;
+    @apply flex items-center;
+    @apply type-body-medium;
+    @apply text-secondary forced-colors:text-[GrayText];
+  }
+
+  :where(.axo-item-content) .axo-item-description {
+    grid-area: axo-item-description;
+    @apply mt-0.5;
+    @apply type-body-small;
+    @apply text-secondary forced-colors:text-[GrayText];
+    @apply wrap-break-word [word-break:auto-phrase];
+  }
+
+  :where(.axo-item-content) .axo-item-accessory {
+    grid-area: axo-item-accessory;
     @apply flex items-center gap-1.5;
   }
 
-  :where(.axo-item-content-inner) .axo-item-trailing {
+  :where(.axo-item-content) .axo-item-trailing {
+    grid-area: axo-item-trailing;
     @apply axo-item-centering-to-max-height;
     @apply flex items-center gap-1.5;
     @apply ml-1.5;
@@ -102,43 +97,90 @@
     @apply type-body-medium text-placeholder;
   }
 
-  /* When not overflowing container */
-  @container scroll-state(scrollable: none) {
-    .axo-item-body {
+  .axo-item-content {
+    :where(.axo-item-root:not(.axo-item-root-stacked)) & {
       grid-template:
-        'axo-item-label       axo-item-value axo-item-accessory' 1fr
-        'axo-item-description axo-item-value axo-item-accessory' min-content / auto min-content min-content;
+        'axo-item-label       axo-item-value axo-item-accessory axo-item-trailing' 1fr
+        'axo-item-description axo-item-value axo-item-accessory axo-item-trailing' min-content / auto min-content min-content min-content;
+
+      .axo-item-label {
+        @apply min-w-30;
+        @apply contain-inline-size contain-layout;
+        @apply flex items-center;
+        @apply axo-item-centering-to-max-height;
+      }
+
+      .axo-item-value {
+        @apply w-fit text-nowrap;
+        @apply ms-3;
+        @apply axo-item-centering-to-max-height;
+      }
+
+      .axo-item-description {
+        @apply min-w-30;
+        @apply contain-inline-size contain-layout;
+      }
+
+      .axo-item-accessory {
+        @apply axo-item-centering-to-max-height;
+      }
     }
 
-    .axo-item-label {
-      grid-area: axo-item-label;
-      @apply self-center;
-      @apply contain-inline-size contain-layout;
-    }
+    :where(.axo-item-root.axo-item-root-stacked) & {
+      grid-template:
+        'axo-item-label       axo-item-trailing' min-content
+        'axo-item-value       axo-item-trailing' min-content
+        'axo-item-description axo-item-trailing' min-content
+        'axo-item-accessory   axo-item-trailing' min-content / auto min-content;
 
-    .axo-item-value {
-      grid-area: axo-item-value;
-      @apply w-fit text-nowrap;
-      @apply ms-3;
-      @apply axo-item-centering-to-max-height;
-    }
-
-    .axo-item-description {
-      grid-area: axo-item-description;
-      @apply contain-inline-size contain-layout;
-    }
-
-    .axo-item-accessory {
-      grid-area: axo-item-accessory;
-      @apply ms-3;
+      .axo-item-accessory {
+        @apply mt-0.5;
+        @apply flex-col items-stretch;
+      }
     }
   }
+}
 
-  /* When overflowing container */
-  @container scroll-state(scrollable: inline) {
-    .axo-item-accessory {
-      @apply mt-0.5;
-      @apply flex-col items-stretch;
+/**
+ * Spacing
+ */
+
+:where(.axo-item-group-md) {
+  .axo-item-root-inner {
+    @apply py-2;
+  }
+}
+
+:where(.axo-item-group-sm) {
+  .axo-item-root-inner {
+    @apply py-1.5;
+  }
+}
+
+/**
+ * Variants & Disabled States
+ */
+
+:where(.axo-item-root-disabled) {
+  .axo-item-icon,
+  .axo-item-label,
+  .axo-item-value,
+  .axo-item-description,
+  .axo-item-arrow {
+    @apply text-disabled forced-colors:text-[GrayText];
+  }
+}
+
+:where(.axo-item-root-destructive) {
+  .axo-item-icon,
+  .axo-item-label {
+    @apply text-destructive forced-colors:text-[GrayText];
+  }
+
+  &:where(.axo-item-root-disabled) {
+    .axo-item-icon,
+    .axo-item-label {
+      @apply text-destructive-disabled;
     }
   }
 }

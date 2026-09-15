@@ -54,19 +54,15 @@ export namespace AxoClickableItem {
           </AxoItem.Leading>
         )}
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
-            {props.value != null && (
-              <AxoItem.Value>{props.value}</AxoItem.Value>
-            )}
-            {props.description != null && (
-              <AxoItem.Description>{props.description}</AxoItem.Description>
-            )}
-            {trigger}
-            {props.accessory && (
-              <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
-            )}
-          </AxoItem.Body>
+          <AxoItem.Label id={id}>{props.label}</AxoItem.Label>
+          {props.value != null && <AxoItem.Value>{props.value}</AxoItem.Value>}
+          {props.description != null && (
+            <AxoItem.Description>{props.description}</AxoItem.Description>
+          )}
+          {trigger}
+          {props.accessory && (
+            <AxoItem.Accessory>{props.accessory}</AxoItem.Accessory>
+          )}
           {props.arrow != null && (
             <AxoItem.Trailing>
               <AxoItem.Arrow kind={props.arrow} />

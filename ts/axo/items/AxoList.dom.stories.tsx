@@ -22,13 +22,11 @@ function ExampleItems() {
           <AxoItem.Icon symbol="info-circle" />
         </AxoItem.Leading>
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label>First Item</AxoItem.Label>
-            <AxoItem.Description>
-              Description of the first item
-            </AxoItem.Description>
-            <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
-          </AxoItem.Body>
+          <AxoItem.Label>First Item</AxoItem.Label>
+          <AxoItem.Description>
+            Description of the first item
+          </AxoItem.Description>
+          <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
         </AxoItem.Content>
       </AxoItem.Root>
       <AxoItem.Root>
@@ -36,13 +34,11 @@ function ExampleItems() {
           <AxoItem.Icon symbol="info-circle" />
         </AxoItem.Leading>
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label>Second Item</AxoItem.Label>
-            <AxoItem.Description>
-              Description of the second item
-            </AxoItem.Description>
-            <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
-          </AxoItem.Body>
+          <AxoItem.Label>Second Item</AxoItem.Label>
+          <AxoItem.Description>
+            Description of the second item
+          </AxoItem.Description>
+          <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
         </AxoItem.Content>
       </AxoItem.Root>
       <AxoItem.Root>
@@ -50,13 +46,11 @@ function ExampleItems() {
           <AxoItem.Icon symbol="info-circle" />
         </AxoItem.Leading>
         <AxoItem.Content>
-          <AxoItem.Body>
-            <AxoItem.Label>Third Item</AxoItem.Label>
-            <AxoItem.Description>
-              Description of the third item
-            </AxoItem.Description>
-            <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
-          </AxoItem.Body>
+          <AxoItem.Label>Third Item</AxoItem.Label>
+          <AxoItem.Description>
+            Description of the third item
+          </AxoItem.Description>
+          <AxoItem.HiddenTrigger label="Test" onClick={action('onClick')} />
         </AxoItem.Content>
       </AxoItem.Root>
     </AxoItem.Group>

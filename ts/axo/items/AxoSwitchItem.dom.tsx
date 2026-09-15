@@ -57,18 +57,16 @@ export namespace AxoSwitchItem {
             </AxoBaseItem.Leading>
           )}
           <AxoBaseItem.Content>
-            <AxoBaseItem.Body>
-              <AriaList.Label asChild id={id}>
-                <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
-              </AriaList.Label>
-              {props.description != null && (
-                <AriaList.Description asChild>
-                  <AxoBaseItem.Description>
-                    {props.description}
-                  </AxoBaseItem.Description>
-                </AriaList.Description>
-              )}
-            </AxoBaseItem.Body>
+            <AriaList.Label asChild id={id}>
+              <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
+            </AriaList.Label>
+            {props.description != null && (
+              <AriaList.Description asChild>
+                <AxoBaseItem.Description>
+                  {props.description}
+                </AxoBaseItem.Description>
+              </AriaList.Description>
+            )}
             <AxoBaseItem.Trailing>{accessory}</AxoBaseItem.Trailing>
           </AxoBaseItem.Content>
         </AxoBaseItem.Root>
