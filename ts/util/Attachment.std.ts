@@ -700,7 +700,7 @@ export const getFileExtension = (
     case 'image/jpeg':
       return 'jpg';
     default:
-      return attachment.contentType.split('/')[1];
+      return attachment.contentType.split('/')[1].split(/[+;\s]/)[0];
   }
 };
 
