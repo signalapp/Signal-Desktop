@@ -259,6 +259,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             sharedGroupNames={safe.sharedGroupNames}
             i18n={i18n}
             onClick={() => {
+              onClose();
               showContactModal({ contactId: safe.conversation.id });
             }}
             theme={theme}
@@ -361,6 +362,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       theme={theme}
                       oldName={oldName}
                       onClick={() => {
+                        onClose();
                         showContactModal({
                           contactId: conversationInfo.conversation.id,
                         });
