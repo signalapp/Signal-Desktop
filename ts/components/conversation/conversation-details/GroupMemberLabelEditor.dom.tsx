@@ -271,6 +271,7 @@ export function GroupMemberLabelEditor({
                   cancelAttachmentDownload={noop}
                   kickOffAttachmentDownload={noop}
                   markAttachmentAsCorrupted={noop}
+                  dragAttachment={noop}
                   saveAttachment={noop}
                   saveAttachments={noop}
                   showLightbox={noop}

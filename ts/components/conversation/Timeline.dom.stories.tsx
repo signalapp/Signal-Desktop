@@ -287,6 +287,7 @@ const actions = () => ({
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   retryMessageSend: action('retryMessageSend'),
   sendPollVote: action('sendPollVote'),
+  dragAttachment: action('dragAttachment'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
   pushPanelForConversation: action('pushPanelForConversation'),
