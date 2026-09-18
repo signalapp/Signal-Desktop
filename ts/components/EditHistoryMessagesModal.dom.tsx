@@ -64,6 +64,7 @@ const MESSAGE_DEFAULT_PROPS = {
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
   renderingContext: 'EditHistoryMessagesModal' as const,
+  dragAttachment: noop,
   saveAttachment: shouldNeverBeCalled,
   saveAttachments: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
