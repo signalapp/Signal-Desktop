@@ -1386,112 +1386,112 @@ export class Message extends PureComponent<Props, State> {
           }
         }}
       >
-      <button
-        className={classNames(
-          'module-message__simple-attachment',
-          withContentBelow
-            ? 'module-message__simple-attachment--with-content-below'
-            : null,
-          withContentAbove
-            ? 'module-message__simple-attachment--with-content-above'
-            : null
-        )}
-        type="button"
-        onClick={(event: MouseEvent) => {
-          event.stopPropagation();
-          event.preventDefault();
+        <button
+          className={classNames(
+            'module-message__simple-attachment',
+            withContentBelow
+              ? 'module-message__simple-attachment--with-content-below'
+              : null,
+            withContentAbove
+              ? 'module-message__simple-attachment--with-content-above'
+              : null
+          )}
+          type="button"
+          onClick={(event: MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
 
-          this.openGenericAttachment();
-        }}
-        onKeyDown={(event: KeyboardEvent) => {
-          if (event.key !== 'Enter' && event.key !== ' ') {
-            return;
+            this.openGenericAttachment();
+          }}
+          onKeyDown={(event: KeyboardEvent) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+              return;
+            }
+
+            event.stopPropagation();
+            event.preventDefault();
+
+            this.openGenericAttachment();
+          }}
+          tabIndex={tabIndex}
+          aria-label={
+            isDownloading(firstAttachment)
+              ? i18n('icu:cancelDownload')
+              : i18n('icu:startDownload')
           }
-
-          event.stopPropagation();
-          event.preventDefault();
-
-          this.openGenericAttachment();
-        }}
-        tabIndex={tabIndex}
-        aria-label={
-          isDownloading(firstAttachment)
-            ? i18n('icu:cancelDownload')
-            : i18n('icu:startDownload')
-        }
-      >
-        <AttachmentStatusIcon
-          key={id}
-          attachment={firstAttachment}
-          isIncoming={isIncoming}
         >
-          <FileThumbnail contentType={contentType} fileName={fileName} />
-        </AttachmentStatusIcon>
-        <div className="module-message__simple-attachment__text">
-          <div
-            className={classNames(
-              'module-message__simple-attachment__file-name',
-              `module-message__simple-attachment__file-name--${direction}`,
-              isAttachmentNotAvailable
-                ? 'module-message__simple-attachment__file-name--undownloadable'
-                : null
-            )}
+          <AttachmentStatusIcon
+            key={id}
+            attachment={firstAttachment}
+            isIncoming={isIncoming}
           >
-            {fileName}
-          </div>
-          <div className="module-message__simple-attachment__bottom-row">
-            {isAttachmentNotAvailable ? (
-              <div className="module-message__undownloadable-attachment-file">
-                <div className="module-message__undownloadable-attachment__icon-container--file">
-                  <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file module-message__undownloadable-attachment__icon--small" />
+            <FileThumbnail contentType={contentType} fileName={fileName} />
+          </AttachmentStatusIcon>
+          <div className="module-message__simple-attachment__text">
+            <div
+              className={classNames(
+                'module-message__simple-attachment__file-name',
+                `module-message__simple-attachment__file-name--${direction}`,
+                isAttachmentNotAvailable
+                  ? 'module-message__simple-attachment__file-name--undownloadable'
+                  : null
+              )}
+            >
+              {fileName}
+            </div>
+            <div className="module-message__simple-attachment__bottom-row">
+              {isAttachmentNotAvailable ? (
+                <div className="module-message__undownloadable-attachment-file">
+                  <div className="module-message__undownloadable-attachment__icon-container--file">
+                    <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file module-message__undownloadable-attachment__icon--small" />
+                  </div>
+                  <div className="module-message__undownloadable-attachment-info--file">
+                    {i18n('icu:attachmentNotAvailable__file')}
+                  </div>
                 </div>
-                <div className="module-message__undownloadable-attachment-info--file">
-                  {i18n('icu:attachmentNotAvailable__file')}
+              ) : (
+                <div
+                  className={classNames(
+                    'module-message__simple-attachment__file-size',
+                    `module-message__simple-attachment__file-size--${direction}`
+                  )}
+                >
+                  {formatFileSize(size)}
                 </div>
-              </div>
-            ) : (
-              <div
-                className={classNames(
-                  'module-message__simple-attachment__file-size',
-                  `module-message__simple-attachment__file-size--${direction}`
-                )}
-              >
-                {formatFileSize(size)}
-              </div>
-            )}
-            {text || !willShowMetadata ? undefined : (
-              <div className="module-message__simple-attachment__metadata-container">
-                <MessageMetadata
-                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
-                  deletedForEveryone={false}
-                  direction={direction}
-                  expirationLength={expirationLength}
-                  expirationTimestamp={expirationTimestamp}
-                  hasText={false}
-                  i18n={i18n}
-                  id={id}
-                  isEditedMessage={false}
-                  isPinned={isPinned}
-                  isSMS={false}
-                  isInline={false}
-                  isOutlineOnlyBubble={false}
-                  isShowingImage={false}
-                  isSticker={false}
-                  onWidthMeasured={undefined}
-                  pushPanelForConversation={pushPanelForConversation}
-                  ref={this.#metadataRef}
-                  retryDeleteForEveryone={retryDeleteForEveryone}
-                  retryMessageSend={retryMessageSend}
-                  showEditHistoryModal={showEditHistoryModal}
-                  status={status}
-                  textPending={false}
-                  timestamp={timestamp}
-                />
-              </div>
-            )}
+              )}
+              {text || !willShowMetadata ? undefined : (
+                <div className="module-message__simple-attachment__metadata-container">
+                  <MessageMetadata
+                    canRetryDeleteForEveryone={canRetryDeleteForEveryone}
+                    deletedForEveryone={false}
+                    direction={direction}
+                    expirationLength={expirationLength}
+                    expirationTimestamp={expirationTimestamp}
+                    hasText={false}
+                    i18n={i18n}
+                    id={id}
+                    isEditedMessage={false}
+                    isPinned={isPinned}
+                    isSMS={false}
+                    isInline={false}
+                    isOutlineOnlyBubble={false}
+                    isShowingImage={false}
+                    isSticker={false}
+                    onWidthMeasured={undefined}
+                    pushPanelForConversation={pushPanelForConversation}
+                    ref={this.#metadataRef}
+                    retryDeleteForEveryone={retryDeleteForEveryone}
+                    retryMessageSend={retryMessageSend}
+                    showEditHistoryModal={showEditHistoryModal}
+                    status={status}
+                    textPending={false}
+                    timestamp={timestamp}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
       </div>
     );
   }
