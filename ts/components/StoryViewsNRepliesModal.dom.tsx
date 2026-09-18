@@ -77,6 +77,7 @@ const MESSAGE_DEFAULT_PROPS = {
   endPoll: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
+  dragAttachment: noop,
   saveAttachment: shouldNeverBeCalled,
   saveAttachments: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
