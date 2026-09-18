@@ -4182,8 +4182,6 @@ function dragAttachment(
   };
 }
 
-
-
 const showSaveMultiDialog = (
   i18n: LocalizerType
 ): Promise<{
