@@ -134,6 +134,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   sendPollVote: action('default--sendPollVote'),
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('default--retryDeleteForEveryone'),
+  dragAttachment: action('dragAttachment'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
   scrollToQuotedMessage: action('default--scrollToQuotedMessage'),

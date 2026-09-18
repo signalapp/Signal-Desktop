@@ -18,6 +18,7 @@ import {
   dialog,
   ipcMain as ipc,
   Menu,
+  nativeImage,
   nativeTheme,
   net,
   powerSaveBlocker,
@@ -3267,6 +3268,37 @@ ipc.on('show-message-box', (_event, { type, message }) => {
 
 ipc.on('show-item-in-folder', (_event, folder) => {
   shell.showItemInFolder(folder);
+});
+
+let lastDragTempPath: string | null = null;
+
+async function removeStaleDragTempFile(stalePath: string): Promise<void> {
+  try {
+    await fsExtra.remove(stalePath);
+  } catch (error) {
+    log.warn(
+      'Failed to cleanup stale drag temp file:',
+      Errors.toLogFormat(error)
+    );
+  }
+}
+
+ipc.on('start-attachment-drag', (event, filePath: string) => {
+  if (lastDragTempPath) {
+    drop(removeStaleDragTempFile(lastDragTempPath));
+  }
+  lastDragTempPath = filePath;
+  const icon = nativeImage
+    .createFromPath(join(rootDir, 'images', 'file.png'))
+    .resize({ width: 32 });
+  event.sender.startDrag({ file: filePath, icon });
+});
+
+app.on('will-quit', () => {
+  if (lastDragTempPath) {
+    fsExtra.removeSync(lastDragTempPath);
+    lastDragTempPath = null;
+  }
 });
 
 ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {

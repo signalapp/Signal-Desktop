@@ -22,6 +22,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
   ConversationTypeType,
+  DragAttachmentActionCreatorType,
   PushPanelForConversationActionType,
   SaveAttachmentActionCreatorType,
   SaveAttachmentsActionCreatorType,
@@ -374,6 +375,7 @@ export type PropsActions = {
     attachment: AttachmentType;
     messageId: string;
   }) => void;
+  dragAttachment: DragAttachmentActionCreatorType;
   saveAttachment: SaveAttachmentActionCreatorType;
   saveAttachments: SaveAttachmentsActionCreatorType;
   showLightbox: (options: {
@@ -1155,6 +1157,7 @@ export class Message extends PureComponent<Props, State> {
       canRetryDeleteForEveryone,
       cancelAttachmentDownload,
       direction,
+      dragAttachment,
       expirationLength,
       expirationTimestamp,
       i18n,
@@ -1224,8 +1227,19 @@ export class Message extends PureComponent<Props, State> {
       );
 
       if (isGIF(attachments)) {
+        const isGifDraggable =
+          !!firstAttachment.path && !isAttachmentNotAvailable;
         return (
-          <div className={containerClassName}>
+          <div
+            className={containerClassName}
+            draggable={isGifDraggable}
+            onDragStart={(event: React.DragEvent) => {
+              event.preventDefault();
+              if (isGifDraggable) {
+                dragAttachment(firstAttachment, timestamp);
+              }
+            }}
+          >
             {/* oxlint-disable-next-line react/jsx-pascal-case */}
             <GIF
               attachment={firstAttachment}
@@ -1261,9 +1275,23 @@ export class Message extends PureComponent<Props, State> {
         const bottomOverlay = !isSticker && !collapseMetadata;
         // We only want users to tab into this if there's more than one
         const tabIndex = attachments.length > 1 ? 0 : -1;
+        const isMediaDraggable =
+          !isSticker &&
+          attachments.length === 1 &&
+          !!firstAttachment.path &&
+          !isAttachmentNotAvailable;
 
         return (
-          <div className={containerClassName}>
+          <div
+            className={containerClassName}
+            draggable={isMediaDraggable}
+            onDragStart={(event: React.DragEvent) => {
+              event.preventDefault();
+              if (isMediaDraggable) {
+                dragAttachment(firstAttachment, timestamp);
+              }
+            }}
+          >
             <ImageGrid
               attachments={attachments}
               direction={direction}
@@ -1346,113 +1374,125 @@ export class Message extends PureComponent<Props, State> {
     // Note: this has to be interactive for the case where text comes along with the
     // attachment. But we don't want the user to tab here unless that text exists.
     const tabIndex = text ? 0 : -1;
+    const isDraggable = !!firstAttachment.path && !isAttachmentNotAvailable;
     return (
-      <button
-        className={classNames(
-          'module-message__simple-attachment',
-          withContentBelow
-            ? 'module-message__simple-attachment--with-content-below'
-            : null,
-          withContentAbove
-            ? 'module-message__simple-attachment--with-content-above'
-            : null
-        )}
-        type="button"
-        onClick={(event: MouseEvent) => {
-          event.stopPropagation();
+      <div
+        className="module-message__simple-attachment-container"
+        draggable={isDraggable}
+        onDragStart={(event: React.DragEvent) => {
           event.preventDefault();
-
-          this.openGenericAttachment();
-        }}
-        onKeyDown={(event: KeyboardEvent) => {
-          if (event.key !== 'Enter' && event.key !== ' ') {
-            return;
+          if (isDraggable) {
+            dragAttachment(firstAttachment, timestamp);
           }
-
-          event.stopPropagation();
-          event.preventDefault();
-
-          this.openGenericAttachment();
         }}
-        tabIndex={tabIndex}
-        aria-label={
-          isDownloading(firstAttachment)
-            ? i18n('icu:cancelDownload')
-            : i18n('icu:startDownload')
-        }
       >
-        <AttachmentStatusIcon
-          key={id}
-          attachment={firstAttachment}
-          isIncoming={isIncoming}
+        <button
+          className={classNames(
+            'module-message__simple-attachment',
+            withContentBelow
+              ? 'module-message__simple-attachment--with-content-below'
+              : null,
+            withContentAbove
+              ? 'module-message__simple-attachment--with-content-above'
+              : null
+          )}
+          type="button"
+          onClick={(event: MouseEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            this.openGenericAttachment();
+          }}
+          onKeyDown={(event: KeyboardEvent) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+              return;
+            }
+
+            event.stopPropagation();
+            event.preventDefault();
+
+            this.openGenericAttachment();
+          }}
+          tabIndex={tabIndex}
+          aria-label={
+            isDownloading(firstAttachment)
+              ? i18n('icu:cancelDownload')
+              : i18n('icu:startDownload')
+          }
         >
-          <FileThumbnail contentType={contentType} fileName={fileName} />
-        </AttachmentStatusIcon>
-        <div className="module-message__simple-attachment__text">
-          <div
-            className={classNames(
-              'module-message__simple-attachment__file-name',
-              `module-message__simple-attachment__file-name--${direction}`,
-              isAttachmentNotAvailable
-                ? 'module-message__simple-attachment__file-name--undownloadable'
-                : null
-            )}
+          <AttachmentStatusIcon
+            key={id}
+            attachment={firstAttachment}
+            isIncoming={isIncoming}
           >
-            {fileName}
-          </div>
-          <div className="module-message__simple-attachment__bottom-row">
-            {isAttachmentNotAvailable ? (
-              <div className="module-message__undownloadable-attachment-file">
-                <div className="module-message__undownloadable-attachment__icon-container--file">
-                  <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file module-message__undownloadable-attachment__icon--small" />
+            <FileThumbnail contentType={contentType} fileName={fileName} />
+          </AttachmentStatusIcon>
+          <div className="module-message__simple-attachment__text">
+            <div
+              className={classNames(
+                'module-message__simple-attachment__file-name',
+                `module-message__simple-attachment__file-name--${direction}`,
+                isAttachmentNotAvailable
+                  ? 'module-message__simple-attachment__file-name--undownloadable'
+                  : null
+              )}
+            >
+              {fileName}
+            </div>
+            <div className="module-message__simple-attachment__bottom-row">
+              {isAttachmentNotAvailable ? (
+                <div className="module-message__undownloadable-attachment-file">
+                  <div className="module-message__undownloadable-attachment__icon-container--file">
+                    <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file module-message__undownloadable-attachment__icon--small" />
+                  </div>
+                  <div className="module-message__undownloadable-attachment-info--file">
+                    {i18n('icu:attachmentNotAvailable__file')}
+                  </div>
                 </div>
-                <div className="module-message__undownloadable-attachment-info--file">
-                  {i18n('icu:attachmentNotAvailable__file')}
+              ) : (
+                <div
+                  className={classNames(
+                    'module-message__simple-attachment__file-size',
+                    `module-message__simple-attachment__file-size--${direction}`
+                  )}
+                >
+                  {formatFileSize(size)}
                 </div>
-              </div>
-            ) : (
-              <div
-                className={classNames(
-                  'module-message__simple-attachment__file-size',
-                  `module-message__simple-attachment__file-size--${direction}`
-                )}
-              >
-                {formatFileSize(size)}
-              </div>
-            )}
-            {text || !willShowMetadata ? undefined : (
-              <div className="module-message__simple-attachment__metadata-container">
-                <MessageMetadata
-                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
-                  deletedForEveryone={false}
-                  direction={direction}
-                  expirationLength={expirationLength}
-                  expirationTimestamp={expirationTimestamp}
-                  hasText={false}
-                  i18n={i18n}
-                  id={id}
-                  isEditedMessage={false}
-                  isPinned={isPinned}
-                  isSMS={false}
-                  isInline={false}
-                  isOutlineOnlyBubble={false}
-                  isShowingImage={false}
-                  isSticker={false}
-                  onWidthMeasured={undefined}
-                  pushPanelForConversation={pushPanelForConversation}
-                  ref={this.#metadataRef}
-                  retryDeleteForEveryone={retryDeleteForEveryone}
-                  retryMessageSend={retryMessageSend}
-                  showEditHistoryModal={showEditHistoryModal}
-                  status={status}
-                  textPending={false}
-                  timestamp={timestamp}
-                />
-              </div>
-            )}
+              )}
+              {text || !willShowMetadata ? undefined : (
+                <div className="module-message__simple-attachment__metadata-container">
+                  <MessageMetadata
+                    canRetryDeleteForEveryone={canRetryDeleteForEveryone}
+                    deletedForEveryone={false}
+                    direction={direction}
+                    expirationLength={expirationLength}
+                    expirationTimestamp={expirationTimestamp}
+                    hasText={false}
+                    i18n={i18n}
+                    id={id}
+                    isEditedMessage={false}
+                    isPinned={isPinned}
+                    isSMS={false}
+                    isInline={false}
+                    isOutlineOnlyBubble={false}
+                    isShowingImage={false}
+                    isSticker={false}
+                    onWidthMeasured={undefined}
+                    pushPanelForConversation={pushPanelForConversation}
+                    ref={this.#metadataRef}
+                    retryDeleteForEveryone={retryDeleteForEveryone}
+                    retryMessageSend={retryMessageSend}
+                    showEditHistoryModal={showEditHistoryModal}
+                    status={status}
+                    textPending={false}
+                    timestamp={timestamp}
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </button>
+        </button>
+      </div>
     );
   }
 

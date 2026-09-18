@@ -55,6 +55,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
     retryDeleteForEveryone,
     retryMessageSend,
     sendPollVote,
+    dragAttachment,
     saveAttachment,
     saveAttachments,
     showAttachmentDownloadStillInProgressToast,
@@ -126,6 +127,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
       pushPanelForConversation={pushPanelForConversation}
       receivedAt={receivedAt}
       renderAudioAttachment={renderAudioAttachment}
+      dragAttachment={dragAttachment}
       saveAttachment={saveAttachment}
       saveAttachments={saveAttachments}
       sentAt={message.timestamp}
