@@ -4,6 +4,7 @@
 import type { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'node:https';
+import { getCACertificates } from 'node:tls';
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
@@ -1791,6 +1792,10 @@ const fetchForLinkPreviews: linkPreviewFetch.FetchFn = async (href, init) => {
         maxCachedSessions: 0,
       });
     }
+    fetchAgent.options.ca = [
+      ...getCACertificates('default'),
+      ...getCACertificates('system'),
+    ];
   }
   return fetch(href, { ...init, agent: fetchAgent });
 };
