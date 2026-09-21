@@ -417,6 +417,8 @@ export type ConversationAttributesType = {
   notifyForCallsIfMuted?: boolean;
   notifyForMentionsIfMuted?: boolean;
   notifyForRepliesIfMuted?: boolean;
+  showUnreadReminders?: boolean;
+  lastUnreadReminderAt?: number;
   sharingPhoneNumber?: boolean;
   profileAvatar?: ContactAvatarType | null;
   profileKeyCredential?: string | null;

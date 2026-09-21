@@ -233,6 +233,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     notifyForCallsIfMuted: attributes.notifyForCallsIfMuted,
     notifyForMentionsIfMuted: attributes.notifyForMentionsIfMuted,
     notifyForRepliesIfMuted: attributes.notifyForRepliesIfMuted,
+    showUnreadReminders: attributes.showUnreadReminders,
     nicknameFamilyName: dropNull(attributes.nicknameFamilyName),
     nicknameGivenName: dropNull(attributes.nicknameGivenName),
     note: dropNull(attributes.note),

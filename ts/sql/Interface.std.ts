@@ -55,6 +55,11 @@ import type {
   GroupSendMemberEndorsementRecord,
 } from '../types/GroupSendEndorsements.std.ts';
 import type { SyncTaskType } from '../util/syncTasks.preload.ts';
+import type {
+  UnreadMessageTimeRange,
+  UnreadReminderConversationCandidate,
+  UnreadReminderSummaryData,
+} from './server/unreadReminders.std.ts';
 import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { MediaItemMessageType } from '../types/MediaItem.std.ts';
@@ -928,6 +933,13 @@ type ReadableInterface = {
       includeStoryReplies: boolean;
     }
   ) => number;
+  getUnremindedUnreadMessageTimeRanges: (
+    conversations: ReadonlyArray<UnreadReminderConversationCandidate>
+  ) => ReadonlyArray<UnreadMessageTimeRange>;
+  getUnreadReminderSummaryData: (
+    conversationId: string,
+    options: { includeStoryReplies: boolean; ourAci: AciString }
+  ) => UnreadReminderSummaryData;
   getTotalUnreadMentionsOfMeForConversation: (
     conversationId: string,
     options: {

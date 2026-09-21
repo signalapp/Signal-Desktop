@@ -416,6 +416,7 @@ export type ConversationType = ReadonlyDeep<
     notifyForCallsIfMuted?: boolean;
     notifyForMentionsIfMuted?: boolean;
     notifyForRepliesIfMuted?: boolean;
+    showUnreadReminders?: boolean;
     isMe: boolean;
     lastUpdated?: number;
     // This is used by the CompositionInput for @mentions
@@ -1227,7 +1228,7 @@ export const actions = {
   repairOldestMessage,
   replaceAvatar,
   resetAllChatColors,
-  resetAllNotifyWhileMuted,
+  resetAllNotificationSettings,
   copyMessageText,
   retryDeleteForEveryone,
   retryMessageSend,
@@ -1262,6 +1263,7 @@ export const actions = {
   setMessageToEdit,
   setMuteExpiration,
   setNotifyWhileMuted,
+  setShowUnreadReminders,
   setChatFolderMuteExpiration,
   setPinned,
   setPreJoinConversation,
@@ -1782,6 +1784,20 @@ function setNotifyWhileMuted(
   conversation.setNotifyWhileMuted(key, newValue);
 
   return noopAction('setNotifyWhileMuted');
+}
+
+function setShowUnreadReminders(
+  conversationId: string,
+  newValue: boolean
+): NoopActionType {
+  const conversation = window.ConversationController.get(conversationId);
+  if (!conversation) {
+    throw new Error('setShowUnreadReminders: No conversation found');
+  }
+
+  conversation.setShowUnreadReminders(newValue);
+
+  return noopAction('setShowUnreadReminders');
 }
 
 function setChatFolderMuteExpiration(
@@ -2397,12 +2413,12 @@ function resetAllChatColors(): ThunkAction<
   };
 }
 
-function resetAllNotifyWhileMuted(): NoopActionType {
+function resetAllNotificationSettings(): NoopActionType {
   for (const conversation of window.ConversationController.getAll()) {
-    conversation.resetNotifyWhileMuted();
+    conversation.resetNotificationSettings();
   }
 
-  return noopAction('resetAllNotifyWhileMuted');
+  return noopAction('resetAllNotificationSettings');
 }
 
 function kickOffAttachmentDownload(

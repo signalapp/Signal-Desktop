@@ -14,6 +14,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { NotificationType } from '../../types/notifications.std.ts';
 import OS from '../../util/os/osMain.node.ts';
 import { Sound } from '../../util/Sound.std.ts';
+import type { UnreadReminderSummary } from '../../util/unreadReminders.std.ts';
 
 const DEBOUNCE_INTERVAL = 1000;
 
@@ -346,6 +347,105 @@ describe('NotificationService', () => {
             assert.strictEqual(closeNotification.callCount, removed ? 1 : 0);
             sinon.assert.calledOnce(showNotification);
           });
+        });
+      });
+
+      describe('unread reminders', () => {
+        function queueReminder(): void {
+          const summary: UnreadReminderSummary = {
+            conversationId: 'chat',
+            conversationTitle: 'Friends',
+            unreadMessageCount: 7,
+            mentionCount: 0,
+            replyCount: 0,
+            senders: [{ title: 'Alice' }],
+            mentioners: [],
+            repliers: [],
+          };
+          service.add({
+            type: NotificationType.UnreadReminder,
+            conversationId: 'chat',
+            summary,
+            iconUrl: 'avatar-url',
+            iconAbsolutePath: 'avatar-path',
+          });
+        }
+        it(`includes names and avatar with the NameAndMessage setting`, () => {
+          getNotificationSetting.returns(NotificationSetting.NameAndMessage);
+          const shown = sandbox.stub();
+          service.onShown(shown);
+          queueReminder();
+          clock.tick(DEBOUNCE_INTERVAL);
+
+          sinon.assert.calledOnce(showNotification);
+          sinon.assert.calledOnceWithMatch(shown, {
+            type: NotificationType.UnreadReminder,
+            conversationId: 'chat',
+            title: 'Friends',
+            body: window.SignalContext.i18n(
+              'icu:UnreadReminders__notification--messages--1',
+              { messageCount: 7, person1: 'Alice' }
+            ),
+            iconUrl: 'avatar-url',
+            iconAbsolutePath: 'avatar-path',
+          });
+        });
+
+        it(`includes names and avatar with the NameOnly setting`, () => {
+          getNotificationSetting.returns(NotificationSetting.NameOnly);
+          const shown = sandbox.stub();
+          service.onShown(shown);
+          queueReminder();
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.calledOnceWithMatch(shown, {
+            type: NotificationType.UnreadReminder,
+            conversationId: 'chat',
+            title: 'Friends',
+            body: window.SignalContext.i18n(
+              'icu:UnreadReminders__notification--messages--1',
+              { messageCount: 7, person1: 'Alice' }
+            ),
+            iconUrl: 'avatar-url',
+            iconAbsolutePath: 'avatar-path',
+          });
+        });
+
+        it('redacts names and avatars with the NoNameOrMessage setting', () => {
+          getNotificationSetting.returns(NotificationSetting.NoNameOrMessage);
+          const shown = sandbox.stub();
+          service.onShown(shown);
+          queueReminder();
+          clock.tick(DEBOUNCE_INTERVAL);
+
+          sinon.assert.calledOnceWithMatch(shown, {
+            title: 'Signal',
+            body: window.SignalContext.i18n(
+              'icu:UnreadReminders__notification--counts--messages',
+              { messageCount: 7 }
+            ),
+            iconUrl: null,
+            iconAbsolutePath: null,
+          });
+        });
+
+        it('does not report a reminder as shown when notifications are off', () => {
+          getNotificationSetting.returns(NotificationSetting.Off);
+          const shown = sandbox.stub();
+          service.onShown(shown);
+          queueReminder();
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.notCalled(showNotification);
+          sinon.assert.notCalled(shown);
+        });
+
+        it('does not report a canceled reminder as shown', () => {
+          const shown = sandbox.stub();
+          service.onShown(shown);
+          queueReminder();
+          service.removeBy({ conversationId: 'chat' });
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.notCalled(showNotification);
+          sinon.assert.notCalled(shown);
         });
       });
 

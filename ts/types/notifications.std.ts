@@ -7,4 +7,5 @@ export enum NotificationType {
   IsPresenting = 'IsPresenting',
   Message = 'Message',
   Reaction = 'Reaction',
+  UnreadReminder = 'UnreadReminder',
 }

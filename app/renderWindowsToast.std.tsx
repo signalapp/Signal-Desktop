@@ -65,7 +65,11 @@ export function renderWindowsToast({
   // Note:
   //   1) this maps to the notify() function in services/notifications.ts
   //   2) this also maps to the url-handling in main.ts
-  if (type === NotificationType.Message || type === NotificationType.Reaction) {
+  if (
+    type === NotificationType.Message ||
+    type === NotificationType.Reaction ||
+    type === NotificationType.UnreadReminder
+  ) {
     launch = showConversationRoute.toAppUrl({
       token,
     });

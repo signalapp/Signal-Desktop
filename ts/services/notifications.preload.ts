@@ -19,33 +19,46 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { NotificationType } from '../types/notifications.std.ts';
 import { drop } from '../util/drop.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import {
+  getUnreadReminderNotificationContent,
+  type UnreadReminderSummary,
+} from '../util/unreadReminders.std.ts';
 
 const { debounce } = lodash;
 
 const log = createLogger('notifications');
 
-type QueuedNotificationData = Readonly<{
-  type: NotificationType.Message | NotificationType.Reaction;
-  conversationId: string;
-  isExpiringMessage: boolean;
-  messageId: string;
-  message: string;
-  iconUrl: string | null;
-  iconAbsolutePath: string | null;
-  reaction?: {
-    emoji: Emoji.Variant;
-    targetAuthorAci: string;
-    targetTimestamp: number;
-  };
-  pollVote?: {
-    voterConversationId: string;
-    targetAuthorAci: string;
-    targetTimestamp: number;
-  };
-  senderTitle: string;
-  sentAt: number;
-  storyId?: string;
-}>;
+type QueuedNotificationData = Readonly<
+  | {
+      type: NotificationType.Message | NotificationType.Reaction;
+      conversationId: string;
+      isExpiringMessage: boolean;
+      messageId: string;
+      message: string;
+      iconUrl: string | null;
+      iconAbsolutePath: string | null;
+      reaction?: {
+        emoji: Emoji.Variant;
+        targetAuthorAci: string;
+        targetTimestamp: number;
+      };
+      pollVote?: {
+        voterConversationId: string;
+        targetAuthorAci: string;
+        targetTimestamp: number;
+      };
+      senderTitle: string;
+      sentAt: number;
+      storyId?: string;
+    }
+  | {
+      type: NotificationType.UnreadReminder;
+      conversationId: string;
+      summary: UnreadReminderSummary;
+      iconUrl: string | null;
+      iconAbsolutePath: string | null;
+    }
+>;
 
 export type ProcessedNotificationData = Readonly<
   {
@@ -128,6 +141,7 @@ function getSoundTypeFor(type: NotificationType): SoundType {
   switch (type) {
     case NotificationType.Message:
     case NotificationType.Reaction:
+    case NotificationType.UnreadReminder:
       return SoundType.Pop;
     case NotificationType.IncomingCall:
     case NotificationType.IncomingGroupCall:
@@ -273,7 +287,8 @@ export class NotificationService extends EventEmitter {
         // Note: this maps to the xmlTemplate() function in app/WindowsNotifications.ts
         if (
           type === NotificationType.Message ||
-          type === NotificationType.Reaction
+          type === NotificationType.Reaction ||
+          type === NotificationType.UnreadReminder
         ) {
           window.IPC.showWindow();
           window.Events.showConversationViaNotification({
@@ -361,7 +376,8 @@ export class NotificationService extends EventEmitter {
   ): boolean {
     if (
       data.type !== NotificationType.Message &&
-      data.type !== NotificationType.Reaction
+      data.type !== NotificationType.Reaction &&
+      data.type !== NotificationType.UnreadReminder
     ) {
       return false;
     }
@@ -377,7 +393,8 @@ export class NotificationService extends EventEmitter {
 
     const matchesConversationId =
       conversationId != null && data.conversationId === conversationId;
-    const matchesMessageId = messageId != null && data.messageId === messageId;
+    const matchesMessageId =
+      messageId != null && 'messageId' in data && data.messageId === messageId;
 
     if (!matchesConversationId && !matchesMessageId) {
       return false;
@@ -492,6 +509,33 @@ export class NotificationService extends EventEmitter {
           reaction: queuedNotificationData.reaction,
           pollVote: queuedNotificationData.pollVote,
           silent: !shouldPlayNotificationSound,
+        });
+      }
+      case NotificationType.UnreadReminder: {
+        const contentSetting =
+          userSetting === NotificationSetting.NameAndMessage ||
+          userSetting === NotificationSetting.NameOnly
+            ? 'full'
+            : 'countsOnly';
+        const content = getUnreadReminderNotificationContent({
+          summary: queuedNotificationData.summary,
+          contentSetting,
+          fallbackTitle: FALLBACK_NOTIFICATION_TITLE,
+          i18n,
+        });
+
+        return this.rawNotify({
+          conversationId,
+          type,
+          title: content.title,
+          body: content.body,
+          silent: !shouldPlayNotificationSound,
+          iconUrl:
+            contentSetting === 'full' ? queuedNotificationData.iconUrl : null,
+          iconAbsolutePath:
+            contentSetting === 'full'
+              ? queuedNotificationData.iconAbsolutePath
+              : null,
         });
       }
       default:

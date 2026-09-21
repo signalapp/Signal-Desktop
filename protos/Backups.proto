@@ -150,6 +150,8 @@ message AccountData {
     optional bool notifyForCallsIfMuted = 36; // If unset, consider this disabled
     optional bool notifyForMentionsIfMuted = 37; // If unset, consider this enabled
     optional bool notifyForRepliesIfMuted = 38; // If unset, consider this enabled
+    optional bool showUnreadReminders = 39; // If unset, consider this enabled
+    optional bool notifyWhenContactJoins = 40; // If unset, consider this disabled
   }
 
   message SubscriberData {
@@ -408,6 +410,7 @@ message Chat {
   optional bool notifyForCallsIfMuted = 11; // If unset, use default global settings
   optional bool notifyForMentionsIfMuted = 12; // If unset, use default global settings. Only for groups. If [dontNotifyForMentionsIfMuted] is true, this should be initialized to false.
   optional bool notifyForRepliesIfMuted = 13; // If unset, use default global settings. Only for groups.
+  optional bool showUnreadReminders = 14; // If unset, use default global settings
 }
 
 /**

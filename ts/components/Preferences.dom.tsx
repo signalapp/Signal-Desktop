@@ -181,6 +181,7 @@ export type PropsDataType = {
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
+  hasUnreadReminders: boolean;
   hasKeepMutedChatsArchived: boolean;
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
@@ -387,6 +388,7 @@ type PropsFunctionType = {
   onTypingIndicatorsChange: CheckboxChangeHandlerType;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onUnreadCountBadgeTypeChange: SelectChangeHandlerType<UnreadCountBadgeType>;
+  onUnreadRemindersChange: CheckboxChangeHandlerType;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
@@ -518,6 +520,7 @@ export function Preferences({
   hasStoriesDisabled,
   hasTextFormatting,
   hasTypingIndicators,
+  hasUnreadReminders,
   hasKeepMutedChatsArchived,
   i18n,
   initialSpellCheckSetting,
@@ -585,6 +588,7 @@ export function Preferences({
   onTypingIndicatorsChange,
   onUniversalExpireTimerChange,
   onUnreadCountBadgeTypeChange,
+  onUnreadRemindersChange,
   onWhoCanFindMeChange,
   onWhoCanSeeMeChange,
   onZoomFactorChange,
@@ -1701,6 +1705,13 @@ export function Preferences({
             disabled={!hasNotifications}
             checked={hasReactionNotifications}
             onCheckedChange={onReactionNotificationsChange}
+          />
+          <AxoSwitchItem.Root
+            label={i18n('icu:UnreadReminders__title')}
+            description={i18n('icu:Preferences__UnreadReminders__description')}
+            disabled={!hasNotifications}
+            checked={hasUnreadReminders}
+            onCheckedChange={onUnreadRemindersChange}
           />
           {isNotificationAttentionSupported && (
             <AxoSwitchItem.Root
