@@ -50,6 +50,34 @@ export function OneFile(): JSX.Element {
   return <AttachmentList {...props} />;
 }
 
+export function StagedImageMissingDimensions(): JSX.Element {
+  const props = createProps({
+    attachments: [
+      fakeDraftAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        width: undefined,
+        height: undefined,
+      }),
+    ],
+  });
+  return <AttachmentList {...props} />;
+}
+
+export function StagedImageThatFailsToLoad(): JSX.Element {
+  const props = createProps({
+    attachments: [
+      fakeDraftAttachment({
+        contentType: IMAGE_JPEG,
+        fileName: 'tina-rolf-269345-unsplash.jpg',
+        url: '/fixtures/this-image-does-not-exist.jpg',
+      }),
+    ],
+  });
+  return <AttachmentList {...props} />;
+}
+
 export function MultipleVisualAttachments(): JSX.Element {
   const props = createProps({
     attachments: [

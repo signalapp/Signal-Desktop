@@ -48,7 +48,6 @@ export type Props = {
   darkOverlay?: boolean;
   playIconOverlay?: boolean;
   blurHash?: string;
-  fallbackToBlurhashOnError?: boolean;
 
   i18n: LocalizerType;
   theme?: ThemeType;
@@ -72,7 +71,6 @@ export function Image({
   curveTopLeft,
   curveTopRight,
   darkOverlay,
-  fallbackToBlurhashOnError,
   height = 0,
   i18n,
   noBackground,
@@ -176,8 +174,7 @@ export function Image({
       intrinsicWidth={attachment.width}
       intrinsicHeight={attachment.height}
       src={url}
-      blurHash={noBackground && url ? undefined : resolvedBlurHash}
-      fallbackToBlurhashOnError={fallbackToBlurhashOnError}
+      blurHash={resolvedBlurHash}
       onError={onError}
       key={url}
     />

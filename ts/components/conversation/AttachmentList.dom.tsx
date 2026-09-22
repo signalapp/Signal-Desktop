@@ -13,7 +13,7 @@ import type {
 } from '../../types/Attachment.std.ts';
 import {
   areAllAttachmentsVisual,
-  canDisplayImage,
+  areDimensionsDisplayable,
   isImageAttachment,
   isVideoAttachment,
 } from '../../util/Attachment.std.ts';
@@ -112,7 +112,7 @@ export function AttachmentList<
           const closeAttachment = () => onCloseAttachment(attachment);
 
           if (
-            (isImage && canDisplayImage([attachment])) ||
+            (isImage && areDimensionsDisplayable(attachment)) ||
             isVideo ||
             attachment.pending
           ) {

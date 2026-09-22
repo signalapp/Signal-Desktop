@@ -66,3 +66,15 @@ export function FullImage(): JSX.Element {
     />
   );
 }
+
+export function ImageThatFailsToLoad(): JSX.Element {
+  return (
+    <ImageOrBlurhash
+      src="/fixtures/this-image-does-not-exist.jpg"
+      blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
+      width={128}
+      height={128}
+      alt="test"
+    />
+  );
+}

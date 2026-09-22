@@ -844,6 +844,22 @@ Sticker.args = {
   status: 'sent',
 };
 
+export const StickerThatFailsToLoad = Template.bind({});
+StickerThatFailsToLoad.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/this-sticker-does-not-exist.webp',
+      fileName: 'this-sticker-does-not-exist.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    }),
+  ],
+  isSticker: true,
+  status: 'sent',
+};
+
 export const StickerInGroup = Template.bind({});
 StickerInGroup.args = {
   attachments: [
@@ -1416,6 +1432,32 @@ LinkPreviewWithSmallImage.args = {
         height: 50,
         url: pngUrl,
         width: 50,
+      }),
+      isStickerPack: false,
+      isCallLink: false,
+      title: 'Signal',
+      description:
+        'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+      url: 'https://www.signal.org',
+      date: new Date(2020, 2, 10).valueOf(),
+    },
+  ],
+  status: 'sent',
+  text: 'Be sure to look at https://www.signal.org',
+};
+
+export const LinkPreviewImageThatFailsToLoad = Template.bind({});
+LinkPreviewImageThatFailsToLoad.args = {
+  previews: [
+    {
+      domain: 'signal.org',
+      image: fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 50,
+        url: '/fixtures/this-preview-does-not-exist.png',
+        width: 50,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
       }),
       isStickerPack: false,
       isCallLink: false,
@@ -2280,6 +2322,86 @@ MultipleImagesWithBodyTextOneTooBig.args = {
   status: 'sent',
 };
 
+export const ImageTooLargeToDisplay = Template.bind({});
+ImageTooLargeToDisplay.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'enormous.png',
+      contentType: IMAGE_PNG,
+      height: 10000,
+      width: 10000,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    }),
+  ],
+  status: 'sent',
+};
+
+export const ImageMissingDimensions = Template.bind({});
+ImageMissingDimensions.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: undefined,
+      width: undefined,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    }),
+  ],
+  status: 'sent',
+};
+
+export const MultipleImagesWithFirstTooLargeToDisplay = Template.bind({});
+MultipleImagesWithFirstTooLargeToDisplay.args = {
+  attachments: [
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'enormous.png',
+      contentType: IMAGE_PNG,
+      height: 10000,
+      width: 10000,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+    fakeAttachment({
+      url: pngUrl,
+      fileName: 'the-sax.png',
+      contentType: IMAGE_PNG,
+      height: 240,
+      width: 320,
+    }),
+  ],
+  status: 'sent',
+};
+
+export const VideoTooLargeToDisplay = Template.bind({});
+VideoTooLargeToDisplay.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      fileName: 'enormous.mp4',
+      screenshot: {
+        url: pngUrl,
+        size: 100000,
+        width: 10000,
+        height: 10000,
+        contentType: IMAGE_PNG,
+      },
+      width: 10000,
+      height: 10000,
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+    }),
+  ],
+  status: 'sent',
+};
+
 export const ImageWithCaption = Template.bind({});
 ImageWithCaption.args = {
   attachments: [
@@ -2340,6 +2462,22 @@ GifInAGroup.args = {
   ],
   conversationType: 'group',
   contactNameColor: '100',
+  status: 'sent',
+};
+
+export const GifThatFailsToLoad = Template.bind({});
+GifThatFailsToLoad.args = {
+  attachments: [
+    fakeAttachment({
+      contentType: VIDEO_MP4,
+      flags: SignalService.AttachmentPointer.Flags.GIF,
+      fileName: 'cat-gif.mp4',
+      url: '/fixtures/this-gif-does-not-exist.mp4',
+      blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      width: 400,
+      height: 332,
+    }),
+  ],
   status: 'sent',
 };
 

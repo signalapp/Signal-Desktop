@@ -170,11 +170,12 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     // No download buttons
     debug('waiting for spinner to become visible');
     await startDownload.waitFor({ state: 'detached' });
-    const cancelDownload = conversationStack.getByRole('button', {
-      name: 'Cancel Download',
-    });
+    const cancelDownload = conversationStack
+      .getByRole('button', {
+        name: 'Cancel Download',
+      })
+      .first();
     await cancelDownload.waitFor();
-
     debug('sending pending backfill response');
     await phone.sendRaw(
       desktop,

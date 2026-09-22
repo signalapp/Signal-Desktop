@@ -417,6 +417,10 @@ export async function composerAttachFiles(
   );
 }
 
+export function getLoadedImagesInside(parent: Locator): Locator {
+  return parent.locator('img.module-image__image[data-loaded="true"]');
+}
+
 export async function sendMessageWithAttachments(
   page: Page,
   receiver: PrimaryDevice,
@@ -434,14 +438,13 @@ export async function sendMessageWithAttachments(
   await input.press('Enter');
 
   const Message = getTimelineMessageWithText(page, text);
-  const MessageImageLoaded = Message.locator('.module-image__image');
 
   await Message.waitFor();
 
   await Promise.all(
     filePaths.map(async (_, index) => {
       debug(`waiting for ${index} image to render in timeline`);
-      await MessageImageLoaded.nth(index).waitFor({
+      await getLoadedImagesInside(Message).nth(index).waitFor({
         state: 'visible',
       });
     })

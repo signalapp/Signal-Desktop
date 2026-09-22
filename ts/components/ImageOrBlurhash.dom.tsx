@@ -18,22 +18,24 @@ export type Props = ImgHTMLAttributes<HTMLImageElement> &
     alt: string;
     intrinsicWidth?: number;
     intrinsicHeight?: number;
-    fallbackToBlurhashOnError?: boolean;
   }>;
 
 export function ImageOrBlurhash({
   src: imageSrc,
   blurHash,
   alt,
-  fallbackToBlurhashOnError,
   intrinsicWidth,
   intrinsicHeight,
   onError,
   ...rest
 }: Props): JSX.Element {
   const ref = useRef<HTMLImageElement | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasErrored, setHasErrored] = useState(false);
+
+  const [loadedSrc, setLoadedSrc] = useState<string | undefined>();
+  const [erroredSrc, setErroredSrc] = useState<string | undefined>();
+
+  const isLoaded = imageSrc && loadedSrc === imageSrc;
+  const hasErrored = imageSrc && erroredSrc === imageSrc;
 
   const blurHashUrl = useMemo(() => {
     return blurHash
@@ -41,33 +43,30 @@ export function ImageOrBlurhash({
       : undefined;
   }, [blurHash, intrinsicWidth, intrinsicHeight]);
 
+  const renderedSrc = hasErrored ? blurHashUrl : (imageSrc ?? blurHashUrl);
+
   const onLoad = useCallback(() => {
     // Don't let background blurhash be visible at the same time as the image
     // while React propagates the `isLoaded` change.
-    if (ref.current) {
+    if (ref.current && renderedSrc === imageSrc) {
       ref.current.style.backgroundImage = 'none';
     }
-    setIsLoaded(true);
-  }, [ref]);
+    setLoadedSrc(renderedSrc);
+  }, [ref, imageSrc, renderedSrc]);
 
-  const src =
-    hasErrored && fallbackToBlurhashOnError
-      ? blurHashUrl
-      : (imageSrc ?? blurHashUrl);
   return (
     <img
       {...rest}
       ref={ref}
-      src={src}
+      src={renderedSrc}
       alt={alt}
       onLoad={onLoad}
+      data-loaded={isLoaded}
       style={{
         // Use a background image with an data url of the blurhash which should
         // show quickly and  stay visible until the img src is loaded/decoded.
         backgroundImage:
-          blurHashUrl != null && blurHashUrl !== src && !isLoaded
-            ? `url(${blurHashUrl})`
-            : 'none',
+          blurHashUrl != null && !isLoaded ? `url(${blurHashUrl})` : 'none',
         aspectRatio:
           intrinsicWidth && intrinsicHeight
             ? `${intrinsicWidth} / ${intrinsicHeight}`
@@ -82,7 +81,7 @@ export function ImageOrBlurhash({
       }}
       loading={blurHashUrl != null ? 'lazy' : 'eager'}
       onError={ev => {
-        setHasErrored(true);
+        setErroredSrc(imageSrc);
         onError?.(ev);
       }}
     />

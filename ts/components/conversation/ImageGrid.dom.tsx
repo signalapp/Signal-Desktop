@@ -15,6 +15,7 @@ import type {
 } from '../../types/Attachment.std.ts';
 import {
   areAllAttachmentsVisual,
+  areDimensionsDisplayable,
   getAlt,
   getImageDimensionsForTimeline,
   getThumbnailUrl,
@@ -45,7 +46,6 @@ export type Props = {
   i18n: LocalizerType;
   theme?: ThemeType;
 
-  onError: () => void;
   showVisualAttachment: (attachment: AttachmentType) => void;
   showMediaNoLongerAvailableToast: () => void;
   cancelDownload: () => void;
@@ -53,6 +53,18 @@ export type Props = {
 };
 
 const GAP = 1;
+
+function getDisplayUrl(attachment: AttachmentForUIType): string | undefined {
+  return areDimensionsDisplayable(attachment) ? getUrl(attachment) : undefined;
+}
+
+function getDisplayThumbnailUrl(
+  attachment: AttachmentForUIType
+): string | undefined {
+  return attachment.thumbnail
+    ? getThumbnailUrl(attachment)
+    : getDisplayUrl(attachment);
+}
 
 function getCurves({
   direction,
@@ -117,7 +129,6 @@ export function ImageGrid({
   i18n,
   isSticker,
   stickerSize,
-  onError,
   showMediaNoLongerAvailableToast,
   showVisualAttachment,
   cancelDownload,
@@ -226,12 +237,11 @@ export function ImageGrid({
           playIconOverlay={isVideoAttachment(attachment)}
           height={height}
           width={width}
-          url={getUrl(attachment) ?? attachment.thumbnailFromBackup?.url}
+          url={getDisplayUrl(attachment) ?? attachment.thumbnailFromBackup?.url}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={startDownload}
-          onError={onError}
         />
         {detailPill}
       </div>
@@ -258,12 +268,11 @@ export function ImageGrid({
           height={150}
           width={150}
           cropWidth={GAP}
-          url={getThumbnailUrl(attachment1)}
+          url={getDisplayThumbnailUrl(attachment1)}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          fallbackToBlurhashOnError
         />
         <Image
           alt={getAlt(attachment2, i18n)}
@@ -278,12 +287,11 @@ export function ImageGrid({
           height={150}
           width={150}
           attachment={attachment2}
-          url={getThumbnailUrl(attachment2)}
+          url={getDisplayThumbnailUrl(attachment2)}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          fallbackToBlurhashOnError
         />
         {detailPill}
         {downloadPill}
@@ -312,12 +320,11 @@ export function ImageGrid({
           height={200}
           width={200}
           cropWidth={GAP}
-          url={getUrl(attachment1)}
+          url={getDisplayUrl(attachment1)}
           showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
           showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
           cancelDownload={cancelDownload}
           startDownload={downloadPill ? undefined : startDownload}
-          fallbackToBlurhashOnError
         />
         <div className="module-image-grid__column">
           <Image
@@ -331,12 +338,11 @@ export function ImageGrid({
             cropHeight={GAP}
             attachment={attachment2}
             playIconOverlay={isVideoAttachment(attachment2)}
-            url={getThumbnailUrl(attachment2)}
+            url={getDisplayThumbnailUrl(attachment2)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment3, i18n)}
@@ -350,12 +356,11 @@ export function ImageGrid({
             width={100}
             attachment={attachment3}
             playIconOverlay={isVideoAttachment(attachment3)}
-            url={getThumbnailUrl(attachment3)}
+            url={getDisplayThumbnailUrl(attachment3)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
         </div>
         {detailPill}
@@ -387,12 +392,11 @@ export function ImageGrid({
               width={150}
               cropHeight={GAP}
               cropWidth={GAP}
-              url={getThumbnailUrl(attachment1)}
+              url={getDisplayThumbnailUrl(attachment1)}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(0)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              fallbackToBlurhashOnError
             />
             <Image
               alt={getAlt(attachment2, i18n)}
@@ -406,12 +410,11 @@ export function ImageGrid({
               width={150}
               cropHeight={GAP}
               attachment={attachment2}
-              url={getThumbnailUrl(attachment2)}
+              url={getDisplayThumbnailUrl(attachment2)}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(1)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              fallbackToBlurhashOnError
             />
           </div>
           <div className="module-image-grid__row">
@@ -428,12 +431,11 @@ export function ImageGrid({
               width={150}
               cropWidth={GAP}
               attachment={attachment3}
-              url={getThumbnailUrl(attachment3)}
+              url={getDisplayThumbnailUrl(attachment3)}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(2)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              fallbackToBlurhashOnError
             />
             <Image
               alt={getAlt(attachment4, i18n)}
@@ -447,12 +449,11 @@ export function ImageGrid({
               height={150}
               width={150}
               attachment={attachment4}
-              url={getThumbnailUrl(attachment4)}
+              url={getDisplayThumbnailUrl(attachment4)}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
               showVisualAttachment={showAttachmentOrNoLongerAvailableToast(3)}
               cancelDownload={cancelDownload}
               startDownload={downloadPill ? undefined : startDownload}
-              fallbackToBlurhashOnError
             />
           </div>
         </div>
@@ -490,12 +491,11 @@ export function ImageGrid({
             height={150}
             width={150}
             cropWidth={GAP}
-            url={getThumbnailUrl(attachment1)}
+            url={getDisplayThumbnailUrl(attachment1)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment2, i18n)}
@@ -507,12 +507,11 @@ export function ImageGrid({
             height={150}
             width={150}
             attachment={attachment2}
-            url={getThumbnailUrl(attachment2)}
+            url={getDisplayThumbnailUrl(attachment2)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
         </div>
         <div className="module-image-grid__row">
@@ -529,12 +528,11 @@ export function ImageGrid({
             width={100}
             cropWidth={GAP}
             attachment={attachment3}
-            url={getThumbnailUrl(attachment3)}
+            url={getDisplayThumbnailUrl(attachment3)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment4, i18n)}
@@ -548,12 +546,11 @@ export function ImageGrid({
             width={100}
             cropWidth={GAP}
             attachment={attachment4}
-            url={getThumbnailUrl(attachment4)}
+            url={getDisplayThumbnailUrl(attachment4)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showVisualAttachment}
             cancelDownload={cancelDownload}
             startDownload={downloadPill ? undefined : startDownload}
-            fallbackToBlurhashOnError
           />
           <Image
             alt={getAlt(attachment5, i18n)}
@@ -569,12 +566,11 @@ export function ImageGrid({
             darkOverlay={moreMessagesOverlay}
             overlayText={moreMessagesOverlayText}
             attachment={attachment5}
-            url={getThumbnailUrl(attachment5)}
+            url={getDisplayThumbnailUrl(attachment5)}
             showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
             showVisualAttachment={showVisualAttachment}
             cancelDownload={undefined}
             startDownload={undefined}
-            fallbackToBlurhashOnError
           />
         </div>
       </div>

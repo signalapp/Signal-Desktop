@@ -16,7 +16,10 @@ import {
   stringToMIMEType,
 } from '../../types/MIME.std.ts';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures.std.ts';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
+import {
+  fakeAttachment,
+  fakeThumbnail,
+} from '../../test-helpers/fakeAttachment.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -51,7 +54,6 @@ export default {
     showVisualAttachment: action('showVisualAttachment'),
     startDownload: action('startDownload'),
     cancelDownload: action('cancelDownload'),
-    onError: action('onError'),
     stickerSize: 0,
     withContentAbove: false,
     withContentBelow: false,
@@ -60,6 +62,43 @@ export default {
 
 export function OneImage(args: Props): JSX.Element {
   return <ImageGrid {...args} />;
+}
+
+export function OneImageNotDownloaded(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'sax.png',
+        height: 1200,
+        width: 800,
+        path: undefined,
+        url: undefined,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
+}
+
+export function OneImageTooLargeToDisplay(args: Props): JSX.Element {
+  const props = {
+    ...args,
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'enormous.png',
+        height: 10000,
+        width: 10000,
+        url: pngUrl,
+        blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+      }),
+    ],
+  };
+
+  return <ImageGrid {...props} />;
 }
 
 export function OneVideo(args: Props): JSX.Element {
@@ -296,6 +335,57 @@ export function TwoImagesNotDownloaded(args: Props): JSX.Element {
           width: 3000,
           path: undefined,
           blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+      ]}
+    />
+  );
+}
+
+export function TwoImagesOneTooLargeWithoutThumbnail(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: IMAGE_PNG,
+          fileName: 'enormous.png',
+          height: 10000,
+          width: 10000,
+          url: pngUrl,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          width: 3000,
+        }),
+      ]}
+    />
+  );
+}
+
+export function TwoImagesOneTooLargeWithThumbnail(args: Props): JSX.Element {
+  return (
+    <ImageGrid
+      {...args}
+      attachments={[
+        fakeAttachment({
+          contentType: IMAGE_PNG,
+          fileName: 'enormous.png',
+          height: 10000,
+          width: 10000,
+          url: pngUrl,
+          blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
+          thumbnail: fakeThumbnail(pngUrl),
+        }),
+        fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          height: 1680,
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          width: 3000,
         }),
       ]}
     />

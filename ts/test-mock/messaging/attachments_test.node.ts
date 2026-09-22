@@ -16,6 +16,7 @@ import { v4 } from 'uuid';
 import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import {
+  getLoadedImagesInside,
   getMessageInTimelineByTimestamp,
   getTimelineMessageWithText,
   sendMessageWithAttachments,
@@ -125,8 +126,8 @@ describe('attachments', function (this: Mocha.Suite) {
     });
 
     await expect(
-      getMessageInTimelineByTimestamp(page, incomingTimestamp).locator(
-        'img.module-image__image'
+      getLoadedImagesInside(
+        getMessageInTimelineByTimestamp(page, incomingTimestamp)
       )
     ).toBeVisible();
 
@@ -179,13 +180,13 @@ describe('attachments', function (this: Mocha.Suite) {
     });
 
     await expect(
-      getMessageInTimelineByTimestamp(page, incrementalTimestamp).locator(
-        'img.module-image__image'
+      getLoadedImagesInside(
+        getMessageInTimelineByTimestamp(page, incrementalTimestamp)
       )
     ).toBeVisible();
     await expect(
-      getMessageInTimelineByTimestamp(page, badIncrementalTimestamp).locator(
-        'img.module-image__image'
+      getLoadedImagesInside(
+        getMessageInTimelineByTimestamp(page, badIncrementalTimestamp)
       )
     ).toBeVisible();
 
@@ -454,13 +455,13 @@ describe('attachments', function (this: Mocha.Suite) {
     });
 
     await expect(
-      getMessageInTimelineByTimestamp(page, incomingVideoTimestamp).locator(
-        'img.module-image__image'
+      getLoadedImagesInside(
+        getMessageInTimelineByTimestamp(page, incomingVideoTimestamp)
       )
     ).toBeVisible();
     await expect(
-      getMessageInTimelineByTimestamp(page, incomingCatTimestamp).locator(
-        'img.module-image__image'
+      getLoadedImagesInside(
+        getMessageInTimelineByTimestamp(page, incomingCatTimestamp)
       )
     ).toBeVisible();
 

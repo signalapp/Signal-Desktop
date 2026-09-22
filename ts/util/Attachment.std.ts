@@ -232,19 +232,12 @@ export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
   );
 }
 
-export function canDisplayImage(
-  attachments?: ReadonlyArray<AttachmentType>
-): boolean {
-  const { height, width } =
-    attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
+export function areDimensionsDisplayable(attachment: AttachmentType): boolean {
+  const { height, width } = attachment;
 
-  return Boolean(
-    height &&
-    height > 0 &&
-    height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
-    width &&
-    width > 0 &&
-    width <= MAX_DISPLAYABLE_IMAGE_WIDTH
+  return (
+    (!height || height <= MAX_DISPLAYABLE_IMAGE_HEIGHT) &&
+    (!width || width <= MAX_DISPLAYABLE_IMAGE_WIDTH)
   );
 }
 

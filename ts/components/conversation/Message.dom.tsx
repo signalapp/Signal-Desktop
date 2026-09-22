@@ -61,7 +61,6 @@ import type {
   AttachmentType,
 } from '../../types/Attachment.std.ts';
 import {
-  canDisplayImage,
   getGridDimensions,
   getImageDimensionsForTimeline,
   hasImage,
@@ -412,7 +411,6 @@ type State = {
 
   expiring: boolean;
   expired: boolean;
-  imageBroken: boolean;
 
   flashing: boolean;
   lastFlashedTargetedMessageCounter: number | null;
@@ -634,7 +632,6 @@ export class Message extends PureComponent<Props, State> {
 
       expiring: false,
       expired: false,
-      imageBroken: false,
 
       flashing: false,
       lastFlashedTargetedMessageCounter: null,
@@ -664,14 +661,6 @@ export class Message extends PureComponent<Props, State> {
 
   readonly #handleAnimationEnd = (): void => {
     this.setState({ flashing: false });
-  };
-
-  readonly #handleImageError = (): void => {
-    const { id } = this.props;
-    log.info(`${id}: Image failed to load; failing over to placeholder`);
-    this.setState({
-      imageBroken: true,
-    });
   };
 
   #setTargeted() {
@@ -818,8 +807,6 @@ export class Message extends PureComponent<Props, State> {
       text,
     }: Readonly<Props> = this.props
   ): MetadataPlacement {
-    const { imageBroken } = this.state;
-
     if (
       !expirationLength &&
       !expirationTimestamp &&
@@ -861,7 +848,7 @@ export class Message extends PureComponent<Props, State> {
       const isAttachmentNotAvailable =
         firstAttachment?.isPermanentlyUndownloadable;
 
-      if (this.#isGenericAttachment(attachments, imageBroken)) {
+      if (this.#isGenericAttachment(attachments)) {
         return MetadataPlacement.RenderedElsewhere;
       }
 
@@ -1163,7 +1150,6 @@ export class Message extends PureComponent<Props, State> {
       theme,
       timestamp,
     } = this.props;
-    const { imageBroken } = this.state;
 
     const collapseMetadata =
       this.#getMetadataPlacement() === MetadataPlacement.NotRendered;
@@ -1178,18 +1164,13 @@ export class Message extends PureComponent<Props, State> {
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
     const withContentAbove =
       !isStickerReply && (Boolean(quote) || this.#shouldRenderAuthor());
-    const displayImage = canDisplayImage(attachments);
 
     // attachmentDroppedDueToSize is handled in renderAttachmentTooBig
     const isAttachmentNotAvailable =
       firstAttachment.isPermanentlyUndownloadable &&
       !attachmentDroppedDueToSize;
 
-    if (
-      displayImage &&
-      !imageBroken &&
-      !(isSticker && isAttachmentNotAvailable)
-    ) {
+    if (!(isSticker && isAttachmentNotAvailable)) {
       const prefix = isSticker ? 'sticker' : 'attachment';
       const containerClassName = classNames(
         `module-message__${prefix}-container`,
@@ -1214,7 +1195,6 @@ export class Message extends PureComponent<Props, State> {
               _forceTapToPlay={_forceTapToPlay}
               theme={theme}
               i18n={i18n}
-              onError={this.#handleImageError}
               showVisualAttachment={() => {
                 showLightbox({
                   attachment: firstAttachment,
@@ -1251,7 +1231,6 @@ export class Message extends PureComponent<Props, State> {
               stickerSize={STICKER_SIZE}
               bottomOverlay={bottomOverlay}
               i18n={i18n}
-              onError={this.#handleImageError}
               theme={theme}
               shouldCollapseAbove={shouldCollapseAbove}
               shouldCollapseBelow={shouldCollapseBelow}
@@ -1616,7 +1595,6 @@ export class Message extends PureComponent<Props, State> {
             direction={direction}
             shouldCollapseAbove={shouldCollapseAbove}
             withContentBelow
-            onError={this.#handleImageError}
             i18n={i18n}
             theme={theme}
             showVisualAttachment={() => {
@@ -1659,7 +1637,6 @@ export class Message extends PureComponent<Props, State> {
                 url={first.image.url}
                 attachment={first.image}
                 blurHash={first.image.blurHash}
-                onError={this.#handleImageError}
                 i18n={i18n}
                 showMediaNoLongerAvailableToast={
                   showMediaNoLongerAvailableToast
@@ -2660,16 +2637,13 @@ export class Message extends PureComponent<Props, State> {
 
   #isShowingImage(): boolean {
     const { isTapToView, attachments, previews } = this.props;
-    const { imageBroken } = this.state;
 
-    if (imageBroken || isTapToView) {
+    if (isTapToView) {
       return false;
     }
 
     if (attachments && attachments.length) {
-      const displayImage = canDisplayImage(attachments);
-
-      return displayImage && (isImage(attachments) || isVideo(attachments));
+      return isImage(attachments) || isVideo(attachments);
     }
 
     if (previews && previews.length) {
@@ -3111,7 +3085,6 @@ export class Message extends PureComponent<Props, State> {
       showLightboxForViewOnceMedia,
       startConversation,
     } = this.props;
-    const { imageBroken } = this.state;
 
     const isAttachmentPending = this.#isAttachmentPending();
 
@@ -3176,7 +3149,7 @@ export class Message extends PureComponent<Props, State> {
       return;
     }
 
-    if (this.#isGenericAttachment(attachments, imageBroken)) {
+    if (this.#isGenericAttachment(attachments)) {
       this.#openGenericAttachment();
       return;
     }
@@ -3194,7 +3167,6 @@ export class Message extends PureComponent<Props, State> {
     }
 
     if (
-      !imageBroken &&
       attachments &&
       attachments.length > 0 &&
       !isAttachmentPending &&
@@ -3209,11 +3181,9 @@ export class Message extends PureComponent<Props, State> {
     }
 
     if (
-      !imageBroken &&
       attachments &&
       attachments.length > 0 &&
       !isAttachmentPending &&
-      canDisplayImage(attachments) &&
       ((isImage(attachments) && hasImage(attachments)) ||
         (isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
@@ -3282,13 +3252,12 @@ export class Message extends PureComponent<Props, State> {
   };
 
   #isGenericAttachment(
-    attachments: ReadonlyArray<AttachmentForUIType> | undefined,
-    imageBroken: boolean
+    attachments: ReadonlyArray<AttachmentForUIType> | undefined
   ) {
     return (
       attachments?.length &&
-      (!isImage(attachments) || !canDisplayImage(attachments) || imageBroken) &&
-      (!isVideo(attachments) || !canDisplayImage(attachments) || imageBroken) &&
+      !isImage(attachments) &&
+      !isVideo(attachments) &&
       !isAudio(attachments)
     );
   }
@@ -3312,7 +3281,6 @@ export class Message extends PureComponent<Props, State> {
       text,
       textDirection,
     } = this.props;
-    const { imageBroken } = this.state;
 
     const width = this.#getWidth();
     const isEmojiOnly = this.#canRenderStickerLikeEmoji();
@@ -3332,7 +3300,7 @@ export class Message extends PureComponent<Props, State> {
       (text || (!isVideo(attachments) && !isImage(attachments)));
     const isClickable =
       isTapToView ||
-      (this.#isGenericAttachment(attachments, imageBroken) &&
+      (this.#isGenericAttachment(attachments) &&
         !text &&
         !attachments?.[0]?.isPermanentlyUndownloadable) ||
       contact;
@@ -3452,13 +3420,13 @@ export class Message extends PureComponent<Props, State> {
       onWrapperKeyDown,
     } = this.props;
     const isMacOS = platform === 'darwin';
-    const { expired, expiring, imageBroken, flashing } = this.state;
+    const { expired, expiring, flashing } = this.state;
 
     if (expired) {
       return null;
     }
 
-    if (isSticker && (imageBroken || !attachments || !attachments.length)) {
+    if (isSticker && (!attachments || !attachments.length)) {
       return null;
     }
 
