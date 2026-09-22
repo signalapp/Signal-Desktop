@@ -181,7 +181,7 @@ describe('backup/calling', () => {
       const adminKey = CallLinkRootKey.generateAdminPassKey();
       const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
       adminCallLink = {
-        rootKey: adminRootKey.toString(),
+        rootKey: adminRootKey.toUnredactedString(),
         roomId: getRoomIdFromRootKey(adminRootKey),
         adminKey: fromAdminKeyBytes(adminKeyBytes),
         name: "Let's Talk Rocks",
@@ -196,7 +196,7 @@ describe('backup/calling', () => {
 
       const rootKey = CallLinkRootKey.generate();
       callLink = {
-        rootKey: rootKey.toString(),
+        rootKey: rootKey.toUnredactedString(),
         roomId: getRoomIdFromRootKey(rootKey),
         adminKey: null,
         name: "Let's Talk Rocks #2",

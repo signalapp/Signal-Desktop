@@ -95,12 +95,11 @@ allowBuilds:
   '@parcel/watcher@2.5.6': true
   '@signalapp/libsignal-client@0.100.0': true # duplicate for @signalapp/mock-server
   '@signalapp/libsignal-client@0.101.2': true
-  '@signalapp/ringrtc@2.71.0': true
+  '@signalapp/ringrtc@2.72.0': true
   '@signalapp/sqlcipher@4.1.0': true
   '@signalapp/windows-ucv@1.0.1': true
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true
-  'electron@23.3.13': false # duplicate package
   'electron@39.8.10': true # duplicate package through react-devtools
   'electron@44.2.0': true
   'fs-xattr@0.4.0': true
@@ -113,6 +112,7 @@ allowBuilds:
   'es5-ext': false
   'esbuild': false
   'utf-8-validate': false
+  'electron@23.3.13': false # duplicate package
 
 dedupePeers: true
 dedupePeerDependents: true

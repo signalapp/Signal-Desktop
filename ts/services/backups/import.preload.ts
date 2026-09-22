@@ -1552,7 +1552,7 @@ export class BackupImportStream extends Writable {
 
     const callLink: CallLinkType = {
       roomId: getRoomIdFromRootKey(rootKey),
-      rootKey: rootKey.toString(),
+      rootKey: rootKey.toUnredactedString(),
       adminKey: adminKey?.length ? fromAdminKeyBytes(adminKey) : null,
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
