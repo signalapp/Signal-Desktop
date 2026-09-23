@@ -78,7 +78,10 @@
     "messageformat": "Nekatere nastavitve računa lahko upravljate le v primarni napravi, vključno z nastavitvami računa in varnostnimi kopijami."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Nastavitve računa in varnostne kopije lahko upravljate samo v primarni napravi."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardna"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Utišaj"
+  },
+  "icu:muted": {
+    "messageformat": "Utišan"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal se ni uspel posodobiti. <retryUpdateButton>Ponovno poskusite posodobiti</retryUpdateButton> ali obiščite {url} in jo namestite ročno. Nato <contactSupportLink>obvestite podporo</contactSupportLink> o tem problemu"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Obvesti me, ko nekdo odgovori na moje sporočilo v utišanih klepetih."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Omembe"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Rezultati iskanja"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Dodaj člana"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Dodaj člane_ice"
@@ -6173,7 +6221,7 @@
     "messageformat": "Vaš Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Shranite to na varnem mestu. Podatki za prijavo so potrebni za obnovitev vašega računa in podatkov. Ne delite z nikomer."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Ključ računa"
@@ -6224,7 +6272,7 @@
     "messageformat": "Napredno"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Sprememba PINa"
+    "messageformat": "Sprememba PIN-a"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Spremeni"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Značka aplikacije"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Ponastavite nastavitve obvestil na privzete, vključno z nastavitvami po meri za vaše klepete."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Neprebrani klepeti"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Želite izvoziti zgodovino klepeta?"
@@ -7013,22 +7070,22 @@
     "messageformat": "Potrebna je posodobitev"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Preverjanje razpoložljivih posodobitev"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Posodabljanje Signala"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Prenos {currentBytes} od {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Za nadaljevanje posodobite Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Posodobitev"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Obiščite App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Potrebna je posodobitev"
@@ -8253,7 +8310,7 @@
     "messageformat": "Napačen PIN. Poskusi znova"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Pozabljen PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Potrdi"
@@ -8262,19 +8319,19 @@
     "messageformat": "PIN je pravilen. Pozneje vas bomo ponovno opomnili."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Spremenite Signalov PIN"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "PIN lahko spreminjate dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
+    "messageformat": "PIN lahko spreminjate, dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
-    "messageformat": "Potrdite svoj PIN Signal"
+    "messageformat": "Potrdite Signalov PIN"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Vnesite PIN, ki ste ga pravkar določili."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Vnesite nov PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Potrdite PIN"
@@ -8289,16 +8346,16 @@
     "messageformat": "Potrdi"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nov PIN je določen."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop kmalu ne bo več podpiral različice {OS} na vašem računalniku. Če želite še naprej uporabljati Signal posodobite operacijski sistem na vašem računalniku do {expirationDate}. <learnMoreLink>Preberite več</learnMoreLink>"
+    "messageformat": "Signal Desktop kmalu ne bo več podpiral različice {OS} v vašem računalniku. Če želite še naprej uporabljati Signal, posodobite operacijski sistem v vašem računalniku do dne {expirationDate}. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} na vašem računalniku. <learnMoreLink>Preberite več</learnMoreLink>"
+    "messageformat": "Signal Desktop v tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} v svojem računalniku. <learnMoreLink>Preberite več</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} na vašem računalniku."
+    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} v svojem računalniku."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Urejeno"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Iskanje članov skupine na strani z nastavitvami skupine smo poenostavili."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "V nastavitve videza smo dodali dve novi stopnji povečave (110 % in 90 %)."

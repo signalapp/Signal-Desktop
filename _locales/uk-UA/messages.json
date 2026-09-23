@@ -78,7 +78,10 @@
     "messageformat": "Змінювати налаштування можна тільки з основного пристрою, зокрема налаштування акаунту й резервного копіювання."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Змінювати налаштування акаунту й резервного копіювання можна тільки з основного пристрою."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандартна"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Вимкнути сповіщення"
+  },
+  "icu:muted": {
+    "messageformat": "Сповіщення вимкнені"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Не вдалось оновити Signal. <retryUpdateButton>Запустіть оновлення ще раз</retryUpdateButton> або перейдіть на сторінку {url} для ручного встановлення. Потім <contactSupportLink>повідомте службу підтримки</contactSupportLink> про цю проблему"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Отримувати сповіщення, коли вам відповідають, навіть якщо сповіщення від чату вимкнено."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Згадки"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Результати пошуку"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Додати"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Додати учасників"
@@ -6173,7 +6221,7 @@
     "messageformat": "Ваш Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Зберігайте цю інформацію в надійному місці. Вона потрібна для відновлення вашого акаунту й даних. Нікому її не повідомляйте."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Ключ від акаунту"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Значок застосунку"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Налаштування сповіщень, включно з унікальними налаштуваннями для ваших чатів, буде скинуто до стандартних."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Непрочитані чати"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Експортувати історію чатів"
@@ -7013,22 +7070,22 @@
     "messageformat": "Необхідне оновлення"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Перевірка оновлень"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Оновлення Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Завантаження: {currentBytes} з {totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Щоб продовжити, потрібно оновити Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Оновити"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Перейти в App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необхідне оновлення"
@@ -8253,7 +8310,7 @@
     "messageformat": "Неправильний PIN-код. Спробувати знов"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Я не пам'ятаю PIN-коду"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Підтвердити"
@@ -8262,7 +8319,7 @@
     "messageformat": "PIN-код правильний. Згодом ми нагадаємо знов."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Змінити PIN-код Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Ви можете змінити PIN-код, якщо цей пристрій зареєстровано. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -8274,7 +8331,7 @@
     "messageformat": "Введіть PIN-код, який ви щойно створили."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Введіть новий PIN-код"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Підтвердьте PIN-код"
@@ -8289,10 +8346,10 @@
     "messageformat": "Підтвердити"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Новий PIN-код створено."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Незабаром Signal Desktop перестане підтримувати версію {OS} вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Докладніше</learnMoreLink>"
+    "messageformat": "Незабаром Signal Desktop перестане підтримувати версію {OS} ОС вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Signal Desktop більше не працює на цьому комп'ютері. Щоб знову користуватися Signal, оновіть версію {OS} вашого комп'ютера. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Ми спростили пошук учасників на сторінці налаштувань групи. Тепер ви зможете швидко перевірити, чи мама вже додала вашу троюрідну тітку до групи «Всі свої»."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "Ми додали два нові рівні збільшення масштабу в налаштуваннях вигляду, щоб навіть із мінімальними зусиллями ваші повідомлення виглядали на всі 110% (або 90%)."

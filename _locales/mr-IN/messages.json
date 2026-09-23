@@ -78,7 +78,10 @@
     "messageformat": "खाते सेटिंग्ज फक्त तुमच्या मुख्य डिव्हाईसवरूनच व्यवस्थापित करता येतात, ज्यात खाते सेटिंग्ज आणि बॅकअप्सचा समावेश होतो."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "खाते सेटिंग्ज आणि बॅकअप्स फक्त तुमच्या मुख्य डिव्हाईसवरूनच व्यवस्थापित करता येतात."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "मानक"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "मूक करा"
+  },
+  "icu:muted": {
+    "messageformat": "मूक केलेले"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal अद्यतनित होऊ शकत नाही. <retryUpdateButton>अद्यतनित करण्याचा पुन्हा प्रयत्न करा</retryUpdateButton> किंवा हस्तचलित पद्धतीने त्याला इन्स्टॉल करण्यासाठी {url} ला भेट द्या. नंतर, या समस्येसाठी <contactSupportLink>सपोर्टशी संपर्क</contactSupportLink> साधा"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "म्युट केलेल्या चॅट्समध्ये कोणी तुमच्या संदेशाला उत्तर दिले तर अधिसूचना द्या."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "उल्लेख"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "शोध परिणाम"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "सदस्य जोडा"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "सदस्य जोडा"
@@ -6173,7 +6221,7 @@
     "messageformat": "तुमचे Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ही एका सुरक्षित जागी साठवून ठेवा, तुमची लॉगिनची माहिती तुमचे खाते आणि डेटा परत मिळवण्यासाठी गरजेची असते. ही कधीच कोणालाच देऊ नका."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "खाते की"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "ॲप बॅज"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "अधिसूचना सेटिंग्ज डीफॉल्टवर रीसेट करा, अगदी तुमच्या चॅट्ससाठीच्या कस्टम सेटिंग्ज सुद्धा."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "न वाचलेली चॅट्स"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "चॅट इतिहास एक्सपोर्ट करा"
@@ -7013,22 +7070,22 @@
     "messageformat": "अद्यतन आवश्यक आहे"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "अद्यतने शोधत आहोत"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal अद्ययावत होत आहे"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} ({percentage,number,percent}) पैकी {currentBytes} डाउनलोड करत आहे..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "चालू ठेवण्यासाठी, Signal डेस्कटॉप अद्ययावत करा."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "अद्यतन"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "ॲप स्टोरमध्ये जा"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "अद्यतन आवश्यक आहे"
@@ -8253,7 +8310,7 @@
     "messageformat": "चुकीचा पिन. पुन्हा प्रयत्न करा"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "पिन विसरलो"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "पुष्टी करा"
@@ -8262,7 +8319,7 @@
     "messageformat": "पिन बरोबर आहे. आम्ही तुम्हाला नंतर पुन्हा आठवण करून देऊ."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "तुमचा Signal पिन बदला"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "जोपर्यंत हा डिव्हाईस नोंदणीकृत आहे आपण आपला PIN बदलू शकता. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
@@ -8274,7 +8331,7 @@
     "messageformat": "आपण आता तयार केलेला PIN प्रविष्ट करा."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "नवा पिन प्रविष्ट करा"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN ची पुष्टी करा"
@@ -8289,7 +8346,7 @@
     "messageformat": "पुष्टी करा"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "नवा पिन तयार केला."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop यापुढे आपल्या संगणकावरील {OS} च्या आवृत्तीला समर्थन करणे लवकरच बंद करेल. Signal वापरणे पुढे सुरू ठेवण्यासाठी, {expirationDate} पर्यंत आपल्या संगणकाची ऑपरेटिंग सिस्टिम अद्यतनित करा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "लहान ट्विक्स, दोष निवारण, आणि कामगिरी सुधारणा. Signal वापरल्याबद्दल आभारी आहोत!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "गट सेटिंग्ज पानावर गट सदस्यांना शोधणेसुद्धा आम्ही सोपे केले आहे."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "आम्ही स्वरूप सेटिंग्जमध्ये दोन नवीन झूमच्या पातळ्या जोडल्या आहेत (110% आणि 90%)."

@@ -78,7 +78,10 @@
     "messageformat": "계정 설정 및 백업을 포함한 계정 설정은 기본 기기에서만 관리할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "계정 설정과 백업은 기본 기기에서만 관리할 수 있습니다."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
@@ -1025,6 +1028,9 @@
   "icu:mute": {
     "messageformat": "알림 끄기"
   },
+  "icu:muted": {
+    "messageformat": "알림 꺼짐"
+  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal을 업데이트하지 못했습니다. <retryUpdateButton>업데이트를 다시 시도</retryUpdateButton>하거나 {url} 링크를 방문하여 수동으로 설치하세요. 그런 다음 <contactSupportLink>지원팀</contactSupportLink>에 이 문제에 관해 문의해 주세요."
   },
@@ -1119,7 +1125,7 @@
     "messageformat": "{nickname}<muted>({titleNoNickname})</muted>"
   },
   "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
-    "messageformat": "''{title}'은(는) 사용자가 본인을 위해 Signal에 설정한 프로필 이름입니다."
+    "messageformat": "''{title}'(은)는 상대방이 Signal에서 직접 설정한 프로필 이름입니다."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "검증됨"
@@ -2061,10 +2067,10 @@
     "messageformat": "다른 기기 중 하나에서 통화 중입니다."
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} 님과 {second} 님이 통화 중입니다."
+    "messageformat": "{first} 님과 {second} 님이 이 통화에 참여 중입니다."
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first} 님, {second} 님과 {third} 님이 통화 중입니다."
+    "messageformat": "{first} 님, {second} 님과 {third} 님이 이 통화에 참여 중입니다."
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first} 님, {second} 님 외 {others,number}명이 이 통화에 참여 중입니다.}}"
@@ -3642,10 +3648,10 @@
     "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, 외 <clickable>{remainingCount,number} 명</clickable>}}"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>그룹 이름</clickable>이 확인되지 않음"
+    "messageformat": "<clickable>그룹 이름</clickable>은 별도의 인증을 거치지 않습니다."
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
+    "messageformat": "<clickable>프로필 이름</clickable>은 별도의 인증을 거치지 않습니다."
   },
   "icu:ConversationHero--name-not-verified": {
     "messageformat": "이름이 인증되지 않음"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "알림을 끈 대화에서 누군가 내 메시지에 답장을 할 경우 알림이 뜹니다."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "멘션"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "검색 결과"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "멤버 추가"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "멤버 추가"
@@ -6173,7 +6221,7 @@
     "messageformat": "내 Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "로그인 정보를 안전하게 보관해 두세요. 계정과 데이터를 복구하려면 로그인 정보가 필요하며, 절대 다른 사람과 공유해서는 안 됩니다."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "계정 키"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "앱 배지"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "맞춤 대화 설정을 포함한 모든 알림 설정을 기본값으로 초기화합니다."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "읽지 않은 대화"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "대화 기록 내보내기"
@@ -7013,22 +7070,22 @@
     "messageformat": "업데이트 필요"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "업데이트 확인 중"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal 업데이트 중"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes}/{totalBytes} 다운로드 중({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "계속하려면 Signal 데스크톱을 업데이트하세요."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "업데이트"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store로 이동하기"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "업데이트 필요"
@@ -8253,7 +8310,7 @@
     "messageformat": "PIN이 일치하지 않습니다. 다시 시도해 주세요."
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN 찾기"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "확인"
@@ -8262,10 +8319,10 @@
     "messageformat": "PIN이 확인되었습니다. 나중에 다시 확인 알림을 보내드릴게요."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PIN 변경하기"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "이 기기가 등록된 동안 PIN은 언제든지 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+    "messageformat": "이 기기가 등록되어 있는 동안 언제든지 PIN을 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN을 확인해 주세요"
@@ -8274,7 +8331,7 @@
     "messageformat": "방금 만든 PIN을 입력하세요."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "새 PIN을 입력하세요"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN을 확인해 주세요"
@@ -8289,7 +8346,7 @@
     "messageformat": "확인"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "새 PIN이 생성되었습니다."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 데스크톱은 곧 이 컴퓨터의 {OS} 버전에 대한 지원을 종료합니다. 계속 사용하려면 {expirationDate}까지 운영 체제를 업데이트해야 합니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
@@ -8553,7 +8610,7 @@
     "messageformat": "다른 조직이나 비즈니스를 사칭하는 그룹에 유의하세요"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "그룹의 구성원 프로필 이름이 확인되지 않았습니다"
+    "messageformat": "그룹 멤버의 프로필 이름은 별도의 인증을 거치지 않습니다."
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "그룹 설정 페이지에서 그룹 멤버를 더 쉽게 검색할 수 있도록 개선했습니다."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "디자인 설정에 두 가지 확대/축소 비율(110%와 90%)이 추가되었습니다."

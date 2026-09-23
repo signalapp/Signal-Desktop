@@ -78,7 +78,10 @@
     "messageformat": "帳戶設定僅能在主要裝置上進行管理，包括帳戶設定和備份。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "只能於你的主要裝置上管理帳戶設定和備份。"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "靜音"
+  },
+  "icu:muted": {
+    "messageformat": "已靜音"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal 無法更新。<retryUpdateButton>嘗試更新</retryUpdateButton>或瀏覽 {url} 以手動安裝。接著<contactSupportLink>聯絡支援團隊</contactSupportLink>以了解問題"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "當靜音聊天中有人回覆你的訊息時發送通知。"
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "提及"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "搜尋結果"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "新增成員"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "新增成員"
@@ -6173,7 +6221,7 @@
     "messageformat": "你的 Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "請將你的登入資訊存放在安全的地方，你需要此資訊才能恢復帳戶和資料。切勿與任何人分享此資訊。"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "帳戶金鑰"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "應用程式徽章"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "將通知設定重設為預設值，包括聊天的自訂設定。"
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "未讀聊天"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "匯出聊天紀錄"
@@ -7013,22 +7070,22 @@
     "messageformat": "必須更新"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "正在檢查更新"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "正在更新 Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "正在下載 {totalBytes} 中的 {currentBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "若要繼續，請更新 Signal 桌面版。"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "更新"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "前往 App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "必須更新"
@@ -8253,7 +8310,7 @@
     "messageformat": "PIN 碼不正確。再試一次"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "忘記了 PIN 碼"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "確認"
@@ -8262,7 +8319,7 @@
     "messageformat": "PIN 碼正確。我們稍後會再次提醒你。"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "變更你的 Signal PIN 碼"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "只要此裝置維持登記，您可隨時變更您的 PIN 碼。 <learnMoreLink>了解更多</learnMoreLink>"
@@ -8274,7 +8331,7 @@
     "messageformat": "請輸入你剛剛建立的 PIN 碼。"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "輸入新的 PIN 碼"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "確認 PIN 碼"
@@ -8289,7 +8346,7 @@
     "messageformat": "確認"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "已建立新的 PIN 碼。"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal 桌面版即將停止支援你的電腦使用的 {OS} 版本。如要繼續使用 Signal，請在 {expirationDate}前更新電腦的作業系統。<learnMoreLink>了解更多</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "我們讓你更容易在群組設定頁面搜尋群組成員，這樣你就能快速知道媽媽是否已經將二表弟加入「第三屆大家庭年度烤肉團聚」群組中。"
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "我們在外觀設定中新增了兩個縮放級別，因此你不費吹灰之力，就能將訊息放大到 110%（或縮到 90%）。"

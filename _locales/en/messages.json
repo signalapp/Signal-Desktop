@@ -117,7 +117,7 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Account settings and backups can only be managed on your primary device.",
-    "description": "Third bullet point of the Linked Devices Onboarding Dialog"
+    "description": "(Deleted 2026/09/23) Third bullet point of the Linked Devices Onboarding Dialog"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device.",
@@ -3202,7 +3202,7 @@
   },
   "icu:callSystemNotificationDescription": {
     "messageformat": "Show notifications for calls",
-    "description": "Description for call notification setting"
+    "description": "(Deleted 2026/09/23) Description for call notification setting"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Enable incoming calls",
@@ -6496,7 +6496,7 @@
   },
   "icu:countMutedConversationsDescription": {
     "messageformat": "Include muted chats in badge count",
-    "description": "Description for counting muted conversations in badge setting"
+    "description": "(Deleted 2026/09/23) Description for counting muted conversations in badge setting"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Nickname",
@@ -7125,10 +7125,6 @@
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Search Results",
     "description": "GroupMembersSearchDialog > Search Results > Title"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Add member",
-    "description": "(Deleted 2026/08/19) GroupMembersSearchDialog > Bottom Actions > Add member"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Add members",
@@ -8382,7 +8378,7 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "App badge",
-    "description": "Preferences > Notifications > App Badge Section > Title"
+    "description": "(Deleted 2026/09/23) Preferences > Notifications > App Badge Section > Title"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Unread badges",
@@ -12092,10 +12088,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "We made it easier to search for group members on the group settings page, so you can quickly figure out if your Mom already added your second cousin to the third-annual extended family reunion BBQ group.",
-    "description": "(Deleted 2026/08/19) Release notes for 8.24"
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",

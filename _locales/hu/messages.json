@@ -78,7 +78,10 @@
     "messageformat": "Egyes beállítások csak az elsődleges eszközön kezelhetők, beleértve a fiókbeállításokat és a biztonsági mentéseket."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "A fiókbeállítások és a biztonsági mentések csak az elsődleges eszközödön kezelhetők."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normál"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Némítás"
+  },
+  "icu:muted": {
+    "messageformat": "Némítva"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "A Signal frissítése nem sikerült. <retryUpdateButton>Próbáld újra a frissítést</retryUpdateButton> vagy látogass el a(z) {url} webhelyre a manuális telepítéshez. Ezután <contactSupportLink>vedd fel a kapcsolatot az ügyfélszolgálattal</contactSupportLink> a problémával kapcsolatban."
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Értesítés fogadása, ha egy némított csevegésben valaki válaszol az üzenetemre."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Említések"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Keresési eredmények"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Tag hozzáadása"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Tagok hozzáadása"
@@ -6173,7 +6221,7 @@
     "messageformat": "A Signal Loginod"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Őrizd ezt meg biztonságos helyen, a bejelentkezési adataid szükségesek a fiókod és az adataid helyreállításához. Soha ne oszd meg senkivel!"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Fiókkulcs"
@@ -6224,7 +6272,7 @@
     "messageformat": "Haladó"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "PIN kód megváltoztatása"
+    "messageformat": "PIN-kód megváltoztatása"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Módosítás"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Alkalmazásjelvény"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Értesítési beállítások visszaállítása alapértelmezettre, beleértve a csevegések egyéni beállításait is."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Olvasatlan csevegések"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Csevegési előzmények exportálása"
@@ -7013,22 +7070,22 @@
     "messageformat": "Frissítés szükséges"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Frissítések keresése"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "A Signal frissítése"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes}/{currentBytes} ({percentage,number,percent}) letöltése..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "A folytatáshoz frissítsd a Signal Desktopot!"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Frissítés"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Tovább az App Store-ba"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Frissítés szükséges"
@@ -8253,7 +8310,7 @@
     "messageformat": "Hibás PIN-kód. Újra"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Elfelejtettem a PIN-kódot"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Megerősítés"
@@ -8262,7 +8319,7 @@
     "messageformat": "A PIN-kód helyes. Később újra emlékeztetünk."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Módosítsd a Signal PIN-kódodat"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mindaddig megváltoztathatod PIN kódodat, amíg ez az eszköz regisztrálva van. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -8274,7 +8331,7 @@
     "messageformat": "Add meg a most kreált PIN kódodat."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Adj meg egy új PIN-kódot"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN megerősítése"
@@ -8289,7 +8346,7 @@
     "messageformat": "Megerősítés"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Új PIN-kód létrehozva!"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "A Signal asztali számítógépen elérhető változata hamarosan nem fogja támogatni a számítógépeden megtalálható {OS} verziót. A Signal asztali számítógépen elérhető változatának folytatásához frissítsd a számítógéped operációs rendszerét eddig: {expirationDate}. <learnMoreLink>Tudj meg többet</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Megkönnyítettük a csoporttagok keresését a csoportbeállítások oldalon."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "Két új nagyítási szintet adtunk hozzá a megjelenési beállításokhoz (110% és 90%)."

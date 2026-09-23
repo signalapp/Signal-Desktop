@@ -78,7 +78,10 @@
     "messageformat": "အကောင့်ဆက်တင်နှင့် ဘက်ခ်အပ် အပါအဝင် အချို့သော ဆက်တင်များကို သင့်ပင်မစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "အကောင့် ဆက်တင်များနှင့် ဘက်ခ်အပ်များကို အဓိကစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "အသံပိတ်ရန်"
+  },
+  "icu:muted": {
+    "messageformat": "အသံပိတ်ပြီး"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal အပ်ဒိတ်လုပ်၍ မရပါ။ <retryUpdateButton>အပ်ဒိတ် ထပ်လုပ်ကြည့်ပါ</retryUpdateButton> သို့မဟုတ် ၎င်းကို ကိုယ်တိုင်ထည့်သွင်းရန် {url} သို့ သွားပါ။ ထို့နောက် ဤပြဿနာနှင့်ပတ်သက်၍ <contactSupportLink>ပံ့ပိုးမှုသို့ ဆက်သွယ်ပါ။</contactSupportLink>"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ဦးက အကြောင်းပြန်ပါက အသိပေးချက် ပြပါ။"
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "မန်းရှင်းများ"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "ရှာဖွေမှုရလဒ်များ"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "မန်ဘာ ပေါင်းထည့်ရန်"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "အဖွဲ့ဝင်များ ထည့်သွင်းရန်"
@@ -6173,7 +6221,7 @@
     "messageformat": "သင့် Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "ဤအချက်အလက်ကို လုံခြုံသောနေရာတွင် သိမ်းဆည်းထားပါ။ သင့်အကောင့်နှင့် ဒေတာများကို ပြန်လည်ရယူရန် သင့် လော့ဂ်အင်အချက်အလက် လိုအပ်ပါသည်။ မည်သူ့ကိုမျှ မျှဝေခြင်းမပြုပါနှင့်။"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "အကောင့်ကီး"
@@ -6185,7 +6233,7 @@
     "messageformat": "ပြန်လည်ရယူရေးကီး"
   },
   "icu:Preferences__SignalAccountKeys__Save": {
-    "messageformat": "သိမ်းမယ်"
+    "messageformat": "သိမ်းမည်"
   },
   "icu:Preferences__Account__LinkedDevice__label": {
     "messageformat": "ဤစက်သည် ချိတ်ထားသည့် စက်ဖြစ်သည်"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "အက်ပ် ဘဲ့ဂျ်"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "ချက်(တ်)များအတွက် သတ်မှတ်ထားသော စိတ်ကြိုက်ဆက်တင်အပါအဝင် အသိပေးချက်ဆက်တင်အားလုံးကို မူလပုံစံအတိုင်း ပြန်လည်သတ်မှတ်ပါ။"
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "မဖတ်ရသေးသော ချက်(တ်)များ"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူပါ"
@@ -7013,22 +7070,22 @@
     "messageformat": "အပ်ဒိတ် လိုအပ်ပါသည်"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "အပ်ဒိတ်များကို စစ်ဆေးနေသည်"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal ကို အပ်ဒိတ်လုပ်နေသည်"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} ({percentage,number,percent}) မှ {currentBytes} ကို ဒေါင်းလုဒ်လုပ်နေသည်..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "ဆက်လက်လုပ်ဆောင်ရန် Signal Desktop ကို အပ်ဒိတ်လုပ်ပါ။"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "အပ်ဒိတ်လုပ်မည်"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store သို့ သွားပါ"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "အပ်ဒိတ် လိုအပ်ပါသည်"
@@ -8253,7 +8310,7 @@
     "messageformat": "PIN မှားနေသည်။ ထပ်မံကြိုးစားမည်"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN မေ့သွားပြီ"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "အတည်ပြုရန်"
@@ -8262,19 +8319,19 @@
     "messageformat": "PIN မှန်ကန်ပါသည်။ နောက်မှ ထပ်ပြီးသတိပေးပါမည်။"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "သင့် Signal PIN ကို ပြောင်းလဲပါ"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသည်၍ သင့်ပင်နံပါတ်ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+    "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသ၍ သင့် PIN ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "သင် ဖန်တီးလိုက်သော PIN ကို ထည့်သွင်းပါ။"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "PIN အသစ်တစ်ခု ထည့်သွင်းပါ"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN အတည်ပြုမည်"
@@ -8289,16 +8346,16 @@
     "messageformat": "အတည်ပြုရန်"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN အသစ်ကို ဖန်တီးပြီးပါပြီ။"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို Signal Desktop က မကြာမီ ပံ့ပိုးပေးတော့မည် မဟုတ်ပါ။ Signal ကို ဆက်သုံးရန် သင့်ကွန်ပျူတာ၏ လုပ်ဆောင်မှုစနစ်ကို {expirationDate} မတိုင်မီ အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop ကို ထပ်မံအသုံးပြုရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop တွင် ထပ်မံသုံးရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။"
+    "messageformat": "Signal Desktop သည် ဤကွန်ပျူတာတွင် အလုပ်မလုပ်တော့ပါ။ Signal Desktop ကို ထပ်မံအသုံးပြုရန် သင့်ကွန်ပျူတာ၏ {OS} ဗားရှင်းကို အပ်ဒိတ်လုပ်ပါ။"
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "တည်းဖြတ်ပြီး"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "အဖွဲ့ဆက်တင်စာမျက်နှာတွင် အဖွဲ့ဝင်များကို ရှာဖွေရာတွင် ပိုမိုလွယ်ကူအောင် ပြုလုပ်ထားပါသည်။"
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "ပုံပန်းသွင်ပြင် ဆက်တင်တွင် ချဲ့ကြည့်နိုင်သည့် အဆင့်အသစ် နှစ်ခုကို ထည့်သွင်းထားပါသည် (110% နှင့် 90%)။"

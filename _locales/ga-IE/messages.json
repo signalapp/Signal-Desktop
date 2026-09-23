@@ -78,7 +78,10 @@
     "messageformat": "Ar do phríomhghléas amháin a dhéantar socruithe cuntais a bhainistiú, socruithe agus cúltacaí an chuntais ina measc."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Ní féidir socruithe an chuntais agus cúltacaí a bhainistiú ach ar do phríomhghléas."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Caighdeánach"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Balbhaigh"
+  },
+  "icu:muted": {
+    "messageformat": "Balbhaithe"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Níorbh fhéidir Signal a nuashonrú. <retryUpdateButton>Atriail an nuashonrú</retryUpdateButton> nó téigh chuig {url} lena shuiteáil de láimh. Ansin <contactSupportLink>déan teagmháil leis an bhfoireann tacaíochta</contactSupportLink> faoin fhadhb sin"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Tabhair fógra nuair a fhreagraíonn duine do theachtaireacht i gcomhráite balbhaithe."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Nuair a luaitear mé"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Torthaí Cuardaigh"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Cuir ball leis"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Cuir baill leis"
@@ -6173,13 +6221,13 @@
     "messageformat": "Signal Login agat"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Stóráil in áit shábháilte é; éilítear d'fhaisnéis logáil isteach le do chuntas agus do shonraí a athshlánú. Ná comhroinn le duine ar bith choíche é."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Eochair an chuntais"
   },
   "icu:Preferences__SignalAccountKeys__AccountID": {
-    "messageformat": "ID an chuntais"
+    "messageformat": "Aitheantas an Chuntais"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
     "messageformat": "Eochair athshlánaithe"
@@ -6224,7 +6272,7 @@
     "messageformat": "Ardroghanna"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Athraigh d'UAP"
+    "messageformat": "Athraigh do UAP"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Athraigh"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Suaitheantas na haipe"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Athshocraigh socruithe fógraí ag an réamhshocrú, socruithe saincheapa do do chomhráite san áireamh."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Comhráite neamhléite"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Easpórtáil an stair comhráite"
@@ -7013,22 +7070,22 @@
     "messageformat": "Nuashonrú De Dhíth"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Seiceáil le haghaidh nuashonruithe ar siúl"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal á nuashonrú"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes} as {totalBytes} ({percentage,number,percent}) á n-íoslódáil…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Le leanúint leis, nuashonraigh Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Nuashonraigh"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Téigh chuig an App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Nuashonrú De Dhíth"
@@ -8253,7 +8310,7 @@
     "messageformat": "UAP mícheart. Triail arís"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "UAP dearmadta"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Deimhnigh"
@@ -8262,10 +8319,10 @@
     "messageformat": "UAP ceart. Meabhróimid duit arís é ar ball."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Athraigh do UAP Signal"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "Is féidir leat d'UAP a athrú chomh fada is atá an gléas seo cláraithe. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
+    "messageformat": "Is féidir leat do UAP a athrú chomh fada is atá an gléas seo cláraithe. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "UAP Signal a Dheimhniú"
@@ -8274,10 +8331,10 @@
     "messageformat": "Cuir isteach an UAP a chruthaigh tú anois beag."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Cuir isteach UAP nua"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
-    "messageformat": "Deimhnaigh an UAP"
+    "messageformat": "Deimhnigh an UAP"
   },
   "icu:PinChangeModal__cancel": {
     "messageformat": "Cuir ar ceal"
@@ -8289,7 +8346,7 @@
     "messageformat": "Deimhnigh"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "UAP nua cruthaithe."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ní bheidh tacú ag Signal Desktop a thuilleadh don leagan de {OS} ar do ríomhaire. Le leanúint le Signal a úsáid, nuashonraigh córas oibriúcháin do ríomhaire faoin {expirationDate}. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Rinneamar cuardach le haghaidh baill den ghrúpa níos éasca ar leathanach socruithe an ghrúpa."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "Chuireamar dhá leibhéal zúmála leis i socruithe na cuma, mar sin is féidir 110% (nó 90%) a thabhairt do do theachtaireachtaí gan ach fíorbheagán iarrachta."
