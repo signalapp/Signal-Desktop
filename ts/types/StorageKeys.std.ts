@@ -220,6 +220,9 @@ export type StorageAccessType = {
   notifyForCallsIfMuted: boolean | undefined;
   notifyForMentionsIfMuted: boolean | undefined;
   notifyForRepliesIfMuted: boolean | undefined;
+  notifyWhenContactJoins: boolean | undefined;
+  showUnreadReminders: boolean | undefined;
+  unreadRemindersEnabledAt: number;
   usernameLastIntegrityCheck: number;
   usernameCorrupted: boolean;
   usernameLinkCorrupted: boolean;
@@ -438,6 +441,8 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'notifyForCallsIfMuted',
   'notifyForMentionsIfMuted',
   'notifyForRepliesIfMuted',
+  'notifyWhenContactJoins',
+  'showUnreadReminders',
   'hasSetMyStoriesPrivacy',
   'hasViewedOnboardingStory',
   'hasKeyTransparencyDisabled',
@@ -485,6 +490,7 @@ export const STORAGE_KEYS_TO_PRESERVE_WHEN_PRIMARY = [
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
+  'unreadRemindersEnabledAt',
   'lastCallQualitySurveyTime',
   'lastCallQualityFailureSurveyTime',
   'cqsTestMode',
@@ -662,5 +668,6 @@ export const STORAGE_KEY_DEFAULTS = {
   notifyForCallsIfMuted: undefined,
   notifyForMentionsIfMuted: undefined,
   notifyForRepliesIfMuted: undefined,
+  showUnreadReminders: undefined,
   unreadCountBadgeType: 'unread-messages',
 } as const satisfies Partial<StorageAccessType>;

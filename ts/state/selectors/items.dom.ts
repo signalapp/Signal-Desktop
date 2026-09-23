@@ -25,6 +25,7 @@ import { isNotUpdatable } from '../../util/version.std.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
 import type { StateSelector } from '../types.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { DEFAULT_SHOW_UNREAD_REMINDERS } from '../../util/unreadReminders.std.ts';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -229,6 +230,12 @@ export const getGlobalNotifyWhileMuted = createSelector(
       state.notifyForMentionsIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.mentions,
     replies: state.notifyForRepliesIfMuted ?? DEFAULT_NOTIFY_IF_MUTED.replies,
   })
+);
+
+export const getGlobalShowUnreadReminders = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean =>
+    state.showUnreadReminders ?? DEFAULT_SHOW_UNREAD_REMINDERS
 );
 
 export const getUnreadCountBadgeType = createSelector(

@@ -6974,6 +6974,66 @@
     "messageformat": "Notify when someone replies to your message in muted chats.",
     "description": "On the global 'While muted' settings page, sub-label for the switch that allows reply notifications in muted chats"
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders",
+    "description": "Label of the switch, in both global and per-chat notification settings, that occasionally re-notifies about unread messages in muted chats"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted.",
+    "description": "In conversation notification settings, sub-label for the 'Unread reminders' switch"
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats.",
+    "description": "In the global notification settings, sub-label for the 'Unread reminders' switch"
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}} from {person1}.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when there are unread messages from one person"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}} from {person1} and {person2}.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when there are unread messages from two people"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}} from {person1}, {person2}, and others.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when there are unread messages from three or more people"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}}, including {mentionSummary}.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when some unread messages mention you. {mentionSummary} is a phrase like 'a mention of you by Alice', see: icu:UnreadReminders__notification__mentionSummary--1"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}}, including {replySummary}.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when some unread messages are replies to you, none mention you, and there are no missed calls. {replySummary} is a phrase like 'a reply from Alice', see: icu:UnreadReminders__notification__replySummary--1"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "You have {messageCount, plural, one {# unread message} other {# unread messages}}.",
+    "description": "Body of the 'unread reminder' notification for a muted chat when no names may be shown"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention} other {# mentions}} of you by {person1}",
+    "description": "Body of the 'unread reminder' notification for a muted chat when one person mentioned you"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {# mention} other {# mentions}} of you by {person1} and {person2}",
+    "description": "Body of the 'unread reminder' notification for a muted chat when two people mentioned you"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {# mention} other {# mentions}} of you by {person1} and others",
+    "description": "Body of the 'unread reminder' notification for a muted chat when three or more people mentioned you"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply} other {# replies}} from {person1}",
+    "description": "Body of the 'unread reminder' notification for a muted chat when one person replied to you"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {# reply} other {# replies}} from {person1} and {person2}",
+    "description": "Body of the 'unread reminder' notification for a muted chat when two people replied to you"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {# reply} other {# replies}} from {person1} and others",
+    "description": "Body of the 'unread reminder' notification for a muted chat when three or more people replied to you"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions",
     "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the label for the mentions option"

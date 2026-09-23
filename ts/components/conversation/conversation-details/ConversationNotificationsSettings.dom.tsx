@@ -7,6 +7,8 @@ import { MuteExpiration } from '@signalapp/types';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
+import { AxoSwitch } from '../../../axo/AxoSwitch.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
 import { MuteNotificationsDropdownMenu } from '../../MuteNotificationsMenu.dom.tsx';
 import { isConversationMuted } from '../../../util/isConversationMuted.std.ts';
 import { getMutedUntilText } from '../../../util/getMutedUntilText.std.ts';
@@ -26,6 +28,8 @@ export type PropsType = {
     conversationId: string,
     muteExpiresAt: undefined | MuteExpiration
   ) => unknown;
+  setShowUnreadReminders: (value: boolean) => unknown;
+  showUnreadReminders: boolean;
 };
 
 export function ConversationNotificationsSettings({
@@ -36,8 +40,11 @@ export function ConversationNotificationsSettings({
   notifyWhileMuted,
   onOpenWhileMutedSettings,
   setMuteExpiration,
+  setShowUnreadReminders,
+  showUnreadReminders,
 }: PropsType): JSX.Element {
   const whileMutedLabelId = useId();
+  const unreadRemindersLabel = i18n('icu:UnreadReminders__title');
 
   const mutedUntilText =
     muteExpiresAt != null && isConversationMuted({ muteExpiresAt })
@@ -135,6 +142,34 @@ export function ConversationNotificationsSettings({
                   <AxoItem.Trailing>
                     <AxoItem.Arrow />
                   </AxoItem.Trailing>
+                </AxoItem.Content>
+              </AxoItem.Root>
+            </AxoItem.Group>
+          </AxoList.Body>
+        </AxoList.Root>
+        <AxoList.Root accessibilityLabel={unreadRemindersLabel}>
+          <AxoList.Body>
+            <AxoItem.Group>
+              <AxoItem.Root>
+                <AxoItem.Leading>
+                  <AxoItem.Icon symbol="arrow-clockwise" />
+                </AxoItem.Leading>
+                <AxoItem.Content>
+                  <AxoItem.Label>{unreadRemindersLabel}</AxoItem.Label>
+                  <AxoItem.Description>
+                    {i18n('icu:UnreadReminders__description')}
+                  </AxoItem.Description>
+                  <AxoItem.Accessory>
+                    <label>
+                      <span className={tw('sr-only')}>
+                        {unreadRemindersLabel}
+                      </span>
+                      <AxoSwitch.Root
+                        checked={showUnreadReminders}
+                        onCheckedChange={setShowUnreadReminders}
+                      />
+                    </label>
+                  </AxoItem.Accessory>
                 </AxoItem.Content>
               </AxoItem.Root>
             </AxoItem.Group>

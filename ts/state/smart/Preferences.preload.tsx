@@ -19,6 +19,7 @@ import {
   getBackupKey,
   getCustomColors,
   getGlobalNotifyWhileMuted,
+  getGlobalShowUnreadReminders,
   getItems,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
@@ -131,6 +132,11 @@ import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 
+const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
+  ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
+  'showUnreadReminders',
+] as const;
+
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
@@ -233,7 +239,7 @@ export function SmartPreferences(): JSX.Element | null {
   const {
     removeCustomColorOnConversations,
     resetAllChatColors,
-    resetAllNotifyWhileMuted: resetAllPerChatNotifyWhileMutedSettings,
+    resetAllNotificationSettings: resetAllPerChatNotificationSettings,
   } = useConversationsActions();
   const { startUpdate } = useUpdatesActions();
   const { changeLocation } = useNavActions();
@@ -819,6 +825,13 @@ export function SmartPreferences(): JSX.Element | null {
     account.captureChange(itemKey);
   };
 
+  const hasUnreadReminders = useSelector(getGlobalShowUnreadReminders);
+  const onUnreadRemindersChange = (value: boolean) => {
+    putItem('showUnreadReminders', value);
+    const account = window.ConversationController.getOurConversationOrThrow();
+    account.captureChange('showUnreadReminders');
+  };
+
   const onResetNotificationSettings = () => {
     // Reset global settings
     onNotificationContentChange(STORAGE_KEY_DEFAULTS['notification-setting']);
@@ -836,7 +849,7 @@ export function SmartPreferences(): JSX.Element | null {
     );
 
     const account = window.ConversationController.getOurConversationOrThrow();
-    for (const itemKey of Object.values(NOTIFY_WHILE_MUTED_FIELDS)) {
+    for (const itemKey of RESETTABLE_GLOBAL_NOTIFICATION_ITEMS) {
       if (itemStorage.get(itemKey) === STORAGE_KEY_DEFAULTS[itemKey]) {
         continue;
       }
@@ -845,7 +858,7 @@ export function SmartPreferences(): JSX.Element | null {
     }
 
     // Reset per-chat settings
-    resetAllPerChatNotifyWhileMutedSettings();
+    resetAllPerChatNotificationSettings();
   };
 
   const [hasPinReminders, onPinRemindersChange] = createItemsAccess(
@@ -1091,6 +1104,7 @@ export function SmartPreferences(): JSX.Element | null {
         hasStoriesDisabled={hasStoriesDisabled}
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
+        hasUnreadReminders={hasUnreadReminders}
         i18n={i18n}
         initialSpellCheckSetting={initialSpellCheckSetting}
         isAutoDownloadUpdatesSupported={isAutoDownloadUpdatesSupported}
@@ -1165,6 +1179,7 @@ export function SmartPreferences(): JSX.Element | null {
         onTypingIndicatorsChange={onTypingIndicatorsChange}
         onUniversalExpireTimerChange={onUniversalExpireTimerChange}
         onUnreadCountBadgeTypeChange={onUnreadCountBadgeTypeChange}
+        onUnreadRemindersChange={onUnreadRemindersChange}
         onWhoCanFindMeChange={onWhoCanFindMeChange}
         onWhoCanSeeMeChange={onWhoCanSeeMeChange}
         onZoomFactorChange={onZoomFactorChange}

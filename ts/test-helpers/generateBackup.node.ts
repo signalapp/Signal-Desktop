@@ -129,6 +129,8 @@ function* createRecords({
         notifyForCallsIfMuted: null,
         notifyForMentionsIfMuted: null,
         notifyForRepliesIfMuted: null,
+        notifyWhenContactJoins: null,
+        showUnreadReminders: null,
         hasSetMyStoriesPrivacy: true,
         hasViewedOnboardingStory: true,
         storiesDisabled: false,
@@ -249,6 +251,7 @@ function* createRecords({
         notifyForCallsIfMuted: null,
         notifyForRepliesIfMuted: null,
         notifyForMentionsIfMuted: null,
+        showUnreadReminders: null,
         style: {
           wallpaper: null,
           bubbleColor: {

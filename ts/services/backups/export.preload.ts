@@ -673,6 +673,7 @@ export class BackupExportStream extends Readable {
             ? (attributes.notifyForMentionsIfMuted ?? null)
             : null,
           notifyForRepliesIfMuted: attributes.notifyForRepliesIfMuted ?? null,
+          showUnreadReminders: attributes.showUnreadReminders ?? null,
 
           style: this.#toChatStyle({
             wallpaperPhotoPointer: attributes.wallpaperPhotoPointerBase64
@@ -1121,6 +1122,9 @@ export class BackupExportStream extends Readable {
           itemStorage.get('notifyForMentionsIfMuted') ?? null,
         notifyForRepliesIfMuted:
           itemStorage.get('notifyForRepliesIfMuted') ?? null,
+        notifyWhenContactJoins:
+          itemStorage.get('notifyWhenContactJoins') ?? null,
+        showUnreadReminders: itemStorage.get('showUnreadReminders') ?? null,
         unreadBadgeType,
         hasSetMyStoriesPrivacy:
           itemStorage.get('hasSetMyStoriesPrivacy') ?? null,

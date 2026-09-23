@@ -24,6 +24,8 @@ const getCommonProps = () => ({
   i18n,
   onOpenWhileMutedSettings: action('onOpenWhileMutedSettings'),
   setMuteExpiration: action('setMuteExpiration'),
+  setShowUnreadReminders: action('setShowUnreadReminders'),
+  showUnreadReminders: true,
 });
 
 export function NotMuted(): JSX.Element {
@@ -63,6 +65,15 @@ export function EverythingWhileMuted(): JSX.Element {
     <ConversationNotificationsSettings
       {...getCommonProps()}
       notifyWhileMuted={{ calls: true, mentions: true, replies: true }}
+    />
+  );
+}
+
+export function UnreadRemindersOff(): JSX.Element {
+  return (
+    <ConversationNotificationsSettings
+      {...getCommonProps()}
+      showUnreadReminders={false}
     />
   );
 }

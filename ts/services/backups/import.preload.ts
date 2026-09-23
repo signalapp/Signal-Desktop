@@ -907,6 +907,14 @@ export class BackupImportStream extends Writable {
       'notifyForRepliesIfMuted',
       accountSettings?.notifyForRepliesIfMuted ?? undefined
     );
+    await itemStorage.put(
+      'notifyWhenContactJoins',
+      accountSettings?.notifyWhenContactJoins ?? undefined
+    );
+    await itemStorage.put(
+      'showUnreadReminders',
+      accountSettings?.showUnreadReminders ?? undefined
+    );
 
     let unreadCountBadgeType: UnreadCountBadgeType;
     switch (accountSettings?.unreadBadgeType) {
@@ -1608,6 +1616,7 @@ export class BackupImportStream extends Writable {
     conversation.notifyForRepliesIfMuted = dropNull(
       chat.notifyForRepliesIfMuted
     );
+    conversation.showUnreadReminders = dropNull(chat.showUnreadReminders);
 
     const chatStyle = this.#fromChatStyle(chat.style);
 

@@ -295,6 +295,10 @@ import {
   setKTAccountData,
   removeAllKTAccountData,
 } from './server/keyTransparency.std.ts';
+import {
+  getUnremindedUnreadMessageTimeRanges,
+  getUnreadReminderSummaryData,
+} from './server/unreadReminders.std.ts';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.ts';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.tsx';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
@@ -490,6 +494,8 @@ export const DataReader: ServerReadableInterface = {
   getOldestUnreadMentionOfMeForConversation,
   getTotalUnreadForConversation,
   getTotalUnreadMentionsOfMeForConversation,
+  getUnremindedUnreadMessageTimeRanges,
+  getUnreadReminderSummaryData,
   getMessageMetricsForConversation,
   getConversationRangeCenteredOnMessage,
   getConversationMessageStats,

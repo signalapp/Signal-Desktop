@@ -406,6 +406,9 @@ export async function toContactRecord(
     notifyForCallsIfMuted: toOptionalBool(
       conversation.get('notifyForCallsIfMuted')
     ),
+    showUnreadReminders: toOptionalBool(
+      conversation.get('showUnreadReminders')
+    ),
     avatarColor: conversation.get('colorFromPrimary') ?? null,
     hideStory: hideStory ?? null,
     unregisteredAtTimestamp: getSafeLongFromTimestamp(
@@ -668,6 +671,10 @@ export function toAccountRecord({
     notifyForRepliesIfMuted: toOptionalBool(
       itemStorage.get('notifyForRepliesIfMuted')
     ),
+    notifyWhenContactJoins: toOptionalBool(
+      itemStorage.get('notifyWhenContactJoins')
+    ),
+    showUnreadReminders: toOptionalBool(itemStorage.get('showUnreadReminders')),
 
     hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy') ?? null,
     hasViewedOnboardingStory:
@@ -772,6 +779,9 @@ export function toGroupV2Record(
     ),
     notifyForRepliesIfMuted: toOptionalBool(
       conversation.get('notifyForRepliesIfMuted')
+    ),
+    showUnreadReminders: toOptionalBool(
+      conversation.get('showUnreadReminders')
     ),
     hideStory: Boolean(conversation.get('hideStory')),
     avatarColor: avatarColor ?? null,
@@ -1396,6 +1406,7 @@ export async function mergeGroupV2Record(
     notifyForRepliesIfMuted: fromOptionalBool(
       groupV2Record.notifyForRepliesIfMuted
     ),
+    showUnreadReminders: fromOptionalBool(groupV2Record.showUnreadReminders),
     storageID,
     storageVersion,
     storySendMode,
@@ -1642,6 +1653,7 @@ export async function mergeContactRecord(
     notifyForCallsIfMuted: fromOptionalBool(
       contactRecord.notifyForCallsIfMuted
     ),
+    showUnreadReminders: fromOptionalBool(contactRecord.showUnreadReminders),
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
@@ -1720,6 +1732,8 @@ export async function mergeAccountRecord(
     notifyForCallsIfMuted,
     notifyForMentionsIfMuted,
     notifyForRepliesIfMuted,
+    notifyWhenContactJoins,
+    showUnreadReminders,
     unreadBadgeType,
     hasCompletedUsernameOnboarding,
     hasSeenGroupStoryEducationSheet,
@@ -2012,6 +2026,14 @@ export async function mergeAccountRecord(
   await itemStorage.put(
     'notifyForRepliesIfMuted',
     fromOptionalBool(notifyForRepliesIfMuted) ?? undefined
+  );
+  await itemStorage.put(
+    'notifyWhenContactJoins',
+    fromOptionalBool(notifyWhenContactJoins) ?? undefined
+  );
+  await itemStorage.put(
+    'showUnreadReminders',
+    fromOptionalBool(showUnreadReminders) ?? undefined
   );
   {
     let unreadCountBadgeType: UnreadCountBadgeType;

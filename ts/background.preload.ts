@@ -56,6 +56,7 @@ import {
   initialize as initializeNotificationProfilesService,
   fastUpdate as updateNotificationProfileService,
 } from './services/notificationProfilesService.preload.ts';
+import { initialize as initializeUnreadReminderService } from './services/unreadReminders.preload.ts';
 import { tapToViewMessagesDeletionService } from './services/tapToViewMessagesDeletionService.preload.ts';
 import { senderCertificateService } from './services/senderCertificate.preload.ts';
 import {
@@ -1471,6 +1472,16 @@ async function startApp(): Promise<void> {
         );
       }
 
+      // Existing accounts should default unreadReminders to off; new installs
+      // leave this unset, which defaults to true
+      if (
+        window.isBeforeVersion(lastVersion, '8.31.0-alpha') &&
+        itemStorage.get('showUnreadReminders') == null
+      ) {
+        log.info('Defaulting unreadReminders to false for existing accounts');
+        await itemStorage.put('showUnreadReminders', false);
+      }
+
       if (!itemStorage.get('avatarsHaveBeenMigrated', false)) {
         window.ConversationController.migrateAvatarsForNonAcceptedConversations();
       }
@@ -2289,6 +2300,8 @@ async function startApp(): Promise<void> {
     drop(initializeDonationService());
     initMegaphoneCheckService();
     pinReminderService.init();
+    // delay unread reminders by some arbitrary amount to avoid reminding at startup
+    Timers.setTimeout(() => initializeUnreadReminderService(), FIVE_MINUTES);
 
     if (isFromMessageReceiver) {
       drop(
