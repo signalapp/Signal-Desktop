@@ -78,7 +78,10 @@
     "messageformat": "Pengaturan akun, termasuk cadangan, hanya dapat dikelola di perangkat utama Anda."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Pengaturan akun dan cadangan hanya dapat dikelola di perangkat utama Anda."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standar"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Bisukan"
+  },
+  "icu:muted": {
+    "messageformat": "Dibisukan"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal tidak dapat diperbarui. <retryUpdateButton>Coba lagi perbarui</retryUpdateButton> atau buka {url} untuk instal secara manual. Lalu, <contactSupportLink>hubungi dukungan</contactSupportLink> untuk menyampaikan masalah ini"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Tampilkan notifikasi saat seseorang membalas pesan Anda di chat yang disenyapkan."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Penyebutan"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Hasil Pencarian"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Tambah Anggota"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Tambahkan anggota"
@@ -6173,7 +6221,7 @@
     "messageformat": "Signal Login Anda"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Simpan di tempat aman. Info login ini diperlukan untuk memulihkan akun dan data Anda. Jangan bagikan kepada siapa pun."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kunci akun"
@@ -6256,6 +6304,9 @@
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Lencana aplikasi"
   },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
+  },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Reset pengaturan notifikasi ke default, termasuk pengaturan kustom untuk chat Anda."
   },
@@ -6279,6 +6330,12 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Chat belum dibaca"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Ekspor riwayat chat"
@@ -7013,22 +7070,22 @@
     "messageformat": "Diperlukan Pembaruan"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Memeriksa pembaruan"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Memperbarui Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Mengunduh {currentBytes} dari {totalBytes} ({percentage,number,percent}) …"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Perbarui Signal Desktop untuk melanjutkan."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Perbarui"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Buka App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Diperlukan Pembaruan"
@@ -8253,7 +8310,7 @@
     "messageformat": "PIN salah. Coba lagi"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Lupa PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Konfirmasi"
@@ -8262,7 +8319,7 @@
     "messageformat": "PIN benar. Kami akan mengingatkan Anda lagi nanti."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Ganti PIN Signal Anda"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Anda dapat mengganti PIN Anda selama perangkat ini terdaftar. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
@@ -8274,7 +8331,7 @@
     "messageformat": "Masukkan PIN yang baru Anda buat."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Masukkan PIN baru"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Konfimasi PIN"
@@ -8289,10 +8346,10 @@
     "messageformat": "Konfirmasi"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN baru dibuat."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop tidak lagi mendukung versi {OS} di komputer Anda dalam waktu dekat. Untuk terus menggunakan Signal, perbarui sistem operasi komputer Anda paling lambat {expirationDate}. <learnMoreLink>Selengkapnya</learnMoreLink>"
+    "messageformat": "Dalam waktu dekat, Signal Desktop tidak akan lagi mendukung versi {OS} di komputer Anda. Agar bisa terus menggunakan Signal, perbarui sistem operasi komputer Anda paling lambat {expirationDate}. <learnMoreLink>Selengkapnya</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Signal Desktop sudah tidak berfungsi di komputer ini. Untuk menggunakan Signal Desktop lagi, perbarui versi {OS} komputer Anda. <learnMoreLink>Selengkapnya</learnMoreLink>"
@@ -9032,9 +9089,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Kami mempermudah pencarian anggota grup di halaman pengaturan grup."
   },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "Kami menambahkan dua level zoom baru di pengaturan tampilan (110% dan 90%)."

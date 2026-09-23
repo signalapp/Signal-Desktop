@@ -72,13 +72,16 @@
     "messageformat": "Vous pouvez associer un ordinateur, une tablette ou un autre téléphone."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "Vous pouvez associer jusqu'à 5 appareils et les gérer depuis votre appareil principal."
+    "messageformat": "Votre appareil principal vous permet de gérer jusqu'à 5 appareils associés."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "La gestion des paramètres n'est possible que depuis l'appareil principal. C'est notamment le cas des sauvegardes et des paramètres du compte."
+    "messageformat": "La gestion de certains paramètres n'est possible que depuis l'appareil principal. C'est le cas des sauvegardes et des paramètres du compte."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Les paramètres du compte et les sauvegardes ne peuvent être gérées que sur l'appareil principal."
+  },
+  "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
+    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -606,7 +609,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Vérification automatique de la clé"
+    "messageformat": "Vérification automatique des clés"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
     "messageformat": "Vérifier automatiquement"
@@ -1024,6 +1027,9 @@
   },
   "icu:mute": {
     "messageformat": "Sourdine"
+  },
+  "icu:muted": {
+    "messageformat": "En sourdine"
   },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Impossible de mettre à jour Signal. <retryUpdateButton>Veuillez réessayer</retryUpdateButton> ou visiter {url} pour installer la mise à jour manuellement. Nous vous invitons ensuite à signaler le problème <contactSupportLink>à l'assistance</contactSupportLink>."
@@ -1827,7 +1833,7 @@
     "messageformat": "Afficher une icône dans les infos des messages lorsqu'ils sont distribués avec l'option \"Expéditeur scellé\"."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Vérification automatique de la clé"
+    "messageformat": "Vérification automatique des clés"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
     "messageformat": "Lorsque cette option est activée, Signal tente de vérifier automatiquement le chiffrement des conversations individuelles."
@@ -4002,7 +4008,7 @@
     "messageformat": "Mettre la conversation en sourdine pour…"
   },
   "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mettre ces conversations en sourdine pendant…"
+    "messageformat": "Mettre ces conversations en sourdine pour…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 heure"
@@ -4023,10 +4029,10 @@
     "messageformat": "Toujours"
   },
   "icu:DatePicker__popupTitle": {
-    "messageformat": "Choisissez une date"
+    "messageformat": "Choisir une date"
   },
   "icu:TimePicker__popupTitle": {
-    "messageformat": "Choisissez une heure"
+    "messageformat": "Choisir une heure"
   },
   "icu:MuteUntilDialog__title": {
     "messageformat": "Mettre la conversation en sourdine jusqu'au…"
@@ -5243,6 +5249,51 @@
   "icu:Preferences__WhileMuted__replies__description": {
     "messageformat": "Recevoir une notification lorsqu'on me répond dans une conversation en sourdine."
   },
+  "icu:UnreadReminders__title": {
+    "messageformat": "Unread reminders"
+  },
+  "icu:UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+  },
+  "icu:Preferences__UnreadReminders__description": {
+    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+  },
+  "icu:UnreadReminders__notification--messages--1": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--2": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+  },
+  "icu:UnreadReminders__notification--messages--many": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-mentions": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+  },
+  "icu:UnreadReminders__notification--messages-including-replies": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+  },
+  "icu:UnreadReminders__notification--counts--messages": {
+    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--1": {
+    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--2": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__mentionSummary--many": {
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--1": {
+    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--2": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+  },
+  "icu:UnreadReminders__notification__replySummary--many": {
+    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+  },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions"
   },
@@ -5311,9 +5362,6 @@
   },
   "icu:GroupMembersSearchDialog__SearchResults__Title": {
     "messageformat": "Résultats de recherche"
-  },
-  "icu:GroupMembersSearchDialog__BottomActions__AddMember": {
-    "messageformat": "Ajouter des membres"
   },
   "icu:GroupMembersSearchDialog__BottomActions__AddMembers": {
     "messageformat": "Ajouter des membres"
@@ -5932,7 +5980,7 @@
     "messageformat": "Nom d'utilisateur incorrect. Veuillez saisir au moins 2 chiffres."
   },
   "icu:ProfileEditor--username--check-discriminator-all-zero": {
-    "messageformat": "Ce chiffre ne peut pas être 00. Il doit être compris entre 1 et 9."
+    "messageformat": "Ce nombre ne peut pas être 00. Il doit comporter au moins un chiffre compris entre 1 et 9."
   },
   "icu:ProfileEditor--username--check-discriminator-leading-zero": {
     "messageformat": "Les séries comportant plus de 2 chiffres ne peuvent pas commencer par un 0"
@@ -6155,10 +6203,10 @@
     "messageformat": "Système"
   },
   "icu:Preferences--signal-login": {
-    "messageformat": "Identifiant Signal"
+    "messageformat": "Login Signal"
   },
   "icu:Preferences--signal-login-description": {
-    "messageformat": "Votre identifiant Signal vous permet d'accéder à votre compte et de le restaurer. Conservez ces clés en lieu sûr, dans un gestionnaire de mots de passe fiable. <learnMoreLink>En savoir plus</learnMoreLink>."
+    "messageformat": "Votre login Signal vous permet d'identifier votre compte et de le restaurer. Conservez ces clés en lieu sûr, dans un gestionnaire de mots de passe fiable. <learnMoreLink>En savoir plus</learnMoreLink>."
   },
   "icu:Preferences--signal-login-description--learn-more": {
     "messageformat": "En savoir plus"
@@ -6170,10 +6218,10 @@
     "messageformat": "2 clés"
   },
   "icu:Preferences__SignalAccountKeys__Title": {
-    "messageformat": "Votre identifiant Signal"
+    "messageformat": "Votre login Signal"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Enregistrez votre login Signal en lieu sûr. Vous en aurez besoin pour restaurer votre compte et vos données. Ne communiquez jamais ces identifiants à personne."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Clé de compte"
@@ -6242,7 +6290,7 @@
     "messageformat": "Contenu des notifications"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
-    "messageformat": "Saisie de texte"
+    "messageformat": "Saisie"
   },
   "icu:Preferences__Chats__ChatFoldersSection__Title": {
     "messageformat": "Dossiers de conversations"
@@ -6255,6 +6303,9 @@
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title": {
     "messageformat": "Pastilles de l'app"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
+    "messageformat": "Unread badges"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Réinitialiser les paramètres de notification par défaut, y compris les paramètres personnalisés définis pour chaque conversation."
@@ -6272,13 +6323,19 @@
     "messageformat": "Pastille de notification"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__Description": {
-    "messageformat": "Choisissez si vous voulez que la pastille indique le nombre de messages non lus ou de conversations non lues."
+    "messageformat": "Indiquez si vous préférez que la pastille affiche le nombre de messages non lus ou de conversations non lues."
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadMessages": {
     "messageformat": "Messages non lus"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__UnreadChats": {
     "messageformat": "Conversations non lues"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
+    "messageformat": "Include muted chats in app badge"
+  },
+  "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
+    "messageformat": "Chat folder badges will always include muted chats"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exporter l'historique des conversations"
@@ -6770,7 +6827,7 @@
     "messageformat": "Continuer"
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
-    "messageformat": "Réafficher la clé"
+    "messageformat": "Revoir la clé"
   },
   "icu:Preferences__local-backups-last-backup": {
     "messageformat": "Dernière sauvegarde"
@@ -6908,7 +6965,7 @@
     "messageformat": "Si cette option est désactivée, les indicateurs de saisie de vos contacts ne s'affichent pas."
   },
   "icu:Preferences--messaging-help": {
-    "messageformat": "Indiquez à vos interlocuteurs que vous avez lu leurs messages et que vous êtes en train de leur écrire. Si cette option est désactivée, les confirmations de lecture et indicateurs de saisie de vos contacts ne s'affichent pas."
+    "messageformat": "Indiquez à vos interlocuteurs que vous avez lu leurs messages ou que vous êtes en train de leur écrire. Si vous désactivez ces options, vous ne verrez pas non plus les confirmations de lecture ou les indicateurs de saisie des autres utilisateurs."
   },
   "icu:Preferences--updates": {
     "messageformat": "Mises à jour"
@@ -7013,22 +7070,22 @@
     "messageformat": "Une petite mise à jour est nécessaire"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Recherche de mises à jour..."
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Mise à jour de Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
-    "messageformat": "Téléchargement en cours : {currentBytes} sur {totalBytes} ({percentage,number,percent})…"
+    "messageformat": "Téléchargement : {currentBytes} sur {totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Pour continuer, mettez à jour Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Mettre à jour"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Accéder à l'App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Une petite mise à jour est nécessaire"
@@ -8211,7 +8268,7 @@
     "messageformat": "Chaque nom d'utilisateur est associé à un lien et un code QR uniques. Vous pouvez les partager avec vos amis pour démarrer une conversation instantanément."
   },
   "icu:UsernameOnboardingModalBody__continue": {
-    "messageformat": "Configurer le nom d’utilisateur"
+    "messageformat": "Configurer le nom d'utilisateur"
   },
   "icu:UsernameOnboardingModalBody__skip": {
     "messageformat": "Plus tard"
@@ -8250,10 +8307,10 @@
     "messageformat": "Saisissez votre PIN"
   },
   "icu:PinReminderModal__pin-input-error": {
-    "messageformat": "Code PIN incorrect. Réessayer"
+    "messageformat": "Code PIN incorrect. Veuillez réessayer."
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Code PIN oublié"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Confirmer"
@@ -8262,7 +8319,7 @@
     "messageformat": "Confirmation réussie. Nous vous le redemanderons plus tard."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Changer de code PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Vous pouvez changer de code PIN tant que cet appareil est enregistré. <learnMoreLink>En savoir plus</learnMoreLink>"
@@ -8271,13 +8328,13 @@
     "messageformat": "Confirmer votre code PIN Signal"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Saisissez le code PIN nouvellement créé."
+    "messageformat": "Saisissez le code PIN que vous venez de créer."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Saisissez un nouveau code PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
-    "messageformat": "Confirmer le PIN"
+    "messageformat": "Confirmer le code PIN"
   },
   "icu:PinChangeModal__cancel": {
     "messageformat": "Annuler"
@@ -8289,16 +8346,16 @@
     "messageformat": "Confirmer"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nouveau PIN créé."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "La version {OS} installée sur votre ordinateur ne sera bientôt plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal, veuillez mettre à jour votre système d'exploitation avant le {expirationDate}. <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "La version de {OS} installée sur votre ordinateur ne sera bientôt plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal, veuillez mettre à jour votre système d'exploitation avant le {expirationDate}. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Cet ordinateur n'est plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal Desktop, veuillez mettre à jour la version {OS} installée sur votre ordinateur. <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "Cet ordinateur n'est plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal Desktop, veuillez mettre à jour la version de {OS} installée sur votre ordinateur. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Cet ordinateur n'est plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal Desktop, veuillez mettre à jour la version {OS} instalée sur votre ordinateur."
+    "messageformat": "Cet ordinateur n'est plus compatible avec Signal Desktop. Pour continuer d'utiliser Signal Desktop, veuillez mettre à jour la version de {OS} installée sur votre ordinateur."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Modifié"
@@ -9033,16 +9090,13 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.24--1": {
-    "messageformat": "Il devient plus facile de rechercher des membres via les paramètres du groupe. Pratique pour savoir en un coup d'œil si votre petite sœur a déjà ajouté votre petite-cousine dans le groupe \"La petite famille\" !"
-  },
   "icu:WhatsNew__8.25--0": {
     "messageformat": "Deux autres niveaux de zoom débarquent dans les paramètres d'apparence : 90 % et 110 %. Avec la rentrée qui approche, on a envie de voir les choses en grand."
   },
   "icu:WhatsNew__8.26--0": {
-    "messageformat": "Il n'est pas toujours facile de se retrouver… Sauf sur Signal ! Surtout maintenant que vous apparaissez sous le nom \"Vous\" dans la liste des membres du groupe."
+    "messageformat": "Apprendre à se connaître et à se trouver soi-même peut prendre toute une vie... Mais sur Signal, les choses sont plus simples : si vous vous cherchez encore dans la liste des membres d'un groupe, il vous suffit de repérer le nom \"Vous\" pour vous y retrouver."
   },
   "icu:WhatsNew__8.27--0": {
-    "messageformat": "Au programme de cette mise à jour : de nouveaux paramètres qui vous offrent plus de contrôle sur vos notifications Signal. Choisissez ce qu'affichent les pastilles, configurez les paramètres de notification des conversations en sourdine, et bien plus encore ! Vous avez trop joué avec les réglages et vous ne vous y retrouvez plus ? Pas de panique : un nouveau bouton permet de réinitialiser les paramètres de notification par défaut."
+    "messageformat": "Avec cette mise à jour, vos notifications Signal vous obéissent au doigt et à l'œil. Choisissez ce qu'affichent les pastilles, configurez les paramètres de notification des conversations en sourdine, et plus encore ! Vous avez trop joué avec les options et vous ne savez plus où vous en êtes ? Pas de panique : un nouveau bouton permet de réinitialiser les paramètres de notification par défaut."
   }
 }
