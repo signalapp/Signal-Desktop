@@ -430,6 +430,7 @@ jobs:
         if: ${{ matrix.workerIndex.value == 0 }}
         run: |
           set -o pipefail
+          sudo apt-get update
           sudo apt-get install -y pipewire pipewire-pulse wireplumber psmisc pulseaudio-utils
           systemctl --user start pipewire.service
           systemctl --user start pipewire-pulse.service
