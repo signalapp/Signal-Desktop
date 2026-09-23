@@ -285,10 +285,6 @@
   width: 60%;
 }
 
-.CallsList__ItemTitle {
-  font-weight: bold;
-}
-
 // Override .ListTile__subtitle so ellipsis is correct color
 .CallsList__Item--missed .ListTile__subtitle,
 .CallsList__Item--declined .ListTile__subtitle {

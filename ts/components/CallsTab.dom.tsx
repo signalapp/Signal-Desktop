@@ -25,6 +25,7 @@ import { I18n } from './I18n.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import type { NotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -48,6 +49,7 @@ type CallsTabProps = Readonly<{
   getCallLink: (id: string) => CallLinkType | undefined;
   getCallIdFromEra: typeof getCallIdFromEra;
   getConversation: (id: string) => ConversationType | void;
+  globalNotifyWhileMuted: NotifyWhileMuted;
   hangUpActiveCall: (reason: string) => void;
   hasAnyAdminCallLinks: boolean;
   hasFailedStorySends: boolean;
@@ -103,6 +105,7 @@ export function CallsTab({
   getCall,
   getCallLink,
   getConversation,
+  globalNotifyWhileMuted,
   hangUpActiveCall,
   hasAnyAdminCallLinks,
   hasFailedStorySends,
@@ -264,6 +267,7 @@ export function CallsTab({
               getCallIdFromEra={getCallIdFromEra}
               getCallLink={getCallLink}
               getConversation={getConversation}
+              globalNotifyWhileMuted={globalNotifyWhileMuted}
               hangUpActiveCall={hangUpActiveCall}
               i18n={i18n}
               selectedCallHistoryGroup={selectedView?.callHistoryGroup ?? null}
