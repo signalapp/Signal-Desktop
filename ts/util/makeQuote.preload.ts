@@ -73,7 +73,7 @@ export async function getQuoteAttachment(
 ): Promise<Array<QuotedAttachmentType>> {
   if (attachments && attachments.length) {
     const attachmentsToUse = Array.from(take(attachments, 1));
-    const isGIFQuote = isGIF(attachmentsToUse);
+    const isGIFQuote = isGIF(attachmentsToUse[0]);
 
     return Promise.all(
       map(attachmentsToUse, async attachment => {

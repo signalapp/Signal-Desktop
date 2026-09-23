@@ -19,7 +19,7 @@ export function getStoryReplyText(
     return i18n('icu:message--getNotificationText--photo');
   }
 
-  if (isGIF(attachments)) {
+  if (isGIF(attachment)) {
     return i18n('icu:message--getNotificationText--gif');
   }
 

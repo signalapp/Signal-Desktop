@@ -374,7 +374,7 @@ export function getNotificationDataForMessage(
       };
     }
 
-    if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachments)) {
+    if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachment)) {
       return {
         bodyRanges,
         emoji: Emoji.FERRIS_WHEEL,

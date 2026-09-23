@@ -164,7 +164,7 @@ function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
 
   if (
     status.state === 'ReadyToShow' &&
-    !isGIF([attachment]) &&
+    !isGIF(attachment) &&
     !isVideoAttachment(attachment) &&
     !showSize
   ) {
@@ -172,7 +172,7 @@ function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
   }
 
   let text: string;
-  if (!showSize && isGIF([attachment]) && status.state === 'ReadyToShow') {
+  if (!showSize && isGIF(attachment) && status.state === 'ReadyToShow') {
     text = i18n('icu:message--getNotificationText--gif');
   } else if (
     !showSize &&

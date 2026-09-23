@@ -44,7 +44,7 @@ export async function getStoryDuration(
     return;
   }
 
-  if (isGIF([attachment]) || isVideo([attachment])) {
+  if (isGIF(attachment) || isVideo([attachment])) {
     const videoEl = document.createElement('video');
     const { url } = attachment;
 
@@ -77,7 +77,7 @@ export async function getStoryDuration(
       videoEl.load();
     }
 
-    if (isGIF([attachment])) {
+    if (isGIF(attachment)) {
       // GIFs: Loop gifs 3 times or play for 5 seconds, whichever is longer.
       return Math.min(
         Math.max(duration * 3, DEFAULT_DURATION),

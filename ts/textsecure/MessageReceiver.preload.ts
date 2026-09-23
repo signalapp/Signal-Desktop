@@ -2205,6 +2205,14 @@ export default class MessageReceiver
       });
     }
 
+    if (attachments.length > 1) {
+      log.warn(
+        `${logId}: story has ${attachments.length} attachments; ` +
+          'dropping all but the first'
+      );
+      attachments.splice(1);
+    }
+
     const groupV2 = msg.group ? processGroupV2Context(msg.group) : undefined;
     if (groupV2 && this.#isGroupBlocked(groupV2.id)) {
       log.warn(`${logId}: ignored; destined for blocked group`);

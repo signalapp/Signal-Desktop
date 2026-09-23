@@ -19,6 +19,7 @@ import { createLogger } from '../../logging/log.std.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import {
+  getValidMessageAttachments,
   getUndownloadedAttachmentSignature,
   isIncremental,
 } from '../../util/Attachment.std.ts';
@@ -257,7 +258,7 @@ function showLightboxForViewOnceMedia(
 function filterValidAttachments(
   attributes: ReadonlyMessageAttributesType
 ): Array<AttachmentType> {
-  return (attributes.attachments ?? []).filter(
+  return getValidMessageAttachments(attributes.attachments ?? []).filter(
     item => (!item.pending || isIncremental(item)) && !item.error
   );
 }

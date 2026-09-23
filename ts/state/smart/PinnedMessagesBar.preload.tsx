@@ -45,7 +45,7 @@ function getPinMessageAttachment(
     return null;
   }
   const { contentType } = attachment;
-  if (contentType === MIME.IMAGE_GIF || Attachment.isGIF([attachment])) {
+  if (contentType === MIME.IMAGE_GIF || Attachment.isGIF(attachment)) {
     return { type: 'gif' };
   }
   if (Attachment.isImage([attachment])) {

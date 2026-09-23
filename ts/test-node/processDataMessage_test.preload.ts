@@ -5,12 +5,19 @@ import { assert } from 'chai';
 import { v4 as generateUuid } from 'uuid';
 
 import {
-  processDataMessage,
   ATTACHMENT_MAX,
+  processDataMessage,
 } from '../textsecure/processDataMessage.preload.ts';
 import type { ProcessedAttachment } from '../textsecure/Types.d.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
-import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
+import {
+  APPLICATION_OCTET_STREAM,
+  AUDIO_MP3,
+  IMAGE_GIF,
+  IMAGE_JPEG,
+  LONG_MESSAGE,
+  VIDEO_MP4,
+} from '../types/MIME.std.ts';
 import { toAciObject } from '../util/ServiceId.node.ts';
 import { uuidToBytes } from '../util/uuidToBytes.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
@@ -70,7 +77,7 @@ const UNPROCESSED_ATTACHMENT: Proto.AttachmentPointer.Params = {
   size: 34,
   height: 64,
   width: 128,
-  flags: 1,
+  flags: 0,
   fileName: 'fileName',
   thumbnail: null,
 };
@@ -91,8 +98,22 @@ const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   uploadTimestamp: 456,
   height: 64,
   width: 128,
-  flags: 1,
+  flags: 0,
   fileName: 'fileName',
+};
+
+const IMAGE = { contentType: IMAGE_JPEG };
+const VIDEO = { contentType: VIDEO_MP4 };
+const FILE = { contentType: APPLICATION_OCTET_STREAM };
+const AUDIO = { contentType: AUDIO_MP3 };
+const LONG_TEXT = { contentType: LONG_MESSAGE };
+const VOICE = {
+  contentType: AUDIO_MP3,
+  flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
+};
+const GIF = {
+  contentType: VIDEO_MP4,
+  flags: Proto.AttachmentPointer.Flags.GIF,
 };
 
 describe('processDataMessage', () => {
@@ -113,116 +134,206 @@ describe('processDataMessage', () => {
       }
     );
 
+  const unprocessed = (
+    overrides?: Partial<Proto.AttachmentPointer.Params>
+  ): Proto.AttachmentPointer.Params => ({
+    ...UNPROCESSED_ATTACHMENT,
+    flags: 0,
+    ...overrides,
+  });
+
+  const processed = (
+    overrides?: Partial<ProcessedAttachment>
+  ): ProcessedAttachment => ({
+    ...PROCESSED_ATTACHMENT,
+    flags: 0,
+    downloadPath: 'random-path',
+    ...overrides,
+  });
+
   it('should process attachments', () => {
     const out = check({
-      attachments: [UNPROCESSED_ATTACHMENT],
+      attachments: [unprocessed()],
     });
 
-    assert.deepStrictEqual(out.attachments, [
-      {
-        ...PROCESSED_ATTACHMENT,
-        downloadPath: 'random-path',
-      },
-    ]);
+    assert.deepStrictEqual(out.attachments, [processed()]);
   });
 
   it('should process attachments with null fileName', () => {
     const out = check({
-      attachments: [
-        {
-          ...UNPROCESSED_ATTACHMENT,
-          fileName: null,
-        },
-      ],
+      attachments: [unprocessed({ fileName: null })],
     });
 
     assert.deepStrictEqual(out.attachments, [
-      {
-        ...PROCESSED_ATTACHMENT,
-        fileName: undefined,
-        downloadPath: 'random-path',
-      },
+      processed({ fileName: undefined }),
     ]);
   });
 
   it('should process attachments with 0 cdnId', () => {
     const out = check({
       attachments: [
-        {
-          ...UNPROCESSED_ATTACHMENT,
+        unprocessed({
           attachmentIdentifier: {
             cdnId: 0n,
           },
-        },
+        }),
       ],
     });
 
     assert.deepStrictEqual(out.attachments, [
-      {
-        ...PROCESSED_ATTACHMENT,
+      processed({
         cdnId: undefined,
         cdnKey: undefined,
-        downloadPath: 'random-path',
-      },
+      }),
     ]);
   });
 
   it('should move long text attachments to bodyAttachment', () => {
     const out = check({
-      attachments: [
-        UNPROCESSED_ATTACHMENT,
-        {
-          ...UNPROCESSED_ATTACHMENT,
-          contentType: LONG_MESSAGE,
-        },
-      ],
+      attachments: [unprocessed(), unprocessed(LONG_TEXT)],
     });
 
-    assert.deepStrictEqual(out.attachments, [
-      {
-        ...PROCESSED_ATTACHMENT,
-        downloadPath: 'random-path',
-      },
-    ]);
-    assert.deepStrictEqual(out.bodyAttachment, {
-      ...PROCESSED_ATTACHMENT,
-      downloadPath: 'random-path',
-      contentType: LONG_MESSAGE,
-    });
+    assert.deepStrictEqual(out.attachments, [processed()]);
+    assert.deepStrictEqual(out.bodyAttachment, processed(LONG_TEXT));
+  });
+
+  it('caps the number of attachments at ATTACHMENT_MAX', () => {
+    const attachments: Array<Proto.AttachmentPointer.Params> = [];
+    for (let i = 0; i < ATTACHMENT_MAX + 5; i += 1) {
+      attachments.push(unprocessed(IMAGE));
+    }
+
+    const out = check({ attachments });
+
+    assert.equal(out.attachments.length, ATTACHMENT_MAX);
+    assert.deepStrictEqual(
+      out.attachments,
+      Array.from({ length: ATTACHMENT_MAX }, () => processed(IMAGE))
+    );
+  });
+
+  it('allows long text + ATTACHMENT_MAX attachments', () => {
+    const attachments: Array<Proto.AttachmentPointer.Params> = [
+      unprocessed(LONG_TEXT),
+    ];
+    for (let i = 0; i < ATTACHMENT_MAX; i += 1) {
+      attachments.push(unprocessed(IMAGE));
+    }
+
+    const out = check({ attachments });
+
+    assert.deepStrictEqual(out.bodyAttachment, processed(LONG_TEXT));
+    assert.deepStrictEqual(
+      out.attachments,
+      Array.from({ length: ATTACHMENT_MAX }, () => processed(IMAGE))
+    );
   });
 
   it('should process attachments with incrementalMac/chunkSize', () => {
     const out = check({
       attachments: [
-        {
-          ...UNPROCESSED_ATTACHMENT,
+        unprocessed({
           incrementalMac: new Uint8Array([0, 0, 0]),
           chunkSize: 2,
-        },
+        }),
       ],
     });
 
     assert.deepStrictEqual(out.attachments, [
-      {
-        ...PROCESSED_ATTACHMENT,
-        downloadPath: 'random-path',
+      processed({
         incrementalMac: 'AAAA',
         chunkSize: 2,
-      },
+      }),
     ]);
   });
 
-  it('should throw on too many attachments', () => {
-    const attachments: Array<Proto.AttachmentPointer.Params> = [];
-    for (let i = 0; i < ATTACHMENT_MAX + 1; i += 1) {
-      attachments.push(UNPROCESSED_ATTACHMENT);
-    }
+  describe('drops attachments the UI would never render', () => {
+    it('keeps only the voice message', () => {
+      const out = check({
+        attachments: [unprocessed(VOICE), unprocessed(FILE)],
+      });
 
-    assert.throws(
-      () => check({ attachments }),
-      `Too many attachments: ${ATTACHMENT_MAX + 1} included in one message` +
-        `, max is ${ATTACHMENT_MAX}`
-    );
+      assert.deepStrictEqual(out.attachments, [processed(VOICE)]);
+    });
+
+    it('keeps only the first audio attachment', () => {
+      const out = check({
+        attachments: [
+          unprocessed(AUDIO),
+          unprocessed(AUDIO),
+          unprocessed(IMAGE),
+        ],
+      });
+
+      assert.deepStrictEqual(out.attachments, [processed(AUDIO)]);
+    });
+
+    it('keeps only GIF (rendered alone)', () => {
+      const out = check({
+        attachments: [unprocessed(GIF), unprocessed(IMAGE)],
+      });
+
+      assert.deepStrictEqual(out.attachments, [processed(GIF)]);
+    });
+
+    it('keeps only the first file attachment', () => {
+      const out = check({
+        attachments: [unprocessed(FILE), unprocessed(FILE)],
+      });
+
+      assert.deepStrictEqual(out.attachments, [processed(FILE)]);
+    });
+
+    it('keeps only the file when it leads visual media', () => {
+      const out = check({
+        attachments: [unprocessed(FILE), unprocessed(IMAGE)],
+      });
+
+      assert.deepStrictEqual(out.attachments, [processed(FILE)]);
+    });
+
+    it('keeps the leading run of visual media', () => {
+      const out = check({
+        attachments: [
+          unprocessed(IMAGE),
+          unprocessed(VIDEO),
+          unprocessed(FILE),
+        ],
+      });
+
+      assert.deepStrictEqual(out.attachments, [
+        processed(IMAGE),
+        processed(VIDEO),
+      ]);
+    });
+
+    it('stops at the first non-visual attachment', () => {
+      const out = check({
+        attachments: [
+          unprocessed(IMAGE),
+          unprocessed(FILE),
+          unprocessed(IMAGE),
+        ],
+      });
+
+      assert.deepStrictEqual(out.attachments, [processed(IMAGE)]);
+    });
+
+    it('keeps every attachment when they are all visual', () => {
+      const out = check({
+        attachments: [
+          unprocessed(IMAGE),
+          unprocessed(VIDEO),
+          unprocessed(IMAGE),
+        ],
+      });
+
+      assert.deepStrictEqual(out.attachments, [
+        processed(IMAGE),
+        processed(VIDEO),
+        processed(IMAGE),
+      ]);
+    });
   });
 
   it('should process groupv2 context', () => {
