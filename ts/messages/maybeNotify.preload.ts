@@ -189,19 +189,16 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
         sender: senderName,
         group: conversation.getTitle(),
       });
-
   const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
-
   const messageId = messageForNotification.id;
-
   notificationService.add({
     senderTitle,
     conversationId,
     storyId: isMessageInDirectConversation
       ? undefined
       : messageForNotification.storyId,
-    notificationIconUrl: url,
-    notificationIconAbsolutePath: absolutePath,
+    iconUrl: url,
+    iconAbsolutePath: absolutePath ?? null,
     isExpiringMessage: isExpiringMessage(messageForNotification),
     message: getNotificationTextForMessage(messageForNotification),
     messageId,

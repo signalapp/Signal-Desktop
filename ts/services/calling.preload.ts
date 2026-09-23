@@ -2779,13 +2779,12 @@ class CallingClass {
         absolutePath = result.absolutePath;
       }
 
-      notificationService.notify({
+      notificationService.rawNotify({
         conversationId,
-        iconPath: absolutePath,
+        iconAbsolutePath: absolutePath ?? null,
         iconUrl: url,
-        message: i18n('icu:calling__presenting--notification-body'),
+        body: i18n('icu:calling__presenting--notification-body'),
         type: NotificationType.IsPresenting,
-        sentAt: 0,
         silent: true,
         title: i18n('icu:calling__presenting--notification-title'),
       });
@@ -2850,15 +2849,12 @@ class CallingClass {
 
       const { url, absolutePath } = await conversation.getAvatarOrIdenticon();
 
-      notificationService.notify({
+      notificationService.rawNotify({
         conversationId,
-        iconPath: absolutePath,
+        iconAbsolutePath: absolutePath ?? null,
         iconUrl: url,
-        message: i18n(
-          'icu:calling__presenting--reconnecting--notification-body'
-        ),
+        body: i18n('icu:calling__presenting--reconnecting--notification-body'),
         type: NotificationType.IsPresenting,
-        sentAt: 0,
         silent: true,
         title: i18n(
           'icu:calling__presenting--reconnecting--notification-title'
@@ -4431,13 +4427,12 @@ class CallingClass {
       }
     }
 
-    notificationService.notify({
+    notificationService.rawNotify({
       conversationId: conversation.id,
-      iconPath: absolutePath,
-      iconUrl: url,
-      message: notificationMessage,
+      iconAbsolutePath: absolutePath ?? null,
+      iconUrl: url ?? null,
+      body: notificationMessage,
       type: NotificationType.IncomingGroupCall,
-      sentAt: 0,
       silent: false,
       title: notificationTitle,
     });
@@ -4487,15 +4482,14 @@ class CallingClass {
       }
     }
 
-    notificationService.notify({
+    notificationService.rawNotify({
       conversationId,
       title: notificationTitle,
-      iconPath: absolutePath,
-      iconUrl: url,
-      message: isVideoCall
+      iconAbsolutePath: absolutePath ?? null,
+      iconUrl: url ?? null,
+      body: isVideoCall
         ? i18n('icu:incomingVideoCall')
         : i18n('icu:incomingAudioCall'),
-      sentAt: 0,
       // The ringtone plays so we don't need sound for the notification
       silent: true,
       type: NotificationType.IncomingCall,
