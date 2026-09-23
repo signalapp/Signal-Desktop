@@ -924,7 +924,7 @@ class CallingClass {
 
     log.info(`${logId}: success`);
     const state = callLinkStateFromRingRTC(result.value);
-    const maybeUpdatedRootKey = result.value.rootKey.toString();
+    const maybeUpdatedRootKey = result.value.rootKey.toUnredactedString();
 
     const callLink: CallLinkType = {
       roomId: roomIdHex,

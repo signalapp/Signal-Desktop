@@ -47,7 +47,7 @@ export async function onCallLinkUpdateSync(
 
   try {
     if (type === CallLinkUpdateSyncType.Update) {
-      const rootKeyString = callLinkRootKey.toString();
+      const rootKeyString = callLinkRootKey.toUnredactedString();
       const adminKeyString = adminKey ? fromAdminKeyBytes(adminKey) : null;
       window.reduxActions.calling.handleCallLinkUpdate({
         rootKey: rootKeyString,
