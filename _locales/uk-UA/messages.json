@@ -78,7 +78,7 @@
     "messageformat": "Змінювати налаштування можна тільки з основного пристрою, зокрема налаштування акаунту й резервного копіювання."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Змінювати налаштування акаунту й резервного копіювання можна тільки з основного пристрою."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандартна"
@@ -6173,7 +6173,7 @@
     "messageformat": "Ваш Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Зберігайте цю інформацію в надійному місці. Вона потрібна для відновлення вашого акаунту й даних. Нікому її не повідомляйте."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Ключ від акаунту"
@@ -7013,22 +7013,22 @@
     "messageformat": "Необхідне оновлення"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Перевірка оновлень"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Оновлення Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Завантаження: {currentBytes} з {totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Щоб продовжити, потрібно оновити Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Оновити"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Перейти в App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Необхідне оновлення"
@@ -8253,7 +8253,7 @@
     "messageformat": "Неправильний PIN-код. Спробувати знов"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Я не пам'ятаю PIN-коду"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Підтвердити"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN-код правильний. Згодом ми нагадаємо знов."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Змінити PIN-код Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Ви можете змінити PIN-код, якщо цей пристрій зареєстровано. <learnMoreLink>Докладніше</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Введіть PIN-код, який ви щойно створили."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Введіть новий PIN-код"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Підтвердьте PIN-код"
@@ -8289,10 +8289,10 @@
     "messageformat": "Підтвердити"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Новий PIN-код створено."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Незабаром Signal Desktop перестане підтримувати версію {OS} вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Докладніше</learnMoreLink>"
+    "messageformat": "Незабаром Signal Desktop перестане підтримувати версію {OS} ОС вашого комп'ютера. Щоб користуватися Signal і надалі, оновіть операційну систему комп'ютера до {expirationDate}. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Signal Desktop більше не працює на цьому комп'ютері. Щоб знову користуватися Signal, оновіть версію {OS} вашого комп'ютера. <learnMoreLink>Докладніше</learnMoreLink>"

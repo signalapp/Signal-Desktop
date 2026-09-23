@@ -78,7 +78,7 @@
     "messageformat": "Kontuaren ezarpenak gailu nagusian bakarrik kudea daitezke; besteak beste, kontuaren ezarpenak eta babeskopiak."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Kontuaren ezarpenak eta babeskopiak soilik gailu nagusitik kudea daitezke."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Estandarra"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Gorde hau leku seguru batean, zure kontua eta datuak berreskuratzeko behar da saioa hasteko informazioa. Ez partekatu inorekin."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kontuaren gakoa"
@@ -7013,22 +7013,22 @@
     "messageformat": "Eguneratu behar da"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Egiaztatu eguneraketarik dagoen"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal eguneratzen"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes}/{totalBytes} deskargatzen ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Jarraitzeko, eguneratu Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Eguneratu"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Joan App Store-ra"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Eguneratu behar da"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN okerra. Saiatu berriro"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN-a ahaztu dut"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Onartu"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN zuzena. Geroago gogoraraziko dizugu berriro."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Aldatu Signal PIN-a"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Zure PIN-a alda dezakezu gailua erregistratuta dagoen bitartean. <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Berretsi zure Signal PIN-a"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Idatzi sortu berri duzun PIN-a"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Idatzi PIN berri bat"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Berretsi PINa"
@@ -8289,7 +8289,7 @@
     "messageformat": "Onartu"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Sortu da PIN berria."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ordenagailurako Signal aplikazioak laster ez du onartuko ordenagailuaren bertsioa ({OS}). Signal erabiltzen jarraitzeko, eguneratu ordenagailuaren sistema eragilea {expirationDate} aurretik. <learnMoreLink>Informazio gehiago</learnMoreLink>"

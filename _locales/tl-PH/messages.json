@@ -78,7 +78,7 @@
     "messageformat": "Sa primary device mo lang pwedeng i-manage ang account settings mo, kasama ang account settings at backups."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Maaari mo lamang i-manage ang account settings at backups mo sa iyong primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Ang Signal Login Mo"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Itago ito sa ligtas na lugar, dahil kailangan ang login info mo para ma-recover ang iyong account at data. Huwag itong i-share kahit kanino."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Account key"
@@ -6224,10 +6224,10 @@
     "messageformat": "Advanced"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Baguhin ang iyong PIN"
+    "messageformat": "Palitan ang iyong PIN"
   },
   "icu:Preferences--change-signal-pin-button": {
-    "messageformat": "Baguhin"
+    "messageformat": "Palitan"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
@@ -7013,22 +7013,22 @@
     "messageformat": "May Required na Update"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Naghahanap ng updates"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Ina-update ang Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Dina-download ang {currentBytes} ng {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Para magpatuloy, i-update ang Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "I-update"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Pumunta sa App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "May Required na Update"
@@ -8253,7 +8253,7 @@
     "messageformat": "Mali ang PIN. Subukan ulit"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Nakalimutan ang PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Kumpirmahin"
@@ -8262,19 +8262,19 @@
     "messageformat": "Tama ang PIN. Ipapaalala namin ulit ito sa 'yo mamaya."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Palitan ang Signal PIN mo"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "Mapapalitan mo ang iyong PIN hangga't rehistrado ang device na ito. <learnMoreLink>Matuto pa</learnMoreLink>"
+    "messageformat": "Mapapalitan mo ang iyong PIN hanggang rehistrado ang device na ito. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Kumpirmahin ang iyong Signal PIN"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Ilagay ang PIN na ginawa mo."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Ilagay ang bagong PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Kumpirmahin ang PIN"
@@ -8289,10 +8289,10 @@
     "messageformat": "Kumpirmahin"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nakagawa ng bagong PIN."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Malapit nang hindi masuportahan ng Signal ang {OS} version ng iyong computer. Para patuloy na magamit ang Signal, i-update ang operating system ng computer mo bago sumapit ang {expirationDate}. <learnMoreLink>Matuto pa</learnMoreLink>"
+    "messageformat": "Malapit nang hindi masuportahan ng Signal ang version ng {OS} ng iyong computer. Para patuloy na magamit ang Signal, i-update ang operating system ng computer mo bago sumapit ang {expirationDate}. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
     "messageformat": "Hindi na gumagana ang Signal desktop sa computer na ito. Para magamit muli ang Signal desktop, i-update ang {OS} version ng iyong computer. <learnMoreLink>Matuto pa</learnMoreLink>"

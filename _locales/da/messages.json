@@ -78,7 +78,7 @@
     "messageformat": "Kontoindstillinger administreres kun på din primære enhed, herunder kontoindstillinger og sikkerhedskopier."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Kontoindstillinger og sikkerhedskopier kan kun administreres på din primære enhed."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Dit Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Opbevar dette et sikkert sted. Dine loginoplysninger er påkrævede for at gendanne din konto og dine data. Del dem aldrig med nogen."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kontonøgle"
@@ -7013,22 +7013,22 @@
     "messageformat": "Opdatering påkrævet"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Søger efter opdateringer"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Opdaterer Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Downloader {currentBytes} af {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Opdater Signal Desktop for at fortsætte."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Opdatér"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Gå til App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Opdatering påkrævet"
@@ -8253,7 +8253,7 @@
     "messageformat": "Forkert pinkode. Prøv igen"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Glemt pinkode"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Bekræft"
@@ -8262,7 +8262,7 @@
     "messageformat": "Korrekt pinkode. Vi minder dig om det igen senere."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Skift din Signal-pinkode"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Du kan ændre din pinkode, så længe denne enheden er registreret. <learnMoreLink>Få mere at vide</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Indtast pinkoden du lige har oprettet."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Indtast en ny pinkode"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Bekræft pinkode"
@@ -8289,7 +8289,7 @@
     "messageformat": "Bekræft"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Ny pinkode oprettet."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Snart vil Signal Desktop ikke længere understøtte din computers version af {OS}. Hvis du fortsat vil kunne bruge Signal, skal du opdatere computerens operativsystem inden {expirationDate}. <learnMoreLink>Få mere at vide</learnMoreLink>"

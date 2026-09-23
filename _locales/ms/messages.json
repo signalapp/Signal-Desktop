@@ -78,7 +78,7 @@
     "messageformat": "Tetapan akaun hanya diurus pada peranti utama anda, termasuk tetapan akaun dan sandaran."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Tetapan dan sandaran akaun hanya boleh diuruskan pada peranti utama anda."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login Anda"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Simpan di tempat yang selamat, maklumat log masuk anda diperlukan untuk memulihkan akaun dan data anda. Jangan pernah kongsikan dengan sesiapa."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Kunci akaun"
@@ -7013,22 +7013,22 @@
     "messageformat": "Kemas Kini Diperlukan"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Menyemak kemas kini"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Mengemas Kini Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Memuat turun {currentBytes} daripada {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Untuk meneruskan, kemas kini Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Kemas Kini"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Pergi ke App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Kemas Kini Diperlukan"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN tidak betul. Cuba lagi"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Terlupa PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Sahkan"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN betul. Kami akan mengingatkan anda nanti."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Tukar PIN Signal anda"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Anda boleh mengubah PIN anda selagi peranti ini didaftarkan. <learnMoreLink>Ketahui lagi</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Masukkan PIN yang anda telah cipta."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Masukkan PIN baharu"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Sahkan PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Sahkan"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "PIN baharu telah dicipta."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop tidak lagi akan menyokong versi {OS} komputer anda tidak lama lagi. Untuk terus menggunakan Signal, kemas kini sistem pengendalian komputer anda dengan {expirationDate}. <learnMoreLink>Ketahui lebih lanjut</learnMoreLink>"

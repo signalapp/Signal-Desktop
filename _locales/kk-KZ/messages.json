@@ -78,7 +78,7 @@
     "messageformat": "Аккаунт параметрлерін тек негізгі құрылғыдан, соның ішінде аккаунт параметрлері мен сақтық көшірмелер бөлімінен басқаруға болады."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Аккаунт параметрлері мен сақтық көшірмелерді тек негізгі құрылғыда басқаруға болады."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандарт"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login тіркелу деректеріңіз"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Мұны қауіпсіз жерге сақтап қойыңыз, кіруге қажетті ақпарат аккаунтыңызды және деректеріңізді қалпына келтіруге керек болады. Оны ешкімге айтпаңыз."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Аккаунт кілті"
@@ -7013,22 +7013,22 @@
     "messageformat": "Жаңарту керек"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Жаңа нұсқаның бар-жоғы тексеріліп жатыр"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal жаңартылып жатыр"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes}/{totalBytes} ({percentage,number,percent}) жүктеп алынып жатыр..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Жалғастыру үшін Signal Desktop-ты жаңартыңыз."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Жаңарту"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store-ға өту"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Жаңарту керек"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN коды дұрыс емес. Қайталап көру"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN кодын ұмытып қалдым"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Растау"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN коды дұрыс. Кейінірек тағы есіңізге саламыз."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PIN кодыңызды өзгерту"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN кодты осы құрылғы тіркелген сайын өзгертуге болады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Signal PIN кодын растау"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Жаңа ғана жасаған PIN кодыңызды енгізіңіз."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Жаңа PIN кодын енгізіңіз"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN кодын растау"
@@ -8289,7 +8289,7 @@
     "messageformat": "Растау"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Жаңа PIN коды жасалды."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal-дың компьютерлік нұсқасы жақында компьютеріңіздегі {OS} нұсқасымен жұмыс істемейтін болады. Signal-ды пайдалана беру үшін {expirationDate} күніне дейін компьютеріңіздің операциялық жүйесін жаңартыңыз. <learnMoreLink>Толығырақ</learnMoreLink>"

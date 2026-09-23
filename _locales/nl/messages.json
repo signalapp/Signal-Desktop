@@ -78,7 +78,7 @@
     "messageformat": "Sommige instellingen kunnen alleen worden aangepast op je primaire apparaat, zoals accountinstellingen en back-ups."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Accountinstellingen en back-ups kunnen alleen op je primaire apparaat worden beheerd."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standaard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Je Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Bewaar deze op een veilige manier. Je logingegevens zijn nodig om je account en gegevens te herstellen. Deel deze gegevens met niemand."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Accountsleutel"
@@ -6227,7 +6227,7 @@
     "messageformat": "Pincode wijzigen"
   },
   "icu:Preferences--change-signal-pin-button": {
-    "messageformat": "Aanpassen"
+    "messageformat": "Wijzigen"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal-pincode"
@@ -7013,22 +7013,22 @@
     "messageformat": "Update vereist"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Controleren op updates"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal bijwerken"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes} van {totalBytes} ({percentage,number,percent}) aan het downloaden…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Om door te gaan, moet je Signal Desktop bijwerken."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Bijwerken"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Ga naar de App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update vereist"
@@ -8253,7 +8253,7 @@
     "messageformat": "Onjuiste pincode. Opnieuw proberen"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Pincode vergeten"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Bevestigen"
@@ -8262,7 +8262,7 @@
     "messageformat": "Juiste pincode. We zullen het later opnieuw vragen."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Je Signal-pincode wijzigen"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Zolang je telefoonnummer voor dit apparaat geregistreerd staat kun je je pincode nog wijzigen. <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Voer de pincode die je zojuist hebt aangemaakt opnieuw in."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Voer een nieuwe pincode in"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Bevestig je pincode"
@@ -8289,7 +8289,7 @@
     "messageformat": "Bevestigen"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nieuwe pincode aangemaakt."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal Desktop ondersteunt binnenkort jouw computers versie van {OS} niet meer. Als je Signal wilt blijven gebruiken, moet je het besturingssysteem van je computer vóór {expirationDate} bijwerken. <learnMoreLink>Meer informatie</learnMoreLink>"

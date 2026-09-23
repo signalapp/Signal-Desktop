@@ -78,7 +78,7 @@
     "messageformat": "Konta iestatījumus var pārvaldīt tikai galvenajā ierīcē, tostarp konta iestatījumus un rezerves kopijas."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Konta iestatījumus un rezerves kopijas varat pārvaldīt tikai savā galvenajā ierīcē."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standarta"
@@ -6173,7 +6173,7 @@
     "messageformat": "Jūsu Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Glabājiet šo informāciju drošā vietā — pieteikšanās dati būs nepieciešami konta un datu atgūšanai. Nekad nevienam to neizpaudiet."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Konta atslēga"
@@ -7013,22 +7013,22 @@
     "messageformat": "Nepieciešams atjauninājums"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Pārbauda, vai ir pieejami atjauninājumi"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Atjauno Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Lejupielādē {currentBytes} no {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Lai turpinātu, atjauniniet Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Atjaunināt"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Doties uz App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Nepieciešams atjauninājums"
@@ -8253,7 +8253,7 @@
     "messageformat": "Nepareizs PIN. Mēģiniet vēlreiz"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Aizmirsu PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Apstiprināt"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN pareizs. Atgādināsim vēlreiz vēlāk."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Mainīt Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Varat labot PIN kamēr ierīce ir reģistrēta. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Apstipriniet Signal PIN"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Ievadiet tikko izveidoto PIN."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Ievadiet PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Apstiprināt PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Apstiprināt"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Izveidots jauns PIN."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Drīzumā Signal Desktop vairs neatbalstīs jūsu datora {OS} versiju. Lai turpinātu lietot Signal, atjauniniet datora operētājsistēmu līdz {expirationDate}. <learnMoreLink>Lasīt vairāk</learnMoreLink>"

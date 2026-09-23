@@ -78,7 +78,7 @@
     "messageformat": "As configurações da conta são gerenciadas apenas no seu dispositivo principal, incluindo configurações e backups da conta."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "As configurações e backups da conta só podem ser gerenciados no seu dispositivo principal."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Padrão"
@@ -6173,7 +6173,7 @@
     "messageformat": "Seu Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Guarde estas informações em um local seguro. Seus dados de login são necessários para recuperar sua conta e seus dados. Não compartilhe com ninguém."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Chave da conta"
@@ -7013,22 +7013,22 @@
     "messageformat": "Atualização necessária"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Procurando atualizações"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Atualizando o Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Baixando {currentBytes} de {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Para continuar, atualize o Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Atualizar"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Abrir a App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Update necessário"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN incorreto. Tentar novamente"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Esqueceu seu PIN?"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Confirmar"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN correto. Vamos lembrar você novamente mais tarde."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Alterar seu PIN do Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Você pode modificar seu PIN enquanto este aparelho estiver registrado. <learnMoreLink>Saiba mais</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Digite o PIN que você acabou de criar."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Inserir um novo PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Confirme o PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Confirmar"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Novo PIN criado."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "O Signal para desktop não será mais compatível com a versão do {OS} do seu computador em breve. Para continuar usando o Signal, atualize o sistema operacional do seu computador até {expirationDate}. <learnMoreLink>Saiba mais</learnMoreLink>"

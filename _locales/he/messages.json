@@ -78,7 +78,7 @@
     "messageformat": "הגדרות מסוימות מנוהלות אך ורק במכשיר הראשי שלך, כולל הגדרות החשבון והגיבויים."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "ניתן לנהל את הגדרות החשבון והגיבויים רק דרך המכשיר הראשי שלך."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "תקנית"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login שלך"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "חשוב לאחסן את זה במקום בטוח, מידע ההתחברות (login) שלך נדרש כדי לשחזר את החשבון והנתונים שלך. אף פעם אין לשתף את זה עם אף אחד אחר."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "מפתח חשבון"
@@ -7013,22 +7013,22 @@
     "messageformat": "נדרש עדכון"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "עדכונים בבדיקה"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal בעדכון"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "מורידים {currentBytes} מתוך {totalBytes} ({percentage,number,percent})…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "כדי להמשיך, יש לעדכן את Signal לשולחן העבודה."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "עדכן"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "מעבר אל App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "נדרש עדכון"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN שגוי נסה שוב"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "שכחתי PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "אישור"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN נכון. נזכיר לך שוב מאוחר יותר."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "שינוי ה–PIN שלך ב–Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "אתה יכול לשנות את ה־PIN שלך כל עוד המכשיר רשום. <learnMoreLink>למידע נוסף</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "הכנס את ה־PIN שזה עתה יצרת."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "הזנת PIN חדש"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "אשר PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "אישור"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "נוצר PIN חדש."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal לשולחן עבודה בקרוב תפסיק לתמוך בגרסת {OS} של המחשב שלך. כדי להמשיך להשתמש ב–Signal, צריך לעדכן את מערכת ההפעלה של המחשב שלך עד {expirationDate}. <learnMoreLink>למידע נוסף</learnMoreLink>"

@@ -78,7 +78,7 @@
     "messageformat": "تُدَار بعض إعدادات الحساب على جهازك الأساسي فقط، بما في ذلك إعدادات الحساب والنسخ الاحتياطية."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "يمكن إدارة إعدادات الحساب والنسخ الاحتياطية من جهازك الرئيسي فقط."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "قياسية"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login الخاص بك"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "احفظ هذا في مكانٍ آمن، فبيانات تسجيل الدخول مطلوبة لاستعادة حسابك وبياناتك. لا تشاركه مع أي أحد."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "مفتاح الحساب"
@@ -7013,22 +7013,22 @@
     "messageformat": "التحديث مطلوب"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "جارٍ البحث عن تحديثات"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "جارٍ تحديث سيجنال"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "جارٍ تنزيل {currentBytes} من أصل {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "للمواصلة، قُم بتحديث سيجنال Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "تحديث"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "انتقل إلى App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "التحديث مطلوب"
@@ -8253,7 +8253,7 @@
     "messageformat": "رقم التعريف الشخصي (PIN) غير صحيح. حاوِل مُجدَّدًا"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "نسيت رقم الـ PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "تأكيد"
@@ -8262,7 +8262,7 @@
     "messageformat": "رقم التعريف الشخصي (PIN) صحيح. سنُذكِّرك مرّة أخرى لاحقًا."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "تغيير رقم التعريف الشخصي (PIN) على سيجنال"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "يمكنك تغيير رقم التعريف الشخصي (PIN) في أي وقت طالما بقي هذا الجهاز مسجلًا. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -8274,10 +8274,10 @@
     "messageformat": "أدخِل رقم التعريف الشخصي (PIN) الذي أنشأته للتو."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "أدخِل رقم تعريف شخصي (PIN) جديد"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
-    "messageformat": "تأكيد رقم التعريف الشخصي (PIN)"
+    "messageformat": "تأكيد رقم الـ PIN"
   },
   "icu:PinChangeModal__cancel": {
     "messageformat": "إلغاء"
@@ -8289,16 +8289,16 @@
     "messageformat": "تأكيد"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "تمَّ إنشاء رقم تعريف شخصي (PIN) جديد."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "سيتوقف تطبيق سيجنال الخاص بالحاسوب عن دعم إصدار {OS} على جهازك قريبًا. للاستمرار في استخدام سيجنال، يُرجى تحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
+    "messageformat": "سيتوقف سيجنال Desktop عن دعم إصدار {OS} على حاسوبك قريبًا. للاستمرار في استخدام سيجنال، قُم بتحديث نظام تشغيل حاسوبك قبل {expirationDate}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرّة أخرى، يُرجى تحديث إصدار حاسوبك {OS}. <learnMoreLink>اعرف المزيد</learnMoreLink>"
+    "messageformat": "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال Desktop مرّة أخرى، قُم بتحديث إصدار {OS} لحاسوبك. <learnMoreLink>اعرف المزيد</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "لم يعُد تطبيق سيجنال يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال الخاص بالحاسوب مرّة أخرى، يُرجى تحديث إصدار {OS} لحاسوبك."
+    "messageformat": "لم يعُد تطبيق سيجنال Desktop يَعمل على هذا الحاسوب. لاستخدام تطبيق سيجنال Desktop مرّة أخرى، قُم بتحديث إصدار {OS} لحاسوبك."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "تمَّ التعديل"

@@ -78,7 +78,7 @@
     "messageformat": "Cài đặt tài khoản chỉ được quản lý trên thiết bị chính của bạn, bao gồm cài đặt tài khoản và bản sao lưu."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Cài đặt tài khoản và các bản sao lưu chỉ có thể được quản lý trên thiết bị chính của bạn."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Tiêu chuẩn"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login của bạn"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Lưu ở nơi an toàn, bạn sẽ cần thông tin đăng nhập để khôi phục tài khoản và dữ liệu của mình. Không bao giờ chia sẻ Signal Login với bất kỳ ai."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Mã khóa tài khoản"
@@ -7013,22 +7013,22 @@
     "messageformat": "Yêu cầu Cập nhật"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Đang kiểm tra bản cập nhật"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Đang cập nhật Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Hiện tải được {currentBytes} của tổng {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Để tiếp tục, hãy cập nhật Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Cập nhật"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Chuyển đến App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Yêu cầu Cập nhật"
@@ -8253,7 +8253,7 @@
     "messageformat": "Mã PIN không chính xác. Thử lại"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Quên mã PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Xác nhận"
@@ -8262,7 +8262,7 @@
     "messageformat": "Mã PIN đúng. Chúng tôi sẽ nhắc bạn lại sau."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Đổi mã PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Bạn có thể thay đổi mã PIN của bạn với điều kiện thiết bị được đăng ký. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Xác nhận mã PIN Signal"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Nhập mã PIN bạn vừa tạo."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Nhập mã PIN mới"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Xác nhận mã PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Xác nhận"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Đã tạo mã PIN mới."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop sẽ sớm không còn hỗ trợ phiên bản hiện tại của hệ điều hành {OS} trên máy tính bạn. Để có thể tiếp tục sử dụng Signal, cập nhật phiên bản hệ điều hành trên máy tính bạn trước {expirationDate}. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"

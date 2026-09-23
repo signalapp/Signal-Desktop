@@ -78,7 +78,7 @@
     "messageformat": "Kontosätteid saad hallata ainult oma põhiseadmes, sh kontosätteid ja varukoopiaid."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Konto sätteid ja varukoopiaid saab hallata ainult su peamisest seadmest."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardne"
@@ -6173,7 +6173,7 @@
     "messageformat": "Sinu Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Hoia seda turvalises kohas, sisselogimisinfot on vaja sinu andmete ja konto taastamiseks. Ära jaga seda kunagi kellegagi."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Konto võti"
@@ -7013,22 +7013,22 @@
     "messageformat": "Vajalik uuendus"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Uuenduste kontrollimine"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signali uuendamine"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Allalaadimine: {currentBytes} kogumahust {totalBytes} ({percentage,number,percent}) …"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Jätkamiseks uuenda Signal Desktoppi."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Uuenda"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Mine App Store'i"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Vajalik uuendus"
@@ -8253,7 +8253,7 @@
     "messageformat": "Vale PIN-kood. Proovi uuesti"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN-kood ununes"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Kinnita"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN-kood õige. Tuletame sulle hiljem uuesti meelde."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Muuda oma Signali PIN-koodi"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN-koodi saab muuta senikaua kuni see seade on registreeritud. <learnMoreLink>Rohkem teavet</learnMoreLink>"
@@ -8271,10 +8271,10 @@
     "messageformat": "Kinnita Signali PIN-kood"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Sisesta just loodud PIN-kood."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Sisesta uus PIN-kood"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Kinnita PIN-kood"
@@ -8289,7 +8289,7 @@
     "messageformat": "Kinnita"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Uus PIN-kood on loodud."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signali veebiversioon lõpetab varsti sinu arvuti {OS} versiooni toetamise. Kui soovid jätkata Signali kasutamist, uuenda oma arvuti operatsioonisüsteemi hiljemalt {expirationDate}. <learnMoreLink>Rohkem teavet</learnMoreLink>"

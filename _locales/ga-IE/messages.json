@@ -78,7 +78,7 @@
     "messageformat": "Ar do phríomhghléas amháin a dhéantar socruithe cuntais a bhainistiú, socruithe agus cúltacaí an chuntais ina measc."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Ní féidir socruithe an chuntais agus cúltacaí a bhainistiú ach ar do phríomhghléas."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Caighdeánach"
@@ -6173,13 +6173,13 @@
     "messageformat": "Signal Login agat"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Stóráil in áit shábháilte é; éilítear d'fhaisnéis logáil isteach le do chuntas agus do shonraí a athshlánú. Ná comhroinn le duine ar bith choíche é."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Eochair an chuntais"
   },
   "icu:Preferences__SignalAccountKeys__AccountID": {
-    "messageformat": "ID an chuntais"
+    "messageformat": "Aitheantas an Chuntais"
   },
   "icu:Preferences__SignalAccountKeys__RecoveryKey": {
     "messageformat": "Eochair athshlánaithe"
@@ -6224,7 +6224,7 @@
     "messageformat": "Ardroghanna"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Athraigh d'UAP"
+    "messageformat": "Athraigh do UAP"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Athraigh"
@@ -7013,22 +7013,22 @@
     "messageformat": "Nuashonrú De Dhíth"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Seiceáil le haghaidh nuashonruithe ar siúl"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal á nuashonrú"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes} as {totalBytes} ({percentage,number,percent}) á n-íoslódáil…"
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Le leanúint leis, nuashonraigh Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Nuashonraigh"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Téigh chuig an App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Nuashonrú De Dhíth"
@@ -8253,7 +8253,7 @@
     "messageformat": "UAP mícheart. Triail arís"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "UAP dearmadta"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Deimhnigh"
@@ -8262,10 +8262,10 @@
     "messageformat": "UAP ceart. Meabhróimid duit arís é ar ball."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Athraigh do UAP Signal"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "Is féidir leat d'UAP a athrú chomh fada is atá an gléas seo cláraithe. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
+    "messageformat": "Is féidir leat do UAP a athrú chomh fada is atá an gléas seo cláraithe. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "UAP Signal a Dheimhniú"
@@ -8274,10 +8274,10 @@
     "messageformat": "Cuir isteach an UAP a chruthaigh tú anois beag."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Cuir isteach UAP nua"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
-    "messageformat": "Deimhnaigh an UAP"
+    "messageformat": "Deimhnigh an UAP"
   },
   "icu:PinChangeModal__cancel": {
     "messageformat": "Cuir ar ceal"
@@ -8289,7 +8289,7 @@
     "messageformat": "Deimhnigh"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "UAP nua cruthaithe."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Ní bheidh tacú ag Signal Desktop a thuilleadh don leagan de {OS} ar do ríomhaire. Le leanúint le Signal a úsáid, nuashonraigh córas oibriúcháin do ríomhaire faoin {expirationDate}. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"

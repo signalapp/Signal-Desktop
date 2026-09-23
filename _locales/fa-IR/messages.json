@@ -78,7 +78,7 @@
     "messageformat": "تنظیمات حساب، از‌جمله تنظیمات حساب و پشتیبان‌گیری، فقط در دستگاه اصلی مدیریت می‌شوند."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "تنظیمات حساب و پشتیبان‌گیری فقط در دستگاه اصلی‌تان قابل مدیریت هستند."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "استاندارد"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login شما"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "این را در جای امنی ذخیره کنید، اطلاعات ورود شما برای بازیابی حساب و داده‌هایتان ضروری است. هرگز آن را با کسی به اشتراک نگذارید."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "رمز حساب"
@@ -7013,22 +7013,22 @@
     "messageformat": "به‌روزرسانی لازم است"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "در حال بررسی نسخه‌های جدید"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "در حال به‌روزرسانی سیگنال"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "در حال دانلود {currentBytes} از {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "برای ادامه، سیگنال دسک‌تاپ را به‌روزرسانی کنید."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "به‌روزرسانی"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "به App Store بروید"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "به‌روزرسانی لازم است"
@@ -8253,7 +8253,7 @@
     "messageformat": "پین اشتباه است. دوباره تلاش کنید"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "پین را فراموش کرده‌ام"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "تأیید"
@@ -8262,7 +8262,7 @@
     "messageformat": "پین درست است. بعداً دوباره به شما یادآوری خواهیم کرد."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "پین سیگنال خود را تغییر دهید"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "تا زمانی که این دستگاه ثبت شده باشد شما می‌توانید پین خود را تغییر دهید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "رمزی که به تازگی ایجاد کردید را وارد کنید."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "پین جدید را وارد کنید"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "پین را تأیید کنید"
@@ -8289,7 +8289,7 @@
     "messageformat": "تأیید"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "پین جدید ایجاد شد."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "سیگنال دسکتاپ به‌زودی دیگر از نسخه {OS} رایانه شما پشتیبانی نخواهد کرد. برای ادامه استفاده از سیگنال، سیستم‌عامل رایانه خود را تا تاریخ {expirationDate} به‌روزرسانی کنید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"

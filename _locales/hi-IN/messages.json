@@ -78,7 +78,7 @@
     "messageformat": "अकाउंट सेटिंग और बैकअप सिर्फ़ आपके प्राइमरी डिवाइस पर ही मैनेज किए जा सकते हैं।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "अकाउंट सेटिंग और बैकअप को सिर्फ़ आपके प्राइमरी डिवाइस पर ही मैनेज किया जा सकता है।"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "स्टैंडर्ड"
@@ -6173,7 +6173,7 @@
     "messageformat": "आपका Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "इसे सुरक्षित जगह पर रखें, अपना अकाउंट और डेटा रिकवर करने के लिए आपको अपनी लॉगिन जानकारी की ज़रूरत होती है। इसे कभी किसी को न बताएं।"
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "अकाउंट की"
@@ -7013,22 +7013,22 @@
     "messageformat": "अपडेट ज़रूरी है"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "नए अपडेट खोजे जा रहे हैं"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal अपडेट हो रहा है"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{totalBytes} में से {currentBytes} ({percentage,number,percent}) डाउनलोड हो रहा है..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "जारी रखने के लिए, Signal डेस्कटॉप को अपडेट करें।"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "अपडेट करें"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store पर जाएं"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "अपडेट ज़रूरी है"
@@ -8253,7 +8253,7 @@
     "messageformat": "पिन सही नहीं है। फिर से कोशिश करें"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "पिन याद नहीं है"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "पुष्टि करें"
@@ -8262,10 +8262,10 @@
     "messageformat": "पिन सही है। हम आपको बाद में फिर से याद दिलाएंगे।"
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "अपना Signal पिन बदलें"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "जब तक आपका यह डिवाइस रजिस्टर है, आपके पास कभी भी पिन बदलने की सुविधा मौजूद है। <learnMoreLink>और जानें</learnMoreLink>"
+    "messageformat": "डिवाइस रजिस्टर रहने के दौरान पिन कभी भी बदला जा सकता है। <learnMoreLink>और जानें</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal पिन की पुष्टि करें"
@@ -8274,7 +8274,7 @@
     "messageformat": "ताज़ा पिन डालें।"
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "नया पिन डालें"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "पिन की पुष्टि करें"
@@ -8289,7 +8289,7 @@
     "messageformat": "पुष्टि करें"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "नया पिन बनाया गया।"
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal डेस्कटॉप जल्द ही आपके कंप्यूटर के {OS} वर्ज़न पर काम नहीं करेगा। Signal का इस्तेमाल जारी रखने के लिए, अपने कंप्यूटर के ऑपरेटिंग सिस्टम को {expirationDate} तक अपडेट करें। <learnMoreLink>और जानें</learnMoreLink>"

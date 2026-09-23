@@ -1119,7 +1119,7 @@
     "messageformat": "{nickname}<muted>({titleNoNickname})</muted>"
   },
   "icu:AboutContactModal__TitleWithoutNickname__Tooltip": {
-    "messageformat": "''{title}'은(는) 사용자가 본인을 위해 Signal에 설정한 프로필 이름입니다."
+    "messageformat": "''{title}'(은)는 상대방이 Signal에서 직접 설정한 프로필 이름입니다."
   },
   "icu:AboutContactModal__verified": {
     "messageformat": "검증됨"
@@ -2061,10 +2061,10 @@
     "messageformat": "다른 기기 중 하나에서 통화 중입니다."
   },
   "icu:calling__pre-call-info--2-people-in-call": {
-    "messageformat": "{first} 님과 {second} 님이 통화 중입니다."
+    "messageformat": "{first} 님과 {second} 님이 이 통화에 참여 중입니다."
   },
   "icu:calling__pre-call-info--3-people-in-call": {
-    "messageformat": "{first} 님, {second} 님과 {third} 님이 통화 중입니다."
+    "messageformat": "{first} 님, {second} 님과 {third} 님이 이 통화에 참여 중입니다."
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first} 님, {second} 님 외 {others,number}명이 이 통화에 참여 중입니다.}}"
@@ -3642,10 +3642,10 @@
     "messageformat": "{remainingCount, plural, other {{member1}, {member2}, {member3}, 외 <clickable>{remainingCount,number} 명</clickable>}}"
   },
   "icu:ConversationHero--group-names": {
-    "messageformat": "<clickable>그룹 이름</clickable>이 확인되지 않음"
+    "messageformat": "<clickable>그룹 이름</clickable>은 별도의 인증을 거치지 않습니다."
   },
   "icu:ConversationHero--profile-names": {
-    "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
+    "messageformat": "<clickable>프로필 이름</clickable>은 별도의 인증을 거치지 않습니다."
   },
   "icu:ConversationHero--name-not-verified": {
     "messageformat": "이름이 인증되지 않음"
@@ -8553,7 +8553,7 @@
     "messageformat": "다른 조직이나 비즈니스를 사칭하는 그룹에 유의하세요"
   },
   "icu:ProfileNameWarningModal__list--item2--group": {
-    "messageformat": "그룹의 구성원 프로필 이름이 확인되지 않았습니다"
+    "messageformat": "그룹 멤버의 프로필 이름은 별도의 인증을 거치지 않습니다."
   },
   "icu:ProfileNameWarningModal__list--item3--group": {
     "messageformat": "모르는 사람과 개인 정보를 공유하지 마세요"

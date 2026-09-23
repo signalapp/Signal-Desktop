@@ -78,7 +78,7 @@
     "messageformat": "Nekatere nastavitve računa lahko upravljate le v primarni napravi, vključno z nastavitvami računa in varnostnimi kopijami."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Nastavitve računa in varnostne kopije lahko upravljate samo v primarni napravi."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardna"
@@ -6173,7 +6173,7 @@
     "messageformat": "Vaš Signal Login"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Shranite to na varnem mestu. Podatki za prijavo so potrebni za obnovitev vašega računa in podatkov. Ne delite z nikomer."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Ključ računa"
@@ -6224,7 +6224,7 @@
     "messageformat": "Napredno"
   },
   "icu:Preferences--change-signal-pin": {
-    "messageformat": "Sprememba PINa"
+    "messageformat": "Sprememba PIN-a"
   },
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Spremeni"
@@ -7013,22 +7013,22 @@
     "messageformat": "Potrebna je posodobitev"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Preverjanje razpoložljivih posodobitev"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Posodabljanje Signala"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Prenos {currentBytes} od {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Za nadaljevanje posodobite Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Posodobitev"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Obiščite App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Potrebna je posodobitev"
@@ -8253,7 +8253,7 @@
     "messageformat": "Napačen PIN. Poskusi znova"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Pozabljen PIN"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Potrdi"
@@ -8262,19 +8262,19 @@
     "messageformat": "PIN je pravilen. Pozneje vas bomo ponovno opomnili."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Spremenite Signalov PIN"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "PIN lahko spreminjate dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
+    "messageformat": "PIN lahko spreminjate, dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
-    "messageformat": "Potrdite svoj PIN Signal"
+    "messageformat": "Potrdite Signalov PIN"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Enter the PIN you just created."
+    "messageformat": "Vnesite PIN, ki ste ga pravkar določili."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Vnesite nov PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Potrdite PIN"
@@ -8289,16 +8289,16 @@
     "messageformat": "Potrdi"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nov PIN je določen."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal Desktop kmalu ne bo več podpiral različice {OS} na vašem računalniku. Če želite še naprej uporabljati Signal posodobite operacijski sistem na vašem računalniku do {expirationDate}. <learnMoreLink>Preberite več</learnMoreLink>"
+    "messageformat": "Signal Desktop kmalu ne bo več podpiral različice {OS} v vašem računalniku. Če želite še naprej uporabljati Signal, posodobite operacijski sistem v vašem računalniku do dne {expirationDate}. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} na vašem računalniku. <learnMoreLink>Preberite več</learnMoreLink>"
+    "messageformat": "Signal Desktop v tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} v svojem računalniku. <learnMoreLink>Preberite več</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} na vašem računalniku."
+    "messageformat": "Signal Desktop na tem računalniku ne deluje več. Če želite znova uporabljati Signal Desktop, posodobite različico {OS} v svojem računalniku."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Urejeno"

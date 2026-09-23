@@ -78,7 +78,7 @@
     "messageformat": "Anumite setări ale contului sunt gestionate exclusiv pe dispozitivul principal, inclusiv setările contului și copiile de rezervă."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Setările contului și backup-urile pot fi gestionate doar pe dispozitivul primar."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -6173,7 +6173,7 @@
     "messageformat": "Login-ul tău Signal"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Păstrează aceste informații într-un loc sigur; datele de autentificare îți sunt necesare pentru a-ți recupera contul și datele. Nu-l trimite nimănui."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Cod pentru cont"
@@ -7013,22 +7013,22 @@
     "messageformat": "Actualizare necesară"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Verifică actualizări"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Se actualizează Signal"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "Se descarcă {currentBytes} din {totalBytes} ({percentage,number,percent})..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Ca să continui, actualizează Signal Desktop."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Actualizează"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "Mergi la App Store"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualizare necesară"
@@ -8253,7 +8253,7 @@
     "messageformat": "PIN incorect. Încearcă din nou"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "Am uitat PIN-ul"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Confirmă"
@@ -8262,7 +8262,7 @@
     "messageformat": "PIN corect. Îți reamintim din nou mai târziu."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Schimbă-ți PIN-ul Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Poți schimba codul PIN atât timp cât acest dispozitiv este înregistrat. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -8274,7 +8274,7 @@
     "messageformat": "Introdu codul PIN pe care tocmai l-ai creat."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Introdu un nou PIN"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "Confirmare PIN"
@@ -8289,7 +8289,7 @@
     "messageformat": "Confirmă"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Nou PIN creat."
   },
   "icu:UnsupportedOSWarningDialog__body": {
     "messageformat": "Signal desktop nu va mai accepta versiunea calculatorului tău de {OS} în curând. Ca să continui să folosești Signal, actualizează-ți sistemul de operare al calculatorului până la {expirationDate}. <learnMoreLink>Află mai multe</learnMoreLink>"

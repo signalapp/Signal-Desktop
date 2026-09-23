@@ -78,7 +78,7 @@
     "messageformat": "Hesap ayarları, hesap ayarları ve yedeklemeler de dahil olmak üzere yalnızca ana cihazından yönetilir."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device."
+    "messageformat": "Hesap ayarları ve yedeklemeler yalnızca ana cihazından yönetilebilir."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standart"
@@ -6173,7 +6173,7 @@
     "messageformat": "Signal Login'in"
   },
   "icu:Preferences__SignalAccountKeys__Description": {
-    "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone."
+    "messageformat": "Bunu güvenli bir yerde sakla; hesabını ve verilerini kurtarman için giriş bilgilerin gerekir. Kimseyle paylaşma."
   },
   "icu:Preferences__SignalAccountKeys__AccountKey": {
     "messageformat": "Hesap anahtarı"
@@ -7013,22 +7013,22 @@
     "messageformat": "Güncelleme Gerekli"
   },
   "icu:InstallScreenUpdateDialog--checking-for-updates": {
-    "messageformat": "Checking for updates"
+    "messageformat": "Güncelleme aranıyor"
   },
   "icu:InstallScreenUpdateDialog--updating-signal": {
-    "messageformat": "Updating Signal"
+    "messageformat": "Signal güncelleniyor"
   },
   "icu:InstallScreenUpdateDialog--download-progress": {
     "messageformat": "{currentBytes} / {totalBytes} ({percentage,number,percent}) indiriliyor..."
   },
   "icu:InstallScreenUpdateDialog--update-required__body": {
-    "messageformat": "To continue, update Signal Desktop."
+    "messageformat": "Devam etmek için Signal Desktop'ı güncelle."
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update": {
     "messageformat": "Güncelle"
   },
   "icu:InstallScreenUpdateDialog--update-required__action-update__mas": {
-    "messageformat": "Go to the App Store"
+    "messageformat": "App Store'a git"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Güncelleme Gerekli"
@@ -8253,7 +8253,7 @@
     "messageformat": "Hatalı PIN. Tekrar dene"
   },
   "icu:PinReminderModal__forgot": {
-    "messageformat": "Forgot PIN"
+    "messageformat": "PIN'imi unuttum"
   },
   "icu:PinReminderModal__confirm": {
     "messageformat": "Onayla"
@@ -8262,19 +8262,19 @@
     "messageformat": "PIN doğru. Sana sonra tekrar hatırlatacağız."
   },
   "icu:PinChangeModal__title--create": {
-    "messageformat": "Change your Signal PIN"
+    "messageformat": "Signal PIN'ini değiştir"
   },
   "icu:PinChangeModal__body--create": {
-    "messageformat": "Bu cihaz kayıtlı olduğu sürece PIN'inizi değiştirebilirsiniz. <learnMoreLink>Dahasını öğren</learnMoreLink>"
+    "messageformat": "Bu cihaz kayıtlı olduğu sürece PIN'ini değiştirebilirsin. <learnMoreLink>Dahasını öğren</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN'ini onayla"
   },
   "icu:PinChangeModal__body--confirm": {
-    "messageformat": "Az önce oluşturduğunuz PIN'i girin."
+    "messageformat": "Az önce oluşturduğun PIN'i gir."
   },
   "icu:PinChangeModal__pin-input-placeholder--create": {
-    "messageformat": "Enter a new PIN"
+    "messageformat": "Yeni PIN gir"
   },
   "icu:PinChangeModal__pin-input-placeholder--confirm": {
     "messageformat": "PIN'i onayla"
@@ -8289,16 +8289,16 @@
     "messageformat": "Onayla"
   },
   "icu:PinChangeCompletedToast": {
-    "messageformat": "New PIN created."
+    "messageformat": "Yeni PIN oluşturuldu."
   },
   "icu:UnsupportedOSWarningDialog__body": {
-    "messageformat": "Signal masaüstü, yakında bilgisayarının {OS} sürümünü artık desteklemeyecek. Signal'i kullanmaya devam etmek için {expirationDate} tarihine kadar bilgisayarının işletim sistemini güncelle. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
+    "messageformat": "Signal Desktop, yakında bilgisayarının {OS} sürümünü artık desteklemeyecek. Signal'ı kullanmaya devam etmek için {expirationDate} tarihine kadar bilgisayarının işletim sistemini güncelle. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorDialog__body": {
-    "messageformat": "Signal masaüstü artık bu bilgisayarda çalışmıyor. Signal masaüstünü tekrar kullanmak için bilgisayarının {OS} sürümünü güncelle. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
+    "messageformat": "Signal Desktop artık bu bilgisayarda çalışmıyor. Signal Desktop'ı tekrar kullanmak için bilgisayarının {OS} sürümünü güncelle. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
   },
   "icu:UnsupportedOSErrorToast": {
-    "messageformat": "Signal masaüstü artık bu bilgisayarda çalışmıyor. Signal masaüstünü tekrar kullanmak için bilgisayarının {OS} sürümünü güncelle."
+    "messageformat": "Signal Desktop artık bu bilgisayarda çalışmıyor. Signal Desktop'ı tekrar kullanmak için bilgisayarının {OS} sürümünü güncelle."
   },
   "icu:MessageMetadata__edited": {
     "messageformat": "Düzenlendi"
