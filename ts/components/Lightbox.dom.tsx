@@ -161,7 +161,7 @@ export function Lightbox({
   const incrementalUrl = attachment?.incrementalUrl;
   const contentType = attachment?.contentType;
 
-  const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
+  const isAttachmentGIF = isGIF(attachment);
   const isDownloading =
     attachment &&
     isIncremental(attachment) &&

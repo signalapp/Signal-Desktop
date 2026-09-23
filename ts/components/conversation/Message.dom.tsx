@@ -1204,7 +1204,7 @@ export class Message extends PureComponent<Props, State> {
           : null
       );
 
-      if (isGIF(attachments)) {
+      if (isGIF(firstAttachment)) {
         return (
           <div className={containerClassName}>
             {/* oxlint-disable-next-line react/jsx-pascal-case */}
@@ -2623,7 +2623,7 @@ export class Message extends PureComponent<Props, State> {
     }
 
     if (attachments && attachments.length) {
-      if (isGIF(attachments)) {
+      if (isGIF(attachments[0])) {
         // Message container border
         return GIF_SIZE + 2;
       }
@@ -2782,7 +2782,7 @@ export class Message extends PureComponent<Props, State> {
       detail = formatFileSize(firstAttachment.size);
     }
 
-    if (isVideo(attachments) || isGIF(attachments)) {
+    if (isVideo(attachments) || isGIF(firstAttachment)) {
       return {
         title: i18n('icu:Message--tap-to-view--video'),
         detail,
@@ -3339,7 +3339,7 @@ export class Message extends PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
-      isGIF(attachments) && !isTapToView
+      isGIF(attachments?.[0]) && !isTapToView
         ? 'module-message__container--gif'
         : null,
       isTargeted ? 'module-message__container--targeted' : null,

@@ -128,7 +128,7 @@ export function StoryImage({
       />
     );
   } else if (!isThumbnail && isSupportedVideo) {
-    const shouldLoop = isGIF(attachment ? [attachment] : undefined);
+    const shouldLoop = isGIF(attachment);
 
     storyElement = (
       <video

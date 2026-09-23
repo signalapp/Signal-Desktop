@@ -74,6 +74,7 @@ import {
   defaultBlurHash,
   isDownloadable,
   isDownloaded,
+  getValidMessageAttachments,
 } from '../../util/Attachment.std.ts';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.ts';
 import type {
@@ -341,18 +342,21 @@ export const getAttachmentsForMessage = (
       },
     ];
   }
-  return (
-    attachments
-      // Long message attachments are removed from message.attachments quickly,
-      // but in case they are still around, let's make sure not to show them
-      .filter(attachment => attachment.contentType !== LONG_MESSAGE)
-      .map(attachment =>
-        getPropsForAttachment(attachment, 'attachment', message, {
-          hasMediaBackups,
-        })
-      )
-      .filter(isNotNil)
-  );
+  return [
+    ...getValidMessageAttachments(
+      attachments
+        // Long message attachments are removed from message.attachments
+        // quickly, but in case they are still around, let's make sure not to
+        // show them
+        .filter(attachment => attachment.contentType !== LONG_MESSAGE)
+        .map(attachment =>
+          getPropsForAttachment(attachment, 'attachment', message, {
+            hasMediaBackups,
+          })
+        )
+        .filter(isNotNil)
+    ),
+  ];
 };
 
 export const processBodyRanges = (

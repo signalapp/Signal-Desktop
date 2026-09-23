@@ -3380,7 +3380,7 @@ export class BackupExportStream extends Readable {
 
       return Backups.MessageAttachment.Flag.VOICE_MESSAGE;
     }
-    if (isGIF([attachment])) {
+    if (isGIF(attachment)) {
       return Backups.MessageAttachment.Flag.GIF;
     }
     if (

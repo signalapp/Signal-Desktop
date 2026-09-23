@@ -51,7 +51,11 @@ import { PaymentEventKind } from '../types/Payment.std.ts';
 import { filterAndClean } from '../util/BodyRange.node.ts';
 import { bytesToUuid } from '../util/uuidToBytes.std.ts';
 import { createName } from '../util/attachmentPath.node.ts';
-import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.ts';
+import {
+  getMessageAttachmentClass,
+  getValidMessageAttachments,
+  partitionBodyAndNormalAttachments,
+} from '../util/Attachment.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
@@ -546,15 +550,25 @@ export function processDataMessage(
     }))
     .filter(isNotNil);
 
+  const logId = `processDataMessage(${timestamp})`;
+
   const { bodyAttachment, attachments } = partitionBodyAndNormalAttachments(
     { attachments: processedAttachments ?? [] },
-    { logId: `processDataMessage(${timestamp})` }
+    { logId }
   );
 
+  const renderableAttachments = getValidMessageAttachments(attachments);
+  if (attachments[0] && renderableAttachments.length < attachments.length) {
+    log.warn(
+      `${logId}: message leads with ${getMessageAttachmentClass(attachments)} but ` +
+        `has ${attachments.length} attachments; dropping ` +
+        `${attachments.length - renderableAttachments.length}`
+    );
+  }
   const result: ProcessedDataMessage = {
     body: message.body ?? '',
     bodyAttachment,
-    attachments,
+    attachments: renderableAttachments,
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: DurationInSeconds.fromSeconds(message.expireTimer ?? 0),
@@ -625,10 +639,12 @@ export function processDataMessage(
 
   const attachmentCount = result.attachments.length;
   if (attachmentCount > ATTACHMENT_MAX) {
-    throw new Error(
+    log.warn(
       `Too many attachments: ${attachmentCount} included in one message, ` +
         `max is ${ATTACHMENT_MAX}`
     );
+
+    result.attachments = result.attachments.slice(0, ATTACHMENT_MAX);
   }
 
   return result;
