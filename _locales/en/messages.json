@@ -1378,6 +1378,10 @@
     "messageformat": "Mute",
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
+  "icu:muted": {
+    "messageformat": "Muted",
+    "description": "Label for icon showing conversation is muted"
+  },
   "icu:cannotUpdateDetail-v2": {
     "messageformat": "Signal couldn't update. <retryUpdateButton>Retry update</retryUpdateButton> or visit {url} to install it manually. Then, <contactSupportLink>contact support</contactSupportLink> about this problem",
     "description": "Shown if a general error happened while trying to install update package"

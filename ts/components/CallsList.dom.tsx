@@ -60,6 +60,13 @@ import { DAY, MINUTE, SECOND } from '../util/durations/index.std.ts';
 import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { ICUJSXMessageParamsByKeyType } from '../types/Util.std.ts';
+import {
+  getNotifyWhileMuted,
+  type NotifyWhileMuted,
+} from '../util/notifyWhileMuted.std.ts';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import { isConversationMuted } from '../util/isConversationMuted.std.ts';
 
 const log = createLogger('CallsList');
 
@@ -134,6 +141,7 @@ type CallsListProps = Readonly<{
   getCall: (id: string) => CallStateType | undefined;
   getCallLink: (id: string) => CallLinkType | undefined;
   getConversation: (id: string) => ConversationType | void;
+  globalNotifyWhileMuted: NotifyWhileMuted;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
   selectedCallHistoryGroup: CallHistoryGroup | null;
@@ -179,6 +187,7 @@ export function CallsList({
   getCall,
   getCallLink,
   getConversation,
+  globalNotifyWhileMuted,
   i18n,
   selectedCallHistoryGroup,
   onCreateCallLink,
@@ -891,6 +900,10 @@ export function CallsList({
         />
       );
 
+      const isMutedForCalls =
+        isConversationMuted(conversation) &&
+        !getNotifyWhileMuted(conversation, globalNotifyWhileMuted).calls;
+
       return (
         <div
           key={key}
@@ -924,8 +937,20 @@ export function CallsList({
             }
             trailing={isCallButtonVisible ? callButton : undefined}
             title={
-              <span className="CallsList__ItemTitle">
-                <UserText text={conversation.title} />
+              <span className={tw('flex items-center font-semibold')}>
+                <span className={tw('truncate')}>
+                  <UserText text={conversation.title} />
+                </span>
+                {isMutedForCalls ? (
+                  <span
+                    className={tw('ms-2 shrink-0 font-regular text-secondary')}
+                  >
+                    <AxoSymbol.InlineGlyph
+                      symbol="bell-slash"
+                      label={i18n('icu:muted')}
+                    />
+                  </span>
+                ) : null}
               </span>
             }
             subtitleMaxLines={1}
@@ -973,6 +998,7 @@ export function CallsList({
       getIsAnybodyInCall,
       getIsCallActive,
       getIsInCall,
+      globalNotifyWhileMuted,
       hasMissedCallFilter,
       hasSearchStateQuery,
       selectedCallHistoryGroup,
