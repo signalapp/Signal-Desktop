@@ -3226,6 +3226,15 @@ ipc.handle('get-media-access-status', async (_event, value) => {
 ipc.handle(
   'open-system-media-permissions',
   async (_event, mediaType: 'camera' | 'microphone' | 'screenCapture') => {
+    if (OS.isWindows()) {
+      // Windows has no privacy page for screenCapture
+      if (mediaType === 'camera') {
+        await shell.openExternal('ms-settings:privacy-webcam');
+      } else if (mediaType === 'microphone') {
+        await shell.openExternal('ms-settings:privacy-microphone');
+      }
+      return;
+    }
     if (!OS.isMacOS()) {
       return;
     }

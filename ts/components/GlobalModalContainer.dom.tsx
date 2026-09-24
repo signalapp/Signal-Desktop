@@ -104,6 +104,7 @@ export type PropsType = {
     | {
         mediaType: 'camera' | 'microphone';
         requestor: 'call' | 'voiceNote';
+        osName: 'macos' | 'windows';
       }
     | undefined;
   closeMediaPermissionsModal: () => void;

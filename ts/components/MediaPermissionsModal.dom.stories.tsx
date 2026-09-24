@@ -21,6 +21,7 @@ export default {
   args: {
     mediaType: 'camera',
     requestor: 'call',
+    osName: 'macos',
     openSystemMediaPermissions: action('onOpenSystemMediaPermissions'),
     onClose: action('onClose'),
   },
@@ -36,4 +37,12 @@ export function Microphone(props: TemplateProps): JSX.Element {
 
 export function VoiceNote(props: TemplateProps): JSX.Element {
   return <Template {...props} requestor="voiceNote" mediaType="microphone" />;
+}
+
+export function WindowsCamera(props: TemplateProps): JSX.Element {
+  return <Template {...props} osName="windows" mediaType="camera" />;
+}
+
+export function WindowsMicrophone(props: TemplateProps): JSX.Element {
+  return <Template {...props} osName="windows" mediaType="microphone" />;
 }

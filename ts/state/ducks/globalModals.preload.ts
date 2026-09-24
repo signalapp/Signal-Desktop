@@ -177,6 +177,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   mediaPermissionsModalProps?: {
     mediaType: 'camera' | 'microphone';
     requestor: 'call' | 'voiceNote';
+    osName: 'macos' | 'windows';
     abortController: AbortController;
   };
   safetyNumberChangedBlockingData?: SafetyNumberChangedBlockingDataType;
@@ -508,6 +509,7 @@ type ShowMediaPermissionsModalActionType = ReadonlyDeep<{
   payload: {
     mediaType: 'camera' | 'microphone';
     requestor: 'call' | 'voiceNote';
+    osName: 'macos' | 'windows';
     abortController: AbortController;
   };
 }>;
@@ -1405,8 +1407,8 @@ function ensureSystemMediaPermissions(
   ShowMediaPermissionsModalActionType | CloseMediaPermissionsModalActionType
 > {
   return async dispatch => {
-    // Only macOS supported at the moment
-    if (!OS.isMacOS()) {
+    // getMediaAccessStatus is only implemented on macOS and Windows
+    if (!OS.isMacOS() && !OS.isWindows()) {
       return;
     }
 
@@ -1421,7 +1423,12 @@ function ensureSystemMediaPermissions(
     const abortController = new AbortController();
     dispatch({
       type: SHOW_MEDIA_PERMISSIONS_MODAL,
-      payload: { mediaType, requestor, abortController },
+      payload: {
+        mediaType,
+        requestor,
+        osName: OS.isWindows() ? 'windows' : 'macos',
+        abortController,
+      },
     });
 
     const { signal } = abortController;
