@@ -50,6 +50,8 @@ export function resolveDraftAttachmentOnDisk(
     height,
     version,
     localKey,
+    screenshot,
+    screenshotPath,
   } = attachment;
 
   return {
@@ -65,6 +67,8 @@ export function resolveDraftAttachmentOnDisk(
     height,
     version,
     localKey,
+    screenshot,
+    screenshotPath,
     pending: false,
     url,
   };
