@@ -7,7 +7,11 @@ import { expect } from 'playwright/test';
 import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
 import { DAY, MINUTE } from '../../util/durations/index.std.ts';
-import { typeIntoInput } from '../helpers.node.ts';
+import {
+  clearVerificationCode,
+  typeIntoInput,
+  typeVerificationCode,
+} from '../helpers.node.ts';
 import { assert } from 'chai';
 import { randomBytes } from 'node:crypto';
 import { toHex } from '../../Bytes.std.ts';
@@ -71,17 +75,7 @@ describe('registration', function (this: Mocha.Suite) {
 
     {
       debug('VERIFICATION_CODE: enter incorrect code');
-      const INCORRECT_CODE = '123456';
-      for (let i = 0; i < INCORRECT_CODE.length; i += 1) {
-        const char = INCORRECT_CODE[i];
-        if (!char) {
-          continue;
-        }
-
-        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
-        // oxlint-disable-next-line no-await-in-loop
-        await typeIntoInput(codeInput, char, '');
-      }
+      await typeVerificationCode(window, '123456');
 
       await window.getByRole('button', { name: 'Continue' }).click();
 
@@ -91,27 +85,8 @@ describe('registration', function (this: Mocha.Suite) {
 
     {
       debug('VERIFICATION_CODE: enter correct code');
-      const CORRECT_CODE = '111111';
-
-      // We need to delete the content from the left-most input 6 times
-      const firstInput = window.getByLabel(`Character 1 of 6`);
-      await firstInput.clear();
-      await firstInput.clear();
-      await firstInput.clear();
-      await firstInput.clear();
-      await firstInput.clear();
-      await firstInput.clear();
-
-      for (let i = 0; i < CORRECT_CODE.length; i += 1) {
-        const char = CORRECT_CODE[i];
-        if (!char) {
-          continue;
-        }
-
-        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
-        // oxlint-disable-next-line no-await-in-loop
-        await typeIntoInput(codeInput, char, '');
-      }
+      await clearVerificationCode(window);
+      await typeVerificationCode(window, '111111');
 
       await window.getByRole('button', { name: 'Continue' }).click();
     }
@@ -194,17 +169,7 @@ describe('registration', function (this: Mocha.Suite) {
 
     {
       debug('VERIFICATION_CODE: enter code');
-      const CODE = '111111';
-      for (let i = 0; i < CODE.length; i += 1) {
-        const char = CODE[i];
-        if (!char) {
-          continue;
-        }
-
-        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
-        // oxlint-disable-next-line no-await-in-loop
-        await typeIntoInput(codeInput, char, '');
-      }
+      await typeVerificationCode(window, '111111');
 
       // Force server to return storageCapable: true
       server.setRegisterResponseData({ storageCapable: true });
@@ -308,17 +273,7 @@ describe('registration', function (this: Mocha.Suite) {
 
     {
       debug('VERIFICATION_CODE: enter code');
-      const CODE = '111111';
-      for (let i = 0; i < CODE.length; i += 1) {
-        const char = CODE[i];
-        if (!char) {
-          continue;
-        }
-
-        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
-        // oxlint-disable-next-line no-await-in-loop
-        await typeIntoInput(codeInput, char, '');
-      }
+      await typeVerificationCode(window, '111111');
 
       // Force server to return error telling us that reglock is active
       server.setRegisterResponseError({
@@ -435,17 +390,7 @@ describe('registration', function (this: Mocha.Suite) {
 
     {
       debug('VERIFICATION_CODE: enter code');
-      const CODE = '111111';
-      for (let i = 0; i < CODE.length; i += 1) {
-        const char = CODE[i];
-        if (!char) {
-          continue;
-        }
-
-        const codeInput = window.getByLabel(`Character ${i + 1} of 6`);
-        // oxlint-disable-next-line no-await-in-loop
-        await typeIntoInput(codeInput, char, '');
-      }
+      await typeVerificationCode(window, '111111');
 
       // Force server to return error telling us that reglock is active
       server.setRegisterResponseError({
