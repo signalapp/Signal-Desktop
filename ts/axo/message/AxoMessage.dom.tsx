@@ -300,6 +300,7 @@ export namespace AxoMessage {
       <AxoSymbol.InlineGlyph
         symbol={OutgoingStatusSymbols.get(props.status)}
         label={null}
+        preferWide
       />
     );
 

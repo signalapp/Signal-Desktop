@@ -44,7 +44,6 @@ export function MediaQualitySelector({
           variant="implied-secondary"
           size="md"
           symbol={isHighQuality ? 'hd' : 'hd-slash'}
-          iconWeight={300}
           label={i18n('icu:MediaQualitySelector--button')}
           tooltip={false}
         />

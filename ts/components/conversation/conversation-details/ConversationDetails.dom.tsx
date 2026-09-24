@@ -489,7 +489,7 @@ export function ConversationDetails({
           <>
             <List>
               <AxoTextItem.Root
-                symbol="officialbadge"
+                symbol="seal-check"
                 label={i18n('icu:ConversationHero--signal-official-chat')}
               />
               <AxoTextItem.Root
@@ -500,7 +500,7 @@ export function ConversationDetails({
 
             <List label={i18n('icu:ConversationDetails--help-section')}>
               <AxoClickableItem.Root
-                symbol="help-circle"
+                symbol="question-circle"
                 label={i18n('icu:ConversationDetails--support-center')}
                 arrow="external-link"
                 onClick={() => {

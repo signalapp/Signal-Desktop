@@ -122,12 +122,7 @@ export function MessageRequestActions({
         />
       ) : null}
       <div className="module-message-request-actions">
-        <div
-          className={tw(
-            // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-            'mb-2 text-center type-body-medium text-[#C84118]'
-          )}
-        >
+        <div className={tw('mb-2 text-center type-body-medium text-safety')}>
           <AxoSymbol.InlineGlyph symbol="error-triangle" label={null} />
           &nbsp;
           {i18n('icu:MessageRequestWarning__review-carefully')}

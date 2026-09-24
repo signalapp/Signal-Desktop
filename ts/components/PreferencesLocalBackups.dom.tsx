@@ -847,7 +847,7 @@ function LocalBackupSetupIcon(props: { symbol: 'key' | 'lock' }): JSX.Element {
     <div
       className={tw(
         // eslint-disable-next-line better-tailwindcss/no-restricted-classes
-        'inline-flex size-16 items-center justify-center rounded-full bg-[#D2DFFB] text-[#3B45FD]'
+        'inline-flex size-16 items-center justify-center rounded-full bg-[#D2DFFB] text-(--axo-color-brand-primary)'
       )}
     >
       <AxoSymbol.Icon symbol={props.symbol} size={36} label={null} />

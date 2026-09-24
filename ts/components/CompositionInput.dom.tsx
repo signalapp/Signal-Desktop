@@ -1143,7 +1143,6 @@ export function CompositionInput(props: Props): ReactElement {
                     <AxoSymbol.Icon
                       size={20}
                       symbol={isViewOnceActive ? 'viewonce' : 'viewonce-slash'}
-                      weight={300}
                       label={null}
                     />
                   </button>

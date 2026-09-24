@@ -441,7 +441,10 @@ function PinActionsMenu(props: {
               {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
             </AxoDropdownMenu.Item>
           )}
-          <AxoDropdownMenu.Item symbol="message-arrow" onSelect={handlePinGoTo}>
+          <AxoDropdownMenu.Item
+            symbol="message-arrow-forward"
+            onSelect={handlePinGoTo}
+          >
             {i18n('icu:PinnedMessagesBar__ActionsMenu__GoToMessage')}
           </AxoDropdownMenu.Item>
           <AxoDropdownMenu.Item

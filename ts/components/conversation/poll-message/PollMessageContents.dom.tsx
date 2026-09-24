@@ -27,13 +27,13 @@ function VotedCheckmark({
       className={tw(
         'size-4 rounded-full',
         'flex items-center justify-center',
-        'text-[10px]',
         isIncoming
           ? 'bg-accent text-primary-oncolor'
           : 'bg-(--axo-color-label-primary-oncolor) text-(--axo-color-surface-message-outgoing)'
       )}
     >
-      <AxoSymbol.InlineGlyph
+      <AxoSymbol.Icon
+        size={12}
         symbol="check"
         label={i18n('icu:PollMessage--YouVoted')}
       />

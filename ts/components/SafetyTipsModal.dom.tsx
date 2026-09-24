@@ -251,7 +251,6 @@ function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
             <div className={pageIndex === 0 ? tw('invisible') : ''}>
               <AxoIconButton.Root
                 variant="strong-secondary"
-                iconWeight={300}
                 label={i18n('icu:previous')}
                 tooltip={false}
                 symbol="chevron-[start]"
@@ -284,7 +283,6 @@ function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
                 symbol="chevron-[end]"
                 variant="strong-secondary"
                 tooltip={false}
-                iconWeight={300}
                 label={i18n('icu:next')}
                 disabled={pageIndex === maxPageIndex}
                 size="sm"

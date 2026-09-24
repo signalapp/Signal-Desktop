@@ -329,8 +329,9 @@ const NameNotVerifiedWarning: FC<{
   return (
     <button
       className={tw(
-        'mt-2 rounded-3xl bg-(--axo-color-legacy-warning-badge)/12 px-2.5 py-1',
-        'type-body-medium font-medium text-(--axo-color-legacy-warning-badge)'
+        'mt-2 rounded-3xl bg-safety-tint px-2.5 py-1',
+        'type-body-medium font-medium text-safety',
+        'active:bg-safety-tint-pressed'
       )}
       type="button"
       onClick={ev => {
@@ -341,10 +342,10 @@ const NameNotVerifiedWarning: FC<{
       {conversationType === 'direct' ? (
         <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
       ) : (
-        // TODO: DESKTOP-10050
-        <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
+        <AxoSymbol.InlineGlyph symbol="group-question" label={null} />
       )}
-      &nbsp; {i18n('icu:ConversationHero--name-not-verified')}
+      &nbsp;
+      {i18n('icu:ConversationHero--name-not-verified')}
     </button>
   );
 };
@@ -376,7 +377,7 @@ const OfficialChatBadge: FC<{
         'type-body-medium font-medium text-(--axo-color-legacy-official-chat-badge-text)'
       )}
     >
-      <AxoSymbol.InlineGlyph symbol="officialbadge" label={null} />
+      <AxoSymbol.InlineGlyph symbol="seal-check" label={null} />
       &nbsp;
       {i18n('icu:ConversationHero--signal-official-chat-title')}
     </div>

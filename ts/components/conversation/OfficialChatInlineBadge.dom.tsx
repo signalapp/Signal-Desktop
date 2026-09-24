@@ -17,7 +17,7 @@ export function OfficialChatInlineBadge(): JSX.Element {
         'bg-size-[50%_50%] bg-center bg-no-repeat'
       )}
     >
-      <AxoSymbol.InlineGlyph symbol="officialbadge-fill" label={null} />
+      <AxoSymbol.InlineGlyph symbol="seal-check-fill" label={null} />
     </span>
   );
 }
