@@ -33,6 +33,18 @@ const i18n = setupI18n('en', messages);
 const meta = {
   component: StandaloneRegistration,
   title: 'Components/StandaloneRegistration',
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    Story => {
+      return (
+        <div style={{ width: '100vw', height: '100vh' }}>
+          <Story />
+        </div>
+      );
+    },
+  ],
 } satisfies Meta<typeof StandaloneRegistration>;
 
 const phoneNumber = '+14155551111';

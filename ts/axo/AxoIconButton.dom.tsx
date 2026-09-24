@@ -215,10 +215,6 @@ export namespace AxoIconButton {
      */
     symbol: AxoSymbol.Name;
     /**
-     * Stroke weight override for the icon.
-     */
-    iconWeight?: AxoSymbol.Weight;
-    /**
      * When `true`, shows a spinner and prevents interaction.
      */
     pending?: boolean | null;
@@ -279,7 +275,6 @@ export namespace AxoIconButton {
       variant,
       size,
       symbol,
-      iconWeight,
       pending,
       pressed,
       disabled,
@@ -336,7 +331,6 @@ export namespace AxoIconButton {
             size={IconSizes.get(size)}
             symbol={symbol}
             label={null}
-            weight={iconWeight}
           />
         </span>
         {pending && <Spinner buttonVariant={variant} buttonSize={size} />}

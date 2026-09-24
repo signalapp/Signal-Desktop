@@ -11,6 +11,7 @@ dist/**
 libtextsecure/components.js
 stylesheets/*.css
 ts/**/*.js
+ts/axo/_internal/AxoSymbolDefs.generated.std.ts
 ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css

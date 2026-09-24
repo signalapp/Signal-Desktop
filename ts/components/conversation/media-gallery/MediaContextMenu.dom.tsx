@@ -53,7 +53,10 @@ export function MediaContextMenu(props: PropsType): JSX.Element {
       <AxoContextMenu.Root>
         <AxoContextMenu.Trigger>{children}</AxoContextMenu.Trigger>
         <AxoContextMenu.Content>
-          <AxoContextMenu.Item symbol="message-arrow" onSelect={showMessage}>
+          <AxoContextMenu.Item
+            symbol="message-arrow-forward"
+            onSelect={showMessage}
+          >
             {i18n('icu:MediaGallery__ContextMenu__ViewInChat')}
           </AxoContextMenu.Item>
           {forwardAttachment && (

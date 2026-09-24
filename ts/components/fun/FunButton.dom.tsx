@@ -21,7 +21,7 @@ export function FunPickerButton(props: FunPickerButtonProps): JSX.Element {
   return (
     <Pressable>
       <AxoIconButton.Root
-        symbol="emoji"
+        symbol="face-smiling"
         variant="implied-secondary"
         label={i18n('icu:FunButton__Label--FunPicker')}
         size="md"

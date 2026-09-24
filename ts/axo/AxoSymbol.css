@@ -1,0 +1,26 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-symbol-glyph {
+    @apply font-symbols select-none;
+    @apply leading-none;
+    /* Ensure forced-colors mode treats this as inline text */
+    @apply text-inherit forced-color-adjust-none;
+    /* Inline glyphs should inherit the font weight of their surrounding text */
+    font-weight: inherit;
+  }
+
+  .axo-symbol-label {
+    @apply select-none;
+  }
+
+  .axo-symbol-icon {
+    @apply size-[1em];
+    @apply inline-flex shrink-0 items-center justify-center;
+    @apply align-middle;
+    @apply font-regular;
+  }
+}

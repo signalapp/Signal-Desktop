@@ -139,7 +139,7 @@ function Template(props: TemplateProps): ReactNode {
 }
 
 const EMOJI_ACTION = (
-  <AxoTextField.Action label="Insert emoji" symbol="emoji" />
+  <AxoTextField.Action label="Insert emoji" symbol="face-smiling" />
 );
 const MENU_ACTION = <AxoTextField.Action label="More actions" symbol="menu" />;
 

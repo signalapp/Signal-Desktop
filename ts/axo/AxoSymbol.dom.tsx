@@ -1,16 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, JSX } from 'react';
+import type { CSSProperties, FC, JSX } from 'react';
 import { memo, useMemo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
-import { tw } from './tw.dom.tsx';
 import {
   _getAxoSymbolIcon,
   _getAxoSymbolInlineGlyph,
 } from './_internal/AxoSymbolDefs.generated.std.ts';
 import type { _AxoSymbolName } from './_internal/AxoSymbolDefs.generated.std.ts';
-import { variants } from './_internal/variants.dom.tsx';
 
 const { useDirection } = Direction;
 
@@ -30,53 +28,29 @@ const { useDirection } = Direction;
 export namespace AxoSymbol {
   export type Name = _AxoSymbolName;
 
-  /**
-   * Stroke weight of the symbol.
-   * - `300` – light
-   * - `400` – regular (default)
-   * - `700` – semibold
-   */
-  export type Weight = 300 | 400 | 700;
+  export type Weight = 300 | 400 | 600;
 
   /**
    * useRenderSymbol()
    * --------------------------------------
    */
 
-  const WeightStyles = variants<Weight>('AxoSymbol.Weight', {
-    300: tw('font-light'),
-    400: tw(),
-    700: tw('font-semibold'),
-  });
-
   /** @internal */
-  function useRenderSymbol(
-    glyph: string,
-    label: string | null,
-    weight: Weight
-  ): JSX.Element {
+  function useRenderSymbol(glyph: string, label: string | null): JSX.Element {
     return useMemo(() => {
       return (
         <>
-          <span
-            aria-hidden
-            className={tw(
-              'font-symbols select-none',
-              // Ensure forced-colors mode treats this as inline text
-              'text-inherit forced-color-adjust-none',
-              WeightStyles.get(weight)
-            )}
-          >
+          <span aria-hidden className="axo-symbol-glyph">
             {glyph}
           </span>
           {label != null && (
-            <VisuallyHidden className={tw('select-none')}>
+            <VisuallyHidden className="axo-symbol-label">
               {label}
             </VisuallyHidden>
           )}
         </>
       );
-    }, [glyph, label, weight]);
+    }, [glyph, label]);
   }
 
   /**
@@ -93,6 +67,8 @@ export namespace AxoSymbol {
      * conveys the meaning.
      */
     label: string | null;
+    /** Prefer the -wide variants of glyphs (if available) */
+    preferWide?: boolean;
   }>;
 
   /**
@@ -118,8 +94,10 @@ export namespace AxoSymbol {
    */
   export const InlineGlyph: FC<InlineGlyphProps> = memo(props => {
     const direction = useDirection();
-    const glyph = _getAxoSymbolInlineGlyph(props.symbol, direction);
-    const content = useRenderSymbol(glyph, props.label, 400);
+    const glyph = props.preferWide
+      ? _getAxoSymbolIcon(props.symbol, direction)
+      : _getAxoSymbolInlineGlyph(props.symbol, direction);
+    const content = useRenderSymbol(glyph, props.label);
     return content;
   });
 
@@ -133,22 +111,6 @@ export namespace AxoSymbol {
   /** Available icon sizes in pixels. */
   export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 36 | 48;
 
-  const IconSizes = variants<IconSize>('AxoSymbol.IconSize', {
-    12: tw('size-[12px] text-[10px]'),
-    14: tw('size-[14px] text-[12px]'),
-    16: tw('size-[16px] text-[14px]'),
-    18: tw('size-[18px] text-[16px]'),
-    20: tw('size-[20px] text-[18px]'),
-    24: tw('size-[24px] text-[22px]'),
-    36: tw('size-[36px] text-[34px]'),
-    48: tw('size-[48px] text-[44px]'),
-  });
-
-  /** @testexport */
-  export function _getAllIconSizes(): ReadonlyArray<IconSize> {
-    return IconSizes.keys().map(size => Number(size) as IconSize);
-  }
-
   export type IconProps = Readonly<{
     /** Size of the icon in pixels. */
     size: IconSize;
@@ -160,13 +122,7 @@ export namespace AxoSymbol {
      * conveys the meaning.
      */
     label: string | null;
-    /** Stroke weight of the icon. Defaults to `400`. */
-    weight?: Weight;
   }>;
-
-  const iconStyles = tw(
-    'inline-flex size-[1em] shrink-0 items-center justify-center align-middle leading-none'
-  );
 
   /**
    * A fixed-size icon. Prefer using this when the width and height both matter.
@@ -184,12 +140,17 @@ export namespace AxoSymbol {
    * ```
    */
   export const Icon: FC<IconProps> = memo(props => {
+    const { size } = props;
     const direction = useDirection();
-    const weight = props.weight ?? 400;
     const glyph = _getAxoSymbolIcon(props.symbol, direction);
-    const content = useRenderSymbol(glyph, props.label, weight);
+    const content = useRenderSymbol(glyph, props.label);
+
+    const style = useMemo((): CSSProperties => {
+      return { fontSize: size };
+    }, [size]);
+
     return (
-      <span className={tw(iconStyles, IconSizes.get(props.size))}>
+      <span className="axo-symbol-icon" style={style}>
         {content}
       </span>
     );

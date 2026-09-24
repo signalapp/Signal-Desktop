@@ -364,7 +364,6 @@ export const ConversationHeader = memo(function ConversationHeader({
                 <AxoIconButton.Root
                   symbol={isMuted ? 'bell-slash' : 'bell'}
                   size="md"
-                  iconWeight={300}
                   variant="implied-secondary"
                   onClick={() =>
                     onConversationMuteExpirationChange(
@@ -377,7 +376,6 @@ export const ConversationHeader = memo(function ConversationHeader({
               <AxoIconButton.Root
                 symbol="search"
                 size="md"
-                iconWeight={300}
                 onClick={onSearchInConversation}
                 label={i18n('icu:search')}
                 variant="implied-secondary"
@@ -387,7 +385,6 @@ export const ConversationHeader = memo(function ConversationHeader({
                 <AxoDropdownMenu.Trigger disabled={isSelectMode}>
                   <AxoIconButton.Root
                     size="md"
-                    iconWeight={300}
                     onClick={onSearchInConversation}
                     symbol="more"
                     label={i18n('icu:moreInfo')}
@@ -986,7 +983,6 @@ function OutgoingCallButtons({
     >
       <AxoIconButton.Root
         symbol="videocamera"
-        iconWeight={300}
         size="md"
         onClick={onOutgoingVideoCall}
         label={i18n('icu:makeOutgoingVideoCall')}
@@ -1017,7 +1013,6 @@ function OutgoingCallButtons({
         >
           <AxoIconButton.Root
             symbol="phone"
-            iconWeight={300}
             size="md"
             onClick={onOutgoingAudioCall}
             label={i18n('icu:makeOutgoingCall')}

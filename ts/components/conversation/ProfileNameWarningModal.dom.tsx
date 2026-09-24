@@ -33,14 +33,23 @@ export function ProfileNameWarningModal({
           <div className={tw('flex justify-center')}>
             <div
               className={tw(
-                'rounded-3xl bg-(--axo-color-legacy-warning-badge)/12 px-4 py-1.5',
-                'type-title-large font-regular text-(--axo-color-legacy-warning-badge)'
+                'flex size-12 items-center justify-center',
+                'bg-safety-tint text-safety',
+                'rounded-3xl'
               )}
             >
               {conversationType === 'direct' ? (
-                <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
+                <AxoSymbol.Icon
+                  size={24}
+                  symbol="person-question"
+                  label={null}
+                />
               ) : (
-                <AxoSymbol.InlineGlyph symbol="person-question" label={null} />
+                <AxoSymbol.Icon
+                  size={24}
+                  symbol="group-question"
+                  label={null}
+                />
               )}
             </div>
           </div>

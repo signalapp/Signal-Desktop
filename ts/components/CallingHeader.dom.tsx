@@ -55,7 +55,6 @@ export function CallingHeader({
               <AxoIconButton.Root
                 variant="elevated-secondary"
                 size="lg"
-                iconWeight={300}
                 symbol={getCallViewModeIcon(callViewMode)}
                 label={i18n('icu:calling__change-layout')}
               />
@@ -95,7 +94,6 @@ export function CallingHeader({
       <AxoIconButton.Root
         variant="elevated-secondary"
         size="lg"
-        iconWeight={300}
         symbol="settings"
         label={i18n('icu:callingDeviceSelection__settings')}
         onClick={toggleSettings}
@@ -104,7 +102,6 @@ export function CallingHeader({
         <AxoIconButton.Root
           variant="elevated-secondary"
           size="lg"
-          iconWeight={300}
           symbol="pip"
           label={i18n('icu:calling__pip--on')}
           onClick={togglePip}
@@ -114,7 +111,6 @@ export function CallingHeader({
         <AxoIconButton.Root
           variant="elevated-secondary"
           size="lg"
-          iconWeight={300}
           symbol="x"
           label={i18n('icu:cancel')}
           onClick={onCancel}

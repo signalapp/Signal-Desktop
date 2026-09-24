@@ -528,5 +528,4 @@
   --axo-color-legacy-official-chat-badge-bg:   light-dark(--alpha(#4655FF / 12%), --alpha(#4952F8 / 40%));
   --axo-color-legacy-official-chat-badge-text: light-dark(#030FFC, #C2C5FE);
   --axo-color-legacy-signal-chat-message-bg:   light-dark(#8889B4, #444664);
-  --axo-color-legacy-warning-badge:            light-dark(#C84118, #EB977D);
 }
