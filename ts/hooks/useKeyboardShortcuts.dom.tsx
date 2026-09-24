@@ -8,6 +8,7 @@ import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
 import { getHasPanelOpen } from '../state/selectors/nav.std.ts';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.ts';
 import { getIsInFullScreenCall } from '../state/selectors/isInFullScreenCall.std.ts';
+import { shouldShowLightbox } from '../state/selectors/lightbox.std.ts';
 
 const { get } = lodash;
 
@@ -92,12 +93,17 @@ function useHasCalling(): boolean {
   return useSelector(getIsInFullScreenCall);
 }
 
+function useHasLightbox(): boolean {
+  return useSelector(shouldShowLightbox);
+}
+
 function useHasAnyOverlay(): boolean {
   const panels = useHasPanels();
   const globalModal = useHasGlobalModal();
   const calling = useHasCalling();
+  const lightbox = useHasLightbox();
 
-  return panels || globalModal || calling;
+  return panels || globalModal || calling || lightbox;
 }
 
 export function isKeyboardActivation(event: KeyboardEvent): boolean {
