@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 
-import type { ToFindType } from './LeftPaneHelper.dom.tsx';
+import { FindDirection, type ToFindType } from './LeftPaneHelper.dom.tsx';
 import { LeftPaneHelper } from './LeftPaneHelper.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { Row } from '../ConversationList.dom.tsx';
@@ -26,6 +26,11 @@ import { UserText } from '../UserText.dom.tsx';
 //   if, in some extremely tall window, we have some empty space. So we just hard-code a
 //   fairly big number.
 const SEARCH_RESULTS_FAKE_ROW_COUNT = 99;
+
+type ConversationAndMessageType = {
+  conversationId: string;
+  messageId?: string;
+};
 
 type MaybeLoadedSearchResultsType<T> =
   | { isLoading: true }
@@ -394,13 +399,45 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     return undefined;
   }
 
-  // This is currently unimplemented. See DESKTOP-1170.
   getConversationAndMessageInDirection(
-    _toFind: Readonly<ToFindType>,
-    _selectedConversationId: undefined | string,
-    _targetedMessageId: unknown
-  ): undefined | { conversationId: string } {
-    return undefined;
+    toFind: Readonly<ToFindType>,
+    selectedConversationId: undefined | string,
+    targetedMessageId: undefined | string
+  ): undefined | ConversationAndMessageType {
+    if (toFind.unreadOnly) {
+      return undefined;
+    }
+
+    const results = this.#getConversationAndMessageResults();
+    if (!results || !results.length) {
+      return undefined;
+    }
+
+    let selectedIndex = -1;
+    if (targetedMessageId) {
+      selectedIndex = results.findIndex(
+        result => result.messageId === targetedMessageId
+      );
+    }
+    if (selectedIndex < 0 && selectedConversationId) {
+      selectedIndex = results.findIndex(
+        result =>
+          result.messageId == null &&
+          result.conversationId === selectedConversationId
+      );
+    }
+
+    let nextIndex: number;
+    if (selectedIndex < 0) {
+      nextIndex =
+        toFind.direction === FindDirection.Up ? results.length - 1 : 0;
+    } else {
+      const step = toFind.direction === FindDirection.Up ? -1 : 1;
+      nextIndex = (selectedIndex + step + results.length) % results.length;
+    }
+    const result = results[nextIndex];
+    strictAssert(result, 'Missing search result');
+    return result;
   }
 
   override onKeyDown(
@@ -424,6 +461,29 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   #isLoading(): boolean {
     return this.#allResults().some(results => results.isLoading);
+  }
+
+  #getConversationAndMessageResults():
+    | undefined
+    | Array<ConversationAndMessageType> {
+    const results: Array<ConversationAndMessageType> = [];
+    for (const list of this.#allResults()) {
+      if (list.isLoading) {
+        return undefined;
+      }
+
+      for (const result of list.results) {
+        results.push(
+          result.type === 'incoming' || result.type === 'outgoing'
+            ? {
+                conversationId: result.conversationId,
+                messageId: result.id,
+              }
+            : { conversationId: result.id }
+        );
+      }
+    }
+    return results;
   }
 
   readonly #onEnterKeyDown = (

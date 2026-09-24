@@ -176,7 +176,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   getConversationAndMessageAtIndex(
     conversationIndex: number
-  ): undefined | { conversationId: string } {
+  ): undefined | { conversationId: string; messageId?: string } {
     const searchHelper = this.#searchHelper;
     const archivedConversations = this.#archivedConversations;
 
@@ -192,8 +192,8 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   getConversationAndMessageInDirection(
     toFind: Readonly<ToFindType>,
     selectedConversationId: undefined | string,
-    targetedMessageId: unknown
-  ): undefined | { conversationId: string } {
+    targetedMessageId: undefined | string
+  ): undefined | { conversationId: string; messageId?: string } {
     if (this.#searchHelper) {
       return this.#searchHelper.getConversationAndMessageInDirection(
         toFind,
