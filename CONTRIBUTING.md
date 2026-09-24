@@ -42,7 +42,7 @@ post about your plans. That way you'll get feedback from the users most likely t
 appreciate your changes. And we may tell you not to move forward with changes, because we
 have other plans for the issue itself or that area of the code.
 
-Than, once you've spent some time planning your solution, please consider going back
+Then, once you've spent some time planning your solution, please consider going back
 to the issue and talking about your approach. We'd be happy to provide feedback.
 
 The PRs most likely to be merged are the ones that fix issues with real user impact,
