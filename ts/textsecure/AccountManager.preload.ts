@@ -1248,10 +1248,10 @@ export default class AccountManager extends EventTarget {
         response.aci.getServiceIdString(),
         '#doCreateAccount'
       );
-      ourPni = normalizePni(
-        response.pni.getServiceIdString(),
-        '#doCreateAccount'
-      );
+      ourPni =
+        response.pni == null
+          ? undefined
+          : normalizePni(response.pni.getServiceIdString(), '#doCreateAccount');
       deviceId = 1;
 
       result = {

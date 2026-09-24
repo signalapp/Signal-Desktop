@@ -120,6 +120,26 @@ type GrpcResponse<Endpoint extends keyof typeof $services> = Parameters<
   (typeof $services)[Endpoint]['Response']['encode']
 >[0];
 
+function convertSendMessageType(
+  type: org.signal.chat.messages.SendMessageType,
+): Proto.Envelope.Type {
+  const { SendMessageType } = org.signal.chat.messages;
+  switch (type) {
+    case SendMessageType.UNSPECIFIED:
+      return Proto.Envelope.Type.UNKNOWN;
+    case SendMessageType.DOUBLE_RATCHET:
+      return Proto.Envelope.Type.DOUBLE_RATCHET;
+    case SendMessageType.PREKEY_MESSAGE:
+      return Proto.Envelope.Type.PREKEY_MESSAGE;
+    case SendMessageType.PLAINTEXT_CONTENT:
+      return Proto.Envelope.Type.PLAINTEXT_CONTENT;
+    case SendMessageType.UNIDENTIFIED_SENDER:
+      return Proto.Envelope.Type.UNIDENTIFIED_SENDER;
+    default:
+      throw new Error(`Unsupported SendMessageType: ${type}`);
+  }
+}
+
 export const createHandler = (server: Server): RequestHandler => {
   function grpcRoute<Endpoint extends keyof typeof $services>(
     endpoint: Endpoint,
@@ -327,6 +347,60 @@ export const createHandler = (server: Server): RequestHandler => {
   const onSendMultiRecipientStory = grpcRoute(
     'org.signal.chat.messages.MessagesAnonymous/SendMultiRecipientStory',
     onMultiRecipientMessage,
+  );
+
+  const onSendSyncMessage = authenticatedGrpcRoute(
+    'org.signal.chat.messages.Messages/SendSyncMessage',
+    async ({ messages: bundle }, device) => {
+      if (!bundle) {
+        throw new Error('Missing bundle');
+      }
+      const { timestamp, messages } = bundle;
+
+      const prepared = await server.prepareMultiDeviceMessage(
+        device,
+        device.aci, // Sending to ourselves
+        Array.from(messages.entries()).map(([deviceId, message]) => {
+          if (!message) {
+            throw new Error('Missing message');
+          }
+
+          return {
+            type: convertSendMessageType(message.type),
+            destinationDeviceId: deviceId as DeviceId,
+            destinationRegistrationId: message.registrationId as RegistrationId,
+            // TODO(indutny): pass buffer
+            content: Buffer.from(message.payload).toString('base64'),
+          };
+        }),
+        timestamp,
+      );
+
+      switch (prepared.status) {
+        case 'ok':
+          await server.handlePreparedMultiDeviceMessage(
+            device,
+            prepared.targetServiceId,
+            prepared.result,
+          );
+          return {
+            response: {
+              success: {},
+            },
+          };
+        case 'unknown':
+          return {
+            response: {
+              destinationNotFound: {},
+            },
+          };
+        case 'incomplete':
+          throw new Error('TODO(indutny)');
+        case 'stale':
+          throw new Error('TODO(indutny)');
+      }
+      throw new Error('TODO(indutny)');
+    },
   );
 
   const onLookupUsernameHash = grpcRoute(
@@ -747,6 +821,7 @@ export const createHandler = (server: Server): RequestHandler => {
     // gRPC
     onSendMultiRecipientMessage,
     onSendMultiRecipientStory,
+    onSendSyncMessage,
     onLookupUsernameHash,
     onLookupUsernameLink,
     onGetUploadForm,

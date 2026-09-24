@@ -8,7 +8,7 @@ import { createReadStream, createWriteStream } from 'node:fs';
 import { mkdir, rm, stat, unlink, writeFile } from 'node:fs/promises';
 import fsExtra from 'fs-extra';
 import { basename, join } from 'node:path';
-import { createGzip, createGunzip } from 'node:zlib';
+import { createGunzip } from 'node:zlib';
 import { createCipheriv, createHmac, randomBytes } from 'node:crypto';
 import lodash from 'lodash';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
@@ -26,7 +26,6 @@ import { getAbsoluteDownloadsPath } from '../../util/migrations.preload.ts';
 import { waitForAllBatchers } from '../../util/batcher.std.ts';
 import { flushAllWaitBatchers } from '../../util/waitBatcher.std.ts';
 import { DelimitedStream } from '../../util/DelimitedStream.node.ts';
-import { appendPaddingStream } from '../../util/logPadding.node.ts';
 import { prependStream } from '../../util/prependStream.node.ts';
 import { appendMacStream } from '../../util/appendMacStream.node.ts';
 import { getMacAndUpdateHmac } from '../../util/getMacAndUpdateHmac.node.ts';
@@ -55,6 +54,11 @@ import { runStorageServiceSyncJob } from '../storage.preload.ts';
 import { BackupExportStream } from './export.preload.ts';
 import { BackupImportStream } from './import.preload.ts';
 import {
+  toPaddedGzipIterable,
+  toDelimitedIterable,
+  toJSONIterable,
+} from './encoding.node.ts';
+import {
   getBackupId,
   getKeyMaterial,
   getLocalBackupMetadataKey,
@@ -63,7 +67,7 @@ import { BackupCredentials } from './credentials.preload.ts';
 import { BackupAPI } from './api.preload.ts';
 import {
   validateBackup,
-  validateBackupStream,
+  validateBackupIterator,
   ValidationType,
 } from './validator.preload.ts';
 import type {
@@ -747,14 +751,11 @@ export class BackupsService {
       const start = Date.now();
 
       window.IPC.startTrackingQueryStats();
-      const recordStream = new BackupExportStream({
-        ...exportOptions,
-        validationRun: true,
-      });
+      const exportStream = new BackupExportStream(exportOptions);
 
-      recordStream.run();
+      const { info, iterable } = exportStream.run();
 
-      const totalBytes = await validateBackupStream(recordStream);
+      const totalBytes = await validateBackupIterator(info, iterable);
       window.IPC.stopTrackingQueryStats({
         epochName: 'Internal Validate Backup',
       });
@@ -764,10 +765,10 @@ export class BackupsService {
       log.info('internal validation: succeeded');
       return {
         result: {
-          attachmentBackupJobs: recordStream.getAttachmentBackupJobs(),
-          mediaNames: recordStream.getMediaNames(),
+          attachmentBackupJobs: exportStream.getAttachmentBackupJobs(),
+          mediaNames: exportStream.getMediaNames(),
           duration,
-          stats: recordStream.getStats(),
+          stats: exportStream.getStats(),
           totalBytes,
         },
       };
@@ -1202,9 +1203,9 @@ export class BackupsService {
       }
 
       const { aesKey, macKey } = getKeyMaterial();
-      const recordStream = new BackupExportStream(options);
+      const exportStream = new BackupExportStream(options);
 
-      recordStream.run();
+      const runOutput = exportStream.run();
 
       const iv = randomBytes(IV_LENGTH);
 
@@ -1215,9 +1216,7 @@ export class BackupsService {
         case 'remote':
         case 'local-encrypted':
           await pipeline(
-            recordStream,
-            createGzip(),
-            appendPaddingStream(),
+            toPaddedGzipIterable(runOutput),
             createCipheriv(CipherType.AES256CBC, aesKey, iv),
             prependStream(iv),
             appendMacStream(macKey),
@@ -1236,7 +1235,7 @@ export class BackupsService {
             'exportBackup: Plaintext backups can be exported only in test harness'
           );
           await pipeline(
-            recordStream,
+            toDelimitedIterable(runOutput),
             measureSize({
               onComplete: size => {
                 totalBytes = size;
@@ -1248,7 +1247,7 @@ export class BackupsService {
           break;
         case 'plaintext-export':
           await pipeline(
-            recordStream,
+            toJSONIterable(runOutput, log),
             measureSize({
               onComplete: size => {
                 totalBytes = size;
@@ -1264,10 +1263,10 @@ export class BackupsService {
 
       const duration = Date.now() - start;
       return {
-        attachmentBackupJobs: recordStream.getAttachmentBackupJobs(),
-        mediaNames: recordStream.getMediaNames(),
+        attachmentBackupJobs: exportStream.getAttachmentBackupJobs(),
+        mediaNames: exportStream.getMediaNames(),
         totalBytes,
-        stats: recordStream.getStats(),
+        stats: exportStream.getStats(),
         duration,
       };
     } finally {
