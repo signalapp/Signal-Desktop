@@ -1,16 +1,14 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { type Readable, PassThrough } from 'node:stream';
-import { pipeline } from 'node:stream/promises';
 import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import type { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 
 import { strictAssert } from '../../util/assert.std.ts';
 import { toAciObject } from '../../util/ServiceId.node.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { DelimitedStream } from '../../util/DelimitedStream.node.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import { Backups } from '../../protobuf/index.std.ts';
 
 export enum ValidationType {
   Export = 'Export',
@@ -53,44 +51,31 @@ export async function validateBackup(
   }
 }
 
-export async function validateBackupStream(
-  readable: Readable
+export async function validateBackupIterator(
+  info: Backups.BackupInfo.Params,
+  iterable: AsyncIterable<NonNullable<Backups.Frame.Params['item']>>
 ): Promise<number> {
-  let validator: libsignal.OnlineBackupValidator | undefined;
+  const infoBuf = Backups.BackupInfo.encode(info);
+  let totalBytes = infoBuf.byteLength;
 
-  let totalBytes = 0;
-  let frameCount = 0;
+  const validator = new libsignal.OnlineBackupValidator(
+    infoBuf,
+    libsignal.Purpose.RemoteBackup
+  );
+
   const allErrorMessages: Array<string> = [];
+  let frameCount = 0;
+  for await (const item of iterable) {
+    const frameBuf = Backups.Frame.encode({ item });
 
-  const countBytes = new PassThrough();
-  countBytes.on('data', bytes => {
-    totalBytes += bytes.byteLength;
-  });
-
-  const delimited = new DelimitedStream();
-  delimited.on('data', frame => {
-    frameCount += 1;
-
-    // Info frame
-    if (frameCount === 1) {
-      validator = new libsignal.OnlineBackupValidator(
-        frame,
-        libsignal.Purpose.RemoteBackup
-      );
-      return;
-    }
-
-    strictAssert(validator != null, 'validator must be already created');
     try {
-      validator.addFrame(frame);
+      totalBytes += frameBuf.byteLength;
+      frameCount += 1;
+      validator.addFrame(frameBuf);
     } catch (error) {
       allErrorMessages.push(error.message);
     }
-  });
-
-  await pipeline(readable, countBytes, delimited);
-
-  strictAssert(validator != null, 'no frames');
+  }
 
   try {
     validator.finalize();

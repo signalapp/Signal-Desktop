@@ -200,6 +200,23 @@ const DEFAULT_REMOTE_CONFIG = [
     'desktop.libsignalNet.grpc.BackupsAnonymousGetUploadForm',
     { enabled: true },
   ],
+  // TODO: move to gRPC
+  [
+    'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.2',
+    { enabled: true, value: 'ws' },
+  ],
+  [
+    'desktop.libsignalNet.grpc.KeyTransparencyQueryServiceSearchV2',
+    { enabled: true, value: 'ws' },
+  ],
+  [
+    'desktop.libsignalNet.grpc.MessagesAnonymousSendSingleRecipientMessage',
+    { enabled: true, value: 'ws' },
+  ],
+  [
+    'desktop.libsignalNet.grpc.MessagesSendMessage',
+    { enabled: true, value: 'ws' },
+  ],
 ] as const;
 
 //

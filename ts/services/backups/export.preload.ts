@@ -1,11 +1,9 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
-import { BackupJsonExporter } from '@signalapp/libsignal-client/dist/MessageBackup.js';
-import { pMapIterable } from 'p-map';
-import pTimeout from 'p-timeout';
 import { Readable } from 'node:stream';
+import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
+import { pMapIterable } from 'p-map';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { MuteExpiration } from '@signalapp/types';
@@ -44,9 +42,7 @@ import type {
   MessageAttributesType,
   QuotedAttachmentType,
 } from '../../model-types.d.ts';
-import { drop } from '../../util/drop.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
-import { explodePromise } from '../../util/explodePromise.std.ts';
 import {
   isDirectConversation,
   isGroup,
@@ -57,12 +53,7 @@ import {
 import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.ts';
-import {
-  DAY,
-  MINUTE,
-  SECOND,
-  DurationInSeconds,
-} from '../../util/durations/index.std.ts';
+import { DAY, DurationInSeconds } from '../../util/durations/index.std.ts';
 import {
   PhoneNumberDiscoverability,
   parsePhoneNumberDiscoverability,
@@ -189,7 +180,6 @@ import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import { expiresTooSoonForBackup } from './util/expiration.std.ts';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
-import { encodeDelimited } from '../../util/encodeDelimited.std.ts';
 import { safeParseStrict } from '../../util/schemas.std.ts';
 import type { WithRequiredProperties } from '../../types/Util.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
@@ -200,13 +190,6 @@ const log = createLogger('backupExport');
 
 // We only run 4 sql workers so going much higher doesn't help
 const MAX_CONCURRENCY = 8;
-
-// We want a very generous timeout to make sure that we always resume write
-// access to the database.
-const FLUSH_TIMEOUT = 30 * MINUTE;
-
-// Threshold for reporting slow flushes
-const REPORTING_THRESHOLD = SECOND;
 
 const MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH = 128 * KIBIBYTE;
 const BACKUP_QUOTE_BODY_LIMIT = 2048;
@@ -268,12 +251,13 @@ type NonBubbleResultType = Readonly<
     }
 >;
 
-type Options = Readonly<BackupExportOptions> & {
-  validationRun?: boolean;
-};
+type RunResultType = Readonly<{
+  info: Backups.BackupInfo.Params;
+  iterable: AsyncIterable<NonNullable<Backups.Frame.Params['item']>>;
+}>;
 
-export class BackupExportStream extends Readable {
-  readonly #options: Options;
+export class BackupExportStream {
+  readonly #options: BackupExportOptions;
   // Shared between all methods for consistency.
   readonly #now = Date.now();
 
@@ -303,92 +287,93 @@ export class BackupExportStream extends Readable {
     stickerPacks: 0,
     unknownConversationReferences: new Map<string, number>(),
   };
+  #pendingRecipients: Array<Backups.Recipient.Params> = [];
   #ourConversation?: ConversationAttributesType;
   #attachmentBackupJobs: Array<
     CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
   > = [];
-  #buffers = new Array<Uint8Array<ArrayBuffer>>();
   #nextRecipientId = 1n;
-  #flushResolve: (() => void) | undefined;
-  #jsonExporter: BackupJsonExporter | undefined;
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
   readonly #customColorIdByUuid = new Map<string, bigint>();
 
-  constructor(options: Options) {
-    super();
+  constructor(options: BackupExportOptions) {
     this.#options = options;
   }
 
-  async #cleanupAfterError() {
-    log.warn('Cleaning up after error...');
-    await resumeWriteAccess();
+  public run(): RunResultType {
+    const info: Backups.BackupInfo.Params = {
+      version: BACKUP_VERSION,
+      backupTimeMs: this.#backupTimeMs,
+      mediaRootBackupKey: getBackupMediaRootKey().serialize(),
+      firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion') ?? null,
+      currentAppVersion: `Desktop ${window.getVersion()}`,
+      debugInfo: null,
+    };
+
+    const iterable = this.#run();
+
+    return {
+      info,
+      iterable,
+    };
   }
 
-  override _destroy(
-    error: Error | null,
-    callback: (error?: Error | null) => void
-  ): void {
-    if (error) {
-      drop(this.#cleanupAfterError());
+  async *#run(): AsyncIterable<NonNullable<Backups.Frame.Params['item']>> {
+    log.info('starting...');
+    await AttachmentBackupManager.stop();
+
+    log.info('message migration starting...');
+    await migrateAllMessages();
+
+    await pauseWriteAccess();
+    let isPaused = true;
+    try {
+      yield* this.#unsafeRun();
+
+      isPaused = false;
+      await resumeWriteAccess();
+
+      // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
+      const { type } = this.#options;
+      switch (type) {
+        case 'remote':
+          log.info(
+            `Enqueuing ${this.#attachmentBackupJobs.length} remote attachment backup jobs`
+          );
+          await DataWriter.clearAllAttachmentBackupJobs();
+          await Promise.all(
+            this.#attachmentBackupJobs.map(job => {
+              if (job.type === 'local') {
+                log.error(
+                  "Can't enqueue local backup jobs during remote backup, skipping"
+                );
+                return Promise.resolve();
+              }
+
+              return AttachmentBackupManager.addJobAndMaybeThumbnailJob(job);
+            })
+          );
+          this.#attachmentBackupJobs = [];
+          break;
+        case 'plaintext-export':
+        case 'local-encrypted':
+        case 'cross-client-integration-test':
+          break;
+        default:
+          throw missingCaseError(type);
+      }
+      log.info('finished successfully');
+    } catch (error) {
+      log.error('errored', toLogFormat(error));
+      throw error;
+    } finally {
+      if (isPaused) {
+        await resumeWriteAccess();
+      }
+      await AttachmentBackupManager.start();
     }
-    callback(error);
-  }
-
-  public run(): void {
-    drop(
-      (async () => {
-        log.info('starting...');
-        drop(AttachmentBackupManager.stop());
-        log.info('message migration starting...');
-        await migrateAllMessages();
-
-        await pauseWriteAccess();
-        try {
-          await this.#unsafeRun();
-          await resumeWriteAccess();
-          // TODO (DESKTOP-7344): Clear & add backup jobs in a single transaction
-          const { type } = this.#options;
-          switch (type) {
-            case 'remote':
-              log.info(
-                `Enqueuing ${this.#attachmentBackupJobs.length} remote attachment backup jobs`
-              );
-              await DataWriter.clearAllAttachmentBackupJobs();
-              await Promise.all(
-                this.#attachmentBackupJobs.map(job => {
-                  if (job.type === 'local') {
-                    log.error(
-                      "Can't enqueue local backup jobs during remote backup, skipping"
-                    );
-                    return Promise.resolve();
-                  }
-
-                  return AttachmentBackupManager.addJobAndMaybeThumbnailJob(
-                    job
-                  );
-                })
-              );
-              this.#attachmentBackupJobs = [];
-              break;
-            case 'plaintext-export':
-            case 'local-encrypted':
-            case 'cross-client-integration-test':
-              break;
-            default:
-              throw missingCaseError(type);
-          }
-          log.info('finished successfully');
-        } catch (error) {
-          await this.#cleanupAfterError();
-          log.error('errored', toLogFormat(error));
-          this.emit('error', error);
-        } finally {
-          drop(AttachmentBackupManager.start());
-        }
-      })()
-    );
   }
 
   public getMediaNames(): Array<string> {
@@ -409,38 +394,15 @@ export class BackupExportStream extends Readable {
     return this.#attachmentBackupJobs;
   }
 
-  async #unsafeRun(): Promise<void> {
+  async *#unsafeRun(): AsyncIterable<
+    NonNullable<Backups.Frame.Params['item']>
+  > {
     this.#ourConversation =
       window.ConversationController.getOurConversationOrThrow().attributes;
-    const backupInfo: Backups.BackupInfo.Params = {
-      version: BACKUP_VERSION,
-      backupTimeMs: this.#backupTimeMs,
-      mediaRootBackupKey: getBackupMediaRootKey().serialize(),
-      firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion') ?? null,
-      currentAppVersion: `Desktop ${window.getVersion()}`,
-      debugInfo: null,
-    };
 
-    if (this.#options.type === 'plaintext-export') {
-      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
-        Backups.BackupInfo.encode(backupInfo),
-        { validate: false }
-      );
-
-      this.#jsonExporter = exporter;
-      this.push(`${initialChunk}\n`);
-    } else {
-      for (const chunk of encodeDelimited(
-        Backups.BackupInfo.encode(backupInfo)
-      )) {
-        this.push(chunk);
-      }
-    }
-
-    this.#pushFrame({
+    yield {
       account: await this.#toAccountData(),
-    });
-    await this.#flush();
+    };
 
     const identityKeys = await DataReader.getAllIdentityKeys();
     const identityKeysById = new Map(
@@ -476,22 +438,19 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
-      this.#pushFrame({
+      yield {
         recipient,
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.conversations += 1;
     }
 
-    this.#pushFrame({
+    yield {
       recipient: {
         id: this.#getNextRecipientId(),
         destination: { releaseNotes: {} },
       },
-    });
-    await this.#flush();
+    };
 
     const distributionLists =
       await DataReader.getAllStoryDistributionsWithMembers();
@@ -514,38 +473,40 @@ export class BackupExportStream extends Readable {
         privacyMode = PrivacyMode.ONLY_WITH;
       }
 
-      this.#pushFrame({
+      const destination = {
+        distributionList: {
+          distributionId: uuidToBytes(list.id),
+          item: list.deletedAtTimestamp
+            ? {
+                deletionTimestamp: BigInt(list.deletedAtTimestamp),
+              }
+            : {
+                distributionList: {
+                  name: list.name,
+                  allowReplies: list.allowsReplies,
+                  privacyMode,
+                  memberRecipientIds: list.members
+                    .map(serviceId =>
+                      this.#getRecipientByServiceId(
+                        serviceId,
+                        'distributionList.memberRecipientIds'
+                      )
+                    )
+                    .filter(isNotNil),
+                },
+              },
+        },
+      };
+
+      yield* this.#flushPendingRecipients();
+
+      yield {
         recipient: {
           id: this.#getNextRecipientId(),
-          destination: {
-            distributionList: {
-              distributionId: uuidToBytes(list.id),
-              item: list.deletedAtTimestamp
-                ? {
-                    deletionTimestamp: BigInt(list.deletedAtTimestamp),
-                  }
-                : {
-                    distributionList: {
-                      name: list.name,
-                      allowReplies: list.allowsReplies,
-                      privacyMode,
-                      memberRecipientIds: list.members
-                        .map(serviceId =>
-                          this.#getRecipientByServiceId(
-                            serviceId,
-                            'distributionList.memberRecipientIds'
-                          )
-                        )
-                        .filter(isNotNil),
-                    },
-                  },
-            },
-          },
+          destination,
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.distributionLists += 1;
     }
 
@@ -572,7 +533,7 @@ export class BackupExportStream extends Readable {
 
       this.#roomIdToRecipientId.set(roomId, id);
 
-      this.#pushFrame({
+      yield {
         recipient: {
           id,
           destination: {
@@ -587,25 +548,21 @@ export class BackupExportStream extends Readable {
             },
           },
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.callLinks += 1;
     }
 
     const stickerPacks = await getStickerPacksForBackup();
 
     for (const { id, key } of stickerPacks) {
-      this.#pushFrame({
+      yield {
         stickerPack: {
           packId: Bytes.fromHex(id),
           packKey: Bytes.fromBase64(key),
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.stickerPacks += 1;
     }
 
@@ -649,7 +606,7 @@ export class BackupExportStream extends Readable {
         }
       }
 
-      this.#pushFrame({
+      yield {
         chat: {
           // We don't have to use separate identifiers
           id: recipientId,
@@ -686,10 +643,8 @@ export class BackupExportStream extends Readable {
             autoBubbleColor: attributes.autoBubbleColor,
           }),
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.chats += 1;
     }
 
@@ -728,17 +683,15 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
-      this.#pushFrame({
+      yield {
         adHocCall: {
           callId,
           recipientId,
           state: toAdHocCallStateProto(status),
           callTimestamp: BigInt(timestamp),
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.adHocCalls += 1;
     }
 
@@ -813,7 +766,7 @@ export class BackupExportStream extends Readable {
           return true;
         });
 
-      this.#pushFrame({
+      yield {
         notificationProfile: {
           id: Bytes.fromHex(id),
           name,
@@ -828,10 +781,8 @@ export class BackupExportStream extends Readable {
           scheduleEndTime,
           scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled) ?? null,
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.notificationProfiles += 1;
     }
 
@@ -848,7 +799,7 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
-      this.#pushFrame({
+      yield {
         chatFolder: {
           id: uuidToBytes(chatFolder.id),
           name: chatFolder.name,
@@ -874,10 +825,8 @@ export class BackupExportStream extends Readable {
             })
             .filter(isNotNil),
         },
-      });
+      };
 
-      // oxlint-disable-next-line no-await-in-loop
-      await this.#flush();
       this.#stats.chatFolders += 1;
     }
 
@@ -900,6 +849,8 @@ export class BackupExportStream extends Readable {
       }
     );
 
+    // Note: chatItem MUST be the last item type to be exported in order
+    // to produce correct encoding in `ts/services/backups/encoding.node.ts`
     for await (const chatItem of iter) {
       if (chatItem === undefined) {
         this.#stats.skippedMessages += 1;
@@ -907,104 +858,33 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
-      this.#pushFrame({
+      yield* this.#flushPendingRecipients();
+
+      yield {
         chatItem,
-      });
+      };
       this.#stats.messages += 1;
-
-      if (
-        this.#options.validationRun ||
-        this.#stats.messages % FLUSH_EVERY === 0
-      ) {
-        // flush every chatItem to expose all validation errors
-        await this.#flush();
-      }
     }
-
-    await this.#flush();
 
     log.warn('final stats', {
       ...this.#stats,
       attachmentBackupJobs: this.#attachmentBackupJobs.length,
     });
-
-    if (this.#jsonExporter) {
-      try {
-        const result = this.#jsonExporter.finish();
-        if (result?.errorMessage) {
-          log.warn(
-            'jsonExporter.finish() returned validation error:',
-            result.errorMessage
-          );
-        }
-      } catch (error) {
-        // We only warn because this isn't that big of a deal - the export is complete.
-        // All we need from the exporter at the end is any validation errors it found.
-        log.warn('jsonExporter returned error', toLogFormat(error));
-      }
-    }
-
-    this.push(null);
   }
 
-  #pushFrame(frame: Backups.Frame.Params['item']): void {
-    const encodedFrame = Backups.Frame.encode({ item: frame });
-    if (this.#options.type === 'plaintext-export') {
-      const delimitedFrame = Buffer.concat(encodeDelimited(encodedFrame));
-      strictAssert(
-        this.#jsonExporter != null,
-        'jsonExported must be initialized'
-      );
-
-      const results = this.#jsonExporter.exportFrames(delimitedFrame);
-      for (const result of results) {
-        if (result.errorMessage) {
-          log.warn(
-            'frameToJson: frame had a validation error:',
-            result.errorMessage
-          );
-        }
-        if (!result.line) {
-          log.error('frameToJson: frame was filtered out by libsignal');
-        } else {
-          this.#buffers.push(Buffer.from(`${result.line}\n`));
-        }
-      }
-    } else {
-      this.#buffers.push(...encodeDelimited(encodedFrame));
-    }
-  }
-
-  async #flush(): Promise<void> {
-    const chunk = Bytes.concatenate(this.#buffers);
-    this.#buffers = [];
-
-    // Below watermark, no pausing required
-    if (this.push(chunk)) {
+  async *#flushPendingRecipients(): AsyncIterable<
+    NonNullable<Backups.Frame.Params['item']>
+  > {
+    // We might have created ad-hoc recipients for service ids/e164s without
+    // matching conversation while processing the message. Flush them out.
+    const pendingRecipients = this.#pendingRecipients;
+    if (pendingRecipients.length === 0) {
       return;
     }
-
-    const { promise, resolve } = explodePromise<void>();
-    strictAssert(this.#flushResolve === undefined, 'flush already pending');
-    this.#flushResolve = resolve;
-
-    const start = Date.now();
-    log.info('flush paused due to pushback');
-    try {
-      await pTimeout(promise, {
-        milliseconds: FLUSH_TIMEOUT,
-      });
-    } finally {
-      const duration = Date.now() - start;
-      if (duration > REPORTING_THRESHOLD) {
-        log.info(`flush resumed after ${duration}ms`);
-      }
-      this.#flushResolve = undefined;
+    this.#pendingRecipients = [];
+    for (const recipient of pendingRecipients) {
+      yield { recipient };
     }
-  }
-
-  override _read(): void {
-    this.#flushResolve?.();
   }
 
   async #toAccountData(): Promise<Backups.AccountData.Params> {
@@ -1233,7 +1113,7 @@ export class BackupExportStream extends Readable {
       return undefined;
     }
 
-    this.#pushFrame({ recipient });
+    this.#pendingRecipients.push(recipient);
     strictAssert(recipient.id != null, 'recipient.id must exist');
     return recipient.id;
   }
@@ -1254,7 +1134,7 @@ export class BackupExportStream extends Readable {
       return undefined;
     }
 
-    this.#pushFrame({ recipient });
+    this.#pendingRecipients.push(recipient);
     strictAssert(recipient.id != null, 'recipient.id must exist');
     return recipient.id;
   }
