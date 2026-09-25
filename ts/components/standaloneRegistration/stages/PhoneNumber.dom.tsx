@@ -28,6 +28,7 @@ import type { ActionCreator } from '../../../state/types.std.ts';
 import type { PhoneNumberStage } from '../../../types/StandaloneRegistration.std.ts';
 import type { moveToCaptchaStage as doMoveToCaptchaStage } from '../../../state/ducks/standaloneInstaller.preload.ts';
 import type { CountryDataType } from '../../../util/getCountryData.dom.ts';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 
 export function PhoneNumberScreen({
   i18n,
@@ -101,29 +102,48 @@ export function PhoneNumberScreen({
       </Description>
       <Spacer className={tw('h-9')} />
       <InputContainer className={tw('w-81')}>
-        <AxoTextField.Root>
-          {regionCode ? (
-            <div className={tw('p-1.5 ps-3 type-body-large text-primary')}>
-              {codeByRegion.get(regionCode)}
-            </div>
-          ) : undefined}
-          <AxoTextField.Action
-            label="Insert emoji"
-            symbol="chevron-down"
-            onClick={() => setCountryCodeDialogOpen(true)}
-          />
-          <AxoTextField.Separator />
+        <AxoTextField.Root
+          disabled={status.type === 'in-progress'}
+          maxBytes={30}
+          maxGraphemes={30}
+          value={phoneNumber ?? ''}
+          onValueChange={value => validateNumber(value, regionCode)}
+        >
+          <AxoTextField.CustomLeadingSlot>
+            <button
+              type="button"
+              onClick={() => setCountryCodeDialogOpen(true)}
+              aria-label={i18n(
+                'icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label'
+              )}
+              className={tw(
+                'group flex h-[stretch] items-center px-1',
+                'focus-visible:outline-none'
+              )}
+            >
+              {regionCode ? (
+                <span className={tw('ps-3 pe-1 type-body-large text-primary')}>
+                  {codeByRegion.get(regionCode)}
+                </span>
+              ) : undefined}
+
+              <span
+                className={tw(
+                  'flex items-center justify-center rounded-full p-1',
+                  'group-hover:bg-surface-secondary',
+                  'group-focus-visible:axo-focus-ring'
+                )}
+              >
+                <AxoSymbol.Icon size={16} symbol="chevron-down" label={null} />
+              </span>
+            </button>
+          </AxoTextField.CustomLeadingSlot>
           <AxoTextField.Input
             ref={textFieldRef}
             autoFocus
-            disabled={status.type === 'in-progress'}
-            maxBytes={30}
-            maxGraphemes={30}
-            onValueChange={value => validateNumber(value, regionCode)}
             placeholder={i18n(
               'icu:StandaloneRegistration--PhoneNumber--placeholder'
             )}
-            value={phoneNumber ?? ''}
           />
         </AxoTextField.Root>
       </InputContainer>

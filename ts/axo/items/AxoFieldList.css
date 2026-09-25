@@ -1,0 +1,16 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-field-list-item {
+    :where(& + &)::before {
+      @apply content-[''];
+      @apply block;
+      @apply mx-2 my-[2.5px];
+      @apply border-b border-b-primary;
+      @apply forced-colors:border-b-0;
+    }
+  }
+}

@@ -265,9 +265,7 @@ type PropsFunctionType = {
     props: SmartNotificationProfilesProps
   ) => JSX.Element;
 
-  renderProfileEditor: (options: {
-    contentsRef: MutableRefObject<HTMLDivElement | null>;
-  }) => JSX.Element;
+  renderProfileEditor: () => JSX.Element;
   renderToastManager: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
@@ -879,10 +877,7 @@ export function Preferences({
   let content: JSX.Element | undefined;
 
   if (settingsLocation.page === SettingsPage.Profile) {
-    // oxlint-disable-next-line react/refs
-    content = renderProfileEditor({
-      contentsRef: settingsPaneRef,
-    });
+    content = renderProfileEditor();
   } else if (settingsLocation.page === SettingsPage.Account) {
     const pageContents = (
       <AxoList.Group>

@@ -111,16 +111,19 @@ export function PinReminderModal({
               </div>
               <InputContainer helperElement={helperElement}>
                 <AxoPasswordField.Root
-                  placeholder={i18n(
-                    'icu:PinReminderModal__pin-input-placeholder'
-                  )}
-                  autoFocus
                   maxBytes={PIN_MAX_BYTES}
                   maxGraphemes={PIN_MAX_GRAPHEMES}
                   onValueChange={handlePinChange}
                   value={pin}
-                  autoComplete="current-password"
-                />
+                >
+                  <AxoPasswordField.Input
+                    autoFocus
+                    autoComplete="current-password"
+                    placeholder={i18n(
+                      'icu:PinReminderModal__pin-input-placeholder'
+                    )}
+                  />
+                </AxoPasswordField.Root>
               </InputContainer>
             </div>
           </AxoDialog.Body>

@@ -9,8 +9,8 @@ import {
   useRef,
   type JSX,
   type MouseEvent,
+  useId,
 } from 'react';
-import classNames from 'classnames';
 import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -28,14 +28,15 @@ import {
 } from '../state/ducks/usernameEnums.std.ts';
 import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import { AutoSizeInput } from './AutoSizeInput.dom.tsx';
-import { Input } from './Input.dom.tsx';
-import { Spinner } from './Spinner.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { AxoFieldGroup } from '../axo/fields/AxoFieldGroup.dom.tsx';
+import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
+import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const { noop } = lodash;
 
@@ -116,6 +117,9 @@ export function UsernameEditor({
   const [customDiscriminator, setCustomDiscriminator] = useState<
     string | undefined
   >(undefined);
+
+  const nicknameInputId = useId();
+  const discriminatorInputId = useId();
 
   const discriminator = useMemo(() => {
     // Always give preference to user-selected custom discriminator.
@@ -332,57 +336,95 @@ export function UsernameEditor({
 
   return (
     <>
-      <div className="UsernameEditor__header">
-        <div className="UsernameEditor__header__large-at" />
-
-        <div className="UsernameEditor__header__preview">{title}</div>
+      <div className={tw('mt-6 mb-4 flex flex-col items-center gap-4')}>
+        <div
+          className={tw(
+            'flex size-16 items-center justify-center rounded-full',
+            'bg-primary text-primary',
+            'forced-colors:border'
+          )}
+        >
+          <AxoSymbol.Icon symbol="at" size={36} label={null} />
+        </div>
+        <div className={tw('type-body-large font-medium text-primary')}>
+          {title}
+        </div>
       </div>
-      <Input
-        moduleClassName="UsernameEditor__input"
-        i18n={i18n}
-        disableSpellcheck
-        disabled={isConfirming}
-        onChange={onChange}
-        onEnter={onSave}
-        placeholder={i18n('icu:EditUsernameModalBody__username-placeholder')}
-        value={nickname}
-      >
-        {isReserving && <Spinner size="16px" svgSize="small" />}
-        {isDiscriminatorVisible ? (
+
+      <AxoFieldList.Root
+        footerDescription={
           <>
-            <div className="UsernameEditor__divider" />
-            <AutoSizeInput
-              moduleClassName="UsernameEditor__discriminator"
-              disableSpellcheck
-              disabled={isConfirming}
-              value={discriminator}
-              onChange={updateCustomDiscriminator}
-              placeholder="00"
-              maxLength={DISCRIMINATOR_MAX_LENGTH}
-            />
+            {i18n('icu:EditUsernameModalBody__username-helper')}{' '}
+            <button
+              type="button"
+              className={tw(
+                'rounded-xs text-accent hover:underline focus-visible:axo-focus-ring',
+                'forced-colors:text-[LinkText] forced-colors:underline'
+              )}
+              onClick={onLearnMore}
+            >
+              {i18n('icu:EditUsernameModalBody__learn-more')}
+            </button>
           </>
-        ) : null}
-      </Input>
-      {errorString && (
-        <div className="UsernameEditor__error">{errorString}</div>
-      )}
+        }
+      >
+        <AxoFieldList.Item>
+          <AxoFieldGroup.Root readOnly={isConfirming}>
+            <label htmlFor={nicknameInputId} className={tw('sr-only')}>
+              {i18n('icu:EditUsernameModalBody__username-label')}
+            </label>
+            <AxoTextField.Root
+              id={nicknameInputId}
+              value={nickname ?? ''}
+              onValueChange={onChange}
+              maxBytes={maxNickname}
+              maxGraphemes={maxNickname}
+            >
+              <AxoTextField.Input
+                placeholder={i18n(
+                  'icu:EditUsernameModalBody__username-placeholder'
+                )}
+                spellCheck={false}
+              />
+              <AxoTextField.Count />
+              <AxoTextField.LoadingIndicator pending={isReserving} />
+              {errorString != null && (
+                <AxoTextField.ValidationError>
+                  {errorString}
+                </AxoTextField.ValidationError>
+              )}
+            </AxoTextField.Root>
+            {isDiscriminatorVisible && (
+              <>
+                <AxoFieldGroup.Separator />
+                <label htmlFor={discriminatorInputId} className={tw('sr-only')}>
+                  {i18n('icu:EditUsernameModalBody__discriminator-label')}
+                </label>
+                <AxoTextField.Root
+                  id={discriminatorInputId}
+                  width="fit"
+                  value={discriminator ?? ''}
+                  onValueChange={updateCustomDiscriminator}
+                  maxBytes={DISCRIMINATOR_MAX_LENGTH}
+                  maxGraphemes={DISCRIMINATOR_MAX_LENGTH}
+                >
+                  <AxoTextField.Input
+                    placeholder="00"
+                    spellCheck={false}
+                    tabularNums
+                  />
+                </AxoTextField.Root>
+              </>
+            )}
+          </AxoFieldGroup.Root>
+        </AxoFieldList.Item>
+      </AxoFieldList.Root>
+
       <div
-        className={classNames(
-          'UsernameEditor__info',
-          !errorString ? 'UsernameEditor__info--no-error' : undefined
+        className={tw(
+          'mt-4 flex flex-wrap items-center justify-end-safe gap-2'
         )}
       >
-        {i18n('icu:EditUsernameModalBody__username-helper')}
-        &nbsp;
-        <button
-          type="button"
-          className="UsernameEditor__learn-more-button"
-          onClick={onLearnMore}
-        >
-          {i18n('icu:EditUsernameModalBody__learn-more')}
-        </button>
-      </div>
-      <div className="UsernameEditor__button-footer">
         <AxoButton.Root
           variant="strong-secondary"
           size="lg"

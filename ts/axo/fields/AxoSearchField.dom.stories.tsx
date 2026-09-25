@@ -11,11 +11,10 @@ export default {
 export function Basic(): ReactNode {
   const [value, setValue] = useState('');
   return (
-    <AxoSearchField.Root
-      width="lg"
-      value={value}
-      onValueChange={setValue}
-      placeholder="Search"
-    />
+    <AxoSearchField.Root value={value} onValueChange={setValue}>
+      <AxoSearchField.Icon />
+      <AxoSearchField.Input placeholder="Search" />
+      <AxoSearchField.Clear />
+    </AxoSearchField.Root>
   );
 }

@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { MutableRefObject, JSX } from 'react';
+import type { JSX } from 'react';
 
 import { ProfileEditor } from '../../components/ProfileEditor.dom.tsx';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
@@ -39,9 +39,7 @@ function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;
 }
 
-export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
-  contentsRef: MutableRefObject<HTMLDivElement | null>;
-}) {
+export const SmartProfileEditor = memo(function SmartProfileEditor() {
   const i18n = useSelector(getIntl);
   const {
     aboutEmoji,
@@ -128,7 +126,6 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
         aboutEmoji={aboutEmoji}
         aboutText={aboutText}
         color={color}
-        contentsRef={props.contentsRef}
         conversationId={conversationId}
         deleteAvatarFromDisk={deleteAvatarFromDisk}
         deleteUsername={deleteUsername}

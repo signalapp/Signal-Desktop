@@ -251,18 +251,22 @@ export function VerifyPINScreen({
       <Spacer className={tw('h-10')} />
       <InputContainer className={tw('w-81')} helperElement={helperElement}>
         <AxoPasswordField.Root
-          ref={inputRef}
-          autoFocus
           maxBytes={PIN_MAX_BYTES}
           maxGraphemes={PIN_MAX_GRAPHEMES}
           onValueChange={onChangePIN}
           disabled={pending}
-          placeholder={i18n(
-            'icu:StandaloneRegistration--VerifyPIN--placeholder'
-          )}
           value={pin}
-          autoComplete="current-password"
-        />
+        >
+          <AxoPasswordField.Input
+            ref={inputRef}
+            autoFocus
+            autoComplete="current-password"
+            placeholder={i18n(
+              'icu:StandaloneRegistration--VerifyPIN--placeholder'
+            )}
+          />
+          <AxoPasswordField.Reveal />
+        </AxoPasswordField.Root>
       </InputContainer>
       <Spacer className={tw('grow')} />
       <Buttons>
