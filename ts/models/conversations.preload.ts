@@ -87,6 +87,7 @@ import type {
 } from '../types/Colors.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { isConversationMuted } from '../util/isConversationMuted.std.ts';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly.std.ts';
 import {
   isConversationEverUnregistered,
@@ -4204,7 +4205,9 @@ export class ConversationModel {
     clearUnreadMetrics(this.id);
 
     const enabledProfileSharing = !this.get('profileSharing');
-    const unarchivedConversation = this.get('isArchived');
+    const shouldUnarchiveConversation = canConversationBeUnarchived(
+      this.attributes
+    );
 
     log.info(
       `beforeMessageSend(${this.idForLogging()}): ` +
@@ -4237,13 +4240,13 @@ export class ConversationModel {
       // active_at & timestamp to now. We want it to stay the same.
       active_at: isEditMessage ? this.get('active_at') : now,
       timestamp: isEditMessage ? this.get('timestamp') : now,
-      ...(unarchivedConversation ? { isArchived: false } : {}),
+      ...(shouldUnarchiveConversation ? { isArchived: false } : {}),
     });
 
     if (enabledProfileSharing) {
       this.captureChange('beforeMessageSend/mandatoryProfileSharing');
     }
-    if (unarchivedConversation) {
+    if (shouldUnarchiveConversation) {
       this.captureChange('beforeMessageSend/unarchive');
     }
 
