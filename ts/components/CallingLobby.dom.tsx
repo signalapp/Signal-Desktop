@@ -21,7 +21,7 @@ import {
 import { CallMode } from '../types/CallDisposition.std.ts';
 import type { CallingConversationType } from '../types/Calling.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { useCallingToasts } from './CallingToast.dom.tsx';
 import { CallingButtonToastsContainer } from './CallingToastManager.dom.tsx';

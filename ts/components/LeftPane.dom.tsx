@@ -40,7 +40,7 @@ import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import type { DurationInSeconds } from '../util/durations/index.std.ts';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.ts';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.tsx';

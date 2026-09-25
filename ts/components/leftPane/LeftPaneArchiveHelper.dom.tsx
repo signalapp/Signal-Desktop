@@ -18,7 +18,7 @@ import type {
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.tsx';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper.dom.tsx';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper.dom.tsx';
-import * as KeyboardLayout from '../../services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from '../../services/keyboardLayout.dom.ts';
 
 const { last } = lodash;
 

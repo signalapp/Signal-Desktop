@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject, JSX, ReactNode } from 'react';
-import { memo, useCallback, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
+import { tinykeys } from 'tinykeys';
 import { MuteExpiration } from '@signalapp/types';
 
 import type { BadgeType } from '../../badges/types.std.ts';
@@ -264,11 +265,22 @@ export const ConversationHeader = memo(function ConversationHeader({
   const [messageRequestState, setMessageRequestState] = useState(
     MessageRequestState.default
   );
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const isTerminated = Boolean(conversation.terminated);
   const areWeMember =
     conversation.type === 'group' && !isTerminated && !conversation.left;
   const isMuted = isConversationMuted(conversation);
+
+  useEffect(() => {
+    return tinykeys(window, {
+      '$mod+Shift+L': event => {
+        event.stopPropagation();
+        event.preventDefault();
+        setMenuOpen(prev => !prev);
+      },
+    });
+  }, []);
 
   if (hasPanelShowing) {
     return null;
@@ -381,7 +393,7 @@ export const ConversationHeader = memo(function ConversationHeader({
                 variant="implied-secondary"
               />
 
-              <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Root open={menuOpen} onOpenChange={setMenuOpen}>
                 <AxoDropdownMenu.Trigger disabled={isSelectMode}>
                   <AxoIconButton.Root
                     size="md"
