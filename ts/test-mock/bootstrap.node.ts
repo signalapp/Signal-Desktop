@@ -7,6 +7,7 @@ import crypto from 'node:crypto';
 import path, { join } from 'node:path';
 import os from 'node:os';
 import { PassThrough } from 'node:stream';
+import electronPath from 'electron';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
@@ -40,14 +41,8 @@ export { App };
 
 const debug = createDebug('mock:bootstrap');
 
-const ELECTRON = path.join(
-  __dirname,
-  '..',
-  '..',
-  'node_modules',
-  '.bin',
-  'electron'
-);
+// When imported in node, the default export of `electron` is the path to its binary
+const ELECTRON_BINARY_PATH = electronPath as unknown as string;
 const CI_SCRIPT = path.join(__dirname, '..', '..', 'ci.js');
 
 const CLOSE_TIMEOUT = 10 * 1000;
@@ -404,6 +399,20 @@ export class Bootstrap {
     return this.#resetAppStorage();
   }
 
+  async #saveFailedStartupLogs(attempt: number): Promise<void> {
+    const outDir = await this.#getArtifactsDir(`app-start-attempt-${attempt}`);
+    if (outDir == null) {
+      return;
+    }
+
+    try {
+      await fs.rename(this.logsDir, path.join(outDir, 'logs'));
+      debug(`Saved logs of failed app start to ${outDir}`);
+    } catch (error) {
+      debug('Failed to save logs of failed app start', error);
+    }
+  }
+
   async #resetAppStorage(): Promise<void> {
     assert(
       this.#storagePath !== undefined,
@@ -582,7 +591,7 @@ export class Bootstrap {
       const config = await this.#generateConfig(port, extraConfig);
 
       const startedApp = new App({
-        main: ELECTRON,
+        main: ELECTRON_BINARY_PATH,
         args: [CI_SCRIPT],
         config,
       });
@@ -596,6 +605,9 @@ export class Bootstrap {
           `Failed to start the app, attempt ${startAttempts}, retrying`,
           error
         );
+
+        // oxlint-disable-next-line no-await-in-loop
+        await this.#saveFailedStartupLogs(startAttempts);
 
         // oxlint-disable-next-line no-await-in-loop
         await this.#resetAppStorage();

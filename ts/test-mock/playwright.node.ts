@@ -58,7 +58,8 @@ export type AppOptionsType = Readonly<{
 const debug = createDebug('playwright.node.ts');
 
 const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
-const MAX_START_ATTEMPTS = 1;
+const GRACEFUL_CLOSE_TIMEOUT = 5 * SECOND;
+
 export class App extends EventEmitter {
   readonly #options: AppOptionsType;
   #privApp: ElectronApplication | undefined;
@@ -69,57 +70,68 @@ export class App extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    // For unknown reasons, the app sometimes does not start in CI, so here we retry
-    for (let i = 0; i < MAX_START_ATTEMPTS; i += 1) {
-      try {
-        // launch the electron processs
-        // oxlint-disable-next-line no-await-in-loop
-        this.#privApp = await electron.launch({
-          executablePath: this.#options.main,
-          args: this.#options.args.slice(),
-          env: {
-            ...process.env,
-            MOCK_TEST: 'true',
-            SIGNAL_CI_CONFIG: this.#options.config,
-          },
-          locale: 'en',
-          timeout: 30 * SECOND,
-        });
-        this.#privApp?.on('close', () => this.emit('close'));
+    try {
+      // launch the electron processs
+      this.#privApp = await electron.launch({
+        executablePath: this.#options.main,
+        args: this.#options.args.slice(),
+        env: {
+          ...process.env,
+          MOCK_TEST: 'true',
+          SIGNAL_CI_CONFIG: this.#options.config,
+        },
+        locale: 'en',
+        timeout: 30 * SECOND,
+      });
+      this.#privApp.on('close', () => this.emit('close'));
 
-        // wait for the first window to load
-        // oxlint-disable-next-line no-await-in-loop
-        await pTimeout(
-          (async () => {
-            const page = await this.getWindow();
-            if (process.env.TRACING) {
-              await page.context().tracing.start({
-                name: 'tracing',
-                screenshots: true,
-                snapshots: true,
-              });
-            }
-            await page?.emulateMedia({ reducedMotion: 'reduce' });
-            await page?.waitForLoadState('load');
-          })(),
-          { milliseconds: 20 * SECOND }
-        );
-        break;
-      } catch (e) {
-        this.#privApp?.process().kill('SIGKILL');
-        this.#privApp = undefined;
-        if (i === MAX_START_ATTEMPTS - 1) {
-          throw e;
-        } else {
-          debug(
-            `Failed to start app on attempt ${i}, retrying`,
-            toLogFormat(e)
-          );
-        }
-      }
+      // wait for the first window to load
+      await pTimeout(
+        (async () => {
+          const page = await this.getWindow();
+          if (process.env.TRACING) {
+            await page.context().tracing.start({
+              name: 'tracing',
+              screenshots: true,
+              snapshots: true,
+            });
+          }
+          await page?.emulateMedia({ reducedMotion: 'reduce' });
+          await page?.waitForLoadState('load');
+        })(),
+        { milliseconds: 20 * SECOND }
+      );
+    } catch (error) {
+      await this.#forceClose();
+      throw error;
     }
 
     drop(this.#printLoop());
+  }
+
+  async #forceClose(): Promise<void> {
+    const app = this.#privApp;
+    this.#privApp = undefined;
+    if (!app) {
+      return;
+    }
+
+    try {
+      await pTimeout(app.close(), { milliseconds: GRACEFUL_CLOSE_TIMEOUT });
+      return;
+    } catch (error) {
+      debug('graceful close failed', toLogFormat(error));
+    }
+
+    const { pid } = app.process();
+    if (pid !== undefined) {
+      try {
+        // try to kill the whole process group
+        process.kill(-pid, 'SIGKILL');
+      } catch {
+        app.process().kill('SIGKILL');
+      }
+    }
   }
 
   public async waitForProvisionURL(): Promise<string> {
