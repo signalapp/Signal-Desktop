@@ -5,6 +5,7 @@ import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter, once } from 'node:events';
 import pTimeout from 'p-timeout';
+import createDebug from 'debug';
 
 import type {
   IPCRequest as ChallengeRequestType,
@@ -20,6 +21,7 @@ import type {
   RestoreResponseType,
   StoreParameters,
 } from '../textsecure/WebAPI.preload.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -53,8 +55,10 @@ export type AppOptionsType = Readonly<{
   config: string;
 }>;
 
-const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
+const debug = createDebug('playwright.node.ts');
 
+const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
+const MAX_START_ATTEMPTS = 1;
 export class App extends EventEmitter {
   readonly #options: AppOptionsType;
   #privApp: ElectronApplication | undefined;
@@ -65,42 +69,55 @@ export class App extends EventEmitter {
   }
 
   public async start(): Promise<void> {
-    try {
-      // launch the electron processs
-      this.#privApp = await electron.launch({
-        executablePath: this.#options.main,
-        args: this.#options.args.slice(),
-        env: {
-          ...process.env,
-          MOCK_TEST: 'true',
-          SIGNAL_CI_CONFIG: this.#options.config,
-        },
-        locale: 'en',
-        timeout: 30 * SECOND,
-      });
+    // For unknown reasons, the app sometimes does not start in CI, so here we retry
+    for (let i = 0; i < MAX_START_ATTEMPTS; i += 1) {
+      try {
+        // launch the electron processs
+        // oxlint-disable-next-line no-await-in-loop
+        this.#privApp = await electron.launch({
+          executablePath: this.#options.main,
+          args: this.#options.args.slice(),
+          env: {
+            ...process.env,
+            MOCK_TEST: 'true',
+            SIGNAL_CI_CONFIG: this.#options.config,
+          },
+          locale: 'en',
+          timeout: 30 * SECOND,
+        });
+        this.#privApp?.on('close', () => this.emit('close'));
 
-      // wait for the first window to load
-      await pTimeout(
-        (async () => {
-          const page = await this.getWindow();
-          if (process.env.TRACING) {
-            await page.context().tracing.start({
-              name: 'tracing',
-              screenshots: true,
-              snapshots: true,
-            });
-          }
-          await page?.emulateMedia({ reducedMotion: 'reduce' });
-          await page?.waitForLoadState('load');
-        })(),
-        { milliseconds: 20 * SECOND }
-      );
-    } catch (e) {
-      this.#privApp?.process().kill('SIGKILL');
-      throw e;
+        // wait for the first window to load
+        // oxlint-disable-next-line no-await-in-loop
+        await pTimeout(
+          (async () => {
+            const page = await this.getWindow();
+            if (process.env.TRACING) {
+              await page.context().tracing.start({
+                name: 'tracing',
+                screenshots: true,
+                snapshots: true,
+              });
+            }
+            await page?.emulateMedia({ reducedMotion: 'reduce' });
+            await page?.waitForLoadState('load');
+          })(),
+          { milliseconds: 20 * SECOND }
+        );
+        break;
+      } catch (e) {
+        this.#privApp?.process().kill('SIGKILL');
+        this.#privApp = undefined;
+        if (i === MAX_START_ATTEMPTS - 1) {
+          throw e;
+        } else {
+          debug(
+            `Failed to start app on attempt ${i}, retrying`,
+            toLogFormat(e)
+          );
+        }
+      }
     }
-
-    this.#privApp.on('close', () => this.emit('close'));
 
     drop(this.#printLoop());
   }

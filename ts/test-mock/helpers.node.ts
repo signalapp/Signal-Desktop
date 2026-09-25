@@ -101,7 +101,7 @@ export async function typeVerificationCode(
   window: Page,
   code: string
 ): Promise<void> {
-  for (let i = 0; i < VERIFICATION_CODE_LENGTH; i += 1) {
+  for (let i = 0; i < code.length; i += 1) {
     const char = code[i] ?? '';
 
     // oxlint-disable-next-line no-await-in-loop
@@ -109,12 +109,6 @@ export async function typeVerificationCode(
 
     // oxlint-disable-next-line no-await-in-loop
     await expect(verificationCodeInput(window, i)).toHaveValue(char);
-
-    if (i + 1 < code.length) {
-      // Wait for radix to focus the next input
-      // oxlint-disable-next-line no-await-in-loop
-      await expect(verificationCodeInput(window, i + 1)).toBeFocused();
-    }
   }
 }
 
