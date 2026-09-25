@@ -79,6 +79,7 @@ import type {
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { getCachedSubscriptionConfiguration } from '../util/subscriptionConfiguration.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -751,8 +752,10 @@ export async function handleDataMessage(
       message = window.MessageCache.register(message);
       conversation.incrementMessageCount();
 
-      // If we sent a message in a given conversation, unarchive it!
-      if (type === 'outgoing') {
+      if (
+        type === 'outgoing' &&
+        canConversationBeUnarchived(conversation.attributes)
+      ) {
         conversation.setArchived(false);
       }
 
