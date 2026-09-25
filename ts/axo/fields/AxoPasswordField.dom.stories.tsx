@@ -12,13 +12,16 @@ export function Basic(): ReactNode {
   const [value, setValue] = useState('');
   return (
     <AxoPasswordField.Root
-      width="lg"
-      placeholder="Password"
       value={value}
       onValueChange={setValue}
       maxBytes={64}
       maxGraphemes={64}
-      autoComplete="current-password"
-    />
+    >
+      <AxoPasswordField.Input
+        placeholder="Password"
+        autoComplete="current-password"
+      />
+      <AxoPasswordField.Reveal />
+    </AxoPasswordField.Root>
   );
 }

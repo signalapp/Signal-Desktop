@@ -20,7 +20,6 @@
   }
 
   :where(.axo-item-group) .axo-item-root:where(.group) {
-    @apply p-0.5;
     /* Forward Grid */
     @apply col-span-full grid grid-cols-subgrid;
   }

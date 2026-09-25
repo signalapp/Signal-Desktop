@@ -138,29 +138,33 @@ export function ProfileEntryScreen({
       </AxoButton.Root>
       <Spacer className={tw('h-7')} />
       <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root disabled={pending}>
+        <AxoTextField.Root
+          disabled={pending}
+          value={firstName}
+          onValueChange={onChangeFirstName}
+          maxGraphemes={30}
+          maxBytes={30}
+        >
           <AxoTextField.Input
             placeholder={i18n(
               'icu:StandaloneRegistration--ProfileEntry--first-name'
             )}
-            maxGraphemes={30}
-            maxBytes={30}
-            onValueChange={onChangeFirstName}
-            value={firstName}
           />
         </AxoTextField.Root>
       </InputContainer>
       <Spacer />
       <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root disabled={pending}>
+        <AxoTextField.Root
+          disabled={pending}
+          value={lastName}
+          onValueChange={onChangeLastName}
+          maxGraphemes={30}
+          maxBytes={30}
+        >
           <AxoTextField.Input
             placeholder={i18n(
               'icu:StandaloneRegistration--ProfileEntry--last-name'
             )}
-            maxGraphemes={30}
-            maxBytes={30}
-            onValueChange={onChangeLastName}
-            value={lastName}
           />
         </AxoTextField.Root>
       </InputContainer>

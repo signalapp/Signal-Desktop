@@ -3,43 +3,54 @@
 import type { Meta } from '@storybook/react';
 import { useState, type ReactNode } from 'react';
 import { AxoFieldList } from './AxoFieldList.dom.tsx';
+import { AxoTextField } from '../fields/AxoTextField.dom.tsx';
+import { AxoFieldGroup } from '../fields/AxoFieldGroup.dom.tsx';
 
 export default {
   title: 'Axo/Items/AxoFieldList',
 } satisfies Meta;
 
-function Names() {
-  const [givenName, setGivenName] = useState('');
-  const [familyName, setFamilyName] = useState('');
-
+function GivenName() {
+  const [value, setValue] = useState('');
   return (
-    <>
-      <AxoFieldList.TextFieldItem
-        value={givenName}
-        onValueChange={setGivenName}
-        placeholder="First name (Required)"
-        maxGraphemes={26}
-        maxBytes={128}
-        showCount
-        showClear
-      />
-      <AxoFieldList.TextFieldItem
-        value={familyName}
-        onValueChange={setFamilyName}
-        placeholder="Last name (Optional)"
-        maxGraphemes={26}
-        maxBytes={128}
-        showCount
-        showClear
-      />
-    </>
+    <AxoTextField.Root
+      value={value}
+      onValueChange={setValue}
+      maxGraphemes={26}
+      maxBytes={128}
+    >
+      <AxoTextField.Input placeholder="First name (Required)" />
+      <AxoTextField.Count />
+      <AxoTextField.Clear />
+    </AxoTextField.Root>
+  );
+}
+
+function FamilyName() {
+  const [value, setValue] = useState('');
+  return (
+    <AxoTextField.Root
+      value={value}
+      onValueChange={setValue}
+      maxGraphemes={26}
+      maxBytes={128}
+    >
+      <AxoTextField.Input placeholder="Last name (Optional)" />
+      <AxoTextField.Count />
+      <AxoTextField.Clear />
+    </AxoTextField.Root>
   );
 }
 
 export function Basic(): ReactNode {
   return (
     <AxoFieldList.Root>
-      <Names />
+      <AxoFieldList.Item>
+        <GivenName />
+      </AxoFieldList.Item>
+      <AxoFieldList.Item>
+        <FamilyName />
+      </AxoFieldList.Item>
     </AxoFieldList.Root>
   );
 }
@@ -47,7 +58,12 @@ export function Basic(): ReactNode {
 export function Title(): ReactNode {
   return (
     <AxoFieldList.Root title="Profile">
-      <Names />
+      <AxoFieldList.Item>
+        <GivenName />
+      </AxoFieldList.Item>
+      <AxoFieldList.Item>
+        <FamilyName />
+      </AxoFieldList.Item>
     </AxoFieldList.Root>
   );
 }
@@ -58,7 +74,12 @@ export function Description(): ReactNode {
       title="Profile"
       description="Your profile and changes to it will be visible to people you message, contacts and groups."
     >
-      <Names />
+      <AxoFieldList.Item>
+        <GivenName />
+      </AxoFieldList.Item>
+      <AxoFieldList.Item>
+        <FamilyName />
+      </AxoFieldList.Item>
     </AxoFieldList.Root>
   );
 }
@@ -67,9 +88,28 @@ export function Help(): ReactNode {
   return (
     <AxoFieldList.Root
       title="Profile"
-      help="Your profile and changes to it will be visible to people you message, contacts and groups."
+      footerDescription="Your profile and changes to it will be visible to people you message, contacts and groups."
     >
-      <Names />
+      <AxoFieldList.Item>
+        <GivenName />
+      </AxoFieldList.Item>
+      <AxoFieldList.Item>
+        <FamilyName />
+      </AxoFieldList.Item>
+    </AxoFieldList.Root>
+  );
+}
+
+export function Group(): ReactNode {
+  return (
+    <AxoFieldList.Root title="Profile">
+      <AxoFieldList.Item>
+        <AxoFieldGroup.Root>
+          <GivenName />
+          <AxoFieldGroup.Separator />
+          <FamilyName />
+        </AxoFieldGroup.Root>
+      </AxoFieldList.Item>
     </AxoFieldList.Root>
   );
 }

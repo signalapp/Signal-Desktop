@@ -136,22 +136,26 @@ export function PinChangeModal({
               </div>
               <InputContainer helperElement={<Spacer className={tw('h-8')} />}>
                 <AxoPasswordField.Root
-                  placeholder={
-                    step === 'create'
-                      ? i18n(
-                          'icu:PinChangeModal__pin-input-placeholder--create'
-                        )
-                      : i18n(
-                          'icu:PinChangeModal__pin-input-placeholder--confirm'
-                        )
-                  }
-                  autoFocus
                   maxBytes={PIN_MAX_BYTES}
                   maxGraphemes={PIN_MAX_GRAPHEMES}
                   onValueChange={handlePinInputChange}
                   value={pin}
-                  autoComplete="current-password"
-                />
+                >
+                  <AxoPasswordField.Input
+                    autoFocus
+                    autoComplete="current-password"
+                    placeholder={
+                      step === 'create'
+                        ? i18n(
+                            'icu:PinChangeModal__pin-input-placeholder--create'
+                          )
+                        : i18n(
+                            'icu:PinChangeModal__pin-input-placeholder--confirm'
+                          )
+                    }
+                  />
+                  <AxoPasswordField.Reveal />
+                </AxoPasswordField.Root>
               </InputContainer>
             </div>
           </AxoDialog.Body>

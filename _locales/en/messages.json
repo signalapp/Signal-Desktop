@@ -9468,6 +9468,10 @@
     "messageformat": "Please try again in {duration}",
     "description": "Wait time countdown shown on the standalone registration screen where phone number is entered"
   },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code",
+    "description": "Accessibility label for region code selector in phone number input in standalone registration"
+  },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Phone number",
     "description": "Placeholder in the text box of the standalone registration screen where phone number is entered"
@@ -10882,6 +10886,10 @@
     "messageformat": "Context menu",
     "description": "Default aria-label for the context menu buttons"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Username",
+    "description": "Accessibility label for the nickname portion of the username editor"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Username",
     "description": "Placeholder for the username field"
@@ -10889,6 +10897,10 @@
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Usernames are always paired with a set of numbers.",
     "description": "Shown on the edit username screen"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits",
+    "description": "Accessibility label for the discriminator portion of the username editor"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Learn More",

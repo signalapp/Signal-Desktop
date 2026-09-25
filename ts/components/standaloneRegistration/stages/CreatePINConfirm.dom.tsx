@@ -66,16 +66,20 @@ export function CreatePINConfirmScreen({
       <InputContainer className={tw('w-81')}>
         <AxoPasswordField.Root
           disabled={pending}
-          autoFocus
           maxBytes={PIN_MAX_BYTES}
           maxGraphemes={PIN_MAX_GRAPHEMES}
           onValueChange={onChangePIN}
-          placeholder={i18n(
-            'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
-          )}
           value={pin}
-          autoComplete="new-password"
-        />
+        >
+          <AxoPasswordField.Input
+            autoFocus
+            autoComplete="new-password"
+            placeholder={i18n(
+              'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
+            )}
+          />
+          <AxoPasswordField.Reveal />
+        </AxoPasswordField.Root>
       </InputContainer>
       <Spacer className={tw('h-8 grow')} />
       <Buttons>

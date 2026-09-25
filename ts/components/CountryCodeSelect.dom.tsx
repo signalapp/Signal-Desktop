@@ -7,14 +7,16 @@ import {
   useMemo,
   type JSX,
   type MouseEvent,
-  type ChangeEvent,
 } from 'react';
 import Fuse from 'fuse.js';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { CountryDataType } from '../util/getCountryData.dom.ts';
-import { SearchInput } from './SearchInput.dom.tsx';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoSearchField } from '../axo/fields/AxoSearchField.dom.tsx';
+import { AxoList } from '../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
+import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -109,12 +111,10 @@ export function ChooseCountryCodeModal({
     return index.search(searchTerm).map(({ item }) => item);
   }, [countries, index, searchTerm]);
 
-  const onSearchTermChange = useCallback(
-    (ev: ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(ev.target.value);
-    },
-    []
-  );
+  const onSearchTermChange = useCallback((value: string) => {
+    setSearchTerm(value);
+  }, []);
+
   const onCountryClick = useCallback(
     (region: string) => {
       onClose();
@@ -133,7 +133,7 @@ export function ChooseCountryCodeModal({
       }}
     >
       <AxoDialog.Content
-        size="sm"
+        size="md"
         escape="cancel-is-noop"
         disableMissingAriaDescriptionWarning
       >
@@ -143,65 +143,46 @@ export function ChooseCountryCodeModal({
           </AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body>
-          <SearchInput
-            i18n={i18n}
-            moduleClassName="CountryCodeSelect__Modal__Search"
-            onChange={onSearchTermChange}
-            placeholder={i18n('icu:search')}
+        <AxoDialog.Search>
+          <AxoSearchField.Root
             value={searchTerm}
-          />
-          <div className="CountryCodeSelect__table">
-            {filteredCountries.map(({ displayName, region, code }) => {
-              return (
-                <CountryButton
-                  key={region}
-                  region={region}
-                  displayName={displayName}
-                  code={code}
-                  onClick={onCountryClick}
-                />
-              );
-            })}
-          </div>
-          <div className="CountryCodeSelect__grow" />
+            onValueChange={onSearchTermChange}
+          >
+            <AxoSearchField.Icon />
+            <AxoSearchField.Input autoFocus placeholder={i18n('icu:search')} />
+            <AxoSearchField.Clear />
+          </AxoSearchField.Root>
+        </AxoDialog.Search>
+        <AxoDialog.Body
+          scrollbarWidth="none"
+          padding="md"
+          noFooterHideBottomScrollHint
+          forceMaxHeight
+        >
+          {filteredCountries.length !== 0 && (
+            <AxoList.Group>
+              <AxoList.Root>
+                <AxoList.Body>
+                  <AxoItem.Group>
+                    {filteredCountries.map(country => {
+                      return (
+                        <AxoClickableItem.Root
+                          key={country.region}
+                          label={country.displayName}
+                          value={country.code}
+                          onClick={() => {
+                            onCountryClick(country.region);
+                          }}
+                        />
+                      );
+                    })}
+                  </AxoItem.Group>
+                </AxoList.Body>
+              </AxoList.Root>
+            </AxoList.Group>
+          )}
         </AxoDialog.Body>
       </AxoDialog.Content>
     </AxoDialog.Root>
-  );
-}
-
-type CountryButtonPropsType = Readonly<{
-  region: string;
-  displayName: string;
-  code: string;
-  onClick: (region: string) => void;
-}>;
-
-function CountryButton({
-  region,
-  displayName,
-  code,
-  onClick,
-}: CountryButtonPropsType): JSX.Element {
-  const onButtonClick = useCallback(
-    (ev: MouseEvent) => {
-      ev.preventDefault();
-      onClick(region);
-    },
-    [region, onClick]
-  );
-
-  return (
-    <button
-      type="button"
-      className="CountryCodeSelect__CountryButton"
-      onClick={onButtonClick}
-    >
-      <div className="CountryCodeSelect__CountryButton__name">
-        {displayName}
-      </div>
-      <div className="CountryCodeSelect__CountryButton__code">{code}</div>
-    </button>
   );
 }

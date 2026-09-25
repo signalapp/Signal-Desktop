@@ -1,0 +1,311 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
+ * Layout
+ */
+
+@layer components {
+  .axo-field-container {
+    @apply forced-colors:border;
+    @apply forced-colors:border-[ButtonBorder];
+    @apply forced-colors:bg-[ButtonFace];
+    @apply forced-colors:text-[ButtonText];
+    @apply forced-colors:has-user-invalid:border-[LinkText];
+
+    /**
+     * Variants
+     */
+
+    &.axo-field-container-text {
+      @apply bg-control;
+      @apply border-[0.5px] border-primary;
+      @apply shadow-elevation-0 shadow-no-outline;
+
+      &,
+      .axo-field-root {
+        @apply curved-lg;
+      }
+    }
+
+    &.axo-field-container-search {
+      @apply bg-primary;
+
+      &,
+      .axo-field-root {
+        @apply rounded-full;
+      }
+    }
+
+    &.axo-field-container-listitem {
+      @apply forced-colors:border-0;
+
+      &,
+      .axo-field-root {
+        @apply curved-xl;
+      }
+    }
+  }
+
+  .axo-field-group {
+    @apply flex items-start;
+
+    .axo-field-root {
+      @apply flex-1;
+      @apply grow-[calc(infinity)];
+
+      &.axo-field-root-fit {
+        @apply grow;
+      }
+    }
+  }
+
+  .axo-field-root {
+    @apply relative z-0;
+    @apply w-[stretch];
+    @apply grid;
+    grid-template:
+      'axo-field-leading axo-field-input axo-field-count axo-field-trailing' min-content
+      'axo-field-error   axo-field-error axo-field-error axo-field-error' min-content / min-content auto min-content min-content;
+
+    /* grid-template-columns:
+      [axo-field-leading] min-content
+      [axo-field-input] auto
+      [axo-field-count] min-content
+      [axo-field-trailing] min-content; */
+
+    @apply has-[.axo-field-input:focus-visible]:axo-focus-ring;
+
+    &.axo-field-root-fit {
+      @apply w-fit;
+    }
+  }
+
+  .axo-field-leading {
+    grid-area: axo-field-leading;
+  }
+
+  .axo-field-trailing {
+    grid-area: axo-field-trailing;
+    @apply pe-2.5;
+  }
+
+  .axo-field-input-wrapper {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    @apply relative z-0;
+    @apply grid grid-cols-subgrid;
+    @apply overflow-hidden;
+    @apply first:ps-2.5;
+    @apply last:pe-2.5;
+    @apply curved-lg;
+
+    .axo-field-root-fit & {
+      @apply w-fit;
+    }
+  }
+
+  .axo-field-input {
+    grid-area: axo-field-input;
+    @apply -mx-25 px-25;
+    @apply py-1.5;
+    @apply indent-1;
+    @apply type-body-large;
+    @apply text-primary;
+    @apply placeholder:text-placeholder;
+    @apply disabled:text-disabled;
+    @apply focus-visible:outline-none;
+
+    &::-webkit-search-cancel-button {
+      @apply appearance-none;
+    }
+
+    .axo-field-root-fit & {
+      @apply field-sizing-content;
+    }
+  }
+
+  .axo-field-icon {
+    @apply relative z-10;
+    @apply flex items-center justify-center;
+    @apply text-secondary;
+    @apply ps-2.5 pe-1;
+    @apply forced-colors:text-[ButtonText];
+    @apply pointer-events-none;
+  }
+
+  .axo-field-count {
+    grid-area: axo-field-count;
+    @apply relative z-10;
+    @apply flex h-[stretch] items-center justify-end;
+    @apply box-content min-w-[2ch];
+    @apply px-1;
+    @apply type-body-small tabular-nums;
+    @apply text-secondary;
+    @apply pointer-events-none;
+
+    .axo-field-root:not(:has(.axo-field-trailing)) & {
+      @apply pe-2.5;
+    }
+
+    &.axo-field-count-invisible {
+      @apply invisible;
+    }
+
+    &.axo-field-count-disabled {
+      @apply text-disabled forced-colors:text-[GrayText];
+    }
+
+    &.axo-field-count-warn {
+      @apply text-destructive forced-color-adjust-none;
+
+      &.axo-field-count-disabled {
+        @apply text-destructive-disabled forced-colors:text-[GrayText];
+      }
+    }
+  }
+
+  .axo-field-action,
+  .axo-field-clear {
+    @apply relative z-10;
+    @apply aria-disabled:cursor-default;
+    @apply focus-visible:outline-none;
+
+    &.axo-field-clear-invisible {
+      @apply invisible;
+    }
+
+    .axo-field-action-inner,
+    .axo-field-clear-inner {
+      @apply flex items-center justify-center;
+      @apply rounded-full;
+      @apply text-secondary;
+      @apply forced-colors:text-[ButtonText];
+    }
+
+    &:disabled {
+      .axo-field-action-inner,
+      .axo-field-clear-inner {
+        @apply text-disabled;
+        @apply forced-colors:text-[GrayText];
+      }
+    }
+
+    &:enabled {
+      &:hover {
+        .axo-field-action-inner,
+        .axo-field-clear-inner {
+          @apply z-10;
+          @apply not-forced-colors:text-primary;
+
+          /** Variants */
+          .axo-field-container-text &,
+          .axo-field-container-listitem & {
+            @apply bg-surface-secondary;
+          }
+          .axo-field-container-search & {
+            @apply bg-primary;
+          }
+        }
+      }
+    }
+
+    &:focus-visible {
+      @apply z-10;
+      .axo-field-action-inner,
+      .axo-field-clear-inner {
+        @apply axo-focus-ring;
+      }
+    }
+  }
+
+  .axo-field-action {
+    @apply px-1;
+    @apply py-0.75;
+
+    &.axo-field-leading {
+      @apply ps-1;
+    }
+
+    &.axo-field-trailing {
+      @apply pe-1;
+    }
+
+    .axo-field-action-inner {
+      @apply p-1;
+    }
+  }
+
+  .axo-field-clear {
+    @apply py-1.5;
+    @apply ps-0.5 pe-1.5;
+
+    .axo-field-clear-inner {
+      @apply p-0.5;
+    }
+  }
+
+  .axo-field-separator {
+    @apply mx-2 my-2 h-[stretch];
+    @apply rounded-xs border-l border-secondary;
+  }
+
+  .axo-field-loading {
+    @apply box-content min-w-4;
+    @apply flex h-[stretch] items-center;
+    @apply ps-1 pe-1.5;
+    @apply pointer-events-none;
+
+    &.axo-field-loading-invisible {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-custom-leading-slot,
+  .axo-field-custom-trailing-slot {
+    @apply z-10;
+  }
+
+  .axo-field-root:has(.axo-field-custom-leading-slot.axo-field-leading) {
+    .axo-field-action.axo-field-leading,
+    .axo-field-icon {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-root:has(.axo-field-action.axo-field-leading) {
+    .axo-field-icon {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-root:has(.axo-field-action.axo-field-trailing) {
+    .axo-field-clear {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-root:has(.axo-field-loading:not(.axo-field-loading-invisible)) {
+    .axo-field-action.axo-field-trailing,
+    .axo-field-clear {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-root:has(.axo-field-custom-trailing-slot.axo-field-trailing) {
+    .axo-field-loading:not(.axo-field-loading-invisible),
+    .axo-field-action.axo-field-trailing,
+    .axo-field-clear {
+      @apply invisible;
+    }
+  }
+
+  .axo-field-error {
+    grid-area: axo-field-error;
+    @apply px-3.5 pb-1.5;
+    @apply type-body-small;
+    @apply text-destructive;
+  }
+}

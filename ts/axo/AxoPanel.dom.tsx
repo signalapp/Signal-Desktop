@@ -53,7 +53,8 @@ export namespace AxoPanel {
         className={tw(
           'h-13 shrink-0',
           'grid items-center gap-2',
-          'grid-cols-[[back-slot]_1fr_[label-slot]_auto_[reserved-slot]_1fr]'
+          'grid-cols-[[back-slot]_1fr_[label-slot]_auto_[reserved-slot]_1fr]',
+          'px-4'
         )}
       >
         {props.children}

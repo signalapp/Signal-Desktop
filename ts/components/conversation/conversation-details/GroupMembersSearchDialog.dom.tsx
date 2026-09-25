@@ -207,9 +207,11 @@ function SearchField(props: SearchFieldProps): ReactNode {
     <AxoSearchField.Root
       value={props.searchValue}
       onValueChange={props.onSearchValueChange}
-      placeholder={placeholder}
-      autoFocus
-    />
+    >
+      <AxoSearchField.Icon />
+      <AxoSearchField.Input placeholder={placeholder} autoFocus />
+      <AxoSearchField.Clear />
+    </AxoSearchField.Root>
   );
 }
 

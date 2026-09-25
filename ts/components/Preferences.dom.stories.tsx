@@ -226,17 +226,12 @@ function renderUpdateDialog(
     />
   );
 }
-function renderProfileEditor({
-  contentsRef,
-}: {
-  contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): JSX.Element {
+function renderProfileEditor(): JSX.Element {
   return (
     <ProfileEditor
       aboutEmoji={undefined}
       aboutText={undefined}
       color={undefined}
-      contentsRef={contentsRef}
       conversationId="something"
       deleteAvatarFromDisk={action('deleteAvatarFromDisk')}
       deleteUsername={action('deleteUsername')}

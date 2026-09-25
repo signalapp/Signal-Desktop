@@ -167,10 +167,8 @@ function renderNotificationProfilesCreateFlow(
   return <SmartNotificationProfilesCreateFlow {...props} />;
 }
 
-function renderProfileEditor(options: {
-  contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): JSX.Element {
-  return <SmartProfileEditor contentsRef={options.contentsRef} />;
+function renderProfileEditor(): JSX.Element {
+  return <SmartProfileEditor />;
 }
 
 function renderDonationsPane({

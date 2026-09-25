@@ -8,17 +8,39 @@ import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 
 export namespace Story {
   /**
+   * <Story.Stack>
+   * --------------------------------------------------------------------------
+   */
+
+  export type StackProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const Stack: FC<StackProps> = memo(props => {
+    return <div className={tw('flex flex-col gap-4')}>{props.children}</div>;
+  });
+
+  Stack.displayName = 'Story.Stack';
+
+  /**
    * <Story.Hint>
    * --------------------------------------------------------------------------
    */
 
   export type HintProps = Readonly<{
-    children?: ReactNode;
+    children: ReactNode;
   }>;
 
   export const Hint: FC<HintProps> = memo(props => {
     return (
-      <p className={tw('type-caption text-secondary')}>{props.children}</p>
+      <p
+        className={tw(
+          'my-2 first:mt-0 last:mb-0',
+          'type-caption text-secondary'
+        )}
+      >
+        {props.children}
+      </p>
     );
   });
 
@@ -30,14 +52,15 @@ export namespace Story {
    */
 
   export type CalloutProps = Readonly<{
-    children?: ReactNode;
+    children: ReactNode;
   }>;
 
-  export const Callout: FC<HintProps> = memo(props => {
+  export const Callout: FC<CalloutProps> = memo(props => {
     return (
       <div
         className={tw(
-          'my-2 flex gap-2 p-2',
+          'my-2 first:mt-0 last:mb-0',
+          'flex gap-2 p-2',
           'bg-warning-tint text-warning',
           'border border-dashed',
           'type-caption font-medium',
@@ -59,7 +82,7 @@ export namespace Story {
 
   export type LegendProps = Readonly<{
     label: string;
-    children?: ReactNode;
+    children: ReactNode;
   }>;
 
   export const Legend: FC<LegendProps> = memo(props => {
