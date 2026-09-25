@@ -7,25 +7,31 @@ type LayoutMapType = { get: (code: string) => string | undefined };
 
 let layoutMap: LayoutMapType | undefined;
 
-export async function initialize(): Promise<void> {
-  strictAssert(layoutMap === undefined, 'keyboardLayout already initialized');
+export namespace KeyboardLayout {
+  export async function initialize(): Promise<void> {
+    strictAssert(layoutMap === undefined, 'keyboardLayout already initialized');
 
-  const experimentalNavigator = window.navigator as unknown as {
-    keyboard: { getLayoutMap: () => Promise<LayoutMapType> };
-  };
+    const experimentalNavigator = window.navigator as unknown as {
+      keyboard: { getLayoutMap: () => Promise<LayoutMapType> };
+    };
 
-  strictAssert(
-    typeof experimentalNavigator.keyboard?.getLayoutMap === 'function',
-    'No support for getLayoutMap'
-  );
+    strictAssert(
+      typeof experimentalNavigator.keyboard?.getLayoutMap === 'function',
+      'No support for getLayoutMap'
+    );
 
-  layoutMap = await experimentalNavigator.keyboard.getLayoutMap();
-}
+    layoutMap = await experimentalNavigator.keyboard.getLayoutMap();
+  }
 
-export function lookup({
-  code,
-  key,
-}: Pick<KeyboardEvent, 'code' | 'key'>): string | undefined {
-  strictAssert(layoutMap !== undefined, 'keyboardLayout not initialized');
-  return layoutMap.get(code) ?? key;
+  export function get(code: string): string | null {
+    strictAssert(layoutMap !== undefined, 'keyboardLayout not initialized');
+    return layoutMap.get(code) ?? null;
+  }
+
+  export function lookup({
+    code,
+    key,
+  }: Pick<KeyboardEvent, 'code' | 'key'>): string | undefined {
+    return get(code) ?? key;
+  }
 }

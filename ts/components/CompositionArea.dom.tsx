@@ -65,7 +65,7 @@ import {
 } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { MediaEditor } from './MediaEditor.dom.tsx';
 import { isImageTypeSupported } from '../util/GoogleChrome.std.ts';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import { PanelType } from '../types/Panels.std.ts';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.tsx';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';

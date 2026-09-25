@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
-import * as KeyboardLayout from '../services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import { getHasPanelOpen } from '../state/selectors/nav.std.ts';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.ts';
 import { getIsInFullScreenCall } from '../state/selectors/isInFullScreenCall.std.ts';

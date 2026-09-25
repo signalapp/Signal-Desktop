@@ -64,7 +64,7 @@ import {
   initializeGroupCredentialFetcher,
 } from './services/groupCredentialFetcher.preload.ts';
 import { initializeNetworkObserver } from './services/networkObserver.preload.ts';
-import * as KeyboardLayout from './services/keyboardLayout.dom.ts';
+import { KeyboardLayout } from './services/keyboardLayout.dom.ts';
 import * as StorageService from './services/storage.preload.ts';
 import { usernameIntegrity } from './services/usernameIntegrity.preload.ts';
 import { updateIdentityKey } from './services/profiles.preload.ts';
