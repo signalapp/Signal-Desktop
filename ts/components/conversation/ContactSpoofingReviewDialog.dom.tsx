@@ -259,7 +259,10 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             sharedGroupNames={safe.sharedGroupNames}
             i18n={i18n}
             onClick={() => {
-              onClose();
+              // Open the contact modal on top of this review dialog without
+              // closing it. The contact modal is a nested modal dialog, so it
+              // stays interactive and, when dismissed, this dialog remains open
+              // for reviewing the next contact.
               showContactModal({ contactId: safe.conversation.id });
             }}
             theme={theme}
@@ -362,7 +365,11 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       theme={theme}
                       oldName={oldName}
                       onClick={() => {
-                        onClose();
+                        // Open the contact modal on top of this review dialog
+                        // without closing it. The contact modal is a nested modal
+                        // dialog, so it stays interactive and, when dismissed,
+                        // this dialog remains open for reviewing the next
+                        // contact.
                         showContactModal({
                           contactId: conversationInfo.conversation.id,
                         });
