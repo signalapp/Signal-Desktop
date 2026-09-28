@@ -2038,6 +2038,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileLastFetchedAt,
     e164,
     serviceId,
+    groupId,
     expireTimerVersion,
   } = data;
 
@@ -2050,6 +2051,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
 
       e164 = $e164,
       serviceId = $serviceId,
+      groupId = $groupId,
 
       active_at = $active_at,
       type = $type,
@@ -2068,6 +2070,7 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
 
     e164: e164 || null,
     serviceId: serviceId || null,
+    groupId: groupId || null,
 
     active_at: active_at || null,
     type,
