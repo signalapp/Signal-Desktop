@@ -438,14 +438,14 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       assert.deepEqual(aciRecord?.pniBinary, stranger.device.pniRawUuid);
       assert.strictEqual(aciRecord?.pniSignatureVerified, true);
 
+      assert.isEmpty(phone.getOrphanedStorageKeys());
+
       // Two outgoing, one incoming
       const messages = window.locator('.module-message__text');
       assert.strictEqual(await messages.count(), 3, 'messages');
 
       // Title transition notification
       await expectSystemMessages(window, [/You started this chat with/]);
-
-      assert.isEmpty(await phone.getOrphanedStorageKeys());
     }
   });
 });
