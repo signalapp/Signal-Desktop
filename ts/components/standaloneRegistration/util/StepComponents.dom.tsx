@@ -123,3 +123,18 @@ export function Buttons({
     </div>
   );
 }
+
+export function PinLearnMoreLink(
+  parts: Array<JSX.Element | string>
+): JSX.Element {
+  return (
+    <a
+      className={tw('text-primary')}
+      href={PIN_ARTICLE_ON_SUPPORT}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {parts}
+    </a>
+  );
+}

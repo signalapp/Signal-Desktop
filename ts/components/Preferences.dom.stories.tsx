@@ -486,10 +486,12 @@ export default {
     hasPreferContactAvatars: true,
     hasReactionNotifications: true,
     hasReadReceipts: true,
+    hasRegistrationLock: false,
     hasRelayCalls: false,
     hasSealedSenderIndicators: true,
     hasSpellCheck: true,
     hasStoriesDisabled: false,
+    hasSvrPin: false,
     hasTextFormatting: true,
     hasTypingIndicators: true,
     hasUnreadReminders: true,
@@ -625,6 +627,7 @@ export default {
     onPreferContactAvatarsChange: action('onPreferContactAvatarsChange'),
     onReactionNotificationsChange: action('onReactionNotificationsChange'),
     onReadReceiptsChange: action('onReadReceiptsChange'),
+    onRegistrationLockChange: action('onRegistrationLockChange'),
     onRelayCallsChange: action('onRelayCallsChange'),
     onResetNotificationSettings: action('onResetNotificationSettings'),
     onSealedSenderIndicatorsChange: action('onSealedSenderIndicatorsChange'),
@@ -1160,12 +1163,29 @@ PrivacyBlockedManyBoth.args = {
 export const PrivacyWhenPrimary = Template.bind({});
 PrivacyWhenPrimary.args = {
   settingsLocation: { page: SettingsPage.Privacy },
+  hasSvrPin: true,
   weArePrimaryDevice: true,
 };
 
 export const GeneralWhenPrimary = Template.bind({});
 GeneralWhenPrimary.args = {
   settingsLocation: { page: SettingsPage.General },
+  hasSvrPin: true,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryWithRegLock = Template.bind({});
+GeneralWhenPrimaryWithRegLock.args = {
+  settingsLocation: { page: SettingsPage.General },
+  hasSvrPin: true,
+  hasRegistrationLock: true,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryWithoutSignalPin = Template.bind({});
+GeneralWhenPrimaryWithoutSignalPin.args = {
+  settingsLocation: { page: SettingsPage.General },
+  hasSvrPin: false,
   weArePrimaryDevice: true,
 };
 

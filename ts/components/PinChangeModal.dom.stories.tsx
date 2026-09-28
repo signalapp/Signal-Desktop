@@ -13,9 +13,21 @@ export default {
   title: 'Components/PinChangeModal',
 } satisfies Meta;
 
-export function Default(): JSX.Element {
+export function Change(): JSX.Element {
   return (
     <PinChangeModal
+      hasSvrPin
+      onCancel={action('onCancel')}
+      onSubmit={action('onSubmit')}
+      i18n={i18n}
+    />
+  );
+}
+
+export function Create(): JSX.Element {
+  return (
+    <PinChangeModal
+      hasSvrPin={false}
       onCancel={action('onCancel')}
       onSubmit={action('onSubmit')}
       i18n={i18n}

@@ -278,6 +278,7 @@ async function migrateSVR(
 
   if (result.success) {
     await putJobState(type, omit(startingJobState, id));
+    await itemStorage.put('isSvrPinStored', true);
     log.info(`${logId}: Migration succeeded!`);
     return;
   }
@@ -347,6 +348,7 @@ async function storeSVR(
 
   if (result.success) {
     await putJobState(type, omit(startingJobState, id));
+    await itemStorage.put('isSvrPinStored', true);
     log.info(`${logId}: Store succeeded!`);
     return;
   }

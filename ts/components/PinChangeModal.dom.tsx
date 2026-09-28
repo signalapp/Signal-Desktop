@@ -8,7 +8,7 @@ import { tw } from '../axo/tw.dom.tsx';
 import { AxoPasswordField } from '../axo/fields/AxoPasswordField.dom.tsx';
 import {
   InputContainer,
-  PIN_ARTICLE_ON_SUPPORT,
+  PinLearnMoreLink,
   Spacer,
 } from './standaloneRegistration/util/StepComponents.dom.tsx';
 import {
@@ -19,22 +19,13 @@ import {
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { I18n } from './I18n.dom.tsx';
 
-const learnMoreLink = (parts: Array<JSX.Element | string>) => (
-  <a
-    className={tw('text-primary')}
-    href={PIN_ARTICLE_ON_SUPPORT}
-    target="_blank"
-    rel="noreferrer"
-  >
-    {parts}
-  </a>
-);
-
 export function PinChangeModal({
+  hasSvrPin,
   i18n,
   onCancel,
   onSubmit,
 }: {
+  hasSvrPin: boolean;
   i18n: LocalizerType;
   onCancel: () => void;
   onSubmit: (pin: string) => void;
@@ -86,6 +77,29 @@ export function PinChangeModal({
     }
   }, [isValidPIN, pin, step, onSubmit]);
 
+  let title: string;
+  let body: JSX.Element;
+  if (step === 'create') {
+    title = hasSvrPin
+      ? i18n('icu:PinChangeModal__title--create')
+      : i18n('icu:PinChangeModal__title--create--without-pin');
+    const bodyI18n = hasSvrPin
+      ? 'icu:PinChangeModal__body--create'
+      : 'icu:PinChangeModal__body--create--without-pin';
+    body = (
+      <I18n
+        id={bodyI18n}
+        i18n={i18n}
+        components={{
+          learnMoreLink: PinLearnMoreLink,
+        }}
+      />
+    );
+  } else {
+    title = i18n('icu:PinChangeModal__title--confirm');
+    body = <I18n id="icu:PinChangeModal__body--confirm" i18n={i18n} />;
+  }
+
   return (
     <AxoDialog.Root
       open
@@ -108,11 +122,7 @@ export function PinChangeModal({
         >
           <AxoDialog.Header>
             {step === 'confirm' && <AxoDialog.Back onClick={handleCancel} />}
-            <AxoDialog.Title>
-              {step === 'create'
-                ? i18n('icu:PinChangeModal__title--create')
-                : i18n('icu:PinChangeModal__title--confirm')}
-            </AxoDialog.Title>
+            <AxoDialog.Title>{title}</AxoDialog.Title>
             <AxoDialog.Close />
           </AxoDialog.Header>
           <AxoDialog.Body>
@@ -122,17 +132,7 @@ export function PinChangeModal({
                   'mb-6 min-h-9 text-center type-body-medium text-secondary'
                 )}
               >
-                {step === 'create' ? (
-                  <I18n
-                    id="icu:PinChangeModal__body--create"
-                    i18n={i18n}
-                    components={{
-                      learnMoreLink,
-                    }}
-                  />
-                ) : (
-                  <I18n id="icu:PinChangeModal__body--confirm" i18n={i18n} />
-                )}
+                {body}
               </div>
               <InputContainer helperElement={<Spacer className={tw('h-8')} />}>
                 <AxoPasswordField.Root
