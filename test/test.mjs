@@ -7,7 +7,8 @@
  */
 
 mocha.setup('bdd');
-mocha.setup({ timeout: 10000 });
+// Can be overridden with TEST_ELECTRON_TIMEOUT
+mocha.setup({ timeout: window.testUtilities.timeout ?? 10000 });
 
 let themeSetting = 'light';
 

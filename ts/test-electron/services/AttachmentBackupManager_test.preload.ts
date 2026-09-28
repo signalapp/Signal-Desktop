@@ -27,7 +27,6 @@ import {
   encryptAttachmentV2,
   generateKeys,
 } from '../../AttachmentCrypto.node.ts';
-import { SECOND } from '../../util/durations/index.std.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 
@@ -42,7 +41,6 @@ const LOCAL_ENCRYPTION_KEYS = Bytes.toBase64(generateKeys());
 const ATTACHMENT_SIZE = 1476;
 
 describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(this: Mocha.Suite) {
-  this.timeout(10 * SECOND);
   let backupManager: AttachmentBackupManager | undefined;
   let runJob: sinon.SinonSpy;
   let copyBackupMedia: sinon.SinonStub;

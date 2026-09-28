@@ -325,6 +325,8 @@ jobs:
         env:
           ARTIFACTS_DIR: artifacts/windows
           WORKER_COUNT: 4
+          # Windows runner is very slow when writing to disk
+          TEST_ELECTRON_TIMEOUT: 20000
         timeout-minutes: 5
 
       - name: Run release tests

@@ -215,6 +215,7 @@ declare global {
     assert: typeof assert;
     testUtilities: {
       setup: MochaOptions;
+      timeout: number | undefined;
       debug: (info: unknown) => void;
       onTestEvent: (event: unknown) => void;
       initialize: () => Promise<void>;
