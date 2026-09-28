@@ -121,14 +121,16 @@ export async function downloadAttachment({
         error instanceof HTTPError &&
         error.code >= 400 &&
         error.code < 500 &&
-        RemoteConfig.isEnabled('desktop.internalUser') &&
         !expiresTooSoonForBackup({
           messageExpiresAt,
         })
       ) {
-        window.reduxActions.toast.showToast({
-          toastType: ToastType.UnableToDownloadFromBackupTier,
-        });
+        log.warn(`${logId}: attachment unexpectedly missing from backup tier`);
+        if (RemoteConfig.isEnabled('desktop.internalUser')) {
+          window.reduxActions.toast.showToast({
+            toastType: ToastType.UnableToDownloadFromBackupTier,
+          });
+        }
       }
     }
   }

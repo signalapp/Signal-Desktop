@@ -952,8 +952,8 @@ async function generateManifest(
   // manifest:
   let recordIkm: Uint8Array<ArrayBuffer> | undefined;
   if (previousManifest) {
-    const pendingInserts = new Set<string>();
-    const pendingDeletes = new Set<string>();
+    const expectedInserts = new Set<string>();
+    const expectedDeletes = new Set<string>();
 
     const remoteKeys = new Set<string>();
     (previousManifest.identifiers ?? []).forEach(
@@ -969,13 +969,13 @@ async function generateManifest(
       localKeys.add(storageID);
 
       if (!remoteKeys.has(storageID)) {
-        pendingInserts.add(storageID);
+        expectedInserts.add(storageID);
       }
     }
 
     remoteKeys.forEach(storageID => {
       if (!localKeys.has(storageID)) {
-        pendingDeletes.add(storageID);
+        expectedDeletes.add(storageID);
       }
     });
 
@@ -990,40 +990,42 @@ async function generateManifest(
       }))
     );
 
-    if (deleteKeys.size !== pendingDeletes.size) {
+    if (insertKeys.size !== expectedInserts.size) {
+      throw new Error(
+        `${logId}: invalid write insert items length do not match`
+      );
+    }
+
+    // Require every key removed from the remote manifest to be deleted, but allow
+    // additional keys to be present (e.g. storage-service-pending-deletes may reference
+    // keys that have already been deleted from the manifest)
+    for (const storageID of expectedDeletes) {
+      if (!deleteKeys.has(storageID)) {
+        throw new Error(
+          `${logId}: invalid write missing delete key ${redactStorageID(storageID)}`
+        );
+      }
+    }
+
+    if (deleteKeys.size !== expectedDeletes.size) {
       const localDeletes = Array.from(deleteKeys, key => {
         return redactStorageID(key);
       });
-      const remoteDeletes = Array.from(pendingDeletes, id => {
+      const remoteDeletes = Array.from(expectedDeletes, id => {
         return redactStorageID(id);
       });
-      log.error(
-        `${logId}: delete key sizes do not match`,
+      log.warn(
+        `${logId}: delete key sizes do not match. Could be due to local-generated pending delete`,
         'local',
         localDeletes.join(','),
         'remote',
         remoteDeletes.join(',')
       );
-      throw new Error(
-        `${logId}: invalid write delete keys length do not match`
-      );
-    }
-    if (insertKeys.size !== pendingInserts.size) {
-      throw new Error(
-        `${logId}: invalid write insert items length do not match`
-      );
-    }
-    for (const storageID of deleteKeys) {
-      if (!pendingDeletes.has(storageID)) {
-        throw new Error(
-          `${logId}: invalid write delete key missing from pending deletes`
-        );
-      }
     }
     for (const storageID of insertKeys) {
-      if (!pendingInserts.has(storageID)) {
+      if (!expectedInserts.has(storageID)) {
         throw new Error(
-          `${logId}: invalid write insert key missing from pending inserts`
+          `${logId}: invalid write insert key missing from expected inserts`
         );
       }
     }
@@ -2087,7 +2089,7 @@ async function processManifest(
 }
 
 export type FetchRemoteRecordsResultType = Readonly<{
-  missingKeys: Set<string>;
+  keysWithoutRecords: Set<string>;
   decryptedItems: ReadonlyArray<MergeableItemType>;
 }>;
 
@@ -2132,7 +2134,7 @@ async function fetchRemoteRecords(
     )
   ).flat();
 
-  const missingKeys = new Set<string>(remoteOnlyRecords.keys());
+  const keysWithoutRecords = new Set<string>(remoteOnlyRecords.keys());
 
   const decryptedItems = await pMap(
     storageItems,
@@ -2151,7 +2153,7 @@ async function fetchRemoteRecords(
       }
 
       const base64ItemID = Bytes.toBase64(key);
-      missingKeys.delete(base64ItemID);
+      keysWithoutRecords.delete(base64ItemID);
 
       const storageItemKey = deriveStorageItemKey({
         storageServiceKey: storageKey,
@@ -2197,24 +2199,24 @@ async function fetchRemoteRecords(
     { concurrency: 5 }
   );
 
-  const redactedMissingKeys = Array.from(missingKeys).map(id =>
+  const redactedKeysWithoutRecords = Array.from(keysWithoutRecords).map(id =>
     redactStorageID(id, storageVersion)
   );
 
   log.info(
-    `fetchRemoteRecords(${storageVersion}): missing remote ` +
-      `keys=${JSON.stringify(redactedMissingKeys)} ` +
-      `count=${missingKeys.size}`
+    `fetchRemoteRecords(${storageVersion}): missing remote records for ` +
+      `keys=${JSON.stringify(redactedKeysWithoutRecords)} ` +
+      `count=${keysWithoutRecords.size}`
   );
 
-  return { decryptedItems, missingKeys };
+  return { decryptedItems, keysWithoutRecords };
 }
 
 async function processRemoteRecords(
   storageVersion: number,
-  { decryptedItems, missingKeys }: FetchRemoteRecordsResultType
+  { decryptedItems, keysWithoutRecords }: FetchRemoteRecordsResultType
 ): Promise<void> {
-  const droppedKeys = new Set<string>();
+  const keysToDrop = new Set<string>();
 
   // Drop all GV1 records for which we have GV2 record in the same manifest
   const masterKeys = new Map<string, string>();
@@ -2250,7 +2252,7 @@ async function processRemoteRecords(
             `record=${redactStorageID(storageID, storageVersion)} ` +
             `previous=${redactStorageID(accountItem.storageID, storageVersion)}`
         );
-        droppedKeys.add(accountItem.storageID);
+        keysToDrop.add(accountItem.storageID);
       }
 
       accountItem = item;
@@ -2284,7 +2286,7 @@ async function processRemoteRecords(
         `GV2 record=${redactStorageID(gv2StorageID, storageVersion)} ` +
         'is in the same manifest'
     );
-    droppedKeys.add(storageID);
+    keysToDrop.add(storageID);
 
     return false;
   });
@@ -2434,17 +2436,17 @@ async function processRemoteRecords(
       }
 
       if (mergedRecord.shouldDrop) {
-        droppedKeys.add(mergedRecord.storageID);
+        keysToDrop.add(mergedRecord.storageID);
       }
     });
 
-    const redactedDroppedKeys = Array.from(droppedKeys.values()).map(key =>
+    const redactedKeysToDrop = Array.from(keysToDrop.values()).map(key =>
       redactStorageID(key, storageVersion)
     );
     log.info(
       `process(${storageVersion}): ` +
-        `dropped keys=${JSON.stringify(redactedDroppedKeys)} ` +
-        `count=${redactedDroppedKeys.length}`
+        `will drop keys=${JSON.stringify(redactedKeysToDrop)} ` +
+        `count=${redactedKeysToDrop.length}`
     );
 
     // Filter out all the unknown records we're already supporting
@@ -2476,12 +2478,30 @@ async function processRemoteRecords(
       newRecordsWithErrors
     );
 
-    // Store/overwrite keys pending deletion, but use them only when we have to
-    // upload a new manifest to avoid oscillation.
-    const pendingDeletes = [...missingKeys, ...droppedKeys].map(storageID => ({
-      storageID,
-      storageVersion,
-    }));
+    // Store keys pending deletion, but use them only when we have to upload a
+    // new manifest to avoid oscillation
+    const pendingDeletesByID = new Map<string, ExtendedStorageID>();
+
+    const storageIdsToKeep = new Set();
+    for (const record of mergedRecords) {
+      if (!record.shouldDrop) {
+        storageIdsToKeep.add(record.storageID);
+      }
+    }
+
+    // Add all the stored records we intend to delete on next upload (e.g. from a previous
+    // sync, or from addPendingDelete)
+    for (const item of itemStorage.get('storage-service-pending-deletes', [])) {
+      // But don't delete records whose data is now being used in the app
+      // (e.g. if another device chose to keep a different version of a duplicate record, etc.)
+      if (!storageIdsToKeep.has(item.storageID)) {
+        pendingDeletesByID.set(item.storageID, item);
+      }
+    }
+    for (const storageID of [...keysWithoutRecords, ...keysToDrop]) {
+      pendingDeletesByID.set(storageID, { storageID, storageVersion });
+    }
+    const pendingDeletes = Array.from(pendingDeletesByID.values());
     const redactedPendingDeletes = pendingDeletes.map(redactExtendedStorageID);
     log.info(
       `process(${storageVersion}): ` +
@@ -2858,7 +2878,7 @@ export async function reprocessUnknownFields(): Promise<void> {
 
       await processRemoteRecords(version, {
         decryptedItems: newRecords,
-        missingKeys: new Set(),
+        keysWithoutRecords: new Set(),
       });
 
       log.info(`reprocessUnknownFields(${version}): done`);
