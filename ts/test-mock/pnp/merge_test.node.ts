@@ -396,8 +396,23 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     {
       const newState = await phone.waitForStorageState({
         after: state,
+        // Unrelated uploads (e.g. from app startup) may land before the split,
+        // so wait for the split PNI contact to appear
+        predicate: storageState =>
+          storageState.hasRecord(({ record }) => {
+            const { aciBinary, pniBinary } = record.contact ?? {};
+            const expectedPni = pniContact.device.checkedPniRawUuid;
+            return (
+              !aciBinary?.length &&
+              pniBinary?.length === expectedPni.length &&
+              timingSafeEqual(pniBinary, expectedPni)
+            );
+          }),
       });
-      const { added, removed } = newState.diff(state);
+      const diff = newState.diff(state);
+      // only diff contacts to ignore other unrelated changes
+      const added = diff.added.filter(record => record.contact != null);
+      const removed = diff.removed.filter(record => record.contact != null);
       assert.strictEqual(added.length, 2, 'only two records must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
