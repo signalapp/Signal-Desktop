@@ -264,6 +264,20 @@ export const getShowStickerPickerHint = createSelector(
   }
 );
 
+export const getHasRegistrationLock = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.registrationLock ?? false;
+  }
+);
+
+export const getHasSvrPin = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.svrPin != null && (state.isSvrPinStored ?? false);
+  }
+);
+
 export const getHasUnidentifiedDeliveryIndicators = createSelector(
   getItems,
   (state: ItemsStateType): boolean => {

@@ -8344,9 +8344,21 @@
     "messageformat": "Change",
     "description": "Button for changing Signal PIN in settings"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Create a PIN",
+    "description": "Title for creating Signal PIN in settings when you don't have one"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Create",
+    "description": "Button for creating Signal PIN in settings when you don't have one"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN",
     "description": "Title for Signal PIN settings"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Footer text for Signal PIN settings section"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN reminders",
@@ -8355,6 +8367,14 @@
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "You'll be asked less frequently over time",
     "description": "Description for Signal PIN reminders setting"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Registration Lock",
+    "description": "Label for Registration Lock settings"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal.",
+    "description": "Footer text for Registration Lock setting"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content",
@@ -11076,11 +11096,19 @@
   },
   "icu:PinChangeModal__title--create": {
     "messageformat": "Change your Signal PIN",
-    "description": "Title of Signal PIN change dialog when creating a new PIN"
+    "description": "Title of Signal PIN change dialog when creating a new PIN with an existing PIN"
+  },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN",
+    "description": "Title of Signal PIN change dialog when creating a new PIN without an existing PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "You can change your PIN as long as this device is registered. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Body of Signal PIN change dialog when creating a new PIN"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>",
+    "description": "Body of Signal PIN change dialog when creating a new PIN without an existing PIN"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Confirm your Signal PIN",

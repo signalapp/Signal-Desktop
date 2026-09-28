@@ -25,10 +25,8 @@ import type {
 import {
   cdsLookup,
   deleteFromSVR2,
-  disableRegistrationLock,
   getSocketStatus,
   restoreFromSVR2,
-  setupRegistrationLock,
   storeWithSVR2,
 } from '../../textsecure/WebAPI.preload.ts';
 import type { FeatureFlagType } from '../../window.d.ts';
@@ -40,7 +38,7 @@ import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.pr
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { getSelectedConversationId } from '../../state/selectors/nav.std.ts';
 import * as Bytes from '../../Bytes.std.ts';
-import { getRegistrationLockString } from '../../jobs/registrationJobQueue.preload.ts';
+import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
 
 const log = createLogger('start');
 
@@ -71,10 +69,10 @@ if (
 
   const SignalDebug = {
     async setupRegistrationLock() {
-      await setupRegistrationLock(getRegistrationLockString());
+      await maybeUpdateRegistrationLock(true);
     },
     async disableRegistrationLock() {
-      await disableRegistrationLock();
+      await maybeUpdateRegistrationLock(false);
     },
     restoreFromSVR2: async (pin: string, expectedKey = testKey) => {
       const result = await restoreFromSVR2({ pin });

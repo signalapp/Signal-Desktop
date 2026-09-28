@@ -961,11 +961,13 @@ export function verifyPIN({
     if (!dataForReglockAccountCreate) {
       try {
         await itemStorage.put('svrPin', pin);
+        await itemStorage.put('isSvrPinStored', false);
         await itemStorage.put(
           'temporaryRegistrationMasterKey',
           toBase64(masterKey)
         );
         await itemStorage.put('standaloneRegistrationPartialState', undefined);
+        await itemStorage.put('registrationLock', false);
         enableStorageService(); // verifyPIN: No reglock, got temporary master key
       } catch (error) {
         log.error(
@@ -1062,6 +1064,10 @@ export function verifyPIN({
         'phoneNumberDiscoverability',
         profileData.phoneNumberDiscoverability
       );
+
+      // Created account with reglock so it remains on
+      await itemStorage.put('isSvrPinStored', true);
+      await itemStorage.put('registrationLock', true);
 
       const ourConversation =
         window.ConversationController.getOurConversationOrThrow();
@@ -1175,6 +1181,7 @@ export function createPIN({
       dispatch(updateWorkflow(workflow));
 
       await itemStorage.put('svrPin', pin);
+      await itemStorage.put('isSvrPinStored', false);
       await itemStorage.put('standaloneRegistrationPartialState', undefined);
 
       await registrationJobQueue.add({
@@ -1238,6 +1245,9 @@ export function completeRegistration({
       ValidStepsBeforeComplete.has(previousWorkflow.stage),
       `${logId}: Stage ${previousWorkflow.stage} is not a valid 'before complete' stage`
     );
+
+    // Can be reached by skipping PIN creation during registration.
+    await itemStorage.put('standaloneRegistrationPartialState', undefined);
 
     window.IPC.removeSetupMenuItems();
 

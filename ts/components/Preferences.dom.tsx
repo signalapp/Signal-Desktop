@@ -117,6 +117,7 @@ import { AxoSelectItem } from '../axo/items/AxoSelectItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
+import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -176,9 +177,11 @@ export type PropsDataType = {
   hasPreferContactAvatars: boolean;
   hasReactionNotifications: boolean;
   hasReadReceipts: boolean;
+  hasRegistrationLock: boolean | undefined;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean | undefined;
   hasStoriesDisabled: boolean;
+  hasSvrPin: boolean;
   hasTextFormatting: boolean;
   hasTypingIndicators: boolean;
   hasUnreadReminders: boolean;
@@ -372,6 +375,7 @@ type PropsFunctionType = {
   onPreferContactAvatarsChange: CheckboxChangeHandlerType;
   onReactionNotificationsChange: CheckboxChangeHandlerType;
   onReadReceiptsChange: CheckboxChangeHandlerType;
+  onRegistrationLockChange: CheckboxChangeHandlerType;
   onRelayCallsChange: CheckboxChangeHandlerType;
   onResetNotificationSettings: () => unknown;
   onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
@@ -512,10 +516,12 @@ export function Preferences({
   hasPreferContactAvatars,
   hasReactionNotifications,
   hasReadReceipts,
+  hasRegistrationLock,
   hasRelayCalls,
   hasSealedSenderIndicators,
   hasSpellCheck,
   hasStoriesDisabled,
+  hasSvrPin,
   hasTextFormatting,
   hasTypingIndicators,
   hasUnreadReminders,
@@ -572,6 +578,7 @@ export function Preferences({
   onPreferContactAvatarsChange,
   onReactionNotificationsChange,
   onReadReceiptsChange,
+  onRegistrationLockChange,
   onRelayCallsChange,
   onResetNotificationSettings,
   onSealedSenderIndicatorsChange,
@@ -990,23 +997,54 @@ export function Preferences({
           />
         </List>
         {weArePrimaryDevice && (
-          <List label={i18n('icu:Preferences--signal-pin')}>
+          <List
+            label={i18n('icu:Preferences--signal-pin')}
+            footerDescription={
+              <I18n
+                id="icu:Preferences--signal-pin__footer"
+                i18n={i18n}
+                components={{
+                  learnMoreLink: PinLearnMoreLink,
+                }}
+              />
+            }
+          >
             <ItemWithAction
-              label={i18n('icu:Preferences--change-signal-pin')}
+              label={
+                hasSvrPin
+                  ? i18n('icu:Preferences--change-signal-pin')
+                  : i18n('icu:Preferences--create-signal-pin')
+              }
               action={
                 <AxoItem.Action
                   variant="subtle-secondary"
                   onClick={showPinChangeModal}
                 >
-                  {i18n('icu:Preferences--change-signal-pin-button')}
+                  {hasSvrPin
+                    ? i18n('icu:Preferences--change-signal-pin-button')
+                    : i18n('icu:Preferences--create-signal-pin-button')}
                 </AxoItem.Action>
               }
             />
             <AxoSwitchItem.Root
               label={i18n('icu:Preferences--pin-reminders--header')}
-              description={i18n('icu:Preferences--pin-reminders--description')}
-              checked={hasPinReminders ?? false}
+              checked={hasSvrPin && (hasPinReminders ?? false)}
+              disabled={!hasSvrPin}
               onCheckedChange={onPinRemindersChange}
+            />
+          </List>
+        )}
+        {weArePrimaryDevice && (
+          <List
+            footerDescription={i18n(
+              'icu:Preferences--registration-lock__footer'
+            )}
+          >
+            <AxoSwitchItem.Root
+              label={i18n('icu:Preferences--registration-lock__label')}
+              checked={hasRegistrationLock ?? false}
+              disabled={!hasSvrPin}
+              onCheckedChange={onRegistrationLockChange}
             />
           </List>
         )}

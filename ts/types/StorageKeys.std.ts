@@ -285,9 +285,11 @@ export type StorageAccessType = {
 
   // When Desktop is standalone, we use these. Otherwise, only used for backup.
   svrPin: string;
+  isSvrPinStored: boolean;
   pinReminders: boolean | undefined;
   pinReminderLastCompleted: number | undefined;
   pinReminderNextInterval: number | undefined;
+  registrationLock: boolean | undefined;
 
   // Stored solely for persistence during import/export sequence
   optimizeOnDeviceStorage: boolean;
@@ -510,6 +512,7 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'password',
   'regionCode',
   'registrationIdMap',
+  'registrationLock',
   'remoteBuildExpiration',
   'sessionResets',
   'signedKeyId',
@@ -612,6 +615,7 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'isGroupVp9Enabled',
   'sfuUrl',
   'svrPin',
+  'isSvrPinStored',
   'pinReminderLastCompleted',
   'pinReminderNextInterval',
   'backupKeyViewed',

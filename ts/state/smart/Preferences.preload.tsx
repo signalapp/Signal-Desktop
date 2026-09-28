@@ -20,6 +20,8 @@ import {
   getCustomColors,
   getGlobalNotifyWhileMuted,
   getGlobalShowUnreadReminders,
+  getHasRegistrationLock,
+  getHasSvrPin,
   getItems,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
@@ -131,6 +133,7 @@ import {
 import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
 
 const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
   ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
@@ -871,6 +874,13 @@ export function SmartPreferences(): JSX.Element | null {
     'always-relay-calls',
     false
   );
+
+  const hasSvrPin = useSelector(getHasSvrPin);
+  const hasRegistrationLock = useSelector(getHasRegistrationLock);
+  const onRegistrationLockChange = (value: boolean) => {
+    drop(maybeUpdateRegistrationLock(value));
+  };
+
   const [hasStoriesDisabled, onHasStoriesDisabledChanged] = createItemsAccess(
     'hasStoriesDisabled',
     false,
@@ -1096,10 +1106,12 @@ export function SmartPreferences(): JSX.Element | null {
         hasPreferContactAvatars={hasPreferContactAvatars}
         hasReactionNotifications={hasReactionNotifications}
         hasReadReceipts={hasReadReceipts}
+        hasRegistrationLock={hasRegistrationLock}
         hasRelayCalls={hasRelayCalls}
         hasSealedSenderIndicators={hasSealedSenderIndicators}
         hasSpellCheck={hasSpellCheck}
         hasStoriesDisabled={hasStoriesDisabled}
+        hasSvrPin={hasSvrPin}
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
         hasUnreadReminders={hasUnreadReminders}
@@ -1163,6 +1175,7 @@ export function SmartPreferences(): JSX.Element | null {
         onPreferContactAvatarsChange={onPreferContactAvatarsChange}
         onReactionNotificationsChange={onReactionNotificationsChange}
         onReadReceiptsChange={onReadReceiptsChange}
+        onRegistrationLockChange={onRegistrationLockChange}
         onRelayCallsChange={onRelayCallsChange}
         onResetNotificationSettings={onResetNotificationSettings}
         onSealedSenderIndicatorsChange={onSealedSenderIndicatorsChange}
