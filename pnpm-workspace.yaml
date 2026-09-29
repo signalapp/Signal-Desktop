@@ -100,7 +100,7 @@ allowBuilds:
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true
   'electron@39.8.10': true # duplicate package through react-devtools
-  'electron@44.2.0': true
+  'electron@44.4.5': true
   'fs-xattr@0.4.0': true
 
   # Disabled Builds: Use wildcard version

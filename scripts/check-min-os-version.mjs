@@ -129,6 +129,7 @@ const ALLOWED_DLLS = new Set([
   'comctl32.dll',
   'comdlg32.dll',
   'crypt32.dll',
+  'cryptui.dll',
   'd3d11.dll',
   'd3d12.dll',
   'dbghelp.dll',
