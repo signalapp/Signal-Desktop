@@ -11,7 +11,6 @@ import '../clipboard.preload.ts';
 // Connect websocket early
 import '../../textsecure/preconnect.preload.ts';
 
-import './phase0-devtools.node.ts';
 import './phase1-ipc.preload.ts';
 import '../preload.preload.ts';
 import './phase2-dependencies.preload.ts';

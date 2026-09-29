@@ -32,7 +32,6 @@ trustPolicyExclude:
 
 auditConfig:
   ignoreGhsas:
-    - GHSA-3xgq-45jj-v275 # react-devtools > cross-spawn
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG)
     - GHSA-5c6j-r48x-rmvq # @storybook/addon-webpack5-compiler-swc > serialize-javascript
     - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
@@ -41,8 +40,6 @@ auditConfig:
     - GHSA-v56q-mh7h-f735 # used by sass, only used at dev-time
     - GHSA-xvcm-6775-5m9r # used by sass, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
-    - GHSA-jmr9-qjv8-65gv # react-devtools > electron > extract-zip
-    - GHSA-7pqw-9j4j-h8q3 # react-devtools > electron > extract-zip
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
@@ -99,7 +96,6 @@ allowBuilds:
   '@signalapp/windows-ucv@1.0.1': true
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true
-  'electron@39.8.10': true # duplicate package through react-devtools
   'electron@44.4.5': true
   'fs-xattr@0.4.0': true
 
