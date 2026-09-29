@@ -28,13 +28,20 @@ const SUPPORTED_IMAGE_MIME_TYPES: MIMETypeSupportMap = {
 export const isImageTypeSupported = (mimeType: MIME.MIMEType): boolean =>
   SUPPORTED_IMAGE_MIME_TYPES[mimeType] === true;
 
+// Chromium officially lists mp4/ogg/webm. QuickTime (.mov) is not in
+// canPlayType('video/quicktime'), but Electron/Chromium still demuxes many
+// .mov files via sniffing when codecs are H.264/AAC (typical for phone
+// screen recordings). ProRes / Animation / exotic codecs will still fail
+// to play — those remain downloadable as files after an error.
+// See: https://www.chromium.org/audio-video
 const SUPPORTED_VIDEO_MIME_TYPES: MIMETypeSupportMap = {
   'video/mp4': true,
   'video/ogg': true,
   'video/webm': true,
+  // Treat as visual media so chat shows an inline player / lightbox.
+  'video/quicktime': true,
 };
 
-// See: https://www.chromium.org/audio-video
 export const isVideoTypeSupported = (mimeType: MIME.MIMEType): boolean =>
   SUPPORTED_VIDEO_MIME_TYPES[mimeType] === true;
 

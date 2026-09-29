@@ -12,7 +12,6 @@ import {
   AUDIO_MP3,
   IMAGE_JPEG,
   VIDEO_MP4,
-  VIDEO_QUICKTIME,
   stringToMIMEType,
   type MIMEType,
 } from '../types/MIME.std.ts';
@@ -299,8 +298,9 @@ export function UnsupportedVideoType(): JSX.Element {
       {...createProps({
         media: [
           createMediaItem({
-            contentType: VIDEO_QUICKTIME,
-            objectURL: 'unsupported-video.mov',
+            // Chromium cannot play WMV; keep this story on a truly unsupported type.
+            contentType: stringToMIMEType('video/x-ms-wmv'),
+            objectURL: 'unsupported-video.wmv',
           }),
         ],
       })}
