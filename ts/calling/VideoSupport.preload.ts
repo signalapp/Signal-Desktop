@@ -314,7 +314,15 @@ export class GumVideoCapturer {
       return;
     }
 
-    const { onEnded } = this.captureOptions || {};
+    const {
+      onEnded,
+      mediaStream: providedStream,
+      screenShareSourceId,
+    } = this.captureOptions || {};
+    const source =
+      providedStream !== undefined || screenShareSourceId !== undefined
+        ? 'screen'
+        : 'camera';
 
     if (track.readyState === 'ended') {
       this.stopCapturing();
@@ -327,6 +335,7 @@ export class GumVideoCapturer {
     }).readable.getReader();
     const buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
     this.spawnedSenderRunning = true;
+    let loggedFormat: string | undefined;
     // oxlint-disable-next-line typescript/no-floating-promises
     (async () => {
       try {
@@ -340,6 +349,14 @@ export class GumVideoCapturer {
             continue;
           }
           try {
+            if (loggedFormat !== String(frame.format)) {
+              loggedFormat = String(frame.format);
+              log.info(
+                `spawnSender(): ${source} frame format ${frame.format}, ` +
+                  `coded ${frame.codedWidth}x${frame.codedHeight}, ` +
+                  `visible ${frame.visibleRect?.width}x${frame.visibleRect?.height}`
+              );
+            }
             const format = videoPixelFormatToEnum(frame.format ?? 'I420');
             if (format === undefined) {
               log.warn(`Unsupported video frame format: ${frame.format}`);
@@ -577,9 +594,16 @@ export class CanvasVideoRenderer {
       this.imageData?.width !== width || this.imageData?.height !== height;
 
     if (!this.imageData || sizeChanged) {
-      this.imageData = new ImageData(width, height);
+      this.imageData = new ImageData(
+        new Uint8ClampedArray(
+          this.buffer.buffer,
+          this.buffer.byteOffset,
+          width * height * 4
+        ),
+        width,
+        height
+      );
     }
-    this.imageData.data.set(this.buffer.subarray(0, width * height * 4));
     context.putImageData(this.imageData, 0, 0);
 
     if (sizeChanged) {
