@@ -241,7 +241,7 @@
     "debug": "4.4.3",
     "direction": "2.0.1",
     "dom-accessibility-api": "0.7.1",
-    "electron": "44.2.0",
+    "electron": "44.4.5",
     "electron-builder": "26.11.1",
     "electron-mocha": "13.1.0",
     "emoji-regex-xs": "2.0.1",
@@ -346,12 +346,12 @@
     "zod": "4.3.6"
   },
   "engines": {
-    "node": "24.19.0"
+    "node": "24.21.0"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "24.19.0"
+      "version": "24.21.0"
     },
     "packageManager": {
       "name": "pnpm",
@@ -642,6 +642,6 @@
     ]
   },
   "volta": {
-    "node": "24.19.0"
+    "node": "24.21.0"
   }
 }
