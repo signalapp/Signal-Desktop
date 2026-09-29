@@ -282,8 +282,12 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
         return;
       }
 
-      canvasEl.width = frameWidth;
-      canvasEl.height = frameHeight;
+      if (canvasEl.width !== frameWidth) {
+        canvasEl.width = frameWidth;
+      }
+      if (canvasEl.height !== frameHeight) {
+        canvasEl.height = frameHeight;
+      }
       canvasContext.putImageData(imageData, 0, 0);
       lastReceivedVideoAt.current = Date.now();
 
