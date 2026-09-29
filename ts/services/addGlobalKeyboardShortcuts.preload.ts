@@ -82,7 +82,6 @@ function getSelectedOrTargetedMessageIds(): ReadonlyArray<string> | null {
 }
 
 export function addGlobalKeyboardShortcuts(): void {
-  // @ts-expect-error - tinykeys types should accept document as well
   tinykeys(document, {
     // We need escape on the `document` because some event handlers
     // are preventing it from bubbling up to `window`
@@ -106,8 +105,7 @@ export function addGlobalKeyboardShortcuts(): void {
   tinykeys(window, {
     // NAVIGATION
     [`$mod+${Slash}`]: onShowKeyboardShortcuts,
-    [`$mod+${F6}`]: onSuperTab,
-    [`$mod+Shift+${F6}`]: onSuperTab,
+    [`$mod+[Shift]+${F6}`]: onSuperTab,
     [`$mod+${KeyT}`]: onSuperTab,
     [`$mod+Shift+${KeyT}`]: onFocusComposer,
     [`$mod+${KeyJ}`]: onFocusOldestUnreadOrLastMessage,

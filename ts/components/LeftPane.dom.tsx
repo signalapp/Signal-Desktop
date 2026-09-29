@@ -473,6 +473,11 @@ export function LeftPane({
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      // Check if media editor is visible and if so, do not handle the keydown event.
+      if (document.querySelector('.MediaEditor')?.checkVisibility()) {
+        return;
+      }
+
       const { ctrlKey, shiftKey, altKey, metaKey } = event;
       const commandOrCtrl = isMacOS ? metaKey : ctrlKey;
       const key = KeyboardLayout.lookup(event);

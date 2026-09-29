@@ -17,7 +17,6 @@ minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - '@signalapp/*'
   - 'electron'
-  - node-abi@4.34.0
 
 trustPolicy: no-downgrade
 trustPolicyExclude:

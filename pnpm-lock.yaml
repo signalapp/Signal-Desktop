@@ -881,8 +881,8 @@ importers:
         specifier: 4.3.0
         version: 4.3.0
       tinykeys:
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 4.0.1
+        version: 4.0.1
       tsx:
         specifier: 4.23.0
         version: 4.23.0
@@ -11134,8 +11134,9 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==, tarball: https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz}
     engines: {node: '>=12.0.0'}
 
-  tinykeys@3.1.0:
-    resolution: {integrity: sha512-LyQgmvqSSCBzK6PJjDy1kJWlanBVY0LFnJtte3AzJfdoijCZ+nDWjT0GvJAoHI+LUiBGpQQfvRrRNmValIZQiw==, tarball: https://registry.npmjs.org/tinykeys/-/tinykeys-3.1.0.tgz}
+  tinykeys@4.0.1:
+    resolution: {integrity: sha512-rClxhLQl+I5UMB5Ny7sfnZqDNa51u7h7h4gJV2UWslwADHEw75IuVPCnWrpO/otM7jHrHpwcZdRHd+//SiI55A==, tarball: https://registry.npmjs.org/tinykeys/-/tinykeys-4.0.1.tgz}
+    engines: {node: '>=22'}
 
   tinyrainbow@1.2.0:
     resolution: {integrity: sha512-weEDEq7Z5eTHPDh4xjX789+fHfF+P8boiFB+0vbWzpbnbsEr/GRaohi/uMKxg8RZMXnl1ItAi/IUHWMsjDV7kQ==, tarball: https://registry.npmjs.org/tinyrainbow/-/tinyrainbow-1.2.0.tgz}
@@ -23130,7 +23131,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
 
-  tinykeys@3.1.0: {}
+  tinykeys@4.0.1: {}
 
   tinyrainbow@1.2.0: {}
 
