@@ -23,4 +23,4 @@ dedupePeerDependents: true
 strictPeerDependencies: true
 
 overrides:
-  'danger@13.0.10>undici': '6.27.0'
+  'danger@13.0.10>undici@<6.28.1': '^6.28.1'

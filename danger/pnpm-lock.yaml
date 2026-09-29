@@ -205,7 +205,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  danger@13.0.10>undici: 6.27.0
+  danger@13.0.10>undici@<6.28.1: ^6.28.1
 
 pnpmfileChecksum: sha256-ZxawlqUsEHIv4Sbs/lMdU6WrYrddm3ecUIVCx5l0o5k=
 
@@ -639,8 +639,8 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==, tarball: https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz}
     engines: {node: '>=8.0'}
 
-  undici@6.27.0:
-    resolution: {integrity: sha512-YmfV3YnEDzXRC5lZ2jWtWWHKGUm1zIt8AhesR1tens+HTNv+YZlN/dp6G727LOvMJ8xjP9Be7Y2Sdr96LDm+pg==, tarball: https://registry.npmjs.org/undici/-/undici-6.27.0.tgz}
+  undici@6.29.0:
+    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==, tarball: https://registry.npmjs.org/undici/-/undici-6.29.0.tgz}
     engines: {node: '>=18.17'}
 
   universal-user-agent@6.0.1:
@@ -829,7 +829,7 @@ snapshots:
       regenerator-runtime: 0.13.11
       require-from-string: 2.0.2
       supports-hyperlinks: 4.4.0
-      undici: 6.27.0
+      undici: 6.29.0
     transitivePeerDependencies:
       - supports-color
 
@@ -1088,7 +1088,7 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  undici@6.27.0: {}
+  undici@6.29.0: {}
 
   universal-user-agent@6.0.1: {}
 
