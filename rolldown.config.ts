@@ -66,11 +66,6 @@ const defaults = {
     jsx: 'react-jsx',
     define: {
       'process.env.IS_BUNDLED': 'true',
-      ...(isProd
-        ? {
-            __REACT_DEVTOOLS_GLOBAL_HOOK__: 'undefined',
-          }
-        : {}),
     },
   },
   plugins: [

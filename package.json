@@ -111,8 +111,6 @@
     "electron:install-app-deps": "electron-builder install-app-deps",
     "check-upgradeable-deps": "node scripts/check-upgradeable-deps.mjs",
     "check:unused-icons": "node scripts/check-unused-icons.mjs",
-    "react-devtools": "react-devtools",
-    "run-with-devtools": "cross-env REACT_DEVTOOLS=1 run-p --print-label react-devtools start",
     "update-signal-symbols": "node scripts/update-signal-symbols.mjs",
     "changeset:version": "changeset version && pnpm install --lockfile-only",
     "changeset:publish": "changeset publish"
@@ -303,8 +301,6 @@
     "react-aria": "3.47.0",
     "react-aria-components": "1.16.0",
     "react-blurhash": "0.3.0",
-    "react-devtools": "7.0.1",
-    "react-devtools-core": "7.0.1",
     "react-dom": "19.2.4",
     "react-intl": "10.1.0",
     "react-popper": "2.3.0",

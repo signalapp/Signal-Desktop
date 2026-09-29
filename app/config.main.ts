@@ -47,7 +47,6 @@ if (getEnvironment() === Environment.PackagedApp) {
   process.env.SIGNAL_ENABLE_HTTP = '';
   process.env.SIGNAL_CI_CONFIG = '';
   process.env.GENERATE_PRELOAD_CACHE = '';
-  process.env.REACT_DEVTOOLS = '';
   process.env.IS_BUNDLED = '1';
 }
 

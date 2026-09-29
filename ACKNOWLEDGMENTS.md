@@ -8764,14 +8764,6 @@ Signal Desktop makes use of the following open source projects.
 
     License: MIT
 
-## react-devtools
-
-    License: MIT
-
-## react-devtools-core
-
-    License: MIT
-
 ## react-dom
 
     MIT License

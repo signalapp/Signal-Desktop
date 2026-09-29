@@ -132,8 +132,6 @@ const NODE_PACKAGES = new Set([
   'postcss-loader',
   'prettier',
   'prettier-plugin-tailwindcss',
-  'react-devtools',
-  'react-devtools-core',
   'resolve-url-loader',
   'rolldown',
   'sass',
