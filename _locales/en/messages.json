@@ -10184,7 +10184,15 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Turn on “Signal”",
-    "description": "Text of the second step of the instructions from MediaPermissionsModal"
+    "description": "macOS only. Text of the second step of the instructions from MediaPermissionsModal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal",
+    "description": "Windows only. Text of the second step of the instructions from MediaPermissionsModal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal",
+    "description": "Windows only. Text of the second step of the instructions from MediaPermissionsModal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Go to settings",

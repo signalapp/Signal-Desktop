@@ -11,6 +11,7 @@ export type PropsType = {
   i18n: LocalizerType;
   mediaType: 'camera' | 'microphone';
   requestor: 'call' | 'voiceNote';
+  osName: 'macos' | 'windows';
   openSystemMediaPermissions: (mediaType: 'camera' | 'microphone') => void;
   onClose: () => void;
 };
@@ -19,6 +20,7 @@ export function MediaPermissionsModal({
   i18n,
   mediaType,
   requestor,
+  osName,
   openSystemMediaPermissions,
   onClose,
 }: PropsType): JSX.Element {
@@ -45,6 +47,21 @@ export function MediaPermissionsModal({
     throw missingCaseError(requestor);
   }
 
+  let stepTwo: string;
+  if (osName === 'macos') {
+    stepTwo = i18n('icu:MediaPermissionsModal__step-2');
+  } else if (osName === 'windows') {
+    if (mediaType === 'camera') {
+      stepTwo = i18n('icu:MediaPermissionsModal__step-2--windows--camera');
+    } else if (mediaType === 'microphone') {
+      stepTwo = i18n('icu:MediaPermissionsModal__step-2--windows--microphone');
+    } else {
+      throw missingCaseError(mediaType);
+    }
+  } else {
+    throw missingCaseError(osName);
+  }
+
   const onClick = useCallback(
     () => openSystemMediaPermissions(mediaType),
     [openSystemMediaPermissions, mediaType]
@@ -64,14 +81,16 @@ export function MediaPermissionsModal({
                 })}
               </li>
               <li>
-                <img
-                  className={tw('me-1 inline-block')}
-                  alt=""
-                  src="images/macos-switch.svg"
-                  width={30}
-                  height={20}
-                />
-                {i18n('icu:MediaPermissionsModal__step-2')}
+                {osName === 'macos' && (
+                  <img
+                    className={tw('me-1 inline-block')}
+                    alt=""
+                    src="images/macos-switch.svg"
+                    width={30}
+                    height={20}
+                  />
+                )}
+                {stepTwo}
               </li>
             </ol>
           </AxoAlertDialog.Description>
