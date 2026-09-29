@@ -5,6 +5,7 @@ import type { ElectronApplication, Page } from 'playwright';
 import { _electron as electron } from 'playwright';
 import { EventEmitter, once } from 'node:events';
 import pTimeout from 'p-timeout';
+import createDebug from 'debug';
 
 import type {
   IPCRequest as ChallengeRequestType,
@@ -20,6 +21,7 @@ import type {
   RestoreResponseType,
   StoreParameters,
 } from '../textsecure/WebAPI.preload.ts';
+import { toLogFormat } from '../types/errors.std.ts';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -53,7 +55,10 @@ export type AppOptionsType = Readonly<{
   config: string;
 }>;
 
+const debug = createDebug('playwright.node.ts');
+
 const WAIT_FOR_EVENT_TIMEOUT = 30 * SECOND;
+const GRACEFUL_CLOSE_TIMEOUT = 5 * SECOND;
 
 export class App extends EventEmitter {
   readonly #options: AppOptionsType;
@@ -79,6 +84,8 @@ export class App extends EventEmitter {
         timeout: 30 * SECOND,
       });
 
+      this.#privApp.on('close', () => this.emit('close'));
+
       // wait for the first window to load
       await pTimeout(
         (async () => {
@@ -95,14 +102,39 @@ export class App extends EventEmitter {
         })(),
         { milliseconds: 20 * SECOND }
       );
-    } catch (e) {
-      this.#privApp?.process().kill('SIGKILL');
-      throw e;
+    } catch (error) {
+      await this.#forceClose();
+      throw error;
     }
 
     this.#privApp.on('close', () => this.emit('close'));
 
     drop(this.#printLoop());
+  }
+
+  async #forceClose(): Promise<void> {
+    const app = this.#privApp;
+    this.#privApp = undefined;
+    if (!app) {
+      return;
+    }
+
+    try {
+      await pTimeout(app.close(), { milliseconds: GRACEFUL_CLOSE_TIMEOUT });
+      return;
+    } catch (error) {
+      debug('graceful close failed', toLogFormat(error));
+    }
+
+    const { pid } = app.process();
+    if (pid !== undefined) {
+      try {
+        // try to kill the whole process group
+        process.kill(-pid, 'SIGKILL');
+      } catch {
+        app.process().kill('SIGKILL');
+      }
+    }
   }
 
   public async waitForProvisionURL(): Promise<string> {
