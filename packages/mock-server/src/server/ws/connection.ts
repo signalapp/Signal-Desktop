@@ -24,6 +24,7 @@ import {
   DeviceKeysSchema,
   MessageListSchema,
   ModifyVerificationSessionSchema,
+  PutRegistrationLockSchema,
   RegisterAccountResponse,
   RegisterAccountSchema,
   RequestVerificationCodeSchema,
@@ -61,6 +62,7 @@ import {
 
 import { Service, WSRequest, WSResponse } from './service';
 import { Handler, Router } from './router';
+import { DAY_IN_SECONDS } from '../../constants';
 
 const debug = createDebug('mock:ws:connection');
 
@@ -701,7 +703,11 @@ export class Connection extends Service {
 
       const { data } = parsedResult;
       const { accountAttributes, sessionId } = data;
-      const { pniRegistrationId, registrationId } = accountAttributes;
+      const {
+        pniRegistrationId,
+        registrationId,
+        registrationLock: registrationLockToken,
+      } = accountAttributes;
 
       const storage = this.server.getVerificationSession(sessionId);
       if (!storage) {
@@ -721,15 +727,31 @@ export class Connection extends Service {
       const { number } = storage;
 
       const provisionId = await server.generateProvisionId();
-      const primaryDevice = await server.registerDevice({
-        provisionId,
-        number,
-        password,
-        pniRegistrationId,
-        registrationId,
-        // TODO(inutny): take as an input
-        authCredentialSalt: randomBytes(16),
-      });
+      let primaryDevice: Device;
+      try {
+        primaryDevice = await server.registerDevice({
+          provisionId,
+          number,
+          password,
+          pniRegistrationId,
+          registrationId,
+          registrationLockToken,
+          // TODO(inutny): take as an input
+          authCredentialSalt: randomBytes(16),
+        });
+      } catch (error) {
+        if (error instanceof Error && error.name === 'RegistrationLock') {
+          return [
+            423,
+            {
+              timeRemaining: 5 * DAY_IN_SECONDS * 1000,
+              svr2Credentials: { username: 'fake423', password: 'fake423' },
+            },
+          ];
+        }
+
+        throw error;
+      }
 
       const {
         aciSignedPreKey,
@@ -787,12 +809,15 @@ export class Connection extends Service {
       }
 
       const mixinData = this.server.getRegisterResponseData();
+      const hasStorageData = Boolean(
+        this.server.getStorageManifest(primaryDevice.aci),
+      );
 
       const result: RegisterAccountResponse = {
         uuid: primaryDevice.aci.toString(),
         number,
         pni: primaryDevice.pni?.toString().replace(/^PNI:/i, ''),
-        storageCapable: false,
+        storageCapable: hasStorageData,
         entitlements: {
           badges: [],
         },
@@ -924,6 +949,37 @@ export class Connection extends Service {
             number: device.number,
           },
         ];
+      }),
+    );
+
+    this.router.put(
+      '/v1/accounts/registration_lock',
+      requireAuth(async (_params, body) => {
+        const device = this.getDevice();
+        if (!body) {
+          return [400, { error: 'Missing body' }];
+        }
+
+        const { registrationLock } = PutRegistrationLockSchema.parse(
+          JSON.parse(body.toString()),
+        );
+        if (registrationLock.length !== 64) {
+          return [400, { error: 'registrationLock should be 64 characters' }];
+        }
+
+        this.server.setRegistrationLockToken(device.aci, registrationLock);
+
+        return [200, {}];
+      }),
+    );
+
+    this.router.del(
+      '/v1/accounts/registration_lock',
+      requireAuth(async () => {
+        const device = this.getDevice();
+        this.server.setRegistrationLockToken(device.aci, undefined);
+
+        return [200, {}];
       }),
     );
 

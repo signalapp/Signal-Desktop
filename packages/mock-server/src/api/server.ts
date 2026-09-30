@@ -41,6 +41,8 @@ import {
 import { serializeContacts } from '../data/contacts';
 import { Group as GroupData } from '../data/group';
 import {
+  decryptStorageItem,
+  decryptStorageManifest,
   encryptAttachment,
   encryptProvisionMessage,
   generateServerCertificate,
@@ -71,6 +73,8 @@ import { createHandler as createGRPCHandler } from '../server/grpc';
 import { Connection as WSConnection } from '../server/ws';
 
 import { PrimaryDevice } from './primary-device';
+import type { Config as PrimaryDeviceConfig } from './primary-device';
+import { StorageState } from './storage-state';
 
 type TrustRoot = Readonly<{
   privateKey: string;
@@ -328,13 +332,13 @@ export class Server extends BaseServer {
   }
 
   private async waitForStorageManifest(
-    device: Device,
+    aci: AciString,
     afterVersion?: bigint,
   ): Promise<void> {
-    let queue = this.manifestQueueByAci.get(device.aci);
+    let queue = this.manifestQueueByAci.get(aci);
     if (!queue) {
       queue = this.createQueue('api/Server/waitForStorageManifest');
-      this.manifestQueueByAci.set(device.aci, queue);
+      this.manifestQueueByAci.set(aci, queue);
     }
 
     let version: bigint;
@@ -360,6 +364,52 @@ export class Server extends BaseServer {
   // Helper methods
   //
 
+  public async reregisterPrimaryDevice({
+    aci,
+    password,
+    profileName,
+  }: {
+    aci: AciString;
+    password?: string;
+    profileName: string;
+  }): Promise<PrimaryDevice> {
+    const existingPrimary = this.primaryDevices.get(aci);
+
+    if (!existingPrimary) {
+      throw new Error(`No existing primary device found for aci ${aci}`);
+    }
+
+    const hasE164 = Boolean(existingPrimary.device.number);
+    const registrationId = generateRegistrationId();
+    const pniRegistrationId = hasE164 ? generateRegistrationId() : undefined;
+
+    this.deleteAccount(existingPrimary.device);
+
+    const device = await this.registerDevice({
+      primary: existingPrimary.device,
+      password: password ?? generateDevicePassword(),
+      registrationId,
+      pniRegistrationId,
+    });
+
+    const primary = new PrimaryDevice(device, {
+      profileName,
+      contacts: existingPrimary.getContactsBlob(),
+      ...this.getDefaultPrimaryDeviceParams(device),
+    });
+    await primary.init();
+
+    this.primaryDevices.set(primary.device.aci, primary);
+
+    debug(
+      'reregistered primary device number=%s aci=%s',
+      primary.device.number,
+      primary.device.aci,
+    );
+
+    return primary;
+  }
+
   public async createPrimaryDevice({
     profileName,
     contacts = [],
@@ -370,12 +420,12 @@ export class Server extends BaseServer {
     const number = hasE164 ? await this.generateNumber() : undefined;
 
     const registrationId = generateRegistrationId();
-    const pniRegistrationId = generateRegistrationId();
+    const pniRegistrationId = hasE164 ? generateRegistrationId() : undefined;
     const devicePassword = password ?? generateDevicePassword();
     const device = await this.registerDevice({
       number,
       registrationId,
-      pniRegistrationId: hasE164 ? pniRegistrationId : undefined,
+      pniRegistrationId,
       password: devicePassword,
       authCredentialSalt: randomBytes(16),
     });
@@ -407,6 +457,25 @@ export class Server extends BaseServer {
     const primary = new PrimaryDevice(device, {
       profileName: profileName,
       contacts: attachmentToPointer(contactsCDNKey, contactsAttachment),
+      ...this.getDefaultPrimaryDeviceParams(device),
+    });
+    await primary.init();
+
+    this.primaryDevices.set(primary.device.aci, primary);
+
+    debug(
+      'created primary device number=%s aci=%s',
+      primary.device.number,
+      primary.device.aci,
+    );
+
+    return primary;
+  }
+
+  private getDefaultPrimaryDeviceParams(
+    device: Device,
+  ): Omit<PrimaryDeviceConfig, 'profileName' | 'contacts'> {
+    return {
       trustRoot: this.trustRoot.getPublicKey(),
       serverPublicParams: this.zkSecret.getPublicParams(),
 
@@ -422,23 +491,13 @@ export class Server extends BaseServer {
       createGroup: this.createGroup.bind(this),
       modifyGroup: this.modifyGroup.bind(this),
       waitForGroupUpdate: this.waitForGroupUpdate.bind(this),
-      getStorageManifest: this.getStorageManifest.bind(this, device),
-      getStorageItem: this.getStorageItem.bind(this, device),
-      getAllStorageKeys: this.getAllStorageKeys.bind(this, device),
-      waitForStorageManifest: this.waitForStorageManifest.bind(this, device),
-      applyStorageWrite: this.applyStorageWrite.bind(this, device),
-    });
-    await primary.init();
 
-    this.primaryDevices.set(primary.device.aci, primary);
-
-    debug(
-      'created primary device number=%s aci=%s',
-      primary.device.number,
-      primary.device.aci,
-    );
-
-    return primary;
+      waitForStorageState: this.waitForStorageState.bind(this),
+      getStorageState: this.getStorageState.bind(this),
+      expectStorageState: this.expectStorageState.bind(this),
+      setStorageState: this.setStorageState.bind(this),
+      getOrphanedStorageKeys: this.getOrphanedStorageKeys.bind(this),
+    };
   }
 
   public async createSecondaryDevice(primary: PrimaryDevice): Promise<Device> {
@@ -854,23 +913,6 @@ export class Server extends BaseServer {
     return device;
   }
 
-  // Override `getStorageItems` to provide configurable limit for maximum
-  // storage read keys.
-  public override getStorageItems(
-    device: Device,
-    keys: ReadonlyArray<Buffer<ArrayBuffer>>,
-  ): Array<Proto.StorageItem.Params> | undefined {
-    if (
-      this.config.maxStorageReadKeys !== undefined &&
-      keys.length > this.config.maxStorageReadKeys
-    ) {
-      debug('getStorageItems: requested more than max keys', device.debugId);
-      return undefined;
-    }
-
-    return super.getStorageItems(device, keys);
-  }
-
   // Override updateGroup to notify about group modifications
   public override async modifyGroup(
     options: ModifyGroupOptions,
@@ -889,21 +931,6 @@ export class Server extends BaseServer {
     queue.push(group.revision);
 
     return result;
-  }
-
-  protected override async onStorageManifestUpdate(
-    device: Device,
-    version: bigint,
-  ): Promise<void> {
-    debug('onStorageManifestUpdate', device.debugId);
-
-    let queue = this.manifestQueueByAci.get(device.aci);
-    if (!queue) {
-      queue = this.createQueue('api/Server/onStorageManifestUpdate');
-      this.manifestQueueByAci.set(device.aci, queue);
-    }
-
-    queue.push(version);
   }
 
   protected override async backupTransitAttachments(
@@ -1000,6 +1027,234 @@ export class Server extends BaseServer {
       }
       list.push(resolve);
     });
+  }
+
+  //
+  // Storage Service
+  //
+
+  public async waitForStorageState({
+    aci,
+    after,
+    predicate,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    after?: StorageState;
+    // Note: predicate runs on the current state, not on previous intermediate states
+    predicate?: (state: StorageState) => boolean;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): Promise<StorageState> {
+    let afterVersion = after?.version;
+
+    while (true) {
+      debug(
+        'waiting for storage manifest for aci=%s after version=%d predicate=%s',
+        aci,
+        afterVersion,
+        predicate !== undefined,
+      );
+
+      await this.waitForStorageManifest(aci, afterVersion);
+
+      const state = await this.getStorageState({ aci, storageKey, recordIkm });
+      assert(state, 'Missing storage state');
+
+      if (predicate !== undefined && !predicate(state)) {
+        debug(
+          'storage manifest for aci=%s version=%d did not match predicate',
+          aci,
+          state.version,
+        );
+        afterVersion = state.version;
+        continue;
+      }
+
+      debug('got storage manifest for aci=%s version=%d', aci, state.version);
+
+      return state;
+    }
+  }
+
+  public async getStorageState({
+    aci,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): Promise<StorageState | undefined> {
+    const manifest = this.getStorageManifest(aci);
+    if (!manifest) {
+      return undefined;
+    }
+
+    return this.convertManifestToStorageState({
+      aci,
+      manifest,
+      storageKey,
+      recordIkm,
+    });
+  }
+
+  public async expectStorageState({
+    aci,
+    reason,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    reason: string;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): Promise<StorageState> {
+    const state = await this.getStorageState({ aci, storageKey, recordIkm });
+    if (!state) {
+      throw new Error(`expectStorageState: no storage state, ${reason}`);
+    }
+
+    return state;
+  }
+
+  public async setStorageState({
+    aci,
+    state,
+    previousState,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    state: StorageState;
+    previousState?: StorageState;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): Promise<StorageState> {
+    const writeOperation = state.createWriteOperation({
+      storageKey,
+      recordIkm,
+      previous: previousState,
+    });
+    assert(writeOperation.manifest, 'write operation without manifest');
+
+    const { updated, error } = await this.applyStorageWrite(
+      aci,
+      writeOperation,
+      false,
+    );
+    if (!updated) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      throw new Error(`setStorageState: failed to update, ${error}`);
+    }
+
+    return this.convertManifestToStorageState({
+      aci,
+      manifest: writeOperation.manifest,
+      storageKey,
+      recordIkm,
+    });
+  }
+
+  public getOrphanedStorageKeys({
+    aci,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): Array<Buffer<ArrayBuffer>> {
+    const manifest = this.getStorageManifest(aci);
+    if (!manifest) {
+      return [];
+    }
+
+    const state = this.convertManifestToStorageState({
+      aci,
+      manifest,
+      storageKey,
+      recordIkm,
+    });
+    const keys = this.getAllStorageKeys(aci);
+
+    return keys.filter((key) => !state.hasKey(key));
+  }
+
+  // Override `getStorageItems` to provide configurable limit for maximum
+  // storage read keys.
+  public override getStorageItems(
+    aci: AciString,
+    keys: ReadonlyArray<Buffer<ArrayBuffer>>,
+  ): Array<Proto.StorageItem.Params> | undefined {
+    if (
+      this.config.maxStorageReadKeys !== undefined &&
+      keys.length > this.config.maxStorageReadKeys
+    ) {
+      debug('getStorageItems: requested more than max keys', aci);
+      return undefined;
+    }
+
+    return super.getStorageItems(aci, keys);
+  }
+
+  protected override async onStorageManifestUpdate(
+    aci: AciString,
+    version: bigint,
+  ): Promise<void> {
+    debug('onStorageManifestUpdate', aci);
+
+    let queue = this.manifestQueueByAci.get(aci);
+    if (!queue) {
+      queue = this.createQueue('api/Server/onStorageManifestUpdate');
+      this.manifestQueueByAci.set(aci, queue);
+    }
+
+    queue.push(version);
+  }
+
+  private convertManifestToStorageState({
+    aci,
+    manifest,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    manifest: Proto.StorageManifest.Params;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }): StorageState {
+    const decryptedManifest = decryptStorageManifest(storageKey, manifest);
+    assert(typeof decryptedManifest.version === 'bigint', 'Consistency check');
+
+    const version = decryptedManifest.version;
+    const items = decryptedManifest.identifiers.map(({ type, raw: key }) => {
+      const keyBuffer = Buffer.from(key);
+      const item = this.getStorageItem(aci, keyBuffer);
+      if (!item) {
+        throw new Error(`Missing item ${keyBuffer.toString('base64')}`);
+      }
+
+      const decrypted = decryptStorageItem({
+        storageKey,
+        recordIkm,
+        item: {
+          key,
+          value: item,
+        },
+      });
+      if (!decrypted.record) {
+        throw new Error(`Missing item record ${keyBuffer.toString('base64')}`);
+      }
+      return {
+        type: type as Proto.ManifestRecord.Identifier.Type,
+        key: keyBuffer,
+        record: decrypted.record,
+      };
+    });
+
+    return new StorageState(version, items);
   }
 
   //

@@ -107,6 +107,7 @@ import {
   ServiceIdKind,
   normalizeServiceId,
   normalizePni,
+  isPniString,
 } from '../types/ServiceId.std.ts';
 import { isAciString } from '../util/isAciString.std.ts';
 import {
@@ -4006,6 +4007,28 @@ export class ConversationModel {
 
   getPni(): PniString | undefined {
     return this.get('pni');
+  }
+
+  getServiceIdAsPni(): PniString | undefined {
+    // If we have an untagged valid guid in the serviceId field, we assume it's an ACI
+    const aci = this.getAci();
+    if (aci) {
+      return undefined;
+    }
+
+    const serviceId = this.getServiceId();
+    if (!serviceId) {
+      return undefined;
+    }
+
+    if (isPniString(serviceId)) {
+      return serviceId;
+    }
+
+    log.warn(
+      'getServiceIdAsPni: serviceId is not a valid guid, and not a tagged PNI string'
+    );
+    return undefined;
   }
 
   getGroupLink(): string | undefined {

@@ -1418,7 +1418,7 @@ async function startApp(): Promise<void> {
 
   function enableStorageService({ andSync }: { andSync?: string } = {}) {
     log.info('enableStorageService: enabling and running');
-    StorageService.enableStorageService();
+    StorageService.enableStorageService('background');
 
     if (andSync != null) {
       StorageService.runStorageServiceSyncJob({
@@ -1908,8 +1908,15 @@ async function startApp(): Promise<void> {
       messageReceiver.startProcessingQueue();
       registerRequestHandler(messageReceiver);
 
-      // 6. Kickoff storage service sync
-      if (isFirstAuthSocketConnect || !postRegistrationSyncsComplete) {
+      // 6. Kickoff storage service sync if we're not still installing standalone
+      const step6State = window.reduxStore.getState();
+      const standaloneInstallInProgress = Boolean(
+        step6State.standaloneInstaller.workflow
+      );
+      if (
+        !standaloneInstallInProgress &&
+        (isFirstAuthSocketConnect || !postRegistrationSyncsComplete)
+      ) {
         log.info(`${logId}: triggering storage service sync`);
 
         storageServiceSyncComplete = waitForEvent(
@@ -1918,7 +1925,7 @@ async function startApp(): Promise<void> {
         enableStorageService({
           andSync: 'afterFirstAuthSocketConnect',
         });
-      } else {
+      } else if (!standaloneInstallInProgress) {
         enableStorageService();
       }
 
@@ -1946,9 +1953,9 @@ async function startApp(): Promise<void> {
         }
       }
 
-      // 8. Show inbox
-      const state = window.reduxStore.getState();
-      if (state.app.appView === AppViewType.Installer) {
+      // 8. Show inbox if we were linking (standalone install might stll be happening)
+      const step8State = window.reduxStore.getState();
+      if (step8State.app.appView === AppViewType.Installer) {
         log.info(`${logId}: switching from installer to inbox`);
         window.reduxActions.app.openInbox();
       }
@@ -2036,10 +2043,6 @@ async function startApp(): Promise<void> {
   }) {
     log.info('afterAuthSocketConnect/afterEveryLinkedStartupOnNewVersion');
 
-    if (window.ConversationController.areWePrimaryDevice()) {
-      return;
-    }
-
     try {
       if (
         !skipSyncRequests &&
@@ -2050,10 +2053,11 @@ async function startApp(): Promise<void> {
 
       drop(StorageService.reprocessUnknownFields());
 
-      await Promise.all([
-        accountManager.maybeUpdateDeviceName(),
-        itemStorage.user.removeSignalingKey(),
-      ]);
+      if (!window.ConversationController.areWePrimaryDevice()) {
+        await accountManager.maybeUpdateDeviceName();
+      }
+
+      await itemStorage.user.removeSignalingKey();
     } catch (e) {
       log.error(
         "Problem with 'afterLinkedStartupOnNewVersion' tasks: ",

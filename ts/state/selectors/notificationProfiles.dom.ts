@@ -14,6 +14,7 @@ import type {
   NotificationProfileOverride,
   NotificationProfileType,
 } from '../../types/NotificationProfile.std.ts';
+import { getAreWePrimaryDevice } from './user.std.ts';
 
 const getNotificationProfileData = (
   state: StateType
@@ -24,9 +25,11 @@ const getNotificationProfileData = (
 export const getProfiles = createSelector(
   getNotificationProfileSyncDisabled,
   getNotificationProfileData,
+  getAreWePrimaryDevice,
   (
     syncDisabled: boolean,
-    state: NotificationProfilesStateType
+    state: NotificationProfilesStateType,
+    areWePrimaryDevice: boolean
   ): ReadonlyArray<NotificationProfileType> => {
     const notDeleted = state.profiles.filter(
       profile =>
@@ -34,7 +37,7 @@ export const getProfiles = createSelector(
         profile.deletedAtTimestampMs === 0
     );
 
-    if (syncDisabled) {
+    if (syncDisabled && !areWePrimaryDevice) {
       return notDeleted.filter(profile => !profile.storageID);
     }
 
@@ -45,9 +48,11 @@ export const getProfiles = createSelector(
 export const getDeletedProfiles = createSelector(
   getNotificationProfileSyncDisabled,
   getNotificationProfileData,
+  getAreWePrimaryDevice,
   (
     syncDisabled: boolean,
-    state: NotificationProfilesStateType
+    state: NotificationProfilesStateType,
+    areWePrimaryDevice: boolean
   ): ReadonlyArray<NotificationProfileType> => {
     const deleted = state.profiles.filter(
       profile =>
@@ -55,7 +60,7 @@ export const getDeletedProfiles = createSelector(
         profile.deletedAtTimestampMs !== 0
     );
 
-    if (syncDisabled) {
+    if (syncDisabled && !areWePrimaryDevice) {
       return deleted.filter(profile => !profile.storageID);
     }
 

@@ -5,7 +5,11 @@ import { memo, useCallback } from 'react';
 import type { MutableRefObject } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getIntl, getTheme } from '../selectors/user.std.ts';
+import {
+  getDoWeHaveOtherDevices,
+  getIntl,
+  getTheme,
+} from '../selectors/user.std.ts';
 import {
   NotificationProfilesCreateFlow,
   NotificationProfilesHome,
@@ -42,6 +46,7 @@ export const SmartNotificationProfilesHome = memo(
     const allProfiles = useSelector(getProfiles);
     const activeProfile = useSelector(getActiveProfile);
     const loading = useSelector(getLoading);
+    const doWeHaveOtherDevices = useSelector(getDoWeHaveOtherDevices);
 
     const conversations = useSelector(
       getAllConversationsForNotificationProfiles
@@ -82,6 +87,7 @@ export const SmartNotificationProfilesHome = memo(
         contentsRef={contentsRef}
         conversations={conversations}
         conversationSelector={conversationSelector}
+        doWeHaveOtherDevices={doWeHaveOtherDevices}
         i18n={i18n}
         isSyncEnabled={isSyncEnabled}
         hasOnboardingBeenSeen={hasOnboardingBeenSeen}

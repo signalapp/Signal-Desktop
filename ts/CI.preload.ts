@@ -24,6 +24,7 @@ import type { IPCResponse as ChallengeResponseType } from './challenge.dom.ts';
 import type { MessageAttributesType } from './model-types.d.ts';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
 import type { RestoreResponseType } from './textsecure/WebAPI.preload.ts';
+import { runStorageServiceSyncJob } from './services/storage.preload.ts';
 
 const log = createLogger('CI');
 
@@ -64,6 +65,7 @@ export type CIType = {
   startStandaloneRegistration: () => void;
   saveSVR2RestoreResponse: (response: RestoreResponseType) => void;
   getSVR2RestoreResponse: () => RestoreResponseType | undefined;
+  fetchManifestForPrimary: () => void;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -299,6 +301,10 @@ export function getCI({
     return svr2RestoreResponse;
   }
 
+  function fetchManifestForPrimary(): void {
+    runStorageServiceSyncJob({ reason: 'fetchManifestForPrimary' });
+  }
+
   return {
     deviceName,
     getConversationId,
@@ -326,5 +332,6 @@ export function getCI({
     startStandaloneRegistration,
     saveSVR2RestoreResponse,
     getSVR2RestoreResponse,
+    fetchManifestForPrimary,
   };
 }

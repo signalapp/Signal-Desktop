@@ -103,19 +103,19 @@ async function createPrimaryDevice(name: string): Promise<PrimaryDevice> {
     async waitForGroupUpdate() {
       throw new Error('Not implemented');
     },
-    getStorageManifest() {
+    async waitForStorageState() {
       throw new Error('Not implemented');
     },
-    getStorageItem() {
+    async getStorageState() {
       throw new Error('Not implemented');
     },
-    getAllStorageKeys() {
+    async expectStorageState() {
       throw new Error('Not implemented');
     },
-    async waitForStorageManifest() {
+    async setStorageState() {
       throw new Error('Not implemented');
     },
-    async applyStorageWrite() {
+    getOrphanedStorageKeys() {
       throw new Error('Not implemented');
     },
   });

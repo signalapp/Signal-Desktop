@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 import { useSelector } from 'react-redux';
 import { DialogRelink } from '../../components/DialogRelink.dom.tsx';
-import { areWePrimaryDevice, getIntl } from '../selectors/user.std.ts';
+import { getAreWePrimaryDevice, getIntl } from '../selectors/user.std.ts';
 import { useNetworkActions } from '../ducks/network.dom.ts';
 
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
@@ -19,7 +19,7 @@ export const SmartRelinkDialog = memo(function SmartRelinkDialog({
 }: SmartRelinkDialogProps) {
   const i18n = useSelector(getIntl);
   const { relinkDevice, reregister } = useNetworkActions();
-  const weArePrimaryDevice = useSelector(areWePrimaryDevice);
+  const weArePrimaryDevice = useSelector(getAreWePrimaryDevice);
 
   return (
     <DialogRelink
