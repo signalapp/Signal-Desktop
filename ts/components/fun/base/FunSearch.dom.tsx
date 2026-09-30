@@ -1,30 +1,26 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ChangeEvent, JSX } from 'react';
-import { useCallback } from 'react';
-import { VisuallyHidden } from 'react-aria';
+import type { JSX } from 'react';
+import { useCallback, useId } from 'react';
 import { getInteractionModality } from '@react-aria/interactions';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { useFunContext } from '../FunProvider.dom.tsx';
+import { AxoSearchField } from '../../../axo/fields/AxoSearchField.dom.tsx';
+import { tw } from '../../../axo/tw.dom.tsx';
 
 export type FunSearchProps = Readonly<{
   i18n: LocalizerType;
-  'aria-label': string;
+  label: string;
   placeholder: string;
   searchInput: string;
+  maxBytes?: number;
+  maxGraphemes?: number;
   onSearchInputChange: (newSearchInput: string) => void;
 }>;
 
 export function FunSearch(props: FunSearchProps): JSX.Element {
-  const { i18n, onSearchInputChange } = props;
   const { shouldAutoFocus, onChangeShouldAutoFocus } = useFunContext();
-
-  const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      onSearchInputChange(event.currentTarget.value);
-    },
-    [onSearchInputChange]
-  );
+  const id = useId();
 
   const handleFocus = useCallback(() => {
     onChangeShouldAutoFocus(true);
@@ -36,37 +32,27 @@ export function FunSearch(props: FunSearchProps): JSX.Element {
     }
   }, [onChangeShouldAutoFocus]);
 
-  const handleClear = useCallback(() => {
-    onSearchInputChange('');
-  }, [onSearchInputChange]);
-
   return (
-    <div className="FunSearch__Container">
-      <div className="FunSearch__Icon" />
-      <input
-        className="FunSearch__Input"
-        aria-label={props['aria-label']}
-        type="text"
+    <>
+      <label htmlFor={id} className={tw('sr-only')}>
+        {props.label}
+      </label>
+      <AxoSearchField.Root
+        id={id}
         value={props.searchInput}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        placeholder={props.placeholder}
-        autoFocus={shouldAutoFocus}
-      />
-      {props.searchInput !== '' && (
-        <button
-          type="button"
-          className="FunSearch__Clear"
-          onClick={handleClear}
-        >
-          <span className="FunSearch__ClearButton">
-            <VisuallyHidden>
-              {i18n('icu:FunSearch__ClearButtonLabel')}
-            </VisuallyHidden>
-          </span>
-        </button>
-      )}
-    </div>
+        onValueChange={props.onSearchInputChange}
+        maxBytes={props.maxBytes}
+        maxGraphemes={props.maxGraphemes}
+      >
+        <AxoSearchField.Icon />
+        <AxoSearchField.Input
+          autoFocus={shouldAutoFocus}
+          placeholder={props.placeholder}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        <AxoSearchField.Clear />
+      </AxoSearchField.Root>
+    </>
   );
 }

@@ -376,6 +376,8 @@ export namespace AxoBaseField {
       autoFocus?: boolean;
       /** Override font settings to give numbers uniform/tabular widths. */
       tabularNums?: boolean;
+      /** Called when the input receives focus. */
+      onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
       /** Called when the input loses focus. */
       onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
     } & KeyboardInputAttrs &
@@ -411,6 +413,7 @@ export namespace AxoBaseField {
       // Styling
       tabularNums,
       // Events
+      onFocus,
       onBlur,
       // Radix forwarding
       ...rest
@@ -552,6 +555,7 @@ export namespace AxoBaseField {
           max={max}
           step={step}
           // Events
+          onFocus={onFocus}
           onBlur={onBlur}
           onInvalid={handleInvalid}
           {...forwardExtraPropsForRadix(rest)}

@@ -401,7 +401,7 @@ export function FunPanelStickers({
           searchInput={searchInput}
           onSearchInputChange={handleSearchInputChange}
           placeholder={i18n('icu:FunPanelStickers__SearchPlaceholder')}
-          aria-label={i18n('icu:FunPanelStickers__SearchLabel')}
+          label={i18n('icu:FunPanelStickers__SearchLabel')}
         />
       </FunPanelHeader>
       {!hasSearchQuery && (

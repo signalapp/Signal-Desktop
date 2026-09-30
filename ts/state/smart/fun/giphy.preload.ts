@@ -10,10 +10,13 @@ import { fetchInSegments } from '../../../components/fun/data/segments.std.ts';
 import { safeParseInteger } from '../../../util/numbers.std.ts';
 import type { PaginatedGifResults } from '../../../components/fun/panels/FunPanelGifs.dom.tsx';
 import {
-  getGifCdnUrlOrigin,
-  isGifCdnUrlOriginAllowed,
-  isGiphyCdnUrlOrigin,
-} from '../../../util/gifCdnUrls.dom.ts';
+  GIPHY_SEARCH_QUERY_MAX_CODE_POINTS,
+  isGiphyCdnUrl,
+} from '../../../util/giphy.std.ts';
+import { createLogger } from '../../../logging/log.std.ts';
+import { unicodeSlice } from '../../../util/unicodeSlice.std.ts';
+
+const log = createLogger('giphy');
 
 const BASE_API_URL = 'https://api.giphy.com';
 const API_KEY = 'ApVVlSyeBfNKK6UWtnBRq9CvAkWsxayB';
@@ -46,10 +49,12 @@ const StringInteger = z.preprocess(input => {
   return input;
 }, z.number().int());
 
-const GiphyCdnUrl = z.string().refine(input => {
-  const origin = getGifCdnUrlOrigin(input);
-  return origin != null && isGiphyCdnUrlOrigin(origin);
-});
+const GiphyCdnUrl = z.string().refine(
+  input => {
+    return isGiphyCdnUrl(input);
+  },
+  { error: issue => `Expected Giphy CDN URL, got ${String(issue.input)}` }
+);
 
 const GiphyImagesSchema = z.object({
   original: z.object({
@@ -77,8 +82,34 @@ const GiphyResultsSchema = z.object({
   data: z.array(GiphyGifSchema),
 });
 
-export type GiphyPagination = z.infer<typeof GiphyPaginationSchema>;
-export type GiphyResults = z.infer<typeof GiphyResultsSchema>;
+type GiphyPagination = z.infer<typeof GiphyPaginationSchema>;
+type GiphyResults = z.infer<typeof GiphyResultsSchema>;
+
+// See https://developers.giphy.com/docs/api/#synthetic-response
+const GiphySyntheticErrorResponseSchema = z
+  .object({
+    meta: z.object({
+      status: z.literal(200),
+      response_id: z.literal(''),
+    }),
+  })
+  .transform(data => {
+    return { type: 'synthetic-error' as const, data };
+  });
+
+const GiphySuccessResponseSchema = GiphyResultsSchema.extend({
+  meta: z.object({
+    status: z.number(),
+    response_id: z.string().check(z.minLength(1)),
+  }),
+}).transform(data => {
+  return { type: 'success' as const, data };
+});
+
+const GiphyResponseSchema = z.union([
+  GiphySuccessResponseSchema,
+  GiphySyntheticErrorResponseSchema,
+]);
 
 function getNextOffset(pagination: GiphyPagination): number | null {
   const end = pagination.offset + pagination.count;
@@ -124,7 +155,16 @@ export async function fetchGiphySearch(
   url.searchParams.set('bundle', CONTENT_BUNDLE);
   url.searchParams.set('fields', GIF_FIELDS);
 
-  url.searchParams.set('q', query);
+  let q: string;
+
+  if (Buffer.byteLength(query) > 50) {
+    log.warn('giphy search query should be less than 50 chars');
+    q = unicodeSlice(query, 0, GIPHY_SEARCH_QUERY_MAX_CODE_POINTS);
+  } else {
+    q = query;
+  }
+
+  url.searchParams.set('q', q);
   url.searchParams.set('limit', `${limit}`);
   if (offset != null) {
     url.searchParams.set('offset', `${offset}`);
@@ -136,8 +176,15 @@ export async function fetchGiphySearch(
     signal,
   });
 
-  const results = parseUnknown(GiphyResultsSchema, response.data);
-  return normalizeGiphyResults(results);
+  const parsedResponse = parseUnknown(GiphyResponseSchema, response.data);
+
+  if (parsedResponse.type === 'synthetic-error') {
+    throw new Error(
+      'Received synthetic response from Giphy, app should treat this as an API failure'
+    );
+  }
+
+  return normalizeGiphyResults(parsedResponse.data);
 }
 
 export async function fetchGiphyTrending(
@@ -163,21 +210,24 @@ export async function fetchGiphyTrending(
     signal,
   });
 
-  const results = parseUnknown(GiphyResultsSchema, response.data);
-  return normalizeGiphyResults(results);
+  const parsedResponse = parseUnknown(GiphyResponseSchema, response.data);
+
+  if (parsedResponse.type === 'synthetic-error') {
+    throw new Error(
+      'Received synthetic response from Giphy, app should treat this as an API failure'
+    );
+  }
+
+  return normalizeGiphyResults(parsedResponse.data);
 }
 
 export function fetchGiphyFile(
   giphyCdnUrl: string,
   signal?: AbortSignal
 ): Promise<Blob> {
-  const origin = getGifCdnUrlOrigin(giphyCdnUrl);
-  if (origin == null) {
-    throw new Error('fetchGiphyFile: Cannot fetch invalid URL');
-  }
-  if (!isGifCdnUrlOriginAllowed(origin)) {
+  if (!isGiphyCdnUrl(giphyCdnUrl)) {
     throw new Error(
-      `fetchGiphyFile: Blocked unsupported url origin: ${origin}`
+      `fetchGiphyFile: Blocked unsupported url origin: ${giphyCdnUrl}`
     );
   }
   return fetchInSegments(giphyCdnUrl, fetchBytesViaProxy, signal);
