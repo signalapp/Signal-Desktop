@@ -69,6 +69,8 @@ export function AudioListItem({
     activeDuration: attachment?.duration,
     barCount: BAR_COUNT,
     onCorrupted: noop,
+    waveform: attachment?.audioWaveform,
+    duration: attachment?.duration,
   });
 
   const subtitle = new Array<string>();

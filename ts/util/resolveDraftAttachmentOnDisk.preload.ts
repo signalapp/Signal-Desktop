@@ -50,6 +50,8 @@ export function resolveDraftAttachmentOnDisk(
     height,
     version,
     localKey,
+    audioWaveform,
+    duration,
   } = attachment;
 
   return {
@@ -67,5 +69,7 @@ export function resolveDraftAttachmentOnDisk(
     localKey,
     pending: false,
     url,
+    audioWaveform,
+    duration,
   };
 }

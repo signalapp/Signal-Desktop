@@ -74,6 +74,8 @@ export function Default(): JSX.Element {
         currentTime,
         duration,
       }}
+      waveform={undefined}
+      duration={undefined}
       onCancel={action('cancel')}
       onSend={action('send')}
       onPlay={handlePlay}

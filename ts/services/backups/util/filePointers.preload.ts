@@ -5,9 +5,11 @@ import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
+  isAudio,
 } from '../../../types/MIME.std.ts';
 import type { AttachmentType } from '../../../types/Attachment.std.ts';
 import { doesAttachmentExist } from '../../../util/migrations.preload.ts';
+import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 import {
   hasRequiredInformationForLocalBackup,
   hasRequiredInformationForRemoteBackup,
@@ -62,6 +64,8 @@ export function convertFilePointerToAttachment(
     blurHash,
     incrementalMac,
     incrementalMacChunkSize,
+    audioWaveform,
+    audioDurationSeconds,
     locatorInfo,
   } = filePointer;
   const doCreateName = testDependencies?._createName ?? createName;
@@ -78,6 +82,12 @@ export function convertFilePointerToAttachment(
     blurHash: blurHash ?? undefined,
     incrementalMac: undefined,
     chunkSize: undefined,
+    audioWaveform:
+      audioWaveform == null ? undefined : Array.from(audioWaveform),
+    duration:
+      audioDurationSeconds == null
+        ? undefined
+        : DurationInSeconds.fromSeconds(audioDurationSeconds),
     downloadPath: doCreateName(),
   };
 
@@ -231,6 +241,13 @@ export async function getFilePointerForAttachment({
     blurHash: attachment.blurHash ?? null,
     incrementalMac: null,
     incrementalMacChunkSize: null,
+    audioWaveform:
+      attachment.audioWaveform == null
+        ? null
+        : new Uint8Array(attachment.audioWaveform),
+    audioDurationSeconds: isAudio(attachment.contentType)
+      ? (attachment.duration ?? null)
+      : null,
     locatorInfo: null,
   };
 

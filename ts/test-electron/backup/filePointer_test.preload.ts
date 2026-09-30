@@ -37,6 +37,8 @@ describe('convertFilePointerToAttachment', () => {
     caption: 'caption',
     incrementalMac: Bytes.fromString('incrementalMac'),
     incrementalMacChunkSize: 1000,
+    audioWaveform: null,
+    audioDurationSeconds: null,
     locatorInfo: null,
   };
   const commonAttachmentProps = {
@@ -48,6 +50,8 @@ describe('convertFilePointerToAttachment', () => {
     caption: 'caption',
     incrementalMac: Bytes.toBase64(Bytes.fromString('incrementalMac')),
     chunkSize: 1000,
+    duration: undefined,
+    audioWaveform: undefined,
   } as const;
 
   describe('locatorInfo', () => {
@@ -196,6 +200,8 @@ const defaultAttachment = {
   uploadTimestamp: 1234,
   localKey: Bytes.toBase64(generateKeys()),
   version: 2,
+  duration: undefined,
+  audioWaveform: undefined,
 } as const satisfies AttachmentType;
 
 const defaultMediaName = Bytes.toHex(
@@ -215,6 +221,8 @@ const defaultFilePointer: Backups.FilePointer.Params = {
   incrementalMac: Bytes.fromBase64('incrementalMac'),
   incrementalMacChunkSize: 1000,
   locatorInfo: null,
+  audioWaveform: null,
+  audioDurationSeconds: null,
 };
 
 const notInBackupCdn: GetBackupCdnInfoType = async () => {

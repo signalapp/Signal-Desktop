@@ -140,11 +140,19 @@ export const SmartCompositionRecordingDraft = memo(
       ]
     );
 
+    const waveform = voiceNoteAttachment.pending
+      ? undefined
+      : voiceNoteAttachment.audioWaveform;
+
     return (
       <CompositionRecordingDraft
         i18n={i18n}
         audioUrl={audioUrl}
         active={draftActive}
+        waveform={waveform}
+        duration={
+          voiceNoteAttachment.pending ? undefined : voiceNoteAttachment.duration
+        }
         onCancel={handleCancel}
         onSend={handleSend}
         onPlay={handlePlay}

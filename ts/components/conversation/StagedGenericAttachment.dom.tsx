@@ -3,13 +3,13 @@
 
 import type { JSX } from 'react';
 
-import type { AttachmentType } from '../../types/Attachment.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { FileThumbnail } from '../FileThumbnail.dom.tsx';
 
 export type Props = {
-  attachment: AttachmentType;
-  onClose: (attachment: AttachmentType) => void;
+  attachment: AttachmentForUIType;
+  onClose: (attachment: AttachmentForUIType) => void;
   i18n: LocalizerType;
 };
 

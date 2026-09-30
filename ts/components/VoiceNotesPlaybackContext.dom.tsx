@@ -6,6 +6,7 @@ import PQueue from 'p-queue';
 import { LRUCache } from 'lru-cache';
 
 import type { WaveformCache } from '../types/Audio.dom.tsx';
+import { WaveformBuilder } from '../util/waveformBuilder.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
 const log = createLogger('VoiceNotesPlaybackContext');
@@ -14,13 +15,13 @@ const MAX_WAVEFORM_COUNT = 1000;
 const MAX_PARALLEL_COMPUTE = 8;
 const MAX_AUDIO_DURATION = 15 * 60; // 15 minutes
 
-export type ComputePeaksResult = {
+export type ComputeWaveformResult = {
   duration: number;
-  peaks: ReadonlyArray<{ value: number; index: number }>; // 0 < peak < 1
+  waveform: ReadonlyArray<number>;
 };
 
 export type Contents = {
-  computePeaks: (url: string, barCount: number) => Promise<ComputePeaksResult>;
+  computeWaveform: (url: string) => Promise<ComputeWaveformResult>;
 };
 
 // This context's value is effectively global. This is not ideal but is necessary because
@@ -34,7 +35,7 @@ const waveformCache: WaveformCache = new LRUCache({
   max: MAX_WAVEFORM_COUNT,
 });
 
-const inProgressMap = new Map<string, Promise<ComputePeaksResult>>();
+const inProgressMap = new Map<string, Promise<ComputeWaveformResult>>();
 const computeQueue = new PQueue({
   concurrency: MAX_PARALLEL_COMPUTE,
 });
@@ -66,7 +67,7 @@ async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
 }
 
 /**
- * Load audio from `url`, decode PCM data, and compute RMS peaks for displaying
+ * Load audio from `url`, decode PCM data, and compute waveform for displaying
  * the waveform.
  *
  * The results are cached in the `waveformCache` which is shared across
@@ -75,11 +76,8 @@ async function getAudioDuration(buffer: ArrayBuffer): Promise<number> {
  * The computation happens off the renderer thread by AudioContext, but it is
  * still quite expensive, so we cache it in the `waveformCache` LRU cache.
  */
-async function doComputePeaks(
-  url: string,
-  barCount: number
-): Promise<ComputePeaksResult> {
-  const cacheKey = `${url}:${barCount}`;
+async function doComputeWaveform(url: string): Promise<ComputeWaveformResult> {
+  const cacheKey = url;
   const existing = waveformCache.get(cacheKey);
 
   const logId = 'GlobalAudioContext';
@@ -96,16 +94,9 @@ async function doComputePeaks(
 
   const duration = await getAudioDuration(raw);
 
-  const peaks = [];
-  for (let i = 0; i < barCount; i += 1) {
-    peaks.push({
-      value: 0,
-      index: i,
-    });
-  }
   if (duration > MAX_AUDIO_DURATION) {
     log.info(`${logId}: duration ${duration}s is too long`);
-    const emptyResult = { peaks, duration };
+    const emptyResult = { waveform: [], duration };
     waveformCache.set(cacheKey, emptyResult);
     return emptyResult;
   }
@@ -116,61 +107,46 @@ async function doComputePeaks(
   }
 
   const data = await audioContext.decodeAudioData(raw);
+  const waveformBuilder = new WaveformBuilder();
 
-  // Compute RMS peaks
-  const norms = new Array(barCount).fill(0);
-
-  const samplesPerPeak = data.length / peaks.length;
+  const channels = new Array<Float32Array>();
+  let maxSamples = 0;
   for (
     let channelNum = 0;
     channelNum < data.numberOfChannels;
     channelNum += 1
   ) {
     const channel = data.getChannelData(channelNum);
+    maxSamples = Math.max(maxSamples, channel.length);
+    channels.push(channel);
+  }
 
-    for (const [sample, sampleData] of channel.entries()) {
-      const i = Math.floor(sample / samplesPerPeak);
-      const peak = peaks[i];
-      if (peak == null) {
-        throw new Error('Missing peak');
-      }
-      peak.value += sampleData ** 2;
-      norms[i] += 1;
+  // Interleave samples from each channel
+  for (let t = 0; t < maxSamples; t += 1) {
+    for (const channel of channels) {
+      waveformBuilder.push(channel[t] ?? 0);
     }
   }
 
-  // Average
-  let max = 1e-23;
-  for (const [i, peak] of peaks.entries()) {
-    peak.value = Math.sqrt(peak.value / Math.max(1, norms[i]));
-    max = Math.max(max, peak.value);
-  }
-
-  // Normalize
-  for (const peak of peaks) {
-    peak.value /= max;
-  }
-
-  const result = { peaks, duration };
+  const result = { waveform: waveformBuilder.collect(), duration };
   waveformCache.set(cacheKey, result);
   return result;
 }
 
-export async function computePeaks(
-  url: string,
-  barCount: number
-): Promise<ComputePeaksResult> {
-  const computeKey = `${url}:${barCount}`;
+export async function computeWaveform(
+  url: string
+): Promise<ComputeWaveformResult> {
+  const computeKey = url;
   const logId = 'VoiceNotesPlaybackContext';
 
   const pending = inProgressMap.get(computeKey);
   if (pending) {
-    log.info(`${logId}: already computing peaks`);
+    log.info(`${logId}: already computing waveform`);
     return pending;
   }
 
-  log.info(`${logId}: queueing computing peaks`);
-  const promise = computeQueue.add(() => doComputePeaks(url, barCount));
+  log.info(`${logId}: queueing computing waveform`);
+  const promise = computeQueue.add(() => doComputeWaveform(url));
 
   inProgressMap.set(computeKey, promise);
   try {
@@ -181,7 +157,7 @@ export async function computePeaks(
 }
 
 const globalContents: Contents = {
-  computePeaks,
+  computeWaveform,
 };
 
 export const VoiceNotesPlaybackContext =

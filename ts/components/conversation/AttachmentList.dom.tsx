@@ -80,7 +80,7 @@ export function AttachmentList<
     return null;
   }
 
-  const allVisualAttachments = areAllAttachmentsVisual(attachments);
+  const allVisualAttachments = areAllAttachmentsVisual(attachmentsForUI);
 
   return (
     <div className="module-attachments">
@@ -107,12 +107,12 @@ export function AttachmentList<
             attachment.fileName ||
             index;
 
-          const isImage = isImageAttachment(attachment);
-          const isVideo = isVideoAttachment(attachment);
+          const isImage = isImageAttachment(forUI);
+          const isVideo = isVideoAttachment(forUI);
           const closeAttachment = () => onCloseAttachment(attachment);
 
           if (
-            (isImage && areDimensionsDisplayable(attachment)) ||
+            (isImage && areDimensionsDisplayable(forUI)) ||
             isVideo ||
             attachment.pending
           ) {
@@ -162,7 +162,7 @@ export function AttachmentList<
           return (
             <StagedGenericAttachment
               key={key}
-              attachment={attachment}
+              attachment={forUI}
               i18n={i18n}
               onClose={closeAttachment}
             />

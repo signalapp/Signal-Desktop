@@ -371,6 +371,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
     storyTextAttachmentJson,
     copiedFromQuotedAttachment,
     localBackupPath,
+    audioWaveform,
   } = messageAttachment;
 
   const result: AttachmentType = {
@@ -446,6 +447,8 @@ export function convertAttachmentDBFieldsToAttachmentType(
           },
         }
       : {}),
+    audioWaveform:
+      audioWaveform == null ? undefined : Array.from(audioWaveform),
   };
 
   return result;

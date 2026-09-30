@@ -101,6 +101,8 @@ export function processAttachment(
     height,
     caption,
     blurHash,
+    audioWaveform,
+    audioDurationSeconds,
   } = attachment;
 
   if (!isNumber(size)) {
@@ -144,6 +146,9 @@ export function processAttachment(
       : undefined,
     key: Bytes.isNotEmpty(key) ? Bytes.toBase64(key) : undefined,
     size,
+    audioWaveform:
+      audioWaveform == null ? undefined : Array.from(audioWaveform),
+    duration: audioDurationSeconds ?? undefined,
   };
 }
 
