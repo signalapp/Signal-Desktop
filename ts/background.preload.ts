@@ -488,7 +488,6 @@ async function startApp(): Promise<void> {
 
     drop(itemStorage.put('postRegistrationSyncsStatus', 'incomplete'));
     registrationCompleted?.resolve();
-    drop(Registration.markDone());
     drop(keyTransparency.onRegistrationDone());
   });
 

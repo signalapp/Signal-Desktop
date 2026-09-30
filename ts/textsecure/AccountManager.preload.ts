@@ -89,7 +89,10 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.ts';
 import { wrappingAdd24 } from '../util/wrappingAdd.std.ts';
-import { everDone as registrationEverDone } from '../util/registration.preload.ts';
+import {
+  markDone,
+  everDone as registrationEverDone,
+} from '../util/registration.preload.ts';
 import {
   isRelinkingToSameAccount as getIsRelinkingToSameAccount,
   isCleanStart as getIsCleanStart,
@@ -1600,6 +1603,7 @@ export default class AccountManager extends EventTarget {
 
   async #registrationDone(): Promise<void> {
     log.info('registration done');
+    await markDone();
     this.dispatchEvent(new Event('endRegistration'));
   }
 
