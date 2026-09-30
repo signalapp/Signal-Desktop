@@ -340,8 +340,8 @@ export function FunPanelEmojis({
           i18n={i18n}
           searchInput={searchInput}
           onSearchInputChange={handleSearchInputChange}
-          placeholder={i18n('icu:FunPanelEmojis__SearchLabel')}
-          aria-label={i18n('icu:FunPanelEmojis__SearchPlaceholder')}
+          placeholder={i18n('icu:FunPanelEmojis__SearchPlaceholder')}
+          label={i18n('icu:FunPanelEmojis__SearchLabel')}
         />
         {showCustomizePreferredReactionsButton && (
           <button

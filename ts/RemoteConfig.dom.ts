@@ -76,7 +76,6 @@ const ScalarKeys = [
   'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
-  'desktop.recentGifs.allowLegacyTenorCdnUrls',
   'desktop.retryRespondMaxAge',
   'desktop.senderKey.retry',
   'desktop.senderKeyMaxAge',
