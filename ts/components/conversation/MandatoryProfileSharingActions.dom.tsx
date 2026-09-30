@@ -3,7 +3,6 @@
 
 import { useState, type JSX } from 'react';
 import { ContactName } from './ContactName.dom.tsx';
-import { Button, ButtonVariant } from '../Button.dom.tsx';
 import type { MessageRequestActionsConfirmationProps } from './MessageRequestActionsConfirmation.dom.tsx';
 import {
   MessageRequestActionsConfirmation,
@@ -11,6 +10,9 @@ import {
 } from './MessageRequestActionsConfirmation.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
+import { FlexWrapDetector } from '../../axo/_internal/FlexWrapDetector.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 
 export type Props = {
   i18n: LocalizerType;
@@ -34,7 +36,7 @@ const learnMoreLink = (parts: Array<JSX.Element | string>) => (
     href="https://support.signal.org/hc/articles/360007459591"
     target="_blank"
     rel="noreferrer"
-    className="module-message-request-actions__message__learn-more"
+    className={tw('no-underline')}
   >
     {parts}
   </a>
@@ -57,12 +59,9 @@ export function MandatoryProfileSharingActions({
   const [mrState, setMrState] = useState(MessageRequestState.default);
 
   const firstNameContact = (
-    <strong
-      key="name"
-      className="module-message-request-actions__message__name"
-    >
+    <span key="name" className={tw('font-semibold')}>
       <ContactName {...conversationName} preferFirstName />
-    </strong>
+    </span>
   );
 
   return (
@@ -89,8 +88,11 @@ export function MandatoryProfileSharingActions({
           onChangeState={setMrState}
         />
       ) : null}
-      <div className="module-message-request-actions">
-        <p className="module-message-request-actions__message">
+      <div
+        className={tw('px-4 pt-2 pb-3')}
+        data-testid="profile-sharing-actions"
+      >
+        <p className={tw('mb-3 text-center type-body-medium text-secondary')}>
           {conversationType === 'direct' ? (
             <I18n
               i18n={i18n}
@@ -105,30 +107,41 @@ export function MandatoryProfileSharingActions({
             />
           )}
         </p>
-        <div className="module-message-request-actions__buttons">
-          <Button
-            onClick={() => {
-              setMrState(MessageRequestState.blocking);
-            }}
-            variant={ButtonVariant.SecondaryDestructive}
+        <FlexWrapDetector>
+          <div
+            className={tw(
+              'flex flex-wrap justify-center gap-2 p-1',
+              '[&>button]:min-w-24',
+              'container-scrollable:[&>button]:w-full'
+            )}
           >
-            {i18n('icu:MessageRequests--block')}
-          </Button>
-          <Button
-            onClick={() => {
-              setMrState(MessageRequestState.deleting);
-            }}
-            variant={ButtonVariant.SecondaryDestructive}
-          >
-            {i18n('icu:MessageRequests--delete')}
-          </Button>
-          <Button
-            onClick={() => acceptConversation(conversationId)}
-            variant={ButtonVariant.SecondaryAffirmative}
-          >
-            {i18n('icu:MessageRequests--continue')}
-          </Button>
-        </div>
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.blocking);
+              }}
+              size="md"
+              variant="subtle-destructive"
+            >
+              {i18n('icu:MessageRequests--block')}
+            </AxoButton.Root>
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.deleting);
+              }}
+              size="md"
+              variant="subtle-destructive"
+            >
+              {i18n('icu:MessageRequests--delete')}
+            </AxoButton.Root>
+            <AxoButton.Root
+              onClick={() => acceptConversation(conversationId)}
+              size="md"
+              variant="subtle-secondary"
+            >
+              {i18n('icu:MessageRequests--continue')}
+            </AxoButton.Root>
+          </div>
+        </FlexWrapDetector>
       </div>
     </>
   );

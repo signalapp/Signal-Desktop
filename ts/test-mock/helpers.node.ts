@@ -395,7 +395,8 @@ export async function pinContact(
 
 export async function acceptConversation(page: Page): Promise<void> {
   await page
-    .locator('.module-message-request-actions button >> "Accept"')
+    .getByTestId('message-request-actions')
+    .getByRole('button', { name: 'Accept' })
     .click();
 
   const confirmationButton = page

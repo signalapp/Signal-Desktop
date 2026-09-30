@@ -356,7 +356,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     debug('Verify that we are in MR state');
     const conversationStack = window.locator('.Inbox__conversation-stack');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Continue"')
+      .getByTestId('profile-sharing-actions')
+      .getByRole('button', { name: 'Continue' })
       .waitFor();
 
     debug('Clear message request state on phone');
@@ -378,7 +379,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Wait for MR state to disappear');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Continue"')
+      .getByTestId('message-request-actions')
+      .getByRole('button', { name: 'Continue' })
       .waitFor({ state: 'hidden' });
 
     debug('Send back the response with profile key and pni signature');

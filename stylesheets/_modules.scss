@@ -2185,35 +2185,6 @@ button.ConversationDetails__action-button {
   margin-inline-start: 16px;
 }
 
-// Module: Message Request Actions
-
-.module-message-request-actions {
-  padding-block: 8px 12px;
-  padding-inline: 16px;
-
-  &__message {
-    @include mixins.font-body-2;
-    text-align: center;
-    margin-bottom: 12px;
-
-    @include mixins.light-theme {
-      color: variables.$color-gray-60;
-    }
-
-    @include mixins.dark-theme {
-      color: variables.$color-gray-25;
-    }
-
-    &__name {
-      @include mixins.font-body-2-bold;
-    }
-
-    &__learn-more {
-      text-decoration: none;
-    }
-  }
-}
-
 // Module: Image
 
 .module-image {
