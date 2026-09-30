@@ -934,7 +934,13 @@ export class BackupExportStream {
         throw missingCaseError(unreadCountBadgeType);
     }
 
-    const usernameLink = itemStorage.get('usernameLink');
+    const username = me.get('username') || null;
+
+    let usernameLink = itemStorage.get('usernameLink');
+    if (usernameLink != null && username == null) {
+      log.error('toAccountData: dropping username link without username');
+      usernameLink = undefined;
+    }
 
     const subscriberId = itemStorage.get('subscriberId');
     const currencyCode = itemStorage.get('subscriberCurrencyCode');
@@ -950,7 +956,7 @@ export class BackupExportStream {
 
     return {
       profileKey: itemStorage.get('profileKey') ?? null,
-      username: me.get('username') || null,
+      username,
       usernameLink: usernameLink
         ? {
             ...usernameLink,
