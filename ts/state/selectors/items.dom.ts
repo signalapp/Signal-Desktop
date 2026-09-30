@@ -278,6 +278,13 @@ export const getHasSvrPin = createSelector(
   }
 );
 
+export const getIsSvrPinPending = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => {
+    return state.svrPin != null && !state.isSvrPinStored;
+  }
+);
+
 export const getHasUnidentifiedDeliveryIndicators = createSelector(
   getItems,
   (state: ItemsStateType): boolean => {

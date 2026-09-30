@@ -8360,6 +8360,50 @@
     "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>",
     "description": "Footer text for Signal PIN settings section"
   },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Advanced PIN settings",
+    "description": "In Signal PIN settings, label of the row that opens an advanced panel for disabling and enabling Signal PIN."
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Disable PIN",
+    "description": "In Signal PIN advanced settings, label of the row to disable your Signal PIN."
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Disable",
+    "description": "In Signal PIN advanced settings, label of the button to disable your Signal PIN."
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "If you disable the PIN, you will lose all data when you re-register Signal unless you manually back up and restore. You can not turn on Registration Lock while the PIN is disabled.",
+    "description": "In Signal PIN advanced settings, footer description of the row to disable your Signal PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock",
+    "description": "Accessibility title of error dialog when trying to disable Signal PIN while registration lock is on."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN.",
+    "description": "Body of error dialog when trying to disable Signal PIN while registration lock is on."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK",
+    "description": "Label of button in error dialog when trying to disable Signal PIN while registration lock is on."
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups",
+    "description": "Accessibility title of error dialog when trying to disable Signal PIN while Signal Backups is enabled."
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN.",
+    "description": "Body of error dialog when trying to disable Signal PIN while Signal Backups is enabled."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Enable PIN",
+    "description": "In Signal PIN advanced settings, label of the row to enable Signal PIN."
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Enable",
+    "description": "In Signal PIN advanced settings, label of the button to enable Signal PIN."
+  },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN reminders",
     "description": "Header for Signal PIN reminders setting"

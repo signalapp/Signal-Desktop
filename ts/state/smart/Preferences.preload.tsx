@@ -22,6 +22,7 @@ import {
   getGlobalShowUnreadReminders,
   getHasRegistrationLock,
   getHasSvrPin,
+  getIsSvrPinPending,
   getItems,
   getNavTabsCollapsed,
   getPreferredLeftPaneWidth,
@@ -134,6 +135,7 @@ import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
+import { disableSignalPin } from '../../util/disableSignalPin.preload.ts';
 
 const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
   ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
@@ -880,6 +882,7 @@ export function SmartPreferences(): JSX.Element | null {
   const onRegistrationLockChange = (value: boolean) => {
     drop(maybeUpdateRegistrationLock(value));
   };
+  const isSvrPinPending = useSelector(getIsSvrPinPending);
 
   const [hasStoriesDisabled, onHasStoriesDisabledChanged] = createItemsAccess(
     'hasStoriesDisabled',
@@ -1069,6 +1072,7 @@ export function SmartPreferences(): JSX.Element | null {
         defaultConversationColor={defaultConversationColor}
         deviceName={deviceName}
         disableLocalBackups={backupsService.disableLocalBackups}
+        disableSignalPin={disableSignalPin}
         emojiSkinToneDefault={emojiSkinToneDefault}
         phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
@@ -1127,6 +1131,7 @@ export function SmartPreferences(): JSX.Element | null {
           isMinimizeToAndStartInSystemTraySupported
         }
         isNotificationAttentionSupported={isNotificationAttentionSupported}
+        isSvrPinPending={isSvrPinPending}
         isSyncSupported={isSyncSupported}
         isSystemTraySupported={isSystemTraySupported}
         isInternalUser={isInternalUser}
