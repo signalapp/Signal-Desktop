@@ -142,7 +142,6 @@ export function CallLinkPendingParticipantModal({
               </AxoButton.Root>
             </div>
           </AxoDialog.Body>
-          <AxoDialog.Footer />
         </AxoDialog.Content>
       </AxoDialog.Root>
     </AxoTheme.Override>

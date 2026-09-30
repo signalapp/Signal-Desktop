@@ -2,17 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useCallback, useMemo, useState, type JSX } from 'react';
 import { v4 as generateUuid } from 'uuid';
-import { Modal } from './Modal.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { Button, ButtonVariant } from './Button.dom.tsx';
-import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { Input } from './Input.dom.tsx';
 import {
   CallLinkNameMaxByteLength,
   CallLinkNameMaxLength,
   type CallLinkType,
 } from '../types/CallLink.std.ts';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';
+import { AxoList } from '../axo/items/AxoList.dom.tsx';
+import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
+import { AxoAvatar } from '../axo/AxoAvatar.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type CallLinkAddNameModalProps = Readonly<{
   i18n: LocalizerType;
@@ -39,10 +41,6 @@ export function CallLinkAddNameModal({
     return { name };
   }, [nameInput, callLink]);
 
-  const handleNameInputChange = useCallback((nextNameInput: string) => {
-    setNameInput(nextNameInput);
-  }, []);
-
   const handleSubmit = useCallback(() => {
     if (parsedForm == null) {
       return;
@@ -52,67 +50,65 @@ export function CallLinkAddNameModal({
   }, [parsedForm, onUpdateCallLinkName, onClose]);
 
   return (
-    <Modal
-      modalName="CallLinkAddNameModal"
-      i18n={i18n}
-      hasXButton
-      noMouseClose
-      title={
-        callLink.name === ''
-          ? i18n('icu:CallLinkAddNameModal__Title')
-          : i18n('icu:CallLinkAddNameModal__Title--Edit')
-      }
-      onClose={onClose}
-      moduleClassName="CallLinkAddNameModal"
-      modalFooter={
-        <>
-          <Button onClick={onClose} variant={ButtonVariant.Secondary}>
-            {i18n('icu:cancel')}
-          </Button>
-          <Button
-            type="submit"
-            form={formId}
-            variant={ButtonVariant.Primary}
-            aria-disabled={parsedForm == null}
-          >
-            {i18n('icu:save')}
-          </Button>
-        </>
-      }
-    >
-      <form
-        id={formId}
-        onSubmit={handleSubmit}
-        className="CallLinkAddNameModal__Row"
-      >
-        <Avatar
-          i18n={i18n}
-          badge={undefined}
-          color={getColorForCallLink(callLink.rootKey)}
-          conversationType="callLink"
-          size={AvatarSize.SIXTY_FOUR}
-          title={
-            callLink.name === ''
-              ? i18n('icu:calling__call-link-default-title')
-              : callLink.name
-          }
-        />
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {callLink.name === ''
+              ? i18n('icu:CallLinkAddNameModal__Title')
+              : i18n('icu:CallLinkAddNameModal__Title--Edit')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <form id={formId} action={handleSubmit}>
+            <div className={tw('mb-3 flex flex-col items-center')}>
+              <AxoAvatar.Root size={64}>
+                <AxoAvatar.Icon
+                  symbol="videocamera"
+                  color={getColorForCallLink(callLink.rootKey)}
+                />
+              </AxoAvatar.Root>
+            </div>
 
-        <label htmlFor={nameId} className="CallLinkAddNameModal__SrOnly">
-          {i18n('icu:CallLinkAddNameModal__NameLabel')}
-        </label>
-        <Input
-          i18n={i18n}
-          id={nameId}
-          value={nameInput}
-          placeholder={i18n('icu:CallLinkAddNameModal__NameLabel')}
-          autoFocus
-          onChange={handleNameInputChange}
-          moduleClassName="CallLinkAddNameModal__Input"
-          maxByteCount={CallLinkNameMaxByteLength}
-          maxLengthCount={CallLinkNameMaxLength}
-        />
-      </form>
-    </Modal>
+            <AxoList.Group>
+              <AxoFieldList.Root>
+                <AxoFieldList.Item>
+                  <label htmlFor={nameId} className={tw('sr-only')}>
+                    {i18n('icu:CallLinkAddNameModal__NameLabel')}
+                  </label>
+                  <AxoTextField.Root
+                    id={nameId}
+                    value={nameInput}
+                    onValueChange={setNameInput}
+                    maxBytes={CallLinkNameMaxByteLength}
+                    maxGraphemes={CallLinkNameMaxLength}
+                  >
+                    <AxoTextField.Input
+                      autoFocus
+                      placeholder={i18n('icu:CallLinkAddNameModal__NameLabel')}
+                    />
+                  </AxoTextField.Root>
+                </AxoFieldList.Item>
+              </AxoFieldList.Root>
+            </AxoList.Group>
+          </form>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={handleSubmit}
+              disabled={parsedForm == null}
+            >
+              {i18n('icu:save')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

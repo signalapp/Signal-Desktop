@@ -168,7 +168,6 @@ export function PollVotesModal({
             )}
           </div>
         </AxoDialog.Body>
-        <AxoDialog.Footer />
       </AxoDialog.Content>
     </AxoDialog.Root>
   );

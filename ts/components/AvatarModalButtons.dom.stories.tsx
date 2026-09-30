@@ -12,6 +12,7 @@ import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
 const { i18n } = window.SignalContext;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  isInsideDialog: false,
   hasChanges: Boolean(overrideProps.hasChanges),
   i18n,
   onCancel: action('onCancel'),

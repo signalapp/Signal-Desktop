@@ -54,7 +54,6 @@ export function AnnouncementsOnlyGroupBannerAdminsDialog(
             );
           })}
         </AxoDialog.Body>
-        <AxoDialog.Footer />
       </AxoDialog.Content>
     </AxoDialog.Root>
   );

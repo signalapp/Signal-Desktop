@@ -19,7 +19,8 @@ export namespace AxoContainer {
     return (
       <div
         className={tw(
-          'mx-auto w-full min-w-min',
+          'mx-auto w-full',
+          'min-w-[320px]',
           // TODO(jamie): Once all items have been migrated, we want to set the max-width to 640px
           'max-w-[750px]',
           'px-4 pt-2 pb-4'

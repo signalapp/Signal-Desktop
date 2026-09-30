@@ -359,7 +359,7 @@ function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
 
   return (
     <AxoDialog.Root open>
-      <AxoDialog.Content size="xs" escape="cancel-is-noop">
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Body>
           <div className={tw('text-center')}>
             <div
@@ -372,7 +372,11 @@ function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
             >
               <AxoSymbol.InlineGlyph symbol={icon} label={null} />
             </div>
-            <h3 className={tw('mb-1.5 type-title-small text-primary')}>
+            <h3
+              className={tw(
+                'mb-1.5 type-title-small text-balance text-primary'
+              )}
+            >
               {title}
             </h3>
             <div className={tw('mb-2 type-body-medium text-secondary')}>

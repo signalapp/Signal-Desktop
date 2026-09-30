@@ -21,7 +21,7 @@ export function SafetyTipsModal({
   const [page, setPage] = useState<'summary' | 'details'>('summary');
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
         {page === 'summary' ? (
           <SafetyTipsSummary
             i18n={i18n}

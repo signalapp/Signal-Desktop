@@ -122,12 +122,7 @@ export function GroupMembersSearchDialog(
           />
           <FilterMenu i18n={i18n} filter={filter} onFilterChange={setFilter} />
         </AxoDialog.Search>
-        <AxoDialog.Body
-          scrollbarWidth="none"
-          padding="md"
-          noFooterHideBottomScrollHint
-          forceMaxHeight
-        >
+        <AxoDialog.Body padding="md" forceMaxHeight>
           <div className={tw('flex flex-col gap-2 pb-4')}>
             {searchQuery === '' ? (
               <AlphabeticMemberList

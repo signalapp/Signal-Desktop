@@ -56,7 +56,6 @@ export function GroupDescription({
               <GroupDescriptionText text={text} />
             </AxoDialog.Description>
           </AxoDialog.Body>
-          <AxoDialog.Footer />
         </AxoDialog.Content>
       </AxoDialog.Root>
 

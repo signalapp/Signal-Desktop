@@ -13,7 +13,7 @@
   .axo-item-group {
     @apply grid;
     @apply contain-inline-size;
-    @apply min-w-90;
+    @apply min-w-70;
     grid-template-columns:
       [axo-item-leading] min-content
       [axo-item-content] auto;
@@ -62,6 +62,7 @@
   }
 
   :where(.axo-item-label) .axo-item-label-inner {
+    @apply max-w-full;
     @apply wrap-break-word [word-break:auto-phrase];
   }
 
@@ -122,6 +123,7 @@
 
       .axo-item-accessory {
         @apply axo-item-centering-to-max-height;
+        @apply ms-3;
       }
     }
 

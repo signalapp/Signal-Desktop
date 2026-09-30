@@ -575,7 +575,7 @@ export async function createCallLink(
 
   await editModal.getByRole('button', { name: 'Add call name' }).click();
 
-  const addNameModal = page.locator('.CallLinkAddNameModal');
+  const addNameModal = page.getByRole('dialog', { name: 'Add call name' });
   await addNameModal.waitFor();
 
   const nameInput = addNameModal.getByLabel('Call name');

@@ -37,7 +37,7 @@ export function MaybeTransferModal({
       }}
     >
       <AxoDialog.Content
-        size="sm"
+        size="md"
         escape="cancel-is-noop"
         disableMissingAriaDescriptionWarning
       >

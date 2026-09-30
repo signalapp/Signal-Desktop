@@ -32,6 +32,7 @@ import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 import { variants } from '../_internal/variants.dom.tsx';
 import { assert } from '../_internal/assert.std.tsx';
+import type { AxoTokens } from '../AxoTokens.std.ts';
 
 /**
  * @example Anatomy
@@ -248,11 +249,19 @@ export namespace AxoBaseItem {
    */
 
   export type LeadingProps = Readonly<{
+    centerToFullHeight?: boolean;
     children: ReactNode;
   }>;
 
   export const Leading: FC<LeadingProps> = memo(props => {
-    return <div className="axo-item-leading">{props.children}</div>;
+    return (
+      <div
+        className="axo-item-leading"
+        style={{ maxHeight: props.centerToFullHeight ? 'none' : undefined }}
+      >
+        {props.children}
+      </div>
+    );
   });
 
   Leading.displayName = 'AxoBaseItem.Leading';
@@ -312,13 +321,14 @@ export namespace AxoBaseItem {
   export type IconAvatarProps = Readonly<{
     size: IconAvatarSize;
     symbol: AxoSymbol.Name;
+    color?: AxoTokens.Avatar.ColorName | null;
   }>;
 
   export const IconAvatar: FC<IconAvatarProps> = memo(props => {
     return (
       <AxoAvatar.Root size={props.size}>
         <AxoAvatar.Content label={null}>
-          <AxoAvatar.Icon symbol={props.symbol} />
+          <AxoAvatar.Icon symbol={props.symbol} color={props.color} />
         </AxoAvatar.Content>
       </AxoAvatar.Root>
     );
@@ -453,11 +463,19 @@ export namespace AxoBaseItem {
    */
 
   export type AccessoryProps = Readonly<{
+    centerToFullHeight?: boolean;
     children: ReactNode;
   }>;
 
   export const Accessory: FC<AccessoryProps> = memo(props => {
-    return <div className="axo-item-accessory">{props.children}</div>;
+    return (
+      <div
+        className="axo-item-accessory"
+        style={{ maxHeight: props.centerToFullHeight ? 'none' : undefined }}
+      >
+        {props.children}
+      </div>
+    );
   });
 
   Accessory.displayName = 'AxoBaseItem.Accessory';

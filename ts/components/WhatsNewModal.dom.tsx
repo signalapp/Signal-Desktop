@@ -67,7 +67,6 @@ export function WhatsNewModal({
             {contentNode}
           </AxoDialog.Description>
         </AxoDialog.Body>
-        <AxoDialog.Footer />
       </AxoDialog.Content>
     </AxoDialog.Root>
   );

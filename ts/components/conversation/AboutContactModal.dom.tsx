@@ -1,16 +1,9 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
-  type ReactNode,
-  useCallback,
-  useMemo,
-  type JSX,
-  type MouseEvent,
-} from 'react';
+import { type ReactNode, useCallback, useMemo, type JSX } from 'react';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.tsx';
-import { Modal } from '../Modal.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { SharedGroupNames } from '../SharedGroupNames.dom.tsx';
 import { About } from './About.dom.tsx';
@@ -22,6 +15,12 @@ import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoList } from '../../axo/items/AxoList.dom.tsx';
+import { AxoItem } from '../../axo/items/AxoItem.dom.tsx';
+import { AxoTextItem } from '../../axo/items/AxoTextItem.dom.tsx';
+import { AxoClickableItem } from '../../axo/items/AxoClickableItem.dom.tsx';
 
 function muted(parts: Array<string | JSX.Element>) {
   return (
@@ -99,29 +98,13 @@ export function AboutContactModal({
     pendingAvatarDownload,
   ]);
 
-  const onSignalConnectionClick = useCallback(
-    (ev: MouseEvent) => {
-      ev.preventDefault();
-      toggleSignalConnectionsModal();
-    },
-    [toggleSignalConnectionsModal]
-  );
+  const onVerifiedClick = useCallback(() => {
+    toggleSafetyNumberModal(contact.id);
+  }, [toggleSafetyNumberModal, contact.id]);
 
-  const onVerifiedClick = useCallback(
-    (ev: MouseEvent) => {
-      ev.preventDefault();
-      toggleSafetyNumberModal(contact.id);
-    },
-    [toggleSafetyNumberModal, contact.id]
-  );
-
-  const onProfileNameWarningClick = useCallback(
-    (ev: MouseEvent) => {
-      ev.preventDefault();
-      toggleProfileNameWarningModal();
-    },
-    [toggleProfileNameWarningModal]
-  );
+  const onProfileNameWarningClick = useCallback(() => {
+    toggleProfileNameWarningModal();
+  }, [toggleProfileNameWarningModal]);
 
   let statusRow: JSX.Element | undefined;
   const hasLabel = contactNameColor && contactLabelString;
@@ -129,52 +112,32 @@ export function AboutContactModal({
   const shouldShowAddLabel =
     isMe && !hasLabel && canAddLabel && isEditMemberLabelEnabled;
 
-  let labelEmojiElement;
-  if (
-    shouldShowLabel &&
-    contactLabelEmoji &&
-    Emoji.isEmoji(contactLabelEmoji)
-  ) {
-    labelEmojiElement = (
-      <>
-        <FunStaticEmoji
-          role="img"
-          aria-label={Emoji.getDisplayLabel(contactLabelEmoji)}
-          size={14}
-          emoji={contactLabelEmoji}
-        />{' '}
-      </>
-    );
-  } else if (shouldShowLabel && contactLabelEmoji) {
-    labelEmojiElement = `${missingEmojiPlaceholder} `;
-  }
-
   if (isMe) {
     // No status for ourselves
   } else if (contact.isBlocked) {
     statusRow = (
-      <div className="AboutContactModal__row">
-        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--blocked" />
-        {i18n('icu:AboutContactModal__blocked', {
+      <AxoTextItem.Root
+        symbol="block"
+        label={i18n('icu:AboutContactModal__blocked', {
           name: contact.title,
         })}
-      </div>
+      />
     );
   } else if (!contact.acceptedMessageRequest) {
     statusRow = (
-      <div className="AboutContactModal__row">
-        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--message-request" />
-        {i18n('icu:AboutContactModal__message-request')}
-      </div>
+      <AxoTextItem.Root
+        symbol="message-badge"
+        label={i18n('icu:AboutContactModal__message-request')}
+      />
     );
   } else if (!contact.hasMessages && !contact.profileSharing) {
     statusRow = (
-      <div className="AboutContactModal__row">
-        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--no-dms" />
-        {i18n('icu:AboutContactModal__no-dms', {
+      <AxoTextItem.Root
+        symbol="message-x"
+        label={i18n('icu:AboutContactModal__no-dms', {
           name: contact.title,
         })}
-      </div>
+      />
     );
   }
 
@@ -215,195 +178,204 @@ export function AboutContactModal({
     );
 
   return (
-    <Modal
-      key="main"
-      modalName="AboutContactModal"
-      moduleClassName="AboutContactModal"
-      hasXButton
-      i18n={i18n}
-      onClose={onClose}
-    >
-      <div className="AboutContactModal__row AboutContactModal__row--centered">
-        <Avatar
-          avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
-          avatarUrl={contact.avatarUrl}
-          blur={avatarBlur}
-          onClick={avatarOnClick}
-          badge={undefined}
-          color={contact.color}
-          conversationType="direct"
-          hasAvatar={contact.hasAvatar}
-          i18n={i18n}
-          loading={pendingAvatarDownload && !contact.avatarUrl}
-          profileName={contact.profileName}
-          size={AvatarSize.TWO_HUNDRED_SIXTEEN}
-          title={contact.title}
-        />
-      </div>
-      <div className="AboutContactModal__row">
-        <h3 className="AboutContactModal__title">
-          {isMe
-            ? i18n('icu:AboutContactModal__title--myself')
-            : i18n('icu:AboutContactModal__title')}
-        </h3>
-      </div>
-      <div className="AboutContactModal__row">
-        <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
-        {isMe ? (
-          <button
-            className="AboutContactModal__button"
-            type="button"
-            onClick={showProfileEditor}
-          >
-            {nameElement}
-          </button>
-        ) : (
-          nameElement
-        )}
-      </div>
-      {!isMe && !fromOrAddedByTrustedContact ? (
-        <div className="AboutContactModal__row">
-          <i
-            className={`AboutContactModal__row__icon AboutContactModal__row__icon--${contact.type === 'group' ? 'group' : 'direct'}-question`}
-          />
-          <button
-            type="button"
-            className="AboutContactModal__button"
-            onClick={onProfileNameWarningClick}
-          >
-            <I18n
-              components={{
-                clickable: (parts: ReactNode) => <>{parts}</>,
-              }}
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title screenReaderOnly>
+            {isMe
+              ? i18n('icu:AboutContactModal__title--myself')
+              : i18n('icu:AboutContactModal__title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body padding="md">
+          <div className={tw('mb-3.5 flex flex-col items-center')}>
+            <Avatar
+              avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
+              avatarUrl={contact.avatarUrl}
+              blur={avatarBlur}
+              onClick={avatarOnClick}
+              badge={undefined}
+              color={contact.color}
+              conversationType="direct"
+              hasAvatar={contact.hasAvatar}
               i18n={i18n}
-              id={
-                contact.type === 'group'
-                  ? 'icu:ConversationHero--group-names'
-                  : 'icu:ConversationHero--profile-names'
-              }
+              loading={pendingAvatarDownload && !contact.avatarUrl}
+              profileName={contact.profileName}
+              size={AvatarSize.TWO_HUNDRED_SIXTEEN}
+              title={contact.title}
             />
-          </button>
-        </div>
-      ) : null}
-      {!isMe && contact.isVerified ? (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--verified" />
-          <button
-            type="button"
-            className="AboutContactModal__verified"
-            onClick={onVerifiedClick}
-          >
-            {i18n('icu:AboutContactModal__verified')}
-          </button>
-        </div>
-      ) : null}
-      {!isMe && contact.about ? (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--about" />
-          <About className="AboutContactModal__about" text={contact.about} />
-        </div>
-      ) : null}
-      {!isMe && isSignalConnection ? (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--connections" />
-          <button
-            type="button"
-            className="AboutContactModal__button"
-            onClick={onSignalConnectionClick}
-          >
-            {i18n('icu:AboutContactModal__signal-connection')}
-          </button>
-        </div>
-      ) : null}
-      {!isMe && isInSystemContacts(contact) ? (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--person" />
-          {i18n('icu:AboutContactModal__system-contact', {
-            name: contact.systemGivenName || contact.firstName || contact.title,
-          })}
-        </div>
-      ) : null}
-
-      {shouldShowLabel && (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
-          <button
-            className="AboutContactModal__button"
-            disabled={!canAddLabel}
-            type="button"
-            onClick={showEditMemberLabelScreen}
-          >
-            <div className="AboutContactModal__label-container">
-              {labelEmojiElement}
-              <span className="AboutContactModal__label-container__string">
-                <UserText
-                  fontSizeOverride={14}
-                  style={{
-                    verticalAlign: 'top',
-                    marginTop: '3px',
-                  }}
-                  text={contactLabelString}
-                />
-              </span>
-            </div>
-          </button>
-        </div>
-      )}
-      {shouldShowAddLabel && (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
-          <button
-            className="AboutContactModal__button"
-            type="button"
-            onClick={showEditMemberLabelScreen}
-          >
-            {i18n('icu:AboutContactModal__add-member-label')}
-          </button>
-        </div>
-      )}
-      {isMe && contact.username && (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--qr-code" />
-          <button
-            className="AboutContactModal__button"
-            type="button"
-            onClick={showQRCodeScreen}
-          >
-            {i18n('icu:AboutContactModal__your-qr-code')}
-          </button>
-        </div>
-      )}
-
-      {!isMe && contact.phoneNumber ? (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--phone" />
-          <UserText text={contact.phoneNumber} />
-        </div>
-      ) : null}
-
-      {!isMe && (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--group" />
-          <div>
-            <SharedGroupNames i18n={i18n} sharedGroupNames={sharedGroupNames} />
           </div>
-        </div>
-      )}
-      {contact.note && (
-        <div className="AboutContactModal__row">
-          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--note" />
-          <button
-            type="button"
-            className="AboutContactModal__button"
-            onClick={onOpenNotePreviewModal}
-          >
-            <div className="AboutContactModal__OneLineEllipsis">
-              <UserText text={contact.note} />
-            </div>
-          </button>
-        </div>
-      )}
-      {statusRow}
-    </Modal>
+
+          <AxoList.Group>
+            <AxoList.Root>
+              <AxoList.Body>
+                <AxoItem.Group spacing="sm">
+                  {isMe ? (
+                    <AxoClickableItem.Root
+                      symbol="person"
+                      label={nameElement}
+                      onClick={showProfileEditor}
+                      arrow="next"
+                    />
+                  ) : (
+                    <AxoTextItem.Root symbol="person" label={nameElement} />
+                  )}
+                  {!isMe && contact.about && (
+                    <AxoTextItem.Root
+                      symbol="pencil"
+                      label={
+                        <About
+                          className="AboutContactModal__about"
+                          text={contact.about}
+                        />
+                      }
+                    />
+                  )}
+                  {!isMe && contact.isVerified && (
+                    <AxoClickableItem.Root
+                      symbol="shield-check"
+                      label={i18n('icu:AboutContactModal__verified')}
+                      onClick={onVerifiedClick}
+                    />
+                  )}
+                  {!isMe && isSignalConnection && (
+                    <AxoClickableItem.Root
+                      symbol="connections"
+                      label={i18n('icu:AboutContactModal__signal-connection')}
+                      onClick={toggleSignalConnectionsModal}
+                      arrow="next"
+                    />
+                  )}
+
+                  {!isMe && isInSystemContacts(contact) && (
+                    <AxoTextItem.Root
+                      symbol="person-circle"
+                      label={i18n('icu:AboutContactModal__system-contact', {
+                        name:
+                          contact.systemGivenName ||
+                          contact.firstName ||
+                          contact.title,
+                      })}
+                    />
+                  )}
+
+                  {!isMe && !fromOrAddedByTrustedContact && (
+                    <AxoClickableItem.Root
+                      symbol={
+                        contact.type === 'group'
+                          ? 'group-question'
+                          : 'person-question'
+                      }
+                      label={
+                        <I18n
+                          components={{
+                            clickable: (parts: ReactNode) => <>{parts}</>,
+                          }}
+                          i18n={i18n}
+                          id={
+                            contact.type === 'group'
+                              ? 'icu:ConversationHero--group-names'
+                              : 'icu:ConversationHero--profile-names'
+                          }
+                        />
+                      }
+                      onClick={onProfileNameWarningClick}
+                      arrow="next"
+                    />
+                  )}
+
+                  {shouldShowLabel && (
+                    <AxoClickableItem.Root
+                      symbol="label"
+                      label={
+                        <div className={tw('truncate')}>
+                          {contactLabelEmoji != null && (
+                            <>
+                              <MemberLabelEmoji emoji={contactLabelEmoji} />
+                              &nbsp;
+                            </>
+                          )}
+                          <UserText
+                            fontSizeOverride={14}
+                            style={{
+                              verticalAlign: 'top',
+                              marginTop: '3px',
+                            }}
+                            text={contactLabelString}
+                          />
+                        </div>
+                      }
+                      disabled={!canAddLabel}
+                      onClick={showEditMemberLabelScreen}
+                    />
+                  )}
+
+                  {shouldShowAddLabel && (
+                    <AxoClickableItem.Root
+                      symbol="label"
+                      label={i18n('icu:AboutContactModal__add-member-label')}
+                      onClick={showEditMemberLabelScreen}
+                      arrow="next"
+                    />
+                  )}
+
+                  {isMe && contact.username && (
+                    <AxoClickableItem.Root
+                      symbol="qrcode"
+                      label={i18n('icu:AboutContactModal__your-qr-code')}
+                      onClick={showQRCodeScreen}
+                    />
+                  )}
+
+                  {!isMe && contact.phoneNumber && (
+                    <AxoTextItem.Root
+                      symbol="phone"
+                      label={<UserText text={contact.phoneNumber} />}
+                    />
+                  )}
+
+                  {!isMe && (
+                    <AxoTextItem.Root
+                      symbol="group"
+                      label={
+                        <SharedGroupNames
+                          i18n={i18n}
+                          sharedGroupNames={sharedGroupNames}
+                        />
+                      }
+                    />
+                  )}
+
+                  {contact.note && (
+                    <AxoClickableItem.Root
+                      symbol="note"
+                      label={<UserText text={contact.note} />}
+                      onClick={onOpenNotePreviewModal}
+                    />
+                  )}
+
+                  {statusRow}
+                </AxoItem.Group>
+              </AxoList.Body>
+            </AxoList.Root>
+          </AxoList.Group>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+function MemberLabelEmoji(props: { emoji: Emoji.Variant }): ReactNode {
+  if (!Emoji.isEmoji(props.emoji)) {
+    return missingEmojiPlaceholder;
+  }
+  return (
+    <FunStaticEmoji
+      role="img"
+      aria-label={props.emoji}
+      size={14}
+      emoji={props.emoji}
+    />
   );
 }
