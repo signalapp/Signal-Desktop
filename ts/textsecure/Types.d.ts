@@ -18,6 +18,7 @@ import type { AnyPaymentEvent } from '../types/Payment.std.ts';
 import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import type { StoryMessageRecipientsType } from '../types/Stories.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
 import type {
   DurationSecs,
   ReceivedTimestampMs,
@@ -166,12 +167,15 @@ export type ProcessedAvatar = {
   isProfile: boolean;
 };
 
-export type ProcessedContact = Omit<Proto.DataMessage.Contact, 'avatar'> & {
+export type ProcessedContact = Omit<
+  EmbeddedContactType,
+  'avatar' | 'firstNumber' | 'serviceId'
+> & {
   avatar?: ProcessedAvatar;
 };
 
 export type ProcessedPreview = {
-  url?: string;
+  url: string;
   title?: string;
   image?: ProcessedAttachment;
   description?: string;
@@ -179,9 +183,9 @@ export type ProcessedPreview = {
 };
 
 export type ProcessedSticker = {
-  packId?: string;
-  packKey?: string;
-  stickerId?: number;
+  packId: string;
+  packKey: string;
+  stickerId: number;
   emoji?: Emoji.Variant;
   data?: ProcessedAttachment;
 };

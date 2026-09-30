@@ -499,9 +499,7 @@ export async function handleDataMessage(
       storyId: storyQuote?.id,
     };
 
-    // There are type conflicts between ModelAttributesType and protos passed in here
-    // oxlint-disable-next-line typescript/no-explicit-any
-    const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
+    const dataMessage = await upgradeMessageSchema(withQuoteReference);
 
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;

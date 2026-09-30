@@ -36,6 +36,7 @@ import type {
   ProcessedUnpinMessage,
 } from './Types.d.ts';
 import { GiftBadgeStates } from '../types/GiftBadgeStates.std.ts';
+import { AddressType, ContactFormType } from '../types/EmbeddedContact.std.ts';
 import type { RawBodyRange } from '../types/BodyRange.std.ts';
 import {
   APPLICATION_OCTET_STREAM,
@@ -268,16 +269,106 @@ function processContact(
   }
 
   return contact.slice(0, 1).map(item => {
+    const { name, number, email, address, avatar, organization } = item;
     return {
-      ...item,
-      avatar: item.avatar
+      name: name
         ? {
-            avatar: processAttachment(item.avatar.avatar),
-            isProfile: Boolean(item.avatar.isProfile),
+            givenName: dropNull(name.givenName),
+            familyName: dropNull(name.familyName),
+            prefix: dropNull(name.prefix),
+            suffix: dropNull(name.suffix),
+            middleName: dropNull(name.middleName),
+            nickname: dropNull(name.nickname),
+          }
+        : undefined,
+      number: number
+        .map(({ value, type, label }) =>
+          value
+            ? {
+                value,
+                type: processContactPhoneType(type),
+                label: dropNull(label),
+              }
+            : undefined
+        )
+        .filter(isNotNil),
+      email: email
+        .map(({ value, type, label }) =>
+          value
+            ? {
+                value,
+                type: processContactEmailType(type),
+                label: dropNull(label),
+              }
+            : undefined
+        )
+        .filter(isNotNil),
+      address: address.map(addr => ({
+        type: processContactAddressType(addr.type),
+        label: dropNull(addr.label),
+        street: dropNull(addr.street),
+        pobox: dropNull(addr.pobox),
+        neighborhood: dropNull(addr.neighborhood),
+        city: dropNull(addr.city),
+        region: dropNull(addr.region),
+        postcode: dropNull(addr.postcode),
+        country: dropNull(addr.country),
+      })),
+      organization: dropNull(organization),
+      avatar: avatar
+        ? {
+            avatar: processAttachment(avatar.avatar),
+            isProfile: Boolean(avatar.isProfile),
           }
         : undefined,
     };
   });
+}
+
+function processContactPhoneType(
+  type: Proto.DataMessage.Contact.Phone.$NullableType | null
+): ContactFormType {
+  const { Type } = Proto.DataMessage.Contact.Phone;
+  switch (type) {
+    case Type.MOBILE:
+      return ContactFormType.MOBILE;
+    case Type.WORK:
+      return ContactFormType.WORK;
+    case Type.CUSTOM:
+      return ContactFormType.CUSTOM;
+    default:
+      return ContactFormType.HOME;
+  }
+}
+
+function processContactEmailType(
+  type: Proto.DataMessage.Contact.Email.$NullableType | null
+): ContactFormType {
+  const { Type } = Proto.DataMessage.Contact.Email;
+  switch (type) {
+    case Type.MOBILE:
+      return ContactFormType.MOBILE;
+    case Type.WORK:
+      return ContactFormType.WORK;
+    case Type.CUSTOM:
+      return ContactFormType.CUSTOM;
+    default:
+      return ContactFormType.HOME;
+  }
+}
+
+function processContactAddressType(
+  type: Proto.DataMessage.Contact.PostalAddress.$NullableType | null
+): AddressType {
+  const { Type } = Proto.DataMessage.Contact.PostalAddress;
+  switch (type) {
+    case Type.WORK:
+      return AddressType.WORK;
+    case Type.CUSTOM:
+      return AddressType.CUSTOM;
+    default:
+      return AddressType.HOME;
+  }
 }
 
 function isLinkPreviewDateValid(value: unknown): value is number {
@@ -315,13 +406,16 @@ export function processPreview(
 function processSticker(
   sticker?: Proto.DataMessage.Sticker | null
 ): ProcessedSticker | undefined {
-  if (!sticker) {
+  if (!sticker?.packId || !sticker.packKey) {
+    if (sticker) {
+      log.warn('Dropping sticker without packId and packKey');
+    }
     return undefined;
   }
 
   return {
-    packId: sticker.packId ? Bytes.toHex(sticker.packId) : undefined,
-    packKey: sticker.packKey ? Bytes.toBase64(sticker.packKey) : undefined,
+    packId: Bytes.toHex(sticker.packId),
+    packKey: Bytes.toBase64(sticker.packKey),
     stickerId: sticker.stickerId ?? 0,
     emoji:
       sticker.emoji != null

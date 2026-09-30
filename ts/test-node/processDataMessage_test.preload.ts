@@ -443,7 +443,11 @@ describe('processDataMessage', () => {
 
     assert.deepStrictEqual(out.contact, [
       {
-        ...EMPTY_CONTACT,
+        name: undefined,
+        number: [],
+        email: [],
+        address: [],
+        organization: '',
         avatar: {
           avatar: PROCESSED_ATTACHMENT,
           isProfile: false,
@@ -565,6 +569,20 @@ describe('processDataMessage', () => {
       emoji: Emoji.ONE_HUNDRED,
       data: PROCESSED_ATTACHMENT,
     });
+  });
+
+  it('should drop sticker without packId or packKey', () => {
+    const out = check({
+      sticker: {
+        packId: null,
+        packKey: new Uint8Array([4, 5, 6]),
+        stickerId: 1,
+        emoji: '💯',
+        data: UNPROCESSED_ATTACHMENT,
+      },
+    });
+
+    assert.isUndefined(out.sticker);
   });
 
   it('should process FLAGS=END_SESSION', () => {
