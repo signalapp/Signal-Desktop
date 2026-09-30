@@ -119,6 +119,7 @@ type HomeProps = {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   conversations: ReadonlyArray<ConversationType>;
   conversationSelector: GetConversationByIdType;
+  doWeHaveOtherDevices: boolean;
   hasOnboardingBeenSeen: boolean;
   i18n: LocalizerType;
   isSyncEnabled: boolean;
@@ -336,6 +337,7 @@ export function NotificationProfilesHome({
   contentsRef,
   conversations,
   conversationSelector,
+  doWeHaveOtherDevices,
   hasOnboardingBeenSeen,
   i18n,
   isSyncEnabled,
@@ -401,6 +403,7 @@ export function NotificationProfilesHome({
           <NotificationProfilesListPage
             allProfiles={allProfiles}
             contentsRef={contentsRef}
+            doWeHaveOtherDevices={doWeHaveOtherDevices}
             i18n={i18n}
             isSyncEnabled={isSyncEnabled}
             loading={loading}
@@ -958,6 +961,7 @@ function NotificationProfilesDonePage({
 function NotificationProfilesListPage({
   allProfiles,
   contentsRef,
+  doWeHaveOtherDevices,
   i18n,
   isSyncEnabled,
   loading,
@@ -968,6 +972,7 @@ function NotificationProfilesListPage({
 }: {
   allProfiles: ReadonlyArray<NotificationProfileType>;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
+  doWeHaveOtherDevices: boolean;
   i18n: LocalizerType;
   isSyncEnabled: boolean;
   loading: boolean;
@@ -1021,25 +1026,29 @@ function NotificationProfilesListPage({
             </FullWidthButton>
           );
         })}
-        <FullWidthDivider />
-        <FullWidthRow className={tw('flex min-h-[40px] items-start pt-1')}>
-          <div className={tw('grow')}>
-            <div className={tw('type-body-large text-primary')}>
-              {i18n('icu:NotificationProfiles--list--sync')}
-            </div>
-            <div className={tw('mt-1 type-body-small text-secondary')}>
-              {i18n('icu:NotificationProfiles--list--sync--description')}
-            </div>
-          </div>
-          <div className={tw('ms-4')}>
-            <AxoSwitch.Root
-              checked={isSyncEnabled}
-              onCheckedChange={value => {
-                setIsSyncEnabled(value);
-              }}
-            />
-          </div>
-        </FullWidthRow>
+        {doWeHaveOtherDevices && (
+          <>
+            <FullWidthDivider />
+            <FullWidthRow className={tw('flex min-h-[40px] items-start pt-1')}>
+              <div className={tw('grow')}>
+                <div className={tw('type-body-large text-primary')}>
+                  {i18n('icu:NotificationProfiles--list--sync')}
+                </div>
+                <div className={tw('mt-1 type-body-small text-secondary')}>
+                  {i18n('icu:NotificationProfiles--list--sync--description')}
+                </div>
+              </div>
+              <div className={tw('ms-4')}>
+                <AxoSwitch.Root
+                  checked={isSyncEnabled}
+                  onCheckedChange={value => {
+                    setIsSyncEnabled(value);
+                  }}
+                />
+              </div>
+            </FullWidthRow>
+          </>
+        )}
       </Container>
     </>
   );

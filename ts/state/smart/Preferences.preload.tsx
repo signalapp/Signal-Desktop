@@ -39,7 +39,7 @@ import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { format } from '../../types/PhoneNumber.std.ts';
 import {
-  areWePrimaryDevice,
+  getAreWePrimaryDevice,
   getIntl,
   getTheme,
   getUser,
@@ -270,7 +270,7 @@ export function SmartPreferences(): JSX.Element | null {
   const donationReceipts = useSelector(
     (state: StateType) => state.donations.receipts
   );
-  const weArePrimaryDevice = useSelector(areWePrimaryDevice);
+  const weArePrimaryDevice = useSelector(getAreWePrimaryDevice);
   const conversationSelector = useSelector(getConversationSelector);
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;

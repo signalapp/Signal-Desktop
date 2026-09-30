@@ -45,6 +45,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import {
   disableStorageService,
   enableStorageService,
+  runStorageServiceUploadJob,
 } from '../../services/storage.preload.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { FatalErrorType } from '../../types/StandaloneRegistration.std.ts';
@@ -676,7 +677,13 @@ export function submitVerificationCode({
           PartialRegistrationType.EXISTING__PROFILE
         );
       } else {
-        enableStorageService(); // submitVerificationCode: no prior data there, just turn it on
+        enableStorageService(
+          'submitVerificationCode: just created account, no prior data in storage service'
+        );
+        runStorageServiceUploadJob({
+          reason:
+            'submitVerificationCode: just created account, no prior data in storage service',
+        });
         await itemStorage.put(
           'standaloneRegistrationPartialState',
           PartialRegistrationType.NEW_ACCOUNT__PROFILE
@@ -711,7 +718,9 @@ export function submitVerificationCode({
           avatars: undefined,
         };
       } else {
-        enableStorageService(); // submitVerificationCode: Got a random error back from account creation
+        enableStorageService(
+          'submitVerificationCode: Got a random error back from account creation'
+        );
         workflow = {
           ...workflow,
           status: {
@@ -924,7 +933,9 @@ export function verifyPIN({
             // Something has really gone wrong - we're in reglock, but SVR has nothing for us
             dispatch(updateWorkflow(workflow, FatalErrorType.UNEXPECTED));
           } else {
-            enableStorageService(); // verifyPIN: nothing in SVR; will start afresh with new key
+            enableStorageService(
+              'verifyPIN: nothing in SVR; will start afresh with new key'
+            );
             await itemStorage.put(
               'standaloneRegistrationPartialState',
               PartialRegistrationType.NEW_ACCOUNT__PIN
@@ -968,7 +979,7 @@ export function verifyPIN({
         );
         await itemStorage.put('standaloneRegistrationPartialState', undefined);
         await itemStorage.put('registrationLock', false);
-        enableStorageService(); // verifyPIN: No reglock, got temporary master key
+        enableStorageService('verifyPIN: No reglock, got temporary master key');
       } catch (error) {
         log.error(
           `${logId}: error saving data after creating account`,
@@ -1083,7 +1094,9 @@ export function verifyPIN({
         toLogFormat(error)
       );
     } finally {
-      enableStorageService(); // verifyPIN: Created account with reglock, tried to set things up
+      enableStorageService(
+        'verifyPIN: Created account with reglock, tried to set things up'
+      );
     }
 
     try {

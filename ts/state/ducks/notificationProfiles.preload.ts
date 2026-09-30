@@ -152,7 +152,10 @@ export const useNotificationProfilesActions = (): BoundActionCreatorsMapObject<
 const updateStorageService = debounce(
   (reason: string, options: { force?: boolean } = {}) => {
     const disabled = itemStorage.get('notificationProfileSyncDisabled');
-    if (disabled && !options.force) {
+    const areWePrimaryDevice =
+      window.ConversationController.areWePrimaryDevice();
+
+    if (disabled && !areWePrimaryDevice && !options.force) {
       return;
     }
 
@@ -222,6 +225,22 @@ function setIsSyncEnabled(
 
     if (items.notificationProfileSyncDisabled === disabled) {
       log.warn('No change to current sync state, returning early');
+      return;
+    }
+
+    const areWePrimaryDevice =
+      window.ConversationController.areWePrimaryDevice();
+
+    // In the primary case, nothing much needs to change when this option changes
+    if (areWePrimaryDevice) {
+      await itemStorage.put('notificationProfileSyncDisabled', disabled);
+
+      if (!fromStorageService) {
+        const me = window.ConversationController.getOurConversationOrThrow();
+        me.captureChange(logId);
+        updateStorageService(logId);
+      }
+
       return;
     }
 
@@ -320,9 +339,11 @@ function setProfileOverride(
       'notificationProfileSyncDisabled',
       false
     );
+    const areWePrimaryDevice =
+      window.ConversationController.areWePrimaryDevice();
 
     const me = window.ConversationController.getOurConversationOrThrow();
-    if (isNotificationProfileSyncEnabled) {
+    if (isNotificationProfileSyncEnabled || areWePrimaryDevice) {
       me.captureChange(logId);
     }
 
@@ -351,7 +372,7 @@ function setProfileOverride(
         payload: newOverride,
       });
       fastUpdateProfileService();
-      if (isNotificationProfileSyncEnabled) {
+      if (isNotificationProfileSyncEnabled || areWePrimaryDevice) {
         updateStorageService(logId);
       }
 
@@ -368,7 +389,8 @@ function setProfileOverride(
       payload: newOverride,
     });
     fastUpdateProfileService();
-    if (isNotificationProfileSyncEnabled) {
+
+    if (isNotificationProfileSyncEnabled || areWePrimaryDevice) {
       updateStorageService(logId);
     }
   };
@@ -415,8 +437,13 @@ function updateOverride(
       'notificationProfileSyncDisabled',
       false
     );
+    const areWePrimaryDevice =
+      window.ConversationController.areWePrimaryDevice();
 
-    if (!fromStorageService && isNotificationProfileSyncEnabled) {
+    if (
+      !fromStorageService &&
+      (isNotificationProfileSyncEnabled || areWePrimaryDevice)
+    ) {
       const me = window.ConversationController.getOurConversationOrThrow();
       me.captureChange(logId);
       updateStorageService(logId);

@@ -7,7 +7,10 @@ import { ServiceId } from '@signalapp/libsignal-client';
 import { MuteExpiration } from '@signalapp/types';
 
 import { uuidToBytes, bytesToUuid } from '../util/uuidToBytes.std.ts';
-import { deriveMasterKeyFromGroupV1 } from '../Crypto.node.ts';
+import {
+  constantTimeEqual,
+  deriveMasterKeyFromGroupV1,
+} from '../Crypto.node.ts';
 import * as Bytes from '../Bytes.std.ts';
 import {
   deriveGroupFields,
@@ -339,7 +342,8 @@ export async function toContactRecord(
   const aci = conversation.getAci();
   const username = conversation.get('username');
   const ourID = window.ConversationController.getOurConversationId();
-  const pni = conversation.getPni();
+  // If we don't have an ACI, then serviceId might be a PNI.
+  const pni = conversation.getPni() ?? conversation.getServiceIdAsPni();
   const e164 = conversation.get('e164');
 
   const profileKey = conversation.get('profileKey');
@@ -560,9 +564,11 @@ export function toAccountRecord({
     }
   }
 
-  const override = notificationProfileSyncDisabled
-    ? itemStorage.get('notificationProfileOverrideFromPrimary')
-    : itemStorage.get('notificationProfileOverride');
+  const areWePrimaryDevice = window.ConversationController.areWePrimaryDevice();
+  const override =
+    notificationProfileSyncDisabled && !areWePrimaryDevice
+      ? itemStorage.get('notificationProfileOverrideFromPrimary')
+      : itemStorage.get('notificationProfileOverride');
 
   let notificationProfileManualOverride: Proto.AccountRecord.NotificationProfileManualOverride.Params | null =
     null;
@@ -1504,6 +1510,7 @@ export async function mergeContactRecord(
   const pni = dropNull(contactRecord.pni);
   const pniSignatureVerified = contactRecord.pniSignatureVerified || false;
   const serviceId = aci || pni;
+  const details: Array<string> = [];
 
   // All contacts must have UUID
   if (!serviceId) {
@@ -1528,11 +1535,6 @@ export async function mergeContactRecord(
     fromPniSignature: pniSignatureVerified,
     reason: 'mergeContactRecord',
   });
-
-  const details = logRecordChanges(
-    await toContactRecord(conversation),
-    originalContactRecord
-  );
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
   if (conversation.getServiceId() !== serviceId) {
@@ -1560,21 +1562,27 @@ export async function mergeContactRecord(
   });
 
   let needsProfileFetch = false;
+  let needsStorageServiceSync = false;
   const isFirstSync = !itemStorage.get('storageFetchComplete');
 
   const localProfileKey = conversation.get('profileKey');
-  if (
-    (isFirstSync || !localProfileKey) &&
-    contactRecord.profileKey &&
-    contactRecord.profileKey.length > 0
-  ) {
-    log.info(
-      `mergeContactRecord: ${conversation.idForLogging()} had no profileKey; using remote`
-    );
+  const haveRemoteProfileKey = contactRecord.profileKey.length > 0;
+  if ((isFirstSync || !localProfileKey) && haveRemoteProfileKey) {
+    if (!localProfileKey) {
+      details.push('updated profile key, had nothing local');
+    } else {
+      details.push(`updated profile key, isFirstSync=${isFirstSync}`);
+    }
     needsProfileFetch = await conversation.setProfileKey(
       Bytes.toBase64(contactRecord.profileKey),
       { viaStorageServiceSync: true, reason: 'mergeContactRecord' }
     );
+  } else if (
+    localProfileKey &&
+    haveRemoteProfileKey &&
+    localProfileKey !== Bytes.toBase64(contactRecord.profileKey)
+  ) {
+    needsStorageServiceSync = true;
   }
 
   const remoteName = normalizeProfileName(contactRecord.givenName);
@@ -1583,28 +1591,79 @@ export async function mergeContactRecord(
   const localFamilyName = conversation.get('profileFamilyName');
   const noLocalProfileName = !localName && !localFamilyName;
   if (remoteName && (isFirstSync || noLocalProfileName)) {
-    log.info(
-      `mergeContactRecord: ${conversation.idForLogging()} had no profileName; using remote`
-    );
-    details.push('updated profile name');
+    if (noLocalProfileName) {
+      details.push('updated profile name, had nothing local');
+    } else {
+      details.push(`updated profile name, isFirstSync=${isFirstSync}`);
+    }
+
     conversation.set({
       profileName: remoteName,
       profileFamilyName: remoteFamilyName,
     });
 
     needsProfileFetch = true;
+  } else if (
+    (remoteName && localName && remoteName !== localName) ||
+    (remoteFamilyName &&
+      localFamilyName &&
+      remoteFamilyName !== localFamilyName)
+  ) {
+    needsProfileFetch = true;
+    needsStorageServiceSync = true;
+  }
+
+  const weArePrimary = window.ConversationController.areWePrimaryDevice();
+  const existingSystemGivenName = conversation.get('systemGivenName');
+  const existingSystemFamilyName = conversation.get('systemFamilyName');
+  const existingSystemNickname = conversation.get('systemNickname');
+  const remoteSystemGivenName = contactRecord.systemGivenName || undefined;
+  const remoteSystemFamilyName = contactRecord.systemFamilyName || undefined;
+  const remoteSystemNickname = contactRecord.systemNickname || undefined;
+  const haveAnySystemData = Boolean(
+    existingSystemGivenName ||
+    existingSystemFamilyName ||
+    existingSystemNickname
+  );
+  const hasSystemNameChanged =
+    existingSystemGivenName !== remoteSystemGivenName ||
+    existingSystemFamilyName !== remoteSystemFamilyName ||
+    existingSystemNickname !== remoteSystemNickname;
+  if (
+    (!weArePrimary || isFirstSync || !haveAnySystemData) &&
+    hasSystemNameChanged
+  ) {
+    details.push(`system name changed, isFirstSync=${isFirstSync}`);
+    conversation.set({
+      systemGivenName: remoteSystemGivenName,
+      systemFamilyName: remoteSystemFamilyName,
+      systemNickname: remoteSystemNickname,
+    });
+  } else if (weArePrimary && haveAnySystemData && hasSystemNameChanged) {
+    needsStorageServiceSync = true;
   }
   conversation.set({
-    systemGivenName: dropNull(contactRecord.systemGivenName || null),
-    systemFamilyName: dropNull(contactRecord.systemFamilyName || null),
-    systemNickname: dropNull(contactRecord.systemNickname || null),
     nicknameGivenName: dropNull(contactRecord.nickname?.given || null),
     nicknameFamilyName: dropNull(contactRecord.nickname?.family || null),
     note: dropNull(contactRecord.note),
   });
 
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/database/RecipientDatabase.kt#L921-L936
-  if (contactRecord.identityKey.length) {
+  const haveRemoteKey = Boolean(contactRecord.identityKey.length);
+  const identityRecord = signalProtocolStore.getIdentityRecord(serviceId);
+  const haveLocalKey = Boolean(identityRecord);
+  const keysMatch =
+    haveRemoteKey &&
+    identityRecord &&
+    contactRecord.identityKey.length === identityRecord.publicKey.length &&
+    constantTimeEqual(contactRecord.identityKey, identityRecord.publicKey);
+
+  if ((isFirstSync || !haveLocalKey || keysMatch) && haveRemoteKey) {
+    log.info(
+      `mergeContactRecord: Updating identity/verified for ${conversation.idForLogging()} ` +
+        `(isFirstSync=${isFirstSync}, haveLocalKey=${haveLocalKey}, keysMatch=${keysMatch})`
+    );
+
     const verified = await conversation.safeGetVerified();
     let { identityState } = contactRecord;
     if (identityState == null) {
@@ -1637,6 +1696,9 @@ export async function mergeContactRecord(
         { local: false }
       );
     }
+  } else if (haveRemoteKey && haveLocalKey && !keysMatch && aci) {
+    needsProfileFetch = true;
+    needsStorageServiceSync = true;
   }
 
   await applyMessageRequestState(contactRecord, conversation);
@@ -1656,7 +1718,7 @@ export async function mergeContactRecord(
     showUnreadReminders: fromOptionalBool(contactRecord.showUnreadReminders),
     storageID,
     storageVersion,
-    needsStorageServiceSync: false,
+    needsStorageServiceSync,
   });
 
   if (contactRecord.hidden) {
@@ -1693,13 +1755,17 @@ export async function mergeContactRecord(
 
   applyAvatarColor(conversation, contactRecord.avatarColor);
 
+  const fullDetails = details.concat(
+    logRecordChanges(await toContactRecord(conversation), originalContactRecord)
+  );
+
   return {
     conversation,
     updatedConversations: [conversation],
     needsProfileFetch,
     oldStorageID,
     oldStorageVersion,
-    details,
+    details: fullDetails,
   };
 }
 
@@ -2201,7 +2267,8 @@ export async function mergeAccountRecord(
     overrideToSave = undefined;
   }
 
-  if (notificationProfileSyncDisabled) {
+  const areWePrimaryDevice = window.ConversationController.areWePrimaryDevice();
+  if (notificationProfileSyncDisabled && !areWePrimaryDevice) {
     await itemStorage.put(
       'notificationProfileOverrideFromPrimary',
       overrideToSave

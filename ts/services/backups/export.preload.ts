@@ -722,6 +722,8 @@ export class BackupExportStream {
       false
     );
 
+    const areWePrimary = window.ConversationController.areWePrimaryDevice();
+
     for (const profile of allNotificationProfiles) {
       const {
         id,
@@ -745,8 +747,8 @@ export class BackupExportStream {
         continue;
       }
 
-      // sync=OFF, and so only exporting profiles with storageID (from Primary)
-      if (isNotificationProfileSyncDisabled && !storageID) {
+      // If linked device and sync=OFF, only export profiles with storageID (from Primary)
+      if (isNotificationProfileSyncDisabled && !areWePrimary && !storageID) {
         continue;
       }
 

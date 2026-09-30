@@ -44,9 +44,14 @@ export const getUserPNI = createSelector(
   (state: UserStateType): PniString | undefined => state.ourPni
 );
 
-export const areWePrimaryDevice = createSelector(
+export const getAreWePrimaryDevice = createSelector(
   getUserDeviceId,
   (deviceId: number | undefined): boolean => deviceId === 1
+);
+
+export const getDoWeHaveOtherDevices = createSelector(
+  getAreWePrimaryDevice,
+  (areWePrimaryDevice: boolean): boolean => !areWePrimaryDevice
 );
 
 export const getIntl = createSelector(

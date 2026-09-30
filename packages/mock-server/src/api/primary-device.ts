@@ -60,8 +60,6 @@ import {
 import { Contact } from '../data/contacts';
 import { Group as GroupData } from '../data/group';
 import {
-  decryptStorageItem,
-  decryptStorageManifest,
   deriveAccessKey,
   deriveMasterKey,
   deriveStorageKey,
@@ -71,7 +69,6 @@ import {
   EnvelopeType,
   ModifyGroupOptions,
   ModifyGroupResult,
-  StorageWriteResult,
 } from '../server/base';
 import { ServerGroup } from '../server/group';
 import {
@@ -117,14 +114,62 @@ export type Config = Readonly<{
   modifyGroup: (options: ModifyGroupOptions) => Promise<ModifyGroupResult>;
   waitForGroupUpdate: (group: GroupData) => Promise<void>;
 
-  getStorageManifest: () => Proto.StorageManifest.Params | undefined;
-  getStorageItem: (key: Buffer<ArrayBuffer>) => Buffer<ArrayBuffer> | undefined;
-  getAllStorageKeys: () => Array<Buffer<ArrayBuffer>>;
-  waitForStorageManifest: (afterVersion?: bigint) => Promise<void>;
-  applyStorageWrite: (
-    operation: Proto.WriteOperation.Params,
-    shouldNotify?: boolean,
-  ) => Promise<StorageWriteResult>;
+  waitForStorageState: ({
+    aci,
+    after,
+    predicate,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    after?: StorageState;
+    // Note: predicate runs on the current state, not on previous intermediate states
+    predicate?: (state: StorageState) => boolean;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }) => Promise<StorageState>;
+  getStorageState: ({
+    aci,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }) => Promise<StorageState | undefined>;
+  expectStorageState: ({
+    aci,
+    reason,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    reason: string;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }) => Promise<StorageState>;
+  setStorageState: ({
+    aci,
+    state,
+    previousState,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    state: StorageState;
+    previousState?: StorageState;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }) => Promise<StorageState>;
+  getOrphanedStorageKeys: ({
+    aci,
+    storageKey,
+    recordIkm,
+  }: {
+    aci: AciString;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm?: Buffer<ArrayBuffer>;
+  }) => Array<Buffer<ArrayBuffer>>;
 }>;
 
 export type EncryptOptions = Readonly<{
@@ -684,6 +729,10 @@ export class PrimaryDevice {
     device.accessKey = this.device.accessKey;
   }
 
+  public getContactsBlob(): Proto.AttachmentPointer.Params {
+    return this.contactsBlob;
+  }
+
   //
   // Keys
   //
@@ -1149,92 +1198,51 @@ export class PrimaryDevice {
     // Note: predicate runs on the current state, not on previous intermediate states
     predicate?: (state: StorageState) => boolean;
   } = {}): Promise<StorageState> {
-    let afterVersion = after?.version;
-
-    while (true) {
-      debug(
-        'waiting for storage manifest for device=%s after version=%d predicate=%s',
-        this.device.debugId,
-        afterVersion,
-        predicate !== undefined,
-      );
-
-      await this.config.waitForStorageManifest(afterVersion);
-
-      const state = await this.getStorageState();
-      assert(state, 'Missing storage state');
-
-      if (predicate !== undefined && !predicate(state)) {
-        debug(
-          'storage manifest for device=%s version=%d did not match predicate',
-          this.device.debugId,
-          state.version,
-        );
-        afterVersion = state.version;
-        continue;
-      }
-
-      debug(
-        'got storage manifest for device=%s version=%d',
-        this.device.debugId,
-        state.version,
-      );
-
-      return state;
-    }
+    return this.config.waitForStorageState({
+      aci: this.device.aci,
+      after,
+      predicate,
+      storageKey: this.storageKey,
+      recordIkm: this.storageRecordIkm,
+    });
   }
 
   public async getStorageState(): Promise<StorageState | undefined> {
-    const manifest = this.config.getStorageManifest();
-    if (!manifest) {
-      return undefined;
-    }
-
-    return this.convertManifestToStorageState(manifest);
+    return this.config.getStorageState({
+      aci: this.device.aci,
+      storageKey: this.storageKey,
+      recordIkm: this.storageRecordIkm,
+    });
   }
 
   public async expectStorageState(reason: string): Promise<StorageState> {
-    const state = await this.getStorageState();
-    if (!state) {
-      throw new Error(`expectStorageState: no storage state, ${reason}`);
-    }
-
-    return state;
+    return this.config.expectStorageState({
+      aci: this.device.aci,
+      reason,
+      storageKey: this.storageKey,
+      recordIkm: this.storageRecordIkm,
+    });
   }
 
   public async setStorageState(
     state: StorageState,
     previousState?: StorageState,
   ): Promise<StorageState> {
-    const writeOperation = state.createWriteOperation({
+    return this.config.setStorageState({
+      aci: this.device.aci,
+      state,
+      previousState,
       storageKey: this.storageKey,
       recordIkm: this.storageRecordIkm,
-      previous: previousState,
     });
-    assert(writeOperation.manifest, 'write operation without manifest');
-
-    const { updated, error } = await this.config.applyStorageWrite(
-      writeOperation,
-      false,
-    );
-    if (!updated) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      throw new Error(`setStorageState: failed to update, ${error}`);
-    }
-
-    return this.convertManifestToStorageState(writeOperation.manifest);
   }
 
   public getOrphanedStorageKeys(): Array<Buffer<ArrayBuffer>> {
-    const manifest = this.config.getStorageManifest();
-    if (!manifest) {
-      return [];
-    }
-
-    const state = this.convertManifestToStorageState(manifest);
-    const keys = this.config.getAllStorageKeys();
-
-    return keys.filter((key) => !state.hasKey(key));
+    return this.config.getOrphanedStorageKeys({
+      aci: this.device.aci,
+      storageKey: this.storageKey,
+      recordIkm: this.storageRecordIkm,
+    });
   }
 
   //
@@ -2449,40 +2457,5 @@ export class PrimaryDevice {
       message,
       senderKeys,
     );
-  }
-
-  private convertManifestToStorageState(
-    manifest: Proto.StorageManifest.Params,
-  ): StorageState {
-    const decryptedManifest = decryptStorageManifest(this.storageKey, manifest);
-    assert(decryptedManifest.version, 'Consistency check');
-
-    const version = decryptedManifest.version;
-    const items = decryptedManifest.identifiers.map(({ type, raw: key }) => {
-      const keyBuffer = Buffer.from(key);
-      const item = this.config.getStorageItem(keyBuffer);
-      if (!item) {
-        throw new Error(`Missing item ${keyBuffer.toString('base64')}`);
-      }
-
-      const decrypted = decryptStorageItem({
-        storageKey: this.storageKey,
-        recordIkm: this.storageRecordIkm,
-        item: {
-          key,
-          value: item,
-        },
-      });
-      if (!decrypted.record) {
-        throw new Error(`Missing item record ${keyBuffer.toString('base64')}`);
-      }
-      return {
-        type: type as Proto.ManifestRecord.Identifier.Type,
-        key: keyBuffer,
-        record: decrypted.record,
-      };
-    });
-
-    return new StorageState(version, items);
   }
 }

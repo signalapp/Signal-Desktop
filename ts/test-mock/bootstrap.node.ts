@@ -13,21 +13,21 @@ import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
-import type { Page } from 'playwright';
 import { v4 as uuid } from 'uuid';
-
-import type { Device, PrimaryDevice, Proto } from '@signalapp/mock-server';
+import { expect } from 'playwright/test';
 import {
   Server,
   ServiceIdKind,
   loadCertificates,
 } from '@signalapp/mock-server';
+
+import type { Page } from 'playwright';
+import type { Device, PrimaryDevice, Proto } from '@signalapp/mock-server';
+
 import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConstants.std.ts';
 import { SECOND, MINUTE, WEEK, MONTH } from '../util/durations/index.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { regress } from '../test-helpers/benchmarkStats.std.ts';
-import type { RendererConfigType } from '../types/RendererConfig.std.ts';
-import type { MIMEType } from '../types/MIME.std.ts';
 import { App } from './playwright.node.ts';
 import { CONTACT_COUNT } from './benchmarks/fixtures.node.ts';
 import { strictAssert } from '../util/assert.std.ts';
@@ -36,6 +36,11 @@ import {
   generateAttachmentKeys,
 } from '../AttachmentCrypto.node.ts';
 import { isVideoTypeSupported } from '../util/GoogleChrome.std.ts';
+import { typeIntoInput, typeVerificationCode } from './helpers.node.ts';
+
+import type { RendererConfigType } from '../types/RendererConfig.std.ts';
+import type { MIMEType } from '../types/MIME.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 
 export { App };
 
@@ -165,6 +170,13 @@ export type RegressionSample = Readonly<{
 
   // Metrics independent of the regressed value
   metrics?: Record<string, number>;
+}>;
+
+export type StandaloneLinkData = Readonly<{
+  aci: AciString;
+  startingStorageServiceVersion: bigint;
+  storageKey: Buffer<ArrayBuffer>;
+  recordIkm: Buffer<ArrayBuffer> | undefined;
 }>;
 
 function sanitizePathComponent(component: string): string {
@@ -458,6 +470,109 @@ export class Bootstrap {
     await window.evaluate('window.SignalCI.startStandaloneRegistration();');
 
     return app;
+  }
+
+  public async doStandaloneRegistration({
+    aci: providedAci,
+    app,
+    e164,
+    pin,
+    verificationCode,
+  }: {
+    aci?: AciString;
+    app: App;
+    e164: string;
+    pin: string;
+    verificationCode: string;
+  }): Promise<StandaloneLinkData> {
+    const window = await app.getWindow();
+
+    let aci = providedAci;
+
+    if (aci) {
+      debug('doStandaloneRegistration: aci was provided');
+      this.server.setNextAci(aci);
+    } else {
+      debug('doStandaloneRegistration: aci was provided');
+      this.server.setNextAci(undefined);
+      aci = await this.server.generateAci();
+      this.server.setNextAci(aci);
+    }
+
+    {
+      debug('doStandaloneRegistration: PHONE_NUMBER');
+      const phoneInput = window.getByPlaceholder('Phone number');
+      await typeIntoInput(phoneInput, e164, '');
+      await window.getByRole('button', { name: 'Continue' }).click();
+
+      const dialogText = window.getByText(
+        'Is your phone number above correct?'
+      );
+      await expect(dialogText).toBeVisible();
+
+      await window.getByRole('button', { name: 'Yes' }).click();
+    }
+
+    {
+      debug('doStandaloneRegistration: CAPTCHA');
+
+      await window.getByRole('button', { name: 'Verify in Browser' }).click();
+
+      const { seq, reason } = await app.waitForChallenge();
+      assert.strictEqual(reason, 'standalone registration');
+
+      await app.solveChallenge({ seq, data: { captcha: 'unused' } });
+    }
+
+    {
+      debug('doStandaloneRegistration: VERIFICATION_CODE');
+      await typeVerificationCode(window, verificationCode);
+
+      await window.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    {
+      debug('doStandaloneRegistration: PROFILE_ENTRY');
+
+      const firstNameInput = window.getByPlaceholder('First name (required)');
+      await typeIntoInput(firstNameInput, 'John', '');
+
+      await window.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    {
+      debug('doStandaloneRegistration: CREATE_PIN');
+
+      const phoneInput = window.getByPlaceholder('Create your PIN');
+      await typeIntoInput(phoneInput, pin, '');
+
+      await window.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    {
+      debug('doStandaloneRegistration: CREATE_PIN_CONFIRM');
+
+      const phoneInput = window.getByPlaceholder('Enter your PIN');
+      await typeIntoInput(phoneInput, pin, '');
+
+      await window.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    {
+      debug('doStandaloneRegistration: COMPLETE');
+
+      await expect(window.getByText('Welcome to Signal')).toBeVisible();
+    }
+
+    const { version, storageKey, recordIkm } =
+      await app.waitForUploadManifest();
+
+    return {
+      aci,
+      startingStorageServiceVersion: BigInt(version),
+      storageKey: Buffer.from(storageKey),
+      recordIkm: recordIkm ? Buffer.from(recordIkm) : undefined,
+    };
   }
 
   public async link({

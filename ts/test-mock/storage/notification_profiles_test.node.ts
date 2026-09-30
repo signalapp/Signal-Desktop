@@ -18,6 +18,24 @@ import { DayOfWeek } from '../../types/NotificationProfile.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
+export const DEFAULT_PROFILE = {
+  allowAllCalls: true,
+  allowAllMentions: false,
+  scheduleStartTime: 900,
+  scheduleEndTime: 1700,
+  scheduleEnabled: false,
+  scheduleDaysEnabled: [
+    DayOfWeek.MONDAY,
+    DayOfWeek.TUESDAY,
+    DayOfWeek.WEDNESDAY,
+    DayOfWeek.THURSDAY,
+    DayOfWeek.FRIDAY,
+  ],
+  emoji: null,
+  allowedMembers: null,
+  deletedAtTimestampMs: null,
+};
+
 describe('storage service/notification profiles', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
@@ -91,7 +109,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.locator('button[role="switch"]').click();
     await window.getByRole('button', { name: 'Next' }).click();
 
-    debug('Done page');
+    debug('Done with schedule page');
     await window.getByRole('button', { name: 'Done' }).click();
 
     debug('List page');
@@ -135,10 +153,10 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.getByTestId('EditSchedule').click();
     await window.locator('button[role="switch"]').click();
 
-    debug('Done page');
+    debug('Done with schedule page');
     await window.getByRole('button', { name: 'Done' }).click();
 
-    debug('Done page');
+    debug('Done with edit page');
     await window.getByRole('button', { name: 'Done' }).click();
 
     debug('List page');
@@ -245,24 +263,6 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     const notificationProfileId4 = Bytes.fromHex(
       generateNotificationProfileId()
     );
-
-    const DEFAULT_PROFILE = {
-      allowAllCalls: true,
-      allowAllMentions: false,
-      scheduleStartTime: 900,
-      scheduleEndTime: 1700,
-      scheduleEnabled: false,
-      scheduleDaysEnabled: [
-        DayOfWeek.MONDAY,
-        DayOfWeek.TUESDAY,
-        DayOfWeek.WEDNESDAY,
-        DayOfWeek.THURSDAY,
-        DayOfWeek.FRIDAY,
-      ],
-      emoji: null,
-      allowedMembers: null,
-      deletedAtTimestampMs: null,
-    };
 
     let uploadedState: StorageState;
     {
@@ -381,10 +381,10 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.getByTestId('EditSchedule').click();
     await window.locator('button[role="switch"]').click();
 
-    debug('Done page');
+    debug('Done with schedule page');
     await window.getByRole('button', { name: 'Done' }).click();
 
-    debug('Done page');
+    debug('Done with edit page');
     await window.getByRole('button', { name: 'Done' }).click();
 
     debug('List page');
@@ -406,7 +406,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     debug('Schedule page');
     await window.getByRole('button', { name: 'Next' }).click();
 
-    debug('Done page');
+    debug('Done with schedule page');
     await window.getByRole('button', { name: 'Done' }).click();
 
     debug('List page');

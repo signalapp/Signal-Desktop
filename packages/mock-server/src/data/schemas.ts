@@ -166,6 +166,10 @@ export type RegisterAccountResponse = {
   reregistration: boolean;
 };
 
+export const PutRegistrationLockSchema = z.object({
+  registrationLock: z.string(),
+});
+
 export const TransportSchema = z.literal('sms').or(z.literal('voice'));
 export type Transport = z.infer<typeof TransportSchema>;
 export const ClientTypeSchema = z

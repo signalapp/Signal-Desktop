@@ -277,9 +277,6 @@ export class ConversationController {
 
     const existing = this.get(conversation.id);
     if (!existing) {
-      log.warn(
-        `conversationChanged: Rejecting change from ${conversation.idForLogging()}, not in lookups`
-      );
       return;
     }
 

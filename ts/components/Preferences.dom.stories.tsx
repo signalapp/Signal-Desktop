@@ -395,6 +395,7 @@ function renderNotificationProfilesHome(
       contentsRef={props.contentsRef}
       conversations={conversations}
       conversationSelector={conversationSelector}
+      doWeHaveOtherDevices
       hasOnboardingBeenSeen={false}
       i18n={i18n}
       isSyncEnabled
@@ -939,6 +940,53 @@ NotificationsPageWithThreeProfiles.args = {
         contentsRef={props.contentsRef}
         conversations={conversations}
         conversationSelector={conversationSelector}
+        doWeHaveOtherDevices
+        hasOnboardingBeenSeen
+        i18n={i18n}
+        isSyncEnabled
+        loading={false}
+        markProfileDeleted={action('markProfileDeleted')}
+        preferredBadgeSelector={() => undefined}
+        setHasOnboardingBeenSeen={action('setHasOnboardingBeenSeen')}
+        setIsSyncEnabled={action('setIsSyncEnabled')}
+        setSettingsLocation={props.setSettingsLocation}
+        setProfileOverride={action('setProfileOverride)')}
+        theme={ThemeType.light}
+        updateProfile={action('updateProfile')}
+      />
+    );
+  },
+};
+
+export const NotificationsPageWithThreeProfilesAndNoOtherDevices =
+  Template.bind({});
+NotificationsPageWithThreeProfilesAndNoOtherDevices.args = {
+  settingsLocation: { page: SettingsPage.Notifications },
+  renderNotificationProfilesCreateFlow: (
+    props: SmartNotificationProfilesProps
+  ) => {
+    return (
+      <NotificationProfilesCreateFlow
+        contentsRef={props.contentsRef}
+        conversations={conversations}
+        conversationSelector={conversationSelector}
+        createProfile={action('createProfile')}
+        i18n={i18n}
+        setSettingsLocation={props.setSettingsLocation}
+        preferredBadgeSelector={() => undefined}
+        theme={ThemeType.light}
+      />
+    );
+  },
+  renderNotificationProfilesHome: (props: SmartNotificationProfilesProps) => {
+    return (
+      <NotificationProfilesHome
+        activeProfileId={threeProfiles[0].id}
+        allProfiles={threeProfiles}
+        contentsRef={props.contentsRef}
+        conversations={conversations}
+        conversationSelector={conversationSelector}
+        doWeHaveOtherDevices={false}
         hasOnboardingBeenSeen
         i18n={i18n}
         isSyncEnabled

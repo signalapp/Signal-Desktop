@@ -22,6 +22,7 @@ import type {
   StoreParameters,
 } from '../textsecure/WebAPI.preload.ts';
 import { toLogFormat } from '../types/errors.std.ts';
+import { fromBase64 } from '../Bytes.std.ts';
 
 export type AppLoadedInfoType = Readonly<{
   loadTime: number;
@@ -197,12 +198,57 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
+  public async waitForUploadManifest(desiredVersion?: bigint): Promise<{
+    version: number;
+    storageKey: Buffer<ArrayBuffer>;
+    recordIkm: Buffer<ArrayBuffer> | undefined;
+  }> {
+    // oxlint-disable-next-line no-constant-condition
+    while (true) {
+      // oxlint-disable-next-line no-await-in-loop
+      const result = (await this.#waitForEvent('uploadManifest')) as
+        | {
+            version: number;
+            storageKeyBase64: string;
+            recordIkmBase64: string | undefined;
+          }
+        | undefined;
+      if (!result) {
+        throw new Error('waitForUploadManifest: Found no data!');
+      }
+
+      const { version, storageKeyBase64, recordIkmBase64 } = result;
+      if (desiredVersion !== undefined && BigInt(version) < desiredVersion) {
+        debug(
+          `waitForUploadManifest: version ${version} is below desired version ${desiredVersion}, trying again...`
+        );
+        continue;
+      }
+
+      debug(`waitForUploadManifest: Returning with version ${version}`);
+
+      const storageKey = Buffer.from(fromBase64(storageKeyBase64));
+      const recordIkm = recordIkmBase64
+        ? Buffer.from(fromBase64(recordIkmBase64))
+        : undefined;
+
+      return { version, storageKey, recordIkm };
+    }
+  }
+
   public async waitForQueuedStickerPacks(): Promise<void> {
     return this.#waitForEvent('queuedStickerPacksDownloaded');
   }
 
   public async waitForSVRStore(): Promise<StoreParameters> {
-    return this.#waitForEvent('svrStore');
+    const result = (await this.#waitForEvent('svrStore')) as {
+      pin: string;
+      dataBase64: string;
+    };
+    return {
+      pin: result.pin,
+      data: fromBase64(result.dataBase64),
+    };
   }
 
   public async waitForManifestVersion(version: bigint): Promise<void> {
@@ -311,6 +357,11 @@ export class App extends EventEmitter {
 
   public async waitForConversationOpenComplete(): Promise<void> {
     return this.#waitForEvent('conversationOpenComplete');
+  }
+
+  public async fetchManifestForPrimary(): Promise<void> {
+    const window = await this.getWindow();
+    return window.evaluate('window.SignalCI.fetchManifestForPrimary()');
   }
 
   // EventEmitter types

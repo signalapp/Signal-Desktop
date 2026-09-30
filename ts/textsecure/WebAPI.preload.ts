@@ -5219,7 +5219,10 @@ export async function storeWithSVR2(
 
   if (window.SignalCI) {
     log.info(`${logId}: Running under CI; saving data`);
-    window.SignalCI.handleEvent('svrStore', options);
+    window.SignalCI.handleEvent('svrStore', {
+      pin: options.pin,
+      dataBase64: Bytes.toBase64(options.data),
+    });
     return { success: true };
   }
 

@@ -194,7 +194,7 @@ function startInstaller(): ThunkAction<
 
     window.IPC.addSetupMenuItems();
     dispatch(cancelRegistration());
-    enableStorageService();
+    enableStorageService('ducks/installer: startInstaller');
 
     dispatch({
       type: START_INSTALLER,
