@@ -71,6 +71,8 @@ const log = createLogger('processDataMessage');
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
 
+const MAX_WAVEFORM_LENGTH = 100;
+
 export function processAttachment(
   attachment: Proto.AttachmentPointer
 ): ProcessedAttachment;
@@ -147,7 +149,9 @@ export function processAttachment(
     key: Bytes.isNotEmpty(key) ? Bytes.toBase64(key) : undefined,
     size,
     audioWaveform:
-      audioWaveform == null ? undefined : Array.from(audioWaveform),
+      audioWaveform == null
+        ? undefined
+        : Array.from(audioWaveform.subarray(0, MAX_WAVEFORM_LENGTH)),
     duration: audioDurationSeconds ?? undefined,
   };
 }
