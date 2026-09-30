@@ -53,13 +53,12 @@ export function Fit(): ReactNode {
       </AxoTextField.Root>
       <AxoFieldGroup.Separator />
       <AxoTextField.Root
-        width="fit"
         value={discriminator}
         onValueChange={setDiscriminator}
         maxBytes={800}
         maxGraphemes={200}
       >
-        <AxoTextField.Input placeholder="00" tabularNums />
+        <AxoTextField.Input placeholder="00" sizing="fit" tabularNums />
       </AxoTextField.Root>
     </AxoFieldGroup.Root>
   );

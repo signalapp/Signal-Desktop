@@ -10,8 +10,10 @@ import type {
   Ref,
   RefObject,
   SyntheticEvent,
+  JSX,
+  CSSProperties,
 } from 'react';
-import { mergeRefs } from '@react-aria/utils';
+import { mergeProps } from '@react-aria/utils';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { assert } from '../_internal/assert.std.tsx';
 import { utf8 } from '../_internal/utf8.std.ts';
@@ -26,6 +28,7 @@ import { css } from '../_internal/css.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
 import { tw, type TailwindStyles } from '../tw.dom.tsx';
 import { AxoLoadingIndicator } from '../status/AxoLoadingIndicator.dom.tsx';
+import type { Simplify } from 'type-fest';
 
 export namespace AxoBaseField {
   /**
@@ -90,7 +93,7 @@ export namespace AxoBaseField {
 
   /**
    * Specifies what type of virtual keyboard to use.
-   * Note: Only include `inputMode`'s relevant to text inputs.
+   * Note: Only include `inputMode`'s relevant to text fields.
    */
   export type InputMode =
     | 'none'
@@ -113,7 +116,7 @@ export namespace AxoBaseField {
   export type AutoCorrect = 'on' | 'off';
 
   /**
-   * Toggle whether inputted text is automatically captialized, and if so, in what manner.
+   * Toggle whether inputted text is automatically capitalized, and if so, in what manner.
    */
   export type AutoCapitalize =
     | 'on'
@@ -135,14 +138,36 @@ export namespace AxoBaseField {
     | 'search'
     | 'send';
 
-  export type KeyboardInputAttrs = Readonly<{
+  export type BaseTextboxAttrs<T extends HTMLElement> = Readonly<{
+    /** Ref to the underlying `<input>` element. */
+    ref?: RefObject<T | null>;
+    /** Form field name for native form submissions. */
+    name?: string;
+    /** Placeholder text shown when the textbox is empty. */
+    placeholder: string;
+    /** Marks the textbox as required for form validation. */
+    required?: boolean;
+    /** Focuses the textbox on mount. */
+    autoFocus?: boolean;
+    /** Called when the textbox receives focus. */
+    onFocus?: (event: FocusEvent<T>) => void;
+    /** Called when the textbox loses focus. */
+    onBlur?: (event: FocusEvent<T>) => void;
+  }>;
+
+  export type BaseTextboxVariantProps = Readonly<{
+    /** Override font settings to give numbers uniform/tabular widths. */
+    tabularNums?: boolean;
+  }>;
+
+  export type KeyboardTextboxAttrs = Readonly<{
     /** Specifies what type of virtual keyboard to use. */
     inputMode?: InputMode;
     /** Hint for form autofill feature. */
     autoComplete?: AutoComplete;
     /** Toggle auto-correction of spelling and punctuation errors. */
     autoCorrect?: AutoCorrect;
-    /** Toggle whether inputted text is automatically captialized, and if so, in what manner. */
+    /** Toggle whether inputted text is automatically capitalized, and if so, in what manner. */
     autoCapitalize?: AutoCapitalize;
     /** Define what action label (or icon) to present for the enter key on virtual keyboards. */
     enterKeyHint?: EnterKeyHint;
@@ -150,7 +175,7 @@ export namespace AxoBaseField {
     spellCheck?: boolean;
   }>;
 
-  export type TextValidationInputAttrs = Readonly<{
+  export type TextValidationTextboxAttrs = Readonly<{
     /** Min string length (in UTF-16 code units) that the user can input. */
     minLength?: number;
     /** Max string length (in UTF-16 code units) that the user can input. */
@@ -188,9 +213,9 @@ export namespace AxoBaseField {
 
   export type GroupProps = Readonly<{
     variant?: Variant;
-    /** Disables all inputs and actions within the field. */
+    /** Disables all textboxes and actions within the field. */
     disabled?: boolean;
-    /** Makes all inputs within the field read-only. */
+    /** Makes all textboxes within the field read-only. */
     readOnly?: boolean;
     /** Should be `Segment`, `Action`, and/or `Separator` elements. */
     children: ReactNode;
@@ -225,19 +250,9 @@ export namespace AxoBaseField {
    * --------------------------------------------------------------------------
    */
 
-  /**
-   * How the field sizes itself horizontally.
-   */
-  export type Width = 'fill' | 'fit';
-
-  const Widths = variants<Width>('AxoBaseField.Width', {
-    fill: css(),
-    fit: css('axo-field-root-fit'),
-  });
-
   type RootContextType = Readonly<{
-    inputRef: RefObject<HTMLInputElement | null>;
-    inputId: string;
+    textFieldRef: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
+    textFieldId: string;
     value: string;
     onValueChange: (value: string) => void;
     maxGraphemes: number;
@@ -249,8 +264,6 @@ export namespace AxoBaseField {
   const RootContext = createStrictContext<RootContextType>('AxoBaseField.Root');
 
   export type RootProps = Readonly<{
-    /** How the field sizes itself horizontally. */
-    width?: Width;
     /** Visual style of the field. */
     variant?: Variant;
     /** Provide your own id for the `<input>` to target with a `<label>`. Auto-generated if omitted. */
@@ -273,9 +286,8 @@ export namespace AxoBaseField {
 
   export const Root: FC<RootProps> = memo(props => {
     const {
-      width = 'fill',
       variant: propsVariant,
-      id: fieldId,
+      id: propsId,
       value,
       onValueChange,
       maxGraphemes,
@@ -285,9 +297,9 @@ export namespace AxoBaseField {
       children,
     } = props;
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const textFieldRef = useRef<HTMLInputElement>(null);
     const fallbackId = useId();
-    const inputId = fieldId ?? fallbackId;
+    const textFieldId = propsId ?? fallbackId;
 
     const variantOverride = useStrictContextNullable(VariantOverrideContext);
     const group = useStrictContextNullable(GroupContext);
@@ -299,8 +311,8 @@ export namespace AxoBaseField {
 
     const context = useMemo((): RootContextType => {
       return {
-        inputRef,
-        inputId,
+        textFieldRef,
+        textFieldId,
         value,
         onValueChange,
         maxGraphemes,
@@ -309,8 +321,8 @@ export namespace AxoBaseField {
         readOnly,
       };
     }, [
-      inputRef,
-      inputId,
+      textFieldRef,
+      textFieldId,
       value,
       onValueChange,
       maxGraphemes,
@@ -324,8 +336,7 @@ export namespace AxoBaseField {
         <div
           className={css(
             'axo-field-root',
-            group == null && getContainerClassName(variant),
-            Widths.get(width)
+            group == null && getContainerClassName(variant)
           )}
         >
           {children}
@@ -356,74 +367,23 @@ export namespace AxoBaseField {
   Icon.displayName = 'AxoBaseField.Icon';
 
   /**
-   * <AxoBaseField.Input>
+   * useTextField()
    * --------------------------------------------------------------------------
    */
 
-  export type InputProps = Readonly<
-    {
-      /** Ref to the underlying `<input>` element. */
-      ref?: RefObject<HTMLInputElement | null>;
-      /** The type of the input */
-      type: Type;
-      /** Form field name for native form submissions. */
-      name?: string;
-      /** Placeholder text shown when the input is empty. */
-      placeholder: string;
-      /** Marks the input as required for form validation. */
-      required?: boolean;
-      /** Focuses the input on mount. */
-      autoFocus?: boolean;
-      /** Override font settings to give numbers uniform/tabular widths. */
-      tabularNums?: boolean;
-      /** Called when the input receives focus. */
-      onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
-      /** Called when the input loses focus. */
-      onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
-    } & KeyboardInputAttrs &
-      TextValidationInputAttrs &
-      NumberValidationInputAttrs
-  >;
+  /** @internal */
+  type TextFieldTypes = Pick<JSX.IntrinsicElements, 'input' | 'textarea'>;
 
-  /** The text input field. Must be placed inside `Root`. */
-  export const Input: FC<InputProps> = memo(props => {
-    const {
-      ref: propsRef,
-      type,
-      name,
-      placeholder,
-      required,
-      autoFocus,
-      // KeyboardInputAttrs
-      inputMode,
-      autoComplete,
-      autoCorrect,
-      autoCapitalize,
-      enterKeyHint,
-      spellCheck,
-      // TextValidationInputAttrs
-      minLength,
-      maxLength,
-      pattern,
-      size,
-      // NumberValidationInputAttrs
-      min,
-      max,
-      step,
-      // Styling
-      tabularNums,
-      // Events
-      onFocus,
-      onBlur,
-      // Radix forwarding
-      ...rest
-    } = props;
-
+  /** @internal */
+  function useTextField<T extends keyof TextFieldTypes>(
+    props: TextFieldTypes[T],
+    innerProps: TextFieldTypes[T]
+  ): TextFieldTypes[T] {
     const context = useStrictContext(RootContext);
-    const ref = mergeRefs(context.inputRef, propsRef);
 
     const {
-      inputId,
+      textFieldRef,
+      textFieldId,
       value,
       disabled,
       readOnly,
@@ -432,8 +392,8 @@ export namespace AxoBaseField {
       onValueChange,
     } = context;
 
-    const handleBeforeInput = useCallback(
-      (event: InputEvent<HTMLInputElement>) => {
+    const onBeforeInput = useCallback(
+      (event: InputEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         event.stopPropagation();
 
         if (disabled || readOnly) {
@@ -494,8 +454,8 @@ export namespace AxoBaseField {
       [disabled, readOnly, maxGraphemes, maxBytes]
     );
 
-    const handleInput = useCallback(
-      (event: InputEvent<HTMLInputElement>) => {
+    const onInput = useCallback(
+      (event: InputEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         event.stopPropagation();
 
         if (disabled || readOnly) {
@@ -517,54 +477,133 @@ export namespace AxoBaseField {
       [disabled, readOnly, maxGraphemes, maxBytes, onValueChange]
     );
 
-    const handleInvalid = useCallback((event: SyntheticEvent) => {
+    const onInvalid = useCallback((event: SyntheticEvent) => {
       // Prevent the native browser validation UI from appearing
       event.preventDefault();
     }, []);
 
+    return mergeProps(
+      {
+        ref: textFieldRef,
+        id: textFieldId,
+        value,
+        disabled,
+        readOnly,
+        onBeforeInput,
+        onInput,
+        onInvalid,
+      },
+      props,
+      innerProps
+    ) as TextFieldTypes[T];
+  }
+
+  /**
+   * <AxoBaseField.Input>
+   * --------------------------------------------------------------------------
+   */
+
+  export type InputSizing = 'fill' | 'fit';
+
+  type InputStylingProps = Readonly<{
+    /** How the field sizes itself horizontally. */
+    sizing?: InputSizing;
+    /** Override font settings to give numbers uniform/tabular widths. */
+    tabularNums?: boolean;
+  }>;
+
+  type BaseInputProps = BaseTextboxAttrs<HTMLInputElement> &
+    KeyboardTextboxAttrs &
+    TextValidationTextboxAttrs &
+    NumberValidationInputAttrs &
+    InputStylingProps;
+
+  export type PublicInputProps = Simplify<
+    BaseInputProps &
+      Readonly<{
+        /** Prefer using the specific axo component for the input type (See: <AxoPasswordField> or <AxoSearchField>) */
+        type?: never;
+      }>
+  >;
+
+  export type InternalInputProps = BaseInputProps &
+    Readonly<{
+      /** The HTML input type. */
+      type?: Type;
+    }>;
+
+  /** The text input field. Must be placed inside `Root`. */
+  export const Input: FC<InternalInputProps> = memo(props => {
+    const { tabularNums, sizing, ...rest } = props;
+
+    const inputAttrs = useTextField<'input'>(rest, {
+      className: css(
+        'axo-field-textbox',
+        sizing === 'fit' && 'axo-field-textbox-fit',
+        tabularNums && tw('tabular-nums')
+      ),
+    });
+
     return (
-      <div className="axo-field-input-wrapper">
-        <input
-          className={css('axo-field-input', tabularNums && tw('tabular-nums'))}
-          ref={ref}
-          id={inputId}
-          name={name}
-          type={type}
-          value={value}
-          placeholder={placeholder}
-          required={required}
-          disabled={disabled}
-          readOnly={readOnly}
-          onInput={handleInput}
-          onBeforeInput={handleBeforeInput}
-          autoFocus={autoFocus}
-          // KeyboardInputAttrs
-          inputMode={inputMode}
-          autoComplete={autoComplete}
-          autoCorrect={autoCorrect}
-          autoCapitalize={autoCapitalize}
-          enterKeyHint={enterKeyHint}
-          spellCheck={spellCheck}
-          // TextValidationInputAttrs
-          minLength={minLength}
-          maxLength={maxLength}
-          pattern={pattern}
-          size={size}
-          // NumberValidationInputAttrs
-          min={min}
-          max={max}
-          step={step}
-          // Events
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onInvalid={handleInvalid}
-          {...forwardExtraPropsForRadix(rest)}
-        />
+      <div className="axo-field-textbox-wrapper">
+        <input {...inputAttrs} />
       </div>
     );
   });
 
   Input.displayName = 'AxoBaseField.Input';
+
+  /**
+   * <AxoBaseField.TextArea>
+   * --------------------------------------------------------------------------
+   */
+
+  export type MinLines = 1 | 2;
+  // oxlint-disable-next-line typescript/ban-types
+  export type MaxLines = 1 | 2 | 3 | 4 | 5 | (number & {});
+
+  type TextAreaStylingProps = Readonly<{
+    /** Minimum number of lines to display for the text area. */
+    minLines?: MinLines;
+    /** Maximum number of lines to display for the text area. */
+    maxLines?: MaxLines;
+    /** Override font settings to give numbers uniform/tabular widths. */
+    tabularNums?: boolean;
+  }>;
+
+  export type TextAreaProps = BaseTextboxAttrs<HTMLTextAreaElement> &
+    KeyboardTextboxAttrs &
+    TextValidationTextboxAttrs &
+    TextAreaStylingProps;
+
+  export const TextArea: FC<TextAreaProps> = memo(props => {
+    const { minLines = 1, maxLines = 5, tabularNums, ...rest } = props;
+
+    assert(
+      minLines <= maxLines,
+      `minLines (${minLines}) must be <= than maxLines (${maxLines})`
+    );
+
+    const style = useMemo((): CSSProperties => {
+      return {
+        minHeight: `${minLines}lh`,
+        maxHeight: `${maxLines}lh`,
+      };
+    }, [minLines, maxLines]);
+
+    const textAreaAttrs = useTextField<'textarea'>(rest, {
+      className: css('axo-field-textbox', tabularNums && tw('tabular-nums')),
+      style,
+    });
+
+    return (
+      <div className="axo-field-textbox-wrapper">
+        <textarea {...textAreaAttrs} />
+      </div>
+    );
+  });
+
+  TextArea.displayName = 'AxoBaseField.TextArea';
 
   /**
    * <AxoBaseField.Count>
@@ -633,8 +672,14 @@ export namespace AxoBaseField {
 
   export const Clear: FC<ClearProps> = memo(props => {
     const { forceShow } = props;
-    const { inputRef, inputId, value, onValueChange, disabled, readOnly } =
-      useStrictContext(RootContext);
+    const {
+      textFieldRef: inputRef,
+      textFieldId: inputId,
+      value,
+      onValueChange,
+      disabled,
+      readOnly,
+    } = useStrictContext(RootContext);
     const intl = useAxoIntl();
 
     const handleClear = useCallback(

@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { JSX, SubmitEvent } from 'react';
+import type { JSX } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
@@ -10,12 +10,13 @@ import type {
   ConversationType,
   NicknameAndNote,
 } from '../state/ducks/conversations.preload.ts';
-import { Input } from './Input.dom.tsx';
-import { AutoSizeTextArea } from './AutoSizeTextArea.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { safeParsePartial } from '../util/schemas.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
+import { AxoList } from '../axo/items/AxoList.dom.tsx';
+import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';
+import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
 
 const formSchema = z.object({
   nickname: z
@@ -52,13 +53,13 @@ export function EditNicknameAndNoteModal({
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [givenName, setGivenName] = useState(
-    conversation.nicknameGivenName ?? ''
-  );
-  const [familyName, setFamilyName] = useState(
-    conversation.nicknameFamilyName ?? ''
-  );
-  const [note, setNote] = useState(conversation.note ?? '');
+  const initialGivenName = conversation.nicknameGivenName ?? '';
+  const initialFamilyName = conversation.nicknameFamilyName ?? '';
+  const initialNote = conversation.note ?? '';
+
+  const [givenName, setGivenName] = useState(initialGivenName);
+  const [familyName, setFamilyName] = useState(initialFamilyName);
+  const [note, setNote] = useState(initialNote);
 
   const [formId] = useState(() => uuid());
   const [givenNameId] = useState(() => uuid());
@@ -78,16 +79,34 @@ export function EditNicknameAndNoteModal({
     });
   }, [givenName, familyName, note]);
 
-  const handleSubmit = useCallback(
-    (event: SubmitEvent) => {
-      event.preventDefault();
-      if (formResult.success) {
-        onSave(formResult.data);
-        onClose();
-      }
-    },
-    [formResult, onSave, onClose]
-  );
+  const submitDisabled = useMemo(() => {
+    if (!formResult.success) {
+      return true; // invalid
+    }
+
+    const { data } = formResult;
+    const updatedGivenName = data.nickname?.givenName ?? '';
+    const updatedFamilyName = data.nickname?.familyName ?? '';
+    const updatedNote = data.note ?? '';
+
+    const hasChanged =
+      updatedGivenName !== initialGivenName ||
+      updatedFamilyName !== initialFamilyName ||
+      updatedNote !== initialNote;
+
+    return !hasChanged;
+  }, [formResult, initialGivenName, initialFamilyName, initialNote]);
+
+  const handleSubmit = useCallback(() => {
+    if (submitDisabled) {
+      return;
+    }
+
+    if (formResult.success) {
+      onSave(formResult.data);
+      onClose();
+    }
+  }, [submitDisabled, formResult, onSave, onClose]);
 
   const requestSubmit = useCallback(() => {
     formRef.current?.requestSubmit();
@@ -102,7 +121,7 @@ export function EditNicknameAndNoteModal({
           </AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body>
+        <AxoDialog.Body padding="sm">
           <AxoDialog.Description>
             <p
               className={tw(
@@ -122,63 +141,78 @@ export function EditNicknameAndNoteModal({
               theme={undefined}
             />
           </div>
-          <form ref={formRef} id={formId} onSubmit={handleSubmit}>
-            <label htmlFor={givenNameId} className={tw('sr-only')}>
-              {i18n('icu:EditNicknameAndNoteModal__FirstName__Label')}
-            </label>
-            <Input
-              id={givenNameId}
-              i18n={i18n}
-              placeholder={i18n(
-                'icu:EditNicknameAndNoteModal__FirstName__Placeholder'
-              )}
-              value={givenName}
-              hasClearButton
-              maxLengthCount={26}
-              maxByteCount={128}
-              onChange={value => {
-                setGivenName(value);
-              }}
-            />
-            <label htmlFor={familyNameId} className={tw('sr-only')}>
-              {i18n('icu:EditNicknameAndNoteModal__LastName__Label')}
-            </label>
-            <Input
-              id={familyNameId}
-              i18n={i18n}
-              placeholder={i18n(
-                'icu:EditNicknameAndNoteModal__LastName__Placeholder'
-              )}
-              value={familyName}
-              hasClearButton
-              maxLengthCount={26}
-              maxByteCount={128}
-              onChange={value => {
-                setFamilyName(value);
-              }}
-            />
+          <form ref={formRef} id={formId} action={handleSubmit}>
+            <AxoList.Group>
+              <AxoFieldList.Root>
+                <AxoFieldList.Item>
+                  <label htmlFor={givenNameId} className={tw('sr-only')}>
+                    {i18n('icu:EditNicknameAndNoteModal__FirstName__Label')}
+                  </label>
 
-            <label htmlFor={noteId} className={tw('sr-only')}>
-              {i18n('icu:EditNicknameAndNoteModal__Note__Label')}
-            </label>
-            <AutoSizeTextArea
-              i18n={i18n}
-              id={noteId}
-              placeholder={i18n(
-                'icu:EditNicknameAndNoteModal__Note__Placeholder'
-              )}
-              value={note}
-              maxByteCount={240}
-              maxLengthCount={240}
-              whenToShowRemainingCount={140}
-              whenToWarnRemainingCount={235}
-              onChange={value => {
-                setNote(value);
-              }}
-            />
-            <button type="submit" hidden>
-              {i18n('icu:submit')}
-            </button>
+                  <AxoTextField.Root
+                    id={givenNameId}
+                    value={givenName}
+                    onValueChange={setGivenName}
+                    maxGraphemes={26}
+                    maxBytes={128}
+                  >
+                    <AxoTextField.Input
+                      placeholder={i18n(
+                        'icu:EditNicknameAndNoteModal__FirstName__Placeholder'
+                      )}
+                    />
+                    <AxoTextField.Count />
+                  </AxoTextField.Root>
+                </AxoFieldList.Item>
+
+                <AxoFieldList.Item>
+                  <label htmlFor={familyNameId} className={tw('sr-only')}>
+                    {i18n('icu:EditNicknameAndNoteModal__LastName__Label')}
+                  </label>
+                  <AxoTextField.Root
+                    id={familyNameId}
+                    value={familyName}
+                    onValueChange={setFamilyName}
+                    maxGraphemes={26}
+                    maxBytes={128}
+                  >
+                    <AxoTextField.Input
+                      placeholder={i18n(
+                        'icu:EditNicknameAndNoteModal__LastName__Placeholder'
+                      )}
+                    />
+                    <AxoTextField.Count />
+                  </AxoTextField.Root>
+                </AxoFieldList.Item>
+
+                <AxoFieldList.Item>
+                  <label htmlFor={noteId} className={tw('sr-only')}>
+                    {i18n('icu:EditNicknameAndNoteModal__Note__Label')}
+                  </label>
+
+                  <AxoTextField.Root
+                    id={noteId}
+                    value={note}
+                    onValueChange={setNote}
+                    maxGraphemes={240}
+                    maxBytes={240}
+                  >
+                    <AxoTextField.TextArea
+                      minLines={2}
+                      maxLines={5}
+                      placeholder={i18n(
+                        'icu:EditNicknameAndNoteModal__Note__Placeholder'
+                      )}
+                    />
+                    <AxoTextField.Count />
+                  </AxoTextField.Root>
+                </AxoFieldList.Item>
+              </AxoFieldList.Root>
+            </AxoList.Group>
+
+            {/* This is used so the Enter key submits the form. */}
+            {/* oxlint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <button type="submit" hidden disabled={submitDisabled} />
           </form>
         </AxoDialog.Body>
         <AxoDialog.Footer>
@@ -189,7 +223,7 @@ export function EditNicknameAndNoteModal({
             <AxoDialog.Action
               variant="strong-primary"
               onClick={requestSubmit}
-              disabled={!formResult.success}
+              disabled={submitDisabled}
             >
               {i18n('icu:save')}
             </AxoDialog.Action>

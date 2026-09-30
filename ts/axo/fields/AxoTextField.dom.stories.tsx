@@ -49,7 +49,7 @@ export function Clear(): ReactNode {
       maxGraphemes={200}
     >
       <AxoTextField.Icon symbol="label" />
-      <AxoTextField.Input placeholder="Placeholder" />
+      <AxoTextField.TextArea placeholder="Placeholder" />
       <AxoTextField.Clear />
     </AxoTextField.Root>
   );
@@ -68,6 +68,36 @@ export function Count(): ReactNode {
       <AxoTextField.Input placeholder="Placeholder" />
       <AxoTextField.Count />
     </AxoTextField.Root>
+  );
+}
+
+export function TextArea(): ReactNode {
+  const [value, setValue] = useState('Typed text\ncan be\nmultiline');
+  return (
+    <Story.Stack>
+      <AxoTextField.Root
+        value={value}
+        onValueChange={setValue}
+        maxBytes={800}
+        maxGraphemes={200}
+      >
+        <AxoTextField.TextArea placeholder="Placeholder" />
+      </AxoTextField.Root>
+      <AxoTextField.Root
+        value={value}
+        onValueChange={setValue}
+        maxBytes={128}
+        maxGraphemes={32}
+      >
+        <AxoTextField.Icon symbol="label" />
+        <AxoTextField.TextArea placeholder="Placeholder" />
+        <AxoTextField.Count />
+        <AxoTextField.Clear />
+        <AxoTextField.ValidationError>
+          This field has an error.
+        </AxoTextField.ValidationError>
+      </AxoTextField.Root>
+    </Story.Stack>
   );
 }
 
