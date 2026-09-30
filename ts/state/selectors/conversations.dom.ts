@@ -58,6 +58,7 @@ import {
 } from './user.std.ts';
 import {
   getBadgeCountMutedConversations,
+  getGlobalNotifyWhileMuted,
   getPinnedConversationIds,
   getStoriesEnabled,
   getUnreadCountBadgeType,
@@ -86,6 +87,7 @@ import {
 import {
   countAllChatFoldersUnreadStats,
   countAllConversationsUnreadStats,
+  getUnreadCallsCount,
   getUnreadCountForBadge,
 } from '../../util/countUnreadStats.std.ts';
 import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
@@ -94,7 +96,7 @@ import { getActiveProfile } from './notificationProfiles.dom.ts';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
 import { getSelectedConversationId, getSelectedNavTab } from './nav.std.ts';
-import { getCallHistoryUnreadCount } from './callHistory.std.ts';
+import { getCallHistoryUnreadCountsByConversationId } from './callHistory.std.ts';
 import { NavTab } from '../../types/Nav.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
@@ -1503,6 +1505,29 @@ const getStoriesNotificationCount = createSelector(
         )
         .map(story => story.conversationId)
     ).size;
+  }
+);
+
+export const getCallHistoryUnreadCount: StateSelector<number> = createSelector(
+  getCallHistoryUnreadCountsByConversationId,
+  getConversationLookup,
+  getBadgeCountMutedConversations,
+  getGlobalNotifyWhileMuted,
+  getActiveProfile,
+  (
+    unreadCountsByConversationId,
+    conversationLookup,
+    badgeCountMutedConversations,
+    globalNotifyWhileMuted,
+    activeProfile
+  ) => {
+    return getUnreadCallsCount({
+      unreadCountsByConversationId,
+      conversationLookup,
+      badgeCountMutedConversations,
+      globalNotifyWhileMuted,
+      activeProfile,
+    });
   }
 );
 

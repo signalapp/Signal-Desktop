@@ -5,7 +5,7 @@
 import { getBadgesForRedux, loadBadges } from './badgeLoader.preload.ts';
 import {
   getCallsHistoryForRedux,
-  getCallsHistoryUnreadCountForRedux,
+  getCallsHistoryUnreadCountsByConversationIdForRedux,
   loadCallHistory,
 } from './callHistoryLoader.preload.ts';
 import {
@@ -77,7 +77,8 @@ export function getParametersForRedux(): ReduxInitData {
   return {
     badgesState: getBadgesForRedux(),
     callHistory: getCallsHistoryForRedux(),
-    callHistoryUnreadCount: getCallsHistoryUnreadCountForRedux(),
+    callHistoryUnreadCountsByConversationId:
+      getCallsHistoryUnreadCountsByConversationIdForRedux(),
     callLinks: getCallLinksForRedux(),
     chatFolders: getChatFoldersForRedux(),
     donations: getDonationsForRedux(),

@@ -25,7 +25,7 @@ import type { MegaphonesStateType } from './ducks/megaphones.preload.ts';
 export type ReduxInitData = {
   badgesState: BadgesStateType;
   callHistory: ReadonlyArray<CallHistoryDetails>;
-  callHistoryUnreadCount: number;
+  callHistoryUnreadCountsByConversationId: Record<string, number>;
   callLinks: ReadonlyArray<CallLinkType>;
   chatFolders: ReadonlyArray<CurrentChatFolder>;
   donations: DonationsStateType;

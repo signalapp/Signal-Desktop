@@ -635,7 +635,7 @@ export function ConversationDetails({
                 })
               }
               value={
-                conversation.muteExpiresAt
+                isMuted && conversation.muteExpiresAt
                   ? getMutedUntilText(conversation.muteExpiresAt, i18n)
                   : null
               }

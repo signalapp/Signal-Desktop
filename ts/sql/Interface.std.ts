@@ -1013,7 +1013,7 @@ type ReadableInterface = {
   }) => MessageType | undefined;
   getAllCallHistory: () => ReadonlyArray<CallHistoryDetails>;
   getCallHistoryUnreadCallConversationIds: () => ReadonlyArray<string>;
-  getCallHistoryUnreadCount: () => number;
+  getCallHistoryUnreadCountsByConversationId: () => Record<string, number>;
   getCallHistoryMessageByCallId: (options: {
     conversationId: string;
     callId: string;

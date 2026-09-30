@@ -502,7 +502,7 @@ export const DataReader: ServerReadableInterface = {
   getLastConversationMessage,
   getAllCallHistory,
   getCallHistoryUnreadCallConversationIds,
-  getCallHistoryUnreadCount,
+  getCallHistoryUnreadCountsByConversationId,
   getCallHistoryMessageByCallId,
   getCallHistory,
   getCallHistoryGroupsCount,
@@ -4898,20 +4898,27 @@ function getCallHistoryUnreadCallConversationIds(
   return db.prepare(query, { pluck: true }).all<string>(params);
 }
 
-function getCallHistoryUnreadCount(db: ReadableDB): number {
+function getCallHistoryUnreadCountsByConversationId(
+  db: ReadableDB
+): Record<string, number> {
   const [query, params] = sql`
-    SELECT count(*) FROM messages
+    SELECT messages.conversationId, count(*) AS unreadCount FROM messages
     INNER JOIN callsHistory ON callsHistory.callId = messages.callId
     WHERE messages.type IS 'call-history'
       AND messages.seenStatus IS ${SEEN_STATUS_UNSEEN}
       AND callsHistory.direction IS ${CALL_STATUS_INCOMING}
+    GROUP BY messages.conversationId
   `;
-  const row = db
-    .prepare(query, {
-      pluck: true,
-    })
-    .get<number>(params);
-  return row ?? 0;
+  const rows = db.prepare(query).all<{
+    conversationId: string;
+    unreadCount: number;
+  }>(params);
+
+  const result: Record<string, number> = {};
+  for (const { conversationId, unreadCount } of rows) {
+    result[conversationId] = unreadCount;
+  }
+  return result;
 }
 
 function getCallHistoryForCallLogEventTarget(

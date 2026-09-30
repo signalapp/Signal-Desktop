@@ -6,7 +6,10 @@ import type { ReactNode, JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { NavTabs } from '../../components/NavTabs.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
-import { getAllConversationsUnreadStats } from '../selectors/conversations.dom.ts';
+import {
+  getAllConversationsUnreadStats,
+  getCallHistoryUnreadCount,
+} from '../selectors/conversations.dom.ts';
 import {
   getHasAnyFailedStorySends,
   getStoriesNotificationCount,
@@ -18,7 +21,6 @@ import {
 import { getSelectedNavTab } from '../selectors/nav.std.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { getHasPendingUpdate } from '../selectors/updates.std.ts';
-import { getCallHistoryUnreadCount } from '../selectors/callHistory.std.ts';
 
 import type { Location } from '../../types/Nav.std.ts';
 
