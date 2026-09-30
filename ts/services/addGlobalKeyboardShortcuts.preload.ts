@@ -102,29 +102,36 @@ export function addGlobalKeyboardShortcuts(): void {
   const KeyT = KeyboardLayout.get('KeyT') ?? 'T';
   const KeyU = KeyboardLayout.get('KeyU') ?? 'U';
 
-  tinykeys(window, {
-    // NAVIGATION
-    [`$mod+${Slash}`]: onShowKeyboardShortcuts,
-    [`$mod+[Shift]+${F6}`]: onSuperTab,
-    [`$mod+${KeyT}`]: onSuperTab,
-    [`$mod+Shift+${KeyT}`]: onFocusComposer,
-    [`$mod+${KeyJ}`]: onFocusOldestUnreadOrLastMessage,
-    [`$mod+Shift+${KeyM}`]: onOpenAllMediaPanel,
-    [`$mod+Shift+${KeyA}`]: onArchiveConversation,
-    [`$mod+Shift+${KeyU}`]: onUnarchiveConversation,
-    [`$mod+Shift+${KeyC}`]: onCloseConversation,
+  tinykeys(
+    window,
+    {
+      // NAVIGATION
+      [`$mod+${Slash}`]: onShowKeyboardShortcuts,
+      [`$mod+[Shift]+${F6}`]: onSuperTab,
+      [`$mod+${KeyT}`]: onSuperTab,
+      [`$mod+Shift+${KeyT}`]: onFocusComposer,
+      [`$mod+${KeyJ}`]: onFocusOldestUnreadOrLastMessage,
+      [`$mod+Shift+${KeyM}`]: onOpenAllMediaPanel,
+      [`$mod+Shift+${KeyA}`]: onArchiveConversation,
+      [`$mod+Shift+${KeyU}`]: onUnarchiveConversation,
+      [`$mod+Shift+${KeyC}`]: onCloseConversation,
 
-    // MESSAGES
-    [`$mod+${KeyD}`]: onOpenMessageDetails,
-    [`$mod+Shift+${KeyR}`]: onToggleReplyToMessage,
-    [`$mod+${KeyS}`]: onSaveAttachment,
-    [`$mod+Shift+${KeyD}`]: onOpenDeleteMessagesDialog,
-    [`$mod+Shift+${KeyS}`]: onOpenForwardMessagesDialog,
+      // MESSAGES
+      [`$mod+${KeyD}`]: onOpenMessageDetails,
+      [`$mod+Shift+${KeyR}`]: onToggleReplyToMessage,
+      [`$mod+${KeyS}`]: onSaveAttachment,
+      [`$mod+Shift+${KeyD}`]: onOpenDeleteMessagesDialog,
+      [`$mod+Shift+${KeyS}`]: onOpenForwardMessagesDialog,
 
-    // COMPOSER
-    [`$mod+${KeyP}`]: onRemoveLinkPreview,
-    [`$mod+Shift+${KeyP}`]: onClearAllDraftAttachments,
-  });
+      // COMPOSER
+      [`$mod+${KeyP}`]: onRemoveLinkPreview,
+      [`$mod+Shift+${KeyP}`]: onClearAllDraftAttachments,
+    },
+    {
+      // Override default ignore behavior so this fires in textfields too
+      ignore: () => false,
+    }
+  );
 }
 
 /**
