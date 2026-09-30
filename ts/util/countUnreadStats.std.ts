@@ -8,7 +8,15 @@ import { isConversationMuted } from './isConversationMuted.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { UnreadCountBadgeType } from '../types/StorageKeys.std.ts';
 import type { ChatFolderId } from '../types/ChatFolder.std.ts';
-import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
+import {
+  shouldNotify,
+  type NotificationProfileType,
+} from '../types/NotificationProfile.std.ts';
+import type { ReadonlyDeep } from 'type-fest';
+import {
+  getNotifyWhileMuted,
+  type NotifyWhileMuted,
+} from './notifyWhileMuted.std.ts';
 
 type MutableUnreadStats = {
   /**
@@ -234,4 +242,48 @@ export function countAllChatFoldersUnreadStats(
   }
 
   return results;
+}
+
+export function getUnreadCallsCount({
+  unreadCountsByConversationId,
+  conversationLookup,
+  badgeCountMutedConversations,
+  globalNotifyWhileMuted,
+  activeProfile,
+}: {
+  unreadCountsByConversationId: Record<string, number>;
+  conversationLookup: ReadonlyDeep<Record<string, ConversationType>>;
+  badgeCountMutedConversations: boolean;
+  globalNotifyWhileMuted: NotifyWhileMuted;
+  activeProfile: NotificationProfileType | undefined;
+}): number {
+  let total = 0;
+  for (const [conversationId, unreadCount] of Object.entries(
+    unreadCountsByConversationId
+  )) {
+    const conversation = conversationLookup[conversationId];
+    if (!conversation) {
+      continue;
+    }
+
+    const canNotifyForCalls =
+      !isConversationMuted(conversation) ||
+      getNotifyWhileMuted(conversation, globalNotifyWhileMuted).calls;
+
+    const isAllowedByProfile = shouldNotify({
+      isCall: true,
+      isMentionOrReply: false,
+      conversationId,
+      activeProfile,
+    });
+
+    if (
+      badgeCountMutedConversations ||
+      (canNotifyForCalls && isAllowedByProfile)
+    ) {
+      total += unreadCount;
+    }
+  }
+
+  return total;
 }

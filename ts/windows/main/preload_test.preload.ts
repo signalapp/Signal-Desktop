@@ -105,7 +105,7 @@ window.testUtilities = {
       badgesState: { byId: {} },
       callLinks: [],
       callHistory: [],
-      callHistoryUnreadCount: 0,
+      callHistoryUnreadCountsByConversationId: {},
       chatFolders: [],
       emojis: {
         recentEmojis: [],

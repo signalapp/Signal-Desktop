@@ -34,10 +34,10 @@ export const getCallHistorySelector = createSelector(
   }
 );
 
-export const getCallHistoryUnreadCount = createSelector(
+export const getCallHistoryUnreadCountsByConversationId = createSelector(
   getCallHistory,
   callHistory => {
-    return callHistory.unreadCount;
+    return callHistory.unreadCountsByConversationId;
   }
 );
 

@@ -69,7 +69,7 @@ export function getInitialState(
     badgesState,
     callLinks,
     callHistory: calls,
-    callHistoryUnreadCount,
+    callHistoryUnreadCountsByConversationId,
     chatFolders,
     donations,
     gifs,
@@ -94,7 +94,7 @@ export function getInitialState(
     callHistory: {
       ...callHistoryEmptyState(),
       callHistoryByCallId: makeLookup(calls, 'callId'),
-      unreadCount: callHistoryUnreadCount,
+      unreadCountsByConversationId: callHistoryUnreadCountsByConversationId,
     },
     calling: {
       ...callingEmptyState(),

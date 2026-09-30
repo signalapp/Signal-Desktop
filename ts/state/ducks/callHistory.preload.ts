@@ -28,7 +28,7 @@ import {
 } from '../selectors/callHistory.std.ts';
 import {
   getCallsHistoryForRedux,
-  getCallsHistoryUnreadCountForRedux,
+  getCallsHistoryUnreadCountsByConversationIdForRedux,
   loadCallHistory,
 } from '../../services/callHistoryLoader.preload.ts';
 import { makeLookup } from '../../util/makeLookup.std.ts';
@@ -46,7 +46,7 @@ const log = createLogger('callHistory');
 export type CallHistoryState = ReadonlyDeep<{
   // This informs the app that underlying call history data has changed.
   edition: number;
-  unreadCount: number;
+  unreadCountsByConversationId: Record<string, number>;
   callHistoryByCallId: Record<string, CallHistoryDetails>;
 }>;
 
@@ -74,13 +74,13 @@ export type CallHistoryReload = ReadonlyDeep<{
   type: typeof CALL_HISTORY_RELOAD;
   payload: {
     callsHistory: ReadonlyArray<CallHistoryDetails>;
-    callsHistoryUnreadCount: number;
+    callsHistoryUnreadCountsByConversationId: Record<string, number>;
   };
 }>;
 
 export type CallHistoryUpdateUnread = ReadonlyDeep<{
   type: typeof CALL_HISTORY_UPDATE_UNREAD;
-  payload: number;
+  payload: Record<string, number>;
 }>;
 
 export type CallHistoryAction = ReadonlyDeep<
@@ -94,7 +94,7 @@ export type CallHistoryAction = ReadonlyDeep<
 export function getEmptyState(): CallHistoryState {
   return {
     edition: 0,
-    unreadCount: 0,
+    unreadCountsByConversationId: {},
     callHistoryByCallId: {},
   };
 }
@@ -104,8 +104,12 @@ const updateCallHistoryUnreadCountDebounced = debounce(
     dispatch: ThunkDispatch<RootStateType, unknown, CallHistoryUpdateUnread>
   ) => {
     try {
-      const unreadCount = await DataReader.getCallHistoryUnreadCount();
-      dispatch({ type: CALL_HISTORY_UPDATE_UNREAD, payload: unreadCount });
+      const unreadCountsByConversationId =
+        await DataReader.getCallHistoryUnreadCountsByConversationId();
+      dispatch({
+        type: CALL_HISTORY_UPDATE_UNREAD,
+        payload: unreadCountsByConversationId,
+      });
     } catch (error) {
       log.error(
         'Error updating call history unread count',
@@ -260,10 +264,11 @@ export function reloadCallHistory(): ThunkAction<
     try {
       await loadCallHistory();
       const callsHistory = getCallsHistoryForRedux();
-      const callsHistoryUnreadCount = getCallsHistoryUnreadCountForRedux();
+      const callsHistoryUnreadCountsByConversationId =
+        getCallsHistoryUnreadCountsByConversationIdForRedux();
       dispatch({
         type: CALL_HISTORY_RELOAD,
-        payload: { callsHistory, callsHistoryUnreadCount },
+        payload: { callsHistory, callsHistoryUnreadCountsByConversationId },
       });
     } catch (error) {
       log.error('Error reloading call history', Errors.toLogFormat(error));
@@ -312,12 +317,13 @@ export function reducer(
     case CALL_HISTORY_UPDATE_UNREAD:
       return {
         ...state,
-        unreadCount: action.payload,
+        unreadCountsByConversationId: action.payload,
       };
     case CALL_HISTORY_RELOAD:
       return {
         edition: state.edition + 1,
-        unreadCount: action.payload.callsHistoryUnreadCount,
+        unreadCountsByConversationId:
+          action.payload.callsHistoryUnreadCountsByConversationId,
         callHistoryByCallId: makeLookup(action.payload.callsHistory, 'callId'),
       };
     default:
