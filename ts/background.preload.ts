@@ -1296,7 +1296,7 @@ async function startApp(): Promise<void> {
 
     StorageService.disableStorageService(reason);
     unregisterRequestHandler(messageReceiver);
-    messageReceiver.stopProcessing();
+    messageReceiver.stopProcessing(reason);
   }
 
   function setupAppState() {
@@ -2168,19 +2168,25 @@ async function startApp(): Promise<void> {
   // Note: once this function returns, there still might be messages being processed on
   //   a given conversation's queue. But we have processed all events from the websocket.
   async function waitForEmptyEventQueue() {
+    const logId = 'waitForEmptyEventQueue';
+
     if (!messageReceiver) {
-      log.info(
-        'waitForEmptyEventQueue: No messageReceiver available, returning early'
-      );
+      log.info(`${logId}: No messageReceiver available, returning early`);
       return;
     }
 
     const waitStart = Date.now();
 
+    const throwIfStoppingProcessing = () => {
+      const reason = messageReceiver?.getStoppingProcessing();
+      if (reason) {
+        throw new Error(`${logId}: Stopping processing because '${reason}'`);
+      }
+    };
+    throwIfStoppingProcessing();
+
     if (!messageReceiver.hasEmptied()) {
-      log.info(
-        'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
-      );
+      log.info(`${logId}: Waiting for MessageReceiver empty event...`);
       const { resolve, reject, promise } = explodePromise<void>();
 
       const cleanup = () => {
@@ -2196,7 +2202,7 @@ async function startApp(): Promise<void> {
       // Reject after 1 minutes of inactivity.
       const onTimeout = () => {
         cleanup();
-        reject(new Error('Empty queue never fired'));
+        reject(new Error(`${logId}: Empty queue never fired`));
       };
       let timeout: Timers.Timeout | undefined = Timers.setTimeout(
         onTimeout,
@@ -2220,16 +2226,18 @@ async function startApp(): Promise<void> {
       await promise;
     }
 
+    throwIfStoppingProcessing();
+
     if (eventHandlerQueue.pending !== 0 || eventHandlerQueue.size !== 0) {
-      log.info(
-        'waitForEmptyEventQueue: Waiting for event handler queue idle...'
-      );
+      log.info(`${logId}: Waiting for event handler queue idle...`);
       await eventHandlerQueue.onIdle();
     }
 
+    throwIfStoppingProcessing();
+
     const duration = Date.now() - waitStart;
     if (duration > SECOND) {
-      log.info(`waitForEmptyEventQueue: resolving after ${duration}ms`);
+      log.info(`${logId}: resolving after ${duration}ms`);
     }
   }
 
