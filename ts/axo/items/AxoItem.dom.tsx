@@ -7,6 +7,7 @@ import type { AxoIconButton } from '../AxoIconButton.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
 import { AxoBaseItem } from './_AxoBaseItem.dom.tsx';
 import { AriaList } from '../aria/AriaList.dom.tsx';
+import type { AxoTokens } from '../AxoTokens.std.ts';
 
 /**
  * @example Anatomy
@@ -41,14 +42,20 @@ export namespace AxoItem {
    * --------------------------------------------------------------------------
    */
 
+  export type Spacing = 'md' | 'sm';
+
   export type GroupProps = Readonly<{
+    spacing?: Spacing;
     children: ReactNode;
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
+    const { spacing = 'md' } = props;
     return (
       <AriaList.Root asChild>
-        <AxoBaseItem.Group spacing="md">{props.children}</AxoBaseItem.Group>
+        <AxoBaseItem.Group spacing={spacing}>
+          {props.children}
+        </AxoBaseItem.Group>
       </AriaList.Root>
     );
   });
@@ -91,11 +98,16 @@ export namespace AxoItem {
    */
 
   export type LeadingProps = Readonly<{
+    centerToFullHeight?: boolean;
     children: ReactNode;
   }>;
 
   export const Leading: FC<LeadingProps> = memo(props => {
-    return <AxoBaseItem.Leading>{props.children}</AxoBaseItem.Leading>;
+    return (
+      <AxoBaseItem.Leading centerToFullHeight={props.centerToFullHeight}>
+        {props.children}
+      </AxoBaseItem.Leading>
+    );
   });
 
   Leading.displayName = 'AxoItem.Leading';
@@ -125,10 +137,17 @@ export namespace AxoItem {
   export type IconAvatarProps = Readonly<{
     size: IconAvatarSize;
     symbol: AxoSymbol.Name;
+    color?: AxoTokens.Avatar.ColorName | null;
   }>;
 
   export const IconAvatar: FC<IconAvatarProps> = memo(props => {
-    return <AxoBaseItem.IconAvatar size={props.size} symbol={props.symbol} />;
+    return (
+      <AxoBaseItem.IconAvatar
+        size={props.size}
+        symbol={props.symbol}
+        color={props.color}
+      />
+    );
   });
 
   IconAvatar.displayName = 'AxoItem.IconAvatar';
@@ -241,11 +260,16 @@ export namespace AxoItem {
    */
 
   export type AccessoryProps = Readonly<{
+    centerToFullHeight?: boolean;
     children: ReactNode;
   }>;
 
   export const Accessory: FC<AccessoryProps> = memo(props => {
-    return <AxoBaseItem.Accessory>{props.children}</AxoBaseItem.Accessory>;
+    return (
+      <AxoBaseItem.Accessory centerToFullHeight={props.centerToFullHeight}>
+        {props.children}
+      </AxoBaseItem.Accessory>
+    );
   });
 
   Accessory.displayName = 'AxoItem.Accessory';

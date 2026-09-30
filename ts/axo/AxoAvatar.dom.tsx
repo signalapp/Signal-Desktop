@@ -154,7 +154,8 @@ export namespace AxoAvatar {
             RootSizes.get(props.size),
             props.ring != null && RingSizes.get(props.size),
             props.ring === 'unread' && 'border-selected',
-            props.ring === 'read' && 'border-(--axo-color-label-secondary)'
+            props.ring === 'read' && 'border-(--axo-color-label-secondary)',
+            'forced-color-adjust-none'
           )}
         >
           {props.children}
@@ -276,13 +277,29 @@ export namespace AxoAvatar {
      * The icon to display. Sized proportionally to the avatar.
      */
     symbol: AxoSymbol.Name;
+    /**
+     * Color theme for background.
+     */
+    color?: AxoTokens.Avatar.ColorName | null;
   }>;
 
   /**
    * Displays a centered icon on a secondary fill background.
    */
   export const Icon: FC<IconProps> = memo(props => {
+    const { color } = props;
     const size = useStrictContext(SizeContext);
+
+    const style = useMemo((): CSSProperties => {
+      const values =
+        color != null ? AxoTokens.Avatar.getColorValues(color) : null;
+      return {
+        fontSize: size * 0.55,
+        background: values?.bg,
+        color: values?.fg,
+      };
+    }, [size, color]);
+
     return (
       <span
         className={tw(
@@ -291,9 +308,9 @@ export namespace AxoAvatar {
           'forced-colors:bg-[Canvas]',
           'forced-colors:text-[CanvasText]',
           'forced-colors:border',
-          DefaultColor
+          color == null && DefaultColor
         )}
-        style={{ fontSize: size * 0.55 }}
+        style={style}
       >
         <AxoSymbol.InlineGlyph symbol={props.symbol} label={null} />
       </span>

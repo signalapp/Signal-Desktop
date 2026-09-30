@@ -30,7 +30,7 @@ type DoneHandleType = (
 export type PropsType = {
   avatarData?: AvatarDataType;
   i18n: LocalizerType;
-  isDisplayedAsPanel: boolean;
+  isInsideDialog: boolean;
   onCancel: () => unknown;
   onDone: DoneHandleType;
 };
@@ -41,7 +41,7 @@ const MAX_LENGTH = 3;
 export function AvatarTextEditor({
   avatarData,
   i18n,
-  isDisplayedAsPanel,
+  isInsideDialog,
   onCancel,
   onDone,
 }: PropsType): JSX.Element {
@@ -150,52 +150,68 @@ export function AvatarTextEditor({
   const hasChanges =
     initialText !== inputText || selectedColor !== initialColor;
 
-  return (
+  const body = (
     <>
-      <AxoDialog.Body maxHeight={isDisplayedAsPanel ? 9999 : undefined}>
-        <div className="AvatarEditor__preview">
-          <BetterAvatarBubble
-            color={selectedColor}
-            i18n={i18n}
-            onSelect={focusInput}
-            style={{
-              height: BUBBLE_SIZE,
-              width: BUBBLE_SIZE,
-            }}
-          >
-            <input
-              className="AvatarTextEditor__input"
-              onChange={handleChange}
-              onPaste={handlePaste}
-              ref={inputRef}
-              style={{ fontSize }}
-              type="text"
-              dir="auto"
-              value={inputText}
-            />
-          </BetterAvatarBubble>
-        </div>
-        <hr className="AvatarEditor__divider" />
-        <AvatarColorPicker
+      <div className="AvatarEditor__preview">
+        <BetterAvatarBubble
+          color={selectedColor}
           i18n={i18n}
-          onColorSelected={color => {
-            setSelectedColor(color);
-            focusInput();
+          onSelect={focusInput}
+          style={{
+            height: BUBBLE_SIZE,
+            width: BUBBLE_SIZE,
           }}
-          selectedColor={selectedColor}
-        />
-      </AxoDialog.Body>
-      <AxoDialog.Footer>
-        <AvatarModalButtons
-          hasChanges={hasChanges}
-          i18n={i18n}
-          onCancel={onCancel}
-          onSave={handleDone}
-        />
-      </AxoDialog.Footer>
+        >
+          <input
+            className="AvatarTextEditor__input"
+            onChange={handleChange}
+            onPaste={handlePaste}
+            ref={inputRef}
+            style={{ fontSize }}
+            type="text"
+            dir="auto"
+            value={inputText}
+          />
+        </BetterAvatarBubble>
+      </div>
+      <hr className="AvatarEditor__divider" />
+      <AvatarColorPicker
+        i18n={i18n}
+        onColorSelected={color => {
+          setSelectedColor(color);
+          focusInput();
+        }}
+        selectedColor={selectedColor}
+      />
       <div className="AvatarTextEditor__measure" ref={measureElRef}>
         {inputText}
       </div>
+    </>
+  );
+
+  const footer = (
+    <AvatarModalButtons
+      isInsideDialog={isInsideDialog}
+      hasChanges={hasChanges}
+      i18n={i18n}
+      onCancel={onCancel}
+      onSave={handleDone}
+    />
+  );
+
+  if (isInsideDialog) {
+    return (
+      <>
+        <AxoDialog.Body forceMaxHeight>{body}</AxoDialog.Body>
+        <AxoDialog.Footer>{footer}</AxoDialog.Footer>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {body}
+      {footer}
     </>
   );
 }

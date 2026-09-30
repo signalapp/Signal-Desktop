@@ -402,7 +402,6 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>{contents}</AxoDialog.Body>
-        <AxoDialog.Footer />
       </AxoDialog.Content>
     </AxoDialog.Root>
   );

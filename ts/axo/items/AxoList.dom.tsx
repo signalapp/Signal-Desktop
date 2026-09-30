@@ -117,9 +117,6 @@ export namespace AxoList {
       <div
         ref={props.ref}
         className={tw(
-          // Add some extra space so shadows don't get cut off
-          'group-first/axo-list-group:group-first/axo-list-root:first:mt-px',
-          'group-last/axo-list-group:group-last/axo-list-root:last:mb-0.75',
           'min-w-fit',
           'curved-2xl bg-surface-card p-1 shadow-elevation-0',
           'forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]',

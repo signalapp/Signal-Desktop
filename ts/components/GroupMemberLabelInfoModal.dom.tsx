@@ -28,7 +28,7 @@ export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
   } = props;
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="xs" escape="cancel-is-noop">
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Body>
           <div className={tw('mt-4 mb-1')}>
             <img

@@ -1,14 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, type JSX } from 'react';
+import { useCallback, useState, type JSX, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
 export type PropsType = {
+  isInsideDialog: boolean;
   hasChanges: boolean;
   i18n: LocalizerType;
   onCancel: () => unknown;
@@ -16,6 +18,7 @@ export type PropsType = {
 };
 
 export function AvatarModalButtons({
+  isInsideDialog,
   hasChanges,
   i18n,
   onCancel,
@@ -25,29 +28,61 @@ export function AvatarModalButtons({
     (() => void) | undefined
   >(undefined);
 
+  const handleCancel = useCallback(() => {
+    if (hasChanges) {
+      setConfirmDiscardAction(() => onCancel);
+    } else {
+      onCancel();
+    }
+  }, [hasChanges, onCancel]);
+
+  let actions: ReactNode;
+  if (isInsideDialog) {
+    actions = (
+      <AxoDialog.Actions>
+        <AxoDialog.Action variant="strong-secondary" onClick={handleCancel}>
+          {i18n('icu:cancel')}
+        </AxoDialog.Action>
+        <AxoDialog.Action
+          variant="strong-primary"
+          disabled={!hasChanges}
+          onClick={onSave}
+        >
+          {i18n('icu:save')}
+        </AxoDialog.Action>
+      </AxoDialog.Actions>
+    );
+  } else {
+    actions = (
+      <div
+        className={tw(
+          'ms-auto flex w-fit max-w-full flex-wrap items-center gap-2 py-2.5'
+        )}
+      >
+        <AxoButton.Root
+          width="grow"
+          variant="strong-secondary"
+          size="lg"
+          onClick={handleCancel}
+        >
+          {i18n('icu:cancel')}
+        </AxoButton.Root>
+        <AxoButton.Root
+          width="grow"
+          variant="strong-primary"
+          size="lg"
+          disabled={!hasChanges}
+          onClick={onSave}
+        >
+          {i18n('icu:save')}
+        </AxoButton.Root>
+      </div>
+    );
+  }
+
   return (
-    <div className={tw('flex w-full justify-end-safe gap-2 py-2.5')}>
-      <AxoButton.Root
-        variant="strong-secondary"
-        size="lg"
-        onClick={() => {
-          if (hasChanges) {
-            setConfirmDiscardAction(() => onCancel);
-          } else {
-            onCancel();
-          }
-        }}
-      >
-        {i18n('icu:cancel')}
-      </AxoButton.Root>
-      <AxoButton.Root
-        variant="strong-primary"
-        size="lg"
-        disabled={!hasChanges}
-        onClick={onSave}
-      >
-        {i18n('icu:save')}
-      </AxoButton.Root>
+    <>
+      {actions}
       <AxoConfirmDialog.Root
         open={confirmDiscardAction != null}
         onOpenChange={() => setConfirmDiscardAction(undefined)}
@@ -69,6 +104,6 @@ export function AvatarModalButtons({
           {i18n('icu:discard')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    </div>
+    </>
   );
 }

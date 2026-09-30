@@ -261,7 +261,7 @@ export function ProfileEntryScreen({
             conversationTitle={fullName}
             deleteAvatarFromDisk={deleteAvatarFromDisk}
             i18n={i18n}
-            isDisplayedAsPanel
+            isInsideDialog
             onCancel={() => {
               setIsEditingAvatar(false);
             }}

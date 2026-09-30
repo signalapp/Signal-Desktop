@@ -173,7 +173,7 @@ export function EditConversationAttributesModal({
         conversationId={conversationId}
         deleteAvatarFromDisk={deleteAvatarFromDisk}
         i18n={i18n}
-        isDisplayedAsPanel={false}
+        isInsideDialog
         isGroup
         onCancel={() => {
           setHasAvatarChanged(false);

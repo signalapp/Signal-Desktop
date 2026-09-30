@@ -218,7 +218,6 @@ function GroupV2Detail({
                 <GroupDescriptionText text={detail.description} />
               </AxoDialog.Description>
             </AxoDialog.Body>
-            <AxoDialog.Footer />
           </AxoDialog.Content>
         </AxoDialog.Root>
       );

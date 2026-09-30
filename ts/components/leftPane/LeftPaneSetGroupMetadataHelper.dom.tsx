@@ -153,24 +153,22 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
                 </AxoDialog.Title>
                 <AxoDialog.Close />
               </AxoDialog.Header>
-              <AxoDialog.Body maxHeight={600}>
-                <AvatarEditor
-                  avatarColor={avatarColor}
-                  avatarValue={this.#groupAvatar}
-                  deleteAvatarFromDisk={composeDeleteAvatarFromDisk}
-                  i18n={i18n}
-                  isDisplayedAsPanel={false}
-                  isGroup
-                  onCancel={toggleComposeEditingAvatar}
-                  onSave={newAvatar => {
-                    setComposeGroupAvatar(newAvatar);
-                    toggleComposeEditingAvatar();
-                  }}
-                  userAvatarData={this.#userAvatarData}
-                  replaceAvatar={composeReplaceAvatar}
-                  saveAvatarToDisk={composeSaveAvatarToDisk}
-                />
-              </AxoDialog.Body>
+              <AvatarEditor
+                avatarColor={avatarColor}
+                avatarValue={this.#groupAvatar}
+                deleteAvatarFromDisk={composeDeleteAvatarFromDisk}
+                i18n={i18n}
+                isInsideDialog
+                isGroup
+                onCancel={toggleComposeEditingAvatar}
+                onSave={newAvatar => {
+                  setComposeGroupAvatar(newAvatar);
+                  toggleComposeEditingAvatar();
+                }}
+                userAvatarData={this.#userAvatarData}
+                replaceAvatar={composeReplaceAvatar}
+                saveAvatarToDisk={composeSaveAvatarToDisk}
+              />
             </AxoDialog.Content>
           </AxoDialog.Root>
         )}

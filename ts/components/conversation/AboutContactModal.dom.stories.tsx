@@ -35,12 +35,12 @@ const noMessages = getDefaultConversation({
 });
 const conversationWithAbout = getDefaultConversation({
   acceptedMessageRequest: true,
-  aboutText: '😀 About Me',
+  about: '😀 About Me',
   hasMessages: true,
 });
 const conversationWithSharedGroups = getDefaultConversation({
   acceptedMessageRequest: true,
-  aboutText: 'likes to chat',
+  about: 'likes to chat',
   hasMessages: true,
 });
 const systemContact = getDefaultConversation({

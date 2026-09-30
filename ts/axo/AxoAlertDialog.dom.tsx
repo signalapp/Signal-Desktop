@@ -133,11 +133,7 @@ export namespace AxoAlertDialog {
             <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles} />
             <AlertDialog.Content
               onEscapeKeyDown={handleContentEscapeEvent}
-              className={AxoBaseDialog.contentStyles}
-              style={{
-                minWidth: 300,
-                width: 300,
-              }}
+              className={tw(AxoBaseDialog.contentStyles, 'w-72 min-w-72')}
             >
               {props.children}
             </AlertDialog.Content>

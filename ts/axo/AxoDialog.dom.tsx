@@ -2,8 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Dialog } from 'radix-ui';
-import type { CSSProperties, FC, MouseEvent, ReactNode } from 'react';
-import { memo, useMemo, useState } from 'react';
+import type {
+  CSSProperties,
+  FC,
+  MouseEvent,
+  ReactNode,
+  RefCallback,
+} from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';
@@ -15,6 +21,10 @@ import { AxoTheme } from './AxoTheme.dom.tsx';
 import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 import { unreachable } from './_internal/assert.std.tsx';
+import {
+  createStrictContext,
+  useStrictContext,
+} from './_internal/StrictContext.dom.tsx';
 
 const { useContentEscapeBehavior } = AxoBaseDialog;
 
@@ -55,6 +65,13 @@ export namespace AxoDialog {
    * <AxoDialog.Root>
    * --------------------------------------------------------------------------
    */
+
+  type RootContextType = Readonly<{
+    hasFooter: boolean;
+    setHasFooter: (hasFooter: boolean) => void;
+  }>;
+
+  const RootContext = createStrictContext<RootContextType>('AxoDialog.Root');
 
   export type RootProps = Readonly<{
     /**
@@ -121,10 +138,21 @@ export namespace AxoDialog {
    * ```
    */
   export const Root: FC<RootProps> = memo(props => {
+    const [hasFooter, setHasFooter] = useState(false);
+
+    const context = useMemo((): RootContextType => {
+      return {
+        hasFooter,
+        setHasFooter,
+      };
+    }, [hasFooter, setHasFooter]);
+
     return (
-      <Dialog.Root open={props.open} onOpenChange={props.onOpenChange} modal>
-        {props.children}
-      </Dialog.Root>
+      <RootContext value={context}>
+        <Dialog.Root open={props.open} onOpenChange={props.onOpenChange} modal>
+          {props.children}
+        </Dialog.Root>
+      </RootContext>
     );
   });
 
@@ -158,12 +186,11 @@ export namespace AxoDialog {
 
   /**
    * Width of the dialog.
-   * - `xs` – 300px
-   * - `sm` – 360px
-   * - `md` – 420px
+   * - `sm` – 320px
+   * - `md` – 400px
    * - `lg` – 720px
    */
-  export type ContentSize = 'xs' | 'sm' | 'md' | 'lg';
+  export type ContentSize = 'sm' | 'md' | 'lg';
 
   /**
    * How dangerous the cancel action is considered.
@@ -173,10 +200,9 @@ export namespace AxoDialog {
   export type ContentEscape = AxoBaseDialog.ContentEscape;
 
   const ContentSizeStyles = variants<ContentSize>('AxoDialog.ContentSize', {
-    xs: tw('w-[300px] min-w-[300px]'),
-    sm: tw('w-[360px] min-w-[360px]'),
-    md: tw('w-[420px] min-w-[360px]'),
-    lg: tw('w-[720px] min-w-[360px]'),
+    sm: tw('w-[320px] min-w-[320px]'),
+    md: tw('w-[400px] min-w-[320px]'),
+    lg: tw('w-[720px] min-w-[320px]'),
   });
 
   export type ContentProps = Readonly<{
@@ -432,12 +458,6 @@ export namespace AxoDialog {
      */
     maxHeight?: number;
     /**
-     * Set to true if the dialog has no footer after it, hides the bottom scroll hint.
-     * TODO: Find a CSS solution to this so it's just automatic
-     */
-    noFooterHideBottomScrollHint?: boolean;
-
-    /**
      * Force the dialog to always be at its maxHeight
      */
     forceMaxHeight?: boolean;
@@ -452,8 +472,10 @@ export namespace AxoDialog {
    * Automatically shows scroll hints and a thin scrollbar.
    */
   export const Body: FC<BodyProps> = memo(props => {
+    const { hasFooter } = useStrictContext(RootContext);
+    const scrollbarWidthDefault = hasFooter ? 'thin' : 'none';
     const {
-      scrollbarWidth = 'thin',
+      scrollbarWidth = scrollbarWidthDefault,
       padding = 'lg',
       maxHeight = 440,
       forceMaxHeight,
@@ -492,8 +514,29 @@ export namespace AxoDialog {
         styles.paddingInline = paddingInline;
       }
 
+      const paddingBlockStart = '2px';
+      let paddingBlockEnd: string;
+      if (!hasFooter) {
+        if (padding === 'lg') {
+          paddingBlockEnd = '24px';
+        } else if (padding === 'md') {
+          paddingBlockEnd = '16px';
+        } else if (padding === 'sm') {
+          paddingBlockEnd = '12px';
+        } else if (padding === 'deprecated-only-scrollbar-gutter') {
+          paddingBlockEnd = '2px';
+        } else {
+          unreachable(padding);
+        }
+      } else {
+        paddingBlockEnd = '2px';
+      }
+
+      styles.paddingBlockStart = paddingBlockStart;
+      styles.paddingBlockEnd = paddingBlockEnd;
+
       return styles;
-    }, [forceMaxHeight, maxHeight, padding, scrollbarWidth]);
+    }, [forceMaxHeight, maxHeight, padding, scrollbarWidth, hasFooter]);
 
     return (
       <AxoScrollArea.Root
@@ -502,9 +545,7 @@ export namespace AxoDialog {
         scrollbarVisibility="as-needed"
       >
         <AxoScrollArea.Hint edge="top" />
-        {!props.noFooterHideBottomScrollHint && (
-          <AxoScrollArea.Hint edge="bottom" />
-        )}
+        {!hasFooter && <AxoScrollArea.Hint edge="bottom" />}
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
             <div style={style}>{props.children}</div>
@@ -557,8 +598,23 @@ export namespace AxoDialog {
    * A row of action buttons at the bottom of the dialog.
    */
   export const Footer: FC<FooterProps> = memo(props => {
+    const { setHasFooter } = useStrictContext(RootContext);
+
+    const ref: RefCallback<HTMLElement> = useCallback(
+      node => {
+        setHasFooter(node != null);
+        return () => {
+          setHasFooter(false);
+        };
+      },
+      [setHasFooter]
+    );
+
     return (
-      <div className={tw('flex flex-wrap items-center gap-3 px-3 py-2.5')}>
+      <div
+        ref={ref}
+        className={tw('flex flex-wrap items-center gap-3 px-3 py-2.5')}
+      >
         {props.children}
       </div>
     );

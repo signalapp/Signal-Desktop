@@ -153,12 +153,7 @@ export function ChooseCountryCodeModal({
             <AxoSearchField.Clear />
           </AxoSearchField.Root>
         </AxoDialog.Search>
-        <AxoDialog.Body
-          scrollbarWidth="none"
-          padding="md"
-          noFooterHideBottomScrollHint
-          forceMaxHeight
-        >
+        <AxoDialog.Body padding="md" forceMaxHeight>
           {filteredCountries.length !== 0 && (
             <AxoList.Group>
               <AxoList.Root>
