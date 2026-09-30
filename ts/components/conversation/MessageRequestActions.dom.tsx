@@ -58,10 +58,7 @@ export function MessageRequestActions({
   if (conversationType === 'direct') {
     strictAssert(nameValue != null, 'nameValue is null');
     const name = (
-      <strong
-        key="name"
-        className="module-message-request-actions__message__name"
-      >
+      <strong key="name" className={tw('font-semibold')}>
         <ContactName {...nameValue} preferFirstName />
       </strong>
     );
@@ -121,13 +118,18 @@ export function MessageRequestActions({
           onChangeState={setMrState}
         />
       ) : null}
-      <div className="module-message-request-actions">
+      <div
+        data-testid="message-request-actions"
+        className={tw('px-4 pt-2 pb-3')}
+      >
         <div className={tw('mb-2 text-center type-body-medium text-safety')}>
           <AxoSymbol.InlineGlyph symbol="error-triangle" label={null} />
           &nbsp;
           {i18n('icu:MessageRequestWarning__review-carefully')}
         </div>
-        <p className="module-message-request-actions__message">{message}</p>
+        <p className={tw('mb-3 text-center type-body-medium text-secondary')}>
+          {message}
+        </p>
         <FlexWrapDetector>
           <div
             className={tw(

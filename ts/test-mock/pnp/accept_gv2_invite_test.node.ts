@@ -150,7 +150,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Verify that message request state is not visible');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Accept"')
+      .getByTestId('message-request-actions')
+      .getByRole('button', { name: 'Accept' })
       .waitFor({ state: 'hidden' });
 
     await window.getByRole('button', { name: 'More Info' }).click();
@@ -204,7 +205,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Block"')
+      .getByTestId('message-request-actions')
+      .getByRole('button', { name: 'Block' })
       .click();
 
     debug('waiting for confirmation modal');
@@ -319,7 +321,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
     debug('Declining');
     await conversationStack
-      .locator('.module-message-request-actions button >> "Block"')
+      .getByTestId('message-request-actions')
+      .getByRole('button', { name: 'Block' })
       .click();
 
     debug('waiting for confirmation modal');
