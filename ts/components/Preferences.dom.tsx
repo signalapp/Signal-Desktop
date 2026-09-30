@@ -186,6 +186,7 @@ export type PropsDataType = {
   hasTypingIndicators: boolean;
   hasUnreadReminders: boolean;
   hasKeepMutedChatsArchived: boolean;
+  isSvrPinPending: boolean;
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -289,6 +290,7 @@ type PropsFunctionType = {
   }: {
     deleteExistingBackups: boolean;
   }) => Promise<void>;
+  disableSignalPin: () => Promise<void>;
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
@@ -485,6 +487,7 @@ export function Preferences({
   defaultConversationColor,
   deviceName = '',
   disableLocalBackups,
+  disableSignalPin,
   doDeleteAllData,
   editCustomColor,
   emojiSkinToneDefault,
@@ -535,6 +538,7 @@ export function Preferences({
   isHideMenuBarSupported,
   isKeyTransparencyAvailable,
   isNotificationAttentionSupported,
+  isSvrPinPending,
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
@@ -699,6 +703,24 @@ export function Preferences({
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
   const [linkedDevicesOnboarding, setLinkedDevicesOnboarding] = useState(false);
+  const [signalPinAdvancedDisableError, setSignalPinAdvancedDisableError] =
+    useState<'backups' | 'reg-lock' | undefined>();
+  const [isSignalPinDisablePending, setIsSignalPinDisablePending] =
+    useState(false);
+  const handleDisableSignalPin = useCallback(async () => {
+    if (isSignalPinDisablePending) {
+      return;
+    }
+
+    setIsSignalPinDisablePending(true);
+    // Handles errors and shows a global modal if it fails
+    await disableSignalPin();
+    setIsSignalPinDisablePending(false);
+  }, [
+    isSignalPinDisablePending,
+    disableSignalPin,
+    setIsSignalPinDisablePending,
+  ]);
 
   const handleOpenEditChatFoldersPage = useCallback(
     (chatFolderId: ChatFolderId | null) => {
@@ -1045,6 +1067,18 @@ export function Preferences({
               checked={hasRegistrationLock ?? false}
               disabled={!hasSvrPin}
               onCheckedChange={onRegistrationLockChange}
+            />
+          </List>
+        )}
+        {weArePrimaryDevice && (
+          <List>
+            <AxoClickableItem.Root
+              label={i18n('icu:Preferences--signal-pin-advanced-settings')}
+              arrow="next"
+              disabled={isSvrPinPending}
+              onClick={() =>
+                setSettingsLocation({ page: SettingsPage.SignalPinAdvanced })
+              }
             />
           </List>
         )}
@@ -2601,6 +2635,113 @@ export function Preferences({
       setSettingsLocation,
       contentsRef: settingsPaneRef,
     });
+  } else if (settingsLocation.page === SettingsPage.SignalPinAdvanced) {
+    let pageContents: JSX.Element;
+    if (hasSvrPin) {
+      pageContents = (
+        <AxoList.Group>
+          <List
+            footerDescription={i18n(
+              'icu:Preferences--disable-signal-pin--footer'
+            )}
+          >
+            <ItemWithAction
+              label={i18n('icu:Preferences--disable-signal-pin')}
+              action={
+                <AxoItem.Action
+                  variant="subtle-secondary"
+                  onClick={async () => {
+                    if (hasRegistrationLock) {
+                      setSignalPinAdvancedDisableError('reg-lock');
+                    } else if (backupTier != null) {
+                      setSignalPinAdvancedDisableError('backups');
+                    } else {
+                      await handleDisableSignalPin();
+                    }
+                  }}
+                  pending={isSignalPinDisablePending}
+                >
+                  {i18n('icu:Preferences--disable-signal-pin--button')}
+                </AxoItem.Action>
+              }
+            />
+            <AxoAlertDialog.Root
+              open={signalPinAdvancedDisableError != null}
+              onOpenChange={(open: boolean) => {
+                if (!open) {
+                  setSignalPinAdvancedDisableError(undefined);
+                }
+              }}
+            >
+              <AxoAlertDialog.Content escape="cancel-is-noop">
+                <AxoAlertDialog.Title screenReaderOnly>
+                  {signalPinAdvancedDisableError === 'reg-lock'
+                    ? i18n('icu:DisableSignalPinErrorDialog--reg-lock--title')
+                    : i18n('icu:DisableSignalPinErrorDialog--backups--title')}
+                </AxoAlertDialog.Title>
+                <AxoAlertDialog.Body>
+                  <AxoAlertDialog.Description>
+                    {signalPinAdvancedDisableError === 'reg-lock'
+                      ? i18n('icu:DisableSignalPinErrorDialog--reg-lock--body')
+                      : i18n('icu:DisableSignalPinErrorDialog--backups--body')}
+                  </AxoAlertDialog.Description>
+                </AxoAlertDialog.Body>
+                <AxoAlertDialog.Footer>
+                  <AxoAlertDialog.Action
+                    variant="strong-primary"
+                    onClick={() => setSignalPinAdvancedDisableError(undefined)}
+                  >
+                    {i18n('icu:DisableSignalPinErrorDialog--reg-lock--ok')}
+                  </AxoAlertDialog.Action>
+                </AxoAlertDialog.Footer>
+              </AxoAlertDialog.Content>
+            </AxoAlertDialog.Root>
+          </List>
+        </AxoList.Group>
+      );
+    } else {
+      pageContents = (
+        <AxoList.Group>
+          <List
+            footerDescription={
+              <I18n
+                id="icu:Preferences--signal-pin__footer"
+                i18n={i18n}
+                components={{
+                  learnMoreLink: PinLearnMoreLink,
+                }}
+              />
+            }
+          >
+            <ItemWithAction
+              label={i18n('icu:Preferences--enable-signal-pin')}
+              action={
+                <AxoItem.Action
+                  variant="subtle-secondary"
+                  onClick={showPinChangeModal}
+                  pending={isSvrPinPending}
+                >
+                  {i18n('icu:Preferences--enable-signal-pin--button')}
+                </AxoItem.Action>
+              }
+            />
+          </List>
+        </AxoList.Group>
+      );
+    }
+    content = (
+      <AxoPanel.Root>
+        <AxoPanel.Header>
+          <AxoPanel.Back
+            onClick={() => setSettingsLocation({ page: SettingsPage.General })}
+          />
+          <AxoPanel.Label>
+            {i18n('icu:Preferences--signal-pin-advanced-settings')}
+          </AxoPanel.Label>
+        </AxoPanel.Header>
+        <AxoPanel.Content>{pageContents}</AxoPanel.Content>
+      </AxoPanel.Root>
+    );
   } else if (settingsLocation.page === SettingsPage.Internal) {
     content = (
       <PreferencesContent
@@ -2768,7 +2909,10 @@ export function Preferences({
               <PreferencesButton
                 symbol="settings"
                 label={i18n('icu:Preferences__button--general')}
-                current={settingsLocation.page === SettingsPage.General}
+                current={
+                  settingsLocation.page === SettingsPage.General ||
+                  settingsLocation.page === SettingsPage.SignalPinAdvanced
+                }
                 onClick={() =>
                   setSettingsLocation({ page: SettingsPage.General })
                 }

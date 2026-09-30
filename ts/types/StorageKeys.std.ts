@@ -284,7 +284,7 @@ export type StorageAccessType = {
   restoredBackupFirstAppVersion: string;
 
   // When Desktop is standalone, we use these. Otherwise, only used for backup.
-  svrPin: string;
+  svrPin: string | undefined;
   isSvrPinStored: boolean;
   pinReminders: boolean | undefined;
   pinReminderLastCompleted: number | undefined;

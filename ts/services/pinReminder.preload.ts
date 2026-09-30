@@ -165,7 +165,8 @@ class PinReminderService {
     return (
       Registration.isDone() &&
       window.ConversationController.areWePrimaryDevice() &&
-      itemStorage.get('pinReminders', true)
+      itemStorage.get('pinReminders', true) &&
+      itemStorage.get('svrPin') != null
     );
   }
 

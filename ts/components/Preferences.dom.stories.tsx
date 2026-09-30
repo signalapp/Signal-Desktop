@@ -503,6 +503,7 @@ export default {
     isHideMenuBarSupported: true,
     isKeyTransparencyAvailable: true,
     isNotificationAttentionSupported: true,
+    isSvrPinPending: false,
     isSyncSupported: true,
     isSystemTraySupported: true,
     isInternalUser: false,
@@ -652,6 +653,7 @@ export default {
     pickLocalBackupFolder: () =>
       Promise.resolve('/home/signaluser/Signal Backups/'),
     disableLocalBackups: () => Promise.resolve(),
+    disableSignalPin: () => Promise.resolve(),
     promptOSAuth: async () => {
       await sleep(1000);
       return 'success';
@@ -1233,6 +1235,38 @@ GeneralWhenPrimaryWithRegLock.args = {
 export const GeneralWhenPrimaryWithoutSignalPin = Template.bind({});
 GeneralWhenPrimaryWithoutSignalPin.args = {
   settingsLocation: { page: SettingsPage.General },
+  hasSvrPin: false,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryAdvancedPinSettings = Template.bind({});
+GeneralWhenPrimaryAdvancedPinSettings.args = {
+  settingsLocation: { page: SettingsPage.SignalPinAdvanced },
+  hasSvrPin: true,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryAdvancedPinSettingsBackups = Template.bind({});
+GeneralWhenPrimaryAdvancedPinSettingsBackups.args = {
+  settingsLocation: { page: SettingsPage.SignalPinAdvanced },
+  backupTier: BackupLevel.Free,
+  hasSvrPin: true,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryAdvancedPinSettingsRegLock = Template.bind({});
+GeneralWhenPrimaryAdvancedPinSettingsRegLock.args = {
+  settingsLocation: { page: SettingsPage.SignalPinAdvanced },
+  hasRegistrationLock: true,
+  hasSvrPin: true,
+  weArePrimaryDevice: true,
+};
+
+export const GeneralWhenPrimaryAdvancedPinSettingsWithoutPin = Template.bind(
+  {}
+);
+GeneralWhenPrimaryAdvancedPinSettingsWithoutPin.args = {
+  settingsLocation: { page: SettingsPage.SignalPinAdvanced },
   hasSvrPin: false,
   weArePrimaryDevice: true,
 };
