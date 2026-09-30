@@ -9,7 +9,11 @@ import type {
 } from '../types/Attachment.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.std.ts';
+import {
+  MIMETypeToString,
+  supportsIncrementalMac,
+  isAudio,
+} from '../types/MIME.std.ts';
 import { getRandomBytes } from '../Crypto.node.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
 import { tusUpload } from './uploads/tusProtocol.node.ts';
@@ -96,7 +100,16 @@ export async function uploadAttachment(
     }));
   }
 
-  const { blurHash, caption, clientUuid, flags, height, width } = attachment;
+  const {
+    blurHash,
+    caption,
+    clientUuid,
+    flags,
+    height,
+    width,
+    audioWaveform,
+    duration,
+  } = attachment;
 
   let { fileName } = attachment;
   if (isImageAttachment(attachment) || isVideoAttachment(attachment)) {
@@ -133,6 +146,10 @@ export async function uploadAttachment(
     height: height ?? null,
     caption: caption || null,
     blurHash: blurHash || null,
+    audioWaveform: audioWaveform == null ? null : new Uint8Array(audioWaveform),
+    audioDurationSeconds: isAudio(attachment.contentType)
+      ? duration || null
+      : null,
 
     thumbnail: null,
   };

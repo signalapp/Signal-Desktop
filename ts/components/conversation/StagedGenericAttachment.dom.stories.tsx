@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { AttachmentType } from '../../types/Attachment.std.ts';
+import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import { stringToMIMEType } from '../../types/MIME.std.ts';
 import type { Props } from './StagedGenericAttachment.dom.tsx';
 import { StagedGenericAttachment } from './StagedGenericAttachment.dom.tsx';
@@ -17,6 +17,7 @@ export default {
   argTypes: {},
   args: {
     attachment: {
+      isPermanentlyUndownloadable: false,
       contentType: stringToMIMEType(''),
       fileName: '',
       url: '',
@@ -28,8 +29,9 @@ export default {
 } satisfies Meta<Props>;
 
 const createAttachment = (
-  props: Partial<AttachmentType> = {}
-): AttachmentType => ({
+  props: Partial<AttachmentForUIType> = {}
+): AttachmentForUIType => ({
+  isPermanentlyUndownloadable: false,
   contentType: stringToMIMEType(props.contentType ?? ''),
   fileName: props.fileName ?? '',
   url: '',

@@ -136,7 +136,7 @@ export function CompositionRecording({
           return (
             <b
               key={index}
-              style={{ height: `${value * 100}%` }}
+              style={{ height: `${(value / 255) * 100}%` }}
               className={tw(
                 'rounded-sm bg-(--axo-color-label-placeholder) p-px'
               )}

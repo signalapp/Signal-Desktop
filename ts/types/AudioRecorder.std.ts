@@ -1,6 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
+
 export enum ErrorDialogAudioRecorderType {
   ErrorRecording,
   Timeout,
@@ -22,6 +24,8 @@ export type WorkletMessageType = Readonly<
       type: 'complete';
       lametagFrame: Uint8Array<ArrayBuffer>;
       finalFrame: Uint8Array<ArrayBuffer>;
+      waveform: ReadonlyArray<number>;
+      duration: DurationInSeconds;
     }
   | {
       type: 'peak';

@@ -80,6 +80,8 @@ const UNPROCESSED_ATTACHMENT: Proto.AttachmentPointer.Params = {
   flags: 0,
   fileName: 'fileName',
   thumbnail: null,
+  audioWaveform: null,
+  audioDurationSeconds: null,
 };
 
 const PROCESSED_ATTACHMENT: ProcessedAttachment = {
@@ -100,12 +102,23 @@ const PROCESSED_ATTACHMENT: ProcessedAttachment = {
   width: 128,
   flags: 0,
   fileName: 'fileName',
+  audioWaveform: undefined,
+  duration: undefined,
 };
 
 const IMAGE = { contentType: IMAGE_JPEG };
 const VIDEO = { contentType: VIDEO_MP4 };
 const FILE = { contentType: APPLICATION_OCTET_STREAM };
-const AUDIO = { contentType: AUDIO_MP3 };
+const AUDIO = {
+  contentType: AUDIO_MP3,
+  audioWaveform: new Uint8Array([1, 2, 3]),
+  audioDurationSeconds: 1.25,
+};
+const PROCESSED_AUDIO = {
+  contentType: AUDIO_MP3,
+  audioWaveform: [1, 2, 3],
+  duration: 1.25,
+};
 const LONG_TEXT = { contentType: LONG_MESSAGE };
 const VOICE = {
   contentType: AUDIO_MP3,
@@ -265,7 +278,7 @@ describe('processDataMessage', () => {
         ],
       });
 
-      assert.deepStrictEqual(out.attachments, [processed(AUDIO)]);
+      assert.deepStrictEqual(out.attachments, [processed(PROCESSED_AUDIO)]);
     });
 
     it('keeps only GIF (rendered alone)', () => {

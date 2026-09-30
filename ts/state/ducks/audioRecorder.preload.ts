@@ -188,11 +188,11 @@ export function completeRecording(
       );
     }
 
-    const data = await recorder?.stop();
+    const result = await recorder?.stop();
     recorder = undefined;
 
     try {
-      if (!data) {
+      if (result == null) {
         throw new Error('completeRecording: no data returned');
       }
 
@@ -200,9 +200,11 @@ export function completeRecording(
         pending: false,
         clientUuid: generateUuid(),
         contentType: AUDIO_MPEG,
-        data,
-        size: data.byteLength,
+        data: result.data,
+        size: result.data.byteLength,
         flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
+        audioWaveform: result.waveform,
+        duration: result.duration,
       };
 
       onRecordingComplete(voiceNoteAttachment);

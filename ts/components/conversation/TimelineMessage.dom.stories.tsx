@@ -26,7 +26,7 @@ import {
 } from '../../types/MIME.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { MessageAudio } from './MessageAudio.dom.tsx';
-import { computePeaks } from '../VoiceNotesPlaybackContext.dom.tsx';
+import { computeWaveform } from '../VoiceNotesPlaybackContext.dom.tsx';
 import { pngUrl } from '../../storybook/Fixtures.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
@@ -221,7 +221,7 @@ function MessageAudioContainer({
     <MessageAudio
       {...props}
       active={active}
-      computePeaks={computePeaks}
+      computeWaveform={computeWaveform}
       isPinned={false}
       onPlayMessage={handlePlayMessage}
       played={_played}

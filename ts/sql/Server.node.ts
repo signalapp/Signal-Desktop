@@ -2916,6 +2916,10 @@ function saveMessageAttachment({
         : undefined,
     version: attachment.version,
     pending: convertOptionalBooleanToInteger(attachment.pending),
+    audioWaveform:
+      attachment.audioWaveform == null
+        ? undefined
+        : new Uint8Array(attachment.audioWaveform),
   };
 
   try {

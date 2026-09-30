@@ -12,6 +12,6 @@ export type WaveformCache = LRUCache<
   string,
   {
     duration: number;
-    peaks: ReadonlyArray<PeakType>;
+    waveform: ReadonlyArray<number>;
   }
 >;

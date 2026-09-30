@@ -3,12 +3,19 @@
 
 import { createLogger } from '../logging/log.std.ts';
 import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions.dom.ts';
+import type { DurationInSeconds } from '../util/durations/index.std.ts';
 import type { WorkletMessageType } from '../types/AudioRecorder.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 
 const log = createLogger('audioRecorder');
 
 let contextPromise: Promise<AudioContext> | undefined;
+
+type ResultType = Readonly<{
+  data: Uint8Array<ArrayBuffer>;
+  waveform: ReadonlyArray<number>;
+  duration: DurationInSeconds;
+}>;
 
 async function initContext(): Promise<AudioContext> {
   const context = new AudioContext();
@@ -26,7 +33,7 @@ type State = Readonly<
   | {
       type: 'running';
       source: MediaStreamAudioSourceNode;
-      promise: Promise<Uint8Array<ArrayBuffer>>;
+      promise: Promise<ResultType>;
       worklet: AudioWorkletNode;
     }
 >;
@@ -74,8 +81,7 @@ export class AudioRecorder {
       numberOfOutputs: 0,
     });
 
-    const { promise, resolve } =
-      Promise.withResolvers<Uint8Array<ArrayBuffer>>();
+    const { promise, resolve } = Promise.withResolvers<ResultType>();
     const chunks = new Array<Uint8Array<ArrayBuffer>>();
     worklet.port.onmessage = ({ data }: { data: WorkletMessageType }) => {
       if (data.type === 'chunk') {
@@ -92,7 +98,11 @@ export class AudioRecorder {
         // full audio duration (necessary for VBR encoding).
         result.set(data.lametagFrame);
 
-        resolve(result);
+        resolve({
+          data: result,
+          waveform: data.waveform,
+          duration: data.duration,
+        });
         return;
       }
       if (data.type === 'peak') {
@@ -120,7 +130,7 @@ export class AudioRecorder {
     return true;
   }
 
-  async stop(): Promise<Uint8Array<ArrayBuffer> | undefined> {
+  async stop(): Promise<ResultType | undefined> {
     if (this.#state.type !== 'running') {
       return undefined;
     }

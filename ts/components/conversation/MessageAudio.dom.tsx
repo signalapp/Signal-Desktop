@@ -14,7 +14,7 @@ import type { PushPanelForConversationActionType } from '../../state/ducks/conve
 import { isDownloaded } from '../../util/Attachment.std.ts';
 import type { DirectionType } from './Message.dom.tsx';
 
-import type { ComputePeaksResult } from '../VoiceNotesPlaybackContext.dom.tsx';
+import type { ComputeWaveformResult } from '../VoiceNotesPlaybackContext.dom.tsx';
 import { MessageMetadata } from './MessageMetadata.dom.tsx';
 import { createLogger } from '../../logging/log.std.ts';
 import type { ActiveAudioPlayerStateType } from '../../state/ducks/audioPlayer.preload.ts';
@@ -57,7 +57,7 @@ export type OwnProps = Readonly<{
   cancelAttachmentDownload: () => void;
   kickOffAttachmentDownload: () => void;
   onCorrupted: () => void;
-  computePeaks: (url: string, barCount: number) => Promise<ComputePeaksResult>;
+  computeWaveform: (url: string) => Promise<ComputeWaveformResult>;
   onPlayMessage: (id: string, position: number) => void;
 }>;
 
@@ -184,6 +184,8 @@ export function MessageAudio(props: Props): JSX.Element {
     activeDuration: active?.duration,
     barCount: BAR_COUNT,
     onCorrupted,
+    waveform: attachment.audioWaveform,
+    duration: attachment.duration,
   });
 
   let state: State;

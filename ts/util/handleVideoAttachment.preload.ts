@@ -12,6 +12,7 @@ import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { MemoryStream } from './MemoryStream.node.ts';
 import { fileToBytes } from './fileToBytes.std.ts';
+import { DurationInSeconds } from './/durations/index.std.ts';
 
 const log = createLogger('handleVideoAttachment');
 
@@ -73,7 +74,8 @@ export async function handleVideoAttachment(
         objectUrl,
         contentType: screenshotContentType,
       });
-      attachment.duration = duration;
+      attachment.duration =
+        duration == null ? undefined : DurationInSeconds.fromSeconds(duration);
       attachment.screenshotData = new Uint8Array(
         await blobToArrayBuffer(screenshotBlob)
       );

@@ -777,6 +777,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'copiedFromQuotedAttachment',
   'version',
   'pending',
+  'audioWaveform',
 ] as const satisfies Array<keyof MessageAttachmentDBType>;
 
 export type MessageAttachmentDBType = {
@@ -836,6 +837,7 @@ export type MessageAttachmentDBType = {
   wasTooBig: 1 | 0 | null;
   pending: 1 | 0 | null;
   copiedFromQuotedAttachment: 1 | 0 | null;
+  audioWaveform: Uint8Array<ArrayBuffer> | null;
 };
 
 // Test to make sure that MESSAGE_ATTACHMENT_COLUMNS &

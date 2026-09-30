@@ -8,7 +8,7 @@ import { SmartMessageAudio } from './MessageAudio.preload.tsx';
 
 export type RenderAudioAttachmentProps = Omit<
   MessageAudioProps,
-  'computePeaks'
+  'computeWaveform'
 >;
 
 export function renderAudioAttachment(

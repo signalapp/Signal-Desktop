@@ -1091,6 +1091,7 @@ CREATE TABLE message_attachments (
   receivedAtMs INTEGER,
   isViewOnce INTEGER,
   duration REAL,
+  audioWaveform BLOB,
   PRIMARY KEY (
     messageId,
     editHistoryIndex,

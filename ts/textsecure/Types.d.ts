@@ -133,6 +133,8 @@ export type ProcessedAttachment = {
   downloadPath?: string;
   incrementalMac?: string;
   chunkSize?: number;
+  duration?: number;
+  audioWaveform?: ReadonlyArray<number>;
 };
 
 export type ProcessedGroupV2Context = {

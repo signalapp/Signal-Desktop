@@ -31,6 +31,7 @@ import {
 } from '../../util/Attachment.std.ts';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { SignalService } from '../../protobuf/index.std.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
@@ -441,6 +442,8 @@ describe('backup/attachments', () => {
       const attachment = composeAttachment(1);
       attachment.contentType = AUDIO_MP3;
       attachment.flags = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
+      attachment.duration = DurationInSeconds.fromSeconds(1.25);
+      attachment.audioWaveform = [1, 2, 3];
 
       strictAssert(isVoiceMessage(attachment), 'it is a voice attachment');
       strictAssert(attachment.digest, 'digest exists');
