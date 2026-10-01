@@ -37,8 +37,6 @@ async function updateAction(fullPath) {
     assert(groups != null, 'Expected regexp to fully match');
     const { path, ref, originalRef } = groups;
     assert(path != null, 'Missing path');
-    assert(ref != null, 'Missing ref');
-    assert(originalRef != null, 'Missing originalRef');
 
     // Skip local actions
     if (path.startsWith('.')) {
@@ -49,6 +47,9 @@ async function updateAction(fullPath) {
     if (path.startsWith('signalapp/')) {
       continue;
     }
+
+    assert(ref != null, 'Missing ref');
+    assert(originalRef != null, 'Missing originalRef');
 
     const cacheKey = `${path}@${originalRef}`;
     if (CACHE.has(cacheKey)) {
