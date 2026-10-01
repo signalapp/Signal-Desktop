@@ -386,7 +386,7 @@ export async function tusResumeUpload({
     });
 
     if (uploadOffset === fileSize) {
-      break;
+      return;
     }
 
     const readable = reader(filePath, uploadOffset);
@@ -405,7 +405,11 @@ export async function tusResumeUpload({
     });
 
     if (done) {
-      break;
+      return;
     }
   }
+
+  throw new Error(
+    `tusProtocol: upload incomplete after ${maxRetries} attempts`
+  );
 }
