@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { KeyboardEvent, ReactNode, JSX } from 'react';
+import type { ReactNode, JSX } from 'react';
 import { useCallback } from 'react';
 import type { Placement } from 'react-aria';
 import { Dialog, Popover } from 'react-aria-components';
@@ -33,27 +33,19 @@ export function FunPopover(props: FunPopoverProps): JSX.Element {
     []
   );
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    event.stopPropagation();
-  }, []);
-
   return (
     <Tooltip.Provider>
-      {/* Prevents keyboard events from bubbling up outside of the popover */}
-      {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div onKeyDown={handleKeyDown}>
-        <Popover
-          data-fun-overlay
-          className={classNames('FunPopover', {
-            'light-theme': props.theme === ThemeType.light,
-            'dark-theme': props.theme === ThemeType.dark,
-          })}
-          placement={props.placement}
-          shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
-        >
-          <Dialog className="FunPopover__Dialog">{props.children}</Dialog>
-        </Popover>
-      </div>
+      <Popover
+        data-fun-overlay
+        className={classNames('FunPopover', {
+          'light-theme': props.theme === ThemeType.light,
+          'dark-theme': props.theme === ThemeType.dark,
+        })}
+        placement={props.placement}
+        shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
+      >
+        <Dialog className="FunPopover__Dialog">{props.children}</Dialog>
+      </Popover>
     </Tooltip.Provider>
   );
 }

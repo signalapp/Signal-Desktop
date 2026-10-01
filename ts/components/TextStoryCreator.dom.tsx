@@ -1,10 +1,18 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  type JSX,
+} from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
 import { usePopper } from 'react-popper';
 import { FocusScope } from 'react-aria';
+import { tinykeys } from 'tinykeys';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import { ThemeType, type LocalizerType } from '../types/Util.std.ts';
 import type { TextAttachmentType } from '../types/Attachment.std.ts';
@@ -262,39 +270,31 @@ export function TextStoryCreator({
     }
   );
 
+  const onEscapeShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (isColorPickerShowing || isEditingText || isLinkPreviewInputShowing) {
+      setIsColorPickerShowing(false);
+      setIsEditingText(false);
+      setIsLinkPreviewInputShowing(false);
+    } else {
+      onTryClose();
+    }
+  });
+
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        if (
-          isColorPickerShowing ||
-          isEditingText ||
-          isLinkPreviewInputShowing
-        ) {
-          setIsColorPickerShowing(false);
-          setIsEditingText(false);
-          setIsLinkPreviewInputShowing(false);
-        } else {
-          onTryClose();
-        }
-        event.preventDefault();
-        event.stopPropagation();
+    return tinykeys(
+      document,
+      {
+        Escape: onEscapeShortcut,
+      },
+      {
+        capture: true,
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
       }
-    };
-
-    const useCapture = true;
-    document.addEventListener('keydown', handleEscape, useCapture);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape, useCapture);
-    };
-  }, [
-    isColorPickerShowing,
-    isEditingText,
-    isLinkPreviewInputShowing,
-    // oxlint-disable-next-line react/exhaustive-effect-dependencies
-    colorPickerPopperButtonRef,
-    onTryClose,
-  ]);
+    );
+  }, []);
 
   useEffect(() => {
     if (!isColorPickerShowing) {

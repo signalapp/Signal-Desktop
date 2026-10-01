@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { Dialog } from 'radix-ui';
 import type { ReactNode, JSX } from 'react';
-import { memo, useCallback, useEffect } from 'react';
+import { memo, useCallback, useEffect, useEffectEvent } from 'react';
 import { type Placement, VisuallyHidden } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
-import { createKeybindingsHandler } from 'tinykeys';
+import { tinykeys } from 'tinykeys';
 import { FunPickerTabKey } from './constants.dom.tsx';
 import { FunPopover } from './base/FunPopover.dom.tsx';
 import {
@@ -56,7 +56,7 @@ export const FunPicker = memo(function FunPicker(
     i18n,
     isStickerReplySendEnabled,
     stagedStickerReply,
-    onOpenChange: onFunOpenChange,
+    onAnyOpenChange,
     onSelectSticker: onFunSelectSticker,
     onChangeTab,
     onStageStickerReply,
@@ -67,9 +67,9 @@ export const FunPicker = memo(function FunPicker(
   const handleOpenChange = useCallback(
     (open: boolean) => {
       onOpenChange(open);
-      onFunOpenChange(open);
+      onAnyOpenChange(open);
     },
-    [onOpenChange, onFunOpenChange]
+    [onOpenChange, onAnyOpenChange]
   );
 
   const handleClose = useCallback(() => {
@@ -88,26 +88,41 @@ export const FunPicker = memo(function FunPicker(
     handleClose();
   }, [stagedStickerReply, handleClose, onFunSelectSticker, onSelectSticker]);
 
+  const onSelectEmojisTabShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onChangeTab(FunPickerTabKey.EmojisTab);
+    handleOpenChange(true);
+  });
+
+  const onSelectStickersTabShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onChangeTab(FunPickerTabKey.StickersTab);
+    handleOpenChange(true);
+  });
+
+  const onSelectGifsTabShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onChangeTab(FunPickerTabKey.GifsTab);
+    handleOpenChange(true);
+  });
+
   useEffect(() => {
-    const onKeyDown = createKeybindingsHandler({
-      '$mod+Shift+J': () => {
-        onChangeTab(FunPickerTabKey.EmojisTab);
-        handleOpenChange(true);
+    return tinykeys(
+      window,
+      {
+        '$mod+Shift+J': onSelectEmojisTabShortcut,
+        '$mod+Shift+O': onSelectStickersTabShortcut,
+        '$mod+Shift+G': onSelectGifsTabShortcut,
       },
-      '$mod+Shift+O': () => {
-        onChangeTab(FunPickerTabKey.StickersTab);
-        handleOpenChange(true);
-      },
-      '$mod+Shift+G': () => {
-        onChangeTab(FunPickerTabKey.GifsTab);
-        handleOpenChange(true);
-      },
-    });
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [handleOpenChange, onChangeTab]);
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
+  }, []);
 
   return (
     <DialogTrigger isOpen={props.open} onOpenChange={handleOpenChange}>

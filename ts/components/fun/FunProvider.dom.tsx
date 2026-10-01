@@ -58,7 +58,8 @@ export type FunContextSmartProps = Readonly<{
 export type FunContextProps = FunContextSmartProps &
   Readonly<{
     // Open state
-    onOpenChange: (open: boolean) => void;
+    isAnyOpen: boolean;
+    onAnyOpenChange: (open: boolean) => void;
 
     // Current Tab
     tab: FunPickerTabKey;
@@ -83,6 +84,11 @@ export function useFunContext(): FunContextProps {
   return fun;
 }
 
+export function useFunContextIsAnyOpen(): boolean {
+  const fun = useFunContext();
+  return fun.isAnyOpen;
+}
+
 type FunProviderInnerProps = FunContextProps & {
   children: ReactNode;
 };
@@ -102,40 +108,24 @@ export type FunProviderProps = FunContextSmartProps & {
 export const FunProvider = memo(function FunProvider(
   props: FunProviderProps
 ): JSX.Element {
+  // Open state
+  const [isAnyOpen, setIsAnyOpen] = useState(false);
+
   // Current Tab
   const [tab, setTab] = useState<FunPickerTabKey>(FunPickerTabKey.EmojisTab);
-  const handleChangeTab = useCallback((key: FunPickerTabKey) => {
-    setTab(key);
-  }, []);
 
   // Search Input
   const [storedSearchInput, setStoredSearchInput] = useState<string>('');
-  const handleStoredSearchInputChange = useCallback(
-    (newSearchInput: string) => {
-      setStoredSearchInput(newSearchInput);
-    },
-    []
-  );
 
   // Sticker reply
   const [stagedStickerReply, setStagedStickerReply] =
     useState<FunStickerSelection | null>(null);
-  const handleStageStickerReply = useCallback(
-    (selection: FunStickerSelection | null) => {
-      setStagedStickerReply(selection);
-    },
-    []
-  );
 
   const [shouldAutoFocus, setShouldAutoFocus] = useState(true);
-  const handleChangeShouldAutofocus = useCallback(
-    (nextShouldAutoFocus: boolean) => {
-      setShouldAutoFocus(nextShouldAutoFocus);
-    },
-    []
-  );
 
-  const handleOpenChange = useCallback((open: boolean) => {
+  // Callbacks
+  const handleAnyOpenChange = useCallback((open: boolean) => {
+    setIsAnyOpen(open);
     if (open) {
       return;
     }
@@ -143,11 +133,37 @@ export const FunProvider = memo(function FunProvider(
     setShouldAutoFocus(true);
   }, []);
 
+  const handleChangeTab = useCallback((key: FunPickerTabKey) => {
+    setTab(key);
+  }, []);
+
+  const handleStoredSearchInputChange = useCallback(
+    (newSearchInput: string) => {
+      setStoredSearchInput(newSearchInput);
+    },
+    []
+  );
+
+  const handleStageStickerReply = useCallback(
+    (selection: FunStickerSelection | null) => {
+      setStagedStickerReply(selection);
+    },
+    []
+  );
+
+  const handleChangeShouldAutofocus = useCallback(
+    (nextShouldAutoFocus: boolean) => {
+      setShouldAutoFocus(nextShouldAutoFocus);
+    },
+    []
+  );
+
   return (
     <FunProviderInner
       i18n={props.i18n}
       // Open state
-      onOpenChange={handleOpenChange}
+      isAnyOpen={isAnyOpen}
+      onAnyOpenChange={handleAnyOpenChange}
       // Current Tab
       tab={tab}
       onChangeTab={handleChangeTab}

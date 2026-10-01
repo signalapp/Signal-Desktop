@@ -18,7 +18,6 @@ import type {
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.tsx';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper.dom.tsx';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper.dom.tsx';
-import { KeyboardLayout } from '../../services/keyboardLayout.dom.ts';
 
 const { last } = lodash;
 
@@ -242,12 +241,11 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
       return;
     }
 
-    const { ctrlKey, metaKey, shiftKey } = event;
+    const { key, ctrlKey, metaKey, shiftKey } = event;
     const commandKey = window.platform === 'darwin' && metaKey;
     const controlKey = window.platform !== 'darwin' && ctrlKey;
     const commandOrCtrl = commandKey || controlKey;
     const commandAndCtrl = commandKey && ctrlKey;
-    const key = KeyboardLayout.lookup(event);
 
     if (
       commandOrCtrl &&

@@ -3248,6 +3248,13 @@ export class Message extends PureComponent<Props, State> {
       return;
     }
 
+    if (
+      event.target instanceof Element &&
+      !event.currentTarget.contains(event.target)
+    ) {
+      return;
+    }
+
     this.#handleOpen(event);
   };
 

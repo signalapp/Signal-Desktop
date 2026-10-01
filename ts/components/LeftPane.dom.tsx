@@ -9,9 +9,9 @@ import {
   useState,
   Fragment,
   type JSX,
+  useEffectEvent,
 } from 'react';
 import classNames from 'classnames';
-import lodash from 'lodash';
 
 import type { ToFindType } from './leftPane/LeftPaneHelper.dom.tsx';
 import { FindDirection } from './leftPane/LeftPaneHelper.dom.tsx';
@@ -40,7 +40,6 @@ import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import type { DurationInSeconds } from '../util/durations/index.std.ts';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.ts';
-import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.ts';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.tsx';
@@ -76,8 +75,9 @@ import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import type { ChatFolder } from '../types/ChatFolder.std.ts';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
-
-const { isNumber } = lodash;
+import { strictAssert } from '../util/assert.std.ts';
+import { createKeybindingsHandler, tinykeys } from 'tinykeys';
+import { useHasAnyOverlay } from '../hooks/useKeyboardShortcuts.dom.tsx';
 
 export type PropsType = {
   backupMediaDownloadProgress: {
@@ -134,7 +134,6 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   getServerAlertToShow: (alerts: ServerAlertsType) => ServerAlert | null;
   i18n: LocalizerType;
-  isMacOS: boolean;
   isMAS: boolean;
   isNotificationProfileActive: boolean;
   preferredWidthFromStorage: number;
@@ -253,7 +252,6 @@ export function LeftPane({
   hasUpdateDialog,
   i18n,
   lookupConversationWithoutServiceId,
-  isMacOS,
   isMAS,
   isNotificationProfileActive,
   isOnline,
@@ -323,6 +321,8 @@ export function LeftPane({
     modeSpecificProps,
     modeSpecificProps
   );
+
+  const hasOverlay = useHasAnyOverlay();
 
   const [shouldRecomputeRowHeights, setShouldRecomputeRowHeights] =
     useState(false);
@@ -471,118 +471,159 @@ export function LeftPane({
       throw missingCaseError(modeSpecificProps);
   }
 
+  const onEscapeShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (hasOverlay) {
+      return;
+    }
+
+    const backAction = helper.getBackAction({
+      showInbox,
+      startComposing,
+      showChooseGroupMembers,
+    });
+
+    if (backAction) {
+      event.preventDefault();
+      event.stopPropagation();
+      backAction();
+    }
+  });
+
   useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
+    return tinykeys(
+      document,
+      {
+        Escape: onEscapeShortcut,
+      },
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
+  }, []);
+
+  const onStartComposingShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    startComposing();
+  });
+
+  function handleSelectChatShortcut(
+    event: KeyboardEvent,
+    target: { conversationId: string; messageId?: string } | undefined,
+    options: { clearSearch: boolean }
+  ) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (target != null) {
+      if (options.clearSearch) {
+        clearSearchQuery();
+      }
+      showConversation(target);
+    }
+  }
+
+  function handleSelectChatInDirectionShortcut(
+    event: KeyboardEvent,
+    toFind: ToFindType
+  ) {
+    const target = helper.getConversationAndMessageInDirection(
+      toFind,
+      selectedConversationId,
+      targetedMessageId
+    );
+    handleSelectChatShortcut(event, target, { clearSearch: false });
+  }
+
+  const onSelectChatNumberShortcut = useEffectEvent((event: KeyboardEvent) => {
+    const number = Number(event.key);
+    strictAssert(Number.isInteger(number), `${event.key} is not an integer`);
+    const index = number - 1; // 1-9 becomes 0-8
+    strictAssert(index >= 0 && index <= 8, `Index ${index} is out of range`);
+    const target = helper.getConversationAndMessageAtIndex(index);
+    handleSelectChatShortcut(event, target, { clearSearch: true });
+  });
+
+  const onSelectPrevChatShortcut = useEffectEvent((event: KeyboardEvent) => {
+    handleSelectChatInDirectionShortcut(event, {
+      direction: FindDirection.Up,
+      unreadOnly: false,
+    });
+  });
+
+  const onSelectNextChatShortcut = useEffectEvent((event: KeyboardEvent) => {
+    handleSelectChatInDirectionShortcut(event, {
+      direction: FindDirection.Down,
+      unreadOnly: false,
+    });
+  });
+
+  const onSelectPrevUnreadChatShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      handleSelectChatInDirectionShortcut(event, {
+        direction: FindDirection.Up,
+        unreadOnly: true,
+      });
+    }
+  );
+
+  const onSelectNextUnreadChatShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      handleSelectChatInDirectionShortcut(event, {
+        direction: FindDirection.Down,
+        unreadOnly: true,
+      });
+    }
+  );
+
+  const onHelperKeydown = useEffectEvent((event: KeyboardEvent) => {
+    helper.onKeyDown(event, {
+      searchInConversation,
+      selectedConversationId,
+      startSearch,
+    });
+  });
+
+  useEffect(() => {
+    const handler = createKeybindingsHandler(
+      {
+        '$mod+N': onStartComposingShortcut,
+        '$mod+([1-9])': onSelectChatNumberShortcut,
+        'Alt+ArrowUp': onSelectPrevChatShortcut,
+        'Alt+ArrowDown': onSelectNextChatShortcut,
+        'Alt+Shift+ArrowUp': onSelectPrevUnreadChatShortcut,
+        'Alt+Shift+ArrowDown': onSelectNextUnreadChatShortcut,
+        '$mod+Shift+[': onSelectPrevChatShortcut,
+        '$mod+Shift+]': onSelectNextChatShortcut,
+        'Control+Shift+Tab': onSelectPrevChatShortcut,
+        'Control+Tab': onSelectNextChatShortcut,
+      },
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
+
+    function onKeydown(event: KeyboardEvent) {
       // Check if media editor is visible and if so, do not handle the keydown event.
       if (document.querySelector('.MediaEditor')?.checkVisibility()) {
         return;
       }
 
-      const { ctrlKey, shiftKey, altKey, metaKey } = event;
-      const commandOrCtrl = isMacOS ? metaKey : ctrlKey;
-      const key = KeyboardLayout.lookup(event);
-
-      if (key === 'Escape') {
-        const backAction = helper.getBackAction({
-          showInbox,
-          startComposing,
-          showChooseGroupMembers,
-        });
-        if (backAction) {
-          event.preventDefault();
-          event.stopPropagation();
-          backAction();
-          return;
-        }
-      }
-
-      if (
-        commandOrCtrl &&
-        !shiftKey &&
-        !altKey &&
-        (key === 'n' || key === 'N')
-      ) {
-        startComposing();
-
-        event.preventDefault();
-        event.stopPropagation();
+      // Check if any overlay is open and if so, do not handle the keydown event.
+      if (hasOverlay) {
         return;
       }
 
-      let conversationToOpen:
-        | undefined
-        | {
-            conversationId: string;
-            messageId?: string;
-          };
+      handler(event);
+      onHelperKeydown(event);
+    }
 
-      const numericIndex = keyboardKeyToNumericIndex(event.key);
-      const openedByNumber = commandOrCtrl && isNumber(numericIndex);
-      if (openedByNumber) {
-        conversationToOpen =
-          helper.getConversationAndMessageAtIndex(numericIndex);
-      } else {
-        let toFind: undefined | ToFindType;
-        if (
-          (altKey && !shiftKey && key === 'ArrowUp') ||
-          (commandOrCtrl && shiftKey && key === '[') ||
-          (ctrlKey && shiftKey && key === 'Tab')
-        ) {
-          toFind = { direction: FindDirection.Up, unreadOnly: false };
-        } else if (
-          (altKey && !shiftKey && key === 'ArrowDown') ||
-          (commandOrCtrl && shiftKey && key === ']') ||
-          (ctrlKey && key === 'Tab')
-        ) {
-          toFind = { direction: FindDirection.Down, unreadOnly: false };
-        } else if (altKey && shiftKey && key === 'ArrowUp') {
-          toFind = { direction: FindDirection.Up, unreadOnly: true };
-        } else if (altKey && shiftKey && key === 'ArrowDown') {
-          toFind = { direction: FindDirection.Down, unreadOnly: true };
-        }
-        if (toFind) {
-          conversationToOpen = helper.getConversationAndMessageInDirection(
-            toFind,
-            selectedConversationId,
-            targetedMessageId
-          );
-        }
-      }
-
-      if (conversationToOpen) {
-        const { conversationId, messageId } = conversationToOpen;
-        showConversation({ conversationId, messageId });
-        if (openedByNumber) {
-          clearSearchQuery();
-        }
-        event.preventDefault();
-        event.stopPropagation();
-      }
-
-      helper.onKeyDown(event, {
-        searchInConversation,
-        selectedConversationId,
-        startSearch,
-      });
-    };
-
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keydown', onKeydown);
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('keydown', onKeydown);
     };
-  }, [
-    clearSearchQuery,
-    helper,
-    isMacOS,
-    searchInConversation,
-    selectedConversationId,
-    targetedMessageId,
-    showChooseGroupMembers,
-    showConversation,
-    showInbox,
-    startComposing,
-    startSearch,
-  ]);
+  }, [hasOverlay]);
 
   const isEmpty = helper.getRowCount() === 0;
 
@@ -1048,13 +1089,4 @@ export function LeftPane({
       </nav>
     </NavSidebar>
   );
-}
-
-function keyboardKeyToNumericIndex(key: string): undefined | number {
-  if (key.length !== 1) {
-    return undefined;
-  }
-  const result = parseInt(key, 10) - 1;
-  const isValidIndex = Number.isInteger(result) && result >= 0 && result <= 8;
-  return isValidIndex ? result : undefined;
 }

@@ -125,8 +125,8 @@ peerDependencyRules:
     'react-intl@10.1.0>typescript': '6.0.2'
     '@storybook/react@8.4.4>@storybook/test': '8.6.15'
     'stylelint-use-logical-spec@5.0.1>stylelint': '17.11.1'
-    'react-popper@2.3.0>react': '18.3.1'
-    'react-popper@2.3.0>react-dom': '18.3.1'
+    'react-popper@2.3.0>react': '19.3.0'
+    'react-popper@2.3.0>react-dom': '19.3.0'
 
 allowedDeprecatedVersions:
   '@humanwhocodes/config-array': '0.11.14'

@@ -7,6 +7,7 @@ import {
   useEffect,
   type HTMLProps,
   forwardRef,
+  useEffectEvent,
 } from 'react';
 import { Button } from 'react-aria-components';
 import { useDelayedRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
@@ -19,6 +20,7 @@ import {
 import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.tsx';
 import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.tsx';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import { tinykeys } from 'tinykeys';
 
 export type OwnProps = {
   i18n: LocalizerType;
@@ -48,20 +50,25 @@ export const ReactionPicker = forwardRef<HTMLDivElement, Props>(
   ) {
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-    // Handle escape key
+    const onEscapeShortcut = useEffectEvent((event: KeyboardEvent) => {
+      if (onClose == null) {
+        return;
+      }
+
+      if (emojiPickerOpen) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      onClose();
+    });
+
     useEffect(() => {
-      const handler = (e: KeyboardEvent) => {
-        if (onClose && e.key === 'Escape' && !emojiPickerOpen) {
-          onClose();
-        }
-      };
-
-      document.addEventListener('keydown', handler);
-
-      return () => {
-        document.removeEventListener('keydown', handler);
-      };
-    }, [onClose, emojiPickerOpen]);
+      return tinykeys(document, {
+        Escape: onEscapeShortcut,
+      });
+    }, []);
 
     const handleFunEmojiPickerOpenChange = useCallback((open: boolean) => {
       setEmojiPickerOpen(open);

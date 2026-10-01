@@ -68,7 +68,6 @@ import { tw } from '../axo/tw.dom.tsx';
 import type { FunTimeStickerStyle } from './fun/constants.dom.tsx';
 import * as Errors from '../types/errors.std.ts';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
-import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 
 const { get, has, noop } = lodash;
 
@@ -542,15 +541,12 @@ export function MediaEditor({
       }
     );
 
-    const KeyD = KeyboardLayout.get('KeyD') ?? 'D';
-    const KeyT = KeyboardLayout.get('KeyT') ?? 'T';
-
     // Allow these shortcuts to fire even when the editor has focus
     const cleanupWindowOrEditorShortcuts = tinykeys(
       window,
       {
-        [`$mod+${KeyD}`]: onDraw,
-        [`$mod+${KeyT}`]: onText,
+        '$mod+D': onDraw,
+        '$mod+T': onText,
       },
       {
         // Override default ignore behavior so this fires in textfields too
@@ -558,16 +554,13 @@ export function MediaEditor({
       }
     );
 
-    const KeyC = KeyboardLayout.get('KeyC') ?? 'C';
-    const KeyZ = KeyboardLayout.get('KeyZ') ?? 'Z';
-
     // Don't allow these shortcuts to run in editors because they conflict with
     // editor-specific shortcuts or require focus on objects
     const cleanupWindowNonEditorShortcuts = tinykeys(window, {
       // global shortcuts
-      [`$mod+${KeyC}`]: onCrop,
-      [`$mod+${KeyZ}`]: onUndo,
-      [`$mod+Shift+${KeyZ}`]: onRedo,
+      '$mod+C': onCrop,
+      '$mod+Z': onUndo,
+      '$mod+Shift+Z': onRedo,
       // object shortcuts
       Backspace: onDelete,
       Delete: onDelete,

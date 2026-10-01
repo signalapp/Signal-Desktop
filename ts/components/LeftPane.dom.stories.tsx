@@ -188,7 +188,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     hasFailedStorySends: false,
     hasPendingUpdate: false,
     i18n,
-    isMacOS: false,
     isMAS: false,
     isOnline: true,
     preferredWidthFromStorage: 320,
