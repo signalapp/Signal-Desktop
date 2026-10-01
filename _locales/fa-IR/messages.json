@@ -81,7 +81,7 @@
     "messageformat": "تنظیمات حساب و پشتیبان‌گیری فقط در دستگاه اصلی‌تان قابل مدیریت هستند."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "تنظیمات حساب و «پشتیبان‌گیری امن سیگنال» فقط در دستگاه اصلی‌تان قابل مدیریت هستند."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "استاندارد"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "رنگ پوست ایموجی"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "پوشه‌های گفتگو"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "افزودن پوشه گفتگو"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} پوشه} other {{chatFoldersCount,number} پوشه}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "راه‌اندازی"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "مدیریت"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ویرایش پوشه"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "بی‌صدا نیست"
   },
-  "icu:muteHour": {
-    "messageformat": "بی‌صدا برای یک ساعت"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "بی‌صدا برای هشت ساعت"
-  },
-  "icu:muteDay": {
-    "messageformat": "بی‌صدا برای یک روز"
-  },
-  "icu:muteWeek": {
-    "messageformat": "بی‌صدا برای یک هفته"
-  },
-  "icu:muteAlways": {
-    "messageformat": "همیشه بی‌صدا"
-  },
   "icu:unmute": {
     "messageformat": "صدادار کردن"
   },
   "icu:MuteMenu__label": {
     "messageformat": "بی‌صدا کردن این گفتگو به‌مدت…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "بی‌صدا کردن این گفتگوها به مدت…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "۱ ساعت"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "تنظیمات گفتگو"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "این گفتگو صدادار شود؟"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "پیوند گروه"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "وقتی کسی در گفتگوهای بی‌صداشده به پیام شما پاسخ می‌دهد، اعلان دریافت شود."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "یادآورهای خوانده‌نشده"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "وقتی این گفتگو بی‌صدا است، در صورت وجود پیام‌های خوانده‌نشده، هرازگاهی اعلان دریافت شود."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "وقتی پیام‌های خوانده‌نشده در گفتگوهای بی‌صداشده وجود دارد، هرازگاهی اعلان دریافت می‌شود."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {‏{messageCount,number} پیام خوانده‌نشده از {person1} دارید.} other {‏{messageCount,number} پیام خوانده‌نشده از {person1} دارید.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {‏{messageCount,number} پیام خوانده‌نشده از {person1} و {person2} دارید.} other {‏{messageCount,number} پیام خوانده‌نشده از {person1} و {person2} دارید.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {‏{messageCount,number} پیام خوانده‌نشده از {person1}، {person2} و دیگران دارید.} other {‏{messageCount,number} پیام خوانده‌نشده از {person1}، {person2} و دیگران دارید.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {‏{messageCount,number} پیام خوانده‌نشده، از‌جمله {mentionSummary}، دارید.} other {شما {messageCount,number} پیام خوانده‌نشده، از‌جمله {mentionSummary}، دارید.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {شما {messageCount,number} پیام خوانده‌نشده، از‌جمله {replySummary}، دارید.} other {شما {messageCount,number} پیام خوانده‌نشده، از‌جمله {replySummary}، دارید.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {‏{messageCount,number} پیام خوانده‌نشده دارید.} other {‏{messageCount,number} پیام خوانده‌نشده دارید.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {یک اشاره به شما توسط {person1}} other {‏{mentionCount,number} اشاره به شما توسط {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} اشاره به شما توسط {person1} و {person2}} other {{mentionCount,number} اشاره به شما توسط {person1} و {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} اشاره به شما توسط {person1} و دیگران} other {{mentionCount,number} اشاره به شما توسط {person1} و دیگران}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {یک پاسخ از {person1}} other {‏{replyCount,number} پاسخ از {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} پاسخ از طرف {person1} و {person2}} other {{replyCount,number} پاسخ از طرف {person1} و {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} پاسخ از طرف {person1} و دیگران} other {{replyCount,number} پاسخ از طرف {person1} و دیگران}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "اشاره‌ها"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "تغییر"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "یک پین جدید ایجاد کنید"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "ایجاد"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "پین سیگنال"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "تنظیمات پیشرفتهٔ پین"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "غیرفعال کردن پین"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "غیرفعال کردن"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "اگر پین را غیرفعال کنید، هنگامی که دوباره در سیگنال ثبت‌نام می‌کنید، تمامی داده‌ها را از دست خواهید داد، مگر اینکه به صورت دستی پشتیبان‌گیری و بازیابی کنید. هنگامی که پین غیرفعال است نمی‌توانید قفل ثبت‌نام را روشن کنید."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "قبل از غیرفعال کردن پین خود، باید قفل ثبت‌نام را غیرفعال کنید."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "باشه"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "قبل از غیرفعال کردن پین خود، باید «نسخه‌های پشتیبان» را غیرفعال کنید."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "فعال کردن پین"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "فعال‌سازی"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "یاد‌آورهای پین"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "به مرور زمان از شما کمتر پرسیده خواهد شد"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "قفل ثبت‌نام"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "درخواست پین سیگنال شما برای ثبت‌نام دوباره با شماره تلفن شما در سیگنال."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "محتوای اعلان"
@@ -6305,7 +6323,7 @@
     "messageformat": "نشان برنامه"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "نشان‌های خوانده‌نشده"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "تنظیمات اعلان را به حالت پیش‌فرض بازنشانی کنید، از‌جمله تنظیمات سفارشی برای گفتگوها."
@@ -6332,10 +6350,10 @@
     "messageformat": "گفتگوهای خوانده‌نشده"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "گفتگوهای بی‌صداشده در نشان برنامه لحاظ می‌شوند"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "نشان‌های پوشه گفتگو همیشه شامل گفتگوهای بی‌صداشده خواهند بود"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "صدور تاریخچه گفتگو"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "پروفایل‌های اعلان"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "راه‌اندازی"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "پروفایل‌های اعلان"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "افزودن یا ویرایش پروفایل‎های اعلان"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {یک پروفایل} other {{profileCount,number} پروفایل}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "ایجاد پروفایل"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "انتخاب کنید که چه‌کسی بتواند شماره تلفن شما را ببیند و از طریق شماره تلفن‌تان در سیگنال با شما تماس بگیرد."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "تغییر…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "چه‌کسی می‌تواند شماره من را ببیند"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "رسیدهای خوانده شدن"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "اگر غیرفعال باشد، رسیدهای خوانده شدن را از دیگران نخواهید دید."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "نشانگرهای نوشتن"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "اگر غیرفعال باشد، نشانگرهای تایپ را از دیگران نخواهید دید."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "هنگامی که پیام‌ها در حال خوانده شدن یا تایپ شدن هستند، ببینید و به اشتراک بگذارید. در صورت غیرفعال بودن، شما رسیدهای خوانده شدن یا نشانگرهای تایپ دیگران را نخواهید دید."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "لطفاً بعد از {duration} دوباره تلاش کنید"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "شماره تلفن"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "«سیگنال» را روشن کنید"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "رفتن به تنظیمات"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "منوی زمینه"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "نام کاربری"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "نام کاربری"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "نام کاربری همیشه با مجموعه‌ای از اعداد همراه است."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "بیشتر بدانید"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "پین سیگنال خود را تغییر دهید"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "تا زمانی که این دستگاه ثبت شده باشد شما می‌توانید پین خود را تغییر دهید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "پین سیگنال خود را تأیید کنید"
@@ -9090,13 +9114,16 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "دو سطح بزرگ‌نمایی جدید در تنظیمات نمای ظاهری (‎%۱۱۰ و ‎%۹۰) اضافه کردیم."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "بهبودهایی در جستجوی اعضای گروه اعمال کرده‌ایم."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "تنظیمات اعلان‌ها بهبود یافته و گزینه‌های بیشتری برای نحوه و زمان نمایش اعلان‌ها ارائه شده است."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

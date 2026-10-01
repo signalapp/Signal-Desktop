@@ -81,7 +81,7 @@
     "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಬಹುದು."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಬಹುದು."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ಪ್ರಮಾಣಿತ"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ಎಮೋಜಿ ಸ್ಕಿನ್ ಟೋನ್"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಗಳು"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಸೇರಿಸಲಾಗಿದೆ"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} ಫೋಲ್ಡರ್} other {{chatFoldersCount,number} ಫೋಲ್ಡರ್ ಗಳು}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "ಸೆಟ್ ಅಪ್"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "ನಿರ್ವಹಿಸಿ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ಫೋಲ್ಡರ್ ಗಳನ್ನು ಎಡಿಟ್ ಮಾಡಿ"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿಲ್ಲ"
   },
-  "icu:muteHour": {
-    "messageformat": "ಒಂದು ಗಂಟೆ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "ಎಂಟು ಗಂಟೆಗಳ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ"
-  },
-  "icu:muteDay": {
-    "messageformat": "ಒಂದು ದಿನದ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ"
-  },
-  "icu:muteWeek": {
-    "messageformat": "ಒಂದು ವಾರ ಕಾಲ ಮ್ಯೂಟ್ ಮಾಡಿ"
-  },
-  "icu:muteAlways": {
-    "messageformat": "ಯಾವಾಗಲೂ ಮ್ಯೂಟ್ ಮಾಡಿ"
-  },
   "icu:unmute": {
     "messageformat": "ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:MuteMenu__label": {
     "messageformat": "ಈ ಅವಧಿಗಾಗಿ ಈ ಚಾಟ್ ಅನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "ಈ ಅವಧಿಗಾಗಿ ಈ ಚಾಟ್‌ಗಳನ್ನು ಮ್ಯೂಟ್ ಮಾಡಿ…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 ಗಂಟೆ"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "ಚಾಟ್‌‌ ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "ಈ ಚಾಟ್ ಅನ್ನು ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಬೇಕೇ?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ಗುಂಪಿನ ಲಿಂಕ್"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿರುವ ಚಾಟ್‌ಗಳಲ್ಲಿ ಯಾರಾದರೂ ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗೆ ಉತ್ತರಿಸಿದರೆ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "ಓದದಿರುವ ರಿಮೈಂಡರ್‌ಗಳು"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "ಈ ಚಾಟ್ ಮ್ಯೂಟ್‌ನಲ್ಲಿದ್ದಾಗ ಓದದ ಮೆಸೇಜ್‍‌ಗಳಿದ್ದರೆ, ಆಗಾಗ್ಗೆ ತಿಳಿಸಿ."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಲಾದ ಚಾಟ್‌ಗಳಲ್ಲಿ ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳಿದ್ದಾಗ ಆಗಾಗ ಸೂಚನೆ ನೀಡಿ."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} ಅವರಿಂದ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {{person1} ಅವರಿಂದ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {ನೀವು {person1} ಮತ್ತು {person2} ಅವರಿಂದ {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {ನೀವು {person1} ಮತ್ತು {person2} ಅವರಿಂದ {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {ನೀವು {person1}, {person2} ಮತ್ತು ಇತರರಿಂದ {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {ನೀವು {person1}, {person2} ಮತ್ತು ಇತರರಿಂದ {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {{mentionSummary} ಸೇರಿದಂತೆ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {{mentionSummary} ಸೇರಿದಂತೆ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {{replySummary} ಸೇರಿದಂತೆ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {{replySummary} ಸೇರಿದಂತೆ ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್ ಹೊಂದಿದ್ದೀರಿ.} other {ನೀವು {messageCount,number} ಓದದಿರುವ ಮೆಸೇಜ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} ಅವರಿಂದ ನಿಮ್ಮ ಉಲ್ಲೇಖ} other {{person1} ಅವರಿಂದ ನಿಮ್ಮ {mentionCount,number} ಉಲ್ಲೇಖಗಳು}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} ಮತ್ತು {person2} ಅವರಿಂದ ನಿಮ್ಮ {mentionCount,number} ಉಲ್ಲೇಖ} other {{person1} ಮತ್ತು {person2} ಅವರಿಂದ ನಿಮ್ಮ {mentionCount,number} ಉಲ್ಲೇಖಗಳು}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1} ಮತ್ತು ಇತರರಿಂದ ನಿಮ್ಮ {mentionCount,number} ಉಲ್ಲೇಖ} other {{person1} ಮತ್ತು ಇತರರಿಂದ ನಿಮ್ಮ {mentionCount,number} ಉಲ್ಲೇಖಗಳು}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {{person1} ಅವರಿಂದ ಉತ್ತರ} other {{person1} ಅವರಿಂದ {replyCount,number} ಉತ್ತರಗಳು}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{person1} ಮತ್ತು {person2} ಅವರಿಂದ {replyCount,number} ಉತ್ತರ} other {{person1} ಮತ್ತು {person2} ಅವರಿಂದ {replyCount,number} ಉತ್ತರಗಳು}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{person1} ಮತ್ತು ಇತರರಿಂದ {replyCount,number} ಉತ್ತರ} other {{person1} ಮತ್ತು ಇತರರಿಂದ {replyCount,number} ಉತ್ತರಗಳು}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ಉಲ್ಲೇಖಗಳು"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "ಬದಲಾಯಿಸಿ"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "ಒಂದು ಪಿನ್ ರಚಿಸಿ"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "ರಚಿಸಿ"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal ಪಿನ್"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "ಸುಧಾರಿತ ಪಿನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "ಪಿನ್ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "ನೀವು ಪಿನ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ನೀವು Signal ಅನ್ನು ಮರುನೋಂದಾಯಿಸುವಾಗ ಮ್ಯಾನ್ಯುಅಲ್ ಆಗಿ ಎಲ್ಲಾ ಡೇಟಾ ಬ್ಯಾಕಪ್ ಮತ್ತು ರಿಸ್ಟೋರ್ ಮಾಡದಿದ್ದರೆ, ನೀವು ಅದನ್ನು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ. ಪಿನ್ ನಿಷ್ಕ್ರಿಯವಾಗಿರುವಾಗ ನೀವು ನೋಂದಣಿ ಲಾಕ್ ಅನ್ನು ಆನ್ ಮಾಡಲಾಗುವುದಿಲ್ಲ."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "ಸರಿ"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "PIN ಸಕ್ರಿಯಗೊಳಿಸಿ"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "ಸಕ್ರಿಯಗೊಳಿಸಿ"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "ಪಿನ್ ರಿಮೈಂಡರ್‌ಗಳು"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "ಕಾಲಾನಂತರದಲ್ಲಿ ಕಡಿಮೆ ಬಾರಿ ನಿಮ್ಮನ್ನು ಕೇಳಲಾಗುತ್ತದೆ"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "ನೋಂದಣಿ ಲಾಕ್"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ಅಧಿಸೂಚನೆ ವಿಷಯ"
@@ -6305,7 +6323,7 @@
     "messageformat": "ಆ್ಯಪ್ ಬ್ಯಾಡ್ಜ್"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "ಓದದಿರುವ ಬ್ಯಾಡ್ಜ್‌ಗಳು"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "ನಿಮ್ಮ ಚಾಟ್‌ಗಳಿಗಾಗಿನ ಕಸ್ಟಮ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಸೇರಿದಂತೆ, ನೋಟಿಫಿಕೇಷನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಡೀಫಾಲ್ಟ್‌ಗೆ ಮರುಹೊಂದಿಸಿ."
@@ -6332,10 +6350,10 @@
     "messageformat": "ಓದದಿರುವ ಚಾಟ್‌ಗಳು"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "ಆ್ಯಪ್ ಬ್ಯಾಡ್ಜ್‌ನಲ್ಲಿ ಮ್ಯೂಟ್ ಮಾಡಲಾದ ಚಾಟ್‌ಗಳನ್ನು ಸೇರಿಸಲಾಗಿದೆ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "ಚಾಟ್ ಫೋಲ್ಡರ್ ಬ್ಯಾಡ್ಜ್‌ಗಳು ಯಾವಾಗಲೂ ಮ್ಯೂಟ್ ಮಾಡಲಾದ ಚಾಟ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿರುತ್ತವೆ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ಚಾಟ್ ಇತಿಹಾಸವನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್‌ಗಳು"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "ಸೆಟ್ ಅಪ್"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "ಅಧಿಸೂಚನೆ ಪ್ರೊಫೈಲ್‌ಗಳು"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "ನೋಟಿಫಿಕೇಷನ್ ಪ್ರೊಫೈಲ್‌ಗಳನ್ನು ಸೇರಿಸಿ ಅಥವಾ ಎಡಿಟ್ ಮಾಡಿ"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {ಒಂದು ಪ್ರೊಫೈಲ್} other {{profileCount,number} ಪ್ರೊಫೈಲ್‌ಗಳು}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "ಪ್ರೊಫೈಲ್ ರಚಿಸಿ"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಯಾರು ನೋಡಬಹುದು ಮತ್ತು ಅದರ ಮೂಲಕ Signal ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಯಾರು ಸಂಪರ್ಕಿಸಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "ಬದಲಿಸಿ..."
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "ನನ್ನ ಸಂಖ್ಯೆಯನ್ನು ಯಾರು ನೋಡಬಹುದು"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ಓದಿರುವ ಸ್ವೀಕೃತಿಗಳು"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದ್ದರೆ, ನಿಮಗೆ ಇತರರಿಂದ ಸ್ವೀಕೃತಿ ಸೂಚನೆಗಳು ಕಾಣಿಸುವುದಿಲ್ಲ."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ಟೈಪಿಂಗ್ ಇಂಡಿಕೇಟರ್ ಗಳು"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದ್ದರೆ, ನಿಮಗೆ ಇತರರಿಂದ ಟೈಪಿಂಗ್ ಸೂಚಕಗಳು ಕಾಣಿಸುವುದಿಲ್ಲ."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "ಮೆಸೇಜ್ ಅನ್ನು ಓದಿದಾಗ ಮತ್ತು ಟೈಪ್ ಮಾಡುತ್ತಿರುವಾಗ ಅದನ್ನು ನೋಡಿ ಮತ್ತು ಹಂಚಿಕೊಳ್ಳಿ. ಇದನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದರೆ, ನಿಮಗೆ ಇತರರಿಂದ ಸ್ವೀಕೃತಿ ಸೂಚನೆಗಳು ಮತ್ತು ಟೈಪಿಂಗ್ ಸೂಚಕಗಳು ಕಾಣಿಸುವುದಿಲ್ಲ."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "{duration} ನಲ್ಲಿ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "“Signal” ಅನ್ನು ಆನ್ ಮಾಡಿ"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "ಸಾಂದರ್ಭಿಕ‌ ಮೆನು"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "ಯೂಸರ್‌ನೇಮ್"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "ಯೂಸರ್‌ನೇಮ್‌ಗಳನ್ನು ಯಾವಾಗಲೂ ಸಂಖ್ಯೆಗಳ ಸೆಟ್‌ನೊಂದಿಗೆ ಜೋಡಿ ಮಾಡಲಾಗುತ್ತದೆ."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "ನಿಮ್ಮ Signal PIN ಬದಲಾಯಿಸಿ"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ಈ ಸಾಧನವನ್ನು ನೋಂದಾಯಿಸಿರುವವರೆಗೆ ನಿಮ್ಮ ಪಿನ್ ಅನ್ನು ನೀವು ಬದಲಾಯಿಸಬಹುದು. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "ನಿಮ್ಮ Signal ಪಿನ್ ಅನ್ನು ದೃಢಪಡಿಸಿ"
@@ -9090,13 +9114,16 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "ರೂಪದ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನಾವು ಎರಡು ಹೊಸ ಝೂಮ್ ಹಂತಗಳನ್ನು ಸೇರಿಸಿದ್ದೇವೆ, ಹಾಗಾಗಿ ತೀರಾ ಕಡಿಮೆ ಶ್ರಮದೊಂದಿಗೆ ಸಹ ನೀವು ನಿಮ್ಮ ಮೆಸೇಜ್‌ಗಳಿಗೆ 110% (ಅಥವಾ 90%) ನೀಡಬಹುದು."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "ನಿಮ್ಮನ್ನು ನೀವು ಅರಿತುಕೊಳ್ಳಲು ಜೀವನವೇ ಬೇಕಾಗಬಹುದು. ಆದರೆ ಈಗ ಗುಂಪಿನ ಸದಸ್ಯರ ಹುಡುಕಾಟದಲ್ಲಿ ನಿಮ್ಮ ಹೆಸರು “ನೀವು” ಎಂದು ಕಾಣಿಸುತ್ತದೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮನ್ನು ಗುರುತಿಸುವುದು ಇನ್ನಷ್ಟು ಸುಲಭ."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "ಈ ಅಪ್‌ಡೇಟ್ ನಿಮ್ಮ Signal ನೋಟಿಫಿಕೇಷನ್‌ಗಳ ಮೇಲೆ ಗಮನಾರ್ಹವಾಗಿ ಹೆಚ್ಚಿನ ನಿಯಂತ್ರಣವನ್ನು ನೀಡಲು ಹೆಚ್ಚು ಸೂಕ್ಷ್ಮವಾದ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ. ಈಗ ನೀವು ಆ್ಯಪ್ ಬ್ಯಾಡ್ಜ್‌ನಲ್ಲಿ ಏನು ಗೋಚರಿಸಬೇಕೆಂದು ಆಯ್ಕೆ ಮಾಡಬಹುದು, ಮ್ಯೂಟ್ ಮಾಡಿದ ಥ್ರೆಡ್‌ಗಳಿಗೆ ನೋಟಿಫಿಕೇಷನ್ ಆದ್ಯತೆಗಳನ್ನು ಹೊಂದಿಸಬಹುದು ಮತ್ತು ಇನ್ನೂ ಹೆಚ್ಚಿನದನ್ನು ಮಾಡಬಹುದು! ನೀವು ಎಂದಾದರೂ ಹಲವಾರು ಬದಲಾವಣೆಗಳನ್ನು ಮಾಡಿದರೆ, ನಿಮ್ಮನ್ನು ಹೇಗೆ ನಿಯಂತ್ರಿಸಿಕೊಳ್ಳುವುದು ಎಂದು ನಿಮಗೆ ತಿಳಿದಿಲ್ಲದಿದ್ದರೆ, ಡೀಫಾಲ್ಟ್ ನೋಟಿಫಿಕೇಷನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು ನಾವು ಅನುಕೂಲಕರ ಬಟನ್ ಅನ್ನು ಸಹ ಸೇರಿಸಿದ್ದೇವೆ."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

@@ -81,7 +81,7 @@
     "messageformat": "အကောင့် ဆက်တင်များနှင့် ဘက်ခ်အပ်များကို အဓိကစက်တွင်သာ စီမံခန့်ခွဲနိုင်ပါသည်။"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "အကောင့်ဆက်တင်နှင့် Signal လုံခြုံရေးဘက်ခ်အပ်ကို သင့်ပင်မစက်တွင်သာ စီမံခန့်ခွဲနိုင်သည်။"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "စံအရည်အသွေး"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "အီမိုဂျီ အသားအရောင်"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "ချက်(တ်)ဖိုင်တွဲများ"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ချက်(တ်)ဖိုင်တွဲတစ်ခု ပေါင်းထည့်ရန်"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {ဖိုင်တွဲ {chatFoldersCount,number} ခု}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "သတ်မှတ်ရန်"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "စီမံရန်"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ဖိုင်တွဲကို တည်းဖြတ်ရန်"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "အသံ မပိတ်ထားပါ"
   },
-  "icu:muteHour": {
-    "messageformat": "တစ်နာရီစာ အသံပိတ်ရန်"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "ရှစ်နာရီစာ အသံပိတ်ရန်"
-  },
-  "icu:muteDay": {
-    "messageformat": "တစ်ရက်စာ အသံပိတ်ရန်"
-  },
-  "icu:muteWeek": {
-    "messageformat": "တစ်ပတ်စာ အသံပိတ်ရန်"
-  },
-  "icu:muteAlways": {
-    "messageformat": "အမြဲ အသံပိတ်ရန်"
-  },
   "icu:unmute": {
     "messageformat": "အသံပြန်ဖွင့်ရန်"
   },
   "icu:MuteMenu__label": {
     "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားရန်..."
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "ဤချက်(တ်)များကို အသံပိတ်ထားရန်…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 နာရီ"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "ချက်(တ်)ဆက်တင်"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "ဤချက်(တ်)ကို အသံပြန်ဖွင့်မည်လား။"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်မက်ဆေ့ချ်ကို တစ်စုံတစ်ဦးက အကြောင်းပြန်ပါက အသိပေးချက် ပြပါ။"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "မဖတ်ရသေးသည်တို့အား သတိပေးချက်များ"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "ဤချက်(တ်)ကို အသံပိတ်ထားချိန်တွင် မဖတ်ရသေးသော မက်ဆေ့ချ်များရှိပါက ရံဖန်ရံခါ အကြောင်းကြားပါ။"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် မဖတ်ရသေးသော မက်ဆေ့ချ်များရှိပါက ရံဖန်ရံခါ အသိပေးပါ။"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, other {{person1} ထံမှ မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, other {{person1} နှင့် {person2} ထံမှ မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, other {{person1}၊ {person2} နှင့် အခြားသူများထံမှ မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, other {{mentionSummary} အပါအဝင် မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, other {{replySummary} အပါအဝင် မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, other {မဖတ်ရသေးသော မက်ဆေ့ချ် {messageCount,number} စောင်ရှိသည်။}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, other {{person1} ထံမှ သင့်ကို မန်းရှင်းထားသော မက်ဆေ့ချ် {mentionCount,number} စောင်}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, other {{person1} နှင့် {person2} က သင့်ကို {mentionCount,number} ကြိမ် မန်းရှင်းထားပါသည်}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, other {{person1} နှင့် အခြားသူများက သင့်ကို {mentionCount,number} ကြိမ် မန်းရှင်းထားပါသည်}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, other {{person1} ထံမှ ပြန်စာ {replyCount,number} စောင်}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, other {{person1} နှင့် {person2} ထံမှ အကြောင်းပြန်စာ {replyCount,number} စောင်}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, other {{person1} နှင့် အခြားသူများထံမှ အကြောင်းပြန်စာ {replyCount,number} စောင်}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "မန်းရှင်းများ"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "ပြောင်းရန်"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "PIN တစ်ခု ဖန်တီးမည်"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "ဖန်တီးပ"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "အဆင့်မြင့် PIN ဆက်တင်များ"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "PIN ပိတ်ပါ"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "ပိတ်ထားပါ"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "ပင်နံပါတ်ကို ပိတ်ထားလျှင် သင်မှ​ ကိုယ်တိုင် အရန်ပြုပြင်ထားခြင်းမရှိခဲ့လျှင် Signal ပေါ်ပြန်စာရင်းသွင်းသောအခါ ဒေတာအားလုံးကို ဆုံးရှူံးပါလိမ့်မည်။ ပင်နံပါတ်ကို ပိတ်ထားစဉ် မှတ်ပုံတင်ခြင်းသော့ကို သင်ဖွင့်၍ မရပါ။"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "အိုကေ"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "ပင်နံပါတ်ဖွင့်ပါ"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "ဖွင့်မည်"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN သတိပေးချက်များ"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "အချိန်ကြာလာသည် နှင့်အမျှ သင့်ကို မေးမြန်းသည့်အကြိမ် နည်းသွားပါမည်"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "မှတ်ပုံတင်ခြင်း လော့ခ်"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "အသိပေးချက် အကြောင်းအရာ"
@@ -6305,7 +6323,7 @@
     "messageformat": "အက်ပ် ဘဲ့ဂျ်"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "မဖတ်ရသေးသော ဘဲ့ဂျ်များ"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "ချက်(တ်)များအတွက် သတ်မှတ်ထားသော စိတ်ကြိုက်ဆက်တင်အပါအဝင် အသိပေးချက်ဆက်တင်အားလုံးကို မူလပုံစံအတိုင်း ပြန်လည်သတ်မှတ်ပါ။"
@@ -6332,10 +6350,10 @@
     "messageformat": "မဖတ်ရသေးသော ချက်(တ်)များ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "အက်ပ် ဘဲ့ဂျ်တွင် အသံပိတ်ထားသော ချက်(တ်)များကို ထည့်သွင်းပါ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "ချက်(တ်)ဖိုင်တွဲ ဘဲ့ဂျ်များတွင် အသံပိတ်ထားသော ချက်(တ်)များကို အမြဲထည့်သွင်းမည်"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူပါ"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "အသိပေးချက် ပရိုဖိုင်များ"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "သတ်မှတ်ရန်"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "အသိပေးချက် ပရိုဖိုင်များ"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "အသိပေးချက်ပရိုဖိုင်များကို ထည့်သွင်းရန် သို့မဟုတ် တည်းဖြတ်ရန်"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {ပရိုဖိုင် {profileCount,number} ခု}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "ပရိုဖိုင် ဖန်တီးရန်"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "သင့်ဖုန်းနံပါတ်ကို မြင်နိုင်သူများနှင့် Signal တွင် ထိုနံပါတ်ဖြင့် သင့်ထံသို့ ဆက်သွယ်နိုင်သူများကို ရွေးချယ်ပါ။"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "ပြောင်းရန်…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "ကျွန်ုပ်၏ဖုန်းနံပါတ်ကို မြင်နိုင်သူများ"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ဖတ်ပြီးပြီ"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "ပိတ်ထားပါက အခြားသူများထံမှဖတ်ပြီးကြောင်းညွှန်ပြမှုကို သင်မမြင်ရပါ။"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "စာရိုက်ညွှန်ကိန်းများ"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "ပိတ်ထားပါက အခြားသူများထံမှ စာရိုက်နေကြောင်း အချက်ပြမှုကို သင်မမြင်ရပါ။"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "မက်ဆေ့ချ်များကို ဖတ်ပြီးကြောင်းနှင့် စာရိုက်နေကြောင်းကို မြင်နိုင်ပြီး မျှဝေနိုင်ပါသည်။ ပိတ်ထားပါက အခြားသူများထံမှ ဖတ်ပြီးကြောင်းညွှန်ပြမှု သို့မဟုတ် စာရိုက်နေကြောင်း အချက်ပြမှုများကို မြင်ရမည်မဟုတ်ပါ။"
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "{duration} အကြာတွင် ထပ်မံကြိုးစားပါ"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ဖုန်းနံပါတ်"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "\"Signal\" ကိုဖွင့်ပါ"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ဆက်တင်သို့ သွားရန်"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "အကြောင်းအရာ မီနူး"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "သုံးစွဲသူအမည်"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "သုံးစွဲသူအမည်"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "သုံးစွဲသူအမည်များကို ကိန်းဂဏန်းတွဲတစ်ခုနှင့် အမြဲတွဲဖက်ထားပါသည်။"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ပိုမိုလေ့လာရန်"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "သင့် Signal PIN ကို ပြောင်းလဲပါ"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသ၍ သင့် PIN ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
@@ -9090,13 +9114,16 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "ပုံပန်းသွင်ပြင် ဆက်တင်တွင် ချဲ့ကြည့်နိုင်သည့် အဆင့်အသစ် နှစ်ခုကို ထည့်သွင်းထားပါသည် (110% နှင့် 90%)။"
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "အဖွဲ့ဝင်ရှာဖွေမှုကို ကောင်းမွန်အောင် မွမ်းမံထားခြင်း။"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "အသိပေးချက်များ မည်သည့်အချိန်တွင် မည်သို့ ပေါ်လာမည်ကို ရွေးချယ်နိုင်မည့် တိုးချဲ့ထားသော ရွေးချယ်စရာများနှင့်အတူ အသိပေးချက်ဆက်တင်များကိုလည်း ပိုမိုကောင်းမွန်အောင် ပြုလုပ်ထားပါသည်။"
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

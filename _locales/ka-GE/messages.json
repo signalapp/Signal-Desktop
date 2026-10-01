@@ -81,7 +81,7 @@
     "messageformat": "ანგარიშის პარამეტრებისა და სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "ანგარიშის პარამეტრებისა და Signal-ის უსაფრთხო სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "სტანდარტული"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji-ის კანის ტონი"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "ჩატის საქაღალდეები"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "ჩატის საქაღალდის დამატება"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} საქაღალდე} other {{chatFoldersCount,number} საქაღალდე}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "დაყენება"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "მართვა"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "საქაღალდის რედაქტირება"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "დადუმებული არაა"
   },
-  "icu:muteHour": {
-    "messageformat": "ერთი საათით დადუმება"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "რვა საათით დადუმება"
-  },
-  "icu:muteDay": {
-    "messageformat": "ერთი დღით დადუმება"
-  },
-  "icu:muteWeek": {
-    "messageformat": "ერთი კვირით დადუმება"
-  },
-  "icu:muteAlways": {
-    "messageformat": "სამუდამოდ დადუმება"
-  },
   "icu:unmute": {
     "messageformat": "მდუმარე რეჟიმის გამორთვა"
   },
   "icu:MuteMenu__label": {
     "messageformat": "ამ ჩატის დადუმება…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "ჩატების დადუმება…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 hour"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "ჩატის პარამეტრები"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "გამოვრთოთ ამ ჩატის მდუმარე რეჟიმი?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ჯგუფის ბმული"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "შეგატყობინებთ, როცა დადუმებულ ჩატებში შენს წერილს ვინმე უპასუხებს."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "წაუკითხავი შეხსენებები"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "ამ ჩატის დადუმებისას პერიოდულად შეგატყობინებთ, თუ წაუკითხავი შეტყობინებები დაგიგროვდება."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "ხანდახან შემატყობინეთ, როცა დადუმებულ ჩატებში ახალი წაუკითხავი წერილები მექნება."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)სგან.} other {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)სგან.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)სა და {person2}-(ი)სგან.} other {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)სა და {person2}-(ი)სგან.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)ს, {person2}-(ი)სა და სხვებისგან.} other {{messageCount,number} წაუკითხავი წერილი გაქვს {person1}-(ი)ს, {person2}-(ი)სა და სხვებისგან.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს, {mentionSummary}-ის ჩათვლით.} other {{messageCount,number} წაუკითხავი წერილი გაქვს, {mentionSummary}-ის ჩათვლით.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს, {replySummary}-ის ჩათვლით.} other {{messageCount,number} წაუკითხავი წერილი გაქვს, {replySummary}-ის ჩათვლით.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} წაუკითხავი წერილი გაქვს.} other {{messageCount,number} წაუკითხავი წერილი გაქვს.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1}-მ(ა) ერთხელ მოგნიშნა} other {{person1}-მ(ა) {mentionCount,number}-ჯერ მოგნიშნა}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1}-(ი)მა და {person2}-(ი)მ {mentionCount,number}-ხელ მოგნიშნეს} other {{person1}-(ი)მა და {person2}-(ი)მ {mentionCount,number}-ჯერ მოგნიშნეს}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1}-(ი)მა და სხვებმა {mentionCount,number}-ხელ მოგნიშნეს} other {{person1}-(ი)მა და სხვებმა {mentionCount,number}-ჯერ მოგნიშნეს}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {პასუხი {person1}-სგან} other {{replyCount,number} პასუხი {person1}-სგან}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{person1}-(ი)სა და {person2}-(ი)სგან {replyCount,number} პასუხი გაქვს} other {{person1}-(ი)სა და {person2}-(ი)სგან {replyCount,number} პასუხი გაქვს}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{person1}-(ი)სა და სხვებისგან {replyCount,number} პასუხი გაქვს} other {{person1}-(ი)სა და სხვებისგან {replyCount,number} პასუხი გაქვს}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "მონიშვნები"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "შეცვლა"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "შექმენი პინ-კოდი"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "შექმენი"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal-ის პინ-კოდი"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "პინ-კოდის გაფართოებული პარამეტრები"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "პინ-კოდის გამორთვა"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "გამორთვა"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "თუ პინ-კოდს გამორთავ, Signal-ზე ხელახლა დარეგისტრირებისას ყველა მონაცემს დაკარგავ, თუ ხელით არ შექმნი სარეზერვო კოპიას და არ აღადგენ. რეგისტრაციის დაბლოკვას ვერ ჩართავ, სანამ პინ-კოდი გამორთულია."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "პინ-კოდის ჩართვა"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "ჩართვა"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "პინ-კოდის შეხსენებები"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "დროთა განმავლობაში ამას უფრო იშვიათად გთხოვთ"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "რეგისტრაციის დაბლოკვა"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "შეტყობინების კონტენტი"
@@ -6305,7 +6323,7 @@
     "messageformat": "აპლიკაციის ემბლემა"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "წაუკითხავი ემბლემები"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "შეტყობინებების პარამეტრების ნაგულისხმევზე დაყენება, შენს ჩატებზე მორგებული შეტყობინებების ჩათვლით."
@@ -6332,10 +6350,10 @@
     "messageformat": "წაუკითხავი ჩატები"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "აპის ემბლემაში დადუმებული ჩატების შეყვანა"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "ჩატის საქაღალდეების ემბლემებში ყოველთვის იქნება დადუმებული ჩატებიც"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ჩატის ისტორიის გადატანა"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "შეტყობინების მახასიათებლები"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "დაყენება"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "შეტყობინების მახასიათებლები"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "დაამატე ან დაარედაქტირე შეტყობინებების პროფილები"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {ერთი პროფილი} other {{profileCount,number} პროფილი}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "მახასიათებლების დაყენება"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "შეარჩიე, ვის შეუძლია ნახოს შენი ტელეფონის ნომერი და ვინ შეიძლება დაგიკავშირდეს Signal-ზე მისი დახმარებით."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "შეცვლა…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "ვის შეუძლია ჩემი ნომრის ნახვა"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "წაკითხვის დასტური"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "როცა ეს გამორთულია, სხვების წაკითხვის დასტურს ვერ ნახავ."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "ბეჭდვის ინდიკატორი"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "როცა ეს გამორთულია, სხვების ბეჭდვის ინდიკატორს ვერ ნახავ."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "ნახე, როდის იკითხება შეტყობინებები და როდის იწერება პასუხი, და გაუზიარე ეს ინფორმაცია სხვებსაც. თუ ფუნქცია გამორთულია, ვერც სხვების წაკითხვის დასტურს და ვერც ბეჭდვის ინდიკატორს დაინახავ."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "გთხოვთ, {duration}-ში თავიდან სცადო"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ტელეფონის ნომერი"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "ჩართე \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "შედი პარამეტრებში"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "კონტექსტური მენიუ"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "მომხმარებლის სახელი"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "მომხმარებლის სახელი"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "მომხმარებლის სახელი ყოველთვის რიცხვების ნაკრებთანაა დაწყვილებული."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "გაიგე მეტი"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "შეცვალე შენი Signal-ის პინ-კოდი"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "შენი პინ-კოდის შეცვლა შეგიძლია, სანამ ეს მოწყობილობა იქნება რეგისტრირებული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "დაადასტურე შენი Signal-ის პინ-კოდი"
@@ -9090,13 +9114,16 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "ვიზუალის პარამეტრებში მიახლოების ორი ახალი დონე დავამატეთ (110% და 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "ჯგუფის წევრების ძიების გაუმჯობესებები."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "შეტყობინებების გაუმჯობესებული პარამეტრები გაფართოებული არჩევნით, თუ როგორ და როდის გამოჩნდება შეტყობინებები. ახლა უკვე შეგიძლია აირჩიო, რა გამოჩნდება აპის ემბლემაზე, შეტყობინებების პარამეტრები დადუმებულ მიმოწერებს მოარგო და მეტი! ასევე, შეტყობინებების ნაგულისხმევი პარამეტრების აღსადგენად მოსახერხებელი ღილაკი დავამატეთ."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

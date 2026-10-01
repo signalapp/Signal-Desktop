@@ -81,7 +81,7 @@
     "messageformat": "Accountinstellingen en back-ups kunnen alleen op je primaire apparaat worden beheerd."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Accountinstellingen en Signal Secure Backups kunnen alleen op je primaire apparaat worden beheerd."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standaard"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji-huidskleur"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chatmappen"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Een chatmap toevoegen"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} map} other {{chatFoldersCount,number} mappen}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Instellen"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Beheren"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Map bewerken"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Niet gedempt"
   },
-  "icu:muteHour": {
-    "messageformat": "Een uur lang dempen"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Acht uur lang dempen"
-  },
-  "icu:muteDay": {
-    "messageformat": "Een dag lang dempen"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Een week lang dempen"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Voor onbepaalde tijd dempen"
-  },
   "icu:unmute": {
     "messageformat": "Dempen opheffen"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Deze chat dempen voor…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Deze chats dempen voor…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 uur"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Chatinstellingen"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Deze chat niet langer dempen?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Groepslink"
   },
@@ -5025,19 +4995,19 @@
     "messageformat": "Leden toevoegen"
   },
   "icu:ConversationDetails--add-members-info": {
-    "messageformat": "Kies wie leden mogen toevoegen aan deze groep."
+    "messageformat": "Kies wie leden kan toevoegen aan deze groep."
   },
   "icu:ConversationDetails--announcement-label": {
     "messageformat": "Berichten verzenden & oproepen beginnen"
   },
   "icu:ConversationDetails--announcement-info": {
-    "messageformat": "Kies wie berichten mogen verzenden en oproepen mogen beginnen in deze groep."
+    "messageformat": "Kies wie berichten kan verzenden en oproepen kan beginnen in deze groep."
   },
   "icu:ConversationDetails--member-label--label": {
     "messageformat": "Ledenlabels toevoegen"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Kies wie ledenlabels mogen toevoegen in deze groep."
+    "messageformat": "Kies wie ledenlabels kan toevoegen in deze groep."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Ledenlabels worden verwijderd"
@@ -5250,49 +5220,49 @@
     "messageformat": "Ontvang meldingen wanneer iemand op je bericht antwoordt in een gedempte chat"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Herinneringen ongelezen berichten"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Ontvang af en toe meldingen over ongelezen berichten als deze chat is gedempt"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Ontvang af en toe meldingen over ongelezen berichten in gedempte chats."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht van {person1}.} other {Je hebt {messageCount,number} ongelezen berichten van {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht van {person1} en {person2}.} other {Je hebt {messageCount,number} ongelezen berichten van {person1} en {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht van {person1}, {person2} en anderen.} other {Je hebt {messageCount,number} ongelezen berichten van {person1}, {person2} en anderen.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht, waaronder {mentionSummary}.} other {Je hebt {messageCount,number} ongelezen berichten, waaronder {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht, waaronder {replySummary}.} other {Je hebt {messageCount,number} ongelezen berichten, waaronder {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Je hebt {messageCount,number} ongelezen bericht.} other {Je hebt {messageCount,number} ongelezen berichten.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {een vermelding door {person1}} other {{mentionCount,number} vermeldingen door {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} vermelding door {person1} en {person2}} other {{mentionCount,number} vermeldingen door {person1} en {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} vermelding door {person1} en anderen} other {{mentionCount,number} vermeldingen door {person1} en anderen}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {een antwoord van {person1}} other {{replyCount,number} antwoorden van {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} antwoord van {person1} en {person2}} other {{replyCount,number} antwoorden van {person1} en {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} antwoord van {person1} en anderen} other {{replyCount,number} antwoorden van {person1} en anderen}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Vermeldingen"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Wijzigen"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Pincode aanmaken"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Aanmaken"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal-pincode"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Geavanceerde pincode-instellingen"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Pincode uitschakelen"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Uitschakelen"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Als je de pincode uitschakelt zul je wanneer je Signal opnieuw registreert alle gegevens kwijtraken, tenzij je handmatig een back-up maakt en herstelt. Daarnaast kun je zolang de pincode is uitgeschakeld de registratievergrendeling niet inschakelen."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Je moet registratievergrendeling uitschakelen voordat je je pincode uitschakelt."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "Begrepen"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Je moet back-ups uitschakelen voordat je je pincode uitschakelt."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Pincode inschakelen"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Inschakelen"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Pincode-herinneringen"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Bevestig regelmatig je Signal-pincode om deze beter te onthouden. Na verloop van tijd ontvang je minder vaak herinneringen."
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Registratievergrendeling"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Vereis je Signal-pincode om je telefoonnummer opnieuw bij Signal te kunnen registreren"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Meldings­inhoud"
@@ -6305,7 +6323,7 @@
     "messageformat": "App-badge"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Badge voor ongelezen berichten"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Zet meldingsinstellingen terug naar de standaardinstellingen, inclusief de aangepaste instellingen voor je chats."
@@ -6332,10 +6350,10 @@
     "messageformat": "Ongelezen chats"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Gedempte chats meetellen in de app-badge"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "In badges van chatmappen worden gedempte chats altijd meegeteld"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Chatgeschiedenis exporteren"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Meldingsprofielen"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Instellen"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Meldingsprofielen"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Meldingsprofielen toevoegen of bewerken"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {1 profiel} other {{profileCount,number} profielen}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Meldingsprofiel aanmaken"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Kies wie je telefoonnummer kan zien en wie ermee contact met je kan opnemen op Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Aanpassen…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Wie kan mijn nummer zien"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Leesbevestigingen"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Als leesbevestigingen zijn uitgeschakeld, zie je ook niet of anderen jouw berichten hebben gelezen."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typindicatoren"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Als typindicatoren zijn uitgeschakeld, zie je ook niet wanneer anderen aan het typen zijn."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Bekijk en deel wanneer berichten worden gelezen of getypt. Als leesbevestigingen of typindicatoren zijn uitgeschakeld, kun je deze van anderen ook niet zien."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Probeer het opnieuw over {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefoonnummer"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Schakel ‘Signal’ in"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Ga naar instellingen"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Contextmenu"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Gebruikersnaam"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Gebruikersnaam"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Gebruikersnamen zijn altijd gekoppeld aan een cijfercombinatie."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Meer informatie"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Je Signal-pincode wijzigen"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Zolang je telefoonnummer voor dit apparaat geregistreerd staat kun je je pincode nog wijzigen. <learnMoreLink>Meer informatie</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Bevestig je Signal-pincode"
@@ -9090,13 +9114,16 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "We hebben twee nieuwe zoomniveaus toegevoegd. Zo kun je je berichten voortaan met gemak op 110% (of 90%) bekijken."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Jezelf vinden is soms een levenslange zoektocht. In Signal hebben we die zoektocht nu makkelijker gemaakt: als je nu zoekt in groepsleden, verschijn je zelf als ‘Jij’."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Deze update geeft je meer mogelijkheden om je Signal-meldingen in te stellen. Je kunt nu kiezen wat er op de app-badge verschijnt, meldingsinstellingen voor gedempte chats aanpassen en meer! We hebben ook een handige knop toegevoegd waarmee je terug kunt naar de standaardmeldingsinstellingen, voor het geval je door de bomen het bos niet meer ziet."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

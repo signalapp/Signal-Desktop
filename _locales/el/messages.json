@@ -81,7 +81,7 @@
     "messageformat": "Η διαχείριση των ρυθμίσεων λογαριασμού και των αντιγράφων ασφαλείας μπορεί να πραγματοποιηθεί μόνο από την κύρια συσκευή σου."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Η διαχείριση των ρυθμίσεων λογαριασμού και των ασφαλών αντιγράφων Signal μπορεί να πραγματοποιηθεί μόνο από την κύρια συσκευή σου."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Κανονική"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Τόνος δέρματος emoji"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Φάκελοι συνομιλιών"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Προσθήκη φακέλου συνομιλίας"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} φάκελος} other {{chatFoldersCount,number} φάκελοι}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Ρύθμιση"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Διαχείριση"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Επεξεργασία φακέλου"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Χωρίς σίγαση"
   },
-  "icu:muteHour": {
-    "messageformat": "Σίγαση για μια ώρα"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Σίγαση για οκτώ ώρες"
-  },
-  "icu:muteDay": {
-    "messageformat": "Σίγαση για μια ημέρα"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Σίγαση για μια εβδομάδα"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Σίγαση πάντα"
-  },
   "icu:unmute": {
     "messageformat": "Αναίρεση σίγασης"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Σίγαση συνομιλίας για…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Σίγαση συνομιλιών για…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 ώρα"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Ρυθμίσεις συνομιλίας"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Αναίρεση της σίγασης της συνομιλίας;"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Σύνδεσμος ομάδας"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Ειδοποίηση όταν κάποιος απαντάει σε μήνυμά σου σε συνομιλία σε σίγαση."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Μη αναγνωσμένες υπενθυμίσεις"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Περιστασιακές ειδοποιήσεις όταν υπάρχουν μη αναγνωσμένα μηνύματα όσο αυτή η συνομιλία βρίσκεται σε σίγαση."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Περιστασιακές ειδοποιήσεις όταν υπάρχουν μη αναγνωσμένα μηνύματα σε συνομιλίες σε σίγαση."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα από τον χρήστη {person1}.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα από τον χρήστη {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα από τους χρήστες {person1} και {person2}.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα από τους χρήστες {person1} και {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα από τους χρήστες {person1}, {person2} και άλλους.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα από τους χρήστες {person1}, {person2} και άλλους.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα, μαζί με {mentionSummary}.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα μαζί με {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα μαζί με {replySummary}.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα μαζί με {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Έχεις {messageCount,number} μη αναγνωσμένο μήνυμα.} other {Έχεις {messageCount,number} μη αναγνωσμένα μηνύματα.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {μία αναφορά για εσένα από τον χρήστη {person1}} other {{mentionCount,number} αναφορές για εσένα από τον χρήστη {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} αναφορά για εσένα από τους χρήστες {person1} και {person2}} other {{mentionCount,number} αναφορές για εσένα από τους χρήστες {person1} και {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} αναφορά για εσένα από τον χρήστη {person1} και άλλους} other {{mentionCount,number} αναφορές για εσένα από τους χρήστες {person1} και άλλους}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {μία απάντηση από τον χρήστη {person1}} other {{replyCount,number} απαντήσεις από τον χρήστη {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} απάντηση από τους χρήστες {person1} και {person2}} other {{replyCount,number} απαντήσεις από τους χρήστες {person1} και {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} απάντηση από τον χρήστη {person1} και άλλους} other {{replyCount,number} απαντήσεις από τον χρήστη {person1} και άλλους}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Αναφορές"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Αλλαγή"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Δημιουργία PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Δημιουργία"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN Signal"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Ρυθμίσεις PIN για προχωρημένους"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Απενεργοποίηση PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Απενεργοποίηση"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Αν απενεργοποιήσεις το PIN, θα χάσεις όλα τα δεδομένα όταν επανεγγραφτείς στο Signal, εκτός εάν δημιουργήσεις χειροκίνητα αντίγραφο ασφαλείας και το ανακτήσεις. Δεν μπορείς να ενεργοποιήσεις το Κλείδωμα Εγγραφής όσο το PIN είναι απενεργοποιημένο."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Πρέπει να απενεργοποιήσεις το κλείδωμα εγγραφής πριν απενεργοποιήσεις το PIN σου."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Πρέπει να απενεργοποιήσεις τα Αντίγραφα ασφαλείας πριν απενεργοποιήσεις το PIN σου."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Ενεργοποίηση PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Ενεργοποίηση"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Υπενθυμίσεις PIN"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Θα στο ζητάμε όχι τόσο συχνά όσο περνάει ο καιρός"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Κλείδωμα εγγραφής"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Να απαιτείται το PIN Signal σου για να εγγραφεί ο αριθμός τηλεφώνου σου ξανά στο Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Περιεχόμενο ειδοποίησης"
@@ -6305,7 +6323,7 @@
     "messageformat": "Σήμα εφαρμογής"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Μη αναγνωσμένα σήματα"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Επαναφορά προκαθορισμένων ρυθμίσεων ειδοποιήσεων, συμπεριλαμβανομένων προσαρμοσμένων ρυθμίσεων στις συνομιλίες."
@@ -6332,10 +6350,10 @@
     "messageformat": "Μη αναγνωσμένες συνομιλίες"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Να συμπεριλαμβάνονται οι συνομιλίες σε σίγαση στο σήμα εφαρμογής"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Τα σήματα του φακέλου συνομιλιών θα περιλαμβάνουν πάντα τις συνομιλίες σε σίγαση"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Εξαγωγή ιστορικού συνομιλιών"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Προφίλ ειδοποιήσεων"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Ρύθμιση"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Προφίλ ειδοποιήσεων"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Προσθήκη ή επεξεργασία προφίλ ειδοποιήσεων"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Ένα προφίλ} other {{profileCount,number} προφίλ}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Δημιουργία προφίλ"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Επίλεξε ποια άτομα μπορούν να δουν τον αριθμό τηλεφώνου σου και ποια μπορούν να τον χρησιμοποιήσει για να επικοινωνήσουν μαζί σου στο Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Αλλαγή…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Ποιοι μπορούν να δουν τον αριθμό μου"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Αποδεικτικά ανάγνωσης"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Αν είναι απενεργοποιημένα, δε θα μπορείς να δεις αποδεικτικά ανάγνωσης από άλλους/ες."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Δείκτες πληκτρολόγησης"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Αν είναι απενεργοποιημένα, δε θα μπορείς να δεις ενδείξεις πληκτρολόγησης από άλλους/ες."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Δες και μοιράσου όταν τα μηνύματα έχουν διαβαστεί και πληκτρολογούνται. Αν απενεργοποιηθεί, δεν θα βλέπεις τα αποδεικτικά ανάγνωσης ή τις ενδείξεις πληκτρολόγησης από άλλους."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Δοκίμασε ξανά σε {duration}."
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Αριθμός τηλεφώνου"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Ενεργοποίησε το \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Πήγαινε στις ρυθμίσεις"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Μενού περιβάλλοντος"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Όνομα χρήστη"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Όνομα χρήστη"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Τα ονόματα χρήστη συνδυάζονται πάντα με ένα σύνολο αριθμών."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Μάθε περισσότερα"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Άλλαξε το PIN σου στο Signal"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Μπορείς να αλλάξεις το PIN σου εφ' όσον αυτή η συσκευή είναι εγγεγραμμένη. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Επιβεβαίωση PIN Signal"
@@ -9090,13 +9114,16 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Προσθέσαμε δύο νέα επίπεδα μεγέθυνσης στις ρυθμίσεις εμφάνισης (110% και 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Βελτιώσεις στην αναζήτηση των μελών ομάδας."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Βελτιωμένες ρυθμίσεις ειδοποιήσεων με περισσότερες επιλογές σχετικά με τον τρόπο και τον χρόνο εμφάνισης των ειδοποιήσεων."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }
