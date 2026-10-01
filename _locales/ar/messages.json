@@ -81,7 +81,7 @@
     "messageformat": "يمكن إدارة إعدادات الحساب والنسخ الاحتياطية من جهازك الرئيسي فقط."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "يمكن إدارة إعدادات الحساب والنسخ الاحتياطية الآمنة على سيجنال من جهازك الرئيسي فقط."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "قياسية"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "لون الرمز التعبيري"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "مجلدات الدردشة"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "إضافة مجلد دردشة"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, zero {{chatFoldersCount,number} مجلدات} one {{chatFoldersCount,number} مجلد} two {{chatFoldersCount,number} مجلدين} few {{chatFoldersCount,number} مجلدات} many {{chatFoldersCount,number} مجلدًا} other {{chatFoldersCount,number} مجلد}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "إعداد"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "إدارة"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "تعديل المجلد"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "غير مكتومة"
   },
-  "icu:muteHour": {
-    "messageformat": "كتم لساعة واحدة"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "كتم لـ 8 ساعات"
-  },
-  "icu:muteDay": {
-    "messageformat": "كتم ليوم واحد"
-  },
-  "icu:muteWeek": {
-    "messageformat": "كتم لأسبوعٍ واحد"
-  },
-  "icu:muteAlways": {
-    "messageformat": "اكتم دائمًا"
-  },
   "icu:unmute": {
     "messageformat": "إلغاء الكتم"
   },
   "icu:MuteMenu__label": {
     "messageformat": "كتم الدردشة لمدة…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "كتم صوت هذه الدردشات لمدة…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "ساعة واحدة"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "إعدادات الدردشة"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "هل تريد إلغاء كتم هذه الدردشة؟"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "رابط المجموعة"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "الإشعار عند رد شخص ما على رسالتك في الدردشات المكتومة."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "تذكيرات عدم القراءة"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "الإشعار بين الحين والآخر عند وجود رسائل غير مقروءة أثناء كتم هذه المحادثة."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "الإشعار بين الحين والآخر عند وجود رسائل غير مقروءة في المحادثات المكتومة."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسائل غير مقروءة من {person1}.} one {لديك {messageCount,number} رسالة غير مقروءة من {person1}.} two {لديك {messageCount,number} رسالتين غير مقروءتين من {person1}.} few {لديك {messageCount,number} رسائل غير مقروءة من {person1}.} many {لديك {messageCount,number} رسالة غير مقروءة من {person1}.} other {لديك {messageCount,number} رسالة غير مقروءة من {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسائل غير مقروءة من {person1} و{person2}.} one {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2}.} two {لديك {messageCount,number} رسالتين غير مقروءتين من {person1} و{person2}.} few {لديك {messageCount,number} رسائل غير مقروءة من {person1} و{person2}.} many {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2}.} other {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسائل غير مقروءة من {person1} و{person2} وآخرين.} one {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2} وآخرين.} two {لديك {messageCount,number} رسالتين غير مقروءتين من {person1} و{person2} وآخرين.} few {لديك {messageCount,number} رسائل غير مقروءة من {person1} و{person2} وآخرين.} many {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2} وآخرين.} other {لديك {messageCount,number} رسالة غير مقروءة من {person1} و{person2} وآخرين.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {mentionSummary}.} one {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {mentionSummary}.} two {لديك {messageCount,number} رسالتين غير مقروءتين، بما في ذلك {mentionSummary}.} few {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {mentionSummary}.} many {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {mentionSummary}.} other {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {replySummary}.} one {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {replySummary}.} two {لديك {messageCount,number} رسالتين غير مقروءتين، بما في ذلك {replySummary}.} few {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {replySummary}.} many {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {replySummary}.} other {لديك {messageCount,number} رسالة غير مقروءة، بما في ذلك {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, zero {لديك {messageCount,number} رسائل غير مقروءة.} one {لديك {messageCount,number} رسالة غير مقروءة.} two {لديك {messageCount,number} رسالتين غير مقروءتين.} few {لديك {messageCount,number} رسائل غير مقروءة.} many {لديك {messageCount,number} رسالة غير مقروءة.} other {لديك {messageCount,number} رسالة غير مقروءة.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, zero {{mentionCount,number} إشارات إليك من طرف {person1}} one {إشارة إليك من طرف {person1}} two {{mentionCount,number} إشارتين إليك من طرف {person1}} few {{mentionCount,number} إشارات إليك من طرف {person1}} many {{mentionCount,number} إشارة إليك من طرف {person1}} other {{mentionCount,number} إشارة إليك من طرف {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, zero {{mentionCount,number} إشارة إليك من طرف {person1} و{person2}} one {{mentionCount,number} إشارة إليك من طرف {person1} و{person2}} two {{mentionCount,number} إشارتان إليك من طرف {person1} و{person2}} few {{mentionCount,number} إشارات إليك من طرف {person1} و{person2}} many {{mentionCount,number} إشارة إليك من طرف {person1} و{person2}} other {{mentionCount,number} إشارة إليك من طرف {person1} و{person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, zero {{mentionCount,number} إشارة إليك من طرف {person1} وآخرين} one {{mentionCount,number} إشارة إليك من طرف {person1} وآخرين} two {{mentionCount,number} إشارتان إليك من طرف {person1} وآخرين} few {{mentionCount,number} إشارات إليك من طرف {person1} وآخرين} many {{mentionCount,number} إشارة إليك من طرف {person1} وآخرين} other {{mentionCount,number} إشارة إليك من طرف {person1} وآخرين}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, zero {{replyCount,number} ردود من {person1}} one {ردّ من {person1}} two {{replyCount,number} ردّين من {person1}} few {{replyCount,number} ردود من {person1}} many {{replyCount,number} ردّ من {person1}} other {{replyCount,number} ردّ من {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, zero {{replyCount,number} ردّ من طرف {person1} و{person2}} one {{replyCount,number} ردّ من طرف {person1} و{person2}} two {{replyCount,number} ردّان من طرف {person1} و{person2}} few {{replyCount,number} ردود من طرف {person1} و{person2}} many {{replyCount,number} ردّ من طرف {person1} و{person2}} other {{replyCount,number} ردّ من طرف {person1} و{person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, zero {{replyCount,number} ردّ من طرف {person1} وآخرين} one {{replyCount,number} ردّ من طرف {person1} وآخرين} two {{replyCount,number} ردّان من طرف {person1} وآخرين} few {{replyCount,number} ردود من طرف {person1} وآخرين} many {{replyCount,number} ردّ من طرف {person1} وآخرين} other {{replyCount,number} ردّ من طرف {person1} وآخرين}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "الإشارات"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "تغيير"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "إنشاء رقم تعريف شخصي (PIN)"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "إنشاء"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "رقم PIN على سيجنال"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "الإعدادات المُتقدِّمة لرقم الـ PIN"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "تعطيل رقم الـ PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "تعطيل"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "إذا قٌمتَ بتعطيل رقم التعريف الشخصي (PIN)، ستضيع جميع البيانات عند قيامك بإعادة التسجيل في سيجنال إلّا إذا قُمتَ باسترجاعها بواسطة النسخ الاحتياطي اليدوي. لا يمكنك تفعيل قفل التسجيل بينما رقم التعريف الشخصي (PIN) في حالة تعطيل."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "عليك أن تُعطِّل قفل التسجيل قبل تعطيل رقم تعريفك الشخصي."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "موافق"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "عليك أن تُعطِّل النسخ الاحتياطية قبل تعطيل رقم تعريفك الشخصي (PIN)."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "تفعيل رقم PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "تفعيل"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "تذكيرات رقم التعريف الشخصي (PIN)"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "سيُطلَب منك بعدد مرّاتٍ أقل مع مرور الوقت."
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "قفل التسجيل"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "إلزام رقم التعريف الشخصي (PIN) على سيجنال لتسجيل رقم هاتفك مع سيجنال مرّة أُخرى."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "محتوى الإشعار"
@@ -6305,7 +6323,7 @@
     "messageformat": "شارة التطبيق"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "الشارات غير المقروءة"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "إعادة تعيين إعدادات الإشعارات إلى الوضع الافتراضي، بما في ذلك الإعدادات المُخصَّصة لدردشاتك"
@@ -6332,10 +6350,10 @@
     "messageformat": "الدردشات غير المقروءة"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "تضمين الدردشات المكتومة في شارة التطبيق"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "شارات مجلدات الدردشات سَتتضمن دائمًا الدردشات المكتومة."
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "هل ترغبُ بتصدير سجل الدردشة؟"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "ملفات الإشعارات"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "إعداد"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "ملفات الإشعارات"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "إضافة أو تعديل ملفات الإشعارات الشخصية"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, zero {{profileCount,number} ملف شخصي} one {ملف شخصي واحد} two {{profileCount,number} ملفان شخصيان} few {{profileCount,number} ملفات شخصية} many {{profileCount,number} ملف شخصي} other {{profileCount,number} ملف شخصي}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "إنشاء ملف للإشعارات"
@@ -6599,7 +6611,7 @@
     "messageformat": "أُنشِئ ملف الإشعارات"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "إذا أضفت جدولًا زمنيًا، سيتم تشغيل ملفك التعريفي وتوقيفه تلقائيًا. يمكنك أيضًا النقر على أيقونة \"···\" في أعلى قائمة الدردشة لتشغيله أو إيقافه يدويًا."
+    "messageformat": "إذا أضفت جدولًا زمنيًا، سيتم تشغيل ملف الإشعارات الخاص بك وتوقيفه تلقائيًا. يمكنك أيضًا النقر على أيقونة \"···\" في أعلى قائمة الدردشة لتشغيله أو إيقافه يدويًا."
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
     "messageformat": "الأحد"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "اختر من يُمكنه رؤية رقم هاتفك ومن يمكنه الاتصال بك على سيجنال باستخدامه."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "تغيير…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "مَن يُمكنه رؤية رقمي"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "إيصالات تأكيد القراءة"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "عند إلغاء التفعيل، لن ترى إيصالات تأكيد القراءة من الآخرين."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "مؤشِّرات الكتابة"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "عند إلغاء التفعيل، لن ترى مؤشرات الكتابة من الآخرين."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "رؤية ومشاركة حالة الرسائل عند القراءة والكتابة. في حال التعطيل، لن تتمكَّن من رؤية إيصالات القراءة أو مؤشرات الكتابة من الآخرين."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "يُرجى المحاولة لاحقًا {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "رقم الهاتف"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "تشغيل \"سيجنال\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "انتقِل إلى الإعدادات"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "قائمة السياق"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "اسم المُستخدِم"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "اسم المُستخدِم"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "يتم دائمًا إقران أسماء المُستخدِمين بمجموعة من الأرقام."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "اعرف المزيد"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "تغيير رقم التعريف الشخصي (PIN) على سيجنال"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "يمكنك تغيير رقم التعريف الشخصي (PIN) في أي وقت طالما بقي هذا الجهاز مسجلًا. <learnMoreLink>اعرف المزيد</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "تأكيد رقم PIN على سيجنال"
@@ -9090,13 +9114,16 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "أضفنا مستويين جديدين للتكبير في إعدادات المظهر، لتتمكن من تخصيص عرض رسائلك بسهولة، سواء أردتها أكبر بنسبة 110% أو أصغر بنسبة 90%."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "قد يكون البحث عن ذاتك رحلة مستمرة مدى الحياة، ولكن لتسهيل الأمر قليلًا، سَتظهر الآن باسم \"أنت\" في نافذة البحث عن أعضاء المجموعة."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "يُقدِّم هذا التحديث إعدادات أكثر تفصيلًا لمنحك تحكُّمًا أكبر بكثير في إشعارات سيجنال. يمكنك الآن اختيار ما يظهر على شارة التطبيق، وضبط تفضيلات الإشعارات للدردشات المكتومة، والمزيد! أضفنا أيضًا زرًا مناسبًا لاستعادة إعدادات الإشعارات الافتراضية إذا قُمتَ بإجراء الكثير من التغييرات ولم تعد تعرف كيفية ضبطها."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

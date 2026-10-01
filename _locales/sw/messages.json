@@ -81,7 +81,7 @@
     "messageformat": "Mipangilio ya akaunti na nakala inaweza tu kudhibitiwa kwenye kifaa chako kikuu."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Mipangilio ya akaunti na Hifadhi Nakala Salama ya Signal inaweza tu kudhibitiwa kwenye kifaa chako cha msingi."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Kiwango"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji ya rangi ya ngozi"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Folda la magumzo"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Weka folda la gumzo"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {Folda {chatFoldersCount,number}} other {Folda {chatFoldersCount,number}}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Weka mipangilio"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Dhibiti"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Badili folda"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Haijanyamazishwa"
   },
-  "icu:muteHour": {
-    "messageformat": "Nyamazisha kwa lisaa limoja"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Nyamazisha kwa masaa manane"
-  },
-  "icu:muteDay": {
-    "messageformat": "Nyamazisha kwa siku moja"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Nyamazisha kwa wiki moja"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Nyamazisha wakati wote"
-  },
   "icu:unmute": {
     "messageformat": "Washa"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Zima sauti ya gumzo hili kwa…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Zima sauti ya magumzo haya kwa…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "Saa moja"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Mipangilio ya Gumzo"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Washa gumzo hili?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Kiungo cha kikundi"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Toa taarifa mtu anapojibu jumbe zako katika gumzo lililozimwa."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Vikumbusho ambavyo havijasomwa"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Mara moja moja toa arifa panapokuwa na jumbe ambazo hazijasomwa wakati gumzo hili limezimwa sauti."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Mara moja moja toa arifa panapokuwa na jumbe ambazo hazijasomwa katika magumzo yaliyozimwa sauti."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa kutoka kwa {person1}.} other {Una jumbe {messageCount,number} ambazo hazijasomwa kutoka kwa {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa kutoka kwa {person1} na {person2}.} other {Una jumbe {messageCount,number} ambazo hazijasomwa kutoka kwa {person1} na {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa kutoka kwa {person1}, {person2} na wengine.} other {Una jumbe {messageCount,number} ambazo hazijasomwa kutoka kwa {person1}, {person2} na wengine.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa, pamoja na {mentionSummary}.} other {Una jumbe {messageCount,number} ambazo hazijasomwa, pamoja na {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa, pamoja na {replySummary}.} other {Una jumbe {messageCount,number} ambazo hazijasomwa, pamoja na {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Una ujumbe {messageCount,number} ambao haujasomwa.} other {Una jumbe {messageCount,number} ambazo hazijasomwa.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {umetajwa na {person1}} other {Umetajwa mara {mentionCount,number} na {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {Umetajwa mara {mentionCount,number} na {person1} na {person2}} other {Umetajwa mara {mentionCount,number} na {person1} na {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {Umetajwa mara {mentionCount,number} na {person1} na wengine} other {Umetajwa mara {mentionCount,number} na {person1} na wengine}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {jibu kutoka kwa {person1}} other {Majibu {replyCount,number} kutoka kwa {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {Majibu {replyCount,number} kutoka kwa {person1} na {person2}} other {Majibu {replyCount,number} kutoka kwa {person1} na {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {Majibu {replyCount,number} kutoka kwa {person1} na wengine} other {Majibu {replyCount,number} kutoka kwa {person1} na wengine}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Kutajwa"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Badili"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Unda Nenosiri"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Unda"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Nenosiri la Signal"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Mipangilio ya PIN ya Hali ya Juu"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Lemaza PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Lemaza"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Ukizima PIN, utapoteza data yote utakaposajili upya Signal isipokuwa ukihifadhi nakala yake na kuirejesha mwenyewe. Huwezi kuwasha Kufuli ya Usajili wakati PIN imezimwa."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "Sawa"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Washa PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Washa"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Vikumbusho vya PIN"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Utaulizwa mara chache zaidi baada ya muda"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Lock ya usajili"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Arifa za maudhui"
@@ -6305,7 +6323,7 @@
     "messageformat": "Beji ya programu"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Beji ambayo hazisomwa"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Weka upya mipangilio ya arifa iwe chaguomsingi, ikiwa ni pamoja na mipangilio maalum ya magumzo yako."
@@ -6332,10 +6350,10 @@
     "messageformat": "Magumzo hayajasomwa"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Jumuisha magumzo yaliyozimwa sauti katika programu ya beji"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Beji za folda za magumzo mara zote yatajumuisha magumzo yaliyozimwa sauti"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Hamisha historia ya gumzo"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Arifa za Wasifu"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Weka mipangilio"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Arifa za Wasifu"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Ongeza au hariri wasifu wa arifa"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Wasifu mmoja} other {Wasifu {profileCount,number}}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Tengeneza wasifu"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Chagua nani anayeweza kuona nambari yako ya simu na kuwasiliana nawe kwenye Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Badili…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Nani anaweza kuona nambari yangu"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Jumbe zilizosomwa"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Ikizimwa, hutaona arifa kuwa wengine wamesoma risiti."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Viashiria vya kucharaza"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Ikizimwa, hutaona viashiria vya kuandika kutoka kwa wengine."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Angalia na uruhusu ufikiaji wakati ujumbe unasomwa na kuchapwa. Kama imezimwa, hutaweza kuona arifa kuwa ujumbe umesomwa au viashiria vya kuandika kutoka kwa wengine."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Tafadhali jaribu tena baada ya {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Nambari ya simu"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Washa \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Nenda kwenye mipangilio"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Menu ya Muktadha"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Jina la mtumiaji"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Jina la mtumiaji"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Majina ya watumiaji huwa yana seti ya tarakimu."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Jifunze Zaidi"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Badilisha PIN yako ya Signal"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Unaweza kubadili PINI mradi tu kifaa hiki kimesajiliwa <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Thibitisha PINI yako ya Signal"
@@ -9090,13 +9114,16 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Tumeweka ngazi mbili mpya za zoom katika mipangilio ya mwonekano ili hata kwa jitihada kidogo unaweza kuzipa jumbe zako ubora wa 110% (au 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Kujitambua ni mchakato unaoweza kuchukua maisha yote, lakini sasa utaonekana kama \"Wewe” kwenye utafutaji wa wanakikundi ili kurahisisha mambo kidogo."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Sasisho hili linatambulisha mipangilio ya kina ili kukupa udhibiti mkubwa zaidi wa arifa zako za Signal. Sasa unaweza kuchagua nini kitokee kwenye beji yako ya programu, kurekebisha mapendeleo ya arifa kwa mazungumzo yaliyozimwa sauti na zaidi! Pia tumeweka kitufe cha urahisishaji ili kurejesha mipangilio chaguomsingi ya arifa kama utafanya mabadiliko mengi kiasi hujui uanzie wapi."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

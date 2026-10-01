@@ -2194,10 +2194,6 @@
     "messageformat": "Emoji skin tone",
     "description": "Preferences Window > Chats Tab > Emoji skin tone default setting > Label"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders",
-    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Title"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Add a chat folder",
     "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Title"
@@ -2213,14 +2209,6 @@
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {# folder} other {# folders}}",
     "description": "Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Description (with chat folders)"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Set up",
-    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Manage",
-    "description": "(Deleted 2026/08/26) Preferences > Chats Page > Chat Folders Section > Add Chat Folder Item > Button (with chat folders)"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Edit folder",
@@ -4092,7 +4080,7 @@
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search",
-    "description": "FunPicker > Search Field > Clear Search Button > Accessibility Label"
+    "description": "(Deleted 2026/10/01) FunPicker > Search Field > Clear Search Button > Accessibility Label"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone",
@@ -5290,26 +5278,6 @@
     "messageformat": "Not muted",
     "description": "Label when the conversation is not muted"
   },
-  "icu:muteHour": {
-    "messageformat": "Mute for one hour",
-    "description": "(Deleted 2026/08/26) Label for muting the conversation"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Mute for eight hours",
-    "description": "(Deleted 2026/08/26) Label for muting the conversation"
-  },
-  "icu:muteDay": {
-    "messageformat": "Mute for one day",
-    "description": "(Deleted 2026/08/26) Label for muting the conversation"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Mute for one week",
-    "description": "(Deleted 2026/08/26) Label for muting the conversation"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Mute always",
-    "description": "(Deleted 2026/08/26) Label for muting the conversation"
-  },
   "icu:unmute": {
     "messageformat": "Unmute",
     "description": "Label for unmuting the conversation"
@@ -5317,10 +5285,6 @@
   "icu:MuteMenu__label": {
     "messageformat": "Mute this chat for…",
     "description": "Header shown at the top of the mute notifications menu when the chat is not currently muted"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Mute these chats for…",
-    "description": "(Deleted 2026/08/26) Header shown at the top of the mute notifications menu for a chat folder, which mutes every chat in the folder"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 hour",
@@ -6577,10 +6541,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Chat settings",
     "description": "This is a button in the conversation context menu to show chat settings"
-  },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Unmute this chat?",
-    "description": "(Deleted 2026/08/26) Title for the modal to unmute a chat"
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link",
@@ -8410,7 +8370,7 @@
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "You'll be asked less frequently over time",
-    "description": "Description for Signal PIN reminders setting"
+    "description": "(Deleted 2026/10/01) Description for Signal PIN reminders setting"
   },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "Registration Lock",
@@ -8688,10 +8648,6 @@
     "messageformat": "Notification profiles",
     "description": "Label for the notification profiles setting button"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Set up",
-    "description": "(Deleted 2026/08/26) Button text to setup notification profiles"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Notification Profiles",
     "description": "Header text for notification profiles"
@@ -8707,10 +8663,6 @@
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Add or edit notification profiles",
     "description": "Description text on the Notifications preferences page when the user already has profiles"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {One profile} other {# profiles}}",
-    "description": "(Deleted 2026/08/26) Button text to take user to profile list page when they already have notification profiles"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Create profile",
@@ -9244,10 +9196,6 @@
     "messageformat": "Choose who can see your phone number and who can contact you on Signal with it.",
     "description": "Body of Phone Number row in Privacy section of Preferences window"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Change…",
-    "description": "(Deleted 2026/08/26) Text of Phone Number row button in Privacy section of Preferences window"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Who can see my number",
     "description": "Title for the phone number sharing setting row"
@@ -9312,17 +9260,9 @@
     "messageformat": "Read receipts",
     "description": "Label for the read receipts setting"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "If disabled, you won't see read receipts from others.",
-    "description": "(Deleted 2026/08/26) Description for the read receipts setting"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators",
     "description": "Label for the typing indicators setting"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "If disabled, you won't see typing indicators from others.",
-    "description": "(Deleted 2026/08/26) Description for the typing indicators setting"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "See and share when message are being read and typed. If disabled, you won’t see read receipts or typing indicators from others.",
@@ -12180,10 +12120,6 @@
     "messageformat": "Small tweaks, bug fixes, and performance enhancements. Thanks for using Signal!",
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "We added two new zoom levels in the appearance settings, so even with very little effort you can still give your messages 110% (or 90%).",
-    "description": "(Deleted 2026/08/26) Release notes for 8.25"
   },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Finding yourself can be a lifelong process, but now you'll appear as “You” in the group member search to make it a little easier.",

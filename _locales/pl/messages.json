@@ -81,7 +81,7 @@
     "messageformat": "Ustawieniami konta i tworzeniem kopii zapasowych możesz zarządzać tylko z poziomu głównego urządzenia."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Ustawieniami konta i tworzeniem Bezpiecznych kopii zapasowych Signal można zarządzać tylko na głównym urządzeniu."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardowa"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Odcień skóry emoji"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Foldery z czatami"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Dodaj folder z czatami"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} few {{chatFoldersCount,number} foldery} many {{chatFoldersCount,number} folderów} other {{chatFoldersCount,number} folderu}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Ustaw"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Zarządzaj"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Edytuj folder"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Nie wyciszono"
   },
-  "icu:muteHour": {
-    "messageformat": "Wycisz na godzinę"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Wycisz na 8 godzin"
-  },
-  "icu:muteDay": {
-    "messageformat": "Wycisz na jeden dzień"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Wycisz na tydzień"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Wycisz na zawsze"
-  },
   "icu:unmute": {
     "messageformat": "Wyłącz wyciszenie"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Wycisz ten czat na…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Wycisz te czaty na…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 godzinę"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Ustawienia czatu"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Wyłączyć wyciszenie tego czatu?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Link do grupy"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Powiadamiaj, gdy w wyciszonym czacie ktoś odpowie na Twoją wiadomość."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Przypomnienia o nieprzeczytanych"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Od czasu do czasu wysyłaj powiadomienie o nieprzeczytanych wiadomościach, gdy ten czat jest wyciszony."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Od czasu do czasu wysyłaj powiadomienie o nieprzeczytanych wiadomościach w wyciszonych czatach."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość od {person1}.} few {Masz {messageCount,number} nieodczytane wiadomości od {person1}.} many {Masz {messageCount,number} nieodczytanych wiadomości od {person1}.} other {Masz {messageCount,number} nieodczytanych wiadomości od {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość od {person1} i {person2}.} few {Masz {messageCount,number} nieodczytane wiadomości od {person1} i {person2}.} many {Masz {messageCount,number} nieodczytanych wiadomości od {person1} i {person2}.} other {Masz {messageCount,number} nieodczytanych wiadomości od {person1} i {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość od {person1}, {person2} i innych osób.} few {Masz {messageCount,number} nieodczytane wiadomości od {person1}, {person2} i innych osób.} many {Masz {messageCount,number} nieodczytanych wiadomości od {person1}, {person2} i innych osób.} other {Masz {messageCount,number} nieodczytanych wiadomości od {person1}, {person2} i innych osób.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość, w tym {mentionSummary}.} few {Masz {messageCount,number} nieodczytane wiadomości, w tym {mentionSummary}.} many {Masz {messageCount,number} nieodczytanych wiadomości, w tym {mentionSummary}.} other {Masz {messageCount,number} nieodczytanych wiadomości, w tym {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość, w tym {replySummary}.} few {Masz {messageCount,number} nieodczytane wiadomości, w tym {replySummary}.} many {Masz {messageCount,number} nieodczytanych wiadomości, w tym {replySummary}.} other {Masz {messageCount,number} nieodczytanych wiadomości, w tym {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Masz {messageCount,number} nieodczytaną wiadomość.} few {Masz {messageCount,number} nieodczytane wiadomości.} many {Masz {messageCount,number} nieodczytanych wiadomości.} other {Masz {messageCount,number} nieodczytanych wiadomości.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {wzmianka o Tobie od {person1}} few {{mentionCount,number} wzmianki o Tobie od {person1}} many {{mentionCount,number} wzmianek o Tobie od {person1}} other {{mentionCount,number} wzmianek o Tobie od {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} wzmianka o Tobie od {person1} i {person2}} few {{mentionCount,number} wzmianki o Tobie od {person1} i {person2}} many {{mentionCount,number} wzmianek o Tobie od {person1} i {person2}} other {{mentionCount,number} wzmianek o Tobie od {person1} i {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} wzmianka o Tobie od {person1} i innych osób} few {{mentionCount,number} wzmianki o Tobie od {person1} i innych osób} many {{mentionCount,number} wzmianek o Tobie od {person1} i innych osób} other {{mentionCount,number} wzmianek o Tobie od {person1} i innych osób}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {odpowiedź od {person1}} few {{replyCount,number} odpowiedzi od {person1}} many {{replyCount,number} odpowiedzi od {person1}} other {{replyCount,number} odpowiedzi od {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} odpowiedź od {person1} i {person2}} few {{replyCount,number} odpowiedzi od {person1} i {person2}} many {{replyCount,number} odpowiedzi od {person1} i {person2}} other {{replyCount,number} odpowiedzi od {person1} i {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} odpowiedź od {person1} i innych osób} few {{replyCount,number} odpowiedzi od {person1} i innych osób} many {{replyCount,number} odpowiedzi od {person1} i innych osób} other {{replyCount,number} odpowiedzi od {person1} i innych osób}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Wzmianki"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Zmień"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Utwórz PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Utwórz"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN Signal"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Zaawansowane ustawienia PIN-u"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Wyłącz PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Wyłącz"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Jeśli wyłączysz PIN, przy ponownej rejestracji w aplikacji Signal stracisz wszystkie dane (chyba że masz utworzoną ręcznie kopię zapasową do przywrócenia). Gdy PIN jest wyłączony, nie można też korzystać z funkcji blokady rejestracji."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Aby wyłączyć PIN, musisz najpierw wyłączyć blokadę rejestracji."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Aby wyłączyć PIN, musisz najpierw wyłączyć tworzenie kopii zapasowych."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Włącz PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Włącz"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Przypomnienia o PIN-ie"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Z czasem będziemy pytać coraz rzadziej"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Blokada rejestracji"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Wymagaj PIN-u Signal, aby ponownie zarejestrować numer telefonu w aplikacji."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Treść powiadomień"
@@ -6305,7 +6323,7 @@
     "messageformat": "Odznaka aplikacji"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Licznik nieodczytanych wiadomości"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Przywróć domyślne ustawienia powiadomień, w tym niestandardowe ustawienia czatów."
@@ -6332,10 +6350,10 @@
     "messageformat": "Nieodczytane czaty"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Uwzględniaj wyciszone czaty w liczniku aplikacji"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Liczniki folderów z czatami zawsze uwzględniają wyciszone czaty"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Wyeksportuj historię czatów"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Profile powiadomień"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Ustaw"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Profile powiadomień"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Dodaj lub edytuj profile powiadomień"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {1 profil} few {{profileCount,number} profile} many {{profileCount,number} profili} other {{profileCount,number} profilu}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Utwórz profil"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Zdecyduj, kto może wyświetlić Twój numer telefonu lub użyć go do skontaktowania się z Tobą w aplikacji Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Zmień…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Kto może wyświetlić mój numer telefonu"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Potwierdzenia odczytania"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Jeśli ta opcja jest wyłączona, nie wyświetlą Ci się potwierdzenia odczytania Twoich wiadomości przez inne osoby."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Wskaźniki pisania"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Jeśli ta opcja jest wyłączona, nie wyświetlą Ci się wskaźniki pisania wiadomości przez inne osoby."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Wyświetlaj i udostępniaj, czy wiadomości zostały odczytane i czy są właśnie pisane. Jeśli te opcje są wyłączone, nie będą Ci się wyświetlać potwierdzenia odczytania Twoich wiadomości ani wskaźniki pisania wiadomości przez inne osoby."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Spróbuj ponownie za {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Numer telefonu"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Włącz opcję „Signal”"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Przejdź do ustawień"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Menu kontekstowe"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Nazwa użytkownika"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Nazwa użytkownika"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Nazwy użytkowników zawsze są parowane z zestawem cyfr."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Zmień swój identyfikator PIN Signal"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Możesz zmienić PIN, pod warunkiem że to urządzenie zostało zarejestrowane. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potwierdź swój PIN Signal"
@@ -9090,13 +9114,16 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Dodaliśmy dwa nowe poziomy powiększenia w ustawieniach wyglądu. Od teraz nawet przy minimalnym wysiłku możesz w swoich wiadomościach dawać z siebie 110% (albo 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Poszukiwanie siebie może być zagadnieniem na całe życie, ale od teraz – aby nieco Ci to ułatwić – przy wyszukiwaniu osób w grupie będziesz się wyświetlać jako „Ty”."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "W tej aktualizacji rozbudowaliśmy ustawienia powiadomień, żeby dać Ci nad nimi jeszcze większą kontrolę. Możesz teraz wybrać, co pojawia się na plakietce aplikacji, dostosować powiadomienia w przypadku wyciszonych czatów i nie tylko. Dodaliśmy też wygodny przycisk do przywracania domyślnych ustawień powiadomień – na wypadek, gdyby udało Ci się pozmieniać tyle opcji, że samodzielny powrót do punktu wyjścia przestałby wchodzić w grę."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

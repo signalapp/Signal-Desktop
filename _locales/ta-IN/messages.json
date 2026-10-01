@@ -81,7 +81,7 @@
     "messageformat": "கணக்கு அமைப்புகள் மற்றும் காப்புப்பிரதிகளை உங்கள் முதன்மைச் சாதனத்தில் மட்டுமே நிர்வகிக்க முடியும்."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "கணக்கு அமைப்புகள் மற்றும் Signal பாதுகாப்பு காப்புப்பிரதிகளை உங்கள் முதன்மைச் சாதனத்தில் மட்டுமே நிர்வகிக்க முடியும்."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "தரநிலை"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ஈமோஜி ஸ்கின் டோன்"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "சாட் கோப்புறைகள்"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "சாட் கோப்புறையைச் சேர்"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} கோப்புறை} other {{chatFoldersCount,number} கோப்புறைகள்}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "அமைக்கவும்"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "நிர்வகி"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "கோப்புறையைத் திருத்து"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "ஒலியடக்கப்படவில்லை"
   },
-  "icu:muteHour": {
-    "messageformat": "ஒரு மணி நேரம் ஒலியடக்கு"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "எட்டு மணி நேரம் ஒலியடக்கு"
-  },
-  "icu:muteDay": {
-    "messageformat": "ஒரு நாள் ஒலியடக்கு"
-  },
-  "icu:muteWeek": {
-    "messageformat": "ஒரு வாரம் ஒலியடக்கு"
-  },
-  "icu:muteAlways": {
-    "messageformat": "எப்போதும் ஒலியடக்கு"
-  },
   "icu:unmute": {
     "messageformat": "ஒலியடக்கம் நீக்கு"
   },
   "icu:MuteMenu__label": {
     "messageformat": "இந்த அரட்டையை இவ்வளவு நேரத்திற்கு ஒலியடக்கவும்…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "இந்த அரட்டைகளை இவ்வளவு நேரத்திற்கு ஒலியடக்கவும்…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 மணி நேரம்"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "சாட் அமைப்புகள்"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "இந்த சாட்டின் ஒலியடக்கத்தை நீக்க வேண்டுமா?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "குழு இணைப்பு"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "ஒலியடக்கப்பட்டிருக்கும் அரட்டைகளில், உங்கள் செய்திக்கு யாராவது பதிலளித்தால் அறிவிக்கும்."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "படிக்காதவைக்கான நினைவூட்டல்கள்"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "இந்த அரட்டை ஒலியடக்கம் செய்யப்பட்டிருக்கும்போது, படிக்கப்படாத செய்திகள் இருந்தால் எப்போதாவது அறிவிக்கும்."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "ஒலியடக்கப்பட்ட அரட்டைகளில் படிக்கப்படாத செய்திகள் இருந்தால் எப்போதாவது அறிவிக்கப்படும்."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} என்பவரிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்தி உள்ளது.} other {{person1} என்பவரிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} மற்றும் {person2} ஆகியோரிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்தி உள்ளது.} other {{person1} மற்றும் {person2} ஆகியோரிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {{person1}, {person2} மற்றும் பிற நபர்களிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்தி உள்ளது.} other {{person1}, {person2} மற்றும் பிற நபர்களிடமிருந்து உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {{mentionSummary} உட்பட {messageCount,number}படிக்கப்படாத செய்தி உள்ளது.} other {{mentionSummary} உட்பட {messageCount,number}படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {{replySummary} உட்பட {messageCount,number}படிக்கப்படாத செய்தி உள்ளது.} other {{replySummary} உட்பட {messageCount,number}படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {உங்களுக்கு {messageCount,number} படிக்காத செய்தி உள்ளது.} other {உங்களுக்கு {messageCount,number} படிக்கப்படாத செய்திகள் உள்ளன.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} உங்களைக் குறிப்பிட்ட ஒரு குறிப்பிடல்} other {{person1} உங்களைக் குறிப்பிட்ட {mentionCount,number} குறிப்பிடல்கள்}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} மற்றும் {person2} உங்களைக் குறிப்பிட்ட {mentionCount,number} குறிப்பிடல்} other {{person1} மற்றும் {person2} உங்களைக் குறிப்பிட்ட {mentionCount,number} குறிப்பிடல்கள்}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1} மற்றும் பிறர் உங்களைக் குறிப்பிட்ட {mentionCount,number} குறிப்பிடல்} other {{person1} மற்றும் பிறர் உங்களைக் குறிப்பிட்ட {mentionCount,number} குறிப்பிடல்கள்}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {{person1} வழங்கிய பதில்} other {{person1} வழங்கிய {replyCount,number} பதில்கள்}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{person1} மற்றும் {person2} ஆகியோர் வழங்கிய {replyCount,number} பதில்} other {{person1} மற்றும் {person2} ஆகியோர் வழங்கிய {replyCount,number} பதில்கள்}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{person1} மற்றும் பிறர் வழங்கிய {replyCount,number} பதில்} other {{person1} மற்றும் பிறர் வழங்கிய {replyCount,number} பதில்கள்}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "பெயர் குறிப்பிடுவது"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "மாற்றுக"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "பின்னை உருவாக்கவும்"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "உருவாக்கவும்"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal பின்"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "மேம்பட்ட பின் அமைப்புகள்"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "PIN-ஐ முடக்கு"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "முடக்கு"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "நீங்கள் PIN-ஐ முடக்கினால், நீங்கள் கைமுறையாக காப்புப்பிரதி எடுத்து மீட்டெடுக்காவிட்டால் Signal-ஐ மீண்டும் பதிவுசெய்யும்போது எல்லா தரவையும் இழப்பீர்கள். PIN முடக்கப்பட்டிருக்கும் போது நீங்கள் பதிவு பூட்டை இயக்க முடியாது."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "சரி"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "பின்னை மீண்டும் திறக்கவும்"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "செயல்படுத்து"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "கடவுஎண் பின் நினைவூட்டல்கள்"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "காலப்போக்கில் உங்களிடம் குறைவாகக் கேட்கப்படும்"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "பதிவு பூட்டு"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "அறிவிப்பு உள்ளடக்கம்"
@@ -6305,7 +6323,7 @@
     "messageformat": "செயலி பேட்ஜ்"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "படிக்கப்படாத பேட்ஜ்கள்"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "உங்கள் அரட்டைகள் பிரத்தியேக அமைப்புகள் உட்பட, அறிவிப்பு அமைப்புகளை இயல்புநிலைக்கு மீட்டமைக்கும்."
@@ -6332,10 +6350,10 @@
     "messageformat": "படிக்கப்படாத அரட்டைகள்"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "ஒலியடக்கப்பட்ட அரட்டைகளை செயலி பேட்ஜில் சேர்த்தல்"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "அரட்டை கோப்புறை பேட்ஜ்கள், எப்போதும் ஒலியடக்கப்பட்ட அரட்டைகளைக் கொண்டிருக்கும்"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "சாட் வரலாற்றை ஏற்றுமதி செய்க"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "அறிவிப்பு சுயவிவரங்கள்"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "அமைக்கவும்"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "அறிவிப்பு சுயவிவரங்கள்"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "அறிவிப்பு சுயவிவரத்தைச் சேர்க்கவும் அல்லது திருத்தவும்"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {ஒரு சுயவிவரம்} other {{profileCount,number} சுயவிவரங்கள்}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "சுயவிவரத்தை உருவாக்கவும்"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "உங்கள் தொலைபேசி எண்ணை யார் பார்க்கலாம் மற்றும் யார் உங்களை சிக்னலில் தொடர்பு கொள்ளலாம் என்பதைத் தேர்வுசெய்யவும்."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "மாற்று…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "எனது எண்ணை யார் பார்க்கலாம்"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ரசீதுகளைப் படியுங்கள்"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "முடக்கப்பட்டிருந்தால், உங்களால் மற்றவர்களின் வாசித்ததற்கான பற்றுகையைப் பார்க்க முடியாது."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "தட்டச்சு குறிகாட்டிகள்"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "முடக்கப்பட்டிருந்தால், உங்களால் மற்றவர்களின் டைப்பிங் செய்தலுக்கான குறிப்பானைப் பார்க்க முடியாது."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "செய்திகள் படிக்கப்படுவதையும் தட்டச்சு செய்யப்படுவதையும் காணவும் பகிரவும் முடியும். இதை முடக்கினால், மற்றவர்களின் வாசித்ததற்கான ஒப்புதலையோ அவர்கள் தட்டச்சு செய்வதையோ உங்களால் பார்க்க முடியாது."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "{duration} நேரத்தில் மீண்டும் முயலுங்கள்"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "தொலைபேசி எண்"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "\"சிக்னல்\"ஐ ஆன் செய்யவும்"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "அமைப்புகளுக்குச் செல்"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "சூழல் மெனு"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "பயனர் பெயர்"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "பயனர் பெயர்"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "பயனர் பெயர்கள் எப்போதும் எண்களின் தொகுப்புடன் இணைக்கப்படும்."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "மேலும் அறிக"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "உங்கள் Signal PIN-ஐ மாற்றவும்"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "நீங்கள் முடியும் மாற்றம் உங்கள் பின் இந்த வரை சாதனம் பதிவு செய்யப்பட்டுள்ளது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "உறுதிப்படுத்தவும் உங்கள் Signal பின்"
@@ -9090,13 +9114,16 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "தோற்ற அமைப்புகளில் இரண்டு புதிய சூம் நிலைகளைச் (110% மற்றும் 90%) சேர்த்துள்ளோம்."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "தொகுப்பு உறுப்பினர்களின் தேடல் மேம்பாடுகள்."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "அறிவிப்புகள் எப்படி, எப்போது தோன்ற வேண்டும் என்பதற்கான விரிவான விருப்பங்களைக் கொண்ட மேம்படுத்தப்பட்ட அறிவிப்பு அமைப்புகள்."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

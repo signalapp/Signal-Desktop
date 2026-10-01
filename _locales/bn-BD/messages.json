@@ -81,7 +81,7 @@
     "messageformat": "অ্যাকাউন্টের সেটিংস এবং ব্যাকআপ শুধুমাত্র আপনার প্রাথমিক ডিভাইস থেকেই নিয়ন্ত্রণ করা যাবে।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "অ্যাকাউন্ট সেটিংস এবং Signal নিরাপদ ব্যাকআপ শুধুমাত্র আপনার প্রাথমিক ডিভাইসে নিয়ন্ত্রণ করা যাবে।"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "স্ট্যান্ডার্ড"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ইমোজির ত্বকের রঙ"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "চ্যাট ফোল্ডার"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "একটি চ্যাট ফোল্ডার যোগ করুন"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number}-টি ফোল্ডার} other {{chatFoldersCount,number}-টি ফোল্ডার}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "সেট আপ করুন"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "নিয়ন্ত্রণ করুন"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "ফোল্ডার এডিট করুন"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "মিউট করা হয়নি"
   },
-  "icu:muteHour": {
-    "messageformat": "এক ঘণ্টার জন্য মিউট করুন"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "আট ঘণ্টার জন্য মিউট করুন"
-  },
-  "icu:muteDay": {
-    "messageformat": "এক দিনের জন্য মিউট করুন"
-  },
-  "icu:muteWeek": {
-    "messageformat": "এক সপ্তাহের জন্য মিউট করুন"
-  },
-  "icu:muteAlways": {
-    "messageformat": "সবসময়ের জন্য মিউট করুন"
-  },
   "icu:unmute": {
     "messageformat": "আনমিউট করুন"
   },
   "icu:MuteMenu__label": {
     "messageformat": "এই চ্যাটটি মিউট করুন…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "এই চ্যাটগুলো মিউট করুন…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 ঘন্টা"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "চ্যাট সেটিংস"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "এই চ্যাটটি আনমিউট করবেন?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "গ্রুপের লিংক"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "মিউট করা চ্যাটে কেউ আপনার মেসেজের উত্তর দিলে নোটিফাই করুন।"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "পড়া হয়নি এমন রিমাইন্ডার"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "এই চ্যাটটি মিউট থাকা অবস্থায় পড়া হয়নি এমন মেসেজ থাকলে মাঝে মাঝে নোটিফিকেশন পান।"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "মিউট করা চ্যাটে অপঠিত মেসেজ থাকলে মাঝে মাঝে নোটিফাই করুন।"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{person1}-এর কাছ থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।} other {{person1}-এর কাছ থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} এবং {person2} থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।} other {{person1} এবং {person2}-এর কাছ থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {{person1}, {person2} এবং অন্যদের থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।} other {{person1}, {person2} এবং অন্যদের থেকে আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {{mentionSummary} সহ আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।} other {{mentionSummary} সহ আপনার {messageCount,number} টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {{replySummary} সহ আপনার {messageCount,number}-টি পড়া হয়নি এমন মেসেজ আছে।} other {{replySummary} সহ আপনার {messageCount,number} টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।} other {আপনার {messageCount,number}-টি অপঠিত মেসেজ আছে।}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} আপনাকে উল্লেখ করেছেন} other {{person1} আপনাকে {mentionCount,number} বার উল্লেখ করেছেন}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} এবং {person2} আপনাকে {mentionCount,number} বার মেনশন করেছেন} other {{person1} এবং {person2} আপনাকে {mentionCount,number} বার মেনশন করেছেন}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1} এবং অন্যরা আপনাকে {mentionCount,number} বার মেনশন করেছেন} other {{person1} এবং অন্যরা আপনাকে {mentionCount,number} বার মেনশন করেছেন}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {{person1}-এর কাছ থেকে উত্তর} other {{person1}-এর কাছ থেকে {replyCount,number}-টি উত্তর}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{person1} এবং {person2}-এর কাছ থেকে {replyCount,number}-টি রিপ্লাই} other {{person1} এবং {person2}-এর কাছ থেকে {replyCount,number}-টি রিপ্লাই}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{person1} এবং অন্যান্যদের কাছ থেকে {replyCount,number}-টি রিপ্লাই} other {{person1} এবং অন্যান্যদের কাছ থেকে {replyCount,number}-টি রিপ্লাই}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "উল্লেখ"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "পরিবর্তন করুন"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "পিন তৈরি করুন"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "তৈরি করুন"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal পিন"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "অ্যাডভান্সড পিন সেটিংস"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "পিন নিষ্ক্রিয় করুন"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "নিষ্ক্রিয় করুন"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "আপনি পিনটি নিষ্ক্রিয় করলে, আপনি Signal-এ সেভ করা ডেটা ম্যানুয়ালি ব্যাক-আপ ও পুনরুদ্ধার না করলে, পুনরায় Signal-এ রেজিস্টার করার সময় আপনি সমস্ত সেভ করা ডেটা হারাবেন। পিন নিষ্ক্রিয় থাকা অবস্থায় আপনি রেজিস্ট্রেশন লক চালু করতে পারবেন না।"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "আপনার পিন নিষ্ক্রিয় করার আগে আপনাকে অবশ্যই রেজিস্ট্রেশন লক নিষ্ক্রিয় করতে হবে।"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "ঠিক আছে"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "আপনার পিন নিষ্ক্রিয় করার আগে আপনাকে অবশ্যই ব্যাকআপ নিষ্ক্রিয় করতে হবে।"
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "পিন সক্রিয় করুন"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "সক্রিয় করুন"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN অনুস্মারক"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "আপনাকে মাঝে মাঝে জিজ্ঞেস করা হবে"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "রেজিস্ট্রেশন লক"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Signal-এ আবার আপনার ফোন নম্বর রেজিস্টার করতে আপনার Signal পিনের প্রয়োজন।"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "নোটিফিকেশনের বিষয়বস্তু"
@@ -6305,7 +6323,7 @@
     "messageformat": "অ্যাপ ব্যাজ"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "অপঠিত ব্যাজ"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "আপনার চ্যাটের কাস্টম সেটিংস সহ নোটিফিকেশন সেটিংস ডিফল্টে রিসেট করুন।"
@@ -6332,10 +6350,10 @@
     "messageformat": "পড়া হয়নি এমন চ্যাট"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "অ্যাপ ব্যাজে মিউট করা চ্যাট অন্তর্ভুক্ত করুন"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "চ্যাট ফোল্ডার ব্যাজে সবসময় মিউট করা চ্যাট অন্তর্ভুক্ত থাকবে"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "চ্যাট-এর ইতিহাস এক্সপোর্ট করুন"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "নোটিফিকেশন প্রোফাইল"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "সেট আপ করুন"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "নোটিফিকেশন প্রোফাইল"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "নোটিফিকেশন প্রোফাইল যোগ করুন বা এডিট করুন"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {একটি প্রোফাইল} other {{profileCount,number}-টি প্রোফাইল}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "প্রোফাইল তৈরি করুন"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "আপনার ফোন নম্বর কে দেখতে পাবেন এবং এটি ব্যবহার করে Signal-এ কে আপনার সাথে যোগাযোগ করতে পারবেন তা নির্বাচন করুন।"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "পরিবর্তন করবেন…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "আমার নম্বর কে দেখতে পাবেন"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "পড়ার প্রাপ্তিগুলি"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের পাঠানো মেসেজ পড়ার রিড রিসিপ্ট দেখতে পাবেন না।"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "টাইপিং সূচক"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের টাইপিং সূচক দেখতে পাবেন না।"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "মেসেজ কখন পড়া হচ্ছে ও টাইপ করা হচ্ছে তা দেখুন ও শেয়ার করুন। এটি নিষ্ক্রিয় করা থাকলে, আপনি অন্যদের পাঠানো রিড রিসিপ্ট বা টাইপিং সূচক দেখতে পাবেন না।"
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "অনুগ্রহ করে {duration} পরে আবার চেষ্টা করুন"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ফোন নম্বর"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "\"Signal\" চালু করুন"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "সেটিংস-এ যান"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "কন্টেক্সট মেন্যু"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "ব্যবহারকারীর নাম"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "ব্যবহারকারীর নাম"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "ব্যবহারকারীর নাম সবসময় একগুচ্ছ সংখ্যার সাথে যুক্ত করা হয়।"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "আরো জানুন"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "আপনার Signal পিন পরিবর্তন করুন"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "এই ডিভাইস রেজিস্টার থাকা অবধি আপনি আপনার পিন পরিবর্তন করতে পারবেন। <learnMoreLink>আরো জানুন</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "আপনার Signal পিনটি নিশ্চিত করুন"
@@ -9090,13 +9114,16 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "আমরা অ্যাপিয়ারেন্স সেটিংসে দু'টি নতুন জুম লেভেল (১১০% এবং ৯০%) যোগ করেছি।"
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "গ্রুপ সদস্য সার্চ উন্নত করা হয়েছে।"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "নোটিফিকেশন কীভাবে এবং কখন প্রদর্শিত হবে, সেই সংক্রান্ত অপশন আরো বাড়িয়ে নোটিফিকেশন সেটিংস উন্নত করা হয়েছে।"
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

@@ -81,7 +81,7 @@
     "messageformat": "Parametrat e llogarisë dhe kopjeruajtjet mund të menaxhohen vetëm në pajisjen kryesore."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Parametrat e llogarisë dhe kopjeruajtjet e sigurta të Signal mund të menaxhohen vetëm nga pajisja kryesore."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Toni i lëkurës së emoxhit"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Dosjet e bisedës"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Shto dosje bisede"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} dosje} other {{chatFoldersCount,number} dosje}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Konfiguro"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Menaxho"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Përpuno dosjen"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Nuk i është hequr zëri"
   },
-  "icu:muteHour": {
-    "messageformat": "Hiqi zërin për një orë"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Hiqi zërin për tetë orë"
-  },
-  "icu:muteDay": {
-    "messageformat": "Hiqi zërin për një ditë"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Hiqi zërin për një javë"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Hiqi zërin përgjithmonë"
-  },
   "icu:unmute": {
     "messageformat": "Ktheji zërin"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Bëje pa zë këtë bisedë për…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Bëji pa zë këto biseda për…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 orë"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Parametrat e bisedës"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Dëshiron t'i kthesh zërin kësaj bisede?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Lidhje grupi"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Njoftohu kur dikush i përgjigjet mesazhit tënd në bisedat që i ke bërë pa zë."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Përkujtues për mesazhet e palexuara"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Herë pas here njofto për mesazhet e palexuara kur kjo bisedë është vendosur në heshtje."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Herë pas here shfaq njoftime me mesazhe të palexuara në bisedat që i ke bërë pa zë."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Ti ke {messageCount,number} mesazh të palexuar nga {person1}.} other {Ti ke {messageCount,number} mesazhe të palexuara nga {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Ti ke {messageCount,number} mesazh të palexuar nga {person1} dhe {person2}.} other {Ti ke {messageCount,number} mesazhe të palexuara nga {person1} dhe {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Ke {messageCount,number} mesazh të palexuar nga {person1}, {person2} dhe të tjerë.} other {Ke {messageCount,number} mesazhe të palexuara nga {person1}, {person2} dhe të tjerë.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Ti ke {messageCount,number} mesazh të palexuar, përfshirë {mentionSummary}.} other {Ti ke {messageCount,number} mesazhe të palexuara, përfshirë {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Ti ke {messageCount,number} mesazh të palexuar, përfshirë {replySummary}.} other {Ti ke {messageCount,number} mesazhe të palexuara, përfshirë {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Ti ke {messageCount,number} mesazh të palexuar.} other {Ti ke {messageCount,number} mesazhe të palexuara.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {përmendje nga {person1}} other {{mentionCount,number} përmendje nga {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} përmendje nga {person1} dhe {person2}} other {{mentionCount,number} përmendje nga {person1} dhe {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} përmendje nga {person1} dhe të tjerë} other {{mentionCount,number} përmendje nga {person1} dhe të tjerë}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {një përgjigje nga {person1}} other {{replyCount,number} përgjigje nga {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} përgjigje nga {person1} dhe {person2}} other {{replyCount,number} përgjigje nga {person1} dhe {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} përgjigje nga {person1} dhe të tjerë} other {{replyCount,number} përgjigje nga {person1} dhe të tjerë}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Përmendje"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Ndrysho"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Krijoni PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Krijoje"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "PIN Signal-i"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Parametrat e mëtejshme të PIN"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Çaktivizoje PIN-in"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Çaktivizoje"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Nëse çaktivizoni PIN-in, do të humbni krejt të dhënat, kur riregjistroni Signal-in, veç në i kopjeruajtshi dhe rikthefshi dorazi. S\\’mund të aktivizoni Kyçje Regjistrimi, teksa PIN-i është i çaktivizuar."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Aktivizoje PIN-in"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Aktivizo"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Kujtues PIN-i"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Me kalimin e kohës, do të pyeteni më rrallë"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Kyçje Regjistrimi"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Lëndë njoftimi"
@@ -6305,7 +6323,7 @@
     "messageformat": "Distinktivi i aplikacionit"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Distinktivët e mesazheve të palexuara"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Rikthe parametrat e njoftimeve me parazgjedhje, duke përfshirë parametrat e personalizuara për bisedat."
@@ -6332,10 +6350,10 @@
     "messageformat": "Biseda të palexuara"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Përfshi bisedat pa zë në distinktivin e aplikacionit"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Distinktivët e dosjeve të bisedave do të përfshijnë gjithmonë edhe bisedat e bëra pa zë"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksporto historikun e bisedës"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Profile njoftimesh"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Konfiguro"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Profile njoftimesh"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Shto ose përpuno profilet e njoftimeve"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Një profil} other {{profileCount,number} profile}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Krijoni profil"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Zgjidh se kush mund ta shohë numrin tënd të telefonit dhe kush mund të të kontaktojë nëpërmjet tij në Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Ndrysho…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Kush mund të shohë numrin tim"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Dëftesa leximi"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Nëse është çaktivizuar, nuk do të shikosh \"mesazhi u lexua\" nga të tjerët."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Tregues shtypjeje"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Nëse është çaktivizuar, nuk do të shikosh treguesit e shkrimit nga të tjerët."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Shiko dhe ndaj informacionin kur mesazhet lexohen dhe kur po shkruhen. Nëse çaktivizohet, nuk do të shikosh \"mesazhi u lexua\" apo treguesit e shkrimit nga të tjerët."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Të lutem, provo përsëri për {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Numër telefoni"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Aktivizo \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Shko te parametrat"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Menyja e kontekstit"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Emri i përdoruesit"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Emri i përdoruesit"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Emrat e përdoruesve bashkohen gjithmonë me një grup numrash."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Mëso më tepër"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Ndrysho kodin PIN të Signal"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mundeni ta ndryshoni PIN-in tuaj, sa kohë që kjo pajisje është e regjistruar. <learnMoreLink>Mëso më shumë</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Ripohoni PIN-in tuaj për Signal"
@@ -9090,13 +9114,16 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Shtuam dy nivele të reja zmadhimi te parametrat e pamjes (110% dhe 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Përmirësime në kërkimin e anëtarëve të grupit."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Parametra të përmirësuara të njoftimeve, me mundësi të zgjeruara për mënyrën dhe kohën e shfaqjes së tyre."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

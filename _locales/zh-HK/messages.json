@@ -81,7 +81,7 @@
     "messageformat": "只能於你的主要裝置上管理帳戶設定和備份。"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "只能於你的主要裝置上管理帳戶設定和「Signal 安全備份」。"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "表情符號膚色"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "聊天資料夾"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "新增聊天資料夾"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} 個資料夾}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "設定"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "管理"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "編輯資料夾"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "非靜音"
   },
-  "icu:muteHour": {
-    "messageformat": "靜音一小時"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "靜音八小時"
-  },
-  "icu:muteDay": {
-    "messageformat": "靜音一天"
-  },
-  "icu:muteWeek": {
-    "messageformat": "靜音一星期"
-  },
-  "icu:muteAlways": {
-    "messageformat": "總是靜音"
-  },
   "icu:unmute": {
     "messageformat": "取消靜音"
   },
   "icu:MuteMenu__label": {
     "messageformat": "將此聊天設為靜音…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "將這些聊天設為靜音…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 小時"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "聊天設定"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "要取消此聊天的靜音嗎？"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "群組連結"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "當靜音聊天中有人回覆你的訊息時發送通知。"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "未讀提示"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "當此聊天設為靜音時，若有未讀訊息，系統會偶爾通知。"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "當靜音聊天中有未讀訊息時偶爾通知。"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則來自{person1}的未讀訊息。}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則來自{person1}及{person2}的未讀訊息。}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則來自{person1}、{person2}及其他人的未讀訊息。}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則未讀訊息，包括 {mentionSummary}。}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則未讀訊息，包括 {replySummary}。}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, other {你有 {messageCount,number} 則未讀訊息。}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, other {{person1} {mentionCount,number} 次提及你}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, other {{person1}及{person2} {mentionCount,number} 次提及你}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, other {{person1}及其他人 {mentionCount,number} 次提及你}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, other {{person1}的 {replyCount,number} 個回覆}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, other {{person1}及{person2}的 {replyCount,number} 個回覆}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, other {{person1}及其他人的 {replyCount,number} 個回覆}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "提及"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "更改"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "建立一個 PIN 碼"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "建立"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN 碼"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "進階 PIN 碼設定"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "停用 PIN 碼"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "停用"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "若您停用 PIN 碼，當您重新註冊 Signal 時，除非您已手動備份並進行還原，否則您將遺失所有資料。PIN 碼停用時不可開啟註冊鎖定。"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "你必須先停用註冊鎖定，才能停用 PIN 碼。"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "好"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "你必須先停用「備份」，才能停用 PIN 碼。"
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "啟用 PIN 碼"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "啟用"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN 碼提醒"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "隨著時間過去，詢問您的次數會減少"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "註冊鎖定"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "要求輸入您的 Signal PIN 碼，才可在 Signal 重新註冊您的電話號碼。"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "通知內容"
@@ -6305,7 +6323,7 @@
     "messageformat": "應用程式徽章"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "未讀通知標記"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "將通知設定重設為預設值，包括聊天的自訂設定。"
@@ -6332,10 +6350,10 @@
     "messageformat": "未讀聊天"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "在應用程式通知標記中包括已靜音的聊天"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "聊天資料夾通知標記總會包含已靜音的聊天"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "匯出聊天紀錄"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "通知情景"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "設定"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "通知情景"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "新增或編輯通知情景"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {{profileCount,number} 情景}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "建立情景"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "選擇誰可以看到你的電話號碼，以及誰可以透過它在 Signal 上與你聯絡。"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "更改..."
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "誰可以看到我的號碼"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "已讀標記"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "如果停用，你就無法看到別人的已讀標記。"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "打字狀態"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "如果停用，你就無法看到別人的輸入狀態。"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "查看並分享訊息已讀與輸入中的狀態。如果停用，你將無法看到其他人的已讀標記或輸入狀態。"
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "請在 {duration}後再試"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "電話號碼"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "開啟「Signal」"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "前往設定"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "快顯選單"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "用戶名稱"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "用戶名稱"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "用戶名稱都會與一組數字配對。"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "了解更多"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "變更你的 Signal PIN 碼"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "只要此裝置維持登記，您可隨時變更您的 PIN 碼。 <learnMoreLink>了解更多</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "確認您的 Signal PIN 碼"
@@ -9090,13 +9114,16 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "我們在外觀設定中新增了兩個縮放級別，因此你不費吹灰之力，就能將訊息放大到 110%（或縮到 90%）。"
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "尋找自我可能是一輩子的過程，但現在你在群組成員搜尋中會顯示為「你」，讓尋找自己容易一些。"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "此更新引入了更精細的設定選項，讓你能對 Signal 的通知有更全面的控制。現在，你可以選擇應用程式徽章上顯示的內容、調整靜音討論串的通知偏好設定，以及更多功能！我們還新增了一個方便的按鈕，讓你在進行了太多變更甚至陷入迷茫時，能輕鬆還原預設的通知設定。"
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

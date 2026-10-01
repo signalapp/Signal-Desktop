@@ -81,7 +81,7 @@
     "messageformat": "계정 설정과 백업은 기본 기기에서만 관리할 수 있습니다."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "계정 설정 및 Signal 안전 백업은 기본 기기에서만 관리할 수 있습니다."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "기본"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "이모지 피부색"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "대화 폴더"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "대화 폴더 추가"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {폴더 {chatFoldersCount,number}개}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "설정"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "관리"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "폴더 수정"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "알림 켜짐"
   },
-  "icu:muteHour": {
-    "messageformat": "1시간 동안 알림 끄기"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "8시간 동안 알림 끄기"
-  },
-  "icu:muteDay": {
-    "messageformat": "하루 동안 알림 끄기"
-  },
-  "icu:muteWeek": {
-    "messageformat": "일주일 동안 알림 끄기"
-  },
-  "icu:muteAlways": {
-    "messageformat": "항상 알림 끄기"
-  },
   "icu:unmute": {
     "messageformat": "알림 켜기"
   },
   "icu:MuteMenu__label": {
     "messageformat": "알림 끄기 설정"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "다음 기간 동안 이 대화 알림 끄기"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1시간"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "대화 설정"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "이 대화의 알림을 켤까요?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "그룹 링크"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "알림을 끈 대화에서 누군가 내 메시지에 답장을 할 경우 알림이 뜹니다."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "읽지 않은 메시지 알림"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "알림을 끈 대화에 읽지 않은 메시지가 있으면 일정 주기로 알림을 표시합니다."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "알림을 끈 대화에 읽지 않은 메시지가 있으면 일정 주기로 알림을 표시합니다."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, other {{person1} 님이 보낸 읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, other {{person1} 님과 {person2} 님이 보낸 읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, other {{person1} 님, {person2} 님 외 여러 사람이 보낸 읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, other {{mentionSummary}를 포함하여 읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, other {{replySummary}를 포함하여 읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, other {읽지 않은 메시지가 {messageCount,number}개 있습니다.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, other {{person1} 님의 멘션 {mentionCount,number}회}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, other {{person1} 님과 {person2} 님의 멘션 {mentionCount,number}회}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, other {{person1} 님 외 여러 명의 멘션 {mentionCount,number}회}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, other {{person1} 님이 보낸 답장 {replyCount,number}개}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, other {{person1} 님과 {person2} 님이 보낸 답장 {replyCount,number}개}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, other {{person1} 님 외 여러 명이 보낸 답장 {replyCount,number}개}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "멘션"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "변경"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "PIN을 생성하세요"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "만들기"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "PIN 고급 설정"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "PIN 비활성화"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "비활성화하기"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "PIN을 비활성화하면 수동으로 백업 및 복원하지 않는 한, Signal 재가입 시 모든 데이터가 삭제됩니다. PIN이 비활성화된 상태에서는 등록 잠금 기능을 사용할 수 없습니다."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "PIN을 비활성화하려면 먼저 등록 잠금을 비활성화해야 합니다."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "확인"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "PIN을 비활성화하려면 먼저 백업을 비활성화해야 합니다."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "PIN 활성화"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "활성화하기"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN 알림"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "사용할수록 확인 요청 횟수가 줄어듭니다."
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "등록 잠금"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Signal에 전화번호를 다시 등록할 때 Signal PIN을 입력하도록 설정합니다."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "알림 내용"
@@ -6305,7 +6323,7 @@
     "messageformat": "앱 배지"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "읽지 않은 배지"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "맞춤 대화 설정을 포함한 모든 알림 설정을 기본값으로 초기화합니다."
@@ -6332,10 +6350,10 @@
     "messageformat": "읽지 않은 대화"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "앱 배지에 알림을 끈 대화 포함하기"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "대화 폴더 배지에는 알림을 끈 대화가 항상 포함됩니다."
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "대화 기록 내보내기"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "알림 프로필"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "설정"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "알림 프로필"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "알림 프로필 추가 또는 수정"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {프로필 {profileCount,number}개}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "프로필 만들기"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "내 전화번호를 볼 수 있고, Signal에서 내 전화번호로 나한테 연락할 수 있는 사람을 선택하세요."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "변경"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "내 전화번호를 볼 수 있는 사람"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "읽음 표시"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "비활성화할 경우 다른 사람이 메시지를 읽었는지 확인할 수 없습니다."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "메시지 입력 중 표시"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "비활성화할 경우 다른 사람이 메시지를 쓰고 있는지 확인할 수 없습니다."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "메시지 읽음 상태와 입력 중 표시를 서로 확인하고 공유합니다. 이 기능을 끄면 다른 사용자의 메시지 읽음 표시와 입력 중 표시를 확인할 수 없습니다."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "{duration} 후에 다시 시도해 주세요."
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "전화번호"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "'Signal'을 켜세요"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "설정으로 이동"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "바로가기 메뉴"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "사용자 이름"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "사용자 이름"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "모든 사용자 이름에는 고유 번호가 부여됩니다."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "자세히 알아보기"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Signal PIN 변경하기"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "이 기기가 등록되어 있는 동안 언제든지 PIN을 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN을 확인해 주세요"
@@ -9067,7 +9091,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--1": {
-    "messageformat": "추가적인 사소한 변경 사항과 버그 수정, 성능 업데이트가 적용되었습니다. Signal을 이용해 주셔서 감사합니다!",
+    "messageformat": "추가적인 기능 개선 및 버그 수정으로 성능을 최적화했습니다. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--2": {
@@ -9075,7 +9099,7 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--3": {
-    "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. 계속해서 평소처럼 문자와 통화, 화상 통화를 즐기세요.",
+    "messageformat": "기능을 개선하고 버그를 수정해 성능을 최적화했습니다. 앞으로도 평소처럼 메시지와 음성 및 영상 통화를 편하게 이용해 주세요.",
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--4": {
@@ -9087,16 +9111,19 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__bugfixes--6": {
-    "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
+    "messageformat": "기능을 개선하고 버그를 수정해 성능을 최적화했습니다. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "디자인 설정에 두 가지 확대/축소 비율(110%와 90%)이 추가되었습니다."
   },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "그룹 멤버 검색 기능이 개선되었습니다."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "알림을 받는 방식과 시점을 더 자유롭게 설정할 수 있도록 알림 설정 기능을 개선했습니다."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }
