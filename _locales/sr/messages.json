@@ -81,7 +81,7 @@
     "messageformat": "Управљање подешавањима налога и резервним копијама могуће је само с примарног уређаја."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Подешавањима налога и безбедним резервним копијама можете управљати искључиво с примарног уређаја."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандардни квалитет"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Боја коже емоџија"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Фолдери за ћаскања"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Додај фолдер за ћаскања"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} фолдер} other {{chatFoldersCount,number} фолдер(а)}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Подесите"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Измени"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Измени фолдер"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Нису искључена обавештења"
   },
-  "icu:muteHour": {
-    "messageformat": "Искључи обавештења на 1 сат"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Искључи обавештења на 8 сати"
-  },
-  "icu:muteDay": {
-    "messageformat": "Искључи обавештења на 1 дан"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Искључи обавештења на 7 дана"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Трајно искључи обавештења"
-  },
   "icu:unmute": {
     "messageformat": "Укључи обавештења"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Искључи обавештења за ово ћаскање на одређено време…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Искључи обавештења за ова ћаскања на…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 сат"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Подешавања ћаскања"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Желите ли да укључите обавештења за ово ћаскање?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Линк за групу"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Обавести ме у случају одговора на моју поруку у утишаним ћаскањима."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Непрочитани подсетници"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Повремено ме обавештавај када у овом ћаскању са искљученим обавештењима има непрочитаних порука."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Повремено ме обавештавај када у ћаскањима са искљученим обавештењима има непрочитаних порука."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку од корисника {person1}.} other {Имате непрочитане поруке ({messageCount,number}) од корисника {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку од корисника {person1} и {person2}.} other {Имате непрочитане поруке ({messageCount,number}) од корисника {person1} и {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку од корисника {person1}, {person2} и других.} other {Имате непрочитане поруке ({messageCount,number}) од корисника {person1}, {person2} и других.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку, укључујући {mentionSummary}.} other {Имате {messageCount,number} непрочитаних порука, укључујући {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку, укључујући {replySummary}.} other {Имате {messageCount,number} непрочитаних порука, укључујући {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Имате {messageCount,number} непрочитану поруку.} other {Имате непрочитане поруке ({messageCount,number}).}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {корисник {person1} вас је споменуо} other {корисник {person1} вас је споменуо {mentionCount,number} пута}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} и {person2} су вас споменули {mentionCount,number} пут(а)} other {{person1} и {person2} су вас споменули {mentionCount,number} пут(а)}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1} и други су вас споменули {mentionCount,number} пут(а)} other {{person1} и други су вас споменули {mentionCount,number} пут(а)}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {одговор од корисника {person1}} other {{replyCount,number} одговора од корисника {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} одговор(а) од корисника {person1} и {person2}} other {{replyCount,number} одговор(а) од корисника {person1} и {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} одговор(а) од корисника {person1} и других} other {{replyCount,number} одговор(а) од корисника {person1} и других}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Помињања"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Промени"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Креирајте PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Креирај"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Напредна подешавања PIN-а"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Искључи PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Искључи"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Ако искључите PIN, изгубићете све податке када поново региструјете Signal, осим ако ручно не направите резервне копије и вратите податке. Не можете укључити закључавање регистрације док је PIN искључен."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Морате да искључите закључавање регистрације пре деактивирања PIN-а."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "У реду"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Морате да искључите резервне копије пре деактивирања PIN-а."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Укључи PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Укључи"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Подсетници за PIN"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Временом ћемо вам тражити све ређе"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Закључавање регистрације"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Захтевај Signal PIN за поновно регистровање броја телефона на Signal-у."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Садржај обавештења"
@@ -6305,7 +6323,7 @@
     "messageformat": "Значка апликације"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Непрочитане значке"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Ресетуј подешавања обавештења на подразумевана, укључујући сва прилагођена подешавања ћаскања."
@@ -6332,10 +6350,10 @@
     "messageformat": "Непрочитана ћаскања"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Укључите ћаскања са искљученим обавештењима у значку апликације"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Значке фолдера за ћаскања увек ће укључивати ћаскања са искљученим обавештењима"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Извези историју ћаскања"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Профили за обавештења"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Подесите"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Профили за обавештења"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Додајте или измените профиле за обавештења"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {1 профил} other {{profileCount,number} профила}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Креирај профил"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Одаберите ко може да види ваш број телефона и ко може да вам се обрати у Signal-у преко њега."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Промени…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Ко може да види мој број"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Потврде о читању"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Ако је функција искључена, нећете видети потврде о читању од других."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Индикатори куцања"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Ако је функција искључена, нећете видети индикаторе куцања од других."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Видите и делите када се поруке читају и куцају. Ако деактивирате ову опцију, нећете видети потврде о читању нити индикаторе куцања других."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Пробајте поново за {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Број телефона"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Укључите „Signal“"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Иди на подешавања"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Контекстуални мени"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Корисничко име"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Корисничко име"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Корисничка имена су увек упарена са скупом бројева."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Сазнајте више"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Промените Signal PIN"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN можете променити док год је овај уређај регистрован. <learnMoreLink>Сазнајте више</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Потврдите Signal PIN"
@@ -9090,13 +9114,16 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Додали смо два нова нивоа зумирања у подешавањима изгледа (110% и 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Побољшања претраге чланова групе."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Побољшане подешавања за обавештења с више опција за то како и када ће се обавештења појављивати."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

@@ -81,7 +81,7 @@
     "messageformat": "ការកំណត់គណនី និងការបម្រុងទុកអាចគ្រប់គ្រងបានតែនៅលើឧបករណ៍ចម្បងរបស់អ្នកប៉ុណ្ណោះ។"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "ការកំណត់គណនី និងការបម្រុងទុកសុវត្ថិភាព Signal អាចគ្រប់គ្រងបានតែនៅលើឧបករណ៍ចម្បងរបស់អ្នកប៉ុណ្ណោះ។"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ស្ដង់ដារ"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "ពណ៌ស្បែករូបអារម្មណ៍"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "ថតឯកសារជជែក"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "បញ្ចូលថតឯកសារជជែក"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} ថតឯកសារ}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "រៀបចំ"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "គ្រប់គ្រង"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "កែថតឯកសារ"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "មិនបិទសំឡេង"
   },
-  "icu:muteHour": {
-    "messageformat": "បិទសំឡេងមួយម៉ោង"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "បិទសំឡេងប្រាំបីម៉ោង"
-  },
-  "icu:muteDay": {
-    "messageformat": "បិទសំឡេងមួយថ្ងៃ"
-  },
-  "icu:muteWeek": {
-    "messageformat": "បិទសំឡេងមួយសប្តាហ៍"
-  },
-  "icu:muteAlways": {
-    "messageformat": "បិទសំឡេងជានិច្ច"
-  },
   "icu:unmute": {
     "messageformat": "បើកសំឡេង"
   },
   "icu:MuteMenu__label": {
     "messageformat": "បិទសំឡេងការជជែកនេះរយៈពេល…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "បិទសំឡេងការជជែកទាំងនេះរយៈពេល…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 ម៉ោង"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "ការកំណត់ការជជែក"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "បើកសំឡេងការជជែកនេះឬ?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "តំណក្រុម"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "ជូនដំណឹងនៅពេលដែលមាននរណាម្នាក់ឆ្លើយតបសាររបស់អ្នកនៅក្នុងការជជែកដែលបានបិទសំឡេង។"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "ការរំលឹកដែលមិនទាន់អាន"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "ជូនដំណឹងម្តងម្កាល នៅពេលមានសារដែលមិនទាន់អាន ពេលដែលការជជែកនេះត្រូវបានបិទសំឡេង។"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "ជូនដំណឹងម្តងម្កាល នៅពេលមានសារដែលមិនទាន់អាននៅក្នុងការជជែកដែលបិទសំឡេង។"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន់ {messageCount,number} ពី {person1}។}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន {messageCount,number} ពី {person1} និង {person2}។}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន {messageCount,number} ពី {person1}, {person2}, និងអ្នកផ្សេងទៀត។}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន {messageCount,number} រួមទាំង {mentionSummary}។}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន {messageCount,number} រួមទាំង {replySummary}។}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, other {អ្នកមានសារមិនទាន់អាន {messageCount,number}។}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, other {មានការលើកឡើងអំពីអ្នក {mentionCount,number} ដងដោយ {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, other {មានការលើកឡើងអំពីអ្នក {mentionCount,number} ដងដោយ {person1} និង {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, other {មានការលើកឡើងអំពីអ្នក {mentionCount,number} ដងដោយ {person1} និងអ្នកផ្សេងទៀត}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, other {ការឆ្លើយតប {replyCount,number} ពី {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, other {ការឆ្លើយតប {replyCount,number} ពី {person1} និង {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, other {ការឆ្លើយតប {replyCount,number} ពី {person1} និងអ្នកផ្សេងទៀត}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "ហៅ"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "ផ្លាស់ប្តូរ"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "បង្កើតលេខកូដសម្ងាត់មួយ"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "បង្កើត"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "លេខកូដសម្ងាត់ Signal"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "ការកំណត់លេខកូដសម្ងាត់កម្រិតខ្ពស់"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "បិទលេខកូដសម្ងាត់"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "បិទ"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "បើអ្នកបានបិទលេខកូដ PIN អ្នកនឹងបាត់បង់ទិន្នន័យទាំងអស់ នៅពេលអ្នកចុះឈ្មោះ Signal ឡើងវិញ លុះត្រាអ្នកបម្រុងទុក និងស្តារឡើងវិញដោយខ្លួនឯង។ អ្នកមិនអាចបើក ការចាក់សោការចុះឈ្មោះ នៅពេលលេខកូដ PIN បានបិទនោះទេ។"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "យល់ព្រម"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "បើកលេខកូដ PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "បើក"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "ការរំលឹកលេខកូដសម្ងាត់"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "គេនឹងស្នើទៅអ្នកតិចជាងមុននៅពេលខាងមុខ"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "ការចាក់សោការចុះឈ្មោះ"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ខ្លឹមសារ​ជូន​ដំណឹង"
@@ -6305,7 +6323,7 @@
     "messageformat": "ស្លាកកម្មវិធី"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "ស្លាកមិនទាន់អាន"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "កំណត់ឡើងវិញនូវការកំណត់ការជូនដំណឹង ទៅជាលំនាំដើម រួមទាំងការកំណត់ផ្ទាល់ខ្លួនសម្រាប់ការជជែករបស់អ្នក។"
@@ -6332,10 +6350,10 @@
     "messageformat": "ការជជែកមិនទាន់អាន"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "រាប់បញ្ចូលទាំងការជជែកដែលបានបិទសំឡេងនៅក្នុងស្លាកកម្មវិធី"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "ស្លាកថតឯកសារជជែកនឹងតែងតែរាប់បញ្ចូលការជជែកដែលបិទសំឡេង"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "នាំចេញប្រវត្តិជជែក"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "រៀបចំ"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "ប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "បញ្ចូល ឬកែប្រូហ្វាល់សម្រាប់ការជូនដំណឹង"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {{profileCount,number} ប្រូហ្វាល់}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "បង្កើតប្រូហ្វាល់"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចមើលឃើញលេខទូរសព្ទរបស់អ្នក និងអ្នកណាដែលអាចប្រើវាទាក់ទងអ្នកបាននៅលើ Signal។"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "ផ្លាស់ប្តូរ…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "អ្នកដែលអាចមើលឃើញលេខរបស់ខ្ញុំ"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ទទួលបានការអាន"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "ប្រសិនបើបិទ អ្នកនឹងមិនឃើញមុខងារអានសារពីអ្នកផ្សេងទេ។"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "វាស់ការវាយអក្សរ"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "ប្រសិនបើបិទ អ្នកនឹងមិនឃើញសញ្ញាវាយអក្សរពីអ្នកផ្សេងទេ។"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "មើលឃើញ និងចែករំលែកនៅពេលដែលមានគេកំពុងអាន និងវាយបញ្ចូលសារ។ ប្រសិនបើបិទ អ្នកនឹងមិនឃើញមុខងារអានសារ ឬសញ្ញាវាយអក្សរពីអ្នកដទៃទេ។"
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "សូមព្យាយាមម្តងទៀតក្នុងពេល {duration} ទៀត។"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "លេខទូរសព្ទ"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "បើក “Signal”"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ចូលទៅកាន់ការកំណត់"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "ម៉ឺនុយបរិបទ"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "ឈ្មោះអ្នកប្រើ"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "ឈ្មោះអ្នកប្រើ"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "ឈ្មោះអ្នកប្រើតែងតែមានលេខប៉ុន្មានខ្ទង់។"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ស្វែងយល់បន្ថែម"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "ផ្លាស់ប្តូរលេខកូដសម្ងាត់ Signal របស់អ្នក"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "អ្នកអាចប្តូរលេខកូដសម្ងាត់របស់អ្នកបាន ដរាបណាឧបករណ៍នេះត្រូវបានចុះឈ្មោះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "បញ្ជាក់លេខកូដសម្ងាត់ Signal របស់អ្នក"
@@ -9090,13 +9114,16 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "យើងបានបញ្ចូលកម្រិតពង្រីកថ្មីចំនួនពីរនៅក្នុងការកំណត់រូបរាង ដូច្នេះអ្នកនៅតែអាចពង្រីកសាររបស់អ្នកបាន 110% (ឬ 90%) ដែរ ដោយមិនសូវពិបាកឡើយ។"
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "ការស្វែងរកខ្លួនឯងអាចជាដំណើរការពេញមួយជីវិត ប៉ុន្តែឥឡូវនេះអ្នកនឹងបង្ហាញខ្លួនជា “អ្នក“ នៅក្នុងការស្វែងរកសមាជិកក្រុម ដើម្បីឱ្យវាកាន់តែងាយស្រួលបន្តិច។"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "កំណែថ្មីនេះដាក់ឱ្យប្រើប្រាស់នូវការកំណត់លម្អិតជាងមុន ដើម្បីឱ្យអ្នកមានការគ្រប់គ្រងកាន់តែច្រើនលើការជូនដំណឹង Signal របស់អ្នក។ ឥឡូវនេះ អ្នកអាចជ្រើសរើសអ្វីដែលគួរបង្ហាញនៅលើស្លាកកម្មវិធី កែតម្រូវចំណូលចិត្តនៃការជូនដំណឹងសម្រាប់កម្រងសារជជែកដែលបានបិទសំឡេង និងអ្វីៗជាច្រើនទៀត! យើងក៏បានបញ្ចូលប៊ូតុងងាយស្រួលមួយដើម្បីស្ដារការកំណត់ការជូនដំណឹងលំនាំដើម ប្រសិនបើអ្នកធ្លាប់ធ្វើការផ្លាស់ប្តូរច្រើនខ្លាំងរហូតដល់អ្នកមិនដឹងថាគួរធ្វើបែបណាទេ។"
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

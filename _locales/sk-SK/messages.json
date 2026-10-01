@@ -81,7 +81,7 @@
     "messageformat": "Nastavenia účtu a zálohy je možné spravovať iba na vašom hlavnom zariadení."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Nastavenia účtu a bezpečné zálohy Signal je možné spravovať iba na vašom hlavnom zariadení."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Štandardná"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Tón pleti pre emoji"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Priečinky četov"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Pridať priečinok četov"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} priečinok} few {{chatFoldersCount,number} priečinky} many {{chatFoldersCount,number} priečinka} other {{chatFoldersCount,number} priečinkov}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Nastaviť"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Spravovať"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Upraviť priečinok"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Nestlmené"
   },
-  "icu:muteHour": {
-    "messageformat": "Stlmiť na jednu hodinu"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Stlmiť na osem hodín"
-  },
-  "icu:muteDay": {
-    "messageformat": "Stlmiť na deň"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Stlmiť na týždeň"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Stlmiť vždy"
-  },
   "icu:unmute": {
     "messageformat": "Zrušiť stlmenie"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Stlmiť tento čet na…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Stlmiť tieto čety na…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 hodinu"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Nastavenia četu"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Zrušiť stlmenie tohto četu?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Odkaz do skupiny"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Upozorniť, keď niekto odpovie na vašu správu v stlmených četoch."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Neprečítané pripomienky"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Občas upozorniť na neprečítané správy, keď je tento čet stlmený."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Občas upozorniť, keď sú v stlmených četoch neprečítané správy."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu od používateľa {person1}.} few {Máte {messageCount,number} neprečítané správy od používateľa {person1}.} many {Máte {messageCount,number} neprečítanej správy od používateľa {person1}.} other {Máte {messageCount,number} neprečítaných správ od používateľa {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu od používateľov {person1} a {person2}.} few {Máte {messageCount,number} neprečítané správy od používateľov {person1} a {person2}.} many {Máte {messageCount,number} neprečítanej správy od používateľov {person1} a {person2}.} other {Máte {messageCount,number} neprečítaných správ od používateľov {person1} a {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu od používateľov {person1}, {person2} a ďalších.} few {Máte {messageCount,number} neprečítané správy od používateľov {person1}, {person2} a ďalších.} many {Máte {messageCount,number} neprečítanej správy od používateľov {person1}, {person2} a ďalších.} other {Máte {messageCount,number} neprečítaných správ od používateľov {person1}, {person2} a ďalších.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu vrátane {mentionSummary}.} few {Máte {messageCount,number} neprečítané správy vrátane {mentionSummary}.} many {Máte {messageCount,number} neprečítanej správy vrátane {mentionSummary}.} other {Máte {messageCount,number} neprečítaných správ vrátane {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu vrátane {replySummary}.} few {Máte {messageCount,number} neprečítané správy vrátane {replySummary}.} many {Máte {messageCount,number} neprečítanej správy vrátane {replySummary}.} other {Máte {messageCount,number} neprečítaných správ vrátane {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Máte {messageCount,number} neprečítanú správu.} few {Máte {messageCount,number} neprečítané správy.} many {Máte {messageCount,number} neprečítanej správy.} other {Máte {messageCount,number} neprečítaných správ.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {zmienky od používateľa {person1}} few {{mentionCount,number} zmienok od používateľa {person1}} many {{mentionCount,number} zmienok od používateľa {person1}} other {{mentionCount,number} zmienok od používateľa {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} zmienky od používateľov {person1} a {person2}} few {{mentionCount,number} zmienok od používateľov {person1} a {person2}} many {{mentionCount,number} zmienok od používateľov {person1} a {person2}} other {{mentionCount,number} zmienok od používateľov {person1} a {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} zmienky od používateľa {person1} a ďalších} few {{mentionCount,number} zmienok od používateľa {person1} a ďalších} many {{mentionCount,number} zmienok od používateľa {person1} a ďalších} other {{mentionCount,number} zmienok od používateľa {person1} a ďalších}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {odpovedi od používateľa {person1}} few {{replyCount,number} odpovedí od používateľa {person1}} many {{replyCount,number} odpovedí od používateľa {person1}} other {{replyCount,number} odpovedí od používateľa {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} odpovedi od používateľov {person1} a {person2}} few {{replyCount,number} odpovedí od používateľov {person1} a {person2}} many {{replyCount,number} odpovedí od používateľov {person1} a {person2}} other {{replyCount,number} odpovedí od používateľov {person1} a {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} odpovedi od používateľa {person1} a ďalších} few {{replyCount,number} odpovedí od používateľa {person1} a ďalších} many {{replyCount,number} odpovedí od používateľa {person1} a ďalších} other {{replyCount,number} odpovedí od používateľa {person1} a ďalších}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Spomenutia"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Zmeniť"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Vytvorte si PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Vytvoriť"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Pokročilé nastavenia PIN kódu"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Vypnúť PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Vypnúť"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Ak vypnete PIN, opätovnou registráciou Signalu prídete o všetky vaše dáta, ak ich manuálne nezálohujete a neobnovíte. Kým bude PIN vypnutý, nebudete môcť zapnúť registračný zámok."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Ak chcete vypnúť PIN kód, musíte deaktivovať zámok registrácie."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Ak chcete vypnúť PIN kód, musíte vypnúť zálohovanie."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Zapnúť PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Povoliť"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN pripomienky"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Postupom času sa vás budeme pýtať menej často"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Registračný zámok"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Na opätovné zaregistrovanie telefónneho čísla v aplikácii Signal si vyžiadajte svoj Signal PIN."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Obsah oznámenia"
@@ -6305,7 +6323,7 @@
     "messageformat": "Odznak aplikácie"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Odznaky neprečítaných"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Resetovať nastavenia upozornení na predvolené, vrátane vlastných nastavení pre vaše čety."
@@ -6332,10 +6350,10 @@
     "messageformat": "Neprečítané čety"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Zahrnúť stlmené čety do odznaku aplikácie"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Odznaky priečinkov četov budú vždy obsahovať stlmené čety"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Exportovať históriu četov"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Profily pre upozornenia"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Nastaviť"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Profily pre upozornenia"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Pridať alebo upraviť profily upozornení"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Jeden profil} few {{profileCount,number} profily} many {{profileCount,number} profilu} other {{profileCount,number} profilov}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Vytvoriť profil"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Vyberte si, kto môže vidieť vaše telefónne číslo a kto vás môže pomocou neho kontaktovať v službe Signal."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Zmeniť…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Kto môže vidieť moje telefónne číslo"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Potvrdenia o prečítaní"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Ak je táto možnosť vypnutá, neuvidíte potvrdenia o prečítaní od ostatných."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Indikátory písania"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Ak je táto možnosť vypnutá, neuvidíte indikátory písania od ostatných."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Sledujte a zdieľajte, kedy sú správy prečítané a písané. Ak je táto možnosť vypnutá, neuvidíte potvrdenia o prečítaní ani indikátory písania od ostatných."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Skúste to znova o {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefónne číslo"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Zapnite „Signal“"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Prejsť na nastavenia"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Kontextové menu"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Používateľské meno"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Používateľské meno"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Používateľské mená sú vždy spárované so sadou čísel."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Zistiť viac"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Zmeňte svoj Signal PIN"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN si môžete zmeniť, kým je toto zariadenie registrované. <learnMoreLink>Zistiť viac</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potvrďte svoj Signal PIN"
@@ -9090,13 +9114,16 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Pridali sme dve nové úrovne priblíženia v nastaveniach vzhľadu (110 % a 90 %)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Vylepšenia vyhľadávania členov skupiny."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Vylepšené nastavenia upozornení s rozšírenými možnosťami, ktoré určujú kedy a ako sa upozornenia zobrazia."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

@@ -81,7 +81,7 @@
     "messageformat": "Paskyros nustatymus ir atsargines kopijas tvarkyti galima tik pagrindiniame įrenginyje."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Paskyros nustatymus ir atsargines kopijas tvarkyti galima tik pagrindiniame įrenginyje."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standartinė"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Jaustukų odos atspalvis"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Pokalbių aplankai"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Pridėti pokalbio aplanką"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} aplankas} few {{chatFoldersCount,number} aplankai} many {{chatFoldersCount,number} aplanko} other {{chatFoldersCount,number} aplankų}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Nustatyti"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Tvarkyti"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Redaguoti aplanką"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Nenutildytas"
   },
-  "icu:muteHour": {
-    "messageformat": "Nutildyti vienai valandai"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Nutildyti aštuonioms valandoms"
-  },
-  "icu:muteDay": {
-    "messageformat": "Nutildyti vienai dienai"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Nutildyti vienai savaitei"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Visada nutildyti"
-  },
   "icu:unmute": {
     "messageformat": "Įjungti garsą"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Nutildyti šį pokalbį…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Nutildyti šiuos pokalbius…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 valanda"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Pokalbio nustatymai"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Įjungti šio pokalbio garsą?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grupės nuoroda"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Pranešti, kai kas nors atsako į jūsų žinutes nutildytuose pokalbiuose."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Pranešimai apie neperskaitytas žinutes"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Retkarčiais pranešti atsiradus neperskaitytų žinučių, kai šis pokalbis nutildytas."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Retkarčiais pranešti, kai nutildytuose pokalbiuose yra neperskaitytų žinučių."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę iš {person1}.} few {Turite {messageCount,number} neperskaitytas žinutes iš {person1}.} many {Turite {messageCount,number} neperskaitytos žinutės iš {person1}.} other {Turite {messageCount,number} neperskaitytų žinučių iš {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę iš {person1} ir {person2}.} few {Turite {messageCount,number} neperskaitytas žinutes iš {person1} ir {person2}.} many {Turite {messageCount,number} neperskaitytos žinutės iš {person1} ir {person2}.} other {Turite {messageCount,number} neperskaitytų žinučių iš {person1} ir {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę iš {person1}, {person2} ir kitų.} few {Turite {messageCount,number} neperskaitytas žinutes iš {person1}, {person2} ir kitų.} many {Turite {messageCount,number} neperskaitytos žinutės iš {person1}, {person2} ir kitų.} other {Turite {messageCount,number} neperskaitytų žinučių iš {person1}, {person2} ir kitų.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę, įskaitant {mentionSummary}.} few {Turite {messageCount,number} neperskaitytas žinutes, įskaitant {mentionSummary}.} many {Turite {messageCount,number} neperskaitytos žinutės, įskaitant {mentionSummary}.} other {Turite {messageCount,number} neperskaitytų žinučių, įskaitant {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę, įskaitant {replySummary}.} few {Turite {messageCount,number} neperskaitytas žinutes, įskaitant {replySummary}.} many {Turite {messageCount,number} neperskaitytos žinutės, įskaitant {replySummary}.} other {Turite {messageCount,number} neperskaitytų žinučių, įskaitant {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Turite {messageCount,number} neperskaitytą žinutę.} few {Turite {messageCount,number} neperskaitytas žinutes.} many {Turite {messageCount,number} neperskaitytos žinutės.} other {Turite {messageCount,number} neperskaitytų žinučių.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {paminėjimą iš {person1}} few {{mentionCount,number} paminėjimus iš {person1}} many {{mentionCount,number} paminėjimo iš {person1}} other {{mentionCount,number} paminėjimų iš {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} paminėjimą iš {person1} ir {person2}} few {{mentionCount,number} paminėjimus iš {person1} ir {person2}} many {{mentionCount,number} paminėjimo iš {person1} ir {person2}} other {{mentionCount,number} paminėjimų iš {person1} ir {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} paminėjimą iš {person1} ir kitų} few {{mentionCount,number} paminėjimus iš {person1} ir kitų} many {{mentionCount,number} paminėjimo iš {person1} ir kitų} other {{mentionCount,number} paminėjimų iš {person1} ir kitų}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {atsakymą iš {person1}} few {{replyCount,number} atsakymus iš {person1}} many {{replyCount,number} atsakymo iš {person1}} other {{replyCount,number} atsakymų iš {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} atsakymą iš {person1} ir {person2}} few {{replyCount,number} atsakymus iš {person1} ir {person2}} many {{replyCount,number} atsakymo iš {person1} ir {person2}} other {{replyCount,number} atsakymų iš {person1} ir {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} atsakymą iš {person1} ir kitų} few {{replyCount,number} atsakymus iš {person1} ir kitų} many {{replyCount,number} atsakymo iš {person1} ir kitų} other {{replyCount,number} atsakymų iš {person1} ir kitų}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Paminėjimai"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Keisti"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Sukurti PIN kodą"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Sukurti"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN kodas"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PIN kodai šifruotu pavidalu saugo informaciją, kuri yra laikoma „Signal“, taigi, tik jūs galite gauti prieigą prie jos. Jūsų PIN kodo neįmanoma atkurti. Jums įdiegus „Signal“ iš naujo, jūsų profilis, nustatymai ir adresatai bus atkurti. <learnMoreLink>Sužinok daugiau</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Išplėstiniai PIN kodo nustatymai"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "Išjungti PIN kodą"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Išjungti"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Jei išjungsite PIN kodą, tuomet registruodamiesi iš naujo Signal programėlėje, prarasite visus duomenis, nebent rankiniu būdu pasidarysite atsarginę kopiją ir ją atkursite. Tol, kol PIN kodas yra išjungtas, negalėsite įjungti Registracijos užrakto."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "Prieš išjungdami savo PIN privalote išjungti registracijos užraktą."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "Gerai"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "Prieš išjungdami savo PIN privalote išjungti atsargines kopijas."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "Įjungti PIN kodą"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Įjungti"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN kodo priminimai"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Bėgant laikui, jūsų bus klausiama vis rečiau"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Registracijos užraktas"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Norint vėl registruoti jūsų telefono numerį su „Signal“, reikalauti jūsų „Signal“ PIN kodo."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Pranešimų turinys"
@@ -6305,7 +6323,7 @@
     "messageformat": "Programėlės ženklelis"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Neperskaitytų žinučių ženkleliai"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Atstatyti pranešimų nustatymus į numatytuosius, įskaitant tinkintus jūsų pokalbių nustatymus."
@@ -6332,10 +6350,10 @@
     "messageformat": "Neperskaityti pokalbiai"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Įtraukti nutildytus pokalbius į programėlės ženklelyje rodomą skaičių"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Į pokalbių aplankų ženklelius visada įtraukiami nutildyti pokalbiai"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Eksportuoti pokalbių istoriją"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Pranešimų profiliai"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Nustatyti"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Pranešimų profiliai"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Pridėti arba taisyti pranešimų profilius"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Vienas profilis} few {{profileCount,number} profiliai} many {{profileCount,number} profilio} other {{profileCount,number} profilių}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Sukurti profilį"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Pasirink, kas gali matyti tavo telefono numerį, ir kas gali su tavimi susisiekti per „Signal“."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Keisti…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Kas gali matyti mano tel. numerį"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Pranešimai apie žinučių skaitymą"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Išjungę nebegalėsite matyti kitų žmonių perskaitymo pranešimų."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Rašymo indikatoriai"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Išjungę nebegalėsite matyti kitų žmonių rašymo indikatorių."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Žiūrėti ir dalintis, kai žinutė perskaitoma ir rašoma. Išjungę nebegalėsite matyti kitų žmonių perskaitymo pranešimų ir rašymo indikatorių."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Bandykite už {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefono numeris"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Įjunkite \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Eiti į nustatymus"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Kontekstinis meniu"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Naudotojo vardas"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Naudotojo vardas"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Naudotojų vardai visada susiejami su skaitmenų deriniu."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Sužinoti daugiau"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Keisti savo „Signal“ PIN"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Kol šis įrenginys yra registruotas, galite keisti savo PIN kodą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Patvirtinkite savo Signal PIN kodą"
@@ -9090,13 +9114,16 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Išvaizdos nustatymuose pridėjome du naujus mastelio lygius (110 % ir 90 %)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Grupės narių paieškos patobulinimai."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Patobulinti pranešimų nustatymai su išplėstomis parinktimis kaip ir kada rodomi pranešimai."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

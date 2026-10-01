@@ -81,7 +81,7 @@
     "messageformat": "Maaari mo lamang i-manage ang account settings at backups mo sa iyong primary device."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Maaari mo lang i-manage ang account settings at Signal Secure Backups sa iyong primary device."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standard"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Skin tone ng emoji"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Chat folders"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Magdagdag ng chat folder"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} folder} other {{chatFoldersCount,number} folders}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "I-set up"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "I-manage"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "I-edit ang folder"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Hindi naka-mute"
   },
-  "icu:muteHour": {
-    "messageformat": "I-mute sa loob ng isang oras"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "I-mute sa loob ng walong oras"
-  },
-  "icu:muteDay": {
-    "messageformat": "I-mute sa loob ng isang araw"
-  },
-  "icu:muteWeek": {
-    "messageformat": "I-mute sa loob ng isang linggo"
-  },
-  "icu:muteAlways": {
-    "messageformat": "I-mute palagi"
-  },
   "icu:unmute": {
     "messageformat": "I-unmute"
   },
   "icu:MuteMenu__label": {
     "messageformat": "I-mute ang chat na ito nang…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "I-mute ang chats na ito nang…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 oras"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Chat settings"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Gusto mo bang i-unmute ang chat na ito?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Link ng group"
   },
@@ -5253,46 +5223,46 @@
     "messageformat": "Unread reminders"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Mag-notify paminsan-minsan kapag may unread messages habang naka-mute ang chat na ito."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Mag-notify occasionally kapag may unread messages sa naka-mute na chats."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka mula kay {person1}.} other {May {messageCount,number} unread messages ka mula kay {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka mula kanila {person1} at {person2}.} other {May {messageCount,number} unread messages ka mula kay {person1} at {person2}.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka mula kanila {person1}, {person2}, at iba pa.} other {May {messageCount,number} unread messages ka mula kanila {person1}, {person2}, at iba pa.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka, kasama ang {mentionSummary}.} other {May {messageCount,number} unread messages ka, kasama ang {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka, kasama ang {replySummary}.} other {May {messageCount,number} unread messages ka, kasama ang {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {May {messageCount,number} unread message ka.} other {May {messageCount,number} unread messages ka.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {isang mention sa 'yo ni {person1}} other {{mentionCount,number} mentions sa 'yo ni {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mentions sa 'yo nila {person1} at {person2}} other {{mentionCount,number} mentions sa 'yo nila {person1} at {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mentions sa 'yo nila {person1} at iba pa} other {{mentionCount,number} mentions sa 'yo nila {person1} at iba pa}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {isang reply mula kay {person1}} other {{replyCount,number} replies mula kay {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} replies mula kanila {person1} at {person2}} other {{replyCount,number} replies mula kanila {person1} at {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} replies mula kanila {person1} at iba pa} other {{replyCount,number} replies mula kanila {person1} at iba pa}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Mentions"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Palitan"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "Gumawa ng PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Lumikha"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Advanced PIN settings"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "I-disable ang PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "I-disable"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "Kung idi-disable mo ang iyong PIN, mawawala ang lahat ng data kapag ika'y nag-register ulit sa Signal maliban nalang kung manually kang nag-back up and restore. Hindi mo pwedeng i-turn on ang Registration Lock habang naka-disable ang PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "I-enable ang PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "I-enable"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN reminders"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Hindi ka na tatanungin nang madalas"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Registration Lock"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content"
@@ -6332,10 +6350,10 @@
     "messageformat": "Unread chats"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Isama ang naka-mute na chats sa app badge"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Palaging kasama ang naka-mute na chats sa chat folder badges"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "I-export ang chat history"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Notification profiles"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "I-set up"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Notification profiles"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Magdagdag o mag-edit ng notification profiles"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Isang profile} other {{profileCount,number} profiles}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Mag-create ng profile"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Piliin kung sinong pwedeng makakita ng phone number mo at kung sinong pwedeng kumontak sa 'yo sa Signal gamit ito."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Baguhin…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Sinong makakakita ng number ko"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Read receipts"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Kapag naka-disable ito, hindi mo makikita ang read receipts mula sa iba."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Typing indicators"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Kapag naka-disable ito, hindi mo makikita ang typing indicators mula sa iba."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Makita at i-share kapag nabasa na at tina-type ang isang message. Kapag naka-disable ito, hindi mo makikita ang read receipts o typing indicators mula sa iba."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Subukan ulit sa loob ng {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Phone number"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "I-on ang \"Signal\""
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Pumunta sa settings"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Context menu"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Username"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Username"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Ang usernames ay palaging may kasamang numero."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Matuto pa"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Palitan ang Signal PIN mo"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mapapalitan mo ang iyong PIN hanggang rehistrado ang device na ito. <learnMoreLink>Matuto pa</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Kumpirmahin ang iyong Signal PIN"
@@ -9090,13 +9114,16 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Nagdagdag kami ng dalawang bagong zoom levels sa appearance settings (110% at 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Improvements sa group member search."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Mas pinagandang notification settings dahil sa pinalawak na options kung paano at kailan ipapakita ang notifications."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

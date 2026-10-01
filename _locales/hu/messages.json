@@ -81,7 +81,7 @@
     "messageformat": "A fiókbeállítások és a biztonsági mentések csak az elsődleges eszközödön kezelhetők."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "A fiókbeállítások és a Signal biztonsági mentések csak az elsődleges eszközödön kezelhetők."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normál"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Emoji bőrtónus"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Csevegési mappák"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Adj hozzá egy csevegési mappát"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, one {{chatFoldersCount,number} mappa} other {{chatFoldersCount,number} mappa}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Beállítás"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Kezelés"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Mappa szerkesztése"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Nincs némítva"
   },
-  "icu:muteHour": {
-    "messageformat": "Némítás egy órára"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "Némítás 8 órára"
-  },
-  "icu:muteDay": {
-    "messageformat": "Némítás egy napra"
-  },
-  "icu:muteWeek": {
-    "messageformat": "Némítás egy hétre"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Folyamatos némítás"
-  },
   "icu:unmute": {
     "messageformat": "Némítás feloldása"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Némítás eddig…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "A csevegések némítása eddig…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 óra"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Csevegés beállításai"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Feloldod a némítást?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Csoporthivatkozás"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Értesítés fogadása, ha egy némított csevegésben valaki válaszol az üzenetemre."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Olvasatlan emlékeztetők"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Időnként értesítést küld, ha olvasatlan üzeneteid vannak, miközben ez a csevegés némítva van."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Időnként értesítést küld, ha olvasatlan üzenetek vannak a némított csevegésekben."
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van tőle: {person1}.} other {{messageCount,number} olvasatlan üzeneted van tőle: {person1}.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van {person1} és {person2} névjegytől.} other {{messageCount,number} olvasatlan üzeneted van {person1} és {person2} névjegytől.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van {person1},{person2} és más névjegyektől.} other {{messageCount,number} olvasatlan üzeneted van {person1},{person2} és más névjegyektől.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van, beleértve a következőt: {mentionSummary}.} other {{messageCount,number} olvasatlan üzeneted van, beleértve a következőt: {mentionSummary}.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van, beleértve a következőt: {replySummary}.} other {{messageCount,number} olvasatlan üzeneted van, beleértve a következőt: {replySummary}.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {{messageCount,number} olvasatlan üzeneted van.} other {{messageCount,number} olvasatlan üzeneted van.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} megemlített téged} other {{mentionCount,number} alkalommal említett meg téged {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} alkalommal említett meg téged {person1} és {person2}} other {{mentionCount,number} alkalommal említett meg téged {person1} és {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{mentionCount,number} alkalommal említett meg téged {person1} és mások} other {{mentionCount,number} alkalommal említett meg téged {person1} és mások}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {egy válasz {person1} névjegytől} other {{replyCount,number} válasz {person1} névjegytől}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} válasz {person1} és {person2} névjegytől} other {{replyCount,number} válasz {person1} és {person2} névjegytől}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{replyCount,number} válasz {person1} és más névjegyektől} other {{replyCount,number} válasz {person1} és más névjegyektől}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Említések"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Módosítás"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "PIN létrehozása"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Létrehozás"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "További PIN beállítások"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "PIN letiltása"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Letiltás"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "PIN kódod letiltásával egy esetleges újraregisztráció során az összes Signal adatod el fog veszni, kivéve ha azokat előtte külön lemented majd visszatöltöd. Letiltott PIN kóddal nem lehetséges a regisztrációs zár bekapcsolása."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "A PIN-kód letiltása előtt ki kell kapcsolnod a regisztrációs zárat."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "A PIN-kód letiltása előtt ki kell kapcsolnod a biztonsági mentéseket."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "PIN engedélyezése"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Engedélyezés"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN emlékeztetők"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Idővel egyre ritkábban kérünk meg rá"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Regisztrációs zár"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Telefonszámod újraregisztrációját Signal PIN-kódod megadásához kötheted."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Értesítések tartalma"
@@ -6305,7 +6323,7 @@
     "messageformat": "Alkalmazásjelvény"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Olvasatlan jelvények"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Értesítési beállítások visszaállítása alapértelmezettre, beleértve a csevegések egyéni beállításait is."
@@ -6332,10 +6350,10 @@
     "messageformat": "Olvasatlan csevegések"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Némított csevegések megjelenítése az alkalmazásjelvényen"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "A csevegésmappa jelvényei mindig tartalmazni fogják a némított csevegéseket"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Csevegési előzmények exportálása"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Értesítési profilok"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Beállítás"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Értesítési profilok"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Értesítési profilok hozzáadása vagy szerkesztése"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, one {Egy profil} other {{profileCount,number} profil}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Profil létrehozása"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Válaszd ki, hogy ki láthatja a telefonszámod, és ki léphet kapcsolatba veled a Signalon keresztül."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Módosítás…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Ki láthatja a telefonszámomat?"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Olvasási nyugták"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Ha ki van kapcsolva, nem fogod látni mások olvasási értesítéseit."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Gépelés-indikátorok"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Ha ki van kapcsolva, nem fogod látni mások gépelési mutatóit."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Láthatod és megoszthatod az üzenetek olvasott állapotát és a gépelést jelző indikátort. Ha ezt letiltod, te sem látod majd az olvasott állapotjelzőket és a gépelési indikátort."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "Kérjük, próbáld újra {duration} múlva"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonszám"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "Kapcsold be a „Signal” opciót"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Ugrás a Beállításokhoz"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Kontextus menü"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Felhasználónév"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Felhasználónév"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "A felhasználónevek mindig egy számsorral párosulnak."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Tudj meg többet"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Módosítsd a Signal PIN-kódodat"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mindaddig megváltoztathatod PIN kódodat, amíg ez az eszköz regisztrálva van. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN kód megerősítése"
@@ -9090,13 +9114,16 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Két új nagyítási szintet adtunk hozzá a megjelenési beállításokhoz (110% és 90%)."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Csoporttagok keresésének fejlesztései."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Továbbfejlesztett értesítési beállítások kibővített lehetőségekkel az értesítések megjelenésének módjára és idejére vonatkozóan."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

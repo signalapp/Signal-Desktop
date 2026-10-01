@@ -81,7 +81,7 @@
     "messageformat": "Аккаунттун параметрлерин жана камдык көчүрмөлөрдү негизги түзмөгүңүздө гана башкара аласыз."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "Аккаунттун параметрлерин жана Signal Коопсуз камдык көчүрмөсүн негизги түзмөгүңүздө өзгөртө аласыз."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандарт"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "Быйтыкчанын терисинин өңү"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "Маектер папкалары"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "Маек папкасын кошуу"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} папка}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "Коюу"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "Өзгөртүү"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "Папканы оңдоо"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "Үнү өчүрүлгөн эмес"
   },
-  "icu:muteHour": {
-    "messageformat": "1 саатка үнүн басуу"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "8 саатка үнүн басуу"
-  },
-  "icu:muteDay": {
-    "messageformat": "1 күнгө үнүн басуу"
-  },
-  "icu:muteWeek": {
-    "messageformat": "1 жумага үнүн басуу"
-  },
-  "icu:muteAlways": {
-    "messageformat": "Биротоло үнүн басуу"
-  },
   "icu:unmute": {
     "messageformat": "Үнүн чыгаруу"
   },
   "icu:MuteMenu__label": {
     "messageformat": "Бул маектин үнү канча убакытка басылат…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "Бул маектердин үнү канча убакытка басылат…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 саат"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "Маек параметрлери"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "Бул маектин үнүн чыгарасызбы?"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Топтун шилтемеси"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "Үнү басылган маектерде кимдир бирөө билдирүүлөрүңүзгө жооп бергенин билип турасыз."
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "Окула элек билдирүүлөрдү эстеткичтер"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "Бул маектин үнү басылып турганда окула элек билдирүүлөр тууралуу билип турасыз."
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "Үнү басылган маектерде окула элек билдирүүлөр бар экенин билип турасыз"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.} other {{person1} жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, one {{person1} менен {person2} жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.} other {{person1} менен {person2} жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, one {{person1}, {person2} жана башкалар жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.} other {{person1}, {person2} жана башкалар жөнөткөн {messageCount,number} билдирүүнү окуй элексиз.}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, one {Сизде {messageCount,number} окула элек билдирүү жана {mentionSummary} бар.} other {Сизде {messageCount,number} окула элек билдирүү жана {mentionSummary} бар.}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, one {Сизде {messageCount,number} окула элек билдирүү жана {replySummary} бар.} other {Сизде {messageCount,number} окула элек билдирүү жана {replySummary} бар.}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, one {Сизде {messageCount,number} окула элек билдирүү бар.} other {Сизде {messageCount,number} окула элек билдирүү бар.}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} сиз тууралуу айтып өттү} other {{person1} сиз тууралуу {mentionCount,number} жолу айтып өттү}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, one {{person1} жана {person2} сиз тууралуу {mentionCount,number} жолу айтып өтүштү} other {{person1} жана {person2} сиз тууралуу {mentionCount,number} жолу айтып өтүштү}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, one {{person1} жана башкалар сиз тууралуу {mentionCount,number} жолу айтып өтүштү} other {{person1} жана башкалар сиз тууралуу {mentionCount,number} жолу айтып өтүштү}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, one {{person1} берген жооп} other {{person1} берген {replyCount,number} жооп}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, one {{person1} жана {person2} {replyCount,number} жолу жооп беришти} other {{person1} жана {person2} {replyCount,number} жолу жооп беришти}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, one {{person1} жана башкалар {replyCount,number} жолу жооп беришти} other {{person1} жана башкалар {replyCount,number} жолу жооп беришти}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "Айтып өтүүлөр"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "Өзгөртүү"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "PIN код түзүү"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "Түзүү"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN коду"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "Өркүндөтүлгөн PIN параметрлери"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "PIN кодду өчүрүү"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "Өчүрүү"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "PIN кодду өчүрүп салсаңыз, Signal колдонмосун кайра орноткондо аккаунтуңуздагы бардык нерселер өчүп калат (эгер алардын көчүрмөсүн кол менен башка жерге сактап койбосоңуз). PIN код өчүк болгондо, Катталууга жол бербөө функциясын иштете албай каласыз."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "You must disable Registration Lock before disabling your PIN."
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "OK"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "You must disable backups before disabling your PIN."
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "PIN кодду иштетүү"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "Күйгүзүү"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN код эстеткичтери"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "Убакыттын өтүшү менен сизден азыраак суралат"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "Катталууну Кулпулоо"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Билдирмелер мазмуну"
@@ -6305,7 +6323,7 @@
     "messageformat": "Колдонмонун бейжиги"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "Окула элек билдирүүлөр белгиси"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "Билдирме параметрлерин (ошондой эле маектердин жеке параметрлерин) демейки параметрлерге кайтарасыз."
@@ -6332,10 +6350,10 @@
     "messageformat": "Окула элек маектер"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "Колдонмонун белгисинде үнү басылган маектер да көрүнсүн"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "Маек папкасынын белгилеринде үнү басылган маектер да көрүнүп турат"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "Маек таржымалын экспорттоо"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "Билдирме профилдери"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "Коюу"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "Билдирме профилдери"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "Билдирмелер профилдерин кошосуз же өзгөртөсүз"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {{profileCount,number} профиль}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "Профиль түзүү"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "Телефон номериңиз кимдерге көрүнүп, Signal'да сиз менен кимдер байланыша алышат."
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "Өзгөртүү…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "Менин номерим кимге көрүнөт"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "Билдирүүнүн окулгандыгын кабарлоо"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "Эгер өчүрүлгөн болсо, башкалардын окугандыгын кабарлоону көрө албай каласыз."
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "Тексттин терилип жатканын көрсөткүчтөрү"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "Эгер өчүрүлгөн болсо, башкалардын терүү көрсөткүчтөрүн көрө албай каласыз."
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "Билдирүү окулуп, терилип жатканын көрүп, бөлүшөсүз. Өчүрүп койсоңуз, көрбөйсүз."
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "{duration} кийин кайталап көрүңүз"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефон номериңиз"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "“Signal'ды” иштетиңиз"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Тууралоо бөлүмүнө өтүү"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "Контексттик меню"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "Колдонуучунун аты"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "Колдонуучунун аты"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "Колдонуучунун аттары ар дайым сандар менен коштолот."
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Кененирээк маалымат"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "Signal PIN кодун өзгөртүү"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Бул түзмөк катталганда сиз PIN кодуңузду өзгөртө аласыз. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal'дын PIN кодун ырастаңыз"
@@ -9090,13 +9114,16 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "Көрүнүш параметрлеринде масштабдоонун эки жаңы деңгээли пайда болду — эми билдирүүлөрүңүздү эч кыйналбай 110% чейин (же 90% чейин) чоңойтуп кичирейтип көрө аласыз."
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "Өзүңүздү өмүр бою издешиңиз мүмкүн, бирок эми топтун ичинде «Сиз» болуп көрүнүп, оңой табыласыз."
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "Бул жаңыртууда Signal билдирмелерин тагыраак тууралап, толук көзөмөлдөй аласыз. Эми колдонмонун бейжигинде эмнелер көрүнөрүн тандап, үнү басылган талкуулардын билдирме параметрлерин тууралап жана башка нерселерди жасай аласыз! Параметрлерди улам өзгөртө берип, башыңыз айланып калса, билдирмелерди баштапкы абалга келтире турган ыңгайлуу баскыч кошуп койдук."
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }

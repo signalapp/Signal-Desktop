@@ -81,7 +81,7 @@
     "messageformat": "สามารถจัดการการตั้งค่าบัญชีและการสำรองข้อมูลได้บนอุปกรณ์หลักเท่านั้น"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
-    "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device."
+    "messageformat": "สามารถจัดการการตั้งค่าบัญชีและการสำรองข้อมูลที่ปลอดภัยของ Signal ได้บนอุปกรณ์หลักเท่านั้น"
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "มาตรฐาน"
@@ -1649,9 +1649,6 @@
   "icu:Preferences__EmojiSkinToneDefaultSetting__Label": {
     "messageformat": "โทนสีผิวของอีโมจิ"
   },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__Title": {
-    "messageformat": "โฟลเดอร์แชท"
-  },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title": {
     "messageformat": "เพิ่มโฟลเดอร์แชท"
   },
@@ -1663,12 +1660,6 @@
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders": {
     "messageformat": "{chatFoldersCount, plural, other {{chatFoldersCount,number} โฟลเดอร์}}"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button": {
-    "messageformat": "ตั้งค่า"
-  },
-  "icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders": {
-    "messageformat": "จัดการ"
   },
   "icu:Preferences__ChatsPage__ChatFoldersSection__ChatFolderItem__ContextMenu__EditFolder": {
     "messageformat": "แก้ไขโฟลเดอร์"
@@ -3986,29 +3977,11 @@
   "icu:notMuted": {
     "messageformat": "ไม่ได้ปิดเสียง"
   },
-  "icu:muteHour": {
-    "messageformat": "ปิดเสียงหนึ่งชั่วโมง"
-  },
-  "icu:muteEightHours": {
-    "messageformat": "ปิดเสียง 8 ชั่วโมง"
-  },
-  "icu:muteDay": {
-    "messageformat": "ปิดเสียงหนึ่งวัน"
-  },
-  "icu:muteWeek": {
-    "messageformat": "ปิดเสียงหนึ่งสัปดาห์"
-  },
-  "icu:muteAlways": {
-    "messageformat": "ปิดเสียงตลอด"
-  },
   "icu:unmute": {
     "messageformat": "เปิดเสียง"
   },
   "icu:MuteMenu__label": {
     "messageformat": "ปิดเสียงแชทนี้เป็นเวลา…"
-  },
-  "icu:MuteMenu__labelChatFolder": {
-    "messageformat": "ปิดการแจ้งเตือนแชทนี้เป็นเวลา…"
   },
   "icu:MuteMenu__hour": {
     "messageformat": "1 ชั่วโมง"
@@ -4952,9 +4925,6 @@
   "icu:showConversationDetails--direct": {
     "messageformat": "การตั้งค่าแชท"
   },
-  "icu:ConversationDetails__unmute--title": {
-    "messageformat": "เปิดเสียงแชทนี้หรือไม่"
-  },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ลิงก์กลุ่ม"
   },
@@ -5250,49 +5220,49 @@
     "messageformat": "แจ้งให้ทราบเมื่อมีคนตอบกลับข้อความของคุณในแชทที่ถูกปิดการแจ้งเตือน"
   },
   "icu:UnreadReminders__title": {
-    "messageformat": "Unread reminders"
+    "messageformat": "เตือนความจำสำหรับข้อความที่ยังไม่ได้อ่าน"
   },
   "icu:UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages while this chat is muted."
+    "messageformat": "เตือนความจำเป็นครั้งคราวเมื่อคุณมีข้อความที่ยังไม่ได้อ่านในระหว่างที่แชทนี้ถูกปิดการแจ้งเตือน"
   },
   "icu:Preferences__UnreadReminders__description": {
-    "messageformat": "Occasionally notify when there are unread messages in muted chats."
+    "messageformat": "เตือนความจำเป็นครั้งคราวเมื่อคุณมีข้อความที่ยังไม่ได้อ่านในแชทที่ปิดการแจ้งเตือนไว้"
   },
   "icu:UnreadReminders__notification--messages--1": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}.} other {You have {messageCount,number} unread messages from {person1}.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่านจาก {person1}}}"
   },
   "icu:UnreadReminders__notification--messages--2": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1} and {person2}.} other {You have {messageCount,number} unread messages from {person1} and {person2}.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่านจาก {person1} และ {person2}}}"
   },
   "icu:UnreadReminders__notification--messages--many": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message from {person1}, {person2}, and others.} other {You have {messageCount,number} unread messages from {person1}, {person2}, and others.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่านจาก {person1}, {person2} และคนอื่นๆ}}"
   },
   "icu:UnreadReminders__notification--messages-including-mentions": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {mentionSummary}.} other {You have {messageCount,number} unread messages, including {mentionSummary}.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่าน รวมทั้ง{mentionSummary}}}"
   },
   "icu:UnreadReminders__notification--messages-including-replies": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message, including {replySummary}.} other {You have {messageCount,number} unread messages, including {replySummary}.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่าน รวมทั้ง{replySummary}}}"
   },
   "icu:UnreadReminders__notification--counts--messages": {
-    "messageformat": "{messageCount, plural, one {You have {messageCount,number} unread message.} other {You have {messageCount,number} unread messages.}}"
+    "messageformat": "{messageCount, plural, other {คุณมี {messageCount,number} ข้อความที่ยังไม่ได้อ่าน}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--1": {
-    "messageformat": "{mentionCount, plural, one {a mention of you by {person1}} other {{mentionCount,number} mentions of you by {person1}}}"
+    "messageformat": "{mentionCount, plural, other {การกล่าวถึงคุณ {mentionCount,number} ครั้งจาก {person1}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--2": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and {person2}} other {{mentionCount,number} mentions of you by {person1} and {person2}}}"
+    "messageformat": "{mentionCount, plural, other {การกล่าวถึงคุณ {mentionCount,number} ครั้งจาก {person1} และ {person2}}}"
   },
   "icu:UnreadReminders__notification__mentionSummary--many": {
-    "messageformat": "{mentionCount, plural, one {{mentionCount,number} mention of you by {person1} and others} other {{mentionCount,number} mentions of you by {person1} and others}}"
+    "messageformat": "{mentionCount, plural, other {การกล่าวถึงคุณ {mentionCount,number} ครั้งจาก {person1} และคนอื่นๆ}}"
   },
   "icu:UnreadReminders__notification__replySummary--1": {
-    "messageformat": "{replyCount, plural, one {a reply from {person1}} other {{replyCount,number} replies from {person1}}}"
+    "messageformat": "{replyCount, plural, other {การตอบกลับ {replyCount,number} ครั้งจาก {person1}}}"
   },
   "icu:UnreadReminders__notification__replySummary--2": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and {person2}} other {{replyCount,number} replies from {person1} and {person2}}}"
+    "messageformat": "{replyCount, plural, other {การตอบกลับ {replyCount,number} ครั้งจาก {person1} และ {person2}}}"
   },
   "icu:UnreadReminders__notification__replySummary--many": {
-    "messageformat": "{replyCount, plural, one {{replyCount,number} reply from {person1} and others} other {{replyCount,number} replies from {person1} and others}}"
+    "messageformat": "{replyCount, plural, other {การตอบกลับ {replyCount,number} ครั้งจาก {person1} และคนอื่นๆ}}"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
     "messageformat": "การกล่าวถึง"
@@ -6277,14 +6247,62 @@
   "icu:Preferences--change-signal-pin-button": {
     "messageformat": "เปลี่ยน"
   },
+  "icu:Preferences--create-signal-pin": {
+    "messageformat": "สร้างรหัส PIN"
+  },
+  "icu:Preferences--create-signal-pin-button": {
+    "messageformat": "สร้าง"
+  },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
+  },
+  "icu:Preferences--signal-pin__footer": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+  },
+  "icu:Preferences--signal-pin-advanced-settings": {
+    "messageformat": "การตั้งค่า PIN ขั้นสูง"
+  },
+  "icu:Preferences--disable-signal-pin": {
+    "messageformat": "ปิดใช้งาน PIN"
+  },
+  "icu:Preferences--disable-signal-pin--button": {
+    "messageformat": "ปิดใช้งาน"
+  },
+  "icu:Preferences--disable-signal-pin--footer": {
+    "messageformat": "หากคุณปิดใช้งาน PIN คุณจะสูญเสียข้อมูลเมื่อคุณลงทะเบียนบัญชี Signal ใหม่ นอกจากว่าคุณได้สำรองข้อมูลและกู้มันคืนมาเอง คุณไม่สามารถเปิดการใช้งานกุญแจลงทะเบียนในขณะที่ PIN ปิดการใช้งานอยู่"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--title": {
+    "messageformat": "Disable PIN failed due to registration lock"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--body": {
+    "messageformat": "คุณต้องปิดใช้งานกุญแจลงทะเบียนก่อนจึงจะสามารถปิดใช้งาน PIN ได้"
+  },
+  "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
+    "messageformat": "ตกลง"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--title": {
+    "messageformat": "Disable PIN failed due to backups"
+  },
+  "icu:DisableSignalPinErrorDialog--backups--body": {
+    "messageformat": "คุณต้องปิดใช้งานการสำรองข้อมูลก่อนจึงจะสามารถปิดใช้งาน PIN ได้"
+  },
+  "icu:Preferences--enable-signal-pin": {
+    "messageformat": "เปิดใช้งาน PIN"
+  },
+  "icu:Preferences--enable-signal-pin--button": {
+    "messageformat": "เปิดใช้งาน"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "เตือนความจำรหัส PIN"
   },
   "icu:Preferences--pin-reminders--description": {
     "messageformat": "ระบบจะสอบถามคุณน้อยลงเรื่อยๆ"
+  },
+  "icu:Preferences--registration-lock__label": {
+    "messageformat": "กุญแจลงทะเบียน"
+  },
+  "icu:Preferences--registration-lock__footer": {
+    "messageformat": "กำหนดให้รหัส PIN ของ Signal คุณ สมัครหมายเลขโทรศัพท์กับ Signal อีกครั้ง"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ข้อความแจ้งเตือน"
@@ -6305,7 +6323,7 @@
     "messageformat": "ป้ายกำกับแอป"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
-    "messageformat": "Unread badges"
+    "messageformat": "ป้ายกำกับสำหรับข้อความที่ยังไม่ได้อ่าน"
   },
   "icu:Preferences__Notifications__Reset__title": {
     "messageformat": "รีเซ็ตการตั้งค่าการแจ้งเตือนกลับเป็นค่าเริ่มต้น (รวมถึงการตั้งค่าต่างๆ ที่คุณกำหนดเองในแชท)"
@@ -6332,10 +6350,10 @@
     "messageformat": "แชทที่ยังไม่ได้อ่าน"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats": {
-    "messageformat": "Include muted chats in app badge"
+    "messageformat": "นับรวมแชทที่ปิดการแจ้งเตือนในป้ายกำกับแอปด้วย"
   },
   "icu:Preferences__Notifications__AppBadgeSection__BadgeCount__MutedChats__description": {
-    "messageformat": "Chat folder badges will always include muted chats"
+    "messageformat": "ป้ายกำกับโฟลเดอร์แชทจะนับรวมแชทที่ถูกปิดการแจ้งเตือนไว้ด้วยเสมอ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
     "messageformat": "ส่งออกประวัติการแชท"
@@ -6487,9 +6505,6 @@
   "icu:NotificationProfiles--setting": {
     "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
-  "icu:NotificationProfiles--setup": {
-    "messageformat": "ตั้งค่า"
-  },
   "icu:NotificationProfiles--title": {
     "messageformat": "โปรไฟล์การแจ้งเตือน"
   },
@@ -6501,9 +6516,6 @@
   },
   "icu:NotificationProfiles--manage-description": {
     "messageformat": "เพิ่มหรือแก้ไขโปรไฟล์การแจ้งเตือน"
-  },
-  "icu:NotificationProfiles--manage-profiles": {
-    "messageformat": "{profileCount, plural, other {{profileCount,number} โปรไฟล์}}"
   },
   "icu:NotificationProfiles--create": {
     "messageformat": "สร้างโปรไฟล์"
@@ -6904,9 +6916,6 @@
   "icu:Preferences__pnp__row--body": {
     "messageformat": "เลือกว่าจะให้ใครเห็นหมายเลขโทรศัพท์ของคุณและใช้หมายเลขโทรศัพท์นั้นติดต่อคุณบน Signal ได้"
   },
-  "icu:Preferences__pnp__row--button": {
-    "messageformat": "เปลี่ยน…"
-  },
   "icu:Preferences__pnp__sharing--title": {
     "messageformat": "คนที่สามารถเห็นหมายเลขโทรศัพท์ของฉัน"
   },
@@ -6955,14 +6964,8 @@
   "icu:Preferences--read-receipts": {
     "messageformat": "ใบตอบรับเมื่ออ่าน"
   },
-  "icu:Preferences--read-receipts--description": {
-    "messageformat": "หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์การแจ้งว่าอ่านแล้วจากคนอื่น"
-  },
   "icu:Preferences--typing-indicators": {
     "messageformat": "แสดงว่ากำลังพิมพ์"
-  },
-  "icu:Preferences--typing-indicators--description": {
-    "messageformat": "หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
   },
   "icu:Preferences--messaging-help": {
     "messageformat": "มองเห็นและแชร์สถานะเมื่อมีการอ่านหรือพิมพ์ข้อความ หากปิดใช้งาน คุณจะไม่เห็นสัญลักษณ์การแจ้งว่าอ่านแล้วหรือสัญลักษณ์ที่บ่งบอกว่าพิมพ์อยู่จากคนอื่น"
@@ -7119,6 +7122,9 @@
   },
   "icu:StandaloneRegistration--PhoneNumber--waiting": {
     "messageformat": "โปรดลองอีกครั้งใน {duration}"
+  },
+  "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
+    "messageformat": "Select region code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "หมายเลขโทรศัพท์"
@@ -7641,6 +7647,12 @@
   },
   "icu:MediaPermissionsModal__step-2": {
     "messageformat": "เปิดใช้งาน “Signal”"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--microphone": {
+    "messageformat": "Enable microphone access for Signal"
+  },
+  "icu:MediaPermissionsModal__step-2--windows--camera": {
+    "messageformat": "Enable camera access for Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ไปที่การตั้งค่า"
@@ -8182,11 +8194,17 @@
   "icu:ContextMenu--button": {
     "messageformat": "เมนูลัด"
   },
+  "icu:EditUsernameModalBody__username-label": {
+    "messageformat": "ชื่อผู้ใช้"
+  },
   "icu:EditUsernameModalBody__username-placeholder": {
     "messageformat": "ชื่อผู้ใช้"
   },
   "icu:EditUsernameModalBody__username-helper": {
     "messageformat": "ชื่อผู้ใช้จะต้องมีชุดตัวเลขร่วมด้วยเสมอ"
+  },
+  "icu:EditUsernameModalBody__discriminator-label": {
+    "messageformat": "Username digits"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
@@ -8321,8 +8339,14 @@
   "icu:PinChangeModal__title--create": {
     "messageformat": "เปลี่ยน Signal PIN ของคุณ"
   },
+  "icu:PinChangeModal__title--create--without-pin": {
+    "messageformat": "Create your Signal PIN"
+  },
   "icu:PinChangeModal__body--create": {
     "messageformat": "คุณสามารถเปลี่ยนรหัส PIN ได้ตราบเท่าที่คุณยังลงทะเบียนอุปกรณ์นี้ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
+  },
+  "icu:PinChangeModal__body--create--without-pin": {
+    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "ยืนยันรหัส PIN สำหรับ Signal ของคุณ"
@@ -9090,13 +9114,16 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.25--0": {
-    "messageformat": "เราเพิ่มระดับการซูมใหม่ให้คุณอีกสองเลเวล (110% และ 90%) ลองเข้าไปปรับใช้ได้เลยในการตั้งค่า “ลักษณะ”"
-  },
   "icu:WhatsNew__8.26--0": {
     "messageformat": "พัฒนาระบบค้นหาสมาชิกในกลุ่มให้สะดวกยิ่งขึ้นอีก"
   },
   "icu:WhatsNew__8.27--0": {
     "messageformat": "เพิ่มตัวเลือกในหน้าตั้งค่าการแจ้งเตือนให้คุณปรับแต่งรูปแบบและเงื่อนไขในการแสดงการแจ้งเตือนได้ตามต้องการ"
+  },
+  "icu:WhatsNew__8.30--0": {
+    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+  },
+  "icu:WhatsNew__8.30--1": {
+    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
   }
 }
