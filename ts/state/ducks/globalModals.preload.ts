@@ -135,7 +135,7 @@ export type GroupMemberLabelInfoPropsType = ReadonlyDeep<{
 
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
-  aboutContactModalState?: ContactModalStateType;
+  aboutContactModalState: ContactModalStateType | null;
   backfillFailureModalKind: BackfillFailureModalKind | null;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
@@ -427,7 +427,7 @@ export type HideCallQualitySurveyActionType = ReadonlyDeep<{
 
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ABOUT_MODAL;
-  payload: ContactModalStateType | undefined;
+  payload: ContactModalStateType | null;
 }>;
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
@@ -1200,7 +1200,7 @@ function toggleCallLinkPendingParticipantModal(
 }
 
 function toggleAboutContactModal(
-  payload?: ContactModalStateType
+  payload: ContactModalStateType | null
 ): ToggleAboutContactModalActionType {
   return {
     type: TOGGLE_ABOUT_MODAL,
@@ -1663,6 +1663,7 @@ function hidePinMessageDialog(): TogglePinMessageDialogActionType {
 
 export function getEmptyState(): GlobalModalsStateType {
   return {
+    aboutContactModalState: null,
     backfillFailureModalKind: null,
     hasConfirmationModal: false,
     callLinkAddNameModalRoomId: null,

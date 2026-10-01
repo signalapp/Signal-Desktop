@@ -100,6 +100,10 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
     toggleNotePreviewModal({ conversationId: contactId });
   }, [toggleNotePreviewModal, contactId]);
 
+  const handleClose = useCallback(() => {
+    toggleAboutContactModal(null);
+  }, [toggleAboutContactModal]);
+
   if (contact == null) {
     return null;
   }
@@ -115,7 +119,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
       fromOrAddedByTrustedContact={isFromOrAddedByTrustedContact(contact)}
       isEditMemberLabelEnabled={isEditMemberLabelEnabled}
       isSignalConnection={isSignalConnection(contact)}
-      onClose={toggleAboutContactModal}
+      onClose={handleClose}
       onOpenNotePreviewModal={handleOpenNotePreviewModal}
       pendingAvatarDownload={
         conversationId ? isPendingAvatarDownload(conversationId) : false
@@ -129,7 +133,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
             state: ProfileEditorPage.ProfileName,
           },
         });
-        toggleAboutContactModal(undefined);
+        toggleAboutContactModal(null);
       }}
       showQRCodeScreen={() => {
         changeLocation({
@@ -139,7 +143,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
             state: ProfileEditorPage.UsernameLink,
           },
         });
-        toggleAboutContactModal(undefined);
+        toggleAboutContactModal(null);
       }}
       showEditMemberLabelScreen={() => {
         changeLocation({
@@ -159,7 +163,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
             },
           },
         });
-        toggleAboutContactModal(undefined);
+        toggleAboutContactModal(null);
       }}
       startAvatarDownload={
         conversationId ? () => startAvatarDownload(conversationId) : undefined
