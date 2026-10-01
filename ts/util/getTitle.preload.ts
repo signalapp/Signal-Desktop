@@ -58,6 +58,7 @@ export function getTitleNoDefault(
   return (
     nicknameValue ||
     (isShort ? attributes.systemGivenName : undefined) ||
+    attributes.systemGivenName : undefined) ||
     getSystemName(attributes) ||
     (isShort ? attributes.profileName : undefined) ||
     getProfileName(attributes) ||
