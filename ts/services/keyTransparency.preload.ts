@@ -282,6 +282,7 @@ class KeyTransparency {
           error.is(ErrorCode.KeyTransparencyError) ||
           error.is(ErrorCode.ChatServiceInactive) ||
           error.is(ErrorCode.IoError) ||
+          error.is(ErrorCode.PossibleCaptiveNetwork) ||
           error.is(ErrorCode.RateLimitedError)
         ) {
           if (oldResult === 'intermittent' || oldResult === 'fail') {
