@@ -283,6 +283,7 @@ export function MessageAudio(props: Props): JSX.Element {
       barMaxHeight={BAR_MAX_HEIGHT}
       onClick={handleWaveformClick}
       onScrub={handleWaveformScrub}
+      isPlaying={isPlaying}
     />
   );
 
