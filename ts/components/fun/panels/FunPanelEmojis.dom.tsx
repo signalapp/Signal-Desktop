@@ -685,13 +685,17 @@ const Cell = memo(function Cell(props: CellProps): JSX.Element {
         <FunItemButton
           ref={popoverTriggerRef}
           excludeFromTabOrder={!props.isTabbable}
-          aria-label={emojiDisplayLabel}
+          aria-label={emoji}
           onClick={handleClick}
-          onLongPress={handleLongPress}
+          {...(emojiHasSkinToneVariants
+            ? {
+                onLongPress: handleLongPress,
+                longPressAccessibilityDescription: i18n(
+                  'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
+                ),
+              }
+            : {})}
           onContextMenu={handleContextMenu}
-          longPressAccessibilityDescription={i18n(
-            'icu:FunPanelEmojis__SkinTonePicker__LongPressAccessibilityDescription'
-          )}
         >
           <FunStaticEmoji role="presentation" size={32} emoji={emoji} />
         </FunItemButton>

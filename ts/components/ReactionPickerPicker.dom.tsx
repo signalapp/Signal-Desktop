@@ -35,19 +35,21 @@ export const ReactionPickerPickerEmojiButton = forwardRef<
     return null;
   }
 
+  const label = title ?? emoji;
+
   return (
     <Button
       ref={ref}
       className={classNames(
         'module-ReactionPickerPicker__button',
-        'module-ReactionPickerPicker__button--emoji',
-        isSelected && 'module-ReactionPickerPicker__button--selected'
+        isSelected && 'module-ReactionPickerPicker__button--is-selected'
       )}
       onPress={onClick}
+      aria-label={label}
+      aria-pressed={isSelected}
     >
       <FunStaticEmoji
-        role="img"
-        aria-label={title ?? ''}
+        role="presentation"
         size={48}
         emoji={emoji}
       />
