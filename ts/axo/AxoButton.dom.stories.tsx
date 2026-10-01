@@ -8,6 +8,7 @@ import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoSwitch } from './AxoSwitch.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
+import { Story } from './_storybook-helpers/Story.dom.tsx';
 
 export default {
   title: 'Axo/AxoButton',
@@ -335,5 +336,35 @@ export function Arrows(): ReactNode {
         External Link
       </AxoButton.Root>
     </div>
+  );
+}
+
+export function Group(): ReactNode {
+  return (
+    <Story.Stack>
+      <AxoButton.Group>
+        <AxoButton.Root variant="subtle-secondary" size="md">
+          One
+        </AxoButton.Root>
+        <AxoButton.Root variant="subtle-secondary" size="md">
+          Two
+        </AxoButton.Root>
+        <AxoButton.Root variant="subtle-primary" size="md">
+          Three
+        </AxoButton.Root>
+      </AxoButton.Group>
+
+      <AxoButton.Group>
+        <AxoButton.Root width="grow" variant="subtle-secondary" size="md">
+          One
+        </AxoButton.Root>
+        <AxoButton.Root width="grow" variant="subtle-secondary" size="md">
+          Two
+        </AxoButton.Root>
+        <AxoButton.Root width="grow" variant="subtle-primary" size="md">
+          Three
+        </AxoButton.Root>
+      </AxoButton.Group>
+    </Story.Stack>
   );
 }

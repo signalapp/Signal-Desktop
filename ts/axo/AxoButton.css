@@ -1,0 +1,191 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-button-group {
+    @apply w-full;
+    @apply flex flex-wrap-reverse gap-2;
+    @apply items-center;
+    @apply justify-center-safe;
+
+    /**
+     * When buttons are not being wrapped:
+     * Try to keep all actions equal size, but don't truncate them.
+     */
+    @apply container-not-scrollable:*:basis-0!;
+    @apply container-not-scrollable:*:min-w-fit!;
+    /**
+     * When buttons are being wrapped:
+     * Make all of them full width
+     */
+    @apply container-scrollable:*:w-full;
+  }
+
+  .axo-button {
+    @apply relative inline-flex max-w-full;
+    @apply items-center-safe justify-center-safe;
+    @apply rounded-full;
+    @apply focus-visible:axo-focus-ring;
+
+    @media (forced-colors: active) {
+      @apply bg-[ButtonFace] text-[ButtonText];
+      @apply border border-[ButtonBorder] focus:border-[Highlight];
+
+      &[aria-disabled='true'] {
+        @apply text-[GrayText];
+      }
+
+      &[aria-pressed='true'] {
+        @apply bg-[SelectedItem];
+        @apply text-[SelectedItemText];
+      }
+    }
+  }
+
+  .axo-button-inner {
+    @apply flex shrink grow;
+    @apply items-center-safe justify-center-safe;
+    @apply gap-1;
+    @apply overflow-hidden;
+
+    .axo-button-pending & {
+      @apply opacity-0;
+    }
+  }
+
+  .axo-button-text {
+    @apply min-w-0 shrink grow truncate;
+  }
+
+  .axo-button-grow {
+    @apply grow;
+  }
+
+  .axo-button-fill {
+    @apply w-full;
+  }
+
+  .axo-button-sm {
+    @apply min-w-12 px-2 py-1 type-body-small font-medium;
+  }
+
+  .axo-button-md {
+    @apply min-w-14 px-3 py-1.5 type-body-medium font-medium;
+  }
+
+  .axo-button-lg {
+    @apply min-w-16 px-4 py-2 type-body-medium font-medium;
+  }
+
+  .axo-button-strong-secondary {
+    @apply bg-secondary text-primary;
+    @apply not-aria-disabled:active:bg-secondary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
+  }
+
+  .axo-button-strong-primary {
+    @apply bg-accent text-primary-oncolor;
+    @apply not-aria-disabled:active:bg-accent-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled-oncolor;
+  }
+
+  .axo-button-strong-affirmative {
+    @apply bg-affirmative text-primary-oncolor;
+    @apply not-aria-disabled:active:bg-affirmative-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled-oncolor;
+  }
+
+  .axo-button-strong-warning {
+    @apply bg-warning-bright text-primary-onbright;
+    @apply not-aria-disabled:active:bg-warning-bright-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled-onbright;
+  }
+
+  .axo-button-strong-destructive {
+    @apply bg-destructive text-primary-oncolor;
+    @apply not-aria-disabled:active:bg-destructive-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled-oncolor;
+  }
+
+  .axo-button-subtle-primary {
+    @apply bg-primary text-primary;
+    @apply not-aria-disabled:active:bg-primary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
+  }
+
+  .axo-button-subtle-secondary {
+    @apply bg-accent-tint text-accent;
+    @apply not-aria-disabled:active:bg-accent-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-accent-disabled;
+  }
+
+  .axo-button-subtle-affirmative {
+    @apply bg-affirmative-tint text-affirmative;
+    @apply not-aria-disabled:active:bg-affirmative-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-affirmative-disabled;
+  }
+
+  .axo-button-subtle-warning {
+    @apply bg-warning-tint text-warning;
+    @apply not-aria-disabled:active:bg-warning-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-warning-disabled;
+  }
+
+  .axo-button-subtle-destructive {
+    @apply bg-destructive-tint text-destructive;
+    @apply not-aria-disabled:active:bg-destructive-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-destructive-disabled;
+  }
+
+  .axo-button-elevated-secondary {
+    @apply bg-material-tertiary text-primary shadow-elevation-1 backdrop-blur-thin;
+    @apply not-aria-disabled:active:bg-material-tertiary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
+  }
+
+  .axo-button-implied-secondary {
+    @apply bg-transparent text-primary;
+    @apply not-aria-disabled:hover:bg-primary;
+    @apply not-aria-disabled:active:bg-primary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
+  }
+
+  .axo-button-implied-primary {
+    @apply bg-transparent text-accent;
+    @apply not-aria-disabled:hover:bg-accent-tint;
+    @apply not-aria-disabled:active:bg-accent-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-accent-disabled;
+  }
+
+  .axo-button-implied-affirmative {
+    @apply bg-transparent text-affirmative;
+    @apply not-aria-disabled:hover:bg-affirmative-tint;
+    @apply not-aria-disabled:active:bg-affirmative-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-affirmative-disabled;
+  }
+
+  .axo-button-implied-destructive {
+    @apply bg-transparent text-destructive;
+    @apply not-aria-disabled:hover:bg-destructive-tint;
+    @apply not-aria-disabled:active:bg-destructive-tint-pressed;
+    @apply data-[axo-discouraged=true]:text-destructive-disabled;
+  }
+
+  .axo-button-message-incoming-primary {
+    @apply bg-onmessage-incoming-primary text-primary;
+    @apply not-aria-disabled:active:bg-onmessage-incoming-primary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
+  }
+
+  .axo-button-message-outgoing-primary {
+    @apply bg-onmessage-outgoing-primary text-primary-oncolor;
+    @apply not-aria-disabled:active:bg-onmessage-outgoing-primary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled-oncolor;
+  }
+
+  .axo-button-spinner {
+    @apply absolute inset-0 flex items-center justify-center;
+  }
+}

@@ -16,7 +16,6 @@ import {
   type GetSharedGroupNamesType,
 } from '../../util/sharedGroupNames.dom.ts';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
-import { FlexWrapDetector } from '../../axo/_internal/FlexWrapDetector.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 
@@ -130,78 +129,70 @@ export function MessageRequestActions({
         <p className={tw('mb-3 text-center type-body-medium text-secondary')}>
           {message}
         </p>
-        <FlexWrapDetector>
-          <div
-            className={tw(
-              'flex flex-wrap justify-center gap-2 p-1',
-              '[&>button]:min-w-24',
-              'container-scrollable:[&>button]:w-full'
-            )}
-          >
-            {!isBlocked && (
-              <AxoButton.Root
-                onClick={() => {
-                  setMrState(MessageRequestState.blocking);
-                }}
-                size="md"
-                variant="subtle-destructive"
-              >
-                {i18n('icu:MessageRequests--block')}
-              </AxoButton.Root>
-            )}
-            {(isReported || isBlocked) && (
-              <AxoButton.Root
-                onClick={() => {
-                  setMrState(MessageRequestState.deleting);
-                }}
-                size="md"
-                variant="subtle-destructive"
-              >
-                {i18n('icu:MessageRequests--delete')}
-              </AxoButton.Root>
-            )}
-            {!isReported && (
-              <AxoButton.Root
-                onClick={() => {
-                  setMrState(MessageRequestState.reportingAndMaybeBlocking);
-                }}
-                size="md"
-                variant="subtle-destructive"
-              >
-                {i18n('icu:MessageRequests--reportAndMaybeBlock')}
-              </AxoButton.Root>
-            )}
-            {isBlocked && (
-              <AxoButton.Root
-                onClick={() => {
-                  setMrState(MessageRequestState.unblocking);
-                }}
-                size="md"
-                variant="subtle-secondary"
-              >
-                {i18n('icu:MessageRequests--unblock')}
-              </AxoButton.Root>
-            )}
-            {!isBlocked ? (
-              <AxoButton.Root
-                onClick={() => {
-                  if (
-                    conversationType === 'direct' &&
-                    sharedGroupNames.length > 1
-                  ) {
-                    acceptConversation(conversationId);
-                  } else {
-                    setMrState(MessageRequestState.accepting);
-                  }
-                }}
-                size="md"
-                variant="subtle-secondary"
-              >
-                {i18n('icu:MessageRequests--accept')}
-              </AxoButton.Root>
-            ) : null}
-          </div>
-        </FlexWrapDetector>
+        <AxoButton.Group>
+          {!isBlocked && (
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.blocking);
+              }}
+              size="md"
+              variant="subtle-destructive"
+            >
+              {i18n('icu:MessageRequests--block')}
+            </AxoButton.Root>
+          )}
+          {(isReported || isBlocked) && (
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.deleting);
+              }}
+              size="md"
+              variant="subtle-destructive"
+            >
+              {i18n('icu:MessageRequests--delete')}
+            </AxoButton.Root>
+          )}
+          {!isReported && (
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.reportingAndMaybeBlocking);
+              }}
+              size="md"
+              variant="subtle-destructive"
+            >
+              {i18n('icu:MessageRequests--reportAndMaybeBlock')}
+            </AxoButton.Root>
+          )}
+          {isBlocked && (
+            <AxoButton.Root
+              onClick={() => {
+                setMrState(MessageRequestState.unblocking);
+              }}
+              size="md"
+              variant="subtle-secondary"
+            >
+              {i18n('icu:MessageRequests--unblock')}
+            </AxoButton.Root>
+          )}
+          {!isBlocked ? (
+            <AxoButton.Root
+              onClick={() => {
+                if (
+                  conversationType === 'direct' &&
+                  sharedGroupNames.length > 1
+                ) {
+                  acceptConversation(conversationId);
+                } else {
+                  setMrState(MessageRequestState.accepting);
+                }
+              }}
+              size="md"
+              variant="subtle-secondary"
+            >
+              {i18n('icu:MessageRequests--accept')}
+            </AxoButton.Root>
+          ) : null}
+        </AxoButton.Group>
       </div>
     </>
   );

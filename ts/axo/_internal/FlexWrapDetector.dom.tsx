@@ -22,7 +22,9 @@ export const FlexWrapDetector = memo(function FlexWrapDetector(
         // 1. Create a new container for querying scroll-state()
         '@container-[scroll-state] overflow-x-hidden',
         // 2. Make it a wrapping flex container
-        'flex flex-wrap'
+        'flex flex-wrap',
+        // Also subtract margins for focus rings
+        '-m-1'
       )}
     >
       {/* 3. When wrapped, this will grow to fill the container */}
@@ -30,8 +32,16 @@ export const FlexWrapDetector = memo(function FlexWrapDetector(
         {/* 4. And then this will make the scroll container overflow */}
         <div className={tw('absolute -inset-e-px size-px')} />
       </div>
-      {/* 5. When not wrapped, this item should take priority when growing the items */}
-      <div className={tw('grow-9999')}>{props.children}</div>
+      <div
+        className={tw(
+          // 5. When not wrapped, this item should take priority when growing the items
+          'grow-9999',
+          // Add padding for focus rings (need `box-sizing: content` to avoid padding contributing to flex-basis)
+          'box-content p-1'
+        )}
+      >
+        {props.children}
+      </div>
     </div>
   );
 });

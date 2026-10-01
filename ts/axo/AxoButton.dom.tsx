@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { memo, useCallback } from 'react';
 import type { FC, ReactNode, JSX, MouseEvent, Ref } from 'react';
-import { tw } from './tw.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
 import { AxoBaseSpinner } from './status/_AxoBaseSpinner.dom.tsx';
+import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
+import { css } from './_internal/css.dom.tsx';
 
 /**
  * A text button with optional leading icon and trailing arrow.
@@ -67,150 +68,48 @@ export namespace AxoButton {
    */
   export type Arrow = 'collapse' | 'expand' | 'next' | 'external-link';
 
-  const baseStyles = tw(
-    'relative inline-flex max-w-full items-center-safe justify-center-safe rounded-full',
-    'focus-visible:axo-focus-ring',
-    'forced-colors:border',
-    'forced-colors:border-[ButtonBorder]',
-    'forced-colors:focus:border-[Highlight]',
-    'forced-colors:bg-[ButtonFace]',
-    'forced-colors:text-[ButtonText]',
-    'forced-colors:aria-disabled:text-[GrayText]',
-    'forced-colors:aria-pressed:bg-[SelectedItem]',
-    'forced-colors:aria-pressed:text-[SelectedItemText]'
-  );
-
   const VariantStyles = variants<Variant>('AxoButton.Variant', {
     // strong
-    'strong-secondary': tw(
-      baseStyles,
-      'bg-secondary text-primary',
-      'not-aria-disabled:active:bg-secondary-pressed',
-      'data-[axo-discouraged=true]:text-disabled'
-    ),
-    'strong-primary': tw(
-      baseStyles,
-      'bg-accent text-primary-oncolor',
-      'not-aria-disabled:active:bg-accent-pressed',
-      'data-[axo-discouraged=true]:text-disabled-oncolor'
-    ),
-    'strong-affirmative': tw(
-      baseStyles,
-      'bg-affirmative text-primary-oncolor',
-      'not-aria-disabled:active:bg-affirmative-pressed',
-      'data-[axo-discouraged=true]:text-disabled-oncolor'
-    ),
-    'strong-warning': tw(
-      baseStyles,
-      'bg-warning-bright text-primary-onbright',
-      'not-aria-disabled:active:bg-warning-bright-pressed',
-      'data-[axo-discouraged=true]:text-disabled-onbright'
-    ),
-    'strong-destructive': tw(
-      baseStyles,
-      'bg-destructive text-primary-oncolor',
-      'not-aria-disabled:active:bg-destructive-pressed',
-      'data-[axo-discouraged=true]:text-disabled-oncolor'
-    ),
+    'strong-secondary': css('axo-button-strong-secondary'),
+    'strong-primary': css('axo-button-strong-primary'),
+    'strong-affirmative': css('axo-button-strong-affirmative'),
+    'strong-warning': css('axo-button-strong-warning'),
+    'strong-destructive': css('axo-button-strong-destructive'),
 
     // subtle
-    'subtle-secondary': tw(
-      baseStyles,
-      'bg-primary text-primary',
-      'not-aria-disabled:active:bg-primary-pressed',
-      'data-[axo-discouraged=true]:text-disabled'
-    ),
-    'subtle-primary': tw(
-      baseStyles,
-      'bg-accent-tint text-accent',
-      'not-aria-disabled:active:bg-accent-tint-pressed',
-      'data-[axo-discouraged=true]:text-accent-disabled'
-    ),
-    'subtle-affirmative': tw(
-      baseStyles,
-      'bg-affirmative-tint text-affirmative',
-      'not-aria-disabled:active:bg-affirmative-tint-pressed',
-      'data-[axo-discouraged=true]:text-affirmative-disabled'
-    ),
-    'subtle-warning': tw(
-      baseStyles,
-      'bg-warning-tint text-warning',
-      'not-aria-disabled:active:bg-warning-tint-pressed',
-      'data-[axo-discouraged=true]:text-warning-disabled'
-    ),
-    'subtle-destructive': tw(
-      baseStyles,
-      'bg-destructive-tint text-destructive',
-      'not-aria-disabled:active:bg-destructive-tint-pressed',
-      'data-[axo-discouraged=true]:text-destructive-disabled'
-    ),
+    'subtle-secondary': css('axo-button-subtle-secondary'),
+    'subtle-primary': css('axo-button-subtle-primary'),
+    'subtle-affirmative': css('axo-button-subtle-affirmative'),
+    'subtle-warning': css('axo-button-subtle-warning'),
+    'subtle-destructive': css('axo-button-subtle-destructive'),
 
     // elevated
-    'elevated-secondary': tw(
-      baseStyles,
-      'bg-material-tertiary text-primary shadow-elevation-1 backdrop-blur-thin',
-      'not-aria-disabled:active:bg-material-tertiary-pressed',
-      'data-[axo-discouraged=true]:text-disabled'
-    ),
+    'elevated-secondary': css('axo-button-elevated-secondary'),
 
     // implied
-    'implied-secondary': tw(
-      baseStyles,
-      'bg-transparent text-primary',
-      'not-aria-disabled:hover:bg-primary',
-      'not-aria-disabled:active:bg-primary-pressed',
-      'data-[axo-discouraged=true]:text-disabled'
-    ),
-    'implied-primary': tw(
-      baseStyles,
-      'bg-transparent text-accent',
-      'not-aria-disabled:hover:bg-accent-tint',
-      'not-aria-disabled:active:bg-accent-tint-pressed',
-      'data-[axo-discouraged=true]:text-accent-disabled'
-    ),
-    'implied-affirmative': tw(
-      baseStyles,
-      'bg-transparent text-affirmative',
-      'not-aria-disabled:hover:bg-affirmative-tint',
-      'not-aria-disabled:active:bg-affirmative-tint-pressed',
-      'data-[axo-discouraged=true]:text-affirmative-disabled'
-    ),
-    'implied-destructive': tw(
-      baseStyles,
-      'bg-transparent text-destructive',
-      'not-aria-disabled:hover:bg-destructive-tint',
-      'not-aria-disabled:active:bg-destructive-tint-pressed',
-      'data-[axo-discouraged=true]:text-destructive-disabled'
-    ),
+    'implied-secondary': css('axo-button-implied-secondary'),
+    'implied-primary': css('axo-button-implied-primary'),
+    'implied-affirmative': css('axo-button-implied-affirmative'),
+    'implied-destructive': css('axo-button-implied-destructive'),
 
     // message
-    'message-incoming-primary': tw(
-      baseStyles,
-      'bg-onmessage-incoming-primary text-primary',
-      'not-aria-disabled:active:bg-onmessage-incoming-primary-pressed',
-      'data-[axo-discouraged=true]:text-disabled'
-    ),
-    'message-outgoing-primary': tw(
-      baseStyles,
-      'bg-onmessage-outgoing-primary text-primary-oncolor',
-      'not-aria-disabled:active:bg-onmessage-outgoing-primary-pressed',
-      'data-[axo-discouraged=true]:text-disabled-oncolor'
-    ),
+    'message-incoming-primary': css('axo-button-message-incoming-primary'),
+    'message-outgoing-primary': css('axo-button-message-outgoing-primary'),
   });
 
   const SizeStyles = variants<Size>('AxoButton.Size', {
-    sm: tw('min-w-12 px-2 py-1 type-body-small font-medium'),
-    md: tw('min-w-14 px-3 py-1.5 type-body-medium font-medium'),
-    lg: tw('min-w-16 px-4 py-2 type-body-medium font-medium'),
+    sm: css('axo-button-sm'),
+    md: css('axo-button-md'),
+    lg: css('axo-button-lg'),
   });
 
   const WidthStyles = variants<Width>('AxoButton.Width', {
     /* Always try to fit to the content of the button */
-    fit: tw(''),
+    fit: css('axo-button-fit'),
     /* Allow the button to grow within a flex container */
-    grow: tw('grow'),
+    grow: css('axo-button-grow'),
     /* Always try to fill the available space */
-    full: tw('w-full'),
+    full: css('axo-button-fill'),
   });
 
   const Arrows = variants<Arrow, AxoSymbol.Name>('AxoButton.Arrow', {
@@ -229,6 +128,25 @@ export namespace AxoButton {
   export function _getAllSizes(): ReadonlyArray<Size> {
     return SizeStyles.keys();
   }
+
+  /**
+   * <AxoButton.Group>
+   * --------------------------------------------------------------------------
+   */
+
+  export type GroupProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  export const Group: FC<GroupProps> = memo(props => {
+    return (
+      <FlexWrapDetector>
+        <div className="axo-button-group">{props.children}</div>
+      </FlexWrapDetector>
+    );
+  });
+
+  Group.displayName = 'AxoButton.Group';
 
   /**
    * <AxoButton.Root>
@@ -371,24 +289,20 @@ export namespace AxoButton {
         data-axo-discouraged={disabled || discouraged}
         autoFocus={autoFocus ?? undefined}
         onClick={handleClick}
-        className={tw(
+        className={css(
+          'axo-button',
           VariantStyles.get(variant),
           SizeStyles.get(size),
-          WidthStyles.get(width)
+          WidthStyles.get(width),
+          pending && 'axo-button-pending'
         )}
         {...forwardExtraPropsForRadix(rest)}
       >
-        <span
-          aria-hidden={pending ?? undefined}
-          className={tw(
-            'flex shrink grow items-center-safe justify-center-safe gap-1 overflow-hidden',
-            pending ? 'opacity-0' : null
-          )}
-        >
+        <span aria-hidden={pending ?? undefined} className="axo-button-inner">
           {symbol != null && (
             <AxoSymbol.InlineGlyph symbol={symbol} label={null} />
           )}
-          <span className={tw('min-w-0 shrink grow truncate')}>{children}</span>
+          <span className="axo-button-text">{children}</span>
           {arrow != null && (
             <AxoSymbol.InlineGlyph symbol={Arrows.get(arrow)} label={null} />
           )}
@@ -445,7 +359,7 @@ export namespace AxoButton {
     const size = SpinnerSizes.get(props.buttonSize);
     const variant = SpinnerVariants.get(props.buttonVariant);
     return (
-      <span className={tw('absolute inset-0 flex items-center justify-center')}>
+      <span className="axo-button-spinner">
         <AxoBaseSpinner.Root
           size={size}
           weight="regular"

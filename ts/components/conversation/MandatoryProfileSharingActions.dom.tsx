@@ -10,7 +10,6 @@ import {
 } from './MessageRequestActionsConfirmation.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import { FlexWrapDetector } from '../../axo/_internal/FlexWrapDetector.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 
@@ -107,41 +106,33 @@ export function MandatoryProfileSharingActions({
             />
           )}
         </p>
-        <FlexWrapDetector>
-          <div
-            className={tw(
-              'flex flex-wrap justify-center gap-2 p-1',
-              '[&>button]:min-w-24',
-              'container-scrollable:[&>button]:w-full'
-            )}
+        <AxoButton.Group>
+          <AxoButton.Root
+            onClick={() => {
+              setMrState(MessageRequestState.blocking);
+            }}
+            size="md"
+            variant="subtle-destructive"
           >
-            <AxoButton.Root
-              onClick={() => {
-                setMrState(MessageRequestState.blocking);
-              }}
-              size="md"
-              variant="subtle-destructive"
-            >
-              {i18n('icu:MessageRequests--block')}
-            </AxoButton.Root>
-            <AxoButton.Root
-              onClick={() => {
-                setMrState(MessageRequestState.deleting);
-              }}
-              size="md"
-              variant="subtle-destructive"
-            >
-              {i18n('icu:MessageRequests--delete')}
-            </AxoButton.Root>
-            <AxoButton.Root
-              onClick={() => acceptConversation(conversationId)}
-              size="md"
-              variant="subtle-secondary"
-            >
-              {i18n('icu:MessageRequests--continue')}
-            </AxoButton.Root>
-          </div>
-        </FlexWrapDetector>
+            {i18n('icu:MessageRequests--block')}
+          </AxoButton.Root>
+          <AxoButton.Root
+            onClick={() => {
+              setMrState(MessageRequestState.deleting);
+            }}
+            size="md"
+            variant="subtle-destructive"
+          >
+            {i18n('icu:MessageRequests--delete')}
+          </AxoButton.Root>
+          <AxoButton.Root
+            onClick={() => acceptConversation(conversationId)}
+            size="md"
+            variant="subtle-secondary"
+          >
+            {i18n('icu:MessageRequests--continue')}
+          </AxoButton.Root>
+        </AxoButton.Group>
       </div>
     </>
   );

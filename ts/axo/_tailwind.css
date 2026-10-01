@@ -22,6 +22,7 @@
 @import './_tailwind-theme/variants.css';
 @import './_tailwind-theme/z-index.css';
 
+@import './AxoButton.css';
 @import './AxoDragRegions.css';
 @import './AxoScrollArea.css';
 @import './AxoSelect.css';
