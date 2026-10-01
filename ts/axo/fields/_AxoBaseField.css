@@ -56,7 +56,7 @@
       @apply flex-1;
       @apply grow-[calc(infinity)];
 
-      &.axo-field-root-fit {
+      &:has(.axo-field-textbox-fit) {
         @apply grow;
       }
     }
@@ -65,20 +65,16 @@
   .axo-field-root {
     @apply relative z-0;
     @apply w-[stretch];
-    @apply grid;
+    @apply grid items-start;
     grid-template:
-      'axo-field-leading axo-field-input axo-field-count axo-field-trailing' min-content
-      'axo-field-error   axo-field-error axo-field-error axo-field-error' min-content / min-content auto min-content min-content;
+      'axo-field-leading axo-field-textbox axo-field-count axo-field-trailing' min-content
+      'axo-field-error   axo-field-error   axo-field-error axo-field-error' min-content / min-content auto min-content min-content;
 
-    /* grid-template-columns:
-      [axo-field-leading] min-content
-      [axo-field-input] auto
-      [axo-field-count] min-content
-      [axo-field-trailing] min-content; */
+    &:has(.axo-field-textbox:focus-visible) {
+      @apply axo-focus-ring;
+    }
 
-    @apply has-[.axo-field-input:focus-visible]:axo-focus-ring;
-
-    &.axo-field-root-fit {
+    &:has(.axo-field-textbox-fit) {
       @apply w-fit;
     }
   }
@@ -89,10 +85,9 @@
 
   .axo-field-trailing {
     grid-area: axo-field-trailing;
-    @apply pe-2.5;
   }
 
-  .axo-field-input-wrapper {
+  .axo-field-textbox-wrapper {
     grid-column: 1 / -1;
     grid-row: 1;
     @apply relative z-0;
@@ -102,34 +97,45 @@
     @apply last:pe-2.5;
     @apply curved-lg;
 
-    .axo-field-root-fit & {
+    &:has(.axo-field-textbox-fit) {
       @apply w-fit;
     }
   }
 
-  .axo-field-input {
-    grid-area: axo-field-input;
+  .axo-field-textbox {
+    grid-area: axo-field-textbox;
+    @apply box-content; /* Needed for textarea min/max height by line count */
     @apply -mx-25 px-25;
     @apply py-1.5;
-    @apply indent-1;
     @apply type-body-large;
     @apply text-primary;
     @apply placeholder:text-placeholder;
     @apply disabled:text-disabled;
     @apply focus-visible:outline-none;
 
+    &:is(input) {
+      @apply indent-1;
+    }
+
+    &:is(textarea) {
+      @apply field-sizing-content;
+      @apply resize-none scrollbar-none;
+      @apply ps-1;
+      @apply ps-26;
+    }
+
     &::-webkit-search-cancel-button {
       @apply appearance-none;
     }
 
-    .axo-field-root-fit & {
+    &.axo-field-textbox-fit {
       @apply field-sizing-content;
     }
   }
 
   .axo-field-icon {
     @apply relative z-10;
-    @apply flex items-center justify-center;
+    @apply flex h-[stretch] max-h-8 items-center justify-center;
     @apply text-secondary;
     @apply ps-2.5 pe-1;
     @apply forced-colors:text-[ButtonText];
@@ -139,7 +145,7 @@
   .axo-field-count {
     grid-area: axo-field-count;
     @apply relative z-10;
-    @apply flex h-[stretch] items-center justify-end;
+    @apply flex h-[stretch] max-h-8 items-center justify-end;
     @apply box-content min-w-[2ch];
     @apply px-1;
     @apply type-body-small tabular-nums;
@@ -254,7 +260,7 @@
 
   .axo-field-loading {
     @apply box-content min-w-4;
-    @apply flex h-[stretch] items-center;
+    @apply flex h-[stretch] max-h-8 items-center;
     @apply ps-1 pe-1.5;
     @apply pointer-events-none;
 
@@ -266,6 +272,7 @@
   .axo-field-custom-leading-slot,
   .axo-field-custom-trailing-slot {
     @apply z-10;
+    @apply flex h-[stretch] max-h-8 items-center;
   }
 
   .axo-field-root:has(.axo-field-custom-leading-slot.axo-field-leading) {

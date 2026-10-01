@@ -1,14 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { memo } from 'react';
-import type {
-  FC,
-  FocusEvent,
-  MouseEvent,
-  ReactNode,
-  Ref,
-  RefObject,
-} from 'react';
+import type { FC, MouseEvent, ReactNode, Ref } from 'react';
 import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoBaseField } from './_AxoBaseField.dom.tsx';
 import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
@@ -36,11 +29,7 @@ export namespace AxoTextField {
    * --------------------------------------------------------------------------
    */
 
-  export type Width = 'fill' | 'fit';
-
   export type RootProps = Readonly<{
-    /** How the field sizes itself horizontally. */
-    width?: Width;
     /** Provide your own id for the `<input>` to target with a `<label>`. Auto-generated if omitted. */
     id?: string;
     /** Controlled value of the input. */
@@ -77,7 +66,6 @@ export namespace AxoTextField {
    */
   export const Root: FC<RootProps> = memo(props => {
     const {
-      width,
       id,
       value,
       onValueChange,
@@ -89,7 +77,6 @@ export namespace AxoTextField {
     } = props;
     return (
       <AxoBaseField.Root
-        width={width}
         variant="text"
         id={id}
         value={value}
@@ -111,59 +98,29 @@ export namespace AxoTextField {
    * --------------------------------------------------------------------------
    */
 
-  export type InputProps = Readonly<{
-    /** Ref to the underlying `<input>` element. */
-    ref?: RefObject<HTMLInputElement | null>;
-    /** Form field name for native form submissions. */
-    name?: string;
-    /** Placeholder text shown when the input is empty. */
-    placeholder: string;
-    /** Marks the input as required for form validation. */
-    required?: boolean;
-    /** Focuses the input on mount. */
-    autoFocus?: boolean;
-    /** Enables or disables browser spell checking. */
-    spellCheck?: boolean;
-    /** Override font settings to give numbers uniform/tabular widths. */
-    tabularNums?: boolean;
-    /** Called when the input loses focus. */
-    onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
-    /** Prefer using the specific axo component for the input type (See: <AxoPasswordField> or <AxoSearchField>) */
-    type?: never;
-  }>;
+  export type InputSizing = AxoBaseField.InputSizing;
+
+  export type InputProps = AxoBaseField.PublicInputProps;
 
   /** The text input field. Must be placed inside `Root`. */
   export const Input: FC<InputProps> = memo(props => {
-    const {
-      ref,
-      name,
-      placeholder,
-      required,
-      autoFocus,
-      spellCheck,
-      tabularNums,
-      onBlur,
-      // oxlint-disable-next-line no-unused-vars
-      type,
-      ...rest
-    } = props;
-    return (
-      <AxoBaseField.Input
-        type="text" // Note: Do not customize here, prefer creating more specific axo components
-        ref={ref}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        autoFocus={autoFocus}
-        spellCheck={spellCheck}
-        tabularNums={tabularNums}
-        onBlur={onBlur}
-        {...forwardExtraPropsForRadix(rest)}
-      />
-    );
+    return <AxoBaseField.Input {...props} type="text" />;
   });
 
   Input.displayName = 'AxoTextField.Input';
+
+  /**
+   * <AxoTextField.Input>
+   * --------------------------------------------------------------------------
+   */
+
+  export type TextAreaProps = AxoBaseField.TextAreaProps;
+
+  export const TextArea: FC<TextAreaProps> = memo(props => {
+    return <AxoBaseField.TextArea {...props} />;
+  });
+
+  TextArea.displayName = 'AxoTextField.TextArea';
 
   /**
    * <AxoTextField.Count>

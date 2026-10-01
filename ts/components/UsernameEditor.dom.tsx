@@ -402,7 +402,6 @@ export function UsernameEditor({
                 </label>
                 <AxoTextField.Root
                   id={discriminatorInputId}
-                  width="fit"
                   value={discriminator ?? ''}
                   onValueChange={updateCustomDiscriminator}
                   maxBytes={DISCRIMINATOR_MAX_LENGTH}
@@ -411,6 +410,7 @@ export function UsernameEditor({
                   <AxoTextField.Input
                     placeholder="00"
                     spellCheck={false}
+                    sizing="fit"
                     tabularNums
                   />
                 </AxoTextField.Root>
