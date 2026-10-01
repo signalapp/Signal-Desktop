@@ -240,6 +240,46 @@ describe('both/state/selectors/search', () => {
       assert.deepEqual(actual, expected);
     });
 
+    it('marks the targeted message as selected', () => {
+      const searchId = 'search-id';
+      const toId = 'to-id';
+
+      const from = getDefaultConversationWithServiceId();
+      const to = getDefaultConversation({ id: toId });
+
+      const state = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: {
+            [from.id]: from,
+            [toId]: to,
+          },
+          conversationsByServiceId: {
+            [from.serviceId]: from,
+          },
+        },
+        search: {
+          ...getEmptySearchState(),
+          targetedMessage: searchId,
+          messageLookup: {
+            [searchId]: {
+              ...getDefaultMessage(searchId),
+              type: 'incoming' as const,
+              sourceServiceId: from.serviceId,
+              conversationId: toId,
+              snippet: 'snippet',
+              body: 'snippet',
+              bodyRanges: [],
+            },
+          },
+        },
+      };
+      const selector = getMessageSearchResultSelector(state);
+
+      assert.strictEqual(selector(searchId)?.isSelected, true);
+    });
+
     it('returns the correct "from" and "to" when sent to me', () => {
       const searchId = 'search-id';
       const myId = 'my-id';
