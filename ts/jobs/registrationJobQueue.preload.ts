@@ -23,11 +23,6 @@ import {
   storeWithSVR2,
 } from '../textsecure/WebAPI.preload.ts';
 import { normalizePin } from '../util/normalizePin.std.ts';
-
-import type { Job } from './Job.std.ts';
-import type { ParsedJob } from './types.std.ts';
-import type { JOB_STATUS } from './JobQueue.std.ts';
-import type { LoggerType } from '../types/Logging.std.ts';
 import { resetWithNewKey as resetStorageServiceWithNewKey } from '../services/storage.preload.ts';
 import { getConversation } from '../util/getConversation.preload.ts';
 import { writeProfile } from '../services/writeProfile.preload.ts';
@@ -37,11 +32,16 @@ import {
   SvrKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys';
 
+import type { Job } from './Job.std.ts';
+import type { ParsedJob } from './types.std.ts';
+import type { JOB_STATUS } from './JobQueue.std.ts';
+import type { LoggerType } from '../types/Logging.std.ts';
+
 const MAX_RETRY_TIME = 7 * DAY;
 const BACKOFF_OPTIONS = {
   maxBackoffTime: 45 * MINUTE,
   multiplier: 2.5,
-  firstBackoffs: [0, 20 * SECOND],
+  firstBackoffs: [0, SECOND, 5 * SECOND, 20 * SECOND],
 };
 const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(
   MAX_RETRY_TIME,

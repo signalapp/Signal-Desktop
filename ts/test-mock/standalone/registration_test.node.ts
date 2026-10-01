@@ -369,7 +369,9 @@ describe('standalone/registration', function (this: Mocha.Suite) {
           aci,
           storageKey,
           recordIkm,
-          after: originalState,
+          predicate: state => {
+            return state.version === BigInt(expectedVersion);
+          },
         });
         assert.strictEqual(secondState.version, 2n, 'second state from server');
 
@@ -575,7 +577,7 @@ describe('standalone/registration', function (this: Mocha.Suite) {
         'storageKey should not match old storage key'
       );
       assert.deepEqual(recordIkm, Buffer.from(originalRecordIkm));
-      assert.strictEqual(version, expectedVersion, 'we expect to be at v3!');
+      assert.strictEqual(version, expectedVersion);
 
       newStorageKey = storageKey;
 
@@ -583,12 +585,14 @@ describe('standalone/registration', function (this: Mocha.Suite) {
         aci,
         storageKey,
         recordIkm,
-        after: originalState,
+        predicate: state => {
+          return state.version === BigInt(expectedVersion);
+        },
       });
       assert.strictEqual(
         secondState.version,
         BigInt(expectedVersion),
-        'second state from server'
+        'second state from server, properly decrypted!'
       );
     }
 
