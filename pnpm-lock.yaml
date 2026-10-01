@@ -208,6 +208,7 @@ overrides:
   '@electron/rebuild>node-gyp': 12.4.0
   '@electron/rebuild>node-abi': 4.34.0
   '@xmldom/xmldom@0.8': ^0.8.15
+  axios@1: ^1.20.0
   brace-expansion@5: ^5.0.11
   brace-expansion@2: ^2.1.6
   brace-expansion@1: ^1.1.20
@@ -6276,8 +6277,8 @@ packages:
     resolution: {integrity: sha512-RE3mdQ7P3FRSe7eqCWoeQ/Z9QXrtniSjp1wUjt5nRC3WIpz5rSCve6o3fsZ2aCpJtrZjSZgjwXAoTO5k4tEI0w==, tarball: https://registry.npmjs.org/axe-core/-/axe-core-4.10.2.tgz}
     engines: {node: '>=4'}
 
-  axios@1.16.1:
-    resolution: {integrity: sha512-caYkukvroVPO8KrzuJEb50Hm07KwfBZPEC3VeFHTsqWHvKTsy54hjJz9BS/cdaypROE2rH6xvm9mHX4fgWkr3A==, tarball: https://registry.npmjs.org/axios/-/axios-1.16.1.tgz}
+  axios@1.20.0:
+    resolution: {integrity: sha512-r8aOh8j9cGKpgQAqpzrUHnSIc6a59Y3Xf/cv8sy1DrHCkZHzQGEuoq1tARk6qSyDdtQGSDgpb9kFlruzPvrgwg==, tarball: https://registry.npmjs.org/axios/-/axios-1.20.0.tgz}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==, tarball: https://registry.npmjs.org/axobject-query/-/axobject-query-4.1.0.tgz}
@@ -17280,7 +17281,7 @@ snapshots:
 
   axe-core@4.10.2: {}
 
-  axios@1.16.1(debug@4.4.3)(supports-color@8.1.1):
+  axios@1.20.0(debug@4.4.3)(supports-color@8.1.1):
     dependencies:
       follow-redirects: 1.16.0(debug@4.4.3)
       form-data: 4.0.6
@@ -23343,7 +23344,7 @@ snapshots:
 
   wait-on@7.2.0(debug@4.4.3)(supports-color@8.1.1):
     dependencies:
-      axios: 1.16.1(debug@4.4.3)(supports-color@8.1.1)
+      axios: 1.20.0(debug@4.4.3)(supports-color@8.1.1)
       joi: 17.13.8
       lodash: 4.18.1
       minimist: 1.2.8
@@ -23354,7 +23355,7 @@ snapshots:
 
   wait-on@9.0.5(debug@4.4.3)(supports-color@8.1.1):
     dependencies:
-      axios: 1.16.1(debug@4.4.3)(supports-color@8.1.1)
+      axios: 1.20.0(debug@4.4.3)(supports-color@8.1.1)
       joi: 18.2.9
       lodash: 4.18.1
       minimist: 1.2.8

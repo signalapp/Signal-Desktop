@@ -37,7 +37,6 @@ auditConfig:
     - GHSA-5c6j-r48x-rmvq # @storybook/addon-webpack5-compiler-swc > serialize-javascript
     - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
     - GHSA-395f-4hp3-45gv # shell-quote, only used at dev-time
-    - GHSA-gcfj-64vw-6mp9 # axios, only used at dev-time
     - GHSA-v56q-mh7h-f735 # used by sass, only used at dev-time
     - GHSA-xvcm-6775-5m9r # used by sass, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
@@ -46,6 +45,7 @@ overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
   '@electron/rebuild>node-abi': '4.34.0'
   '@xmldom/xmldom@0.8': '^0.8.15'
+  'axios@1': '^1.20.0'
   'brace-expansion@5': '^5.0.11'
   'brace-expansion@2': '^2.1.6'
   'brace-expansion@1': '^1.1.20'
