@@ -97,6 +97,7 @@ const mockStore: Store<StateType> = createStore(
     ) => state,
     globalModals: (state = {}) => state,
     user: (state = {}) => state,
+    lightbox: (state = {}) => state,
   })
 );
 

@@ -3,7 +3,7 @@
 import { focusSafely, getFocusableTreeWalker } from '@react-aria/focus';
 import type { ReactNode, RefObject, JSX } from 'react';
 import { useEffect, useRef } from 'react';
-import { createKeybindingsHandler } from 'tinykeys';
+import { tinykeys } from 'tinykeys';
 import { strictAssert } from '../../../util/assert.std.ts';
 
 export abstract class KeyboardDelegate<State> {
@@ -134,7 +134,7 @@ export function FunKeyboard<State>(
       };
     }
 
-    const onKeyDown = createKeybindingsHandler({
+    const scrollerKeybindings = tinykeys(scroller, {
       ArrowLeft: wrap(() => getKeyboard().onArrowLeft(currentState)),
       ArrowRight: wrap(() => getKeyboard().onArrowRight(currentState)),
       ArrowUp: wrap(() => getKeyboard().onArrowUp(currentState)),
@@ -149,12 +149,11 @@ export function FunKeyboard<State>(
 
     scroller.addEventListener('focusin', onFocusIn);
     scroller.addEventListener('focusout', onFocusOut);
-    scroller.addEventListener('keydown', onKeyDown);
 
     return () => {
       scroller.removeEventListener('focusin', onFocusIn);
       scroller.removeEventListener('focusout', onFocusOut);
-      scroller.removeEventListener('keydown', onKeyDown);
+      scrollerKeybindings();
     };
   }, [props.scrollerRef]);
 

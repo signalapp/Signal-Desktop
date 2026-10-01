@@ -3,7 +3,14 @@
 
 import { FocusScope } from 'react-aria';
 import type { UIEvent, JSX, KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useState,
+} from 'react';
+import { tinykeys } from 'tinykeys';
 import classNames from 'classnames';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -371,49 +378,51 @@ export function StoryViewer({
       currentIndex < numStories - 1) ||
     canFreelyNavigateStories;
 
-  const navigateStories = useCallback(
-    (ev: KeyboardEvent) => {
-      // the replies modal can consume arrow keys
-      // we don't want to navigate while someone is typing a reply
-      if (currentViewTarget != null) {
-        return;
-      }
+  function handleNavigatDirectionShortcut(
+    event: KeyboardEvent,
+    canNavigateInDirection: boolean,
+    viewDirection: StoryViewDirectionType
+  ) {
+    if (currentViewTarget != null) {
+      return;
+    }
 
-      if (canNavigateRight && ev.key === arrow('end')) {
-        viewStory({
-          storyId: story.messageId,
-          storyViewMode,
-          viewDirection: StoryViewDirectionType.Next,
-        });
-        ev.preventDefault();
-        ev.stopPropagation();
-      } else if (canNavigateLeft && ev.key === arrow('start')) {
-        viewStory({
-          storyId: story.messageId,
-          storyViewMode,
-          viewDirection: StoryViewDirectionType.Previous,
-        });
-        ev.preventDefault();
-        ev.stopPropagation();
-      }
-    },
-    [
-      currentViewTarget,
-      canNavigateLeft,
-      canNavigateRight,
-      story.messageId,
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!canNavigateInDirection) {
+      return;
+    }
+
+    viewStory({
+      storyId: story.messageId,
       storyViewMode,
-      viewStory,
-    ]
-  );
+      viewDirection,
+    });
+  }
+
+  const onNavigateNextShortcut = useEffectEvent((event: KeyboardEvent) => {
+    handleNavigatDirectionShortcut(
+      event,
+      canNavigateRight,
+      StoryViewDirectionType.Next
+    );
+  });
+
+  const onNavigatePrevShortcut = useEffectEvent((event: KeyboardEvent) => {
+    handleNavigatDirectionShortcut(
+      event,
+      canNavigateLeft,
+      StoryViewDirectionType.Previous
+    );
+  });
 
   useEffect(() => {
-    document.addEventListener('keydown', navigateStories);
-
-    return () => {
-      document.removeEventListener('keydown', navigateStories);
-    };
-  }, [navigateStories]);
+    return tinykeys(window, {
+      [arrow('start')]: onNavigatePrevShortcut,
+      [arrow('end')]: onNavigateNextShortcut,
+    });
+  }, []);
 
   const groupId = group?.id;
   const isGroupStory = Boolean(groupId);

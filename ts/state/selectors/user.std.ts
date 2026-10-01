@@ -94,8 +94,3 @@ export const getIsMainWindowFullScreen = createSelector(
   getUser,
   (state: UserStateType): boolean => state.isMainWindowFullScreen
 );
-
-export const getIsMacOS = createSelector(
-  getPlatform,
-  (platform: string): boolean => platform === 'darwin'
-);

@@ -5,6 +5,7 @@ import {
   memo,
   useCallback,
   useEffect,
+  useEffectEvent,
   useMemo,
   useRef,
   useState,
@@ -12,6 +13,7 @@ import {
 } from 'react';
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
+import { tinykeys } from 'tinykeys';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
@@ -59,13 +61,9 @@ import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileS
 import { MediaQualitySelector } from './MediaQualitySelector.dom.tsx';
 import type { Props as QuoteProps } from './conversation/Quote.dom.tsx';
 import { Quote } from './conversation/Quote.dom.tsx';
-import {
-  useAttachFileShortcut,
-  useEditLastMessageSent,
-} from '../hooks/useKeyboardShortcuts.dom.tsx';
+import { useHasAnyOverlay } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { MediaEditor } from './MediaEditor.dom.tsx';
 import { isImageTypeSupported } from '../util/GoogleChrome.std.ts';
-import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
 import { PanelType } from '../types/Panels.std.ts';
 import type { SmartCompositionRecordingDraftProps } from '../state/smart/CompositionRecordingDraft.preload.tsx';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
@@ -86,7 +84,6 @@ import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { PollCreateType } from '../types/Polls.dom.ts';
 import { PollCreateModal } from './PollCreateModal.dom.tsx';
-import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.ts';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import type { ContactNameColorType } from '../types/Colors.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
@@ -517,16 +514,6 @@ export const CompositionArea = memo(function CompositionArea({
     setMessageToEdit,
   ]);
 
-  const attachFileShortcut = useAttachFileShortcut(launchFilePicker);
-  const editLastMessageSent = useEditLastMessageSent(maybeEditMessage);
-  useDocumentKeyDown(event => {
-    const hasFocus = inputApiRef.current?.hasFocus() ?? false;
-    if (hasFocus) {
-      attachFileShortcut(event);
-      editLastMessageSent(event);
-    }
-  });
-
   // Focus input on first mount
   useEffect(() => {
     if (inputApiRef.current) {
@@ -906,30 +893,68 @@ export const CompositionArea = memo(function CompositionArea({
     </>
   ) : null;
 
-  // Listen for cmd/ctrl-shift-x to toggle large composition mode
+  const hasOverlay = useHasAnyOverlay();
+
+  function isComposerFocused() {
+    return inputApiRef.current?.hasFocus() ?? false;
+  }
+
+  const onToggleLargeShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (hasOverlay) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    setLarge(x => !x);
+  });
+
+  const onEditLastMessageShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (hasOverlay) {
+      return;
+    }
+    // Ignore keys that are part of an active IME composition (e.g. when
+    // navigating the Japanese transliteration candidate menu with ArrowUp).
+    if (event.isComposing) {
+      return;
+    }
+
+    if (!isComposerFocused()) {
+      return;
+    }
+
+    const didStartEditing = maybeEditMessage();
+    if (didStartEditing) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  });
+
+  const onAttachFileShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (hasOverlay) {
+      return;
+    }
+    if (!isComposerFocused()) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    launchFilePicker();
+  });
+
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const { shiftKey, ctrlKey, metaKey } = e;
-      const key = KeyboardLayout.lookup(e);
-      // When using the ctrl key, `key` is `'K'`. When using the cmd key, `key` is `'k'`
-      const targetKey = key === 'k' || key === 'K';
-      const commandKey = platform === 'darwin' && metaKey;
-      const controlKey = platform !== 'darwin' && ctrlKey;
-      const commandOrCtrl = commandKey || controlKey;
-
-      // cmd/ctrl-shift-k
-      if (targetKey && shiftKey && commandOrCtrl) {
-        e.preventDefault();
-        setLarge(x => !x);
+    return tinykeys(
+      window,
+      {
+        ArrowUp: onEditLastMessageShortcut,
+        '$mod+U': onAttachFileShortcut,
+        '$mod+Shift+K': onToggleLargeShortcut,
+      },
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
       }
-    };
-
-    document.addEventListener('keydown', handler);
-
-    return () => {
-      document.removeEventListener('keydown', handler);
-    };
-  }, [platform, setLarge]);
+    );
+  }, []);
 
   const handleEscape = useCallback(() => {
     if (linkPreviewResult) {

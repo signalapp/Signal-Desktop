@@ -29,14 +29,14 @@ export const FunEmojiPicker = memo(function FunEmojiPicker(
 ): JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
-  const { onOpenChange: onFunOpenChange } = fun;
+  const { onAnyOpenChange } = fun;
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
       onOpenChange(open);
-      onFunOpenChange(open);
+      onAnyOpenChange(open);
     },
-    [onOpenChange, onFunOpenChange]
+    [onOpenChange, onAnyOpenChange]
   );
 
   const handleClose = useCallback(() => {

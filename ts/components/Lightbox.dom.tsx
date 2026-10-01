@@ -7,12 +7,18 @@ import type {
   MouseEvent as ReactMouseEvent,
   KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import lodash from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
-
+import { tinykeys } from 'tinykeys';
 import type { ReadonlyDeep } from 'type-fest';
 import type {
   ConversationType,
@@ -32,7 +38,6 @@ import { useRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { arrow } from '../util/keyboard.dom.ts';
 import { drop } from '../util/drop.std.ts';
-import { isCmdOrCtrl } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.ts';
 import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.tsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
@@ -272,37 +277,43 @@ export function Lightbox({
     });
   };
 
-  const onKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      switch (event.key) {
-        case 'Escape': {
-          closeLightbox();
+  const onEscapeShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    closeLightbox();
+  });
 
-          event.preventDefault();
-          event.stopPropagation();
+  const onPreviousShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onPrevious(event);
+  });
 
-          break;
-        }
+  const onNextShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onNext(event);
+  });
 
-        case arrow('start'):
-          onPrevious(event);
-          break;
+  const onSaveShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    handleSave(event);
+  });
 
-        case arrow('end'):
-          onNext(event);
-          break;
+  useEffect(() => {
+    return tinykeys(document, {
+      Escape: onEscapeShortcut,
+    });
+  }, []);
 
-        case 's':
-          if (isCmdOrCtrl(event)) {
-            handleSave(event);
-          }
-          break;
-
-        default:
-      }
-    },
-    [closeLightbox, onNext, onPrevious, handleSave]
-  );
+  useEffect(() => {
+    return tinykeys(window, {
+      [arrow('start')]: onPreviousShortcut,
+      [arrow('end')]: onNextShortcut,
+      '$mod+S': onSaveShortcut,
+    });
+  }, []);
 
   const onClose = (event: ReactMouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -349,15 +360,6 @@ export function Lightbox({
       setRoot(undefined);
     };
   }, []);
-
-  useEffect(() => {
-    const useCapture = true;
-    document.addEventListener('keydown', onKeyDown, useCapture);
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown, useCapture);
-    };
-  }, [onKeyDown]);
 
   useEffect(() => {
     playVideo();

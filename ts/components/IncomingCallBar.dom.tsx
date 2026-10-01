@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, JSX } from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useEffectEvent, useRef } from 'react';
+import { tinykeys } from 'tinykeys';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Tooltip } from './Tooltip.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
@@ -18,12 +19,9 @@ import type {
   DeclineCallType,
 } from '../state/ducks/calling.preload.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import {
-  useIncomingCallShortcuts,
-  useKeyboardShortcuts,
-} from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
 import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
+import { getControlOrAltKey } from '../hooks/useKeyboardShortcuts.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
@@ -273,12 +271,41 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
     declineCall({ conversationId });
   }, [conversationId, declineCall]);
 
-  const incomingCallShortcuts = useIncomingCallShortcuts(
-    acceptAudioCall,
-    acceptVideoCall,
-    declineIncomingCall
+  const onAcceptAudioCallShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    acceptAudioCall();
+  });
+
+  const onAcceptVideoCallShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    acceptVideoCall();
+  });
+
+  const onDeclineIncomingCallShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      declineIncomingCall();
+    }
   );
-  useKeyboardShortcuts(incomingCallShortcuts);
+
+  useEffect(() => {
+    const ControlOrAlt = getControlOrAltKey();
+    return tinykeys(
+      window,
+      {
+        [`${ControlOrAlt}+Shift+A`]: onAcceptAudioCallShortcut,
+        [`${ControlOrAlt}+Shift+V`]: onAcceptVideoCallShortcut,
+        [`${ControlOrAlt}+Shift+D`]: onDeclineIncomingCallShortcut,
+      },
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
+  }, []);
 
   return (
     <div className="IncomingCallBar__container">

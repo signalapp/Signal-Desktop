@@ -1,16 +1,13 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useCallback, type JSX } from 'react';
-
+import { useCallback, useEffect, useEffectEvent, type JSX } from 'react';
+import { tinykeys } from 'tinykeys';
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
-import {
-  useStartRecordingShortcut,
-  useKeyboardShortcuts,
-} from '../../hooks/useKeyboardShortcuts.dom.tsx';
+import { useHasAnyOverlay } from '../../hooks/useKeyboardShortcuts.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {
@@ -30,12 +27,29 @@ export function AudioCapture({
   warmupRecording,
   showToast,
 }: PropsType): JSX.Element {
-  const recordConversation = useCallback(
-    () => startRecording(conversationId),
-    [conversationId, startRecording]
-  );
-  const startRecordingShortcut = useStartRecordingShortcut(recordConversation);
-  useKeyboardShortcuts(startRecordingShortcut);
+  const hasOverlay = useHasAnyOverlay();
+
+  const onStartRecordingShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (hasOverlay) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    startRecording(conversationId);
+  });
+
+  useEffect(() => {
+    return tinykeys(
+      window,
+      {
+        '$mod+Shift+Y': onStartRecordingShortcut,
+      },
+      {
+        ignore: () => false,
+      }
+    );
+  }, []);
 
   const handleClick = useCallback(() => {
     if (draftAttachments.length) {

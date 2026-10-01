@@ -15,10 +15,12 @@ import {
   useCallback,
   useLayoutEffect,
   useMemo,
+  useEffectEvent,
 } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
+import { tinykeys } from 'tinykeys';
 import type {
   BatchUserActionPayloadType,
   PendingUserActionPayloadType,
@@ -70,11 +72,7 @@ import {
   CallingAudioIndicator,
   SPEAKING_LINGER_MS,
 } from './CallingAudioIndicator.dom.tsx';
-import {
-  makeKeyboardShortcutHandler,
-  useActiveCallShortcuts,
-  useKeyboardShortcuts,
-} from '../hooks/useKeyboardShortcuts.dom.tsx';
+import { getControlOrAltKey } from '../hooks/useKeyboardShortcuts.dom.tsx';
 import { useValueAtFixedRate } from '../hooks/useValueAtFixedRate.std.ts';
 import { isReconnecting as callingIsReconnecting } from '../util/callingIsReconnecting.std.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
@@ -268,9 +266,6 @@ export function CallScreen({
     switchToPresentationView,
     switchFromPresentationView,
   });
-
-  const activeCallShortcuts = useActiveCallShortcuts(hangUpActiveCall);
-  useKeyboardShortcuts(activeCallShortcuts);
 
   const toggleAudio = useCallback(() => {
     setLocalAudio({
@@ -940,21 +935,51 @@ export function CallScreen({
     toggleParticipants,
   ]);
 
-  useKeyboardShortcuts(
-    makeKeyboardShortcutHandler('v', { shift: true }, () => {
-      toggleVideo();
-      setShowControls(true);
-    }),
-    makeKeyboardShortcutHandler('m', { shift: true }, () => {
-      toggleAudio();
-      setShowControls(true);
-    }),
-    makeKeyboardShortcutHandler('h', { shift: true }, () => {
-      toggleRaiseHand();
-      setShowControls(true);
-    }),
-    makeKeyboardShortcutHandler('p', { shift: true }, toggleSelfViewExpanded)
+  const onHangUpActiveCallShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    hangUpActiveCall('Keyboard shortcut');
+  });
+
+  const onToggleVideoShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleVideo();
+    setShowControls(true);
+  });
+
+  const onToggleAudioShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleAudio();
+    setShowControls(true);
+  });
+
+  const onToggleRaiseHandShortcut = useEffectEvent((event: KeyboardEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleRaiseHand();
+    setShowControls(true);
+  });
+
+  const onToggleSelfViewExpandedShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleSelfViewExpanded();
+    }
   );
+
+  useEffect(() => {
+    const ControlOrAlt = getControlOrAltKey();
+    return tinykeys(window, {
+      [`${ControlOrAlt}+Shift+E`]: onHangUpActiveCallShortcut,
+      'Shift+V': onToggleVideoShortcut,
+      'Shift+M': onToggleAudioShortcut,
+      'Shift+H': onToggleRaiseHandShortcut,
+      'Shift+P': onToggleSelfViewExpandedShortcut,
+    });
+  }, []);
 
   let remoteParticipantsElement: ReactNode;
   switch (activeCall.callMode) {

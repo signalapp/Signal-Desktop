@@ -95,12 +95,7 @@ import {
   isOSUnsupported,
   isUpdateDialogVisible,
 } from '../selectors/updates.std.ts';
-import {
-  getIntl,
-  getIsMacOS,
-  getRegionCode,
-  getTheme,
-} from '../selectors/user.std.ts';
+import { getIntl, getRegionCode, getTheme } from '../selectors/user.std.ts';
 import { SmartCaptchaDialog } from './CaptchaDialog.preload.tsx';
 import { SmartCrashReportDialog } from './CrashReportDialog.preload.tsx';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.tsx';
@@ -332,7 +327,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const hasUnsupportedOS = useSelector(isOSUnsupported);
   const hasUpdateDialog = useSelector(isUpdateDialogVisible);
   const i18n = useSelector(getIntl);
-  const isMacOS = useSelector(getIsMacOS);
   const isUpdateDownloaded = useSelector(getIsUpdateDownloaded);
   const modeSpecificProps = useSelector(getModeSpecificProps);
   const navTabsCollapsed = useSelector(getNavTabsCollapsed);
@@ -476,7 +470,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       hasRelinkDialog={hasRelinkDialog}
       hasUpdateDialog={hasUpdateDialog}
       i18n={i18n}
-      isMacOS={isMacOS}
       isMAS={OS.isMAS()}
       isOnline={isOnline}
       isNotificationProfileActive={isNotificationProfileActive}

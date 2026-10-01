@@ -13,7 +13,6 @@ import { getSelectedConversationId as getSelectedConversationIdSelector } from '
 import { strictAssert } from '../util/assert.std.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.ts';
-import { KeyboardLayout } from './keyboardLayout.dom.ts';
 
 const log = createLogger('addGlobalKeyboardShortcuts');
 
@@ -88,44 +87,30 @@ export function addGlobalKeyboardShortcuts(): void {
     Escape: onEscape,
   });
 
-  const Slash = KeyboardLayout.get('Slash') ?? '/';
-  const F6 = KeyboardLayout.get('F6') ?? 'F6';
-
-  const KeyA = KeyboardLayout.get('KeyA') ?? 'A';
-  const KeyC = KeyboardLayout.get('KeyC') ?? 'C';
-  const KeyD = KeyboardLayout.get('KeyD') ?? 'D';
-  const KeyJ = KeyboardLayout.get('KeyJ') ?? 'J';
-  const KeyM = KeyboardLayout.get('KeyM') ?? 'M';
-  const KeyP = KeyboardLayout.get('KeyP') ?? 'P';
-  const KeyR = KeyboardLayout.get('KeyR') ?? 'R';
-  const KeyS = KeyboardLayout.get('KeyS') ?? 'S';
-  const KeyT = KeyboardLayout.get('KeyT') ?? 'T';
-  const KeyU = KeyboardLayout.get('KeyU') ?? 'U';
-
   tinykeys(
     window,
     {
       // NAVIGATION
-      [`$mod+${Slash}`]: onShowKeyboardShortcuts,
-      [`$mod+[Shift]+${F6}`]: onSuperTab,
-      [`$mod+${KeyT}`]: onSuperTab,
-      [`$mod+Shift+${KeyT}`]: onFocusComposer,
-      [`$mod+${KeyJ}`]: onFocusOldestUnreadOrLastMessage,
-      [`$mod+Shift+${KeyM}`]: onOpenAllMediaPanel,
-      [`$mod+Shift+${KeyA}`]: onArchiveConversation,
-      [`$mod+Shift+${KeyU}`]: onUnarchiveConversation,
-      [`$mod+Shift+${KeyC}`]: onCloseConversation,
+      '$mod+/': onShowKeyboardShortcuts,
+      '$mod+[Shift]+F6': onSuperTab,
+      '$mod+T': onSuperTab,
+      '$mod+Shift+T': onFocusComposer,
+      '$mod+J': onFocusOldestUnreadOrLastMessage,
+      '$mod+Shift+M': onOpenAllMediaPanel,
+      '$mod+Shift+A': onArchiveConversation,
+      '$mod+Shift+U': onUnarchiveConversation,
+      '$mod+Shift+C': onCloseConversation,
 
       // MESSAGES
-      [`$mod+${KeyD}`]: onOpenMessageDetails,
-      [`$mod+Shift+${KeyR}`]: onToggleReplyToMessage,
-      [`$mod+${KeyS}`]: onSaveAttachment,
-      [`$mod+Shift+${KeyD}`]: onOpenDeleteMessagesDialog,
-      [`$mod+Shift+${KeyS}`]: onOpenForwardMessagesDialog,
+      '$mod+D': onOpenMessageDetails,
+      '$mod+Shift+R': onToggleReplyToMessage,
+      '$mod+S': onSaveAttachment,
+      '$mod+Shift+D': onOpenDeleteMessagesDialog,
+      '$mod+Shift+S': onOpenForwardMessagesDialog,
 
       // COMPOSER
-      [`$mod+${KeyP}`]: onRemoveLinkPreview,
-      [`$mod+Shift+${KeyP}`]: onClearAllDraftAttachments,
+      '$mod+P': onRemoveLinkPreview,
+      '$mod+Shift+P': onClearAllDraftAttachments,
     },
     {
       // Override default ignore behavior so this fires in textfields too

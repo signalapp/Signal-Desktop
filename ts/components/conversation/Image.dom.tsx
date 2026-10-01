@@ -110,10 +110,10 @@ export function Image({
   );
   const showVisualAttachmentKeyDown = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>) => {
-      if (
-        showVisualAttachment &&
-        (event.key === 'Enter' || event.key === 'Space')
-      ) {
+      if (showVisualAttachment == null) {
+        return;
+      }
+      if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         event.stopPropagation();
         showVisualAttachment(attachment);

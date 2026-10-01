@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { KeyboardLayout } from '../../services/keyboardLayout.dom.ts';
-
 export function handleKeydownForSearch(
   event: Readonly<KeyboardEvent>,
   {
@@ -15,12 +13,11 @@ export function handleKeydownForSearch(
     startSearch: () => unknown;
   }>
 ): void {
-  const { ctrlKey, metaKey, shiftKey } = event;
+  const { key, ctrlKey, metaKey, shiftKey } = event;
   const commandKey = window.platform === 'darwin' && metaKey;
   const controlKey = window.platform !== 'darwin' && ctrlKey;
   const commandOrCtrl = commandKey || controlKey;
   const commandAndCtrl = commandKey && ctrlKey;
-  const key = KeyboardLayout.lookup(event);
 
   if (commandOrCtrl && !commandAndCtrl && (key === 'f' || key === 'F')) {
     if (!shiftKey) {

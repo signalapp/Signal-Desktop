@@ -2,16 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject, JSX, ReactNode } from 'react';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { ReadonlyDeep } from 'type-fest';
 import { tinykeys } from 'tinykeys';
 import { MuteExpiration } from '@signalapp/types';
 
 import type { BadgeType } from '../../badges/types.std.ts';
-import {
-  useKeyboardShortcuts,
-  useStartCallShortcuts,
-} from '../../hooks/useKeyboardShortcuts.dom.tsx';
 import type { ConversationTypeType } from '../../state/ducks/conversations.preload.ts';
 import type { HasStories } from '../../types/Stories.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -60,6 +64,7 @@ import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { getControlOrAltKey } from '../../hooks/useKeyboardShortcuts.dom.tsx';
 
 function HeaderInfoTitle({
   name,
@@ -273,13 +278,20 @@ export const ConversationHeader = memo(function ConversationHeader({
   const isMuted = isConversationMuted(conversation);
 
   useEffect(() => {
-    return tinykeys(window, {
-      '$mod+Shift+L': event => {
-        event.stopPropagation();
-        event.preventDefault();
-        setMenuOpen(prev => !prev);
+    return tinykeys(
+      window,
+      {
+        '$mod+Shift+L': event => {
+          event.stopPropagation();
+          event.preventDefault();
+          setMenuOpen(prev => !prev);
+        },
       },
-    });
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
   }, []);
 
   if (hasPanelShowing) {
@@ -1004,11 +1016,36 @@ function OutgoingCallButtons({
     </div>
   );
 
-  const startCallShortcuts = useStartCallShortcuts(
-    onOutgoingAudioCall,
-    onOutgoingVideoCall
+  const onStartOutgoingAudioCallShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+      onOutgoingAudioCall();
+    }
   );
-  useKeyboardShortcuts(startCallShortcuts);
+
+  const onStartOutgoingVideoCallShortcut = useEffectEvent(
+    (event: KeyboardEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+      onOutgoingVideoCall();
+    }
+  );
+
+  useEffect(() => {
+    const ControlOrAlt = getControlOrAltKey();
+    return tinykeys(
+      window,
+      {
+        [`${ControlOrAlt}+Shift+C`]: onStartOutgoingAudioCallShortcut,
+        [`${ControlOrAlt}+Shift+Y`]: onStartOutgoingVideoCallShortcut,
+      },
+      {
+        // Override default ignore so shortcuts work while textboxes are focused
+        ignore: () => false,
+      }
+    );
+  }, []);
 
   switch (outgoingCallButtonStyle) {
     case OutgoingCallButtonStyle.None:

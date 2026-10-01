@@ -6,10 +6,6 @@ import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MediaEditor.dom.tsx';
 import { MediaEditor } from './MediaEditor.dom.tsx';
 import { Emoji } from '../axo/emoji.std.ts';
-import { KeyboardLayout } from '../services/keyboardLayout.dom.ts';
-import { drop } from '../util/drop.std.ts';
-
-drop(KeyboardLayout.initialize());
 
 const { i18n } = window.SignalContext;
 const IMAGE_1 = '/fixtures/nathan-anderson-316188-unsplash.jpg';
