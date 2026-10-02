@@ -18,6 +18,7 @@ import {
   getCurrentChatFolders,
   getSelectedChatFolder,
 } from '../selectors/chatFolders.std.ts';
+import { getFilterByUnread } from '../selectors/search.preload.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import { parseStrict } from '../../util/schemas.std.ts';
@@ -281,7 +282,9 @@ function updateChatFolderStateOnTargetConversationChanged(
 
     const state = getState();
     const selectedChatFolder = getSelectedChatFolder(state);
-    if (selectedChatFolder == null) {
+    const filterByUnread = getFilterByUnread(state);
+
+    if (selectedChatFolder == null && !filterByUnread) {
       return;
     }
 
@@ -289,9 +292,14 @@ function updateChatFolderStateOnTargetConversationChanged(
     const conversation = getOwn(conversationLookup, conversationId);
     strictAssert(conversation != null, 'Target conversation not found');
 
-    if (isConversationInChatFolder(selectedChatFolder, conversation)) {
-      // Make sure the targetted conversation doesn't appear from the chat folder
-      // while its open (in case it gets marked read for example).
+    const inSelectedFolder =
+      selectedChatFolder == null ||
+      isConversationInChatFolder(selectedChatFolder, conversation);
+
+    if (inSelectedFolder) {
+      // Make sure the targetted conversation doesn't disappear from the view
+      // while its open (in case it gets marked read for example, or moved out
+      // of the chat folder).
       dispatch(updateStableSelectedConversationIdInChatFolder(conversationId));
       return;
     }

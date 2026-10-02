@@ -2159,11 +2159,13 @@ function searchMessages(
     options,
     conversationId,
     contactServiceIdsMatchingQuery,
+    filterByUnread,
   }: {
     query: string;
     options?: { limit?: number };
     conversationId?: string;
     contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+    filterByUnread: boolean;
   }
 ): Array<ServerSearchResultMessageType> {
   const { limit = conversationId ? 100 : 500 } = options ?? {};
@@ -2213,41 +2215,31 @@ function searchMessages(
       )
       .run({ query: normalizedQuery });
 
-    if (conversationId === undefined) {
-      writable
-        .prepare(
-          `
-          INSERT INTO tmp_filtered_results (rowid)
-          SELECT
-            tmp_results.rowid
-          FROM
-            tmp_results
-          INNER JOIN
-            messages ON messages.rowid = tmp_results.rowid
-          ORDER BY messages.received_at DESC, messages.sent_at DESC
-          LIMIT $limit;
-        `
-        )
-        .run({ limit });
-    } else {
-      writable
-        .prepare(
-          `
-          INSERT INTO tmp_filtered_results (rowid)
-          SELECT
-            tmp_results.rowid
-          FROM
-            tmp_results
-          INNER JOIN
-            messages ON messages.rowid = tmp_results.rowid
-          WHERE
-            messages.conversationId = $conversationId
-          ORDER BY messages.received_at DESC, messages.sent_at DESC
-          LIMIT $limit;
-        `
-        )
-        .run({ conversationId, limit });
-    }
+    const conversationFilter =
+      conversationId != null
+        ? sqlFragment`messages.conversationId = ${conversationId}`
+        : sqlFragment`TRUE`;
+
+    const unreadFilter = filterByUnread
+      ? sqlFragment`messages.readStatus = ${sqlConstant(ReadStatus.Unread)}`
+      : sqlFragment`TRUE`;
+
+    const [insertTempQuery, insertTempParams] = sql`
+      INSERT INTO tmp_filtered_results (rowid)
+      SELECT
+        tmp_results.rowid
+      FROM
+        tmp_results
+      INNER JOIN
+        messages ON messages.rowid = tmp_results.rowid
+      WHERE
+        ${conversationFilter} AND
+        ${unreadFilter}
+      ORDER BY messages.received_at DESC, messages.sent_at DESC
+      LIMIT ${limit};
+    `;
+
+    writable.prepare(insertTempQuery).run(insertTempParams);
 
     // The `MATCH` is necessary in order to for `snippet()` helper function to
     // give us the right results. We can't call `snippet()` in the query above

@@ -21,12 +21,17 @@ import type {
 import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper.dom.tsx';
 import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult.dom.tsx';
 
-import { getIntl, getUserConversationId } from './user.std.ts';
+import { getIntl, getUserConversationId, getRegionCode } from './user.std.ts';
 import type { GetConversationByIdType } from './conversations.dom.ts';
 import {
   getConversationLookup,
   getConversationSelector,
+  getAllConversations,
 } from './conversations.dom.ts';
+import {
+  getSelectedChatFolder,
+  getStableSelectedConversationIdInChatFolder,
+} from './chatFolders.std.ts';
 
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import type { RawBodyRange } from '../../types/BodyRange.std.ts';
@@ -34,6 +39,10 @@ import { createLogger } from '../../logging/log.std.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
 import { getSelectedConversationId } from './nav.std.ts';
+import { isConversationInChatFolder } from '../../types/ChatFolder.std.ts';
+import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
+import { isConversationUnread } from '../../util/countUnreadStats.std.ts';
+import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
 
 const log = createLogger('search');
 
@@ -117,18 +126,46 @@ const getMessageSearchResultLookup = createSelector(
   (state: SearchStateType) => state.messageLookup
 );
 
+function isUnreadAndInChatFolder(
+  conversation: ConversationType,
+  selectedChatFolder: CurrentChatFolder | null,
+  stableSelectedConversationIdInChatFolder: string | null
+): boolean {
+  if (stableSelectedConversationIdInChatFolder === conversation.id) {
+    return true;
+  }
+  if (
+    selectedChatFolder != null &&
+    !isConversationInChatFolder(selectedChatFolder, conversation)
+  ) {
+    return false;
+  }
+  return isConversationUnread(conversation, {
+    activeProfile: undefined,
+    includeMuted: 'force-include',
+  });
+}
+
 export const getSearchResults = createSelector(
   [
     getSearch,
     getSearchConversationName,
     getConversationLookup,
     getSelectedConversationId,
+    getAllConversations,
+    getSelectedChatFolder,
+    getStableSelectedConversationIdInChatFolder,
+    getRegionCode,
   ],
   (
     state: SearchStateType,
     searchConversationName,
     conversationLookup: ConversationLookupType,
-    selectedConversationId: string | undefined
+    selectedConversationId: string | undefined,
+    allConversations: Array<ConversationType>,
+    selectedChatFolder: CurrentChatFolder | null,
+    stableSelectedConversationIdInChatFolder: string | null,
+    regionCode: string | undefined
   ): Pick<
     LeftPaneSearchPropsType,
     | 'conversationResults'
@@ -138,6 +175,39 @@ export const getSearchResults = createSelector(
     | 'searchTerm'
     | 'filterByUnread'
   > => {
+    const hasSearchQuery = state.query.trim().length > 0;
+
+    if (state.filterByUnread && !hasSearchQuery) {
+      const filtered = allConversations.filter(conversation =>
+        isUnreadAndInChatFolder(
+          conversation,
+          selectedChatFolder,
+          stableSelectedConversationIdInChatFolder
+        )
+      );
+      const sorted = filterAndSortConversations(
+        filtered,
+        '',
+        regionCode,
+        false
+      );
+
+      return {
+        conversationResults: {
+          isLoading: false,
+          results: sorted.map(conversation => ({
+            ...conversation,
+            isSelected: selectedConversationId === conversation.id,
+          })),
+        },
+        contactResults: { isLoading: false, results: [] },
+        messageResults: { isLoading: false, results: [] },
+        searchConversationName,
+        searchTerm: state.query,
+        filterByUnread: true,
+      };
+    }
+
     const {
       contactIds,
       conversationIds,

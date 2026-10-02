@@ -136,15 +136,22 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   override getPreRowsNode({
     i18n,
+    renderLeftPaneChatFolders,
   }: Readonly<{
     i18n: LocalizerType;
+    renderLeftPaneChatFolders: () => ReactNode;
   }>): ReactNode | null {
+    const showChatFolders =
+      this.#filterByUnread &&
+      this.#searchTerm.trim().length === 0 &&
+      !this.#searchConversation;
+
     const mightHaveSearchResults = this.#allResults().some(
       searchResult => searchResult.isLoading || searchResult.results.length
     );
 
     if (mightHaveSearchResults) {
-      return null;
+      return showChatFolders ? renderLeftPaneChatFolders() : null;
     }
 
     const searchTerm = this.#searchTerm;
@@ -192,20 +199,32 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       );
     }
 
-    return !searchConversationName || searchTerm ? (
-      <div
-        // We need this for Ctrl-T shortcut cycling through parts of app
-        tabIndex={-1}
-        className={
-          this.#filterByUnread
-            ? 'module-left-pane__no-search-results--withHeader'
-            : 'module-left-pane__no-search-results'
-        }
-        key={searchTerm}
-      >
-        {noResults}
-      </div>
-    ) : null;
+    const noResultsNode =
+      !searchConversationName || searchTerm ? (
+        <div
+          // We need this for Ctrl-T shortcut cycling through parts of app
+          tabIndex={-1}
+          className={
+            this.#filterByUnread
+              ? 'module-left-pane__no-search-results--withHeader'
+              : 'module-left-pane__no-search-results'
+          }
+          key={searchTerm}
+        >
+          {noResults}
+        </div>
+      ) : null;
+
+    if (!showChatFolders) {
+      return noResultsNode;
+    }
+
+    return (
+      <>
+        {renderLeftPaneChatFolders()}
+        {noResultsNode}
+      </>
+    );
   }
 
   getRowCount(): number {

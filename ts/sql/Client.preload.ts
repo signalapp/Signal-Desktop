@@ -583,17 +583,20 @@ async function searchMessages({
   options,
   contactServiceIdsMatchingQuery,
   conversationId,
+  filterByUnread,
 }: {
   query: string;
   options?: { limit?: number };
   contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
   conversationId?: string;
+  filterByUnread: boolean;
 }): Promise<Array<ClientSearchResultMessageType>> {
   const messages = await readableChannel.searchMessages({
     query,
     conversationId,
     options,
     contactServiceIdsMatchingQuery,
+    filterByUnread,
   });
 
   return handleSearchMessageJSON(messages);

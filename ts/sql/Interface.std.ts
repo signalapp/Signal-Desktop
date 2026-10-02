@@ -1590,11 +1590,13 @@ export type ServerReadableDirectInterface = ReadableInterface & {
     conversationId,
     options,
     contactServiceIdsMatchingQuery,
+    filterByUnread,
   }: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };
     contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+    filterByUnread: boolean;
   }) => Array<ServerSearchResultMessageType>;
 
   getRecentStoryReplies: (
@@ -1723,11 +1725,13 @@ export type ClientOnlyReadableInterface = ClientInterfaceWrap<{
     conversationId,
     options,
     contactServiceIdsMatchingQuery,
+    filterByUnread,
   }: {
     query: string;
     conversationId?: string;
     options?: { limit?: number };
     contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+    filterByUnread: boolean;
   }) => Array<ClientSearchResultMessageType>;
 
   getRecentStoryReplies: (

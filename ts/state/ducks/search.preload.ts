@@ -441,16 +441,6 @@ const doSearch = debounce(
     const MAX_MATCHING_CONTACTS = 100;
 
     void (async () => {
-      if (filterByUnread) {
-        dispatch({
-          type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
-          payload: {
-            messages: [],
-            query,
-          },
-        });
-        return;
-      }
       const segmenter = new Intl.Segmenter([], { granularity: 'word' });
       const queryWords = [...segmenter.segment(query)]
         .filter(word => word.isWordLike)
@@ -468,6 +458,7 @@ const doSearch = debounce(
         query,
         searchConversationId,
         contactServiceIdsMatchingQuery,
+        filterByUnread,
       });
 
       dispatch({
@@ -529,10 +520,12 @@ async function queryMessages({
   query,
   searchConversationId,
   contactServiceIdsMatchingQuery,
+  filterByUnread,
 }: {
   query: string;
   searchConversationId?: string;
   contactServiceIdsMatchingQuery?: Array<ServiceIdString>;
+  filterByUnread: boolean;
 }): Promise<Array<ClientSearchResultMessageType>> {
   try {
     if (query.trim().length === 0) {
@@ -544,12 +537,14 @@ async function queryMessages({
         query,
         conversationId: searchConversationId,
         contactServiceIdsMatchingQuery,
+        filterByUnread: false,
       });
     }
 
     return await dataSearchMessages({
       query,
       contactServiceIdsMatchingQuery,
+      filterByUnread,
     });
   } catch (e) {
     return [];
