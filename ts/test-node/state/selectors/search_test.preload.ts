@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import sinon from 'sinon';
-
+import { v4 as generateUuid } from 'uuid';
 import type {
   ConversationType,
   MessageType,
@@ -24,6 +24,7 @@ import { makeLookup } from '../../../util/makeLookup.std.ts';
 import {
   getDefaultConversation,
   getDefaultConversationWithServiceId,
+  getDefaultGroup,
 } from '../../../test-helpers/getDefaultConversation.std.ts';
 import { ReadStatus } from '../../../messages/MessageReadStatus.std.ts';
 
@@ -31,6 +32,30 @@ import type { StateType } from '../../../state/reducer.preload.ts';
 import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
 import { NavTab } from '../../../types/Nav.std.ts';
 import { generateAci } from '../../../test-helpers/serviceIdUtils.std.ts';
+import {
+  CurrentChatFolders,
+  type CurrentChatFolder,
+} from '../../../types/CurrentChatFolders.std.ts';
+import {
+  ALL_CHATS_FOLDER_REQUIRED_PARAMS,
+  CHAT_FOLDER_DEFAULTS,
+  ChatFolderType,
+  type ChatFolderId,
+} from '../../../types/ChatFolder.std.ts';
+
+function mockFolder(props: Partial<CurrentChatFolder>): CurrentChatFolder {
+  return {
+    ...CHAT_FOLDER_DEFAULTS,
+    id: generateUuid() as ChatFolderId,
+    position: 0,
+    deletedAtTimestampMs: 0,
+    storageID: null,
+    storageVersion: null,
+    storageNeedsSync: false,
+    storageUnknownFields: null,
+    ...props,
+  } as CurrentChatFolder;
+}
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;
@@ -537,6 +562,155 @@ describe('both/state/selectors/search', () => {
         isLoading: false,
         results: conversations,
       });
+    });
+
+    it('filters unread conversations by selected chat folder when filterByUnread is true and query is empty', () => {
+      const unreadDirect = getDefaultConversation({
+        id: 'unread-direct',
+        unreadCount: 1,
+        markedUnread: false,
+        activeAt: 1,
+      });
+      const readDirect = getDefaultConversation({
+        id: 'read-direct',
+        unreadCount: 0,
+        markedUnread: false,
+        activeAt: 1,
+      });
+      const unreadGroup = getDefaultGroup({
+        id: 'unread-group',
+        unreadCount: 1,
+        markedUnread: false,
+        activeAt: 1,
+      });
+      const readGroup = getDefaultGroup({
+        id: 'read-group',
+        unreadCount: 0,
+        markedUnread: false,
+        activeAt: 1,
+      });
+
+      const allConversations = [
+        unreadDirect,
+        readDirect,
+        unreadGroup,
+        readGroup,
+      ];
+
+      const directChatFolderId = 'direct-chats' as ChatFolderId;
+
+      const state: StateType = {
+        ...getEmptyRootState(),
+        nav: {
+          selectedLocation: {
+            tab: NavTab.Chats,
+            details: {
+              conversationId: 'unread-direct',
+            },
+          },
+        },
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: makeLookup(allConversations, 'id'),
+        },
+        search: {
+          ...getEmptySearchState(),
+          query: '',
+          filterByUnread: true,
+        },
+        chatFolders: {
+          currentChatFolders: CurrentChatFolders.fromArray([
+            mockFolder({
+              ...ALL_CHATS_FOLDER_REQUIRED_PARAMS,
+              folderType: ChatFolderType.ALL,
+              id: 'all' as ChatFolderId,
+              name: '',
+              position: 0,
+            }),
+            mockFolder({
+              id: directChatFolderId,
+              name: '1:1 chats',
+              position: 1,
+              includeAllIndividualChats: true,
+            }),
+          ]),
+          selectedChatFolderId: directChatFolderId,
+          stableSelectedConversationIdInChatFolder: null,
+        },
+      };
+
+      const searchResults = getSearchResults(state);
+
+      assert.deepEqual(
+        searchResults.conversationResults,
+        {
+          isLoading: false,
+          results: [
+            {
+              ...unreadDirect,
+              isSelected: true,
+            },
+          ],
+        },
+        'should only include unread direct chats when folder is "1:1 chats"'
+      );
+      assert.deepEqual(
+        searchResults.contactResults,
+        { isLoading: false, results: [] },
+        'should not include contacts'
+      );
+    });
+
+    it('includes stable conversation even if read when filterByUnread is true and query is empty', () => {
+      const readDirect = getDefaultConversation({
+        id: 'read-direct',
+        unreadCount: 0,
+        markedUnread: false,
+        activeAt: 1,
+      });
+      const unreadDirect = getDefaultConversation({
+        id: 'unread-direct',
+        unreadCount: 1,
+        markedUnread: false,
+        activeAt: 2,
+      });
+
+      const state: StateType = {
+        ...getEmptyRootState(),
+        conversations: {
+          ...getEmptyConversationState(),
+          conversationLookup: makeLookup([readDirect, unreadDirect], 'id'),
+        },
+        search: {
+          ...getEmptySearchState(),
+          query: '',
+          filterByUnread: true,
+        },
+        chatFolders: {
+          currentChatFolders: CurrentChatFolders.fromArray([
+            mockFolder({
+              ...ALL_CHATS_FOLDER_REQUIRED_PARAMS,
+              folderType: ChatFolderType.ALL,
+              id: 'all' as ChatFolderId,
+              name: '',
+              position: 0,
+            }),
+          ]),
+          selectedChatFolderId: null,
+          stableSelectedConversationIdInChatFolder: 'read-direct',
+        },
+      };
+
+      const searchResults = getSearchResults(state);
+
+      const resultIds = searchResults.conversationResults.isLoading
+        ? []
+        : searchResults.conversationResults.results.map(c => c.id);
+      assert.deepEqual(
+        resultIds,
+        ['unread-direct', 'read-direct'],
+        'should include both the unread conversation and the stable read conversation'
+      );
     });
   });
 });

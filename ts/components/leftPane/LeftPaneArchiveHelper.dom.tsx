@@ -123,9 +123,16 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   override getPreRowsNode({
     i18n,
-  }: Readonly<{ i18n: LocalizerType }>): ReactNode | null {
+    renderLeftPaneChatFolders,
+  }: Readonly<{
+    i18n: LocalizerType;
+    renderLeftPaneChatFolders: () => ReactNode;
+  }>): ReactNode | null {
     if (this.#searchHelper) {
-      return this.#searchHelper.getPreRowsNode({ i18n });
+      return this.#searchHelper.getPreRowsNode({
+        i18n,
+        renderLeftPaneChatFolders,
+      });
     }
 
     return (
