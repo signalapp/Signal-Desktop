@@ -457,38 +457,46 @@ export const _getLeftPaneLists = ({
   const pinnedConversationIdsSet = new Set(pinnedConversationIds);
 
   for (let conversation of Object.values(conversationLookup)) {
-    if (
-      !_shouldIncludeInChatFolder(
-        conversation,
-        selectedChatFolder,
-        stableSelectedConversationIdInChatFolder
-      )
-    ) {
-      continue;
-    }
+    const isSelected = selectedConversationId === conversation.id;
 
-    if (selectedConversationId === conversation.id) {
+    if (isSelected) {
       conversation = {
         ...conversation,
         isSelected: true,
       };
     }
 
-    // We always show pinned conversations
-    if (
-      conversation.isPinned &&
-      pinnedConversationIdsSet.has(conversation.id)
-    ) {
+    const isPinned =
+      conversation.isPinned && pinnedConversationIdsSet.has(conversation.id);
+
+    const matchesChatFolder = _shouldIncludeInChatFolder(
+      conversation,
+      selectedChatFolder,
+      stableSelectedConversationIdInChatFolder
+    );
+
+    if (isPinned && matchesChatFolder) {
       pinnedConversations.push(conversation);
       continue;
     }
 
-    if (conversation.activeAt) {
-      if (conversation.isArchived) {
-        archivedConversations.push(conversation);
-      } else {
-        conversations.push(conversation);
-      }
+    const isActive =
+      conversation.activeAt != null && conversation.activeAt !== 0;
+
+    if (!isActive) {
+      continue;
+    }
+
+    const isArchived = conversation.isArchived ?? false;
+
+    // ignore current chat folder
+    if (isArchived) {
+      archivedConversations.push(conversation);
+      continue;
+    }
+
+    if (matchesChatFolder) {
+      conversations.push(conversation);
     }
   }
 

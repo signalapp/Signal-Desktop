@@ -50,6 +50,11 @@ import type {
   AciString,
   ServiceIdString,
 } from '../../../types/ServiceId.std.ts';
+import type {
+  ChatFolder,
+  ChatFolderId,
+} from '../../../types/ChatFolder.std.ts';
+import { ChatFolderType } from '../../../types/ChatFolder.std.ts';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -1282,6 +1287,130 @@ describe('both/state/selectors/conversations-extra', () => {
       assert.strictEqual(archivedConversations.length, 0);
 
       assert.strictEqual(pinnedConversations.length, 0);
+    });
+
+    it('shows archived conversations regardless of chat folder selection', () => {
+      const conversationLookup: ConversationLookupType = {
+        archivedDirect: getDefaultConversation({
+          id: 'archivedDirect',
+          e164: '+18005551111',
+          name: 'Archived Direct',
+          timestamp: 10,
+          inboxPosition: 10,
+          phoneNumber: 'notused',
+          isArchived: true,
+          isPinned: false,
+          markedUnread: false,
+
+          type: 'direct',
+          isMe: false,
+          lastUpdated: Date.now(),
+          title: 'Archived Direct',
+          unreadCount: 0,
+          isSelected: false,
+          typingContactIdTimestamps: {},
+
+          acceptedMessageRequest: true,
+          activeAt: Date.now(),
+        }),
+        archivedGroup: getDefaultGroup({
+          id: 'archivedGroup',
+          name: 'Archived Group',
+          title: 'Archived Group',
+          timestamp: 20,
+          inboxPosition: 20,
+          isArchived: true,
+          isPinned: false,
+          markedUnread: false,
+          isMe: false,
+          lastUpdated: Date.now(),
+          unreadCount: 0,
+          isSelected: false,
+          typingContactIdTimestamps: {},
+          acceptedMessageRequest: true,
+          activeAt: Date.now(),
+        }),
+        inboxDirect: getDefaultConversation({
+          id: 'inboxDirect',
+          e164: '+18005552222',
+          name: 'Inbox Direct',
+          timestamp: 30,
+          inboxPosition: 30,
+          phoneNumber: 'notused',
+          isArchived: false,
+          isPinned: false,
+          markedUnread: false,
+
+          type: 'direct',
+          isMe: false,
+          lastUpdated: Date.now(),
+          title: 'Inbox Direct',
+          unreadCount: 0,
+          isSelected: false,
+          typingContactIdTimestamps: {},
+
+          acceptedMessageRequest: true,
+          activeAt: Date.now(),
+        }),
+        inboxGroup: getDefaultGroup({
+          id: 'inboxGroup',
+          name: 'Inbox Group',
+          title: 'Inbox Group',
+          timestamp: 40,
+          inboxPosition: 40,
+          isArchived: false,
+          isPinned: false,
+          markedUnread: false,
+          isMe: false,
+          lastUpdated: Date.now(),
+          unreadCount: 0,
+          isSelected: false,
+          typingContactIdTimestamps: {},
+          acceptedMessageRequest: true,
+          activeAt: Date.now(),
+        }),
+      };
+
+      const conversationComparator = _getConversationComparator();
+
+      // Selected chat folder that only includes direct chats
+      const selectedChatFolder: ChatFolder = {
+        id: 'custom-folder' as ChatFolderId,
+        folderType: ChatFolderType.CUSTOM,
+        showOnlyUnread: false,
+        showMutedChats: true,
+        includeAllIndividualChats: true,
+        includeAllGroupChats: false,
+        includedConversationIds: [],
+        excludedConversationIds: [],
+        name: '1:1 chats',
+        position: 0,
+        deletedAtTimestampMs: 0,
+        storageID: null,
+        storageVersion: null,
+        storageUnknownFields: null,
+        storageNeedsSync: false,
+      };
+
+      const { archivedConversations, conversations } = _getLeftPaneLists({
+        conversationLookup,
+        conversationComparator,
+        selectedConversationId: undefined,
+        pinnedConversationIds: null,
+        selectedChatFolder,
+        stableSelectedConversationIdInChatFolder: null,
+      });
+
+      // Archived conversations should include both direct and group,
+      // regardless of folder filtering
+      assert.strictEqual(archivedConversations.length, 2);
+      const archivedNames = new Set(archivedConversations.map(c => c.name));
+      assert.isTrue(archivedNames.has('Archived Direct'));
+      assert.isTrue(archivedNames.has('Archived Group'));
+
+      // Inbox conversations should only show direct chats (respecting folder)
+      assert.strictEqual(conversations.length, 1);
+      assert.strictEqual(conversations[0]?.name, 'Inbox Direct');
     });
 
     describe('given pinned conversations', () => {
