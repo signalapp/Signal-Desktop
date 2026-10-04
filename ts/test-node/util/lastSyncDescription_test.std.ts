@@ -18,16 +18,22 @@ describe('getLastSyncDescription', () => {
     assert.include(result, expected.toLocaleTimeString());
   });
 
-  it('currently renders the unix epoch for an undefined last-sync time', () => {
+  it('says contacts were never imported for an undefined last-sync time', () => {
     const result = getLastSyncDescription(i18n, undefined);
 
-    assert.include(result, 'Last import at');
-    assert.include(result, new Date(0).toLocaleDateString());
+    assert.equal(result, 'Last import: never');
   });
 
-  it('currently renders the unix epoch for a last-sync time of 0', () => {
+  it('says contacts were never imported for a last-sync time of 0', () => {
     const result = getLastSyncDescription(i18n, 0);
 
-    assert.include(result, new Date(0).toLocaleDateString());
+    assert.equal(result, 'Last import: never');
+  });
+
+  it('does not say never for a last-sync time of 1', () => {
+    const result = getLastSyncDescription(i18n, 1);
+
+    assert.include(result, 'Last import at');
+    assert.notInclude(result, 'never');
   });
 });

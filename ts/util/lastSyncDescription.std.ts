@@ -7,7 +7,11 @@ export function getLastSyncDescription(
   i18n: LocalizerType,
   lastSyncTime: number | undefined
 ): string {
-  const lastSyncDate = new Date(lastSyncTime || 0);
+  if (!lastSyncTime) {
+    return i18n('icu:Preferences--lastSynced--never');
+  }
+
+  const lastSyncDate = new Date(lastSyncTime);
 
   return i18n('icu:Preferences--lastSynced', {
     date: lastSyncDate.toLocaleDateString(),
