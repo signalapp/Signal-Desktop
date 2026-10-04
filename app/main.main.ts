@@ -561,6 +561,23 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   activeWindows.add(window);
   window.on('closed', () => activeWindows.delete(window));
 
+  if (OS.isLinux() || OS.isWindows()) {
+    // Tapping the bare Alt key (which happens as part of the OS-level
+    // Alt+Shift keyboard layout switch shortcut, still common on Windows and
+    // several Linux desktops) activates the native menu bar's mnemonic/
+    // keyboard-navigation mode (GTK on Linux, the classic WM_SYSKEYDOWN
+    // menu-mode on Windows). That grabs all further keystrokes until Escape
+    // is pressed or the menu is dismissed, even though the previously-
+    // focused element still looks focused in the DOM. Suppressing the
+    // standalone Alt keydown/keyup prevents that grab while leaving
+    // Alt+<letter> mnemonics (a different `key` value) untouched.
+    window.webContents.on('before-input-event', (event, input) => {
+      if (input.key === 'Alt') {
+        event.preventDefault();
+      }
+    });
+  }
+
   const setWindowFocus = () => {
     window.webContents.send('set-window-focus', window.isFocused());
   };
