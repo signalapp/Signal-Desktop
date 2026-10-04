@@ -284,6 +284,14 @@ jobs:
         with:
           cache-electron-builder: true
 
+      - name: Test Windows hour-cycle preference
+        shell: pwsh
+        run: |
+          $vsInstall = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (!$vsInstall) { throw 'Visual Studio C++ tools not found' }
+          cmd /c "`"$vsInstall\VC\Auxiliary\Build\vcvars64.bat`" && pnpm --filter @signalapp/windows-ucv run test:native"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Remove certificate fields from package.json
         run: |
           copy package.json temp.json
