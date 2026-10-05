@@ -84,6 +84,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     manifestHash?: string;
     manifestAnnouncements?: Array<{
       uuid: string;
+      countries?: string;
       desktopMinVersion: string;
       ctaId: string;
       link: string;
@@ -91,6 +92,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     manifestMegaphones?: Array<{
       uuid: string;
       priority: number;
+      countries?: string;
       desktopMinVersion: string;
       dontShowBeforeEpochSeconds: number;
       dontShowAfterEpochSeconds: number;
@@ -222,14 +224,18 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
         ],
       }),
       getReleaseNoteHash: sandbox.stub().resolves('note-hash-1'),
-      getReleaseNote: sandbox.stub().resolves(
-        releaseNote || {
-          uuid: fakeNoteUuid,
-          title: 'New Release',
-          body: 'This is the body text of the release note',
-          bodyRanges: [{ start: 0, length: 4, style: 'bold' }],
-        }
-      ),
+      getReleaseNote: sandbox
+        .stub()
+        .callsFake(async ({ uuid: requestUuid }) => {
+          return (
+            releaseNote ?? {
+              uuid: requestUuid,
+              title: 'New Release',
+              body: 'This is the body text of the release note',
+              bodyRanges: [{ start: 0, length: 4, style: 'bold' }],
+            }
+          );
+        }),
       getReleaseNoteImageAttachment: sandbox.stub().resolves({
         imageData: new Uint8Array([1, 2, 3]),
         contentType: 'image/png',
@@ -461,6 +467,69 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       sinon.assert.called(window.MessageCache.register as sinon.SinonStub);
 
       assert.strictEqual(getCurrentWatermark(), 'v1.37.0');
+    });
+
+    it('processes only release notes with matching countries value', async () => {
+      const noteVersion = 'v1.37.0';
+      const baseNote = {
+        desktopMinVersion: noteVersion,
+        ctaId: 'test-cta',
+        link: 'https://signal.org',
+      };
+      const noteForMyCountry = {
+        ...baseNote,
+        uuid: uuid(),
+        countries: '1:1000000',
+      };
+      const noteForDifferentCountry = {
+        ...baseNote,
+        uuid: uuid(),
+        countries: '20:1000000,212:1000000,213:1000000,216:1000000',
+      };
+      const noteForMyCountryBucketZeroPPM = {
+        ...baseNote,
+        uuid: uuid(),
+        countries: '1:0',
+      };
+      const noteWildcard = {
+        ...baseNote,
+        uuid: uuid(),
+        countries: '*:1000000',
+      };
+      const manifestAnnouncements = [
+        noteForDifferentCountry,
+        noteForMyCountry,
+        noteForMyCountryBucketZeroPPM,
+        noteWildcard,
+      ];
+
+      const { setupStorage, runFetcherAndWaitForCompletion, serverStubs } =
+        await setupTest({
+          storedPreviousManifestHash: 'old-hash',
+          manifestHash: 'new-hash-123',
+          currentVersion: noteVersion,
+          noteVersion,
+          storedVersionWatermark: 'v1.36.0',
+          isNewVersion: true,
+          manifestAnnouncements,
+        });
+
+      await setupStorage();
+      await runFetcherAndWaitForCompletion();
+
+      sinon.assert.calledTwice(serverStubs.getReleaseNote);
+      sinon.assert.calledWithMatch(
+        serverStubs.getReleaseNote,
+        sinon.match({ uuid: noteForMyCountry.uuid })
+      );
+      sinon.assert.calledWithMatch(
+        serverStubs.getReleaseNote,
+        sinon.match({ uuid: noteWildcard.uuid })
+      );
+
+      const messageRegisterStub = window.MessageCache
+        .register as sinon.SinonStub;
+      sinon.assert.calledTwice(messageRegisterStub);
     });
 
     it('processes megaphones', async () => {
