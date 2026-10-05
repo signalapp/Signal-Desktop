@@ -375,6 +375,8 @@ export class ReleaseNoteAndMegaphoneFetcher {
     log.info('Ensuring Signal conversation');
     const signalConversation =
       await window.ConversationController.getOrCreateSignalConversation();
+    const ourE164 = itemStorage.user.getOptionalNumber();
+    const ourAci = itemStorage.user.getAci();
 
     const sortedNotes = [...notes].sort(
       (a: ManifestReleaseNoteType, b: ManifestReleaseNoteType) =>
@@ -398,6 +400,16 @@ export class ReleaseNoteAndMegaphoneFetcher {
       await Promise.all(
         sortedNotes.map(async note => {
           if (!note) {
+            return null;
+          }
+
+          if (
+            !ReleaseNoteAndMegaphoneFetcher.isCountryCodeMatch({
+              countryPpmCsv: note.countries,
+              e164: ourE164,
+              aci: ourAci,
+            })
+          ) {
             return null;
           }
 
