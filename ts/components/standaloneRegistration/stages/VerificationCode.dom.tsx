@@ -229,6 +229,9 @@ export function VerificationCodeScreen({
         disabled={pending}
         onValueChange={onValueChange}
         className={tw('flex flex-nowrap gap-2')}
+        aria-label={i18n(
+          'icu:StandaloneRegistration--VerificationCode--header'
+        )}
       >
         {Array.from({ length: 6 }).map((_, i) => (
           <OneTimePasswordField.Input
