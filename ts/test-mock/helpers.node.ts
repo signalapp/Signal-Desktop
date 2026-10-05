@@ -91,43 +91,59 @@ export async function typeIntoInput(
 
 const VERIFICATION_CODE_LENGTH = 6;
 
-function verificationCodeInput(window: Page, index: number): Locator {
-  return window.getByLabel(
-    `Character ${index + 1} of ${VERIFICATION_CODE_LENGTH}`
-  );
+async function getVerificationCodeInputs(window: Page): Promise<Locator> {
+  const locators = window
+    .getByRole('group', { name: 'Verification code' })
+    .getByRole('textbox', { name: /^Character \d+ of \d+$/ });
+  // Wait for the items to be fully rendered
+  await expect(locators).toHaveCount(VERIFICATION_CODE_LENGTH);
+  return locators;
 }
 
 export async function typeVerificationCode(
   window: Page,
   code: string
 ): Promise<void> {
-  for (let i = 0; i < code.length; i += 1) {
-    const char = code[i] ?? '';
+  const inputs = await getVerificationCodeInputs(window);
+  const all = await inputs.all();
 
-    // oxlint-disable-next-line no-await-in-loop
-    await verificationCodeInput(window, i).pressSequentially(char);
+  expect(code.length).toEqual(VERIFICATION_CODE_LENGTH);
 
+  await inputs.first().focus();
+
+  for (const [index, input] of all.entries()) {
     // oxlint-disable-next-line no-await-in-loop
-    await expect(verificationCodeInput(window, i)).toHaveValue(char);
+    await expect(input).toBeFocused();
+    // oxlint-disable-next-line no-await-in-loop
+    await window.keyboard.press(code.charAt(index));
+  }
+
+  await expect(inputs.last()).toBeFocused();
+
+  for (const [index, input] of all.entries()) {
+    // oxlint-disable-next-line no-await-in-loop
+    await expect(input).toHaveValue(code.charAt(index));
   }
 }
 
 export async function clearVerificationCode(window: Page): Promise<void> {
-  for (let i = VERIFICATION_CODE_LENGTH - 1; i >= 0; i -= 1) {
+  const inputs = await getVerificationCodeInputs(window);
+  const all = await inputs.all();
+
+  await inputs.last().focus();
+
+  for (const input of all.toReversed()) {
     // oxlint-disable-next-line no-await-in-loop
-    await verificationCodeInput(window, i).selectText();
+    await expect(input).toBeFocused();
     // oxlint-disable-next-line no-await-in-loop
-    await verificationCodeInput(window, i).press('Backspace');
-    if (i > 0) {
-      // Wait for radix to focus the next input
-      // oxlint-disable-next-line no-await-in-loop
-      await expect(verificationCodeInput(window, i - 1)).toBeFocused();
-    }
+    await window.keyboard.press('Backspace');
   }
 
-  for (let i = 0; i < VERIFICATION_CODE_LENGTH; i += 1) {
+  await expect(inputs.first()).toBeFocused();
+
+  for (const input of all) {
     // oxlint-disable-next-line no-await-in-loop
-    await expect(verificationCodeInput(window, i)).toHaveValue('');
+    await expect(input).toHaveValue('');
   }
 }
 
