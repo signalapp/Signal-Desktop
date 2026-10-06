@@ -276,6 +276,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   expirationTimestamp: overrideProps.expirationTimestamp ?? 0,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   giftBadge: overrideProps.giftBadge,
+  handleClickCtaButton: action('handleClickCtaButton'),
   handleDebugMessage: action('handleDebugMessage'),
   i18n,
   platform: 'darwin',
@@ -4231,4 +4232,20 @@ SignalReleaseNoteMessage.args = {
       height: 400,
     }),
   ],
+};
+
+export const SignalReleaseNoteMessageCtaDonate = Template.bind({});
+SignalReleaseNoteMessageCtaDonate.args = {
+  isSignalConversation: true,
+  text: 'Signal. Proudly Nonprofit.\n\nDonating earns a badge on your profile. As an independent nonprofit, we rely on donations to securely send your messages, host your calls, and build new features.\n\nWe can’t do this without you.\n\nUS donations are tax deductible.',
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/donate-heart.png',
+      fileName: 'donate-heart.png',
+      contentType: IMAGE_PNG,
+      width: 400,
+      height: 400,
+    }),
+  ],
+  callToActionId: 'donate',
 };

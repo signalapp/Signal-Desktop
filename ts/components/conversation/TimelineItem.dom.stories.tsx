@@ -55,6 +55,7 @@ const getDefaultProps = () => ({
   targetedMessage: null,
   theme: ThemeType.light,
   platform: 'darwin',
+  handleClickCtaButton: action('handleClickCtaButton'),
   handleDebugMessage: action('handleDebugMessage'),
   targetMessage: action('targetMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),

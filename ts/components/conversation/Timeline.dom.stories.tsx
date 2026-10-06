@@ -304,6 +304,7 @@ const actions = () => ({
   showLightbox: action('showLightbox'),
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
+  handleClickCtaButton: action('handleClickCtaButton'),
 
   openGiftBadge: action('openGiftBadge'),
   showPinMessageDialog: action('showPinMessageDialog'),

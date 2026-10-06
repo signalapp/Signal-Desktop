@@ -123,6 +123,7 @@ import { tw } from '../../axo/tw.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
+import { isReleaseNoteCtaId } from '../../types/releaseNotes.std.ts';
 
 const { drop, take, unescape } = lodash;
 
@@ -238,6 +239,8 @@ export type PropsData = {
   receivedAtMS?: number;
   status?: MessageStatusType;
   contact?: ReadonlyDeep<EmbeddedContactForUIType>;
+  callToActionId?: string;
+  callToActionText?: string;
   author: Pick<
     ConversationType,
     | 'avatarPlaceholderGradient'
@@ -364,6 +367,7 @@ export type PropsActions = {
   endPoll: (messageId: string) => void;
   showContactModal: (payload: ContactModalStateType) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
+  handleClickCtaButton: (ctaId: string) => void;
 
   cancelAttachmentDownload: (options: { messageId: string }) => void;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
@@ -2487,7 +2491,11 @@ export class Message extends PureComponent<Props, State> {
   }
 
   #shouldShowActionButton(): boolean {
-    const { previews } = this.props;
+    const { callToActionId, isSignalConversation, previews } = this.props;
+
+    if (isReleaseNoteCtaId(callToActionId) && isSignalConversation) {
+      return true;
+    }
 
     if (previews?.length !== 1) {
       return false;
@@ -2501,10 +2509,34 @@ export class Message extends PureComponent<Props, State> {
   }
 
   #renderAction(): ReactNode {
-    const { direction, activeCallConversationId, i18n, previews } = this.props;
+    const {
+      direction,
+      activeCallConversationId,
+      i18n,
+      previews,
+      callToActionId,
+      callToActionText,
+      isSignalConversation,
+      handleClickCtaButton,
+    } = this.props;
 
     if (!this.#shouldShowActionButton()) {
       return null;
+    }
+
+    if (isReleaseNoteCtaId(callToActionId) && isSignalConversation) {
+      return (
+        <div className={tw('mt-2 mb-1.5')}>
+          <AxoButton.Root
+            variant="message-outgoing-primary"
+            size="lg"
+            width="full"
+            onClick={() => handleClickCtaButton(callToActionId)}
+          >
+            {callToActionText ?? i18n('icu:MessageCta__Donate')}
+          </AxoButton.Root>
+        </div>
+      );
     }
 
     const firstPreview = previews[0];

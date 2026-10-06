@@ -136,4 +136,42 @@ describe('release notes', function (this: Mocha.Suite) {
       'expected message to have italic text'
     );
   });
+
+  it('handles note with donate cta', async () => {
+    const firstWindow = await app.getWindow();
+
+    await app.waitForReleaseNoteAndMegaphoneFetcher();
+    await firstWindow.evaluate(
+      'window.SignalCI.resetReleaseNoteAndMegaphoneFetcher()'
+    );
+
+    await app.close();
+
+    nextApp = await bootstrap.startApp();
+
+    const secondWindow = await nextApp.getWindow();
+
+    const leftPane = secondWindow.locator('#LeftPane');
+    const releaseNoteConversation = leftPane.getByTestId(SIGNAL_ACI);
+    await releaseNoteConversation.waitFor();
+
+    await expect(releaseNoteConversation).toBeVisible();
+
+    await clickOnConversationWithAci(secondWindow, SIGNAL_ACI);
+
+    const timelineMessage = getTimelineMessageWithText(
+      secondWindow,
+      'Donating'
+    );
+    await expect(timelineMessage).toBeVisible();
+
+    const ctaButton = timelineMessage
+      .locator('button')
+      .getByText('Donate Now Test', { exact: true });
+
+    assert.isTrue(
+      await ctaButton.isVisible(),
+      'expected message to have button'
+    );
+  });
 });

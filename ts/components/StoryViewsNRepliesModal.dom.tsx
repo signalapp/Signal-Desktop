@@ -62,6 +62,7 @@ const MESSAGE_DEFAULT_PROPS = {
   isSelected: false,
   isSelectMode: false,
   isSMS: false,
+  handleClickCtaButton: shouldNeverBeCalled,
   onToggleSelect: shouldNeverBeCalled,
   onReplyToMessage: shouldNeverBeCalled,
   kickOffAttachmentDownload: shouldNeverBeCalled,

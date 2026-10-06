@@ -91,6 +91,7 @@ export type PropsActions = {
     messageId: string,
     isPinningDisappearingMessage: boolean
   ) => void;
+  handleClickCtaButton: (callToActionId: string) => void;
   handleDebugMessage: () => void;
 } & Omit<MessagePropsActions, 'onToggleSelect' | 'onReplyToMessage'>;
 

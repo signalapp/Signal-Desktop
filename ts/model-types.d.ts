@@ -191,6 +191,8 @@ export type MessageAttributesType = {
   bodyAttachment?: AttachmentType;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   callId?: string;
+  callToActionId?: string;
+  callToActionText?: string;
   canReplyToStory?: boolean;
   changedId?: string;
   dataMessage?: Uint8Array<ArrayBuffer> | null;

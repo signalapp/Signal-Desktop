@@ -51,6 +51,7 @@ import {
   runMegaphoneCheck,
 } from './megaphone.preload.ts';
 import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
+import { isReleaseNoteCtaId } from '../types/releaseNotes.std.ts';
 
 const { last } = lodash;
 
@@ -413,10 +414,15 @@ export class ReleaseNoteAndMegaphoneFetcher {
             return null;
           }
 
-          const hydratedNote = await this.#getReleaseNote(note);
-          if (!hydratedNote) {
+          const noteDetails = await this.#getReleaseNote(note);
+          if (!noteDetails) {
             return null;
           }
+
+          const hydratedNote = {
+            ...noteDetails,
+            ctaId: note.ctaId,
+          };
           if (hydratedNote.media) {
             const { imageData: rawAttachmentData, contentType } =
               await this.#server.getReleaseNoteImageAttachment(
@@ -474,7 +480,13 @@ export class ReleaseNoteAndMegaphoneFetcher {
           return;
         }
 
-        const { title, body, bodyRanges: noteBodyRanges } = note;
+        const {
+          title,
+          body,
+          bodyRanges: noteBodyRanges,
+          callToActionText,
+          ctaId,
+        } = note;
         const titleBodySeparator = '\n\n';
         const filteredNoteBodyRanges: Array<RawBodyRange> = (
           noteBodyRanges ?? []
@@ -505,6 +517,10 @@ export class ReleaseNoteAndMegaphoneFetcher {
           })
           .filter(isNotNil);
 
+        if (ctaId && !isReleaseNoteCtaId(ctaId)) {
+          log.warn(`Saving release note with unsupported ctaId: ${ctaId}`);
+        }
+
         const messageBody = `${title}${titleBodySeparator}${body}`;
         const bodyRanges: Array<RawBodyRange> = [
           { start: 0, length: title.length, style: BodyRange.Style.BOLD },
@@ -517,6 +533,8 @@ export class ReleaseNoteAndMegaphoneFetcher {
           ...(processedAttachment
             ? { attachments: [processedAttachment] }
             : {}),
+          ...(callToActionText ? { callToActionText } : {}),
+          ...(ctaId ? { callToActionId: ctaId } : {}),
           body: messageBody,
           bodyRanges,
           conversationId: signalConversation.id,

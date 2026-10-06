@@ -939,7 +939,14 @@ const getPropsForMessage = (
     defaultConversationColor,
   } = options;
 
-  const { expireTimer, expirationStartTimestamp, conversationId } = message;
+  const {
+    callToActionId,
+    callToActionText,
+    expireTimer,
+    expirationStartTimestamp,
+    conversationId,
+  } = message;
+
   const expirationLength = expireTimer
     ? DurationInSeconds.toMillis(expireTimer)
     : undefined;
@@ -1008,6 +1015,8 @@ const getPropsForMessage = (
             hasMediaBackups,
           }),
     payment,
+    callToActionId,
+    callToActionText,
     canCopy: canCopy(message),
     canEditMessage: canEditMessage(message) && !isGroupTerminated,
     canDeleteForEveryone: canDeleteForEveryoneInSelector(message, {

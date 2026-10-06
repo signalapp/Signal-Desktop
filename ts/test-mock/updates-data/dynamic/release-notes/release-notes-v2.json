@@ -16,6 +16,12 @@
       "desktopMinVersion": "7.30.0",
       "androidMinVersion": "1482",
       "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    },
+    {
+      "ctaId": "donate",
+      "desktopMinVersion": "8.30.0",
+      "includeBoostMessage": false,
+      "uuid": "75ac5d19-a38b-493c-9699-8b74dd57f4e3"
     }
   ],
   "megaphones": [
