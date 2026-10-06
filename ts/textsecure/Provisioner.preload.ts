@@ -427,7 +427,8 @@ export class Provisioner {
         uuid,
         pubKey: Bytes.toBase64(cipher.getPublicKey().serialize()),
         capabilities: [
-          'nopni', // e164-less linking
+          'nopni', // legacy e164-less linking
+          'nopni2', // e164-less linking
           ...(isLinkAndSyncEnabled() ? ['backup5'] : []),
         ],
       })

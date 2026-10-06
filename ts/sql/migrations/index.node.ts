@@ -159,6 +159,7 @@ import updateToSchemaVersion1790 from './1790-notify-for-mentions-if-muted.std.t
 import updateToSchemaVersion1800 from './1800-deleted-fields-for-defunct-call-links.std.ts';
 import updateToSchemaVersion1810 from './1810-sync-conversation-group-id.std.ts';
 import updateToSchemaVersion1820 from './1820-persist-waveform.std.ts';
+import updateToSchemaVersion1830 from './1830-fix-salt-storage.node.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1683,6 +1684,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1800, update: updateToSchemaVersion1800 },
   { version: 1810, update: updateToSchemaVersion1810 },
   { version: 1820, update: updateToSchemaVersion1820 },
+  { version: 1830, update: updateToSchemaVersion1830 },
 ];
 
 class DBVersionFromFutureError extends Error {

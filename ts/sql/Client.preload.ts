@@ -457,6 +457,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   usernameLink: ['value.entropy', 'value.serverId'],
   lastDistinguishedTreeHead: ['value'],
   payments: ['value.entropy'],
+  authCredentialSalt: ['value'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>
