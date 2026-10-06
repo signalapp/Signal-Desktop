@@ -117,6 +117,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isTargetedCounter: null,
   isTargetedSource: null,
   isVoiceMessagePlayed: false,
+  handleClickCtaButton: action('handleClickCtaButton'),
   handleDebugMessage: action('debugMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),
   cancelAttachmentDownload: action('default--cancelAttachmentDownload'),

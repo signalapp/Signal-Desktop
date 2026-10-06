@@ -43,6 +43,10 @@ import { DataReader } from '../../sql/Client.preload.ts';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+
+const log = createLogger('TimelineItem');
 
 export type RenderItemProps = Omit<SmartTimelineItemProps, 'renderItem'>;
 
@@ -178,7 +182,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     toggleSelectMessage,
   } = useConversationsActions();
 
-  const { pushPanelForConversation } = useNavActions();
+  const { changeLocation, pushPanelForConversation } = useNavActions();
 
   const {
     endPoll,
@@ -221,6 +225,24 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       toggleMessageRequestActionsConfirmation({ conversationId, state });
     },
     [conversationId, toggleMessageRequestActionsConfirmation]
+  );
+
+  const handleClickCtaButton = useCallback(
+    (callToActionId: string) => {
+      if (callToActionId === 'donate') {
+        changeLocation({
+          tab: NavTab.Settings,
+          details: {
+            page: SettingsPage.DonationsDonateFlow,
+          },
+        });
+      } else {
+        log.error(
+          `handleClickCtaButton: Invalid message callToActionId ${callToActionId}`
+        );
+      }
+    },
+    [changeLocation]
   );
 
   const handleDebugMessage = useCallback(async () => {
@@ -278,6 +300,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       endPoll={endPoll}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      handleClickCtaButton={handleClickCtaButton}
       handleDebugMessage={handleDebugMessage}
       onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
       onOpenMessageRequestActionsConfirmation={

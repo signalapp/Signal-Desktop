@@ -53,6 +53,7 @@ const MESSAGE_DEFAULT_PROPS = {
   isMessageRequestAccepted: true,
   markAttachmentAsCorrupted: shouldNeverBeCalled,
   messageExpanded: shouldNeverBeCalled,
+  handleClickCtaButton: shouldNeverBeCalled,
   onReplyToMessage: shouldNeverBeCalled,
   onToggleSelect: shouldNeverBeCalled,
   openGiftBadge: shouldNeverBeCalled,

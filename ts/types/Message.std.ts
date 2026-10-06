@@ -73,6 +73,8 @@ const messageAttributesEraseBehavior: Record<
   bodyAttachment: 'erase',
   bodyRanges: 'erase',
   callId: 'erase',
+  callToActionId: 'erase',
+  callToActionText: 'erase',
   changedId: 'erase',
   contact: 'erase',
   conversationMerge: 'erase',

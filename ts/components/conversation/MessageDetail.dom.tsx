@@ -199,6 +199,7 @@ export function MessageDetail({
               }
               endPoll={endPoll}
               getPreferredBadge={getPreferredBadge}
+              handleClickCtaButton={noop}
               i18n={i18n}
               interactivity={MessageInteractivity.Static}
               kickOffAttachmentDownload={kickOffAttachmentDownload}

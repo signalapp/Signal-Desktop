@@ -285,6 +285,7 @@ export function GroupMemberLabelEditor({
                   showMediaNoLongerAvailableToast={noop}
                   showTapToViewNotAvailableModal={noop}
                   viewStory={noop}
+                  handleClickCtaButton={noop}
                   onToggleSelect={noop}
                   onReplyToMessage={noop}
                 />
