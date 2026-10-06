@@ -9473,8 +9473,8 @@
     "description": "Wait time countdown shown on the standalone registration screen where phone number is entered"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code",
-    "description": "Accessibility label for region code selector in phone number input in standalone registration"
+    "messageformat": "Select country code",
+    "description": "Accessibility label for country code selector in phone number input in standalone registration"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Phone number",
