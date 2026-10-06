@@ -4,7 +4,7 @@
 import { ipcRenderer as ipc } from 'electron';
 import lodash from 'lodash';
 
-import type { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep, IsUnknown } from 'type-fest';
 
 // Note: nothing imported here can come back and require Client.ts, and that includes
 // their imports too. That circularity causes problems. Anything that would do that needs
@@ -33,6 +33,7 @@ import { drop } from '../util/drop.std.ts';
 
 import type { ObjectMappingSpecType } from '../util/mapObjectWithSpec.std.ts';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
+import type { StorageAccessType } from '../types/StorageKeys.std.ts';
 import type { StoredJob } from '../jobs/types.std.ts';
 import type {
   ClientInterfaceWrap,
@@ -437,12 +438,41 @@ async function bulkAddSignedPreKeys(
 
 // Items
 
-const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
+type FilterUint8Array<T> = T extends
+  | boolean
+  | number
+  | string
+  | null
+  | undefined
+  | void
+  ? never
+  : // We use `unknown` to mark JSON fields explicitly
+    IsUnknown<T> extends true
+    ? never
+    : T extends Uint8Array<ArrayBuffer>
+      ? true
+      : T extends ReadonlyArray<infer V>
+        ? FilterUint8Array<V>
+        : T extends Record<string | number, unknown>
+          ? FilterUint8Array<T[keyof T]>
+          : true;
+
+type Uint8ArrayStorageAccessType = {
+  [K in keyof StorageAccessType]: FilterUint8Array<StorageAccessType[K]>;
+};
+
+type ItemSpecsType = {
+  [K in keyof Uint8ArrayStorageAccessType as Uint8ArrayStorageAccessType[K] extends never
+    ? never
+    : K]: ObjectMappingSpecType;
+};
+
+const ITEM_SPECS: ItemSpecsType = {
   defaultWallpaperPhotoPointer: ['value'],
   identityKeyMap: {
     key: 'value',
     valueSpec: {
-      isMap: true,
+      isMap: true as const,
       valueSpec: ['privKey', 'pubKey'],
     },
   },
@@ -459,6 +489,7 @@ const ITEM_SPECS: Partial<Record<ItemKeyType, ObjectMappingSpecType>> = {
   payments: ['value.entropy'],
   authCredentialSalt: ['value'],
 };
+
 async function createOrUpdateItem<K extends ItemKeyType>(
   data: ItemType<K>
 ): Promise<void> {
@@ -469,27 +500,31 @@ async function createOrUpdateItem<K extends ItemKeyType>(
     );
   }
 
-  const spec = ITEM_SPECS[id];
-  const updated: StoredItemType<K> = spec
-    ? specFromBytes(spec, data)
-    : (data as unknown as StoredItemType<K>);
+  let updated: StoredItemType<K>;
+  if (Object.hasOwn(ITEM_SPECS, id)) {
+    const spec = ITEM_SPECS[id as keyof ItemSpecsType];
+    updated = specFromBytes(spec, data);
+  } else {
+    updated = data as unknown as StoredItemType<K>;
+  }
 
   await writableChannel.createOrUpdateItem(updated);
 }
 async function getItemById<K extends ItemKeyType>(
   id: K
 ): Promise<ItemType<K> | undefined> {
-  const spec = ITEM_SPECS[id];
   const data = await readableChannel.getItemById(id);
 
-  try {
-    return spec
-      ? await specToBytes(spec, data)
-      : (data as unknown as ItemType<K>);
-  } catch (error) {
-    log.warn(`getItemById(${id}): Failed to parse item from spec`, error);
-    return undefined;
+  if (Object.hasOwn(ITEM_SPECS, id)) {
+    const spec = ITEM_SPECS[id as keyof ItemSpecsType];
+    try {
+      return await specToBytes(spec, data);
+    } catch (error) {
+      log.warn(`getItemById(${id}): Failed to parse item from spec`, error);
+      return undefined;
+    }
   }
+  return data as unknown as ItemType<K>;
 }
 async function getAllItems(): Promise<AllItemsType> {
   const items = await readableChannel.getAllItems();
@@ -500,16 +535,19 @@ async function getAllItems(): Promise<AllItemsType> {
     const key = id as ItemKeyType;
     const value = items[key];
 
-    const keys = ITEM_SPECS[key];
+    if (Object.hasOwn(ITEM_SPECS, id)) {
+      const keys = ITEM_SPECS[id as keyof ItemSpecsType];
+      try {
+        const deserializedValue = (
+          specToBytes(keys, { value }) as ItemType<typeof key>
+        ).value;
 
-    try {
-      const deserializedValue = keys
-        ? (specToBytes(keys, { value }) as ItemType<typeof key>).value
-        : value;
-
-      result[key] = deserializedValue;
-    } catch (error) {
-      log.warn(`getAllItems(${id}): Failed to parse item from spec`, error);
+        result[key] = deserializedValue;
+      } catch (error) {
+        log.warn(`getAllItems(${id}): Failed to parse item from spec`, error);
+      }
+    } else {
+      result[key] = value;
     }
   }
 
