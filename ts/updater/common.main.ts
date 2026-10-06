@@ -114,7 +114,7 @@ type DownloadUpdateResultType = Readonly<{
 }>;
 
 export type UpdaterOptionsType = Readonly<{
-  canRunSilently: () => boolean;
+  canRunSilently: () => Promise<boolean>;
   getMainWindow: () => BrowserWindow | undefined;
   logger: LoggerType;
   sql: MainSQL;
@@ -154,7 +154,7 @@ export abstract class Updater {
   #activeDownload: Promise<boolean> | undefined;
   #markedCannotUpdate = false;
   #restarting = false;
-  readonly #canRunSilently: () => boolean;
+  readonly #canRunSilently: () => Promise<boolean>;
   #autoRetryAttempts = 0;
   #autoRetryAfter: number | undefined;
 
@@ -456,7 +456,7 @@ export abstract class Updater {
 
       const isSilent =
         updateInfo.vendor?.requireUserConfirmation !== 'true' &&
-        this.#canRunSilently();
+        (await this.#canRunSilently());
 
       const handler = await this.installUpdate(
         updateFilePath,

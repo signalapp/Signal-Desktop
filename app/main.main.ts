@@ -1246,8 +1246,14 @@ async function readyForUpdates() {
       'SettingsChannel must be initialized'
     );
     await updater.start({
-      canRunSilently: () => {
+      canRunSilently: async () => {
+        const canRestartInTray = OS.isLinux()
+          ? (await systemTraySettingCache.get()) ===
+            SystemTraySetting.MinimizeToAndStartInSystemTray
+          : true;
+
         return (
+          canRestartInTray &&
           systemTrayService?.isVisible() === true &&
           mainWindow?.isVisible() !== true &&
           !preventDisplaySleepService.isEnabled()
