@@ -52,6 +52,7 @@ import {
 } from './megaphone.preload.ts';
 import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
 import { isReleaseNoteCtaId } from '../types/releaseNotes.std.ts';
+import { SignalService } from '../protobuf/index.std.ts';
 
 const { last } = lodash;
 
@@ -455,9 +456,15 @@ export class ReleaseNoteAndMegaphoneFetcher {
           const localAttachment =
             await writeNewAttachmentData(rawAttachmentData);
 
+          const attachmentFlags =
+            contentType === 'video/mp4'
+              ? { flags: SignalService.AttachmentPointer.Flags.GIF }
+              : {};
+
           const processedAttachment = await processNewAttachment(
             {
               ...localAttachment,
+              ...attachmentFlags,
               contentType: stringToMIMEType(contentType),
             },
             'attachment'
