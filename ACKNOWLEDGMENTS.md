@@ -18600,7 +18600,7 @@ SOFTWARE.
 
 ```
 
-## rustls-platform-verifier 0.5.3
+## rustls-platform-verifier 0.7.1
 
 ```
 MIT License
