@@ -34,6 +34,7 @@ import {
 } from '../util/expirationTimer.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { focusableSelector } from '../util/focusableSelectors.std.ts';
+import { getLastSyncDescription } from '../util/lastSyncDescription.std.ts';
 import { Modal } from './Modal.dom.tsx';
 import { SearchInput } from './SearchInput.dom.tsx';
 import { removeDiacritics } from '../util/removeDiacritics.std.ts';
@@ -1458,7 +1459,7 @@ export function Preferences({
         : i18n('icu:spellCheckWillBeDisabled');
     }
 
-    const lastSyncDate = new Date(lastSyncTime || 0);
+    const lastSyncDescription = getLastSyncDescription(i18n, lastSyncTime);
 
     const pageContents = (
       <AxoList.Group>
@@ -1584,11 +1585,7 @@ export function Preferences({
               description={
                 <>
                   <div>
-                    {i18n('icu:syncExplanation')}{' '}
-                    {i18n('icu:Preferences--lastSynced', {
-                      date: lastSyncDate.toLocaleDateString(),
-                      time: lastSyncDate.toLocaleTimeString(),
-                    })}
+                    {i18n('icu:syncExplanation')} {lastSyncDescription}
                   </div>
                   {showSyncFailed && (
                     <div className="Preferences__description Preferences__description--error">

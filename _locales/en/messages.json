@@ -8168,6 +8168,10 @@
     "messageformat": "Last import at {date} {time}",
     "description": "Label for date and time of last sync operation"
   },
+  "icu:Preferences--lastSynced--never": {
+    "messageformat": "Last import: never",
+    "description": "Label shown when contacts have never been imported from the phone"
+  },
   "icu:Preferences--system": {
     "messageformat": "System",
     "description": "Title for system type settings"
