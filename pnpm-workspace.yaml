@@ -36,10 +36,10 @@ auditConfig:
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG)
     - GHSA-5c6j-r48x-rmvq # @storybook/addon-webpack5-compiler-swc > serialize-javascript
     - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
-    - GHSA-395f-4hp3-45gv # shell-quote, only used at dev-time
     - GHSA-v56q-mh7h-f735 # used by sass, only used at dev-time
     - GHSA-xvcm-6775-5m9r # used by sass, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
+    - GHSA-vfj7-8cjw-p6xm # braces, only used at dev-time
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
@@ -59,8 +59,11 @@ overrides:
   'thenify-all>thenify': '3.3.1'
   electron@<39.8.10: ^39.8.10
   electron@<39.8.9: ^39.8.9
+  http-cache-semantics: ^4.3.0
   ip-address@<=10.3.0: ^10.3.1
   nanoid@<3.3.17: 3.3.18
+  shell-quote: ^1.12.0
+  source-map-js: ^1.2.2
   webpack-dev-middleware@<7.4.5: ^7.4.5
 
 allowUnusedPatches: false
