@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} hazijasomwa"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Imetiwa alama haijasomwa"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Gumzo"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Jifunze zaidi"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Uthibitishaji Kiotomatiki wa Funguo kwa sasa haupatikani kwenye kifaa chako. Ungependa kuwasilisha kumbukumbu za utatuzi?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Uthibitishaji Kiotomatiki wa Funguo kwa sasa haupatikani kwenye kifaa chako. Ripoti ili utusaidie kuimarika?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Kumbukumbu za utatuzi zinatusaidia kutambua na kurekebisha tatizo, na hazina maelezo ya utambulisho."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Kujumuisha faili yako ya marekebisho kunatusaidia kutambua na kurekebisha tatizo na haina taarifa za kutambulisha. Kushiriki na wengine ni kwa hiari yako."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Shiriki faili la rekebisho"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Jumuisha faili ya rekebisho"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {Majibu {replyCount,number} kutoka kwa {person1} na wengine} other {Majibu {replyCount,number} kutoka kwa {person1} na wengine}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Kutajwa"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Pokea arifa wakati unatajwa katika gumzo zilizonyamazishwa"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Arifu kila wakati"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Usiarifu ikiwa mazungumzo yamenyamazishwa"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Umenakili kiungo cha kikundi."
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "Nenosiri la Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN zinahifadhi maelezo kwenye Signal kwa kuyasimba kwa njia fiche ili wewe pekee ndio uyafikie. PIN yako haiwezi kurejeshwa. Wasifu, mipangilio na wawasiliani wako watarejeshwa ukisakinisha upya. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Mipangilio ya PIN ya Hali ya Juu"
@@ -6272,19 +6248,19 @@
     "messageformat": "Ukizima PIN, utapoteza data yote utakaposajili upya Signal isipokuwa ukihifadhi nakala yake na kuirejesha mwenyewe. Huwezi kuwasha Kufuli ya Usajili wakati PIN imezimwa."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Umeshindwa kuzima PIN kwa sababu ya lock ya usajili"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Ni lazima uzime kipengele cha Lock ya Usajili kabla ya kuzima PIN yako."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Sawa"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Umeshindwa kuzima PIN kwa sababu ya zoezi la kuhifadhi nakala"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Ni lazima uzime zoezi la kuhifadhi nakala kabla ya kuzima PIN yako."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Washa PIN"
@@ -6302,10 +6278,7 @@
     "messageformat": "Lock ya usajili"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Arifa za maudhui"
+    "messageformat": "Inahitaji PIN yako ya Signal ili usajili tena namba yako ya simu ukitumia Signal."
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Uingizaji maandishi"
@@ -7649,10 +7622,10 @@
     "messageformat": "Washa \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Washa idhini ya kufikia maikrofoni kwa Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Washa idhini ya kufikia kamera kwa Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Nenda kwenye mipangilio"
@@ -8204,7 +8177,7 @@
     "messageformat": "Majina ya watumiaji huwa yana seti ya tarakimu."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Tarakimu za jina la mtumiaji"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Jifunze Zaidi"
@@ -8340,13 +8313,13 @@
     "messageformat": "Badilisha PIN yako ya Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Unda PIN yako ya Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Unaweza kubadili PINI mradi tu kifaa hiki kimesajiliwa <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN zinahifadhi maelezo kwenye Signal kwa kuyasimba kwa njia fiche ili wewe pekee ndio uyafikie. Wasifu, mipangilio na wawasiliani wako watarejeshwa ukisakinisha upya. Hutahitaji PIN yako ili ufungue programu. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Thibitisha PINI yako ya Signal"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Asante kwa kuiunga mkono Signal. Mchango wako husaidia kuendelea dhamira ya kulinda uhuru wa kujieleza na kuwezesha mawasiliano salama ya kidunia kwa mamilioni ya watu duniani kote. Kama wewe ni mkazi wa Marekani, tafadhali hifadhi risiti hii kwa rekodi zako za kodi. Signal Technology Foundation ni shirika lisilo la kibiashara lisilotozwa kodi nchini Marekani chini ya kifungu cha 501c3 cha Kanuni ya Mapato ya Ndani. Kitambulisho chetu cha Ushuru wa Shirikisho ni 82-4506840. Signal haijatoa bidhaa wala huduma yoyote kwa kuzingatia mchango huu."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Haupo mtandaoni. Tafadhali jiunge na mtandao ili ukamilishe mchango."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Kujitambua ni mchakato unaoweza kuchukua maisha yote, lakini sasa utaonekana kama \"Wewe” kwenye utafutaji wa wanakikundi ili kurahisisha mambo kidogo."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "Sasisho hili linatambulisha mipangilio ya kina ili kukupa udhibiti mkubwa zaidi wa arifa zako za Signal. Sasa unaweza kuchagua nini kitokee kwenye beji yako ya programu, kurekebisha mapendeleo ya arifa kwa mazungumzo yaliyozimwa sauti na zaidi! Pia tumeweka kitufe cha urahisishaji ili kurejesha mipangilio chaguomsingi ya arifa kama utafanya mabadiliko mengi kiasi hujui uanzie wapi."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Kutokana na maboresha kadhaa ya utendaji, CPU yako itafanya kazi vizuri zaidi wakati wa simu za video (hata kama utakuwa hautabasamu)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Pia tumeongeza njia ya mkato rahisi ili kufungua mipangilio yako ya mfumo kwenye Windows ikiwa utajaribu kujiunga kwenye simu ya video na Signal haina ruhusa ya kufikia kamera. Sasa ni rahisi kuona kile unachohitaji ili wengine wakuone."
   }
 }

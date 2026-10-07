@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} unread"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "I-mark as unread"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Chats"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Matuto pa"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Ang Automatic Key Verification ay kasalukuyang hindi available para sa device mo. Gusto mo bang mag-submit ng debug log?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Ang Automatic Key Verification ay hindi available sa ngayon para sa device mo. Gusto mo bang mag-submit ng report para tulungan kaming mag-improve?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Kapag isinama mo ang debug logs mo, matutulungan kami nitong alamin at ayusin ang issue, at hindi ito naglalaman ng impormasyon tungkol sa pagkakakilanlan mo. Optional ang pag-share."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "I-share ang debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Isama ang debug log"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {{replyCount,number} replies mula kanila {person1} at iba pa} other {{replyCount,number} replies mula kanila {person1} at iba pa}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Mentions"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Makakatanggap ka ng notifications kapag na-mention ka sa muted chats"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Always notify"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "'Wag i-notify kapag muted"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Group link copied."
   },
@@ -6251,13 +6227,13 @@
     "messageformat": "Gumawa ng PIN"
   },
   "icu:Preferences--create-signal-pin-button": {
-    "messageformat": "Lumikha"
+    "messageformat": "Gumawa"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinapanatili ng PINs na naka-encrypt ang impormasyon na nakalagay sa Signal para ikaw lang ang may access dito. Hindi mare-recover ang PIN mo. Ibabalik ang profile, settings, at contacts mo kapag nag-install ka ulit ng Signal. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Advanced PIN settings"
@@ -6269,22 +6245,22 @@
     "messageformat": "I-disable"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Kung idi-disable mo ang iyong PIN, mawawala ang lahat ng data kapag ika'y nag-register ulit sa Signal maliban nalang kung manually kang nag-back up and restore. Hindi mo pwedeng i-turn on ang Registration Lock habang naka-disable ang PIN."
+    "messageformat": "Kapag dinisable mo ang PIN, mawawala ang lahat ng data kapag nag-register ka ulit sa Signal maliban nalang kung manually kang nag-back up at nag-restore. Hindi mo pwedeng i-on ang Registration Lock habang naka-disable ang PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Hindi na-disable ang PIN dahil sa registration lock"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Kailangan mo munang i-disable ang Registration Lock bago mo i-disable ang iyong PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Hindi na-disable ang PIN dahil sa PIN dahil sa backups"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Kailangan mo munang i-disable ang backups bago mo i-disable ang iyong PIN."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "I-enable ang PIN"
@@ -6302,10 +6278,7 @@
     "messageformat": "Registration Lock"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Notification content"
+    "messageformat": "I-require ang Signal PIN mo para i-register ulit ang iyong phone number gamit ang Signal."
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Text input"
@@ -7649,10 +7622,10 @@
     "messageformat": "I-on ang \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Bigyan ang Signal ng access sa microphone"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Bigyan ang Signal ng access sa camera"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Pumunta sa settings"
@@ -8340,13 +8313,13 @@
     "messageformat": "Palitan ang Signal PIN mo"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Gumawa ng Signal PIN mo"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mapapalitan mo ang iyong PIN hanggang rehistrado ang device na ito. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinapanatili ng PINs na naka-encrypt ang impormasyon na nakalagay sa Signal para ikaw lang ang may access dito. Ibabalik ang profile, settings, at contacts mo kapag nag-install ka ulit. Hindi mo na kailangan ang iyong PIN para buksan ang app. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Kumpirmahin ang iyong Signal PIN"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Maraming salamat sa pagsuporta sa Signal. Nakatutulong ang contribution mo para maipagpatuloy ang aming mission na protektahan ang free expression at magbigay ng secure global communication sa milyun-milyong tao sa buong mundo, sa pamamagitan ng open source privacy technology. Kung isa kang residente ng Estados Unidos, ingatan ang receipt na ito para sa tax records mo. Ang Signal Technology Foundation ay isang tax-exempt nonprofit organization sa Estados Unidos sa ilalim ng section 501c3 ng Internal Revenue Code. Ang aming Federal Tax ID ay 82-4506840. Hindi nagbigay ng anumang produkto o serbisyo ang Signal kapalit ng contribution na ito."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Offline ka. Mag-connect sa internet para kumpletuhin ang pag-donate."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Improvements sa group member search."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "Mas pinagandang notification settings dahil sa pinalawak na options kung paano at kailan ipapakita ang notifications."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Performance improvements para sa video calls."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Nagdagdag rin kami ng isang convenient shortcut para mabuksan ang system settings sa Windows kapag sinubukan mong sumali sa isang video call at walang permission ang Signal na i-access ang camera."
   }
 }

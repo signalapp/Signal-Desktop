@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} 則未讀"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "標記為未讀"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "聊天"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "了解更多"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "你的裝置目前無法使用「自動金鑰驗證」。要提交除錯日誌嗎？"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "你的裝置目前無法使用「自動金鑰驗證」。要提交回報協助我們改善嗎？"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "除錯日誌可協助我們診斷並修正問題，而且不包含識別資料。"
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "提供除錯日誌可協助我們診斷並修正問題，而且不包含識別資料。分享與否是選擇性的。"
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "分享除錯日誌"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "包括偵錯紀錄"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, other {{person1}及其他人的 {replyCount,number} 個回覆}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "提及"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "當你在靜音聊天中被提到時接收通知"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "總是通知"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "靜音時不通知"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "群組連結已複製。"
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "Signal PIN 碼"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN 碼會將儲存在 Signal 中的資訊加密，確保只有你能存取。你的 PIN 碼無法恢復。當你重新安裝 Signal 時，你的個人資料、設定和聯絡人將會還原。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "進階 PIN 碼設定"
@@ -6272,7 +6248,7 @@
     "messageformat": "如果你停用 PIN 碼，則除非你進行手動備份和還原，否則當你重新註冊 Signal 時，將會遺失所有資料。停用 PIN 碼時無法開啟註冊鎖定。"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "由於已啟用註冊鎖定，無法停用 PIN 碼"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "你必須先停用註冊鎖定，才能停用 PIN 碼。"
@@ -6281,7 +6257,7 @@
     "messageformat": "好"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "由於已啟用備份，無法停用 PIN 碼"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "你必須先停用「備份」，才能停用 PIN 碼。"
@@ -6303,9 +6279,6 @@
   },
   "icu:Preferences--registration-lock__footer": {
     "messageformat": "需要你的Signal PIN碼才能再次使用Signal註冊你的電話號碼。"
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "通知內容"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "文字輸入"
@@ -7649,10 +7622,10 @@
     "messageformat": "開啟「Signal」"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "為 Signal 啟用麥克風存取權限"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "為 Signal 啟用相機存取權限"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "前往「設定」"
@@ -8204,7 +8177,7 @@
     "messageformat": "用戶名稱都會與一組數字配對。"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "用戶名稱的數字"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "了解更多"
@@ -8340,13 +8313,13 @@
     "messageformat": "變更你的 Signal PIN 碼"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "建立你的 Signal PIN 碼"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "只要註冊了此裝置，你就可以變更PIN碼。 <learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN 碼會將儲存在 Signal 中的資訊加密，確保只有你能存取。當你重新安裝時，你的個人資料、設定和聯絡人將會還原。開啟應用程式不需輸入 PIN 碼。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "確認你的 Signal PIN 碼"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "感謝你對 Signal 的支持。你的捐款有助於推動保護自由表達的使命，並透過開放原始碼隱私技術，讓全球數百萬人能夠進行安全的全球通訊。若你是美國居民，請保留此收據作為你的稅務紀錄。Signal Technology Foundation 是在美國依據《國稅法規》(IRC) 第 501c3 條的免稅非盈利組織。我們的聯邦稅識別號碼為 82-4506840。Signal 並未因這筆捐款而提供任何商品或服務。"
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "你處於離線狀態。請連結網路以完成捐款。"
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "細微的調整、問題修復和效能改善。感謝各位使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "尋找自我可能是一輩子的過程，但現在你在群組成員搜尋中會顯示為「你」，讓尋找自己容易一些。"
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "此更新引入了更精細的設定選項，讓你能對 Signal 的通知有更全面的控制。現在，你可以選擇應用程式徽章上顯示的內容、調整靜音討論串的通知偏好設定，以及更多功能！我們還新增了一個方便的按鈕，讓你在進行了太多變更甚至陷入迷茫時，能輕鬆還原預設的通知設定。"
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "幸好有幾項效能優化，在進行視訊通話時，你的 CPU 會稍微輕鬆一點。"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "此外，我們還新增了一個方便的捷徑，當你嘗試加入視訊通話時，若 Signal 沒有權限存取相機，即可透過此捷徑開啟 Windows 的系統設定。想讓別人看見你，現在更容易。"
   }
 }

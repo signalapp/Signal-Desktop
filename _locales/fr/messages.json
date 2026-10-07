@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} non lus"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Non lus"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Conversations"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "En savoir plus"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "La vérification automatique des clés est actuellement indisponible pour cet appareil. Envoyer un journal de débogage ?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "La vérification automatique des clés est actuellement indisponible pour cet appareil. Envoyer un rapport pour nous aider à améliorer Signal ?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification. Leur envoi est facultatif."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Partager le journal de débogage"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Joindre le journal de débogage"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {{replyCount,number} réponses de {person1} et d'autres} other {{replyCount,number} réponses de {person1} et d'autres}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Mentions"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Recevoir des notifications lorsqu'on vous mentionne dans des conversations mises en sourdine"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Toujours m'avertir"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Ne pas m'avertir si la conversation est en sourdine"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Lien de groupe copié."
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "Code PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Avec un code PIN, les informations que vous stockez dans Signal sont chiffrées et vous seul y avez accès. Si vous réinstallez Signal, votre profil, vos paramètres et vos contacts sont restaurés. Attention : vous ne pouvez pas récupérer votre code PIN si vous l'oubliez. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Paramètres de PIN avancés"
@@ -6272,7 +6248,7 @@
     "messageformat": "La désactivation du code PIN entraînera la perte de toutes vos données lors de votre réinscription sur Signal, à moins de procéder à une sauvegarde et une restauration manuelles. Vous ne pouvez pas activer le blocage d’inscription si le code PIN est désactivé."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Impossible de désactiver le code PIN, car le blocage d'inscription est activé"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Pour désactiver le code PIN, vous devez d'abord désactiver le blocage d'inscription."
@@ -6281,7 +6257,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Impossible de désactiver le code PIN, car les sauvegardes sont activées"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Pour désactiver le code PIN, vous devez d'abord désactiver les sauvegardes."
@@ -6303,9 +6279,6 @@
   },
   "icu:Preferences--registration-lock__footer": {
     "messageformat": "Exiger la saisie du code PIN Signal pour réenregistrer votre numéro de téléphone sur Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Contenu des notifications"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Saisie"
@@ -7649,10 +7622,10 @@
     "messageformat": "Activez \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Autorisez Signal à accéder au micro"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Autorisez Signal à accéder à la caméra"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Accéder aux paramètres"
@@ -8204,7 +8177,7 @@
     "messageformat": "Les noms d’utilisateur sont toujours associés à une série de chiffres."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Chiffres associés au nom d'utilisateur"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "En savoir plus"
@@ -8340,13 +8313,13 @@
     "messageformat": "Changer de code PIN Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Créer un code PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Vous pouvez changer de code PIN tant que cet appareil est enregistré. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Avec un code PIN, les informations que vous stockez dans Signal sont chiffrées et vous seul y avez accès. Si vous réinstallez Signal, votre profil, vos paramètres et vos contacts sont restaurés. Vous n'avez pas besoin du code PIN pour ouvrir l'appli. <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Confirmer votre code PIN Signal"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Merci de soutenir Signal. Votre contribution nous aide à remplir notre mission : protéger la liberté d'expression et offrir des communications sécurisées à des millions de personnes aux quatre coins du monde – le tout, grâce à une technologie open source conçue pour la protection de la vie privée. Si vous résidez aux États-Unis, conservez ce reçu pour le communiquer aux services fiscaux. La Signal Technology Foundation est un organisme à but non lucratif, régi par le code fédéral des impôts des États-Unis. Notre numéro d'identification fiscale est le suivant : 82-4506840. Aucun bien ni service n'a été fourni par Signal en échange de ce don."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Vous êtes hors ligne. Pour faire un don, veuillez vous connecter à Internet."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Apprendre à se connaître et à se trouver soi-même peut prendre toute une vie... Mais sur Signal, les choses sont plus simples : si vous vous cherchez encore dans la liste des membres d'un groupe, il vous suffit de repérer le nom \"Vous\" pour vous y retrouver."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "Avec cette mise à jour, vos notifications Signal vous obéissent au doigt et à l'œil. Choisissez ce qu'affichent les pastilles, configurez les paramètres de notification des conversations en sourdine, et plus encore ! Vous avez trop joué avec les options et vous ne savez plus où vous en êtes ? Pas de panique : un nouveau bouton permet de réinitialiser les paramètres de notification par défaut."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Pour cette version, on a revêtu nos capes de super-héros et boosté les performances des appels vidéo. De quoi redonner le sourire à votre processeur (et peut-être aussi à vos amis)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Un nouveau raccourci fait aussi son entrée : il vous permet d'ouvrir les paramètres Windows lorsque vous tentez de rejoindre un appel vidéo, mais que vous n'avez pas autorisé Signal à accéder à la caméra. Avouons que ça peut être utile."
   }
 }
