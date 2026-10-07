@@ -1,0 +1,15 @@
+//
+// Copyright 2024 Signal Messenger, LLC.
+// SPDX-License-Identifier: AGPL-3.0-only
+//
+syntax = "proto3";
+package signal.keytrans;
+
+// Used only for migration
+
+// StoredTreeHead is an encoded tree head stored on-disk.
+message StoredTreeHead {
+  reserved 1; // tree_head
+  reserved 2; // root
+  uint64 stored_at_ms = 3;
+}

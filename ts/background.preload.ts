@@ -1487,7 +1487,7 @@ async function startApp(): Promise<void> {
 
     initializeExpiringMessageService();
     initializeNotificationProfilesService();
-    keyTransparency.start();
+    await keyTransparency.start();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = itemStorage.get(BLOCKED_UUIDS_ID, []);

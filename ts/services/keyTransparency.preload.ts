@@ -33,6 +33,7 @@ import * as Bytes from '../Bytes.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { isEnabled } from '../RemoteConfig.dom.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
+import { signal as Proto } from '../protobuf/compiled.std.js';
 import { runStorageServiceSyncJob } from './storage.preload.ts';
 import { hasUsernameChangeSyncCapability } from './username.preload.ts';
 import { KeyTransparencyStore } from '../LibSignalStores.node.ts';
@@ -47,6 +48,9 @@ const KNOWN_IDENTIFIER_CHANGE_DELAY = 5 * MINUTE;
 const INTERMITTENT_ERROR_RETRY_DELAY = 1 * DAY;
 
 const STORAGE_SERVICE_TIMEOUT = 1 * MINUTE;
+
+// April 5, 2026
+const INTERNAL_RESET_MS = 1775347200000n;
 
 export function isKeyTransparencyAvailable(): boolean {
   if (itemStorage.get('hasKeyTransparencyDisabled')) {
@@ -89,10 +93,25 @@ class KeyTransparency {
     ]);
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     strictAssert(!this.#isRunning, 'Already running');
 
     this.#isRunning = true;
+
+    if (isEnabled('desktop.internalUser')) {
+      const treeHeadBytes = itemStorage.get('lastDistinguishedTreeHead');
+      if (treeHeadBytes != null) {
+        const treeHead = Proto.keytrans.StoredTreeHead.decode(treeHeadBytes);
+        if (treeHead.storedAtMs < INTERNAL_RESET_MS) {
+          log.warn(
+            'cleared internal user KT data',
+            Number(treeHead.storedAtMs)
+          );
+          await this.disable();
+        }
+      }
+    }
+
     this.#scheduler.start();
   }
 
