@@ -88,7 +88,6 @@ export type PropsSmartActions = Pick<MessagePropsType, 'renderAudioAttachment'>;
 export type PropsReduxActions = Pick<
   MessagePropsType,
   | 'cancelAttachmentDownload'
-  | 'checkForAccount'
   | 'clearTargetedMessage'
   | 'doubleCheckMissingQuoteReference'
   | 'endPoll'
@@ -113,7 +112,7 @@ export type PropsReduxActions = Pick<
   | 'showSpoiler'
   | 'retryDeleteForEveryone'
   | 'showTapToViewNotAvailableModal'
-  | 'startConversation'
+  | 'startConversationWithSharedContact'
   | 'viewStory'
 > & {
   toggleSafetyNumberModal: (contactId: string) => void;
@@ -134,7 +133,6 @@ export function MessageDetail({
   receivedAt,
   sentAt,
   cancelAttachmentDownload,
-  checkForAccount,
   clearTargetedMessage,
   contactNameColor,
   doubleCheckMissingQuoteReference,
@@ -164,7 +162,7 @@ export function MessageDetail({
   showMediaNoLongerAvailableToast,
   showSpoiler,
   showTapToViewNotAvailableModal,
-  startConversation,
+  startConversationWithSharedContact,
   theme,
   toggleSafetyNumberModal,
   viewStory,
@@ -185,7 +183,6 @@ export function MessageDetail({
               {...message}
               renderingContext="conversation/MessageDetail"
               cancelAttachmentDownload={cancelAttachmentDownload}
-              checkForAccount={checkForAccount}
               clearTargetedMessage={clearTargetedMessage}
               contactNameColor={contactNameColor}
               containerElementRef={messageContainerElementRef}
@@ -235,7 +232,9 @@ export function MessageDetail({
               }
               showLightbox={showLightbox}
               showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
-              startConversation={startConversation}
+              startConversationWithSharedContact={
+                startConversationWithSharedContact
+              }
               theme={theme}
               viewStory={viewStory}
               onToggleSelect={noop}

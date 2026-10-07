@@ -18,9 +18,7 @@ import {
   getSafeConversationWithSameTitle,
   getConversationByServiceIdSelector,
 } from './conversations.dom.ts';
-import { getAccountSelector } from './accounts.std.ts';
 import {
-  getRegionCode,
   getUserConversationId,
   getUserNumber,
   getUserACI,
@@ -48,6 +46,7 @@ import type { ConversationType } from '../ducks/conversations.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import { getResolveSharedContactSelector } from './sharedContact.dom.ts';
 
 // A no-op lookup for non-story-reply items. Only story replies should take a
 // dependency on the stories slice
@@ -71,7 +70,7 @@ const getTimelineItem = (
 
   const targetedMessage = getTargetedMessage(state);
   const conversationSelector = getConversationSelector(state);
-  const regionCode = getRegionCode(state);
+  const resolveSharedContact = getResolveSharedContactSelector(state);
   const ourNumber = getUserNumber(state);
   const ourAci = getUserACI(state);
   const ourPni = getUserPNI(state);
@@ -79,7 +78,6 @@ const getTimelineItem = (
   const callSelector = getCallSelector(state);
   const callHistorySelector = getCallHistorySelector(state);
   const activeCall = getActiveCall(state);
-  const accountSelector = getAccountSelector(state);
   const pinnedMessagesMessageIds = getPinnedMessagesMessageIds(state);
   const selectedMessageIds = getSelectedMessageIds(state);
   const defaultConversationColor = getDefaultConversationColor(state);
@@ -90,11 +88,11 @@ const getTimelineItem = (
 
   return getPropsForBubble(message, {
     conversationSelector,
+    resolveSharedContact,
     ourConversationId,
     ourNumber,
     ourAci,
     ourPni,
-    regionCode,
     targetedMessageId: targetedMessage?.id ?? null,
     targetedMessageCounter: targetedMessage?.counter ?? null,
     targetedMessageSource: targetedMessage?.source ?? null,
@@ -102,7 +100,6 @@ const getTimelineItem = (
     callSelector,
     callHistorySelector,
     activeCall,
-    accountSelector,
     pinnedMessagesMessageIds,
     selectedMessageIds,
     defaultConversationColor,

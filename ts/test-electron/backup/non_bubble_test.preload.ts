@@ -401,6 +401,9 @@ describe('backup/non-bubble messages', () => {
         unidentifiedDeliveryReceived: true,
         contact: [
           {
+            aci: undefined,
+            note: undefined,
+            nickname: undefined,
             name: {
               givenName: 'Alice',
               familyName: 'Smith',
@@ -444,6 +447,9 @@ describe('backup/non-bubble messages', () => {
           unidentifiedDeliveryReceived: true,
           contact: [
             {
+              aci: undefined,
+              note: undefined,
+              nickname: undefined,
               name: {
                 givenName: '',
                 familyName: undefined,
@@ -469,6 +475,9 @@ describe('backup/non-bubble messages', () => {
           unidentifiedDeliveryReceived: true,
           contact: [
             {
+              aci: undefined,
+              note: undefined,
+              nickname: undefined,
               organization: 'Signal',
             },
           ],
@@ -601,6 +610,73 @@ describe('backup/non-bubble messages', () => {
         },
       },
     ]);
+  });
+
+  it('roundtrips title transition notification with shared name', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'title-transition-notification',
+        received_at: 1,
+        sent_at: 1,
+        timestamp: 1,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        sourceServiceId: CONTACT_A,
+        titleTransition: {
+          renderInfo: {
+            type: 'private',
+            sharedGivenName: 'Shared Name',
+          },
+        },
+      },
+    ]);
+  });
+
+  it('combines shared given and family name in title transition notification', async () => {
+    const id = generateGuid();
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id,
+          type: 'title-transition-notification',
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sourceServiceId: CONTACT_A,
+          titleTransition: {
+            renderInfo: {
+              type: 'private',
+              sharedGivenName: 'Shared',
+              sharedFamilyName: 'Name',
+            },
+          },
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id,
+          type: 'title-transition-notification',
+          received_at: 1,
+          sent_at: 1,
+          timestamp: 1,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          sourceServiceId: CONTACT_A,
+          titleTransition: {
+            renderInfo: {
+              type: 'private',
+              sharedGivenName: 'Shared Name',
+            },
+          },
+        },
+      ]
+    );
   });
 
   it('drops title transition notification without username or e164', async () => {

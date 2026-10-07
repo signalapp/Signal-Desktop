@@ -86,7 +86,6 @@ const defaultMessageProps: TimelineMessagesProps = {
   canSendPollVote: true,
   canDeleteForEveryone: true,
   canDownload: true,
-  checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('default--clearTargetedMessage'),
   containerElementRef: createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
@@ -164,7 +163,9 @@ const defaultMessageProps: TimelineMessagesProps = {
   toggleDeleteMessagesModal: action('default--toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('default--toggleForwardMessagesModal'),
   showLightbox: action('default--showLightbox'),
-  startConversation: action('default--startConversation'),
+  startConversationWithSharedContact: action(
+    'default--startConversationWithSharedContact'
+  ),
   status: 'sent',
   text: 'This is really interesting.',
   textDirection: TextDirection.Default,

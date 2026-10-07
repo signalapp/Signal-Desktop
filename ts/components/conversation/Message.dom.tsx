@@ -41,6 +41,7 @@ import { I18n } from '../I18n.dom.tsx';
 import type { QuotedAttachmentForUIType } from './Quote.dom.tsx';
 import { Quote } from './Quote.dom.tsx';
 import { EmbeddedContact } from './EmbeddedContact.dom.tsx';
+import { canMessageSharedContact } from '../../util/sharedContact.std.ts';
 import type {
   OwnProps as ReactionViewerProps,
   Reaction,
@@ -89,7 +90,6 @@ import type {
 } from '../../types/Colors.std.ts';
 import { createRefMerger } from '../../util/refMerger.std.ts';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
-import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
@@ -352,9 +352,10 @@ export type PropsActions = {
   clearTargetedMessage: () => unknown;
   doubleCheckMissingQuoteReference: (messageId: string) => unknown;
   messageExpanded: (id: string, displayLimit: number) => unknown;
-  checkForAccount: (phoneNumber: string) => unknown;
 
-  startConversation: (e164: string, serviceId: ServiceIdString) => void;
+  startConversationWithSharedContact: (
+    contact: ReadonlyDeep<EmbeddedContactForUIType>
+  ) => void;
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
@@ -736,11 +737,6 @@ export class Message extends PureComponent<Props, State> {
       this.#expirationCheckInterval = setInterval(() => {
         this.#checkExpired();
       }, checkFrequency);
-    }
-
-    const { contact, checkForAccount } = this.props;
-    if (contact && contact.firstNumber && !contact.serviceId) {
-      checkForAccount(contact.firstNumber);
     }
 
     document.addEventListener('selectionchange', this.#handleSelectionChange);
@@ -2173,34 +2169,22 @@ export class Message extends PureComponent<Props, State> {
     const {
       cancelAttachmentDownload,
       contact,
-      conversationType,
       direction,
       i18n,
       id,
       kickOffAttachmentDownload,
       pushPanelForConversation,
-      text,
+      startConversationWithSharedContact,
     } = this.props;
     if (!contact) {
       return null;
     }
-
-    const withCaption = Boolean(text);
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
-    const withContentBelow =
-      withCaption ||
-      this.#getMetadataPlacement() !== MetadataPlacement.NotRendered;
-
-    const otherContent =
-      (contact && contact.firstNumber && contact.serviceId) || withCaption;
 
     const attachment = contact.avatar?.avatar;
     const avatarNeedsAction =
       attachment &&
       !isDownloaded(attachment) &&
       !attachment.isPermanentlyUndownloadable;
-    const tabIndex = otherContent || avatarNeedsAction ? 0 : -1;
 
     return (
       <EmbeddedContact
@@ -2225,45 +2209,12 @@ export class Message extends PureComponent<Props, State> {
             },
           });
         }}
-        withContentAbove={withContentAbove}
-        withContentBelow={withContentBelow}
-        tabIndex={tabIndex}
+        onSendMessage={
+          canMessageSharedContact(contact)
+            ? () => startConversationWithSharedContact(contact)
+            : undefined
+        }
       />
-    );
-  }
-
-  #renderSendMessageButton(): ReactNode {
-    const { contact, direction, shouldCollapseBelow, startConversation, i18n } =
-      this.props;
-    const noBottomLeftCurve = direction === 'incoming' && shouldCollapseBelow;
-    const noBottomRightCurve = direction === 'outgoing' && shouldCollapseBelow;
-
-    if (!contact) {
-      return null;
-    }
-    const { firstNumber, serviceId } = contact;
-    if (!firstNumber || !serviceId) {
-      return null;
-    }
-
-    return (
-      <button
-        type="button"
-        onClick={e => {
-          e.preventDefault();
-          e.stopPropagation();
-          startConversation(firstNumber, serviceId);
-        }}
-        className={classNames(
-          'module-message__send-message-button',
-          noBottomLeftCurve &&
-            'module-message__send-message-button--no-bottom-left-curve',
-          noBottomRightCurve &&
-            'module-message__send-message-button--no-bottom-right-curve'
-        )}
-      >
-        {i18n('icu:sendMessageToContact')}
-      </button>
     );
   }
 
@@ -2620,8 +2571,14 @@ export class Message extends PureComponent<Props, State> {
   }
 
   #getWidth(): number | undefined {
-    const { attachments, giftBadge, isSticker, isTapToView, previews } =
-      this.props;
+    const {
+      attachments,
+      contact,
+      giftBadge,
+      isSticker,
+      isTapToView,
+      previews,
+    } = this.props;
 
     if (isTapToView) {
       return undefined;
@@ -2629,6 +2586,10 @@ export class Message extends PureComponent<Props, State> {
 
     if (giftBadge) {
       return 240;
+    }
+
+    if (contact) {
+      return 280;
     }
 
     if (attachments && attachments.length) {
@@ -3091,7 +3052,6 @@ export class Message extends PureComponent<Props, State> {
         {this.#renderUndownloadableTextAttachment()}
         {this.#renderAction()}
         {this.#renderMetadata()}
-        {this.#renderSendMessageButton()}
       </>
     );
   }
@@ -3115,7 +3075,6 @@ export class Message extends PureComponent<Props, State> {
       showExpiredOutgoingTapToViewToast,
       showLightbox,
       showLightboxForViewOnceMedia,
-      startConversation,
     } = this.props;
 
     const isAttachmentPending = this.#isAttachmentPending();
@@ -3161,13 +3120,6 @@ export class Message extends PureComponent<Props, State> {
       return;
     }
 
-    if (contact && contact.firstNumber && contact.serviceId) {
-      startConversation(contact.firstNumber, contact.serviceId);
-
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
     if (contact) {
       pushPanelForConversation({
         type: PanelType.ContactDetails,

@@ -1988,7 +1988,7 @@
   },
   "icu:TitleTransition--notification": {
     "messageformat": "You started this chat with {oldTitle}",
-    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number"
+    "description": "Shown when we've received profile information for a contact we have been messaging by username/phone number/name from a shared contact"
   },
   "icu:imageAttachmentAlt": {
     "messageformat": "Image attached to message",
@@ -11457,6 +11457,50 @@
   "icu:SaveMultiDialog__title": {
     "messageformat": "Save attachments",
     "description": "Title of the dialog to save multiple attachments"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message",
+    "description": "Button in a shared contact message in the timeline. Starts a conversation with the shared contact."
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message",
+    "description": "In the shared contact details view, label for the button that starts a conversation with the contact."
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group",
+    "description": "In the shared contact details view, label for the row that opens a dialog to add the contact to a group."
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname",
+    "description": "In the shared contact details view, label for the nickname the sender gave to the shared contact."
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes",
+    "description": "In the shared contact details view, label for the note the sender wrote about the shared contact."
+  },
+  "icu:email-v2": {
+    "messageformat": "Email",
+    "description": "In the shared contact details view, generic label for an email address with a custom type but no label"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home",
+    "description": "In the shared contact details view, label for a home address, phone number, or email"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile",
+    "description": "In the shared contact details view, label for a mobile phone number or email"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work",
+    "description": "In the shared contact details view, label for a work address, phone number, or email"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone",
+    "description": "In the shared contact details view, generic label for a phone number with a custom type but no label"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address",
+    "description": "In the shared contact details view, generic label for a postal address with a custom type but no label"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",

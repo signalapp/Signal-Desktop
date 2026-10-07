@@ -10,9 +10,12 @@ import { ContactDetail } from './ContactDetail.dom.tsx';
 import {
   AddressType,
   ContactFormType,
+  type EmbeddedContactForUIType,
 } from '../../types/EmbeddedContact.std.ts';
 import { IMAGE_GIF } from '../../types/MIME.std.ts';
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
+import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
+import type { SharedContactResolutionType } from '../../util/sharedContact.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -20,17 +23,44 @@ export default {
   title: 'Components/Conversation/ContactDetail',
 } satisfies Meta<Props>;
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  cancelAttachmentDownload: action('cancelAttachmentDownload'),
-  contact: overrideProps.contact || {},
-  hasSignalAccount: overrideProps.hasSignalAccount || false,
-  i18n,
-  kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
-  messageId: 'fake-message-id',
-  onSendMessage: action('onSendMessage'),
-});
+const emptyContact = {
+  aci: undefined,
+  nickname: undefined,
+  note: undefined,
+  resolution: { type: 'not-on-signal' },
+} satisfies EmbeddedContactForUIType;
 
-const fullContact = {
+const createProps = (
+  overrideProps: Partial<Props> & {
+    hasSignalAccount?: boolean;
+    resolution?: SharedContactResolutionType;
+  } = {}
+): Props => {
+  const contact = overrideProps.contact || emptyContact;
+  let resolution: SharedContactResolutionType = { type: 'not-on-signal' };
+  if (overrideProps.resolution) {
+    resolution = overrideProps.resolution;
+  } else if (overrideProps.hasSignalAccount) {
+    resolution = { type: 'aci', aci: contact.aci ?? generateAci() };
+  }
+
+  return {
+    cancelAttachmentDownload: action('cancelAttachmentDownload'),
+    contact: { ...contact, resolution },
+    hasActiveCall: overrideProps.hasActiveCall ?? false,
+    i18n,
+    kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
+    messageId: 'fake-message-id',
+    onAddToGroup: action('onAddToGroup'),
+    onSendMessage: action('onSendMessage'),
+    onStartAudioCall: action('onStartAudioCall'),
+    onStartVideoCall: action('onStartVideoCall'),
+    ourRegionCode: 'US',
+  };
+};
+
+const aci = generateAci();
+const fullContact: EmbeddedContactForUIType = {
   address: [
     {
       type: AddressType.HOME,
@@ -130,6 +160,13 @@ const fullContact = {
       type: ContactFormType.CUSTOM,
     },
   ],
+  aci,
+  note: 'This is an important and long note \n with line\n breaks.',
+  nickname: {
+    givenName: 'NickGiven',
+    familyName: 'NickFamily',
+  },
+  resolution: { type: 'aci', aci },
 };
 
 export function FullyFilledOut(): JSX.Element {
@@ -239,6 +276,10 @@ export function OnlyEmail(): JSX.Element {
           type: ContactFormType.HOME,
         },
       ],
+      aci: undefined,
+      note: undefined,
+      nickname: undefined,
+      resolution: { type: 'not-on-signal' },
     },
     hasSignalAccount: true,
   });
@@ -249,6 +290,7 @@ export function OnlyEmail(): JSX.Element {
 export function GivenName(): JSX.Element {
   const props = createProps({
     contact: {
+      ...emptyContact,
       name: {
         givenName: 'Jerry',
       },
@@ -262,6 +304,7 @@ export function GivenName(): JSX.Element {
 export function Organization(): JSX.Element {
   const props = createProps({
     contact: {
+      ...emptyContact,
       organization: 'Company 5',
     },
     hasSignalAccount: true,
@@ -273,6 +316,7 @@ export function Organization(): JSX.Element {
 export function GivenFamilyName(): JSX.Element {
   const props = createProps({
     contact: {
+      ...emptyContact,
       name: {
         givenName: 'Jerry',
         familyName: 'FamilyName',
@@ -287,6 +331,7 @@ export function GivenFamilyName(): JSX.Element {
 export function FamilyName(): JSX.Element {
   const props = createProps({
     contact: {
+      ...emptyContact,
       name: {
         familyName: 'FamilyName',
       },
@@ -300,6 +345,7 @@ export function FamilyName(): JSX.Element {
 export function LoadingAvatar(): JSX.Element {
   const props = createProps({
     contact: {
+      ...emptyContact,
       avatar: {
         avatar: fakeAttachment({
           contentType: IMAGE_GIF,
@@ -323,6 +369,23 @@ export function EmptyWithAccount(): JSX.Element {
 export function EmptyWithoutAccount(): JSX.Element {
   const props = createProps({
     hasSignalAccount: false,
+  });
+  return <ContactDetail {...props} />;
+}
+
+export function FullyFilledOutWithoutAccount(): JSX.Element {
+  const props = createProps({
+    contact: { ...fullContact, aci: undefined },
+    hasSignalAccount: false,
+  });
+  return <ContactDetail {...props} />;
+}
+
+export function InAnotherCall(): JSX.Element {
+  const props = createProps({
+    contact: fullContact,
+    hasActiveCall: true,
+    hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
 }

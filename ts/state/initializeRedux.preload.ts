@@ -50,7 +50,6 @@ export function initializeRedux(data: ReduxInitData): void {
   // Binding these actions to our redux store and exposing them allows us to update
   //   redux when things change in the rest of the app.
   window.reduxActions = {
-    accounts: bindActionCreators(actionCreators.accounts, store.dispatch),
     app: bindActionCreators(actionCreators.app, store.dispatch),
     installer: bindActionCreators(actionCreators.installer, store.dispatch),
     audioPlayer: bindActionCreators(actionCreators.audioPlayer, store.dispatch),

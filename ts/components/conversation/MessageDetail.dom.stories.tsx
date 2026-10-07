@@ -84,7 +84,6 @@ export default {
 
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
 
-    checkForAccount: action('checkForAccount'),
     clearTargetedMessage: action('clearTargetedMessage'),
     showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
     doubleCheckMissingQuoteReference: action(
@@ -108,7 +107,9 @@ export default {
       'showExpiredOutgoingTapToViewToast'
     ),
     showLightbox: action('showLightbox'),
-    startConversation: action('startConversation'),
+    startConversationWithSharedContact: action(
+      'startConversationWithSharedContact'
+    ),
     viewStory: action('viewStory'),
   },
 } satisfies Meta<Props>;

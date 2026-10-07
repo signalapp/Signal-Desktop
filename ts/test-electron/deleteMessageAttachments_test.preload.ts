@@ -173,6 +173,9 @@ describe('deleteMessageAttachments', () => {
       attachments: [composeAttachment(), composeAttachment()],
       contact: [
         {
+          aci: undefined,
+          note: undefined,
+          nickname: undefined,
           avatar: {
             isProfile: false,
             avatar: composeAttachment(),

@@ -143,14 +143,14 @@ export const getConversationLookup = createSelector(
   }
 );
 
-const getConversationsByServiceId = createSelector(
+export const getConversationsByServiceId = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByServiceId;
   }
 );
 
-const getConversationsByE164 = createSelector(
+export const getConversationsByE164 = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
     return state.conversationsByE164;

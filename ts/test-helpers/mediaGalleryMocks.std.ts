@@ -151,6 +151,9 @@ function createRandomContact(
               avatar: createRandomAttachment('png'),
             }
           : undefined,
+      aci: undefined,
+      note: undefined,
+      nickname: undefined,
     },
   };
 }

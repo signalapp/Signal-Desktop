@@ -5,7 +5,6 @@ import type { Selector } from 'reselect';
 import type { ThunkAction } from 'redux-thunk';
 import type { Action } from 'redux';
 import type { StateType } from './reducer.preload.ts';
-import type { actions as accounts } from './ducks/accounts.preload.ts';
 import type { actions as app } from './ducks/app.preload.ts';
 import type { actions as audioPlayer } from './ducks/audioPlayer.preload.ts';
 import type { actions as audioRecorder } from './ducks/audioRecorder.preload.ts';
@@ -44,7 +43,6 @@ import type { actions as user } from './ducks/user.preload.ts';
 import type { actions as username } from './ducks/username.preload.ts';
 
 export type ReduxActions = {
-  accounts: typeof accounts;
   app: typeof app;
   audioPlayer: typeof audioPlayer;
   audioRecorder: typeof audioRecorder;

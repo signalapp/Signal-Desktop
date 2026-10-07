@@ -351,6 +351,8 @@ export async function toContactRecord(
   const verified = conversation.get('verified');
   const nicknameGivenName = conversation.get('nicknameGivenName');
   const nicknameFamilyName = conversation.get('nicknameFamilyName');
+  const sharedGivenName = conversation.get('sharedGivenName');
+  const sharedFamilyName = conversation.get('sharedFamilyName');
   const hideStory = conversation.get('hideStory');
 
   const blockedServiceId = serviceId
@@ -384,6 +386,10 @@ export async function toContactRecord(
     profileKey: profileKey ? Bytes.fromBase64(profileKey) : null,
     givenName: conversation.get('profileName') || null,
     familyName: conversation.get('profileFamilyName') || null,
+    sharedName:
+      sharedGivenName || sharedFamilyName
+        ? { given: sharedGivenName || null, family: sharedFamilyName || null }
+        : null,
     nickname:
       nicknameGivenName || nicknameFamilyName
         ? {
@@ -1109,7 +1115,7 @@ type RecordClassObject = {
   [key: string]: any;
 };
 
-function areNicknamesEqual(
+function areNamesEqual(
   local: Proto.ContactRecord.Name.Params | undefined | null,
   remote: Proto.ContactRecord.Name.Params | undefined | null
 ): boolean {
@@ -1170,10 +1176,10 @@ function logRecordChanges(
       continue;
     }
 
-    if (key === 'nickname') {
-      const areEqual = areNicknamesEqual(localValue, remoteValue);
+    if (key === 'nickname' || key === 'sharedName') {
+      const areEqual = areNamesEqual(localValue, remoteValue);
       if (!areEqual) {
-        details.push('nickname');
+        details.push(key);
       }
       continue;
     }
@@ -1645,6 +1651,8 @@ export async function mergeContactRecord(
   conversation.set({
     nicknameGivenName: dropNull(contactRecord.nickname?.given || null),
     nicknameFamilyName: dropNull(contactRecord.nickname?.family || null),
+    sharedGivenName: dropNull(contactRecord.sharedName?.given || null),
+    sharedFamilyName: dropNull(contactRecord.sharedName?.family || null),
     note: dropNull(contactRecord.note),
   });
 

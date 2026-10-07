@@ -310,6 +310,9 @@ describe('addAttachmentToMessage', () => {
             isProfile: false,
             avatar: attachment,
           },
+          aci: undefined,
+          note: undefined,
+          nickname: undefined,
         },
       ],
     });

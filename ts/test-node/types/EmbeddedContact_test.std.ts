@@ -5,21 +5,29 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 
 import { createLogger } from '../../logging/log.std.ts';
-import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME.std.ts';
+import { IMAGE_PNG } from '../../types/MIME.std.ts';
 import type { MessageAttributesType } from '../../model-types.d.ts';
-import type { Avatar, Email, Phone } from '../../types/EmbeddedContact.std.ts';
+import type {
+  Avatar,
+  Email,
+  EmbeddedContactType,
+  Phone,
+} from '../../types/EmbeddedContact.std.ts';
 import {
   _validate,
   ContactFormType,
-  embeddedContactSelector,
-  getName,
   parseAndWriteAvatar,
   parsePhoneItem,
 } from '../../types/EmbeddedContact.std.ts';
 import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
-import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const logger = createLogger('EmbeddedContact_test');
+
+const emptyContact = {
+  aci: undefined,
+  nickname: undefined,
+  note: undefined,
+} satisfies EmbeddedContactType;
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
@@ -46,199 +54,6 @@ describe('Contact', () => {
     };
   };
 
-  describe('getName', () => {
-    it('returns displayName if available', () => {
-      const contact = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-      };
-      const expected = 'nickname';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-
-    it('returns full name if no displayName', () => {
-      const contact = {
-        name: {
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-      };
-      const expected = 'givenName familyName';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-
-    it('returns organization  if no displayName or full name', () => {
-      const contact = {
-        name: {},
-        organization: 'Somewhere, Inc.',
-      };
-      const expected = 'Somewhere, Inc.';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-
-    it('returns just givenName', () => {
-      const contact = {
-        name: {
-          givenName: 'givenName',
-        },
-      };
-      const expected = 'givenName';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-
-    it('returns just familyName', () => {
-      const contact = {
-        name: {
-          familyName: 'familyName',
-        },
-      };
-      const expected = 'familyName';
-      const actual = getName(contact);
-      assert.strictEqual(actual, expected);
-    });
-  });
-
-  describe('embeddedContactSelector', () => {
-    const regionCode = '1';
-    const firstNumber = '+1202555000';
-    const serviceId = undefined;
-
-    it('eliminates avatar if it has had an attachment download error', () => {
-      const contact = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: {
-          isProfile: true,
-          avatar: fakeAttachment({
-            error: true,
-            contentType: IMAGE_GIF,
-          }),
-        },
-      };
-      const expected = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: undefined,
-        firstNumber,
-        serviceId,
-        number: undefined,
-      };
-      const actual = embeddedContactSelector(contact, {
-        regionCode,
-        firstNumber,
-        serviceId,
-      });
-      assert.deepEqual(actual, expected);
-    });
-
-    it('does not calculate absolute path if avatar is pending', () => {
-      const contact = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: {
-          isProfile: true,
-          avatar: fakeAttachment({
-            pending: true,
-            contentType: IMAGE_GIF,
-            path: undefined,
-          }),
-        },
-      };
-      const expected = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: {
-          isProfile: true,
-          avatar: fakeAttachment({
-            pending: true,
-            path: undefined,
-            url: undefined,
-            contentType: IMAGE_GIF,
-          }),
-        },
-        firstNumber,
-        serviceId,
-        number: undefined,
-      };
-      const actual = embeddedContactSelector(contact, {
-        regionCode,
-        firstNumber,
-        serviceId,
-      });
-      assert.deepEqual(actual, expected);
-    });
-
-    it('calculates local url', () => {
-      const fullAci = generateAci();
-
-      const contact = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: {
-          isProfile: true,
-          avatar: fakeAttachment({
-            path: 'somewhere',
-            contentType: IMAGE_GIF,
-          }),
-        },
-      };
-      const expected = {
-        name: {
-          nickname: 'nickname',
-          givenName: 'givenName',
-          familyName: 'familyName',
-        },
-        organization: 'Somewhere, Inc.',
-        avatar: {
-          isProfile: true,
-          avatar: fakeAttachment({
-            path: 'somewhere',
-            url: 'attachment://v1/somewhere?size=10304&contentType=image%2Fgif',
-            contentType: IMAGE_GIF,
-          }),
-        },
-        firstNumber,
-        serviceId: fullAci,
-        number: undefined,
-      };
-      const actual = embeddedContactSelector(contact, {
-        regionCode,
-        firstNumber,
-        serviceId: fullAci,
-      });
-      assert.deepEqual(actual, expected);
-    });
-  });
-
   describe('parseAndWriteAvatar', () => {
     const defaultContext = {
       logger,
@@ -260,6 +75,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -290,6 +106,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -303,6 +120,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -334,6 +152,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -350,6 +169,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -381,6 +201,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -413,6 +234,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -462,6 +284,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -480,6 +303,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -508,6 +332,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -526,6 +351,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -557,6 +383,7 @@ describe('Contact', () => {
         sent_at: 1232132,
         contact: [
           {
+            ...emptyContact,
             name: {
               nickname: 'Someone Somewhere',
             },
@@ -574,6 +401,7 @@ describe('Contact', () => {
         ],
       } as const;
       const expected = {
+        ...emptyContact,
         name: {
           nickname: 'Someone Somewhere',
         },
@@ -596,6 +424,7 @@ describe('Contact', () => {
         ...getDefaultMessageAttrs(),
         contact: [
           {
+            ...emptyContact,
             organization: 'Somewhere Consulting',
             number: [
               {
@@ -661,9 +490,8 @@ describe('Contact', () => {
     it('returns error if contact has no name.displayName or organization', () => {
       const messageId = 'the-message-id';
       const contact = {
-        name: {
-          givenName: 'Someone',
-        },
+        ...emptyContact,
+        name: undefined,
         number: [
           {
             type: 1,

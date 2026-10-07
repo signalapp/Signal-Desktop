@@ -457,6 +457,10 @@ export type ConversationAttributesType = {
   needsStorageServiceSync?: boolean;
   needsVerification?: boolean;
   profileSharing?: boolean;
+  /** Given name shared via contact message; should be considered low-trust */
+  sharedGivenName?: string | null;
+  /** Family name shared via contact message; should be considered low-trust */
+  sharedFamilyName?: string | null;
   storageID?: string;
   storageVersion?: number;
   storageUnknownFields?: string;
@@ -571,6 +575,8 @@ export type ConversationRenderInfoType = Pick<
   | 'systemNickname'
   | 'nicknameGivenName'
   | 'nicknameFamilyName'
+  | 'sharedGivenName'
+  | 'sharedFamilyName'
   | 'type'
   | 'username'
 >;

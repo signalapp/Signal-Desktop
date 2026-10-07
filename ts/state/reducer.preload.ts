@@ -3,7 +3,6 @@
 
 import { combineReducers } from 'redux';
 
-import { reducer as accounts } from './ducks/accounts.preload.ts';
 import { reducer as app } from './ducks/app.preload.ts';
 import { reducer as audioPlayer } from './ducks/audioPlayer.preload.ts';
 import { reducer as audioRecorder } from './ducks/audioRecorder.preload.ts';
@@ -43,7 +42,6 @@ import { reducer as user } from './ducks/user.preload.ts';
 import { reducer as username } from './ducks/username.preload.ts';
 
 export const reducer = combineReducers({
-  accounts,
   app,
   audioPlayer,
   audioRecorder,

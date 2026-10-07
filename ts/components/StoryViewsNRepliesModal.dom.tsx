@@ -52,7 +52,6 @@ const MESSAGE_DEFAULT_PROPS = {
   canRetryDeleteForEveryone: false,
   canSendPollVote: false,
   retryDeleteForEveryone: shouldNeverBeCalled,
-  checkForAccount: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,
   containerWidthBreakpoint: WidthBreakpoint.Medium,
   doubleCheckMissingQuoteReference: shouldNeverBeCalled,
@@ -88,7 +87,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
   showMediaNoLongerAvailableToast: shouldNeverBeCalled,
   showTapToViewNotAvailableModal: shouldNeverBeCalled,
-  startConversation: shouldNeverBeCalled,
+  startConversationWithSharedContact: shouldNeverBeCalled,
   theme: ThemeType.dark,
   viewStory: shouldNeverBeCalled,
 };

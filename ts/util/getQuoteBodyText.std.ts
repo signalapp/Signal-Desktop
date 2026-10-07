@@ -30,7 +30,7 @@ export function getQuoteBodyText({
   const embeddedContactName =
     embeddedContact && embeddedContact.length > 0
       ? // oxlint-disable-next-line typescript/no-non-null-assertion
-        EmbeddedContact.getName(embeddedContact[0]!)
+        EmbeddedContact.getDisplayName(embeddedContact[0]!)
       : '';
 
   const pollText = poll

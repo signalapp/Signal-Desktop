@@ -221,6 +221,9 @@ function composeMessageWithEveryAttachment() {
           isProfile: true,
           avatar: contactAttachment,
         },
+        aci: generateAci(),
+        note: 'note',
+        nickname: { givenName: 'nick', familyName: 'name' },
       },
     ],
     sticker: {

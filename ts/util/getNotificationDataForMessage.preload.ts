@@ -479,8 +479,10 @@ export function getNotificationDataForMessage(
   const { contact: contacts } = attributes;
   if (contacts && contacts.length) {
     return {
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      text: EmbeddedContact.getName(contacts[0]!) || i18n('icu:unknownContact'),
+      text:
+        // oxlint-disable-next-line typescript/no-non-null-assertion
+        EmbeddedContact.getDisplayName(contacts[0]!) ||
+        i18n('icu:unknownContact'),
       emoji: Emoji.BUST_IN_SILHOUETTE,
     };
   }

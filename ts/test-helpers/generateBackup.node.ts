@@ -228,6 +228,7 @@ function* createRecords({
             identityState: null,
             nickname: null,
             note: null,
+            sharedName: null,
             systemGivenName: null,
             systemFamilyName: null,
             systemNickname: null,
