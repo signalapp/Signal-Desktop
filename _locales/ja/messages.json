@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PINにより、Signal内に保存された情報は暗号化された状態を保ち、アクセスできるのはあなただけです。PINは復元することはできません。Signalを再インストールすると、あなたのプロフィール、設定および連絡先が復元されます。<learnMoreLink>詳しく見る</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "PINの詳細設定"
@@ -6272,7 +6272,7 @@
     "messageformat": "PINを無効にすると、自身でバックアップと復元を行わない限り、Signalに再登録する際すべてのデータが失われます。PINを無効にしている間は登録ロックは使用できません。"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "登録ロックが有効になっているため、PINを無効化できませんでした"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "PINを無効にする前に、登録ロックを無効にしてください。"
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Signalバックアップが有効になっているため、PINを無効化できませんでした"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "PINを無効にする前に、バックアップを無効にしてください。"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration}分後にもう一度お試しください"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "国番号を選択してください"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "電話番号"
@@ -7649,10 +7649,10 @@
     "messageformat": "「Signal」をオンにする"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signalにマイクへのアクセスを許可してください"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signalにカメラへのアクセスを許可してください"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "設定へ"
@@ -8204,7 +8204,7 @@
     "messageformat": "ユーザーネームは、常に一組の数字とペアになっています。"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ユーザーネームの数字"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "詳しく見る"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PINを変更"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PINを作成"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "この端末が登録されていればPINの変更が可能です。 <learnMoreLink>さらに詳しく</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PINにより、Signal内に保存された情報は暗号化された状態を保ち、アクセスできるのはあなただけです。再インストール時にあなたのプロフィール、設定および連絡先が復元されます。アプリを開くためにPINは不要です。<learnMoreLink>詳しく見る</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PINの確認"
@@ -9121,9 +9121,9 @@
     "messageformat": "通知の設定を改善して、通知がどのようにいつ表示されるかオプションで選択できるようになりました。"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ビデオ通話のパフォーマンスを改善しました。"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "また、ビデオ通話に参加しようとした際にSignalがカメラへのアクセスを許可されていない場合、システム設定を開くための便利なショートカットをWindows版に追加しました。"
   }
 }

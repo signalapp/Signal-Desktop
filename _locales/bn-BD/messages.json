@@ -6257,7 +6257,7 @@
     "messageformat": "Signal পিন"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "পিন-এর মাধ্যমে Signal-এ সংরক্ষিত তথ্য এনক্রিপ্ট করে রাখা হয়, যাতে শুধুমাত্র আপনিই তা অ্যাক্সেস করতে পারেন। আপনার পিন পুনরুদ্ধার করা সম্ভব নয়। Signal পুনরায় ইনস্টল করলে আপনার প্রোফাইল, সেটিংস এবং কন্টাক্টগুলো পুনরুদ্ধার হয়ে যাবে। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "অ্যাডভান্সড পিন সেটিংস"
@@ -6272,7 +6272,7 @@
     "messageformat": "আপনি পিনটি নিষ্ক্রিয় করলে, আপনি Signal-এ সেভ করা ডেটা ম্যানুয়ালি ব্যাক-আপ ও পুনরুদ্ধার না করলে, পুনরায় Signal-এ রেজিস্টার করার সময় আপনি সমস্ত সেভ করা ডেটা হারাবেন। পিন নিষ্ক্রিয় থাকা অবস্থায় আপনি রেজিস্ট্রেশন লক চালু করতে পারবেন না।"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "রেজিস্ট্রেশন লকের কারণে পিন নিষ্ক্রিয় করা সম্ভব হয়নি"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "আপনার পিন নিষ্ক্রিয় করার আগে আপনাকে অবশ্যই রেজিস্ট্রেশন লক নিষ্ক্রিয় করতে হবে।"
@@ -6281,7 +6281,7 @@
     "messageformat": "ঠিক আছে"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ব্যাকআপের কারণে পিন নিষ্ক্রিয় করা সম্ভব হয়নি"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "আপনার পিন নিষ্ক্রিয় করার আগে আপনাকে অবশ্যই ব্যাকআপ নিষ্ক্রিয় করতে হবে।"
@@ -7124,7 +7124,7 @@
     "messageformat": "অনুগ্রহ করে {duration} পরে আবার চেষ্টা করুন"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "দেশ কোড নির্বাচন করুন"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ফোন নম্বর"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\" চালু করুন"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal-এর জন্য মাইক্রোফোন ব্যবহারের অনুমতি দিন"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal-এর জন্য ক্যামেরা ব্যবহারের অনুমতি দিন"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "সেটিংস-এ যান"
@@ -8204,7 +8204,7 @@
     "messageformat": "ব্যবহারকারীর নাম সবসময় একগুচ্ছ সংখ্যার সাথে যুক্ত করা হয়।"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ব্যবহারকারীর নামের সংখ্যা"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "আরো জানুন"
@@ -8340,13 +8340,13 @@
     "messageformat": "আপনার Signal পিন পরিবর্তন করুন"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "আপনার Signal পিন তৈরি করুন"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "এই ডিভাইস রেজিস্টার থাকা অবধি আপনি আপনার পিন পরিবর্তন করতে পারবেন। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "পিন-এর মাধ্যমে Signal-এ সংরক্ষিত তথ্য এনক্রিপ্ট করে রাখা হয়, যাতে শুধুমাত্র আপনিই তা অ্যাক্সেস করতে পারেন। অ্যাপটি পুনরায় ইনস্টল করলে আপনার প্রোফাইল, সেটিংস এবং কন্টাক্টগুলো পুনরুদ্ধার হয়ে যাবে। অ্যাপটি খোলার জন্য আপনার পিন-এর প্রয়োজন হবে না। <learnMoreLink>আরো জানুন</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "আপনার Signal পিনটি নিশ্চিত করুন"
@@ -9121,9 +9121,9 @@
     "messageformat": "নোটিফিকেশন কীভাবে এবং কখন প্রদর্শিত হবে, সেই সংক্রান্ত অপশন আরো বাড়িয়ে নোটিফিকেশন সেটিংস উন্নত করা হয়েছে।"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ভিডিও কলের পারফরম্যান্স উন্নত করা হয়েছে।"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "আমরা Windows-এ সিস্টেম সেটিংস খোলার একটি সুবিধাজনক শর্টকাটও যোগ করেছি; ভিডিও কলে যোগ দেওয়ার সময় যদি Signal-এর ক্যামেরা ব্যবহারের অনুমতি না থাকে, তবে এটি কাজে আসবে।"
   }
 }

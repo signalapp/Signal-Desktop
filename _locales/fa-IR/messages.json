@@ -6257,7 +6257,7 @@
     "messageformat": "پین سیگنال"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "پین‌ها اطلاعات ذخیره‌شده در سیگنال را رمزگذاری می‌کنند تا فقط خودتان به آن‌ها دسترسی داشته باشید. پین شما قابل بازیابی نیست. با نصب مجدد سیگنال، نمایه، تنظیمات و مخاطبان شما بازیابی می‌شوند. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "تنظیمات پیشرفتهٔ پین"
@@ -6272,7 +6272,7 @@
     "messageformat": "اگر پین را غیرفعال کنید، هنگامی که دوباره در سیگنال ثبت‌نام می‌کنید، تمامی داده‌ها را از دست خواهید داد، مگر اینکه به صورت دستی پشتیبان‌گیری و بازیابی کنید. هنگامی که پین غیرفعال است نمی‌توانید قفل ثبت‌نام را روشن کنید."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "به‌دلیل قفل ثبت‌نام، پین غیرفعال نشد"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "قبل از غیرفعال کردن پین خود، باید قفل ثبت‌نام را غیرفعال کنید."
@@ -6281,7 +6281,7 @@
     "messageformat": "باشه"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "به‌دلیل وجود نسخه‌های پشتیبان، پین غیرفعال نشد"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "قبل از غیرفعال کردن پین خود، باید «نسخه‌های پشتیبان» را غیرفعال کنید."
@@ -7124,7 +7124,7 @@
     "messageformat": "لطفاً بعد از {duration} دوباره تلاش کنید"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "پیش‌شماره کشور را انتخاب کنید"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "شماره تلفن"
@@ -7649,10 +7649,10 @@
     "messageformat": "«سیگنال» را روشن کنید"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "دسترسی میکروفون را برای سیگنال فعال کنید"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "دسترسی دوربین را برای سیگنال فعال کنید"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "رفتن به تنظیمات"
@@ -8204,7 +8204,7 @@
     "messageformat": "نام کاربری همیشه با مجموعه‌ای از اعداد همراه است."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ارقام نام کاربری"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "بیشتر بدانید"
@@ -8340,13 +8340,13 @@
     "messageformat": "پین سیگنال خود را تغییر دهید"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "پین سیگنال خود را ایجاد کنید"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "تا زمانی که این دستگاه ثبت شده باشد شما می‌توانید پین خود را تغییر دهید. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "پین‌ها اطلاعات ذخیره‌شده در سیگنال را رمزگذاری می‌کنند تا فقط خودتان به آن‌ها دسترسی داشته باشید. با نصب مجدد، نمایه، تنظیمات و مخاطبان شما بازیابی می‌شوند. برای باز کردن برنامه، نیازی به پین نخواهید داشت. <learnMoreLink>اطلاعات بیشتر</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "پین سیگنال خود را تأیید کنید"
@@ -9121,9 +9121,9 @@
     "messageformat": "تنظیمات اعلان‌ها بهبود یافته و گزینه‌های بیشتری برای نحوه و زمان نمایش اعلان‌ها ارائه شده است."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "بهبود عملکرد تماس‌های تصویری."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "همچنین میان‌بر مناسبی اضافه کردیم تا اگر هنگام تلاش برای پیوستن به تماس تصویری، سیگنال اجازه دسترسی به دوربین را نداد، بتوانید تنظیمات سیستم خود را در ویندوز باز کنید."
   }
 }

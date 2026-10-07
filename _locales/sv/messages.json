@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN-kod"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinkoder håller information på Signal krypterad så att bara du kan komma åt den. Din pinkod kan inte återställas. Din profil, dina inställningar och dina kontakter återställs när du installerar om Signal. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Avancerade PIN-kodsinställningar"
@@ -6272,7 +6272,7 @@
     "messageformat": "Om du inaktiverar PIN-koden kommer du att förlora alla data när du registrerar om Signal om du inte säkerhetskopierar och återställer manuellt. Du kan inte aktivera registreringslåset medan PIN-koden är inaktiverad."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Det gick inte att inaktivera pinkoden på grund av registreringslås"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Du måste inaktivera registreringslåset innan du avaktiverar din pinkod."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Det gick inte att inaktivera pinkoden på grund av säkerhetskopior"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Du måste inaktivera säkerhetskopior innan du inaktiverar din pinkod."
@@ -7124,7 +7124,7 @@
     "messageformat": "Försök igen om {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Välj landskod"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonnummer"
@@ -7649,10 +7649,10 @@
     "messageformat": "Slå på Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Aktivera mikrofonåtkomst för Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Aktivera kameraåtkomst för Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Gå till inställningar"
@@ -8204,7 +8204,7 @@
     "messageformat": "Användarnamn är alltid kopplade till en uppsättning siffror."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Siffror i användarnamn"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Läs mer"
@@ -8340,13 +8340,13 @@
     "messageformat": "Ändra din Signal-pinkod"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Skapa din Signal-pinkod"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Du kan ändra din PIN-kod så länge denna enhet är registrerad. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinkoder håller information på Signal krypterad så att bara du kan komma åt den. Din profil, inställningar och kontakter återställs när du installerar om. Du behöver inte din pinkod för att öppna appen. <learnMoreLink>Läs mer</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Bekräfta din Signal PIN-kod"
@@ -9121,9 +9121,9 @@
     "messageformat": "Förbättrade aviseringsinställningar med utökade alternativ för hur och när aviseringar visas."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Prestandaförbättringar för videosamtal."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Vi har också lagt till en smidig genväg för att öppna systeminställningarna på Windows om du försöker gå med i ett videosamtal utan att Signal har behörighet att använda kameran."
   }
 }

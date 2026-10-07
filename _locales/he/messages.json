@@ -6257,7 +6257,7 @@
     "messageformat": "PIN של Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "קודי PIN שומרים על המידע שמאוחסן ב–Signal מוצפן כך שרק לך תהיה גישה אליו. לא ניתן לשחזר את ה–PIN שלך. הפרופיל, ההגדרות ואנשי הקשר שלך ישוחזרו בעת התקנה מחדש של Signal. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "הגדרות PIN מתקדמות"
@@ -6272,7 +6272,7 @@
     "messageformat": "אם תשבית את ה־PIN, תאבד את כל הנתונים כאשר תירשם מחדש אל Signal אלא אם תגבה ותשחזר באופן ידני. אינך יכול להפעיל נעילת הרשמה בזמן שה־PIN מושבת."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "השבתת PIN נכשלה בגלל נעילת הרשמה"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "יש להשבית את נעילת ההרשמה לפני השבתת קוד ה–PIN שלך."
@@ -6281,7 +6281,7 @@
     "messageformat": "אישור"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "השבתת PIN נכשלה בגלל גיבויים"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "יש להשבית את הגיבויים לפני השבתת קוד ה–PIN שלך."
@@ -7124,7 +7124,7 @@
     "messageformat": "יש לנסות שוב בעוד {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "בחר קוד מדינה"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "מספר טלפון"
@@ -7649,10 +7649,10 @@
     "messageformat": "להפעיל את ״Signal״"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "לתת ל–Signal גישה למיקרופון שלך"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "לתת ל–Signal גישה למצלמה שלך"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "מעבר להגדרות"
@@ -8204,7 +8204,7 @@
     "messageformat": "שמות משתמש תמיד מוצמדים לסט של מספרים."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ספרות שם משתמש"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "למידע נוסף"
@@ -8340,13 +8340,13 @@
     "messageformat": "שינוי ה–PIN שלך ב–Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "יצירת קוד PIN של Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "אתה יכול לשנות את ה־PIN שלך כל עוד המכשיר רשום. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "קודי PIN שומרים על המידע שמאוחסן ב–Signal מוצפן כך שרק לך תהיה גישה אליו. הפרופיל, ההגדרות ואנשי הקשר שלך ישוחזרו בעת התקנה מחדש. לא יהיה צורך ב–PIN שלך כדי לפתוח את האפליקציה. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "אשר את ה־PIN של Signal שלך"
@@ -9121,9 +9121,9 @@
     "messageformat": "הגדרות התראות משופרות עם מגוון רחב יותר של אפשרויות לאופן ומשך הצגת ההתראות."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "שיפורי ביצועים בשיחות וידאו."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "הוספנו גם קיצור דרך נוח לפתיחת הגדרות המערכת שלך ב–Windows במקרה שניסית להצטרף לשיחת וידאו ול–Signal אין הרשאת גישה למצלמה."
   }
 }

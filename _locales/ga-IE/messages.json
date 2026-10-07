@@ -6257,10 +6257,10 @@
     "messageformat": "UAP Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Coinnítear faisnéis a stóráiltear le Signal criptithe le UAPanna ionas nach mbeidh ach tusa in ann rochtain a dhéanamh uirthi. Ní féidir do UAP a athshlánú. Aischuirfear do phróifíl, do shocruithe agus do theagmhálaithe tar éis duit Signal a athshuiteáil. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
-    "messageformat": "Ardroghanna UAP"
+    "messageformat": "Ardsocruithe UAP"
   },
   "icu:Preferences--disable-signal-pin": {
     "messageformat": "Díchumasaigh an UAP"
@@ -6272,16 +6272,16 @@
     "messageformat": "Má dhíchumasaíonn tú an UAP, caillfidh tú na sonraí go léir nuair a athchláraíonn tú Signal mura ndéanann tú cúltacú agus aischur de láimh. Ní féidir leat Glas Cláraithe a chasadh air agus an UAP díchumasaithe."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Theip ar Dhíchumasú UAP de dheasca glas cláraithe"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "Ní mór duit an glas cláraithe a dhíchumasú roimh do UAP a dhíchumasú."
+    "messageformat": "Ní mór duit Glas Cláraithe a dhíchumasú roimh do UAP a dhíchumasú."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
-    "messageformat": "OK"
+    "messageformat": "Tá go maith"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Theip ar Dhíchumasú UAP de dheasca cúltacaí"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Ní mór duit Cúltacaí a dhíchumasú roimh do UAP a dhíchumasú."
@@ -6290,7 +6290,7 @@
     "messageformat": "Cumasaigh UAP"
   },
   "icu:Preferences--enable-signal-pin--button": {
-    "messageformat": "Cumasaigh é"
+    "messageformat": "Cumasaigh"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Meabhrúcháin UAP"
@@ -6299,10 +6299,10 @@
     "messageformat": "Ní iarrfar ort chomh minic le himeacht ama"
   },
   "icu:Preferences--registration-lock__label": {
-    "messageformat": "Glas Clárúcháin"
+    "messageformat": "Glas Cláraithe"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Éiligh d'UAP Signal le d'uimhir ghutháin a chlárú le Signal arís."
+    "messageformat": "Éiligh do UAP Signal le d'uimhir ghutháin a chlárú le Signal arís."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Ábhar i bhFógraí"
@@ -7124,7 +7124,7 @@
     "messageformat": "Triail arís i gceann {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Roghnaigh cód tíre"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Uimhir ghutháin"
@@ -7649,10 +7649,10 @@
     "messageformat": "Cas air \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Cumasaigh rochtain ag Signal ar an micreafón"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Cumasaigh rochtain ag Signal ar an gceamara"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Socruithe"
@@ -8204,7 +8204,7 @@
     "messageformat": "Déantar ainmneacha úsáideora a phéireáil le tacar uimhreacha i gcónaí."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Digití an ainm úsáideora"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Tuilleadh Faisnéise"
@@ -8340,13 +8340,13 @@
     "messageformat": "Athraigh do UAP Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Cruthaigh do UAP Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Is féidir leat do UAP a athrú chomh fada is atá an gléas seo cláraithe. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "Coinnítear faisnéis a stóráiltear le Signal criptithe le UAP ionas nach mbeidh ach tusa in ann í a fheiceáil. Aischuirfear do phróifíl, socruithe agus teagmhálaithe tar éis athshuiteáil duit. Ní bheidh d'UAP de dhíth ort chun an aip a oscailt. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
+    "messageformat": "Coinnítear faisnéis a stóráiltear le Signal criptithe le UAPanna ionas nach mbeidh ach tusa in ann rochtain a dhéanamh uirthi. Aischuirfear do phróifíl, do shocruithe agus do theagmhálaithe tar éis athshuiteáil duit. Ní bheidh do UAP de dhíth ort chun an aip a oscailt. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "UAP Signal a Dheimhniú"
@@ -9121,9 +9121,9 @@
     "messageformat": "Socruithe fógraí feabhsaithe le roghanna méadaithe ar an dóigh agus an uair a thaispeántar fógraí."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Feabhsuithe feidhmíochta i gcás físghlaonna."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Chuireamar aicearra áisiúil leis freisin chun socruithe do chórais a oscailt ar Windows má dhéanann tú iarracht dul isteach i bhfísghlao gan cead rochtana ar an gceamara a bheith ag Signal."
   }
 }

@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN نۇمۇرلار Signal دا ساقلانغان ئۇچۇرلارنى مەخپىيلەشتۈرۈپ، پەقەت سىزلا ئۇلارغا ئېرىشەلەيدىغان قىلىدۇ. PIN نومۇرىڭىزنى ئەسلىگە كەلتۈرگىلى بولمايدۇ. Signal نى قايتا قاچىلىغاندا، ئارخىپىڭىز، تەڭشەكلىرىڭىز ۋە ئالاقىداشلىرىڭىز ئەسلىگە كېلىدۇ. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "ئالىي PIN تەڭشەكلىرى"
@@ -6272,7 +6272,7 @@
     "messageformat": "ئەگەر PIN نى چەكلىسىڭىز، Signal غا قايتا تىزىملاتقاندا ئۆزىڭىز زاپاسلاپ ۋە ئەسلىگە كەلتۈرمىگۈچە ھەممە سانلىق مەلۇماتلىرىڭىز يوقىلىدۇ، PIN چەكلەنسە تىزىملىتىش قۇلۇپىنى ئاچالمايسىز."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "تىزىملىتىش قۇلۇپىنىڭ سەۋەبىدىن PIN نومۇرىنى تاقاش مەغلۇب بولدى"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "PIN نى چەكلەشتىن بۇرۇن چوقۇم تىزىملاش قۇلۇپىنى چەكلىشىڭىز كېرەك."
@@ -6281,7 +6281,7 @@
     "messageformat": "بولىدۇ"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "زاپاسلارنىڭ سەۋەبىدىن PIN نومۇرىنى تاقاش مەغلۇب بولدى"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "PIN نى چەكلەشتىن بۇرۇن چوقۇم زاپاسلاشنى چەكلىشىڭىز كېرەك."
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} تىن كېيىن قايتا سىناڭ"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "دۆلەت كودى تاللاڭ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "تېلېفون نومۇرىڭىز"
@@ -7649,10 +7649,10 @@
     "messageformat": "«Signal» نى ئېچىڭ"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal ئۈچۈن مىكروفوننى ئېچىۋېتىڭ"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal ئۈچۈن كامېرانى ئېچىۋېتىڭ"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "تەڭشەكلەرگە يۆتكەل"
@@ -8204,7 +8204,7 @@
     "messageformat": "ئىشلەتكۈچى نامى داۋاملىق بىر يۈرۈش سان بىلەن ماس كېلىدۇ."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ئىشلەتكۈچى نامى رەقەملىرى"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "تەپسىلات"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PIN نومۇرىڭىزنى ئۆزگەرتىڭ"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PIN نومۇرىڭىزنى قۇرۇپ چىقىڭ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "بۇ ئۈسكۈنە تىزىملىتىلغانلا بولسا PIN نى ئۆزگەرتەلەيسىز. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN نۇمۇرلار Signal دا ساقلانغان ئۇچۇرلارنى مەخپىيلەشتۈرۈپ، پەقەت سىزلا ئۇلارغا ئېرىشەلەيدىغان قىلىدۇ. قايتا قاچىلىغاندا، ئارخىپىڭىز، تەڭشەكلىرىڭىز ۋە ئالاقىداشلىرىڭىز ئەسلىگە كېلىدۇ. ئەپنى ئېچىش ئۈچۈن PIN نومۇرىڭىزنى لازىم قىلمايسىز. <learnMoreLink>تەپسىلاتى</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN نىڭىزنى جەزىملەڭ"
@@ -9121,9 +9121,9 @@
     "messageformat": "ئۇقتۇرۇش تەڭشەكلىرى ياخشىلاندى، ئۇقتۇرۇشلارنىڭ قانداق ۋە قاچان كۆرۈنىدىغانلىقىغا دائىر تېخىمۇ كۆپ تاللاشلار قوشۇلدى. 8.27 نەشرىنىڭ يېڭىلىقلىرى. ئەمدى ئەپ سىنبەلگىسى ئۈستىدىكى ئىزنەكتە نېمىنىڭ كۆرسىتىلىدىغانلىقىنى تاللىيالايسىز، ئۈنسىزلاندۇرۇلغان پاراڭلارنىڭ ئۇقتۇرۇش تەڭشەكلىرىنى تەڭشىيەلەيسىز ۋە باشقا تېخىمۇ كۆپ يېڭىلىقلاردىن پايدىلىنالايسىز! بىز يەنە، ئەگەر بەك كۆپ ئۆزگەرتىش قىلىپ، ئاخىرىدا تەڭشەكلەرنى قانداق قىلىپ ئەسلىگە كەلتۈرۈشنى بىلمەي قالغاندا، ئۈنسىزلاندۇرۇلغان ئۇقتۇرۇش تەڭشەكلىرىنى ئەسلىگە كەلتۈرۈش ئۈچۈن ئىشلىتىدىغان قولايلىق بىر كۇنۇپكا قوشتۇق."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ۋىدېيولۇق چاقىرىقلارنىڭ ئىقتىدارى ياخشىلاندى. 8.30 نەشرىنىڭ يېڭىلىقلىرى"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Windows دا ۋىدېيولۇق چاقىرىققا قاتنىشىشقا ئۇرۇنغاندا، Signal نىڭ كامېراغا كىرىش رۇخسىتى بولمىسا، سىستېما تەڭشەكلىرىنى ئېچىش ئۈچۈن قولايلىق تېزلەتمە يولنىمۇ قوشتۇق. 8.30 نەشرىنىڭ يېڭىلىقلىرى ھازىر باشقىلارنىڭ سىزنى كۆرەلىشى ئۈچۈن نېمە قىلىشىڭىز كېرەكلىكىنى ئاسانلا بىلەلەيسىز."
   }
 }

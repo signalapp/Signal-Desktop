@@ -6257,7 +6257,7 @@
     "messageformat": "Signal पिन"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "पिन की मदद से Signal पर आपकी जानकारी एनक्रिप्टेड रूप में स्टोर की जाती है, ताकि सिर्फ़ आप ही उसे देख पाएं। पिन को रिकवर नहीं किया जा सकता। Signal को रीइंस्टॉल करने पर आपकी प्रोफ़ाइल, सेटिंग, और कॉन्टैक्ट भी रीस्टोर हो जाएंगे। <learnMoreLink>और जानें</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "ऐडवांस पिन सेटिंग"
@@ -6272,7 +6272,7 @@
     "messageformat": "अगर आपने पिन हटा दिया है, तो Signal पर दोबारा रजिस्टर करने पर आपका सारा डेटा मिट जाएगा। हालांकि, अगर आपने मैन्युअल तरीके से डेटा का बैकअप लिया है, तो आपके पास रीस्टोर करने का विकल्प रहेगा। पिन बंद रहने पर रजिस्ट्रेशन लॉक चालू नहीं किया जा सकता।"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "रजिस्ट्रेशन लॉक चालू होने की वजह से पिन बंद नहीं हो पाया"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "पिन हटाने से पहले रजिस्ट्रेशन लॉक हटाएं।"
@@ -6281,7 +6281,7 @@
     "messageformat": "ठीक है"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "बैकअप चालू की वजह से पिन बंद नहीं हो पाया"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "पिन हटाने से पहले बैकअप बंद करें।"
@@ -7124,7 +7124,7 @@
     "messageformat": "कृपया {duration} बाद फिर से कोशिश करें"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "देश का कोड चुनें"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "फ़ोन नंबर"
@@ -7649,10 +7649,10 @@
     "messageformat": "'Signal' चालू करें"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal को माइक्रोफ़ोन का ऐक्सेस दें"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal को कैमरे का ऐक्सेस दें"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "सेटिंग पर जाएं"
@@ -8204,7 +8204,7 @@
     "messageformat": "यूज़रनेम के साथ हमेशा नंबर का एक सेट होता है।"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "यूज़रनेम नंबर"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "और जानें"
@@ -8340,13 +8340,13 @@
     "messageformat": "अपना Signal पिन बदलें"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "अपना Signal पिन बनाएं"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "डिवाइस रजिस्टर रहने के दौरान पिन कभी भी बदला जा सकता है। <learnMoreLink>और जानें</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "पिन की मदद से Signal पर आपकी जानकारी एनक्रिप्टेड रूप में स्टोर की जाती है, ताकि सिर्फ़ आप ही उसे देख पाएं। रीइंस्टॉल करने पर आपकी प्रोफ़ाइल, सेटिंग, और कॉन्टैक्ट भी रीस्टोर हो जाएंगे। आपको ऐप खोलने के लिए पिन की ज़रूरत नहीं पड़ेगी। <learnMoreLink>और जानें</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal पिन की पुष्टि करें"
@@ -9121,9 +9121,9 @@
     "messageformat": "इस अपडेट के ज़रिए आपको अपने Signal नोटिफ़िकेशन पर ज़्यादा कंट्रोल देने के लिए नए और सटीक विकल्प जोड़े गए हैं। अब नोटिफ़िकेशन पर आपका और भी ज़्यादा कंट्रोल है! ऐप बैज पर क्या दिखे, म्यूट की गई चैट के नोटिफ़िकेशन कैसे मिलें, यह सब अपनी पसंद से तय करें। हमने नोटिफ़िकेशन सेटिंग को डिफ़ॉल्ट पर रिस्टोर करने के लिए एक आसान बटन भी जोड़ दिया है, ताकि अगर कभी ऐसा हो कि आप इतने बदलाव कर बैठें कि आपको समझ ही न आए कि आगे क्या करना है, तो आप तुरंत सब कुछ पहले जैसा कर सकें।"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "परफ़ॉर्मेंस में हुए कुछ सुधारों के बाद, वीडियो कॉल के दौरान भले ही आपके चेहरे पर मुस्कान न हो, लेकिन आपका CPU मन ही मन मुस्कुरा रहा होगा, क्योंकि उस पर अब थोड़ा कम ज़ोर पड़ेगा।"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "हमने Windows पर आपकी सिस्टम सेटिंग खोलने का एक आसान शॉर्टकट भी जोड़ा है, ताकि अगर आप वीडियो कॉल में शामिल होने की कोशिश करें और Signal के पास कैमरे का ऐक्सेस न हो, तो आप आसानी से सेटिंग बदल सकें। अब यह जानना आसान हो गया है कि आपको क्या करना होगा ताकि लोग आपको देख सकें।"
   }
 }

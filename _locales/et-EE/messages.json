@@ -6257,7 +6257,7 @@
     "messageformat": "Signali PIN-kood"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koodid hoiavad Signalis salvestatud teabe krüptituna ning ainult sinul on sellele juurdepääs. Sinu PIN-koodi ei saa taastada. Kui paigaldad Signali uuesti, siis sinu profiil, sätted ja kontaktid taastatakse. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Täpsemad PIN-koodi sätted"
@@ -6272,19 +6272,19 @@
     "messageformat": "Kui keelad PIN-koodi, siis kaotad kõik andmed, kui eemaldad Signal rakenduse ja pole seda käsitsi varundanud ja taastanud. Registreerimislukku pole võimalik sisse lülitada, kui PIN-kood on keelatud."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN-koodi väljalülitamine ebaõnnestus registreerimisluku tõttu"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Enne oma PIN-koodi väljalülitamist pead välja lülitama registreerimisluku."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Sobib"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN-koodi väljalülitamine ebaõnnestus varukoopiate tõttu"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Enne oma PIN-koodi väljalülitamist pead varukoopiad välja lülitama."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Luba PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Registreerimislukk"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Nõua oma telefoninumbri Signalis uuesti registreerimiseks Signali PIN-koodi."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Teavituse sisu"
@@ -7124,7 +7124,7 @@
     "messageformat": "Palun proovi uuesti {duration} pärast"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Vali riigi suunakood"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefoninumber"
@@ -7649,10 +7649,10 @@
     "messageformat": "Lülita Signal sisse"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Anna Signalile ligipääs mikrofonile"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Anna Signalile juurdepääs kaamerale"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Mine sätetesse"
@@ -8204,7 +8204,7 @@
     "messageformat": "Kasutajanimedel on alati juures numbrikombinatsioon."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Kasutajanime tähemärgid"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Uuri lähemalt"
@@ -8340,13 +8340,13 @@
     "messageformat": "Muuda oma Signali PIN-koodi"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Loo oma Signali PIN-kood"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN-koodi saab muuta senikaua kuni see seade on registreeritud. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koodid hoiavad Signalis salvestatud teabe krüptituna ning ainult sinul on sellele juurdepääs. Kui paigaldad Signali uuesti, siis sinu profiil, sätted ja kontaktid taastatakse. Sul ei ole äpi uuesti avamiseks PIN-koodi vaja. <learnMoreLink>Rohkem teavet</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Kinnita Signali PIN-kood"
@@ -9121,9 +9121,9 @@
     "messageformat": "Paremad teavituste sätted laiendatud valikutega selle kohta, kuidas ja millal teavitusi kuvatakse."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Parandasime videokõnede jõudlust."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Samuti lisasime mugava otsetee süsteemi sätete avamiseks Windowsis, kui proovid liituda videokõnega ja Signalil ei ole kaamerale juurdepääsu."
   }
 }

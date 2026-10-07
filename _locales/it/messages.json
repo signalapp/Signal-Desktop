@@ -6257,7 +6257,7 @@
     "messageformat": "PIN di Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "I PIN proteggono le informazioni su Signal con la crittografia, in modo che solo tu possa accedervi. Il tuo PIN non può essere recuperato. Il tuo profilo, le impostazioni e i contatti verranno ripristinati se reinstallerai l'app. <learnMoreLink>Scopri di più</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Impostazioni PIN avanzate"
@@ -6269,10 +6269,10 @@
     "messageformat": "Disabilita"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Se disabiliti il PIN, perderai tutti i dati quando ti registri nuovamente con Signal a meno che tu non esegua manualmente il backup e il ripristino. Non è possibile attivare il Blocco registrazione mentre il PIN è disabilitato."
+    "messageformat": "Se disabiliti il PIN, perderai tutti i dati quando ti registri nuovamente con Signal a meno che tu non esegua manualmente il backup e il ripristino. Non è possibile attivare il blocco registrazione mentre il PIN è disabilitato."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Disattivazione del PIN non riuscita per via del blocco registrazione attivo"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Devi disattivare il blocco registrazione prima di disattivare il tuo PIN."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Disattivazione del PIN non riuscita per via dei backup attivi"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Devi disattivare i backup prima di disattivare il tuo PIN."
@@ -7124,7 +7124,7 @@
     "messageformat": "Riprova tra {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Seleziona il codice del Paese"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Numero di telefono"
@@ -7649,10 +7649,10 @@
     "messageformat": "Attiva il permesso per \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Autorizza l'accesso al microfono per Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Autorizza l'accesso alla fotocamera per Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Vai alle Impostazioni"
@@ -8204,7 +8204,7 @@
     "messageformat": "I nomi utente vengono sempre associati a una serie di numeri."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Cifre del nome utente"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Scopri di più"
@@ -8340,13 +8340,13 @@
     "messageformat": "Cambia il tuo Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Crea il tuo Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Puoi cambiare il tuo PIN finché questo dispositivo è registrato. <learnMoreLink>Scopri di più</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "I PIN proteggono le informazioni su Signal con la crittografia, in modo che solo tu possa accedervi. Il tuo profilo, le impostazioni e i contatti verranno ripristinati se reinstallerai l'app. Non ti servirà il PIN per aprire l'app. <learnMoreLink>Scopri di più</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Conferma il tuo PIN di Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Questo aggiornamento introduce delle impostazioni ancora più avanzate per fornirti maggiore controllo sulle tue notifiche di Signal. Da ora puoi decidere che cosa appare sull'icona dell'app, modificare le preferenze per le notifiche sulle chat silenziate e molto altro! Abbiamo anche aggiunto un comodo pulsante per ripristinare le impostazioni predefinite, nel caso in cui le tue modifiche prendano una piega un po' troppo creativa."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Grazie a una serie di aggiornamenti legati alla performance, la tua CPU sarà un po' più felice di gestire le videochiamate (anche se magari tu sarai meno felice di partecipare)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Abbiamo anche aggiunto una comoda shortcut per aprire le Impostazioni del tuo sistema operativo su Windows, nel caso in cui provassi a unirti a una videochiamata e Signal non avesse l'autorizzazione ad accedere alla fotocamera. Da ora è più semplice vedere e capire cosa fare in questi casi, così entrerai nelle tue videochiamate senza fare tardi."
   }
 }

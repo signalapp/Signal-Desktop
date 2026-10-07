@@ -6248,7 +6248,7 @@
     "messageformat": "更改"
   },
   "icu:Preferences--create-signal-pin": {
-    "messageformat": "创建 PIN 码"
+    "messageformat": "创建密码"
   },
   "icu:Preferences--create-signal-pin-button": {
     "messageformat": "创建"
@@ -6257,10 +6257,10 @@
     "messageformat": "Signal PIN 码"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "密码可以为储存在 Signal 上的信息提供加密保护，确保只有您可以访问这些信息。您的密码无法找回。当您重新安装 Signal 时，密码可以恢复您的个人资料、设置和联系人。<learnMoreLink>了解详情</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
-    "messageformat": "高级 PIN 码设置"
+    "messageformat": "高级密码设置"
   },
   "icu:Preferences--disable-signal-pin": {
     "messageformat": "禁用密码"
@@ -6269,10 +6269,10 @@
     "messageformat": "禁用"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "如果禁用 PIN，重新注册 Signal 时全部数据将丢失，除非使用手动备份并还原。PIN 禁用时，无法启用注册锁定。"
+    "messageformat": "如果禁用密码，重新注册 Signal 时全部数据将丢失，除非使用手动备份并还原。密码禁用时，无法启用注册锁定。"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "启用注册锁定时无法禁用密码"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "您必须禁用注册锁定才能禁用密码。"
@@ -6281,13 +6281,13 @@
     "messageformat": "好"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "启用备份时无法禁用密码"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "您必须禁用备份才能禁用密码。"
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "启用 PIN"
+    "messageformat": "启用密码"
   },
   "icu:Preferences--enable-signal-pin--button": {
     "messageformat": "启用"
@@ -7124,7 +7124,7 @@
     "messageformat": "请在 {duration} 后再试"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "选择国家编码"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "手机号码"
@@ -7649,10 +7649,10 @@
     "messageformat": "将“Signal”设为开启"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "为 Signal 启用麦克风访问权限"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "为 Signal 启用相机访问权限"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "前往设置"
@@ -8204,7 +8204,7 @@
     "messageformat": "用户名始终搭配一组数字。"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "用户名数字"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "了解更多"
@@ -8340,13 +8340,13 @@
     "messageformat": "更改您的 Signal PIN 码"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "创建您的 Signal 密码"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "你可以在你的已经登录过的设备上更改你的 PIN 码 <learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "密码可以为储存在 Signal 上的信息提供加密保护，确保只有您可以访问这些信息。当您重新安装 Signal 时，密码可以恢复您的个人资料、设置和联系人。打开 Signal 无需使用密码。<learnMoreLink>了解详情</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "请确认您的 Signal PIN 码"
@@ -9121,9 +9121,9 @@
     "messageformat": "改进了通知设置，增加了更多通知显示方式和时间的选项。"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "视频通话性能得到优化。"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "如果您尝试加入视频通话但 Signal 无相机访问权限，我们还添加了一个方便的快捷方式，用于在 Windows 上打开系统设置。"
   }
 }

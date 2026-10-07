@@ -6248,46 +6248,46 @@
     "messageformat": "మార్చండి"
   },
   "icu:Preferences--create-signal-pin": {
-    "messageformat": "పిన్ సృష్టించండి"
+    "messageformat": "PIN సృష్టించండి"
   },
   "icu:Preferences--create-signal-pin-button": {
-    "messageformat": "సృష్టించు"
+    "messageformat": "సృష్టించండి"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal పిన్"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN లు సమాచారాన్ని సిగ్నల్‌లో గుప్తీకరించి నిల్వ చేస్తాయి, తద్వారా మీరు మాత్రమే దాన్ని యాక్సెస్ చేయగలరు. మీ PIN ను తిరిగి పొందడం సాధ్యం కాదు. మీరు Signal ను తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు మీ ప్రొఫైల్, సెట్టింగ్లు, పరిచయాలు పునరుద్ధరించబడతాయి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
-    "messageformat": "అధునాతన పిన్ సెట్టింగ్‌లు"
+    "messageformat": "అధునాతన PIN సెట్టింగ్‌లు"
   },
   "icu:Preferences--disable-signal-pin": {
-    "messageformat": "పిన్‌ను ఆపివేయి"
+    "messageformat": "PIN ను నిలిపివేయండి"
   },
   "icu:Preferences--disable-signal-pin--button": {
-    "messageformat": "అచేతనించు"
+    "messageformat": "నిలిపివేయండి"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "మీరు పిన్‌ను నిలిపివేస్తే, మీరు మాన్యువల్‌గా ప్రత్యామ్నాయము చేసి పునరుద్ధరించకపోతే Signal‌ను తిరిగి నమోదు చేసినప్పుడు మీరు మొత్తం డేటాను కోల్పోతారు. పిన్ నిలిపివేయబడినప్పుడు మీరు రిజిస్ట్రేషన్ లాక్‌ని ఆన్ చేయలేరు."
+    "messageformat": "ఒకవేళ మీరు పిన్‌ను నిలిపివేస్తే, మీరు మాన్యువల్‌గా బ్యాకప్ చేసి పునరుద్ధరించకపోతే Signal‌ను తిరిగి నమోదు చేసినప్పుడు మీరు మొత్తం డేటాను కోల్పోతారు. PIN నిలిపివేయబడినప్పుడు మీరు నమోదు లాక్‌ని ఆన్ చేయలేరు."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "నమోదు లాక్ కారణంగా PIN ను నిలిపివేయడం విఫలమైంది"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "మీ PIN ను నిలిపివేయడానికి ముందు మీరు నమోదు లాక్ ను తప్పక నిలిపివేయాలి."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "అలాగే"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "బ్యాకప్ల కారణంగా PIN ను నిలిపివేయడం విఫలమైంది"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "మీ PIN ను నిలిపివేయడానికి ముందే మీరు బ్యాకప్లను తప్పక నిలిపివేయాలి."
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "పిన్ ప్రారంభించండి"
+    "messageformat": "PIN ను ప్రారంభించండి"
   },
   "icu:Preferences--enable-signal-pin--button": {
     "messageformat": "ప్రారంభించండి"
@@ -6302,7 +6302,7 @@
     "messageformat": "నమోదు లాక్"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Signal లో మళ్ళీ మీ ఫోన్ నంబర్ ను నమోదు చేయడానికి మీ Signal PIN అవసరం."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "నోటిఫికేషన్ కంటెంట్"
@@ -7124,7 +7124,7 @@
     "messageformat": "దయచేసి {duration} లో మళ్ళీ ప్రయత్నించండి"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "దేశ కోడ్‌ను ఎంచుకోండి"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ఫోన్ నంబర్"
@@ -7649,10 +7649,10 @@
     "messageformat": "“Signal” ను ఆన్ చేయండి"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal కోసం మైక్రోఫోన్ యాక్సెస్‌ను ప్రారంభించండి"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal కోసం కెమెరా యాక్సెస్‌ను ప్రారంభించండి"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "సెట్టింగ్‌లకు వెళ్లండి"
@@ -8204,7 +8204,7 @@
     "messageformat": "యూజర్‌నేమ్‌లు ఎల్లప్పుడూ అంకెల జతతో జత చేయబడతాయి."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "యూజర్‌నేమ్ అంకెలు"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "మరింత తెలుసుకోండి"
@@ -8340,13 +8340,13 @@
     "messageformat": "మీ Signal PIN ను మార్చండి"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "మీ Signal PIN ను సృష్టించండి"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ఈ పరికరం నమోదు చేయబడినంత వరకు మీరు మీ పిన్‌ను మార్చవచ్చు. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN లు సమాచారాన్ని సిగ్నల్‌లో గుప్తీకరించి నిల్వ చేస్తాయి, తద్వారా మీరు మాత్రమే దాన్ని యాక్సెస్ చేయగలరు. మీరు తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు మీ ప్రొఫైల్, సెట్టింగ్‌లు మరియు పరిచయాలు పునరుద్ధరించబడతాయి. యాప్‌ను తెరవడానికి మీకు మీ PIN అవసరం లేదు. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "మీ Signal పిన్ను నిర్ధారించండి"
@@ -9121,9 +9121,9 @@
     "messageformat": "Signal నోటిఫికేషన్లపై మీకు మరింత నియంత్రణ నివ్వడానికి ఈ అప్‌డేట్‌ మరింత సూక్ష్మమైన సెట్టింగ్లను అందిస్తుంది. ఇప్పుడు యాప్ బ్యాడ్జ్‌పై ఏవి కనిపించాలో ఎంచుకోవచ్చు, మ్యూట్ చేసిన చాట్‌లకు సంబంధించిన నోటిఫికేషన్ ప్రాధాన్యతలను సర్దుబాటు చేయవచ్చు, ఇంకా మరెన్నో చేయవచ్చు! మీరు ఎప్పుడైనా చాలా మార్పులు చేసి, ఇక వాటిని ఎలా సరిచేయాలో కూడా అర్థం కాని పరిస్థితి ఎదురైతే, డిఫాల్ట్ నోటిఫికేషన్ సెట్టింగ్‌లను పునరుద్ధరించడానికి సులభమైన బటన్‌ను కూడా మేము జోడించాము."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "వీడియో కాల్స్ కోసం పనితీరు మెరుగుదలలు."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "ఒకవేళ మీరు వీడియో కాల్‌లో చేరడానికి ప్రయత్నించినప్పుడు Signal కు కెమెరాను యాక్సెస్ చేయడానికి అనుమతి లేకపోతే Windows లో మీ సిస్టమ్ సెట్టింగ్లను తెరవడానికి సౌకర్యవంతమైన షార్ట్‌కట్‌ను కూడా మేము జోడించాము. ఇప్పుడు ఇతరులు మిమ్మల్ని చూడగలిగేలా మీరు ఏం చెయ్యాలో తెలుసుకోవడం మరింత సులభం."
   }
 }

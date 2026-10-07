@@ -6257,7 +6257,7 @@
     "messageformat": "Signal-PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN’s hou inligting wat in Signal gestoor word, geënkripteer sodat slegs jy toegang daartoe het. Jou PIN kan nie herwin word nie. Jou profiel, instellings en kontakte sal herwin word wanneer jy Signal herinstalleer. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Gevorderde PIN-instellings"
@@ -6272,19 +6272,19 @@
     "messageformat": "Indien jy die PIN deaktiveer sal jy alle data verloor wanneer jy Signal herregistreer, tensy jy met die hand 'n rugsteun maak en dit herwin. Jy kan nie Registrasiesluiting aanskakel terwyl die PIN gedeaktiveer is nie."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Deaktivering van jou PIN het misluk omdat registrasieblokkering aan is"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Jy moet Registrasieblokkering deaktiveer voordat jy jou PIN deaktiveer."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Goed"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Deaktivering van jou PIN het misluk omdat rugsteun aan is"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Jy moet rugsteun deaktiveer voordat jy jou PIN deaktiveer."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Aktiveer PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Registrasieslot"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Vereis jou Signal-PIN om jou telefoonnommer weer by Signal te registreer."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Kennisgewinginhoud"
@@ -7124,7 +7124,7 @@
     "messageformat": "Probeer asseblief weer oor {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Kies landkode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefoonnommer"
@@ -7649,10 +7649,10 @@
     "messageformat": "Skakel \"Signal\" aan"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Aktiveer mikrofoontoegang vir Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Aktiveer kameratoegang vir Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Gaan na instellings"
@@ -8204,7 +8204,7 @@
     "messageformat": "Gebruikersname gaan altyd met 'n stel syfers gepaard."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Gebruikersnaamsyfers"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Vind meer uit"
@@ -8340,13 +8340,13 @@
     "messageformat": "Verander jou Signal-PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Skep jou Signal-PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Jy kan jou PIN verander solank hierdie toestel geregistreer is. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN’s hou inligting wat in Signal gestoor word, geënkripteer sodat slegs jy toegang daartoe het. Jou profiel, instellings en kontakte sal herwin word wanneer jy Signal herinstalleer. Jy sal nie jou PIN nodig hê om die toepassing oop te maak nie. <learnMoreLink>Vind meer uit</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Bevestig jou Signal-PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Verbeterde kennisgewinginstellings met uitgebreide opsies vir hoe en waar kennisgewings verskyn."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Prestasieverbeterings vir video-oproepe."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Ons het ook 'n gerieflike kortpad bygevoeg om jou stelselinstellings in Windows oop te maak as jy by 'n video-oproep probeer aansluit en Signal nie toestemming het om toegang tot die kamera te verkry nie."
   }
 }

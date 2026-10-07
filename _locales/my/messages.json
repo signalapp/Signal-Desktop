@@ -6251,13 +6251,13 @@
     "messageformat": "PIN တစ်ခု ဖန်တီးမည်"
   },
   "icu:Preferences--create-signal-pin-button": {
-    "messageformat": "ဖန်တီးပ"
+    "messageformat": "ဖန်တီးရန်"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN များသည် Signal တွင် သိမ်းဆည်းထားသော သင့်အချက်အလက်များကို ကုဒ်ပြောင်းဝှက်ပေးပြီး သင်တစ်ဦးတည်းသာ ဝင်ရောက်အသုံးပြုနိုင်စေပါသည်။ သင့် PIN ကို ပြန်လည်ရယူ၍ မရနိုင်ပါ။ Signal ကို ပြန်လည်ထည့်သွင်းသောအခါ သင့်ပရိုဖိုင်၊ ဆက်တင်နှင့် အဆက်အသွယ်များကို ပြန်လည်ရရှိပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "အဆင့်မြင့် PIN ဆက်တင်များ"
@@ -6266,31 +6266,31 @@
     "messageformat": "PIN ပိတ်ပါ"
   },
   "icu:Preferences--disable-signal-pin--button": {
-    "messageformat": "ပိတ်ထားပါ"
+    "messageformat": "ပိတ်ထားရန်"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "ပင်နံပါတ်ကို ပိတ်ထားလျှင် သင်မှ​ ကိုယ်တိုင် အရန်ပြုပြင်ထားခြင်းမရှိခဲ့လျှင် Signal ပေါ်ပြန်စာရင်းသွင်းသောအခါ ဒေတာအားလုံးကို ဆုံးရှူံးပါလိမ့်မည်။ ပင်နံပါတ်ကို ပိတ်ထားစဉ် မှတ်ပုံတင်ခြင်းသော့ကို သင်ဖွင့်၍ မရပါ။"
+    "messageformat": "PIN ကို ပိတ်ထားလျှင် ကိုယ်တိုင် ဘက်ခ်အပ်လုပ်ပြီး ပြန်လည်ရယူခြင်းမပြုပါက Signal ကို ပြန်လည်၍ မှတ်ပုံတင်သောအခါ ဒေတာအားလုံးကို ဆုံးရှုံးပါလိမ့်မည်။ PIN ကို ပိတ်ထားစဉ် မှတ်ပုံတင်ခြင်း လော့ခ်ကို ဖွင့်၍မရပါ။"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "မှတ်ပုံတင်ခြင်း လော့ခ်ကြောင့် PIN ကို ပိတ်၍ မရပါ"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "သင့် PIN ကို ပိတ်ခြင်းမပြုမီ မှတ်ပုံတင်ခြင်း လော့ခ်ကို ပိတ်ရပါမည်။"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "အိုကေ"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ဘက်ခ်အပ်ကြောင့် PIN ကို ပိတ်၍ မရပါ"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "သင့် PIN ကို ပိတ်ခြင်းမပြုမီ ဘက်ခ်အပ်များကို ပိတ်ရပါမည်။"
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "ပင်နံပါတ်ဖွင့်ပါ"
+    "messageformat": "PIN ကို ဖွင့်ပါ"
   },
   "icu:Preferences--enable-signal-pin--button": {
-    "messageformat": "ဖွင့်မည်"
+    "messageformat": "ဖွင့်ရန်"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN သတိပေးချက်များ"
@@ -6302,7 +6302,7 @@
     "messageformat": "မှတ်ပုံတင်ခြင်း လော့ခ်"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "သင့်ဖုန်းနံပါတ်ကို Signal တွင် ပြန်လည်မှတ်ပုံတင်ရန် သင့် Signal PIN ကို ထည့်သွင်းရန် လိုအပ်ပါမည်။"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "အသိပေးချက် အကြောင်းအရာ"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} အကြာတွင် ထပ်မံကြိုးစားပါ"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "နိုင်ငံကုဒ်ကို ရွေးချယ်ပါ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ဖုန်းနံပါတ်"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\" ကိုဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal အတွက် မိုက်ခရိုဖုန်း အသုံးပြုခွင့်ကို ဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal အတွက် ကင်မရာ အသုံးပြုခွင့်ကို ဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ဆက်တင်သို့ သွားရန်"
@@ -8204,7 +8204,7 @@
     "messageformat": "သုံးစွဲသူအမည်များကို ကိန်းဂဏန်းတွဲတစ်ခုနှင့် အမြဲတွဲဖက်ထားပါသည်။"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "သုံးစွဲသူအမည်ရှိ ဂဏန်းများ"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ပိုမိုလေ့လာရန်"
@@ -8340,13 +8340,13 @@
     "messageformat": "သင့် Signal PIN ကို ပြောင်းလဲပါ"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "သင့် Signal PIN ကို ဖန်တီးပါ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသ၍ သင့် PIN ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN များသည် Signal တွင် သိမ်းဆည်းထားသော သင့်အချက်အလက်များကို ကုဒ်ပြောင်းဝှက်ပေးပြီး သင်တစ်ဦးတည်းသာ ဝင်ရောက်အသုံးပြုနိုင်စေပါသည်။ ပြန်လည်ထည့်သွင်းသည့်အခါ သင့်ပရိုဖိုင်၊ ဆက်တင်နှင့် အဆက်အသွယ်များကို ပြန်လည်ရယူပါမည်။ အက်ပ်ကို ဖွင့်ရန် သင့် PIN မလိုအပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
@@ -9121,9 +9121,9 @@
     "messageformat": "အသိပေးချက်များ မည်သည့်အချိန်တွင် မည်သို့ ပေါ်လာမည်ကို ရွေးချယ်နိုင်မည့် တိုးချဲ့ထားသော ရွေးချယ်စရာများနှင့်အတူ အသိပေးချက်ဆက်တင်များကိုလည်း ပိုမိုကောင်းမွန်အောင် ပြုလုပ်ထားပါသည်။"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ဗီဒီယိုကောလ်များအတွက် စွမ်းဆောင်ရည် ပိုမိုကောင်းမွန်စေမည့် ပြုပြင်မွမ်းမံမှုများ။"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "ဗီဒီယိုကောလ်တွင် ပါဝင်ရန် ကြိုးစားသည့်အခါ Signal တွင် ကင်မရာအသုံးပြုခွင့် မရှိပါက Windows စနစ်ဆက်တင်ကို ဖွင့်နိုင်ရန် အဆင်ပြေသော ရှော့တ်ကတ်တစ်ခုကိုလည်း ထည့်သွင်းထားပါသည်။"
   }
 }

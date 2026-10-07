@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN'i"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN'ler, Signal'da saklanan bilgilerini yalnızca senin erişebileceğin şekilde şifrelenmiş halde tutar. PIN'in kurtarılamaz. Signal'ı yeniden yüklediğinde; profilin, ayarların ve kişilerin geri yüklenir. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Gelişmiş PIN ayarları"
@@ -6269,19 +6269,19 @@
     "messageformat": "Devre dışı bırak"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "PIN'i devre dışı bırakırsanız, elle yedekleyip geri yüklemediğiniz sürece Signal'i yeniden kaydettiğinizde tüm verilerinizi kaybedersiniz. PIN devre dışı iken Kayıt Kilidini açamazsınız."
+    "messageformat": "PIN'i devre dışı bırakırsan, elle yedekleyip geri yüklemediğin sürece Signal'ı yeniden kaydettiğinde tüm verilerini kaybedersin. PIN devre dışıyken Kaydolma Kilidini açamazsın."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN'i devre dışı bırakma işlemi kaydolma kilidi nedeniyle başarısız oldu"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "PIN'ini devre dışı bırakmadan önce, kaydolma kilidini devre dışı bırakmalısın."
+    "messageformat": "PIN'ini devre dışı bırakmadan önce, Kaydolma Kilidini devre dışı bırakmalısın."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "TAMAM"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN'i devre dışı bırakma işlemi yedeklemeler nedeniyle başarısız oldu"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "PIN'ini devre dışı bırakmadan önce, Yedeklemeleri devre dışı bırakmalısın."
@@ -6302,7 +6302,7 @@
     "messageformat": "Kaydolma Kilidi"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Telefon numaranızı Signal ile tekrar kaydetmek için Signal PIN'i istensin."
+    "messageformat": "Telefon numaranı Signal ile tekrar kaydetmek için Signal PIN'i istensin."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Bildirim içeriği"
@@ -7124,7 +7124,7 @@
     "messageformat": "Lütfen {duration} içinde tekrar dene"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Ülke kodu seç"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefon numarası"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\"i aç"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal için mikrofon erişimini etkinleştir"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal için kamera erişimini etkinleştir"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Ayarlara git"
@@ -8204,7 +8204,7 @@
     "messageformat": "Kullanıcı adları daima bir dizi sayı ile eşleştirilir."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Kullanıcı adı haneleri"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Daha Fazlasını Öğren"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PIN'ini değiştir"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PIN'ini oluştur"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Bu cihaz kayıtlı olduğu sürece PIN'ini değiştirebilirsin. <learnMoreLink>Dahasını öğren</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN'ler, Signal'da saklanan bilgilerini yalnızca senin erişebileceğin şekilde şifrelenmiş halde tutar. Yeniden yüklediğinde; profilin, ayarların ve kişilerin geri yüklenir. Uygulamayı açmak için PIN'e ihtiyaç duymazsın. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN'ini onayla"
@@ -9121,9 +9121,9 @@
     "messageformat": "Bildirimlerin nasıl ve ne zaman görüneceğini belirlemek için daha fazla seçenek sunan geliştirilmiş bildirim ayarları eklendi. Bundan böyle uygulama rozetinde ne görüneceğini seçebilir, sessize alınmış konular için bildirim tercihlerini ayarlayabilir ve daha birçok şey yapabilirsin! Çok fazla değişiklik yaptığında işler bir noktada karmaşıklaşırsa, varsayılan bildirim ayarlarını geri yüklemen için kullanışlı bir düğme de ekledik."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Görüntülü aramalar için performans iyileştirmeleri."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Bir görüntülü aramaya katılmaya çalışırsan ve Signal'ın kameraya erişim izni bulunmuyorsa, sistem ayarlarını Windows'ta açman için uygun bir kısayol da ekledik. Artık insanların seni görebilmesi için ne yapman gerektiğini anlaman daha kolay."
   }
 }

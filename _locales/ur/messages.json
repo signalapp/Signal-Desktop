@@ -6257,7 +6257,7 @@
     "messageformat": "Signal پن"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "پِنز معلومات کو انکرپٹ کردہ Signal میں اسٹور رکھتی ہیں تاکہ صرف آپ ان تک رسائی حاصل کر سکیں۔ آپ کی پِن بحال نہیں کی جا سکتی۔ آپ کے Signal دوبارہ انسٹال کرنے پر آپ کی پروفائل، سیٹنگز اور رابطے بحال ہو جائیں گے۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "اعلی درجے کی PIN کی ترتیبات"
@@ -6272,7 +6272,7 @@
     "messageformat": "اگر آپ PIN کو غیر فعال کردیتے ہیں تو ، جب تک آپ دستی طور پر بیک اپ اور بحال نہیں کرتے ہیں تو Signal کو دوبارہ رجسٹر کرواتے وقت آپ تمام ڈیٹا ضائع کردیں گے۔ جب PIN غیر فعال ہو تو آپ رجسٹریشن لاک آن نہیں کرسکتے ہیں۔"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "رجسٹریشن لاک کی وجہ سے پِن غیر فعال نہیں کیا جا سکا"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "آپ کو اپنے پِن کو غیر فعال کرنے سے پہلے رجسٹریشن لاک کو غیر فعال کرنا ہو گا۔"
@@ -6281,7 +6281,7 @@
     "messageformat": "ٹھیک ہے"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "بیک اپس کی وجہ سے پِن غیر فعال نہیں کیا جا سکا"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "آپ کو اپنے پِن کو غیر فعال کرنے سے پہلے بیک اپس کو غیر فعال کرنا ہو گا۔"
@@ -7124,7 +7124,7 @@
     "messageformat": "براہ کرم {duration} میں دوبارہ کوشش کریں"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "ملک کے کوڈ کا انتخاب کریں"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "فون نمبر"
@@ -7649,10 +7649,10 @@
     "messageformat": "“Signal” کو آن کریں"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal کے لیے مائیکروفون تک رسائی کو فعال کریں"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal کے لیے کیمرے تک رسائی کو فعال کریں"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "سیٹنگز پر جائیں"
@@ -8204,7 +8204,7 @@
     "messageformat": "یوزر نیمز کو ہمیشہ نمبرز کے سیٹ کے ساتھ جوڑا جاتا ہے۔"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "یوزر نیم کے ہندسے"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "مزید سیکھیں"
@@ -8340,13 +8340,13 @@
     "messageformat": "اپنا Signal کا پِن تبدیل کریں"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "اپنا Signal کا پِن تخلیق کریں"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "جب تک یہ device رجسٹرڈ ہے آپ اپنا پن تبدیل کرسکتے ہیں۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "پِنز معلومات کو انکرپٹ کردہ Signal میں اسٹور رکھتی ہیں تاکہ صرف آپ ان تک رسائی حاصل کر سکیں۔ آپ کے دوبارہ انسٹال کرنے پر آپ کی پروفائل، سیٹنگز اور رابطے بحال ہو جائیں گے۔ آپ کو ایپ کھولنے کے لیے اپنی پِن درکار نہیں ہو گی۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "اپنے سگنل پن کی تصدیق کریں"
@@ -9121,9 +9121,9 @@
     "messageformat": "اس اپ ڈیٹ میں آپ کو Signal اطلاعات پر زیادہ کنٹرول دیا گیا ہے۔ اب آپ یہ بھی منتخب کر سکتے ہیں کہ ایپ بیج میں کیا نظر آئے، خاموش تھریڈس کے لیے اطلاعات کو ترجیحات طے کر سکتے ہیں اور بہت کچھ! اس کے ساتھ ڈیفالٹ اطلاعات ترتیبات بحال کرنے کے لیے ایک بٹن بھی شامل کیا گیا ہے، تاکہ آپ بے تحاشہ تبدیلیاں کر لیں تو پھر ایک ہی بٹن سے اصل ترتیبات بحال کر لیں۔"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ویڈیو کالز کی کارکردگی میں بہتریوں کی بدولت ویڈیو کالز کے دوران آپ کے CPU پر لوڈ کم رہے گا (چاہے آپ نہ بھی مسکرائیں)۔"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "ہم نے ایک آسان شارٹ کٹ بھی شامل کیا ہے تاکہ اگر آپ کسی ویڈیو کال میں شامل ہونے کی کوشش کریں اور Signal کو کیمرے تک رسائی کی اجازت نہ ہو تو آپ ونڈوز پر اپنے سسٹم کی سیٹنگز کھول سکیں۔ آپ اب یہ آسانی سے جان سکتے ہیں کہ لوگوں کو دکھانے کے لیے آپ کو کیا کرنا ہے۔"
   }
 }

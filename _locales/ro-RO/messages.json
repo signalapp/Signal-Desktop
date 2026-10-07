@@ -6257,7 +6257,7 @@
     "messageformat": "PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-urile îți păstrează informațiile stocate în Signal criptate ca doar tu să le poți accesa. PIN-ul tău nu poate fi recuperat. Profilul, setările și contactele vor fi restaurate când reinstalezi Signal. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Setări PIN avansate"
@@ -6272,7 +6272,7 @@
     "messageformat": "Dacă dezactivezi codul PIN, vei pierde toate datele când te înregistrezi din nou la Signal, cu excepția cazului când faci backup și restaurezi manual. Nu poți activa Blocarea înregistrării în timp ce codul PIN este dezactivat."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Dezactivarea PIN-ului a eșuat din cauza blocării înregistrării"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Trebuie să dezactivezi blocarea înregistrării înainte de a dezactiva codul PIN."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Dezactivarea PIN-ului a eșuat din cauza backup-urilor"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Trebuie să dezactivezi Backup-urile înainte de a dezactiva codul PIN."
@@ -7124,7 +7124,7 @@
     "messageformat": "Încearcă din nou în {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Alege codul țării"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Număr de telefon"
@@ -7649,10 +7649,10 @@
     "messageformat": "Activează „Signal”"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Activează-ți accesul la microfon pentru Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Activează accesul la cameră pentru Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Mergi la setări"
@@ -8204,7 +8204,7 @@
     "messageformat": "Numele de utilizator sunt întotdeauna asociate cu un set de numere."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Cifrele numelui de utilizator"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Află mai multe"
@@ -8340,13 +8340,13 @@
     "messageformat": "Schimbă-ți PIN-ul Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Creează PIN-ul Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Poți schimba codul PIN atât timp cât acest dispozitiv este înregistrat. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-urile îți păstrează informațiile stocate în Signal criptate ca doar tu să le poți accesa. Profilul, setările și contactele se vor restabili atunci când reinstalezi Signal. Nu o să ai nevoie de PIN ca să deschizi aplicația. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Confirmă PIN-ul tău Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Această actualizare introduce setări mai detaliate, pentru a-ți oferi un control mult mai mare asupra notificărilor din Signal. Acum poți alege ce apare pe pictograma aplicației, poți seta preferințele de notificare pentru discuțiile cu notificări dezactivate și multe altele! Am adăugat și un buton util pentru a restabili setările implicite ale notificărilor, în cazul în care faci atâtea modificări încât nu mai știi cum să te descurci."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Mulțumită unor îmbunătățiri de performanță, procesorul tău va fi un pic mai rapid în timpul apelurilor video (chiar dacă tu stai pe loc)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Am adăugat și o scurtătură utilă ca să-ți deschizi setările de sistem pe Windows dacă încerci să te alături unui apel video și Signal nu are permisiunea să-ți acceseze camera. Acum este mai ușor să vezi ce e nevoie să faci ca oamenii să te vadă."
   }
 }

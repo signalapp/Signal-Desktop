@@ -6257,7 +6257,7 @@
     "messageformat": "PIN Signal-i"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Kodet PIN e mbrojnë informacionin e ruajtur në Signal duke e koduar, në mënyrë që vetëm ti të kesh qasje në të. Kodi PIN nuk mund të rikthehet. Profili, parametrat dhe kontaktet do të rikthehen kur ta riinstalosh aplikacionin. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Parametrat e mëtejshme të PIN"
@@ -6272,19 +6272,19 @@
     "messageformat": "Nëse çaktivizoni PIN-in, do të humbni krejt të dhënat, kur riregjistroni Signal-in, veç në i kopjeruajtshi dhe rikthefshi dorazi. S\\’mund të aktivizoni Kyçje Regjistrimi, teksa PIN-i është i çaktivizuar."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Çaktivizimi i kodit PIN dështoi për shkak të veçorisë \"Kyçje e regjistrimit\""
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Duhet të çaktivizosh veçorinë \"Kyçje e regjistrimit\" përpara se të çaktivizosh kodin PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Çaktivizimi i kodit PIN dështoi për shkak të kopjeruajtjeve"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Duhet të çaktivizosh kopjeruajtjet përpara se të çaktivizosh kodin PIN."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Aktivizoje PIN-in"
@@ -6302,7 +6302,7 @@
     "messageformat": "Kyçje Regjistrimi"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Kërko kodin PIN të Signal për të regjistruar sërish numrin e telefonit në Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Lëndë njoftimi"
@@ -7124,7 +7124,7 @@
     "messageformat": "Të lutem, provo përsëri për {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Përzgjidhni Kod Vendi"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Numër telefoni"
@@ -7649,10 +7649,10 @@
     "messageformat": "Aktivizo \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Aktivizo qasjen në mikrofon për Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Aktivizo qasjen në kamerë për Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Shko te parametrat"
@@ -8204,7 +8204,7 @@
     "messageformat": "Emrat e përdoruesve bashkohen gjithmonë me një grup numrash."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Shifrat e emrit të përdoruesit"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Mëso më tepër"
@@ -8340,13 +8340,13 @@
     "messageformat": "Ndrysho kodin PIN të Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Krijo kodin PIN për Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mundeni ta ndryshoni PIN-in tuaj, sa kohë që kjo pajisje është e regjistruar. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Kodet PIN e mbrojnë informacionin e ruajtur në Signal duke e koduar, në mënyrë që vetëm ti të kesh qasje në të. Profili, parametrat dhe kontaktet do të rikthehen kur ta riinstalosh aplikacionin. Nuk do të të duhet kodi PIN për të hapur aplikacionin. <learnMoreLink>Mëso më shumë</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Ripohoni PIN-in tuaj për Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Parametra të përmirësuara të njoftimeve, me mundësi të zgjeruara për mënyrën dhe kohën e shfaqjes së tyre."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Përmirësime të performancës për thirrjet me video."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Kemi shtuar gjithashtu një shkurtore të dobishme për të hapur parametrat e sistemit në Windows, nëse përpiqesh t’i bashkohesh një thirrjeje me video dhe Signal nuk ka leje për të përdorur kamerën."
   }
 }

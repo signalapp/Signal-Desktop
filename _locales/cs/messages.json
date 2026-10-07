@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN uchovává vaše informace v aplikaci Signal šifrované tak, abyste k nim měli přístup pouze vy. Váš PIN nemůže být obnoven. Váš profil, nastavení a kontakty se po opětovné instalaci aplikace Signal obnoví. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Pokročilá nastavení PIN"
@@ -6269,28 +6269,28 @@
     "messageformat": "Vypnout"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Pokud PIN deaktivujete, tak při opětovné registraci Signal ztratíte všechna data, jestliže si je ručně nezazálohujete a neobnovíte. Když je PIN deaktivován, nemůžete si zapnout zámek registrace."
+    "messageformat": "Pokud PIN vypnete, přijdete při opětovné registraci Signal o všechna data, jestliže si je ručně nezazálohujete a neobnovíte. Dokud je PIN vypnutý, nelze zapnout Zámek registrace."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN se nepodařilo vypnout kvůli zámku registrace"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "Před vypnutím PIN je nutné vypnout zámek registrace."
+    "messageformat": "Před vypnutím PIN musíte nejprve vypnout Zámek registrace."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN se nepodařilo vypnout kvůli zálohování"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "Před vypnutím PIN je nutné vypnout zálohování."
+    "messageformat": "Před vypnutím PIN musíte nejprve vypnout zálohování."
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "Povolit PIN"
+    "messageformat": "Zapnout PIN"
   },
   "icu:Preferences--enable-signal-pin--button": {
-    "messageformat": "Povolit"
+    "messageformat": "Zapnout"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Připomínání PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Zámek registrace"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Vyžadovat Signal PIN pro opětovnou registraci vašeho telefonního čísla v aplikaci Signal."
+    "messageformat": "Vyžadovat Signal PIN při opětovné registraci vašeho telefonního čísla v aplikaci Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Obsah oznámení"
@@ -7124,7 +7124,7 @@
     "messageformat": "Zkuste to prosím znovu za {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Vyberte kód země"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonní číslo"
@@ -7649,10 +7649,10 @@
     "messageformat": "Zapněte Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Povolte aplikaci Signal přístup k mikrofonu"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Povolte aplikaci Signal přístup ke kameře"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Přejít do nastavení"
@@ -8204,7 +8204,7 @@
     "messageformat": "Uživatelská jména jsou vždy spárována s číselnou kombinací."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Číslice uživatelského jména"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Zjistit více"
@@ -8340,13 +8340,13 @@
     "messageformat": "Změnit Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Vytvořte si svůj Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Svůj PIN můžete změnit, dokud je toto zařízení zaregistrováno. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN uchovává vaše informace v aplikaci Signal šifrované tak, abyste k nim měli přístup pouze vy. Váš profil, nastavení a kontakty se po opětovné instalaci obnoví. Pro spuštění aplikace nebudete PIN potřebovat. <learnMoreLink>Zjistit více</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potvrďte svůj Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Vylepšená nastavení oznámení s rozšířenými možnostmi, jak a kdy se oznámení zobrazují."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Vylepšení výkonu u videohovorů."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Přidali jsme také užitečnou zkratku pro otevření systémového nastavení ve Windows, pokud se pokusíte připojit k videohovoru a Signal nemá přístup ke kameře."
   }
 }

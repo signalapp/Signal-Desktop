@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN 碼"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN 碼會將儲存在 Signal 中的資訊加密，確保只有你能存取。你的 PIN 碼無法恢復。當你重新安裝 Signal 時，你的個人資料、設定和聯絡人將會還原。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "進階 PIN 碼設定"
@@ -6272,7 +6272,7 @@
     "messageformat": "若您停用 PIN 碼，當您重新註冊 Signal 時，除非您已手動備份並進行還原，否則您將遺失所有資料。PIN 碼停用時不可開啟註冊鎖定。"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "由於已啟用註冊鎖定，無法停用 PIN 碼"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "你必須先停用註冊鎖定，才能停用 PIN 碼。"
@@ -6281,7 +6281,7 @@
     "messageformat": "好"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "由於已啟用備份，無法停用 PIN 碼"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "你必須先停用「備份」，才能停用 PIN 碼。"
@@ -7124,7 +7124,7 @@
     "messageformat": "請在 {duration}後再試"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "選取國家代碼"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "電話號碼"
@@ -7649,10 +7649,10 @@
     "messageformat": "開啟「Signal」"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "為 Signal 啟用麥克風存取權限"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "為 Signal 啟用相機存取權限"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "前往設定"
@@ -8204,7 +8204,7 @@
     "messageformat": "用戶名稱都會與一組數字配對。"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "用戶名稱的數字"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "了解更多"
@@ -8340,13 +8340,13 @@
     "messageformat": "變更你的 Signal PIN 碼"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "建立你的 Signal PIN 碼"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "只要此裝置維持登記，您可隨時變更您的 PIN 碼。 <learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN 碼會將儲存在 Signal 中的資訊加密，確保只有你能存取。當你重新安裝時，你的個人資料、設定和聯絡人將會還原。開啟應用程式不需輸入 PIN 碼。<learnMoreLink>了解更多</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "確認您的 Signal PIN 碼"
@@ -9121,9 +9121,9 @@
     "messageformat": "此更新引入了更精細的設定選項，讓你能對 Signal 的通知有更全面的控制。現在，你可以選擇應用程式徽章上顯示的內容、調整靜音討論串的通知偏好設定，以及更多功能！我們還新增了一個方便的按鈕，讓你在進行了太多變更甚至陷入迷茫時，能輕鬆還原預設的通知設定。"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "幸好有幾項效能優化，在進行視訊通話時，你的 CPU 會稍微輕鬆一點。"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "此外，我們還新增了一個方便的捷徑，當你嘗試加入視訊通話時，若 Signal 沒有權限存取相機，即可透過此捷徑開啟 Windows 的系統設定。想讓別人看見你，現在更容易。"
   }
 }

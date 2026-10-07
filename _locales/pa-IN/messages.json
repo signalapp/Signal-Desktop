@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN ਜਾਣਕਾਰੀ ਨੂੰ Signal ਦੀ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੇ ਨਾਲ ਸਟੋਰ ਕਰਕੇ ਰੱਖਦੇ ਹਨ ਤਾਂ ਜੋ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਇਸ ਤੱਕ ਪਹੁੰਚ ਕਰ ਸਕੋ। ਤੁਹਾਡੇ PIN ਨੂੰ ਰਿਕਵਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਜਦੋਂ ਤੁਸੀਂ ਦੁਬਾਰਾ Signal ਨੂੰ ਇੰਸਟਾਲ ਕਰੋਗੇ ਤਾਂ ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ, ਸੈਟਿੰਗਾਂ ਅਤੇ ਸੰਪਰਕ ਰੀਸਟੋਰ ਹੋ ਜਾਣਗੇ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "ਐਡਵਾਂਸਡ PIN ਸੈਟਿੰਗਾਂ"
@@ -6269,22 +6269,22 @@
     "messageformat": "ਅਸਮਰੱਥ ਕਰੋ"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "ਜੇ ਤੁਸੀਂ PIN ਅਸਮਰੱਥ ਕੀਤਾ ਤਾਂ ਤੁਸੀਂ Signal ਨੂੰ ਮੁੜ-ਰਜਿਸਟਰ ਕਰਨ ਵੇਲੇ ਸਾਰਾ ਡੇਟਾ ਗੁਆ ਬੈਠੋਗੇ, ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਖੁਦ ਬੈਕਅੱਪ ਨਹੀਂ ਲੈਂਦੇ ਤੇ ਬਹਾਲ ਕਰਦੇ। PIN ਅਸਮਰੱਥ ਕੀਤੇ ਹੋਣ ਨਾਲ ਤੁਸੀਂ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਲੌਕ ਨੂੰ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੇ ਹੋ।"
+    "messageformat": "ਜੇ ਤੁਸੀਂ PIN ਨੂੰ ਅਸਮਰੱਥ ਕਰਦੇ ਹੋ ਤਾਂ Signal ਨੂੰ ਮੁੜ-ਰਜਿਸਟਰ ਕਰਨ ਵੇਲੇ ਤੁਸੀਂ ਸਾਰਾ ਡੇਟਾ ਗੁਆ ਬੈਠੋਗੇ, ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਸੀਂ ਖੁਦ ਬੈਕਅੱਪ ਨਹੀਂ ਲੈਂਦੇ ਅਤੇ ਰੀਸਟੋਰ ਨਹੀਂ ਕਰਦੇ। PIN ਅਸਮਰੱਥ ਕੀਤੇ ਹੋਣ ਦੌਰਾਨ ਤੁਸੀਂ ਰਜਿਸਟਰੇਸ਼ਨ ਲੌਕ ਨੂੰ ਖੋਲ੍ਹ ਨਹੀਂ ਸਕਦੇ ਹੋ।"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "ਰਜਿਸਟਰੇਸ਼ਨ ਲੌਕ ਕਾਰਨ PIN ਅਸਮਰੱਥ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "ਆਪਣਾ PIN ਅਸਮਰੱਥ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਆਪਣਾ ਰਜਿਸਟਰੇਸ਼ਨ ਲੌਕ ਅਸਮਰੱਥ ਕਰਨਾ ਪਵੇਗਾ।"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "ਠੀਕ ਹੈ"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ਬੈਕਅੱਪ ਕਾਰਨ PIN ਅਸਮਰੱਥ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "ਆਪਣਾ PIN ਅਸਮਰੱਥ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਬੈਕਅੱਪ ਫੀਚਰ ਨੂੰ ਅਸਮਰੱਥ ਕਰਨਾ ਪਵੇਗਾ।"
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "PIN ਸਮਰੱਥ ਕਰੋ"
@@ -6302,7 +6302,7 @@
     "messageformat": "ਰਜਿਸਟਰੇਸ਼ਨ ਲੌਕ"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Signal ਨਾਲ ਤੁਹਾਡੇ ਫ਼ੋਨ ਨੰਬਰ ਨੂੰ ਮੁੜ-ਰਜਿਸਟਰ ਕਰਨ ਲਈ ਤੁਹਾਡੇ Signal PIN ਦੀ ਲੋੜ ਹੈ"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ਨੋਟੀਫਿਕੇਸ਼ਨ ਸਮੱਗਰੀ"
@@ -7124,7 +7124,7 @@
     "messageformat": "ਕਿਰਪਾ ਕਰਕੇ {duration} ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "ਦੇਸ਼ ਦਾ ਕੋਡ ਚੁਣੋ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ਫ਼ੋਨ ਨੰਬਰ"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\" ਚਾਲੂ ਕਰੋ"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal ਨੂੰ ਮਾਈਕ੍ਰੋਫ਼ੋਨ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal ਨੂੰ ਕੈਮਰੇ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ਸੈਟਿੰਗਾਂ 'ਤੇ ਜਾਓ"
@@ -8204,7 +8204,7 @@
     "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੇ ਨਾਲ ਹਮੇਸ਼ਾਂ ਅੰਕਾਂ ਦਾ ਜੋੜਾ ਮੌਜੂਦ ਹੁੰਦਾ ਹੈ।"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ਵਰਤੋਂਕਾਰ ਨਾਂ ਦੇ ਅੰਕ"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ"
@@ -8340,13 +8340,13 @@
     "messageformat": "ਆਪਣਾ Signal PIN ਬਦਲੋ"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "ਆਪਣਾ Signal PIN ਬਣਾਓ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ਜਿੰਨਾਂ ਚਿਰ ਇਹ ਡਿਵਾਈਸ ਰਜਿਸਟਰ ਹੈ, ਤੁਸੀਂ PIN ਬਦਲ ਸਕਦੇ ਹੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN ਜਾਣਕਾਰੀ ਨੂੰ Signal ਦੀ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੇ ਨਾਲ ਸਟੋਰ ਕਰਕੇ ਰੱਖਦੇ ਹਨ ਤਾਂ ਜੋ ਸਿਰਫ਼ ਤੁਸੀਂ ਹੀ ਇਸ ਤੱਕ ਪਹੁੰਚ ਕਰ ਸਕੋ। ਜਦੋਂ ਤੁਸੀਂ Signal ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰੋਗੇ ਤਾਂ ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ, ਸੈਟਿੰਗਾਂ ਅਤੇ ਸੰਪਰਕ ਰੀਸਟੋਰ ਹੋ ਜਾਣਗੇ। ਐਪ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਤੁਹਾਨੂੰ ਆਪਣੇ PIN ਦੀ ਲੋੜ ਨਹੀਂ ਪਵੇਗੀ। <learnMoreLink>ਹੋਰ ਜਾਣੋ</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "ਆਪਣੇ Signal PIN ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"
@@ -9121,9 +9121,9 @@
     "messageformat": "ਸੂਚਨਾਵਾਂ ਕਦੋਂ ਅਤੇ ਕਿਵੇਂ ਦਿਖਾਈ ਦੇਣ, ਇਸ ਲਈ ਵਿਸਤ੍ਰਿਤ ਵਿਕਲਪਾਂ ਦੇ ਨਾਲ ਸੂਚਨਾ ਸੈਟਿੰਗਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ਵੀਡੀਓ ਕਾਲਾਂ ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ।"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਕਿਸੇ ਵੀਡੀਓ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ ਅਤੇ Signal ਕੋਲ ਕੈਮਰੇ ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ, ਤਾਂ ਅਸੀਂ Windows 'ਤੇ ਤੁਹਾਡੀਆਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹਣ ਲਈ ਇੱਕ ਸੁਵਿਧਾਜਨਕ ਸ਼ਾਰਟਕੱਟ ਜੋੜਿਆ ਹੈ।"
   }
 }

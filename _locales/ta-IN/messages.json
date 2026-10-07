@@ -6257,7 +6257,7 @@
     "messageformat": "Signal பின்"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Signal-இல் சேமிக்கப்பட்டுள்ள தகவல்களை PINகள் குறியாக்கம் செய்து பாதுகாப்பதால், உங்களால் மட்டுமே அவற்றை அணுக முடியும். உங்கள் PIN-ஐ மீட்டெடுக்க முடியாது. Signal-ஐ நீங்கள் மீண்டும் நிறுவும்போது உங்கள் சுயவிவரம், அமைப்புகள் மற்றும் தொடர்புகள் மீட்டமைக்கப்படும். <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "மேம்பட்ட பின் அமைப்புகள்"
@@ -6272,19 +6272,19 @@
     "messageformat": "நீங்கள் PIN-ஐ முடக்கினால், நீங்கள் கைமுறையாக காப்புப்பிரதி எடுத்து மீட்டெடுக்காவிட்டால் Signal-ஐ மீண்டும் பதிவுசெய்யும்போது எல்லா தரவையும் இழப்பீர்கள். PIN முடக்கப்பட்டிருக்கும் போது நீங்கள் பதிவு பூட்டை இயக்க முடியாது."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "பதிவுப் பூட்டின் காரணமாக PIN-ஐ முடக்குவது தோல்வியடைந்தது"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "உங்கள் PIN-ஐ முடக்குவதற்கு முன்னதாக, பதிவுப் பூட்டை நீங்கள் முடக்க வேண்டும்."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "சரி"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "காப்புப்பிரதிகளின் காரணமாக PIN-ஐ முடக்குவது தோல்வியடைந்தது"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "உங்கள் PIN-ஐ முடக்குவதற்கு முன் காப்புப்பிரதிகளை நீங்கள் முடக்க வேண்டும்."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "பின்னை மீண்டும் திறக்கவும்"
@@ -6302,7 +6302,7 @@
     "messageformat": "பதிவு பூட்டு"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Signal-இல் உங்கள் தொலைபேசி எண்ணை மீண்டும் பதிவுசெய்வதற்கு உங்கள் Signal PIN-ஐக் கட்டாயமாக்கவும்."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "அறிவிப்பு உள்ளடக்கம்"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} நேரத்தில் மீண்டும் முயலுங்கள்"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "நாட்டின் குறியீட்டைத் தேர்ந்தெடுக்கவும்"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "தொலைபேசி எண்"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"சிக்னல்\"ஐ ஆன் செய்யவும்"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal-க்கான மைக்ரோஃபோன் அணுகலைச் செயல்படுத்தவும்"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal-க்கான கேமரா அணுகலைச் செயல்படுத்தவும்"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "அமைப்புகளுக்குச் செல்"
@@ -8204,7 +8204,7 @@
     "messageformat": "பயனர் பெயர்கள் எப்போதும் எண்களின் தொகுப்புடன் இணைக்கப்படும்."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "பயனர்பெயர் இலக்கங்கள்"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "மேலும் அறிக"
@@ -8340,13 +8340,13 @@
     "messageformat": "உங்கள் Signal PIN-ஐ மாற்றவும்"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "உங்களின் Signal PIN-ஐ உருவாக்குதல்"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "நீங்கள் முடியும் மாற்றம் உங்கள் பின் இந்த வரை சாதனம் பதிவு செய்யப்பட்டுள்ளது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Signal-இல் சேமிக்கப்பட்டுள்ள தகவல்களை PINகள் குறியாக்கம் செய்து பாதுகாப்பதால், உங்களால் மட்டுமே அவற்றை அணுக முடியும். நீங்கள் மீண்டும் நிறுவும்போது உங்கள் சுயவிவரம், அமைப்புகள் மற்றும் தொடர்புகள் மீட்டமைக்கப்படும். செயலியைத் திறக்க உங்கள் PIN தேவையில்லை. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "உறுதிப்படுத்தவும் உங்கள் Signal பின்"
@@ -9121,9 +9121,9 @@
     "messageformat": "அறிவிப்புகள் எப்படி, எப்போது தோன்ற வேண்டும் என்பதற்கான விரிவான விருப்பங்களைக் கொண்ட மேம்படுத்தப்பட்ட அறிவிப்பு அமைப்புகள்."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "வீடியோ அழைப்புகளுக்கான செயல்திறன் மேம்பாடுகள்."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "நீங்கள் வீடியோ அழைப்பில் இணைய முயலும்போது, கேமராவை அணுக Signal-க்கு அனுமதி இல்லை எனில், Windows-இல் உங்கள் சிஸ்டம் அமைப்புகளைத் திறப்பதற்கு ஏற்ற எளியவழி ஒன்றையும் சேர்த்துள்ளோம்."
   }
 }

@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN коды"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN кодтары Signal-да шифрланған түрде сақталған ақпаратты қамтиды, сондықтан оны сіз ғана пайдалана аласыз. PIN кодыңызды қалпына келтіру мүмкін емес. Қайтадан орнатқан кезде, профиліңіз, параметрлеріңіз және контактілеріңіз қалпына келтіріледі. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Кеңейтілген PIN-код параметрлері"
@@ -6272,19 +6272,19 @@
     "messageformat": "PIN-кодты өшіріп қойсаңыз, резервтік көшірмесін қолмен жасап, оны қалпына келтірмейінше, Signal қолданбасына қайта тіркелгенде, барлық дерегіңіз өшіп қалады. PIN-кодты өшіріп қойып, Тіркелу құлпын аша алмайсыз."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Тіркеуді құлыптауға байланысты PIN коды өшірілмеді"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "PIN кодын өшірмес бұрын, \"Тіркеуді құлыптау\" функциясын өшіруіңіз керек."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Сақтық көшірмелерге байланысты PIN коды өшірілмеді"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "PIN кодын өшірмес бұрын, сақтық көшірмелерді өшіруіңіз керек."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "PIN-кодты қосу"
@@ -6302,7 +6302,7 @@
     "messageformat": "Тіркеуді құлыптау"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Signal-да телефон нөміріңізді қайта тіркеу үшін Signal PIN коды қажет."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Хабарландыру мазмұны"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} өткен соң қайталап көріңіз"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Ел кодын таңдау"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефон нөмірі"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\" қолданбасын қосыңыз"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal-ға микрофонды пайдалануға рұқсат етіңіз"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal-ға камераны пайдалануға рұқсат етіңіз"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Параметрлерге өту"
@@ -8204,7 +8204,7 @@
     "messageformat": "Пайдаланушы аттары міндетті түрде сандар жинағымен жұптасады."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Пайдаланушы аты цифрлары"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Толығырақ"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PIN кодыңызды өзгерту"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PIN кодын жасау"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN кодты осы құрылғы тіркелген сайын өзгертуге болады. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN кодтары Signal-да шифрланған түрде сақталған ақпаратты қамтиды, сондықтан оны сіз ғана пайдалана аласыз. Қайтадан орнатқан кезде, профиліңіз, параметрлеріңіз және контактілеріңіз қалпына келтіріледі. Қолданбаны ашу үшін PIN коды қажет емес. <learnMoreLink>Толық ақпарат</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN кодын растау"
@@ -9121,9 +9121,9 @@
     "messageformat": "Бұл жаңарту Signal хабарландыруларын бұрынғыдан да жақсы басқаруға мүмкіндік беретін жаңа параметрлерді ұсынады. Енді қолданба таңбасында не көрсетілетінін таңдауға, дыбысы өшірілген чаттардың хабарландыру параметрлерін реттеуге және т.б. әрекеттерді орындауға болады. Сондай-ақ хабарландыру параметрлеріне тым көп өзгеріс енгізіп, өзіңіз де қай параметрді қалай қойғаныңызды білмей қалсаңыз, әдепкі хабарландыру параметрлерін оңай қалпына келтіруге арналған ыңғайлы түймені қостық."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Өнімділік көрсеткіштерін жақсартқандарыңыз үшін рақмет. Бейнеқоңыраулар кезінде (сіз күліп тұрмасаңыз да) орталық процессор сәл де болса жеңілдеп қалады."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Бейнеқоңырауға қосылғыңыз келсе және Signal-дың камераңызды пайдалануға рұқсаты болмаса, жүйелік параметрлеріңізді ашу үшін ыңғайлы пернелер тіркесімін қостық. Енді адамдарға көріну үшін не істеу керек екенін түсіну оңайырақ."
   }
 }

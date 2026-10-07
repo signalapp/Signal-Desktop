@@ -6257,7 +6257,7 @@
     "messageformat": "Mã PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mã PIN giúp thông tin trên Signal được mã hóa để bạn là người duy nhất có thể truy cập. Không thể khôi phục mã PIN của bạn. Hồ sơ, các cài đặt và danh bạ sẽ được khôi phục khi bạn cài đặt lại Signal. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Cài đặt PIN nâng cao"
@@ -6272,7 +6272,7 @@
     "messageformat": "Nếu bạn tắt PIN, bạn sẽ mất toàn bộ dữ liệu khi bạn đăng kí lại với Signal trừ khi bạn sao lưu và khôi phục dữ liệu thủ công. Bạn không thể bật Khóa đăng kí khi PIN đang tắt."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Không thể tắt mã PIN do khóa đăng ký"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Bạn phải tắt khóa đăng ký trước khi tắt mã PIN."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Không thể tắt mã PIN do có bản sao lưu"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Bạn phải tắt khóa Sao lưu trước khi tắt mã PIN."
@@ -6302,7 +6302,7 @@
     "messageformat": "Khóa Đăng ký"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Yêu cầu mã PIN Signal của bạn để đăng ký lại số điện thoại của bạn với Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Nội dung thông báo"
@@ -7124,7 +7124,7 @@
     "messageformat": "Vui lòng thử lại trong {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Chọn Mã quốc gia"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Số điện thoại"
@@ -7649,10 +7649,10 @@
     "messageformat": "Bật \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Cho phép Signal truy cập microphone"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Cho phép Signal truy cập camera"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Đến mục cài đặt"
@@ -8204,7 +8204,7 @@
     "messageformat": "Tên người dùng luôn được ghép với một dãy số."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Chữ số trong tên người dùng"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Tìm hiểu thêm"
@@ -8340,13 +8340,13 @@
     "messageformat": "Đổi mã PIN Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Tạo mã PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Bạn có thể thay đổi mã PIN của bạn với điều kiện thiết bị được đăng ký. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mã PIN giúp thông tin trên Signal được mã hóa để bạn là người duy nhất có thể truy cập. Hồ sơ, các cài đặt và danh bạ sẽ được khôi phục khi bạn cài đặt lại Signal. Bạn không cần điền PIN để mở ứng dụng. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Xác nhận mã PIN Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Cải thiện cài đặt thông báo với các tùy chọn mở rộng về cách thức và thời điểm hiển thị thông báo."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Cải thiện hiệu suất cho cuộc gọi video."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Chúng tôi cũng đã thêm một lối tắt tiện lợi để mở cài đặt hệ thống trên Windows trong trường hợp bạn cố gắng tham gia cuộc gọi video nhưng Signal chưa được cấp quyền truy cập camera."
   }
 }

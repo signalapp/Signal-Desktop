@@ -6257,7 +6257,7 @@
     "messageformat": "Nenosiri la Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN zinahifadhi maelezo kwenye Signal kwa kuyasimba kwa njia fiche ili wewe pekee ndio uyafikie. PIN yako haiwezi kurejeshwa. Wasifu, mipangilio na wawasiliani wako watarejeshwa ukisakinisha upya. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Mipangilio ya PIN ya Hali ya Juu"
@@ -6272,19 +6272,19 @@
     "messageformat": "Ukizima PIN, utapoteza data yote utakaposajili upya Signal isipokuwa ukihifadhi nakala yake na kuirejesha mwenyewe. Huwezi kuwasha Kufuli ya Usajili wakati PIN imezimwa."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Umeshindwa kuzima PIN kwa sababu ya lock ya usajili"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Ni lazima uzime kipengele cha Lock ya Usajili kabla ya kuzima PIN yako."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Sawa"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Umeshindwa kuzima PIN kwa sababu ya zoezi la kuhifadhi nakala"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Ni lazima uzime zoezi la kuhifadhi nakala kabla ya kuzima PIN yako."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Washa PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Lock ya usajili"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Inahitaji PIN yako ya Signal ili usajili tena namba yako ya simu ukitumia Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Arifa za maudhui"
@@ -7124,7 +7124,7 @@
     "messageformat": "Tafadhali jaribu tena baada ya {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Chagua Nambari ya Nchi"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Nambari ya simu"
@@ -7649,10 +7649,10 @@
     "messageformat": "Washa \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Washa idhini ya kufikia maikrofoni kwa Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Washa idhini ya kufikia kamera kwa Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Nenda kwenye mipangilio"
@@ -8204,7 +8204,7 @@
     "messageformat": "Majina ya watumiaji huwa yana seti ya tarakimu."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Tarakimu za jina la mtumiaji"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Jifunze Zaidi"
@@ -8340,13 +8340,13 @@
     "messageformat": "Badilisha PIN yako ya Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Unda PIN yako ya Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Unaweza kubadili PINI mradi tu kifaa hiki kimesajiliwa <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN zinahifadhi maelezo kwenye Signal kwa kuyasimba kwa njia fiche ili wewe pekee ndio uyafikie. Wasifu, mipangilio na wawasiliani wako watarejeshwa ukisakinisha upya. Hutahitaji PIN yako ili ufungue programu. <learnMoreLink>Pata maelezo zaidi</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Thibitisha PINI yako ya Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Sasisho hili linatambulisha mipangilio ya kina ili kukupa udhibiti mkubwa zaidi wa arifa zako za Signal. Sasa unaweza kuchagua nini kitokee kwenye beji yako ya programu, kurekebisha mapendeleo ya arifa kwa mazungumzo yaliyozimwa sauti na zaidi! Pia tumeweka kitufe cha urahisishaji ili kurejesha mipangilio chaguomsingi ya arifa kama utafanya mabadiliko mengi kiasi hujui uanzie wapi."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Kutokana na maboresha kadhaa ya utendaji, CPU yako itafanya kazi vizuri zaidi wakati wa simu za video (hata kama utakuwa hautabasamu)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Pia tumeongeza njia ya mkato rahisi ili kufungua mipangilio yako ya mfumo kwenye Windows ikiwa utajaribu kujiunga kwenye simu ya video na Signal haina ruhusa ya kufikia kamera. Sasa ni rahisi kuona kile unachohitaji ili wengine wakuone."
   }
 }

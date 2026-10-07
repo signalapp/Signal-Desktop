@@ -6257,7 +6257,7 @@
     "messageformat": "Signal-tunnusluku"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koodin avulla salataan Signaliin tallennetut tiedot, jotta vain sinulla on pääsy niihin. PIN-koodia ei voi palauttaa. Profiili, asetukset ja yhteystiedot palautetaan, jos Signal asennetaan uudelleen. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Tunnusluvun lisäasetukset"
@@ -6272,7 +6272,7 @@
     "messageformat": "Jos poistat tunnusluvun käytöstä, menetät kaikki tietosi rekisteröityessäsi Signaliin uudelleen, ellet varmuuskopioi tietojasi käsin. Et voi myöskään ottaa rekisteröintiestoa käyttöön, jos tunnusluku on pois päältä."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN-koodin poiskytkeminen epäonnistui rekisteröintiestosta johtuen"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Sinun on poistettava rekisteröintiesto käytöstä ennen PIN-koodin poistamista käytöstä."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN-koodin poiskytkeminen epäonnistui varmuuskopioinnista johtuen"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Sinun on poistettava varmuuskopiointi käytöstä ennen PIN-koodin poistamista käytöstä."
@@ -7124,7 +7124,7 @@
     "messageformat": "Yritä uudelleen, kun on kulunut {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Valitse maatunnus"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Puhelinnumero"
@@ -7649,10 +7649,10 @@
     "messageformat": "Käynnistä Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Salli Signalille mikrofonin käyttö"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Salli Signalille kameran käyttö"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Siirry asetuksiin"
@@ -8204,7 +8204,7 @@
     "messageformat": "Käyttäjänimi yhdistetään aina numerosarjaan."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Käyttäjänimen numerot"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Lue lisää"
@@ -8340,13 +8340,13 @@
     "messageformat": "Vaihda Signal-PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Luo PIN-koodi Signaliin"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Tunnusluvun voi vaihtaa vain laitteella, joka on rekisteröity. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koodin avulla salataan Signaliin tallennetut tiedot, jotta vain sinulla on pääsy niihin. Profiilitiedot, asetukset ja yhteystiedot palautetaan, jos Signal asennetaan uudelleen. PIN-koodia ei tarvita sovelluksen avaamiseen. <learnMoreLink>Lue lisää</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Vahvista Signal-tunnuslukusi"
@@ -9121,9 +9121,9 @@
     "messageformat": "Parannetut ilmoitusasetukset ja enemmän vaihtoehtoja ilmoitusten näyttämiseksi."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Videopuheluiden suorituskykyparannuksia."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Lisäsimme myös kätevän pikakuvakkeen, jolla voit avata Windowsin järjestelmäasetukset, jos yrität liittyä videopuheluun ja Signalilla ei ole lupaa käyttää kameraa."
   }
 }

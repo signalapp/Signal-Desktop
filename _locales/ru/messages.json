@@ -6257,7 +6257,7 @@
     "messageformat": "PIN-код Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Пин-коды хранят информацию в сервисе Signal зашифрованной, так что только вы можете получить к ней доступ. Ваш Пин-код не может быть восстановлен. Ваши настройки, контакты и профиль будут восстановлены, если вы переустановите Signal. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Расширенные настройки PIN-кода"
@@ -6272,7 +6272,7 @@
     "messageformat": "Если вы отключите PIN-код, то потеряете все данные, когда переустановите Signal (если вручную не создадите и не восстановите резервную копию). Вы не можете включить блокировку регистрации, когда PIN-код отключён."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Не удалось отключить Пин-код из-за блокировки регистрации"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Перед отключением Пин-кода необходимо отключить блокировку регистрации."
@@ -6281,7 +6281,7 @@
     "messageformat": "ОК"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Не удалось отключить Пин-код из-за включённого резервного копирования"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Перед отключением Пин-кода необходимо отключить резервное копирование."
@@ -6302,7 +6302,7 @@
     "messageformat": "Блокировка регистрации"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Требовать ввод Пин-кода Signal при повторной регистрации вашего номера телефона в Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Содержимое уведомления"
@@ -7124,7 +7124,7 @@
     "messageformat": "Пожалуйста, попробуйте ещё раз через {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Выберите код страны"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Номер телефона"
@@ -7649,10 +7649,10 @@
     "messageformat": "Включите «Signal»"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Разрешите доступ к микрофону для Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Разрешите доступ к камере для Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Перейти в настройки"
@@ -8204,7 +8204,7 @@
     "messageformat": "Именам пользователей всегда присвоен набор цифр."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Цифры имён пользователей"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Узнать больше"
@@ -8340,13 +8340,13 @@
     "messageformat": "Изменить ваш Пин-код Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Создайте свой Пин-код Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Вы можете изменить свой PIN-код, пока это устройство зарегистрировано. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Пин-коды хранят информацию в сервисе Signal зашифрованной, так что только вы можете получить к ней доступ. Ваши настройки, контакты и профиль будут восстановлены, если вы переустановите Signal. Чтобы открыть приложение, Пин-код не понадобится. <learnMoreLink>Узнать больше</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Подтвердите свой PIN-код Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Это обновление добавляет более детальные настройки уведомлений, предоставляя вам значительно больше возможностей для управления ими в Signal. Теперь вы можете выбирать, что будет отображаться на значке приложения, настраивать параметры уведомлений для чатов с отключёнными уведомлениями и многое другое! Мы также добавили удобную кнопку для восстановления настроек уведомлений по умолчанию на случай, если вы внесёте столько изменений, что перестанете себя контролировать."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Благодаря нескольким улучшениям производительности ваш процессор будет работать немного быстрее во время видеозвонков (даже если вы не улыбаетесь)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "А ещё мы добавили удобную ссылку для перехода к системным настройкам Windows на случай, если вы попытаетесь присоединиться к видеозвонку, а у Signal не будет разрешения на доступ к камере. Теперь стало проще понять, что нужно сделать, чтобы вас увидели."
   }
 }

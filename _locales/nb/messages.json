@@ -3,7 +3,7 @@
     "messageformat": "Avbryt"
   },
   "icu:AxoButton.Pending": {
-    "messageformat": "Avventer"
+    "messageformat": "Under behandling"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Tilbake"
@@ -21,7 +21,7 @@
     "messageformat": "{max,number}+"
   },
   "icu:AddUserToAnotherGroupModal__title": {
-    "messageformat": "Legg til i gruppen"
+    "messageformat": "Legg til i en gruppe"
   },
   "icu:AddUserToAnotherGroupModal__confirm-title": {
     "messageformat": "Vil du legge til et nytt medlem?"
@@ -30,13 +30,13 @@
     "messageformat": "Legg til"
   },
   "icu:AddUserToAnotherGroupModal__confirm-message": {
-    "messageformat": "Legg til {contact} i gruppen {group}"
+    "messageformat": "Legg til {contact} i gruppen «{group}»"
   },
   "icu:AddUserToAnotherGroupModal__search-placeholder": {
     "messageformat": "Søk"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} ble lagt til i {group}"
+    "messageformat": "{contact} ble lagt til i «{group}»"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Legger til {contact} …"
@@ -72,7 +72,7 @@
     "messageformat": "Du kan koble til en PC, et nettbrett eller en annen telefon."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
-    "messageformat": "På hovedenheten din kan du styre hva som er koblet til kontoen din, og du kan koble til fem enheter."
+    "messageformat": "På hovedenheten din kan du styre hva som er koblet til kontoen din, og du kan koble til opptil fem enheter."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3": {
     "messageformat": "Enkelte innstillinger er kun tilgjengelig på hovedenheten din, blant annet kontoinnstillingene og sikkerhetskopier."
@@ -90,7 +90,7 @@
     "messageformat": "Høy"
   },
   "icu:softwareAcknowledgments": {
-    "messageformat": "Kildekode henvisninger"
+    "messageformat": "Programvarebekreftelser"
   },
   "icu:privacyPolicy": {
     "messageformat": "Vilkår og personvernerklæring"
@@ -138,7 +138,7 @@
     "messageformat": "Alle meldingene og mediefilene dine slettes fra denne enheten for godt. Ingen data fra mobilen din slettes.\n\nDu kan bruke Signal på denne enheten hvis du kobler den til på nytt. Du har muligheten til å overføre meldingsloggen fra telefonen din."
   },
   "icu:databaseError__startOldVersion": {
-    "messageformat": "Versjonen av databasen passer ikke sammen med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din."
+    "messageformat": "Versjonen av databasen samsvarer ikke med denne versjonen av Signal. Sørg for at du bruker den nyeste versjonen av Signal på datamaskinen din."
   },
   "icu:databaseError__safeStorageBackendChange": {
     "messageformat": "Ingen tilgang til krypteringsnøkkelen for databasen fordi krypteringsringen til operativsystemet har endret seg fra {previousBackend} til {currentBackend}. Dette skjer hvis skrivebordsmiljøet endres, for eksempel fra GNOME til KDE.\n\nBytt tilbake til det forrige miljøet."
@@ -159,7 +159,7 @@
     "messageformat": "&Fil"
   },
   "icu:mainMenuCreateStickers": {
-    "messageformat": "Opprett/last opp etikettpakke"
+    "messageformat": "Opprett / last opp klistremerkepakke"
   },
   "icu:mainMenuEdit": {
     "messageformat": "&Rediger"
@@ -174,7 +174,7 @@
     "messageformat": "&Hjelp"
   },
   "icu:mainMenuSettings": {
-    "messageformat": "Innstillinger…"
+    "messageformat": "Innstillinger …"
   },
   "icu:appMenuServices": {
     "messageformat": "Tjenester"
@@ -183,10 +183,10 @@
     "messageformat": "Skjul"
   },
   "icu:appMenuHideOthers": {
-    "messageformat": "Gjem Andre"
+    "messageformat": "Skjul andre"
   },
   "icu:appMenuUnhide": {
-    "messageformat": "Vis Alle"
+    "messageformat": "Vis alle"
   },
   "icu:appMenuQuit": {
     "messageformat": "Avslutt Signal"
@@ -213,7 +213,7 @@
     "messageformat": "Slett"
   },
   "icu:editMenuSelectAll": {
-    "messageformat": "Velg Alt"
+    "messageformat": "Velg alt"
   },
   "icu:editMenuStartSpeaking": {
     "messageformat": "Begynn å snakke"
@@ -300,7 +300,7 @@
     "messageformat": "Fiks nå"
   },
   "icu:LeftPane--corrupted-username-link--text": {
-    "messageformat": "Noe gikk galt med QR-koden og profillenken din. De er ikke lenger gyldige. Opprett en ny lenke for å dele profilen din med andre."
+    "messageformat": "Noe gikk galt med QR-koden og brukernavnlenken din. De er ikke lenger gyldige. Opprett en ny lenke for å dele profilen din med andre."
   },
   "icu:LeftPane--corrupted-username-link--action-text": {
     "messageformat": "Fiks nå"
@@ -309,13 +309,13 @@
     "messageformat": "Søk etter brukernavn"
   },
   "icu:LeftPane__compose__findByPhoneNumber": {
-    "messageformat": "Søk på telefonnummer"
+    "messageformat": "Søk etter telefonnummer"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
     "messageformat": "Søk etter brukernavn"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
-    "messageformat": "Søk på telefonnummer"
+    "messageformat": "Søk etter telefonnummer"
   },
   "icu:LeftPaneFindByHelper__placeholder--findByUsername": {
     "messageformat": "Brukernavn"
@@ -324,7 +324,7 @@
     "messageformat": "Telefonnummer"
   },
   "icu:LeftPaneFindByHelper__description--findByUsername": {
-    "messageformat": "Angi brukernavnet etterfulgt av et punktum og tallrekken."
+    "messageformat": "Angi et brukernavn etterfulgt av et punktum og tallrekken."
   },
   "icu:LeftPane__EmptyView--WithSelectedChatFolder": {
     "messageformat": "Ingen samtaler å vise"
@@ -378,10 +378,10 @@
     "messageformat": "Skjul faner"
   },
   "icu:NavTabs__ItemIconLabel--HasError": {
-    "messageformat": "En feil har oppstått"
+    "messageformat": "Det har oppstått en feil"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} uleste"
+    "messageformat": "{count,number} ulest"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "Merket som ulest"
@@ -6257,7 +6257,7 @@
     "messageformat": "Signal-PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koden holder informasjon lagret i Signal, kryptert slik at bare du har tilgang til den. PIN-koden din kan ikke gjenopprettes. Profilen din og innstillingene og kontaktene dine gjenopprettes når du installerer Signal på nytt. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Avanserte innstillinger for PIN-kode"
@@ -6272,7 +6272,7 @@
     "messageformat": "Hvis du deaktiverer PIN-koden vil du miste all data når du gjennomfører Signal-registrering på nytt, med mindre du manuelt tar en sikkerhetskopi og gjenoppretter innholdet. Du kan ikke skru på registreringslås mens PIN-koden er deaktivert."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN-koden kunne ikke deaktiveres på grunn av registreringslåsen"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Du må deaktivere registreringslåsen før du kan deaktivere PIN-koden."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN-koden kunne ikke deaktiveres på grunn av sikkerhetskopiering"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Du må deaktivere sikkerhetskopiering før du deaktiverer PIN-koden."
@@ -7124,7 +7124,7 @@
     "messageformat": "Prøv igjen om {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Velg landskode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonnummer"
@@ -7649,10 +7649,10 @@
     "messageformat": "Aktiver Signal."
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Gi Signal tilgang til mikrofonen"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Gi Signal tilgang til kameraet"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Gå til innstillinger"
@@ -8204,7 +8204,7 @@
     "messageformat": "Alle brukernavn består av bokstaver og en tallrekke."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Brukernavn-tall"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Les mer"
@@ -8340,13 +8340,13 @@
     "messageformat": "Endre Signal-PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Opprett en Signal-PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Du kan endre PIN-koden din så lenge denne enheten er registrert. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-koden holder informasjon lagret i Signal, kryptert slik at bare du har tilgang til den. Profilen din og innstillingene og kontaktene dine gjenopprettes når du installerer Signal på nytt. Du trenger ikke PIN-koden for å åpne appen. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Bekreft Signal-PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Flere innstillinger for varsler, blant annet muligheten til å velge når og hvordan varsler skal vises."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Ytelsesforbedringer i videosamtaler."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Vi har også lagt til en praktisk snarvei som lar deg åpne systeminnstillingene på Windows når du forsøker å bli med i en videosamtale, men først må gi Signal tillatelse til å bruke kameraet på enheten."
   }
 }

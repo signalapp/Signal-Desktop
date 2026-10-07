@@ -6257,7 +6257,7 @@
     "messageformat": "Signal-ის პინ-კოდი"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "პინ-კოდები Signal-ით შენახულ ინფორმაციას დაშიფრულად ინახავს, რათა მხოლოდ შენ გქონდეს მასზე წვდომა. შენი პინ-კოდის აღდგენა შეუძლებელია. შენი პროფილი, პარამეტრები და კონტაქტები Signal-ის ხელახლა ინსტალაციისას აღდგება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "პინ-კოდის გაფართოებული პარამეტრები"
@@ -6272,19 +6272,19 @@
     "messageformat": "თუ პინ-კოდს გამორთავ, Signal-ზე ხელახლა დარეგისტრირებისას ყველა მონაცემს დაკარგავ, თუ ხელით არ შექმნი სარეზერვო კოპიას და არ აღადგენ. რეგისტრაციის დაბლოკვას ვერ ჩართავ, სანამ პინ-კოდი გამორთულია."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "პინ-კოდი რეგისტრაციის დაბლოკვის გამო ვერ გამოირთო"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "შენი პინ-კოდის გამორთვამდე რეგისტრაციის დაბლოკვა უნდა გამორთო."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "პინ-კოდი სათადარიგო ასლების გამო ვერ გამოირთო"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "პინ-კოდის გამორთვამდე სათადარიგო ასლები უნდა გამორთო."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "პინ-კოდის ჩართვა"
@@ -6302,7 +6302,7 @@
     "messageformat": "რეგისტრაციის დაბლოკვა"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "მოითხოვე Signal-ის პინ-კოდი შენი მობილურის ნომრის Signal-ით ხელახლა დასარეგისტრირებლად."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "შეტყობინების კონტენტი"
@@ -7124,7 +7124,7 @@
     "messageformat": "გთხოვთ, {duration}-ში თავიდან სცადო"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "აირჩიე ქვეყნის კოდი"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ტელეფონის ნომერი"
@@ -7649,10 +7649,10 @@
     "messageformat": "ჩართე \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "მიეცი Signal-ს მიკროფონზე წვდომა"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "მიეცი Signal-ს კამერაზე წვდომა"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "შედი პარამეტრებში"
@@ -8204,7 +8204,7 @@
     "messageformat": "მომხმარებლის სახელი ყოველთვის რიცხვების ნაკრებთანაა დაწყვილებული."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "მომხმარებლის სახელის ციფრები"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "გაიგე მეტი"
@@ -8340,13 +8340,13 @@
     "messageformat": "შეცვალე შენი Signal-ის პინ-კოდი"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "შექმენი Signal-ის შენი პინ-კოდი"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "შენი პინ-კოდის შეცვლა შეგიძლია, სანამ ეს მოწყობილობა იქნება რეგისტრირებული. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "პინ-კოდები Signal-ით შენახულ ინფორმაციას დაშიფრულად ინახავს, რათა მხოლოდ შენ გქონდეს მასზე წვდომა. შენი პროფილი, პარამეტრები და კონტაქტები Signal-ის ხელახლა ინსტალაციისას აღდგება. აპის გასახსნელად შენი პინ-კოდი აღარ დაგჭირდება. <learnMoreLink>გაიგე მეტი</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "დაადასტურე შენი Signal-ის პინ-კოდი"
@@ -9121,9 +9121,9 @@
     "messageformat": "შეტყობინებების გაუმჯობესებული პარამეტრები გაფართოებული არჩევნით, თუ როგორ და როდის გამოჩნდება შეტყობინებები. ახლა უკვე შეგიძლია აირჩიო, რა გამოჩნდება აპის ემბლემაზე, შეტყობინებების პარამეტრები დადუმებულ მიმოწერებს მოარგო და მეტი! ასევე, შეტყობინებების ნაგულისხმევი პარამეტრების აღსადგენად მოსახერხებელი ღილაკი დავამატეთ."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ვიდეო ზარების ხარისხი გაუმჯობესდა."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "გარდა ამისა, Windows-ზე სისტემის პარამეტრების გასახსნელად მოსახერხებელი მალსახმობი დავამატეთ იმ შემთხვევისთვის, თუ ვიდეო ზარში ჩართვას ეცდები, მაგრამ Signal-ს კამერაზე წვდომის ნებართვა არ ექნება. ახლა უფრო მარტივად გაიგებ, რა უნდა გააკეთო, რომ ხალხმა დაგინახოს."
   }
 }

@@ -6257,7 +6257,7 @@
     "messageformat": "PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Τα PIN διατηρούν κρυπτογραφημένες τις πληροφορίες που είναι αποθηκευμένες στο Signal, ώστε μόνο εσύ να έχεις πρόσβαση σε αυτές. Δεν ήταν δυνατή η επαναφορά του PIN σου. Θα γίνει επαναφορά του προφίλ, των ρυθμίσεων και των επαφών σου όταν κάνεις επανεγκατάσταση. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Ρυθμίσεις PIN για προχωρημένους"
@@ -6272,7 +6272,7 @@
     "messageformat": "Αν απενεργοποιήσεις το PIN, θα χάσεις όλα τα δεδομένα όταν επανεγγραφτείς στο Signal, εκτός εάν δημιουργήσεις χειροκίνητα αντίγραφο ασφαλείας και το ανακτήσεις. Δεν μπορείς να ενεργοποιήσεις το Κλείδωμα Εγγραφής όσο το PIN είναι απενεργοποιημένο."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Η απενεργοποίηση του PIN απέτυχε λόγω του κλειδώματος εγγραφής"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Πρέπει να απενεργοποιήσεις το κλείδωμα εγγραφής πριν απενεργοποιήσεις το PIN σου."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Η απενεργοποίηση του PIN απέτυχε λόγω των αντιγράφων ασφαλείας"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Πρέπει να απενεργοποιήσεις τα Αντίγραφα ασφαλείας πριν απενεργοποιήσεις το PIN σου."
@@ -7124,7 +7124,7 @@
     "messageformat": "Δοκίμασε ξανά σε {duration}."
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Επιλογή κωδικού χώρας"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Αριθμός τηλεφώνου"
@@ -7649,10 +7649,10 @@
     "messageformat": "Ενεργοποίησε το \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Ενεργοποίηση πρόσβασης στο μικρόφωνο για το Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Ενεργοποίηση πρόσβασης στην κάμερα για το Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Πήγαινε στις ρυθμίσεις"
@@ -8204,7 +8204,7 @@
     "messageformat": "Τα ονόματα χρήστη συνδυάζονται πάντα με ένα σύνολο αριθμών."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Ψηφία ονόματος χρήστη"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Μάθε περισσότερα"
@@ -8340,13 +8340,13 @@
     "messageformat": "Άλλαξε το PIN σου στο Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Δημιουργία του PIN Signal σου"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Μπορείς να αλλάξεις το PIN σου εφ' όσον αυτή η συσκευή είναι εγγεγραμμένη. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Τα PIN διατηρούν κρυπτογραφημένες τις πληροφορίες που είναι αποθηκευμένες στο Signal, ώστε μόνο εσύ να έχεις πρόσβαση σε αυτές. Θα γίνει επαναφορά του προφίλ, των ρυθμίσεων και των επαφών όταν κάνεις επανεγκατάσταση. Δεν θα χρειάζεσαι το PIN σου για να ανοίξεις την εφαρμογή. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Επιβεβαίωση PIN Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Βελτιωμένες ρυθμίσεις ειδοποιήσεων με περισσότερες επιλογές σχετικά με τον τρόπο και τον χρόνο εμφάνισης των ειδοποιήσεων."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Βελτιώσεις στην απόδοση των βιντεοκλήσεων."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Προσθέσαμε επίσης μια εύχρηστη συντόμευση για να ανοίγεις τις ρυθμίσεις συστήματός στα Windows, σε περίπτωση που προσπαθήσεις να συμμετάσχεις σε μια βιντεοκλήση και το Signal δεν έχει άδεια πρόσβασης στην κάμερα."
   }
 }

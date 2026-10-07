@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PINekin, Signal-en gordetako informazioa enkriptatzen da, zuk bakarrik atzitu ahal izan dezazun. Ezin da berreskuratu PINa. Signal berriro instalatzean, profila, ezarpenak eta kontaktuak leheneratu egingo dira. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "PINarekin loturiko ezarpen aurreratuak"
@@ -6272,19 +6272,19 @@
     "messageformat": "Ez baduzu modu manualean segurtasun kopiak egiten, PINa desaktibatzen baduzu, datu guztiak galduko dituzu signal berriro erregistratzen duzunean. Ezin duzu erregistratzeko blokeoa aktibatu PINa desaktibatuta dagoen bitartean."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Erregistro-blokeoa dela eta, ezin izan da desgaitu PINa"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "PINa desgaitzeko, erregistro-blokeoa desgaitu behar duzu lehenik."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Ados"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Babeskopiak direla eta, ezin izan da desgaitu PINa"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "PINa desgaitzeko, babeskopiak desgaitu behar dituzu lehenik."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Aktibatu PINa"
@@ -6302,7 +6302,7 @@
     "messageformat": "Erregistratze-blokeoa"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Telefono-zenbakia Signal-en berriro erregistratzeko, eskatu Signal-eko PINa."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Jakinarazpenen edukia"
@@ -7124,7 +7124,7 @@
     "messageformat": "Saiatu berriro {duration} barru"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Herrialdearen kodea aukeratu"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefono-zenbakia"
@@ -7649,10 +7649,10 @@
     "messageformat": "Aktibatu \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Eman mikrofonorako sarbidea Signal-i"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Eman kamerarako sarbidea Signal-i"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Joan ezarpenetara"
@@ -8204,7 +8204,7 @@
     "messageformat": "Erabiltzaile-izen bakoitza zenbaki-multzo batekin parekatzen da."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Erabiltzaile-izeneko digituak"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Informazio gehiago"
@@ -8340,13 +8340,13 @@
     "messageformat": "Aldatu Signal PIN-a"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Sortu Signal-eko PINa"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Zure PIN-a alda dezakezu gailua erregistratuta dagoen bitartean. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PINekin, Signal-en gordetako informazioa enkriptatzen da, zuk bakarrik atzitu ahal izan dezazun. Aplikazioa berriro instalatzean, profila, ezarpenak eta kontaktuak leheneratu egingo dira. Aplikazioa irekitzeko, ez duzu PINa beharko. <learnMoreLink>Informazio gehiago</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Berretsi zure Signal PIN-a"
@@ -9121,9 +9121,9 @@
     "messageformat": "Jakinarazpenen ezarpenak hobetu dira; orain, jakinarazpenak noiz eta nola agertzen diren erabakitzeko aukera hedatuak dituzte."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Bideodeien errendimendua hobetu da."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Halaber, Windows-en sistemaren ezarpenak irekitzeko lasterbide eroso bat gehitu dugu, bideodei batean sartzen saiatu baina Signal-ek kamerarako sarbidea ez duenerako."
   }
 }

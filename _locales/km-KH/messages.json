@@ -6257,7 +6257,7 @@
     "messageformat": "លេខកូដសម្ងាត់ Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "លេខកូដសម្ងាត់ធ្វើឱ្យព័ត៌មានដែលរក្សាទុកជាមួយ Signal បន្តអ៊ីនគ្រីប ដូច្នេះមានតែអ្នកទេដែលអាចចូលប្រើវាបាន។ លេខកូដសម្ងាត់របស់អ្នកមិនអាចយកមកវិញបានទេ។ ប្រូហ្វាល់ ការកំណត់ និងទំនាក់ទំនងរបស់អ្នកនឹងត្រូវបានស្តារ នៅពេលអ្នកដំឡើង Signal ឡើងវិញ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "ការកំណត់លេខកូដសម្ងាត់កម្រិតខ្ពស់"
@@ -6269,25 +6269,25 @@
     "messageformat": "បិទ"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "បើអ្នកបានបិទលេខកូដ PIN អ្នកនឹងបាត់បង់ទិន្នន័យទាំងអស់ នៅពេលអ្នកចុះឈ្មោះ Signal ឡើងវិញ លុះត្រាអ្នកបម្រុងទុក និងស្តារឡើងវិញដោយខ្លួនឯង។ អ្នកមិនអាចបើក ការចាក់សោការចុះឈ្មោះ នៅពេលលេខកូដ PIN បានបិទនោះទេ។"
+    "messageformat": "បើអ្នកបានបិទលេខកូដសម្ងាត់ អ្នកនឹងបាត់បង់ទិន្នន័យទាំងអស់ នៅពេលអ្នកចុះឈ្មោះ Signal ឡើងវិញ លើកលែងតែអ្នកបម្រុងទុក និងស្តារមកវិញដោយផ្ទាល់ដៃ។ អ្នកមិនអាចបើកការចាក់សោការចុះឈ្មោះ នៅពេលលេខកូដសម្ងាត់ត្រូវបានបិទនោះទេ។"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "ការបិទលេខកូដសម្ងាត់មិនបានជោគជ័យ ដោយសារតែការចាក់សោការចុះឈ្មោះ"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "អ្នកត្រូវតែបិទមុខងារចាក់សោការចុះឈ្មោះជាមុនសិន មុននឹងបិទលេខកូដសម្ងាត់របស់អ្នក។"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "យល់ព្រម"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ការបិទលេខកូដសម្ងាត់មិនបានជោគជ័យ ដោយសារតែមានការបម្រុងទុក"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "អ្នកត្រូវតែបិទការបម្រុងទុក មុនពេលបិទលេខកូដសម្ងាត់របស់អ្នក។"
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "បើកលេខកូដ PIN"
+    "messageformat": "បើកលេខកូដសម្ងាត់"
   },
   "icu:Preferences--enable-signal-pin--button": {
     "messageformat": "បើក"
@@ -6302,7 +6302,7 @@
     "messageformat": "ការចាក់សោការចុះឈ្មោះ"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "ទាមទារលេខកូដសម្ងាត់ Signal របស់អ្នកដើម្បីចុះឈ្មោះលេខទូរសព្ទរបស់អ្នកជាមួយ Signal ម្ដងទៀត។"
   },
   "icu:Preferences--notification-content": {
     "messageformat": "ខ្លឹមសារ​ជូន​ដំណឹង"
@@ -7124,7 +7124,7 @@
     "messageformat": "សូមព្យាយាមម្តងទៀតក្នុងពេល {duration} ទៀត។"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "ជ្រើសរើសកូដប្រទេស"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "លេខទូរសព្ទ"
@@ -7649,10 +7649,10 @@
     "messageformat": "បើក “Signal”"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "បើកឱ្យចូលប្រើមីក្រូហ្វូនសម្រាប់ Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "បើកឱ្យចូលប្រើកាមេរ៉ាសម្រាប់ Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ចូលទៅកាន់ការកំណត់"
@@ -8204,7 +8204,7 @@
     "messageformat": "ឈ្មោះអ្នកប្រើតែងតែមានលេខប៉ុន្មានខ្ទង់។"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "លេខនៃឈ្មោះអ្នកប្រើ"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ស្វែងយល់បន្ថែម"
@@ -8340,13 +8340,13 @@
     "messageformat": "ផ្លាស់ប្តូរលេខកូដសម្ងាត់ Signal របស់អ្នក"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "បង្កើតលេខកូដសម្ងាត់ Signal របស់អ្នក"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "អ្នកអាចប្តូរលេខកូដសម្ងាត់របស់អ្នកបាន ដរាបណាឧបករណ៍នេះត្រូវបានចុះឈ្មោះ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "លេខកូដសម្ងាត់ធ្វើឱ្យព័ត៌មានដែលរក្សាទុកជាមួយ Signal បន្តអ៊ីនគ្រីប ដូច្នេះមានតែអ្នកទេដែលអាចចូលប្រើវាបាន។ ប្រូហ្វាល់ ការកំណត់ និងទំនាក់ទំនងរបស់អ្នកនឹងស្ដារមកវិញ នៅពេលអ្នកដំឡើងវាឡើងវិញ។ អ្នកនឹងមិនចាំបាច់ប្រើលេខកូដសម្ងាត់របស់អ្នកដើម្បីបើកកម្មវិធីនោះទេ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "បញ្ជាក់លេខកូដសម្ងាត់ Signal របស់អ្នក"
@@ -9121,9 +9121,9 @@
     "messageformat": "កំណែថ្មីនេះដាក់ឱ្យប្រើប្រាស់នូវការកំណត់លម្អិតជាងមុន ដើម្បីឱ្យអ្នកមានការគ្រប់គ្រងកាន់តែច្រើនលើការជូនដំណឹង Signal របស់អ្នក។ ឥឡូវនេះ អ្នកអាចជ្រើសរើសអ្វីដែលគួរបង្ហាញនៅលើស្លាកកម្មវិធី កែតម្រូវចំណូលចិត្តនៃការជូនដំណឹងសម្រាប់កម្រងសារជជែកដែលបានបិទសំឡេង និងអ្វីៗជាច្រើនទៀត! យើងក៏បានបញ្ចូលប៊ូតុងងាយស្រួលមួយដើម្បីស្ដារការកំណត់ការជូនដំណឹងលំនាំដើម ប្រសិនបើអ្នកធ្លាប់ធ្វើការផ្លាស់ប្តូរច្រើនខ្លាំងរហូតដល់អ្នកមិនដឹងថាគួរធ្វើបែបណាទេ។"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ដោយសារមានការកែលម្អដំណើរការមួយចំនួន CPU របស់អ្នកនឹងដំណើរការបានប្រសើរជាងមុនបន្តិចក្នុងអំឡុងពេលហៅជាវីដេអូ (ទោះបីជាអ្នកមិនញញឹមក៏ដោយ)។"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "យើងក៏បានបន្ថែមផ្លូវកាត់ដ៏ងាយស្រួលមួយដែរ ដើម្បីបើកការកំណត់ប្រព័ន្ធរបស់យើងនៅលើ Windows ប្រសិនបើអ្នកព្យាយាមចូលរួមការហៅជាវីដេអូ ប៉ុន្តែ Signal មិនមានការអនុញ្ញាតក្នុងការប្រើប្រាស់កាមេរ៉ា។ ឥឡូវនេះ កាន់តែងាយស្រួលជាងមុនក្នុងការមើលថាអ្នកត្រូវធ្វើអ្វីខ្លះ ដូច្នេះអ្នកផ្សេងទៀតអាចមើលឃើញអ្នកបាន។"
   }
 }

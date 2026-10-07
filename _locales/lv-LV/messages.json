@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN glabā Signal informāciju šifrētā veidā, lai tai varētu piekļūt tikai jūs. Jūsu PIN nevar atjaunot. Pēc atkārtotas Signal instalēšanas jūsu profils, iestatījumi un kontaktpersonas tiks atjaunoti. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Advancētie PIN iestatījumi"
@@ -6272,19 +6272,19 @@
     "messageformat": "Ja atspējosiet PIN, jūs zaudēsiet visus datus, atkārtoti reģistrējoties lietotnē Signal, ja vien manuāli tos nedublēsiet un neatjaunosiet. Reģistrācijas bloķēšanu nevar ieslēgt, kamēr PIN ir atspējots."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN neizdevās atspējot reģistrācijas bloķēšanas dēļ"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Pirms PIN atspējošanas ir jāatspējo reģistrācijas bloķēšana."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Ok"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN neizdevās atspējot rezerves kopiju dēļ"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Pirms PIN atspējošanas ir jāatspējo rezerves kopijas."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Iespējot PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Reģistrācijas bloķēšana"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Pieprasīt savu Signal PIN, lai vēlreiz reģistrētu savu tālruņa numuru lietotnē Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Paziņojuma saturs"
@@ -7124,7 +7124,7 @@
     "messageformat": "Mēģiniet vēlreiz pēc {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Atlasīt valsts kodu"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Tālruņa numurs"
@@ -7649,10 +7649,10 @@
     "messageformat": "Ieslēdziet \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Iespējot mikrofona piekļuvi lietotnei Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Iespējot kameras piekļuvi lietotnei Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Atvērt iestatījumus"
@@ -8204,7 +8204,7 @@
     "messageformat": "Lietotājvārdiem vienmēr ir piesaistīta ciparu kombinācija."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Lietotājvārda cipari"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Uzzināt vairāk"
@@ -8340,13 +8340,13 @@
     "messageformat": "Mainīt Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Izveidot Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Varat labot PIN kamēr ierīce ir reģistrēta. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN glabā Signal informāciju šifrētā veidā, lai tai varētu piekļūt tikai jūs. Jūsu profils, iestatījumi un kontaktpersonas pēc atkārtotas instalēšanas tiks atjaunotas. Lai atvērtu lietotni, PIN nebūs nepieciešams. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Apstipriniet Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Šajā atjauninājumā ir ieviesti detalizētāki iestatījumi, kas sniedz plašākas iespējas kontrolēt Signal paziņojumus. Tagad varat izvēlēties, kas tiek rādīts lietotnes nozīmītē, pielāgot paziņojumu iestatījumus sarunās ar izslēgtu skaņu un daudz ko citu! Tāpat esam pievienojuši ērtu pogu, kas ļauj atjaunot paziņojumu noklusējuma iestatījumus, ja gadās apjukt visās veiktajās izmaiņās."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Pateicoties vairākiem veiktspējas uzlabojumiem, jūsu procesoram video zvanu laikā būs mazāka slodze."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Turklāt esam pievienojuši ērtu saīsni Windows sistēmas iestatījumu atvēršanai, ja mēģināt pievienoties video zvanam, bet Signal nav atļaujas piekļūt kamerai. Tagad ir vieglāk saprast, kas jādara, lai citi lietotāji varētu jūs redzēt."
   }
 }

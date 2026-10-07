@@ -6257,7 +6257,7 @@
     "messageformat": "PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN menjaga informasi yang disimpan di Signal tetap terenkripsi sehingga hanya Anda yang dapat mengaksesnya. PIN Anda tidak dapat dipulihkan. Profil, pengaturan, dan daftar kontak akan dipulihkan saat Anda menginstal ulang Signal. <learnMoreLink>Selengkapnya</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Pengaturan PIN tingkat lanjut"
@@ -6269,22 +6269,22 @@
     "messageformat": "Nonaktifkan"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Jika Anda menonaktifkan PIN, Anda akan kehilangan data saat Anda mendaftar ulang Signal kecuali Anda melakukan pencadangan manual dan memulihkannya. Anda tidak dapat menyalakan Kunci Pendaftaran saat PIN dinonaktifkan."
+    "messageformat": "Jika PIN dinonaktifkan, Anda akan kehilangan semua data saat Anda mendaftar ulang Signal kecuali Anda melakukan pencadangan manual dan memulihkannya. Anda tidak dapat mengaktifkan Kunci Registrasi saat PIN dinonaktifkan."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Gagal menonaktifkan PIN karena kunci registrasi aktif"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "Kunci registrasi harus dinonaktifkan dulu sebelum PIN dapat dinonaktifkan."
+    "messageformat": "Kunci Registrasi harus dinonaktifkan dulu sebelum menonaktifkan PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Gagal menonaktifkan PIN karena Signal Backups aktif"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "Backups harus dinonaktifkan dulu sebelum PIN dapat dinonaktifkan."
+    "messageformat": "Signal Backups harus dinonaktifkan dulu sebelum menonaktifkan PIN."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Aktifkan PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Kunci Registrasi"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Memerlukan PIN Signal Anda untuk mendaftarkan nomor telepon Anda lagi di Signal."
+    "messageformat": "Memerlukan PIN Signal untuk mendaftarkan nomor telepon Anda lagi di Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Konten notifikasi"
@@ -7124,7 +7124,7 @@
     "messageformat": "Coba lagi dalam {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Pilih kode negara"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Nomor telepon"
@@ -7649,10 +7649,10 @@
     "messageformat": "Aktifkan \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Aktifkan akses mikrofon untuk Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Aktifkan akses kamera untuk Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Buka pengaturan"
@@ -8204,7 +8204,7 @@
     "messageformat": "Nama pengguna selalu digabungkan dengan serangkaian angka."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Digit nama pengguna"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Pelajari Lebih Lanjut"
@@ -8340,13 +8340,13 @@
     "messageformat": "Ganti PIN Signal Anda"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Buat PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Anda dapat mengganti PIN Anda selama perangkat ini terdaftar. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN menjaga informasi yang disimpan di Signal tetap terenkripsi sehingga hanya Anda yang dapat mengaksesnya. Profil, pengaturan, dan daftar kontak akan dipulihkan saat Anda menginstal ulang. Tidak perlu PIN untuk membuka aplikasi. <learnMoreLink>Selengkapnya</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Konfirmasi PIN Signal Anda"
@@ -9121,9 +9121,9 @@
     "messageformat": "Kami meningkatkan pengaturan notifikasi dengan opsi yang lebih lengkap untuk mengatur bagaimana dan kapan notifikasi ditampilkan."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Performa video call kini lebih baik."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Kami juga menambahkan pintasan praktis ke pengaturan sistem di Windows, jadi Anda dapat dengan mudah memberikan akses kamera ke Signal saat mencoba bergabung ke video call."
   }
 }

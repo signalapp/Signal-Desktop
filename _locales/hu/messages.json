@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "A PIN-nek köszönhetően a Signal által tárolt információk titkosítva vannak, így csak te férhetsz hozzájuk. A PIN-kódod nem állítható helyre. A profilod, a beállításaid és a névjegyeid helyreállnak, amikor újratelepíted a Signalt. <learnMoreLink>Tudj meg többet</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "További PIN beállítások"
@@ -6272,7 +6272,7 @@
     "messageformat": "PIN kódod letiltásával egy esetleges újraregisztráció során az összes Signal adatod el fog veszni, kivéve ha azokat előtte külön lemented majd visszatöltöd. Letiltott PIN kóddal nem lehetséges a regisztrációs zár bekapcsolása."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "A PIN-kód letiltása regisztrációs zárolás miatt sikertelen"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "A PIN-kód letiltása előtt ki kell kapcsolnod a regisztrációs zárat."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "A PIN-kód letiltása biztonsági mentések miatt sikertelen"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "A PIN-kód letiltása előtt ki kell kapcsolnod a biztonsági mentéseket."
@@ -7124,7 +7124,7 @@
     "messageformat": "Kérjük, próbáld újra {duration} múlva"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Válassz országhívószámot"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonszám"
@@ -7649,10 +7649,10 @@
     "messageformat": "Kapcsold be a „Signal” opciót"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Engedélyezd a mikrofon használatát a Signal számára"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Engedélyezd a kamera használatát a Signal számára"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Ugrás a Beállításokhoz"
@@ -8204,7 +8204,7 @@
     "messageformat": "A felhasználónevek mindig egy számsorral párosulnak."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Felhasználónév számjegyei"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Tudj meg többet"
@@ -8340,13 +8340,13 @@
     "messageformat": "Módosítsd a Signal PIN-kódodat"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Hozd létre a Signal PIN-kódod"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mindaddig megváltoztathatod PIN kódodat, amíg ez az eszköz regisztrálva van. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "A PIN-nek köszönhetően a Signal által tárolt információk titkosítva vannak, így csak te férhetsz hozzájuk. Újratelepítés esetén a profilod, a beállításaid és a névjegyeid visszaállításra kerülnek. Nem lesz szükséged a PIN-kódodra az alkalmazás megnyitásához. <learnMoreLink>Tudj meg többet</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN kód megerősítése"
@@ -9121,9 +9121,9 @@
     "messageformat": "Továbbfejlesztett értesítési beállítások kibővített lehetőségekkel az értesítések megjelenésének módjára és idejére vonatkozóan."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Teljesítménybeli fejlesztések videohívásokhoz."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Hozzáadtunk egy praktikus parancsikont is, amellyel megnyithatod a rendszerbeállításaidat Windows-operációs rendszerben, ha megpróbálsz csatlakozni egy videohíváshoz, és a Signal nem rendelkezik engedéllyel a kamera eléréséhez."
   }
 }

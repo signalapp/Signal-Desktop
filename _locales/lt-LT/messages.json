@@ -6272,7 +6272,7 @@
     "messageformat": "Jei išjungsite PIN kodą, tuomet registruodamiesi iš naujo Signal programėlėje, prarasite visus duomenis, nebent rankiniu būdu pasidarysite atsarginę kopiją ir ją atkursite. Tol, kol PIN kodas yra išjungtas, negalėsite įjungti Registracijos užrakto."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Nepavyko išjungti PIN dėl registracijos užrakto"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Prieš išjungdami savo PIN privalote išjungti registracijos užraktą."
@@ -6281,7 +6281,7 @@
     "messageformat": "Gerai"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Nepavyko išjungti PIN dėl atsarginių kopijų"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Prieš išjungdami savo PIN privalote išjungti atsargines kopijas."
@@ -7124,7 +7124,7 @@
     "messageformat": "Bandykite už {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Pasirinkite valstybės kodą"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefono numeris"
@@ -7649,10 +7649,10 @@
     "messageformat": "Įjunkite \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Suteikite „Signal“ prieigą prie mikrofono."
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Suteikite „Signal“ prieigą prie kameros."
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Eiti į nustatymus"
@@ -8204,7 +8204,7 @@
     "messageformat": "Naudotojų vardai visada susiejami su skaitmenų deriniu."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Naudotojo vardo skaičiai"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Sužinoti daugiau"
@@ -8340,13 +8340,13 @@
     "messageformat": "Keisti savo „Signal“ PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Susikurkite „Signal“ PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Kol šis įrenginys yra registruotas, galite keisti savo PIN kodą. <learnMoreLink>Sužinoti daugiau</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN kodai šifruotu pavidalu saugo informaciją, kuri yra laikoma „Signal“, taigi, tik jūs galite gauti prieigą prie jos. Jums įdiegus iš naujo, jūsų profilis, nustatymai ir adresatai bus atkurti. Norint atverti programėlę jums nereikės įvesti PIN kodo. <learnMoreLink>Sužinokite daugiau</learnMoreLink>."
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Patvirtinkite savo Signal PIN kodą"
@@ -9121,9 +9121,9 @@
     "messageformat": "Patobulinti pranešimų nustatymai su išplėstomis parinktimis kaip ir kada rodomi pranešimai."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Vaizdo skambučių veikimo pagerinimas."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Be to, pridėjome patogų šaukinį, leidžiantį atverti „Windows“ sistemos nustatymus, jei „Signal“ neturi prieigos prie kameros bandant prisijungti prie vaizdo skambučio."
   }
 }

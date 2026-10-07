@@ -2916,7 +2916,7 @@
     "messageformat": "최근 사용"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "웃는 얼굴과 사람"
+    "messageformat": "얼굴 표정 & 사람"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
     "messageformat": "동물과 자연"
@@ -2928,7 +2928,7 @@
     "messageformat": "활동"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "여행과 장소"
+    "messageformat": "여행 & 장소"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
     "messageformat": "사물"
@@ -2964,7 +2964,7 @@
     "messageformat": "최근 사용"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "웃는 얼굴과 사람"
+    "messageformat": "얼굴 표정 & 사람"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
     "messageformat": "동물과 자연"
@@ -2973,7 +2973,7 @@
     "messageformat": "음식과 음료"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "여행과 장소"
+    "messageformat": "여행 & 장소"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
     "messageformat": "활동"
@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN은 Signal에 저장된 정보를 암호화하여 본인만 확인할 수 있도록 안전하게 보호합니다. PIN은 분실 시 복구할 수 없습니다. 앱을 다시 설치해도 PIN을 입력하면 프로필, 설정, 연락처가 그대로 복원됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "PIN 고급 설정"
@@ -6272,7 +6272,7 @@
     "messageformat": "PIN을 비활성화하면 수동으로 백업 및 복원하지 않는 한, Signal 재가입 시 모든 데이터가 삭제됩니다. PIN이 비활성화된 상태에서는 등록 잠금 기능을 사용할 수 없습니다."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "등록 잠금으로 인해 PIN 비활성화 실패"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "PIN을 비활성화하려면 먼저 등록 잠금을 비활성화해야 합니다."
@@ -6281,7 +6281,7 @@
     "messageformat": "확인"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "백업 활성화로 인해 PIN 비활성화 실패"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "PIN을 비활성화하려면 먼저 백업을 비활성화해야 합니다."
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} 후에 다시 시도해 주세요."
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "국가 코드 선택"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "전화번호"
@@ -7649,10 +7649,10 @@
     "messageformat": "'Signal'을 켜세요"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal의 마이크 접근 권한을 허용하세요"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal의 카메라 접근 권한을 허용하세요"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "설정으로 이동"
@@ -8204,7 +8204,7 @@
     "messageformat": "모든 사용자 이름에는 고유 번호가 부여됩니다."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "사용자 이름 구분 번호"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "자세히 알아보기"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PIN 변경하기"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PIN을 생성하세요"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "이 기기가 등록되어 있는 동안 언제든지 PIN을 변경할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN은 Signal에 저장된 정보를 암호화하여 본인만 확인할 수 있도록 안전하게 보호합니다. 앱을 다시 설치해도 PIN을 입력하면 프로필, 설정, 연락처가 그대로 복원되며, 평소 앱을 열 때는 PIN을 입력하지 않아도 됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal PIN을 확인해 주세요"
@@ -9121,9 +9121,9 @@
     "messageformat": "알림을 받는 방식과 시점을 더 자유롭게 설정할 수 있도록 알림 설정 기능을 개선했습니다."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "영상 통화 성능이 개선되었습니다."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "또한, 카메라 접근 권한이 없는 상태에서 영상 통화에 참여하려고 할 때 Windows 시스템 설정을 바로 열 수 있는 편리한 단축키가 추가되었습니다."
   }
 }

@@ -6251,13 +6251,13 @@
     "messageformat": "Gumawa ng PIN"
   },
   "icu:Preferences--create-signal-pin-button": {
-    "messageformat": "Lumikha"
+    "messageformat": "Gumawa"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinapanatili ng PINs na naka-encrypt ang impormasyon na nakalagay sa Signal para ikaw lang ang may access dito. Hindi mare-recover ang PIN mo. Ibabalik ang profile, settings, at contacts mo kapag nag-install ka ulit ng Signal. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Advanced PIN settings"
@@ -6269,22 +6269,22 @@
     "messageformat": "I-disable"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Kung idi-disable mo ang iyong PIN, mawawala ang lahat ng data kapag ika'y nag-register ulit sa Signal maliban nalang kung manually kang nag-back up and restore. Hindi mo pwedeng i-turn on ang Registration Lock habang naka-disable ang PIN."
+    "messageformat": "Kapag dinisable mo ang PIN, mawawala ang lahat ng data kapag nag-register ka ulit sa Signal maliban nalang kung manually kang nag-back up at nag-restore. Hindi mo pwedeng i-on ang Registration Lock habang naka-disable ang PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Hindi na-disable ang PIN dahil sa registration lock"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Kailangan mo munang i-disable ang Registration Lock bago mo i-disable ang iyong PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Hindi na-disable ang PIN dahil sa PIN dahil sa backups"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Kailangan mo munang i-disable ang backups bago mo i-disable ang iyong PIN."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "I-enable ang PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Registration Lock"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "I-require ang Signal PIN mo para i-register ulit ang iyong phone number gamit ang Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Notification content"
@@ -7124,7 +7124,7 @@
     "messageformat": "Subukan ulit sa loob ng {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Pumili ng country code"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Phone number"
@@ -7649,10 +7649,10 @@
     "messageformat": "I-on ang \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Bigyan ang Signal ng access sa microphone"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Bigyan ang Signal ng access sa camera"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Pumunta sa settings"
@@ -8340,13 +8340,13 @@
     "messageformat": "Palitan ang Signal PIN mo"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Gumawa ng Signal PIN mo"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Mapapalitan mo ang iyong PIN hanggang rehistrado ang device na ito. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Pinapanatili ng PINs na naka-encrypt ang impormasyon na nakalagay sa Signal para ikaw lang ang may access dito. Ibabalik ang profile, settings, at contacts mo kapag nag-install ka ulit. Hindi mo na kailangan ang iyong PIN para buksan ang app. <learnMoreLink>Matuto pa</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Kumpirmahin ang iyong Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Mas pinagandang notification settings dahil sa pinalawak na options kung paano at kailan ipapakita ang notifications."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Performance improvements para sa video calls."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Nagdagdag rin kami ng isang convenient shortcut para mabuksan ang system settings sa Windows kapag sinubukan mong sumali sa isang video call at walang permission ang Signal na i-access ang camera."
   }
 }

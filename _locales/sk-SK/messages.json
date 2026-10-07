@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN kódy udržiavajú údaje uložené v aplikácii Signal zašifrované, aby ste k nim mali prístup iba vy. Váš PIN kód nie je možné obnoviť. Váš profil, nastavenia a kontakty sa po preinštalovaní Signalu obnovia. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Pokročilé nastavenia PIN kódu"
@@ -6272,7 +6272,7 @@
     "messageformat": "Ak vypnete PIN, opätovnou registráciou Signalu prídete o všetky vaše dáta, ak ich manuálne nezálohujete a neobnovíte. Kým bude PIN vypnutý, nebudete môcť zapnúť registračný zámok."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Vypnutie PIN kódu zlyhalo kvôli nastavenému zámku registrácie"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Ak chcete vypnúť PIN kód, musíte deaktivovať zámok registrácie."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Vypnutie PIN kódu zlyhalo kvôli zapnutým zálohám"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Ak chcete vypnúť PIN kód, musíte vypnúť zálohovanie."
@@ -6302,7 +6302,7 @@
     "messageformat": "Registračný zámok"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Na opätovné zaregistrovanie telefónneho čísla v aplikácii Signal si vyžiadajte svoj Signal PIN."
+    "messageformat": "Vyžadovať Signal PIN na opätovné zaregistrovanie vášho telefónneho čísla v aplikácii Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Obsah oznámenia"
@@ -7124,7 +7124,7 @@
     "messageformat": "Skúste to znova o {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Vybrať kód krajiny"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefónne číslo"
@@ -7649,10 +7649,10 @@
     "messageformat": "Zapnite „Signal“"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Povoľte Signalu prístup k mikrofónu"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Povoľte Signalu prístup ku kamere"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Prejsť na nastavenia"
@@ -8204,7 +8204,7 @@
     "messageformat": "Používateľské mená sú vždy spárované so sadou čísel."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Číslice používateľského mena"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Zistiť viac"
@@ -8340,13 +8340,13 @@
     "messageformat": "Zmeňte svoj Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Vytvorte svoj Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN si môžete zmeniť, kým je toto zariadenie registrované. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN kódy udržiavajú údaje uložené v aplikácii Signal zašifrované, aby ste k nim mali prístup iba vy. Váš profil, nastavenia a kontakty sa po preinštalovaní aplikácie obnovia. Na otvorenie aplikácie nebudete potrebovať PIN kód. <learnMoreLink>Zistiť viac</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potvrďte svoj Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Vylepšené nastavenia upozornení s rozšírenými možnosťami, ktoré určujú kedy a ako sa upozornenia zobrazia."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Vylepšili sme výkon pre videohovory."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Pridali sme aj praktickú skratku na otvorenie systémových nastavení vo Windowse, ak sa pokúsite pripojiť k videohovoru a Signal nemá povolenie na prístup ku kamere."
   }
 }

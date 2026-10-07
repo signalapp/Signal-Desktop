@@ -6257,7 +6257,7 @@
     "messageformat": "Signal-pincode"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Met een pincode wordt informatie versleuteld opgeslagen op Signals servers zodat alleen jij er toegang toe hebt. Je kunt hiermee je profiel, instellingen en contacten herstellen wanneer je Signal opnieuw installeert. Je pincode kan niet worden hersteld. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Geavanceerde pincode-instellingen"
@@ -6272,7 +6272,7 @@
     "messageformat": "Als je de pincode uitschakelt zul je wanneer je Signal opnieuw registreert alle gegevens kwijtraken, tenzij je handmatig een back-up maakt en herstelt. Daarnaast kun je zolang de pincode is uitgeschakeld de registratievergrendeling niet inschakelen."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Pincode uitschakelen mislukt door registratievergrendeling"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Je moet registratievergrendeling uitschakelen voordat je je pincode uitschakelt."
@@ -6281,7 +6281,7 @@
     "messageformat": "Begrepen"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Pincode uitschakelen mislukt door back-ups"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Je moet back-ups uitschakelen voordat je je pincode uitschakelt."
@@ -7124,7 +7124,7 @@
     "messageformat": "Probeer het opnieuw over {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Selecteer landcode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefoonnummer"
@@ -7451,7 +7451,7 @@
     "messageformat": "Over Signal-pincodes"
   },
   "icu:StandaloneRegistration--CreatePIN--AboutPINs--description": {
-    "messageformat": "Met een pincode wordt informatie versleuteld opgeslagen op Signals servers zodat alleen jij er toegang toe hebt. Je kunt hierdoor je profiel, instellingen en contacten herstellen wanneer je Signal opnieuw installeert."
+    "messageformat": "Met een pincode wordt informatie versleuteld opgeslagen op Signals servers zodat alleen jij er toegang toe hebt. Je kunt hiermee je profiel, instellingen en contacten herstellen wanneer je Signal opnieuw installeert."
   },
   "icu:StandaloneRegistration--CreatePIN--AboutPINs--learn-more-button": {
     "messageformat": "Meer informatie"
@@ -7649,10 +7649,10 @@
     "messageformat": "Schakel ‘Signal’ in"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Schakel microfoontoegang in voor Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Schakel cameratoegang in voor Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Ga naar instellingen"
@@ -8204,7 +8204,7 @@
     "messageformat": "Gebruikersnamen zijn altijd gekoppeld aan een cijfercombinatie."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Cijfers in gebruikersnaam"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Meer informatie"
@@ -8340,13 +8340,13 @@
     "messageformat": "Je Signal-pincode wijzigen"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal-pincode aanmaken"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Zolang je telefoonnummer voor dit apparaat geregistreerd staat kun je je pincode nog wijzigen. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Met een pincode wordt informatie versleuteld opgeslagen op Signals servers zodat alleen jij er toegang toe hebt. Je kunt hiermee je profiel, instellingen en contacten herstellen wanneer je Signal opnieuw installeert. Je hebt de pincode niet nodig om de app te openen. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Bevestig je Signal-pincode"
@@ -9121,9 +9121,9 @@
     "messageformat": "Deze update geeft je meer mogelijkheden om je Signal-meldingen in te stellen. Je kunt nu kiezen wat er op de app-badge verschijnt, meldingsinstellingen voor gedempte chats aanpassen en meer! We hebben ook een handige knop toegevoegd waarmee je terug kunt naar de standaardmeldingsinstellingen, voor het geval je door de bomen het bos niet meer ziet."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Dankzij enkele prestatieverbeteringen hoeft je processor tijdens video-oproepen minder hard te werken."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "We hebben ook een handige snelkoppeling toegevoegd om je systeeminstellingen in Windows te openen als je probeert deel te nemen aan een video-oproep en Signal geen toestemming heeft om de camera te gebruiken. Nu heb je een beter beeld van wat je moet doen om zelf in beeld te komen."
   }
 }

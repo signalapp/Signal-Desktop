@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-ови чувају ваше информације шифрованим у Signal-у, тако да само ви можете да им приступите. Враћање вашег PIN-а није могуће. Ваш профил, подешавања и контакти ће бити враћени када поново инсталирате апликацију. <learnMoreLink>Сазнајте више</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Напредна подешавања PIN-а"
@@ -6272,7 +6272,7 @@
     "messageformat": "Ако искључите PIN, изгубићете све податке када поново региструјете Signal, осим ако ручно не направите резервне копије и вратите податке. Не можете укључити закључавање регистрације док је PIN искључен."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Искључивање PIN-а није успело због закључавања регистрације"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Морате да искључите закључавање регистрације пре деактивирања PIN-а."
@@ -6281,7 +6281,7 @@
     "messageformat": "У реду"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Искључивање PIN-а није успело због резервних копија"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Морате да искључите резервне копије пре деактивирања PIN-а."
@@ -7124,7 +7124,7 @@
     "messageformat": "Пробајте поново за {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Изаберите позивни број државе"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Број телефона"
@@ -7649,10 +7649,10 @@
     "messageformat": "Укључите „Signal“"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Дозволите Signal-у приступ микрофону"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Дозволите Signal-у приступ камери"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Иди на подешавања"
@@ -8204,7 +8204,7 @@
     "messageformat": "Корисничка имена су увек упарена са скупом бројева."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Цифре у корисничком имену"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Сазнајте више"
@@ -8340,13 +8340,13 @@
     "messageformat": "Промените Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Креирајте Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN можете променити док год је овај уређај регистрован. <learnMoreLink>Сазнајте више</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-ови чувају ваше информације шифрованим у Signal-у, тако да само ви можете да им приступите. Ваш профил, подешавања и контакти ће бити враћени када поново инсталирате апликацију. Неће бити потребан PIN да бисте отворили апликацију. <learnMoreLink>Сазнајте више</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Потврдите Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Побољшане подешавања за обавештења с више опција за то како и када ће се обавештења појављивати."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Побољшање перформанси током видео-позива."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Такође смо додали згодну пречицу за отварање подешавања система на Windows-у када покушавате да се прикључите видео-позиву, а Signal нема дозволу за приступ камери."
   }
 }

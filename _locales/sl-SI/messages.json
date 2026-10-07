@@ -6257,37 +6257,37 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "S PIN kodo zavarujete podatke, shranjene v računu Signal s šifriranjem, tako da so dostopni le vam. Vaše PIN kode ni mogoče obnoviti. Vaš profil, nastavitve in stiki bodo obnovljeni ob ponovni namestitvi Signala. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
-    "messageformat": "Napredne nastavite PIN"
+    "messageformat": "Napredne nastavite PIN kode"
   },
   "icu:Preferences--disable-signal-pin": {
-    "messageformat": "Izklopi PIN"
+    "messageformat": "Onemogoči PIN kodo"
   },
   "icu:Preferences--disable-signal-pin--button": {
     "messageformat": "Onemogoči"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Z izklopom PINa boste ob ponovni prijavi v svoj račun Signal izgubili vse tam shranjene podatke, razen če prej sami ne ustvarite varnostne kopije. Brez PINa tudi ne morete vklopiti zaklepa registracije."
+    "messageformat": "Z izklopom PIN kode boste ob ponovni prijavi v svoj račun Signal izgubili vse tam shranjene podatke, razen če prej sami ne ustvarite varnostne kopije. Brez PIN kode tudi ne morete vklopiti zaklepa registracije."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN kode ni bilo mogoče onemogočiti zaradi zaklepa registracije"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Preden onemogočite PIN kodo, morate onemogočiti zaklep registracije."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN kode ni bilo mogoče onemogočiti zaradi varnostnih kopij"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Preden onemogočite PIN kodo, morate onemogočiti varnostne kopije."
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "Vklopi PIN"
+    "messageformat": "Vklopi PIN kodo"
   },
   "icu:Preferences--enable-signal-pin--button": {
     "messageformat": "Omogoči"
@@ -6302,7 +6302,7 @@
     "messageformat": "Zaklep registracije"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Za ponovno registracijo svoje telefonske številke v Signalu morate vnesti PIN kodo."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Vsebina obvestil"
@@ -7124,7 +7124,7 @@
     "messageformat": "Prosimo, poskusite znova čez {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Izberite kodo države"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonska številka"
@@ -7649,10 +7649,10 @@
     "messageformat": "Vklopite \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Omogočite dostop Signala do mikrofona"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Omogočite dostop Signala do kamere"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Pojdite v nastavitve"
@@ -8204,7 +8204,7 @@
     "messageformat": "Uporabniškim imenom vedno sledi niz številk."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Številke uporabniškega imena"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Več o tem"
@@ -8340,13 +8340,13 @@
     "messageformat": "Spremenite Signalov PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Ustvarite svojo PIN kodo za Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN lahko spreminjate, dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "S PIN kodo zavarujete podatke, shranjene v računu Signal s šifriranjem, tako da so dostopni le vam. Vaš profil, nastavitve in stiki bodo obnovljeni ob ponovni namestitvi. Vnos PIN kode ob vsakokratnem zagonu aplikacije ne bo potreben. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potrdite Signalov PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Ta posodobitev prinaša podrobnejše nastavitve, ki vam omogočajo bistveno večji nadzor nad obvestili Signala. Zdaj lahko izberete, kaj bo prikazano na znački aplikacije, prilagodite nastavitve obvestil za utišane klepete in še več! Dodali smo tudi priročen gumb za obnovitev privzetih nastavitev obvestil, če jih boste kdaj toliko spremenili, da se boste v njih povsem izgubili."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Izboljšave zmogljivosti video klicev."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Dodali smo tudi priročno bližnjico za odpiranje sistemskih nastavitev v sistemu Windows, če se poskušate pridružiti video klicu, vendar Signal nima dovoljenja za dostop do kamere. Zdaj je lažje videti, kaj morate storiti, da vas bodo drugi lahko videli."
   }
 }

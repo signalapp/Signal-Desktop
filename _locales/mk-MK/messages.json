@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN кодовите ги чуваат вашите информации складирани на Signal шифрирани, така што само вие можете да им пристапите. PIN кодот не може да се врати ако го заборавите. Вашиот профил, поставувања и контакти ќе бидат вратени кога ќе го реинсталирате Signal. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Напредни поставувања за PIN"
@@ -6272,19 +6272,19 @@
     "messageformat": "Ако го исклучите PIN-от, ќе ги изгубите сите податоци кога повторно ќе се регистрирате на Signal, освен ако рачно направите резервна копија и ги вратите податоците. Не можете да вклучите „Заклучување на регистрација“ додека PIN-от е исклучен."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Оневозможувањето на PIN-от не успеа поради заклучувањето на регистрацијата"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Треба да оневозможите заклучување на регистрација пред да го оневозможите вашиот PIN."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "Во ред"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Оневозможувањето на PIN-от не успеа поради резервните копии"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Треба да оневозможите резервни копии пред да го оневозможите вашиот PIN."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "Вклучи PIN"
@@ -6302,7 +6302,7 @@
     "messageformat": "Заклучување на регистрација"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Ќе биде потребен вашиот Signal PIN за повторно да го регистрирате телефонскиот број на Signal."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Содржина на известување"
@@ -7124,7 +7124,7 @@
     "messageformat": "Ве молиме обидете се повторно за {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Изберете повикувачки број на земјата"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефонски број"
@@ -7649,10 +7649,10 @@
     "messageformat": "Вклучете „Signal“"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Овозможете пристап до микрофонот за Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Овозможете пристап до камерата за Signal"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Оди во поставувањата"
@@ -8204,7 +8204,7 @@
     "messageformat": "Корисничките имиња се спаруваат со низа бројки."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Цифри на корисничкото име"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Дознајте повеќе"
@@ -8340,13 +8340,13 @@
     "messageformat": "Сменете го вашиот Signal PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Создајте го вашиот Signal PIN"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Можете да го промените Вашиот PIN се додека овој уред е регистриран. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN кодовите ги чуваат вашите информации складирани на Signal шифрирани, така што само вие можете да им пристапите. Вашиот профил, поставувања и контакти ќе бидат вратени кога ќе го реинсталирате Signal. PIN кодот не ви е потребен за да ја отворите апликацијата. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Потврдете го Вашиот Signal PIN"
@@ -9121,9 +9121,9 @@
     "messageformat": "Подобрени поставувања за известувања со повеќе опции за тоа како и кога се појавуваат известувањата."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Подобрувања на перформансот за видео повици."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Исто така додадовме лесно пристапна кратенка за отворање на вашите системски поставувања на Windows доколку сакате да се придружите на видео повик и Signal нема дозвола за пристап до вашата камера."
   }
 }

@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN ช่วยรักษาข้อมูลที่เก็บอยู่ใน Signal ให้เข้ารหัสอยู่เสมอ เพื่อที่ข้อมูลดังกล่าวจะมีคุณเพียงคนเดียวเท่านั้นที่สามารถเข้าถึงได้ โดย PIN นี้จะไม่สามารถกู้คืนได้ เมื่อคุณติดตั้งแอปอีกครั้ง ระบบจะสามารถกู้คืนโปรไฟล์ การตั้งค่า และผู้ติดต่อของคุณ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "การตั้งค่า PIN ขั้นสูง"
@@ -6272,7 +6272,7 @@
     "messageformat": "หากคุณปิดใช้งาน PIN คุณจะสูญเสียข้อมูลเมื่อคุณลงทะเบียนบัญชี Signal ใหม่ นอกจากว่าคุณได้สำรองข้อมูลและกู้มันคืนมาเอง คุณไม่สามารถเปิดการใช้งานกุญแจลงทะเบียนในขณะที่ PIN ปิดการใช้งานอยู่"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "ปิดใช้งาน PIN ไม่สำเร็จเนื่องจากใช้กุญแจลงทะเบียนอยู่"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "คุณต้องปิดใช้งานกุญแจลงทะเบียนก่อนจึงจะสามารถปิดใช้งาน PIN ได้"
@@ -6281,7 +6281,7 @@
     "messageformat": "ตกลง"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ปิดใช้งาน PIN ไม่สำเร็จเนื่องจากใช้การสำรองข้อมูลอยู่"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "คุณต้องปิดใช้งานการสำรองข้อมูลก่อนจึงจะสามารถปิดใช้งาน PIN ได้"
@@ -7124,7 +7124,7 @@
     "messageformat": "โปรดลองอีกครั้งใน {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "เลือกรหัสประเทศ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "หมายเลขโทรศัพท์"
@@ -7649,10 +7649,10 @@
     "messageformat": "เปิดใช้งาน “Signal”"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "อนุญาตสิทธิ์ให้ Signal เข้าถึงไมโครโฟน"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "อนุญาตสิทธิ์ให้ Signal เข้าถึงกล้อง"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ไปที่การตั้งค่า"
@@ -8204,7 +8204,7 @@
     "messageformat": "ชื่อผู้ใช้จะต้องมีชุดตัวเลขร่วมด้วยเสมอ"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ตัวเลขหลังชื่อผู้ใช้"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
@@ -8340,13 +8340,13 @@
     "messageformat": "เปลี่ยน Signal PIN ของคุณ"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "สร้าง Signal PIN ของคุณ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "คุณสามารถเปลี่ยนรหัส PIN ได้ตราบเท่าที่คุณยังลงทะเบียนอุปกรณ์นี้ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN ช่วยรักษาข้อมูลที่เก็บอยู่ใน Signal ให้เข้ารหัสอยู่เสมอ เพื่อที่ข้อมูลดังกล่าวจะมีคุณเพียงคนเดียวเท่านั้นที่สามารถเข้าถึงได้ เมื่อคุณติดตั้งแอปอีกครั้ง ระบบจะสามารถกู้คืนโปรไฟล์ การตั้งค่า และผู้ติดต่อของคุณ โดยคุณไม่จำเป็นต้องมี PIN นี้เพื่อเปิดแอป <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "ยืนยันรหัส PIN สำหรับ Signal ของคุณ"
@@ -9121,9 +9121,9 @@
     "messageformat": "เพิ่มตัวเลือกในหน้าตั้งค่าการแจ้งเตือนให้คุณปรับแต่งรูปแบบและเงื่อนไขในการแสดงการแจ้งเตือนได้ตามต้องการ"
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "พัฒนาประสิทธิภาพในการใช้งานวิดีโอคอล"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "พร้อมเพิ่มทางลัดใหม่ที่ให้คุณเปิดหน้าการตั้งค่าระบบบน Windows ได้สะดวกยิ่งขึ้นเมื่อคุณต้องการเข้าร่วมวิดีโอคอลแต่ Signal ยังไม่ได้รับสิทธิ์เข้าถึงกล้อง"
   }
 }

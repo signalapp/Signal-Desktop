@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN коду"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ПИН коддор Signal'дагы маалыматтарыңызды өзүңүз гана көрө алгыдай, шифрленген бойдон сактайт. PIN кодуңуз калыбына келбейт. Signal'ды кайра орноткоңузда, профилиңиз, параметрлериңиз жана байланыштарыңыз калыбына келет. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Өркүндөтүлгөн PIN параметрлери"
@@ -6272,19 +6272,19 @@
     "messageformat": "PIN кодду өчүрүп салсаңыз, Signal колдонмосун кайра орноткондо аккаунтуңуздагы бардык нерселер өчүп калат (эгер алардын көчүрмөсүн кол менен башка жерге сактап койбосоңуз). PIN код өчүк болгондо, Катталууга жол бербөө функциясын иштете албай каласыз."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Каттоону кулпулоо параметринен улам PIN код өчкөн жок"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "PIN кодуңузду өчүрөрдөн мурун \"Каттоону кулпулоо\" дегенди өчүрүшүңүз керек."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Камдык көчүрмөлөрдөн улам PIN код өчкөн жок"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "PIN кодду өчүрөрдөн мурун камдык көчүрмөлөрдү өчүрүшүңүз керек."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "PIN кодду иштетүү"
@@ -6302,7 +6302,7 @@
     "messageformat": "Катталууну Кулпулоо"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Телефон номериңизди Signal'га каттоо үчүн Signal PIN кодуңуз керек."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Билдирмелер мазмуну"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} кийин кайталап көрүңүз"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Өлкөнүн кодун көрсөтүңүз"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефон номериңиз"
@@ -7649,10 +7649,10 @@
     "messageformat": "“Signal'ды” иштетиңиз"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal'га микрофонду колдонгонго уруксат бериңиз"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal'га камераны колдонгонго уруксат бериңиз"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Тууралоо бөлүмүнө өтүү"
@@ -8204,7 +8204,7 @@
     "messageformat": "Колдонуучунун аттары ар дайым сандар менен коштолот."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Колдонуучу аттагы сандар"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Кененирээк маалымат"
@@ -8340,13 +8340,13 @@
     "messageformat": "Signal PIN кодун өзгөртүү"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Signal PIN кодуңузду түзүңүз"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Бул түзмөк катталганда сиз PIN кодуңузду өзгөртө аласыз. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "ПИН коддор Signal'дагы маалыматтарыңызды өзүңүз гана көрө алгыдай, шифрленген бойдон сактайт. Signal'ды кайра орноткоңузда, профилиңиз, параметрлериңиз жана байланыштарыңыз калыбына келет. Колдонмону PIN кодсуз ача бересиз. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Signal'дын PIN кодун ырастаңыз"
@@ -9121,9 +9121,9 @@
     "messageformat": "Бул жаңыртууда Signal билдирмелерин тагыраак тууралап, толук көзөмөлдөй аласыз. Эми колдонмонун бейжигинде эмнелер көрүнөрүн тандап, үнү басылган талкуулардын билдирме параметрлерин тууралап жана башка нерселерди жасай аласыз! Параметрлерди улам өзгөртө берип, башыңыз айланып калса, билдирмелерди баштапкы абалга келтире турган ыңгайлуу баскыч кошуп койдук."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Видеочалуу учурунда телефонуңузга же компьютериңизге ашыкча күч келбей, жакшыраак иштей баштады (өзүңүз жылмайбасаңыз да, процессоруңуз \"сүйүнүп\" калат)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Ошондой эле, видеочалууга кошулайын деп жатканда Signal колдонмосунун камерага уруксаты жок болсо, Windows параметрлерин дароо ачуучу ыңгайлуу баскыч кошуп койдук. Эми башкалар сизди көрө алышы үчүн эмне кылуу керектигин оңой эле түшүнөсүз."
   }
 }

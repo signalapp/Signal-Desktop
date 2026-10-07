@@ -6257,7 +6257,7 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "നിങ്ങൾക്ക് മാത്രം ആക്സസ് ചെയ്യാൻ കഴിയുന്ന തരത്തിൽ, Signal-ൽ ഉള്ള നിങ്ങളുടെ വിവരങ്ങൾ എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കാൻ PIN-കൾ സഹായിക്കുന്നു. നിങ്ങളുടെ PIN വീണ്ടെടുക്കാൻ കഴിയില്ല. നിങ്ങൾ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോൾ നിങ്ങളുടെ പ്രൊഫൈൽ, ക്രമീകരണങ്ങൾ, കോൺടാക്റ്റുകൾ എന്നിവ പുനഃസ്ഥാപിക്കപ്പെടും. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "വിപുല PIN ക്രമീകരണങ്ങൾ"
@@ -6272,19 +6272,19 @@
     "messageformat": "നിങ്ങൾ‌ PIN (പിൻ) അപ്രാപ്‌തമാക്കുകയാണെങ്കിൽ‌, നിങ്ങൾ‌ സ്വമേധയാ ബാക്കപ്പുചെയ്‌ത് പുന.സ്ഥാപിച്ചില്ലെങ്കിൽ,‌ നിങ്ങൾ‌ സിഗ്നൽ‌ വീണ്ടും രജിസ്റ്റർ‌ ചെയ്യുമ്പോൾ‌ എല്ലാ ഡാറ്റയും നഷ്‌ടപ്പെടും. PIN (പിൻ) പ്രവർത്തനരഹിതമാക്കിയിരിക്കുമ്പോൾ നിങ്ങൾക്ക് രജിസ്ട്രേഷൻ ലോക്ക് ഓണാക്കാൻ കഴിയില്ല."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "രജിസ്ട്രേഷൻ ലോക്ക് കാരണം PIN പ്രവർത്തനരഹിതമാക്കാൻ കഴിഞ്ഞില്ല"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "നിങ്ങളുടെ PIN പ്രവർത്തനരഹിതമാക്കുന്നതിന് മുൻപ് നിങ്ങൾ രജിസ്ട്രേഷൻ ലോക്ക് പ്രവർത്തനരഹിതമാക്കണം."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "ഓകെ"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ബാക്കപ്പുകൾ കാരണം PIN പ്രവർത്തനരഹിതമാക്കാൻ കഴിഞ്ഞില്ല"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "നിങ്ങളുടെ PIN പ്രവർത്തനരഹിതമാക്കുന്നതിന് മുൻപ് നിങ്ങൾ ബാക്കപ്പുകൾ പ്രവർത്തനരഹിതമാക്കണം."
   },
   "icu:Preferences--enable-signal-pin": {
     "messageformat": "PIN പ്രവർത്തനക്ഷമമാക്കുക"
@@ -6302,7 +6302,7 @@
     "messageformat": "രജിസ്ട്രേഷൻ ലോക്ക്"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
+    "messageformat": "Signal-ൽ നിങ്ങളുടെ ഫോണ്‍ നമ്പര്‍ വീണ്ടും രജിസ്റ്റർ ചെയ്യാൻ നിങ്ങളുടെ Signal PIN ആവശ്യമാണ്."
   },
   "icu:Preferences--notification-content": {
     "messageformat": "നോട്ടിഫിക്കേഷൻ ഉള്ളടക്കം"
@@ -7124,7 +7124,7 @@
     "messageformat": "{duration} സമയത്തിന് ശേഷം വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "രാജ്യ കോഡ് തിരെഞ്ഞെടുക്കുക"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ഫോൺ നമ്പർ"
@@ -7649,10 +7649,10 @@
     "messageformat": "\"Signal\" ഓണാക്കുക"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal-നായി മൈക്രോഫോൺ ആക്സസ് പ്രവർത്തനക്ഷമമാക്കുക"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal-നായി ക്യാമറ ആക്സസ് പ്രവർത്തനക്ഷമമാക്കുക"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ക്രമീകരണത്തിലേക്ക് പോകുക"
@@ -8204,7 +8204,7 @@
     "messageformat": "ഉപയോക്തൃനാമങ്ങൾക്കൊപ്പം ഒരു കൂട്ടം സംഖ്യകളും ഉണ്ടാകും."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ഉപയോക്തൃനാമത്തിലെ അക്കങ്ങൾ"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "കൂടുതലറിയുക"
@@ -8340,13 +8340,13 @@
     "messageformat": "നിങ്ങളുടെ Signal PIN മാറ്റുക"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "നിങ്ങളുടെ Signal PIN നിർമ്മിക്കുക"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "ഈ ഉപകരണം രജിസ്റ്റർ ചെയ്തിരിക്കുന്ന കാലത്തോളം നിങ്ങൾക്ക് നിങ്ങളുടെ PIN മാറ്റാവുന്നതാണ്. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "നിങ്ങൾക്ക് മാത്രം ആക്സസ് ചെയ്യാൻ കഴിയുന്ന തരത്തിൽ, Signal-ൽ ഉള്ള നിങ്ങളുടെ വിവരങ്ങൾ എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കാൻ PIN-കൾ സഹായിക്കുന്നു. നിങ്ങൾ ആപ്പ് വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോൾ നിങ്ങളുടെ പ്രൊഫൈൽ, ക്രമീകരണങ്ങൾ, കോൺടാക്റ്റുകൾ എന്നിവ പുനഃസ്ഥാപിക്കപ്പെടും. ആപ്പ് തുറക്കാൻ നിങ്ങൾക്ക് PIN ആവശ്യമില്ല. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "നിങ്ങളുടെ Signal PIN ഉറപ്പാക്കു"
@@ -9121,9 +9121,9 @@
     "messageformat": "നിങ്ങളുടെ Signal അറിയിപ്പുകളിൽ കൂടുതൽ നിയന്ത്രണം നൽകുന്നതിനായി കൂടുതൽ കൃത്യമായ ക്രമീകരണങ്ങൾ ഈ അപ്‌ഡേറ്റ് വഴി അവതരിപ്പിക്കുന്നു. ഇപ്പോൾ നിങ്ങൾക്ക് ആപ്പ് ബാഡ്ജിൽ എന്താണ് കാണിക്കേണ്ടതെന്ന് തിരഞ്ഞെടുക്കാം, ഒപ്പം മ്യൂട്ട് ചെയ്ത ത്രെഡുകളുടെ അറിയിപ്പ് ക്രമീകരണങ്ങളിൽ മാറ്റം വരുത്താം, കൂടാതെ മറ്റു പലതും! പലവിധ മാറ്റങ്ങൾ വരുത്തി പഴയ സ്ഥിതിയിലേക്ക് എങ്ങനെ തിരിച്ചെത്തണമെന്ന് അറിയാതെ വിഷമിക്കുകയാണെങ്കിൽ, ഡിഫോൾട്ട് അറിയിപ്പ് ക്രമീകരണങ്ങൾ പുനഃസ്ഥാപിക്കാൻ സൗകര്യപ്രദമായ ഒരു ബട്ടണും ഞങ്ങൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "പ്രവർത്തനക്ഷമതയിലെ ചില മെച്ചപ്പെടുത്തലുകൾ കാരണം, വീഡിയോ കോളുകളിൽ നിങ്ങൾ പുഞ്ചിരിച്ചില്ലെങ്കിലും നിങ്ങളുടെ CPU കൂടുതൽ ആശ്വാസത്തിലായിരിക്കും."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "നിങ്ങൾ ഒരു വീഡിയോ കോളിൽ ചേരാൻ ശ്രമിക്കുമ്പോൾ ക്യാമറ ആക്സസ് ചെയ്യാൻ Signal-ന് അനുമതിയില്ലെങ്കിൽ, Windows-ൽ സിസ്റ്റം ക്രമീകരണങ്ങൾ തുറക്കാനുള്ള സൗകര്യപ്രദമായ ഒരു കുറുക്കുവഴിയും ഞങ്ങൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. മറ്റുള്ളവർക്ക് നിങ്ങളെ കാണാൻ കഴിയുന്നതിനായി നിങ്ങൾ എന്താണ് ചെയ്യേണ്ടതെന്ന് അറിയുന്നത് ഇപ്പോൾ കൂടുതൽ എളുപ്പമാണ്."
   }
 }

@@ -6257,7 +6257,7 @@
     "messageformat": "PIN do Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Os PIN mantêm encriptadas as informações armazenadas com o Signal, para só poderem ser acedidas por si. O seu PIN não pôde ser recuperado. O seu perfil, definições e contactos serão restaurados quando reinstalar o Signal. <learnMoreLink>Saber mais</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Definições avançadas do PIN"
@@ -6272,7 +6272,7 @@
     "messageformat": "Se você desativar o PIN, todos os dados serão perdidos ao registar-se novamente no Sinal, a menos que faça uma cópia de segurança e o restaure manualmente. Você não pode ativar o 'Bloqueio de registo' enquanto o PIN estiver desativado."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Não foi possível desativar o PIN devido a um bloqueio de registo"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Tem de desativar o bloqueio de registo antes de desativar o seu PIN."
@@ -6281,7 +6281,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Não foi possível desativar o PIN devido às cópias de segurança"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Tem de desativar as cópias de segurança antes de desativar o seu PIN."
@@ -7124,7 +7124,7 @@
     "messageformat": "Tente novamente dentro de {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Selecione código do país"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Número de telefone"
@@ -7649,10 +7649,10 @@
     "messageformat": "Ative \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Permita ao Signal aceder ao microfone"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Permita ao Signal aceder à câmara"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Vá às definições"
@@ -8204,7 +8204,7 @@
     "messageformat": "Os nomes de utilizador estão sempre associados a um conjunto de números."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Dígitos do nome de utilizador"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Saber mais"
@@ -8340,13 +8340,13 @@
     "messageformat": "Altere o seu PIN do Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Crie o seu PIN do Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Poderá alterar o seu PIN enquanto o seu dispositivo se encontrar registado. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Os PIN mantêm encriptadas as informações armazenadas com o Signal, para só poderem ser acedidas por si. O seu perfil, definições e contactos serão restaurados quando reinstalar o Signal. Não precisará do PIN para abrir a app. <learnMoreLink>Saber mais</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Confirme o seu PIN do Signal"
@@ -9121,9 +9121,9 @@
     "messageformat": "Definições de notificações melhoradas, com mais opções para como e quando as notificações aparecem."
   },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Melhorias de desempenho nas videochamadas."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Também adicionámos um atalho conveniente para abrir as suas definições de sistema no Windows, caso tente juntar-se a uma videochamada e o Signal não tenha permissão de acesso à câmara."
   }
 }
