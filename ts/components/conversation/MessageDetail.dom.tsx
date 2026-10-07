@@ -99,6 +99,7 @@ export type PropsReduxActions = Pick<
   | 'pushPanelForConversation'
   | 'retryMessageSend'
   | 'sendPollVote'
+  | 'dragAttachment'
   | 'saveAttachment'
   | 'saveAttachments'
   | 'showContactModal'
@@ -151,6 +152,7 @@ export function MessageDetail({
   retryMessageSend,
   sendPollVote,
   renderAudioAttachment,
+  dragAttachment,
   saveAttachment,
   saveAttachments,
   showContactModal,
@@ -212,6 +214,7 @@ export function MessageDetail({
               retryMessageSend={retryMessageSend}
               sendPollVote={sendPollVote}
               renderAudioAttachment={renderAudioAttachment}
+              dragAttachment={dragAttachment}
               saveAttachment={saveAttachment}
               saveAttachments={saveAttachments}
               shouldCollapseAbove={false}
