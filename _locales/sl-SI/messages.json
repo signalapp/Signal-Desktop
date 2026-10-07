@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} neprebranih"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Označeno kot neprebrano"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Klepeti"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Preberite več"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Samodejno preverjanje ključa trenutno ni na voljo za vašo napravo. Želite poslati sistemsko zabeležbo?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Samodejno preverjanje ključa trenutno ni na voljo za vašo napravo. Želite poslati poročilo, da nam pomagate izboljšati aplikacijo?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Sistemske zabeležbe nam pomagajo diagnosticirati in odpraviti težavo ter ne vsebujejo identifikacijskih podatkov."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Če vključite sistemske zabeležbe, nam boste pomagali diagnosticirati in odpraviti težavo. Dnevniki ne vsebujejo podatkov, na podlagi katerih bi vas bilo mogoče identificirati. Delitev ni obvezna."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Delite sistemske zabeležbe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Dodajte sistemsko zabeležbo"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {{replyCount,number} odgovor od osebe {person1} in drugih} two {{replyCount,number} odgovora od osebe {person1} in drugih} few {{replyCount,number} odgovori od osebe {person1} in drugih} other {{replyCount,number} odgovorov od osebe {person1} in drugih}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Omembe"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Prejmite obvestilo, kadar ste omenjeni v utišanih klepetih"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Vedno obveščaj"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Ne obvesti, ko je utišano"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Povezava do skupine je bila prekopirana."
   },
@@ -6257,37 +6233,37 @@
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "S PIN kodo zavarujete podatke, shranjene v računu Signal s šifriranjem, tako da so dostopni le vam. Vaše PIN kode ni mogoče obnoviti. Vaš profil, nastavitve in stiki bodo obnovljeni ob ponovni namestitvi Signala. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
-    "messageformat": "Napredne nastavite PIN"
+    "messageformat": "Napredne nastavite PIN kode"
   },
   "icu:Preferences--disable-signal-pin": {
-    "messageformat": "Izklopi PIN"
+    "messageformat": "Onemogoči PIN kodo"
   },
   "icu:Preferences--disable-signal-pin--button": {
     "messageformat": "Onemogoči"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "Z izklopom PINa boste ob ponovni prijavi v svoj račun Signal izgubili vse tam shranjene podatke, razen če prej sami ne ustvarite varnostne kopije. Brez PINa tudi ne morete vklopiti zaklepa registracije."
+    "messageformat": "Z izklopom PIN kode boste ob ponovni prijavi v svoj račun Signal izgubili vse tam shranjene podatke, razen če prej sami ne ustvarite varnostne kopije. Brez PIN kode tudi ne morete vklopiti zaklepa registracije."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN kode ni bilo mogoče onemogočiti zaradi zaklepa registracije"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "Preden onemogočite PIN kodo, morate onemogočiti zaklep registracije."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN kode ni bilo mogoče onemogočiti zaradi varnostnih kopij"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "Preden onemogočite PIN kodo, morate onemogočiti varnostne kopije."
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "Vklopi PIN"
+    "messageformat": "Vklopi PIN kodo"
   },
   "icu:Preferences--enable-signal-pin--button": {
     "messageformat": "Omogoči"
@@ -6302,10 +6278,7 @@
     "messageformat": "Zaklep registracije"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Vsebina obvestil"
+    "messageformat": "Za ponovno registracijo svoje telefonske številke v Signalu morate vnesti PIN kodo."
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Vnos besedila"
@@ -7649,10 +7622,10 @@
     "messageformat": "Vklopite \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Omogočite dostop Signala do mikrofona"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Omogočite dostop Signala do kamere"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Pojdite v nastavitve"
@@ -8204,7 +8177,7 @@
     "messageformat": "Uporabniškim imenom vedno sledi niz številk."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Številke uporabniškega imena"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Več o tem"
@@ -8340,13 +8313,13 @@
     "messageformat": "Spremenite Signalov PIN"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Ustvarite svojo PIN kodo za Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "PIN lahko spreminjate, dokler je naprava registrirana. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "S PIN kodo zavarujete podatke, shranjene v računu Signal s šifriranjem, tako da so dostopni le vam. Vaš profil, nastavitve in stiki bodo obnovljeni ob ponovni namestitvi. Vnos PIN kode ob vsakokratnem zagonu aplikacije ne bo potreben. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Potrdite Signalov PIN"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Hvala, ker podpirate Signal. S svojim prispevkom prispevate k uresničevanju poslanstva zaščite svobode izražanja in omogočanja varne globalne komunikacije za milijone ljudi po vsem svetu z odprtokodno tehnologijo zasebnosti. Če prebivate v Združenih državah Amerike, to potrdilo shranite za davčno evidenco. Signal Technology Foundation je neprofitna organizacija v Združenih državah Amerike, ki je oproščena davka v skladu s členom 501c3 zakonika o notranjih prihodkih. Naša zvezna davčna številka je 82-4506840. Signal v zameno za ta prispevek ni zagotovil nobenega blaga ali storitev."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Ste brez povezave. Če želite dokončati donacijo, se povežite z internetom."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Izboljšave iskanja članov skupine."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "Ta posodobitev prinaša podrobnejše nastavitve, ki vam omogočajo bistveno večji nadzor nad obvestili Signala. Zdaj lahko izberete, kaj bo prikazano na znački aplikacije, prilagodite nastavitve obvestil za utišane klepete in še več! Dodali smo tudi priročen gumb za obnovitev privzetih nastavitev obvestil, če jih boste kdaj toliko spremenili, da se boste v njih povsem izgubili."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Izboljšave zmogljivosti video klicev."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Dodali smo tudi priročno bližnjico za odpiranje sistemskih nastavitev v sistemu Windows, če se poskušate pridružiti video klicu, vendar Signal nima dovoljenja za dostop do kamere. Zdaj je lažje videti, kaj morate storiti, da vas bodo drugi lahko videli."
   }
 }

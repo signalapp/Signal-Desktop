@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} ခု မဖတ်ရသေး"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "မဖတ်ရသေးဟု မှတ်ပြီး"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "ချက်(တ်)များ"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "ထပ်မံလေ့လာရန်"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "အလိုအလျောက် ကီးအတည်ပြုခြင်းကို သင့်စက်အတွက် လောလောဆယ်တွင် မရရှိနိုင်ပါ။ ပြစ်ချက်မှတ်တမ်း ပေးပို့မည်လား။"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "အလိုအလျောက် ကီးအတည်ပြုခြင်းကို သင့်စက်အတွက် လောလောဆယ်တွင် မရရှိနိုင်ပါ။ အစီရင်ခံစာတစ်စောင် တင်ပြပြီး ကျွန်ုပ်တို့၏ဝန်ဆောင်မှုကို ပိုမိုကောင်းမွန်အောင် ကူညီမလား။"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "ပြစ်ချက်မှတ်တမ်းများသည် ပြဿနာကို စစ်ဆေးရှာဖွေရန်နှင့် ဖြေရှင်းရန် ကျွန်ုပ်တို့ကို အကူအညီပေးပြီး မည်သူဖြစ်ကြောင်း ခွဲခြားနိုင်သည့် အချက်အလက်များ မပါရှိပါ။"
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "သင့် ပြစ်ချက်မှတ်တမ်းကို ထည့်ပေးခြင်းဖြင့် ပြဿနာကို ရှာဖွေဖော်ထုတ်ပြီး ဖြေရှင်းနိုင်ရန် ကျွန်ုပ်တို့ကို အကူအညီပေးပြီး မည်သူဖြစ်ကြောင်း ခွဲခြားနိုင်သည့် အချက်အလက်များ မပါရှိပါ။ မျှဝေခြင်းသည် ဆန္ဒအလျောက်သာ ဖြစ်ပါသည်။"
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "ပြစ်ချက်မှတ်တမ်း မျှဝေရန်"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်း ပါဝင်ပါသည်"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, other {{person1} နှင့် အခြားသူများထံမှ အကြောင်းပြန်စာ {replyCount,number} စောင်}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "မန်းရှင်းများ"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "အသံပိတ်ထားသော ချက်(တ်)များတွင် သင့်ကို မန်းရှင်းခေါ်လျှင် အသိပေးချက်များ လက်ခံရန်"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "အမြဲ အသိပေးရန်"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "အသံပိတ်ထားပါက အသိမပေးပါနှင့်"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "အဖွဲ့လင့်ခ် ကူးယူပြီး။"
   },
@@ -6251,13 +6227,13 @@
     "messageformat": "PIN တစ်ခု ဖန်တီးမည်"
   },
   "icu:Preferences--create-signal-pin-button": {
-    "messageformat": "ဖန်တီးပ"
+    "messageformat": "ဖန်တီးရန်"
   },
   "icu:Preferences--signal-pin": {
     "messageformat": "Signal PIN"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN များသည် Signal တွင် သိမ်းဆည်းထားသော သင့်အချက်အလက်များကို ကုဒ်ပြောင်းဝှက်ပေးပြီး သင်တစ်ဦးတည်းသာ ဝင်ရောက်အသုံးပြုနိုင်စေပါသည်။ သင့် PIN ကို ပြန်လည်ရယူ၍ မရနိုင်ပါ။ Signal ကို ပြန်လည်ထည့်သွင်းသောအခါ သင့်ပရိုဖိုင်၊ ဆက်တင်နှင့် အဆက်အသွယ်များကို ပြန်လည်ရရှိပါမည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "အဆင့်မြင့် PIN ဆက်တင်များ"
@@ -6266,31 +6242,31 @@
     "messageformat": "PIN ပိတ်ပါ"
   },
   "icu:Preferences--disable-signal-pin--button": {
-    "messageformat": "ပိတ်ထားပါ"
+    "messageformat": "ပိတ်ထားရန်"
   },
   "icu:Preferences--disable-signal-pin--footer": {
-    "messageformat": "ပင်နံပါတ်ကို ပိတ်ထားလျှင် သင်မှ​ ကိုယ်တိုင် အရန်ပြုပြင်ထားခြင်းမရှိခဲ့လျှင် Signal ပေါ်ပြန်စာရင်းသွင်းသောအခါ ဒေတာအားလုံးကို ဆုံးရှူံးပါလိမ့်မည်။ ပင်နံပါတ်ကို ပိတ်ထားစဉ် မှတ်ပုံတင်ခြင်းသော့ကို သင်ဖွင့်၍ မရပါ။"
+    "messageformat": "PIN ကို ပိတ်ထားလျှင် ကိုယ်တိုင် ဘက်ခ်အပ်လုပ်ပြီး ပြန်လည်ရယူခြင်းမပြုပါက Signal ကို ပြန်လည်၍ မှတ်ပုံတင်သောအခါ ဒေတာအားလုံးကို ဆုံးရှုံးပါလိမ့်မည်။ PIN ကို ပိတ်ထားစဉ် မှတ်ပုံတင်ခြင်း လော့ခ်ကို ဖွင့်၍မရပါ။"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "မှတ်ပုံတင်ခြင်း လော့ခ်ကြောင့် PIN ကို ပိတ်၍ မရပါ"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
-    "messageformat": "You must disable Registration Lock before disabling your PIN."
+    "messageformat": "သင့် PIN ကို ပိတ်ခြင်းမပြုမီ မှတ်ပုံတင်ခြင်း လော့ခ်ကို ပိတ်ရပါမည်။"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--ok": {
     "messageformat": "အိုကေ"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "ဘက်ခ်အပ်ကြောင့် PIN ကို ပိတ်၍ မရပါ"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
-    "messageformat": "You must disable backups before disabling your PIN."
+    "messageformat": "သင့် PIN ကို ပိတ်ခြင်းမပြုမီ ဘက်ခ်အပ်များကို ပိတ်ရပါမည်။"
   },
   "icu:Preferences--enable-signal-pin": {
-    "messageformat": "ပင်နံပါတ်ဖွင့်ပါ"
+    "messageformat": "PIN ကို ဖွင့်ပါ"
   },
   "icu:Preferences--enable-signal-pin--button": {
-    "messageformat": "ဖွင့်မည်"
+    "messageformat": "ဖွင့်ရန်"
   },
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN သတိပေးချက်များ"
@@ -6302,10 +6278,7 @@
     "messageformat": "မှတ်ပုံတင်ခြင်း လော့ခ်"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "အသိပေးချက် အကြောင်းအရာ"
+    "messageformat": "သင့်ဖုန်းနံပါတ်ကို Signal တွင် ပြန်လည်မှတ်ပုံတင်ရန် သင့် Signal PIN ကို ထည့်သွင်းရန် လိုအပ်ပါမည်။"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "စာရိုက်ထည့်ရန်"
@@ -7649,10 +7622,10 @@
     "messageformat": "\"Signal\" ကိုဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Signal အတွက် မိုက်ခရိုဖုန်း အသုံးပြုခွင့်ကို ဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Signal အတွက် ကင်မရာ အသုံးပြုခွင့်ကို ဖွင့်ပါ"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "ဆက်တင်သို့ သွားရန်"
@@ -8204,7 +8177,7 @@
     "messageformat": "သုံးစွဲသူအမည်များကို ကိန်းဂဏန်းတွဲတစ်ခုနှင့် အမြဲတွဲဖက်ထားပါသည်။"
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "သုံးစွဲသူအမည်ရှိ ဂဏန်းများ"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "ပိုမိုလေ့လာရန်"
@@ -8340,13 +8313,13 @@
     "messageformat": "သင့် Signal PIN ကို ပြောင်းလဲပါ"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "သင့် Signal PIN ကို ဖန်တီးပါ"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "၎င်းစက်အား စာရင်းသွင်းထားသ၍ သင့် PIN ကို ပြောင်းလဲနိုင်ပါသည်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN များသည် Signal တွင် သိမ်းဆည်းထားသော သင့်အချက်အလက်များကို ကုဒ်ပြောင်းဝှက်ပေးပြီး သင်တစ်ဦးတည်းသာ ဝင်ရောက်အသုံးပြုနိုင်စေပါသည်။ ပြန်လည်ထည့်သွင်းသည့်အခါ သင့်ပရိုဖိုင်၊ ဆက်တင်နှင့် အဆက်အသွယ်များကို ပြန်လည်ရယူပါမည်။ အက်ပ်ကို ဖွင့်ရန် သင့် PIN မလိုအပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "သင်၏ Signal PIN ကို အတည်ပြုပါ"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Signal ကို ပံ့ပိုးကူညီသည့်အတွက် ကျေးဇူးတင်ပါသည်။ သင်၏ ကူညီထောက်ပံ့မှုသည် လွတ်လပ်စွာ ထုတ်ဖော်ပြောဆိုခွင့်ကို ကာကွယ်ပေးခြင်းနှင့် သုံးစွဲသူသန်းပေါင်းများစွာ၏ ကမ္ဘာတစ်ဝန်း ဆက်သွယ်မှုများကို လုံခြုံစိတ်ချရစေခြင်း စသည့် မစ်ရှင်ကို Open Source ကိုယ်ပိုင်အချက်အလက် လုံခြုံရေး နည်းပညာမှတစ်ဆင့် ကူညီအားဖြည့်ပေးပါသည်။ သင်သည် အမေရိကန်ပြည်ထောင်စုတွင် နေထိုင်သူဖြစ်ပါက သင်၏အခွန်မှတ်တမ်းများအတွက် ဤပြေစာကိုထိန်းသိမ်းထားပေးပါ။ Signal Technology Foundation သည် ပြည်တွင်းအခွန်ဥပဒေ၏ ပုဒ်မ 501c3 အရ အမေရိကန်ပြည်ထောင်စုရှိ အခွန်ကင်းလွတ်ခွင့်ရသော အကျိုးအမြတ်မယူသည့် အဖွဲ့အစည်း ဖြစ်ပါသည်။ ကျွန်ုပ်တို့၏ ဖက်ဒရယ် အခွန် ID မှာ 82-4506840 ဖြစ်ပါသည်။ ဤပံ့ပိုးမှုအတွက် Signal သည် အပြန်အလှန်အဖြစ် မည်သည့် ကုန်ပစ္စည်း သို့မဟုတ် ဝန်ဆောင်မှုကိုမျှ ပေးအပ်ထားခြင်း မရှိပါ။"
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "သင် အော့ဖ်လိုင်းဖြစ်နေသည်။ လှူဒါန်းမှုပြီးမြောက်ရန် အင်တာနက်ချိတ်ဆက်ပါ။"
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "အဖွဲ့ဝင်ရှာဖွေမှုကို ကောင်းမွန်အောင် မွမ်းမံထားခြင်း။"
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "အသိပေးချက်များ မည်သည့်အချိန်တွင် မည်သို့ ပေါ်လာမည်ကို ရွေးချယ်နိုင်မည့် တိုးချဲ့ထားသော ရွေးချယ်စရာများနှင့်အတူ အသိပေးချက်ဆက်တင်များကိုလည်း ပိုမိုကောင်းမွန်အောင် ပြုလုပ်ထားပါသည်။"
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "ဗီဒီယိုကောလ်များအတွက် စွမ်းဆောင်ရည် ပိုမိုကောင်းမွန်စေမည့် ပြုပြင်မွမ်းမံမှုများ။"
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "ဗီဒီယိုကောလ်တွင် ပါဝင်ရန် ကြိုးစားသည့်အခါ Signal တွင် ကင်မရာအသုံးပြုခွင့် မရှိပါက Windows စနစ်ဆက်တင်ကို ဖွင့်နိုင်ရန် အဆင်ပြေသော ရှော့တ်ကတ်တစ်ခုကိုလည်း ထည့်သွင်းထားပါသည်။"
   }
 }

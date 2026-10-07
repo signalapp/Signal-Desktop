@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} הודעות לא נקראו"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "סימון כלא נקרא"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "צ'אטים"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "למד עוד"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "אימות מפתח אוטומטי אינו זמין כרגע עבור המכשיר שלך. להגיש יומן ניפוי באגים?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "אימות מפתח אוטומטי אינו זמין כרגע עבור המכשיר שלך. להגיש דוח כדי לעזור לנו להשתפר?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "יומני ניפוי באגים עוזרים לנו לאבחן ולתקן את הבעיה ולא מכילים מידע מזהה."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "צירוף יומן ניפוי הבאגים שלך עוזר לנו לאבחן ולתקן את הבעיה ולא מכיל מידע מזהה. השיתוף הוא אופציונלי."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "שיתוף יומן ניפוי באגים"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "כלול יומן ניפוי תקלים"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {{replyCount,number} תשובה מאת {person1} ואחרים} two {{replyCount,number} תשובות מאת {person1} ואחרים} many {{replyCount,number} תשובות מאת {person1} ואחרים} other {{replyCount,number} תשובות מאת {person1} ואחרים}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "אזכורים"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "קבלת התראות אם מזכירים אותך בצ'אטים מושתקים"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "יידע תמיד"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "לא לשלוח התראות אם מושתק"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "קישור קבוצה הועתק."
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "PIN של Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "קודי PIN שומרים על המידע שמאוחסן ב–Signal מוצפן כך שרק לך תהיה גישה אליו. לא ניתן לשחזר את ה–PIN שלך. הפרופיל, ההגדרות ואנשי הקשר שלך ישוחזרו בעת התקנה מחדש של Signal. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "הגדרות PIN מתקדמות"
@@ -6272,7 +6248,7 @@
     "messageformat": "אם תשבית את ה־PIN, תאבד את כל הנתונים כאשר תירשם מחדש אל Signal אלא אם תגבה ותשחזר באופן ידני. אינך יכול להפעיל נעילת הרשמה בזמן שה־PIN מושבת."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "השבתת PIN נכשלה בגלל נעילת הרשמה"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "יש להשבית את נעילת ההרשמה לפני השבתת קוד ה–PIN שלך."
@@ -6281,7 +6257,7 @@
     "messageformat": "אישור"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "השבתת PIN נכשלה בגלל גיבויים"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "יש להשבית את הגיבויים לפני השבתת קוד ה–PIN שלך."
@@ -6303,9 +6279,6 @@
   },
   "icu:Preferences--registration-lock__footer": {
     "messageformat": "דרוש את ה־PIN של Signal שלך כדי להירשם שוב אל Signal עם מספר הטלפון שלך."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "תוכן התראה"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "קלט טקסט"
@@ -7649,10 +7622,10 @@
     "messageformat": "להפעיל את ״Signal״"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "לתת ל–Signal גישה למיקרופון שלך"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "לתת ל–Signal גישה למצלמה שלך"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "מעבר להגדרות"
@@ -8204,7 +8177,7 @@
     "messageformat": "שמות משתמש תמיד מוצמדים לסט של מספרים."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "ספרות שם משתמש"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "למידע נוסף"
@@ -8340,13 +8313,13 @@
     "messageformat": "שינוי ה–PIN שלך ב–Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "יצירת קוד PIN של Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "אתה יכול לשנות את ה־PIN שלך כל עוד המכשיר רשום. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "קודי PIN שומרים על המידע שמאוחסן ב–Signal מוצפן כך שרק לך תהיה גישה אליו. הפרופיל, ההגדרות ואנשי הקשר שלך ישוחזרו בעת התקנה מחדש. לא יהיה צורך ב–PIN שלך כדי לפתוח את האפליקציה. <learnMoreLink>למידע נוסף</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "אשר את ה־PIN של Signal שלך"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "תודה על התמיכה ב–Signal. התרומה שלך עוזרת להמשיך לקדם את המשימה שלנו להגן על חופש הביטוי ולאפשר תקשורת גלובלית מאובטחת עבור מיליונים ברחבי העולם, באמצעות טכנולוגיית פרטיות בקוד פתוח. אם מקום המגורים שלך הוא ארה״ב, יש לשמור את הקבלה הזו לצורך רישומי המס שלך. Signal Technology Foundation היא עמותה ללא מטרות רווח פטורה ממס בארה״ב תחת סעיף 501c3 של קוד מס ההכנסה האמריקאי. מזהה המס הפדרלי שלנו הוא 82-4506840. Signal לא סיפקה כל מוצר או שירות בתמורה לתרומה זו."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "המכשיר שלך לא מחובר. יש להתחבר לאינטרנט כדי להשלים את התרומה."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "שיפורים בחיפוש חברי קבוצה."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "הגדרות התראות משופרות עם מגוון רחב יותר של אפשרויות לאופן ומשך הצגת ההתראות."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "שיפורי ביצועים בשיחות וידאו."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "הוספנו גם קיצור דרך נוח לפתיחת הגדרות המערכת שלך ב–Windows במקרה שניסית להצטרף לשיחת וידאו ול–Signal אין הרשאת גישה למצלמה."
   }
 }

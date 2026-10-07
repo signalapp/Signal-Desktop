@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "Не прочитано {count,number}"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Позначені як непрочитані"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Чати"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Докладніше"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Автоматичне підтвердження ключа наразі недоступне для вашого пристрою. Надіслати журнал налагодження?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Автоматичне підтвердження ключа наразі недоступне для вашого пристрою. Бажаєте надіслати нам звіт, щоб ми могли над цим попрацювати?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Журнали налагодження допомагають нам визначати й усувати проблеми. Вони не містять особистої інформації."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Журнал налагодження допоможе нам визначити й усунути цю проблему. Він не містить особистої інформації. Додавати його необов'язково."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Надіслати журнал налагодження"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Долучити журнал налагодження"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, one {{replyCount,number} відповідь від користувача {person1} та інших} few {{replyCount,number} відповіді від користувача {person1} та інших} many {{replyCount,number} відповідей від користувача {person1} та інших} other {{replyCount,number} відповіді від користувача {person1} та інших}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Згадки"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Отримувати сповіщення, коли вас згадують, навіть якщо сповіщення від чату вимкнено"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Завжди сповіщати"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Не сповіщати, якщо сповіщення вимкнено"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Посилання на групу скопійовано."
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "PIN-код Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-коди забезпечують шифрування інформації, яка зберігається в Signal, щоб отримати до неї доступ могли тільки ви. Якщо ви забудете PIN-код, відновити його неможливо. PIN-код дасть вам змогу відновити акаунт, налаштування й контакти в разі перевстановлення Signal. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Керування PIN-кодом"
@@ -6272,7 +6248,7 @@
     "messageformat": "Якщо ви вимкнете PIN-код, то в разі повторної реєстрації в Signal усі ваші дані буде втрачено. Щоб цього уникнути, необхідно заздалегідь вручну створити їхню резервну копію. З вимкненим PIN-кодом неможливо ввімкнути блокування реєстрації."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "PIN-код не вимкнено через блокування реєстрації"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Щоб вимкнути PIN-код, потрібно спочатку вимкнути блокування реєстрації."
@@ -6281,7 +6257,7 @@
     "messageformat": "Зрозуміло"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "PIN-код не вимкнено через резервне копіювання"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Щоб вимкнути PIN-код, потрібно спочатку вимкнути резервне копіювання."
@@ -6303,9 +6279,6 @@
   },
   "icu:Preferences--registration-lock__footer": {
     "messageformat": "Вимагати введення PIN-коду для повторної реєстрації номера телефону в Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Зміст сповіщень"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Введення тексту"
@@ -7649,10 +7622,10 @@
     "messageformat": "Надайте дозвіл для Signal"
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Надайте Signal доступ до мікрофона"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Надайте Signal доступ до камери"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Відкрити налаштування"
@@ -8204,7 +8177,7 @@
     "messageformat": "Імена користувачів завжди поєднуються з цифрами."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Цифри в імені користувача"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Докладніше"
@@ -8340,13 +8313,13 @@
     "messageformat": "Змінити PIN-код Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Створіть PIN-код Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Ви можете змінити PIN-код, якщо цей пристрій зареєстровано. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "PIN-коди забезпечують шифрування інформації, яка зберігається в Signal, щоб отримати до неї доступ могли тільки ви. PIN-код дасть вам змогу відновити акаунт, налаштування й контакти в разі перевстановлення Signal. Щоб відкрити застосунок, PIN-код не потрібен. <learnMoreLink>Докладніше</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Підтвердьте PIN-код Signal"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Дякуємо за підтримку Signal. Ваш внесок допомагає реалізувати нашу місію: захищати свободу слова і робити можливим безпечне спілкування для мільйонів людей у всьому світі за допомогою технології конфіденційного обміну повідомленнями з відкритим кодом. Якщо ви резидент Сполучених Штатів Америки, збережіть це підтвердження для звітування в податкові органи. Signal Technology Foundation — звільнена від оподаткування неприбуткова організація, створена відповідно до розділу 501c3 податкового кодексу США. Наш федеральний податковий номер: 82–4506840. За цей внесок Signal не надав ні товарів, ні послуг."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Ви не в мережі. Щоб завершити донат, потрібне з'єднання з інтернетом."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Пошук себе може тривати все життя, але принаймні тепер ви легко можете знайти себе в пошуку учасників групи, просто написавши «ти»."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "У цьому оновленні з'явилися значно детальніші налаштування сповіщень у Signal. Тепер ви можете вибрати, що саме показувати в лічильнику сповіщень застосунку, налаштовувати сповіщення для чатів із вимкнутими сповіщеннями — і це ще не все! А якщо ви внесете стільки змін, що самі вже не знатимете, як було спочатку, просто скористайтеся новою зручною кнопкою і відновіть стандартні налаштування."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Завдяки кільком покращенням продуктивності під час відеовикликів ваш CPU почуватиметься значно веселіше (навіть якщо виклик буде не дуже й веселий)."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Крім того, ми додали зручне сполучення клавіш для відкриття системних налаштувань Windows на випадок, якщо ви захочете приєднатися до відеовиклику, а Signal не матиме доступу до камери. Тепер вам буде простіше знайти потрібне налаштування, щоб більше не залишатися за кадром."
   }
 }

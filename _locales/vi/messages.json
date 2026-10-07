@@ -383,9 +383,6 @@
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
     "messageformat": "{count,number} chưa đọc"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Đã đánh dấu chưa đọc"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Trò chuyện"
   },
@@ -653,20 +650,11 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Tìm hiểu thêm"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Xác minh mã khóa tự động hiện không khả dụng cho thiết bị của bạn. Gửi nhật ký gỡ lỗi?"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Xác minh mã khóa tự động hiện không khả dụng cho thiết bị của bạn. Gửi báo cáo để giúp chúng tôi cải thiện?"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Nhật ký gỡ lỗi giúp chúng tôi xác định và khắc phục vấn đề, và không chứa thông tin nhận dạng."
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Việc gửi kèm nhật ký gỡ lỗi giúp chúng tôi chẩn đoán và khắc phục sự cố, đồng thời không chứa thông tin định danh cá nhân. Bạn có thể chọn chia sẻ hoặc không."
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Chia sẻ nhật ký gỡ lỗi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Thêm nhật ký gỡ lỗi"
@@ -5264,18 +5252,6 @@
   "icu:UnreadReminders__notification__replySummary--many": {
     "messageformat": "{replyCount, plural, other {{replyCount,number} câu trả lời từ {person1} và những người khác}}"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Nhắc tên"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Nhận thông báo khi bạn được nhắc tới trong các cuộc trò chuyện đã tắt tiếng"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Luôn luôn thông báo"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Không thông báo nếu đã tắt tiếng"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Đường dẫn nhóm đã được sao chép."
   },
@@ -6257,7 +6233,7 @@
     "messageformat": "Mã PIN Signal"
   },
   "icu:Preferences--signal-pin__footer": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your PIN cannot be recovered. Your profile, settings, and contacts will restore when you reinstall Signal. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mã PIN giúp thông tin trên Signal được mã hóa để bạn là người duy nhất có thể truy cập. Không thể khôi phục mã PIN của bạn. Hồ sơ, các cài đặt và danh bạ sẽ được khôi phục khi bạn cài đặt lại Signal. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:Preferences--signal-pin-advanced-settings": {
     "messageformat": "Cài đặt PIN nâng cao"
@@ -6272,7 +6248,7 @@
     "messageformat": "Nếu bạn tắt PIN, bạn sẽ mất toàn bộ dữ liệu khi bạn đăng kí lại với Signal trừ khi bạn sao lưu và khôi phục dữ liệu thủ công. Bạn không thể bật Khóa đăng kí khi PIN đang tắt."
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--title": {
-    "messageformat": "Disable PIN failed due to registration lock"
+    "messageformat": "Không thể tắt mã PIN do khóa đăng ký"
   },
   "icu:DisableSignalPinErrorDialog--reg-lock--body": {
     "messageformat": "Bạn phải tắt khóa đăng ký trước khi tắt mã PIN."
@@ -6281,7 +6257,7 @@
     "messageformat": "OK"
   },
   "icu:DisableSignalPinErrorDialog--backups--title": {
-    "messageformat": "Disable PIN failed due to backups"
+    "messageformat": "Không thể tắt mã PIN do có bản sao lưu"
   },
   "icu:DisableSignalPinErrorDialog--backups--body": {
     "messageformat": "Bạn phải tắt khóa Sao lưu trước khi tắt mã PIN."
@@ -6302,10 +6278,7 @@
     "messageformat": "Khóa Đăng ký"
   },
   "icu:Preferences--registration-lock__footer": {
-    "messageformat": "Require your Signal PIN to register your phone number again with Signal."
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Nội dung thông báo"
+    "messageformat": "Yêu cầu mã PIN Signal của bạn để đăng ký lại số điện thoại của bạn với Signal."
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Nhập văn bản"
@@ -7649,10 +7622,10 @@
     "messageformat": "Bật \"Signal\""
   },
   "icu:MediaPermissionsModal__step-2--windows--microphone": {
-    "messageformat": "Enable microphone access for Signal"
+    "messageformat": "Cho phép Signal truy cập microphone"
   },
   "icu:MediaPermissionsModal__step-2--windows--camera": {
-    "messageformat": "Enable camera access for Signal"
+    "messageformat": "Cho phép Signal truy cập camera"
   },
   "icu:MediaPermissionsModal__open": {
     "messageformat": "Đến mục cài đặt"
@@ -8204,7 +8177,7 @@
     "messageformat": "Tên người dùng luôn được ghép với một dãy số."
   },
   "icu:EditUsernameModalBody__discriminator-label": {
-    "messageformat": "Username digits"
+    "messageformat": "Chữ số trong tên người dùng"
   },
   "icu:EditUsernameModalBody__learn-more": {
     "messageformat": "Tìm hiểu thêm"
@@ -8340,13 +8313,13 @@
     "messageformat": "Đổi mã PIN Signal"
   },
   "icu:PinChangeModal__title--create--without-pin": {
-    "messageformat": "Create your Signal PIN"
+    "messageformat": "Tạo mã PIN Signal"
   },
   "icu:PinChangeModal__body--create": {
     "messageformat": "Bạn có thể thay đổi mã PIN của bạn với điều kiện thiết bị được đăng ký. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:PinChangeModal__body--create--without-pin": {
-    "messageformat": "PINs keep information stored with Signal encrypted so only you can access it. Your profile, settings, and contacts will restore when you reinstall. You won't need your PIN to open the app. <learnMoreLink>Learn more</learnMoreLink>"
+    "messageformat": "Mã PIN giúp thông tin trên Signal được mã hóa để bạn là người duy nhất có thể truy cập. Hồ sơ, các cài đặt và danh bạ sẽ được khôi phục khi bạn cài đặt lại Signal. Bạn không cần điền PIN để mở ứng dụng. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
   },
   "icu:PinChangeModal__title--confirm": {
     "messageformat": "Xác nhận mã PIN Signal"
@@ -8807,6 +8780,9 @@
   "icu:DonationReceipt__footer-text-v2": {
     "messageformat": "Cảm ơn bạn đã hỗ trợ Signal. Đóng góp của bạn giúp duy trì sứ mệnh bảo vệ việc tự biểu đạt và cung cấp nền tảng giao tiếp bảo mật cho hàng triệu người trên thế giới, thông qua công nghệ mã nguồn mở hướng tới quyền riêng tư. Nếu bạn là một cư dân của Hoa Kỳ, vui lòng giữ biên lai này cho hồ sơ thuế. Signal Technology Foundation là một tổ chức phi lợi nhuận được miễn trừ nghĩa vụ thuế ở Hoa Kỳ theo mục 501c3 của Internal Revenue Code. ID Thuế Liên bang của chúng tôi là 82-4506840. Signal không cung cấp bất kỳ hàng hóa hoặc dịch vụ nào để đổi lấy khoản đóng góp này."
   },
+  "icu:MessageCta__Donate": {
+    "messageformat": "Donate Now"
+  },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Bạn đang ngoại tuyến. Vui lòng kết nối internet để hoàn tất khoản ủng hộ."
   },
@@ -9114,16 +9090,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.26--0": {
-    "messageformat": "Cải thiện chức năng tìm thành viên nhóm."
-  },
-  "icu:WhatsNew__8.27--0": {
-    "messageformat": "Cải thiện cài đặt thông báo với các tùy chọn mở rộng về cách thức và thời điểm hiển thị thông báo."
-  },
   "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling)."
+    "messageformat": "Cải thiện hiệu suất cho cuộc gọi video."
   },
   "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you."
+    "messageformat": "Chúng tôi cũng đã thêm một lối tắt tiện lợi để mở cài đặt hệ thống trên Windows trong trường hợp bạn cố gắng tham gia cuộc gọi video nhưng Signal chưa được cấp quyền truy cập camera."
   }
 }

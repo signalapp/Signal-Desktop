@@ -523,10 +523,6 @@
     "messageformat": "{count, number} unread",
     "description": "Nav Tabs > Unread badge > Accessibility Text"
   },
-  "icu:NavTabs__ItemIconLabel--MarkedUnread": {
-    "messageformat": "Marked unread",
-    "description": "(Deleted 2026/09/03) Nav Tabs > Unread badge > when conversation is marked unread > Accessibility Text"
-  },
   "icu:NavTabs__ItemLabel--Chats": {
     "messageformat": "Chats",
     "description": "Nav Tabs > Chats Button > Label & Accessibility Text"
@@ -882,25 +878,13 @@
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
   },
-  "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?",
-    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Title"
-  },
   "icu:KeyTransparencyErrorDialog__Title-v2": {
     "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit a report to help us improve?",
     "description": "Key Transparency Error Dialog > Title"
   },
-  "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
-    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Description"
-  },
   "icu:KeyTransparencyErrorDialog__Description-v2": {
     "messageformat": "Including your debug logs help us diagnose and fix the issue, and do not contain identifying information. Sharing is optional.",
     "description": "Key Transparency Error Dialog > Description"
-  },
-  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log",
-    "description": "(Deleted 2026/09/03) Key Transparency Error Dialog > Share debug log > Label"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2": {
     "messageformat": "Include debug log",
@@ -6994,22 +6978,6 @@
     "messageformat": "{replyCount, plural, one {# reply} other {# replies}} from {person1} and others",
     "description": "Body of the 'unread reminder' notification for a muted chat when three or more people replied to you"
   },
-  "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "Mentions",
-    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the label for the mentions option"
-  },
-  "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Receive notifications when you're mentioned in muted chats",
-    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the sub-label for the mentions option"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Always notify",
-    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the option that always notifies you for @mentions"
-  },
-  "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "Don't notify if muted",
-    "description": "(Deleted 2026/09/03) In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
-  },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "Group link copied.",
     "description": "Shown in a toast when a user selects to copy group link"
@@ -8379,10 +8347,6 @@
   "icu:Preferences--registration-lock__footer": {
     "messageformat": "Require your Signal PIN to register your phone number again with Signal.",
     "description": "Footer text for Registration Lock setting"
-  },
-  "icu:Preferences--notification-content": {
-    "messageformat": "Notification content",
-    "description": "(Deleted 2026/09/03) Label for the notification content setting select box"
   },
   "icu:Preferences__Chats__TextInputSection__Title": {
     "messageformat": "Text input",
@@ -12127,10 +12091,10 @@
   },
   "icu:WhatsNew__8.30--0": {
     "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling).",
-    "description": " Release notes for 8.30"
+    "description": "(Deleted 2026/10/07)  Release notes for 8.30"
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you.",
-    "description": " Release notes for 8.30"
+    "description": "(Deleted 2026/10/07)  Release notes for 8.30"
   }
 }
