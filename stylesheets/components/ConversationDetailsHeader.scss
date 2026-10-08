@@ -8,8 +8,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-block: 0 20px;
-  margin-inline: 0;
+  margin-block-end: 4px;
   padding-block: 0;
   padding-inline: 24px;
   text-align: center;
@@ -43,7 +42,7 @@
     @include mixins.font-body-1;
     color: variables.$color-gray-60;
     justify-content: center;
-    padding-bottom: 6px;
+    padding-bottom: 12px;
 
     @include mixins.dark-theme {
       color: variables.$color-gray-25;
