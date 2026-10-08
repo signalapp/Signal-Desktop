@@ -823,7 +823,7 @@ function AmountPicker({
   return (
     <div className="DonationAmountPicker">
       <Select
-        moduleClassName="DonationForm__CurrencySelect"
+        className="DonationForm__CurrencySelect"
         id="currency"
         options={currencyOptionsForSelect}
         onChange={handleCurrencyChanged}

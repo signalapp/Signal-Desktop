@@ -5,12 +5,8 @@
 @use '../variables';
 
 .StoriesSettingsModal {
-  &__width-container {
+  .module-modal-host__width-container {
     max-width: 420px;
-  }
-
-  &__modal {
-    width: 420px;
   }
 
   &__conversation-list {
@@ -192,7 +188,7 @@
     }
   }
 
-  &__input__container {
+  &__input.Input__container {
     margin-top: 15px;
     margin-bottom: 0px;
   }

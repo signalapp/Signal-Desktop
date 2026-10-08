@@ -38,29 +38,31 @@ export function FlowingSettingsControl({
 }
 
 export function LightIconLabel({
-  icon,
+  iconClassName,
   children,
 }: {
-  icon: string;
+  iconClassName: string;
   children: ReactNode;
 }): JSX.Element {
   return (
     <label className="Preferences__light-icon-label">
-      <div className={classNames('Preferences__control--icon', icon)} />
+      <div
+        className={classNames('Preferences__control--icon', iconClassName)}
+      />
       <div>{children}</div>
     </label>
   );
 }
 
 export function SettingsControl({
-  icon,
+  iconClassName,
   left,
   onClick,
   right,
   description,
 }: {
   /** A className or `true` to leave room for icon */
-  icon?: string | true;
+  iconClassName?: string | true;
   left: ReactNode;
   onClick?: () => unknown;
   right: ReactNode;
@@ -68,11 +70,11 @@ export function SettingsControl({
 }): JSX.Element {
   const content = (
     <>
-      {icon && (
+      {iconClassName && (
         <div
           className={classNames(
             'Preferences__control--icon',
-            icon === true ? null : icon
+            iconClassName === true ? null : iconClassName
           )}
         />
       )}

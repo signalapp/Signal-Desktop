@@ -54,6 +54,23 @@ enum ConfirmationType {
   DeleteError = 'DeleteError',
 }
 
+const MessageMetaDataStatusIconClassNames: Record<MessageStatusType, string> = {
+  delivered: 'module-message__metadata__status-icon--delivered',
+  error: 'module-message__metadata__status-icon--error',
+  paused: 'module-message__metadata__status-icon--paused',
+  'partial-sent': 'module-message__metadata__status-icon--partial-sent',
+  read: 'module-message__metadata__status-icon--read',
+  sending: 'module-message__metadata__status-icon--sending',
+  sent: 'module-message__metadata__status-icon--sent',
+  viewed: 'module-message__metadata__status-icon--viewed',
+};
+
+export function getMessageMetadataStatusIconClassName(
+  status: MessageStatusType
+): string {
+  return MessageMetaDataStatusIconClassNames[status];
+}
+
 export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
   function MessageMetadataInner(
     {
@@ -170,7 +187,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
             direction={metadataDirection}
             i18n={i18n}
             isOutlineOnlyBubble={isOutlineOnlyBubble}
-            module="module-message__metadata__date"
+            className="module-message__metadata__date"
             timestamp={timestamp}
             withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
@@ -289,7 +306,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
           <div
             className={classNames(
               'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`
+              status != null && MessageMetaDataStatusIconClassNames[status]
             )}
           />
         ) : null}

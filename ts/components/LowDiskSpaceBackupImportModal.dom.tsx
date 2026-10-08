@@ -20,7 +20,7 @@ export function LowDiskSpaceBackupImportModal(props: PropsType): JSX.Element {
   return (
     <Modal
       modalName="LowDiskSpaceBackupImportModal"
-      moduleClassName="LowDiskSpaceBackupImportModal"
+      className="LowDiskSpaceBackupImportModal"
       i18n={i18n}
       onClose={onClose}
     >

@@ -4,10 +4,6 @@
 @use 'mixins';
 @use 'variables';
 
-body.is-resizing-left-pane {
-  cursor: col-resize;
-}
-
 [contenteditable]:not([contenteditable='false']) {
   /* stylelint-disable-next-line property-no-deprecated */
   -webkit-user-modify: read-write-plaintext-only;

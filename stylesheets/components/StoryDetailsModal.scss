@@ -5,26 +5,28 @@
 @use '../variables';
 
 .StoryDetailsModal {
-  min-width: 320px;
-  overflow: hidden;
+  .module-Modal {
+    min-width: 320px;
+    overflow: hidden;
+  }
 
-  &__overlay-container {
+  .module-modal-host__overlay-container {
     align-items: flex-end;
     justify-content: flex-end;
   }
 
-  &__debugger__container {
+  &__debugger.ContextMenu__container {
     justify-content: flex-start;
   }
 
-  &__debugger__button {
+  &__debugger .ContextMenu__button {
     color: variables.$color-gray-25;
     display: block;
     font-weight: 600;
     height: auto;
     width: auto;
 
-    &__text {
+    .StoryDetailsModal__debugger__button__text {
       font-weight: normal;
     }
   }

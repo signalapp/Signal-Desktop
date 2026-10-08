@@ -81,13 +81,6 @@ $NavTabs__ProfileAvatar__size: 28px;
     margin-inline: auto;
     border-radius: 4px;
   }
-  .NavTabs__Item--Profile & {
-    // Normalize for the size difference of the avatar vs sidebar icons
-    padding-block: calc(
-      variables.$NavTabs__ItemButton__blockPadding -
-        (($NavTabs__ProfileAvatar__size - $NavTabs__ItemIcon__size) / 2)
-    );
-  }
 }
 
 .NavTabs__ItemContent {
@@ -204,13 +197,6 @@ $NavTabs__ProfileAvatar__size: 28px;
 }
 .NavTabs__Item--Settings {
   grid-row: Settings;
-}
-
-.NavTabs__Misc {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .NavTabs__TabPanel {

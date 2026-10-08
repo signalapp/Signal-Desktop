@@ -10,26 +10,39 @@ import {
   type RefAttributes,
 } from 'react';
 import { v4 as uuid } from 'uuid';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { CircleCheckbox } from './CircleCheckbox.dom.tsx';
+
+type Variant = 'item' | 'panelrow';
+type SubtitleMaxLines = 1 | 2 | 3;
+
+const VariantClassNames: Record<Variant, string> = {
+  item: 'ListTile--variant-item',
+  panelrow: 'ListTile--variant-panelrow',
+};
+
+const SubtitleMaxLinesClassNames: Record<SubtitleMaxLines, string> = {
+  1: 'ListTile__subtitle--max-lines-1',
+  2: 'ListTile__subtitle--max-lines-2',
+  3: 'ListTile__subtitle--max-lines-3',
+};
 
 export type Props = {
   title: string | JSX.Element;
   subtitle?: string | JSX.Element;
   leading?: string | JSX.Element;
   trailing?: string | JSX.Element;
-  moduleClassName?: string;
+  className?: string;
   onClick?: () => void;
   onContextMenu?: (ev: MouseEvent) => void;
   // show hover highlight,
   // defaults to true if onClick is defined
   clickable?: boolean;
   // defaults to 2
-  subtitleMaxLines?: 1 | 2 | 3;
+  subtitleMaxLines?: SubtitleMaxLines;
   // defaults to false
   disabled?: boolean;
   // defaults to item
-  variant?: 'item' | 'panelrow';
+  variant?: Variant;
   // defaults to div
   rootElement?: 'div' | 'button';
   testId?: string;
@@ -77,7 +90,7 @@ const ListTileImpl = forwardRef<HTMLButtonElement, Props>(function ListTileImpl(
     subtitle,
     leading,
     trailing,
-    moduleClassName,
+    className,
     onClick,
     onContextMenu,
     clickable,
@@ -92,13 +105,12 @@ const ListTileImpl = forwardRef<HTMLButtonElement, Props>(function ListTileImpl(
 ) {
   const isClickable = clickable ?? Boolean(onClick);
 
-  const getClassName = getClassNamesFor('ListTile', moduleClassName);
-
   const rootProps = {
     className: classNames(
-      getClassName(''),
-      isClickable && getClassName('--clickable'),
-      getClassName(`--variant-${variant}`)
+      'ListTile',
+      isClickable && 'ListTile--clickable',
+      VariantClassNames[variant],
+      className
     ),
     tabIndex: onClick != null ? 0 : undefined,
     onClick,
@@ -117,7 +129,7 @@ const ListTileImpl = forwardRef<HTMLButtonElement, Props>(function ListTileImpl(
           <div
             className={classNames(
               'ListTile__subtitle',
-              `ListTile__subtitle--max-lines-${subtitleMaxLines}`
+              SubtitleMaxLinesClassNames[subtitleMaxLines]
             )}
           >
             {subtitle}

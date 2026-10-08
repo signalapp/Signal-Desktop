@@ -84,13 +84,12 @@ describe('story/no-sender-key', function (this: Mocha.Suite) {
       await window.getByTestId('NavTabsItem--Stories').click();
 
       await storiesPane
-        .locator('button.Stories__pane__add-story__button')
+        .locator('.Stories__pane__list')
+        .getByRole('button', { name: 'Add a story' })
         .click();
       await storiesPane
-        .locator(
-          '.ContextMenu__popper .Stories__pane__add-story__option--title ' +
-            '>> "Text story"'
-        )
+        .locator('.ContextMenu__popper')
+        .getByRole('button', { name: 'Text story' })
         .click();
 
       debug('Focusing textarea');
@@ -104,7 +103,8 @@ describe('story/no-sender-key', function (this: Mocha.Suite) {
 
       debug('Clicking "Next"');
       await storiesCreator
-        .locator('.StoryCreator__toolbar button >> "Next"')
+        .locator('.StoryCreator__toolbar')
+        .getByRole('button', { name: 'Next' })
         .click();
 
       debug('Selecting "My Story"');

@@ -289,7 +289,7 @@ export namespace AxoContextMenu {
       <ContextMenu.Portal>
         <AxoTheme.Inherit>
           <ContextMenu.Content
-            className={AxoBaseMenu.menuContentStyles}
+            className={AxoBaseMenu.menuContentClassName}
             alignOffset={-6}
             collisionPadding={6}
             onCloseAutoFocus={props.onCloseAutoFocus}
@@ -320,7 +320,7 @@ export namespace AxoContextMenu {
         disabled={props.disabled}
         textValue={props.textValue}
         onSelect={props.onSelect}
-        className={AxoBaseMenu.menuItemStyles}
+        className={AxoBaseMenu.menuItemClassName}
       >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
@@ -353,7 +353,7 @@ export namespace AxoContextMenu {
    */
   export const Group: FC<GroupProps> = memo(props => {
     return (
-      <ContextMenu.Group className={AxoBaseMenu.menuGroupStyles}>
+      <ContextMenu.Group className={AxoBaseMenu.menuGroupClassName}>
         {props.children}
       </ContextMenu.Group>
     );
@@ -373,7 +373,7 @@ export namespace AxoContextMenu {
    */
   export const Label: FC<LabelProps> = memo(props => {
     return (
-      <ContextMenu.Label className={AxoBaseMenu.menuLabelStyles}>
+      <ContextMenu.Label className={AxoBaseMenu.menuLabelClassName}>
         <AxoBaseMenu.ItemContentSlot>
           <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
         </AxoBaseMenu.ItemContentSlot>
@@ -401,7 +401,7 @@ export namespace AxoContextMenu {
         checked={props.checked}
         onCheckedChange={props.onCheckedChange}
         onSelect={props.onSelect}
-        className={AxoBaseMenu.menuCheckboxItemStyles}
+        className={AxoBaseMenu.menuCheckboxItemClassName}
       >
         <AxoBaseMenu.ItemLeadingSlot>
           <AxoBaseMenu.ItemCheckPlaceholder>
@@ -444,7 +444,7 @@ export namespace AxoContextMenu {
       <ContextMenu.RadioGroup
         value={props.value ?? undefined}
         onValueChange={props.onValueChange}
-        className={AxoBaseMenu.menuRadioGroupStyles}
+        className={AxoBaseMenu.menuRadioGroupClassName}
       >
         {props.children}
       </ContextMenu.RadioGroup>
@@ -467,7 +467,7 @@ export namespace AxoContextMenu {
     return (
       <ContextMenu.RadioItem
         value={props.value}
-        className={AxoBaseMenu.menuRadioItemStyles}
+        className={AxoBaseMenu.menuRadioItemClassName}
         onSelect={props.onSelect}
       >
         <AxoBaseMenu.ItemLeadingSlot>
@@ -506,7 +506,7 @@ export namespace AxoContextMenu {
    */
   export const Separator: FC = memo(() => {
     return (
-      <ContextMenu.Separator className={AxoBaseMenu.menuSeparatorStyles} />
+      <ContextMenu.Separator className={AxoBaseMenu.menuSeparatorClassName} />
     );
   });
 
@@ -540,7 +540,7 @@ export namespace AxoContextMenu {
    */
   export const SubTrigger: FC<SubTriggerProps> = memo(props => {
     return (
-      <ContextMenu.SubTrigger className={AxoBaseMenu.menuSubTriggerStyles}>
+      <ContextMenu.SubTrigger className={AxoBaseMenu.menuSubTriggerClassName}>
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
             <AxoBaseMenu.ItemSymbol symbol={props.symbol} />
@@ -575,7 +575,7 @@ export namespace AxoContextMenu {
         <ContextMenu.SubContent
           alignOffset={-6}
           collisionPadding={6}
-          className={AxoBaseMenu.menuSubContentStyles}
+          className={AxoBaseMenu.menuSubContentClassName}
         >
           {props.children}
         </ContextMenu.SubContent>

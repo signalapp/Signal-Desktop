@@ -530,7 +530,7 @@ export function SendStoryModal({
       <ModalPage
         modalName="SendStoryModal__choose-groups"
         title={i18n('icu:SendStoryModal__choose-groups')}
-        moduleClassName="SendStoryModal"
+        className="SendStoryModal"
         modalFooter={footer}
         onClose={handleClose}
         {...modalCommonProps}
@@ -539,7 +539,7 @@ export function SendStoryModal({
           disabled={groupConversations.length === 0}
           i18n={i18n}
           placeholder={i18n('icu:contactSearchPlaceholder')}
-          moduleClassName="StoriesSettingsModal__search"
+          className="StoriesSettingsModal__search"
           onChange={event => {
             setSearchTerm(event.target.value);
           }}
@@ -551,7 +551,7 @@ export function SendStoryModal({
               checked={chosenGroupIds.has(group.id)}
               key={group.id}
               label={group.title}
-              moduleClassName="SendStoryModal__distribution-list"
+              className="SendStoryModal__distribution-list"
               name="SendStoryModal__distribution-list"
               onChange={(value: boolean) => {
                 if (group.announcementsOnly && !group.areWeAdmin) {
@@ -658,7 +658,7 @@ export function SendStoryModal({
           checked={selectedListIds.has(list.id)}
           key={list.id}
           label={getStoryDistributionListName(i18n, list.id, list.name)}
-          moduleClassName="SendStoryModal__distribution-list"
+          className="SendStoryModal__distribution-list"
           name="SendStoryModal__distribution-list"
           onChange={(value: boolean) => {
             if (
@@ -695,24 +695,24 @@ export function SendStoryModal({
                   ? [
                       {
                         label: i18n('icu:StoriesSettings__context-menu'),
-                        icon: 'SendStoryModal__icon--delete',
+                        iconClassName: 'SendStoryModal__icon--delete',
                         onClick: () => setListIdToEdit(list.id),
                       },
                     ]
                   : [
                       {
                         label: i18n('icu:StoriesSettings__context-menu'),
-                        icon: 'SendStoryModal__icon--settings',
+                        iconClassName: 'SendStoryModal__icon--settings',
                         onClick: () => setListIdToEdit(list.id),
                       },
                       {
                         label: i18n('icu:SendStoryModal__delete-story'),
-                        icon: 'SendStoryModal__icon--delete',
+                        iconClassName: 'SendStoryModal__icon--delete',
                         onClick: () => setConfirmDeleteList(list),
                       },
                     ]
               }
-              moduleClassName="SendStoryModal__distribution-list-context"
+              className="SendStoryModal__distribution-list-context"
               onClick={noop}
               popperOptions={{
                 placement: 'bottom',
@@ -786,7 +786,7 @@ export function SendStoryModal({
           checked={selectedGroupIds.has(group.id)}
           key={group.id}
           label={group.title}
-          moduleClassName="SendStoryModal__distribution-list"
+          className="SendStoryModal__distribution-list"
           name="SendStoryModal__distribution-list"
           onChange={(value: boolean) => {
             if (!group.memberships) {
@@ -826,11 +826,11 @@ export function SendStoryModal({
               menuOptions={[
                 {
                   label: i18n('icu:SendStoryModal__delete-story'),
-                  icon: 'SendStoryModal__icon--delete',
+                  iconClassName: 'SendStoryModal__icon--delete',
                   onClick: () => setConfirmRemoveGroupId(group.id),
                 },
               ]}
-              moduleClassName="SendStoryModal__distribution-list-context"
+              className="SendStoryModal__distribution-list-context"
               onClick={noop}
               popperOptions={{
                 placement: 'bottom',
@@ -884,7 +884,7 @@ export function SendStoryModal({
       <ModalPage
         modalName="SendStoryModal__title"
         title={i18n('icu:SendStoryModal__title')}
-        moduleClassName="SendStoryModal"
+        className="SendStoryModal"
         modalFooter={footer}
         onClose={handleClose}
         {...modalCommonProps}
@@ -899,7 +899,7 @@ export function SendStoryModal({
             queueStoryDownload={noop}
             storyId="story-id"
             label="label"
-            moduleClassName="SendStoryModal__story"
+            className="SendStoryModal__story"
             attachment={attachment}
             onMediaPlaybackStart={onMediaPlaybackStart}
           />
@@ -918,7 +918,7 @@ export function SendStoryModal({
                   description: i18n(
                     'icu:SendStoryModal__new-custom--description'
                   ),
-                  icon: 'SendStoryModal__icon--custom',
+                  iconClassName: 'SendStoryModal__icon--custom',
                   onClick: () => setPage(Page.ChooseViewers),
                 },
                 {
@@ -926,11 +926,11 @@ export function SendStoryModal({
                   description: i18n(
                     'icu:SendStoryModal__new-group--description'
                   ),
-                  icon: 'SendStoryModal__icon--group',
+                  iconClassName: 'SendStoryModal__icon--group',
                   onClick: () => setPage(Page.ChooseGroups),
                 },
               ]}
-              moduleClassName="SendStoryModal__new-story"
+              popperClassName="SendStoryModal__new-story__popper"
               popperOptions={{
                 placement: 'bottom',
                 strategy: 'absolute',

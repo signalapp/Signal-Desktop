@@ -29,6 +29,7 @@ import { getInitials } from '../util/getInitials.std.ts';
 import { isBadgeVisible } from '../badges/isBadgeVisible.std.ts';
 import { SIGNAL_AVATAR_PATH } from '../types/SignalConversation.std.ts';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.ts';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 const { noop } = lodash;
 
@@ -59,6 +60,14 @@ export enum AvatarSize {
 
 type BadgePlacementType = { bottom: number; right: number };
 
+type AvatarConversationType = 'group' | 'direct' | 'callLink';
+
+const AvatarConversationTypeIcons: Record<AvatarConversationType, string> = {
+  group: 'module-Avatar__icon--group',
+  direct: 'module-Avatar__icon--direct',
+  callLink: 'module-Avatar__icon--callLink',
+};
+
 export type Props = {
   avatarUrl?: string;
   avatarPlaceholderGradient?: Readonly<[string, string]>;
@@ -66,7 +75,7 @@ export type Props = {
   color?: AvatarColorType;
   hasAvatar?: boolean;
   loading?: boolean;
-  conversationType: 'group' | 'direct' | 'callLink';
+  conversationType: AvatarConversationType;
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
@@ -253,30 +262,41 @@ export function Avatar({
       <div
         className={classNames(
           'module-Avatar__icon',
-          `module-Avatar__icon--${conversationType}`
+          AvatarConversationTypeIcons[conversationType]
         )}
       />
     );
   }
 
   let contents: ReactNode;
-  const contentsClassName = classNames(
-    'module-Avatar__contents',
-    `module-Avatar__contents--${color}`
-  );
+
+  const values = AxoTokens.Avatar.isColorName(color)
+    ? AxoTokens.Avatar.getColorValues(color)
+    : null;
+
+  const style = {
+    '--module-Avatar__contents-bg': values?.bg,
+    '--module-Avatar__contents-fg': values?.fg,
+  } as CSSProperties;
+
   if (onClick) {
     contents = (
       <button
         {...filterDOMProps(ariaProps)}
-        className={contentsClassName}
+        className="module-Avatar__contents"
         type="button"
         onClick={onClick}
+        style={style}
       >
         {contentsChildren}
       </button>
     );
   } else {
-    contents = <div className={contentsClassName}>{contentsChildren}</div>;
+    contents = (
+      <div className="module-Avatar__contents" style={style}>
+        {contentsChildren}
+      </div>
+    );
   }
 
   let badgeNode: ReactNode;

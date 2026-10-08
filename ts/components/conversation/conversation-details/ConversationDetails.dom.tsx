@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, JSX } from 'react';
+import type { ReactNode, JSX, CSSProperties } from 'react';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { MuteExpiration } from '@signalapp/types';
 
@@ -34,7 +34,7 @@ import type {
 } from './PendingInvites.dom.tsx';
 import { EditConversationAttributesModal } from './EditConversationAttributesModal.dom.tsx';
 import { RequestState } from './util.std.ts';
-import { getCustomColorStyle } from '../../../util/getCustomColorStyle.dom.ts';
+import { getCustomColorStyle } from '../../../util/getCustomColorStyle.std.ts';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
 import type {
   AvatarDataType,
@@ -65,6 +65,7 @@ import { AxoTextItem } from '../../../axo/items/AxoTextItem.dom.tsx';
 import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoTokens } from '../../../axo/AxoTokens.std.ts';
 
 enum ModalState {
   AddingGroupMembers,
@@ -618,8 +619,14 @@ export function ConversationDetails({
                 }}
                 accessory={
                   <div
-                    className={`ConversationDetails__chat-color ConversationDetails__chat-color--${conversation.conversationColor}`}
+                    className="ConversationDetails__chat-color"
                     style={{
+                      ...({
+                        '--ConversationDetails__chat-color-bg':
+                          AxoTokens.ChatBubble.anyColorNameToCssBackground(
+                            conversation.conversationColor
+                          ),
+                      } as CSSProperties),
                       ...getCustomColorStyle(conversation.customColor),
                     }}
                   />

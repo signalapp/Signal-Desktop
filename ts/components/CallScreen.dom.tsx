@@ -1057,12 +1057,14 @@ export function CallScreen({
     <div
       className={classNames(
         'module-calling__container',
-        `module-ongoing-call__container--${getCallModeClassSuffix(
-          activeCall.callMode
-        )}`,
-        `module-ongoing-call__container--${
-          hasCallStarted ? 'call-started' : 'call-not-started'
-        }`,
+        activeCall.callMode === CallMode.Direct &&
+          'module-ongoing-call__container--direct',
+        (activeCall.callMode === CallMode.Adhoc ||
+          activeCall.callMode === CallMode.Group) &&
+          'module-ongoing-call__container--group',
+        hasCallStarted
+          ? 'module-ongoing-call__container--call-started'
+          : 'module-ongoing-call__container--call-not-started',
         { 'module-ongoing-call__container--hide-controls': !showControls },
         {
           'module-ongoing-call__container--controls-faded-out':
@@ -1330,20 +1332,6 @@ export function CallScreen({
       </div>
     </div>
   );
-}
-
-function getCallModeClassSuffix(
-  callMode: CallMode.Direct | CallMode.Group | CallMode.Adhoc
-): string {
-  switch (callMode) {
-    case CallMode.Direct:
-      return 'direct';
-    case CallMode.Group:
-    case CallMode.Adhoc:
-      return 'group';
-    default:
-      throw missingCaseError(callMode);
-  }
 }
 
 function renderDuration(ms: number): string {

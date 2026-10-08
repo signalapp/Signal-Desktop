@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 import type { AvatarColorType } from '../types/Colors.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 export type PropsType = {
   children?: ReactNode;
@@ -26,15 +27,22 @@ export function BetterAvatarBubble({
   onSelect,
   style,
 }: PropsType): JSX.Element {
+  const colorValues =
+    color != null ? AxoTokens.Avatar.getColorValues(color) : null;
+  const colorStyle =
+    colorValues != null
+      ? ({
+          '--BetterAvatarBubble-bg': colorValues?.bg,
+          '--BetterAvatarBubble-fg': colorValues?.fg,
+        } as CSSProperties)
+      : null;
+
   return (
     <div
-      className={classNames(
-        {
-          BetterAvatarBubble: true,
-          'BetterAvatarBubble--selected': isSelected,
-        },
-        color && `BetterAvatarBubble--${color}`
-      )}
+      className={classNames({
+        BetterAvatarBubble: true,
+        'BetterAvatarBubble--selected': isSelected,
+      })}
       onKeyDown={ev => {
         if (ev.key === 'Enter') {
           onSelect();
@@ -42,7 +50,7 @@ export function BetterAvatarBubble({
       }}
       onClick={onSelect}
       role="button"
-      style={style}
+      style={{ ...style, ...colorStyle }}
       tabIndex={0}
     >
       {onDelete && (

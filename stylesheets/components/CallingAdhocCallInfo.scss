@@ -13,7 +13,7 @@
   pointer-events: auto;
 }
 
-.CallingAdhocCallInfo__width-container {
+.CallingAdhocCallInfo__modal .module-modal-host__width-container {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -26,18 +26,18 @@
   pointer-events: none;
 }
 
-.CallingAdhocCallInfo__width-container::after {
+.CallingAdhocCallInfo__modal .module-modal-host__width-container::after {
   content: '';
   display: flex;
   flex-shrink: 1;
   flex-basis: 480px;
 }
 
-.CallingAdhocCallInfo__overlay {
+.CallingAdhocCallInfo__modal .module-modal-host__overlay {
   background: transparent;
 }
 
-.CallingAdhocCallInfo__overlay-container {
+.CallingAdhocCallInfo__modal .module-modal-host__overlay-container {
   flex-direction: column;
   padding: 0;
   justify-content: flex-end;
@@ -107,16 +107,6 @@
   margin-block: 16px;
   margin-inline: 10px;
   border: 1px solid variables.$color-gray-65;
-}
-
-.CallingAdhocCallInfo__RemoveClient {
-  @include mixins.button-reset;
-  & {
-    width: 16px;
-    height: 16px;
-    margin-inline: 8px;
-    background: variables.$color-white;
-  }
 }
 
 .CallingAdhocCallInfo__UnknownContactInfoButton {

@@ -36,7 +36,7 @@ function UnsupportedMessageContents({ canProcessNow, contact, i18n }: Props) {
     <span key="external-1" className="module-unsupported-message__contact">
       <ContactName
         title={contact.title}
-        module="module-unsupported-message__contact"
+        className="module-unsupported-message__contact"
       />
     </span>
   );

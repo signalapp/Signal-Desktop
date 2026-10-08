@@ -12,36 +12,4 @@
   justify-content: center;
   align-items: center;
   background: none;
-
-  &__time {
-    color: variables.$color-gray-60;
-    font-variant: tabular-nums;
-    line-height: 36px;
-    margin-block: 0;
-    margin-inline: 15px;
-
-    @keyframes pulse {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-
-    &::before {
-      content: '';
-      display: inline-block;
-      border-radius: 10px;
-      width: 10px;
-      height: 10px;
-      background: variables.$color-accent-red;
-      margin-inline-end: 10px;
-      opacity: 0;
-      animation: pulse 2s infinite;
-    }
-  }
 }

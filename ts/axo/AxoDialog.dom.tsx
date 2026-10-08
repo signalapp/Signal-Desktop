@@ -247,11 +247,11 @@ export namespace AxoDialog {
         <AxoTheme.Inherit>
           <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
             <AxoBaseDialog.Host>
-              <Dialog.Overlay className={AxoBaseDialog.overlayStyles} />
+              <Dialog.Overlay className={AxoBaseDialog.overlayClassName} />
               <Dialog.Content
                 ref={setBoundary}
                 className={tw(
-                  AxoBaseDialog.contentStyles,
+                  AxoBaseDialog.contentClassName,
                   ContentSizeStyles.get(props.size)
                 )}
                 onEscapeKeyDown={handleContentEscapeEvent}

@@ -17,6 +17,11 @@ import { ScrollBehavior } from '../types/Util.std.ts';
 
 const { noop } = lodash;
 
+const ScrollBehaviorClassNames: Record<ScrollBehavior, string> = {
+  [ScrollBehavior.Default]: 'ListView--scroll-behavior-default',
+  [ScrollBehavior.Hard]: 'ListView--scroll-behavior-hard',
+};
+
 type Props = {
   width: number;
   height: number;
@@ -75,7 +80,7 @@ export function ListView({
     <List
       className={classNames(
         'ListView',
-        `ListView--scroll-behavior-${scrollBehavior}`,
+        ScrollBehaviorClassNames[scrollBehavior],
         className
       )}
       width={width}

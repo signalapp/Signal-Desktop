@@ -15,8 +15,7 @@ import lodash from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import type { StrictModifiers } from '@popperjs/core';
 import { createPortal } from 'react-dom';
-import type { Theme } from '../util/theme.std.ts';
-import { themeClassName } from '../util/theme.std.ts';
+import { Theme } from '../util/theme.std.ts';
 import { refMerger } from '../util/refMerger.std.ts';
 import { offsetDistanceModifier } from '../util/popperUtil.std.ts';
 
@@ -120,9 +119,14 @@ export function Tooltip({
 
   const showTooltip = active || Boolean(sticky);
 
-  const tooltipThemeClassName = theme
-    ? `module-tooltip--${themeClassName(theme)}`
-    : undefined;
+  let tooltipThemeClassName: string | null;
+  if (theme === Theme.Light) {
+    tooltipThemeClassName = 'module-tooltip--light-theme';
+  } else if (theme === Theme.Dark) {
+    tooltipThemeClassName = 'module-tooltip--dark-theme';
+  } else {
+    tooltipThemeClassName = null;
+  }
 
   function handleHoverChanged(hovering: boolean) {
     // Don't accept updates that aren't valid anymore

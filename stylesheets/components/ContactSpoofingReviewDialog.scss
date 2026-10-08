@@ -5,42 +5,6 @@
 @use '../variables';
 
 .module-ContactSpoofingReviewDialog {
-  p {
-    @include mixins.font-body-2;
-
-    @include mixins.light-theme {
-      color: variables.$color-gray-60;
-    }
-
-    @include mixins.dark-theme {
-      color: variables.$color-gray-05;
-    }
-  }
-
-  &__description {
-    margin-block: 0 16px;
-  }
-
-  h2 {
-    @include mixins.font-body-1-bold;
-    margin-top: 28px;
-    margin-bottom: 20px;
-  }
-
-  hr {
-    border: 0;
-    height: 1px;
-    margin-block: 12px;
-    margin-inline: 0;
-
-    @include mixins.light-theme {
-      background: variables.$color-gray-05;
-    }
-    @include mixins.dark-theme {
-      background: variables.$color-gray-75;
-    }
-  }
-
   &__buttons {
     margin-top: 4px;
 

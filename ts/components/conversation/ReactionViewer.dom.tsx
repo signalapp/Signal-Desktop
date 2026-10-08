@@ -266,7 +266,7 @@ export const ReactionViewer = forwardRef<HTMLDivElement, Props>(
                   i18n('icu:you')
                 ) : (
                   <ContactName
-                    module="module-reaction-viewer__body__row__name__contact-name"
+                    className="module-reaction-viewer__body__row__name__contact-name"
                     title={from.title}
                   />
                 )}

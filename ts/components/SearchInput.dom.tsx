@@ -10,7 +10,6 @@ import type {
 import { forwardRef, useCallback } from 'react';
 import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { mergeProps, useFocusRing } from 'react-aria';
 
 export type PropTypes = Readonly<{
@@ -19,7 +18,8 @@ export type PropTypes = Readonly<{
   label?: string;
   hasSearchIcon?: boolean;
   i18n: LocalizerType;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onClear?: () => unknown;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange: (ev: ChangeEvent<HTMLInputElement>) => unknown;
@@ -30,8 +30,6 @@ export type PropTypes = Readonly<{
   noMargin?: boolean;
 }>;
 
-const BASE_CLASS_NAME = 'module-SearchInput';
-
 export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
   function SearchInputInner(
     {
@@ -40,7 +38,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
       hasSearchIcon = true,
       i18n,
       label,
-      moduleClassName,
+      className,
       onClear,
       onBlur,
       onChange,
@@ -52,8 +50,6 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
     },
     ref
   ) {
-    const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
-
     const { isFocusVisible, focusProps } = useFocusRing({
       within: true,
       isTextInput: true,
@@ -81,19 +77,20 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
     return (
       <div
         className={classNames(
-          getClassName('__container'),
-          noMargin && getClassName('__container--noMargin')
+          'module-SearchInput__container',
+          noMargin && 'module-SearchInput__container--noMargin',
+          className
         )}
         data-supertab
       >
-        {hasSearchIcon && <i className={getClassName('__icon')} />}
+        {hasSearchIcon && <i className="module-SearchInput__icon" />}
         {children}
         <input
           aria-label={label || i18n('icu:search')}
           className={classNames(
-            getClassName('__input'),
-            value && getClassName('__input--with-text'),
-            children != null && getClassName('__input--with-children')
+            'module-SearchInput__input',
+            value && 'module-SearchInput__input--with-text',
+            children != null && 'module-SearchInput__input--with-children'
           )}
           dir="auto"
           disabled={disabled}
@@ -111,14 +108,14 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
         {value && onClear && (
           <button
             aria-label={i18n('icu:cancel')}
-            className={getClassName('__cancel')}
+            className="module-SearchInput__cancel"
             onClick={onClear}
             tabIndex={-1}
             type="button"
           />
         )}
         {description && (
-          <div className={getClassName('__description')}>{description}</div>
+          <div className="module-SearchInput__description">{description}</div>
         )}
       </div>
     );

@@ -15,7 +15,8 @@ export type PropsType = Readonly<{
   ariaLabel?: string;
   disabled?: boolean;
   id?: string;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   name?: string;
   options: ReadonlyArray<Option>;
   onChange: (value: string) => void;
@@ -27,7 +28,7 @@ export const Select = forwardRef(function SelectInner(
     ariaLabel,
     disabled,
     id,
-    moduleClassName,
+    className,
     name,
     onChange,
     options,
@@ -43,7 +44,7 @@ export const Select = forwardRef(function SelectInner(
   );
 
   return (
-    <div className={classNames(['module-select', moduleClassName])}>
+    <div className={classNames('module-select', className)}>
       <select
         aria-label={ariaLabel}
         disabled={disabled}

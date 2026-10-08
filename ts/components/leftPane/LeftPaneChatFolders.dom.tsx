@@ -35,6 +35,7 @@ import type { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 import type { UnreadCountBadgeType } from '../../types/StorageKeys.std.ts';
+import classNames from 'classnames';
 
 export type LeftPaneChatFoldersProps = Readonly<{
   i18n: LocalizerType;
@@ -89,9 +90,6 @@ function getChatFolderIconName(chatFolder: ChatFolder | null): AxoSymbol.Name {
   return chatFolder.folderType === ChatFolderType.ALL ? 'message' : 'folder';
 }
 
-// Needed to conditionally apply margin after network warning/update available
-const LEFT_PANE_CHAT_FOLDERS_CLASS_NAME = 'module-left-pane__chatFolders';
-
 export function LeftPaneChatFolders(
   props: LeftPaneChatFoldersProps
 ): JSX.Element | null {
@@ -123,7 +121,7 @@ export function LeftPaneChatFolders(
 
   if (props.navSidebarWidthBreakpoint === WidthBreakpoint.Narrow) {
     return (
-      <div className={tw(LEFT_PANE_CHAT_FOLDERS_CLASS_NAME, 'px-2')}>
+      <div className={classNames('module-left-pane__chatFolders', tw('px-2'))}>
         <AxoSelect.Root
           value={props.selectedChatFolder?.id ?? null}
           onValueChange={handleValueChange}

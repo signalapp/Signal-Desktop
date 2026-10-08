@@ -3,7 +3,6 @@
 
 import type { FunctionComponent, JSX } from 'react';
 import { useState, memo, useCallback } from 'react';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import type { ParsedE164Type } from '../../util/libphonenumberInstance.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import { AvatarColors } from '../../types/Colors.std.ts';
@@ -113,7 +112,6 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = memo(
               <Spinner
                 size="20px"
                 svgSize="small"
-                moduleClassName={SPINNER_CLASS_NAME}
                 direction="on-progress-dialog"
               />
             }

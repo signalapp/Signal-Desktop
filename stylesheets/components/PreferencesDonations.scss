@@ -312,25 +312,25 @@
 }
 
 @mixin donations-modal {
-  &__width-container {
+  .module-modal-host__width-container {
     max-width: 420px;
   }
 
-  &__headerTitle,
-  &__body,
+  .module-Modal__headerTitle,
+  .module-Modal__body,
   .module-Modal__button-footer {
     padding-inline: 24px;
   }
 
-  &__headerTitle {
+  .module-Modal__headerTitle {
     padding-block-start: 24px;
   }
 
-  &__title {
+  .module-Modal__title {
     @include mixins.font-title-medium;
   }
 
-  &__body {
+  .module-Modal__body {
     @include mixins.font-body-2;
     padding-block-end: 16px;
   }
@@ -497,9 +497,4 @@
   background: variables.$color-paypal-yellow;
   border-radius: 6px;
   justify-content: center;
-}
-
-.PreferencesDonations__paypal-icon {
-  display: flex;
-  background-image: url('../images/paypal.svg');
 }

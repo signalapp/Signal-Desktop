@@ -196,6 +196,7 @@ function getRangeWithContainer(range: Range): Node {
   currentNode = startContainer.parentElement!;
   while (
     currentNode &&
+    // oxlint-disable-next-line signal-desktop/enforce-static-class-names
     CONTAINER_CLASSES.every(item => !currentNode?.classList.contains(item))
   ) {
     const tagName = currentNode.tagName.toLowerCase();
@@ -212,7 +213,7 @@ function getRangeWithContainer(range: Range): Node {
       newNode.appendChild(finalNode);
       finalNode = newNode;
     } else if (
-      // oxlint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func signal-desktop/enforce-static-class-names
       MONOSPACE_CLASSES.some(item => currentNode?.classList.contains(item))
     ) {
       const newNode = document.createElement('span');
@@ -221,7 +222,7 @@ function getRangeWithContainer(range: Range): Node {
       newNode.appendChild(finalNode);
       finalNode = newNode;
     } else if (
-      // oxlint-disable-next-line no-loop-func
+      // oxlint-disable-next-line no-loop-func signal-desktop/enforce-static-class-names
       SPOILER_CLASSES.some(item => currentNode?.classList.contains(item))
     ) {
       const newNode = document.createElement('span');

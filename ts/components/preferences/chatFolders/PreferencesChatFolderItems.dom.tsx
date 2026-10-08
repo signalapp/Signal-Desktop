@@ -35,12 +35,25 @@ export const ItemContent = forwardRef(function ItemContent(
   );
 });
 
-export function ItemAvatar(props: {
-  kind: 'Folder' | 'Add' | ChatFolderPresetId;
-}): JSX.Element {
+type ItemAvatarKind = 'Folder' | 'Add' | ChatFolderPresetId;
+
+const ITEM_AVATAR_KINDS: Record<ItemAvatarKind, string> = {
+  Folder: 'Preferences__ChatFolders__ChatSelection__ItemAvatar--Folder',
+  Add: 'Preferences__ChatFolders__ChatSelection__ItemAvatar--Add',
+  UnreadChats:
+    'Preferences__ChatFolders__ChatSelection__ItemAvatar--UnreadChats',
+  DirectChats:
+    'Preferences__ChatFolders__ChatSelection__ItemAvatar--DirectChats',
+  GroupChats: 'Preferences__ChatFolders__ChatSelection__ItemAvatar--GroupChats',
+};
+
+export function ItemAvatar(props: { kind: ItemAvatarKind }): JSX.Element {
   return (
     <span
-      className={`Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--${props.kind}`}
+      className={classNames(
+        'Preferences__ChatFolders__ChatSelection__ItemAvatar',
+        ITEM_AVATAR_KINDS[props.kind]
+      )}
     />
   );
 }

@@ -123,7 +123,7 @@ export function PollVotesModal({
                             <div className={tw('min-w-0 flex-1')}>
                               <ContactName
                                 title={vote.from.title}
-                                module={tw('type-body-large text-primary')}
+                                className={tw('type-body-large text-primary')}
                               />
                             </div>
                           </div>

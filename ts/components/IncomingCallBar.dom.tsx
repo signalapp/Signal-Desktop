@@ -4,6 +4,7 @@
 import type { ReactNode, JSX } from 'react';
 import { useCallback, useEffect, useEffectEvent, useRef } from 'react';
 import { tinykeys } from 'tinykeys';
+import classNames from 'classnames';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Tooltip } from './Tooltip.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
@@ -70,14 +71,14 @@ export type PropsType = {
 );
 
 type CallButtonProps = {
-  classSuffix: string;
+  iconClassName: `IncomingCallBar__button--${string}`;
   tabIndex: number;
   tooltipContent: string;
   onClick: () => void;
 };
 
 function CallButton({
-  classSuffix,
+  iconClassName,
   onClick,
   tabIndex,
   tooltipContent,
@@ -90,7 +91,7 @@ function CallButton({
     >
       <button
         aria-label={tooltipContent}
-        className={`IncomingCallBar__button IncomingCallBar__button--${classSuffix}`}
+        className={classNames('IncomingCallBar__button', iconClassName)}
         onClick={onClick}
         tabIndex={tabIndex}
         type="button"
@@ -339,7 +340,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
         </div>
         <div className="IncomingCallBar__actions">
           <CallButton
-            classSuffix="decline"
+            iconClassName="IncomingCallBar__button--decline"
             onClick={declineIncomingCall}
             tabIndex={0}
             tooltipContent={i18n('icu:declineCall')}
@@ -347,13 +348,13 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
           {isVideoCall ? (
             <>
               <CallButton
-                classSuffix="accept-video-as-audio"
+                iconClassName="IncomingCallBar__button--accept-video-as-audio"
                 onClick={acceptAudioCall}
                 tabIndex={0}
                 tooltipContent={i18n('icu:acceptCallWithoutVideo')}
               />
               <CallButton
-                classSuffix="accept-video"
+                iconClassName="IncomingCallBar__button--accept-video"
                 onClick={acceptVideoCall}
                 tabIndex={0}
                 tooltipContent={i18n('icu:acceptCall')}
@@ -361,7 +362,7 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
             </>
           ) : (
             <CallButton
-              classSuffix="accept-audio"
+              iconClassName="IncomingCallBar__button--accept-audio"
               onClick={acceptAudioCall}
               tabIndex={0}
               tooltipContent={i18n('icu:acceptCall')}

@@ -4,11 +4,11 @@
 @use '../mixins';
 @use '../variables';
 
-.DonationProgressModal__width-container {
+.DonationProgressModal .module-modal-host__width-container {
   max-width: 204px;
 }
 
-.DonationProgressModal {
+.DonationProgressModal .module-Modal {
   padding-top: 15px;
   padding-bottom: 15px;
   text-align: center;

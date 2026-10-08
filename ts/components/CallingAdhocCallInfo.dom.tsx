@@ -188,7 +188,7 @@ export function CallingAdhocCallInfo({
 
       <ModalHost
         modalName="CallingAdhocCallInfo"
-        moduleClassName="CallingAdhocCallInfo"
+        className="CallingAdhocCallInfo__modal"
         onClose={onClose}
       >
         <div className="CallingAdhocCallInfo module-calling-participants-list">

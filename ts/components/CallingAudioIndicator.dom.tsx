@@ -10,8 +10,6 @@ import { AUDIO_LEVEL_INTERVAL_MS } from '../calling/constants.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export const SPEAKING_LINGER_MS = 200;
-const BASE_CLASS_NAME = 'CallingAudioIndicator';
-const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 
 const MIN_BAR_HEIGHT = 2;
 const SIDE_SCALE_FACTOR = 0.75;
@@ -114,14 +112,14 @@ export function CallingAudioIndicator({
     return (
       <div
         className={classNames(
-          BASE_CLASS_NAME,
-          `${BASE_CLASS_NAME}--with-content`
+          'CallingAudioIndicator',
+          'CallingAudioIndicator--with-content'
         )}
       >
         <div
           className={classNames(
-            CONTENT_CLASS_NAME,
-            `${CONTENT_CLASS_NAME}--muted`
+            'CallingAudioIndicator__content',
+            'CallingAudioIndicator__content--muted'
           )}
         />
       </div>
@@ -132,13 +130,13 @@ export function CallingAudioIndicator({
     return (
       <div
         className={classNames(
-          BASE_CLASS_NAME,
-          `${BASE_CLASS_NAME}--with-content`
+          'CallingAudioIndicator',
+          'CallingAudioIndicator--with-content'
         )}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={CONTENT_CLASS_NAME}
+          className="CallingAudioIndicator__content"
           viewBox={`0 0 ${CONTENT_WIDTH} ${CONTENT_HEIGHT}`}
           width={CONTENT_WIDTH}
           height={CONTENT_HEIGHT}
@@ -151,5 +149,5 @@ export function CallingAudioIndicator({
   }
 
   // Render an empty spacer so that names don't move around.
-  return <div className={BASE_CLASS_NAME} />;
+  return <div className="CallingAudioIndicator" />;
 }

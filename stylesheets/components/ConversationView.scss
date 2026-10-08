@@ -41,8 +41,7 @@
     // We need to use the wrapper because the conversation view calculates the height of all
     //   things in the composition area. A margin on an inner div won't be included in that
     //   height calculation.
-    .quote-wrapper,
-    .preview-wrapper {
+    .quote-wrapper {
       margin-block: 0 10px;
       margin-inline: 16px;
     }

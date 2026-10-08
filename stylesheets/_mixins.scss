@@ -714,41 +714,6 @@ $rtl-icon-map: (
   height: $bubble-size;
   padding: 2px;
   width: $bubble-size;
-
-  @each $color, $value in variables.$conversation-colors {
-    &--#{$color} {
-      background-color: $value;
-    }
-  }
-  @each $color, $value in variables.$conversation-colors-gradient {
-    &--#{$color} {
-      background-image: linear-gradient(
-        map.get($value, 'deg'),
-        map.get($value, 'start'),
-        map.get($value, 'end')
-      );
-    }
-  }
-}
-
-@mixin avatar-colors {
-  @each $color, $value in variables.$avatar-colors {
-    &--#{$color} {
-      --bg: #{map.get($value, 'bg')};
-      --fg: #{map.get($value, 'fg')};
-
-      background-color: var(--bg);
-      color: var(--fg);
-
-      &--icon {
-        background-color: var(--fg);
-        @include dark-theme {
-          // For specificity
-          background-color: var(--fg);
-        }
-      }
-    }
-  }
 }
 
 @mixin normal-input {

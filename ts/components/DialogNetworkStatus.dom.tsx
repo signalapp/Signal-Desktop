@@ -68,7 +68,7 @@ export function DialogNetworkStatus({
       <div className="LeftPaneDialog__spinner-container">
         <Spinner
           direction="on-avatar"
-          moduleClassName="LeftPaneDialog__spinner"
+          className="LeftPaneDialog__spinner"
           size="22px"
           svgSize="small"
         />

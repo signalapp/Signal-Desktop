@@ -20,9 +20,6 @@
     flex-direction: row;
     align-items: end;
 
-    &--center {
-      justify-content: center;
-    }
     &--padded {
       padding-block: 0;
       padding-inline: 12px;
@@ -105,10 +102,6 @@
     margin-block: 0;
     margin-inline: 6px;
     min-width: 0;
-
-    &--large {
-      margin: 0;
-    }
   }
   $comp-area: &;
   &__toggle-large {

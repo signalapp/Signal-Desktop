@@ -201,9 +201,7 @@ describe('backups', function (this: Mocha.Suite) {
       await conversationStack
         .getByRole('button', { name: 'Chat color' })
         .click();
-      await conversationStack
-        .locator('.ChatColorPicker__bubble--infrared')
-        .click();
+      await conversationStack.getByRole('option', { name: 'infrared' }).click();
 
       const backButton = conversationStack.locator(
         '.ConversationPanel__header__back-button'
@@ -348,14 +346,18 @@ describe('backups', function (this: Mocha.Suite) {
         debug('Opening story privacy');
         await window.locator('.StoriesTab__MoreActionsIcon').click();
         await window.getByRole('menuitem', { name: 'Story Privacy' }).click();
+
+        const dialog = window.getByRole('dialog', { name: 'Story privacy' });
+        await dialog.waitFor();
         await expect(
-          window.locator('.StoriesSettingsModal__overlay')
+          window.locator('.StoriesSettingsModal .module-modal-host__overlay')
         ).toHaveCSS('opacity', '1');
 
         await snapshot('story privacy');
 
         debug('Closing story privacy dialog');
-        await window.locator('.module-Modal__close-button').click();
+        await dialog.getByRole('button', { name: 'Close' }).click();
+        await dialog.waitFor({ state: 'detached' });
 
         debug('Switching to settings tab');
         await window.getByRole('tab', { name: 'Settings' }).click();

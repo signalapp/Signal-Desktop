@@ -7,7 +7,7 @@ import {
   type PropsWithChildren,
   type JSX,
 } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import styles from './Button.module.scss';
 
@@ -42,7 +42,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={classnames(
+      className={classNames(
         getClassName({ primary, ...otherProps }),
         className
       )}

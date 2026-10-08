@@ -1068,7 +1068,7 @@ export const CompositionArea = memo(function CompositionArea({
           <Spinner
             ariaLabel={i18n('icu:CompositionArea--sms-only__spinner-label')}
             role="presentation"
-            moduleClassName="module-image-spinner"
+            className="module-image-spinner"
             svgSize="small"
           />
         ) : (

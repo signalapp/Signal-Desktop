@@ -3,8 +3,6 @@
 
 import { useCallback, type JSX, type ChangeEvent } from 'react';
 import classNames from 'classnames';
-
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export enum Variant {
@@ -19,7 +17,8 @@ export type Props = {
   disabled?: boolean;
   isRadio?: boolean;
   name?: string;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onChange?: (value: boolean) => unknown;
   onClick?: () => unknown;
 };
@@ -37,18 +36,16 @@ export function CircleCheckbox({
   checked,
   disabled,
   isRadio,
-  moduleClassName,
+  className,
   name,
   onChange,
   onClick,
 }: Props): JSX.Element {
-  const getClassName = getClassNamesFor('CircleCheckbox', moduleClassName);
-
-  let variantModifier: string;
+  let variantClassName: string;
   if (variant === Variant.Normal) {
-    variantModifier = getClassName('__checkbox--normal');
+    variantClassName = 'CircleCheckbox__checkbox--normal';
   } else if (variant === Variant.Small) {
-    variantModifier = getClassName('__checkbox--small');
+    variantClassName = 'CircleCheckbox__checkbox--small';
   } else {
     throw missingCaseError(variant);
   }
@@ -61,7 +58,13 @@ export function CircleCheckbox({
   );
 
   return (
-    <div className={classNames(getClassName('__checkbox'), variantModifier)}>
+    <div
+      className={classNames(
+        'CircleCheckbox__checkbox',
+        variantClassName,
+        className
+      )}
+    >
       <input
         checked={Boolean(checked)}
         disabled={disabled}

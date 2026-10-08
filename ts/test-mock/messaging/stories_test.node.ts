@@ -264,7 +264,10 @@ describe('story/messaging', function (this: Mocha.Suite) {
     await window.getByTestId('NavTabsItem--Stories').click();
 
     debug('Create and send a story to the group');
-    await window.getByRole('button', { name: 'Add a story' }).first().click();
+    await window
+      .locator('.Stories__pane__list')
+      .getByRole('button', { name: 'Add a story' })
+      .click();
     await window.getByRole('button', { name: 'Text story' }).click();
     // Note: For some reason `.click()` doesn't work here anymore.
     await window.locator('.TextAttachment').dispatchEvent('click');
@@ -315,13 +318,13 @@ describe('story/messaging', function (this: Mocha.Suite) {
 
     debug('Ensure sender sees the reply');
     await window
-      .locator('.StoryListItem__button')
+      .locator('.StoryListItem .ContextMenu__button')
       .getByText('Mock Group')
       .click();
     // For some reason we need to click the story & exit before the reply shows up
     await window.getByRole('button', { name: 'Close' }).click();
     await window
-      .locator('.StoryListItem__button')
+      .locator('.StoryListItem .ContextMenu__button')
       .getByText('Mock Group')
       .click();
 

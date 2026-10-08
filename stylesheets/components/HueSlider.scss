@@ -24,8 +24,8 @@
     width: 280px;
   }
 
-  &__handle {
-    &.Slider__handle {
+  &.Slider {
+    .Slider__handle {
       border: 7px solid variables.$color-white;
       margin-top: -7px;
       margin-inline-start: -11px;

@@ -79,7 +79,6 @@ enum State {
 
 // Constants
 
-const CSS_BASE = 'module-message__audio-attachment';
 const BAR_COUNT = 47;
 const BAR_NOT_DOWNLOADED_HEIGHT = 2;
 const BAR_MIN_HEIGHT = 4;
@@ -124,8 +123,10 @@ function PlayedDot({
       style={animProps}
       aria-hidden="true"
       className={classNames(
-        `${CSS_BASE}__dot`,
-        `${CSS_BASE}__dot--${played ? 'played' : 'unplayed'}`
+        'module-message__audio-attachment__dot',
+        played
+          ? 'module-message__audio-attachment__dot--played'
+          : 'module-message__audio-attachment__dot--unplayed'
       )}
     />
   );
@@ -345,18 +346,20 @@ export function MessageAudio(props: Props): JSX.Element {
       : durationToPlaybackText(countDown);
 
   const metadata = (
-    <div className={`${CSS_BASE}__metadata`}>
+    <div className="module-message__audio-attachment__metadata">
       <div
         aria-hidden="true"
         className={classNames(
-          `${CSS_BASE}__countdown`,
-          `${CSS_BASE}__countdown--${played ? 'played' : 'unplayed'}`
+          'module-message__audio-attachment__countdown',
+          played
+            ? 'module-message__audio-attachment__countdown--played'
+            : 'module-message__audio-attachment__countdown--unplayed'
         )}
       >
         {fileSizeOrDuration}
       </div>
 
-      <div className={`${CSS_BASE}__controls`}>
+      <div className="module-message__audio-attachment__controls">
         <PlayedDot
           played={played}
           onHide={() => setIsPlayedDotVisible(false)}
@@ -403,13 +406,20 @@ export function MessageAudio(props: Props): JSX.Element {
   return (
     <div
       className={classNames(
-        CSS_BASE,
-        `${CSS_BASE}--${direction}`,
-        withContentBelow ? `${CSS_BASE}--with-content-below` : null,
-        withContentAbove ? `${CSS_BASE}--with-content-above` : null
+        'module-message__audio-attachment',
+        direction === 'incoming' &&
+          'module-message__audio-attachment--incoming',
+        direction === 'outgoing' &&
+          'module-message__audio-attachment--outgoing',
+        withContentBelow
+          ? 'module-message__audio-attachment--with-content-below'
+          : null,
+        withContentAbove
+          ? 'module-message__audio-attachment--with-content-above'
+          : null
       )}
     >
-      <div className={`${CSS_BASE}__button-and-waveform`}>
+      <div className="module-message__audio-attachment__button-and-waveform">
         {button}
         {waveform}
       </div>

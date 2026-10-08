@@ -5,7 +5,6 @@ import type { KeyboardEvent, JSX } from 'react';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { assertDev } from '../util/assert.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 type Tab = {
   id: string;
@@ -13,7 +12,8 @@ type Tab = {
 };
 
 export type BaseTabsOptionsType = {
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   tabs: Array<Tab>;
 };
 
@@ -39,8 +39,6 @@ type TabsProps = {
 export function useTabs(options: TabsOptionsType): TabsProps {
   assertDev(options.tabs.length, 'Tabs needs more than 1 tab present');
 
-  const getClassName = getClassNamesFor('Tabs', options.moduleClassName);
-
   let selectedTab: string;
   let onChange: (selectedTab: string) => void;
 
@@ -64,13 +62,13 @@ export function useTabs(options: TabsOptionsType): TabsProps {
   }
 
   const tabsHeaderElement = (
-    <div className={getClassName('')} data-supertab>
+    <div className={classNames('Tabs', options.className)} data-supertab>
       {options.tabs.map(({ id, label }) => (
         <div
           aria-selected={selectedTab === id}
           className={classNames(
-            getClassName('__tab'),
-            selectedTab === id && getClassName('__tab--selected')
+            'Tabs__tab',
+            selectedTab === id && 'Tabs__tab--selected'
           )}
           key={id}
           onClick={() => {

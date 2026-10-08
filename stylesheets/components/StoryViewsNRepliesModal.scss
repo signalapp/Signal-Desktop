@@ -5,11 +5,15 @@
 @use '../variables';
 
 .StoryViewsNRepliesModal {
-  min-width: 320px;
-  max-height: 80vh;
+  .module-Modal {
+    min-width: 320px;
+    max-height: 80vh;
+  }
 
   &--group {
-    min-height: min(400px, 80vh);
+    .module-Modal {
+      min-height: min(400px, 80vh);
+    }
 
     .StoryViewsNRepliesModal__content {
       display: flex;
@@ -18,13 +22,13 @@
     }
   }
 
-  &__body {
+  .module-Modal__body {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
 
-  &__body_inner {
+  .module-Modal__body_inner {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -62,7 +66,7 @@
     }
   }
 
-  &__overlay-container {
+  .module-modal-host__overlay-container {
     align-items: flex-end;
     justify-content: flex-end;
   }
@@ -77,21 +81,6 @@
     margin-top: 6px;
   }
 
-  &__emoji-button {
-    height: 24px;
-    margin-inline-start: 10px;
-    width: 24px;
-
-    &::after {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/emoji/emoji.svg',
-          variables.$color-white
-        );
-      }
-    }
-  }
-
   &__not-a-member {
     margin-block: 24px 8px;
     margin-inline: 4px;
@@ -101,7 +90,7 @@
   }
 
   &__input {
-    &__input {
+    &.module-composition-input__input {
       // For specificity because StoryViewsNRepliesModal is always in dark-theme
       @include mixins.dark-theme {
         background: variables.$color-gray-75;
@@ -117,13 +106,13 @@
       align-items: center;
       min-height: 36px;
 
-      &--with-children {
-        flex: 1;
-      }
-
       .quill {
         flex: 1;
       }
+    }
+
+    .module-composition-input__input--with-children {
+      flex: 1;
     }
   }
 
@@ -177,81 +166,6 @@
     }
   }
 
-  &__message-bubble {
-    background: variables.$color-gray-75;
-    border-radius: 18px;
-    margin-inline-start: 8px;
-    padding-block: 7px;
-    padding-inline: 12px;
-
-    &--doe {
-      background: none;
-      border: 1px solid variables.$color-gray-75;
-    }
-  }
-
-  &__quote {
-    &__container {
-      margin-block: 8px;
-      margin-inline: 0;
-      margin-inline-end: 38px;
-    }
-
-    &--outgoing-ultramarine {
-      @include mixins.dark-theme {
-        background-color: variables.$color-gray-60;
-        background-image: none;
-      }
-    }
-
-    &__primary {
-      min-height: 64px;
-
-      color: variables.$color-gray-05;
-      font-size: 12px;
-      font-weight: 400;
-      &__author,
-      &__text {
-      }
-    }
-
-    &__icon-container {
-      flex: 0 0 40px;
-      height: 64px;
-      width: 40px;
-    }
-  }
-
-  &__debugger__button {
-    color: variables.$color-gray-25;
-    display: block;
-    font-weight: 600;
-    height: auto;
-    opacity: 1;
-    width: auto;
-
-    &--active {
-      @include mixins.dark-theme {
-        background: inherit;
-      }
-    }
-
-    &::after {
-      display: none;
-    }
-
-    &__text {
-      font-weight: normal;
-    }
-  }
-
-  &__copy-icon {
-    @include mixins.color-svg(
-      '../images/icons/v3/copy/copy.svg',
-      variables.$color-white
-    );
-  }
-
   &__read-receipts-off {
     color: variables.$color-gray-25;
     margin-block: 160px;
@@ -283,7 +197,7 @@
   justify-content: center;
 }
 
-.Tabs__tab.StoryViewsNRepliesModal__tabs__tab {
+.StoryViewsNRepliesModal__tabs .Tabs__tab {
   @include mixins.font-body-1-bold;
   padding-block: 4px;
   padding-inline: 12px;
@@ -291,7 +205,7 @@
   margin-inline: 12px;
 }
 
-.Tabs__tab--selected.StoryViewsNRepliesModal__tabs__tab--selected {
+.StoryViewsNRepliesModal__tabs .Tabs__tab--selected {
   background: variables.$color-gray-65;
   border-radius: 24px;
   border-bottom: none;

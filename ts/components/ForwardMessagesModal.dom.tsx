@@ -315,7 +315,7 @@ export function ForwardMessagesModal({
         i18n={i18n}
         onClose={onClose}
         onBackButtonClick={isEditingMessage ? handleBackOrClose : undefined}
-        moduleClassName="module-ForwardMessageModal"
+        className="module-ForwardMessageModal"
         title={title}
         theme={modalTheme}
         padded={false}

@@ -185,7 +185,7 @@ export function GroupMemberLabelEditor({
             }
             maxLengthCount={STRING_GRAPHEME_LIMIT}
             maxByteCount={STRING_BYTE_LIMIT}
-            moduleClassName="GroupMemberLabelEditor"
+            className="GroupMemberLabelEditor"
             onChange={value => {
               if (!value) {
                 setLabelEmoji(undefined);

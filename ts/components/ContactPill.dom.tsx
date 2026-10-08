@@ -59,7 +59,7 @@ export function ContactPill({
       />
       <ContactName
         firstName={firstName}
-        module="module-ContactPill__contact-name"
+        className="module-ContactPill__contact-name"
         preferFirstName
         title={title}
       />

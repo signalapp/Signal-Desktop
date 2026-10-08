@@ -274,7 +274,7 @@ export function CallingPendingParticipants({
                   size={AvatarSize.THIRTY_SIX}
                 />
                 <ContactName
-                  module="module-calling-participants-list__name"
+                  className="module-calling-participants-list__name"
                   title={participant.title}
                 />
                 {isInSystemContacts(participant) ? (

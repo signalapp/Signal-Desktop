@@ -18,7 +18,8 @@ export type PropsType = {
   children?: ReactNode;
   i18n: LocalizerType;
   maxAttachmentVideoSize: number;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onAddStory: (file?: File) => unknown;
   onContextMenuShowingChanged?: (value: boolean) => void;
   showToast: ShowToastAction;
@@ -28,7 +29,7 @@ export function StoriesAddStoryButton({
   children,
   i18n,
   maxAttachmentVideoSize,
-  moduleClassName,
+  className,
   onAddStory,
   showToast,
   onContextMenuShowingChanged,
@@ -103,7 +104,7 @@ export function StoriesAddStoryButton({
             onClick: () => onAddStory(),
           },
         ]}
-        moduleClassName={moduleClassName}
+        className={className}
         popperOptions={{
           placement: 'bottom',
           strategy: 'absolute',

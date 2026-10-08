@@ -18,7 +18,6 @@ import { FocusScope } from 'react-aria';
 import type { ModalConfigType } from '../hooks/useAnimated.dom.tsx';
 import type { Theme } from '../util/theme.std.ts';
 import { assertDev } from '../util/assert.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { themeClassName } from '../util/theme.std.ts';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
@@ -34,7 +33,8 @@ export const ModalContainerContext = createContext<HTMLElement | null>(null);
 export type PropsType = Readonly<{
   children: ReactElement;
   modalName: string;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   noEscapeClose?: boolean;
   noMouseClose?: boolean;
   onClose: () => unknown;
@@ -47,7 +47,7 @@ export type PropsType = Readonly<{
 export const ModalHost = memo(function ModalHostInner({
   children,
   modalName,
-  moduleClassName,
+  className,
   noEscapeClose,
   noMouseClose,
   onClose,
@@ -106,21 +106,23 @@ export const ModalHost = memo(function ModalHostInner({
     );
   }, [noMouseClose, onClose, containerRef, modalName, modalContainer]);
 
-  const className = classNames([
-    theme ? themeClassName(theme) : undefined,
-    onTopOfEverything ? 'module-modal-host--on-top-of-everything' : undefined,
-  ]);
-  const getClassName = getClassNamesFor('module-modal-host', moduleClassName);
-
   const modalContent = (
-    <div className={className}>
+    <div
+      className={classNames([
+        theme ? themeClassName(theme) : undefined,
+        onTopOfEverything
+          ? 'module-modal-host--on-top-of-everything'
+          : undefined,
+        className,
+      ])}
+    >
       <animated.div
         role="presentation"
-        className={getClassName('__overlay')}
+        className="module-modal-host__overlay"
         style={overlayStyles}
       />
-      <div className={getClassName('__overlay-container')}>
-        <div ref={containerRef} className={getClassName('__width-container')}>
+      <div className="module-modal-host__overlay-container">
+        <div ref={containerRef} className="module-modal-host__width-container">
           {children}
         </div>
       </div>

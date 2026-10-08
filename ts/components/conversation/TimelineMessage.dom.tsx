@@ -526,7 +526,8 @@ function MessageMenu({
     <div
       className={classNames(
         'module-message__buttons',
-        `module-message__buttons--${direction}`
+        direction === 'incoming' && 'module-message__buttons--incoming',
+        direction === 'outgoing' && 'module-message__buttons--outgoing'
       )}
     >
       {isWindowWidthNotNarrow && (
@@ -567,10 +568,7 @@ function MessageMenu({
               type="button"
               onClick={onDownload}
               aria-label={i18n('icu:downloadAttachment')}
-              className={classNames(
-                'module-message__buttons__download',
-                `module-message__buttons__download--${direction}`
-              )}
+              className="module-message__buttons__download"
               onDoubleClick={ev => {
                 // Prevent double click from triggering the replyToMessage action
                 ev.stopPropagation();
@@ -588,10 +586,7 @@ function MessageMenu({
                 onReplyToMessage();
               }}
               aria-label={i18n('icu:replyToMessage')}
-              className={classNames(
-                'module-message__buttons__reply',
-                `module-message__buttons__download--${direction}`
-              )}
+              className="module-message__buttons__reply"
               onDoubleClick={ev => {
                 // Prevent double click from triggering the replyToMessage action
                 ev.stopPropagation();
@@ -615,10 +610,7 @@ function MessageMenu({
               ref={maybePopperRef}
               type="button"
               aria-label={i18n('icu:messageContextMenuButton')}
-              className={classNames(
-                'module-message__buttons__menu',
-                `module-message__buttons__download--${direction}`
-              )}
+              className="module-message__buttons__menu"
               onDoubleClick={ev => {
                 // Prevent double click from triggering the replyToMessage action
                 ev.stopPropagation();

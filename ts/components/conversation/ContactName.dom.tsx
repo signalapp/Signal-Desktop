@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 import type { ReactNode, JSX, MouseEvent } from 'react';
 
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
@@ -18,6 +17,7 @@ import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { AxoTokens } from '../../axo/AxoTokens.std.ts';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
@@ -51,7 +51,8 @@ export function useContactNameData(
 
 export type PropsType = ContactNameData & {
   fontSizeOverride?: number;
-  module?: string;
+  /** @deprecated */
+  className?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
 };
@@ -62,13 +63,11 @@ export function ContactName({
   firstName,
   isSignalConversation,
   isMe,
-  module,
+  className,
   preferFirstName,
   title,
   onClick,
 }: PropsType): JSX.Element {
-  const getClassName = getClassNamesFor('module-contact-name', module);
-
   let text: string;
   if (preferFirstName) {
     text = firstName || title || '';
@@ -76,12 +75,21 @@ export function ContactName({
     text = title || '';
   }
   const WrappingElement = onClick ? 'button' : 'span';
+
+  const values =
+    contactNameColor != null
+      ? AxoTokens.Contact.getColorValues(contactNameColor)
+      : null;
+
+  const style = {
+    '--contact-name-color-light': values?.light,
+    '--contact-name-color-dark': values?.dark,
+  };
+
   return (
     <WrappingElement
-      className={classNames(
-        getClassName(''),
-        contactNameColor ? getClassName(`--${contactNameColor}`) : null
-      )}
+      className={classNames('module-contact-name', className)}
+      style={style}
       dir="auto"
       onClick={(event: MouseEvent<HTMLButtonElement>) => {
         if (onClick) {
@@ -116,21 +124,24 @@ export function ContactName({
 
 export type Context = 'bubble' | 'list' | 'quote' | 'contact-modal';
 
+const CONTEXTS: Record<Context, string> = {
+  bubble: 'module-contact-name--label-pill--bubble',
+  list: 'module-contact-name--label-pill--list',
+  quote: 'module-contact-name--label-pill--quote',
+  'contact-modal': 'module-contact-name--label-pill--contact-modal',
+};
+
 export function GroupMemberLabel({
   emojiSize = 12,
   contactLabel,
   contactNameColor,
   context,
-  module,
 }: {
   emojiSize?: FunStaticEmojiSize;
   contactLabel?: MemberLabelType;
   contactNameColor?: ContactNameColorType;
   context: Context;
-  module?: string;
 }): ReactNode {
-  const getClassName = getClassNamesFor('module-contact-name', module);
-
   if (!contactLabel) {
     return null;
   }
@@ -140,12 +151,7 @@ export function GroupMemberLabel({
   let emojiElement;
   if (labelEmoji && Emoji.isEmoji(labelEmoji)) {
     emojiElement = (
-      <span
-        className={classNames(
-          getClassName('--label-pill--emoji'),
-          getClassName(`--label-pill--${context}--emoji`)
-        )}
-      >
+      <span className="module-contact-name--label-pill--emoji">
         <FunStaticEmoji
           role="img"
           aria-label={Emoji.getDisplayLabel(labelEmoji)}
@@ -156,38 +162,33 @@ export function GroupMemberLabel({
     );
   } else if (labelEmoji) {
     emojiElement = (
-      <span
-        className={classNames(
-          getClassName('--label-pill--emoji'),
-          getClassName(`--label-pill--${context}--emoji`)
-        )}
-      >
+      <span className="module-contact-name--label-pill--emoji">
         {missingEmojiPlaceholder}
       </span>
     );
   }
 
+  const values =
+    contactNameColor != null
+      ? AxoTokens.Contact.getColorValues(contactNameColor)
+      : null;
+
+  const style = {
+    '--contact-name-color-light': values?.light,
+    '--contact-name-color-dark': values?.dark,
+  };
+
   return (
     <span
       className={classNames(
-        getClassName('--label-pill'),
-        getClassName(`--label-pill--${context}`),
-        getClassName(`--${contactNameColor}--label-pill--${context}`)
+        'module-contact-name--label-pill',
+        CONTEXTS[context]
       )}
+      style={style}
     >
-      <span
-        className={classNames(
-          getClassName('--label-pill--inner'),
-          getClassName(`--label-pill--inner--${context}`)
-        )}
-      >
+      <span className="module-contact-name--label-pill--inner">
         {emojiElement}
-        <span
-          className={classNames(
-            getClassName('--label-pill--text'),
-            getClassName(`--label-pill--${context}--text`)
-          )}
-        >
+        <span className="module-contact-name--label-pill--text">
           <UserText
             fontSizeOverride={emojiSize}
             style={{

@@ -215,7 +215,7 @@ function StorySent({
             isMe
             isThumbnail
             label={i18n('icu:MyStories__story')}
-            moduleClassName="StoryListItem__previews--image"
+            className="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
             onMediaPlaybackStart={onMediaPlaybackStart}
@@ -258,7 +258,7 @@ function StorySent({
               <MessageTimestamp
                 i18n={i18n}
                 isRelativeTime
-                module="MyStories__story__timestamp"
+                className="MyStories__story__timestamp"
                 timestamp={story.timestamp}
               />
             </>
@@ -279,14 +279,14 @@ function StorySent({
         i18n={i18n}
         menuOptions={[
           {
-            icon: 'MyStories__icon--forward',
+            iconClassName: 'MyStories__icon--forward',
             label: i18n('icu:forward'),
             onClick: () => {
               onForward(story.messageId);
             },
           },
           {
-            icon: 'StoryListItem__icon--info',
+            iconClassName: 'StoryListItem__icon--info',
             label: i18n('icu:StoryListItem__info'),
             onClick: () => {
               viewStory({
@@ -297,14 +297,14 @@ function StorySent({
             },
           },
           {
-            icon: 'MyStories__icon--delete',
+            iconClassName: 'MyStories__icon--delete',
             label: i18n('icu:delete'),
             onClick: () => {
               setConfirmDeleteStory(story);
             },
           },
         ]}
-        moduleClassName="MyStories__story__more"
+        className="MyStories__story__more"
         theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
       />
     </div>

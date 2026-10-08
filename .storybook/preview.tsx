@@ -222,6 +222,7 @@ const withGlobalTypesProvider = (Story, context) => {
   document.documentElement.setAttribute('dir', direction);
 
   return (
+    // oxlint-disable-next-line signal-desktop/enforce-static-class-names
     <div className={styles.container}>
       <StorybookThemeContext.Provider value={theme}>
         <Story {...context} />

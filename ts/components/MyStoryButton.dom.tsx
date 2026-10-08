@@ -57,7 +57,7 @@ export function MyStoryButton({
       <StoriesAddStoryButton
         i18n={i18n}
         maxAttachmentVideoSize={maxAttachmentVideoSize}
-        moduleClassName="StoryListItem StoryListItem--active-opactiy"
+        className="StoryListItem StoryListItem--active-opactiy"
         onAddStory={onAddStory}
         showToast={showToast}
       >
@@ -108,7 +108,7 @@ export function MyStoryButton({
         <StoriesAddStoryButton
           i18n={i18n}
           maxAttachmentVideoSize={maxAttachmentVideoSize}
-          moduleClassName="StoryListItem--active-opacity"
+          className="StoryListItem--active-opacity"
           onAddStory={onAddStory}
           showToast={showToast}
           onContextMenuShowingChanged={setActive}
@@ -163,7 +163,7 @@ export function MyStoryButton({
             <MessageTimestamp
               i18n={i18n}
               isRelativeTime
-              module="StoryListItem__info--timestamp"
+              className="StoryListItem__info--timestamp"
               timestamp={newestStory.timestamp}
             />
           )}
@@ -182,7 +182,7 @@ export function MyStoryButton({
             isMe
             isThumbnail
             label=""
-            moduleClassName="StoryListItem__previews--image"
+            className="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={newestStory.messageId}
             onMediaPlaybackStart={onMediaPlaybackStart}

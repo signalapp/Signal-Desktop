@@ -12,8 +12,6 @@ import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 
-const CLASS_NAME = 'OutgoingGiftBadgeModal';
-
 export type PropsType = {
   recipientTitle: string;
   i18n: LocalizerType;
@@ -39,15 +37,15 @@ export function OutgoingGiftBadgeModal({
 
   const badgeElement = badge ? (
     <img
-      className={`${CLASS_NAME}__badge`}
+      className="OutgoingGiftBadgeModal__badge"
       src={badgeImagePath}
       alt={badge.name}
     />
   ) : (
     <div
       className={classNames(
-        `${CLASS_NAME}__badge`,
-        `${CLASS_NAME}__badge--missing`
+        'OutgoingGiftBadgeModal__badge',
+        'OutgoingGiftBadgeModal__badge--missing'
       )}
       aria-label={i18n('icu:donation--missing')}
     />
@@ -57,19 +55,19 @@ export function OutgoingGiftBadgeModal({
     <Modal
       modalName="OutgoingGiftBadgeModal"
       i18n={i18n}
-      moduleClassName={`${CLASS_NAME}__container`}
+      className="OutgoingGiftBadgeModal__modal"
       onClose={hideOutgoingGiftBadgeModal}
       hasXButton
     >
-      <div className={CLASS_NAME}>
-        <div className={`${CLASS_NAME}__title`}>
+      <div className="OutgoingGiftBadgeModal">
+        <div className="OutgoingGiftBadgeModal__title">
           {i18n('icu:modal--donation--title')}
         </div>
-        <div className={`${CLASS_NAME}__description`}>
+        <div className="OutgoingGiftBadgeModal__description">
           {i18n('icu:modal--donation--description', { name: recipientTitle })}
         </div>
         {badgeElement}
-        <div className={`${CLASS_NAME}__badge-summary`}>
+        <div className="OutgoingGiftBadgeModal__badge-summary">
           {i18n('icu:message--donation')}
         </div>
       </div>

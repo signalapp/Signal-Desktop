@@ -122,6 +122,10 @@ jobs:
         background: true
         run: pnpm run check:unused-icons
 
+      - name: Check unused styles
+        background: true
+        run: pnpm run check:unused-styles:check
+
   macos:
     name: MacOS
     runs-on: macos-26

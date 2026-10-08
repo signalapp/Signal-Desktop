@@ -73,10 +73,9 @@ export function TimelineFloatingHeader({
       aria-level={5}
       className={classNames(
         'TimelineFloatingHeader',
-        `TimelineFloatingHeader--${
-          // oxlint-disable-next-line signal-desktop/enforce-tw
-          visible && hasRendered ? 'visible' : 'hidden'
-        }`
+        visible && hasRendered
+          ? 'TimelineFloatingHeader--visible'
+          : 'TimelineFloatingHeader--hidden'
       )}
       role="heading"
       style={style}

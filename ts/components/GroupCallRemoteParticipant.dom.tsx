@@ -398,7 +398,7 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
 
       const nameElement = (
         <ContactName
-          module="module-ongoing-call__group-call-remote-participant__info__contact-name"
+          className="module-ongoing-call__group-call-remote-participant__info__contact-name"
           title={title}
         />
       );

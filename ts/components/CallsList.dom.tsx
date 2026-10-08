@@ -721,7 +721,7 @@ export function CallsList({
         return (
           <div key={key} style={style}>
             <ListTile
-              moduleClassName="CallsList__ItemTile"
+              className="CallsList__ItemTile"
               title={
                 <span className="CallsList__ItemTitle">
                   {i18n('icu:CallsList__CreateCallLink')}
@@ -821,7 +821,7 @@ export function CallsList({
         return (
           <div key={key} style={style}>
             <ListTile
-              moduleClassName="CallsList__ItemTile"
+              className="CallsList__ItemTile"
               leading={<div className="CallsList__LoadingAvatar" />}
               title={
                 <span className="CallsList__LoadingText CallsList__LoadingText--title" />
@@ -917,7 +917,7 @@ export function CallsList({
           })}
         >
           <ListTile
-            moduleClassName="CallsList__ItemTile"
+            className="CallsList__ItemTile"
             aria-selected={isSelected}
             leading={
               <Avatar

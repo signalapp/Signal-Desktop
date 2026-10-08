@@ -7,12 +7,12 @@
 @use '../variables';
 
 // These are needed to override Input styling
-.NotificationProfiles__NamePage__input {
+.NotificationProfiles__NamePage .Input__input {
   margin-top: 6px;
   margin-inline-start: 2px;
 }
 
-.NotificationProfiles__NamePage__container {
+.NotificationProfiles__NamePage.Input__container {
   max-width: 328px;
   margin-inline-start: auto;
   margin-inline-end: auto;

@@ -20,20 +20,6 @@ import * as durations from '../../util/durations/index.std.ts';
 
 const { isBoolean, isNumber } = lodash;
 
-const BASE_CLASS_NAME =
-  'module-conversation-list__item--contact-or-conversation';
-const AVATAR_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__avatar-container`;
-const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
-const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
-export const HEADER_NAME_CLASS_NAME = `${HEADER_CLASS_NAME}__name`;
-export const HEADER_CONTACT_NAME_CLASS_NAME = `${HEADER_NAME_CLASS_NAME}__contact-name`;
-const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
-const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
-export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
-const CHECKBOX_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox--container`;
-const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
-export const SPINNER_CLASS_NAME = `${BASE_CLASS_NAME}__spinner`;
-
 export type RenderConversationListItemContextMenuProps = Readonly<{
   conversationId: string;
   children: ReactNode;
@@ -135,12 +121,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
     let actionNode: ReactNode;
     if (shouldShowSpinner) {
       actionNode = (
-        <Spinner
-          size="20px"
-          svgSize="small"
-          moduleClassName={SPINNER_CLASS_NAME}
-          direction="on-progress-dialog"
-        />
+        <Spinner size="20px" svgSize="small" direction="on-progress-dialog" />
       );
     } else if (isCheckbox) {
       let ariaLabel: string;
@@ -158,11 +139,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
         });
       }
       actionNode = (
-        <div className={CHECKBOX_CONTAINER_CLASS_NAME}>
+        <div className="module-conversation-list__item--contact-or-conversation__checkbox--container">
           <input
             aria-label={ariaLabel}
             checked={checked}
-            className={CHECKBOX_CLASS_NAME}
+            className="module-conversation-list__item--contact-or-conversation__checkbox"
             disabled={disabled}
             id={htmlId}
             onChange={onClick}
@@ -182,7 +163,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
         return null;
       }
       return (
-        <div className={`${CONTENT_CLASS_NAME}__unread-indicators`}>
+        <div className="module-conversation-list__item--contact-or-conversation__content__unread-indicators">
           {unreadMentionsCount ? (
             <UnreadIndicator variant={UnreadIndicatorVariant.UNREAD_MENTIONS} />
           ) : null}
@@ -200,7 +181,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
 
     const contents = (
       <>
-        <div className={AVATAR_CONTAINER_CLASS_NAME}>
+        <div className="module-conversation-list__item--contact-or-conversation__avatar-container">
           <Avatar
             avatarPlaceholderGradient={avatarPlaceholderGradient}
             avatarUrl={avatarUrl}
@@ -223,23 +204,29 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
         </div>
         <div
           className={classNames(
-            CONTENT_CLASS_NAME,
-            disabled && `${CONTENT_CLASS_NAME}--disabled`
+            'module-conversation-list__item--contact-or-conversation__content',
+            disabled &&
+              'module-conversation-list__item--contact-or-conversation__content--disabled'
           )}
         >
-          <div aria-live="off" className={HEADER_CLASS_NAME}>
-            <div className={`${HEADER_CLASS_NAME}__name`}>{headerName}</div>
+          <div
+            aria-live="off"
+            className="module-conversation-list__item--contact-or-conversation__content__header"
+          >
+            <div className="module-conversation-list__item--contact-or-conversation__content__header__name">
+              {headerName}
+            </div>
             <Timestamp timestamp={headerDate} i18n={i18n} />
           </div>
           {messageText || isUnread ? (
-            <div className={MESSAGE_CLASS_NAME}>
+            <div className="module-conversation-list__item--contact-or-conversation__content__message">
               {Boolean(messageText) && (
                 <div
                   dir="auto"
                   className={classNames(
-                    MESSAGE_TEXT_CLASS_NAME,
+                    'module-conversation-list__item--contact-or-conversation__content__message__text',
                     messageTextIsAlwaysFullSize &&
-                      `${MESSAGE_TEXT_CLASS_NAME}--always-full-size`
+                      'module-conversation-list__item--contact-or-conversation__content__message__text--always-full-size'
                   )}
                 >
                   {messageText}
@@ -254,17 +241,24 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
       </>
     );
 
-    const commonClassNames = classNames(BASE_CLASS_NAME, {
-      [`${BASE_CLASS_NAME}--is-selected`]: isSelected,
-    });
+    const commonClassNames = classNames(
+      'module-conversation-list__item--contact-or-conversation',
+      {
+        'module-conversation-list__item--contact-or-conversation--is-selected':
+          isSelected,
+      }
+    );
 
     if (isCheckbox) {
       return (
         <label
           className={classNames(
             commonClassNames,
-            `${BASE_CLASS_NAME}--is-checkbox`,
-            { [`${BASE_CLASS_NAME}--disabled`]: disabled }
+            'module-conversation-list__item--contact-or-conversation--is-checkbox',
+            {
+              'module-conversation-list__item--contact-or-conversation--disabled':
+                disabled,
+            }
           )}
           data-id={identifier}
           data-testid={testId}
@@ -292,7 +286,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = memo(
           }
           className={classNames(
             commonClassNames,
-            `${BASE_CLASS_NAME}--is-button`
+            'module-conversation-list__item--contact-or-conversation--is-button'
           )}
           data-id={identifier}
           data-testid={testId}
@@ -352,7 +346,10 @@ function Timestamp({
   }
 
   return (
-    <Time className={DATE_CLASS_NAME} timestamp={timestamp}>
+    <Time
+      className="module-conversation-list__item--contact-or-conversation__content__header__date"
+      timestamp={timestamp}
+    >
       {text}
     </Time>
   );
@@ -363,6 +360,15 @@ enum UnreadIndicatorVariant {
   UNREAD_MESSAGES = 'unread-messages',
   UNREAD_MENTIONS = 'unread-mentions',
 }
+
+const UNREAD_INDICATOR_VARIANTS: Record<UnreadIndicatorVariant, string> = {
+  [UnreadIndicatorVariant.MARKED_UNREAD]:
+    'module-conversation-list__item--contact-or-conversation__unread-indicator--marked-unread',
+  [UnreadIndicatorVariant.UNREAD_MESSAGES]:
+    'module-conversation-list__item--contact-or-conversation__unread-indicator--unread-messages',
+  [UnreadIndicatorVariant.UNREAD_MENTIONS]:
+    'module-conversation-list__item--contact-or-conversation__unread-indicator--unread-mentions',
+};
 
 type UnreadIndicatorPropsType =
   | {
@@ -386,11 +392,7 @@ function UnreadIndicator(props: UnreadIndicatorPropsType) {
       break;
     case UnreadIndicatorVariant.UNREAD_MENTIONS:
       content = (
-        <div
-          className={classNames(
-            `${BASE_CLASS_NAME}__unread-indicator--${props.variant}__icon`
-          )}
-        />
+        <div className="module-conversation-list__item--contact-or-conversation__unread-indicator--unread-mentions__icon" />
       );
       break;
     default:
@@ -400,8 +402,8 @@ function UnreadIndicator(props: UnreadIndicatorPropsType) {
   return (
     <div
       className={classNames(
-        `${BASE_CLASS_NAME}__unread-indicator`,
-        `${BASE_CLASS_NAME}__unread-indicator--${props.variant}`
+        'module-conversation-list__item--contact-or-conversation__unread-indicator',
+        UNREAD_INDICATOR_VARIANTS[props.variant]
       )}
     >
       {content}

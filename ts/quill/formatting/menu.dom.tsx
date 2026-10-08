@@ -398,6 +398,19 @@ export class FormattingMenu {
   }
 }
 
+const FORMATTING_STYLE_ICONS: Record<QuillFormattingStyle, string> = {
+  [QuillFormattingStyle.bold]:
+    'module-composition-input__format-menu__item__icon--bold',
+  [QuillFormattingStyle.italic]:
+    'module-composition-input__format-menu__item__icon--italic',
+  [QuillFormattingStyle.strike]:
+    'module-composition-input__format-menu__item__icon--strike',
+  [QuillFormattingStyle.monospace]:
+    'module-composition-input__format-menu__item__icon--monospace',
+  [QuillFormattingStyle.spoiler]:
+    'module-composition-input__format-menu__item__icon--spoiler',
+};
+
 function FormattingButton({
   hasLongHovered,
   isActive,
@@ -511,7 +524,7 @@ function FormattingButton({
         <div
           className={classNames(
             'module-composition-input__format-menu__item__icon',
-            `module-composition-input__format-menu__item__icon--${style}`,
+            FORMATTING_STYLE_ICONS[style],
             isActive
               ? 'module-composition-input__format-menu__item__icon--active'
               : null

@@ -77,11 +77,11 @@
   @include mixins.font-subtitle;
   margin-bottom: 6px;
 
-  .module-message__container-outgoing & {
+  .module-message__container--outgoing & {
     color: variables.$color-white-alpha-80;
   }
 
-  .module-message__container-incoming & {
+  .module-message__container--incoming & {
     color: variables.$color-gray-60;
   }
 }
@@ -231,14 +231,6 @@
 
 .module-message__buttons__menu {
   @include module-message__buttons__button('../images/icons/v3/more/more.svg');
-
-  &--container {
-    border-radius: 4px;
-    height: 20px;
-    // the z-index here is so that this container is above the message and when
-    // clicked on, doesn't propagate the click event to the message.
-    z-index: variables.$z-index-above-base;
-  }
 }
 
 .module-message__error-container {
@@ -296,8 +288,7 @@
   min-width: 0;
   max-width: min(306px, calc(100% - 16px - 22px));
 
-  .module-timeline--width-wide &,
-  .module-message-detail & {
+  .module-timeline--width-wide & {
     // NOTE(evanhahn): I wanted this to be 66% of the timeline, but I could not make that
     //   work without introducing layout bugs for some message types. This constant,
     //   though not ideal, fixes those bugs.
@@ -465,29 +456,9 @@ $message-padding-horizontal: 12px;
   color: var(--axo-color-label-primary);
 }
 
-@each $color, $value in variables.$conversation-colors {
-  .module-message__container--outgoing-#{$color} {
-    background-color: $value;
-
-    @include mixins.dark-theme {
-      background-color: $value;
-    }
-  }
-}
-
-.module-message__container--outgoing-custom {
+.module-message__container--outgoing {
+  background: var(--module-message__container-bg);
   background-attachment: fixed;
-}
-
-@each $color, $value in variables.$conversation-colors-gradient {
-  .module-message__container--outgoing-#{$color} {
-    background-attachment: fixed;
-    background-image: linear-gradient(
-      map.get($value, 'deg'),
-      map.get($value, 'start'),
-      map.get($value, 'end')
-    );
-  }
 }
 
 .module-message__container--deleted-for-everyone {
@@ -643,13 +614,6 @@ $message-padding-horizontal: 12px;
   }
 }
 
-.module-message__img-attachment {
-  margin-bottom: -3px;
-
-  // redundant with attachment-container, but we get cursor flashing on move otherwise
-  cursor: pointer;
-}
-
 .module-message__simple-attachment {
   @include mixins.button-reset;
 
@@ -680,29 +644,6 @@ $message-padding-horizontal: 12px;
   padding-top: 4px;
 }
 
-.module-message__simple-attachment__icon__extension {
-  @include mixins.font-subtitle;
-  text-transform: lowercase;
-
-  // Along with flow layout in parent item, centers text
-  text-align: center;
-  margin-inline: auto;
-
-  // We shouldn't have problems with 1-3 character extensions, but clip if we do!
-  white-space: nowrap;
-  overflow-x: hidden;
-  text-overflow: clip;
-
-  color: variables.$color-gray-90;
-}
-
-// For longer extensions we manually only show the first three characters and an ellipse;
-// all we do here is change the font.
-.module-message__simple-attachment__icon__extension--more-char {
-  font-size: 9px;
-  line-height: 11px;
-  letter-spacing: -0.2px;
-}
 .module-message__simple-attachment__text {
   flex-grow: 1;
   // icon-container is 30px wide, 12px margin
@@ -889,12 +830,8 @@ $message-padding-horizontal: 12px;
 
 .module-message--outgoing {
   .module-message__undownloadable-attachment + .module-message__metadata {
-    .module-message__metadata__date--with-sticker {
+    .module-message__metadata__date.module-timestamp--with-sticker {
       color: inherit;
-    }
-
-    .module-message__metadata__status-icon--with-sticker {
-      background-color: variables.$color-white-alpha-80;
     }
   }
 }
@@ -1253,7 +1190,8 @@ $message-padding-horizontal: 12px;
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
-.module-message__metadata__status-icon--with-image-no-caption {
+.module-message__metadata--with-image-no-caption
+  .module-message__metadata__status-icon {
   color: light-dark(variables.$color-white, variables.$color-gray-02);
 }
 
@@ -1280,11 +1218,6 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__container-outer--typing-bubble {
-  overflow-y: clip;
-}
-
-.module-message__typing-avatar-container {
-  flex-direction: row-reverse;
   overflow-y: clip;
 }
 
@@ -1579,21 +1512,6 @@ $message-padding-horizontal: 12px;
         );
       }
     }
-
-    &--outgoing {
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/check/check-circle.svg',
-          variables.$color-gray-90
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/check/check-circle.svg',
-          variables.$color-gray-90
-        );
-      }
-    }
   }
 }
 
@@ -1717,13 +1635,6 @@ $message-padding-horizontal: 12px;
     variables.$color-gray-05
   );
 }
-.module-message__tap-to-view__icon--not-available {
-  @include mixins.color-svg-themed(
-    '../images/icons/v3/view_once/view_once-slash-bold.svg',
-    variables.$color-gray-90,
-    variables.$color-gray-05
-  );
-}
 
 // Module: Expire Timer
 
@@ -1748,12 +1659,6 @@ $timer-icons:
 }
 
 .module-about {
-  &__container {
-    margin-inline: auto;
-    max-width: 248px;
-    text-align: center;
-  }
-
   &__text {
     @include mixins.font-body-1;
     @include mixins.light-theme {
@@ -1852,16 +1757,6 @@ $timer-icons:
   }
 }
 
-.module-notification--with-click-handler {
-  cursor: pointer;
-}
-
-.module-notification__icon {
-  height: 24px;
-  width: 24px;
-  margin-inline: auto;
-}
-
 // Module: In Contacts Icon
 
 .module-in-contacts-icon__icon {
@@ -1893,33 +1788,12 @@ $timer-icons:
   }
 }
 
-// Module: Conversation Details
-
-.conversation-details-panel {
-  max-width: 750px;
-  margin-block: 0;
-  margin-inline: auto;
-
-  @at-root .conversation #{&} {
-    overflow-y: auto;
-  }
-}
-
-// Brought this up here to add specificity
-button.ConversationDetails__action-button {
-  margin-inline-start: 16px;
-}
-
 // Module: Image
 
 .module-image {
   position: relative;
   display: inline-block;
   vertical-align: middle;
-}
-
-.module-image--hidden {
-  visibility: hidden;
 }
 
 .module-image--tap-to-play,
@@ -1987,26 +1861,6 @@ button.ConversationDetails__action-button {
   @include mixins.position-absolute-center;
 }
 
-.module-image__spinner-container {
-  @include mixins.position-absolute-center;
-
-  .module-image-spinner {
-    &__arc {
-      background-color: variables.$color-black-alpha-80;
-    }
-
-    &__circle {
-      background-color: variables.$color-white;
-    }
-
-    @include mixins.dark-theme {
-      &__arc {
-        background-color: variables.$color-black-alpha-80;
-      }
-    }
-  }
-}
-
 .module-image--with-background {
   @include mixins.light-theme {
     background-color: variables.$color-white;
@@ -2068,19 +1922,6 @@ button.module-image__border-overlay:focus-visible {
 
 .module-image__border-overlay--dark {
   background-color: variables.$color-black-alpha-20;
-}
-
-.module-image__loading-placeholder {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
-  @include mixins.light-theme {
-    background-color: variables.$color-black-alpha-20;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-white-alpha-20;
-  }
 }
 
 .module-image__image {
@@ -2748,7 +2589,7 @@ button.module-image__border-overlay:focus-visible {
   width: 24px;
 }
 
-.module-spinner__circle--small {
+.module-spinner__container--small .module-spinner__circle {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
 
@@ -2758,7 +2599,7 @@ button.module-image__border-overlay:focus-visible {
     -webkit-mask-size: 100%;
   }
 }
-.module-spinner__arc--small {
+.module-spinner__container--small .module-spinner__arc {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
 
@@ -2769,10 +2610,10 @@ button.module-image__border-overlay:focus-visible {
   }
 }
 
-.module-spinner__circle--incoming {
+.module-spinner__container--incoming .module-spinner__circle {
   background-color: variables.$color-white-alpha-40;
 }
-.module-spinner__arc--incoming {
+.module-spinner__container--incoming .module-spinner__arc {
   @include mixins.light-theme {
     background-color: variables.$color-gray-60;
   }
@@ -2781,7 +2622,7 @@ button.module-image__border-overlay:focus-visible {
   }
 }
 
-.module-spinner__circle--outgoing {
+.module-spinner__container--outgoing .module-spinner__circle {
   @include mixins.light-theme {
     background-color: variables.$color-white-alpha-40;
   }
@@ -2789,7 +2630,7 @@ button.module-image__border-overlay:focus-visible {
     background-color: variables.$color-white-alpha-40;
   }
 }
-.module-spinner__arc--outgoing {
+.module-spinner__container--outgoing .module-spinner__arc {
   @include mixins.light-theme {
     background-color: variables.$color-white;
   }
@@ -2798,10 +2639,10 @@ button.module-image__border-overlay:focus-visible {
   }
 }
 
-.module-spinner__circle--on-avatar {
+.module-spinner__container--on-avatar .module-spinner__circle {
   background-color: variables.$color-white-alpha-40;
 }
-.module-spinner__circle--on-background {
+.module-spinner__container--on-background .module-spinner__circle {
   @include mixins.light-theme {
     background-color: variables.$color-gray-05;
   }
@@ -2809,7 +2650,7 @@ button.module-image__border-overlay:focus-visible {
     background-color: variables.$color-gray-75;
   }
 }
-.module-spinner__arc--on-background {
+.module-spinner__container--on-background .module-spinner__arc {
   @include mixins.light-theme {
     background-color: variables.$color-gray-60;
   }
@@ -2818,11 +2659,11 @@ button.module-image__border-overlay:focus-visible {
   }
 }
 
-.module-spinner__circle--on-primary-button {
+.module-spinner__container--on-primary-button .module-spinner__circle {
   background-color: variables.$color-white-alpha-40;
 }
 
-.module-spinner__circle--on-progress-dialog {
+.module-spinner__container--on-progress-dialog .module-spinner__circle {
   @include mixins.light-theme {
     background-color: variables.$color-white;
   }
@@ -2830,13 +2671,13 @@ button.module-image__border-overlay:focus-visible {
     background-color: variables.$color-gray-80;
   }
 }
-.module-spinner__arc--on-progress-dialog {
+.module-spinner__container--on-progress-dialog .module-spinner__arc {
   background-color: variables.$color-ultramarine;
 }
-.module-spinner__arc--on-avatar {
+.module-spinner__container--on-avatar .module-spinner__arc {
   background-color: variables.$color-white;
 }
-.module-spinner__arc--on-primary-button {
+.module-spinner__container--on-primary-button .module-spinner__arc {
   background-color: variables.$color-white;
 }
 
@@ -3941,44 +3782,6 @@ button.module-image__border-overlay:focus-visible {
       opacity: 1;
     }
   }
-
-  &__button {
-    &--hangup {
-      @include mixins.color-svg(
-        '../images/icons/v3/phone/phone-down-light.svg',
-        variables.$color-gray-75
-      );
-      & {
-        height: 28px;
-        width: 28px;
-        border: none;
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/phone/phone-down-light.svg',
-          variables.$color-gray-15
-        );
-      }
-    }
-
-    &--pip {
-      @include mixins.color-svg(
-        '../images/icons/v3/pip/pip-maximize-light.svg',
-        variables.$color-gray-75
-      );
-      & {
-        height: 24px;
-        width: 24px;
-        border: none;
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/pip/pip-maximize-light.svg',
-          variables.$color-gray-15
-        );
-      }
-    }
-  }
 }
 
 .module-calling-participants-list {
@@ -3998,26 +3801,6 @@ button.module-image__border-overlay:focus-visible {
   filter: drop-shadow(0px 4px 3px variables.$color-black-alpha-20);
   outline: 1px solid variables.$color-gray-62;
   overflow: hidden;
-
-  &__overlay {
-    position: absolute;
-    top: 0;
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    height: 100vh;
-    padding-inline-start: 15px;
-    align-items: flex-end;
-    inset-inline-start: 0;
-    z-index: variables.$z-index-calling;
-
-    &::after {
-      content: '';
-      display: flex;
-      flex-shrink: 1;
-      flex-basis: 480px;
-    }
-  }
 
   &__title {
     @include mixins.font-body-2-bold;
@@ -4109,21 +3892,7 @@ button.module-image__border-overlay:focus-visible {
     width: 16px;
   }
 
-  &__hand-raised {
-    @include mixins.color-svg(
-      '../images/icons/v3/raise_hand/raise_hand-light.svg',
-      variables.$color-white
-    );
-  }
-
   &__muted {
-    &--video {
-      @include mixins.color-svg(
-        '../images/icons/v3/video/video-slash-compact-light.svg',
-        variables.$color-white
-      );
-    }
-
     &--audio {
       @include mixins.color-svg(
         '../images/icons/v3/mic/mic-slash-compact-light.svg',
@@ -4135,14 +3904,6 @@ button.module-image__border-overlay:focus-visible {
   &__presenting {
     @include mixins.color-svg(
       '../images/icons/v3/share_screen/share_screen-fill-light.svg',
-      variables.$color-white
-    );
-  }
-
-  &__menu-icon {
-    display: none;
-    @include mixins.color-svg(
-      '../images/icons/v3/more/more.svg',
       variables.$color-white
     );
   }
@@ -4378,10 +4139,10 @@ button.module-calling-participants-list__contact {
 
       &--is-checkbox {
         cursor: pointer;
+      }
 
-        &--disabled {
-          cursor: not-allowed;
-        }
+      &--is-checkbox:is(&--disabled) {
+        cursor: not-allowed;
       }
 
       &:hover:not(:disabled, &--disabled, &--is-selected),
@@ -4472,11 +4233,6 @@ button.module-calling-participants-list__contact {
             &__contact-name {
               overflow: hidden;
               text-overflow: ellipsis;
-
-              .ContactModal__official-badge {
-                position: relative;
-                top: 1px;
-              }
             }
 
             &__mute-icon {
@@ -4694,17 +4450,6 @@ button.module-calling-participants-list__contact {
                 }
               }
             }
-
-            &__message-search-result-contents {
-              display: -webkit-box;
-              white-space: initial;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 2;
-            }
-
-            &__start-new-conversation {
-              @include mixins.font-body-1-italic;
-            }
           }
         }
 
@@ -4843,13 +4588,6 @@ button.module-calling-participants-list__contact {
           background: variables.$color-white-alpha-12;
         }
       }
-    }
-
-    &--spinner {
-      width: 100%;
-      padding: 10px;
-
-      text-align: center;
     }
   }
 }
@@ -5144,18 +4882,8 @@ button.module-calling-participants-list__contact {
   flex-grow: 1;
 }
 
-.module-left-pane__no-search-results__sms-only {
-  margin-top: 12px;
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
 .module-left-pane__compose-search-form {
-  &__input {
+  .module-SearchInput__input {
     flex-grow: 1;
   }
 }
@@ -5190,16 +4918,6 @@ button.module-calling-participants-list__contact {
   @include mixins.dark-theme {
     background: linear-gradient(transparent, variables.$color-gray-80);
   }
-}
-
-.module-left-pane__resize-grab-area {
-  position: absolute;
-  width: 8px;
-  height: 100%;
-  inset-inline-end: -8px;
-  top: 0;
-  z-index: variables.$z-index-above-base;
-  cursor: col-resize;
 }
 
 // Module: Timeline
@@ -5695,37 +5413,6 @@ button.module-calling-participants-list__contact {
   z-index: variables.$z-index-popup-overlay;
 }
 
-.module-button {
-  &__small {
-    @include mixins.font-body-2;
-    @include mixins.button-reset;
-
-    &:focus-visible {
-      @include mixins.axo-focus-ring;
-    }
-
-    & {
-      @include mixins.light-theme {
-        color: variables.$color-gray-90;
-        border-color: variables.$color-gray-15;
-      }
-
-      @include mixins.dark-theme {
-        color: variables.$color-gray-05;
-        border-color: variables.$color-gray-65;
-      }
-    }
-
-    & {
-      border-radius: 4px;
-      border-style: solid;
-      border-width: 1px;
-      padding-block: 7px;
-      padding-inline: 12px;
-    }
-  }
-}
-
 .module-tooltip {
   --tooltip-text-color: #{variables.$color-gray-75};
   --tooltip-background-color: #{variables.$color-gray-02};
@@ -5863,33 +5550,6 @@ button.module-calling-participants-list__contact {
 
 .module-message__container--sticker-like {
   overflow: initial;
-}
-
-.module-message__context {
-  &--icon::before {
-    content: ' ';
-    display: inline-block;
-    height: 16px;
-    margin-inline-end: 8px;
-    width: 16px;
-    vertical-align: middle;
-  }
-
-  &__copy-timestamp::before {
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/copy/copy-compact.svg',
-        variables.$color-black
-      );
-    }
-
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/copy/copy-compact.svg',
-        variables.$color-gray-15
-      );
-    }
-  }
 }
 
 .module-message__action {

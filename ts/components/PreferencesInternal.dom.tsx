@@ -618,7 +618,7 @@ export function PreferencesInternal({
             value={readOnlySqlInput}
             onChange={handleReadonlySqlInputChange}
             placeholder="SELECT * FROM items"
-            moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            className="Preferences__ReadonlySqlPlayground__Textarea"
           />
           <AxoButton.Root
             variant="strong-destructive"
@@ -634,7 +634,7 @@ export function PreferencesInternal({
               onChange={() => null}
               readOnly
               placeholder=""
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           )}
         </FlowingSettingsControl>
@@ -673,7 +673,7 @@ export function PreferencesInternal({
               onChange={() => null}
               readOnly
               placeholder=""
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           )}
         </FlowingSettingsControl>
@@ -707,7 +707,7 @@ export function PreferencesInternal({
             onChange={() => null}
             readOnly
             placeholder=""
-            moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            className="Preferences__ReadonlySqlPlayground__Textarea"
           />
         )}
       </SettingsRow>
@@ -736,7 +736,7 @@ export function PreferencesInternal({
               value={dredDuration?.toString(10)}
               onChange={handleDredDurationUpdate}
               placeholder="0 - 100"
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -750,7 +750,7 @@ export function PreferencesInternal({
               value={callStatsIntervalSecs?.toString(10)}
               onChange={handleStatsIntervalSecsUpdate}
               placeholder="Default"
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -782,7 +782,7 @@ export function PreferencesInternal({
               value={directMaxBitrate?.toString(10)}
               onChange={handleDirectMaxBitrateUpdate}
               placeholder="Default"
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -805,7 +805,7 @@ export function PreferencesInternal({
               value={groupSvcMode}
               onChange={handleGroupSvcModeUpdate}
               placeholder={SVC_DEFAULT_MODE}
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -819,7 +819,7 @@ export function PreferencesInternal({
               value={groupSvcModeForScreenshare}
               onChange={handleGroupSvcModeForScreenshareUpdate}
               placeholder={SVC_DEFAULT_MODE_FOR_SCREENSHARE}
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -831,7 +831,7 @@ export function PreferencesInternal({
               value={groupMaxBitrate?.toString(10)}
               onChange={handleGroupMaxBitrateUpdate}
               placeholder="Default"
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>
@@ -843,7 +843,7 @@ export function PreferencesInternal({
               value={sfuUrl}
               onChange={handleSfuUrlUpdate}
               placeholder="https://sfu.voip.signal.org"
-              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+              className="Preferences__ReadonlySqlPlayground__Textarea"
             />
           </div>
         </FlowingSettingsControl>

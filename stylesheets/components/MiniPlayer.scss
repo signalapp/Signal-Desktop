@@ -44,29 +44,6 @@
     position: relative;
   }
 
-  &__playback-button {
-    @include mixins.button-reset;
-
-    &::before {
-      display: block;
-      width: 14px;
-      height: 14px;
-      content: '';
-    }
-
-    @include mixins.light-theme {
-      @include all-audio-icons(variables.$color-gray-60);
-    }
-
-    @include mixins.dark-theme {
-      @include all-audio-icons(variables.$color-gray-15);
-    }
-
-    &--pending::before {
-      animation: rotate 1000ms linear infinite;
-    }
-  }
-
   &__state {
     flex: 1;
   }

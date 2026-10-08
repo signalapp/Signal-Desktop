@@ -86,7 +86,7 @@
       min-width: 240px;
     }
 
-    &__button.ContextMenu__button {
+    .ContextMenu__button {
       opacity: 0;
 
       .ContactListItem:hover &,

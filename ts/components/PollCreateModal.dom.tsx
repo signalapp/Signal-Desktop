@@ -320,7 +320,7 @@ export function PollCreateModal({
                 <AutoSizeTextArea
                   ref={questionInputRef}
                   i18n={i18n}
-                  moduleClassName="PollCreateModalInput"
+                  className="PollCreateModalInput"
                   value={question}
                   onChange={handleQuestionChange}
                   placeholder={i18n('icu:PollCreateModal__questionPlaceholder')}
@@ -347,7 +347,7 @@ export function PollCreateModal({
                         optionRefsMap.current.set(option.id, el);
                       }}
                       i18n={i18n}
-                      moduleClassName="PollCreateModalInput"
+                      className="PollCreateModalInput"
                       value={option.value}
                       onChange={value => handleOptionChange(option.id, value)}
                       onEnter={e => handleEnterKey(e, index)}

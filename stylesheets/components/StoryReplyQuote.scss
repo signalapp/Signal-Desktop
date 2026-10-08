@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .StoryReplyQuote {
-  &__primary {
+  .module-quote__primary {
     min-height: 52px;
   }
 
-  &__icon-container {
+  .module-quote__icon-container {
     flex: 0 0 40px;
     height: 64px;
     width: 40px;

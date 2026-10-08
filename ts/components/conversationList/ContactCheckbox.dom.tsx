@@ -4,7 +4,6 @@
 import { memo } from 'react';
 import type { FunctionComponent, JSX } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { BadgeType } from '../../badges/types.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -72,12 +71,15 @@ export const ContactCheckbox: FunctionComponent<PropsType> = memo(
 
     const headerName = isMe ? (
       <ContactName
-        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
         title={i18n('icu:noteToSelf')}
         isMe={isMe}
       />
     ) : (
-      <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
+      <ContactName
+        className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
+        title={title}
+      />
     );
 
     let messageText: undefined | string | JSX.Element;

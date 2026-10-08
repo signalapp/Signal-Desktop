@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
-import { tw } from '../axo/tw.dom.tsx';
+import { tw, type TailwindStyles } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
 import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
@@ -648,7 +648,7 @@ function NotificationProfilesNamePage({
             }
             maxLengthCount={140}
             maxByteCount={512}
-            moduleClassName="NotificationProfiles__NamePage"
+            className="NotificationProfiles__NamePage"
             onChange={handleInputChange}
             ref={undefined}
             placeholder={i18n('icu:NotificationProfiles--name-placeholder')}
@@ -1619,6 +1619,13 @@ function ExceptionsSection({
   );
 }
 
+const IconSizeClassNames: Record<IconSize, TailwindStyles> = {
+  large: tw('size-[80px]'),
+  medium: tw('size-[36px]'),
+  'medium-small': tw('size-[28px]'),
+  small: tw('size-[20px]'),
+};
+
 export function ProfileAvatar({
   i18n,
   isActive,
@@ -1635,22 +1642,11 @@ export function ProfileAvatar({
     : undefined;
   const forceLightTheme = profile && !profile.emoji;
 
-  const sizeMap = useMemo(
-    () => ({
-      large: tw('size-[80px]'),
-      medium: tw('size-[36px]'),
-      'medium-small': tw('size-[28px]'),
-      small: tw('size-[20px]'),
-    }),
-    []
-  );
-  const sizeClass = sizeMap[size];
-
   return (
     <div
       className={classNames(
         tw('relative rounded-full'),
-        sizeClass,
+        IconSizeClassNames[size],
         isActive ? tw('border-2 border-selected') : undefined,
         !backgroundColor ? tw('bg-accent-tint') : undefined
       )}

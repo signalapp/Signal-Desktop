@@ -34,7 +34,7 @@ function VerificationNotificationContents({
     <ContactName
       key="external-1"
       title={contact.title}
-      module="module-verification-notification__contact"
+      className="module-verification-notification__contact"
     />
   );
 

@@ -199,12 +199,6 @@
       margin-inline-start: -100px;
       opacity: 0;
       pointer-events: none;
-
-      // The container could be wider than 100px depending on the label. Hiding the label
-      //  ensures that the above `margin-left` will completely hide the button.
-      .CallingButton__label {
-        display: none;
-      }
     }
   }
 

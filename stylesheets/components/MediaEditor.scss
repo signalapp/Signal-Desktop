@@ -93,13 +93,6 @@
       }
     }
 
-    &--sticker.module-sticker-button__button::after {
-      @include mixins.color-svg(
-        '../images/icons/v3/sticker/sticker-smiley.svg',
-        variables.$color-white
-      );
-    }
-
     &--text::after {
       @include mixins.color-svg(
         '../images/icons/v2/text-24.svg',
@@ -150,36 +143,6 @@
     &--input {
       margin-inline: 8px;
       width: 400px;
-    }
-
-    &--buttons {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
-
-    &__caption {
-      height: 44px;
-
-      &__add-caption-button {
-        @include mixins.button-reset;
-        & {
-          @include mixins.rounded-corners;
-          background: variables.$color-gray-90;
-          color: variables.$color-gray-15;
-          padding-block: 8px;
-          padding-inline: 15px;
-          border: none;
-        }
-
-        & > span {
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-          overflow: hidden;
-        }
-      }
     }
   }
 
@@ -235,8 +198,7 @@
     margin-inline: 16px;
     min-width: 418px;
 
-    &__tool,
-    &__tool__button {
+    &__tool {
       margin-inline-start: 14px;
     }
 
@@ -258,39 +220,31 @@
         }
       }
 
-      @include mixins.button-reset;
-      & {
-        display: flex;
-        margin-block: 0;
-        margin-inline: 8px;
-        padding: 8px;
-      }
-
-      &--draw-pen__button {
+      &--draw-pen .ContextMenu__button {
         @include icon('v3/brush/brush-pen-compact.svg');
       }
-      &--draw-highlighter__button {
+      &--draw-highlighter .ContextMenu__button {
         @include icon('v3/brush/brush-highlighter-compact.svg');
       }
-      &--width-thin__button {
+      &--width-thin .ContextMenu__button {
         @include icon('v3/brush_size/brush_size-thin-compact.svg');
       }
-      &--width-regular__button {
+      &--width-regular .ContextMenu__button {
         @include icon('v3/brush_size/brush_size-regular-compact.svg');
       }
-      &--width-medium__button {
+      &--width-medium .ContextMenu__button {
         @include icon('v3/brush_size/brush_size-medium-compact.svg');
       }
-      &--width-heavy__button {
+      &--width-heavy .ContextMenu__button {
         @include icon('v3/brush_size/brush_size-heavy-compact.svg');
       }
-      &--text-regular__button {
+      &--text-regular .ContextMenu__button {
         @include icon('v3/text/text-square-compact.svg');
       }
-      &--text-highlight__button {
+      &--text-highlight .ContextMenu__button {
         @include icon('v3/text/text-square-fill-compact.svg');
       }
-      &--text-outline__button {
+      &--text-outline .ContextMenu__button {
         @include icon('v3/text/text-outline-compact.svg');
       }
       &--rotate {

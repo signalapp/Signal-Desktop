@@ -6,8 +6,6 @@
 
 .BetterAvatarBubble {
   align-items: center;
-  background-clip: content-box;
-  background-position: center;
   border-color: transparent;
   border-radius: 100%;
   border-style: solid;
@@ -21,7 +19,11 @@
   position: relative;
   width: 56px;
 
-  @include mixins.avatar-colors();
+  background: var(--BetterAvatarBubble-bg);
+  background-clip: content-box;
+  background-position: center;
+
+  color: var(--BetterAvatarBubble-fg);
 
   &--selected {
     @include mixins.light-theme {

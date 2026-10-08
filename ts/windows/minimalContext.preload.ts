@@ -61,6 +61,7 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),
   restartApp: () => ipcRenderer.send('restart'),
   OS: {
+    // oxlint-disable-next-line signal-desktop/enforce-static-class-names
     getClassName: () => ipcRenderer.sendSync('OS.getClassName'),
     platform: process.platform,
     release: config.osRelease,

@@ -67,7 +67,7 @@ export function ContactSpoofingReviewDialogPerson({
 
   const name = (
     <ContactName
-      module="module-ContactSpoofingReviewDialogPerson__info__contact-name"
+      className="module-ContactSpoofingReviewDialogPerson__info__contact-name"
       title={conversation.title}
     />
   );

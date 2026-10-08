@@ -12,7 +12,7 @@ import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { ViewUserStoriesActionCreatorType } from '../state/ducks/stories.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ContextMenu } from './ContextMenu.dom.tsx';
+import { ContextMenu, type ContextMenuOptionType } from './ContextMenu.dom.tsx';
 import { SIGNAL_ACI } from '../types/SignalConversation.std.ts';
 import { StoryViewTargetType, HasStories } from '../types/Stories.std.ts';
 
@@ -111,10 +111,10 @@ export function StoryListItem({
     repliesElement = <div className="StoryListItem__info--replies--others" />;
   }
 
-  const menuOptions = [];
+  const menuOptions: Array<ContextMenuOptionType<unknown>> = [];
   if (isHidden) {
     menuOptions.push({
-      icon: 'StoryListItem__icon--unhide',
+      iconClassName: 'StoryListItem__icon--unhide',
       label: i18n('icu:StoryListItem__unhide'),
       onClick: () => {
         onHideStory(conversationId);
@@ -122,7 +122,7 @@ export function StoryListItem({
     });
   } else {
     menuOptions.push({
-      icon: 'StoryListItem__icon--hide',
+      iconClassName: 'StoryListItem__icon--hide',
       label: i18n('icu:StoryListItem__hide'),
       onClick: () => {
         setHasConfirmHideStory(true);
@@ -132,7 +132,7 @@ export function StoryListItem({
 
   if (!isSignalOfficial) {
     menuOptions.push({
-      icon: 'StoryListItem__icon--info',
+      iconClassName: 'StoryListItem__icon--info',
       label: i18n('icu:StoryListItem__info'),
       onClick: () =>
         viewUserStories({
@@ -142,7 +142,7 @@ export function StoryListItem({
     });
 
     menuOptions.push({
-      icon: 'StoryListItem__icon--chat',
+      iconClassName: 'StoryListItem__icon--chat',
       label: i18n('icu:StoryListItem__go-to-chat'),
       onClick: () => onGoToConversation(conversationId),
     });
@@ -154,7 +154,7 @@ export function StoryListItem({
         aria-label={i18n('icu:StoryListItem__label')}
         i18n={i18n}
         menuOptions={menuOptions}
-        moduleClassName={classNames('StoryListItem', {
+        className={classNames('StoryListItem', {
           'StoryListItem--hidden': isHidden,
         })}
         onClick={() => viewUserStories({ conversationId })}
@@ -184,7 +184,7 @@ export function StoryListItem({
             <MessageTimestamp
               i18n={i18n}
               isRelativeTime
-              module="StoryListItem__info--timestamp"
+              className="StoryListItem__info--timestamp"
               timestamp={timestamp}
             />
           )}
@@ -198,7 +198,7 @@ export function StoryListItem({
             i18n={i18n}
             isThumbnail
             label=""
-            moduleClassName="StoryListItem__previews--image"
+            className="StoryListItem__previews--image"
             queueStoryDownload={queueStoryDownload}
             storyId={story.messageId}
             onMediaPlaybackStart={onMediaPlaybackStart}

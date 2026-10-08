@@ -20,10 +20,18 @@ const SPRING_CONFIG = {
   velocity: 0.01,
 };
 
+type Variant = 'message-outgoing' | 'message-incoming' | 'mini-player';
+
+const VariantClassNames: Record<Variant, string> = {
+  'message-outgoing': 'PlaybackRateButton--message-outgoing',
+  'message-incoming': 'PlaybackRateButton--message-incoming',
+  'mini-player': 'PlaybackRateButton--mini-player',
+};
+
 type Props = {
   // undefined if not playing
   playbackRate: number | undefined;
-  variant: 'message-outgoing' | 'message-incoming' | 'mini-player';
+  variant: Variant;
   onClick: () => void;
   visible?: boolean;
   i18n: LocalizerType;
@@ -89,10 +97,7 @@ export function PlaybackRateButton({
     <animated.div style={animProps}>
       <button
         type="button"
-        className={classNames(
-          'PlaybackRateButton',
-          `PlaybackRateButton--${variant}`
-        )}
+        className={classNames('PlaybackRateButton', VariantClassNames[variant])}
         onClick={onButtonClick}
         onKeyDown={onButtonKeyDown}
         onMouseDown={() => setIsDown(true)}

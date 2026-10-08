@@ -35,14 +35,6 @@
     }
   }
 
-  &__buttons {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 56px;
-  }
-
   &__thumbnails {
     align-items: center;
     display: flex;
@@ -190,8 +182,7 @@
     }
   }
 
-  &__object--container--zoom,
-  &__object--container--fill {
+  &__object--container--zoom {
     .Lightbox__zoom-button {
       cursor: zoom-out;
     }
@@ -203,10 +194,6 @@
     margin-block: 12px;
     margin-inline: 0;
     text-align: center;
-  }
-
-  &__countdown {
-    padding: 8px;
   }
 
   &__timestamp {

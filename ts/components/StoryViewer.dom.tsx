@@ -515,12 +515,12 @@ export function StoryViewer({
     // TODO: DESKTOP-9943
     contextMenuOptions = [
       {
-        icon: 'StoryListItem__icon--info',
+        iconClassName: 'StoryListItem__icon--info',
         label: i18n('icu:StoryListItem__info'),
         onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
       },
       {
-        icon: 'StoryListItem__icon--delete',
+        iconClassName: 'StoryListItem__icon--delete',
         label: i18n('icu:StoryListItem__delete'),
         onClick: () => setConfirmDeleteStory(story),
       },
@@ -528,12 +528,12 @@ export function StoryViewer({
   } else if (!isSignalConversation) {
     contextMenuOptions = [
       {
-        icon: 'StoryListItem__icon--info',
+        iconClassName: 'StoryListItem__icon--info',
         label: i18n('icu:StoryListItem__info'),
         onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
       },
       {
-        icon: isHidden
+        iconClassName: isHidden
           ? 'StoryListItem__icon--unhide'
           : 'StoryListItem__icon--hide',
         label: isHidden
@@ -548,7 +548,7 @@ export function StoryViewer({
         },
       },
       {
-        icon: 'StoryListItem__icon--chat',
+        iconClassName: 'StoryListItem__icon--chat',
         label: i18n('icu:StoryListItem__go-to-chat'),
         onClick: () => {
           onGoToConversation(conversationId);
@@ -650,7 +650,7 @@ export function StoryViewer({
               isPaused={shouldPauseViewing}
               isMuted={isStoryMuted}
               label={i18n('icu:lightboxImageAlt')}
-              moduleClassName="StoryViewer__story"
+              className="StoryViewer__story"
               queueStoryDownload={queueStoryDownload}
               storyId={messageId}
               onMediaPlaybackStart={onMediaPlaybackStart}
@@ -779,7 +779,7 @@ export function StoryViewer({
                   <MessageTimestamp
                     i18n={i18n}
                     isRelativeTime
-                    module="StoryViewer__meta--timestamp"
+                    className="StoryViewer__meta--timestamp"
                     timestamp={timestamp}
                   />
                   {distributionList && (
@@ -826,7 +826,7 @@ export function StoryViewer({
                     aria-label={i18n('icu:MyStories__more')}
                     i18n={i18n}
                     menuOptions={contextMenuOptions}
-                    moduleClassName="StoryViewer__more"
+                    className="StoryViewer__more"
                     onMenuShowingChanged={setIsShowingContextMenu}
                     theme={Theme.Dark}
                   />
@@ -875,7 +875,7 @@ export function StoryViewer({
               {sendStatus === ResolvedSendStatus.Sending && (
                 <div className="StoryViewer__sending">
                   <Spinner
-                    moduleClassName="StoryViewer__sending__spinner"
+                    className="StoryViewer__sending__spinner"
                     svgSize="small"
                   />
                   {i18n('icu:StoryViewer__sending')}

@@ -72,7 +72,7 @@ export function CallingRaisedHandsList({
   return (
     <ModalHost
       modalName="CallingRaisedHandsList"
-      moduleClassName="CallingRaisedHandsList"
+      className="CallingRaisedHandsList__modal"
       onClose={onClose}
     >
       <div className="CallingRaisedHandsList module-calling-participants-list">
@@ -123,7 +123,7 @@ export function CallingRaisedHandsList({
                     </span>
                   ) : (
                     <ContactName
-                      module="module-calling-participants-list__name"
+                      className="module-calling-participants-list__name"
                       title={conversation.title}
                     />
                   )}

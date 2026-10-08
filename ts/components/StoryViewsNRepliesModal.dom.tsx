@@ -266,7 +266,7 @@ export function StoryViewsNRepliesModal({
               inputApi={inputApiRef}
               isActive
               isFormattingEnabled={isFormattingEnabled}
-              moduleClassName="StoryViewsNRepliesModal__input"
+              className="StoryViewsNRepliesModal__input"
               onCloseLinkPreview={noop}
               showRecoveryKeyPasteWarning={false}
               onEditorStateChange={({ messageText }) => {
@@ -417,7 +417,7 @@ export function StoryViewsNRepliesModal({
             {view.updatedAt && (
               <MessageTimestamp
                 i18n={i18n}
-                module="StoryViewsNRepliesModal__view--timestamp"
+                className="StoryViewsNRepliesModal__view--timestamp"
                 timestamp={view.updatedAt}
               />
             )}
@@ -438,7 +438,7 @@ export function StoryViewsNRepliesModal({
       <Tabs
         selectedTab={currentTab}
         onTabChange={onTabChange}
-        moduleClassName="StoryViewsNRepliesModal__tabs"
+        className="StoryViewsNRepliesModal__tabs"
         tabs={[
           {
             id: StoryViewsNRepliesTab.Views,
@@ -477,7 +477,7 @@ export function StoryViewsNRepliesModal({
       <Modal
         modalName="StoryViewsNRepliesModal"
         i18n={i18n}
-        moduleClassName={classNames({
+        className={classNames({
           StoryViewsNRepliesModal: true,
           'StoryViewsNRepliesModal--group': Boolean(group),
         })}
@@ -656,7 +656,7 @@ function ReplyOrReactionMessage({
             <MessageTimestamp
               i18n={i18n}
               isRelativeTime
-              module="StoryViewsNRepliesModal__reply--timestamp"
+              className="StoryViewsNRepliesModal__reply--timestamp"
               timestamp={reply.timestamp}
             />
           </div>

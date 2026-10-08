@@ -9,6 +9,7 @@ import type {
   JSX,
   KeyboardEvent,
   MouseEvent,
+  CSSProperties,
 } from 'react';
 import { forwardRef, useRef, PureComponent, createRef } from 'react';
 import { createPortal } from 'react-dom';
@@ -89,7 +90,7 @@ import type {
   CustomColorType,
 } from '../../types/Colors.std.ts';
 import { createRefMerger } from '../../util/refMerger.std.ts';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
@@ -124,6 +125,7 @@ import { Emoji } from '../../axo/emoji.std.ts';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
 import { isReleaseNoteCtaId } from '../../types/releaseNotes.std.ts';
+import { AxoTokens } from '../../axo/AxoTokens.std.ts';
 
 const { drop, take, unescape } = lodash;
 
@@ -1095,13 +1097,14 @@ export class Message extends PureComponent<Props, State> {
       return null;
     }
 
-    const stickerSuffix = isSticker ? '_with_sticker' : '';
-    const moduleName = `module-message__author${stickerSuffix}`;
+    const className = isSticker
+      ? 'module-message__author_with_sticker'
+      : 'module-message__author';
 
     return (
       <div
         className={classNames(
-          moduleName,
+          className,
           quote ? 'module-message__author--with-quote' : undefined
         )}
       >
@@ -1109,7 +1112,6 @@ export class Message extends PureComponent<Props, State> {
           contactNameColor={contactNameColor}
           contactLabel={contactLabel}
           title={author.isMe ? i18n('icu:you') : author.title}
-          module={moduleName}
         />
       </div>
     );
@@ -1171,18 +1173,23 @@ export class Message extends PureComponent<Props, State> {
       !attachmentDroppedDueToSize;
 
     if (!(isSticker && isAttachmentNotAvailable)) {
-      const prefix = isSticker ? 'sticker' : 'attachment';
+      const baseClassName = isSticker
+        ? 'module-message__sticker-container'
+        : 'module-message__attachment-container';
+
+      const contentAboveClassName = isSticker
+        ? 'module-message__sticker-container--with-content-above'
+        : 'module-message__attachment-container--with-content-above';
+
+      const contentBelowClassName = isSticker
+        ? 'module-message__sticker-container--with-content-below'
+        : 'module-message__attachment-container--with-content-below';
+
       const containerClassName = classNames(
-        `module-message__${prefix}-container`,
-        withContentAbove
-          ? `module-message__${prefix}-container--with-content-above`
-          : null,
-        withContentBelow
-          ? 'module-message__attachment-container--with-content-below'
-          : null,
-        isSticker && !collapseMetadata
-          ? 'module-message__sticker-container--with-content-below'
-          : null
+        baseClassName,
+        withContentAbove ? contentAboveClassName : null,
+        withContentBelow ? contentBelowClassName : null,
+        isSticker && !collapseMetadata ? contentBelowClassName : null
       );
 
       if (isGIF(firstAttachment)) {
@@ -1348,7 +1355,10 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__simple-attachment__file-name',
-              `module-message__simple-attachment__file-name--${direction}`,
+              direction === 'incoming' &&
+                'module-message__simple-attachment__file-name--incoming',
+              direction === 'outgoing' &&
+                'module-message__simple-attachment__file-name--outgoing',
               isAttachmentNotAvailable
                 ? 'module-message__simple-attachment__file-name--undownloadable'
                 : null
@@ -1370,7 +1380,10 @@ export class Message extends PureComponent<Props, State> {
               <div
                 className={classNames(
                   'module-message__simple-attachment__file-size',
-                  `module-message__simple-attachment__file-size--${direction}`
+                  direction === 'incoming' &&
+                    'module-message__simple-attachment__file-size--incoming',
+                  direction === 'outgoing' &&
+                    'module-message__simple-attachment__file-size--outgoing'
                 )}
               >
                 {formatFileSize(size)}
@@ -1433,21 +1446,25 @@ export class Message extends PureComponent<Props, State> {
     const withContentAbove = Boolean(quote) || this.#shouldRenderAuthor();
     const isViewed = readStatus === ReadStatus.Viewed;
 
-    let attachmentType: string;
+    let attachmentClassName: string;
     let info: string;
     let tapToViewModalType: TapToViewNotAvailableType | undefined;
     if (isAttachmentAudio) {
-      attachmentType = 'audio';
+      attachmentClassName =
+        'module-message__undownloadable-attachment__icon--audio';
       info = i18n('icu:attachmentNotAvailable__voice');
     } else if (isSticker) {
-      attachmentType = 'sticker';
+      attachmentClassName =
+        'module-message__undownloadable-attachment__icon--sticker';
       info = i18n('icu:attachmentNotAvailable__sticker');
     } else if (isTapToView && !isViewed && isTapToViewExpired) {
-      attachmentType = 'tap-to-view';
+      attachmentClassName =
+        'module-message__undownloadable-attachment__icon--tap-to-view';
       info = i18n('icu:attachmentNotAvailable__tapToView');
       tapToViewModalType = TapToViewNotAvailableType.Expired;
     } else if (isTapToView && !isViewed && isTapToViewError) {
-      attachmentType = 'tap-to-view';
+      attachmentClassName =
+        'module-message__undownloadable-attachment__icon--tap-to-view';
       info = i18n('icu:attachmentNotAvailable__tapToViewCannotDownload');
       tapToViewModalType = TapToViewNotAvailableType.Error;
     } else {
@@ -1469,7 +1486,7 @@ export class Message extends PureComponent<Props, State> {
     );
     const iconClassName = classNames(
       'module-message__undownloadable-attachment__icon',
-      `module-message__undownloadable-attachment__icon--${attachmentType}`
+      attachmentClassName
     );
 
     return (
@@ -1580,7 +1597,8 @@ export class Message extends PureComponent<Props, State> {
 
     const className = classNames(
       'module-message__link-preview',
-      `module-message__link-preview--${direction}`,
+      direction === 'incoming' && 'module-message__link-preview--incoming',
+      direction === 'outgoing' && 'module-message__link-preview--outgoing',
       {
         'module-message__link-preview--with-content-above': withContentAbove,
         'module-message__link-preview--nonclickable': !isClickable,
@@ -1772,6 +1790,16 @@ export class Message extends PureComponent<Props, State> {
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
         );
 
+    const collapseAboveClassName =
+      direction === 'incoming'
+        ? 'module-message__attachment-too-big--collapse-above--incoming'
+        : 'module-message__attachment-too-big--collapse-above--outgoing';
+
+    const collapseBelowClassName =
+      direction === 'incoming'
+        ? 'module-message__attachment-too-big--collapse-below--incoming'
+        : 'module-message__attachment-too-big--collapse-below--outgoing';
+
     return (
       <div
         className={classNames(
@@ -1782,12 +1810,8 @@ export class Message extends PureComponent<Props, State> {
           isContentBelow
             ? 'module-message__attachment-too-big--content-below'
             : null,
-          willCollapseAbove
-            ? `module-message__attachment-too-big--collapse-above--${direction}`
-            : null,
-          willCollapseBelow
-            ? `module-message__attachment-too-big--collapse-below--${direction}`
-            : null
+          willCollapseAbove ? collapseAboveClassName : null,
+          willCollapseBelow ? collapseBelowClassName : null
         )}
       >
         {labelText}
@@ -1819,7 +1843,10 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__unopened-gift-badge',
-              `module-message__unopened-gift-badge--${direction}`
+              direction === 'incoming' &&
+                'module-message__unopened-gift-badge--incoming',
+              direction === 'outgoing' &&
+                'module-message__unopened-gift-badge--outgoing'
             )}
             aria-label={i18n('icu:message--donation--unopened--label', {
               sender: conversationTitle,
@@ -1843,13 +1870,17 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__unopened-gift-badge__text',
-              `module-message__unopened-gift-badge__text--${direction}`
+              direction === 'incoming' &&
+                'module-message__unopened-gift-badge__text--incoming',
+              direction === 'outgoing' &&
+                'module-message__unopened-gift-badge__text--outgoing'
             )}
           >
             <div
               className={classNames(
                 'module-message__text',
-                `module-message__text--${direction}`
+                direction === 'incoming' && 'module-message__text--incoming',
+                direction === 'outgoing' && 'module-message__text--outgoing'
               )}
             >
               {description}
@@ -1908,7 +1939,7 @@ export class Message extends PureComponent<Props, State> {
           <span
             className={classNames(
               'module-message__redeemed-gift-badge__icon-check',
-              `module-message__redeemed-gift-badge__icon-check--${direction}`
+              'module-message__redeemed-gift-badge__icon-check--incoming' // cannot be outgoing
             )}
           />{' '}
           {i18n('icu:message--donation--redeemed')}
@@ -1925,7 +1956,10 @@ export class Message extends PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__redeemed-gift-badge__badge',
-            `module-message__redeemed-gift-badge__badge--missing-${direction}`
+            direction === 'incoming' &&
+              'module-message__redeemed-gift-badge__badge--missing-incoming',
+            direction === 'outgoing' &&
+              'module-message__redeemed-gift-badge__badge--missing-outgoing'
           )}
           aria-label={i18n('icu:donation--missing')}
         />
@@ -1942,7 +1976,10 @@ export class Message extends PureComponent<Props, State> {
               <div
                 className={classNames(
                   'module-message__redeemed-gift-badge__remaining',
-                  `module-message__redeemed-gift-badge__remaining--${direction}`
+                  direction === 'incoming' &&
+                    'module-message__redeemed-gift-badge__remaining--incoming',
+                  direction === 'outgoing' &&
+                    'module-message__redeemed-gift-badge__remaining--outgoing'
                 )}
               >
                 {remaining}
@@ -1952,7 +1989,10 @@ export class Message extends PureComponent<Props, State> {
           <button
             className={classNames(
               'module-message__redeemed-gift-badge__button',
-              `module-message__redeemed-gift-badge__button--${direction}`
+              direction === 'incoming' &&
+                'module-message__redeemed-gift-badge__button--incoming',
+              direction === 'outgoing' &&
+                'module-message__redeemed-gift-badge__button--outgoing'
             )}
             disabled={!wasSent}
             onClick={
@@ -1986,25 +2026,17 @@ export class Message extends PureComponent<Props, State> {
   }
 
   #renderPayment(): ReactNode {
-    const {
-      payment,
-      direction,
-      author,
-      conversationTitle,
-      conversationColor,
-      i18n,
-    } = this.props;
+    const { payment, direction, author, conversationTitle, i18n } = this.props;
     if (payment == null || !isPaymentNotificationEvent(payment)) {
       return null;
     }
 
     return (
       <div
-        className={`module-payment-notification__container ${
-          direction === 'outgoing'
-            ? `module-payment-notification--outgoing module-payment-notification--outgoing-${conversationColor}`
-            : ''
-        }`}
+        className={classNames(
+          'module-payment-notification__container',
+          direction === 'outgoing' && 'module-payment-notification--outgoing'
+        )}
       >
         <p className="module-payment-notification__label">
           {getPaymentEventDescription(
@@ -2146,7 +2178,7 @@ export class Message extends PureComponent<Props, State> {
           isIncoming={isIncoming}
           isStoryReply
           isViewOnce={false}
-          moduleClassName="StoryReplyQuote"
+          className="StoryReplyQuote"
           onClick={() => {
             if (!storyReplyContext.storyId) {
               return;
@@ -2379,7 +2411,8 @@ export class Message extends PureComponent<Props, State> {
       <div // oxlint-disable-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
         className={classNames(
           'module-message__text',
-          `module-message__text--${direction}`,
+          direction === 'incoming' && 'module-message__text--incoming',
+          direction === 'outgoing' && 'module-message__text--outgoing',
           status === 'error' && direction === 'incoming' && !deletedForEveryone
             ? 'module-message__text--error'
             : null,
@@ -2549,12 +2582,15 @@ export class Message extends PureComponent<Props, State> {
   #renderError(): ReactNode {
     const { status, direction } = this.props;
 
-    if (
-      status !== 'paused' &&
-      status !== 'error' &&
-      status !== 'partial-sent'
-    ) {
-      return null;
+    let statusClassName: string;
+    if (status === 'paused') {
+      statusClassName = 'module-message__error--paused';
+    } else if (status === 'error') {
+      statusClassName = 'module-message__error--error';
+    } else if (status === 'partial-sent') {
+      statusClassName = 'module-message__error--partial-sent';
+    } else {
+      return;
     }
 
     return (
@@ -2562,8 +2598,9 @@ export class Message extends PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message__error',
-            `module-message__error--${direction}`,
-            `module-message__error--${status}`
+            direction === 'incoming' && 'module-message__error--incoming',
+            direction === 'outgoing' && 'module-message__error--outgoing',
+            statusClassName
           )}
         />
       </div>
@@ -2813,7 +2850,10 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__simple-attachment__file-name',
-              `module-message__simple-attachment__file-name--${direction}`
+              direction === 'incoming' &&
+                'module-message__simple-attachment__file-name--incoming',
+              direction === 'outgoing' &&
+                'module-message__simple-attachment__file-name--outgoing'
             )}
           >
             {text.title}
@@ -2822,7 +2862,10 @@ export class Message extends PureComponent<Props, State> {
             <div
               className={classNames(
                 'module-message__simple-attachment__file-size',
-                `module-message__simple-attachment__file-size--${direction}`
+                direction === 'incoming' &&
+                  'module-message__simple-attachment__file-size--incoming',
+                direction === 'outgoing' &&
+                  'module-message__simple-attachment__file-size--outgoing'
               )}
             >
               {text.detail}
@@ -2866,7 +2909,10 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__simple-attachment__file-name',
-              `module-message__simple-attachment__file-name--${direction}`
+              direction === 'incoming' &&
+                'module-message__simple-attachment__file-name--incoming',
+              direction === 'outgoing' &&
+                'module-message__simple-attachment__file-name--outgoing'
             )}
           >
             {text.title}
@@ -3304,11 +3350,13 @@ export class Message extends PureComponent<Props, State> {
       isTargeted ? 'module-message__container--targeted' : null,
       lighterSelect ? 'module-message__container--targeted-lighter' : null,
       isStickerLike ? 'module-message__container--sticker-like' : null,
-      !isStickerLike ? `module-message__container--${direction}` : null,
-      isEmojiOnly ? 'module-message__container--emoji' : null,
       !isStickerLike && direction === 'outgoing'
-        ? `module-message__container--outgoing-${conversationColor}`
+        ? 'module-message__container--outgoing'
         : null,
+      !isStickerLike && direction === 'incoming'
+        ? 'module-message__container--incoming'
+        : null,
+      isEmojiOnly ? 'module-message__container--emoji' : null,
       isClickable ? 'module-message__container--is-clickable' : null,
       this.#hasReactions() ? 'module-message__container--with-reactions' : null,
       deletedForEveryone
@@ -3321,9 +3369,10 @@ export class Message extends PureComponent<Props, State> {
           )
         : null
     );
-    const containerStyles = {
+    const containerStyles: CSSProperties = {
       width,
     };
+
     if (
       !isStickerLike &&
       !deletedForEveryone &&
@@ -3331,6 +3380,10 @@ export class Message extends PureComponent<Props, State> {
       direction === 'outgoing'
     ) {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
+      Object.assign(containerStyles, {
+        '--module-message__container-bg':
+          AxoTokens.ChatBubble.anyColorNameToCssBackground(conversationColor),
+      });
     }
 
     function maybeWrapWithContextMenu(children: ReactNode): ReactNode {
@@ -3516,7 +3569,8 @@ export class Message extends PureComponent<Props, State> {
         <div
           className={classNames(
             'module-message',
-            `module-message--${direction}`,
+            direction === 'incoming' && 'module-message--incoming',
+            direction === 'outgoing' && 'module-message--outgoing',
             isSignalConversation ? tw('justify-center') : null,
             shouldCollapseAbove && 'module-message--collapsed-above',
             shouldCollapseBelow && 'module-message--collapsed-below',

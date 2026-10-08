@@ -4,7 +4,6 @@
 import type { FunctionComponent, JSX } from 'react';
 import { useMemo, useState, memo } from 'react';
 
-import { HEADER_CONTACT_NAME_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { BadgeType } from '../../badges/types.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
@@ -12,7 +11,10 @@ import { ContactName } from '../conversation/ContactName.dom.tsx';
 import { About } from '../conversation/About.dom.tsx';
 import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
-import { ContextMenu } from '../ContextMenu.dom.tsx';
+import {
+  ContextMenu,
+  type ContextMenuOptionType,
+} from '../ContextMenu.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
@@ -87,11 +89,11 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
     const [isConfirmingRemoving, setConfirmingRemoving] = useState(false);
 
     const menuOptions = useMemo(
-      () => [
+      (): ReadonlyArray<ContextMenuOptionType<unknown>> => [
         ...(onClick
           ? [
               {
-                icon: 'ContactListItem__context-menu__chat-icon',
+                iconClassName: 'ContactListItem__context-menu__chat-icon',
                 label: i18n('icu:ContactListItem__menu__message'),
                 onClick: () => onClick(id),
               },
@@ -100,7 +102,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
         ...(!isMe && onAudioCall
           ? [
               {
-                icon: 'ContactListItem__context-menu__phone-icon',
+                iconClassName: 'ContactListItem__context-menu__phone-icon',
                 label: i18n('icu:ContactListItem__menu__audio-call'),
                 onClick: () => onAudioCall(id),
               },
@@ -109,7 +111,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
         ...(!isMe && onVideoCall
           ? [
               {
-                icon: 'ContactListItem__context-menu__video-icon',
+                iconClassName: 'ContactListItem__context-menu__video-icon',
                 label: i18n('icu:ContactListItem__menu__video-call'),
                 onClick: () => onVideoCall(id),
               },
@@ -118,7 +120,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
         ...(!isMe && onRemove
           ? [
               {
-                icon: 'ContactListItem__context-menu__delete-icon',
+                iconClassName: 'ContactListItem__context-menu__delete-icon',
                 label: i18n('icu:ContactListItem__menu__remove'),
                 onClick: () => setConfirmingRemoving(true),
               },
@@ -127,7 +129,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
         ...(!isMe && onBlock
           ? [
               {
-                icon: 'ContactListItem__context-menu__block-icon',
+                iconClassName: 'ContactListItem__context-menu__block-icon',
                 label: i18n('icu:ContactListItem__menu__block'),
                 onClick: () => setConfirmingBlocking(true),
               },
@@ -140,13 +142,13 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
     const headerName = isMe ? (
       <ContactName
         isMe={isMe}
-        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
         title={i18n('icu:noteToSelf')}
       />
     ) : (
       <ContactName
         isSignalConversation={isSignalConversation({ id, serviceId })}
-        module={HEADER_CONTACT_NAME_CLASS_NAME}
+        className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
         title={title}
       />
     );
@@ -161,7 +163,8 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
           i18n={i18n}
           menuOptions={menuOptions}
           popperOptions={{ placement: 'bottom-start', strategy: 'absolute' }}
-          moduleClassName="ContactListItem__context-menu"
+          className="ContactListItem__context-menu"
+          popperClassName="ContactListItem__context-menu__popper"
           ariaLabel={i18n('icu:ContactListItem__menu')}
           portalToRoot
         />
@@ -253,7 +256,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
     return (
       <>
         <ListTile
-          moduleClassName="ContactListItem"
+          className="ContactListItem"
           leading={
             <Avatar
               avatarUrl={avatarUrl}

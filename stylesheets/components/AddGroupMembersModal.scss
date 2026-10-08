@@ -60,15 +60,6 @@
     }
   }
 
-  &--confirm-adds {
-    @include mixins.modal-reset;
-
-    #{$root-selector}__button-container {
-      margin-top: 12px;
-      padding: 0;
-    }
-  }
-
   .module-conversation-list {
     // remove horizontal padding so ListTiles extend to the edges
     padding: 0;

@@ -25,6 +25,7 @@ export class EmojiBlot extends EmbedBlot {
   // See `createStaticEmojiBlot()`
   static override tagName = 'span';
 
+  // oxlint-disable-next-line signal-desktop/enforce-static-class-names
   static override className = FUN_STATIC_EMOJI_CLASS;
 
   static override create({ value, source }: EmojiBlotValue): Node {

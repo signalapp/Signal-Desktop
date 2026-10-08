@@ -21,10 +21,33 @@ const SPRING_CONFIG = {
   velocity: 0.01,
 };
 
+type Context = 'incoming' | 'outgoing';
+type Variant = 'message' | 'mini' | 'draft';
+type Mod = 'play' | 'pause' | 'not-downloaded' | 'downloading' | 'computing';
+
+const ContextClassNames: Record<Context, string> = {
+  incoming: 'PlaybackButton--context-incoming',
+  outgoing: 'PlaybackButton--context-outgoing',
+};
+
+const VariantClassNames: Record<Variant, string> = {
+  message: 'PlaybackButton--variant-message',
+  mini: 'PlaybackButton--variant-mini',
+  draft: 'PlaybackButton--variant-draft',
+};
+
+const ModClassNames: Record<Mod, string> = {
+  play: 'PlaybackButton--play',
+  pause: 'PlaybackButton--pause',
+  'not-downloaded': 'PlaybackButton--not-downloaded',
+  downloading: 'PlaybackButton--downloading',
+  computing: 'PlaybackButton--computing',
+};
+
 export type ButtonProps = {
-  context?: 'incoming' | 'outgoing';
-  variant: 'message' | 'mini' | 'draft';
-  mod: 'play' | 'pause' | 'not-downloaded' | 'downloading' | 'computing';
+  context?: Context;
+  variant: Variant;
+  mod: Mod;
   attachment?: AttachmentForUIType;
   label: string;
   visible?: boolean;
@@ -121,9 +144,9 @@ export const PlaybackButton = forwardRef<PlaybackButtonRef, ButtonProps>(
         ref={ref}
         className={classNames(
           'PlaybackButton',
-          `PlaybackButton--variant-${variant}`,
-          context && `PlaybackButton--context-${context}`,
-          mod ? `PlaybackButton--${mod}` : undefined
+          VariantClassNames[variant],
+          context && ContextClassNames[context],
+          mod != null && ModClassNames[mod]
         )}
         onClick={onButtonClick}
         onKeyDown={onButtonKeyDown}

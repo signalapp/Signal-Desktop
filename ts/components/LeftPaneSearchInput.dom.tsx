@@ -136,7 +136,7 @@ export function LeftPaneSearchInput({
         label={label}
         hasSearchIcon={!searchConversation}
         i18n={i18n}
-        moduleClassName="LeftPaneSearchInput"
+        className="LeftPaneSearchInput"
         onBlur={() => {
           if (!searchConversation && !searchTerm) {
             endSearch();

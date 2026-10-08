@@ -39,7 +39,7 @@
       }
 
       & .MyStories__story__download,
-      .MyStories__story__more__button {
+      .MyStories__story__more .ContextMenu__button {
         @include mixins.light-theme() {
           background: variables.$color-gray-20;
         }
@@ -148,7 +148,7 @@
       }
     }
 
-    &__more__button {
+    &__more .ContextMenu__button {
       align-items: center;
       border-radius: 100%;
       display: flex;

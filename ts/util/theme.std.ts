@@ -13,22 +13,13 @@ export enum Theme {
 export const themeSettingSchema = z.enum(['system', 'light', 'dark']);
 export type ThemeSettingType = z.infer<typeof themeSettingSchema>;
 
-export function themeClassName(theme: Theme): string {
-  switch (theme) {
-    case Theme.Light:
-      return 'light-theme';
-    case Theme.Dark:
-      return 'dark-theme';
-    default:
-      throw missingCaseError(theme);
-  }
-}
-
-export function themeClassName2(theme: ThemeType): string {
+export function themeClassName(theme: Theme | ThemeType): string {
   switch (theme) {
     case ThemeType.light:
+    case Theme.Light:
       return 'light-theme';
     case ThemeType.dark:
+    case Theme.Dark:
       return 'dark-theme';
     default:
       throw missingCaseError(theme);

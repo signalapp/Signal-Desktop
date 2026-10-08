@@ -164,7 +164,7 @@ export function CompositionTextArea({
         isFormattingEnabled={isFormattingEnabled}
         inputApi={inputApiRef}
         large={false}
-        moduleClassName="CompositionTextArea__input"
+        className="CompositionTextArea__input"
         onEditorStateChange={handleChange}
         onSelectEmoji={onSelectEmoji}
         onScroll={onScroll}

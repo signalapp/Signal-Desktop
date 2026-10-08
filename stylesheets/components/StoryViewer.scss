@@ -67,7 +67,7 @@
       @include mixins.axo-focus-ring;
     }
 
-    &__image {
+    .StoryImage__image {
       object-fit: contain;
     }
   }
@@ -145,19 +145,6 @@
     padding-inline: 0;
     margin-bottom: 24px;
     text-shadow: 0px 0px 48px 0px variables.$color-black-alpha-80;
-
-    &__overlay {
-      @include mixins.button-reset;
-      & {
-        background: variables.$color-black-alpha-60;
-        height: 100%;
-        inset-inline-start: 0;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        z-index: variables.$z-index-base;
-      }
-    }
   }
 
   &__actions {
@@ -233,7 +220,7 @@
     }
   }
 
-  &__more__button {
+  &__more .ContextMenu__button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -464,7 +451,7 @@
     align-items: center;
     display: flex;
 
-    &__spinner__container {
+    &.module-spinner__container {
       margin-inline: 0 12px;
     }
   }

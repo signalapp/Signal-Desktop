@@ -15,7 +15,8 @@ export type Props = {
   i18n: LocalizerType;
   isOutlineOnlyBubble?: boolean;
   isRelativeTime?: boolean;
-  module?: string;
+  /** @deprecated */
+  className?: string;
   timestamp: number;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
@@ -27,22 +28,23 @@ export function MessageTimestamp({
   i18n,
   isRelativeTime,
   isOutlineOnlyBubble,
-  module,
+  className,
   timestamp,
   withImageNoCaption,
   withSticker,
 }: Readonly<Props>): ReactElement {
   const now = useNowThatUpdatesEveryMinute();
-  const moduleName = module || 'module-timestamp';
 
   return (
     <Time
       className={classNames(
-        moduleName,
-        direction ? `${moduleName}--${direction}` : null,
-        withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
-        withSticker ? `${moduleName}--with-sticker` : null,
-        isOutlineOnlyBubble ? `${moduleName}--outline-only-bubble` : null
+        'module-timestamp',
+        direction === 'incoming' && 'module-timestamp--incoming',
+        direction === 'outgoing' && 'module-timestamp--outgoing',
+        withImageNoCaption ? 'module-timestamp--with-image-no-caption' : null,
+        withSticker ? 'module-timestamp--with-sticker' : null,
+        isOutlineOnlyBubble ? 'module-timestamp--outline-only-bubble' : null,
+        className
       )}
       timestamp={timestamp}
     >

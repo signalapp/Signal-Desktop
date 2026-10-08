@@ -11,7 +11,7 @@
   overflow: auto;
 }
 
-.CallingRaisedHandsList__width-container {
+.CallingRaisedHandsList__modal .module-modal-host__width-container {
   display: flex;
   flex-direction: column;
   width: 320px;
@@ -24,23 +24,15 @@
   overflow: hidden;
 }
 
-.CallingRaisedHandsList__overlay {
+.CallingRaisedHandsList__modal .module-modal-host__overlay {
   background: transparent;
 }
 
-.CallingRaisedHandsList__overlay-container {
+.CallingRaisedHandsList__modal .module-modal-host__overlay-container {
   flex-direction: column;
   padding: 0;
   justify-content: flex-end;
   align-items: start;
-}
-
-.CallingRaisedHandsList__Overlay {
-  align-items: start;
-}
-
-.CallingRaisedHandsList__TitleHint {
-  font-weight: normal;
 }
 
 .CallingRaisedHandsList .module-calling-participants-list__contact:last-child {

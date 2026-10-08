@@ -115,11 +115,6 @@
   padding-top: 80px;
 }
 
-.CallsList__Header {
-  display: flex;
-  gap: 0px;
-}
-
 .CallsList__FilterHeader {
   display: flex;
   align-items: center;
@@ -215,42 +210,6 @@
   padding-inline: 16px;
   text-align: center;
   text-wrap: balance;
-}
-
-.CallsList__ItemIcon {
-  display: block;
-  width: 20px;
-  height: 20px;
-}
-
-.CallsList__ItemIcon--Phone {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/phone/phone.svg',
-      variables.$color-black
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/phone/phone.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
-.CallsList__ItemIcon--Video {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/video/video.svg',
-      variables.$color-black
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/video/video.svg',
-      variables.$color-gray-15
-    );
-  }
 }
 
 .CallsList__LoadingAvatar,
@@ -393,13 +352,6 @@
   }
   @include mixins.dark-theme {
     opacity: 0.5;
-  }
-}
-
-.CallsNewCall__ItemActionButtonTooltip {
-  @include mixins.tooltip;
-  & {
-    max-width: 212px;
   }
 }
 

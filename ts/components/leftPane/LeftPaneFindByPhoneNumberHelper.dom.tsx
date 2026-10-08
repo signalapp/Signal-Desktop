@@ -128,7 +128,7 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
           hasSearchIcon={false}
           disabled={this.#isFetching()}
           i18n={i18n}
-          moduleClassName="LeftPaneFindByPhoneNumberHelper__search-input"
+          className="LeftPaneFindByPhoneNumberHelper__search-input"
           onChange={onChangeComposeSearchTerm}
           placeholder={placeholder}
           ref={focusRef}

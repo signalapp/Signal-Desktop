@@ -5,13 +5,6 @@ import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
 
-const CLASS_NAME = 'module-TimelineWarning';
-const ICON_CONTAINER_CLASS_NAME = `${CLASS_NAME}__icon-container`;
-const GENERIC_ICON_CLASS_NAME = `${CLASS_NAME}__generic-icon`;
-const TEXT_CLASS_NAME = `${CLASS_NAME}__text`;
-const LINK_CLASS_NAME = `${TEXT_CLASS_NAME}__link`;
-const CLOSE_BUTTON_CLASS_NAME = `${CLASS_NAME}__close-button`;
-
 type TimelineWarningProps = Readonly<{
   customInfo?: ReactNode;
   children: ReactNode;
@@ -22,17 +15,17 @@ type TimelineWarningProps = Readonly<{
 export function TimelineWarning(props: TimelineWarningProps): JSX.Element {
   const { i18n } = props;
   return (
-    <div className={CLASS_NAME}>
+    <div className="module-TimelineWarning">
       {props.customInfo}
       {props.customInfo == null && (
-        <div className={ICON_CONTAINER_CLASS_NAME}>
-          <div className={GENERIC_ICON_CLASS_NAME} />
+        <div className="module-TimelineWarning__icon-container">
+          <div className="module-TimelineWarning__generic-icon" />
         </div>
       )}
-      <div className={TEXT_CLASS_NAME}>{props.children}</div>
+      <div className="module-TimelineWarning__text">{props.children}</div>
       <button
         aria-label={i18n('icu:close')}
-        className={CLOSE_BUTTON_CLASS_NAME}
+        className="module-TimelineWarning__close-button"
         onClick={props.onClose}
         type="button"
       />
@@ -49,7 +42,11 @@ export function TimelineWarningLink(
   props: TimelineWarningLinkProps
 ): JSX.Element {
   return (
-    <button className={LINK_CLASS_NAME} onClick={props.onClick} type="button">
+    <button
+      className="module-TimelineWarning__text__link"
+      onClick={props.onClick}
+      type="button"
+    >
       {props.children}
     </button>
   );
@@ -61,6 +58,6 @@ export function TimelineWarningCustomInfo(
   props: TimelineWarningCustomInfoProps
 ): JSX.Element {
   return (
-    <div className="module-TimelineWarning__custom_info">{props.children}</div>
+    <div className="module-TimelineWarning__custom-info">{props.children}</div>
   );
 }

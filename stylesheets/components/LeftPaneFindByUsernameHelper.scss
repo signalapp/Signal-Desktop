@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .LeftPaneFindByUsernameHelper {
-  &__search-input__input.module-SearchInput__input {
+  &__search-input .module-SearchInput__input {
     margin-block-start: 8px;
     padding-inline: 12px;
   }

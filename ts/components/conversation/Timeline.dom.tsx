@@ -58,6 +58,12 @@ const LOAD_NEWER_THRESHOLD = 5;
 
 const DELAY_BEFORE_MARKING_READ_AFTER_FOCUS = SECOND;
 
+const WIDTH_BREAKPOINTS: Record<WidthBreakpoint, string> = {
+  [WidthBreakpoint.Narrow]: 'module-timeline--width-narrow',
+  [WidthBreakpoint.Medium]: 'module-timeline--width-medium',
+  [WidthBreakpoint.Wide]: 'module-timeline--width-wide',
+};
+
 export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
@@ -1287,7 +1293,7 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
               className={classNames(
                 'module-timeline',
                 isGroupV1AndDisabled ? 'module-timeline--disabled' : null,
-                `module-timeline--width-${widthBreakpoint}`
+                WIDTH_BREAKPOINTS[widthBreakpoint]
               )}
               role="presentation"
               tabIndex={-1}

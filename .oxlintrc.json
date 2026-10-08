@@ -43,6 +43,8 @@
     // [local] (🛠️ autofix)
     "signal-desktop/enforce-license-comments": "error",
     // [local]
+    "signal-desktop/enforce-static-class-names": "error",
+    // [local]
     "signal-desktop/enforce-tw": "error",
     // [local]
     "signal-desktop/enforce-type-alias-readonlydeep": "off", // [reason: Only enabled in specific files]

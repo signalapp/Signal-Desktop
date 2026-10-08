@@ -7,162 +7,32 @@
 @use '../variables';
 
 .module-quote {
-  &__container {
-    .module-message & {
-      margin-inline: -4px;
-      margin-top: 0px;
-      margin-bottom: 8px;
-    }
-  }
+  overflow: clip;
+  border-radius: 8px 8px 4px 4px;
 
+  .module-message & {
+    margin-inline: -4px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+  }
+}
+
+.module-quote__button {
   @include mixins.button-reset;
   & {
     width: 100%;
-
     position: relative;
-    border-radius: 8px 8px 4px 4px;
-
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    overflow: hidden;
   }
 
   &:focus-visible {
     @include mixins.axo-focus-ring;
   }
 
-  &__reaction-emoji {
-    bottom: 5px;
-    position: absolute;
-    inset-inline-end: 25px;
-    z-index: variables.$z-index-base;
-
-    img.emoji {
-      height: 24px;
-      width: 24px;
-    }
-
-    &--story-unavailable {
-      align-items: flex-end;
-      display: flex;
-      margin-inline-start: 32px;
-      padding-bottom: 7px;
-    }
-  }
-}
-
-.module-quote--no-click {
-  cursor: auto;
-}
-
-.module-quote--with-reference-warning {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
-.module-quote--outgoing {
-  background-color: variables.$color-steel;
-
-  .module-quote__primary {
-    border-inline-start-color: variables.$color-steel;
-  }
-
-  // To preserve contrast
-  &:focus-visible {
-    @include mixins.axo-focus-ring;
-  }
-}
-
-@each $color, $value in variables.$conversation-colors {
-  .module-quote--incoming-#{$color} {
-    background-color: color.scale($value, $lightness: 60%);
-
-    .module-quote__primary {
-      border-inline-start-color: $value;
-    }
-
-    @include mixins.dark-theme {
-      background-color: color.scale($value, $lightness: -40%);
-    }
-  }
-
-  .module-quote--outgoing-#{$color} {
-    background-color: color.scale($value, $lightness: 60%);
-
-    .module-quote__primary {
-      border-inline-start-color: variables.$color-white;
-    }
-
-    @include mixins.dark-theme {
-      background-color: color.scale($value, $lightness: -40%);
-      border-inline-start-color: variables.$color-white;
-    }
-  }
-
-  .module-quote--compose-#{$color} {
-    background-color: color.scale($value, $lightness: 60%);
-
-    .module-quote__primary {
-      border-inline-start-color: $value;
-    }
-
-    @include mixins.dark-theme {
-      background-color: color.scale($value, $lightness: -40%);
-      .module-quote__primary {
-        border-inline-start-color: variables.$color-white;
-      }
-    }
-  }
-}
-
-.module-quote--compose-custom,
-.module-quote--incoming-custom,
-.module-quote--outgoing-custom {
-  background-attachment: fixed;
-}
-
-@each $color, $value in variables.$conversation-colors-gradient {
-  .module-quote--compose-#{$color},
-  .module-quote--incoming-#{$color} {
-    .module-quote__primary,
-    &.module-quote__reference-warning {
-      border-inline-start-color: map.get($value, 'start');
-    }
-  }
-  .module-quote--compose-#{$color},
-  .module-quote--incoming-#{$color},
-  .module-quote--outgoing-#{$color} {
-    background-attachment: fixed;
-    @include mixins.light-theme {
-      background-image:
-        linear-gradient(
-          map.get($value, 'deg'),
-          color.scale(map.get($value, 'start'), $lightness: 60%),
-          color.scale(map.get($value, 'end'), $lightness: 60%)
-        ),
-        linear-gradient(red, blue);
-    }
-    @include mixins.dark-theme {
-      background-image: linear-gradient(
-        map.get($value, 'deg'),
-        color.scale(map.get($value, 'start'), $lightness: -40%),
-        color.scale(map.get($value, 'end'), $lightness: -40%)
-      );
-    }
-  }
-  .module-quote--outgoing-#{$color} {
-    .module-quote__primary,
-    &.module-quote__reference-warning {
-      border-inline-start-color: variables.$color-white;
-    }
-  }
-}
-
-.module-quote--outgoing-custom {
-  .module-quote__primary,
-  &.module-quote__reference-warning {
-    border-inline-start-color: variables.$color-white;
+  .module-quote--no-click & {
+    cursor: auto;
   }
 }
 
@@ -174,11 +44,66 @@
 
   // To leave room for image thumbnail
   min-height: 54px;
-  border-style: solid;
-  border-width: 0 0 0 4px;
+  border-inline-start: 4px solid;
 
   max-width: 100%;
   min-width: 0;
+}
+
+.module-quote__reaction-emoji {
+  bottom: 5px;
+  position: absolute;
+  inset-inline-end: 25px;
+  z-index: variables.$z-index-base;
+
+  img.emoji {
+    height: 24px;
+    width: 24px;
+  }
+
+  &--story-unavailable {
+    align-items: flex-end;
+    display: flex;
+    margin-inline-start: 32px;
+    padding-bottom: 7px;
+  }
+}
+
+.module-quote__primary,
+.module-quote__reference-warning {
+  .module-quote--incoming &,
+  .module-quote--compose & {
+    border-inline-start-color: var(--module-quote-color-border);
+  }
+
+  .module-quote--outgoing & {
+    border-inline-start-color: variables.$color-white;
+  }
+}
+
+@function css-lighten($color, $amount) {
+  @return hsl(from #{$color} h s calc(l + (100 - l) * #{$amount}));
+}
+
+@function css-darken($color, $amount) {
+  @return hsl(from #{$color} h s calc(l * (1 - #{$amount})));
+}
+
+.module-quote--color-solid {
+  $solid: var(--module-quote-color-solid);
+  background: light-dark(css-lighten($solid, 0.6), css-darken($solid, 0.4));
+}
+
+.module-quote--color-gradient {
+  $deg: var(--module-quote-color-gradient-deg);
+  $start: var(--module-quote-color-gradient-start);
+  $end: var(--module-quote-color-gradient-end);
+
+  background-attachment: fixed;
+  background-image: light-dark(
+    linear-gradient($deg, css-lighten($start, 0.6), css-lighten($end, 0.6)),
+    linear-gradient($deg, css-darken($start, 0.4), css-darken($end, 0.4))
+  );
 }
 
 .module-quote__primary__author {
@@ -199,11 +124,11 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
-}
 
-.module-quote__primary__author--incoming {
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
+  .module-quote--incoming & {
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
 }
 
@@ -235,13 +160,13 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-}
 
-.module-quote__primary__text--incoming {
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
-    a {
+  .module-quote--incoming & {
+    @include mixins.dark-theme {
       color: variables.$color-gray-05;
+      a {
+        color: variables.$color-gray-05;
+      }
     }
   }
 }
@@ -255,16 +180,12 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
-}
 
-.module-quote__primary__type-label--incoming {
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
+  .module-quote--incoming & {
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
-}
-
-.module-quote__primary__filename-label {
-  @include mixins.font-body-2;
 }
 
 .module-quote__close-container {
@@ -345,12 +266,6 @@
   height: 20px;
 }
 
-.module-quote__icon-container__icon--file {
-  @include mixins.color-svg(
-    '../images/icons/v3/file/file.svg',
-    variables.$color-ultramarine
-  );
-}
 .module-quote__icon-container__icon--image {
   @include mixins.color-svg(
     '../images/icons/v3/photo/photo-square.svg',
@@ -409,11 +324,11 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
-}
 
-.module-quote__generic-file__text--incoming {
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
+  .module-quote--incoming & {
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
 }
 
@@ -423,11 +338,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-inline-start-style: solid;
-  border-left-width: 4px;
   padding-inline: 8px;
 }
 
@@ -447,20 +357,20 @@
       variables.$color-gray-05
     );
   }
-}
 
-.module-quote__reference-warning__icon--incoming {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/link/link-slash.svg',
-      variables.$color-gray-90
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/link/link-slash.svg',
-      variables.$color-gray-05
-    );
+  .module-quote--incoming & {
+    @include mixins.light-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link-slash.svg',
+        variables.$color-gray-90
+      );
+    }
+    @include mixins.dark-theme {
+      @include mixins.color-svg(
+        '../images/icons/v3/link/link-slash.svg',
+        variables.$color-gray-05
+      );
+    }
   }
 }
 
@@ -475,16 +385,16 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
-}
 
-.module-quote__reference-warning__text--incoming {
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
+  .module-quote--incoming & {
+    @include mixins.dark-theme {
+      color: variables.$color-gray-05;
+    }
   }
 }
 
 .module-message {
-  .module-message__author + .module-quote__container {
+  .module-message__author + .module-quote {
     margin-top: 3px;
     .module-quote {
       border-radius: 4px 4px 4px 4px;

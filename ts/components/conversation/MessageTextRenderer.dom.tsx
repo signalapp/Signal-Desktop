@@ -38,6 +38,22 @@ export enum RenderLocation {
   Timeline = 'Timeline',
 }
 
+const RenderLocationClassNames: Record<RenderLocation, string> = {
+  [RenderLocation.ConversationList]:
+    'MessageTextRenderer__formatting--spoiler-ConversationList',
+  [RenderLocation.Quote]: 'MessageTextRenderer__formatting--spoiler-Quote',
+  [RenderLocation.MediaEditor]:
+    'MessageTextRenderer__formatting--spoiler-MediaEditor',
+  [RenderLocation.PinnedMessagesBar]:
+    'MessageTextRenderer__formatting--spoiler-PinnedMessagesBar',
+  [RenderLocation.SearchResult]:
+    'MessageTextRenderer__formatting--spoiler-SearchResult',
+  [RenderLocation.StoryViewer]:
+    'MessageTextRenderer__formatting--spoiler-StoryViewer',
+  [RenderLocation.Timeline]:
+    'MessageTextRenderer__formatting--spoiler-Timeline',
+};
+
 type Props = {
   bodyRanges: BodyRangesForDisplayType;
   direction: 'incoming' | 'outgoing' | undefined;
@@ -186,10 +202,11 @@ function renderNode({
         aria-expanded={false}
         className={classNames(
           'MessageTextRenderer__formatting--spoiler',
-          `MessageTextRenderer__formatting--spoiler-${renderLocation}`,
-          direction
-            ? `MessageTextRenderer__formatting--spoiler-${renderLocation}--${direction}`
-            : null,
+          RenderLocationClassNames[renderLocation],
+          direction === 'incoming' &&
+            'MessageTextRenderer__formatting--spoiler-incoming',
+          direction === 'outgoing' &&
+            'MessageTextRenderer__formatting--spoiler-outgoing',
           disableLinks
             ? 'MessageTextRenderer__formatting--spoiler--noninteractive'
             : null

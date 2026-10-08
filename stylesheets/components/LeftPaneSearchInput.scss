@@ -5,7 +5,7 @@
 @use '../variables';
 
 .LeftPaneSearchInput {
-  &__input--with-children.module-SearchInput__input--with-children {
+  .module-SearchInput__input--with-children {
     padding-inline-start: 50px;
   }
 
@@ -67,7 +67,7 @@
   }
 
   .module-left-pane--width-narrow & {
-    &__container {
+    &.module-SearchInput__container {
       display: none;
     }
   }

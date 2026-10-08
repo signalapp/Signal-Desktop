@@ -5,6 +5,21 @@ import lodash from 'lodash';
 
 const { padStart } = lodash;
 
+export type TimerBucket =
+  | '60'
+  | '55'
+  | '50'
+  | '45'
+  | '40'
+  | '35'
+  | '30'
+  | '25'
+  | '20'
+  | '15'
+  | '10'
+  | '05'
+  | '00';
+
 export function getIncrement(length: number): number {
   if (length < 0) {
     return 1000;
@@ -16,7 +31,7 @@ export function getIncrement(length: number): number {
 export function getTimerBucket(
   expiration: number | undefined,
   length: number
-): string {
+): TimerBucket {
   if (!expiration) {
     return '60';
   }
@@ -31,5 +46,5 @@ export function getTimerBucket(
 
   const bucket = Math.round((delta / length) * 12);
 
-  return padStart(String(bucket * 5), 2, '0');
+  return padStart(String(bucket * 5), 2, '0') as TimerBucket;
 }

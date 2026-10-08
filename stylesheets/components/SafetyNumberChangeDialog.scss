@@ -29,41 +29,6 @@
     }
   }
 
-  &__title {
-    @include mixins.font-body-1-bold;
-
-    text-align: center;
-    margin-top: 8px;
-
-    @include mixins.light-theme {
-      color: variables.$color-gray-90;
-    }
-    @include mixins.dark-theme {
-      color: variables.$color-white;
-    }
-  }
-
-  &__message {
-    @include mixins.font-body-2;
-
-    text-align: center;
-    margin-top: 8px;
-    margin-bottom: 24px;
-    padding-inline: 4px;
-
-    @include mixins.light-theme {
-      color: variables.$color-gray-60;
-    }
-
-    @include mixins.dark-theme {
-      color: variables.$color-gray-25;
-    }
-
-    &--narrow {
-      padding-inline: 38px;
-    }
-  }
-
   &__contacts {
     list-style-type: none;
     padding: 0px;
@@ -130,21 +95,17 @@
       }
     }
 
-    &__chevron__option {
+    &__chevron__popper .ContextMenu__option,
+    &__chevron__popper.ContextMenu__popper--single-item .ContextMenu__option {
       padding-block: 10px;
       padding-inline: 15px;
-
-      .ContextMenu__popper--single-item & {
-        padding-block: 10px;
-        padding-inline: 15px;
-      }
-
-      &--container {
-        align-items: center;
-      }
     }
 
-    &__chevron__button {
+    &__chevron__popper .ContextMenu__option--container {
+      align-items: center;
+    }
+
+    &__chevron .ContextMenu__button {
       @include mixins.button-reset;
 
       & {

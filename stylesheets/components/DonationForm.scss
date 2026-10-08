@@ -178,18 +178,6 @@ a.DonationFormHelpFooter__ContactSupportLink {
     variables.$color-black-alpha-50,
     variables.$color-white-alpha-50
   );
-
-  &__read-more {
-    @include mixins.button-reset;
-
-    & {
-      color: variables.$color-ultramarine;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
 .DonationCardForm_Field {

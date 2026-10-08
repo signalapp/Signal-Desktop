@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MouseEvent, ReactNode, JSX } from 'react';
+import type { MouseEvent, ReactNode, JSX, CSSProperties } from 'react';
 import { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { CustomColorEditor } from './CustomColorEditor.dom.tsx';
@@ -14,7 +14,7 @@ import { ConversationColors } from '../types/Colors.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.std.ts';
 import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -23,6 +23,7 @@ import { AxoContainer } from '../axo/AxoContainer.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 type CustomColorDataType = {
   id?: string;
@@ -188,16 +189,21 @@ export function ChatColorPicker({
                     role="option"
                     aria-label={color}
                     aria-selected={color === selectedColor}
-                    className={classNames(
-                      `ChatColorPicker__bubble ChatColorPicker__bubble--${color}`,
-                      {
-                        'ChatColorPicker__bubble--selected':
-                          color === selectedColor,
-                      }
-                    )}
+                    className={classNames('ChatColorPicker__bubble', {
+                      'ChatColorPicker__bubble--selected':
+                        color === selectedColor,
+                    })}
                     key={color}
                     onClick={() => onSelectColor(color)}
                     ref={i === 0 ? focusRef : undefined}
+                    style={
+                      {
+                        '--chat-color-picker-bg':
+                          AxoTokens.ChatBubble.anyColorNameToCssBackground(
+                            color
+                          ),
+                      } as CSSProperties
+                    }
                   />
                 ))}
                 {Object.entries(customColors).map(([colorId, colorValues]) => {
@@ -432,7 +438,7 @@ function CustomColorEditorWrapper({
       modalName="ChatColorPicker"
       hasXButton
       i18n={i18n}
-      moduleClassName="ChatColorPicker__modal"
+      className="ChatColorPicker__modal"
       noMouseClose
       onClose={onClose}
       title={i18n('icu:CustomColorEditor__title')}

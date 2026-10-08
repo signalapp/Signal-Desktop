@@ -15,7 +15,7 @@ export default {
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
-  color: overrideProps.color || '',
+  color: overrideProps.color,
 });
 
 export function Default(): JSX.Element {

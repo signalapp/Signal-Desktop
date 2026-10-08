@@ -7,7 +7,6 @@ import classNames from 'classnames';
 
 import * as grapheme from '../util/grapheme.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { useRefMerger } from '../hooks/useRefMerger.std.ts';
 import { byteLength } from '../Bytes.std.ts';
 import { truncateString } from '../util/truncateString.std.ts';
@@ -26,7 +25,8 @@ export type PropsType = {
   id?: string;
   maxByteCount?: number;
   maxLengthCount?: number;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onChange: (value: string) => unknown;
   onBlur?: () => unknown;
   onFocus?: () => unknown;
@@ -77,7 +77,7 @@ export const Input = forwardRef<
     id,
     maxByteCount = 0,
     maxLengthCount = 0,
-    moduleClassName,
+    className,
     onChange,
     onBlur,
     onFocus,
@@ -230,17 +230,16 @@ export const Input = forwardRef<
   }, [maybeSetLarge]);
 
   const lengthCount = maxLengthCount ? countLength(value) : -1;
-  const getClassName = getClassNamesFor('Input', moduleClassName);
 
   const isTextarea = expandable || forceTextarea;
 
   const inputProps = {
     autoFocus,
     className: classNames(
-      getClassName('__input'),
-      icon != null && getClassName('__input--with-icon'),
-      isLarge && getClassName('__input--large'),
-      isTextarea && getClassName('__input--textarea')
+      'Input__input',
+      icon != null && 'Input__input--with-icon',
+      isLarge && 'Input__input--large',
+      isTextarea && 'Input__input--textarea'
     ),
     disabled: Boolean(disabled),
     id,
@@ -268,7 +267,7 @@ export const Input = forwardRef<
     hasClearButton && (shouldShowClearButton || value) ? (
       <button
         tabIndex={-1}
-        className={getClassName('__clear-icon')}
+        className="Input__clear-icon"
         onClick={() => onChange('')}
         type="button"
         aria-label={i18n('icu:cancel')}
@@ -277,9 +276,8 @@ export const Input = forwardRef<
 
   const lengthCountElement = lengthCount >= whenToShowRemainingCount && (
     <div
-      className={classNames(getClassName('__remaining-count'), {
-        [getClassName('__remaining-count--warn')]:
-          lengthCount >= whenToWarnRemainingCount,
+      className={classNames('Input__remaining-count', {
+        'Input__remaining-count--warn': lengthCount >= whenToWarnRemainingCount,
       })}
     >
       {maxLengthCount - lengthCount}
@@ -289,12 +287,13 @@ export const Input = forwardRef<
   return (
     <div
       className={classNames(
-        getClassName('__container'),
-        expandable && getClassName('__container--expandable'),
-        disabled && getClassName('__container--disabled')
+        'Input__container',
+        expandable && 'Input__container--expandable',
+        disabled && 'Input__container--disabled',
+        className
       )}
     >
-      {icon ? <div className={getClassName('__icon')}>{icon}</div> : null}
+      {icon ? <div className="Input__icon">{icon}</div> : null}
       {isTextarea || forceTextarea ? (
         <textarea dir="auto" rows={1} {...inputProps} />
       ) : (
@@ -302,16 +301,16 @@ export const Input = forwardRef<
       )}
       {isLarge ? (
         <>
-          <div className={getClassName('__controls')}>
+          <div className="Input__controls">
             {clearButtonElement}
             {children}
           </div>
-          <div className={getClassName('__remaining-count--large')}>
+          <div className="Input__remaining-count--large">
             {lengthCountElement}
           </div>
         </>
       ) : (
-        <div className={getClassName('__controls')}>
+        <div className="Input__controls">
           {lengthCountElement}
           {clearButtonElement}
           {children}

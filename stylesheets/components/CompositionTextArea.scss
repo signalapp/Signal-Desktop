@@ -8,7 +8,7 @@
   position: relative;
 
   &__input {
-    &__input {
+    &.module-composition-input__input {
       background: inherit;
       border: none;
       border-radius: 0;
@@ -19,7 +19,7 @@
       }
     }
 
-    &__input__scroller {
+    .module-composition-input__input__scroller {
       max-height: 300px;
       min-height: 100px;
       padding: 16px;

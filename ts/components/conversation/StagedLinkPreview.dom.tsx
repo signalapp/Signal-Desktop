@@ -11,7 +11,6 @@ import { LinkPreviewDate } from './LinkPreviewDate.dom.tsx';
 
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 import { isImageAttachment } from '../../util/Attachment.std.ts';
 import { isCallLink } from '../../types/LinkPreview.std.ts';
 import { Avatar } from '../Avatar.dom.tsx';
@@ -25,7 +24,8 @@ const { unescape } = lodash;
 export type Props = LinkPreviewForUIType & {
   i18n: LocalizerType;
   imageSize?: number;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onClose?: () => void;
 };
 
@@ -36,16 +36,11 @@ export function StagedLinkPreview(props: Props): JSX.Element {
     domain,
     i18n,
     isStickerPack,
-    moduleClassName,
+    className,
     onClose,
     title,
   } = props;
   const isLoaded = Boolean(domain);
-
-  const getClassName = getClassNamesFor(
-    'module-staged-link-preview',
-    moduleClassName
-  );
 
   let maybeContent: JSX.Element | undefined;
   if (isLoaded) {
@@ -72,25 +67,28 @@ export function StagedLinkPreview(props: Props): JSX.Element {
       maybeContent = (
         <div
           className={classNames(
-            getClassName('__content'),
-            getClassName('__content--only-url')
+            'module-staged-link-preview__content',
+            'module-staged-link-preview__content--only-url'
           )}
         >
-          <div className={getClassName('__title')}>{domain}</div>
+          <div className="module-staged-link-preview__title">{domain}</div>
         </div>
       );
     } else {
       maybeContent = (
-        <div className={getClassName('__content')}>
-          <div className={getClassName('__title')}>{title}</div>
+        <div className="module-staged-link-preview__content">
+          <div className="module-staged-link-preview__title">{title}</div>
           {description && (
-            <div className={getClassName('__description')}>
+            <div className="module-staged-link-preview__description">
               {unescape(description)}
             </div>
           )}
-          <div className={getClassName('__footer')}>
-            <div className={getClassName('__location')}>{domain}</div>
-            <LinkPreviewDate date={date} className={getClassName('__date')} />
+          <div className="module-staged-link-preview__footer">
+            <div className="module-staged-link-preview__location">{domain}</div>
+            <LinkPreviewDate
+              date={date}
+              className="module-staged-link-preview__date"
+            />
           </div>
         </div>
       );
@@ -125,8 +123,9 @@ export function StagedLinkPreview(props: Props): JSX.Element {
     <div
       dir="auto"
       className={classNames(
-        getClassName(''),
-        !isLoaded ? getClassName('--is-loading') : null
+        'module-staged-link-preview',
+        !isLoaded ? 'module-staged-link-preview--is-loading' : null,
+        className
       )}
     >
       <Thumbnail {...props} />
@@ -134,7 +133,7 @@ export function StagedLinkPreview(props: Props): JSX.Element {
       {onClose && (
         <button
           aria-label={i18n('icu:close')}
-          className={getClassName('__close-button')}
+          className="module-staged-link-preview__close-button"
           onClick={onClose}
           type="button"
         />
@@ -149,29 +148,17 @@ function Thumbnail({
   image,
   imageSize,
   isStickerPack,
-  moduleClassName,
   title,
   url,
 }: Pick<
   Props,
-  | 'domain'
-  | 'i18n'
-  | 'image'
-  | 'imageSize'
-  | 'isStickerPack'
-  | 'moduleClassName'
-  | 'title'
-  | 'url'
+  'domain' | 'i18n' | 'image' | 'imageSize' | 'isStickerPack' | 'title' | 'url'
 >): JSX.Element {
   const isImage = isImageAttachment(image);
-  const getClassName = getClassNamesFor(
-    'module-staged-link-preview',
-    moduleClassName
-  );
 
   if (!domain) {
     return (
-      <div className={getClassName('__loading')}>
+      <div className="module-staged-link-preview__loading">
         {i18n('icu:loadingPreview')}
       </div>
     );
@@ -179,7 +166,7 @@ function Thumbnail({
 
   if (isCallLink(url)) {
     return (
-      <div className={getClassName('__icon-container-call-link')}>
+      <div className="module-staged-link-preview__icon-container-call-link">
         <Avatar
           badge={undefined}
           color={getColorForCallLink(getKeyFromCallLink(url))}
@@ -194,7 +181,7 @@ function Thumbnail({
 
   if (image && isImage) {
     return (
-      <div className={getClassName('__icon-container')}>
+      <div className="module-staged-link-preview__icon-container">
         <Image
           alt={i18n('icu:stagedPreviewThumbnail', {
             domain,
@@ -213,5 +200,5 @@ function Thumbnail({
     );
   }
 
-  return <div className={getClassName('__no-image')} />;
+  return <div className="module-staged-link-preview__no-image" />;
 }

@@ -7,7 +7,7 @@
 .OutgoingGiftBadgeModal {
   text-align: center;
 
-  &__container {
+  &__modal .module-modal-host__width-container {
     width: 420px;
     max-width: 420px;
   }

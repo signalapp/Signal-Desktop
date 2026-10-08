@@ -632,7 +632,7 @@ IsStoryReply.args = {
   text: 'Wow!',
   authorTitle: 'Amanda',
   isStoryReply: true,
-  moduleClassName: 'StoryReplyQuote',
+  className: 'StoryReplyQuote',
   onClose: undefined,
   rawAttachment: {
     contentType: VIDEO_MP4,
@@ -645,7 +645,7 @@ export const IsStoryReplyEmoji = Template.bind({});
 IsStoryReplyEmoji.args = {
   authorTitle: getDefaultConversation().firstName,
   isStoryReply: true,
-  moduleClassName: 'StoryReplyQuote',
+  className: 'StoryReplyQuote',
   onClose: undefined,
   rawAttachment: {
     contentType: IMAGE_PNG,

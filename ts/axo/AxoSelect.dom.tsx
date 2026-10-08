@@ -345,7 +345,7 @@ export namespace AxoSelect {
       <Select.Portal>
         <AxoTheme.Inherit>
           <Select.Content
-            className={AxoBaseMenu.selectContentStyles}
+            className={AxoBaseMenu.selectContentClassName}
             position={positionConfig.position}
             alignOffset={positionConfig.alignOffset}
             collisionPadding={positionConfig.collisionPadding}
@@ -359,9 +359,9 @@ export namespace AxoSelect {
               <AxoSymbol.Icon symbol="chevron-up" size={14} label={null} />
             </Select.ScrollUpButton>
             <Select.Viewport
-              className={AxoBaseMenu.selectContentViewportStyles}
+              className={AxoBaseMenu.selectContentViewportClassName}
             >
-              <div className={AxoBaseMenu.menuGroupStyles}>
+              <div className={AxoBaseMenu.menuGroupClassName}>
                 {props.children}
               </div>
             </Select.Viewport>
@@ -422,7 +422,7 @@ export namespace AxoSelect {
         value={props.value}
         disabled={props.disabled}
         textValue={props.textValue}
-        className={AxoBaseMenu.selectItemStyles}
+        className={AxoBaseMenu.selectItemClassName}
       >
         <AxoBaseMenu.ItemLeadingSlot>
           <AxoBaseMenu.ItemCheckPlaceholder>
@@ -515,7 +515,7 @@ export namespace AxoSelect {
    */
   export const Group: FC<GroupProps> = memo(props => {
     return (
-      <Select.Group className={AxoBaseMenu.selectGroupStyles}>
+      <Select.Group className={AxoBaseMenu.selectGroupClassName}>
         {props.children}
       </Select.Group>
     );
@@ -540,7 +540,7 @@ export namespace AxoSelect {
    */
   export const Label: FC<LabelProps> = memo(props => {
     return (
-      <Select.Label className={AxoBaseMenu.selectLabelStyles}>
+      <Select.Label className={AxoBaseMenu.selectLabelClassName}>
         <AxoBaseMenu.ItemContentSlot>
           <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
         </AxoBaseMenu.ItemContentSlot>
@@ -559,7 +559,9 @@ export namespace AxoSelect {
    * Visually separate items in the select.
    */
   export const Separator: FC = memo(() => {
-    return <Select.Separator className={AxoBaseMenu.selectSeperatorStyles} />;
+    return (
+      <Select.Separator className={AxoBaseMenu.selectSeperatorClassName} />
+    );
   });
 
   Separator.displayName = 'AxoSelect.Separator';

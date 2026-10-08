@@ -371,12 +371,13 @@ function SectionButtonWithMenu({
         i18n={i18n}
         menuOptions={[
           {
-            icon: 'module-SafetyNumberChangeDialog__menu-icon--delete',
+            iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--delete',
             label: i18n('icu:safetyNumberChangeDialog__remove-all'),
             onClick: () => setIsConfirming(true),
           },
         ]}
-        moduleClassName="module-SafetyNumberChangeDialog__row__chevron"
+        className="module-SafetyNumberChangeDialog__row__chevron"
+        popperClassName="module-SafetyNumberChangeDialog__row__chevron__popper"
         theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
       />
       <AxoConfirmDialog.Root
@@ -519,17 +520,18 @@ function RowButtonWithMenu({
       i18n={i18n}
       menuOptions={[
         {
-          icon: 'module-SafetyNumberChangeDialog__menu-icon--verify',
+          iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--verify',
           label: i18n('icu:safetyNumberChangeDialog__verify-number'),
           onClick: verifyContact,
         },
         {
-          icon: 'module-SafetyNumberChangeDialog__menu-icon--delete',
+          iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--delete',
           label: i18n('icu:safetyNumberChangeDialog__remove'),
           onClick: removeFromStory,
         },
       ]}
-      moduleClassName="module-SafetyNumberChangeDialog__row__chevron"
+      className="module-SafetyNumberChangeDialog__row__chevron"
+      popperClassName="module-SafetyNumberChangeDialog__row__chevron__popper"
       theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
     />
   );

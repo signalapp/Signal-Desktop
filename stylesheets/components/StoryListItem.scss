@@ -5,7 +5,8 @@
 @use '../variables';
 
 .StoryListItem {
-  &__button {
+  &__button,
+  .ContextMenu__button {
     @include mixins.button-reset;
     & {
       align-items: center;
@@ -27,8 +28,7 @@
     }
   }
 
-  &--active-opacity,
-  &--active-opacity__button {
+  &--active-opacity {
     &:active {
       opacity: 0.3;
     }

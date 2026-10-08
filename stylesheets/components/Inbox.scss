@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @use '../mixins';
-@use '../variables';
 
 .Inbox {
   display: flex;
@@ -25,16 +24,6 @@
     overflow: hidden;
     position: relative;
     text-align: center;
-  }
-
-  .__conversation {
-    @include mixins.light-theme {
-      background-color: variables.$color-white;
-    }
-
-    @include mixins.dark-theme {
-      background-color: variables.$color-gray-95;
-    }
   }
 }
 

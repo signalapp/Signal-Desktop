@@ -67,7 +67,7 @@
   }
 
   &__spinner {
-    &__arc {
+    .module-spinner__arc {
       background-color: variables.$color-black;
 
       // Needed for specificity
@@ -76,7 +76,7 @@
       }
     }
 
-    &__circle {
+    .module-spinner__circle {
       background-color: variables.$color-accent-yellow;
     }
   }
@@ -236,9 +236,9 @@
     text-align: inherit;
   }
 
-  &,
-  &__tooltip {
-    &--error {
+  & {
+    &--error,
+    &__tooltip--error {
       background-color: $error-background-color;
       color: $error-text-color;
 
@@ -256,7 +256,8 @@
       }
     }
 
-    &--info {
+    &--info,
+    &__tooltip--info {
       width: unset;
       margin-inline: 10px;
       margin-block-end: 6px;
@@ -296,7 +297,8 @@
       }
     }
 
-    &--warning {
+    &--warning,
+    &__tooltip--warning {
       background-color: $warning-background-color;
       color: $warning-text-color;
 

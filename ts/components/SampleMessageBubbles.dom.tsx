@@ -2,9 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties, JSX } from 'react';
+import classNames from 'classnames';
 import type { ConversationColorType } from '../types/Colors.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { formatTime } from '../util/formatTimestamp.dom.ts';
+import { getMessageMetadataStatusIconClassName } from './conversation/MessageMetadata.dom.tsx';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 export type PropsType = {
   backgroundStyle?: CSSProperties;
@@ -33,30 +36,63 @@ function SampleMessage({
   style?: CSSProperties;
 }): JSX.Element {
   return (
-    <div className={`module-message module-message--${direction}`}>
+    <div
+      className={classNames(
+        'module-message',
+        direction === 'incoming' && 'module-message--incoming',
+        direction === 'outgoing' && 'module-message--outgoing'
+      )}
+    >
       <div className="module-message__container-outer">
         <div
-          className={`module-message__container module-message__container--${direction} module-message__container--${direction}-${color}`}
-          style={style}
+          className={classNames(
+            'module-message__container',
+            direction === 'incoming' && 'module-message__container--incoming',
+            direction === 'outgoing' && 'module-message__container--outgoing'
+          )}
+          style={{
+            ...style,
+            ...({
+              '--module-message__container-bg':
+                AxoTokens.ChatBubble.anyColorNameToCssBackground(color),
+            } as CSSProperties),
+          }}
         >
           <div
             dir="auto"
-            className={`module-message__text module-message__text--${direction}`}
+            className={classNames(
+              'module-message__text',
+              direction === 'incoming' && 'module-message__text--incoming',
+              direction === 'outgoing' && 'module-message__text--outgoing'
+            )}
           >
             <span>{text}</span>
           </div>
           <div
-            className={`module-message__metadata module-message__metadata--${direction}`}
+            className={classNames(
+              'module-message__metadata',
+              direction === 'incoming' && 'module-message__metadata--incoming',
+              direction === 'outgoing' && 'module-message__metadata--outgoing'
+            )}
           >
             <span
-              className={`module-message__metadata__date module-message__metadata__date--${direction}`}
+              className={classNames(
+                'module-message__metadata__date',
+                direction === 'incoming' &&
+                  'module-message__metadata__date--incoming',
+                direction === 'outgoing' &&
+                  'module-message__metadata__date--outgoing'
+              )}
             >
               {/* oxlint-disable-next-line react/purity */}
               {formatTime(i18n, Date.now() - timestampDeltaFromNow, Date.now())}
             </span>
             {direction === 'outgoing' && (
               <div
-                className={`module-message__metadata__status-icon module-message__metadata__status-icon--${status}`}
+                className={classNames(
+                  'module-message__metadata__status-icon',
+                  getMessageMetadataStatusIconClassName(status)
+                )}
               />
             )}
           </div>

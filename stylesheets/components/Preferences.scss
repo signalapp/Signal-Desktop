@@ -214,11 +214,6 @@
     flex-shrink: 0;
     position: relative;
 
-    &--backups {
-      border: none;
-      margin-bottom: 16px;
-    }
-
     &--header {
       flex-grow: 1;
       text-align: center;
@@ -247,17 +242,6 @@
     border-bottom: 1px solid var(--axo-color-border-primary);
   }
 
-  &__pnp {
-    padding-inline: 0;
-    width: 100%;
-
-    h3 {
-      @include mixins.font-body-1;
-      font-weight: 400;
-      margin: 0;
-    }
-  }
-
   &__light-icon-label {
     display: flex;
   }
@@ -275,14 +259,7 @@
       width: 100%;
     }
   }
-  &__half-flow {
-    vertical-align: middle;
-    display: inline-block;
-    width: 50%;
-    @container (max-width: 350px) {
-      width: 100%;
-    }
-  }
+
   &__two-thirds-flow {
     vertical-align: middle;
     display: inline-block;
@@ -292,12 +269,6 @@
     }
   }
 
-  &__half-flow--align-right {
-    text-align: end;
-    @container (max-width: 350px) {
-      text-align: start;
-    }
-  }
   &__one-third-flow--align-right {
     text-align: end;
     @container (max-width: 350px) {
@@ -310,19 +281,6 @@
     @container (max-width: 350px) {
       justify-content: flex-start;
     }
-  }
-  &__full-flow {
-    vertical-align: middle;
-    display: inline-block;
-    width: 100%;
-  }
-  &__flow-value,
-  &__flow-description {
-    vertical-align: middle;
-    color: var(--axo-color-label-secondary);
-  }
-  &__device-name-description {
-    padding-top: 8px;
   }
   &__flow-button {
     padding-inline-start: 5px;
@@ -374,17 +332,6 @@
     }
   }
 
-  &__checkbox {
-    padding-block: 10px;
-    padding-inline: 24px;
-  }
-
-  &__option-name {
-    @include mixins.font-body-1;
-    color: var(--axo-color-label-primary);
-  }
-
-  &__checkbox__description,
   &__description {
     @include mixins.font-subtitle;
     color: var(--axo-color-label-secondary);
@@ -396,21 +343,6 @@
     &--medium {
       @include mixins.font-body-2;
     }
-  }
-
-  &__select {
-    width: 100%;
-  }
-
-  &__select-title {
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  &__right-button {
-    display: flex;
-    justify-content: flex-end;
-    min-width: 120px;
   }
 
   &__back-icon {
@@ -465,28 +397,18 @@
   }
 }
 
-.Preferences__LanguageIcon {
-  @include mixins.color-svg(
-    '../images/icons/v3/globe/globe.svg',
-    var(--axo-color-label-secondary)
-  );
-}
-
 .Preferences__LanguageButton {
   @include mixins.button-reset;
   @include mixins.localized-fonts;
 }
 
 .Preferences__LanguageModal {
-  height: 560px;
+  .module-Modal {
+    height: 560px;
+  }
   .module-Modal__body {
     flex-grow: 1;
   }
-}
-
-.Preferences__LanguageModal__Title {
-  @include mixins.font-body-1-bold;
-  margin-inline: 8px;
 }
 
 .Preferences__LanguageModal__NoResults {
@@ -829,13 +751,13 @@
   }
 }
 
-.Preferences--LocalBackupsConfirmKeyModal {
+.Preferences--LocalBackupsConfirmKeyModal .module-Modal {
   padding-block: 36px 20px;
   padding-inline: 32px;
   text-align: center;
 }
 
-.Preferences--LocalBackupsConfirmKeyModal__body {
+.Preferences--LocalBackupsConfirmKeyModal .module-Modal__body {
   padding: 0;
 }
 
@@ -1017,32 +939,8 @@
   }
 }
 
-.Preferences__EditChatFolderPage__SelectChatsDialog__width-container {
-  // Override .module-modal-host__width-container
-  &.module-modal-host__width-container {
-    max-width: 360px;
-  }
-}
-
-.Preferences__EditChatFolderPage__SelectChatsDialog {
-  height: 60vw;
-}
-
-.Preferences__EditChatFolderPage__SelectChatsDialog__body {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.Preferences__EditChatFolderPage__SelectChatsDialog__body_inner {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .Preferences__ReadonlySqlPlayground__Textarea {
-  &__input {
+  .Input__input {
     font-family: variables.$monospace;
   }
 }

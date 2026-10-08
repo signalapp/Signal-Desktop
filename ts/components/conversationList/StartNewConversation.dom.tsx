@@ -3,7 +3,6 @@
 
 import type { FunctionComponent, JSX } from 'react';
 import { useCallback, useState, memo } from 'react';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { Spinner } from '../Spinner.dom.tsx';
@@ -105,7 +104,6 @@ export const StartNewConversation: FunctionComponent<Props> = memo(
               <Spinner
                 size="20px"
                 svgSize="small"
-                moduleClassName={SPINNER_CLASS_NAME}
                 direction="on-progress-dialog"
               />
             ) : undefined

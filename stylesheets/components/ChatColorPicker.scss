@@ -7,7 +7,7 @@
 .ChatColorPicker {
   $bubble-size: 52px;
 
-  &__modal__body.module-Modal__body {
+  &__modal .module-Modal__body {
     overflow-x: hidden;
   }
 
@@ -25,6 +25,7 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    background: var(--chat-color-picker-bg);
     @include mixins.color-bubble($bubble-size);
 
     &--selected {

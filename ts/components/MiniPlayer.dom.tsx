@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
@@ -84,7 +84,7 @@ export function MiniPlayer({
 
   return (
     <div
-      className={classnames(
+      className={classNames(
         'MiniPlayer',
         shouldFlow ? 'MiniPlayer--flow' : null
       )}

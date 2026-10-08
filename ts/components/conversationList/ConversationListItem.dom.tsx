@@ -6,12 +6,7 @@ import { useCallback, memo } from 'react';
 import classNames from 'classnames';
 
 import type { RenderConversationListItemContextMenuProps } from './BaseConversationListItem.dom.tsx';
-import {
-  BaseConversationListItem,
-  HEADER_NAME_CLASS_NAME,
-  HEADER_CONTACT_NAME_CLASS_NAME,
-  MESSAGE_TEXT_CLASS_NAME,
-} from './BaseConversationListItem.dom.tsx';
+import { BaseConversationListItem } from './BaseConversationListItem.dom.tsx';
 import { MessageBody } from '../conversation/MessageBody.dom.tsx';
 import { ContactName } from '../conversation/ContactName.dom.tsx';
 import { TypingAnimation } from '../conversation/TypingAnimation.dom.tsx';
@@ -21,9 +16,9 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import type { BadgeType } from '../../badges/types.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { RenderLocation } from '../conversation/MessageTextRenderer.dom.tsx';
+import type { LastMessageStatus } from '../../model-types.d.ts';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
-const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
 export type PropsData = Pick<
   ConversationType,
@@ -117,18 +112,20 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
       <>
         {isMe ? (
           <ContactName
-            module={HEADER_CONTACT_NAME_CLASS_NAME}
+            className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
             isMe={isMe}
             title={i18n('icu:noteToSelf')}
           />
         ) : (
           <ContactName
-            module={HEADER_CONTACT_NAME_CLASS_NAME}
+            className="module-conversation-list__item--contact-or-conversation__content__header__name__contact-name"
             isSignalConversation={isSignalConversation({ id, serviceId })}
             title={title}
           />
         )}
-        {isMuted && <div className={`${HEADER_NAME_CLASS_NAME}__mute-icon`} />}
+        {isMuted && (
+          <div className="module-conversation-list__item--contact-or-conversation__content__header__name__mute-icon" />
+        )}
       </>
     );
 
@@ -138,13 +135,13 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
 
     if (isBlocked) {
       messageText = (
-        <span className={`${MESSAGE_TEXT_CLASS_NAME}__blocked`}>
+        <span className="module-conversation-list__item--contact-or-conversation__content__message__text__blocked">
           {i18n('icu:ConversationListItem--blocked')}
         </span>
       );
     } else if (!acceptedMessageRequest && removalStage !== 'justNotification') {
       messageText = (
-        <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
+        <span className="module-conversation-list__item--contact-or-conversation__content__message__text__message-request">
           {i18n('icu:ConversationListItem--message-request')}
         </span>
       );
@@ -153,7 +150,7 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
     } else if (shouldShowDraft && draftPreview) {
       messageText = (
         <>
-          <span className={`${MESSAGE_TEXT_CLASS_NAME}__draft-prefix`}>
+          <span className="module-conversation-list__item--contact-or-conversation__content__message__text__draft-prefix">
             {i18n('icu:ConversationListItem--draft-prefix')}
           </span>
           <MessageBody
@@ -184,7 +181,7 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
         });
       }
       messageText = (
-        <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
+        <span className="module-conversation-list__item--contact-or-conversation__content__message__text__deleted-for-everyone">
           {deletedText}
         </span>
       );
@@ -204,11 +201,28 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
         />
       );
       if (lastMessage.status) {
+        const StatusIcons: Record<LastMessageStatus, string> = {
+          paused:
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--paused',
+          error:
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--error',
+          'partial-sent':
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--partial-sent',
+          sending:
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--sending',
+          sent: 'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--sent',
+          delivered:
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--delivered',
+          read: 'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--read',
+          viewed:
+            'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--viewed',
+        };
+
         messageStatusIcon = (
           <div
             className={classNames(
-              MESSAGE_STATUS_ICON_CLASS_NAME,
-              `${MESSAGE_STATUS_ICON_CLASS_NAME}--${lastMessage.status}`
+              'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon',
+              StatusIcons[lastMessage.status]
             )}
           />
         );

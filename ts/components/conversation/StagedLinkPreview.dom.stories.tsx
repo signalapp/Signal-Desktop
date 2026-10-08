@@ -114,7 +114,7 @@ EverythingImageTitleDescriptionAndDate.args = {
 export const CompositionInput = Template.bind({});
 CompositionInput.args = {
   ...getDefaultProps(),
-  moduleClassName: 'CompositionInput__link-preview',
+  className: 'CompositionInput__link-preview',
   title: LONG_TITLE,
   description: LONG_DESCRIPTION,
   image: fakeAttachment({
@@ -126,7 +126,7 @@ CompositionInput.args = {
 export const CompositionInputStickerPack = Template.bind({});
 CompositionInputStickerPack.args = {
   ...getDefaultProps(),
-  moduleClassName: 'CompositionInput__link-preview',
+  className: 'CompositionInput__link-preview',
   title: 'Cat stickers',
   description: 'Sticker pack by Ann Chovy',
   image: fakeAttachment({

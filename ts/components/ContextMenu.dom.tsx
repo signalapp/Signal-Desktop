@@ -11,7 +11,6 @@ import lodash from 'lodash';
 
 import type { Theme } from '../util/theme.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { themeClassName } from '../util/theme.std.ts';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { AxoDragRegion } from '../axo/AxoDragRegion.dom.tsx';
@@ -22,7 +21,7 @@ const { noop } = lodash;
 
 export type ContextMenuOptionType<T> = Readonly<{
   description?: string;
-  icon?: string;
+  iconClassName?: string;
   label: string;
   group?: string;
   onClick: (value?: T) => unknown;
@@ -43,7 +42,10 @@ export type PropsType<T> = Readonly<{
   children?: ReactNode | ((props: RenderButtonProps) => JSX.Element);
   i18n: LocalizerType;
   menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
+  /** @deprecated */
+  popperClassName?: string;
   button?: () => JSX.Element;
   onClick?: (ev: MouseEvent) => unknown;
   onMenuShowingChanged?: (value: boolean) => unknown;
@@ -70,7 +72,8 @@ export function ContextMenu<T>({
   children,
   i18n,
   menuOptions,
-  moduleClassName,
+  className,
+  popperClassName,
   onClick,
   onMenuShowingChanged,
   popperOptions,
@@ -219,8 +222,6 @@ export function ContextMenu<T>({
     ev.preventDefault();
   };
 
-  const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
-
   const optionElements = new Array<JSX.Element>();
   const isAnyOptionSelected = typeof value !== 'undefined';
 
@@ -231,10 +232,7 @@ export function ContextMenu<T>({
 
     if (needsDivider) {
       optionElements.push(
-        <div
-          className={getClassName('__divider')}
-          key={`${option.label}-divider`}
-        />
+        <div className="ContextMenu__divider" key={`${option.label}-divider`} />
       );
     }
 
@@ -255,8 +253,8 @@ export function ContextMenu<T>({
       <button
         aria-label={option.label}
         className={classNames(
-          getClassName('__option'),
-          focusedIndex === index ? getClassName('__option--focused') : undefined
+          'ContextMenu__option',
+          focusedIndex === index ? 'ContextMenu__option--focused' : undefined
         )}
         key={option.label}
         type="button"
@@ -264,29 +262,27 @@ export function ContextMenu<T>({
       >
         <div
           className={classNames(
-            getClassName('__option--container'),
+            'ContextMenu__option--container',
             isAnyOptionSelected
-              ? getClassName('__option--container--with-selection')
+              ? 'ContextMenu__option--container--with-selection'
               : undefined,
             isOptionSelected
-              ? getClassName('__option--container--selected')
+              ? 'ContextMenu__option--container--selected'
               : undefined
           )}
         >
-          {option.icon && (
+          {option.iconClassName && (
             <div
               className={classNames(
-                getClassName('__option--icon'),
-                option.icon
+                'ContextMenu__option--icon',
+                option.iconClassName
               )}
             />
           )}
           <div>
-            <div className={getClassName('__option--title')}>
-              {option.label}
-            </div>
+            <div className="ContextMenu__option--title">{option.label}</div>
             {option.description && (
-              <div className={getClassName('__option--description')}>
+              <div className="ContextMenu__option--description">
                 {option.description}
               </div>
             )}
@@ -300,16 +296,17 @@ export function ContextMenu<T>({
     <div className={theme ? themeClassName(theme) : undefined}>
       <div
         className={classNames(
-          getClassName('__popper'),
+          popperClassName,
+          'ContextMenu__popper',
           menuOptions.length === 1
-            ? getClassName('__popper--single-item')
+            ? 'ContextMenu__popper--single-item'
             : undefined
         )}
         ref={setPopperElement}
         style={styles.popper}
         {...attributes.popper}
       >
-        {title && <div className={getClassName('__title')}>{title}</div>}
+        {title && <div className="ContextMenu__title">{title}</div>}
         {optionElements}
       </div>
     </div>
@@ -335,16 +332,16 @@ export function ContextMenu<T>({
     buttonNode = (
       <div
         className={classNames(
-          getClassName('__container'),
-
+          className,
+          'ContextMenu__container',
           theme ? themeClassName(theme) : undefined
         )}
       >
         <button
           aria-label={ariaLabel || i18n('icu:ContextMenu--button')}
           className={classNames(
-            getClassName('__button'),
-            isMenuShowing ? getClassName('__button--active') : undefined
+            'ContextMenu__button',
+            isMenuShowing ? 'ContextMenu__button--active' : undefined
           )}
           onClick={onClick || handleClick}
           onContextMenu={handleClick}

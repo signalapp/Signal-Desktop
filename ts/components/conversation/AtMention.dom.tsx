@@ -53,7 +53,8 @@ export function AtMention({
     <span
       className={classNames(
         'MessageBody__at-mention',
-        `MessageBody__at-mention--${direction}`
+        direction === 'incoming' && 'MessageBody__at-mention--incoming',
+        direction === 'outgoing' && 'MessageBody__at-mention--outgoing'
       )}
       onClick={onClick}
       onKeyUp={onKeyUp}

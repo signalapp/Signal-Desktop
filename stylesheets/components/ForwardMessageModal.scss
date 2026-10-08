@@ -5,11 +5,13 @@
 @use '../variables';
 
 .module-ForwardMessageModal {
-  flex-direction: column;
-  margin-block: 0;
-  margin-inline: auto;
-  max-width: 360px;
-  width: 95%;
+  .module-Modal {
+    flex-direction: column;
+    margin-block: 0;
+    margin-inline: auto;
+    max-width: 360px;
+    width: 95%;
+  }
 
   .module-conversation-list {
     // remove horizontal padding so ListTiles extend to the edges

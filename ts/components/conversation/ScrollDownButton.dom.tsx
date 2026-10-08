@@ -6,12 +6,18 @@ import type { JSX } from 'react';
 import classNames from 'classnames';
 
 import type { LocalizerType } from '../../types/Util.std.ts';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.ts';
 
 export enum ScrollDownButtonVariant {
   UNREAD_MESSAGES = 'unread-messages',
   UNREAD_MENTIONS = 'unread-mentions',
 }
+
+const SCROLL_DOWN_BUTTON_VARIANTS: Record<ScrollDownButtonVariant, string> = {
+  [ScrollDownButtonVariant.UNREAD_MESSAGES]:
+    'ScrollDownButton__unread-messages',
+  [ScrollDownButtonVariant.UNREAD_MENTIONS]:
+    'ScrollDownButton__unread-mentions',
+};
 
 export type ScrollDownButtonPropsType = {
   variant: ScrollDownButtonVariant;
@@ -26,8 +32,6 @@ export function ScrollDownButton({
   onClick,
   i18n,
 }: ScrollDownButtonPropsType): JSX.Element {
-  const getClassName = getClassNamesFor('ScrollDownButton');
-
   let badgeText: string | undefined;
   if (count) {
     if (count < 100) {
@@ -52,19 +56,17 @@ export function ScrollDownButton({
   return (
     <button
       type="button"
-      className={classNames(getClassName(''), getClassName(`__${variant}`))}
+      className={classNames(
+        'ScrollDownButton',
+        SCROLL_DOWN_BUTTON_VARIANTS[variant]
+      )}
       onClick={onClick}
       title={altText}
     >
       {badgeText ? (
-        <div className={getClassName('__badge')}>{badgeText}</div>
+        <div className="ScrollDownButton__badge">{badgeText}</div>
       ) : null}
-      <div
-        className={classNames(
-          getClassName('__icon'),
-          getClassName(`__icon--${variant}`)
-        )}
-      />
+      <div className="ScrollDownButton__icon" />
     </button>
   );
 }

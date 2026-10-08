@@ -59,14 +59,6 @@
     padding-block: 0;
   }
 
-  &__toggle-text {
-    @include mixins.font-body-1;
-    color: light-dark(
-      variables.$color-black-alpha-85,
-      variables.$color-white-alpha-85
-    );
-  }
-
   &__help-text {
     @include mixins.font-caption;
     text-align: start;

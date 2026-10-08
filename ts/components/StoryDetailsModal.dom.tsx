@@ -11,7 +11,7 @@ import type {
 } from '../types/Stories.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { ContactName } from './conversation/ContactName.dom.tsx';
-import { ContextMenu } from './ContextMenu.dom.tsx';
+import { ContextMenu, type ContextMenuOptionType } from './ContextMenu.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
@@ -204,9 +204,9 @@ export function StoryDetailsModal({
       DurationInSeconds.fromMillis(expirationTimestamp - Date.now())
     : undefined;
 
-  const menuOptions = [
+  const menuOptions: Array<ContextMenuOptionType<unknown>> = [
     {
-      icon: 'StoryDetailsModal__copy-icon',
+      iconClassName: 'StoryDetailsModal__copy-icon',
       label: i18n('icu:StoryDetailsModal__copy-timestamp'),
       onClick: () => {
         void window.navigator.clipboard.writeText(String(timestamp));
@@ -216,7 +216,7 @@ export function StoryDetailsModal({
 
   if (isInternalUser && attachment) {
     menuOptions.push({
-      icon: 'StoryDetailsModal__download-icon',
+      iconClassName: 'StoryDetailsModal__download-icon',
       label: i18n('icu:StoryDetailsModal__download-attachment'),
       onClick: () => {
         saveAttachment(attachment);
@@ -229,14 +229,14 @@ export function StoryDetailsModal({
       modalName="StoryDetailsModal"
       hasXButton
       i18n={i18n}
-      moduleClassName="StoryDetailsModal"
+      className="StoryDetailsModal"
       onClose={onClose}
       theme={Theme.Dark}
       title={
         <ContextMenu
           i18n={i18n}
           menuOptions={menuOptions}
-          moduleClassName="StoryDetailsModal__debugger"
+          className="StoryDetailsModal__debugger"
           popperOptions={{
             placement: 'bottom',
             strategy: 'absolute',

@@ -32,7 +32,7 @@ export function DonationProgressModal(props: PropsType): JSX.Element {
   return (
     <Modal
       i18n={i18n}
-      moduleClassName="DonationProgressModal"
+      className="DonationProgressModal"
       modalName="DonationProgressModal"
       noEscapeClose
       noMouseClose

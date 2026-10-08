@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.ts';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.std.ts';
 
 describe('getCustomColorStyle', () => {
   it('returns undefined if no color passed in', () => {

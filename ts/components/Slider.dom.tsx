@@ -8,14 +8,15 @@ import type {
   MouseEvent as ReactMouseEvent,
 } from 'react';
 import { useRef } from 'react';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { arrow } from '../util/keyboard.dom.ts';
+import classNames from 'classnames';
 
 export type PropsType = {
   containerStyle?: CSSProperties;
   label: string;
   handleStyle?: CSSProperties;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onChange: (value: number) => unknown;
   value: number;
 };
@@ -24,15 +25,13 @@ export function Slider({
   containerStyle = {},
   label,
   handleStyle = {},
-  moduleClassName,
+  className,
   onChange,
   value,
 }: PropsType): JSX.Element {
   const diff = useRef<number>(0);
   const handleRef = useRef<HTMLDivElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
-
-  const getClassName = getClassNamesFor('Slider', moduleClassName);
 
   const handleValueChange = (ev: MouseEvent | ReactMouseEvent) => {
     if (!sliderRef || !sliderRef.current) {
@@ -110,7 +109,7 @@ export function Slider({
   return (
     <div
       aria-label={label}
-      className={getClassName('')}
+      className={classNames('Slider', className)}
       onClick={handleValueChange}
       onKeyDown={handleKeyDown}
       ref={sliderRef}
@@ -121,7 +120,7 @@ export function Slider({
       <div
         aria-label={label}
         aria-valuenow={value}
-        className={getClassName('__handle')}
+        className="Slider__handle"
         onMouseDown={handleMouseDown}
         ref={handleRef}
         role="slider"

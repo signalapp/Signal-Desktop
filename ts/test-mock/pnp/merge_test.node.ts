@@ -551,9 +551,9 @@ describe('pnp/merge', function (this: Mocha.Suite) {
     }
 
     debug('Search for phone number, see that nothing comes up');
-    const searchBox = window.locator(
-      '.module-SearchInput__input.LeftPaneSearchInput__input'
-    );
+    const searchBox = window
+      .locator('.NavSidebarSearchHeader')
+      .getByRole('textbox', { name: 'Search' });
 
     await typeIntoInput(searchBox, aciContact.device.checkedNumber, '');
 

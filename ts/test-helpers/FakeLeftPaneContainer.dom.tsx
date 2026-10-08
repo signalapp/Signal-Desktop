@@ -16,13 +16,19 @@ const WIDTHS = {
   [WidthBreakpoint.Narrow]: 130,
 };
 
+const WidthBreakpointClassNames: Record<WidthBreakpoint, string> = {
+  [WidthBreakpoint.Wide]: 'module-left-pane--width-wide',
+  [WidthBreakpoint.Medium]: 'module-left-pane--width-medium',
+  [WidthBreakpoint.Narrow]: 'module-left-pane--width-narrow',
+};
+
 export function FakeLeftPaneContainer({
   children,
   containerWidthBreakpoint,
 }: PropsType): JSX.Element {
   return (
     <div
-      className={`module-left-pane--width-${containerWidthBreakpoint}`}
+      className={WidthBreakpointClassNames[containerWidthBreakpoint]}
       style={{ width: WIDTHS[containerWidthBreakpoint] }}
     >
       {children}

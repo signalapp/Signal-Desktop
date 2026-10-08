@@ -83,7 +83,7 @@
       }
     }
 
-    &--spoiler-Timeline--incoming {
+    &--spoiler-Timeline.MessageTextRenderer__formatting--spoiler-incoming {
       @include mixins.light-theme {
         background-color: variables.$color-gray-90;
       }
@@ -91,7 +91,7 @@
         background-color: variables.$color-gray-05;
       }
     }
-    &--spoiler-Timeline--outgoing {
+    &--spoiler-Timeline.MessageTextRenderer__formatting--spoiler-outgoing {
       @include mixins.light-theme {
         background-color: rgba(255, 255, 255, 0.9);
       }

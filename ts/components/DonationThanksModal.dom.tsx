@@ -76,7 +76,7 @@ export function DonationThanksModal({
           ) : (
             <Spinner
               ariaLabel={i18n('icu:loading')}
-              moduleClassName="BadgeImage BadgeImage__loading"
+              className="BadgeImage BadgeImage__loading"
               size="88px"
               svgSize="normal"
             />

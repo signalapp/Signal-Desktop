@@ -5,11 +5,6 @@
 @use '../variables';
 
 .module-EditConversationAttributesModal {
-  .module-AvatarInput {
-    margin-block: 24px;
-    margin-inline: 0;
-  }
-
   &__error-message {
     @include mixins.font-body-1;
     margin-block: 16px;

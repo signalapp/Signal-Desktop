@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-
 import classNames from 'classnames';
-
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 
 export const SpinnerSvgSizes = ['small', 'normal'] as const;
 export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];
+
+const SPINNER_CONTAINER_SIZES: Record<SpinnerSvgSize, string> = {
+  small: 'module-spinner__container--small',
+  normal: 'module-spinner__container--normal',
+};
 
 export const SpinnerDirections = [
   'outgoing',
@@ -20,10 +22,20 @@ export const SpinnerDirections = [
 ] as const;
 export type SpinnerDirection = (typeof SpinnerDirections)[number];
 
+const SPINNER_CONTAINER_DIRECTIONS: Record<SpinnerDirection, string> = {
+  outgoing: 'module-spinner__container--outgoing',
+  incoming: 'module-spinner__container--incoming',
+  'on-background': 'module-spinner__container--on-background',
+  'on-primary-button': 'module-spinner__container--on-primary-button',
+  'on-progress-dialog': 'module-spinner__container--on-progress-dialog',
+  'on-avatar': 'module-spinner__container--on-avatar',
+};
+
 export type Props = {
   ariaLabel?: string;
   direction?: SpinnerDirection;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   role?: string;
   size?: string;
   svgSize: SpinnerSvgSize;
@@ -35,20 +47,18 @@ export type Props = {
 export function Spinner({
   ariaLabel,
   direction,
-  moduleClassName,
+  className,
   role,
   size,
   svgSize,
 }: Props): JSX.Element {
-  const getClassName = getClassNamesFor('module-spinner', moduleClassName);
-
   return (
     <div
       className={classNames(
-        getClassName('__container'),
-        getClassName(`__container--${svgSize}`),
-        getClassName(direction && `__container--${direction}`),
-        getClassName(direction && `__container--${svgSize}-${direction}`)
+        'module-spinner__container',
+        SPINNER_CONTAINER_SIZES[svgSize],
+        direction && SPINNER_CONTAINER_DIRECTIONS[direction],
+        className
       )}
       role={role}
       aria-label={ariaLabel}
@@ -57,22 +67,8 @@ export function Spinner({
         width: size,
       }}
     >
-      <div
-        className={classNames(
-          getClassName('__circle'),
-          getClassName(`__circle--${svgSize}`),
-          getClassName(direction && `__circle--${direction}`),
-          getClassName(direction && `__circle--${svgSize}-${direction}`)
-        )}
-      />
-      <div
-        className={classNames(
-          getClassName('__arc'),
-          getClassName(`__arc--${svgSize}`),
-          getClassName(direction && `__arc--${direction}`),
-          getClassName(direction && `__arc--${svgSize}-${direction}`)
-        )}
-      />
+      <div className="module-spinner__circle" />
+      <div className="module-spinner__arc" />
     </div>
   );
 }

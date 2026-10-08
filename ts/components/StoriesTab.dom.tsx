@@ -155,7 +155,7 @@ export function StoriesTab({
               <StoriesAddStoryButton
                 i18n={i18n}
                 maxAttachmentVideoSize={maxAttachmentVideoSize}
-                moduleClassName="Stories__pane__add-story"
+                className="Stories__pane__add-story"
                 onAddStory={onAddStory}
                 showToast={showToast}
               />

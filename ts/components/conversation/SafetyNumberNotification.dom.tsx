@@ -40,7 +40,7 @@ export function SafetyNumberNotification({
     >
       <ContactName
         title={contact.title}
-        module="module-safety-number-notification__contact"
+        className="module-safety-number-notification__contact"
       />
     </span>
   );

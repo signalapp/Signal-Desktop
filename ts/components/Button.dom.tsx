@@ -132,9 +132,8 @@ export const Button = forwardRef<HTMLButtonElement, PropsType>(
           'module-Button',
           sizeClassName,
           variantClassName,
-          discouraged ? `${variantClassName}--discouraged` : undefined,
-          className,
-          className && discouraged ? `${className}--discouraged` : undefined
+          discouraged ? 'module-Button--discouraged' : undefined,
+          className
         )}
         data-testid={testId}
         disabled={disabled}

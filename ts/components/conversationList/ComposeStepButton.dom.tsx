@@ -3,6 +3,7 @@
 
 import type { FunctionComponent } from 'react';
 import { memo } from 'react';
+import classNames from 'classnames';
 
 import { ListTile } from '../ListTile.dom.tsx';
 
@@ -11,6 +12,12 @@ export enum Icon {
   Username = 'username',
   PhoneNumber = 'phone-number',
 }
+
+const ICONS: Record<Icon, string> = {
+  [Icon.Group]: 'ComposeStepButton__icon--group',
+  [Icon.Username]: 'ComposeStepButton__icon--username',
+  [Icon.PhoneNumber]: 'ComposeStepButton__icon--phone-number',
+};
 
 type PropsType = {
   icon: Icon;
@@ -24,9 +31,7 @@ export const ComposeStepButton: FunctionComponent<PropsType> = memo(
       <ListTile
         testId={`ComposeStepButton--${icon}`}
         leading={
-          <i
-            className={`ComposeStepButton__icon ComposeStepButton__icon--${icon}`}
-          />
+          <i className={classNames('ComposeStepButton__icon', ICONS[icon])} />
         }
         title={title}
         onClick={onClick}

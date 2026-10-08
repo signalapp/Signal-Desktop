@@ -6,8 +6,6 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 
-const CSS_MODULE = 'module-disappearing-time-dialog';
-
 const DEFAULT_VALUE = 60;
 
 export type PropsType = Readonly<{
@@ -74,17 +72,17 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
             {i18n('icu:DisappearingTimeDialog__body')}
           </AxoAlertDialog.Description>
 
-          <section className={`${CSS_MODULE}__time-boxes`}>
+          <section className="module-disappearing-time-dialog__time-boxes">
             <Select
               ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
-              moduleClassName={`${CSS_MODULE}__time-boxes__value`}
+              className="module-disappearing-time-dialog__time-boxes__value"
               value={unitValue}
               onChange={newValue => setUnitValue(parseInt(newValue, 10))}
               options={values.map(value => ({ value, text: value.toString() }))}
             />
             <Select
               ariaLabel={i18n('icu:DisappearingTimeDialog__label--units')}
-              moduleClassName={`${CSS_MODULE}__time-boxes__units`}
+              className="module-disappearing-time-dialog__time-boxes__units"
               value={unit}
               onChange={newUnit => {
                 setUnit(newUnit as Unit);

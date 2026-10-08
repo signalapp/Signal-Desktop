@@ -202,7 +202,7 @@ export function PreferencesBackups({
         {backupTier == null ? (
           <SettingsRow className="Preferences--BackupsRow">
             <Control
-              icon="Preferences__BackupsIcon"
+              iconClassName="Preferences__BackupsIcon"
               left={
                 <label>
                   {i18n('icu:Preferences--signal-backups')}{' '}
@@ -224,7 +224,7 @@ export function PreferencesBackups({
           <SettingsRow className="Preferences--BackupsRow">
             <FlowingControl>
               <div className="Preferences__two-thirds-flow">
-                <LightIconLabel icon="Preferences__BackupsIcon">
+                <LightIconLabel iconClassName="Preferences__BackupsIcon">
                   <label>
                     {i18n('icu:Preferences--signal-backups')}
                     <div className="Preferences__description">
@@ -277,7 +277,7 @@ export function PreferencesBackups({
       >
         <FlowingControl>
           <div className="Preferences__two-thirds-flow">
-            <LightIconLabel icon="Preferences__LocalBackupsIcon">
+            <LightIconLabel iconClassName="Preferences__LocalBackupsIcon">
               <label>
                 {i18n('icu:Preferences__local-backups')}{' '}
                 <div className="Preferences__description">

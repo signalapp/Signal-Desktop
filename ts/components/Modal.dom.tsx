@@ -12,7 +12,6 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { ModalHost } from './ModalHost.dom.tsx';
 import type { Theme } from '../util/theme.std.ts';
 import { assertDev } from '../util/assert.std.ts';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import {
   type ModalConfigType,
   useAnimated,
@@ -39,7 +38,9 @@ type PropsType = {
   i18n: LocalizerType;
   modalFooter?: JSX.Element;
   modalHeaderChildren?: ReactNode;
-  moduleClassName?: string;
+
+  /** @deprecated */
+  className?: string;
   onBackButtonClick?: () => unknown;
   onClose?: () => void;
   title?: ReactNode;
@@ -54,8 +55,6 @@ export type ModalPropsType = PropsType & {
   theme?: Theme;
 };
 
-const BASE_CLASS_NAME = 'module-Modal';
-
 export function Modal({
   children,
   modalName,
@@ -63,7 +62,7 @@ export function Modal({
   i18n,
   modalFooter,
   modalHeaderChildren,
-  moduleClassName,
+  className,
   noEscapeClose,
   noMouseClose,
   onBackButtonClick,
@@ -120,7 +119,7 @@ export function Modal({
   return (
     <ModalHost
       modalName={modalName}
-      moduleClassName={moduleClassName}
+      className={className}
       noEscapeClose={noEscapeClose}
       noMouseClose={noMouseClose}
       onClose={close}
@@ -134,7 +133,7 @@ export function Modal({
         i18n={i18n}
         modalFooter={modalFooter}
         modalHeaderChildren={modalHeaderChildren}
-        moduleClassName={moduleClassName}
+        className={className}
         onBackButtonClick={onBackButtonClick}
         onClose={close}
         title={title}
@@ -178,7 +177,7 @@ export function ModalPage({
   modalHeaderChildren,
   modalName,
   modalStyles,
-  moduleClassName,
+  className,
   onBackButtonClick,
   onClose,
   title,
@@ -199,7 +198,6 @@ export function ModalPage({
   const hasHeader = Boolean(
     hasXButton || title || modalHeaderChildren || onBackButtonClick
   );
-  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
 
   const [id] = useState(() => uuid());
 
@@ -212,12 +210,13 @@ export function ModalPage({
   return (
     <animated.div
       className={classNames(
-        getClassName(''),
-        getClassName(hasHeader ? '--has-header' : '--no-header'),
-        Boolean(modalFooter) && getClassName('--has-footer'),
-        padded && getClassName('--padded'),
-        hasHeaderDivider && getClassName('--header-divider'),
-        hasFooterDivider && getClassName('--footer-divider')
+        'module-Modal',
+        hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header',
+        Boolean(modalFooter) && 'module-Modal--has-footer',
+        padded && 'module-Modal--padded',
+        hasHeaderDivider && 'module-Modal--header-divider',
+        hasFooterDivider && 'module-Modal--footer-divider',
+        className
       )}
       ref={modalRef}
       role="dialog"
@@ -234,17 +233,15 @@ export function ModalPage({
       {hasHeader && (
         <div
           className={classNames(
-            getClassName('__header'),
-            onBackButtonClick
-              ? getClassName('__header--with-back-button')
-              : null
+            'module-Modal__header',
+            onBackButtonClick ? 'module-Modal__header--with-back-button' : null
           )}
         >
-          <div className={getClassName('__headerTitle')}>
+          <div className="module-Modal__headerTitle">
             {onBackButtonClick && (
               <button
                 aria-label={i18n('icu:back')}
-                className={getClassName('__back-button')}
+                className="module-Modal__back-button"
                 onClick={onBackButtonClick}
                 tabIndex={0}
                 type="button"
@@ -254,20 +251,18 @@ export function ModalPage({
               <h1
                 id={`${id}-title`}
                 className={classNames(
-                  getClassName('__title'),
-                  hasXButton ? getClassName('__title--with-x-button') : null
+                  'module-Modal__title',
+                  hasXButton ? 'module-Modal__title--with-x-button' : null
                 )}
               >
                 {title}
               </h1>
             )}
-            {hasXButton && !title && (
-              <div className={getClassName('__title')} />
-            )}
+            {hasXButton && !title && <div className="module-Modal__title" />}
             {hasXButton && (
               <button
                 aria-label={i18n('icu:close')}
-                className={getClassName('__close-button')}
+                className="module-Modal__close-button"
                 onClick={onClose}
                 tabIndex={0}
                 type="button"
@@ -279,16 +274,16 @@ export function ModalPage({
       )}
       <div
         className={classNames(
-          getClassName('__body'),
-          scrollAtTop ? getClassName('__body--scrollAtTop') : null,
-          scrollAtBottom ? getClassName('__body--scrollAtBottom') : null,
+          'module-Modal__body',
+          scrollAtTop ? 'module-Modal__body--scrollAtTop' : null,
+          scrollAtBottom ? 'module-Modal__body--scrollAtBottom' : null,
           scrollVerticalOverflow || scrollAtTop
-            ? getClassName('__body--scrollVerticalOverflow')
+            ? 'module-Modal__body--scrollVerticalOverflow'
             : null
         )}
         ref={bodyRef}
       >
-        <div ref={bodyInnerRef} className={getClassName('__body_inner')}>
+        <div ref={bodyInnerRef} className="module-Modal__body_inner">
           {children}
         </div>
       </div>
@@ -303,14 +298,13 @@ function ButtonFooter({
   children: ReactNode;
 }>): ReactElement {
   const [ref, hasWrapped] = useHasWrapped<HTMLDivElement>();
-
-  const className = getClassNamesFor(BASE_CLASS_NAME)('__button-footer');
-
   return (
     <div
       className={classNames(
-        className,
-        hasWrapped ? `${className}--one-button-per-line` : undefined
+        'module-Modal__button-footer',
+        hasWrapped
+          ? 'module-Modal__button-footer--one-button-per-line'
+          : undefined
       )}
       ref={ref}
     >
@@ -323,7 +317,8 @@ Modal.ButtonFooter = ButtonFooter;
 type PagedModalProps = Readonly<{
   modalName: string;
   children: RenderModalPage;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   onClose?: () => void;
   noMouseClose?: boolean;
   theme?: Theme;
@@ -340,7 +335,7 @@ type PagedModalProps = Readonly<{
 export function PagedModal({
   modalName,
   children,
-  moduleClassName,
+  className,
   noMouseClose,
   onClose = noop,
   theme,
@@ -374,7 +369,7 @@ export function PagedModal({
   return (
     <ModalHost
       modalName={modalName}
-      moduleClassName={moduleClassName}
+      className={className}
       noMouseClose={noMouseClose}
       onClose={close}
       overlayStyles={overlayStyles}

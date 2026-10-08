@@ -77,7 +77,7 @@ function BadgeDialogWithBadges({
     <Modal
       modalName="BadgeDialog"
       hasXButton
-      moduleClassName="BadgeDialog"
+      className="BadgeDialog"
       i18n={i18n}
       onClose={onClose}
     >

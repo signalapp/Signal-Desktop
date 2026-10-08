@@ -4,6 +4,7 @@
 import type { CSSProperties, JSX, KeyboardEvent } from 'react';
 import { useEffect, useState } from 'react';
 import lodash from 'lodash';
+import classNames from 'classnames';
 
 import { createLogger } from '../logging/log.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -13,6 +14,7 @@ import { AvatarColors } from '../types/Colors.std.ts';
 import { getInitials } from '../util/getInitials.std.ts';
 import { imagePathToBytes } from '../util/imagePathToBytes.dom.ts';
 import { type ConversationType } from '../state/ducks/conversations.preload.ts';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 const { noop } = lodash;
 
@@ -40,6 +42,13 @@ enum ImageStatus {
   HasImage = 'has-image',
   HasPlaceholder = 'has-placeholder',
 }
+
+const ImageStatusClassNames: Record<ImageStatus, string> = {
+  [ImageStatus.Nothing]: 'AvatarPreview__avatar--nothing',
+  [ImageStatus.Loading]: 'AvatarPreview__avatar--loading',
+  [ImageStatus.HasImage]: 'AvatarPreview__avatar--has-image',
+  [ImageStatus.HasPlaceholder]: 'AvatarPreview__avatar--has-placeholder',
+};
 
 export function AvatarPreview({
   avatarPlaceholderGradient,
@@ -161,7 +170,19 @@ export function AvatarPreview({
         },
       }
     : {};
-  const componentStyle = {
+
+  const colorValues =
+    avatarColor != null ? AxoTokens.Avatar.getColorValues(avatarColor) : null;
+
+  const colorStyle =
+    colorValues != null
+      ? ({
+          '--AvatarPreview__avatar-bg': colorValues.bg,
+          '--AvatarPreview__avatar-fg': colorValues.fg,
+        } as CSSProperties)
+      : null;
+
+  const componentStyle: CSSProperties = {
     ...style,
   };
   if (onClick) {
@@ -172,33 +193,21 @@ export function AvatarPreview({
     let content: JSX.Element | string | undefined;
     const initials = getInitials(conversationTitle);
     if (isGroup) {
-      content = (
-        <div
-          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__group`}
-        />
-      );
+      content = <div className="AvatarPreview__group" />;
     } else if (noteToSelf) {
-      content = (
-        <div
-          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__note_to_self`}
-        />
-      );
+      content = <div className="AvatarPreview__note_to_self" />;
     } else if (initials) {
       content = initials;
     } else {
-      content = (
-        <div
-          className={`BetterAvatarBubble--${avatarColor}--icon AvatarPreview__contact`}
-        />
-      );
+      content = <div className="AvatarPreview__contact" />;
     }
 
     return (
       <div className="AvatarPreview">
         <div
-          className={`AvatarPreview__avatar BetterAvatarBubble--${avatarColor}`}
+          className="AvatarPreview__avatar AvatarPreview__avatar--nothing"
           {...clickProps}
-          style={componentStyle}
+          style={{ ...componentStyle, ...colorStyle }}
         >
           {content}
           {showUploadButton && <div className="AvatarPreview__upload" />}
@@ -226,7 +235,10 @@ export function AvatarPreview({
   return (
     <div className="AvatarPreview">
       <div
-        className={`AvatarPreview__avatar AvatarPreview__avatar--${imageStatus}`}
+        className={classNames(
+          'AvatarPreview__avatar',
+          ImageStatusClassNames[imageStatus]
+        )}
         {...clickProps}
         style={
           imageStatus === ImageStatus.HasImage && encodedPath

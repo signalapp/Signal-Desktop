@@ -5,6 +5,7 @@ import { createRef, Component, type JSX } from 'react';
 import Quill from '@signalapp/quill-cjs';
 import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { Delta } from '@signalapp/quill-cjs';
+import classNames from 'classnames';
 
 export type Props = {
   className: string;
@@ -73,7 +74,7 @@ export class SimpleQuillWrapper extends Component<Props> {
 
   override render(): JSX.Element {
     return (
-      <div className={`quill ${this.props.className}`}>
+      <div className={classNames('quill', this.props.className)}>
         <div ref={this.quillElement} />
       </div>
     );

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type ReactNode, type HTMLAttributes, memo } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import styles from './Typography.module.scss';
 
@@ -24,7 +24,7 @@ export const H1 = memo(function H1Inner({
   ...rest
 }: Props & HeadingProps) {
   return (
-    <h1 className={classnames(styles.h1, className)} {...rest}>
+    <h1 className={classNames(styles.h1, className)} {...rest}>
       {children}
     </h1>
   );
@@ -36,7 +36,7 @@ export const H2 = memo(function H2Inner({
   ...rest
 }: Props & HeadingProps) {
   return (
-    <h2 className={classnames(styles.h2, className)} {...rest}>
+    <h2 className={classNames(styles.h2, className)} {...rest}>
       {children}
     </h2>
   );
@@ -51,7 +51,7 @@ export const Text = memo(function TextInner({
 }: Props & ParagraphProps) {
   return (
     <p
-      className={classnames(
+      className={classNames(
         center ? styles.textCenter : styles.text,
         secondary ? styles.secondary : null,
         className
@@ -69,7 +69,7 @@ export const Inline = memo(function InlineInner({
   ...rest
 }: Props & SpanProps) {
   return (
-    <span className={classnames(styles.text, className)} {...rest}>
+    <span className={classNames(styles.text, className)} {...rest}>
       {children}
     </span>
   );

@@ -21,8 +21,6 @@ export type State = {
   error?: Error;
 };
 
-const CSS_MODULE = 'module-error-boundary-notification';
-
 export class ErrorBoundary extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -45,16 +43,16 @@ export class ErrorBoundary extends PureComponent<Props, State> {
 
     return (
       <div
-        className={CSS_MODULE}
+        className="module-error-boundary-notification"
         onClick={this.#onClick.bind(this)}
         onKeyDown={this.#onKeyDown.bind(this)}
         role="button"
         tabIndex={0}
       >
-        <div className={`${CSS_MODULE}__icon-container`}>
-          <div className={`${CSS_MODULE}__icon`} />
+        <div className="module-error-boundary-notification__icon-container">
+          <div className="module-error-boundary-notification__icon" />
         </div>
-        <div className={`${CSS_MODULE}__message`}>
+        <div className="module-error-boundary-notification__message">
           {i18n('icu:ErrorBoundaryNotification__text')}
         </div>
       </div>

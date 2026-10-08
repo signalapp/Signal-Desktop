@@ -505,7 +505,7 @@ function PreferencesReceiptList({
         <Modal
           i18n={i18n}
           modalName="ReceiptDetailsModal"
-          moduleClassName="PreferencesDonations__ReceiptModal"
+          className="PreferencesDonations__ReceiptModal"
           hasXButton
           padded={false}
           onClose={() => setSelectedReceipt(null)}

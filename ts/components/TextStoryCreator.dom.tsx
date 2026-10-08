@@ -393,7 +393,7 @@ export function TextStoryCreator({
                 <Slider
                   handleStyle={{ backgroundColor: getRGBA(sliderValue) }}
                   label={getRGBA(sliderValue)}
-                  moduleClassName="HueSlider StoryCreator__tools__tool"
+                  className="HueSlider StoryCreator__tools__tool"
                   onChange={setSliderValue}
                   value={sliderValue}
                 />
@@ -401,37 +401,37 @@ export function TextStoryCreator({
                   i18n={i18n}
                   menuOptions={[
                     {
-                      icon: 'StoryCreator__icon--font-regular',
+                      iconClassName: 'StoryCreator__icon--font-regular',
                       label: i18n('icu:StoryCreator__text--regular'),
                       onClick: () => setTextStyle(TextStyle.Regular),
                       value: TextStyle.Regular,
                     },
                     {
-                      icon: 'StoryCreator__icon--font-bold',
+                      iconClassName: 'StoryCreator__icon--font-bold',
                       label: i18n('icu:StoryCreator__text--bold'),
                       onClick: () => setTextStyle(TextStyle.Bold),
                       value: TextStyle.Bold,
                     },
                     {
-                      icon: 'StoryCreator__icon--font-serif',
+                      iconClassName: 'StoryCreator__icon--font-serif',
                       label: i18n('icu:StoryCreator__text--serif'),
                       onClick: () => setTextStyle(TextStyle.Serif),
                       value: TextStyle.Serif,
                     },
                     {
-                      icon: 'StoryCreator__icon--font-script',
+                      iconClassName: 'StoryCreator__icon--font-script',
                       label: i18n('icu:StoryCreator__text--script'),
                       onClick: () => setTextStyle(TextStyle.Script),
                       value: TextStyle.Script,
                     },
                     {
-                      icon: 'StoryCreator__icon--font-condensed',
+                      iconClassName: 'StoryCreator__icon--font-condensed',
                       label: i18n('icu:StoryCreator__text--condensed'),
                       onClick: () => setTextStyle(TextStyle.Condensed),
                       value: TextStyle.Condensed,
                     },
                   ]}
-                  moduleClassName={classNames('StoryCreator__tools__tool', {
+                  className={classNames('StoryCreator__tools__tool', {
                     'StoryCreator__tools__button--font-regular':
                       textStyle === TextStyle.Regular,
                     'StoryCreator__tools__button--font-bold':
@@ -578,7 +578,7 @@ export function TextStoryCreator({
                     <Input
                       disableSpellcheck
                       i18n={i18n}
-                      moduleClassName="StoryCreator__link-preview-input"
+                      className="StoryCreator__link-preview-input"
                       onChange={setLinkPreviewInputValue}
                       placeholder={i18n(
                         'icu:StoryCreator__link-preview-placeholder'

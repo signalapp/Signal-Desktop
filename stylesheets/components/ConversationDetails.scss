@@ -6,6 +6,7 @@
 
 .ConversationDetails {
   &__chat-color {
+    background: var(--ConversationDetails__chat-color-bg);
     @include mixins.color-bubble(32px);
   }
 
@@ -58,11 +59,11 @@
   }
 }
 
-.Input__container.GroupMemberLabelEditor__container {
+.GroupMemberLabelEditor.Input__container {
   margin-block: 0;
 }
 
-.Input__input--textarea.GroupMemberLabelEditor__input--textarea {
+.GroupMemberLabelEditor .Input__input--textarea {
   line-height: 32px;
   margin-top: 0px;
 }

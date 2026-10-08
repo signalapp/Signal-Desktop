@@ -38,7 +38,7 @@ export default {
   title: 'Components/Conversation/MessageTimestamp',
   argTypes: {
     timestamp: { control: { type: 'number' } },
-    module: { control: { type: 'text' } },
+    className: { control: { type: 'text' } },
     withImageNoCaption: { control: { type: 'boolean' } },
     withSticker: { control: { type: 'boolean' } },
     withTapToViewExpired: { control: { type: 'boolean' } },
@@ -52,7 +52,6 @@ export default {
   args: {
     i18n,
     timestamp: Date.now(),
-    module: '',
     withImageNoCaption: false,
     withSticker: false,
     withTapToViewExpired: false,

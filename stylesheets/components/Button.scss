@@ -48,7 +48,7 @@
     }
 
     &[disabled],
-    &--discouraged {
+    &.module-Button--discouraged {
       color: var(--axo-color-label-disabled-oncolor);
     }
   }
@@ -62,7 +62,7 @@
     }
 
     &[disabled],
-    &--discouraged {
+    &.module-Button--discouraged {
       color: var(--axo-color-label-disabled-oncolor);
     }
 
@@ -70,7 +70,7 @@
       color: var(--axo-color-label-accent);
 
       &[disabled],
-      &--discouraged {
+      &.module-Button--discouraged {
         color: var(--axo-color-label-accent-disabled);
       }
     }
@@ -79,7 +79,7 @@
       color: var(--axo-color-label-destructive);
 
       &[disabled],
-      &--discouraged {
+      &.module-Button--discouraged {
         color: var(--axo-color-label-destructive-disabled);
       }
     }
@@ -94,7 +94,7 @@
     }
 
     &[disabled],
-    &--discouraged {
+    &.module-Button--discouraged {
       color: var(--axo-color-label-disabled-oncolor);
     }
   }
@@ -108,7 +108,7 @@
     }
 
     &[disabled],
-    &--discouraged {
+    &.module-Button--discouraged {
       color: var(--axo-color-label-disabled-oncolor);
     }
   }
@@ -118,14 +118,14 @@
     color: var(--axo-color-label-accent);
     @include mixins.rounded-corners;
 
-    &:not(:disabled, &--discouraged) {
+    &:not(:disabled, &.module-Button--discouraged) {
       &:active {
         background: var(--axo-color-fill-primary-pressed);
       }
     }
 
     &:disabled,
-    &--discouraged {
+    &.module-Button--discouraged {
       color: var(--axo-color-label-accent-disabled);
     }
 

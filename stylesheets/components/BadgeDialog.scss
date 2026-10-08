@@ -10,7 +10,7 @@
     overflow-y: auto;
   }
 
-  &__width-container {
+  .module-modal-host__width-container {
     max-width: 420px;
   }
 
@@ -116,19 +116,6 @@
   &__description {
     @include mixins.font-body-1;
     margin-bottom: 22px;
-  }
-
-  &__instructions-button {
-    width: 100%;
-
-    // We use this selector for specificity.
-    &.module-Button {
-      font-size: 17px;
-    }
-
-    &--hidden {
-      visibility: hidden;
-    }
   }
 
   .BadgeCarouselIndex {

@@ -115,7 +115,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     return (
       <SearchInput
         i18n={i18n}
-        moduleClassName="module-left-pane__compose-search-form"
+        className="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
         placeholder={i18n('icu:contactSearchPlaceholder')}
         ref={focusRef}

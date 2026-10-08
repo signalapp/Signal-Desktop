@@ -11,24 +11,6 @@
   padding-block: 10px;
   padding-inline: 18px;
 
-  &__wave {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    border-radius: 16px;
-    height: 32px;
-    padding-block: 6px;
-    padding-inline: 12px;
-
-    @include mixins.light-theme {
-      background: variables.$color-gray-05;
-    }
-    @include mixins.dark-theme {
-      background: variables.$color-gray-75;
-    }
-  }
-
   &__microphone {
     flex-shrink: 0;
     display: inline-block;

@@ -710,7 +710,7 @@ function LocalBackupsBackupKeyViewer({
         <Modal
           i18n={i18n}
           modalName="LocalBackupsConfirmKeyModal"
-          moduleClassName="Preferences--LocalBackupsConfirmKeyModal"
+          className="Preferences--LocalBackupsConfirmKeyModal"
           noMouseClose
           noEscapeClose
           modalFooter={

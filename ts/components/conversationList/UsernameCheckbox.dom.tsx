@@ -10,7 +10,6 @@ import type { LookupConversationWithoutServiceIdActionsType } from '../../util/l
 import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { Spinner } from '../Spinner.dom.tsx';
-import { SPINNER_CLASS_NAME } from './BaseConversationListItem.dom.tsx';
 
 export type PropsDataType = {
   username: string;
@@ -81,12 +80,7 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = memo(
         leading={avatar}
         title={title}
         trailing={
-          <Spinner
-            size="20px"
-            svgSize="small"
-            moduleClassName={SPINNER_CLASS_NAME}
-            direction="on-progress-dialog"
-          />
+          <Spinner size="20px" svgSize="small" direction="on-progress-dialog" />
         }
       />
     ) : (

@@ -225,6 +225,7 @@ function onEscape(event: KeyboardEvent): void {
     (target.attributes as any).class &&
     (target.attributes as any).class.value
   ) {
+    // oxlint-disable-next-line signal-desktop/enforce-static-class-names
     const className = (target.attributes as any).class.value;
     /* oxlint-enable @typescript-eslint/no-explicit-any */
 

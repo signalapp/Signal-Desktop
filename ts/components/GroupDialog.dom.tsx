@@ -116,7 +116,7 @@ function Contacts({
             i18n={i18n}
           />
           <ContactName
-            module="module-GroupDialog__contacts__contact__name"
+            className="module-GroupDialog__contacts__contact__name"
             title={contact.title}
           />
         </li>

@@ -103,7 +103,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
         hasSearchIcon={false}
         disabled={this.#isFetching()}
         i18n={i18n}
-        moduleClassName="LeftPaneFindByUsernameHelper__search-input"
+        className="LeftPaneFindByUsernameHelper__search-input"
         onChange={onChangeComposeSearchTerm}
         placeholder={placeholder}
         ref={focusRef}

@@ -5,11 +5,9 @@
 @use '../variables';
 
 .SendStoryModal {
-  &__body {
-    // force
-    .module-Modal & {
-      padding-bottom: 0;
-    }
+  // force
+  &.module-Modal .module-Modal__body {
+    padding-bottom: 0;
   }
 
   // Used to ensure that a set of spans reverse order under RTL
@@ -37,12 +35,6 @@
     margin-block: 0 16px;
     margin-inline: auto;
     background-size: cover;
-  }
-
-  &__item--contact-or-conversation {
-    height: 52px;
-    padding-block: 0;
-    padding-inline: 6px;
   }
 
   &__top-bar {
@@ -77,7 +69,7 @@
       }
     }
 
-    &__option {
+    &__popper .ContextMenu__option {
       padding: 10px;
 
       &--icon {
@@ -141,11 +133,11 @@
   }
 
   &__distribution-list-context {
-    &__container {
+    &.ContextMenu__container {
       width: 100%;
     }
 
-    &__button {
+    .ContextMenu__button {
       align-items: center;
       display: flex;
       width: 100%;
@@ -154,7 +146,7 @@
 
   &__distribution-list {
     height: 52px;
-    &__container {
+    .Checkbox__container {
       justify-content: space-between;
       padding-block: 8px;
       padding-inline: 0;
@@ -182,12 +174,12 @@
       color: variables.$color-gray-25;
     }
 
-    &__checkbox {
+    .Checkbox__checkbox {
       margin-inline-end: 0;
       position: relative;
     }
 
-    &__checkbox input[type='checkbox'] {
+    .Checkbox__checkbox input[type='checkbox'] {
       cursor: pointer;
       height: 0;
       position: absolute;
@@ -306,7 +298,7 @@
     &__story {
       border-radius: 12px;
       backdrop-filter: blur(45px);
-      &__image {
+      .StoryImage__image {
         object-fit: contain;
       }
     }

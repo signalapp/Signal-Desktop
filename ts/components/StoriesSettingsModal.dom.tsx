@@ -102,11 +102,9 @@ function filterConversations(
   ).filter(conversation => conversation.serviceId);
 }
 
-const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'moduleClassName'> =
-  {
-    hasXButton: true,
-    moduleClassName: 'StoriesSettingsModal__modal',
-  };
+const modalCommonProps: Pick<ModalPropsType, 'hasXButton'> = {
+  hasXButton: true,
+};
 
 export function getListViewers(
   list: StoryDistributionListWithMembersDataType,
@@ -472,7 +470,7 @@ export function StoriesSettingsModal({
             'icu:StoriesSettings__view-receipts--new-description'
           )}
           label={i18n('icu:StoriesSettings__view-receipts--label')}
-          moduleClassName="StoriesSettingsModal__checkbox"
+          className="StoriesSettingsModal__checkbox"
           name="view-receipts"
           onChange={onStoryViewReceiptsChange}
         />
@@ -501,7 +499,7 @@ export function StoriesSettingsModal({
       {!confirmDiscardModal && (
         <PagedModal
           modalName="StoriesSettingsModal"
-          moduleClassName="StoriesSettingsModal"
+          className="StoriesSettingsModal"
           onClose={onTryClose}
         >
           {modal}
@@ -745,7 +743,7 @@ export function DistributionListSettingsModal({
           'icu:StoriesSettings__replies-reactions--description'
         )}
         label={i18n('icu:StoriesSettings__replies-reactions--label')}
-        moduleClassName="StoriesSettingsModal__checkbox"
+        className="StoriesSettingsModal__checkbox"
         name="replies-reactions"
         onChange={value => onRepliesNReactionsChanged(listToEdit.id, value)}
       />
@@ -877,7 +875,7 @@ export function EditMyStoryPrivacy({
         checked={myStories.isBlockList && !myStories.members.length}
         isRadio
         label={i18n('icu:StoriesSettings__mine__all--label')}
-        moduleClassName="StoriesSettingsModal__checkbox"
+        className="StoriesSettingsModal__checkbox"
         name="share"
         onChange={() => {
           setMyStoriesToAllSignalConnections();
@@ -906,7 +904,7 @@ export function EditMyStoryPrivacy({
         checked={myStories.isBlockList && myStories.members.length > 0}
         isRadio
         label={i18n('icu:StoriesSettings__mine__exclude--label')}
-        moduleClassName="StoriesSettingsModal__checkbox"
+        className="StoriesSettingsModal__checkbox"
         name="share"
         onChange={noop}
         onClick={() => {
@@ -939,7 +937,7 @@ export function EditMyStoryPrivacy({
         checked={!myStories.isBlockList && myStories.members.length > 0}
         isRadio
         label={i18n('icu:StoriesSettings__mine__only--label')}
-        moduleClassName="StoriesSettingsModal__checkbox"
+        className="StoriesSettingsModal__checkbox"
         name="share"
         onChange={noop}
         onClick={() => {
@@ -1093,7 +1091,7 @@ export function EditDistributionListModal({
           i18n={i18n}
           onChange={setStoryName}
           placeholder={i18n('icu:StoriesSettings__name-placeholder')}
-          moduleClassName="StoriesSettingsModal__input"
+          className="StoriesSettingsModal__input"
           value={storyName}
         />
 
@@ -1194,7 +1192,7 @@ export function EditDistributionListModal({
         disabled={candidateConversations.length === 0}
         i18n={i18n}
         placeholder={i18n('icu:contactSearchPlaceholder')}
-        moduleClassName="StoriesSettingsModal__search"
+        className="StoriesSettingsModal__search"
         onChange={event => {
           setSearchTerm(event.target.value);
         }}
@@ -1202,7 +1200,7 @@ export function EditDistributionListModal({
       />
 
       {selectedContacts.length ? (
-        <ContactPills moduleClassName="StoriesSettingsModal__tags">
+        <ContactPills className="StoriesSettingsModal__tags">
           {selectedContacts.map(contact => (
             <ContactPill
               key={contact.id}

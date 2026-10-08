@@ -10,7 +10,7 @@ import { Tabs } from './Tabs.dom.tsx';
 import type { CustomColorType } from '../types/Colors.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { getHSL } from '../util/getHSL.std.ts';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.ts';
+import { getCustomColorStyle } from '../util/getCustomColorStyle.std.ts';
 
 export type PropsType = {
   customColor?: CustomColorType;
@@ -59,7 +59,7 @@ export function CustomColorEditor({
   return (
     <Tabs
       initialSelectedTab={color.end ? TabViews.Gradient : TabViews.Solid}
-      moduleClassName="CustomColorEditor__tabs"
+      className="CustomColorEditor__tabs"
       onTabChange={selectedTab => {
         if (selectedTab === TabViews.Gradient && !color.end) {
           setColor({
@@ -129,7 +129,7 @@ export function CustomColorEditor({
                   }),
                 }}
                 label={i18n('icu:CustomColorEditor__hue')}
-                moduleClassName="CustomColorEditor__hue-slider"
+                className="CustomColorEditor__hue-slider"
                 onChange={(percentage: number) => {
                   setColor({
                     ...color,
@@ -157,7 +157,7 @@ export function CustomColorEditor({
                   ),
                 }}
                 label={i18n('icu:CustomColorEditor__saturation')}
-                moduleClassName="CustomColorEditor__saturation-slider"
+                className="CustomColorEditor__saturation-slider"
                 onChange={(value: number) => {
                   setColor({
                     ...color,

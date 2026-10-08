@@ -179,7 +179,7 @@ export function AddUserToAnotherGroupModal({
           i18n={i18n}
           onClose={toggleAddUserToAnotherGroupModal}
           title={i18n('icu:AddUserToAnotherGroupModal__title')}
-          moduleClassName="AddUserToAnotherGroupModal"
+          className="AddUserToAnotherGroupModal"
           padded={false}
         >
           <div className="AddUserToAnotherGroupModal__main-body">

@@ -112,7 +112,7 @@ export function CallingSelectPresentingSourcesModal({
       modalName="CallingSelectPresentingSourcesModal"
       hasXButton
       i18n={i18n}
-      moduleClassName="module-CallingSelectPresentingSourcesModal"
+      className="module-CallingSelectPresentingSourcesModal"
       onClose={cancelPresenting}
       theme={Theme.Dark}
       title={i18n('icu:calling__SelectPresentingSourcesModal--title')}

@@ -130,10 +130,10 @@ export namespace AxoAlertDialog {
       <AlertDialog.Portal>
         <AxoTheme.Inherit>
           <AxoBaseDialog.Host>
-            <AlertDialog.Overlay className={AxoBaseDialog.overlayStyles} />
+            <AlertDialog.Overlay className={AxoBaseDialog.overlayClassName} />
             <AlertDialog.Content
               onEscapeKeyDown={handleContentEscapeEvent}
-              className={tw(AxoBaseDialog.contentStyles, 'w-72 min-w-72')}
+              className={tw(AxoBaseDialog.contentClassName, 'w-72 min-w-72')}
             >
               {props.children}
             </AlertDialog.Content>

@@ -67,7 +67,6 @@ import {
 } from '../quill/util.dom.ts';
 import { SignalClipboard } from '../quill/signal-clipboard/index.dom.ts';
 import { DirectionalBlot } from '../quill/block/blot.dom.tsx';
-import { getClassNamesFor } from '../util/getClassNamesFor.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
@@ -158,7 +157,8 @@ export type Props = Readonly<{
   emojiSkinToneDefault: Emoji.SkinTone | null;
   draftText: string | null;
   draftBodyRanges: HydratedBodyRangesType | null;
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   theme: ThemeType;
   placeholder?: string;
   sortedGroupMembers: ReadonlyArray<ConversationType> | null;
@@ -193,8 +193,6 @@ export type Props = Readonly<{
   onToggleViewOnce: () => void;
 }>;
 
-const BASE_CLASS_NAME = 'module-composition-input';
-
 export function CompositionInput(props: Props): ReactElement {
   const {
     children,
@@ -211,7 +209,7 @@ export function CompositionInput(props: Props): ReactElement {
     large,
     linkPreviewLoading,
     linkPreviewResult,
-    moduleClassName,
+    className,
     onCloseLinkPreview,
     onBlur,
     onFocus,
@@ -854,7 +852,7 @@ export function CompositionInput(props: Props): ReactElement {
 
       return (
         <SimpleQuillWrapper
-          className={`${BASE_CLASS_NAME}__quill`}
+          className="module-composition-input__quill"
           onChange={() => callbacksRef.current.onChange()}
           defaultValue={delta}
           modules={{
@@ -1014,8 +1012,6 @@ export function CompositionInput(props: Props): ReactElement {
   //   visual text box is much larger. Clicking that should allow you to start typing,
   //   hence the click handler.
 
-  const getClassName = getClassNamesFor(BASE_CLASS_NAME, moduleClassName);
-
   const onMouseDown = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       const { currentTarget } = event;
@@ -1052,9 +1048,12 @@ export function CompositionInput(props: Props): ReactElement {
         {({ ref }) => (
           <div
             className={classNames(
-              getClassName('__input'),
-              showViewOnceButton && getClassName('__input--with-view-once'),
-              isViewOnceActive && getClassName('__input--view-once-active')
+              'module-composition-input__input',
+              showViewOnceButton &&
+                'module-composition-input__input--with-view-once',
+              isViewOnceActive &&
+                'module-composition-input__input--view-once-active',
+              className
             )}
             data-supertab
             ref={ref}
@@ -1074,12 +1073,12 @@ export function CompositionInput(props: Props): ReactElement {
               />
             ) : null}
             {draftEditMessage && (
-              <div className={getClassName('__editing-message')}>
+              <div className="module-composition-input__editing-message">
                 {i18n('icu:CompositionInput__editing-message')}
               </div>
             )}
             {draftEditMessage?.attachmentThumbnail && (
-              <div className={getClassName('__editing-message__attachment')}>
+              <div className="module-composition-input__editing-message__attachment">
                 <img
                   alt={i18n('icu:stagedImageAttachment', {
                     path: draftEditMessage.attachmentThumbnail,
@@ -1091,14 +1090,14 @@ export function CompositionInput(props: Props): ReactElement {
             {conversationId && linkPreviewLoading && linkPreviewResult && (
               <StagedLinkPreview
                 {...linkPreviewResult}
-                moduleClassName="CompositionInput__link-preview"
+                className="CompositionInput__link-preview"
                 i18n={i18n}
                 onClose={() => onCloseLinkPreview?.(conversationId)}
               />
             )}
             {children}
             {isViewOnceActive && (
-              <div className={getClassName('__view-once-placeholder')}>
+              <div className="module-composition-input__view-once-placeholder">
                 {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
               </div>
             )}
@@ -1107,12 +1106,16 @@ export function CompositionInput(props: Props): ReactElement {
               onClick={focus}
               onScroll={onScroll}
               className={classNames(
-                getClassName('__input__scroller'),
+                'module-composition-input__input__scroller',
                 !large && linkPreviewResult
-                  ? getClassName('__input__scroller--link-preview')
+                  ? 'module-composition-input__input__scroller--link-preview'
                   : null,
-                large ? getClassName('__input__scroller--large') : null,
-                children ? getClassName('__input--with-children') : null
+                large
+                  ? 'module-composition-input__input__scroller--large'
+                  : null,
+                children
+                  ? 'module-composition-input__input--with-children'
+                  : null
               )}
             >
               {reactQuill}
@@ -1125,7 +1128,7 @@ export function CompositionInput(props: Props): ReactElement {
               )}
             </div>
             {showViewOnceButton && (
-              <div className={getClassName('__view-once-button')}>
+              <div className="module-composition-input__view-once-button">
                 <AxoTooltip.Root
                   label={i18n('icu:CompositionArea--viewOnceToggle')}
                   tooltipRepeatsTriggerAccessibleName

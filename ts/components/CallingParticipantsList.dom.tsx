@@ -74,7 +74,7 @@ export const CallingParticipantsList = memo(
     return (
       <ModalHost
         modalName="CallingParticipantsList"
-        moduleClassName="CallingParticipantsList"
+        className="CallingParticipantsList__modal"
         onClose={onClose}
       >
         <div className="CallingParticipantsList module-calling-participants-list">

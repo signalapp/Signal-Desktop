@@ -9,14 +9,12 @@ import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { scrollToBottom } from '../util/scrollUtil.std.ts';
 
 type PropsType = {
-  moduleClassName?: string;
+  /** @deprecated */
+  className?: string;
   children?: ReactNode;
 };
 
-export function ContactPills({
-  moduleClassName,
-  children,
-}: PropsType): JSX.Element {
+export function ContactPills({ className, children }: PropsType): JSX.Element {
   const elRef = useRef<null | HTMLDivElement>(null);
 
   // oxlint-disable-next-line no-react-children
@@ -32,10 +30,7 @@ export function ContactPills({
   }, [childCount, previousChildCount]);
 
   return (
-    <div
-      className={classNames('module-ContactPills', moduleClassName)}
-      ref={elRef}
-    >
+    <div className={classNames('module-ContactPills', className)} ref={elRef}>
       {children}
     </div>
   );

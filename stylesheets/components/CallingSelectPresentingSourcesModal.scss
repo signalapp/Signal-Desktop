@@ -5,7 +5,7 @@
 @use '../variables';
 
 .module-CallingSelectPresentingSourcesModal {
-  &__width-container {
+  .module-modal-host__width-container {
     max-width: 665px;
     position: relative;
   }
@@ -55,11 +55,6 @@
     img {
       display: inline-block;
     }
-  }
-
-  &__screenshot {
-    max-height: 102px;
-    max-width: 184px;
   }
 
   &__name {

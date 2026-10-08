@@ -60,7 +60,7 @@ export namespace AxoBaseDialog {
    * --------------------------------------------------------------------------
    */
 
-  export const overlayStyles = tw(
+  export const overlayClassName = tw(
     'absolute inset-0 bg-overlay',
     'z-0',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
@@ -73,7 +73,7 @@ export namespace AxoBaseDialog {
    * --------------------------------------------------------------------------
    */
 
-  export const contentStyles = tw(
+  export const contentClassName = tw(
     'relative',
     'z-10',
     'max-h-full min-h-fit',

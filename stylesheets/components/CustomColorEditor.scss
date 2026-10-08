@@ -18,14 +18,6 @@
     margin-inline: -16px;
   }
 
-  &__gradient-knob {
-    @include mixins.color-bubble(42px);
-    & {
-      cursor: move;
-      position: absolute;
-    }
-  }
-
   &__slider-container {
     margin-top: 26px;
   }
@@ -47,7 +39,7 @@
     margin-bottom: 30px;
   }
 
-  &__hue-slider__handle {
+  &__hue-slider .Slider__handle {
     &:focus-visible {
       outline: none;
     }

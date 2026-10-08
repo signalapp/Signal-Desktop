@@ -23,7 +23,7 @@ import {
 } from '../types/NotificationProfile.std.ts';
 import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
 import { addLeadingZero } from '../util/timestamp.std.ts';
-import { themeClassName2 } from '../util/theme.std.ts';
+import { themeClassName } from '../util/theme.std.ts';
 
 const FIVE_PM = 1700;
 const HOURS_24 = range(0, 24);
@@ -184,7 +184,7 @@ export function TimePicker(props: PropsType): JSX.Element {
                 'flex h-[244px] rounded-[10px] bg-surface-secondary p-1 shadow-elevation-1'
               ),
               use24HourTime ? tw('w-[102px]') : tw('w-[150px]'),
-              theme ? themeClassName2(theme) : undefined
+              theme ? themeClassName(theme) : undefined
             )}
           >
             {/* Radix warns without a title, and labels the popup with it */}

@@ -26,12 +26,6 @@
   color: var(--axo-color-label-secondary);
 }
 
-.FunResults__Actions {
-  display: flex;
-  flex-direction: row;
-  gap: 6px;
-}
-
 .FunResults__Button {
   @include mixins.button-reset();
   & {

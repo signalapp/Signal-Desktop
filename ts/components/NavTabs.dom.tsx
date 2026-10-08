@@ -96,7 +96,7 @@ function NavTabsItem({
           <span className="NavTabs__ItemContent">
             <span
               role="presentation"
-              className={`NavTabs__ItemIcon ${iconClassName}`}
+              className={classNames('NavTabs__ItemIcon', iconClassName)}
             />
             <NavTabsItemBadges
               i18n={i18n}

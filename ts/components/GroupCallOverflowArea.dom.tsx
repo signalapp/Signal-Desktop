@@ -190,18 +190,26 @@ function OverflowAreaScrollMarker({
   onClick: () => void;
   placement: 'top' | 'bottom';
 }): ReactElement {
-  const baseClassName =
-    'module-ongoing-call__participants__overflow__scroll-marker';
+  const placements = {
+    top: 'module-ongoing-call__participants__overflow__scroll-marker--top',
+    bottom:
+      'module-ongoing-call__participants__overflow__scroll-marker--bottom',
+  };
 
   return (
     <div
-      className={classNames(baseClassName, `${baseClassName}--${placement}`, {
-        [`${baseClassName}--hidden`]: isHidden,
-      })}
+      className={classNames(
+        'module-ongoing-call__participants__overflow__scroll-marker',
+        placements[placement],
+        {
+          'module-ongoing-call__participants__overflow__scroll-marker--hidden':
+            isHidden,
+        }
+      )}
     >
       <button
         type="button"
-        className={`${baseClassName}__button`}
+        className="module-ongoing-call__participants__overflow__scroll-marker__button"
         onClick={onClick}
         aria-label={
           placement === 'top'

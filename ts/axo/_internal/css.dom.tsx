@@ -5,22 +5,22 @@ import type { TailwindStyles } from '../tw.dom.tsx';
 
 /** @internal */
 export function concatClassNames(
-  classNames: ReadonlyArray<string | boolean | null | undefined>
+  input: ReadonlyArray<string | boolean | null | undefined>
 ): TailwindStyles {
-  const { length } = classNames;
+  const { length } = input;
 
   let result = '';
   let first = true;
 
   for (let index = 0; index < length; index += 1) {
-    const className = classNames[index];
-    if (typeof className === 'string') {
+    const item = input[index];
+    if (typeof item === 'string') {
       if (first) {
         first = false;
       } else {
         result += ' ';
       }
-      result += className;
+      result += item;
     }
   }
 
@@ -29,9 +29,7 @@ export function concatClassNames(
 
 /** @internal */
 export function css(
-  ...classnames: Array<
-    TailwindStyles | `axo-${string}` | boolean | null | undefined
-  >
+  ...input: Array<TailwindStyles | `axo-${string}` | boolean | null | undefined>
 ): TailwindStyles {
-  return concatClassNames(classnames);
+  return concatClassNames(input);
 }

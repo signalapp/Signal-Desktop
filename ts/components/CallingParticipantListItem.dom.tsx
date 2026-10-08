@@ -133,7 +133,7 @@ export function CallingParticipantListItem({
           <div className={tw('min-w-0')}>
             <div className={tw('min-w-0 truncate')}>
               <ContactName
-                module="module-calling-participants-list__name"
+                className="module-calling-participants-list__name"
                 title={participant.title}
               />
               {isInSystemContacts(participant) ? (

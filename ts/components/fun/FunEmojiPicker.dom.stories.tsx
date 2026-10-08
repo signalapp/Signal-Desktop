@@ -74,7 +74,6 @@ function Template(props: TemplateProps): JSX.Element {
           options={skinToneOptions}
           value={skinTone}
           onChange={handleSkinToneChange}
-          moduleClassName="emoji-skin-tone-select"
         />
         <FunEmojiPicker {...props} open={open} onOpenChange={handleOpenChange}>
           <Button>Open EmojiPicker</Button>
