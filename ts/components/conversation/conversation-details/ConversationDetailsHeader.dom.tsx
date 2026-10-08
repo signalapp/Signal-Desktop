@@ -85,7 +85,7 @@ export function ConversationDetailsHeader({
         number: membersCount ?? 0,
       });
     }
-  } else if (!isMe) {
+  } else if (!isMe && conversation.about) {
     subtitle = (
       <div className="ConversationDetailsHeader__subtitle__about">
         <About text={conversation.about} />
@@ -292,7 +292,9 @@ export function ConversationDetailsHeader({
           </span>
         </div>
       )}
-      <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
+      {subtitle ? (
+        <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
+      ) : null}
     </div>
   );
 }

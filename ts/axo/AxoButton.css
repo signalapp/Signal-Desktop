@@ -110,15 +110,15 @@
   }
 
   .axo-button-subtle-primary {
-    @apply bg-primary text-primary;
-    @apply not-aria-disabled:active:bg-primary-pressed;
-    @apply data-[axo-discouraged=true]:text-disabled;
-  }
-
-  .axo-button-subtle-secondary {
     @apply bg-accent-tint text-accent;
     @apply not-aria-disabled:active:bg-accent-tint-pressed;
     @apply data-[axo-discouraged=true]:text-accent-disabled;
+  }
+
+  .axo-button-subtle-secondary {
+    @apply bg-primary text-primary;
+    @apply not-aria-disabled:active:bg-primary-pressed;
+    @apply data-[axo-discouraged=true]:text-disabled;
   }
 
   .axo-button-subtle-affirmative {
