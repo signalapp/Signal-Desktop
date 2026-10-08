@@ -34,6 +34,7 @@ import {
   type BackupCdnInfoType,
   getLocalBackupFileNameForAttachment,
   getLocalBackupFileName,
+  getPlaintextExportFileNameForAttachment,
 } from './mediaId.preload.ts';
 import { missingCaseError } from '../../../util/missingCaseError.std.ts';
 import { bytesToUuid } from '../../../util/uuidToBytes.std.ts';
@@ -276,9 +277,9 @@ export async function getFilePointerForAttachment({
     ? await getBackupCdnInfo(remoteMediaId.string)
     : { isInBackupTier: false };
 
+  const isPlaintextExport = backupOptions.type === 'plaintext-export';
   const isLocalBackup =
-    backupOptions.type === 'local-encrypted' ||
-    backupOptions.type === 'plaintext-export';
+    backupOptions.type === 'local-encrypted' || isPlaintextExport;
   filePointer.locatorInfo = getLocatorInfoForAttachment({
     attachment,
     backupOptions,
@@ -294,8 +295,10 @@ export async function getFilePointerForAttachment({
       return {
         filePointer,
         backupJob: {
-          isPlaintextExport: backupOptions.type === 'plaintext-export',
-          mediaName: getLocalBackupFileNameForAttachment(attachment),
+          isPlaintextExport,
+          mediaName: isPlaintextExport
+            ? getPlaintextExportFileNameForAttachment(attachment)
+            : getLocalBackupFileNameForAttachment(attachment),
           type: 'local',
           data: {
             contentType: attachment.contentType,

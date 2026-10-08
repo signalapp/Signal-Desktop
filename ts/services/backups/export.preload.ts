@@ -145,6 +145,7 @@ import {
   getBackupCdnInfo,
   getLocalBackupFileNameForAttachment,
   getMediaNameForAttachment,
+  getPlaintextExportFileNameForAttachment,
 } from './util/mediaId.preload.ts';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
@@ -3360,12 +3361,13 @@ export class BackupExportStream {
     });
 
     let mediaName: string | undefined;
-    if (
-      this.#options.type === 'local-encrypted' ||
-      this.#options.type === 'plaintext-export'
-    ) {
+    if (this.#options.type === 'local-encrypted') {
       if (hasRequiredInformationForLocalBackup(attachment)) {
         mediaName = getLocalBackupFileNameForAttachment(attachment);
+      }
+    } else if (this.#options.type === 'plaintext-export') {
+      if (hasRequiredInformationForLocalBackup(attachment)) {
+        mediaName = getPlaintextExportFileNameForAttachment(attachment);
       }
     } else if (hasRequiredInformationForRemoteBackup(attachment)) {
       mediaName = getMediaNameForAttachment(attachment);

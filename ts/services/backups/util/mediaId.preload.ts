@@ -77,6 +77,12 @@ export function getLocalBackupFileName({
   return Bytes.toHex(sha256(Bytes.concatenate([plaintextHash, localKey])));
 }
 
+export function getPlaintextExportFileNameForAttachment(
+  attachment: AttachmentReadyForLocalBackup
+): string {
+  return attachment.plaintextHash;
+}
+
 export function getMediaNameForAttachmentThumbnail(
   fullsizeMediaName: string
 ): `${string}_thumbnail` {
