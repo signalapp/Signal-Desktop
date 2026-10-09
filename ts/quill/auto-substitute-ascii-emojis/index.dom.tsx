@@ -28,7 +28,7 @@ const emojiShortcutMap: EmojiShortcutMap = {
   ':-|': Emoji.NEUTRAL_FACE,
   ';-)': Emoji.WINK,
   '(Y)': Emoji.THUMBS_UP,
-  '(N)': Emoji.THUMBS_UP,
+  '(N)': Emoji.THUMBS_DOWN,
   '(y)': Emoji.THUMBS_UP,
   '(n)': Emoji.THUMBS_DOWN,
   '<3': Emoji.HEART,
