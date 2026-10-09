@@ -313,6 +313,9 @@ describe('backups', function (this: Mocha.Suite) {
 
         debug('Waiting for messages to pinned contact to come through');
         await pinnedElem.click();
+        await window
+          .locator('.ConversationView .module-message >> "cat photo"')
+          .waitFor();
 
         const contactElem = leftPane.locator(
           `[data-testid="${friend.device.aci}"] >> "respond 4"`
