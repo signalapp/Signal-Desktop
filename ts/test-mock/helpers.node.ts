@@ -94,9 +94,17 @@ const VERIFICATION_CODE_LENGTH = 6;
 async function getVerificationCodeInputs(window: Page): Promise<Locator> {
   const locators = window
     .getByRole('group', { name: 'Verification code' })
-    .getByRole('textbox', { name: /^Character \d+ of \d+$/ });
+    .getByRole('textbox', {
+      name: new RegExp(`^Character \\d+ of ${VERIFICATION_CODE_LENGTH}`),
+    });
   // Wait for the items to be fully rendered
   await expect(locators).toHaveCount(VERIFICATION_CODE_LENGTH);
+  for (const input of await locators.all()) {
+    // oxlint-disable-next-line no-await-in-loop
+    await expect(input).toBeVisible();
+    // oxlint-disable-next-line no-await-in-loop
+    await expect(input).toBeEnabled();
+  }
   return locators;
 }
 
