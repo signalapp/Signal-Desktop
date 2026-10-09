@@ -275,6 +275,9 @@ importers:
       '@signalapp/types':
         specifier: workspace:*
         version: link:packages/types
+      '@signalapp/windows-local-pipe':
+        specifier: workspace:*
+        version: link:packages/windows-local-pipe
       '@signalapp/windows-ucv':
         specifier: workspace:*
         version: link:packages/windows-ucv
@@ -1041,6 +1044,25 @@ importers:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
+
+  packages/windows-local-pipe:
+    dependencies:
+      bindings:
+        specifier: 1.5.0
+        version: 1.5.0
+      node-addon-api:
+        specifier: 8.8.0
+        version: 8.8.0
+    devDependencies:
+      '@types/bindings':
+        specifier: 1.5.5
+        version: 1.5.5
+      '@types/node':
+        specifier: 24.12.0
+        version: 24.12.0
+      typescript:
+        specifier: npm:@typescript/typescript6@6.0.2
+        version: '@typescript/typescript6@6.0.2'
 
   packages/windows-ucv:
     dependencies:

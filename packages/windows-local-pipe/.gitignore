@@ -1,0 +1,8 @@
+dist/
+coverage/
+node_modules/
+npm-debug.log
+.eslintcache
+.DS_Store
+docs/
+build/

@@ -126,6 +126,7 @@
     "@signalapp/ringrtc": "2.72.1",
     "@signalapp/sqlcipher": "4.1.0",
     "@signalapp/types": "workspace:*",
+    "@signalapp/windows-local-pipe": "workspace:*",
     "@signalapp/windows-ucv": "workspace:*",
     "google-libphonenumber": "3.2.44"
   },
@@ -629,6 +630,7 @@
       "!node_modules/@signalapp/ringrtc/scripts/*",
       "node_modules/@signalapp/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/@signalapp/windows-ucv/build/Release/*.node",
+      "node_modules/@signalapp/windows-local-pipe/build/Release/*.node",
       "node_modules/@signalapp/mute-state-change/build/Release/*.node",
       "node_modules/@indutny/simple-windows-notifications/prebuilds/${platform}-${arch}/*.node",
       "node_modules/@indutny/mac-screen-share/prebuilds/${platform}-${arch}/*.node",

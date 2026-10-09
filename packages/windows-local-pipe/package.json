@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "name": "@signalapp/windows-local-pipe",
+  "version": "1.0.0",
+  "description": "Windows named pipe server restricted to the current user and the local machine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "addon.cpp",
+    "dist",
+    "!dist/tsconfig.tsbuildinfo",
+    "README.md",
+    "binding.gyp"
+  ],
+  "scripts": {
+    "watch": "npm run build -- --watch",
+    "preinstall": "npm run build",
+    "build": "tsc6",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "named pipe",
+    "windows",
+    "ipc"
+  ],
+  "author": {
+    "name": "Signal Messenger, LLC",
+    "email": "support@signal.org"
+  },
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "bindings": "1.5.0",
+    "node-addon-api": "8.8.0"
+  },
+  "devDependencies": {
+    "@types/bindings": "1.5.5",
+    "@types/node": "24.12.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
+  }
+}

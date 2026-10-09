@@ -30,6 +30,7 @@ packages/*/node_modules/**
 packages/lame/wrapper.mjs
 packages/lame/lame-*/
 packages/windows-ucv/dist/**
+packages/windows-local-pipe/dist/**
 packages/mock-server/src/**/*.js
 packages/mock-server/src/**/*.d.ts
 packages/mock-server/test/**/*.js
