@@ -39,8 +39,9 @@ describe('standalone/reencrypt', function (this: Mocha.Suite) {
     const { contacts, server } = bootstrap;
     const { aci, storageKey, recordIkm } = standaloneLinkData;
 
-    const firstState = await server.waitForStorageState({
+    const firstState = await server.expectStorageState({
       aci,
+      reason: 'after registration',
       storageKey,
       recordIkm,
     });
@@ -107,8 +108,9 @@ describe('standalone/reencrypt', function (this: Mocha.Suite) {
 
     debug('First, update storage service on server with bad key');
 
-    const existingState = await server.waitForStorageState({
+    const existingState = await server.expectStorageState({
       aci,
+      reason: 'before bad key update',
       storageKey,
       recordIkm,
     });
@@ -151,22 +153,19 @@ describe('standalone/reencrypt', function (this: Mocha.Suite) {
       'newRecordIkm should not be the badRecordIkm'
     );
 
-    const finalState = await server.waitForStorageState({
-      aci,
-      after: stateForEncryptionUpdate,
-      storageKey,
-      recordIkm: newRecordIkm,
-    });
-
     debug('Ensure firstContact is in storage service');
 
     const [firstContact] = contacts as [PrimaryDevice];
+    await server.waitForStorageState({
+      aci,
+      after: stateForEncryptionUpdate,
+      predicate: state =>
+        state.hasRecord(
+          item => item.record.contact?.givenName === firstContact.profileName
+        ),
 
-    assert.isTrue(
-      finalState.hasRecord(
-        item => item.record.contact?.givenName === firstContact.profileName
-      ),
-      'looking for contact record that matches givenName'
-    );
+      storageKey,
+      recordIkm: newRecordIkm,
+    });
   });
 });

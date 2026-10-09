@@ -80,14 +80,11 @@ describe('storage service', function (this: Mocha.Suite) {
       debug('waiting for next storage state');
       const nextState = await phone.waitForStorageState({
         after: updatedState,
+        predicate: storageState =>
+          !storageState.hasRecord(({ type }) => {
+            return type === IdentifierType.GROUPV1;
+          }),
       });
-
-      assert.isFalse(
-        nextState.hasRecord(({ type }) => {
-          return type === IdentifierType.GROUPV1;
-        }),
-        'should not have gv1 record'
-      );
 
       assert.isTrue(
         nextState.hasRecord(({ type, record }) => {
@@ -142,14 +139,11 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('waiting for next storage state');
     const nextState = await phone.waitForStorageState({
       after: updatedState,
+      predicate: storageState =>
+        !storageState.hasRecord(({ type, key }) => {
+          return type === IdentifierType.ACCOUNT && key.equals(oldAccount.key);
+        }),
     });
-
-    assert.isFalse(
-      nextState.hasRecord(({ type, key }) => {
-        return type === IdentifierType.ACCOUNT && key.equals(oldAccount.key);
-      }),
-      'should not have old account record'
-    );
 
     assert.isTrue(
       nextState.hasRecord(({ type }) => {

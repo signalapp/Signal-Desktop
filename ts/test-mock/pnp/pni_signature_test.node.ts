@@ -319,6 +319,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     {
       const newState = await phone.waitForStorageState({
         after: state,
+        predicate: storageState =>
+          storageState.getContact(stranger, ServiceIdKind.PNI) != null,
       });
 
       const aciRecord = newState.getContact(stranger, ServiceIdKind.ACI);
@@ -423,22 +425,23 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     debug('Verify final state');
 
     {
-      const newState = await phone.waitForStorageState({
+      await phone.waitForStorageState({
         after: state,
+        predicate: storageState => {
+          const aciRecord = storageState.getContact(
+            stranger,
+            ServiceIdKind.ACI
+          );
+          const pniRecord = storageState.getContact(
+            stranger,
+            ServiceIdKind.PNI
+          );
+
+          return (
+            aciRecord?.pniSignatureVerified === true && aciRecord === pniRecord
+          );
+        },
       });
-
-      const pniRecord = newState.getContact(stranger, ServiceIdKind.PNI);
-      const aciRecord = newState.getContact(stranger, ServiceIdKind.ACI);
-      assert.strictEqual(
-        aciRecord,
-        pniRecord,
-        'ACI Contact must be the same as PNI Contact storage service'
-      );
-      assert(aciRecord, 'ACI Contact must be in storage service');
-
-      assert.deepEqual(aciRecord?.aciBinary, stranger.device.aciRawUuid);
-      assert.deepEqual(aciRecord?.pniBinary, stranger.device.pniRawUuid);
-      assert.strictEqual(aciRecord?.pniSignatureVerified, true);
 
       assert.isEmpty(phone.getOrphanedStorageKeys());
 

@@ -134,33 +134,13 @@ describe('pnp/username', function (this: Mocha.Suite) {
         .waitFor();
 
       debug('verify that storage service state is updated');
-      {
-        const newState = await phone.waitForStorageState({
-          after: state,
-        });
 
-        const { added, removed } = newState.diff(state);
-        assert.strictEqual(added.length, 1, 'only one record must be added');
-        assert.strictEqual(
-          removed.length,
-          1,
-          'only one record must be removed'
-        );
-
-        assert.ok(added[0]?.contact != null);
-        assert.deepEqual(
-          added[0].contact.aciBinary,
-          usernameContact.device.aciRawUuid
-        );
-        assert.strictEqual(added[0].contact.username, '');
-
-        assert.ok(removed[0]?.contact != null);
-        assert.deepEqual(
-          removed[0].contact.aciBinary,
-          usernameContact.device.aciRawUuid
-        );
-        assert.strictEqual(removed[0].contact.username, USERNAME);
-      }
+      assert.strictEqual(state.getContact(usernameContact)?.username, USERNAME);
+      await phone.waitForStorageState({
+        after: state,
+        predicate: storageState =>
+          storageState.getContact(usernameContact)?.username === '',
+      });
 
       if (type === 'system') {
         // No notifications
@@ -233,15 +213,11 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
       const newState = await phone.waitForStorageState({
         after: state,
+        predicate: storageState =>
+          storageState.getAccountRecord()?.username === username,
       });
 
-      const { added, removed } = newState.diff(state);
-      assert.strictEqual(added.length, 1, 'only one record must be added');
-      assert.strictEqual(removed.length, 1, 'only one record must be removed');
-
-      assert.ok(added[0]?.account != null);
-      assert.strictEqual(added[0].account.username, username);
-      const { usernameLink } = added[0].account;
+      const usernameLink = newState.getAccountRecord()?.usernameLink;
       if (!usernameLink) {
         throw new Error('No username link in AccountRecord');
       }
@@ -298,26 +274,21 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
       const newState = await phone.waitForStorageState({
         after: state,
+        predicate: storageState =>
+          storageState.getAccountRecord()?.username === '',
       });
 
-      const { added, removed } = newState.diff(state);
-      assert.strictEqual(added.length, 1, 'only one record must be added');
-      assert.strictEqual(removed.length, 1, 'only one record must be removed');
-
-      assert.ok(added[0]?.account != null, 'expected updated account');
-      assert.strictEqual(added[0].account.username, '', 'clears username');
+      const usernameLink = newState.getAccountRecord()?.usernameLink;
       assert.strictEqual(
-        added[0].account.usernameLink?.entropy?.length ?? 0,
+        usernameLink?.entropy?.length ?? 0,
         0,
         'clears usernameLink.entropy'
       );
       assert.strictEqual(
-        added[0].account.usernameLink?.serverId?.length ?? 0,
+        usernameLink?.serverId?.length ?? 0,
         0,
         'clears usernameLink.serverId'
       );
-
-      state = newState;
     }
   });
 

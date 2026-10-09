@@ -1151,12 +1151,8 @@ async function uploadManifest(
     log.warn(`${logId}: nothing to upload`);
   }
 
+  const storageKeyBase64 = itemStorage.get('storageKey');
   const recordIkm = itemStorage.get('manifestRecordIkm');
-  window.SignalCI?.handleEvent('uploadManifest', {
-    version,
-    storageKeyBase64: itemStorage.get('storageKey'),
-    recordIkmBase64: recordIkm ? Bytes.toBase64(recordIkm) : undefined,
-  });
 
   const credentials = itemStorage.get('storageCredentials');
   try {
@@ -1175,6 +1171,12 @@ async function uploadManifest(
 
     await modifyStorageRecords(writeOperation, {
       credentials,
+    });
+
+    window.SignalCI?.handleEvent('uploadManifest', {
+      version,
+      storageKeyBase64,
+      recordIkmBase64: recordIkm ? Bytes.toBase64(recordIkm) : undefined,
     });
 
     log.info(

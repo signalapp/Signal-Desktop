@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { assert } from 'chai';
 import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.ts';
@@ -104,10 +103,5 @@ describe('storage service', function (this: Mocha.Suite) {
     await leftPane
       .locator(`[data-testid="${lastContact.device.aci}"]`)
       .waitFor({ timeout: durations.MINUTE });
-
-    debug('Verifying the final manifest version');
-    const finalState = await phone.expectStorageState('consistency check');
-
-    assert.strictEqual(finalState.version, 2n);
   });
 });

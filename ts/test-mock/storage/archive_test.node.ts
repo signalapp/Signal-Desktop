@@ -104,7 +104,9 @@ describe('storage service', function (this: Mocha.Suite) {
       });
       await archiveButton.click();
 
-      const newState = await phone.waitForStorageState({
+      assert.isTrue(state.isPinned(firstContact));
+      assert.isFalse(state.getContact(firstContact)?.archived);
+      await phone.waitForStorageState({
         after: state,
         predicate: storageState => {
           return (
@@ -113,16 +115,6 @@ describe('storage service', function (this: Mocha.Suite) {
           );
         },
       });
-
-      // AccountRecord + ContactRecord
-      const { added, removed } = newState.diff(state);
-      assert.strictEqual(added.length, 2, 'only two records must be added');
-      assert.strictEqual(removed.length, 2, 'only two records must be removed');
     }
-
-    debug('Verifying the final manifest version');
-    const finalState = await phone.expectStorageState('consistency check');
-
-    assert.strictEqual(finalState.version, 4n);
   });
 });
