@@ -290,7 +290,6 @@ import * as Message from '../types/Message2.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
-import { canConversationOnlyBeMutedAlways } from '../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 import { keyTransparency } from '../services/keyTransparency.preload.ts';
 import type { PollSource } from '../messageModifiers/Polls.preload.ts';
 import { isSignalServiceId } from '../types/SignalConversation.std.ts';
@@ -5907,19 +5906,9 @@ export class ConversationModel {
   }
 
   setMuteExpiration(
-    expiresAt: MuteExpiration = MuteExpiration.UNMUTED,
+    muteExpiresAt: MuteExpiration = MuteExpiration.UNMUTED,
     { viaStorageServiceSync = false } = {}
   ): void {
-    let muteExpiresAt = expiresAt;
-
-    if (
-      muteExpiresAt > MuteExpiration.UNMUTED &&
-      canConversationOnlyBeMutedAlways(this.attributes)
-    ) {
-      log.error('Invalid mute expiration for only-always-mute conversation');
-      muteExpiresAt = MuteExpiration.ALWAYS;
-    }
-
     const prevExpiration = this.get('muteExpiresAt');
 
     if (prevExpiration === muteExpiresAt) {

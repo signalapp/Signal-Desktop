@@ -41,20 +41,9 @@ export function getMuteExpiration(
 export function getMuteValuesOptions(
   i18n: LocalizerType,
   options: {
-    canOnlyBeMutedAlways?: boolean;
     isCurrentlyMutedAlways?: boolean;
   } = {}
 ): ReadonlyArray<MuteOption> {
-  const muteAlwaysOption: MuteOption = {
-    name: i18n('icu:MuteMenu__always'),
-    disabled: options.isCurrentlyMutedAlways === true,
-    value: { type: 'always' },
-  };
-
-  if (options.canOnlyBeMutedAlways) {
-    return [muteAlwaysOption];
-  }
-
   return [
     {
       name: i18n('icu:MuteMenu__hour'),
@@ -76,7 +65,11 @@ export function getMuteValuesOptions(
       name: i18n('icu:MuteMenu__until'),
       value: { type: 'custom' },
     },
-    muteAlwaysOption,
+    {
+      name: i18n('icu:MuteMenu__always'),
+      disabled: options.isCurrentlyMutedAlways === true,
+      value: { type: 'always' },
+    },
   ];
 }
 
@@ -87,10 +80,7 @@ export type MuteMenu = Readonly<{
 
 export function getConversationMuteMenu(
   muteExpiresAt: null | undefined | MuteExpiration,
-  i18n: LocalizerType,
-  options: {
-    canOnlyBeMutedAlways?: boolean;
-  } = {}
+  i18n: LocalizerType
 ): MuteMenu {
   if (muteExpiresAt != null && isConversationMuted({ muteExpiresAt })) {
     return {
@@ -106,8 +96,6 @@ export function getConversationMuteMenu(
 
   return {
     label: i18n('icu:MuteMenu__label'),
-    options: getMuteValuesOptions(i18n, {
-      canOnlyBeMutedAlways: options.canOnlyBeMutedAlways,
-    }),
+    options: getMuteValuesOptions(i18n),
   };
 }
