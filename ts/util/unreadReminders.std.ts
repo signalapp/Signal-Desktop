@@ -21,7 +21,7 @@ export const UNREAD_REMINDER_MAX_AGE = 14 * DAY;
 /** How often the app will check for unread reminders */
 export const UNREAD_REMINDER_POLL_INTERVAL = HOUR;
 
-export const DEFAULT_SHOW_UNREAD_REMINDERS = true;
+export const DEFAULT_SHOW_UNREAD_REMINDERS = false;
 
 export function getShowUnreadRemindersForConversation(
   conversation: ConversationAttributesType,

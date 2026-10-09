@@ -1468,16 +1468,6 @@ async function startApp(): Promise<void> {
         );
       }
 
-      // Existing accounts should default unreadReminders to off; new installs
-      // leave this unset, which defaults to true
-      if (
-        window.isBeforeVersion(lastVersion, '8.31.0-alpha') &&
-        itemStorage.get('showUnreadReminders') == null
-      ) {
-        log.info('Defaulting unreadReminders to false for existing accounts');
-        await itemStorage.put('showUnreadReminders', false);
-      }
-
       if (!itemStorage.get('avatarsHaveBeenMigrated', false)) {
         window.ConversationController.migrateAvatarsForNonAcceptedConversations();
       }
