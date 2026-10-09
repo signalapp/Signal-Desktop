@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { CSSProperties, ForwardedRef, JSX } from 'react';
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import { useReducedMotion } from '@react-spring/web';
 import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import { LoadingState } from '../../util/loadable.std.ts';
@@ -10,6 +9,7 @@ import { useIntent } from './base/FunImage.dom.tsx';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { isAbortError } from '../../util/isAbortError.std.ts';
+import { useReducedMotion } from '../../hooks/useReducedMotion.dom.ts';
 
 const log = createLogger('FunGif');
 
