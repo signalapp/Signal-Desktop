@@ -34,10 +34,15 @@ import { ConversationController } from '../../ConversationController.preload.ts'
 import { isEnabled } from '../../RemoteConfig.dom.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
+import { installExternalClientService } from '../../externalClient/service/ExternalClientService.preload.ts';
+import { installExternalClientEvents } from '../../externalClient/service/ExternalClientEvents.preload.ts';
 
 const { mapValues } = lodash;
 
 const log = createLogger('phase1-ipc');
+
+installExternalClientService();
+installExternalClientEvents();
 
 // We are comfortable doing this because we verified the type on the other side!
 const { config } = SignalContext;

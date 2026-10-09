@@ -1,0 +1,60 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import semver from 'semver';
+
+import { createLogger } from '../logging/log.std.ts';
+import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { isAlpha, isBeta, isProduction, isStaging } from './version.std.ts';
+
+const log = createLogger('isFeatureEnabled');
+
+// Pure semver-flag evaluation, usable from any process. Renderer code should
+// use isFeaturedEnabledSelector / isFeaturedEnabledNoRedux instead.
+export function _isFeatureEnabledInner({
+  betaValue,
+  currentVersion,
+  isInternalUser,
+  prodValue,
+  isTestEnvironment = isTestOrMockEnvironment,
+}: {
+  betaValue: string | undefined;
+  currentVersion: string;
+  isInternalUser: boolean;
+  prodValue: string | undefined;
+  isTestEnvironment?: () => boolean;
+}): boolean {
+  if (
+    isInternalUser ||
+    isAlpha(currentVersion) ||
+    isStaging(currentVersion) ||
+    isTestEnvironment()
+  ) {
+    return true;
+  }
+
+  if (!semver.parse(currentVersion)) {
+    log.error(`currentVersion ${currentVersion} was invalid`);
+    return false;
+  }
+
+  if (
+    isBeta(currentVersion) &&
+    betaValue &&
+    semver.parse(betaValue) &&
+    semver.gte(currentVersion, betaValue)
+  ) {
+    return true;
+  }
+
+  if (
+    isProduction(currentVersion) &&
+    prodValue &&
+    semver.parse(prodValue) &&
+    semver.gte(currentVersion, prodValue)
+  ) {
+    return true;
+  }
+
+  return false;
+}

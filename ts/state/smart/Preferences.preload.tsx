@@ -58,6 +58,8 @@ import {
 } from '../../types/SystemTraySetting.std.ts';
 import { calling } from '../../services/calling.preload.ts';
 import { drop } from '../../util/drop.std.ts';
+import { createLogger } from '../../logging/log.std.ts';
+import * as Errors from '../../types/errors.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
@@ -93,6 +95,12 @@ import { backupLevelFromNumber } from '../../services/backups/types.std.ts';
 import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
 import { useBackupActions } from '../ducks/backups.preload.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import type { ExternalClientAppType } from '../../externalClient/rendererChannel.std.ts';
+import {
+  listExternalClientApps,
+  removeExternalClientApp,
+  setExternalClientsEnabled,
+} from '../../externalClient/service/ExternalClientSettings.preload.ts';
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.tsx';
 import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.tsx';
 import {
@@ -225,6 +233,19 @@ function getSystemTraySettingValues(
 
 async function forceKeyTransparencyCheck(): Promise<void> {
   await keyTransparency.selfCheck();
+}
+
+const log = createLogger('SmartPreferences');
+
+async function fetchExternalClientApps(): Promise<
+  ReadonlyArray<ExternalClientAppType>
+> {
+  try {
+    return await listExternalClientApps();
+  } catch (error) {
+    log.error('Failed to list external client apps', Errors.toLogFormat(error));
+    return [];
+  }
 }
 
 export function SmartPreferences(): JSX.Element | null {
@@ -669,6 +690,42 @@ export function SmartPreferences(): JSX.Element | null {
     currentVersion: version,
     remoteConfig: items.remoteConfig,
   });
+
+  const isExternalClientsAvailable = isFeaturedEnabledSelector({
+    betaKey: 'desktop.externalClients.beta',
+    prodKey: 'desktop.externalClients.prod',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+  });
+  const hasExternalClients = items.externalClientsEnabled ?? false;
+  const [externalClientApps, setExternalClientApps] = useState<
+    ReadonlyArray<ExternalClientAppType>
+  >([]);
+  useEffect(() => {
+    if (!isExternalClientsAvailable) {
+      return;
+    }
+    let canceled = false;
+    const loadApps = async () => {
+      const apps = await fetchExternalClientApps();
+      if (canceled) {
+        return;
+      }
+      setExternalClientApps(apps);
+    };
+    drop(loadApps());
+    return () => {
+      canceled = true;
+    };
+  }, [isExternalClientsAvailable]);
+  const onExternalClientsChange = useCallback(async (value: boolean) => {
+    await setExternalClientsEnabled(value);
+    setExternalClientApps(await fetchExternalClientApps());
+  }, []);
+  const onRemoveExternalClientApp = useCallback(async (id: string) => {
+    await removeExternalClientApp(id);
+    setExternalClientApps(await fetchExternalClientApps());
+  }, []);
 
   // Two-way items
 
@@ -1118,6 +1175,11 @@ export function SmartPreferences(): JSX.Element | null {
         hasSvrPin={hasSvrPin}
         hasTextFormatting={hasTextFormatting}
         hasTypingIndicators={hasTypingIndicators}
+        hasExternalClients={hasExternalClients}
+        isExternalClientsAvailable={isExternalClientsAvailable}
+        externalClientApps={externalClientApps}
+        onExternalClientsChange={onExternalClientsChange}
+        onRemoveExternalClientApp={onRemoveExternalClientApp}
         hasUnreadReminders={hasUnreadReminders}
         i18n={i18n}
         initialSpellCheckSetting={initialSpellCheckSetting}

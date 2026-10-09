@@ -18,6 +18,7 @@ import type { SendStateByConversationId } from '../messages/MessageSendState.std
 import type { StoredJob } from '../jobs/types.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { getSelectedConversationId } from '../state/selectors/nav.std.ts';
+import { notifyExternalClientsMessageUpdated } from '../externalClient/hooks.std.ts';
 
 const { throttle } = lodash;
 
@@ -298,6 +299,7 @@ export class MessageCache {
       attributes.conversationId,
       attributes
     );
+    notifyExternalClientsMessageUpdated(attributes);
   }
 
   readonly #throttledReduxUpdaters = new LRUCache<

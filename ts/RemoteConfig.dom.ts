@@ -38,6 +38,8 @@ const SemverKeys = [
   'desktop.binaryServiceId.prod',
   'desktop.disappearingCalls.beta',
   'desktop.disappearingCalls.prod',
+  'desktop.externalClients.beta',
+  'desktop.externalClients.prod',
   'desktop.groupMemberLabels.edit.beta',
   'desktop.groupMemberLabels.edit.prod',
   'desktop.groupTerminate.send.beta',

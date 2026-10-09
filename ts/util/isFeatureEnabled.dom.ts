@@ -1,18 +1,12 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import semver from 'semver';
-
 import type { ReadonlyDeep } from 'type-fest';
 
-import { createLogger } from '../logging/log.std.ts';
-import { isTestOrMockEnvironment } from '../environment.std.ts';
 import { getValue, isEnabled } from '../RemoteConfig.dom.ts';
-import { isAlpha, isBeta, isProduction, isStaging } from './version.std.ts';
+import { _isFeatureEnabledInner } from './isFeatureEnabledInner.std.ts';
 
 import type { SemverKeyType, ConfigMapType } from '../RemoteConfig.dom.ts';
-
-const log = createLogger('isFeatureEnabled');
 
 export function isFeaturedEnabledSelector({
   betaKey,
@@ -49,50 +43,4 @@ export function isFeaturedEnabledNoRedux({
 }
 
 // Exported for testing
-export function _isFeatureEnabledInner({
-  betaValue,
-  currentVersion,
-  isInternalUser,
-  prodValue,
-  isTestEnvironment = isTestOrMockEnvironment,
-}: {
-  betaValue: string | undefined;
-  currentVersion: string;
-  isInternalUser: boolean;
-  prodValue: string | undefined;
-  isTestEnvironment?: () => boolean;
-}): boolean {
-  if (
-    isInternalUser ||
-    isAlpha(currentVersion) ||
-    isStaging(currentVersion) ||
-    isTestEnvironment()
-  ) {
-    return true;
-  }
-
-  if (!semver.parse(currentVersion)) {
-    log.error(`currentVersion ${currentVersion} was invalid`);
-    return false;
-  }
-
-  if (
-    isBeta(currentVersion) &&
-    betaValue &&
-    semver.parse(betaValue) &&
-    semver.gte(currentVersion, betaValue)
-  ) {
-    return true;
-  }
-
-  if (
-    isProduction(currentVersion) &&
-    prodValue &&
-    semver.parse(prodValue) &&
-    semver.gte(currentVersion, prodValue)
-  ) {
-    return true;
-  }
-
-  return false;
-}
+export { _isFeatureEnabledInner };

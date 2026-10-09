@@ -23,6 +23,7 @@ import {
   getUnreadReminderNotificationContent,
   type UnreadReminderSummary,
 } from '../util/unreadReminders.std.ts';
+import { areMessageNotificationsHandledExternally } from '../externalClient/hooks.std.ts';
 
 const { debounce } = lodash;
 
@@ -458,6 +459,19 @@ export class NotificationService extends EventEmitter {
     }
 
     if (isAppFocused) {
+      this.#queuedNotification = null;
+      return;
+    }
+
+    // A connected app shows these instead (external clients,
+    // notifications.manage). Calls are left to Signal.
+    if (
+      queuedNotificationData != null &&
+      (queuedNotificationData.type === NotificationType.Message ||
+        queuedNotificationData.type === NotificationType.Reaction ||
+        queuedNotificationData.type === NotificationType.UnreadReminder) &&
+      areMessageNotificationsHandledExternally()
+    ) {
       this.#queuedNotification = null;
       return;
     }

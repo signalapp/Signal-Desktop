@@ -111,6 +111,7 @@ import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import moment from 'moment';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
+import type { ExternalClientAppType } from '../externalClient/rendererChannel.std.ts';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoSwitchItem } from '../axo/items/AxoSwitchItem.dom.tsx';
 import { AxoSelectItem } from '../axo/items/AxoSelectItem.dom.tsx';
@@ -186,6 +187,9 @@ export type PropsDataType = {
   hasTypingIndicators: boolean;
   hasUnreadReminders: boolean;
   hasKeepMutedChatsArchived: boolean;
+  hasExternalClients: boolean;
+  isExternalClientsAvailable: boolean;
+  externalClientApps: ReadonlyArray<ExternalClientAppType>;
   isSvrPinPending: boolean;
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
@@ -390,6 +394,8 @@ type PropsFunctionType = {
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onTypingIndicatorsChange: CheckboxChangeHandlerType;
+  onExternalClientsChange: CheckboxChangeHandlerType;
+  onRemoveExternalClientApp: (id: string) => void;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onUnreadCountBadgeTypeChange: SelectChangeHandlerType<UnreadCountBadgeType>;
   onUnreadRemindersChange: CheckboxChangeHandlerType;
@@ -529,6 +535,9 @@ export function Preferences({
   hasTypingIndicators,
   hasUnreadReminders,
   hasKeepMutedChatsArchived,
+  hasExternalClients,
+  isExternalClientsAvailable,
+  externalClientApps,
   i18n,
   initialSpellCheckSetting,
   isAutoDownloadUpdatesSupported,
@@ -595,6 +604,8 @@ export function Preferences({
   onThemeChange,
   onToggleNavTabsCollapse,
   onTypingIndicatorsChange,
+  onExternalClientsChange,
+  onRemoveExternalClientApp,
   onUniversalExpireTimerChange,
   onUnreadCountBadgeTypeChange,
   onUnreadRemindersChange,
@@ -685,6 +696,8 @@ export function Preferences({
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
+  const [confirmRemoveApp, setConfirmRemoveApp] =
+    useState<ExternalClientAppType | null>(null);
   const [confirmContentProtection, setConfirmContentProtection] =
     useState(false);
   const [confirmResetNotifications, setConfirmResetNotifications] =
@@ -2114,6 +2127,64 @@ export function Preferences({
             />
           )}
         </List>
+        {isExternalClientsAvailable && (
+          <List
+            label={i18n('icu:Preferences__external-clients--title')}
+            footerDescription={i18n(
+              'icu:Preferences__external-clients--description'
+            )}
+          >
+            <AxoSwitchItem.Root
+              label={i18n('icu:Preferences__external-clients--allow')}
+              checked={hasExternalClients}
+              onCheckedChange={onExternalClientsChange}
+            />
+            {externalClientApps.map(externalApp => (
+              <ItemWithAction
+                key={externalApp.id}
+                label={externalApp.displayName}
+                description={i18n(
+                  'icu:Preferences__external-clients--approved-on',
+                  { date: moment(externalApp.approvedAt).format('ll') }
+                )}
+                action={
+                  <AxoItem.Action
+                    variant="subtle-destructive"
+                    onClick={() => setConfirmRemoveApp(externalApp)}
+                  >
+                    {i18n('icu:Preferences__external-clients--remove')}
+                  </AxoItem.Action>
+                }
+              />
+            ))}
+          </List>
+        )}
+        <AxoConfirmDialog.Root
+          open={confirmRemoveApp != null}
+          onOpenChange={open => {
+            if (!open) {
+              setConfirmRemoveApp(null);
+            }
+          }}
+          title={i18n('icu:Preferences__external-clients--remove-title', {
+            name: confirmRemoveApp?.displayName ?? '',
+          })}
+          description={i18n(
+            'icu:Preferences__external-clients--remove-description'
+          )}
+        >
+          <AxoConfirmDialog.Cancel />
+          <AxoConfirmDialog.Action
+            variant="strong-destructive"
+            onClick={() => {
+              if (confirmRemoveApp) {
+                onRemoveExternalClientApp(confirmRemoveApp.id);
+              }
+            }}
+          >
+            {i18n('icu:Preferences__external-clients--remove')}
+          </AxoConfirmDialog.Action>
+        </AxoConfirmDialog.Root>
         <AxoConfirmDialog.Root
           open={confirmStoriesOff}
           onOpenChange={setConfirmStoriesOff}

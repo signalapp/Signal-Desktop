@@ -293,6 +293,7 @@ import { keyTransparency } from '../services/keyTransparency.preload.ts';
 import type { PollSource } from '../messageModifiers/Polls.preload.ts';
 import { isSignalServiceId } from '../types/SignalConversation.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { notifyExternalClientsMessageAdded } from '../externalClient/hooks.std.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -1636,6 +1637,8 @@ export class ConversationModel {
     message: MessageAttributesType,
     { isJustSent }: { isJustSent: boolean }
   ): void {
+    notifyExternalClientsMessageAdded(message);
+
     const { messagesAdded } = window.reduxActions.conversations;
     const { conversations } = window.reduxStore.getState();
     const { messagesByConversation } = conversations;

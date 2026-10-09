@@ -4522,6 +4522,74 @@
     "messageformat": "Please set up Signal on your phone and desktop to use the Sticker Pack Creator",
     "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
   },
+  "icu:ExternalClientApproval__title": {
+    "messageformat": "Allow app access",
+    "description": "Window title of the dialog asking the user whether a local app may connect to Signal Desktop"
+  },
+  "icu:ExternalClientApproval__message": {
+    "messageformat": "Allow “{name}” to access Signal on this computer?",
+    "description": "Main text of the dialog asking whether a local app may connect to Signal Desktop. {name} is the name the app reports for itself"
+  },
+  "icu:ExternalClientApproval__detail": {
+    "messageformat": "The app reports its own name, so it may not be accurate. Only allow apps you installed and trust.\n\nApp key: {fingerprint}\n\nRequested access:\n{capabilities}",
+    "description": "Detail text of the local app access dialog. {fingerprint} is a short code identifying the app's key. {capabilities} is a bulleted list of requested permissions"
+  },
+  "icu:ExternalClientApproval__allow": {
+    "messageformat": "Allow",
+    "description": "Button that lets a local app connect to Signal Desktop"
+  },
+  "icu:ExternalClientApproval__deny": {
+    "messageformat": "Deny",
+    "description": "Button that refuses a local app's request to connect to Signal Desktop"
+  },
+  "icu:ExternalClientCapability__conversations-read": {
+    "messageformat": "See your chat list, including chat names and unread counts",
+    "description": "Permission shown in the local app access dialog"
+  },
+  "icu:ExternalClientCapability__messages-read": {
+    "messageformat": "Read your messages, including new ones as they arrive",
+    "description": "Permission shown in the local app access dialog"
+  },
+  "icu:ExternalClientCapability__messages-send": {
+    "messageformat": "Send messages as you",
+    "description": "Permission shown in the local app access dialog"
+  },
+  "icu:ExternalClientCapability__messages-mark-read": {
+    "messageformat": "Mark your messages as read, which may send read receipts",
+    "description": "Permission shown in the local app access dialog"
+  },
+  "icu:ExternalClientCapability__notifications-manage": {
+    "messageformat": "Show message notifications instead of Signal while it is connected",
+    "description": "Permission shown in the local app access dialog"
+  },
+  "icu:Preferences__external-clients--title": {
+    "messageformat": "Apps on this computer",
+    "description": "Privacy settings: heading of the section about local apps that can connect to Signal Desktop"
+  },
+  "icu:Preferences__external-clients--description": {
+    "messageformat": "Apps running on this computer can ask to read and send your messages through Signal. You approve each app and what it can do. Only allow apps you trust.",
+    "description": "Privacy settings: explanation under the local apps section"
+  },
+  "icu:Preferences__external-clients--allow": {
+    "messageformat": "Allow apps on this computer to connect to Signal",
+    "description": "Privacy settings: switch that lets local apps ask to connect to Signal Desktop"
+  },
+  "icu:Preferences__external-clients--approved-on": {
+    "messageformat": "Approved {date}",
+    "description": "Privacy settings: when a local app was approved. {date} is a formatted date"
+  },
+  "icu:Preferences__external-clients--remove": {
+    "messageformat": "Remove",
+    "description": "Privacy settings: button that removes an approved local app"
+  },
+  "icu:Preferences__external-clients--remove-title": {
+    "messageformat": "Remove {name}?",
+    "description": "Privacy settings: title of the dialog confirming removal of a local app. {name} is the app's name"
+  },
+  "icu:Preferences__external-clients--remove-description": {
+    "messageformat": "It will be disconnected and will have to ask for your approval again.",
+    "description": "Privacy settings: body of the dialog confirming removal of a local app"
+  },
   "icu:Reactions--remove": {
     "messageformat": "Remove reaction",
     "description": "Shown when you want to remove a reaction you've made"
