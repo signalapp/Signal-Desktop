@@ -10,7 +10,7 @@ import {
   MAX_STICKER_BYTE_SIZE,
   ArtType,
 } from '../constants';
-import { getFilePath } from './api';
+import { getFilePath, sanitizeWebp } from './api';
 import { getAnimatedPngDataIfExists } from './apng';
 import { assert } from './assert';
 import { loadImage } from './loadImage';
@@ -120,6 +120,15 @@ export async function processImage(
       throw new ProcessImageError(
         'Sticker file was too large',
         'StickerCreator--Toasts--tooLarge'
+      );
+    }
+
+    try {
+      await sanitizeWebp(processedBuffer);
+    } catch (e) {
+      throw new ProcessImageError(
+        `Sticker failed WebP validation: ${String(e)}`,
+        'StickerCreator--Toasts--invalidSticker'
       );
     }
   }

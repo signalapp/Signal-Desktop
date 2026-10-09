@@ -78,6 +78,7 @@ import * as attachmentChannel from './attachment_channel.main.ts';
 import * as bounce from '../ts/services/bounce.main.ts';
 import * as updater from '../ts/updater/index.main.ts';
 import { updateDefaultSession } from './updateDefaultSession.main.ts';
+import { sanitize as sanitizeWebp } from '@signalapp/libsignal-client/dist/WebpSanitizer.js';
 import { PreventDisplaySleepService } from './PreventDisplaySleepService.std.ts';
 import {
   SystemTrayService,
@@ -1097,6 +1098,14 @@ ipc.handle(
     });
 
     return promise;
+  }
+);
+
+ipc.handle(
+  'art-creator:sanitizeWebp',
+  (_event: Electron.Event, data: Uint8Array<ArrayBuffer>) => {
+    // Throws if the image is invalid
+    sanitizeWebp(data);
   }
 );
 

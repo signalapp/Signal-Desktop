@@ -96,9 +96,9 @@ export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
 
   const handleDrop = useCallback<DropZoneProps['onDrop']>(
     async files => {
-      dispatch(
-        initializeImages(files.map(file => getFilePath(file) || file.name))
-      );
+      const getPath = (file: File) => getFilePath(file) || file.name;
+
+      dispatch(initializeImages(files.map(getPath)));
       await Promise.all(
         files.map(async file => {
           try {
@@ -106,7 +106,7 @@ export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
             dispatch(addImageData(image));
           } catch (e) {
             debug('Error processing image:', e);
-            dispatch(removeImage(getFilePath(file)));
+            dispatch(removeImage(getPath(file)));
 
             const key =
               e instanceof ProcessImageError
