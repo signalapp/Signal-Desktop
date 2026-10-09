@@ -3,6 +3,7 @@
 
 import assert from 'node:assert';
 import { Proto, StorageState } from '@signalapp/mock-server';
+import type { StorageStateRecord } from '@signalapp/mock-server';
 import { expect } from 'playwright/test';
 
 import * as Bytes from '../../Bytes.std.ts';
@@ -17,6 +18,18 @@ import type { App } from './fixtures.node.ts';
 import { DayOfWeek } from '../../types/NotificationProfile.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
+
+function isActiveNotificationProfile(
+  record: StorageStateRecord
+): record is StorageStateRecord<{
+  notificationProfile: Proto.NotificationProfile.Params;
+}> {
+  return (
+    record.type === IdentifierType.NOTIFICATION_PROFILE &&
+    record.record.notificationProfile != null &&
+    !record.record.notificationProfile.deletedAtTimestampMs
+  );
+}
 
 export const DEFAULT_PROFILE = {
   allowAllCalls: true,
@@ -78,9 +91,6 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     const state = await phone.expectStorageState('initial state');
 
-    // wait for initial sync storage service update
-    const secondState = await phone.waitForStorageState({ after: state });
-
     debug('Opening settings tab');
     await window.locator('[data-testid="NavTabsItem--Settings"]').click();
 
@@ -117,31 +127,20 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
       window.getByTestId(`EditProfile--${profileName}`)
     ).toBeVisible();
 
-    // finally, this storage service update should include the new notification profile
-    const thirdState = await phone.waitForStorageState({
-      after: secondState,
+    const createdState = await phone.waitForStorageState({
+      after: state,
+      predicate: storageState =>
+        storageState.hasRecord(
+          ({ record }) =>
+            record.notificationProfile?.name === profileName &&
+            record.notificationProfile.scheduleEnabled === true
+        ),
     });
 
-    let profileId: Uint8Array<ArrayBuffer> | undefined;
-    const profilewasAdded = thirdState.hasRecord(record => {
-      if (record.record.notificationProfile == null) {
-        return false;
-      }
-
-      assert.ok(record.type === IdentifierType.NOTIFICATION_PROFILE);
-
-      const isMatch =
-        record.record.notificationProfile.name === profileName &&
-        record.record.notificationProfile.scheduleEnabled === true;
-      if (isMatch) {
-        profileId = dropNull(record.record.notificationProfile.id);
-      }
-
-      return isMatch;
-    });
-    if (!profilewasAdded) {
-      throw new Error('Did not find new profile in storage service');
-    }
+    const profile = createdState
+      .filterRecords(isActiveNotificationProfile)
+      .find(({ record }) => record.notificationProfile.name === profileName);
+    const profileId = dropNull(profile?.record.notificationProfile.id);
     if (!profileId || !profileId.length) {
       throw new Error('No profileId found on new notification record');
     }
@@ -164,25 +163,17 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
       window.getByTestId(`EditProfile--${profileName}`)
     ).toBeVisible();
 
-    // finally, this storage service update should include the new notification profile
-    const fourthState = await phone.waitForStorageState({
-      after: secondState,
+    const updatedState = await phone.waitForStorageState({
+      after: createdState,
+      predicate: storageState =>
+        storageState.hasRecord(record => {
+          return (
+            record.type === IdentifierType.NOTIFICATION_PROFILE &&
+            record.record.notificationProfile?.name === profileName &&
+            record.record.notificationProfile?.scheduleEnabled === false
+          );
+        }),
     });
-
-    const profileScheduleIsOff = fourthState.hasRecord(record => {
-      if (record.record.notificationProfile == null) {
-        return false;
-      }
-      assert.ok(record.type === IdentifierType.NOTIFICATION_PROFILE);
-
-      return (
-        record.record.notificationProfile.name === profileName &&
-        record.record.notificationProfile.scheduleEnabled === false
-      );
-    });
-    if (!profileScheduleIsOff) {
-      throw new Error('Profile schedule was not disabled in storage service');
-    }
 
     debug('Opening chats tab');
     await window.locator('[data-testid="NavTabsItem--Chats"]').click();
@@ -196,42 +187,20 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     debug('Click to add enabled=true override');
     await window.getByRole('menuitem', { name: profileName }).click();
 
-    // finally, this storage service update should have the new override
-    const fifthState = await phone.waitForStorageState({
-      after: secondState,
+    await phone.waitForStorageState({
+      after: updatedState,
+      predicate: storageState => {
+        const id =
+          storageState.getAccountRecord()?.notificationProfileManualOverride
+            ?.override?.enabled?.id;
+        return id != null && constantTimeEqual(id, profileId);
+      },
     });
-
-    const acountRecordHasOverride = fifthState.hasRecord(record => {
-      if (record.record.account == null) {
-        return false;
-      }
-      const { notificationProfileManualOverride } = record.record.account;
-      if (notificationProfileManualOverride?.override?.enabled == null) {
-        return false;
-      }
-
-      const { id } = notificationProfileManualOverride.override.enabled;
-
-      return Boolean(
-        record.type === IdentifierType.ACCOUNT &&
-        id &&
-        id.length &&
-        profileId &&
-        constantTimeEqual(id, profileId)
-      );
-    });
-    if (!acountRecordHasOverride) {
-      throw new Error('Did not find matching override in storage service');
-    }
   });
 
   it('reconciles profiles from storage service when sync is reenabled', async () => {
     const { phone } = bootstrap;
     const window = await app.getWindow();
-
-    const starting = await phone.expectStorageState('initial state');
-
-    const firstState = await phone.waitForStorageState({ after: starting });
 
     debug('Opening settings tab');
     await window.locator('[data-testid="NavTabsItem--Settings"]').click();
@@ -266,6 +235,9 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     let uploadedState: StorageState;
     {
+      const firstState = await phone.expectStorageState(
+        'before adding profiles'
+      );
       let newState = firstState.addRecord({
         type: IdentifierType.NOTIFICATION_PROFILE,
         record: {
@@ -325,7 +297,10 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.locator('button[role="switch"]').click();
 
     const secondState = await phone.waitForStorageState({
-      after: firstState,
+      after: uploadedState,
+      predicate: storageState =>
+        storageState.getAccountRecord()?.notificationProfileSyncDisabled ===
+        true,
     });
 
     debug(
@@ -340,33 +315,14 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     {
       const accountRecord = secondState.getAccountRecord();
-      if (!accountRecord?.notificationProfileSyncDisabled) {
-        throw new Error('Notification profile sync is disabled!');
-      }
 
       assert.deepEqual(
-        accountRecord.notificationProfileManualOverride?.override?.enabled?.id,
+        accountRecord?.notificationProfileManualOverride?.override?.enabled?.id,
         notificationProfileId1
       );
 
-      let countOfProfiles = 0;
-      secondState.hasRecord(record => {
-        if (record.record.notificationProfile == null) {
-          return false;
-        }
-        const deletedTimestamp =
-          record.record.notificationProfile.deletedAtTimestampMs;
-        if (
-          record.type === IdentifierType.NOTIFICATION_PROFILE &&
-          (!deletedTimestamp || deletedTimestamp === 0n)
-        ) {
-          countOfProfiles += 1;
-        }
-        return false;
-      });
-
       assert.strictEqual(
-        countOfProfiles,
+        secondState.filterRecords(isActiveNotificationProfile).length,
         2,
         'Expect the original two still in storage service'
       );
@@ -503,6 +459,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await expect(
       window.getByTestId(`EditProfile--${notificationProfileName1}`)
     ).toBeVisible();
+    // Storage service reconciliation prefixes "Copy of" ("icu:NotificationProfile--copy-label")
     await expect(
       window.getByTestId(`EditProfile--Copy of ${notificationProfileName1}`)
     ).toBeVisible();
@@ -516,31 +473,28 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
       window.getByTestId(`EditProfile--${notificationProfileName4}`)
     ).toBeVisible();
 
-    const thirdState = await phone.waitForStorageState({
-      after: secondState,
+    const expectedProfileNames = [
+      notificationProfileName1,
+      `Copy of ${notificationProfileName1}`,
+      notificationProfileName2,
+      notificationProfileName3,
+      notificationProfileName4,
+    ];
+    await phone.waitForStorageState({
+      after: uploadedState,
+      predicate: storageState => {
+        const profiles = storageState.filterRecords(
+          isActiveNotificationProfile
+        );
+        return (
+          profiles.length === expectedProfileNames.length &&
+          expectedProfileNames.every(name =>
+            profiles.some(
+              ({ record }) => record.notificationProfile.name === name
+            )
+          )
+        );
+      },
     });
-
-    let countOfProfiles = 0;
-    thirdState.hasRecord(record => {
-      if (record.record?.notificationProfile == null) {
-        return false;
-      }
-
-      const deletedTimestamp =
-        record.record.notificationProfile.deletedAtTimestampMs;
-      if (
-        record.type === IdentifierType.NOTIFICATION_PROFILE &&
-        (!deletedTimestamp || deletedTimestamp === 0n)
-      ) {
-        countOfProfiles += 1;
-      }
-      return false;
-    });
-
-    assert.strictEqual(
-      countOfProfiles,
-      5,
-      'Expect all profiles in storage service'
-    );
   });
 });

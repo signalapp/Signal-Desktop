@@ -15,7 +15,6 @@ import {
 import { bytesToUuid, uuidToBytes } from '../../util/uuidToBytes.std.ts';
 import { CHAT_FOLDER_DELETED_POSITION } from '../../types/ChatFolder.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import { toNumber } from '../../util/toNumber.std.ts';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
@@ -125,10 +124,12 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     );
 
     {
-      let state = await phone.expectStorageState('initial state');
-      // wait for initial creation of story distribution list and "all chats" chat folder
-      state = await phone.waitForStorageState({ after: state });
-      expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
+      const state = await phone.expectStorageState('initial state');
+      // wait for initial creation of "all chats" chat folder
+      await phone.waitForStorageState({
+        after: state,
+        predicate: storageState => storageState.hasRecord(ALL_CHATS_PREDICATE),
+      });
     }
 
     await openChatFolderSettings(window);
@@ -247,9 +248,11 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       .getByRole('button', { name: 'Delete' });
 
     let state = await phone.expectStorageState('initial state');
-    // wait for initial creation of story distribution list and "all chats" chat folder
-    state = await phone.waitForStorageState({ after: state });
-    expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
+    // wait for initial creation of "all chats" chat folder
+    state = await phone.waitForStorageState({
+      after: state,
+      predicate: storageState => storageState.hasRecord(ALL_CHATS_PREDICATE),
+    });
 
     await openChatFolderSettings(window);
 
@@ -262,13 +265,13 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       await expect(groupsFolderBtn).toBeVisible();
 
       debug('waiting for storage sync');
-      state = await phone.waitForStorageState({ after: state });
-
-      const found = state.hasRecord(
-        getChatFolderRecordPredicate('CUSTOM', 'Groups', false)
-      );
-
-      expect(found).toBe(true);
+      state = await phone.waitForStorageState({
+        after: state,
+        predicate: storageState =>
+          storageState.hasRecord(
+            getChatFolderRecordPredicate('CUSTOM', 'Groups', false)
+          ),
+      });
     }
 
     debug('updating group');
@@ -278,13 +281,13 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       await saveChatFolderBtn.click();
 
       debug('waiting for storage sync');
-      state = await phone.waitForStorageState({ after: state });
-
-      const found = state.hasRecord(
-        getChatFolderRecordPredicate('CUSTOM', 'My Groups', false)
-      );
-
-      expect(found).toBe(true);
+      state = await phone.waitForStorageState({
+        after: state,
+        predicate: storageState =>
+          storageState.hasRecord(
+            getChatFolderRecordPredicate('CUSTOM', 'My Groups', false)
+          ),
+      });
     }
 
     debug('deleting group');
@@ -294,20 +297,16 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       await confirmDeleteBtn.click();
 
       debug('waiting for storage sync');
-      state = await phone.waitForStorageState({ after: state });
-
-      const found = state.findRecord(
-        getChatFolderRecordPredicate('CUSTOM', 'My Groups', true)
-      );
+      await phone.waitForStorageState({
+        after: state,
+        predicate: storageState =>
+          storageState.hasRecord(
+            getChatFolderRecordPredicate('CUSTOM', 'My Groups', true)
+          ),
+      });
 
       await expect(groupsFolderBtn).not.toBeAttached();
       await expect(groupPresetBtn).toBeVisible();
-
-      expect(
-        found?.record.chatFolder.deletedAtTimestampMs == null
-          ? null
-          : toNumber(found?.record.chatFolder.deletedAtTimestampMs)
-      ).toBeGreaterThan(0);
     }
   });
 
@@ -316,22 +315,22 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     let state = await phone.expectStorageState('initial state');
-    expect(state.version).toBe(1n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
 
-    // wait for initial creation of story distribution list and "all chats" chat folder
-    state = await phone.waitForStorageState({ after: state });
-    expect(state.version).toBe(2n);
-    expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
+    // wait for initial creation of "all chats" chat folder
+    await phone.waitForStorageState({
+      after: state,
+      predicate: storageState => storageState.hasRecord(ALL_CHATS_PREDICATE),
+    });
 
     await openChatFolderSettings(window);
     const allChatsListItem = getAllChatsListItem(window);
     const groupPresetAddButton = getGroupsPresetAddButton(window);
 
     // update record
+    state = await phone.expectStorageState('before removing all chats');
     state = state.removeRecord(ALL_CHATS_PREDICATE);
     state = await phone.setStorageState(state);
-    expect(state.version).toBe(3n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
 
     // sync from phone to app
@@ -342,10 +341,10 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
 
     // Trigger another storage upload
     await groupPresetAddButton.click();
-    state = await phone.waitForStorageState({ after: state });
-
-    expect(state.version).toBe(4n);
-    expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
+    await phone.waitForStorageState({
+      after: state,
+      predicate: storageState => storageState.hasRecord(ALL_CHATS_PREDICATE),
+    });
   });
 
   it('should remove duplicate all chats folders from storage service', async () => {
@@ -353,10 +352,12 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     let state = await phone.expectStorageState('initial state');
-    // wait for initial creation of story distribution list and "all chats" chat folder
-    state = await phone.waitForStorageState({ after: state });
-
-    expect(countAllChatsInStorageState(state)).toBe(1);
+    // wait for initial creation of "all chats" chat folder
+    await phone.waitForStorageState({
+      after: state,
+      predicate: storageState =>
+        countAllChatsInStorageState(storageState) === 1,
+    });
 
     await openChatFolderSettings(window);
     const allChatsListItem = getAllChatsListItem(window);
@@ -365,6 +366,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const ONE = generateUuid();
     const TWO = generateUuid();
 
+    state = await phone.expectStorageState('before adding duplicates');
     state = state.addRecord(createAllChatsRecord(ONE));
     state = state.addRecord(createAllChatsRecord(TWO));
 
@@ -379,10 +381,12 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
 
     // Trigger another storage upload
     await groupPresetAddButton.click();
-    state = await phone.waitForStorageState({ after: state });
-
     // App should have removed one of the "all chats" folders
-    expect(countAllChatsInStorageState(state)).toBe(1);
+    state = await phone.waitForStorageState({
+      after: state,
+      predicate: storageState =>
+        countAllChatsInStorageState(storageState) === 1,
+    });
 
     // Make sure we took the updated id
     const item = state.findRecord(ALL_CHATS_PREDICATE);

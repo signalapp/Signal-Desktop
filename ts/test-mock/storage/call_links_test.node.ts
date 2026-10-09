@@ -80,7 +80,11 @@ describe('storage service', function (this: Mocha.Suite) {
     assert.exists(roomId, 'Call link roomId should exist');
 
     debug('Waiting for storage update');
-    state = await phone.waitForStorageState({ after: state });
+    state = await phone.waitForStorageState({
+      after: state,
+      predicate: storageState =>
+        storageState.hasRecord(getCallLinkRecordPredicate(roomId)),
+    });
 
     const record = state.findRecord(getCallLinkRecordPredicate(roomId));
     assert.ok(record, 'Saves call link record with matching roomId');
@@ -94,7 +98,11 @@ describe('storage service', function (this: Mocha.Suite) {
     assert.exists(roomIdDelete, 'Call link roomId should exist');
 
     debug('Waiting for storage update');
-    state = await phone.waitForStorageState({ after: state });
+    state = await phone.waitForStorageState({
+      after: state,
+      predicate: storageState =>
+        storageState.hasRecord(getCallLinkRecordPredicate(roomIdDelete)),
+    });
 
     const recordToDelete = state.findRecord(
       getCallLinkRecordPredicate(roomIdDelete)
@@ -124,14 +132,14 @@ describe('storage service', function (this: Mocha.Suite) {
     await deleteConfirm.click();
 
     debug('Waiting for storage update');
-    state = await phone.waitForStorageState({ after: state });
-
-    const recordAfterDelete = state.findRecord(
-      getCallLinkRecordPredicate(roomIdDelete)
-    );
-    assert.ok(recordAfterDelete, 'Call link record still present');
-    const deletedAtAfterDelete =
-      recordAfterDelete.record.callLink.deletedAtTimestampMs ?? 0;
-    assert.ok(deletedAtAfterDelete, 'deletedAt present');
+    await phone.waitForStorageState({
+      after: state,
+      predicate: storageState => {
+        const callLinkRecord = storageState.findRecord(
+          getCallLinkRecordPredicate(roomIdDelete)
+        );
+        return Boolean(callLinkRecord?.record.callLink.deletedAtTimestampMs);
+      },
+    });
   });
 });

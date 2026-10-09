@@ -67,8 +67,9 @@ describe('standalone/notification profiles', function (this: Mocha.Suite) {
 
     debug('add initial data to storage service');
 
-    const firstState = await server.waitForStorageState({
+    const firstState = await server.expectStorageState({
       aci,
+      reason: 'after registration',
       storageKey,
       recordIkm,
     });
@@ -138,8 +139,9 @@ describe('standalone/notification profiles', function (this: Mocha.Suite) {
     debug('Opening Notification Profiles list page');
     await window.getByRole('button', { name: 'Notification profiles' }).click();
 
-    let thirdState = await server.waitForStorageState({
+    let thirdState = await server.expectStorageState({
       aci,
+      reason: 'before disabling sync',
       storageKey,
       recordIkm,
     });
@@ -208,6 +210,13 @@ describe('standalone/notification profiles', function (this: Mocha.Suite) {
     const fourthState = await server.waitForStorageState({
       aci,
       after: thirdState,
+      predicate: storageState =>
+        storageState.hasRecord(
+          record =>
+            record.type === IdentifierType.NOTIFICATION_PROFILE &&
+            record.record.notificationProfile?.name === profileName &&
+            record.record.notificationProfile.scheduleEnabled === true
+        ),
       storageKey,
       recordIkm,
     });
@@ -258,6 +267,13 @@ describe('standalone/notification profiles', function (this: Mocha.Suite) {
     const fifthState = await server.waitForStorageState({
       aci,
       after: fourthState,
+      predicate: storageState =>
+        storageState.hasRecord(
+          record =>
+            record.type === IdentifierType.NOTIFICATION_PROFILE &&
+            record.record.notificationProfile?.name === profileName &&
+            record.record.notificationProfile.scheduleEnabled === false
+        ),
       storageKey,
       recordIkm,
     });
@@ -293,6 +309,14 @@ describe('standalone/notification profiles', function (this: Mocha.Suite) {
     const sixthState = await server.waitForStorageState({
       aci,
       after: fifthState,
+      predicate: storageState => {
+        const id =
+          storageState.getAccountRecord()?.notificationProfileManualOverride
+            ?.override?.enabled?.id;
+        return (
+          id != null && profileId != null && constantTimeEqual(id, profileId)
+        );
+      },
       storageKey,
       recordIkm,
     });

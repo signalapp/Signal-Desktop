@@ -120,8 +120,9 @@ describe('standalone/registration', function (this: Mocha.Suite) {
 
     assert.strictEqual(version, 0, 'uploadManifest: first');
 
-    const firstState = await server.waitForStorageState({
+    const firstState = await server.expectStorageState({
       aci,
+      reason: 'after first upload',
       storageKey,
       recordIkm,
     });
@@ -173,6 +174,8 @@ describe('standalone/registration', function (this: Mocha.Suite) {
 
     const lastState = await server.waitForStorageState({
       aci,
+      predicate: storageState =>
+        storageState.getAccountRecord()?.givenName === 'John',
       storageKey,
       recordIkm,
       after: firstState,

@@ -124,9 +124,10 @@ export type Config = Readonly<{
     aci: AciString;
     after?: StorageState;
     // Note: predicate runs on the current state, not on previous intermediate states
-    predicate?: (state: StorageState) => boolean;
+    predicate: (state: StorageState) => boolean;
     storageKey: Buffer<ArrayBuffer>;
     recordIkm?: Buffer<ArrayBuffer>;
+    timeout?: number;
   }) => Promise<StorageState>;
   getStorageState: ({
     aci,
@@ -1193,15 +1194,18 @@ export class PrimaryDevice {
   public async waitForStorageState({
     after,
     predicate,
+    timeout,
   }: {
     after?: StorageState;
     // Note: predicate runs on the current state, not on previous intermediate states
-    predicate?: (state: StorageState) => boolean;
-  } = {}): Promise<StorageState> {
+    predicate: (state: StorageState) => boolean;
+    timeout?: number;
+  }): Promise<StorageState> {
     return this.config.waitForStorageState({
       aci: this.device.aci,
       after,
       predicate,
+      timeout,
       storageKey: this.storageKey,
       recordIkm: this.storageRecordIkm,
     });

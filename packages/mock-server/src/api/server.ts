@@ -152,6 +152,7 @@ const ZK_PARAMS: ZKParams = JSON.parse(
 );
 
 const DEFAULT_API_TIMEOUT = 60000;
+const DEFAULT_STORAGE_STATE_TIMEOUT = 5000;
 
 initLogger(
   SignalClientLogLevel.Info,
@@ -334,6 +335,7 @@ export class Server extends BaseServer {
   private async waitForStorageManifest(
     aci: AciString,
     afterVersion?: bigint,
+    timeout?: number,
   ): Promise<void> {
     let queue = this.manifestQueueByAci.get(aci);
     if (!queue) {
@@ -343,7 +345,7 @@ export class Server extends BaseServer {
 
     let version: bigint;
     do {
-      version = await queue.shift();
+      version = await queue.shift(timeout);
     } while (afterVersion !== undefined && version <= afterVersion);
   }
 
@@ -1039,30 +1041,36 @@ export class Server extends BaseServer {
     predicate,
     storageKey,
     recordIkm,
+    timeout = DEFAULT_STORAGE_STATE_TIMEOUT,
   }: {
     aci: AciString;
     after?: StorageState;
     // Note: predicate runs on the current state, not on previous intermediate states
-    predicate?: (state: StorageState) => boolean;
+    predicate: (state: StorageState) => boolean;
     storageKey: Buffer<ArrayBuffer>;
     recordIkm?: Buffer<ArrayBuffer>;
+    timeout?: number;
   }): Promise<StorageState> {
     let afterVersion = after?.version;
+    const deadline = Date.now() + timeout;
 
     while (true) {
       debug(
-        'waiting for storage manifest for aci=%s after version=%d predicate=%s',
+        'waiting for storage manifest for aci=%s after version=%d',
         aci,
         afterVersion,
-        predicate !== undefined,
       );
 
-      await this.waitForStorageManifest(aci, afterVersion);
+      await this.waitForStorageManifest(
+        aci,
+        afterVersion,
+        deadline - Date.now(),
+      );
 
       const state = await this.getStorageState({ aci, storageKey, recordIkm });
       assert(state, 'Missing storage state');
 
-      if (predicate !== undefined && !predicate(state)) {
+      if (!predicate(state)) {
         debug(
           'storage manifest for aci=%s version=%d did not match predicate',
           aci,

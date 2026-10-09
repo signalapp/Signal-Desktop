@@ -156,11 +156,11 @@ describe('storage service', function (this: Mocha.Suite) {
         .getByRole('menuitem', { name: 'Pin chat', exact: true })
         .click();
 
-      const newState = await phone.waitForStorageState({
+      assert.isFalse(state.isPinned(second));
+      await phone.waitForStorageState({
         after: state,
+        predicate: storageState => storageState.isPinned(second),
       });
-
-      assert(newState.isPinned(second));
     }
 
     debug('updating pins on phone without sync message');
@@ -215,21 +215,24 @@ describe('storage service', function (this: Mocha.Suite) {
         .locator('input[name=replies-reactions]')
         .click();
 
-      const newState = await phone.waitForStorageState({
+      await phone.waitForStorageState({
         after: state,
+        predicate: storageState => {
+          const updatedList = storageState.findRecord(
+            (
+              record
+            ): record is StorageStateRecord<{
+              record: 'storyDistributionList';
+              storyDistributionList: Proto.StoryDistributionListRecord.Params;
+            }> => {
+              return record.type === IdentifierType.STORY_DISTRIBUTION_LIST;
+            }
+          );
+          return (
+            updatedList?.record.storyDistributionList.allowsReplies === false
+          );
+        },
       });
-
-      const updatedList = newState.findRecord(
-        (
-          record
-        ): record is StorageStateRecord<{
-          record: 'storyDistributionList';
-          storyDistributionList: Proto.StoryDistributionListRecord.Params;
-        }> => {
-          return record.type === IdentifierType.STORY_DISTRIBUTION_LIST;
-        }
-      );
-      assert.isFalse(updatedList?.record.storyDistributionList.allowsReplies);
     }
 
     debug('updating distribution list on phone without sync');

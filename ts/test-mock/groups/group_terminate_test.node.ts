@@ -153,7 +153,10 @@ describe('groups/terminate', function (this: Mocha.Suite) {
 
     let group: Group;
     {
-      state = await phone.waitForStorageState({ after: state });
+      state = await phone.waitForStorageState({
+        after: state,
+        predicate: storageState => storageState.getAllGroupRecords().length > 0,
+      });
       const groups = await phone.getAllGroups(state);
       assert.strictEqual(groups.length, 1, '1 group');
 
