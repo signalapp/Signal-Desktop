@@ -312,6 +312,10 @@
     "message": "Can’t add this image because the format is not supported",
     "description": "Text for the toast when an image cannot be processed because it uses an unsupported file format"
   },
+  "StickerCreator--Toasts--invalidSticker": {
+    "message": "Can’t add this image because it is invalid",
+    "description": "Text for the toast when an image added to the sticker creator fails validation"
+  },
   "StickerCreator--StickerPreview--light": {
     "message": "My sticker in light theme",
     "description": "Text for the sticker preview for the light theme"

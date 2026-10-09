@@ -26,6 +26,12 @@ contextBridge.exposeInMainWorld(
 );
 
 contextBridge.exposeInMainWorld(
+  'sanitizeWebp',
+  (data: Uint8Array<ArrayBuffer>): Promise<void> =>
+    ipcRenderer.invoke('art-creator:sanitizeWebp', data)
+);
+
+contextBridge.exposeInMainWorld(
   'installStickerPack',
   (packId: string, key: string) =>
     ipcRenderer.invoke('install-sticker-pack', packId, key)

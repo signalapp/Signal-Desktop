@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { getFilePath } from '../../util/api';
-import { processImage } from '../../util/processImage';
+import { processImage, ProcessImageError } from '../../util/processImage';
 import { useStickerDropzone } from '../../util/useStickerDropzone';
 import { H2, Text } from '../../elements/Typography';
 import { LabeledInput } from '../../elements/LabeledInput';
@@ -48,6 +48,14 @@ export function MetaStage(): JSX.Element {
         dispatch(setCover(stickerImage));
       } catch (e) {
         dispatch(removeImage(getFilePath(file) || file.name));
+        dispatch(
+          addToast({
+            key:
+              e instanceof ProcessImageError
+                ? e.errorMessageI18nKey
+                : 'StickerCreator--Toasts--errorProcessing',
+          })
+        );
       }
     },
     [dispatch, artType]
