@@ -437,6 +437,10 @@ export class ConversationController {
     this.updateUnreadCount();
   }
 
+  isInitialFetchComplete(): boolean {
+    return this.#_initialFetchComplete;
+  }
+
   get(id?: string | null): ConversationModel | undefined {
     if (!this.#_initialFetchComplete) {
       throw new Error(

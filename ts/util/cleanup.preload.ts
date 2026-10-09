@@ -52,6 +52,7 @@ import {
   getExternalAvatarFilesForConversation,
   getExternalAvatarDraftsForConversation,
 } from './conversationFilePaths.std.ts';
+import { notifyExternalClientsMessageRemoved } from '../externalClient/hooks.std.ts';
 
 const log = createLogger('cleanup');
 
@@ -161,6 +162,7 @@ function cleanupMessageFromMemory(message: MessageAttributesType): void {
   const { id, conversationId } = message;
 
   window.reduxActions?.conversations.messageDeleted(id, conversationId);
+  notifyExternalClientsMessageRemoved(message);
 
   const parentConversation = window.ConversationController.get(conversationId);
   parentConversation?.debouncedUpdateLastMessage();

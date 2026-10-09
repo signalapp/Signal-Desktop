@@ -115,6 +115,9 @@ const config = {
     'packages/windows-ucv': {
       ignoreDependencies: ['node-addon-api'],
     },
+    'packages/windows-local-pipe': {
+      ignoreDependencies: ['node-addon-api'],
+    },
     'packages/mock-server': {
       entry: [
         'src/index.ts!',

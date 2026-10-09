@@ -1839,6 +1839,7 @@
         "packages/lame/**",
         "packages/mute-state-change/**",
         "packages/windows-ucv/**",
+        "packages/windows-local-pipe/**",
         "packages/mock-server/**",
         "scripts/**",
         "test/test.mjs",
@@ -1857,7 +1858,11 @@
       }
     },
     {
-      "files": ["packages/windows-ucv/**", "packages/mock-server/**"],
+      "files": [
+        "packages/windows-ucv/**",
+        "packages/windows-local-pipe/**",
+        "packages/mock-server/**"
+      ],
       "env": { "node": true },
       "globals": {
         "window": "readonly",

@@ -99,6 +99,7 @@ allowBuilds:
   '@signalapp/ringrtc@2.72.1': true
   '@signalapp/sqlcipher@4.1.0': true
   '@signalapp/windows-ucv@1.0.1': true
+  '@signalapp/windows-local-pipe@1.0.0': true
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true
   'electron@44.4.5': true

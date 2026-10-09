@@ -82,6 +82,7 @@ const NODE_PACKAGES = new Set([
   '@signalapp/mute-state-change',
   '@signalapp/ringrtc',
   '@signalapp/sqlcipher',
+  '@signalapp/windows-local-pipe',
   '@signalapp/windows-ucv',
   'cirbuf',
   'config',

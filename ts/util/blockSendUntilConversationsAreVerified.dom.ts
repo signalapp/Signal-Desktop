@@ -19,17 +19,9 @@ export async function blockSendUntilConversationsAreVerified(
   source: SafetyNumberChangeSource,
   timestampThreshold?: number
 ): Promise<boolean> {
-  const allServiceIds = getAllServiceIds(byConversationId);
-  await waitForAll({
-    tasks: Array.from(allServiceIds).map(
-      serviceId => async () => updateServiceIdTrust(serviceId)
-    ),
-  });
-
-  const untrustedByConversation = filterServiceIds(
+  const untrustedByConversation = await getUntrustedRecipients(
     byConversationId,
-    (serviceId: ServiceIdString) =>
-      !isServiceIdTrusted(serviceId, timestampThreshold)
+    timestampThreshold
   );
 
   const untrustedServiceIds = getAllServiceIds(untrustedByConversation);
@@ -46,6 +38,27 @@ export async function blockSendUntilConversationsAreVerified(
   }
 
   return true;
+}
+
+// The recipients whose safety number changed or who are unverified, after
+// refreshing their trust state. Used without a dialog by callers that must
+// refuse rather than ask (external clients).
+export async function getUntrustedRecipients(
+  byConversationId: RecipientsByConversation,
+  timestampThreshold?: number
+): Promise<RecipientsByConversation> {
+  const allServiceIds = getAllServiceIds(byConversationId);
+  await waitForAll({
+    tasks: Array.from(allServiceIds).map(
+      serviceId => async () => updateServiceIdTrust(serviceId)
+    ),
+  });
+
+  return filterServiceIds(
+    byConversationId,
+    (serviceId: ServiceIdString) =>
+      !isServiceIdTrusted(serviceId, timestampThreshold)
+  );
 }
 
 async function updateServiceIdTrust(serviceId: ServiceIdString) {

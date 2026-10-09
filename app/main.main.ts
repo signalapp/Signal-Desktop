@@ -143,6 +143,7 @@ import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 import { trackHeapSize } from '../ts/util/oomNotifier.node.ts';
 import { sendDummyKeystroke } from './WindowsNotifications.main.ts';
 import { maybeMigrateSafeStorageBackend } from '../ts/util/linuxPasswordStoreMigration.main.ts';
+import { ExternalClientMain } from '../ts/main/externalClientMain.main.ts';
 
 const { chmod, realpath, writeFile } = fsExtra;
 const { get, pick, isNumber, isBoolean, some, debounce, noop } = lodash;
@@ -307,6 +308,7 @@ let sqlInitTimeStart = 0;
 let sqlInitTimeEnd = 0;
 
 const sql = new MainSQL();
+let externalClientMain: ExternalClientMain | undefined;
 const heicConverter = getHeicConverter();
 
 async function getSpellCheckSetting(): Promise<boolean> {
@@ -2475,6 +2477,15 @@ app.on('ready', async () => {
     );
   }
 
+  externalClientMain = new ExternalClientMain({
+    sql,
+    userDataPath,
+    getMainWindow,
+    getIsLinked,
+    getI18n: () => getResolvedMessagesLocale().i18n,
+  });
+  drop(externalClientMain.refresh());
+
   ready = true;
 
   setupMenu();
@@ -2692,6 +2703,7 @@ app.on('before-quit', e => {
 
   systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
+  drop(externalClientMain?.stop());
 });
 
 app.on('will-quit', e => {
