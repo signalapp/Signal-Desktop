@@ -54,6 +54,7 @@ export type PollTerminateAttributesType = {
   source: PollSource;
   targetTimestamp: number;
   timestamp: number;
+  receivedAtCounter: number;
   receivedAtDate: number;
   expireTimer: DurationInSeconds | undefined;
   expirationStartTimestamp: number | undefined;
@@ -592,6 +593,8 @@ export async function handlePollTerminate(
     pollSource: terminate.source,
     terminatorId: terminate.fromConversationId,
     timestamp: terminate.timestamp,
+    receivedAtCounter: terminate.receivedAtCounter,
+    receivedAtDate: terminate.receivedAtDate,
     isMeTerminating: isMe(author.attributes),
     expireTimer: terminate.expireTimer,
     expirationStartTimestamp: terminate.expirationStartTimestamp,

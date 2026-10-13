@@ -3654,6 +3654,8 @@ export class ConversationModel {
     pollSource: PollSource;
     terminatorId: string;
     timestamp: number;
+    receivedAtCounter: number;
+    receivedAtDate: number;
     isMeTerminating: boolean;
     expireTimer: DurationInSeconds | undefined;
     expirationStartTimestamp: number | undefined;
@@ -3664,12 +3666,12 @@ export class ConversationModel {
     const terminatorServiceId = terminatorConversation?.getServiceId();
 
     const message = new MessageModel({
-      ...generateMessageId(incrementMessageCounter()),
+      ...generateMessageId(params.receivedAtCounter),
       conversationId: this.id,
       type: 'poll-terminate',
       sent_at: params.timestamp,
       timestamp: params.timestamp,
-      received_at_ms: params.timestamp,
+      received_at_ms: params.receivedAtDate,
       sourceServiceId: terminatorServiceId,
       pollTerminateNotification: {
         question: params.pollQuestion,
@@ -3702,6 +3704,7 @@ export class ConversationModel {
     pinMessage: PinMessageData;
     senderAci: AciString;
     sentAtTimestamp: number;
+    receivedAtCounter: number;
     receivedAtTimestamp: number;
     expireTimer: DurationInSeconds | null;
     expirationStartTimestamp: number | null;
@@ -3710,7 +3713,7 @@ export class ConversationModel {
     const senderIsMe = params.senderAci === ourAci;
 
     const message = new MessageModel({
-      ...generateMessageId(incrementMessageCounter()),
+      ...generateMessageId(params.receivedAtCounter),
       conversationId: this.id,
       type: 'pinned-message-notification',
       sent_at: params.sentAtTimestamp,
