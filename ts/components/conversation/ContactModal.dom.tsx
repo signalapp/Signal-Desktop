@@ -422,10 +422,8 @@ export function ContactModal({
             escape="cancel-is-noop"
             disableMissingAriaDescriptionWarning
           >
-            <AxoDialog.Header>
-              <AxoDialog.Title screenReaderOnly>
-                {contact.title}
-              </AxoDialog.Title>
+            <AxoDialog.Header floating>
+              <AxoDialog.Title>{contact.title}</AxoDialog.Title>
               <AxoDialog.Close />
             </AxoDialog.Header>
             <AxoDialog.Body maxHeight={560}>

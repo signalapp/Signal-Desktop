@@ -93,7 +93,7 @@ function AxoSelectTest() {
 function AxoDialogTest() {
   return (
     <AxoDialog.Root>
-      <AxoDialog.Trigger>
+      <AxoDialog.Trigger asChild>
         <AxoButton.Root variant="strong-primary" size="md">
           AxoDialog
         </AxoButton.Root>

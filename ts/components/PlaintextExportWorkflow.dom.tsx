@@ -58,24 +58,22 @@ export function PlaintextExportWorkflow({
     return (
       <AxoDialog.Root open onOpenChange={clearWorkflow}>
         <AxoDialog.Content size="md" escape="cancel-is-destructive">
-          <AxoDialog.Header>
-            <AxoDialog.Title>
-              <div className={tw('pt-[10px]')}>
-                {i18n('icu:PlaintextExport--Confirmation--Header')}
-              </div>
-            </AxoDialog.Title>
-          </AxoDialog.Header>
           <AxoDialog.Body>
+            <AxoDialog.Title>
+              {i18n('icu:PlaintextExport--Confirmation--Header')}
+            </AxoDialog.Title>
             <div className={tw('px-[13px]')}>
-              <div className={tw('text-secondary')}>
-                <I18n
-                  i18n={i18n}
-                  id="icu:PlaintextExport--Confirmation--Description"
-                  components={{
-                    bold: Bold,
-                  }}
-                />
-              </div>
+              <AxoDialog.Description>
+                <div className={tw('text-secondary')}>
+                  <I18n
+                    i18n={i18n}
+                    id="icu:PlaintextExport--Confirmation--Description"
+                    components={{
+                      bold: Bold,
+                    }}
+                  />
+                </div>
+              </AxoDialog.Description>
               <label
                 className={tw('mt-2 flex items-center py-[10px] ps-4')}
                 htmlFor="includeMediaCheckbox"
@@ -169,15 +167,11 @@ export function PlaintextExportWorkflow({
     return (
       <AxoDialog.Root open onOpenChange={cancelWorkflow}>
         <AxoDialog.Content size="md" escape="cancel-is-destructive">
-          <AxoDialog.Header>
-            <AxoDialog.Title>
-              <div className={tw('pt-[10px]')}>
-                {i18n('icu:PlaintextExport--ProgressDialog--Header')}
-              </div>
-            </AxoDialog.Title>
-          </AxoDialog.Header>
           <AxoDialog.Body>
-            <div className={tw('mx-auto my-[29px] w-[331px]')}>
+            <AxoDialog.Title>
+              {i18n('icu:PlaintextExport--ProgressDialog--Header')}
+            </AxoDialog.Title>
+            <div className={tw('mx-3.5 my-[29px]')}>
               {progressElements}
               <div className={tw('text-center type-body-small text-secondary')}>
                 {i18n('icu:PlaintextExport--ProgressDialog--TimeWarning')}

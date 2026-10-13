@@ -1,15 +1,13 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { useState, useCallback, type JSX } from 'react';
-
+import type { ReactNode } from 'react';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { getStringForConversationMerge } from '../../util/getStringForConversationMerge.std.ts';
-import { Button, ButtonSize, ButtonVariant } from '../Button.dom.tsx';
-import { SystemMessage } from './SystemMessage.dom.tsx';
 import { Emojify } from './Emojify.dom.tsx';
-import { Modal } from '../Modal.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
+import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoChatEvent } from '../../axo/chat/AxoChatEvent.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
 
 export type PropsDataType = {
   conversationTitle: string;
@@ -20,7 +18,7 @@ export type PropsType = PropsDataType & {
   i18n: LocalizerType;
 };
 
-export function ConversationMergeNotification(props: PropsType): JSX.Element {
+export function ConversationMergeNotification(props: PropsType): ReactNode {
   const {
     conversationTitle,
     obsoleteConversationTitle,
@@ -34,61 +32,74 @@ export function ConversationMergeNotification(props: PropsType): JSX.Element {
     i18n,
   });
 
-  const [showingDialog, setShowingDialog] = useState(false);
+  return (
+    <AxoChatEvent.Root variant="secondary">
+      <AxoChatEvent.Body symbol="merge">
+        <Emojify text={message} />
+      </AxoChatEvent.Body>
+      {obsoleteConversationTitle != null && (
+        <ConversationMergeNotificationDialog
+          i18n={i18n}
+          conversationTitle={conversationTitle}
+          obsoleteConversationTitle={obsoleteConversationTitle}
+        >
+          <AxoChatEvent.Action>
+            {i18n('icu:ConversationMerge--learn-more')}
+          </AxoChatEvent.Action>
+        </ConversationMergeNotificationDialog>
+      )}
+    </AxoChatEvent.Root>
+  );
+}
 
-  const showDialog = useCallback(() => {
-    setShowingDialog(true);
-  }, [setShowingDialog]);
+type ConversationMergeNotificationDialogProps = Readonly<{
+  i18n: LocalizerType;
+  children: ReactNode;
+  conversationTitle: string;
+  obsoleteConversationTitle: string;
+}>;
 
-  const dismissDialog = useCallback(() => {
-    setShowingDialog(false);
-  }, [setShowingDialog]);
+function ConversationMergeNotificationDialog(
+  props: ConversationMergeNotificationDialogProps
+): ReactNode {
+  const { i18n } = props;
 
   return (
-    <>
-      <SystemMessage
-        icon="merge"
-        contents={<Emojify text={message} />}
-        button={
-          obsoleteConversationTitle ? (
-            <Button
-              onClick={showDialog}
-              size={ButtonSize.Small}
-              variant={ButtonVariant.SystemMessage}
-            >
-              {i18n('icu:ConversationMerge--learn-more')}
-            </Button>
-          ) : undefined
-        }
-      />
-      {showingDialog && obsoleteConversationTitle ? (
-        <Modal
-          hasXButton
-          modalName="ConversationMergeExplainer"
-          onClose={dismissDialog}
-          i18n={i18n}
-        >
-          <div className="module-conversation-merge-notification__dialog__image">
-            <img src="images/merged-chat.svg" alt="" />
-            <div className="module-conversation-merge-notification__dialog__text-1">
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>{props.children}</AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>
+            {i18n('icu:ConversationMerge--explainer-dialog--label')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <div className={tw('mb-4 flex justify-center')}>
+            <img
+              role="none"
+              src="images/merged-chat.svg"
+              alt=""
+              width={44}
+              height={88}
+            />
+          </div>
+
+          <AxoDialog.Description>
+            <p className={tw('mb-2')}>
               <I18n
                 i18n={i18n}
                 id="icu:ConversationMerge--explainer-dialog--line-1"
                 components={{
-                  conversationTitle,
-                  obsoleteConversationTitle,
+                  conversationTitle: props.conversationTitle,
+                  obsoleteConversationTitle: props.obsoleteConversationTitle,
                 }}
               />
-            </div>
-            <div className="module-conversation-merge-notification__dialog__text-2">
-              <I18n
-                i18n={i18n}
-                id="icu:ConversationMerge--explainer-dialog--line-2"
-              />
-            </div>
-          </div>
-        </Modal>
-      ) : null}
-    </>
+            </p>
+            <p>{i18n('icu:ConversationMerge--explainer-dialog--line-2')}</p>
+          </AxoDialog.Description>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

@@ -20,7 +20,7 @@ export function NotificationProfilesOnboardingDialog(
       <AxoDialog.Content size="sm" escape="cancel-is-destructive">
         <AxoDialog.Body>
           <div className={tw('flex flex-col items-center')}>
-            <div className={tw('mt-6 mb-3')}>
+            <div className={tw('mb-3')}>
               <ProfileAvatar i18n={i18n} size="large" />
             </div>
             <h1 className={tw('mb-2 type-title-medium text-primary')}>

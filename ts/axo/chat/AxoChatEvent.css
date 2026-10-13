@@ -1,0 +1,50 @@
+/**
+ * Copyright 2025 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-chat-event {
+    @apply flex flex-col items-center;
+    @apply gap-2.5 px-8 py-2.5;
+  }
+
+  .axo-chat-event-body {
+    @apply -my-1 py-1; /* extra spacing for focus rings */
+    @apply max-w-100;
+    @apply text-center text-pretty;
+    @apply line-clamp-3;
+    @apply type-body-medium;
+
+    :where(.axo-chat-event-secondary) & {
+      @apply text-secondary;
+    }
+
+    :where(.axo-chat-event-destructive) & {
+      @apply text-destructive;
+    }
+  }
+
+  .axo-chat-event-inline-action {
+    @apply inline;
+    @apply rounded-xs;
+
+    &:hover,
+    &:focus {
+      @apply underline;
+    }
+
+    &:active {
+      @apply text-primary;
+    }
+
+    &:focus-visible {
+      @apply axo-focus-ring;
+    }
+
+    @media (forced-colors: active) {
+      @apply underline;
+      @apply text-[LinkText];
+    }
+  }
+}

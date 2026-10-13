@@ -27,6 +27,7 @@
 @import './AxoScrollArea.css';
 @import './AxoSelect.css';
 @import './AxoSymbol.css';
+@import './chat/AxoChatEvent.css';
 @import './fields/_AxoBaseField.css';
 @import './items/_AxoBaseItem.css';
 @import './items/AxoFieldList.css';

@@ -6097,28 +6097,6 @@ button.module-calling-participants-list__contact {
   }
 }
 
-// Module: Chat Session Refreshed Dialog
-
-.module-chat-session-refreshed-dialog__image {
-  text-align: center;
-}
-.module-chat-session-refreshed-dialog__title {
-  @include mixins.font-body-1-bold;
-  margin-top: 10px;
-  margin-bottom: 3px;
-}
-
-// Module: Delivery Issue Dialog
-
-.module-delivery-issue-dialog__image {
-  text-align: center;
-}
-.module-delivery-issue-dialog__title {
-  @include mixins.font-body-1-bold;
-  margin-top: 10px;
-  margin-bottom: 3px;
-}
-
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
   max-width: 100%;

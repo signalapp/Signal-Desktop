@@ -53,10 +53,8 @@ export function CallLinkPendingParticipantModal({
     <AxoTheme.Override theme="force-dark">
       <AxoDialog.Root open onOpenChange={onClose}>
         <AxoDialog.Content size="sm" escape="cancel-is-noop">
-          <AxoDialog.Header>
-            <AxoDialog.Title screenReaderOnly>
-              {conversation.title}
-            </AxoDialog.Title>
+          <AxoDialog.Header floating>
+            <AxoDialog.Title>{conversation.title}</AxoDialog.Title>
             <AxoDialog.Close />
           </AxoDialog.Header>
           <AxoDialog.Body>

@@ -265,8 +265,8 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
     <>
       <AxoDialog.Root open onOpenChange={handleOpenChange}>
         <AxoDialog.Content size="md" escape="cancel-is-noop">
-          <AxoDialog.Header>
-            <AxoDialog.Title screenReaderOnly>
+          <AxoDialog.Header floating>
+            <AxoDialog.Title>
               {i18n('icu:stickers--StickerPreview--Title')}
             </AxoDialog.Title>
             <AxoDialog.Close />

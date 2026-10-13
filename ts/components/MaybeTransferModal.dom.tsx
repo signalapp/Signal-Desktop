@@ -41,6 +41,11 @@ export function MaybeTransferModal({
         escape="cancel-is-noop"
         disableMissingAriaDescriptionWarning
       >
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>
+            {i18n('icu:MaybeTransferModal__title')}
+          </AxoDialog.Title>
+        </AxoDialog.Header>
         <AxoDialog.Body maxHeight={600}>
           <div className={tw('mt-8 flex flex-col items-center')}>
             <img
@@ -49,9 +54,7 @@ export function MaybeTransferModal({
               width="100"
               alt=""
             />
-            <AxoDialog.Title screenReaderOnly>
-              {i18n('icu:MaybeTransferModal__title')}
-            </AxoDialog.Title>
+
             <div className={tw('mt-4 text-center type-title-medium')}>
               {i18n('icu:MaybeTransferModal__title')}
             </div>

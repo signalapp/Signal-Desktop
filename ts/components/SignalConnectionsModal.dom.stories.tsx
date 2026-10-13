@@ -1,26 +1,16 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { Meta, StoryFn } from '@storybook/react';
-
+import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import type { PropsType } from './SignalConnectionsModal.dom.tsx';
 import { SignalConnectionsModal } from './SignalConnectionsModal.dom.tsx';
+import type { ReactNode } from 'react';
 
 const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/SignalConnectionsModal',
-  component: SignalConnectionsModal,
-  args: {
-    i18n,
-    onClose: action('onClose'),
-  },
-} satisfies Meta<PropsType>;
+} satisfies Meta;
 
-const Template: StoryFn<PropsType> = args => (
-  <SignalConnectionsModal {...args} />
-);
-
-export const Modal = Template.bind({});
-Modal.args = {};
+export function Default(): ReactNode {
+  return <SignalConnectionsModal i18n={i18n} onClose={action('onClose')} />;
+}

@@ -1,17 +1,19 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useEffect, useState, type JSX } from 'react';
+import { useEffect, useState, type JSX, type ReactNode } from 'react';
 import { strictAssert } from '../util/assert.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
-import { Modal } from './Modal.dom.tsx';
 import { BadgeDescription } from './BadgeDescription.dom.tsx';
 import { BadgeImage } from './BadgeImage.dom.tsx';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
-export type PropsType = Readonly<{
+export type BadgeDialogProps = Readonly<{
   areWeASubscriber: boolean;
   badges: ReadonlyArray<BadgeType>;
   firstName?: string;
@@ -21,7 +23,7 @@ export type PropsType = Readonly<{
   title: string;
 }>;
 
-export function BadgeDialog(props: PropsType): null | JSX.Element {
+export function BadgeDialog(props: BadgeDialogProps): ReactNode {
   const { badges, onClose } = props;
 
   const hasBadges = badges.length > 0;
@@ -42,7 +44,7 @@ function BadgeDialogWithBadges({
   onClose,
   onDonate,
   title,
-}: PropsType): JSX.Element {
+}: BadgeDialogProps): JSX.Element {
   const firstBadge = badges[0];
   strictAssert(
     firstBadge,
@@ -74,59 +76,75 @@ function BadgeDialogWithBadges({
   };
 
   return (
-    <Modal
-      modalName="BadgeDialog"
-      hasXButton
-      moduleClassName="BadgeDialog"
-      i18n={i18n}
-      onClose={onClose}
-    >
-      <div className="BadgeDialog__contents">
-        <button
-          aria-label={i18n('icu:previous')}
-          className="BadgeDialog__nav BadgeDialog__nav--previous"
-          disabled={currentBadgeIndex === 0}
-          onClick={() => navigate(-1)}
-          type="button"
-        />
-        <div className="BadgeDialog__main">
-          <BadgeImage badge={currentBadge} size={96} />
-          <div className="BadgeDialog__name">
-            {firstName
-              ? i18n('icu:BadgeDialog__name-supports-signal', {
-                  name: firstName,
-                })
-              : currentBadge.name}
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Body>
+          <div className={tw('flex items-center gap-2')}>
+            <div>
+              <div className={tw('mb-2.5 flex justify-center')}>
+                <BadgeImage badge={currentBadge} size={96} />
+              </div>
+
+              <AxoDialog.Title>
+                {firstName
+                  ? i18n('icu:BadgeDialog__name-supports-signal', {
+                      name: firstName,
+                    })
+                  : currentBadge.name}
+              </AxoDialog.Title>
+              <AxoDialog.Description>
+                <p className={tw('mb-2.5 text-center')}>
+                  <BadgeDescription
+                    firstName={firstName}
+                    template={currentBadge.descriptionTemplate}
+                    title={title}
+                  />
+                </p>
+              </AxoDialog.Description>
+              {!areWeASubscriber && (
+                <div className={tw('mb-2.5 flex justify-center')}>
+                  <AxoButton.Root
+                    size="lg"
+                    variant="strong-primary"
+                    onClick={onDonate}
+                  >
+                    {i18n('icu:BadgeDialog__become-a-sustainer-button')}
+                  </AxoButton.Root>
+                </div>
+              )}
+            </div>
+
+            <div className={tw('order-first')}>
+              <AxoIconButton.Root
+                label={i18n('icu:previous')}
+                symbol="chevron-[start]"
+                onClick={() => navigate(-1)}
+                disabled={currentBadgeIndex === 0}
+                variant="implied-secondary"
+                size="md"
+                tooltip={false}
+              />
+            </div>
+
+            <div className={tw('order-last')}>
+              <AxoIconButton.Root
+                label={i18n('icu:next')}
+                symbol="chevron-[end]"
+                onClick={() => navigate(1)}
+                disabled={currentBadgeIndex === badges.length - 1}
+                variant="implied-secondary"
+                size="md"
+                tooltip={false}
+              />
+            </div>
           </div>
-          <div className="BadgeDialog__description">
-            <BadgeDescription
-              firstName={firstName}
-              template={currentBadge.descriptionTemplate}
-              title={title}
-            />
-          </div>
-          {!areWeASubscriber && (
-            <AxoButton.Root
-              size="lg"
-              variant="strong-primary"
-              onClick={onDonate}
-            >
-              {i18n('icu:BadgeDialog__become-a-sustainer-button')}
-            </AxoButton.Root>
-          )}
+
           <BadgeCarouselIndex
             currentIndex={currentBadgeIndex}
             totalCount={badges.length}
           />
-        </div>
-        <button
-          aria-label={i18n('icu:next')}
-          className="BadgeDialog__nav BadgeDialog__nav--next"
-          disabled={currentBadgeIndex === badges.length - 1}
-          onClick={() => navigate(1)}
-          type="button"
-        />
-      </div>
-    </Modal>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

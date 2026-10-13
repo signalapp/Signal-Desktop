@@ -5,9 +5,9 @@ import { useId, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoDialog } from './AxoDialog.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoCheckbox } from './AxoCheckbox.dom.tsx';
+import { AxoAvatar } from './AxoAvatar.dom.tsx';
 
 export default {
   title: 'Axo/AxoDialog',
@@ -44,13 +44,10 @@ function Template(props: {
   footerContent?: ReactNode;
   children: ReactNode;
 }): JSX.Element {
-  const [open, setOpen] = useState(true);
   return (
-    <AxoDialog.Root open={open} onOpenChange={setOpen}>
-      <AxoDialog.Trigger>
-        <AxoButton.Root variant="strong-secondary" size="md">
-          Open Dialog
-        </AxoButton.Root>
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
       <AxoDialog.Content size={props.contentSize} escape="cancel-is-noop">
         <AxoDialog.Header>
@@ -171,6 +168,52 @@ export function FooterContentLongAndTight(): JSX.Element {
   );
 }
 
+export function FloatingHeader(): ReactNode {
+  return (
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>Floating Header</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <div className={tw('mb-2 flex justify-center')}>
+            <AxoAvatar.Root size={72}>
+              <AxoAvatar.Content label={null}>
+                <AxoAvatar.Icon symbol="securitykey" />
+              </AxoAvatar.Content>
+            </AxoAvatar.Root>
+          </div>
+          <AxoDialog.Description>
+            <p className={tw('mb-2')}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Aspernatur repudiandae, provident accusamus sed velit possimus
+              tenetur.
+            </p>
+            <p>
+              Numquam explicabo, aliquid commodi, expedita ut facere aut eos,
+              omnis velit qui quos consequatur.
+            </p>
+          </AxoDialog.Description>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="strong-secondary" onClick={() => null}>
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action variant="strong-primary" onClick={() => null}>
+              OK
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
 function Spacer(props: { height: 8 | 12 }) {
   return <div style={{ height: props.height }} />;
 }
@@ -200,13 +243,10 @@ function TextInputField(props: { placeholder: string }) {
 }
 
 export function ExampleNicknameAndNoteDialog(): JSX.Element {
-  const [open, setOpen] = useState(true);
   return (
-    <AxoDialog.Root open={open} onOpenChange={setOpen}>
-      <AxoDialog.Trigger>
-        <AxoButton.Root variant="strong-secondary" size="md">
-          Open Dialog
-        </AxoButton.Root>
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
       <AxoDialog.Content size="sm" escape="cancel-is-destructive">
         <AxoDialog.Header>
@@ -274,13 +314,10 @@ function CheckboxField(props: { label: string }) {
 }
 
 export function ExampleMuteNotificationsDialog(): JSX.Element {
-  const [open, setOpen] = useState(true);
   return (
-    <AxoDialog.Root open={open} onOpenChange={setOpen}>
-      <AxoDialog.Trigger>
-        <AxoButton.Root variant="strong-secondary" size="md">
-          Open Dialog
-        </AxoButton.Root>
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header>
@@ -344,13 +381,10 @@ function ExampleItem(props: { label: string; description: string }) {
 }
 
 export function ExampleLanguageDialog(): JSX.Element {
-  const [open, setOpen] = useState(true);
   return (
-    <AxoDialog.Root open={open} onOpenChange={setOpen}>
-      <AxoDialog.Trigger>
-        <AxoButton.Root variant="strong-secondary" size="md">
-          Open Dialog
-        </AxoButton.Root>
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header>

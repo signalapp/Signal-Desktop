@@ -4,7 +4,6 @@
 import type { FC, MouseEvent, ReactNode, Ref } from 'react';
 import { memo, useCallback, useId, useMemo } from 'react';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
-import { tw } from '../tw.dom.tsx';
 import { AxoButton } from '../AxoButton.dom.tsx';
 import type { TimestampMs } from '@signalapp/types';
 import { variants } from '../_internal/variants.dom.tsx';
@@ -12,6 +11,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from '../_internal/StrictContext.dom.tsx';
+import { css } from '../_internal/css.dom.tsx';
 
 /**
  * @example Anatomy
@@ -36,7 +36,16 @@ export namespace AxoChatEvent {
 
   const RootContext = createStrictContext<RootContextType>('AxoChatEvent.Root');
 
+  /** Visual style of the chat event */
+  export type Variant = 'secondary' | 'destructive';
+
+  const Variants = variants<Variant>('AxoChatEvent.Variant', {
+    secondary: css('axo-chat-event-secondary'),
+    destructive: css('axo-chat-event-destructive'),
+  });
+
   export type RootProps = Readonly<{
+    variant: Variant;
     children: ReactNode;
   }>;
 
@@ -67,18 +76,14 @@ export namespace AxoChatEvent {
    *       8m
    *     </AxoChatEvent.Timestamp>
    *   </AxoChatEvent.Body>
-   *   <AxoChatEvent.Action
-   *     variant="subtle-affirmative"
-   *     onClick={action('onGoToMessage')}
-   *   >
+   *   <AxoChatEvent.Action onClick={action('onGoToMessage')}>
    *     Join call
    *   </AxoChatEvent.Action>
    * </AxoChatEvent.Root>
    * ```
-   *
-   * @example With Timestamp
    */
   export const Root: FC<RootProps> = memo(props => {
+    const { variant, children } = props;
     const id = useId();
 
     const context = useMemo((): RootContextType => {
@@ -88,10 +93,11 @@ export namespace AxoChatEvent {
     return (
       <RootContext value={context}>
         <article
+          data-testid="axo-chat-event"
           aria-labelledby={id}
-          className={tw('flex flex-col items-center gap-2.5 px-8 py-2.5')}
+          className={css('axo-chat-event', Variants.get(variant))}
         >
-          {props.children}
+          {children}
         </article>
       </RootContext>
     );
@@ -104,17 +110,7 @@ export namespace AxoChatEvent {
    * --------------------------------------------------------------------------
    */
 
-  /** Visual style of the body */
-  export type BodyVariant = 'secondary' | 'destructive';
-
-  const BodyVariants = variants<BodyVariant>('AxoChatEvent.BodyVariant', {
-    secondary: tw('text-secondary'),
-    destructive: tw('text-destructive'),
-  });
-
   export type BodyProps = Readonly<{
-    /** Visual style of the body */
-    variant: BodyVariant;
     /** Leading icon */
     symbol: AxoSymbol.Name;
     /** Chat event label */
@@ -128,17 +124,7 @@ export namespace AxoChatEvent {
   export const Body: FC<BodyProps> = memo(props => {
     const context = useStrictContext(RootContext);
     return (
-      <div
-        id={context.id}
-        className={tw(
-          '-my-1 py-1', // extra spacing for focus rings
-          'max-w-100',
-          'text-center text-pretty',
-          'line-clamp-3',
-          'type-body-medium',
-          BodyVariants.get(props.variant)
-        )}
-      >
+      <div id={context.id} className="axo-chat-event-body">
         <AxoSymbol.InlineGlyph symbol={props.symbol} label={null} />
         &nbsp;
         {props.children}
@@ -184,13 +170,7 @@ export namespace AxoChatEvent {
         type="button"
         dir="auto"
         onClick={handleClick}
-        className={tw(
-          'inline',
-          'hover:underline focus:underline active:text-primary',
-          'rounded-xs focus-visible:axo-focus-ring',
-          'forced-colors:underline',
-          'forced-colors:text-[LinkText]'
-        )}
+        className="axo-chat-event-inline-action"
       >
         {props.children}
       </button>
@@ -224,7 +204,7 @@ export namespace AxoChatEvent {
 
     return (
       <>
-        {' · '}
+        &nbsp;&middot;&nbsp;
         <time dateTime={isoFormat}>{props.children}</time>
       </>
     );
@@ -237,24 +217,11 @@ export namespace AxoChatEvent {
    * --------------------------------------------------------------------------
    */
 
-  /**
-   * Visual style of the button.
-   */
-  export type ActionVariant =
-    | 'subtle-secondary'
-    | 'subtle-primary'
-    | 'subtle-affirmative'
-    | 'subtle-destructive';
-
   export type ActionProps = Readonly<{
     /**
      * Ref to the underlying `<button>` element.
      */
     ref?: Ref<HTMLButtonElement>;
-    /**
-     * Visual style of the button.
-     */
-    variant: ActionVariant;
     /**
      * When `true`, prevents interaction.
      */
@@ -268,7 +235,7 @@ export namespace AxoChatEvent {
      * Called when the button is clicked.
      * Not called when `disabled`.
      */
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     /**
      * The button label.
      */
@@ -279,11 +246,11 @@ export namespace AxoChatEvent {
    * A (single) optional action to display below the chat event.
    */
   export const Action: FC<ActionProps> = memo(props => {
-    const { ref, variant, disabled, onClick, children, ...rest } = props;
+    const { ref, disabled, onClick, children, ...rest } = props;
     return (
       <AxoButton.Root
         ref={ref}
-        variant={variant}
+        variant="subtle-secondary"
         size="sm"
         disabled={disabled}
         onClick={onClick}

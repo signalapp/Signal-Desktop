@@ -1970,6 +1970,10 @@
     "messageformat": "Learn More",
     "description": "Shown on a button below a 'conversations were merged' timeline notification"
   },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged",
+    "description": "Accessibility label for dialog shown after clicking 'learn more' button on a conversation merge event."
+  },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "After messaging with {obsoleteConversationTitle} you learned this number belongs to {conversationTitle}. Their phone number is private.",
     "description": "Contents of a dialog shown after clicking 'learn more' button on a conversation merge event."

@@ -86,20 +86,21 @@ export function LocalBackupExportWorkflow({
     return (
       <AxoDialog.Root open onOpenChange={cancelWorkflow}>
         <AxoDialog.Content size="md" escape="cancel-is-destructive">
-          <AxoDialog.Header>
-            <AxoDialog.Title>
-              <div className={tw('pt-[10px]')}>
-                {i18n('icu:LocalBackupExport--ProgressDialog--Header')}
-              </div>
-            </AxoDialog.Title>
-          </AxoDialog.Header>
           <AxoDialog.Body>
-            <div className={tw('mx-auto my-[29px] w-[331px]')}>
-              {progressElements}
-              <div className={tw('text-center type-body-small text-secondary')}>
-                {i18n('icu:PlaintextExport--ProgressDialog--TimeWarning')}
+            <AxoDialog.Title>
+              {i18n('icu:LocalBackupExport--ProgressDialog--Header')}
+            </AxoDialog.Title>
+
+            <AxoDialog.Description>
+              <div className={tw('mx-3.5 my-[29px]')}>
+                {progressElements}
+                <div
+                  className={tw('text-center type-body-small text-secondary')}
+                >
+                  {i18n('icu:PlaintextExport--ProgressDialog--TimeWarning')}
+                </div>
               </div>
-            </div>
+            </AxoDialog.Description>
           </AxoDialog.Body>
           <AxoDialog.Footer>
             <div
@@ -145,8 +146,8 @@ export function LocalBackupExportWorkflow({
               <img
                 src="images/desktop-and-phone.svg"
                 className={tw('my-4')}
-                height="61"
-                width="90"
+                height={61}
+                width={90}
                 alt=""
               />
               <AxoAlertDialog.Title>
