@@ -44,13 +44,13 @@
     "buffer": "6.0.3",
     "semver": "7.7.4",
     "type-fest": "5.5.0",
-    "uuid": "13.0.0",
+    "uuid": "13.0.2",
     "zod": "4.3.6"
   },
   "devDependencies": {
     "@arethetypeswrong/core": "0.18.5",
-    "typescript": "7.0.2",
     "publint": "0.3.21",
-    "tsdown": "0.22.14"
+    "tsdown": "0.22.14",
+    "typescript": "7.0.2"
   }
 }

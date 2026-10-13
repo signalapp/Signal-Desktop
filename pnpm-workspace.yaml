@@ -34,12 +34,10 @@ trustPolicyExclude:
 auditConfig:
   ignoreGhsas:
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG)
-    - GHSA-5c6j-r48x-rmvq # @storybook/addon-webpack5-compiler-swc > serialize-javascript
-    - GHSA-2w69-qvjg-hvjx # sticker-creator > @remix-run/router
-    - GHSA-v56q-mh7h-f735 # used by sass, only used at dev-time
-    - GHSA-xvcm-6775-5m9r # used by sass, only used at dev-time
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
-    - GHSA-vfj7-8cjw-p6xm # braces, only used at dev-time
+    - GHSA-vfj7-8cjw-p6xm # stylelint > fast-glob > micromatch > braces
+    - GHSA-w22m-hvvm-xmwx # fabric
+    - GHSA-hp3w-g68c-fv3c # @storybook/test-runner > ... > sprintf-js
 
 overrides:
   '@electron/rebuild>node-gyp': '12.4.0'
@@ -65,6 +63,10 @@ overrides:
   shell-quote: ^1.12.0
   source-map-js: ^1.2.2
   webpack-dev-middleware@<7.4.5: ^7.4.5
+  csv-parse@<7.0.2: ^7.0.2
+  diff@>=6.0.0 <8.0.3: ^8.0.3
+  serialize-javascript@>=5.0.0 <7.0.5: ^7.0.5
+  uuid@<11.1.1: ^11.1.1
 
 allowUnusedPatches: false
 patchedDependencies:
