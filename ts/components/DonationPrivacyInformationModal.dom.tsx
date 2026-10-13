@@ -38,8 +38,8 @@ export function DonationPrivacyInformationModal({
         escape="cancel-is-noop"
         disableMissingAriaDescriptionWarning
       >
-        <AxoDialog.Header>
-          <AxoDialog.Title screenReaderOnly>
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>
             {i18n('icu:PreferencesDonations__privacy-modal-title')}
           </AxoDialog.Title>
           <AxoDialog.Close />
@@ -51,6 +51,8 @@ export function DonationPrivacyInformationModal({
               'icu:PreferencesDonations__privacy-modal-icon-accessibility-label'
             )}
             src="images/signal-heart.svg"
+            width={64}
+            height={64}
           />
           <div className={tw('flex flex-col gap-4 pt-1.5 pb-4')}>
             <div className={tw('mt-1 mb-2')}>

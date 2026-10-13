@@ -1,27 +1,19 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, StoryFn } from '@storybook/react';
-import { type ComponentProps } from 'react';
-
+import type { Meta } from '@storybook/react';
+import { type ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
-type PropsType = ComponentProps<typeof CriticalIdlePrimaryDeviceModal>;
 export default {
   title: 'Components/CriticalIdlePrimaryDeviceModal',
-  component: CriticalIdlePrimaryDeviceModal,
-  args: {
-    i18n,
-    onClose: action('onClose'),
-  },
-} satisfies Meta<PropsType>;
+} satisfies Meta;
 
-const Template: StoryFn<PropsType> = args => (
-  <CriticalIdlePrimaryDeviceModal {...args} />
-);
-
-export const Modal = Template.bind({});
-Modal.args = {};
+export function Default(): ReactNode {
+  return (
+    <CriticalIdlePrimaryDeviceModal i18n={i18n} onClose={action('onClose')} />
+  );
+}

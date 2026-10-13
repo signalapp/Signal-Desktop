@@ -122,8 +122,8 @@ export function EditHistoryMessagesModal({
   return (
     <AxoDialog.Root open onOpenChange={closeEditHistoryModal}>
       <AxoDialog.Content size="md" escape="cancel-is-noop">
-        <AxoDialog.Header>
-          <AxoDialog.Title screenReaderOnly>
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>
             {i18n('icu:EditHistoryMessagesModal__title')}
           </AxoDialog.Title>
           <AxoDialog.Close />

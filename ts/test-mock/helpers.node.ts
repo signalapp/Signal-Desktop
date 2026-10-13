@@ -191,7 +191,9 @@ export async function expectSystemMessages(
   expected: ReadonlyArray<string | RegExp>
 ): Promise<void> {
   await expectItemsWithText(
-    context.locator('.SystemMessage__contents'),
+    context
+      .locator('.SystemMessage__contents')
+      .or(context.getByTestId('axo-chat-event')),
     expected
   );
 }

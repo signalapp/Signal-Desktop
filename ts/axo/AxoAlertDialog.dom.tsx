@@ -366,7 +366,7 @@ export namespace AxoAlertDialog {
     /**
      * Called when the button is clicked.
      */
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     /**
      * When `true`, prevents interaction.
      */

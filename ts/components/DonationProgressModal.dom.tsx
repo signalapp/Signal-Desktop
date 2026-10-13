@@ -1,48 +1,40 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { useEffect, type JSX } from 'react';
-
+import { useEffect, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { Modal } from './Modal.dom.tsx';
 import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import { SECOND } from '../util/durations/index.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
+import { useTimers } from '../axo/timers.dom.tsx';
 
-export type PropsType = {
+export type DonationProgressModalProps = Readonly<{
   i18n: LocalizerType;
   onWaitedTooLong: () => void;
-};
+}>;
 
-export function DonationProgressModal(props: PropsType): JSX.Element {
+export function DonationProgressModal(
+  props: DonationProgressModalProps
+): ReactNode {
   const { i18n, onWaitedTooLong } = props;
+  const timers = useTimers();
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout | undefined = setTimeout(() => {
-      timeout = undefined;
-      onWaitedTooLong();
-    }, SECOND * 30);
-
-    return () => {
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    };
-  }, [onWaitedTooLong]);
+    return timers.add(SECOND * 30, onWaitedTooLong);
+  }, [timers, onWaitedTooLong]);
 
   return (
-    <Modal
-      i18n={i18n}
-      className="DonationProgressModal"
-      modalName="DonationProgressModal"
-      noEscapeClose
-      noMouseClose
-    >
-      <div className="DonationProgressModal__SpinnerV2">
-        <SpinnerV2 size={58} strokeWidth={4} variant="brand" />
-      </div>
-      <div className="DonationProgressModal__text">
-        {i18n('icu:Donations__Processing')}
-      </div>
-    </Modal>
+    <AxoDialog.Root open>
+      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+        <AxoDialog.Body>
+          <div className={tw('mb-2.5 flex justify-center')}>
+            <SpinnerV2 size={58} strokeWidth={4} variant="brand" />
+          </div>
+          <div className={tw('text-center type-body-medium text-secondary')}>
+            {i18n('icu:Donations__Processing')}
+          </div>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

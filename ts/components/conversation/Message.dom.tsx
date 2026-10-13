@@ -1989,7 +1989,7 @@ export class Message extends PureComponent<Props, State> {
               recipientTitle={conversationTitle}
               badgeId={badgeId}
               getPreferredBadge={getPreferredBadge}
-              hideOutgoingGiftBadgeModal={() =>
+              onClose={() =>
                 this.setState({ showOutgoingGiftBadgeModal: false })
               }
             />

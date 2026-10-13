@@ -1,33 +1,26 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { JSX } from 'react';
-
-import classNames from 'classnames';
-
+import type { ReactNode } from 'react';
 import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath.std.ts';
-import { Modal } from './Modal.dom.tsx';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
-
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
-export type PropsType = {
-  recipientTitle: string;
+export type OutgoingGiftBadgeModalProps = Readonly<{
   i18n: LocalizerType;
   badgeId: string;
-  hideOutgoingGiftBadgeModal: () => unknown;
   getPreferredBadge: PreferredBadgeSelectorType;
-};
+  recipientTitle: string;
+  onClose: () => void;
+}>;
 
-export function OutgoingGiftBadgeModal({
-  recipientTitle,
-  i18n,
-  badgeId,
-  hideOutgoingGiftBadgeModal,
-  getPreferredBadge,
-}: PropsType): JSX.Element {
-  const badge = getPreferredBadge([{ id: badgeId }]);
+export function OutgoingGiftBadgeModal(
+  props: OutgoingGiftBadgeModalProps
+): ReactNode {
+  const { i18n, getPreferredBadge } = props;
+  const badge = getPreferredBadge([{ id: props.badgeId }]);
   const badgeSize = 140;
   const badgeImagePath = getBadgeImageFileLocalPath(
     badge,
@@ -35,42 +28,43 @@ export function OutgoingGiftBadgeModal({
     BadgeImageTheme.Transparent
   );
 
-  const badgeElement = badge ? (
-    <img
-      className="OutgoingGiftBadgeModal__badge"
-      src={badgeImagePath}
-      alt={badge.name}
-    />
-  ) : (
-    <div
-      className={classNames(
-        'OutgoingGiftBadgeModal__badge',
-        'OutgoingGiftBadgeModal__badge--missing'
-      )}
-      aria-label={i18n('icu:donation--missing')}
-    />
-  );
-
   return (
-    <Modal
-      modalName="OutgoingGiftBadgeModal"
-      i18n={i18n}
-      className="OutgoingGiftBadgeModal__modal"
-      onClose={hideOutgoingGiftBadgeModal}
-      hasXButton
-    >
-      <div className="OutgoingGiftBadgeModal">
-        <div className="OutgoingGiftBadgeModal__title">
-          {i18n('icu:modal--donation--title')}
-        </div>
-        <div className="OutgoingGiftBadgeModal__description">
-          {i18n('icu:modal--donation--description', { name: recipientTitle })}
-        </div>
-        {badgeElement}
-        <div className="OutgoingGiftBadgeModal__badge-summary">
-          {i18n('icu:message--donation')}
-        </div>
-      </div>
-    </Modal>
+    <AxoDialog.Root open onOpenChange={props.onClose}>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoDialog.Title>
+            <span className={tw('type-title-medium')}>
+              {i18n('icu:modal--donation--title')}
+            </span>
+          </AxoDialog.Title>
+          <div className={tw('mb-2.5 text-center')}>
+            {i18n('icu:modal--donation--description', {
+              name: props.recipientTitle,
+            })}
+          </div>
+          <div className={tw('mb-2.5 flex justify-center')}>
+            {badge != null ? (
+              <img
+                src={badgeImagePath}
+                alt={badge.name}
+                width={badgeSize}
+                height={badgeSize}
+              />
+            ) : (
+              <div
+                className={tw('rounded-full bg-secondary')}
+                style={{ width: badgeSize, height: badgeSize }}
+              />
+            )}
+          </div>
+          <p className={tw('text-center font-semibold')}>
+            {i18n('icu:message--donation')}
+          </p>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

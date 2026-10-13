@@ -177,8 +177,8 @@ export function AboutContactModal({
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
-        <AxoDialog.Header>
-          <AxoDialog.Title screenReaderOnly>
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>
             {isMe
               ? i18n('icu:AboutContactModal__title--myself')
               : i18n('icu:AboutContactModal__title')}

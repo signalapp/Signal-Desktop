@@ -6,14 +6,14 @@ import type { JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './DonationProgressModal.dom.tsx';
+import type { DonationProgressModalProps } from './DonationProgressModal.dom.tsx';
 import { DonationProgressModal } from './DonationProgressModal.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/DonationProgressModal',
-} satisfies Meta<PropsType>;
+} satisfies Meta<DonationProgressModalProps>;
 
 const defaultProps = {
   i18n,

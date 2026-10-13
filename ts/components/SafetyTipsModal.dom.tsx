@@ -73,17 +73,17 @@ function SafetyTipsSummary({
   return (
     <>
       <AxoDialog.Header>
-        <div className={tw('sr-only')}>
-          <AxoDialog.Description>
-            {i18n('icu:SafetyTipsModal__Title-v2')}
-          </AxoDialog.Description>
-        </div>
         <AxoDialog.Title>
           {i18n('icu:SafetyTipsModal__Title-v2')}
         </AxoDialog.Title>
         <AxoDialog.Close />
       </AxoDialog.Header>
       <AxoDialog.Body>
+        <div className={tw('sr-only')}>
+          <AxoDialog.Description>
+            {i18n('icu:SafetyTipsModal__Title-v2')}
+          </AxoDialog.Description>
+        </div>
         <div className={tw('py-4')}>
           <ul className={tw('mb-7 space-y-9')}>
             {tips.map(tip => (

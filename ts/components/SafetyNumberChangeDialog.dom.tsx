@@ -4,7 +4,6 @@
 import { useState, createRef, useEffect, type JSX } from 'react';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { InContactsIcon } from './InContactsIcon.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
@@ -20,6 +19,7 @@ import type { StoryDistributionIdString } from '../types/StoryDistributionId.std
 import { UserText } from './UserText.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 
 enum DialogState {
   StartingInReview = 'StartingInReview',
@@ -130,14 +130,16 @@ export function SafetyNumberChangeDialog({
 
   if (selectedContact) {
     return (
-      <Modal
-        modalName="SafetyNumberChangeDialog"
-        hasXButton
-        i18n={i18n}
-        onClose={onClose}
-      >
-        {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
-      </Modal>
+      <AxoDialog.Root open onOpenChange={onClose}>
+        <AxoDialog.Content size="md" escape="cancel-is-noop">
+          <AxoDialog.Header floating>
+            <AxoDialog.Close />
+          </AxoDialog.Header>
+          <AxoDialog.Body>
+            {renderSafetyNumber({ contactID: selectedContact.id, onClose })}
+          </AxoDialog.Body>
+        </AxoDialog.Content>
+      </AxoDialog.Root>
     );
   }
 

@@ -11,14 +11,14 @@ import {
 } from '../test-helpers/getFakeBadge.std.ts';
 import { repeat, zipObject } from '../util/iterables.std.ts';
 import { BadgeImageTheme } from '../badges/BadgeImageTheme.std.ts';
-import type { PropsType } from './BadgeDialog.dom.tsx';
+import type { BadgeDialogProps } from './BadgeDialog.dom.tsx';
 import { BadgeDialog } from './BadgeDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/BadgeDialog',
-} satisfies Meta<PropsType>;
+} satisfies Meta<BadgeDialogProps>;
 
 const defaultProps: ComponentProps<typeof BadgeDialog> = {
   areWeASubscriber: false,
