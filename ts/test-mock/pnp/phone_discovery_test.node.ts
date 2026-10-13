@@ -106,6 +106,13 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
       await compositionInput.press('Enter');
     }
 
+    debug('Wait for the message to be sent so that the PNI session exists');
+    {
+      const { source, body } = await pniContact.waitForMessage();
+      assert.strictEqual(source, bootstrap.desktop, 'message source');
+      assert.strictEqual(body, 'Hello PNI', 'message body');
+    }
+
     debug(
       'adding both contacts from storage service, adding one combined contact'
     );
