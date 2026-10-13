@@ -7649,7 +7649,7 @@ Signal Desktop makes use of the following open source projects.
 
 ## moment
 
-    Copyright (c) JS Foundation and other contributors
+    Copyright (c) OpenJS Foundation and other contributors
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
