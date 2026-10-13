@@ -42,7 +42,7 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
 
   const handleDeleteCallLink = useCallback(() => {
     strictAssert(callLink != null, 'callLink not found');
-    deleteCallLink(callLink.roomId);
+    void deleteCallLink(callLink.roomId);
     onClose();
   }, [callLink, deleteCallLink, onClose]);
 
@@ -57,12 +57,12 @@ export const SmartCallLinkDetails = memo(function SmartCallLinkDetails({
 
   const handleStartCallLinkLobby = useCallback(() => {
     strictAssert(callLink != null, 'callLink not found');
-    startCallLinkLobby({ rootKey: callLink.rootKey });
+    void startCallLinkLobby({ rootKey: callLink.rootKey });
   }, [callLink, startCallLinkLobby]);
 
   const handleUpdateCallLinkRestrictions = useCallback(
     (newRestrictions: CallLinkRestrictions) => {
-      updateCallLinkRestrictions(roomId, newRestrictions);
+      void updateCallLinkRestrictions(roomId, newRestrictions);
     },
     [roomId, updateCallLinkRestrictions]
   );

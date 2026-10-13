@@ -42,7 +42,7 @@ export const SmartStoriesSettingsModal = memo(
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const storyViewReceiptsEnabled = useSelector(getHasStoryViewReceiptSetting);
     const onStoryViewReceiptsChange = (value: boolean) => {
-      putItem('storyViewReceiptsEnabled', value);
+      void putItem('storyViewReceiptsEnabled', value);
       const account = window.ConversationController.getOurConversationOrThrow();
       account.captureChange('storyViewReceiptsEnabled');
     };

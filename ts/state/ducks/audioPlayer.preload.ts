@@ -1,12 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { setVoiceNotePlaybackRate } from './conversations.preload.ts';
 import { extractVoiceNoteForPlayback } from '../selectors/audioPlayer.preload.ts';
 import { getUserConversationId } from '../selectors/user.std.ts';
@@ -30,6 +26,7 @@ import { drop } from '../../util/drop.std.ts';
 import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import { Sound, SoundType } from '../../util/Sound.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 const stateChangeConfirmUpSound = new Sound({
   soundType: SoundType.VoiceNoteEnd,
@@ -188,10 +185,7 @@ export const actions = {
   messageAudioEnded,
 };
 
-function messageAudioEnded(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function messageAudioEnded(): AsyncStateThunk<
   SetMessageAudioAction | MessageAudioEnded
 > {
   return async (dispatch, getState) => {
@@ -283,12 +277,7 @@ function setPosition(positionAsRatio: number): SetPosition {
 
 function setPlaybackRate(
   rate: number
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SetPlaybackRate | ConversationsUpdatedActionType
-> {
+): SyncStateThunk<SetPlaybackRate | ConversationsUpdatedActionType> {
   return (dispatch, getState) => {
     const { audioPlayer } = getState();
     const { active } = audioPlayer;
@@ -303,7 +292,7 @@ function setPlaybackRate(
 
     // update the preference for the conversation
     const { conversationId } = active.content;
-    dispatch(
+    void dispatch(
       setVoiceNotePlaybackRate({
         conversationId,
         rate,

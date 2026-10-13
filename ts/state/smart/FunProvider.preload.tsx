@@ -76,7 +76,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
 
   const handleEmojiSkinToneDefaultChange = useCallback(
     (emojiSkinTone: Emoji.SkinTone) => {
-      setEmojiSkinToneDefault(emojiSkinTone);
+      void setEmojiSkinToneDefault(emojiSkinTone);
     },
     [setEmojiSkinToneDefault]
   );
@@ -88,7 +88,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
 
   const handleSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
-      onUseEmoji(emojiSelection);
+      void onUseEmoji(emojiSelection);
     },
     [onUseEmoji]
   );
@@ -109,7 +109,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   // GIFs
   const handleSelectGif = useCallback(
     (gifSelection: FunGifSelection) => {
-      onAddRecentGif(gifSelection.gif);
+      void onAddRecentGif(gifSelection.gif);
     },
     [onAddRecentGif]
   );

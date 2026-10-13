@@ -89,7 +89,7 @@ export const SmartCompositionRecordingDraft = memo(
 
     const handleSend = useCallback(() => {
       if (selectedConversationId) {
-        sendMultiMediaMessage(selectedConversationId, {
+        void sendMultiMediaMessage(selectedConversationId, {
           draftAttachments: [voiceNoteAttachment],
         });
       }
@@ -98,7 +98,7 @@ export const SmartCompositionRecordingDraft = memo(
     const handleCancel = useCallback(() => {
       unloadMessageAudio();
       if (selectedConversationId) {
-        removeAttachment(selectedConversationId, voiceNoteAttachment);
+        void removeAttachment(selectedConversationId, voiceNoteAttachment);
       }
     }, [
       removeAttachment,

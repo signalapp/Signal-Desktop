@@ -1,11 +1,8 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import lodash from 'lodash';
 import { v4 as getGuid } from 'uuid';
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import * as storageShim from '../../shims/storage.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
@@ -19,7 +16,7 @@ import { reloadSelectedConversation } from '../../shims/reloadSelectedConversati
 import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { actions as conversationActions } from './conversations.preload.ts';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.dom.ts';
-import type { StateThunk } from '../types.std.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
 
@@ -98,7 +95,7 @@ export const useItemsActions = (): BoundActionCreatorsMapObject<
 function putItem<K extends keyof StorageAccessType>(
   key: K,
   value: StorageAccessType[K]
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): AsyncStateThunk<ItemPutAction> {
   return async dispatch => {
     dispatch({
       type: 'items/PUT',
@@ -110,7 +107,7 @@ function putItem<K extends keyof StorageAccessType>(
 
 function setEmojiSkinToneDefault(
   emojiSkinToneDefault: Emoji.SkinTone
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): AsyncStateThunk<ItemPutAction> {
   return putItem('emojiSkinToneDefault', emojiSkinToneDefault);
 }
 
@@ -155,7 +152,7 @@ function getDefaultCustomColorData() {
 function addCustomColor(
   customColor: CustomColorType,
   conversationId?: string
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): SyncStateThunk<ItemPutAction> {
   return (dispatch, getState) => {
     const { customColors = getDefaultCustomColorData() } = getState().items;
 
@@ -177,7 +174,7 @@ function addCustomColor(
       order: [...order],
     };
 
-    dispatch(putItem('customColors', nextCustomColors));
+    void dispatch(putItem('customColors', nextCustomColors));
 
     const customColorData = {
       id: uuid,
@@ -185,17 +182,15 @@ function addCustomColor(
     };
 
     if (conversationId) {
-      conversationActions.colorSelected({
-        conversationId,
-        conversationColor: 'custom',
-        customColorData,
-      })(dispatch, getState, null);
-    } else {
-      setGlobalDefaultConversationColor('custom', customColorData)(
-        dispatch,
-        getState,
-        null
+      void dispatch(
+        conversationActions.colorSelected({
+          conversationId,
+          conversationColor: 'custom',
+          customColorData,
+        })
       );
+    } else {
+      dispatch(setGlobalDefaultConversationColor('custom', customColorData));
     }
   };
 }
@@ -203,7 +198,7 @@ function addCustomColor(
 function editCustomColor(
   colorId: string,
   color: CustomColorType
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): SyncStateThunk<ItemPutAction> {
   return (dispatch, getState) => {
     const { customColors = getDefaultCustomColorData() } = getState().items;
 
@@ -219,13 +214,11 @@ function editCustomColor(
       },
     };
 
-    dispatch(putItem('customColors', nextCustomColors));
+    void dispatch(putItem('customColors', nextCustomColors));
   };
 }
 
-function removeCustomColor(
-  payload: string
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+function removeCustomColor(payload: string): SyncStateThunk<ItemPutAction> {
   return (dispatch, getState) => {
     const { customColors = getDefaultCustomColorData() } = getState().items;
 
@@ -235,19 +228,14 @@ function removeCustomColor(
       order: customColors.order?.filter(id => id !== payload),
     };
 
-    dispatch(putItem('customColors', nextCustomColors));
-    resetDefaultChatColor()(dispatch, getState, null);
+    void dispatch(putItem('customColors', nextCustomColors));
+    dispatch(resetDefaultChatColor());
   };
 }
 
-function resetDefaultChatColor(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ItemPutAction
-> {
+function resetDefaultChatColor(): SyncStateThunk<ItemPutAction> {
   return dispatch => {
-    dispatch(
+    void dispatch(
       putItem('defaultConversationColor', {
         color: ConversationColors[0],
       })
@@ -262,9 +250,9 @@ function setGlobalDefaultConversationColor(
     id: string;
     value: CustomColorType;
   }
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): SyncStateThunk<ItemPutAction> {
   return dispatch => {
-    dispatch(
+    void dispatch(
       putItem('defaultConversationColor', {
         color,
         customColorData,
@@ -276,23 +264,23 @@ function setGlobalDefaultConversationColor(
 
 function savePreferredLeftPaneWidth(
   preferredWidth: number
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): SyncStateThunk<ItemPutAction> {
   return dispatch => {
-    dispatch(putItem('preferredLeftPaneWidth', preferredWidth));
+    void dispatch(putItem('preferredLeftPaneWidth', preferredWidth));
   };
 }
 
 function toggleNavTabsCollapse(
   navTabsCollapsed: boolean
-): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+): SyncStateThunk<ItemPutAction> {
   return dispatch => {
-    dispatch(putItem('navTabsCollapsed', navTabsCollapsed));
+    void dispatch(putItem('navTabsCollapsed', navTabsCollapsed));
   };
 }
 
-function onSeenAdminDeleteEducationDialog(): StateThunk<ItemPutAction> {
+function onSeenAdminDeleteEducationDialog(): SyncStateThunk<ItemPutAction> {
   return dispatch => {
-    dispatch(putItem('hasSeenAdminDeleteEducationDialog', true));
+    void dispatch(putItem('hasSeenAdminDeleteEducationDialog', true));
     runStorageServiceUploadJob({ reason: 'onSeenAdminDeleteEducationDialog' });
   };
 }

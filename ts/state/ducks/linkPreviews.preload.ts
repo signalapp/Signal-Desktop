@@ -1,8 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
-
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
@@ -12,7 +9,6 @@ import type {
 import type { AttachmentForUIType } from '../../types/Attachment.std.ts';
 import type { MaybeGrabLinkPreviewOptionsType } from '../../types/LinkPreview.std.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
 import { maybeGrabLinkPreview } from '../../services/LinkPreview.preload.ts';
@@ -20,6 +16,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { getPropsForAttachment } from '../selectors/message.preload.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
+import type { SyncStateThunk } from '../types.std.ts';
 
 // State
 
@@ -59,7 +56,7 @@ function debouncedMaybeGrabLinkPreview(
   message: string,
   source: LinkPreviewSourceType,
   options?: MaybeGrabLinkPreviewOptionsType
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): SyncStateThunk<NoopActionType> {
   return dispatch => {
     maybeGrabLinkPreview(message, source, options);
 

@@ -1,14 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import * as updateIpc from '../../shims/updateIpc.preload.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { DAY } from '../../util/durations/index.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 // State
 
@@ -102,10 +100,7 @@ function showUpdateDialog(
   };
 }
 
-function snoozeUpdate(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function snoozeUpdate(): SyncStateThunk<
   SnoozeUpdateActionType | UnsnoozeUpdateActionType
 > {
   return (dispatch, getState) => {
@@ -123,10 +118,7 @@ function snoozeUpdate(): ThunkAction<
   };
 }
 
-function startUpdate(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function startUpdate(): AsyncStateThunk<
   StartUpdateActionType | ShowUpdateDialogActionType
 > {
   return async dispatch => {
@@ -148,10 +140,7 @@ function startUpdate(): ThunkAction<
   };
 }
 
-function forceCheck(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function forceCheck(): AsyncStateThunk<
   | CheckForUpdatesActionType
   | CheckForUpdatesFinishedActionType
   | ShowUpdateDialogActionType

@@ -2,17 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { showToast } from './toast.preload.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import type { PromiseAction } from '../util.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
+import type { SyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('crashReports');
 
@@ -56,10 +54,7 @@ function setCrashReportCount(count: number): SetCrashReportCountActionType {
   return { type: SET_COUNT, payload: count };
 }
 
-function writeCrashReportsToLog(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function writeCrashReportsToLog(): SyncStateThunk<
   PromiseAction<typeof WRITE_TO_LOG> | ShowToastActionType
 > {
   return dispatch => {
@@ -75,10 +70,7 @@ function writeCrashReportsToLog(): ThunkAction<
   };
 }
 
-function eraseCrashReports(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function eraseCrashReports(): SyncStateThunk<
   PromiseAction<typeof ERASE> | ShowToastActionType
 > {
   return dispatch => {

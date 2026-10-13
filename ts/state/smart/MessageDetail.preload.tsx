@@ -84,7 +84,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
       log.error(
         `MessageDetail: Current panel, and no details for message ${messageId}, popping panel.`
       );
-      popPanelForConversation();
+      void popPanelForConversation();
     }
   }, [currPanelType, messageDetails, messageId, popPanelForConversation]);
 

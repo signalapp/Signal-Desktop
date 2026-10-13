@@ -53,7 +53,7 @@ export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
   const { generateSafetyNumber, toggleVerified } = useSafetyNumberActions();
 
   useEffect(() => {
-    generateSafetyNumber(contact);
+    void generateSafetyNumber(contact);
   }, [contact, generateSafetyNumber]);
 
   useEffect(() => {

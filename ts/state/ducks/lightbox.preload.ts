@@ -1,8 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
-
 import type { ReadonlyDeep } from 'type-fest';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
@@ -13,8 +10,6 @@ import type {
 } from './conversations.preload.ts';
 import type { ShowStickerPackPreviewActionType } from './globalModals.preload.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
-
 import { createLogger } from '../../logging/log.std.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
@@ -56,6 +51,7 @@ import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.ts
 import { queueAttachmentDownloadsAndMaybeSaveMessage } from '../../util/queueAttachmentDownloads.preload.ts';
 import { getMessageIdForLogging } from '../../util/idForLogging.preload.ts';
 import { markViewOnceMessageViewed } from '../../services/MessageUpdater.preload.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('lightbox');
 
@@ -115,12 +111,7 @@ type LightboxActionType =
   | SetSelectedLightboxIndexActionType
   | SetLightboxPlaybackDisabledActionType;
 
-function closeLightbox(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CloseLightboxActionType
-> {
+function closeLightbox(): SyncStateThunk<CloseLightboxActionType> {
   return (dispatch, getState) => {
     const { lightbox } = getState();
 
@@ -149,12 +140,7 @@ function closeLightbox(): ThunkAction<
 
 function setPlaybackDisabled(
   playbackDisabled: boolean
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SetLightboxPlaybackDisabledActionType
-> {
+): SyncStateThunk<SetLightboxPlaybackDisabledActionType> {
   return (dispatch, getState) => {
     const { lightbox } = getState();
 
@@ -171,7 +157,7 @@ function setPlaybackDisabled(
 
 function showLightboxForViewOnceMedia(
   messageId: string
-): ThunkAction<void, RootStateType, unknown, ShowLightboxActionType> {
+): AsyncStateThunk<ShowLightboxActionType> {
   return async (dispatch, getState) => {
     log.info('showLightboxForViewOnceMedia: attempting to display message');
 
@@ -266,10 +252,7 @@ function filterValidAttachments(
 function showLightbox(opts: {
   attachment: AttachmentType;
   messageId: string;
-}): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}): AsyncStateThunk<
   | ShowLightboxActionType
   | ShowStickerPackPreviewActionType
   | ShowToastActionType
@@ -294,11 +277,7 @@ function showLightbox(opts: {
       !isImageTypeSupported(contentType) &&
       !isVideoTypeSupported(contentType)
     ) {
-      saveAttachmentFromMessage(messageId, attachment)(
-        dispatch,
-        getState,
-        null
-      );
+      void dispatch(saveAttachmentFromMessage(messageId, attachment));
       return;
     }
 
@@ -426,12 +405,7 @@ enum AdjacentMessageDirection {
 
 function showLightboxForAdjacentMessage(
   direction: AdjacentMessageDirection
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ShowLightboxActionType | ShowToastActionType
-> {
+): AsyncStateThunk<ShowLightboxActionType | ShowToastActionType> {
   return async (dispatch, getState) => {
     const { lightbox } = getState();
 
@@ -504,7 +478,7 @@ function showLightboxForAdjacentMessage(
       return;
     }
 
-    dispatch(
+    void dispatch(
       showLightbox({
         attachment:
           direction === AdjacentMessageDirection.Previous
@@ -518,21 +492,11 @@ function showLightboxForAdjacentMessage(
   };
 }
 
-function showLightboxForNextMessage(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ShowLightboxActionType
-> {
+function showLightboxForNextMessage(): AsyncStateThunk<ShowLightboxActionType> {
   return showLightboxForAdjacentMessage(AdjacentMessageDirection.Next);
 }
 
-function showLightboxForPrevMessage(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ShowLightboxActionType
-> {
+function showLightboxForPrevMessage(): AsyncStateThunk<ShowLightboxActionType> {
   return showLightboxForAdjacentMessage(AdjacentMessageDirection.Previous);
 }
 

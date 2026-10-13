@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep, Simplify } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
@@ -22,7 +20,6 @@ import type {
   ProfileDataType,
   SetProfileUpdateErrorActionType,
 } from './conversations.preload.ts';
-
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   CardDetail,
@@ -33,9 +30,9 @@ import type {
   StripeDonationAmount,
 } from '../../types/Donations.std.ts';
 import type { BadgeType } from '../../badges/types.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('donations');
 
@@ -109,7 +106,7 @@ function addReceipt(receipt: DonationReceipt): AddReceiptAction {
 
 function internalAddDonationReceipt(
   receipt: DonationReceipt
-): ThunkAction<void, RootStateType, unknown, AddReceiptAction> {
+): AsyncStateThunk<AddReceiptAction> {
   return async dispatch => {
     if (!isStagingServer()) {
       log.error('internalAddDonationReceipt: Only available on staging server');
@@ -146,12 +143,7 @@ function setDidResume(didResume: boolean): SetDidResumeAction {
   };
 }
 
-function resumeWorkflow(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SetDidResumeAction
-> {
+function resumeWorkflow(): AsyncStateThunk<SetDidResumeAction> {
   return async dispatch => {
     try {
       dispatch({
@@ -187,12 +179,7 @@ export type SubmitDonationType = Simplify<
 
 function submitDonation(
   data: SubmitDonationType
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  UpdateWorkflowAction | UpdateLastErrorAction
-> {
+): AsyncStateThunk<UpdateWorkflowAction | UpdateLastErrorAction> {
   const { currencyType, paymentAmount, processor } = data;
 
   if (processor === DonationProcessor.Stripe) {
@@ -218,10 +205,7 @@ function _submitStripeDonation({
   currencyType,
   paymentAmount,
   paymentDetail,
-}: SubmitStripeDonationData): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: SubmitStripeDonationData): AsyncStateThunk<
   UpdateWorkflowAction | UpdateLastErrorAction
 > {
   return async (dispatch, getState) => {
@@ -255,10 +239,7 @@ function _submitStripeDonation({
 function _submitPaypalDonation({
   currencyType,
   paymentAmount,
-}: SubmitDonationData): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: SubmitDonationData): AsyncStateThunk<
   UpdateWorkflowAction | UpdateLastErrorAction
 > {
   return async dispatch => {
@@ -317,7 +298,7 @@ export function applyDonationBadge({
 
   // Only for testing
   storage?: Pick<typeof itemStorage, 'get' | 'put'>;
-}): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
+}): AsyncStateThunk<SetProfileUpdateErrorActionType> {
   return async (dispatch, getState) => {
     const me = getMe(getState());
 
@@ -375,7 +356,7 @@ export function applyDonationBadge({
         badges: updatedBadges,
       };
 
-      dispatch(
+      void dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = true;
@@ -391,7 +372,7 @@ export function applyDonationBadge({
         badges: [],
       };
 
-      dispatch(
+      void dispatch(
         conversationActions.myProfileChanged(profileData, { keepAvatar: true })
       );
       newDisplayBadgesOnProfile = false;

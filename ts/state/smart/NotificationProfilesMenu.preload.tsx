@@ -29,7 +29,7 @@ export function SmartNotificationProfilesMenu(): JSX.Element {
   const { setProfileOverride } = useNotificationProfilesActions();
 
   const goToSettings = () => {
-    changeLocation({
+    void changeLocation({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.NotificationProfilesHome,

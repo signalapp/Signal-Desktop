@@ -124,7 +124,7 @@ function SmartForwardMessagesModalInner({
 
   const closeModal = useCallback(() => {
     resetLinkPreview();
-    toggleForwardMessagesModal(null);
+    void toggleForwardMessagesModal(null);
   }, [toggleForwardMessagesModal]);
 
   const doForwardMessages = useCallback(

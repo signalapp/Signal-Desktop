@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Selector } from 'reselect';
-import type { ThunkAction } from 'redux-thunk';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import type { Action } from 'redux';
 import type { StateType } from './reducer.preload.ts';
 import type { actions as accounts } from './ducks/accounts.preload.ts';
@@ -84,12 +84,25 @@ export type ReduxActions = {
 };
 
 export type StateSelector<T> = Selector<StateType, T>;
-export type StateThunk<A extends Action = never> = ThunkAction<
-  void,
+
+export type StateDispatch<A extends Action = never> = ThunkDispatch<
   StateType,
-  unknown,
+  void,
   A
 >;
+
+declare const UNDEFINED_VOID_ONLY: unique symbol;
+type VoidOrUndefinedOnly = void | { [UNDEFINED_VOID_ONLY]: never };
+
+export type SyncStateThunk<
+  A extends Action = never,
+  ReturnType = VoidOrUndefinedOnly,
+> = ThunkAction<ReturnType, StateType, void, A>;
+
+export type AsyncStateThunk<
+  A extends Action = never,
+  ReturnType = void,
+> = ThunkAction<Promise<ReturnType>, StateType, void, A>;
 
 // oxlint-disable-next-line typescript/no-explicit-any
 export type ActionCreator<T extends (...params: Array<any>) => any> = (

@@ -212,7 +212,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const canAddLabel = getCanAddLabel(conversation, ourMembership);
 
   const handleDeleteNicknameAndNote = useCallback(() => {
-    updateNicknameAndNote(conversationId, { nickname: null, note: null });
+    void updateNicknameAndNote(conversationId, { nickname: null, note: null });
   }, [conversationId, updateNicknameAndNote]);
 
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
@@ -228,11 +228,11 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   }, [onMoveToInbox, conversationId]);
 
   const onConversationDeleteMessages = useCallback(() => {
-    destroyMessages(conversationId);
+    void destroyMessages(conversationId);
   }, [destroyMessages, conversationId]);
 
   const onNavigateToDonate = useCallback(() => {
-    changeLocation({
+    void changeLocation({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.DonationsDonateFlow,

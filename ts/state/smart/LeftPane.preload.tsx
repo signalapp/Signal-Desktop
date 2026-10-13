@@ -395,7 +395,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const { changeLocation } = useNavActions();
 
   const handleChatFolderOpenSettings = useCallback(() => {
-    changeLocation({
+    void changeLocation({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.ChatFolders,

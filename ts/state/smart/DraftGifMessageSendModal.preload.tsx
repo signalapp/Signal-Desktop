@@ -75,7 +75,7 @@ export const SmartDraftGifMessageSendModal = memo(
       );
       const draftAttachment = gifDownloadState.value.attachment;
       toggleDraftGifMessageSendModal(null);
-      sendMultiMediaMessage(conversationId, {
+      void sendMultiMediaMessage(conversationId, {
         message: draftText,
         bodyRanges: draftBodyRanges,
         draftAttachments: [draftAttachment],

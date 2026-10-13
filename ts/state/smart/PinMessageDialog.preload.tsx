@@ -32,7 +32,7 @@ export const SmartPinMessageDialog = memo(function SmartPinMessageDialog() {
   }, [hidePinMessageDialog]);
 
   const handleSeenPinMessageDisappearingMessagesWarning = useCallback(() => {
-    putItem(
+    void putItem(
       'seenPinMessageDisappearingMessagesWarningCount',
       seenPinMessageDisappearingMessagesWarningCount + 1
     );

@@ -58,7 +58,7 @@ export const SmartGroupMemberLabelInfoModal = memo(
         isEditMemberLabelEnabled={isEditMemberLabelEnabled}
         onClose={() => toggleGroupMemberLabelInfoModal(undefined)}
         showEditMemberLabelScreen={() => {
-          changeLocation({
+          void changeLocation({
             tab: NavTab.Chats,
             details: {
               conversationId,

@@ -1,13 +1,9 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import { isNumber } from 'lodash';
 import { v7 as generateUuid } from 'uuid';
 import { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
-
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import { SECOND } from '../../util/durations/constants.std.ts';
 import { toLogFormat } from '../../types/errors.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -75,12 +71,12 @@ import type {
   VerifyPINStage,
 } from '../../types/StandaloneRegistration.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
-import type { StateType } from '../reducer.preload.ts';
 import type { OpenInboxActionType } from './app.preload.ts';
 import type { RestoreResponseType } from '../../textsecure/WebAPI.preload.ts';
 import type { NoopActionType } from './noop.std.ts';
 import type { AvatarDataType } from '../../types/Avatar.std.ts';
 import { normalizePin } from '../../util/normalizePin.std.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('ducks/standaloneInstaller');
 
@@ -152,12 +148,7 @@ export function startRegistration({
   blankPhoneNumber?: boolean;
   startingPhoneNumber?: string;
   waitUntil?: number;
-} = {}): ThunkAction<
-  Promise<void>,
-  StateType,
-  unknown,
-  UpdateWorkflowActionType
-> {
+} = {}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
     const logId =
       `startRegistration(waitUntil=${waitUntil}, ` +
@@ -204,7 +195,7 @@ export function moveToCaptchaStage({
   phoneNumber: string;
   waitNeeded?: number;
   workflow: PhoneNumberStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async dispatch => {
     const logId = `moveToCaptchaStage(waitNeeded=${waitNeeded}, profileData=${Boolean(previousWorkflow.profileData)})`;
     log.info(logId);
@@ -255,7 +246,7 @@ export function moveToVerificationStage({
   workflow: previousWorkflow,
 }: {
   workflow: CaptchaStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
     const logId = `moveToVerificationPage(profileData=${Boolean(previousWorkflow.profileData)})`;
     log.info(logId);
@@ -370,10 +361,12 @@ export function moveToVerificationStage({
       failedToSendSMS: false,
     };
     drop(
-      requestVerificationCode({
-        transport: VerificationTransport.SMS,
-        workflow: nextWorkflow,
-      })(dispatch, getState, undefined)
+      dispatch(
+        requestVerificationCode({
+          transport: VerificationTransport.SMS,
+          workflow: nextWorkflow,
+        })
+      )
     );
   };
 }
@@ -404,7 +397,7 @@ export function requestVerificationCode({
 }: {
   transport: VerificationTransport;
   workflow: VerificationCodeStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async dispatch => {
     let workflow: VerificationCodeStage = previousWorkflow;
     const {
@@ -580,7 +573,7 @@ export function submitVerificationCode({
 }: {
   code: string;
   workflow: VerificationCodeStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async dispatch => {
     const { codeSendCount, failedSubmitCodeCount } = previousWorkflow;
     const logId =
@@ -771,7 +764,7 @@ export function finishProfileEntryStage({
 }: {
   profileData: ProfileData;
   workflow: ProfileEntryStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async dispatch => {
     const logId = `finishProfileEntry(accountCreated=${previousWorkflow.accountState.created})`;
     log.info(logId);
@@ -879,8 +872,8 @@ export function verifyPIN({
 }: {
   pin: string;
   workflow: VerifyPINStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
-  return async (dispatch, getState) => {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
+  return async dispatch => {
     const { dataForReglockAccountCreate } = previousWorkflow;
     const logId = `verifyPIN(reglock=${Boolean(dataForReglockAccountCreate)})`;
     log.info(logId);
@@ -1021,7 +1014,7 @@ export function verifyPIN({
         return;
       }
 
-      await completeRegistration({ workflow })(dispatch, getState, undefined);
+      await dispatch(completeRegistration({ workflow }));
       return;
     }
 
@@ -1125,11 +1118,7 @@ export function verifyPIN({
       );
     }
 
-    await completeRegistration({ workflow: previousWorkflow })(
-      dispatch,
-      getState,
-      undefined
-    );
+    await dispatch(completeRegistration({ workflow: previousWorkflow }));
   };
 }
 
@@ -1170,7 +1159,7 @@ export function createPIN({
 }: {
   pin: string;
   workflow: CreatePINConfirmStage;
-}): ThunkAction<Promise<void>, StateType, unknown, UpdateWorkflowActionType> {
+}): AsyncStateThunk<UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
     const logId = `createPIN(pinLength=${pin.length})`;
     log.info(logId);
@@ -1216,7 +1205,7 @@ export function createPIN({
       return;
     }
 
-    await completeRegistration({ workflow })(dispatch, getState, undefined);
+    await dispatch(completeRegistration({ workflow }));
   };
 }
 
@@ -1244,13 +1233,8 @@ export function completeRegistration({
   workflow: previousWorkflow,
 }: {
   workflow: VerifyPINStage | CreatePINStage | CreatePINConfirmStage;
-}): ThunkAction<
-  Promise<void>,
-  StateType,
-  unknown,
-  OpenInboxActionType | UpdateWorkflowActionType
-> {
-  return async (dispatch, getState) => {
+}): AsyncStateThunk<OpenInboxActionType | UpdateWorkflowActionType> {
+  return async dispatch => {
     const logId = `completeRegistration`;
     log.info(logId);
 
@@ -1264,7 +1248,7 @@ export function completeRegistration({
 
     window.IPC.removeSetupMenuItems();
 
-    await openInbox()(dispatch, getState, undefined);
+    await dispatch(openInbox());
 
     dispatch({
       type: UPDATE_WORKFLOW,
@@ -1281,12 +1265,7 @@ export function completeRegistration({
 
 function deleteAvatarFromDisk(
   avatarData: AvatarDataType
-): ThunkAction<
-  Promise<void>,
-  StateType,
-  unknown,
-  OpenInboxActionType | UpdateWorkflowActionType
-> {
+): AsyncStateThunk<OpenInboxActionType | UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
     const logId = 'deleteAvatarFromDisk';
     const state = getState();
@@ -1330,12 +1309,7 @@ function deleteAvatarFromDisk(
 function replaceAvatar(
   curr: AvatarDataType,
   prev?: AvatarDataType
-): ThunkAction<
-  void,
-  StateType,
-  unknown,
-  OpenInboxActionType | UpdateWorkflowActionType
-> {
+): SyncStateThunk<OpenInboxActionType | UpdateWorkflowActionType> {
   return (dispatch, getState) => {
     const logId = 'replaceAvatar';
     const state = getState();
@@ -1379,12 +1353,7 @@ function replaceAvatar(
 }
 function saveAvatarToDisk(
   avatarData: AvatarDataType
-): ThunkAction<
-  Promise<void>,
-  StateType,
-  unknown,
-  OpenInboxActionType | UpdateWorkflowActionType
-> {
+): AsyncStateThunk<OpenInboxActionType | UpdateWorkflowActionType> {
   return async (dispatch, getState) => {
     const logId = 'saveAvatarToDisk';
     const state = getState();

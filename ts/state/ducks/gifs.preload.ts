@@ -1,7 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import type { GifType } from '../../components/fun/panels/FunPanelGifs.dom.tsx';
 import { DataWriter } from '../../sql/Client.preload.ts';
@@ -9,6 +8,7 @@ import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
 } from '../../hooks/useBoundActions.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { take } = lodash;
 
@@ -52,9 +52,7 @@ export const useGifsActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function onAddRecentGif(
-  payload: GifType
-): ThunkAction<void, unknown, unknown, GifsRecentGifsAdd> {
+function onAddRecentGif(payload: GifType): AsyncStateThunk<GifsRecentGifsAdd> {
   return async dispatch => {
     await addRecentGif(payload, Date.now(), MAX_RECENT_GIFS);
     dispatch({ type: GIFS_RECENT_GIFS_ADD, payload });
@@ -63,7 +61,7 @@ function onAddRecentGif(
 
 function onRemoveRecentGif(
   gifId: GifType['id']
-): ThunkAction<void, unknown, unknown, GifsRecentGifsRemove> {
+): AsyncStateThunk<GifsRecentGifsRemove> {
   return async dispatch => {
     await removeRecentGif(gifId);
     dispatch({ type: GIFS_RECENT_GIFS_REMOVE, payload: { gifId } });

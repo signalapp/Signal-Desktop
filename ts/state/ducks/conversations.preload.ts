@@ -1,7 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import { type PhoneNumber } from 'google-libphonenumber';
 
@@ -247,7 +246,11 @@ import type {
   PinnedMessage,
   PinnedMessagePreloadData,
 } from '../../types/PinnedMessage.std.ts';
-import type { ActionCreator, StateThunk } from '../types.std.ts';
+import type {
+  ActionCreator,
+  AsyncStateThunk,
+  SyncStateThunk,
+} from '../types.std.ts';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
 import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.ts';
 import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.ts';
@@ -1302,12 +1305,7 @@ export const useConversationsActions = (): BoundActionCreatorsMapObject<
 
 function onArchive(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ConversationUnloadedActionType | ShowToastActionType
-> {
+): SyncStateThunk<ConversationUnloadedActionType | ShowToastActionType> {
   return dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1317,7 +1315,7 @@ function onArchive(
     const wasPinned = conversation.attributes.isPinned ?? false;
     conversation.setArchived(true);
 
-    dispatch(onConversationClosed(conversationId, 'archive'));
+    void dispatch(onConversationClosed(conversationId, 'archive'));
 
     dispatch({
       type: SHOW_TOAST,
@@ -1334,12 +1332,7 @@ function onArchive(
 function onUndoArchive(
   conversationId: string,
   options: { wasPinned?: boolean } = {}
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  TargetedConversationChangedActionType
-> {
+): SyncStateThunk<TargetedConversationChangedActionType> {
   return dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1350,7 +1343,7 @@ function onUndoArchive(
     if (options.wasPinned) {
       conversation.pin();
     }
-    dispatch(
+    void dispatch(
       showConversation({
         conversationId,
       })
@@ -1476,7 +1469,7 @@ function _getAllConversationsInChatFolder(
 
 function markChatFolderRead(
   chatFolderId: ChatFolderId
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async (dispatch, getState) => {
     const chatFolderConversations = _getAllConversationsInChatFolder(
       getState(),
@@ -1490,14 +1483,12 @@ function markChatFolderRead(
     );
 
     for (const conversation of unreadChatFolderConversations) {
-      dispatch(markConversationRead(conversation.id));
+      void dispatch(markConversationRead(conversation.id));
     }
   };
 }
 
-function markConversationRead(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+function markConversationRead(conversationId: string): AsyncStateThunk {
   return async dispatch => {
     const model = window.ConversationController.get(conversationId);
     if (!model) {
@@ -1514,14 +1505,14 @@ function markConversationRead(
     if (lastMessage == null) {
       return;
     }
-    dispatch(markMessageRead(conversationId, lastMessage.id));
+    void dispatch(markMessageRead(conversationId, lastMessage.id));
   };
 }
 
 function markMessageRead(
   conversationId: string,
   messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1549,7 +1540,7 @@ function markMessageRead(
     if (message.get('type') === 'call-history') {
       const callId = message.get('callId');
       strictAssert(callId, 'callId not found');
-      dispatch(markCallHistoryReadInConversation(callId));
+      void dispatch(markCallHistoryReadInConversation(callId));
     }
   };
 }
@@ -1619,7 +1610,7 @@ async function getAvatarsAndUpdateConversation(
 function deleteAvatarFromDisk(
   avatarData: AvatarDataType,
   conversationId?: string
-): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+): AsyncStateThunk<ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     if (avatarData.imagePath) {
       await deleteAvatar(avatarData.imagePath);
@@ -1650,7 +1641,7 @@ function deleteAvatarFromDisk(
 function changeHasGroupLink(
   conversationId: string,
   value: boolean
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1669,7 +1660,7 @@ function changeHasGroupLink(
 function setAnnouncementsOnly(
   conversationId: string,
   value: boolean
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1688,7 +1679,7 @@ function setAnnouncementsOnly(
 function setAccessControlMembersSetting(
   conversationId: string,
   value: number
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1707,7 +1698,7 @@ function setAccessControlMembersSetting(
 function setAccessControlMemberLabelSetting(
   conversationId: string,
   value: number
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1728,7 +1719,7 @@ function setAccessControlMemberLabelSetting(
 function setAccessControlAttributesSetting(
   conversationId: string,
   value: number
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1749,7 +1740,7 @@ function setAccessControlAttributesSetting(
 function setDisappearingMessages(
   conversationId: string,
   seconds: DurationInSeconds
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1803,7 +1794,7 @@ function setShowUnreadReminders(
 function setChatFolderMuteExpiration(
   chatFolderId: ChatFolderId,
   muteExpiration: MuteExpiration
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async (dispatch, getState) => {
     const chatFolderConversations = _getAllConversationsInChatFolder(
       getState(),
@@ -1871,7 +1862,7 @@ function deleteMessages({
   conversationId: string;
   messageIds: ReadonlyArray<string>;
   lastSelectedMessage?: MessageTimestamps;
-}): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+}): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     if (!messageIds || messageIds.length === 0) {
       log.warn('deleteMessages: No message ids provided');
@@ -1925,10 +1916,10 @@ function deleteMessages({
       cleanupMessages,
     });
 
-    dispatch(popPanelForConversation());
+    void dispatch(popPanelForConversation());
 
     if (nearbyMessageId != null) {
-      dispatch(scrollToMessage(conversationId, nearbyMessageId));
+      void dispatch(scrollToMessage(conversationId, nearbyMessageId));
     }
 
     if (messages.length === 0) {
@@ -1964,10 +1955,7 @@ function deleteMessages({
 
 function destroyMessages(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   ConversationUnloadedActionType | NoopActionType | SearchActionType
 > {
   return async (dispatch, getState) => {
@@ -1980,14 +1968,14 @@ function destroyMessages(
       name: 'destroymessages',
       idForLogging: conversation.idForLogging(),
       task: async () => {
-        dispatch(onConversationClosed(conversationId, 'delete messages'));
+        void dispatch(onConversationClosed(conversationId, 'delete messages'));
 
         await conversation.destroyMessages({ source: 'local-delete' });
 
         // Deselect the conversation if it's cusrrently showing
         const selectedConversationId = getSelectedConversationId(getState());
         if (selectedConversationId === conversationId) {
-          dispatch(showConversation({ conversationId: undefined }));
+          void dispatch(showConversation({ conversationId: undefined }));
         }
 
         // Clear search state, in case it's showing in search
@@ -2004,9 +1992,7 @@ function destroyMessages(
   };
 }
 
-function discardEditMessage(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, never> {
+function discardEditMessage(conversationId: string): SyncStateThunk {
   return () => {
     window.ConversationController.get(conversationId)?.set({
       draftEditMessage: undefined,
@@ -2020,10 +2006,7 @@ function discardEditMessage(
 function setMessageToEdit(
   conversationId: string,
   messageId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   | SetFocusActionType
   | ShowErrorModalActionType
   | ToggleDiscardDraftDialogActionType
@@ -2070,10 +2053,10 @@ function setMessageToEdit(
     if (activePanel != null) {
       // Reset the conversation panels and scroll to the message
       // in case we're inside of a conversation panel like pinned messages
-      dispatch(scrollToMessage(conversationId, messageId));
+      void dispatch(scrollToMessage(conversationId, messageId));
     }
 
-    dispatch(setQuoteByMessageId(conversationId, undefined));
+    void dispatch(setQuoteByMessageId(conversationId, undefined));
 
     let attachmentThumbnail: string | undefined;
     if (message.attachments) {
@@ -2114,7 +2097,7 @@ function setMessageToEdit(
 
 function generateNewGroupLink(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -2208,7 +2191,7 @@ export const markViewed = (messageId: string): void => {
 function setAccessControlAddFromInviteLinkSetting(
   conversationId: string,
   value: boolean
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -2238,7 +2221,7 @@ function replaceAvatar(
   curr: AvatarDataType,
   prev?: AvatarDataType,
   conversationId?: string
-): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+): AsyncStateThunk<ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     strictAssert(conversationId, 'conversationId not provided');
 
@@ -2271,7 +2254,7 @@ function replaceAvatar(
 function saveAvatarToDisk(
   avatarData: AvatarDataType,
   conversationId?: string
-): ThunkAction<void, RootStateType, unknown, ReplaceAvatarsActionType> {
+): AsyncStateThunk<ReplaceAvatarsActionType> {
   return async (dispatch, getState) => {
     if (!avatarData.buffer) {
       throw new Error('saveAvatarToDisk: No avatar Uint8Array provided');
@@ -2311,7 +2294,7 @@ function saveAvatarToDisk(
 function myProfileChanged(
   profileData: ProfileDataType | undefined,
   avatarUpdateOptions: AvatarUpdateOptionsType
-): ThunkAction<void, RootStateType, unknown, SetProfileUpdateErrorActionType> {
+): AsyncStateThunk<SetProfileUpdateErrorActionType> {
   return async (dispatch, getState) => {
     const conversation = getMe(getState());
 
@@ -2358,7 +2341,7 @@ function myProfileChanged(
 
 function removeCustomColorOnConversations(
   colorId: string
-): ThunkAction<void, RootStateType, unknown, CustomColorRemovedActionType> {
+): AsyncStateThunk<CustomColorRemovedActionType> {
   return async dispatch => {
     const conversationsToUpdate: Array<ConversationAttributesType> = [];
     window.ConversationController.getAll().forEach(conversation => {
@@ -2385,12 +2368,7 @@ function removeCustomColorOnConversations(
   };
 }
 
-function resetAllChatColors(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ColorsChangedActionType
-> {
+function resetAllChatColors(): AsyncStateThunk<ColorsChangedActionType> {
   return async dispatch => {
     // Calling this with no args unsets all the colors in the db
     await DataWriter.updateAllConversationColors();
@@ -2423,7 +2401,7 @@ function resetAllNotificationSettings(): NoopActionType {
 
 function kickOffAttachmentDownload(
   options: Readonly<{ messageId: string }>
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const message = await getMessageById(options.messageId);
     if (!message) {
@@ -2446,12 +2424,7 @@ function kickOffAttachmentDownload(
 
 function cancelAttachmentDownload({
   messageId,
-}: Readonly<{ messageId: string }>): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  NoopActionType
-> {
+}: Readonly<{ messageId: string }>): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -2488,7 +2461,7 @@ type AttachmentOptions = ReadonlyDeep<{
 
 function markAttachmentAsCorrupted(
   options: AttachmentOptions
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     await doMarkAttachmentAsCorrupted(options.messageId, options.attachment);
 
@@ -2498,7 +2471,7 @@ function markAttachmentAsCorrupted(
 
 function openGiftBadge(
   messageId: string
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -2516,9 +2489,7 @@ function openGiftBadge(
   };
 }
 
-function retryMessageSend(
-  messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+function retryMessageSend(messageId: string): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -2627,7 +2598,7 @@ function sendPollVote({
 }: Readonly<{
   messageId: string;
   optionIndexes: ReadonlyArray<number>;
-}>): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+}>): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     try {
       await enqueuePollVoteForSendHelper({ messageId, optionIndexes });
@@ -2640,9 +2611,7 @@ function sendPollVote({
   };
 }
 
-function copyMessageText(
-  messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+function copyMessageText(messageId: string): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -2658,7 +2627,7 @@ function copyMessageText(
 
 function retryDeleteForEveryone(
   messageId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -2720,7 +2689,7 @@ export function setVoiceNotePlaybackRate({
 }: {
   conversationId: string;
   rate: number;
-}): ThunkAction<void, RootStateType, unknown, ConversationsUpdatedActionType> {
+}): AsyncStateThunk<ConversationsUpdatedActionType> {
   return async dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
@@ -2752,12 +2721,7 @@ function colorSelected({
   conversationId,
   conversationColor,
   customColorData,
-}: ColorSelectedPayloadType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ColorSelectedActionType
-> {
+}: ColorSelectedPayloadType): AsyncStateThunk<ColorSelectedActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (conversation) {
@@ -2804,12 +2768,7 @@ function toggleComposeEditingAvatar(): ToggleComposeEditingAvatarActionType {
 
 export function cancelConversationVerification(
   canceledAt?: number
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CancelVerificationDataByConversationActionType
-> {
+): SyncStateThunk<CancelVerificationDataByConversationActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const conversationIdsBlocked =
@@ -2840,12 +2799,7 @@ export function cancelConversationVerification(
   };
 }
 
-function verifyConversationsStoppingSend(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ClearVerificationDataByConversationActionType
-> {
+function verifyConversationsStoppingSend(): AsyncStateThunk<ClearVerificationDataByConversationActionType> {
   return async (dispatch, getState) => {
     const state = getState();
     const serviceIdsStoppingSend = getConversationServiceIdsStoppingSend(state);
@@ -2902,7 +2856,7 @@ export function clearCanceledConversationVerification(
 
 function composeSaveAvatarToDisk(
   avatarData: AvatarDataType
-): ThunkAction<void, RootStateType, unknown, ComposeSaveAvatarActionType> {
+): AsyncStateThunk<ComposeSaveAvatarActionType> {
   return async dispatch => {
     if (!avatarData.buffer) {
       throw new Error('No avatar Uint8Array provided');
@@ -2925,7 +2879,7 @@ function composeSaveAvatarToDisk(
 
 function composeDeleteAvatarFromDisk(
   avatarData: AvatarDataType
-): ThunkAction<void, RootStateType, unknown, ComposeDeleteAvatarActionType> {
+): AsyncStateThunk<ComposeDeleteAvatarActionType> {
   return async dispatch => {
     if (avatarData.imagePath) {
       await deleteAvatar(avatarData.imagePath);
@@ -2968,10 +2922,7 @@ function setPreJoinConversation(
 
 function conversationsUpdated(
   data: Array<ConversationType>
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): SyncStateThunk<
   | CloseContactSpoofingReviewActionType
   | ConversationsUpdatedActionType
   | ShowInboxActionType
@@ -3009,7 +2960,7 @@ function conversationsUpdated(
           // Note: With today's stacked conversations architecture, this can result in
           // weird behavior - no selected conversation in the left pane, but a
           // conversation showing in the right pane.
-          dispatch(showConversation({ conversationId: undefined }));
+          void dispatch(showConversation({ conversationId: undefined }));
         }
         // Not Blocked -> Blocked: No need for contact spoofing review
         if (
@@ -3036,9 +2987,9 @@ function conversationsUpdated(
 
 function conversationRemoved(
   id: string
-): ThunkAction<void, RootStateType, unknown, ConversationRemovedActionType> {
+): SyncStateThunk<ConversationRemovedActionType> {
   return dispatch => {
-    dispatch(onConversationClosed(id, 'removed'));
+    void dispatch(onConversationClosed(id, 'removed'));
 
     dispatch({
       type: 'CONVERSATION_REMOVED',
@@ -3051,10 +3002,7 @@ function conversationRemoved(
 
 function createGroup(
   createGroupV2 = groups.createGroupV2
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   | CreateGroupPendingActionType
   | CreateGroupFulfilledActionType
   | CreateGroupRejectedActionType
@@ -3090,11 +3038,13 @@ function createGroup(
           ),
         },
       });
-      // oxlint-disable-next-line typescript/await-thenable
-      await showConversation({
-        conversationId: conversation.id,
-        switchToAssociatedView: true,
-      })(dispatch, getState, null);
+
+      await dispatch(
+        showConversation({
+          conversationId: conversation.id,
+          switchToAssociatedView: true,
+        })
+      );
     } catch (err) {
       log.error('Failed to create group', Errors.toLogFormat(err));
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
@@ -3104,10 +3054,7 @@ function createGroup(
 
 function terminateGroup(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   | ShowTerminateGroupFailedModalActionType
   | TargetedConversationChangedActionType
   | NoopActionType
@@ -3135,9 +3082,9 @@ function terminateGroup(
       const panels = getPanels(state);
       if (selectedConversationId === conversationId) {
         if (panels && panels.stack.length === 1) {
-          dispatch(popPanelForConversation());
+          void dispatch(popPanelForConversation());
         } else {
-          dispatch(
+          void dispatch(
             showConversation({
               conversationId,
             })
@@ -3168,7 +3115,7 @@ function targetMessage(
   messageId: string,
   conversationId: string,
   targetedMessageSource: TargetedMessageSource
-): ThunkAction<void, RootStateType, unknown, MessageTargetedActionType> {
+): AsyncStateThunk<MessageTargetedActionType> {
   return async (dispatch, getState) => {
     const selectedConversationId = getSelectedConversationId(getState());
 
@@ -3194,7 +3141,7 @@ function toggleSelectMessage(
   messageId: string,
   shift: boolean,
   selected: boolean
-): ThunkAction<void, RootStateType, unknown, ToggleSelectMessagesActionType> {
+): AsyncStateThunk<ToggleSelectMessagesActionType> {
   return async (dispatch, getState) => {
     const state = getState();
     const { conversations, nav } = state;
@@ -3307,7 +3254,7 @@ function conversationStoppedByMissingVerification(payload: {
 
 function markOpenConversationRead(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, MarkReadActionType> {
+): AsyncStateThunk<MarkReadActionType> {
   return async (dispatch, getState) => {
     const state = getState();
     const { nav } = state;
@@ -3390,7 +3337,7 @@ function messagesAdded({
   isJustSent: boolean;
   isNewMessage: boolean;
   messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-}): ThunkAction<void, RootStateType, unknown, MessagesAddedActionType> {
+}): SyncStateThunk<MessagesAddedActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const { nav } = state;
@@ -3462,12 +3409,7 @@ function messagesReset({
   scrollToMessageId,
   shouldHighlight,
   unboundedFetch,
-}: MessagesResetOptionsType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  MessagesResetActionType
-> {
+}: MessagesResetOptionsType): SyncStateThunk<MessagesResetActionType> {
   return (dispatch, getState) => {
     const selectedConversationId = getSelectedConversationId(getState());
 
@@ -3511,7 +3453,7 @@ function addPreloadData(
 }
 function consumePreloadData(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, ConsumePreloadDataActionType> {
+): AsyncStateThunk<ConsumePreloadDataActionType> {
   return async (dispatch, getState) => {
     const selectedConversationId = getSelectedConversationId(getState());
 
@@ -3589,12 +3531,7 @@ export type PushPanelForConversationActionType = ReadonlyDeep<
 
 function deleteMessagesForEveryone(
   messageIds: ReadonlyArray<string>
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  NoopActionType | ShowToastActionType
-> {
+): AsyncStateThunk<NoopActionType | ShowToastActionType> {
   return async dispatch => {
     let hasError = false;
 
@@ -3646,7 +3583,7 @@ function deleteMessagesForEveryone(
 function approvePendingMembershipFromGroupV2(
   conversationId: string,
   memberId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -3707,7 +3644,7 @@ function approvePendingMembershipFromGroupV2(
 function revokePendingMembershipsFromGroupV2(
   conversationId: string,
   memberIds: ReadonlyArray<string>
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -3861,7 +3798,7 @@ function getDirectConversationForReportSpam(
 
 function reportSpam(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async (dispatch, getState) => {
     const conversationSelector = getConversationSelector(getState());
     const conversationOrGroup = conversationSelector(conversationId);
@@ -3923,7 +3860,7 @@ function reportSpam(
 
 function blockAndReportSpam(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async (dispatch, getState) => {
     const conversationSelector = getConversationSelector(getState());
     const conversationOrGroup = conversationSelector(conversationId);
@@ -3998,7 +3935,7 @@ function blockAndReportSpam(
 
 function acceptConversation(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4072,7 +4009,7 @@ function removeConversation(conversationId: string): ShowToastActionType {
 
 function blockConversation(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4127,7 +4064,7 @@ function blockConversation(
 
 function deleteConversation(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4185,7 +4122,7 @@ function saveAttachment(
   attachment: AttachmentType,
   timestamp = Date.now(),
   index = 0
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async dispatch => {
     const { fileName = '' } = attachment;
 
@@ -4254,7 +4191,7 @@ export type SaveAttachmentsActionCreatorType = ReadonlyDeep<
 function saveAttachments(
   attachments: ReadonlyArray<AttachmentType>,
   timestamp = Date.now()
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async (dispatch, getState) => {
     // check if any of the attachments could be dangerous
     for (const attachment of attachments) {
@@ -4356,7 +4293,7 @@ function showAttachmentDownloadStillInProgressToast(
 export function saveAttachmentFromMessage(
   messageId: string,
   providedAttachment?: AttachmentType
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
@@ -4366,16 +4303,21 @@ export function saveAttachmentFromMessage(
     }
 
     const { attachments, sent_at: timestamp } = message.attributes;
-    if (!attachments || attachments.length < 1) {
+
+    if (attachments == null || attachments.length === 0) {
       return;
     }
 
-    const attachment =
-      providedAttachment && attachments.includes(providedAttachment)
+    const attachment: AttachmentType | undefined =
+      providedAttachment != null && attachments.includes(providedAttachment)
         ? providedAttachment
-        : attachments[0];
+        : attachments.at(0);
 
-    dispatch(saveAttachment(attachment, timestamp));
+    if (attachment == null) {
+      return;
+    }
+
+    void dispatch(saveAttachment(attachment, timestamp));
   };
 }
 
@@ -4413,7 +4355,7 @@ function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionT
 
 function scrollToOldestUnreadMention(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async (dispatch, getState) => {
     const conversation = getOwn(
       getState().conversations.conversationLookup,
@@ -4437,14 +4379,14 @@ function scrollToOldestUnreadMention(
       return;
     }
 
-    dispatch(scrollToMessage(conversationId, oldestUnreadMention.id));
+    void dispatch(scrollToMessage(conversationId, oldestUnreadMention.id));
   };
 }
 
 export function scrollToMessage(
   conversationId: string,
   messageId: string
-): ThunkAction<void, RootStateType, unknown, ScrollToMessageActionType> {
+): AsyncStateThunk<ScrollToMessageActionType> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4557,12 +4499,7 @@ function startSettingGroupMetadata(): StartSettingGroupMetadataActionType {
 
 function toggleConversationInChooseMembers(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ToggleConversationInChooseMembersActionType
-> {
+): SyncStateThunk<ToggleConversationInChooseMembersActionType> {
   return dispatch => {
     const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
     const maxGroupSize = Math.max(
@@ -4584,7 +4521,7 @@ function toggleConversationInChooseMembers(
 
 function toggleHideStories(
   conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): SyncStateThunk<NoopActionType> {
   return dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
@@ -4597,7 +4534,7 @@ function toggleHideStories(
 function removeMemberFromGroup(
   conversationId: string,
   contactId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): SyncStateThunk<NoopActionType> {
   return dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
@@ -4622,7 +4559,7 @@ function addMembersToGroup(
     onSuccess?: () => unknown;
     onFailure?: () => unknown;
   } = {}
-): ThunkAction<void, RootStateType, unknown, never> {
+): AsyncStateThunk {
   return async () => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4669,7 +4606,7 @@ function updateGroupAttributes(
     onSuccess?: () => unknown;
     onFailure?: () => unknown;
   } = {}
-): ThunkAction<void, RootStateType, unknown, never> {
+): AsyncStateThunk {
   return async () => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4724,7 +4661,7 @@ function updateGroupMemberLabel(
     onSuccess?: () => unknown;
     onFailure?: () => unknown;
   } = {}
-): ThunkAction<void, RootStateType, unknown, never> {
+): AsyncStateThunk {
   return async () => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4745,9 +4682,7 @@ function updateGroupMemberLabel(
   };
 }
 
-function leaveGroup(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, never> {
+function leaveGroup(conversationId: string): AsyncStateThunk {
   return async () => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4764,7 +4699,7 @@ function leaveGroup(
 
 function toggleGroupsForStorySend(
   conversationIds: ReadonlyArray<string>
-): ThunkAction<Promise<void>, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     await Promise.all(
       conversationIds.map(async conversationId => {
@@ -4794,7 +4729,7 @@ function toggleGroupsForStorySend(
 function toggleAdmin(
   conversationId: string,
   contactId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): SyncStateThunk<NoopActionType> {
   return dispatch => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
@@ -4853,12 +4788,7 @@ function showConversation({
   conversationId,
   messageId,
   switchToAssociatedView,
-}: ShowConversationArgsType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  TargetedConversationChangedActionType
-> {
+}: ShowConversationArgsType): AsyncStateThunk<TargetedConversationChangedActionType> {
   return async (dispatch, getState) => {
     const logId = `showConversation/${conversationId}`;
     const { nav } = getState();
@@ -4877,13 +4807,14 @@ function showConversation({
     });
 
     // Attempt to change the location - note that this might be canceled
-    // oxlint-disable-next-line typescript/await-thenable
-    await changeLocation({
-      tab: NavTab.Chats,
-      details: {
-        conversationId,
-      },
-    })(dispatch, getState, undefined);
+    await dispatch(
+      changeLocation({
+        tab: NavTab.Chats,
+        details: {
+          conversationId,
+        },
+      })
+    );
 
     const { selectedLocation: newLocation } = getState().nav;
     if (
@@ -4904,9 +4835,9 @@ function showConversation({
       }
 
       if (messageId) {
-        dispatch(scrollToMessage(conversationId, messageId));
+        void dispatch(scrollToMessage(conversationId, messageId));
       }
-      dispatch(setComposerFocus(conversationId));
+      void dispatch(setComposerFocus(conversationId));
     }
   };
 }
@@ -4915,10 +4846,7 @@ function onConversationOpened(
   conversationId: string,
   messageId: string | undefined,
   targetedMessageSource: TargetedMessageSource | null
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   | ReplaceAttachmentsActionType
   | ResetComposerActionType
   | SetFocusActionType
@@ -4984,12 +4912,12 @@ function onConversationOpened(
       !isMessageTargeted ||
       targetedMessageSource === TargetedMessageSource.Reset
     ) {
-      dispatch(setComposerFocus(conversation.id));
+      void dispatch(setComposerFocus(conversation.id));
     }
 
     const quotedMessageId = conversation.get('quotedMessageId');
     if (quotedMessageId) {
-      dispatch(setQuoteByMessageId(conversation.id, quotedMessageId));
+      void dispatch(setQuoteByMessageId(conversation.id, quotedMessageId));
     }
 
     promises.push(conversation.fetchLatestGroupV2Data());
@@ -5026,7 +4954,7 @@ function onConversationOpened(
         conversation.get('draftAttachments') || []
       )
     );
-    dispatch(
+    void dispatch(
       setViewOnce({
         conversationId,
         value: conversation.get('draftIsViewOnce') ?? false,
@@ -5044,12 +4972,7 @@ function onConversationOpened(
 function onConversationClosed(
   conversationId: string,
   reason: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ConversationUnloadedActionType | ResetComposerActionType
-> {
+): AsyncStateThunk<ConversationUnloadedActionType | ResetComposerActionType> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     // Conversation was removed due to the merge
@@ -5065,13 +4988,14 @@ function onConversationClosed(
 
     // If we're still on this conversation, but we want to close it, go to splash screen
     if (selectedConversationId === conversationId) {
-      // oxlint-disable-next-line typescript/await-thenable
-      await changeLocation({
-        tab: NavTab.Chats,
-        details: {
-          conversationId: undefined,
-        },
-      })(dispatch, getState, null);
+      await dispatch(
+        changeLocation({
+          tab: NavTab.Chats,
+          details: {
+            conversationId: undefined,
+          },
+        })
+      );
     }
 
     log.info(`${logId}: unloading due to ${reason}`);
@@ -5123,12 +5047,7 @@ function setPendingRequestedAvatarDownload(
 
 function startAvatarDownload(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  SetPendingRequestedAvatarDownloadActionType
-> {
+): AsyncStateThunk<SetPendingRequestedAvatarDownloadActionType> {
   return async (dispatch, getState) => {
     const isAlreadyLoading =
       getPendingAvatarDownloadSelector(getState())(conversationId);
@@ -5177,7 +5096,7 @@ function startAvatarDownload(
 
 function onPinnedMessagesChanged(
   conversationId: string
-): StateThunk<PinnedMessagesReplace> {
+): AsyncStateThunk<PinnedMessagesReplace> {
   return async (dispatch, getState) => {
     const selectedConversationId = getSelectedConversationId(getState());
     if (
@@ -5206,7 +5125,7 @@ function onPinnedMessagesChanged(
 function onPinnedMessageAdd(
   targetMessageId: string,
   pinDurationSeconds: DurationSecs | null
-): StateThunk {
+): AsyncStateThunk {
   return async dispatch => {
     const target = await getPinnedMessageTarget(targetMessageId);
     if (target == null) {
@@ -5251,11 +5170,11 @@ function onPinnedMessageAdd(
       expirationStartTimestamp: pinnedAt,
     });
 
-    dispatch(onPinnedMessagesChanged(target.conversationId));
+    void dispatch(onPinnedMessagesChanged(target.conversationId));
   };
 }
 
-function onPinnedMessageRemove(targetMessageId: string): StateThunk {
+function onPinnedMessageRemove(targetMessageId: string): AsyncStateThunk {
   return async dispatch => {
     const target = await getPinnedMessageTarget(targetMessageId);
     if (target == null) {
@@ -5269,7 +5188,7 @@ function onPinnedMessageRemove(targetMessageId: string): StateThunk {
     });
     await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
     drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
-    dispatch(onPinnedMessagesChanged(target.conversationId));
+    void dispatch(onPinnedMessagesChanged(target.conversationId));
   };
 }
 
@@ -5564,9 +5483,7 @@ function visitListsInVerificationData(
   return result;
 }
 
-export function updateLastMessage(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, never> {
+export function updateLastMessage(conversationId: string): AsyncStateThunk {
   return async () => {
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel == null) {
@@ -5589,7 +5506,7 @@ export type NicknameAndNote = ReadonlyDeep<{
 function updateNicknameAndNote(
   conversationId: string,
   nicknameAndNote: NicknameAndNote
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+): AsyncStateThunk<NoopActionType> {
   return async dispatch => {
     const { nickname, note } = nicknameAndNote;
     const conversationModel = window.ConversationController.get(conversationId);

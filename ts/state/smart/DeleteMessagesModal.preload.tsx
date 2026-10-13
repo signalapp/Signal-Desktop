@@ -61,7 +61,7 @@ export const SmartDeleteMessagesModal = memo(
     }, [toggleDeleteMessagesModal]);
 
     const handleDeleteForMe = useCallback(() => {
-      deleteMessages({
+      void deleteMessages({
         conversationId,
         messageIds,
         lastSelectedMessage,
@@ -76,7 +76,7 @@ export const SmartDeleteMessagesModal = memo(
     ]);
 
     const handleDeleteForEveryone = useCallback(() => {
-      deleteMessagesForEveryone(messageIds);
+      void deleteMessagesForEveryone(messageIds);
       onDelete?.();
     }, [deleteMessagesForEveryone, messageIds, onDelete]);
 

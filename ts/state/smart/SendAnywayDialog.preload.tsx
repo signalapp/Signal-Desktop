@@ -73,7 +73,7 @@ export const SmartSendAnywayDialog = memo(
     ]);
 
     const handleConfirm = useCallback(() => {
-      verifyConversationsStoppingSend();
+      void verifyConversationsStoppingSend();
       explodedPromise?.resolve(true);
       hideBlockingSafetyNumberChangeDialog();
     }, [

@@ -54,7 +54,7 @@ export const SmartConversationNotificationsSettings = memo(
     );
 
     const handleOpenWhileMutedSettings = useCallback(() => {
-      pushPanelForConversation({ type: PanelType.WhileMuted });
+      void pushPanelForConversation({ type: PanelType.WhileMuted });
     }, [pushPanelForConversation]);
 
     return (

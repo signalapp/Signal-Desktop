@@ -58,7 +58,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const { toggleAboutContactModal, toggleProfileNameWarningModal } =
     useGlobalModalActions();
   const openConversationDetails = useCallback(() => {
-    pushPanelForConversation({ type: PanelType.ConversationDetails });
+    void pushPanelForConversation({ type: PanelType.ConversationDetails });
   }, [pushPanelForConversation]);
   const { viewUserStories } = useStoriesActions();
   const {

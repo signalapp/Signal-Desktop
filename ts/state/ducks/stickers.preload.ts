@@ -3,8 +3,6 @@
 
 import lodash, { type Dictionary } from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import type {
   StickerPackStatusType,
   StickerType as StickerDBType,
@@ -26,14 +24,13 @@ import { sendStickerPackSync } from '../../shims/textsecure.preload.ts';
 import { trigger } from '../../shims/events.dom.ts';
 import { ERASE_STORAGE_SERVICE } from './user.preload.ts';
 import type { EraseStorageServiceStateAction } from './user.preload.ts';
-
 import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { getPacks } from '../selectors/stickers.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { omit, reject } = lodash;
 
@@ -420,12 +417,7 @@ function setStickerManagerTab(
 
 function updateStickerPacksPositions(
   orderedPackIds: ReadonlyArray<string>
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  StickerPacksPositionsUpdatedAction
-> {
+): AsyncStateThunk<StickerPacksPositionsUpdatedAction> {
   return async (dispatch, getState) => {
     const packs = getPacks(getState());
     const nextPackPositions = new Array<{ id: string; position: number }>();

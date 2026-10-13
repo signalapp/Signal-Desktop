@@ -1,16 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { BadgeType, BadgeImageType } from '../../badges/types.std.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
 import { badgeImageFileDownloader } from '../../badges/badgeImageFileDownloader.preload.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { isEqual, mapValues } = lodash;
 
@@ -73,7 +72,7 @@ function badgeImageFileDownloaded(
 
 function updateOrCreate(
   badges: ReadonlyArray<BadgeType>
-): ThunkAction<void, RootStateType, unknown, UpdateOrCreateActionType> {
+): AsyncStateThunk<UpdateOrCreateActionType> {
   return async dispatch => {
     // There is a race condition here: if we save the badges but we fail to kick off a
     //   check (e.g., due to a crash), we won't download its image files. In the unlikely

@@ -151,11 +151,11 @@ function AttachmentContextMenu({
   const saveAttachment = useCallback(() => {
     strictAssert(mediaItem.attachment.path, 'Attachment must be downloaded');
 
-    doSaveAttachment(mediaItem.attachment, mediaItem.message.sentAt);
+    void doSaveAttachment(mediaItem.attachment, mediaItem.message.sentAt);
   }, [doSaveAttachment, mediaItem.attachment, mediaItem.message.sentAt]);
 
   const forwardAttachment = useCallback(() => {
-    toggleForwardMessagesModal({
+    void toggleForwardMessagesModal({
       type: ForwardMessagesModalType.ForwardAttachment,
       draft: {
         originalMessageId: mediaItem.message.id,
@@ -193,7 +193,7 @@ function LinkPreviewContextMenu({
   const { toggleForwardMessagesModal } = useGlobalModalActions();
 
   const forwardAttachment = useCallback(() => {
-    toggleForwardMessagesModal({
+    void toggleForwardMessagesModal({
       type: ForwardMessagesModalType.ForwardAttachment,
       draft: {
         originalMessageId: mediaItem.message.id,
@@ -230,7 +230,7 @@ function ContactContextMenu({
   const contact = useLookupContact(mediaItem.contact);
 
   const forwardAttachment = useCallback(() => {
-    toggleForwardMessagesModal({
+    void toggleForwardMessagesModal({
       type: ForwardMessagesModalType.ForwardAttachment,
       draft: {
         originalMessageId: mediaItem.message.id,
@@ -275,7 +275,7 @@ export function SmartMediaContextMenu({
   const { message } = mediaItem;
 
   const showMessage = useCallback(() => {
-    showConversation({
+    void showConversation({
       conversationId: message.conversationId,
       messageId: message.id,
     });

@@ -1,10 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import {
   type InstallScreenBackupError,
   InstallScreenBackupStep,
@@ -40,6 +36,7 @@ import {
 import { cancelRegistration } from './standaloneInstaller.preload.ts';
 import type { CancelWorkflowActionType } from './standaloneInstaller.preload.ts';
 import { enableStorageService } from '../../services/storage.preload.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('installer');
 
@@ -182,10 +179,7 @@ export const useInstallerActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function startInstaller(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function startInstaller(): AsyncStateThunk<
   InstallerActionType | CancelWorkflowActionType
 > {
   return async (dispatch, getState) => {
@@ -319,7 +313,7 @@ function startInstaller(): ThunkAction<
           );
           dispatch({ type: SHOW_DATA_DELETION_CONFIRMATION });
         } else {
-          dispatch(finishInstall(finishInstallOptions));
+          void dispatch(finishInstall(finishInstallOptions));
         }
       } else {
         throw missingCaseError(event);
@@ -336,12 +330,7 @@ type FinishInstallOptionsType = ReadonlyDeep<{
   envelope?: ProvisionEnvelopeType;
 }>;
 
-function continueInstallWithDataDeletion(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  InstallerActionType
-> {
+function continueInstallWithDataDeletion(): SyncStateThunk<InstallerActionType> {
   return (dispatch, getState) => {
     const state = getState().installer;
     strictAssert(
@@ -357,16 +346,11 @@ function continueInstallWithDataDeletion(): ThunkAction<
 
     pendingFinishInstallByBaton.delete(state.baton);
     log.info('Deleting all data was confirmed; continuing with linking');
-    dispatch(finishInstall(finishInstallOptions));
+    void dispatch(finishInstall(finishInstallOptions));
   };
 }
 
-export function cancelInstall(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  InstallerActionType
-> {
+export function cancelInstall(): SyncStateThunk<InstallerActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const { installer } = state;
@@ -389,10 +373,7 @@ function finishInstall({
   isLinkAndSync,
   envelope: providedEnvelope,
   deviceName,
-}: FinishInstallOptionsType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: FinishInstallOptionsType): AsyncStateThunk<
   | SetQRCodeErrorActionType
   | SetErrorActionType
   | ShowLinkInProgressActionType
@@ -494,12 +475,7 @@ function updateBackupImportProgress(
   return { type: UPDATE_BACKUP_IMPORT_PROGRESS, payload };
 }
 
-function retryBackupImport(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  RetryBackupImportActionType
-> {
+function retryBackupImport(): SyncStateThunk<RetryBackupImportActionType> {
   return dispatch => {
     dispatch({ type: RETRY_BACKUP_IMPORT });
     backupsService.retryDownload();

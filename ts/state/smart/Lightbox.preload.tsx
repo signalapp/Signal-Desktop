@@ -45,7 +45,7 @@ export const SmartLightbox = memo(function SmartLightbox() {
   const onPrevAttachment = useCallback(() => {
     if (selectedIndex <= 0) {
       if (hasPrevMessage) {
-        showLightboxForPrevMessage();
+        void showLightboxForPrevMessage();
       }
       return;
     }
@@ -60,7 +60,7 @@ export const SmartLightbox = memo(function SmartLightbox() {
   const onNextAttachment = useCallback(() => {
     if (selectedIndex >= media.length - 1) {
       if (hasNextMessage) {
-        showLightboxForNextMessage();
+        void showLightboxForNextMessage();
       }
       return;
     }

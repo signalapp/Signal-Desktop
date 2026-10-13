@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import lodash from 'lodash';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import {
   clearCallHistoryDataAndSync,
   markAllCallHistoryReadAndSync,
@@ -38,6 +36,7 @@ import type { ShowErrorModalActionType } from './globalModals.preload.ts';
 import { SHOW_ERROR_MODAL } from './globalModals.preload.ts';
 import type { ErrorModalDataProps } from '../../components/ErrorModal.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
+import type { AsyncStateThunk, StateDispatch } from '../types.std.ts';
 
 const { debounce, omit } = lodash;
 
@@ -100,9 +99,7 @@ export function getEmptyState(): CallHistoryState {
 }
 
 const updateCallHistoryUnreadCountDebounced = debounce(
-  async (
-    dispatch: ThunkDispatch<RootStateType, unknown, CallHistoryUpdateUnread>
-  ) => {
+  async (dispatch: StateDispatch<CallHistoryUpdateUnread>) => {
     try {
       const unreadCountsByConversationId =
         await DataReader.getCallHistoryUnreadCountsByConversationId();
@@ -132,7 +129,7 @@ function updateConversationsUnreadCounts(
 
 function updateCallHistoryUnreadCount(
   conversationIdsOrConversationPeerIds: ReadonlyArray<string>
-): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+): AsyncStateThunk<CallHistoryUpdateUnread> {
   return async dispatch => {
     updateConversationsUnreadCounts(conversationIdsOrConversationPeerIds);
     await updateCallHistoryUnreadCountDebounced(dispatch);
@@ -141,7 +138,7 @@ function updateCallHistoryUnreadCount(
 
 function markCallHistoryRead(
   callId: string
-): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+): AsyncStateThunk<CallHistoryUpdateUnread> {
   return async () => {
     await markCallHistoryReadWithoutSync({
       mode: 'only-target-call',
@@ -153,7 +150,7 @@ function markCallHistoryRead(
 
 export function markCallHistoryReadInConversation(
   callId: string
-): ThunkAction<void, RootStateType, unknown, CallHistoryUpdateUnread> {
+): AsyncStateThunk<CallHistoryUpdateUnread> {
   return async (_dispatch, getState) => {
     const callHistorySelector = getCallHistorySelector(getState());
     const callHistory = callHistorySelector(callId);
@@ -164,12 +161,7 @@ export function markCallHistoryReadInConversation(
   };
 }
 
-function markCallsTabViewed(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CallHistoryUpdateUnread
-> {
+function markCallsTabViewed(): AsyncStateThunk<CallHistoryUpdateUnread> {
   return async (_dispatch, getState) => {
     const latestCall = getCallHistoryLatestCall(getState());
     if (latestCall != null) {
@@ -200,10 +192,7 @@ function resetCallHistory(): CallHistoryReset {
   return { type: CALL_HISTORY_RESET };
 }
 
-function clearAllCallHistory(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function clearAllCallHistory(): AsyncStateThunk<
   CallHistoryReset | ToastActionType | ShowErrorModalActionType
 > {
   return async (dispatch, getState) => {
@@ -249,17 +238,12 @@ function clearAllCallHistory(): ThunkAction<
       updateConversationsUnreadCounts(unreadConversationIds);
 
       // Just force a reload, even if the clear failed.
-      dispatch(reloadCallHistory());
+      void dispatch(reloadCallHistory());
     }
   };
 }
 
-export function reloadCallHistory(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CallHistoryReload
-> {
+export function reloadCallHistory(): AsyncStateThunk<CallHistoryReload> {
   return async dispatch => {
     try {
       await loadCallHistory();

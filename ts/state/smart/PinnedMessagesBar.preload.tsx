@@ -425,7 +425,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
 
   const handlePinGoTo = useCallback(
     (messageId: string) => {
-      scrollToMessage(conversationId, messageId);
+      void scrollToMessage(conversationId, messageId);
       if (current == null) {
         return;
       }
@@ -440,13 +440,13 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
 
   const handlePinRemove = useCallback(
     (messageId: string) => {
-      onPinnedMessageRemove(messageId);
+      void onPinnedMessageRemove(messageId);
     },
     [onPinnedMessageRemove]
   );
 
   const handlePinsShowAll = useCallback(() => {
-    pushPanelForConversation({
+    void pushPanelForConversation({
       type: PanelType.PinnedMessages,
     });
   }, [pushPanelForConversation]);

@@ -121,7 +121,7 @@ describe('donations duck', () => {
           applyBadge,
           onComplete,
           storage,
-        })(dispatch, getState, null);
+        })(dispatch, getState);
       };
 
       return { me, onComplete, executeApplyDonationBadge };

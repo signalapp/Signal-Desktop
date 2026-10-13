@@ -76,7 +76,7 @@ export const SmartContactDetail = memo(function SmartContactDetail({
 
   useEffect(() => {
     if (!contact) {
-      popPanelForConversation();
+      void popPanelForConversation();
     }
   }, [contact, popPanelForConversation]);
 
