@@ -71,12 +71,6 @@ export enum SystemThemeType {
   dark = 'dark',
 }
 
-// These are strings so they can be interpolated into class names.
-export enum ScrollBehavior {
-  Default = 'default',
-  Hard = 'hard',
-}
-
 type InternalAssertProps<
   Result,
   Value,

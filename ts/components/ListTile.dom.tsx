@@ -15,8 +15,8 @@ import { CircleCheckbox } from './CircleCheckbox.dom.tsx';
 type Variant = 'item' | 'panelrow';
 type SubtitleMaxLines = 1 | 2 | 3;
 
-const VariantClassNames: Record<Variant, string> = {
-  item: 'ListTile--variant-item',
+const VariantClassNames: Record<Variant, string | null> = {
+  item: null,
   panelrow: 'ListTile--variant-panelrow',
 };
 

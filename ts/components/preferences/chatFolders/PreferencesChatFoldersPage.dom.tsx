@@ -39,7 +39,6 @@ import {
   ItemContent,
   ItemDescription,
   ItemDragHandle,
-  itemListItemClassName,
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
@@ -420,7 +419,7 @@ function ChatFolderListItem(props: {
         <ListBoxItem
           id={chatFolder.id}
           data-testid={`ChatFolder--${chatFolder.id}`}
-          className={classNames(itemClassName, itemListItemClassName)}
+          className={itemClassName}
         >
           <ItemContent>
             <ItemAvatar kind="Folder" />
@@ -442,11 +441,7 @@ function ChatFolderListItem(props: {
           data-testid={`ChatFolder--${chatFolder.id}`}
           textValue={props.chatFolder.name}
           onAction={handleClickChatFolder}
-          className={classNames(
-            itemClassName,
-            itemListItemClassName,
-            itemClickableClassName
-          )}
+          className={classNames(itemClassName, itemClickableClassName)}
         >
           <ChatFolderListItemContextMenu
             i18n={i18n}

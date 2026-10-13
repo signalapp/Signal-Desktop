@@ -165,9 +165,7 @@ export function MessageBody({
       )}
       {prefix && (
         <>
-          <span className="MessageBody__prefix">
-            <UserText text={prefix} />
-          </span>{' '}
+          <UserText text={prefix} />{' '}
         </>
       )}
 

@@ -707,7 +707,8 @@ export function Lightbox({
     ? createPortal(
         <AxoTheme.Override theme="force-dark">
           <div
-            className={classNames('Lightbox Lightbox__container', {
+            id="lightbox"
+            className={classNames('Lightbox__container', {
               'Lightbox__container--zoom': isZoomed,
             })}
             onClick={(event: ReactMouseEvent<HTMLDivElement>) => {
@@ -911,7 +912,7 @@ function LightboxHeader({
           title={conversation.title}
         />
       </div>
-      <div className="Lightbox__header--content">
+      <div>
         <div className="Lightbox__header--name">{conversation.title}</div>
         <div className="Lightbox__header--timestamp">
           {formatDateTimeForAttachment(i18n, message.sentAt ?? now)}

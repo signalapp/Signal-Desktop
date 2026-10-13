@@ -54,11 +54,14 @@ enum ConfirmationType {
   DeleteError = 'DeleteError',
 }
 
-const MessageMetaDataStatusIconClassNames: Record<MessageStatusType, string> = {
+const MessageMetaDataStatusIconClassNames: Record<
+  MessageStatusType,
+  string | null
+> = {
   delivered: 'module-message__metadata__status-icon--delivered',
-  error: 'module-message__metadata__status-icon--error',
+  error: null,
   paused: 'module-message__metadata__status-icon--paused',
-  'partial-sent': 'module-message__metadata__status-icon--partial-sent',
+  'partial-sent': null,
   read: 'module-message__metadata__status-icon--read',
   sending: 'module-message__metadata__status-icon--sending',
   sent: 'module-message__metadata__status-icon--sent',
@@ -67,7 +70,7 @@ const MessageMetaDataStatusIconClassNames: Record<MessageStatusType, string> = {
 
 export function getMessageMetadataStatusIconClassName(
   status: MessageStatusType
-): string {
+): string | null {
   return MessageMetaDataStatusIconClassNames[status];
 }
 
@@ -105,7 +108,6 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       ConfirmationType | undefined
     >();
     const withImageNoCaption = !isSticker && !hasText && isShowingImage;
-    const metadataDirection = isSticker ? undefined : direction;
 
     let timestampNode: ReactNode;
     {
@@ -184,12 +186,9 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       } else {
         timestampNode = (
           <MessageTimestamp
-            direction={metadataDirection}
             i18n={i18n}
-            isOutlineOnlyBubble={isOutlineOnlyBubble}
             className="module-message__metadata__date"
             timestamp={timestamp}
-            withImageNoCaption={withImageNoCaption}
             withSticker={isSticker}
           />
         );

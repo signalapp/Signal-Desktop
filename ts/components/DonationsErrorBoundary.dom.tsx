@@ -46,7 +46,7 @@ export function DonationsErrorBoundary(
   props: DonationsErrorBoundaryProps
 ): JSX.Element {
   const fallback = useCallback(() => {
-    return <div className="DonationsErrorBoundary" />;
+    return null;
   }, []);
 
   const handleError = useCallback((error: unknown, info: ErrorInfo) => {

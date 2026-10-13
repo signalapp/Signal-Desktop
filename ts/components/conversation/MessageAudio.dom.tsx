@@ -124,9 +124,7 @@ function PlayedDot({
       aria-hidden="true"
       className={classNames(
         'module-message__audio-attachment__dot',
-        played
-          ? 'module-message__audio-attachment__dot--played'
-          : 'module-message__audio-attachment__dot--unplayed'
+        !played && 'module-message__audio-attachment__dot--unplayed'
       )}
     />
   );
@@ -351,9 +349,7 @@ export function MessageAudio(props: Props): JSX.Element {
         aria-hidden="true"
         className={classNames(
           'module-message__audio-attachment__countdown',
-          played
-            ? 'module-message__audio-attachment__countdown--played'
-            : 'module-message__audio-attachment__countdown--unplayed'
+          !played && 'module-message__audio-attachment__countdown--unplayed'
         )}
       >
         {fileSizeOrDuration}

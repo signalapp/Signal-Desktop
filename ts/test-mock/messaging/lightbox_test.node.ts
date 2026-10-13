@@ -82,7 +82,7 @@ describe('lightbox', function (this: Mocha.Suite) {
       });
       debug('wait for message to appear in timeline');
       const Message = getMessageInTimelineByTimestamp(page, timestamp);
-      const MessageImageLoaded = Message.locator('.module-image--loaded');
+      const MessageImageLoaded = Message.locator('.module-image[data-loaded]');
 
       await Message.waitFor();
 
@@ -130,7 +130,7 @@ describe('lightbox', function (this: Mocha.Suite) {
 
     await FirstImage.click();
 
-    const Lightbox = page.locator('.Lightbox');
+    const Lightbox = page.locator('#lightbox');
     const LightboxContent = Lightbox.locator('.Lightbox__zoomable-container');
     const LighboxPrev = Lightbox.locator('.Lightbox__button--previous');
     const LighboxNext = Lightbox.locator('.Lightbox__button--next');

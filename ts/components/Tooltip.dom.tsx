@@ -119,15 +119,6 @@ export function Tooltip({
 
   const showTooltip = active || Boolean(sticky);
 
-  let tooltipThemeClassName: string | null;
-  if (theme === Theme.Light) {
-    tooltipThemeClassName = 'module-tooltip--light-theme';
-  } else if (theme === Theme.Dark) {
-    tooltipThemeClassName = 'module-tooltip--dark-theme';
-  } else {
-    tooltipThemeClassName = null;
-  }
-
   function handleHoverChanged(hovering: boolean) {
     // Don't accept updates that aren't valid anymore
     clearTimeout(GLOBAL_EXIT_TIMER);
@@ -190,7 +181,7 @@ export function Tooltip({
               <div
                 className={classNames(
                   'module-tooltip',
-                  tooltipThemeClassName,
+                  theme === Theme.Dark && 'module-tooltip--dark-theme',
                   className
                 )}
                 ref={ref}

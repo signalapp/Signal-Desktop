@@ -45,7 +45,6 @@ export function DeliveryIssueDialog(props: PropsType): ReactElement {
         ref={focusRef}
         size={ButtonSize.Medium}
         variant={ButtonVariant.Primary}
-        className="module-delivery-issue-dialog__close-button"
       >
         {i18n('icu:Confirmation--confirm')}
       </Button>
@@ -74,7 +73,7 @@ export function DeliveryIssueDialog(props: PropsType): ReactElement {
         <div className="module-delivery-issue-dialog__title">
           {i18n('icu:DeliveryIssue--title')}
         </div>
-        <div className="module-delivery-issue-dialog__description">
+        <div>
           {inGroup ? (
             <I18n
               id="icu:DeliveryIssue--summary--group"

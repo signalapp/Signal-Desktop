@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import classNames from 'classnames';
 import type { ReactNode, JSX, Ref } from 'react';
 import { forwardRef, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -67,7 +66,7 @@ export const Checkbox = forwardRef(function CheckboxInner(
   );
 
   return (
-    <div className={classNames('Checkbox', className)}>
+    <div className={className}>
       <div className="Checkbox__container">
         {children ? (
           children({ id, checkboxNode, labelNode, checked })

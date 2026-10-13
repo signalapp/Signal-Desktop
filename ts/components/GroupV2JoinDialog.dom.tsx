@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memo, useState, useCallback } from 'react';
-import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Avatar, AvatarBlur } from './Avatar.dom.tsx';
 import { Spinner } from './Spinner.dom.tsx';
@@ -99,10 +98,7 @@ export const GroupV2JoinDialog = memo(function GroupV2JoinDialogInner({
       )}
       <div className="module-group-v2-join-dialog__buttons">
         <Button
-          className={classNames(
-            'module-group-v2-join-dialog__button',
-            'module-group-v2-join-dialog__button--secondary'
-          )}
+          className="module-group-v2-join-dialog__button"
           disabled={isWorking}
           onClick={wrappedClose}
           variant={ButtonVariant.Secondary}

@@ -102,7 +102,7 @@ export function CallingRaisedHandsList({
                 className="module-calling-participants-list__contact"
                 key={conversation.serviceId ?? index}
               >
-                <div className="CallingRaisedHandsList__AvatarAndName module-calling-participants-list__avatar-and-name">
+                <div className="module-calling-participants-list__avatar-and-name">
                   <Avatar
                     avatarPlaceholderGradient={
                       conversation.avatarPlaceholderGradient

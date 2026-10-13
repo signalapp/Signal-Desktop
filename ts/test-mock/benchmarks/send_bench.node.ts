@@ -75,9 +75,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     await item.click();
   }
 
-  const timeline = window.locator(
-    '.timeline-wrapper, .Inbox__conversation .ConversationView'
-  );
+  const timeline = window.locator('.ConversationPanel');
 
   const deltaList = new Array<number>();
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {

@@ -183,10 +183,7 @@ function renderNode({
 
     if (!isSpoilerHidden) {
       return (
-        <span
-          key={key}
-          className="MessageTextRenderer__formatting--spoiler--revealed"
-        >
+        <span key={key} data-spoiler>
           {content}
         </span>
       );
@@ -196,6 +193,7 @@ function renderNode({
       // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
       <span
         key={key}
+        data-spoiler
         tabIndex={disableLinks ? undefined : 0}
         role={disableLinks ? undefined : 'button'}
         aria-label={i18n('icu:MessageTextRenderer--spoiler--label')}
@@ -287,6 +285,7 @@ function renderNode({
         href={node.url}
         target="_blank"
         rel="noreferrer"
+        data-monospace={node.isMonospace ? true : undefined}
       >
         {content}
       </a>
@@ -294,7 +293,11 @@ function renderNode({
   }
 
   return (
-    <span key={key} className={formattingClasses}>
+    <span
+      key={key}
+      className={formattingClasses}
+      data-monospace={node.isMonospace ? true : undefined}
+    >
       {content}
     </span>
   );

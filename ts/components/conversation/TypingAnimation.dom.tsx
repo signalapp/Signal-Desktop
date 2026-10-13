@@ -24,7 +24,6 @@ export function TypingAnimation({ i18n, color }: Props): JSX.Element {
       <div
         className={classNames(
           'module-typing-animation__dot',
-          'module-typing-animation__dot--first',
           color != null && COLOR_CLASSES[color]
         )}
       />

@@ -314,7 +314,8 @@ describe('backups', function (this: Mocha.Suite) {
         debug('Waiting for messages to pinned contact to come through');
         await pinnedElem.click();
         await window
-          .locator('.ConversationView .module-message >> "cat photo"')
+          .locator('.ConversationPanel')
+          .locator('.module-message', { hasText: 'cat photo' })
           .waitFor();
 
         const contactElem = leftPane.locator(
@@ -337,7 +338,8 @@ describe('backups', function (this: Mocha.Suite) {
         debug('Going into the conversation');
         await contactElem.click();
         await window
-          .locator('.ConversationView .module-message >> "respond 4"')
+          .locator('.ConversationPanel')
+          .locator('.module-message', { hasText: 'respond 4' })
           .waitFor();
 
         debug('Waiting for conversation to be marked read');

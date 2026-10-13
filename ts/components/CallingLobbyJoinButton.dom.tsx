@@ -67,7 +67,7 @@ export function CallingLobbyJoinButton({
     <>
       {Boolean(width && height) && (
         <Button
-          className="CallingLobbyJoinButton CallControls__JoinLeaveButton"
+          className="CallControls__JoinLeaveButton"
           disabled={disabled}
           onClick={onClick}
           style={{ width, height }}
@@ -88,7 +88,7 @@ export function CallingLobbyJoinButton({
         {Object.values(CallingLobbyJoinButtonVariant).map(candidateVariant => (
           <Button
             key={candidateVariant}
-            className="CallingLobbyJoinButton CallControls__JoinLeaveButton"
+            className="CallControls__JoinLeaveButton"
             variant={ButtonVariant.Calling}
             onClick={noop}
             ref={(button: HTMLButtonElement | null) => {

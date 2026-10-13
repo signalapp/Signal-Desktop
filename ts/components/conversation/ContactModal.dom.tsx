@@ -518,7 +518,7 @@ export function ContactModal({
                   {canHaveNicknameAndNote(contact) && (
                     <button
                       type="button"
-                      className="ContactModal__button ContactModal__block"
+                      className="ContactModal__button"
                       onClick={onOpenEditNicknameAndNoteModal}
                     >
                       <div className="ContactModal__bubble-icon">
@@ -530,7 +530,7 @@ export function ContactModal({
 
                   {!contact.isMe &&
                     (contact.isBlocked ? (
-                      <div className="ContactModal__button ContactModal__block">
+                      <div className="ContactModal__button">
                         <div className="ContactModal__bubble-icon">
                           <div className="ContactModal__block__bubble-icon" />
                         </div>
@@ -543,7 +543,7 @@ export function ContactModal({
                     ) : (
                       <button
                         type="button"
-                        className="ContactModal__button ContactModal__block"
+                        className="ContactModal__button"
                         onClick={() =>
                           setSubModalState(SubModalState.ConfirmingBlock)
                         }
@@ -557,7 +557,7 @@ export function ContactModal({
                   {!contact.isMe && (
                     <button
                       type="button"
-                      className="ContactModal__button ContactModal__safety-number"
+                      className="ContactModal__button"
                       onClick={() => {
                         hideContactModal();
                         toggleSafetyNumberModal(contact.id);
@@ -588,7 +588,7 @@ export function ContactModal({
                     <>
                       <button
                         type="button"
-                        className="ContactModal__button ContactModal__make-admin"
+                        className="ContactModal__button"
                         onClick={() =>
                           setSubModalState(SubModalState.ToggleAdmin)
                         }
@@ -604,7 +604,7 @@ export function ContactModal({
                       </button>
                       <button
                         type="button"
-                        className="ContactModal__button ContactModal__remove-from-group"
+                        className="ContactModal__button"
                         onClick={() =>
                           setSubModalState(SubModalState.MemberRemove)
                         }

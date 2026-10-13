@@ -30,7 +30,6 @@ export function CriticalIdlePrimaryDeviceModal({
   return (
     <Modal
       modalName="CriticalIdlePrimaryDeviceModal"
-      className="CriticalIdlePrimaryDeviceModal"
       i18n={i18n}
       onClose={onClose}
     >

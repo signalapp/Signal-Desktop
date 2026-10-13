@@ -181,8 +181,8 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
     // Try to start a call
     await win.getByLabel('Start a call').click();
     await win
-      .locator('.CallingLobbyJoinButton')
-      .and(win.locator('button:visible'))
+      .locator('.CallControls')
+      .getByRole('button', { name: 'Start' })
       .click();
   }
 

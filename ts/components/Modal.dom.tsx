@@ -211,7 +211,7 @@ export function ModalPage({
     <animated.div
       className={classNames(
         'module-Modal',
-        hasHeader ? 'module-Modal--has-header' : 'module-Modal--no-header',
+        hasHeader && 'module-Modal--has-header',
         Boolean(modalFooter) && 'module-Modal--has-footer',
         padded && 'module-Modal--padded',
         hasHeaderDivider && 'module-Modal--header-divider',
@@ -233,7 +233,6 @@ export function ModalPage({
       {hasHeader && (
         <div
           className={classNames(
-            'module-Modal__header',
             onBackButtonClick ? 'module-Modal__header--with-back-button' : null
           )}
         >
@@ -248,13 +247,7 @@ export function ModalPage({
               />
             )}
             {title && (
-              <h1
-                id={`${id}-title`}
-                className={classNames(
-                  'module-Modal__title',
-                  hasXButton ? 'module-Modal__title--with-x-button' : null
-                )}
-              >
+              <h1 id={`${id}-title`} className="module-Modal__title">
                 {title}
               </h1>
             )}

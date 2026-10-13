@@ -821,7 +821,7 @@ function AmountPicker({
   }
 
   return (
-    <div className="DonationAmountPicker">
+    <div>
       <Select
         className="DonationForm__CurrencySelect"
         id="currency"

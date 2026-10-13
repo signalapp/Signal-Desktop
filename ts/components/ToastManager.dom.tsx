@@ -630,7 +630,6 @@ function renderToast({
     return (
       <Toast
         autoDismissDisabled
-        className="internal-error-toast"
         onClose={hideToast}
         style={{ maxWidth: '500px' }}
         toastAction={{

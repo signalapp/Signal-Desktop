@@ -873,6 +873,7 @@ export function CompositionInput(props: Props): ReactElement {
                 ['STRONG', matchBold],
                 ['EM', matchItalic],
                 ['SPAN', matchMonospace],
+                ['A', matchMonospace],
                 ['S', matchStrikethrough],
                 ['SPAN', matchSpoiler],
                 [Node.TEXT_NODE, matchEmojiText],

@@ -30,13 +30,7 @@ function VerificationNotificationContents({
   type,
   i18n,
 }: Props) {
-  const name = (
-    <ContactName
-      key="external-1"
-      title={contact.title}
-      className="module-verification-notification__contact"
-    />
-  );
+  const name = <ContactName key="external-1" title={contact.title} />;
 
   switch (type) {
     case 'markVerified':

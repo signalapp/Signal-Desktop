@@ -1131,39 +1131,30 @@ export function MediaEditor({
       <>
         <div className="MediaEditor__tools-row-1">
           <button
-            className={classNames(
-              'MediaEditor__crop-preset MediaEditor__crop-preset--free',
-              {
-                'MediaEditor__crop-preset--selected':
-                  cropPreset === CropPreset.Freeform,
-              }
-            )}
+            className={classNames('MediaEditor__crop-preset', {
+              'MediaEditor__crop-preset--selected':
+                cropPreset === CropPreset.Freeform,
+            })}
             onClick={() => setCropPreset(CropPreset.Freeform)}
             type="button"
           >
             {i18n('icu:MediaEditor__crop-preset--freeform')}
           </button>
           <button
-            className={classNames(
-              'MediaEditor__crop-preset MediaEditor__crop-preset--square',
-              {
-                'MediaEditor__crop-preset--selected':
-                  cropPreset === CropPreset.Square,
-              }
-            )}
+            className={classNames('MediaEditor__crop-preset', {
+              'MediaEditor__crop-preset--selected':
+                cropPreset === CropPreset.Square,
+            })}
             onClick={() => setCropPreset(CropPreset.Square)}
             type="button"
           >
             {i18n('icu:MediaEditor__crop-preset--square')}
           </button>
           <button
-            className={classNames(
-              'MediaEditor__crop-preset MediaEditor__crop-preset--vertical',
-              {
-                'MediaEditor__crop-preset--selected':
-                  cropPreset === CropPreset.Vertical,
-              }
-            )}
+            className={classNames('MediaEditor__crop-preset', {
+              'MediaEditor__crop-preset--selected':
+                cropPreset === CropPreset.Vertical,
+            })}
             onClick={() => setCropPreset(CropPreset.Vertical)}
             type="button"
           >

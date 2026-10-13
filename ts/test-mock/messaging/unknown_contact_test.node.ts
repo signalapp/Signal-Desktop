@@ -125,9 +125,7 @@ describe('unknown contacts', function (this: Mocha.Suite) {
     });
 
     debug('verifying that compose is now visible');
-    const composeArea = page.locator(
-      '.composition-area-wrapper, .Inbox__conversation .ConversationView'
-    );
+    const composeArea = page.locator('.ConversationView__composition-area');
     const input = composeArea.locator('[data-testid=CompositionInput]');
     await input.waitFor();
   });

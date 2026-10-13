@@ -383,17 +383,9 @@ export function TypingBubble({
   const isGroup = conversationType === 'group';
 
   return (
-    <animated.div
-      className="module-timeline__typing-bubble-container"
-      style={outerDivStyle}
-    >
+    <animated.div style={outerDivStyle}>
       <animated.div
-        className={classNames(
-          'module-message',
-          'module-message--incoming',
-          'module-message--typing-bubble',
-          isGroup ? 'module-message--group' : null
-        )}
+        className={classNames('module-message', 'module-message--incoming')}
         style={outerDivStyle}
       >
         {isGroup && (

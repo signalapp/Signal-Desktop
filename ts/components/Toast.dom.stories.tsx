@@ -13,6 +13,7 @@ export default {
   component: Toast,
   argTypes: {
     autoDismissDisabled: { control: { type: 'boolean' } },
+    // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
     className: { control: { type: 'text' } },
     children: { control: { type: 'text' } },
     timeout: argPresets({

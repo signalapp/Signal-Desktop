@@ -18,9 +18,7 @@ export function TimelineWarning(props: TimelineWarningProps): JSX.Element {
     <div className="module-TimelineWarning">
       {props.customInfo}
       {props.customInfo == null && (
-        <div className="module-TimelineWarning__icon-container">
-          <div className="module-TimelineWarning__generic-icon" />
-        </div>
+        <div className="module-TimelineWarning__generic-icon" />
       )}
       <div className="module-TimelineWarning__text">{props.children}</div>
       <button

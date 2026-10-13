@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import classNames from 'classnames';
 import lodash from 'lodash';
 import {
   useRef,
@@ -13,14 +12,8 @@ import {
 } from 'react';
 import type { Index, ListRowRenderer } from 'react-virtualized';
 import { List } from 'react-virtualized';
-import { ScrollBehavior } from '../types/Util.std.ts';
 
 const { noop } = lodash;
-
-const ScrollBehaviorClassNames: Record<ScrollBehavior, string> = {
-  [ScrollBehavior.Default]: 'ListView--scroll-behavior-default',
-  [ScrollBehavior.Hard]: 'ListView--scroll-behavior-hard',
-};
 
 type Props = {
   width: number;
@@ -33,7 +26,6 @@ type Props = {
   className?: string;
   shouldRecomputeRowHeights?: boolean;
   resetShouldRecomputeRowHeights?: () => void;
-  scrollBehavior?: ScrollBehavior;
 };
 
 /**
@@ -51,7 +43,6 @@ export function ListView({
   scrollable = true,
   shouldRecomputeRowHeights = false,
   resetShouldRecomputeRowHeights = noop,
-  scrollBehavior = ScrollBehavior.Default,
 }: Props): JSX.Element {
   const listRef = useRef<null | List>(null);
 
@@ -78,11 +69,7 @@ export function ListView({
 
   return (
     <List
-      className={classNames(
-        'ListView',
-        ScrollBehaviorClassNames[scrollBehavior],
-        className
-      )}
+      className={className}
       width={width}
       height={height}
       ref={listRef}

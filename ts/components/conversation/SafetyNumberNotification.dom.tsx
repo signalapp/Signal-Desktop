@@ -33,17 +33,7 @@ export function SafetyNumberNotification({
   i18n,
   toggleSafetyNumberModal,
 }: Props): JSX.Element {
-  const name = (
-    <span
-      key="external-1"
-      className="module-safety-number-notification__contact"
-    >
-      <ContactName
-        title={contact.title}
-        className="module-safety-number-notification__contact"
-      />
-    </span>
-  );
+  const name = <ContactName key="external-1" title={contact.title} />;
   return (
     <SystemMessage
       icon="safety-number"

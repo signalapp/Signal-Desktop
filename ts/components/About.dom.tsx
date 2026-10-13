@@ -44,25 +44,20 @@ export function About({
         <div className="module-splash-screen__logo module-splash-screen__logo--128" />
 
         <h1 className="About__Title">{i18n('icu:signalDesktop')}</h1>
-        <div className="About__Body version">{version}</div>
-        <div className="About__Body environment">{env}</div>
+        <div className="About__Body">{version}</div>
+        <div className="About__Body">{env}</div>
         <br />
         <div>
           <a href="https://signal.org">signal.org</a>
         </div>
         <br />
         <div>
-          <a
-            className="acknowledgments"
-            href="https://github.com/signalapp/Signal-Desktop/blob/main/ACKNOWLEDGMENTS.md"
-          >
+          <a href="https://github.com/signalapp/Signal-Desktop/blob/main/ACKNOWLEDGMENTS.md">
             {i18n('icu:softwareAcknowledgments')}
           </a>
         </div>
         <div>
-          <a className="privacy" href="https://signal.org/legal">
-            {i18n('icu:privacyPolicy')}
-          </a>
+          <a href="https://signal.org/legal">{i18n('icu:privacyPolicy')}</a>
         </div>
         <div className={tw('text-secondary')}>
           {i18n('icu:signalNonProfit')}

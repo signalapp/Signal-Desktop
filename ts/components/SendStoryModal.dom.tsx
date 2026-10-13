@@ -539,7 +539,6 @@ export function SendStoryModal({
           disabled={groupConversations.length === 0}
           i18n={i18n}
           placeholder={i18n('icu:contactSearchPlaceholder')}
-          className="StoriesSettingsModal__search"
           onChange={event => {
             setSearchTerm(event.target.value);
           }}
@@ -908,7 +907,7 @@ export function SendStoryModal({
           <div className="SendStoryModal__top-bar-title">
             {i18n('icu:stories')}
           </div>
-          <div className="SendStoryModal__top-bar-actions">
+          <div>
             <ContextMenu
               aria-label={i18n('icu:SendStoryModal__new')}
               i18n={i18n}

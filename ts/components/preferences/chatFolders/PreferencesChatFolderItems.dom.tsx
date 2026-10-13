@@ -13,8 +13,6 @@ export const itemClassName = classNames(
   tw('group'),
   'Preferences__ChatFolders__ChatSelection__Item'
 );
-export const itemListItemClassName =
-  'Preferences__ChatFolders__ChatSelection__Item--ListItem';
 export const itemClickableClassName =
   'Preferences__ChatFolders__ChatSelection__Item--Clickable';
 export const itemButtonClassName =

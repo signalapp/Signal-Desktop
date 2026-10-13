@@ -58,8 +58,8 @@ const LOAD_NEWER_THRESHOLD = 5;
 
 const DELAY_BEFORE_MARKING_READ_AFTER_FOCUS = SECOND;
 
-const WIDTH_BREAKPOINTS: Record<WidthBreakpoint, string> = {
-  [WidthBreakpoint.Narrow]: 'module-timeline--width-narrow',
+const WIDTH_BREAKPOINTS: Record<WidthBreakpoint, string | null> = {
+  [WidthBreakpoint.Narrow]: null,
   [WidthBreakpoint.Medium]: 'module-timeline--width-medium',
   [WidthBreakpoint.Wide]: 'module-timeline--width-wide',
 };
@@ -1225,17 +1225,15 @@ export class Timeline extends Component<PropsType, StateType, SnapshotType> {
       messageNodes.push(
         <div
           key={item.id}
-          className={
-            itemIndex === items.length - 1
-              ? 'module-timeline__last-message'
-              : undefined
-          }
           data-supertab={
             oldestUnseenIndex === itemIndex ||
             (!oldestUnseenIndex && itemIndex === items.length - 1)
           }
           data-item-index={itemIndex}
           data-message-id={item.id}
+          data-message-is-last={
+            itemIndex === items.length - 1 ? true : undefined
+          }
           role="listitem"
         >
           <ErrorBoundary i18n={i18n} showDebugLog={showDebugLog}>

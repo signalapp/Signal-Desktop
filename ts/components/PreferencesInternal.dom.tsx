@@ -385,10 +385,7 @@ export function PreferencesInternal({
 
   return (
     <div className="Preferences--internal">
-      <SettingsRow
-        className="Preferences--internal--backups"
-        title={i18n('icu:Preferences__button--backups')}
-      >
+      <SettingsRow title={i18n('icu:Preferences__button--backups')}>
         <FlowingSettingsControl>
           <div className="Preferences__two-thirds-flow">
             {i18n('icu:Preferences__internal__validate-backup--description')}
@@ -414,10 +411,7 @@ export function PreferencesInternal({
         {renderValidationResult(validationResult)}
       </SettingsRow>
 
-      <SettingsRow
-        className="Preferences--internal--message-schemas"
-        title="Message schema versions"
-      >
+      <SettingsRow title="Message schema versions">
         <FlowingSettingsControl>
           <div className="Preferences__two-thirds-flow">
             Check message schema versions
@@ -507,10 +501,7 @@ export function PreferencesInternal({
       </SettingsRow>
 
       {isStagingServer() && (
-        <SettingsRow
-          className="Preferences--internal--donation-receipts"
-          title="Donation Receipts Testing"
-        >
+        <SettingsRow title="Donation Receipts Testing">
           <FlowingSettingsControl>
             <div className="Preferences__two-thirds-flow">
               Test donation receipt generation functionality
@@ -799,7 +790,7 @@ export function PreferencesInternal({
         </FlowingSettingsControl>
         <FlowingSettingsControl>
           <div className="Preferences__one-third-flow">SVC Mode</div>
-          <div className="Preferences__two-thirds-flow Preferences__two-thirds-flow--justify-end">
+          <div className="Preferences__two-thirds-flow">
             <AutoSizeTextArea
               i18n={i18n}
               value={groupSvcMode}
@@ -813,7 +804,7 @@ export function PreferencesInternal({
           <div className="Preferences__one-third-flow">
             SVC mode for screenshare
           </div>
-          <div className="Preferences__two-thirds-flow Preferences__two-thirds-flow--justify-end">
+          <div className="Preferences__two-thirds-flow">
             <AutoSizeTextArea
               i18n={i18n}
               value={groupSvcModeForScreenshare}
@@ -837,7 +828,7 @@ export function PreferencesInternal({
         </FlowingSettingsControl>
         <FlowingSettingsControl>
           <div className="Preferences__one-third-flow">SFU URL</div>
-          <div className="Preferences__two-thirds-flow Preferences__two-thirds-flow--justify-end">
+          <div className="Preferences__two-thirds-flow">
             <AutoSizeTextArea
               i18n={i18n}
               value={sfuUrl}

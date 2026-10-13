@@ -354,7 +354,6 @@ function CallingToast(
 ): JSX.Element {
   const className = classNames(
     'CallingToast',
-    !props.autoClose && 'CallingToast--persistent',
     props.dismissable && 'CallingToast--dismissable'
   );
 

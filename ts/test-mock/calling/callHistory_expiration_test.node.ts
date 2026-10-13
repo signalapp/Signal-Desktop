@@ -47,7 +47,7 @@ function $chatListItem(page: Page, id: string) {
 }
 
 function $callListItem(page: Page, title: string) {
-  return $navSidebar(page).locator('.CallsList__Item', { hasText: title });
+  return $navSidebar(page).locator('.CallsList__ItemTile', { hasText: title });
 }
 
 function $unreadBadge(page: Page, id: string) {

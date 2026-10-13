@@ -97,10 +97,8 @@ export const CallingNotification: FC<PropsType> = memo(
               <>
                 {getCallingNotificationText(props, i18n)} &middot;{' '}
                 <MessageTimestamp
-                  direction="outgoing"
                   i18n={i18n}
                   timestamp={timestamp}
-                  withImageNoCaption={false}
                   withSticker={false}
                   withTapToViewExpired={false}
                 />

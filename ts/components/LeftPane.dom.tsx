@@ -34,7 +34,6 @@ import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetad
 
 import { LeftPaneMode } from '../types/leftPane.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
-import { ScrollBehavior } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
@@ -700,7 +699,6 @@ export function LeftPane({
   const isScrollable = helper.isScrollable();
 
   let rowIndexToScrollTo: undefined | number;
-  let scrollBehavior: ScrollBehavior;
 
   const hasChangedModes =
     previousModeSpecificProps?.mode !== modeSpecificProps.mode;
@@ -726,10 +724,8 @@ export function LeftPane({
     } else if (hasChangedModes) {
       rowIndexToScrollTo = 0;
     }
-    scrollBehavior = ScrollBehavior.Default;
   } else {
     rowIndexToScrollTo = 0;
-    scrollBehavior = ScrollBehavior.Hard;
   }
 
   const maybeServerAlert = getServerAlertDialog(
@@ -1062,7 +1058,6 @@ export function LeftPane({
                     renderConversationListItemContextMenu
                   }
                   rowCount={helper.getRowCount()}
-                  scrollBehavior={scrollBehavior}
                   scrollToRowIndex={rowIndexToScrollTo}
                   scrollable={isScrollable}
                   shouldRecomputeRowHeights={shouldRecomputeRowHeights}

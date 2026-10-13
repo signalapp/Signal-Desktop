@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useState, type JSX } from 'react';
-import classNames from 'classnames';
 import type {
   ConversationStoryType,
   StoryViewType,
@@ -154,9 +153,7 @@ export function StoryListItem({
         aria-label={i18n('icu:StoryListItem__label')}
         i18n={i18n}
         menuOptions={menuOptions}
-        className={classNames('StoryListItem', {
-          'StoryListItem--hidden': isHidden,
-        })}
+        className="StoryListItem"
         onClick={() => viewUserStories({ conversationId })}
         popperOptions={{
           placement: 'bottom',

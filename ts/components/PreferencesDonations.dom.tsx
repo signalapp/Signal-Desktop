@@ -435,7 +435,7 @@ function PreferencesReceiptList({
   });
 
   return (
-    <div className="PreferencesDonations PreferencesDonations--receiptList">
+    <div className="PreferencesDonations">
       {hasReceipts ? (
         <>
           <div className="PreferencesDonations--receiptList__info">

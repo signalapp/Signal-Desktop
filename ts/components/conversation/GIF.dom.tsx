@@ -228,7 +228,6 @@ export function GIF(props: Props): JSX.Element {
 
           showVisualAttachment();
         }}
-        className="module-image--gif__video"
         autoPlay
         playsInline
         muted
@@ -273,7 +272,6 @@ export function GIF(props: Props): JSX.Element {
     const className = classNames([
       'module-image__border-overlay',
       'module-image__border-overlay--with-click-handler',
-      'module-image--soft-corners',
       isNotResolved
         ? 'module-image--not-downloaded'
         : 'module-image--tap-to-play',

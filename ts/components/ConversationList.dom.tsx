@@ -11,7 +11,6 @@ import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { assertDev } from '../util/assert.std.ts';
 import type { ParsedE164Type } from '../util/libphonenumberInstance.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
-import { ScrollBehavior } from '../types/Util.std.ts';
 import { getNavSidebarWidthBreakpoint, WidthBreakpoint } from './_util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.ts';
@@ -216,7 +215,6 @@ export type PropsType = {
   //   this should only happen if there is a bug somewhere. For example, an inaccurate
   //   `rowCount`.
   getRow: (index: number) => undefined | Row;
-  scrollBehavior?: ScrollBehavior;
   scrollToRowIndex?: number;
   shouldRecomputeRowHeights: boolean;
   resetShouldRecomputeRowHeights: () => void;
@@ -272,7 +270,6 @@ export function ConversationList({
   renderConversationListItemContextMenu,
   resetShouldRecomputeRowHeights,
   rowCount,
-  scrollBehavior = ScrollBehavior.Default,
   scrollToRowIndex,
   scrollable = true,
   hasDialogPadding = false,
@@ -695,10 +692,6 @@ export function ConversationList({
         'module-conversation-list',
         widthBreakpoint === WidthBreakpoint.Narrow &&
           'module-conversation-list--width-narrow',
-        widthBreakpoint === WidthBreakpoint.Medium &&
-          'module-conversation-list--width-medium',
-        widthBreakpoint === WidthBreakpoint.Wide &&
-          'module-conversation-list--width-wide',
         hasDialogPadding && 'module-conversation-list--has-dialog-padding'
       )}
       width={dimensions.width}
@@ -710,7 +703,6 @@ export function ConversationList({
       shouldRecomputeRowHeights={shouldRecomputeRowHeights}
       resetShouldRecomputeRowHeights={resetShouldRecomputeRowHeights}
       scrollable={scrollable}
-      scrollBehavior={scrollBehavior}
     />
   );
 }

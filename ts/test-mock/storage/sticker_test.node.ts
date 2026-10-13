@@ -55,9 +55,7 @@ describe('stickers', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     const leftPane = window.locator('#LeftPane');
-    const conversationView = window.locator(
-      '.Inbox__conversation > .ConversationView'
-    );
+    const conversationView = window.locator('.ConversationPanel');
 
     debug('waiting for blessed sticker packs to be downloaded');
     await app.waitForQueuedStickerPacks();
@@ -313,11 +311,11 @@ describe('stickers', function (this: Mocha.Suite) {
 
     await window.getByRole('button', { name: 'Go back' }).click();
     await getMessageInTimelineByTimestamp(window, firstTimestamp)
-      .locator('.module-image--loaded')
+      .locator('.module-image[data-loaded]')
       .waitFor();
 
     await getMessageInTimelineByTimestamp(window, secondTimestamp)
-      .locator('.module-image--loaded')
+      .locator('.module-image[data-loaded]')
       .waitFor();
 
     const firstStickerData = (await app.getMessagesBySentAt(firstTimestamp))[0]
@@ -339,9 +337,7 @@ describe('stickers', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     const leftPane = window.locator('#LeftPane');
-    const conversationView = window.locator(
-      '.Inbox__conversation > .ConversationView'
-    );
+    const conversationView = window.locator('.ConversationPanel');
 
     await leftPane
       .locator(`[data-testid="${firstContact.device.aci}"]`)

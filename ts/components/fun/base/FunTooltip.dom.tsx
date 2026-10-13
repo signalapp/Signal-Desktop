@@ -54,7 +54,7 @@ export function FunTooltip(props: FunTooltipProps): JSX.Element {
           collisionBoundary={collisionBoundary}
           collisionPadding={props.collisionPadding}
         >
-          <span className="FunTooltip__Text">{props.content}</span>
+          {props.content}
         </Tooltip.Content>
       </Tooltip.Portal>
     </Tooltip.Root>

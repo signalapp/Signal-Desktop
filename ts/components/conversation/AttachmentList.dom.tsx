@@ -83,7 +83,7 @@ export function AttachmentList<
   const allVisualAttachments = areAllAttachmentsVisual(attachmentsForUI);
 
   return (
-    <div className="module-attachments">
+    <div>
       {onClose && attachments.length > 1 ? (
         <div className="module-attachments__header">
           <button

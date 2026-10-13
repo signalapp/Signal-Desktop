@@ -293,7 +293,7 @@ export function CallingPendingParticipants({
         </ul>
         <div className="CallingPendingParticipants__ActionPanel">
           <Button
-            className="CallingPendingParticipants__ActionPanelButton CallingPendingParticipants__ActionPanelButton--DenyAll"
+            className="CallingPendingParticipants__ActionPanelButton"
             variant={ButtonVariant.Destructive}
             onClick={() => {
               stageServiceIdsForAction();
@@ -303,7 +303,7 @@ export function CallingPendingParticipants({
             {i18n('icu:CallingPendingParticipants__DenyAll')}
           </Button>
           <Button
-            className="CallingPendingParticipants__ActionPanelButton CallingPendingParticipants__ActionPanelButton--ApproveAll"
+            className="CallingPendingParticipants__ActionPanelButton"
             variant={ButtonVariant.Calling}
             onClick={() => {
               stageServiceIdsForAction();

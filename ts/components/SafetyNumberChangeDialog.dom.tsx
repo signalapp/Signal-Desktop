@@ -304,7 +304,7 @@ function ContactSection({
       : section.story.name;
 
   return (
-    <div className="module-SafetyNumberChangeDialog__section">
+    <div>
       <div className="module-SafetyNumberChangeDialog__row">
         <div className="module-SafetyNumberChangeDialog__row__story-name">
           {sectionName}

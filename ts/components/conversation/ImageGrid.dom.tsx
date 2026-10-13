@@ -217,7 +217,6 @@ export function ImageGrid({
       <div
         className={classNames(
           'module-image-grid',
-          'module-image-grid--one-image',
           isSticker ? 'module-image-grid--with-sticker' : null
         )}
       >

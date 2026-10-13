@@ -159,12 +159,7 @@ export function FunGridHeaderPopover(
   props: FunGridHeaderPopoverProps
 ): JSX.Element {
   return (
-    <Popover
-      data-fun-overlay
-      className="FunGrid__HeaderPopover"
-      placement="bottom end"
-      offset={6}
-    >
+    <Popover data-fun-overlay placement="bottom end" offset={6}>
       <Dialog className="FunGrid__HeaderPopoverDialog">{props.children}</Dialog>
     </Popover>
   );

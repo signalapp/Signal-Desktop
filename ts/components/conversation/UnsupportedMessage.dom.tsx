@@ -33,11 +33,8 @@ export type Props = PropsData & PropsHousekeeping;
 function UnsupportedMessageContents({ canProcessNow, contact, i18n }: Props) {
   const { isMe } = contact;
   const contactName = (
-    <span key="external-1" className="module-unsupported-message__contact">
-      <ContactName
-        title={contact.title}
-        className="module-unsupported-message__contact"
-      />
+    <span key="external-1">
+      <ContactName title={contact.title} />
     </span>
   );
   if (isMe) {
@@ -88,7 +85,7 @@ export function UnsupportedMessage({
       }
       button={
         canProcessNow ? undefined : (
-          <div className="SystemMessage__line">
+          <div>
             <Button
               onClick={() => {
                 openLinkInWebBrowser('https://signal.org/download');

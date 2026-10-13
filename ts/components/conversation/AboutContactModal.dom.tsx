@@ -23,9 +23,7 @@ import { AxoTextItem } from '../../axo/items/AxoTextItem.dom.tsx';
 import { AxoClickableItem } from '../../axo/items/AxoClickableItem.dom.tsx';
 
 function muted(parts: Array<string | JSX.Element>) {
-  return (
-    <span className="AboutContactModal__TitleWithoutNickname">{parts}</span>
-  );
+  return <span>{parts}</span>;
 }
 
 export type PropsType = Readonly<{
@@ -153,7 +151,6 @@ export function AboutContactModal({
             nickname: <UserText text={contact.title} />,
             titleNoNickname: (
               <Tooltip
-                className="AboutContactModal__TitleWithoutNickname__Tooltip"
                 direction={TooltipPlacement.Top}
                 content={
                   <I18n
@@ -224,12 +221,7 @@ export function AboutContactModal({
                   {!isMe && contact.about && (
                     <AxoTextItem.Root
                       symbol="pencil"
-                      label={
-                        <About
-                          className="AboutContactModal__about"
-                          text={contact.about}
-                        />
-                      }
+                      label={<About text={contact.about} />}
                     />
                   )}
                   {!isMe && contact.isVerified && (

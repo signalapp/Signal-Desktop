@@ -63,31 +63,31 @@ export const matchStrikethrough: Matcher = (
   return delta;
 };
 
+function isMonospaceElement(node: HTMLElement): boolean {
+  if (node.matches('[data-monospace]')) {
+    return true;
+  }
+  const style = window.getComputedStyle(node);
+  const fonts = style.getPropertyValue('font-family');
+  return fonts.includes('monospace');
+}
+
 export const matchMonospace: Matcher = (
   node,
   delta,
   _scroll,
   attributes
 ): Delta => {
-  const classes = [
-    'MessageTextRenderer__formatting--monospace',
-    'quill--monospace',
-  ] as const;
-  // Note: This is defined as $monospace in _variables.scss
-  const fontFamily =
-    'font-family: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;';
-
-  if (
-    delta.length() > 0 &&
-    (node.classList.contains(classes[0]) ||
-      node.classList.contains(classes[1]) ||
-      node.attributes.getNamedItem('style')?.value?.includes(fontFamily))
-  ) {
+  if (delta.length() > 0 && isMonospaceElement(node)) {
     return applyStyleToOps(delta, QuillFormattingStyle.monospace, attributes);
   }
 
   return delta;
 };
+
+function isSpoilerElement(node: HTMLElement): boolean {
+  return node.matches('[data-spoiler]');
+}
 
 export const matchSpoiler: Matcher = (
   node,
@@ -95,18 +95,7 @@ export const matchSpoiler: Matcher = (
   _scroll,
   attributes
 ): Delta => {
-  const classes = [
-    'quill--spoiler',
-    'MessageTextRenderer__formatting--spoiler',
-    'MessageTextRenderer__formatting--spoiler--revealed',
-  ] as const;
-
-  if (
-    delta.length() > 0 &&
-    (node.classList.contains(classes[0]) ||
-      node.classList.contains(classes[1]) ||
-      node.classList.contains(classes[2]))
-  ) {
+  if (delta.length() > 0 && isSpoilerElement(node)) {
     return applyStyleToOps(delta, QuillFormattingStyle.spoiler, attributes);
   }
   return delta;

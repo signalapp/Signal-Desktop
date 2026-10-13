@@ -1,0 +1,55 @@
+.Foo {
+  color: red;
+}
+
+.Foo--a,
+.Foo--b {
+  color: blue;
+}
+
+.module-Button {
+  background: url(icon.png);
+}
+
+.module-Button--large {
+  padding: 0.5em;
+}
+
+.dark-theme .Themed {
+  color: white;
+}
+
+.Parent > .Child:hover {
+  color: green;
+}
+
+.Wrapper:not(.InNot) {
+  opacity: 0.5;
+}
+
+.Has:has(.InHas) {
+  opacity: 1;
+}
+
+@media (min-width: 100px) {
+  .InMedia {
+    display: none;
+  }
+}
+
+.os-macos {
+  font-family: system-ui;
+}
+
+.quill--spoiler {
+  filter: blur(4px);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  50.5% {
+    transform: rotate(180deg);
+  }
+}

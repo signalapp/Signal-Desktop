@@ -88,7 +88,7 @@ export function InstallScreenQrCodeNotScannedStep({
           {...provisioningUrl}
           retryGetQrCode={retryGetQrCode}
         />
-        <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
+        <div>
           <h1>{i18n('icu:Install__scan-this-code')}</h1>
           <ol>
             <li>{i18n('icu:Install__instructions__1')}</li>

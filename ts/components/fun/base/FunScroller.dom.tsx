@@ -168,7 +168,7 @@ export function FunScrollerSection(
     <section
       ref={ref}
       id={props.id}
-      className={classNames('FunScroller__Section', props.className)}
+      className={props.className}
       style={props.style}
     >
       {props.children}

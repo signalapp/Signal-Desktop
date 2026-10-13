@@ -43,11 +43,11 @@ enum ImageStatus {
   HasPlaceholder = 'has-placeholder',
 }
 
-const ImageStatusClassNames: Record<ImageStatus, string> = {
+const ImageStatusClassNames: Record<ImageStatus, string | null> = {
   [ImageStatus.Nothing]: 'AvatarPreview__avatar--nothing',
   [ImageStatus.Loading]: 'AvatarPreview__avatar--loading',
   [ImageStatus.HasImage]: 'AvatarPreview__avatar--has-image',
-  [ImageStatus.HasPlaceholder]: 'AvatarPreview__avatar--has-placeholder',
+  [ImageStatus.HasPlaceholder]: null,
 };
 
 export function AvatarPreview({

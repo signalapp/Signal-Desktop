@@ -102,7 +102,7 @@ export function BackupMediaDownloadProgress({
   if (isCompleted) {
     icon = (
       <div
-        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--complete"
+        className="BackupMediaDownloadProgress__icon--complete"
         aria-label={i18n('icu:BackupMediaDownloadProgress__title-complete')}
       />
     );
@@ -135,7 +135,7 @@ export function BackupMediaDownloadProgress({
       </>
     );
     icon = (
-      <div className="BackupMediaDownloadProgress__icon">
+      <div>
         <SpinnerV2
           size={24}
           strokeWidth={3}
@@ -151,7 +151,7 @@ export function BackupMediaDownloadProgress({
   } else if (isIdle) {
     icon = (
       <div
-        className="BackupMediaDownloadProgress__icon BackupMediaDownloadProgress__icon--idle"
+        className="BackupMediaDownloadProgress__icon--idle"
         aria-label={i18n('icu:BackupMediaDownloadProgress__description-idle')}
       />
     );
@@ -181,7 +181,7 @@ export function BackupMediaDownloadProgress({
       </>
     );
     icon = (
-      <div className="BackupMediaDownloadProgress__icon">
+      <div>
         <SpinnerV2
           size={24}
           strokeWidth={3}
@@ -210,7 +210,7 @@ export function BackupMediaDownloadProgress({
       </>
     );
     icon = (
-      <div className="BackupMediaDownloadProgress__icon">
+      <div>
         <SpinnerV2
           size={24}
           strokeWidth={3}

@@ -71,19 +71,10 @@ function SampleMessage({
           <div
             className={classNames(
               'module-message__metadata',
-              direction === 'incoming' && 'module-message__metadata--incoming',
               direction === 'outgoing' && 'module-message__metadata--outgoing'
             )}
           >
-            <span
-              className={classNames(
-                'module-message__metadata__date',
-                direction === 'incoming' &&
-                  'module-message__metadata__date--incoming',
-                direction === 'outgoing' &&
-                  'module-message__metadata__date--outgoing'
-              )}
-            >
+            <span className="module-message__metadata__date">
               {/* oxlint-disable-next-line react/purity */}
               {formatTime(i18n, Date.now() - timestampDeltaFromNow, Date.now())}
             </span>

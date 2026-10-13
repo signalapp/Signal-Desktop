@@ -104,7 +104,7 @@ function GroupNotificationChange({
             </>
           )}
           {contactsIncludesMe && (
-            <div className="module-group-notification__change">
+            <div>
               <I18n i18n={i18n} id="icu:youJoinedTheGroup" />
             </div>
           )}
@@ -174,7 +174,7 @@ export function GroupNotification({
         <p>{fromLabel}</p>
         {changes.map((change, i) => (
           // oxlint-disable-next-line react/no-array-index-key
-          <p key={i} className="module-group-notification__change">
+          <p key={i}>
             <GroupNotificationChange change={change} from={from} i18n={i18n} />
           </p>
         ))}

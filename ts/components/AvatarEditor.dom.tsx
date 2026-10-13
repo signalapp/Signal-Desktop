@@ -360,7 +360,7 @@ export function AvatarEditor({
   }
 
   return (
-    <div className="AvatarEditor">
+    <div>
       {confirmDiscardModal}
       {content}
     </div>

@@ -1,5 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+// oxlint-disable signal-desktop/enforce-class-name-has-styles
 
 import '../ts/window.d.ts';
 

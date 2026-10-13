@@ -1192,7 +1192,6 @@ export function EditDistributionListModal({
         disabled={candidateConversations.length === 0}
         i18n={i18n}
         placeholder={i18n('icu:contactSearchPlaceholder')}
-        className="StoriesSettingsModal__search"
         onChange={event => {
           setSearchTerm(event.target.value);
         }}
@@ -1200,7 +1199,7 @@ export function EditDistributionListModal({
       />
 
       {selectedContacts.length ? (
-        <ContactPills className="StoriesSettingsModal__tags">
+        <ContactPills>
           {selectedContacts.map(contact => (
             <ContactPill
               key={contact.id}
@@ -1309,9 +1308,7 @@ function GroupStorySettingsModal({
           size={AvatarSize.THIRTY_TWO}
           title={group.title}
         />
-        <span className="GroupStorySettingsModal__title">
-          <UserText text={group.title} />
-        </span>
+        <UserText text={group.title} />
       </div>
 
       <hr className="StoriesSettingsModal__divider" />

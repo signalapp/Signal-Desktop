@@ -22,11 +22,7 @@ export type FunResultsFigureProps = Readonly<{
 }>;
 
 export function FunResultsFigure(props: FunResultsFigureProps): JSX.Element {
-  return (
-    <div role="presentation" className="FunResults__Figure">
-      {props.children}
-    </div>
-  );
+  return <div role="presentation">{props.children}</div>;
 }
 
 export type FunResultsHeaderProps = Readonly<{

@@ -113,7 +113,7 @@ export function MyStories({
       >
         <div className="Stories__pane__list">
           {myStories.map(list => (
-            <div className="MyStories__distribution" key={list.id}>
+            <div key={list.id}>
               <div className="MyStories__distribution__title">
                 <StoryDistributionListName
                   i18n={i18n}

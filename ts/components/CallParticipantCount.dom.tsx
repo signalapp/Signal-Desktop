@@ -54,7 +54,6 @@ export function CallParticipantCount({
         aria-label={i18n('icu:calling__participants--pluralized', {
           people: count,
         })}
-        className="CallControls__Status--InactiveCallParticipantCount"
       >
         {innerText}
       </span>

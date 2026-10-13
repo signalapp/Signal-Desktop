@@ -161,11 +161,7 @@ export function ConversationView({
 
   const isSignalConvo = isSignalConversation({ id: conversationId });
   return (
-    <div
-      className="ConversationView ConversationPanel"
-      onDrop={onDrop}
-      onPaste={onPaste}
-    >
+    <div className="ConversationPanel" onDrop={onDrop} onPaste={onPaste}>
       <div
         className={classNames('ConversationPanel', {
           ConversationPanel__hidden: shouldHideConversationView,

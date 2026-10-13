@@ -57,7 +57,6 @@ export function GroupLinkManagement({
     groupLinkInfo = (
       <button
         type="button"
-        className="ConversationDetails__panel-row__group-link"
         aria-label={i18n('icu:GroupLinkManagement__CopyGroupLinkButtonLabel')}
         onClick={() => {
           drop(copyGroupLink(conversation.groupLink ?? ''));

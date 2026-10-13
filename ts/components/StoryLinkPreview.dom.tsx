@@ -35,12 +35,7 @@ export function StoryLinkPreview({
   let content: JSX.Element | undefined;
   if (!title && !description) {
     content = (
-      <div
-        className={classNames(
-          'StoryLinkPreview__content',
-          'StoryLinkPreview__content--only-url'
-        )}
-      >
+      <div className="StoryLinkPreview__content">
         <div className="StoryLinkPreview__title">{location}</div>
       </div>
     );
@@ -53,9 +48,7 @@ export function StoryLinkPreview({
             {unescape(description)}
           </div>
         )}
-        <div className="StoryLinkPreview__footer">
-          <div className="StoryLinkPreview__location">{location}</div>
-        </div>
+        <div className="StoryLinkPreview__location">{location}</div>
       </div>
     );
   }

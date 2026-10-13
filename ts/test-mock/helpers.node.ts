@@ -457,9 +457,9 @@ export async function composerAttachFiles(
 ): Promise<void> {
   const AttachmentInput = page.getByTestId('attachfile-input');
 
-  const AttachmentsList = page.locator('.module-attachments');
+  const AttachmentsList = page.locator('.module-attachments__rail');
   const AttachmentsListImageLoaded = AttachmentsList.locator(
-    '.module-image--loaded'
+    '.module-image[data-loaded]'
   );
 
   debug('setting input files');
@@ -549,9 +549,7 @@ export async function sendMessageWithAttachments(
 }
 
 export async function waitForEnabledComposer(page: Page): Promise<Locator> {
-  const composeArea = page.locator(
-    '.composition-area-wrapper, .Inbox__conversation .ConversationView'
-  );
+  const composeArea = page.locator('.ConversationView__composition-area');
   const composeContainer = composeArea.locator(
     '[data-testid=CompositionInput][data-enabled=true]'
   );
@@ -607,11 +605,9 @@ export async function createCallLink(
   const doneBtn = editModal.getByText('Done');
   await doneBtn.click();
 
-  const callLinkTitle = page.locator('.CallsList__ItemTile').getByText(name);
-
-  const callLinkItem = page.locator('.CallsList__Item', {
-    has: callLinkTitle,
-  });
+  const callLinkItem = page
+    .locator('.CallsList__ItemTile', { hasText: name })
+    .locator('xpath=..');
   const testId = await callLinkItem.getAttribute('data-testid');
   return testId || undefined;
 }

@@ -393,7 +393,7 @@ export function StoryViewsNRepliesModal({
     );
   } else if (sortedViews.length) {
     viewsElement = (
-      <div className="StoryViewsNRepliesModal__views">
+      <div>
         {sortedViews.map(view => (
           <div
             className="StoryViewsNRepliesModal__view"

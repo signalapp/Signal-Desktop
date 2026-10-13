@@ -59,9 +59,7 @@ export function CountryCodeSelect({
           {selectedCountry?.displayName ??
             i18n('icu:CountryCodeSelect__placeholder')}
         </div>
-        <div className="CountryCodeSelect__value">
-          {selectedCountry?.code ?? defaultCode}
-        </div>
+        <div>{selectedCountry?.code ?? defaultCode}</div>
         <div className="CountryCodeSelect__arrow" />
       </button>
       {isModalOpen ? (

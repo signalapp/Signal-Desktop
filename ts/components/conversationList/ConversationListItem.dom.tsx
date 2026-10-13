@@ -201,7 +201,7 @@ export const ConversationListItem: FunctionComponent<Props> = memo(
         />
       );
       if (lastMessage.status) {
-        const StatusIcons: Record<LastMessageStatus, string> = {
+        const StatusIcons: Record<LastMessageStatus, string | null> = {
           paused:
             'module-conversation-list__item--contact-or-conversation__content__message__text__status-icon--paused',
           error:

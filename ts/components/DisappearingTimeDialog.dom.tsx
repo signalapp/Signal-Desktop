@@ -75,7 +75,6 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
           <section className="module-disappearing-time-dialog__time-boxes">
             <Select
               ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
-              className="module-disappearing-time-dialog__time-boxes__value"
               value={unitValue}
               onChange={newValue => setUnitValue(parseInt(newValue, 10))}
               options={values.map(value => ({ value, text: value.toString() }))}

@@ -265,10 +265,7 @@ export const ReactionViewer = forwardRef<HTMLDivElement, Props>(
                 {from.isMe ? (
                   i18n('icu:you')
                 ) : (
-                  <ContactName
-                    className="module-reaction-viewer__body__row__name__contact-name"
-                    title={from.title}
-                  />
+                  <ContactName title={from.title} />
                 )}
               </div>
               <div className="module-reaction-viewer__body__row__emoji">

@@ -48,11 +48,7 @@ function Source({
       }}
       type="button"
     >
-      <img
-        alt={source.name}
-        className="module-CallingSelectPresentingSourcesModal__name--screenshot"
-        src={source.thumbnail}
-      />
+      <img alt={source.name} src={source.thumbnail} />
       <div className="module-CallingSelectPresentingSourcesModal__name--container">
         {source.appIcon ? (
           <img

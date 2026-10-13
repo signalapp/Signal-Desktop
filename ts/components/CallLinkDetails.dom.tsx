@@ -206,7 +206,7 @@ function renderMissingCallLink({
   i18n,
 }: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): JSX.Element {
   return (
-    <div className="CallLinkDetails__Container">
+    <div>
       <header className="CallLinkDetails__Header">
         <Avatar
           className="CallLinkDetails__HeaderAvatar"

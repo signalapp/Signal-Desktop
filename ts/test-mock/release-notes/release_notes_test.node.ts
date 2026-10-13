@@ -100,7 +100,7 @@ describe('release notes', function (this: Mocha.Suite) {
     );
 
     const spoilerBodyRange = timelineMessage
-      .locator('.MessageTextRenderer__formatting--spoiler')
+      .locator('[data-spoiler]')
       .getByText('the', { exact: true });
 
     assert.isTrue(
@@ -109,7 +109,7 @@ describe('release notes', function (this: Mocha.Suite) {
     );
 
     const monospaceBodyRange = timelineMessage
-      .locator('span.MessageTextRenderer__formatting--monospace')
+      .locator('[data-monospace]')
       .getByText('missing', { exact: true });
 
     assert.isTrue(

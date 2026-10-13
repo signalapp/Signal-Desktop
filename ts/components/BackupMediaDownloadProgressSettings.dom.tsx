@@ -65,7 +65,6 @@ export function BackupMediaDownloadProgressSettings({
         onClick={handleResume}
         variant={ButtonVariant.Secondary}
         size={ButtonSize.Small}
-        className="BackupMediaDownloadProgressSettings__button"
       >
         {i18n('icu:BackupMediaDownloadProgressSettings__button-resume')}
       </Button>
@@ -85,7 +84,6 @@ export function BackupMediaDownloadProgressSettings({
         onClick={handlePause}
         variant={ButtonVariant.Secondary}
         size={ButtonSize.Small}
-        className="BackupMediaDownloadProgressSettings__button"
       >
         {i18n('icu:BackupMediaDownloadProgressSettings__button-pause')}
       </Button>
@@ -95,10 +93,8 @@ export function BackupMediaDownloadProgressSettings({
   return (
     <div className="BackupMediaDownloadProgressSettings">
       <div className="BackupMediaDownloadProgressSettings__content">
-        <div className="BackupMediaDownloadProgressSettings__title">
-          {title}
-        </div>
-        <div className="BackupMediaDownloadProgressSettings__ProgressBar">
+        <div>{title}</div>
+        <div>
           <ProgressBar fractionComplete={fractionComplete} isRTL={isRTL} />
         </div>
         <div className="BackupMediaDownloadProgressSettings__description">
@@ -110,7 +106,6 @@ export function BackupMediaDownloadProgressSettings({
         <Button
           onClick={() => setIsShowingCancelConfirmation(true)}
           variant={ButtonVariant.SecondaryDestructive}
-          className="BackupMediaDownloadProgressSettings__button"
           size={ButtonSize.Small}
         >
           {i18n('icu:cancel')}

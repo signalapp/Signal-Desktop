@@ -26,7 +26,7 @@ export function SignalConnectionsModal({
       <div className="SignalConnectionsModal">
         <i className="SignalConnectionsModal__icon" />
 
-        <div className="SignalConnectionsModal__description">
+        <div>
           <I18n
             components={{
               connections: (
@@ -44,9 +44,7 @@ export function SignalConnectionsModal({
           <li>{i18n('icu:SignalConnectionsModal__bullet--3')}</li>
         </ul>
 
-        <div className="SignalConnectionsModal__description">
-          {i18n('icu:SignalConnectionsModal__footer')}
-        </div>
+        <div>{i18n('icu:SignalConnectionsModal__footer')}</div>
       </div>
     </Modal>
   );

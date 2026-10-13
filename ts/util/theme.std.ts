@@ -17,6 +17,7 @@ export function themeClassName(theme: Theme | ThemeType): string {
   switch (theme) {
     case ThemeType.light:
     case Theme.Light:
+      // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
       return 'light-theme';
     case ThemeType.dark:
     case Theme.Dark:

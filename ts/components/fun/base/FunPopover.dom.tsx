@@ -38,6 +38,7 @@ export function FunPopover(props: FunPopoverProps): JSX.Element {
       <Popover
         data-fun-overlay
         className={classNames('FunPopover', {
+          // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
           'light-theme': props.theme === ThemeType.light,
           'dark-theme': props.theme === ThemeType.dark,
         })}

@@ -23,6 +23,7 @@ const noTemplate = /** @type {const} */ ({
   messageId: 'noStaticTemplateLiteralClassName',
 });
 const singleClassName = /** @type {const} */ ({
+  // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
   messageId: 'noSingleClassNameInClassNames',
 });
 

@@ -36,7 +36,6 @@ export function ChatSessionRefreshedDialog(props: PropsType): ReactElement {
         ref={focusRef}
         size={ButtonSize.Medium}
         variant={ButtonVariant.Primary}
-        className="module-chat-session-refreshed-dialog__close-button"
       >
         {i18n('icu:Confirmation--confirm')}
       </Button>
@@ -62,9 +61,7 @@ export function ChatSessionRefreshedDialog(props: PropsType): ReactElement {
         <div className="module-chat-session-refreshed-dialog__title">
           {i18n('icu:ChatRefresh--notification')}
         </div>
-        <div className="module-chat-session-refreshed-dialog__description">
-          {i18n('icu:ChatRefresh--summary')}
-        </div>
+        <div>{i18n('icu:ChatRefresh--summary')}</div>
       </>
     </Modal>
   );

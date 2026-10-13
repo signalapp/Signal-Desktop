@@ -62,7 +62,7 @@ export default {
   title: 'Components/CompositionArea',
   decorators: [
     // necessary for the add attachment button to render properly
-    storyFn => <div className="file-input">{storyFn()}</div>,
+    storyFn => <div>{storyFn()}</div>,
   ],
   argTypes: {
     recordingState: {

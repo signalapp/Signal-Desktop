@@ -120,15 +120,8 @@ const CONTAINER_CLASSES = ['ql-editor', 'module-message__text'];
 const BOLD_TAG = 'strong';
 const ITALIC_TAG = 'em';
 const STRIKETHROUGH_TAG = 's';
-const MONOSPACE_CLASSES = [
-  'quill--monospace',
-  'MessageTextRenderer__formatting--monospace',
-] as const;
-const SPOILER_CLASSES = [
-  'quill--spoiler',
-  'MessageTextRenderer__formatting--spoiler',
-  'MessageTextRenderer__formatting--spoiler--revealed',
-] as const;
+const MONOSPACE_SELECTOR = '[data-monospace]';
+const SPOILER_SELECTOR = '[data-spoiler]';
 
 // When the user cuts/copies single-line text which don't cross any mentions/emojo or
 // formatting boundaries, we don't get the surrounding formatting nodes in our selection.
@@ -143,8 +136,8 @@ function getRangeWithContainer(range: Range): Node {
   //     <strong>
   //       <em>
   //         <s>
-  //           <span class="quill--spoiler">
-  //             <span class="quill--monospace">
+  //           <span data-spoiler="true">
+  //             <span data-monospace="true">
   //               All formatting, with no formatting boundaries, mentions or emoji.
   //             </span>
   //           </span>
@@ -158,8 +151,8 @@ function getRangeWithContainer(range: Range): Node {
 
   // <div class="module-message__text module-message__text--outgoing">
   //   <span>
-  //     <span class="MessageTextRenderer__formatting--spoiler--revealed">
-  //       <span class="MessageTextRenderer__formatting--monospace">
+  //     <span data-spoiler="true">
+  //       <span data-monospace="true">
   //         <s>
   //           <em>
   //             <strong>
@@ -212,22 +205,15 @@ function getRangeWithContainer(range: Range): Node {
       const newNode = document.createElement(STRIKETHROUGH_TAG);
       newNode.appendChild(finalNode);
       finalNode = newNode;
-    } else if (
-      // oxlint-disable-next-line no-loop-func signal-desktop/enforce-static-class-names
-      MONOSPACE_CLASSES.some(item => currentNode?.classList.contains(item))
-    ) {
+    } else if (currentNode.matches(MONOSPACE_SELECTOR)) {
       const newNode = document.createElement('span');
       // Matchers check for all classes, so we just add the first
-      newNode.classList.add(MONOSPACE_CLASSES[0]);
+      newNode.setAttribute('data-monospace', 'true');
       newNode.appendChild(finalNode);
       finalNode = newNode;
-    } else if (
-      // oxlint-disable-next-line no-loop-func signal-desktop/enforce-static-class-names
-      SPOILER_CLASSES.some(item => currentNode?.classList.contains(item))
-    ) {
+    } else if (currentNode.matches(SPOILER_SELECTOR)) {
       const newNode = document.createElement('span');
-      // Matchers check for all classes, so we just add the first
-      newNode.classList.add(SPOILER_CLASSES[0]);
+      newNode.setAttribute('data-spoiler', 'true');
       newNode.appendChild(finalNode);
       finalNode = newNode;
     }

@@ -85,10 +85,7 @@ export function StagedLinkPreview(props: Props): JSX.Element {
           )}
           <div className="module-staged-link-preview__footer">
             <div className="module-staged-link-preview__location">{domain}</div>
-            <LinkPreviewDate
-              date={date}
-              className="module-staged-link-preview__date"
-            />
+            <LinkPreviewDate date={date} />
           </div>
         </div>
       );

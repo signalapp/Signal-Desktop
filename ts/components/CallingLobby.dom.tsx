@@ -298,7 +298,7 @@ export function CallingLobby({
 
         <div
           className={classNames(
-            'module-calling__camera-is-off module-CallingLobby__camera-is-off',
+            'module-calling__camera-is-off',
             shouldShowLocalVideo
               ? 'module-CallingLobby__camera-is-off--invisible'
               : 'module-CallingLobby__camera-is-off--visible'

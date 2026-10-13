@@ -1286,7 +1286,6 @@ export function Preferences({
                   placeholder={i18n(
                     'icu:Preferences__Language__SearchLanguages'
                   )}
-                  className="Preferences__LanguageModal__SearchInput"
                   onChange={event => {
                     setLanguageSearchInput(event.currentTarget.value);
                   }}
@@ -2401,10 +2400,7 @@ export function Preferences({
       <>
         <SettingsRow
           title={i18n('icu:Preferences__pnp__sharing--title')}
-          className={classNames('Preferences__settings-row--pnp-sharing', {
-            'Preferences__settings-row--pnp-sharing--nobody':
-              whoCanSeeMe === PhoneNumberSharingMode.Nobody,
-          })}
+          className="Preferences__settings-row--pnp-sharing"
         >
           <SettingsRadio
             onChange={onWhoCanSeeMeChange}
@@ -2834,7 +2830,6 @@ export function Preferences({
                   <Avatar
                     avatarUrl={me.avatarUrl}
                     badge={badge}
-                    className="module-main-header__avatar"
                     color={me.color}
                     conversationType="direct"
                     i18n={i18n}

@@ -13,6 +13,7 @@ import { AppProvider } from '../../windows/AppProvider.dom.tsx';
 export class MentionBlot extends EmbedBlot {
   static override blotName = 'mention';
 
+  // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
   static override className = 'mention-blot';
 
   static override tagName = 'span';

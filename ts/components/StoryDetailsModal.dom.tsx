@@ -119,10 +119,7 @@ export function StoryDetailsModal({
           );
 
           return (
-            <div
-              key={sendStatusLabel}
-              className="StoryDetailsModal__contact-group"
-            >
+            <div key={sendStatusLabel}>
               <div className="StoryDetailsModal__contact-group__header">
                 {sendStatusLabel}
               </div>
@@ -165,7 +162,7 @@ export function StoryDetailsModal({
   } else {
     content = (
       <div className="StoryDetailsModal__contact-container">
-        <div className="StoryDetailsModal__contact-group">
+        <div>
           <div className="StoryDetailsModal__contact-group__header">
             {i18n('icu:sent')}
           </div>
@@ -183,9 +180,7 @@ export function StoryDetailsModal({
               title={sender.title}
             />
             <div className="StoryDetailsModal__contact__text">
-              <div className="StoryDetailsModal__contact__name">
-                <ContactName title={sender.title} />
-              </div>
+              <ContactName title={sender.title} />
             </div>
             <Time
               className="StoryDetailsModal__status-timestamp"

@@ -123,7 +123,7 @@ function renderPaidBackupDetailsSummary({
           <div className="Preferences--backups-summary__type">
             {i18n('icu:Preferences--backup-media-plan__description')}
           </div>
-          <div className="Preferences--backups-summary__content">
+          <div>
             {subscriptionStatus
               ? renderSubscriptionDetails({ i18n, locale, subscriptionStatus })
               : null}
@@ -193,7 +193,7 @@ function renderFreeBackupDetailsSummary({
               mediaDayCount: backupFreeMediaDays,
             })}
           </div>
-          <div className="Preferences--backups-summary__content">
+          <div>
             {i18n('icu:Preferences--backup-messages-plan__cost-description')}
           </div>
         </div>
@@ -233,7 +233,7 @@ export function renderSubscriptionDetails({
       return (
         <>
           {subscriptionStatus.cost ? (
-            <div className="Preferences--backups-summary__subscription-price">
+            <div>
               {i18n('icu:Preferences--backup-subscription-monthly-cost', {
                 cost: new Intl.NumberFormat(locale, {
                   style: 'currency',
@@ -244,7 +244,7 @@ export function renderSubscriptionDetails({
             </div>
           ) : null}
           {subscriptionStatus.renewalTimestamp ? (
-            <div className="Preferences--backups-summary__renewal-date">
+            <div>
               {i18n('icu:Preferences--backup-plan__renewal-date', {
                 date: formatTimestamp(subscriptionStatus.renewalTimestamp, {
                   dateStyle: 'medium',
@@ -262,7 +262,7 @@ export function renderSubscriptionDetails({
             {i18n('icu:Preferences--backup-plan__canceled')}
           </div>
           {subscriptionStatus.expiryTimestamp ? (
-            <div className="Preferences--backups-summary__expiry-date">
+            <div>
               {i18n('icu:Preferences--backup-plan__expiry-date', {
                 date: formatTimestamp(subscriptionStatus.expiryTimestamp, {
                   dateStyle: 'medium',
@@ -276,7 +276,7 @@ export function renderSubscriptionDetails({
     case 'expired':
       return (
         <div className="Preferences--backups-summary__status-container">
-          <div className="Preferences--backups-summary__content">
+          <div>
             {i18n('icu:Preferences--backup-plan-not-found__description')}
           </div>
         </div>

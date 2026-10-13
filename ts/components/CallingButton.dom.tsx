@@ -160,7 +160,7 @@ export function CallingButton({
   );
 
   return (
-    <div className="CallingButton">
+    <div>
       {tooltipContent === '' ? (
         <div className="CallingButton__button-container">{buttonContent}</div>
       ) : (

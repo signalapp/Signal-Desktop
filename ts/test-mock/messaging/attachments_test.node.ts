@@ -251,7 +251,7 @@ describe('attachments', function (this: Mocha.Suite) {
       timestamp: phoneTimestamp,
     });
     await getMessageInTimelineByTimestamp(page, phoneTimestamp)
-      .locator('.module-image--loaded')
+      .locator('.module-image[data-loaded]')
       .waitFor();
 
     debug('receiving same attachment from contact');
@@ -266,7 +266,7 @@ describe('attachments', function (this: Mocha.Suite) {
     });
 
     await getMessageInTimelineByTimestamp(page, friendTimestamp)
-      .locator('.module-image--loaded')
+      .locator('.module-image[data-loaded]')
       .waitFor();
 
     debug('sending same attachment from desktop');

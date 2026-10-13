@@ -61,14 +61,7 @@ export function AttachmentStatusIcon({
               : undefined
           )}
         >
-          <div
-            className={classNames(
-              'AttachmentStatusIcon__progress-container',
-              isIncoming
-                ? 'AttachmentStatusIcon__progress-container--incoming'
-                : undefined
-            )}
-          >
+          <div>
             <SpinnerV2
               min={0}
               max={size}

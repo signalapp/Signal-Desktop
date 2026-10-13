@@ -535,7 +535,7 @@ export function CallingPip({
           </>
         ) : (
           <CallBackgroundBlur avatarUrl={me.avatarUrl}>
-            <div className="module-calling-pip__video--avatar">
+            <div>
               <Avatar
                 avatarPlaceholderGradient={me.avatarPlaceholderGradient}
                 avatarUrl={me.avatarUrl}

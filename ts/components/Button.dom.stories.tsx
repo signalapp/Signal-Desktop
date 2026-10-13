@@ -56,13 +56,7 @@ export function KitchenSink(): JSX.Element {
 }
 
 export function AriaLabel(): JSX.Element {
-  return (
-    <Button
-      aria-label="hello"
-      className="module-ForwardMessageModal__header--back"
-      onClick={action('onClick')}
-    />
-  );
+  return <Button aria-label="hello" onClick={action('onClick')} />;
 }
 
 export function CustomStyles(): JSX.Element {

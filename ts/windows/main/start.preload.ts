@@ -48,7 +48,7 @@ window.addEventListener('contextmenu', e => {
     node?.closest('textarea, input, [contenteditable="plaintext-only"]')
   );
   const isLink = Boolean(node?.closest('a'));
-  const isImage = Boolean(node?.closest('.Lightbox img'));
+  const isImage = Boolean(node?.closest('#lightbox img'));
   const hasSelection = Boolean(window.getSelection()?.toString());
 
   if (!isEditable && !hasSelection && !isLink && !isImage) {

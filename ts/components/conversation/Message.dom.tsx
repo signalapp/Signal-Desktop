@@ -536,9 +536,6 @@ const MessageReactions = forwardRef(function MessageReactions(
                     re.count > 1
                       ? 'module-message__reactions__reaction--with-count'
                       : null,
-                    outgoing
-                      ? 'module-message__reactions__reaction--outgoing'
-                      : 'module-message__reactions__reaction--incoming',
                     isMoreWithMe || (re.isMe && !isMoreWithMe)
                       ? 'module-message__reactions__reaction--is-me'
                       : null
@@ -1357,8 +1354,6 @@ export class Message extends PureComponent<Props, State> {
               'module-message__simple-attachment__file-name',
               direction === 'incoming' &&
                 'module-message__simple-attachment__file-name--incoming',
-              direction === 'outgoing' &&
-                'module-message__simple-attachment__file-name--outgoing',
               isAttachmentNotAvailable
                 ? 'module-message__simple-attachment__file-name--undownloadable'
                 : null
@@ -1381,9 +1376,7 @@ export class Message extends PureComponent<Props, State> {
                 className={classNames(
                   'module-message__simple-attachment__file-size',
                   direction === 'incoming' &&
-                    'module-message__simple-attachment__file-size--incoming',
-                  direction === 'outgoing' &&
-                    'module-message__simple-attachment__file-size--outgoing'
+                    'module-message__simple-attachment__file-size--incoming'
                 )}
               >
                 {formatFileSize(size)}
@@ -1481,8 +1474,7 @@ export class Message extends PureComponent<Props, State> {
         : null,
       withContentBelow
         ? 'module-message__undownloadable-attachment--with-content-below'
-        : null,
-      text ? null : 'module-message__undownloadable-attachment--no-text'
+        : null
     );
     const iconClassName = classNames(
       'module-message__undownloadable-attachment__icon',
@@ -1495,11 +1487,9 @@ export class Message extends PureComponent<Props, State> {
           <div className={iconClassName} />
         </div>
         <div>
-          <div className="module-message__undownloadable-attachment-info">
-            {info}
-          </div>
+          <div>{info}</div>
           {tapToViewModalType ? (
-            <div className="module-message__undownloadable-attachment-learn-more-container">
+            <div>
               <button
                 className="module-message__undownloadable-attachment-learn-more"
                 onClick={e => {
@@ -1534,9 +1524,7 @@ export class Message extends PureComponent<Props, State> {
           <div className="module-message__undownloadable-attachment__icon module-message__undownloadable-attachment__icon--file" />
         </div>
         <div>
-          <div className="module-message__undownloadable-attachment-info">
-            {i18n('icu:attachmentNotAvailable__longMessage')}
-          </div>
+          <div>{i18n('icu:attachmentNotAvailable__longMessage')}</div>
         </div>
       </div>
     );
@@ -1595,15 +1583,10 @@ export class Message extends PureComponent<Props, State> {
 
     const isClickable = this.#areLinksEnabled();
 
-    const className = classNames(
-      'module-message__link-preview',
-      direction === 'incoming' && 'module-message__link-preview--incoming',
-      direction === 'outgoing' && 'module-message__link-preview--outgoing',
-      {
-        'module-message__link-preview--with-content-above': withContentAbove,
-        'module-message__link-preview--nonclickable': !isClickable,
-      }
-    );
+    const className = classNames('module-message__link-preview', {
+      'module-message__link-preview--with-content-above': withContentAbove,
+      'module-message__link-preview--nonclickable': !isClickable,
+    });
     const contents = (
       <>
         {first.image && previewHasImage && isFullSizeImage ? (
@@ -1720,10 +1703,7 @@ export class Message extends PureComponent<Props, State> {
                 <div className="module-message__link-preview__location">
                   {first.domain}
                 </div>
-                <LinkPreviewDate
-                  date={linkPreviewDate}
-                  className="module-message__link-preview__date"
-                />
+                <LinkPreviewDate date={linkPreviewDate} />
               </div>
             </div>
           )}
@@ -1843,8 +1823,6 @@ export class Message extends PureComponent<Props, State> {
           <div
             className={classNames(
               'module-message__unopened-gift-badge',
-              direction === 'incoming' &&
-                'module-message__unopened-gift-badge--incoming',
               direction === 'outgoing' &&
                 'module-message__unopened-gift-badge--outgoing'
             )}
@@ -1871,9 +1849,7 @@ export class Message extends PureComponent<Props, State> {
             className={classNames(
               'module-message__unopened-gift-badge__text',
               direction === 'incoming' &&
-                'module-message__unopened-gift-badge__text--incoming',
-              direction === 'outgoing' &&
-                'module-message__unopened-gift-badge__text--outgoing'
+                'module-message__unopened-gift-badge__text--incoming'
             )}
           >
             <div
@@ -1966,7 +1942,7 @@ export class Message extends PureComponent<Props, State> {
       );
 
       return (
-        <div className="module-message__redeemed-gift-badge__container">
+        <div>
           <div className="module-message__redeemed-gift-badge">
             {badgeElement}
             <div className="module-message__redeemed-gift-badge__text">
@@ -2582,14 +2558,11 @@ export class Message extends PureComponent<Props, State> {
   #renderError(): ReactNode {
     const { status, direction } = this.props;
 
-    let statusClassName: string;
-    if (status === 'paused') {
-      statusClassName = 'module-message__error--paused';
-    } else if (status === 'error') {
-      statusClassName = 'module-message__error--error';
-    } else if (status === 'partial-sent') {
-      statusClassName = 'module-message__error--partial-sent';
-    } else {
+    if (
+      status !== 'paused' &&
+      status !== 'error' &&
+      status !== 'partial-sent'
+    ) {
       return;
     }
 
@@ -2600,7 +2573,7 @@ export class Message extends PureComponent<Props, State> {
             'module-message__error',
             direction === 'incoming' && 'module-message__error--incoming',
             direction === 'outgoing' && 'module-message__error--outgoing',
-            statusClassName
+            status === 'paused' && 'module-message__error--paused'
           )}
         />
       </div>
@@ -2851,9 +2824,7 @@ export class Message extends PureComponent<Props, State> {
             className={classNames(
               'module-message__simple-attachment__file-name',
               direction === 'incoming' &&
-                'module-message__simple-attachment__file-name--incoming',
-              direction === 'outgoing' &&
-                'module-message__simple-attachment__file-name--outgoing'
+                'module-message__simple-attachment__file-name--incoming'
             )}
           >
             {text.title}
@@ -2863,9 +2834,7 @@ export class Message extends PureComponent<Props, State> {
               className={classNames(
                 'module-message__simple-attachment__file-size',
                 direction === 'incoming' &&
-                  'module-message__simple-attachment__file-size--incoming',
-                direction === 'outgoing' &&
-                  'module-message__simple-attachment__file-size--outgoing'
+                  'module-message__simple-attachment__file-size--incoming'
               )}
             >
               {text.detail}
@@ -2910,9 +2879,7 @@ export class Message extends PureComponent<Props, State> {
             className={classNames(
               'module-message__simple-attachment__file-name',
               direction === 'incoming' &&
-                'module-message__simple-attachment__file-name--incoming',
-              direction === 'outgoing' &&
-                'module-message__simple-attachment__file-name--outgoing'
+                'module-message__simple-attachment__file-name--incoming'
             )}
           >
             {text.title}
@@ -3344,9 +3311,6 @@ export class Message extends PureComponent<Props, State> {
 
     const containerClassnames = classNames(
       'module-message__container',
-      isGIF(attachments?.[0]) && !isTapToView
-        ? 'module-message__container--gif'
-        : null,
       isTargeted ? 'module-message__container--targeted' : null,
       lighterSelect ? 'module-message__container--targeted-lighter' : null,
       isStickerLike ? 'module-message__container--sticker-like' : null,

@@ -151,9 +151,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const CallsTabDetailsTitle = CallsTabDetails.locator(
     '.ConversationDetailsHeader__title'
   );
-  const AnyCallListAvatar = CallsTabSidebar.locator(
-    '.CallsList__ItemAvatar'
-  ).first();
+  const AnyCallListAvatar = CallListItem.locator('.module-Avatar').first();
 
   debug('waiting for unread badge to hit correct value', unreadCount);
   await CallsNavTabUnread.getByText(`${unreadCount} unread`).waitFor();
@@ -173,7 +171,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     });
     const timestamp = bootstrap.getTimestamp();
     const NewCallListItemTime = window.locator(
-      `.CallsList__ItemCallInfo time[datetime="${new Date(timestamp).toISOString()}"]`
+      `time[datetime="${new Date(timestamp).toISOString()}"]`
     );
     const NewCallListItem = CallListItem.filter({
       has: NewCallListItemTime,

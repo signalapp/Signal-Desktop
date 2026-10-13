@@ -282,11 +282,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
           )}
           {textAttachment.preview && textAttachment.preview.url && (
             <div
-              className={classNames('TextAttachment__preview-container', {
-                'TextAttachment__preview-container--large': Boolean(
-                  textAttachment.preview.title
-                ),
-              })}
+              className="TextAttachment__preview-container"
               ref={linkPreview}
               onBlur={() => setIsHoveringOverTooltip(false)}
               onFocus={showTooltip}

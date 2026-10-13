@@ -30,7 +30,6 @@ export function BadgeImage({
   return (
     <img
       alt={name}
-      className="BadgeImage"
       src={imagePath}
       style={{
         width: size,

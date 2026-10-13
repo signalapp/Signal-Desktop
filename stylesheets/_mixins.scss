@@ -161,12 +161,6 @@
   }
 }
 
-@mixin explicit-light-theme() {
-  .light-theme & {
-    @content;
-  }
-}
-
 @mixin dark-theme() {
   .dark-theme & {
     @content;

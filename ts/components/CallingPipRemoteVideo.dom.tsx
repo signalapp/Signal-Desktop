@@ -67,7 +67,7 @@ function BlurredBackground({
 
   return (
     <CallBackgroundBlur avatarUrl={avatarUrl} darken={darken}>
-      <div className="module-calling-pip__video--avatar">
+      <div>
         <Avatar
           avatarPlaceholderGradient={avatarPlaceholderGradient}
           avatarUrl={avatarUrl}

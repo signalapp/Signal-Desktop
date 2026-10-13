@@ -394,12 +394,12 @@ export function ShortcutGuide(props: Props): JSX.Element {
         ref={focusRef}
         tabIndex={-1}
       >
-        <div className="module-shortcut-guide__section-container">
+        <div>
           <div className="module-shortcut-guide__section">
             <div className="module-shortcut-guide__section-header">
               {i18n('icu:Keyboard--navigation-header')}
             </div>
-            <div className="module-shortcut-guide__section-list">
+            <div>
               {getNavigationShortcuts(i18n).map((shortcut, index) => {
                 return renderShortcut(shortcut, index, isMacOS, i18n);
               })}
@@ -409,7 +409,7 @@ export function ShortcutGuide(props: Props): JSX.Element {
             <div className="module-shortcut-guide__section-header">
               {i18n('icu:Keyboard--messages-header')}
             </div>
-            <div className="module-shortcut-guide__section-list">
+            <div>
               {getMessageShortcuts(i18n).map((shortcut, index) =>
                 renderShortcut(shortcut, index, isMacOS, i18n)
               )}
@@ -419,7 +419,7 @@ export function ShortcutGuide(props: Props): JSX.Element {
             <div className="module-shortcut-guide__section-header">
               {i18n('icu:Keyboard--composer-header')}
             </div>
-            <div className="module-shortcut-guide__section-list">
+            <div>
               {getComposerShortcuts(i18n).map((shortcut, index) =>
                 renderShortcut(shortcut, index, isMacOS, i18n)
               )}
@@ -429,7 +429,7 @@ export function ShortcutGuide(props: Props): JSX.Element {
             <div className="module-shortcut-guide__section-header">
               {i18n('icu:Keyboard--calling-header')}
             </div>
-            <div className="module-shortcut-guide__section-list">
+            <div>
               {getCallingShortcuts(i18n).map((shortcut, index) =>
                 renderShortcut(shortcut, index, isMacOS, i18n)
               )}

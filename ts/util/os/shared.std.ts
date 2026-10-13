@@ -53,8 +53,10 @@ export function getOSFunctions(osRelease: string): OSType {
       return 'os-macos';
     }
     if (isWindows()) {
+      // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
       return 'os-windows';
     }
+    // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
     return 'os-linux';
   };
 

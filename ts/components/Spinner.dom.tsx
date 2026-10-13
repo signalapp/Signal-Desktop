@@ -7,9 +7,9 @@ import classNames from 'classnames';
 export const SpinnerSvgSizes = ['small', 'normal'] as const;
 export type SpinnerSvgSize = (typeof SpinnerSvgSizes)[number];
 
-const SPINNER_CONTAINER_SIZES: Record<SpinnerSvgSize, string> = {
+const SPINNER_CONTAINER_SIZES: Record<SpinnerSvgSize, string | null> = {
   small: 'module-spinner__container--small',
-  normal: 'module-spinner__container--normal',
+  normal: null,
 };
 
 export const SpinnerDirections = [

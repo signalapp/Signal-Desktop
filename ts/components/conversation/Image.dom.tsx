@@ -229,7 +229,6 @@ export function Image({
       className={classNames(
         'module-image',
         className,
-        attachment.url ? 'module-image--loaded' : null,
         !noBackground ? 'module-image--with-background' : null,
         cropWidth || cropHeight ? 'module-image--cropped' : null
       )}
@@ -238,6 +237,7 @@ export function Image({
         height: height - cropHeight,
         ...curveStyles,
       }}
+      data-loaded={attachment.url != null ? true : undefined}
     >
       {imageOrBlurHash}
       {startDownloadOrUnavailableButton}

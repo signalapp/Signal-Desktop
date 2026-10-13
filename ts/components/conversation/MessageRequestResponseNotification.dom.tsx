@@ -53,7 +53,6 @@ export function MessageRequestResponseNotification({
           button={
             isBlocked ? null : (
               <Button
-                className="MessageRequestResponseNotification__Button"
                 size={ButtonSize.Small}
                 variant={ButtonVariant.SystemMessage}
                 onClick={() => {
@@ -104,7 +103,6 @@ export function MessageRequestResponseNotification({
           )}
           button={
             <Button
-              className="MessageRequestResponseNotification__Button"
               size={ButtonSize.Small}
               variant={ButtonVariant.SystemMessage}
               onClick={() => {

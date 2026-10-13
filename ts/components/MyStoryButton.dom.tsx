@@ -57,7 +57,7 @@ export function MyStoryButton({
       <StoriesAddStoryButton
         i18n={i18n}
         maxAttachmentVideoSize={maxAttachmentVideoSize}
-        className="StoryListItem StoryListItem--active-opactiy"
+        className="StoryListItem"
         onAddStory={onAddStory}
         showToast={showToast}
       >

@@ -382,7 +382,7 @@ function UsernameLinkColors({
   const normalizedValue = value === ColorEnum.UNKNOWN ? ColorEnum.BLUE : value;
 
   return (
-    <div className="UsernameLinkEditor__colors">
+    <div>
       <div className="UsernameLinkEditor__colors__grid">
         {[...COLOR_MAP.entries()].map(([colorId, { fg, bg }], index) => {
           return (

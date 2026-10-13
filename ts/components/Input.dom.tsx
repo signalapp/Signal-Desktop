@@ -237,7 +237,6 @@ export const Input = forwardRef<
     autoFocus,
     className: classNames(
       'Input__input',
-      icon != null && 'Input__input--with-icon',
       isLarge && 'Input__input--large',
       isTextarea && 'Input__input--textarea'
     ),
@@ -288,7 +287,6 @@ export const Input = forwardRef<
     <div
       className={classNames(
         'Input__container',
-        expandable && 'Input__container--expandable',
         disabled && 'Input__container--disabled',
         className
       )}

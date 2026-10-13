@@ -191,11 +191,7 @@ export function EditConversationAttributesModal({
     );
   } else {
     content = (
-      <form
-        ref={formRef}
-        onSubmit={onSubmit}
-        className="module-EditConversationAttributesModal"
-      >
+      <form ref={formRef} onSubmit={onSubmit}>
         <AvatarPreview
           avatarColor={avatarColor}
           avatarUrl={avatarUrlForPreview}

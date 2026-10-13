@@ -331,6 +331,7 @@ export async function cleanupSessionResets(): Promise<void> {
 
 async function startApp(): Promise<void> {
   if (window.initialTheme === ThemeType.light) {
+    // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
     document.body.classList.add('light-theme');
   }
   if (window.initialTheme === ThemeType.dark) {

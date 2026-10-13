@@ -10,6 +10,12 @@ export class MonospaceBlot extends InlineBlot {
   static override blotName = 'monospace';
   static override className = 'quill--monospace';
 
+  static override create(): HTMLElement {
+    const node = super.create(undefined);
+    node.setAttribute('data-monospace', 'true');
+    return node;
+  }
+
   static override formats(): boolean {
     return true;
   }

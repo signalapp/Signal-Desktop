@@ -589,7 +589,6 @@ export function StoryViewer({
     <FocusScope contain={currentViewTarget == null} autoFocus>
       {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
-        className="StoryViewer"
         tabIndex={0}
         onMouseDown={event => {
           if (isDescendentEvent(event)) {
@@ -669,7 +668,6 @@ export function StoryViewer({
             {hasExpandedCaption && (
               <button
                 aria-label={i18n('icu:close-popup')}
-                className="StoryViewer__CAPTION__overlay"
                 onClick={() => setHasExpandedCaption(false)}
                 type="button"
               />
@@ -874,10 +872,7 @@ export function StoryViewer({
                 )}
               {sendStatus === ResolvedSendStatus.Sending && (
                 <div className="StoryViewer__sending">
-                  <Spinner
-                    className="StoryViewer__sending__spinner"
-                    svgSize="small"
-                  />
+                  <Spinner svgSize="small" />
                   {i18n('icu:StoryViewer__sending')}
                 </div>
               )}

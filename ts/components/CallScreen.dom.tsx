@@ -864,7 +864,7 @@ export function CallScreen({
           {message}
           {buttonOverride || (
             <button
-              className="link CallingRaisedHandsToasts__Link"
+              className="CallingRaisedHandsToasts__Link"
               onClick={() => setShowRaisedHandsList(true)}
               type="button"
             >
@@ -874,14 +874,7 @@ export function CallScreen({
         </div>
       );
     },
-    [
-      i18n,
-      // oxlint-disable-next-line react/preserve-manual-memoization
-      localDemuxId,
-      // oxlint-disable-next-line react/preserve-manual-memoization
-      conversationsByDemuxId,
-      toggleRaiseHand,
-    ]
+    [i18n, localDemuxId, conversationsByDemuxId, toggleRaiseHand]
   );
 
   const raisedHandsCount: number = raisedHands?.size ?? 0;
@@ -918,17 +911,13 @@ export function CallScreen({
     return null;
   }, [
     i18n,
-    // oxlint-disable-next-line react/preserve-manual-memoization
     isConnecting,
-    // oxlint-disable-next-line react/preserve-manual-memoization
     isRinging,
-    // oxlint-disable-next-line react/preserve-manual-memoization
     isConnected,
     activeCall.callMode,
     activeCall.joinedAt,
     isReconnecting,
     isGroupCall,
-    // oxlint-disable-next-line react/preserve-manual-memoization
     participantCount,
     hasLocalVideo,
     hasLocalAudio,
@@ -991,7 +980,7 @@ export function CallScreen({
       remoteParticipantsElement = hasCallStarted ? (
         <>
           <CallBackgroundBlur avatarUrl={conversation.avatarUrl} darken>
-            <div className="module-calling-pip__video--avatar">
+            <div>
               <Avatar
                 avatarPlaceholderGradient={
                   conversation.avatarPlaceholderGradient
@@ -1059,17 +1048,8 @@ export function CallScreen({
         'module-calling__container',
         activeCall.callMode === CallMode.Direct &&
           'module-ongoing-call__container--direct',
-        (activeCall.callMode === CallMode.Adhoc ||
-          activeCall.callMode === CallMode.Group) &&
-          'module-ongoing-call__container--group',
-        hasCallStarted
-          ? 'module-ongoing-call__container--call-started'
-          : 'module-ongoing-call__container--call-not-started',
+        !hasCallStarted && 'module-ongoing-call__container--call-not-started',
         { 'module-ongoing-call__container--hide-controls': !showControls },
-        {
-          'module-ongoing-call__container--controls-faded-out':
-            controlsFadedOut,
-        },
         'dark-theme'
       )}
       onFocus={() => {
@@ -1294,13 +1274,7 @@ export function CallScreen({
               tooltipDirection={TooltipPlacement.Top}
             />
             {reactButtonType && (
-              <div
-                className={classNames('CallControls__ReactButtonContainer', {
-                  'CallControls__ReactButtonContainer--menu-shown':
-                    showReactionPicker,
-                })}
-                ref={reactButtonRef}
-              >
+              <div ref={reactButtonRef}>
                 <CallingButton
                   buttonType={reactButtonType}
                   i18n={i18n}

@@ -3,7 +3,6 @@
 
 import { useCallback, type JSX, type ChangeEvent } from 'react';
 import classNames from 'classnames';
-import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export enum Variant {
   Normal = 'Normal',
@@ -41,15 +40,6 @@ export function CircleCheckbox({
   onChange,
   onClick,
 }: Props): JSX.Element {
-  let variantClassName: string;
-  if (variant === Variant.Normal) {
-    variantClassName = 'CircleCheckbox__checkbox--normal';
-  } else if (variant === Variant.Small) {
-    variantClassName = 'CircleCheckbox__checkbox--small';
-  } else {
-    throw missingCaseError(variant);
-  }
-
   const onChangeWrapped = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
       onChange?.(ev.target.checked);
@@ -61,7 +51,7 @@ export function CircleCheckbox({
     <div
       className={classNames(
         'CircleCheckbox__checkbox',
-        variantClassName,
+        variant === Variant.Small && 'CircleCheckbox__checkbox--small',
         className
       )}
     >

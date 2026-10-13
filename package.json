@@ -294,6 +294,7 @@
     "playwright": "1.60.0",
     "plist": "5.0.0",
     "pngjs": "7.0.0",
+    "postcss": "8.5.28",
     "postcss-loader": "8.2.1",
     "postcss-selector-parser": "7.1.6",
     "prettier": "3.8.3",

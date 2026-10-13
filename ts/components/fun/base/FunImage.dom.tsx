@@ -102,7 +102,7 @@ function FunImageReducedMotion(props: FunImageProps) {
       })}
     >
       {staticSource != null && reducedMotion && !intent && (
-        <source className="FunImage--StaticSource" srcSet={staticSource} />
+        <source srcSet={staticSource} />
       )}
       <FunImageBase {...props} ref={imageRef} />
     </picture>
