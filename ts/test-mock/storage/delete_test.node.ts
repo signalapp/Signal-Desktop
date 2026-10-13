@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { Proto } from '@signalapp/mock-server';
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 
 import * as durations from '../../util/durations/index.std.ts';
 import { initStorage } from './fixtures.node.ts';
@@ -80,7 +81,7 @@ describe('storage service/delete', function (this: Mocha.Suite) {
       record: {
         // if deletedAtTimestampMs is set, adminPassKey should not be
         callLink: {
-          rootKey: getRandomBytes(16),
+          rootKey: CallLinkRootKey.generate().bytes,
           adminPasskey: null,
           deletedAtTimestampMs: deletedAtTimestamp,
         },
@@ -270,7 +271,7 @@ describe('storage service/delete', function (this: Mocha.Suite) {
       record: {
         // if deletedAtTimestampMs is set, adminPassKey should not be
         callLink: {
-          rootKey: getRandomBytes(16),
+          rootKey: CallLinkRootKey.generate().bytes,
           adminPasskey: null,
           deletedAtTimestampMs: deletedAtTimestamp,
         },
