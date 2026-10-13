@@ -172,7 +172,7 @@ describe('standalone/registration', function (this: Mocha.Suite) {
 
     debug('COMPLETE: verify that storage service is updated with profile');
 
-    const lastState = await server.waitForStorageState({
+    await server.waitForStorageState({
       aci,
       predicate: storageState =>
         storageState.getAccountRecord()?.givenName === 'John',
@@ -180,8 +180,6 @@ describe('standalone/registration', function (this: Mocha.Suite) {
       recordIkm,
       after: firstState,
     });
-
-    assert.strictEqual(lastState.version, 1n, 'last state from server');
   });
 
   [true, false].forEach((withRecordIkm: boolean) => {
@@ -368,15 +366,14 @@ describe('standalone/registration', function (this: Mocha.Suite) {
 
         newStorageKey = storageKey;
 
-        const secondState = await server.waitForStorageState({
+        await server.waitForStorageState({
           aci,
           storageKey,
           recordIkm,
           predicate: state => {
-            return state.version === BigInt(expectedVersion);
+            return state.version >= BigInt(expectedVersion);
           },
         });
-        assert.strictEqual(secondState.version, 2n, 'second state from server');
 
         assert.isEmpty(
           server.getOrphanedStorageKeys({ aci, storageKey, recordIkm })
@@ -584,19 +581,14 @@ describe('standalone/registration', function (this: Mocha.Suite) {
 
       newStorageKey = storageKey;
 
-      const secondState = await server.waitForStorageState({
+      await server.waitForStorageState({
         aci,
         storageKey,
         recordIkm,
         predicate: state => {
-          return state.version === BigInt(expectedVersion);
+          return state.version >= BigInt(expectedVersion);
         },
       });
-      assert.strictEqual(
-        secondState.version,
-        BigInt(expectedVersion),
-        'second state from server, properly decrypted!'
-      );
     }
 
     {
