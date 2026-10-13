@@ -97,7 +97,7 @@ export const SmartPreferencesDonations = memo(
 
         const boostBadge = badgeData[ONE_TIME_DONATION_CONFIG_ID];
         if (boostBadge) {
-          updateOrCreate([boostBadge]);
+          void updateOrCreate([boostBadge]);
           return boostBadge;
         }
       } catch (error) {

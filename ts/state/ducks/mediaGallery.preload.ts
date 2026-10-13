@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-
 import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
@@ -19,7 +17,6 @@ import {
   MESSAGE_DELETED,
 } from './conversations.preload.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type {
   ConversationUnloadedActionType,
@@ -44,10 +41,10 @@ import {
 } from '../../util/Attachment.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { getPropsForAttachment } from '../selectors/message.preload.ts';
 import { getHasMediaBackups } from '../selectors/items.dom.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { orderBy } = lodash;
 
@@ -350,12 +347,7 @@ function sortOrderToOrder(sortOrder: MediaSortOrderType): 'older' | 'bigger' {
 
 function initialLoad(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  InitialLoadActionType | SetLoadingActionType
-> {
+): AsyncStateThunk<InitialLoadActionType | SetLoadingActionType> {
   return async (dispatch, getState) => {
     dispatch({
       type: SET_LOADING,
@@ -417,10 +409,7 @@ function initialLoad(
 function loadMore(
   conversationId: string,
   type: MediaTabType
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   InitialLoadActionType | LoadMoreActionType | SetLoadingActionType
 > {
   return async (dispatch, getState) => {
@@ -429,7 +418,7 @@ function loadMore(
 
     if (conversationId !== previousConversationId) {
       log.warn('loadMore: conversationId mismatch; calling initialLoad()');
-      initialLoad(conversationId)(dispatch, getState, {});
+      void dispatch(initialLoad(conversationId));
       return;
     }
 
@@ -451,7 +440,7 @@ function loadMore(
     const oldestLoadedItem = previousItems[0];
     if (!oldestLoadedItem) {
       log.warn('loadMore: no previous media; calling initialLoad()');
-      initialLoad(conversationId)(dispatch, getState, {});
+      void dispatch(initialLoad(conversationId));
       return;
     }
 

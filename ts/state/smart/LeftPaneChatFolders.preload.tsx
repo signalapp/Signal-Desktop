@@ -41,7 +41,7 @@ export const SmartLeftPaneChatFolders = memo(
 
     const handleChatFolderOpenSettings = useCallback(
       (chatFolderId: ChatFolderId) => {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Settings,
           details: {
             page: SettingsPage.EditChatFolder,

@@ -1,8 +1,5 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
-
 import type { ReadonlyDeep } from 'type-fest';
 import type { UsernameReservationType } from '../../types/Username.std.ts';
 import {
@@ -15,7 +12,6 @@ import type { ReserveUsernameResultType } from '../../services/username.preload.
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { sleep } from '../../util/sleep.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { PromiseAction } from '../util.std.ts';
 import { getMe } from '../selectors/conversations.dom.ts';
 import { getUsernameCorrupted } from '../selectors/items.dom.ts';
@@ -31,6 +27,7 @@ import type { ToastActionType } from './toast.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 export type UsernameReservationStateType = ReadonlyDeep<{
   state: UsernameReservationState;
@@ -187,10 +184,7 @@ function reserveUsername({
   customDiscriminator,
   doReserveUsername = usernameServices.reserveUsername,
   delay = INPUT_DELAY_MS,
-}: ReserveUsernameOptionsType): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: ReserveUsernameOptionsType): SyncStateThunk<
   ReserveUsernameActionType | SetUsernameReservationErrorActionType
 > {
   return (dispatch, getState) => {
@@ -233,10 +227,7 @@ export type ConfirmUsernameOptionsType = ReadonlyDeep<{
 
 function confirmUsername({
   doConfirmUsername = usernameServices.confirmUsername,
-}: ConfirmUsernameOptionsType = {}): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: ConfirmUsernameOptionsType = {}): SyncStateThunk<
   ConfirmUsernameActionType | SetUsernameReservationErrorActionType
 > {
   return (dispatch, getState) => {
@@ -264,10 +255,7 @@ export type DeleteUsernameOptionsType = ReadonlyDeep<{
 function deleteUsername({
   doDeleteUsername = usernameServices.deleteUsername,
   username: defaultUsername,
-}: DeleteUsernameOptionsType = {}): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+}: DeleteUsernameOptionsType = {}): SyncStateThunk<
   DeleteUsernameActionType | ToastActionType
 > {
   return (dispatch, getState) => {
@@ -300,12 +288,7 @@ export type ResetUsernameLinkOptionsType = ReadonlyDeep<{
 
 function resetUsernameLink({
   doResetLink = usernameServices.resetLink,
-}: ResetUsernameLinkOptionsType = {}): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ResetUsernameLinkActionType
-> {
+}: ResetUsernameLinkOptionsType = {}): SyncStateThunk<ResetUsernameLinkActionType> {
   return dispatch => {
     const me = window.ConversationController.getOurConversationOrThrow();
     const username = me.get('username');
@@ -318,12 +301,7 @@ function resetUsernameLink({
   };
 }
 
-function markCompletedUsernameOnboarding(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  never
-> {
+function markCompletedUsernameOnboarding(): AsyncStateThunk {
   return async () => {
     await itemStorage.put('hasCompletedUsernameOnboarding', true);
     const me = window.ConversationController.getOurConversationOrThrow();
@@ -332,20 +310,13 @@ function markCompletedUsernameOnboarding(): ThunkAction<
   };
 }
 
-function markCompletedUsernameLinkOnboarding(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  never
-> {
+function markCompletedUsernameLinkOnboarding(): AsyncStateThunk {
   return async () => {
     await itemStorage.put('hasCompletedUsernameLinkOnboarding', true);
   };
 }
 
-function setUsernameLinkColor(
-  color: number
-): ThunkAction<void, RootStateType, unknown, never> {
+function setUsernameLinkColor(color: number): AsyncStateThunk {
   return async () => {
     await itemStorage.put('usernameLinkColor', color);
     const me = window.ConversationController.getOurConversationOrThrow();

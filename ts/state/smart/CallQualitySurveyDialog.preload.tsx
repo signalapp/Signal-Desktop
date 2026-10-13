@@ -40,7 +40,7 @@ export const SmartCallQualitySurveyDialog = memo(
 
     const handleSubmit = useCallback(
       (form: CallQualitySurvey.Form) => {
-        submitCallQualitySurvey({
+        void submitCallQualitySurvey({
           userSatisfied: form.userSatisfied,
           callQualityIssues: Array.from(form.callQualityIssues),
           additionalIssuesDescription: form.additionalIssuesDescription,

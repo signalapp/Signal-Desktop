@@ -120,7 +120,7 @@ describe('electron/state/ducks/username', () => {
         nickname: 'test',
         doReserveUsername,
         delay: 1000,
-      })(dispatch, () => emptyState, null);
+      })(dispatch, () => emptyState);
 
       await clock.tickAsync(1000);
       assert.strictEqual(clock.now, 1000);
@@ -291,7 +291,7 @@ describe('electron/state/ducks/username', () => {
 
       actions.confirmUsername({
         doConfirmUsername,
-      })(dispatch, () => stateWithReservation, null);
+      })(dispatch, () => stateWithReservation);
 
       sinon.assert.calledOnce(dispatch);
       sinon.assert.calledWith(
@@ -409,7 +409,7 @@ describe('electron/state/ducks/username', () => {
       actions.deleteUsername({
         doDeleteUsername,
         username: 'test',
-      })(dispatch, () => emptyState, null);
+      })(dispatch, () => emptyState);
 
       sinon.assert.calledOnce(dispatch);
       sinon.assert.calledWith(
@@ -429,7 +429,7 @@ describe('electron/state/ducks/username', () => {
       actions.deleteUsername({
         doDeleteUsername,
         username: 'test',
-      })(dispatch, () => emptyState, null);
+      })(dispatch, () => emptyState);
 
       await clock.runToLastAsync();
 

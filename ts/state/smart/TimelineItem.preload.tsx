@@ -228,7 +228,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const handleClickCtaButton = useCallback(
     (callToActionId: string) => {
       if (callToActionId === 'donate') {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Settings,
           details: {
             page: SettingsPage.DonationsDonateFlow,

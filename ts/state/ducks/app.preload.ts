@@ -1,9 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { AppViewType } from '../../types/app.std.ts';
 import { getEnvironment, Environment } from '../../environment.std.ts';
@@ -15,6 +12,7 @@ import {
   cancelInstall,
 } from './installer.preload.ts';
 import { startRegistration } from './standaloneInstaller.preload.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('app');
 
@@ -59,12 +57,7 @@ function initialLoadComplete(): InitialLoadCompleteActionType {
   };
 }
 
-export function openInbox(): ThunkAction<
-  Promise<void>,
-  RootStateType,
-  unknown,
-  OpenInboxActionType
-> {
+export function openInbox(): AsyncStateThunk<OpenInboxActionType> {
   return async dispatch => {
     log.info('open inbox');
 
@@ -78,13 +71,8 @@ export function openInbox(): ThunkAction<
 
 function openStandalone(
   startFromBeginning = true
-): ThunkAction<
-  Promise<void>,
-  RootStateType,
-  unknown,
-  OpenStandaloneActionType
-> {
-  return async (dispatch, getState) => {
+): AsyncStateThunk<OpenStandaloneActionType> {
+  return async dispatch => {
     if (!window.SignalCI && getEnvironment() === Environment.PackagedApp) {
       log.warn(
         `openStandalone: refusing because environment is ${getEnvironment()}`
@@ -92,12 +80,12 @@ function openStandalone(
       return;
     }
 
-    cancelInstall()(dispatch, getState, undefined);
+    dispatch(cancelInstall());
 
     window.IPC.addSetupMenuItems();
 
     if (startFromBeginning) {
-      await startRegistration()(dispatch, getState, undefined);
+      await dispatch(startRegistration());
     }
 
     dispatch({

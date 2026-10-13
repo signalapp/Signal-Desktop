@@ -35,7 +35,7 @@ export const SmartEditNicknameAndNoteModal = memo(
         if (nicknameAndNote.note == null) {
           toggleNotePreviewModal(null);
         }
-        updateNicknameAndNote(conversationId, nicknameAndNote);
+        void updateNicknameAndNote(conversationId, nicknameAndNote);
       },
       [conversationId, updateNicknameAndNote, toggleNotePreviewModal]
     );

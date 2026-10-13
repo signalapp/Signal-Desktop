@@ -126,7 +126,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
       }
       sharedGroupNames={sharedGroupNames}
       showProfileEditor={() => {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Settings,
           details: {
             page: SettingsPage.Profile,
@@ -136,7 +136,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
         toggleAboutContactModal(null);
       }}
       showQRCodeScreen={() => {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Settings,
           details: {
             page: SettingsPage.Profile,
@@ -146,7 +146,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
         toggleAboutContactModal(null);
       }}
       showEditMemberLabelScreen={() => {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Chats,
           details: {
             conversationId,

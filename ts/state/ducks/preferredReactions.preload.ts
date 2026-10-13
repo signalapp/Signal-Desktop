@@ -1,7 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 import { createLogger } from '../../logging/log.std.ts';
@@ -9,11 +7,11 @@ import * as Errors from '../../types/errors.std.ts';
 import { replaceIndex } from '../../util/replaceIndex.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { getPreferredReactionEmoji } from '../../reactions/preferredReactionEmoji.std.ts';
 import { getEmojiSkinToneDefault } from '../selectors/items.dom.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 
 const { omit } = lodash;
 
@@ -117,12 +115,7 @@ function deselectDraftEmoji(): DeselectDraftEmojiActionType {
   return { type: DESELECT_DRAFT_EMOJI };
 }
 
-function openCustomizePreferredReactionsModal(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  OpenCustomizePreferredReactionsModalActionType
-> {
+function openCustomizePreferredReactionsModal(): SyncStateThunk<OpenCustomizePreferredReactionsModalActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const originalPreferredReactions = getPreferredReactionEmoji(
@@ -145,12 +138,7 @@ function replaceSelectedDraftEmoji(
   };
 }
 
-function resetDraftEmoji(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ResetDraftEmojiActionType
-> {
+function resetDraftEmoji(): SyncStateThunk<ResetDraftEmojiActionType> {
   return (dispatch, getState) => {
     const emojiSkinTone =
       getEmojiSkinToneDefault(getState()) ?? Emoji.SkinTone.None;
@@ -158,10 +146,7 @@ function resetDraftEmoji(): ThunkAction<
   };
 }
 
-function savePreferredReactions(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+function savePreferredReactions(): AsyncStateThunk<
   | SavePreferredReactionsFulfilledActionType
   | SavePreferredReactionsPendingActionType
   | SavePreferredReactionsRejectedActionType

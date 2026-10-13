@@ -51,7 +51,7 @@ export const SmartStandaloneRegistration = memo(
 
     const currentVersion = window.getVersion();
     const kickOffForcedUpgrade = () => {
-      forceCheck();
+      void forceCheck();
       goToUpdateRequiredStage();
     };
 

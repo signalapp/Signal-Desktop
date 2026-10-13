@@ -1,9 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import lodash from 'lodash';
-
 import type { ReadonlyDeep } from 'type-fest';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
@@ -49,6 +46,11 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
 import { isConversationUnread } from '../../util/countUnreadStats.std.ts';
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
+import type {
+  AsyncStateThunk,
+  StateDispatch,
+  SyncStateThunk,
+} from '../types.std.ts';
 
 const { debounce, omit, reject } = lodash;
 
@@ -197,12 +199,7 @@ function startSearch(): StartSearchActionType {
     payload: null,
   };
 }
-function clearSearchQuery(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ClearSearchQueryActionType
-> {
+function clearSearchQuery(): AsyncStateThunk<ClearSearchQueryActionType> {
   return async (dispatch, getState) => {
     dispatch({
       type: 'SEARCH_QUERY_CLEAR',
@@ -227,12 +224,7 @@ function endSearch(): EndSearchActionType {
     payload: null,
   };
 }
-function endConversationSearch(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  EndConversationSearchActionType
-> {
+function endConversationSearch(): AsyncStateThunk<EndConversationSearchActionType> {
   return async (dispatch, getState) => {
     dispatch({
       type: 'END_CONVERSATION_SEARCH',
@@ -254,12 +246,7 @@ function searchInConversation(
   };
 }
 
-function refreshSearch(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  RefreshSearchActionType
-> {
+function refreshSearch(): SyncStateThunk<RefreshSearchActionType> {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -282,12 +269,7 @@ function refreshSearch(): ThunkAction<
 export function updateSearchResultsOnConversationUpdate(
   oldConversationLookup: ConversationLookupType,
   updatedConversations: Array<ConversationType>
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  MaybeRemoveReadConversationsActionType
-> {
+): SyncStateThunk<MaybeRemoveReadConversationsActionType> {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -347,12 +329,7 @@ function shouldRemoveConversationFromUnreadList(
 
 export function maybeRemoveReadConversations(
   conversationIds: Array<string>
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  MaybeRemoveReadConversationsActionType
-> {
+): SyncStateThunk<MaybeRemoveReadConversationsActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const {
@@ -376,7 +353,7 @@ export function maybeRemoveReadConversations(
 
 function updateFilterByUnread(
   filterByUnread: boolean
-): ThunkAction<void, RootStateType, unknown, UpdateFilterByUnreadActionType> {
+): SyncStateThunk<UpdateFilterByUnreadActionType> {
   return (dispatch, getState) => {
     dispatch({
       type: 'FILTER_BY_UNREAD_UPDATE',
@@ -394,7 +371,7 @@ function updateFilterByUnread(
 
 function updateSearchTerm(
   query: string
-): ThunkAction<void, RootStateType, unknown, UpdateSearchTermActionType> {
+): SyncStateThunk<UpdateSearchTermActionType> {
   return (dispatch, getState) => {
     dispatch({
       type: 'SEARCH_UPDATE',
@@ -413,9 +390,7 @@ const doSearch = debounce(
     dispatch,
     state,
   }: Readonly<{
-    dispatch: ThunkDispatch<
-      RootStateType,
-      unknown,
+    dispatch: StateDispatch<
       | SearchMessagesResultsFulfilledActionType
       | SearchDiscussionsResultsFulfilledActionType
     >;

@@ -58,7 +58,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       // For some reason react-aria will call this more often than the tab
       // actually changing.
       if (location.tab !== selectedNavTab) {
-        changeLocation(location);
+        void changeLocation(location);
       }
     },
     [changeLocation, selectedNavTab]

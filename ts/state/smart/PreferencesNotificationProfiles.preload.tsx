@@ -69,13 +69,13 @@ export const SmartNotificationProfilesHome = memo(
 
     const setIsSyncEnabled = useCallback(
       (value: boolean) => {
-        originalSetIsSyncEnabled(value, { fromStorageService: false });
+        void originalSetIsSyncEnabled(value, { fromStorageService: false });
       },
       [originalSetIsSyncEnabled]
     );
     const setHasOnboardingBeenSeen = useCallback(
       (value: boolean) => {
-        putItem('hasSeenNotificationProfileOnboarding', value);
+        void putItem('hasSeenNotificationProfileOnboarding', value);
       },
       [putItem]
     );

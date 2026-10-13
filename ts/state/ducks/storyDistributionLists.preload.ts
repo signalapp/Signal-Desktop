@@ -1,11 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
 import lodash from 'lodash';
-import type { ThunkAction } from 'redux-thunk';
-
 import type { ReadonlyDeep } from 'type-fest';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { StoryDistributionWithMembersType } from '../../sql/Interface.std.ts';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
@@ -23,6 +19,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';
 import { getOurAddress } from '../../util/sendToGroup.preload.ts';
 import { QualifiedAddress } from '../../types/QualifiedAddress.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { omit } = lodash;
 
@@ -128,7 +125,7 @@ export type StoryDistributionListsActionType = ReadonlyDeep<
 function allowsRepliesChanged(
   listId: string,
   allowsReplies: boolean
-): ThunkAction<void, RootStateType, null, AllowRepliesChangedActionType> {
+): AsyncStateThunk<AllowRepliesChangedActionType> {
   return async dispatch => {
     const storyDistribution =
       await DataReader.getStoryDistributionWithMembers(listId);
@@ -173,12 +170,7 @@ function createDistributionList(
   memberServiceIds: Array<ServiceIdString>,
   storageServiceDistributionListRecord?: StoryDistributionWithMembersType,
   shouldSave = true
-): ThunkAction<
-  Promise<StoryDistributionIdString>,
-  RootStateType,
-  string,
-  CreateListActionType
-> {
+): AsyncStateThunk<CreateListActionType, StoryDistributionIdString> {
   return async dispatch => {
     const storyDistribution: StoryDistributionWithMembersType = {
       allowsReplies: true,
@@ -217,7 +209,7 @@ function createDistributionList(
 
 function deleteDistributionList(
   listId: string
-): ThunkAction<void, RootStateType, unknown, MarkAsDeletedActionType> {
+): AsyncStateThunk<MarkAsDeletedActionType> {
   return async (dispatch, getState) => {
     const deletedAtTimestamp = Date.now();
 
@@ -295,7 +287,7 @@ function modifyDistributionList(
 
 function hideMyStoriesFrom(
   memberServiceIds: Array<ServiceIdString>
-): ThunkAction<void, RootStateType, null, HideMyStoriesFromActionType> {
+): AsyncStateThunk<HideMyStoriesFromActionType> {
   return async dispatch => {
     const myStories =
       await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
@@ -335,7 +327,7 @@ function hideMyStoriesFrom(
 function removeMembersFromDistributionList(
   listId: string,
   memberServiceIds: Array<ServiceIdString>
-): ThunkAction<void, RootStateType, null, ModifyListActionType> {
+): AsyncStateThunk<ModifyListActionType> {
   return async dispatch => {
     if (!memberServiceIds.length) {
       log.warn(
@@ -405,12 +397,7 @@ function removeMembersFromDistributionList(
   };
 }
 
-function setMyStoriesToAllSignalConnections(): ThunkAction<
-  void,
-  RootStateType,
-  null,
-  ResetMyStoriesActionType
-> {
+function setMyStoriesToAllSignalConnections(): AsyncStateThunk<ResetMyStoriesActionType> {
   return async dispatch => {
     const myStories =
       await DataReader.getStoryDistributionWithMembers(MY_STORY_ID);
@@ -451,7 +438,7 @@ function setMyStoriesToAllSignalConnections(): ThunkAction<
 function updateStoryViewers(
   listId: string,
   memberServiceIds: Array<ServiceIdString>
-): ThunkAction<void, RootStateType, null, ViewersChangedActionType> {
+): AsyncStateThunk<ViewersChangedActionType> {
   return async dispatch => {
     const storyDistribution =
       await DataReader.getStoryDistributionWithMembers(listId);
@@ -511,7 +498,7 @@ function updateStoryViewers(
 
 function removeMemberFromAllDistributionLists(
   member: ServiceIdString
-): ThunkAction<void, RootStateType, null, ModifyListActionType> {
+): AsyncStateThunk<ModifyListActionType> {
   return async dispatch => {
     const logId = `removeMemberFromAllDistributionLists(${member})`;
     const lists = await DataReader.getAllStoryDistributionsWithMembers();
@@ -524,7 +511,7 @@ function removeMemberFromAllDistributionLists(
     );
 
     for (const { id } of listsWithMember) {
-      dispatch(removeMembersFromDistributionList(id, [member]));
+      void dispatch(removeMembersFromDistributionList(id, [member]));
     }
   };
 }

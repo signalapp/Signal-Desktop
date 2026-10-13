@@ -35,7 +35,7 @@ export const SmartCallLinkAddNameModal = memo(
 
     const handleUpdateCallLinkName = useCallback(
       (newName: string) => {
-        updateCallLinkName(roomId, newName);
+        void updateCallLinkName(roomId, newName);
       },
       [roomId, updateCallLinkName]
     );

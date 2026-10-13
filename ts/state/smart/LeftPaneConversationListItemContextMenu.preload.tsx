@@ -62,7 +62,7 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
 
     const handleChatFolderOpenCreatePage = useCallback(
       (initChatFolderParams: ChatFolderParams) => {
-        changeLocation({
+        void changeLocation({
           tab: NavTab.Settings,
           details: {
             page: SettingsPage.EditChatFolder,
@@ -77,7 +77,12 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
 
     const handleChatFolderToggleChat: ChatFolderToggleChat = useCallback(
       (chatFolderId, conversationId, toggle) => {
-        updateChatFolderToggleChat(chatFolderId, conversationId, toggle, true);
+        void updateChatFolderToggleChat(
+          chatFolderId,
+          conversationId,
+          toggle,
+          true
+        );
       },
       [updateChatFolderToggleChat]
     );

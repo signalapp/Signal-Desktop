@@ -124,7 +124,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
 
   const onNavigateToDonate = useCallback(() => {
     hideContactModal();
-    changeLocation({
+    void changeLocation({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.DonationsDonateFlow,

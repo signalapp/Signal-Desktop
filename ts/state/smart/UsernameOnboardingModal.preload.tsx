@@ -26,7 +26,7 @@ export const SmartUsernameOnboardingModal = memo(
     const onNext = useCallback(async () => {
       await itemStorage.put('hasCompletedUsernameOnboarding', true);
       openUsernameReservationModal();
-      changeLocation({
+      void changeLocation({
         tab: NavTab.Settings,
         details: {
           page: SettingsPage.Profile,

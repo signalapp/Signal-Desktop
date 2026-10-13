@@ -1,13 +1,12 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import { DataWriter } from '../../sql/Client.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.tsx';
 import { Emoji } from '../../axo/emoji.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const { updateEmojiUsage } = DataWriter;
 
@@ -38,7 +37,7 @@ export const useEmojisActions = (): BoundActionCreatorsMapObject<
 
 function onUseEmoji(
   emojiSelection: FunEmojiSelection
-): ThunkAction<void, unknown, unknown, EmojiUsedAction> {
+): AsyncStateThunk<EmojiUsedAction> {
   return async dispatch => {
     try {
       const parent = Emoji.getParent(emojiSelection.emoji);

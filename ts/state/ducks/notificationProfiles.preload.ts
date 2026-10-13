@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { debounce, difference } from 'lodash';
-
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import { createLogger } from '../../logging/log.std.ts';
 import {
   update as updateProfileService,
@@ -37,8 +34,8 @@ import type {
   NotificationProfileOverride,
   NotificationProfileType,
 } from '../../types/NotificationProfile.std.ts';
-import type { StateType } from '../reducer.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('ducks/notificationProfiles');
 
@@ -168,7 +165,7 @@ const updateStorageService = debounce(
 
 function createProfile(
   profile: Omit<NotificationProfileType, 'id'>
-): ThunkAction<void, unknown, unknown, CreateProfile> {
+): AsyncStateThunk<CreateProfile> {
   return async dispatch => {
     // We must generate this id here, because we need crypto to generate random bytes, and
     // don't want to load that in our UI components.
@@ -185,9 +182,7 @@ function createProfile(
   };
 }
 
-function markProfileDeleted(
-  id: string
-): ThunkAction<void, unknown, unknown, MarkProfileDeleted> {
+function markProfileDeleted(id: string): AsyncStateThunk<MarkProfileDeleted> {
   return async dispatch => {
     // Here we just set deletedAtTimestampMs, which removes it from the UI but keeps
     // it around for agreement between devices in storage service.
@@ -217,7 +212,7 @@ function markProfileDeleted(
 function setIsSyncEnabled(
   enabled: boolean,
   { fromStorageService }: { fromStorageService: boolean }
-): ThunkAction<void, StateType, unknown, GlobalUpdate | UpdateLoading> {
+): AsyncStateThunk<GlobalUpdate | UpdateLoading> {
   return async (dispatch, getState) => {
     const logId = `setIsSyncEnabled/enabled=${enabled}`;
     const items = getItems(getState());
@@ -329,7 +324,7 @@ function setProfileOverride(
   id: NotificationProfileIdString,
   enabled: boolean,
   endsAtMs?: number
-): ThunkAction<void, StateType, unknown, UpdateOverride | UpdateLoading> {
+): AsyncStateThunk<UpdateOverride | UpdateLoading> {
   return async (dispatch, getState) => {
     const logId = `setProfileOverride/${redactNotificationProfileId(id)}/enabled=${enabled}`;
     const state = getState();
@@ -398,7 +393,7 @@ function setProfileOverride(
 
 function updateProfile(
   payload: NotificationProfileType
-): ThunkAction<void, unknown, unknown, UpdateProfile> {
+): AsyncStateThunk<UpdateProfile> {
   return async dispatch => {
     const newProfile = {
       ...payload,
@@ -419,7 +414,7 @@ function updateProfile(
 function updateOverride(
   payload: NotificationProfileOverride | undefined,
   { fromStorageService }: { fromStorageService: boolean }
-): ThunkAction<void, unknown, unknown, UpdateOverride> {
+): AsyncStateThunk<UpdateOverride> {
   return async dispatch => {
     const id = payload?.enabled?.profileId;
     const enabled = payload?.enabled;

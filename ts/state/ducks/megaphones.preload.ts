@@ -1,9 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
@@ -18,6 +15,7 @@ import type { ChangeLocationAction } from './nav.std.ts';
 import { actions as navActions } from './nav.std.ts';
 import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 import { isTestMegaphoneId } from '../../util/getTestMegaphone.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('megaphones');
 
@@ -82,12 +80,7 @@ function removeVisibleMegaphone(
 function interactWithMegaphone(
   megaphoneId: RemoteMegaphoneId,
   ctaId: MegaphoneCtaId
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  RemoveVisibleMegaphoneAction | ChangeLocationAction
-> {
+): AsyncStateThunk<RemoveVisibleMegaphoneAction | ChangeLocationAction> {
   return async dispatch => {
     const isTest = isTestMegaphoneId(megaphoneId);
 
@@ -106,7 +99,7 @@ function interactWithMegaphone(
     }
 
     if (ctaId === 'donate') {
-      dispatch(
+      void dispatch(
         navActions.changeLocation({
           tab: NavTab.Settings,
           details: {

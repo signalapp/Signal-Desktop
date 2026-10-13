@@ -89,7 +89,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
 
   const handleForwardStory = useCallback(
     (messageId: string) => {
-      toggleForwardMessagesModal({
+      void toggleForwardMessagesModal({
         type: ForwardMessagesModalType.Forward,
         messageIds: [messageId],
       });
@@ -100,7 +100,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
   const handleSaveStory = useCallback(
     (story: StoryViewType) => {
       if (story.attachment) {
-        saveAttachment(story.attachment, story.timestamp);
+        void saveAttachment(story.attachment, story.timestamp);
       }
     },
     [saveAttachment]

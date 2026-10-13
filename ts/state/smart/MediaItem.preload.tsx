@@ -59,7 +59,7 @@ export const MediaItem = memo(function MediaItem({
       : getConversation(message.sourceServiceId ?? message.source).title;
 
   const showMessage = useCallback(() => {
-    showConversation({
+    void showConversation({
       conversationId: message.conversationId,
       messageId: message.id,
     });

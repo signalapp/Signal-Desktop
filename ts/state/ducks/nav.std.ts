@@ -2,10 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual } from 'lodash';
-
 import type { ReadonlyDeep } from 'type-fest';
-import type { ThunkAction } from 'redux-thunk';
-
 import { createLogger } from '../../logging/log.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { beforeNavigateService } from '../../services/BeforeNavigate.std.ts';
@@ -15,11 +12,10 @@ import {
   getPanels,
   getSelectedLocation,
 } from '../selectors/nav.std.ts';
-
 import type { PanelArgsType } from '../../types/Panels.std.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import type { Location, PanelInfo } from '../../types/Nav.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('nav');
 
@@ -82,7 +78,7 @@ export type NavActionType = ReadonlyDeep<
 
 export function changeLocation(
   newLocation: Location
-): ThunkAction<void, RootStateType, unknown, NavActionType> {
+): AsyncStateThunk<NavActionType> {
   return async (dispatch, getState) => {
     const existingLocation = getState().nav.selectedLocation;
     const logId = `changeLocation/${printLocation(newLocation)}`;
@@ -121,7 +117,7 @@ function panelAnimationDone(): PanelAnimationDoneActionType {
 
 function pushPanelForConversation(
   panel: PanelArgsType
-): ThunkAction<void, RootStateType, unknown, ChangeLocationAction> {
+): AsyncStateThunk<ChangeLocationAction> {
   return async (dispatch, getState) => {
     const state = getState();
     const existingLocation = getSelectedLocation(state);
@@ -180,12 +176,7 @@ function pushPanelForConversation(
 
 export type PopPanelForConversationActionType = ReadonlyDeep<() => unknown>;
 
-export function popPanelForConversation(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  ChangeLocationAction
-> {
+export function popPanelForConversation(): AsyncStateThunk<ChangeLocationAction> {
   return async (dispatch, getState) => {
     const state = getState();
     const panels = getPanels(state);

@@ -42,9 +42,9 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
   const canPinMessages = getCanPinMessages(conversation);
 
   const handlePinnedMessageRemoveAll = useCallback(() => {
-    popPanelForConversation();
+    void popPanelForConversation();
     for (const pinnedMessage of pinnedMessages) {
-      onPinnedMessageRemove(pinnedMessage.messageId);
+      void onPinnedMessageRemove(pinnedMessage.messageId);
     }
   }, [popPanelForConversation, pinnedMessages, onPinnedMessageRemove]);
 

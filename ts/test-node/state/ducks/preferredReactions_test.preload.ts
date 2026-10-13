@@ -135,7 +135,7 @@ describe('preferred reactions duck', () => {
       };
 
       const dispatch = sinon.spy();
-      openCustomizePreferredReactionsModal()(dispatch, () => rootState, null);
+      openCustomizePreferredReactionsModal()(dispatch, () => rootState);
       const [action] = dispatch.getCall(0).args;
 
       const result = reducer(rootState.preferredReactions, action);
@@ -173,7 +173,7 @@ describe('preferred reactions duck', () => {
       };
 
       const dispatch = sinon.spy();
-      openCustomizePreferredReactionsModal()(dispatch, () => state, null);
+      openCustomizePreferredReactionsModal()(dispatch, () => state);
       const [action] = dispatch.getCall(0).args;
 
       const result = reducer(state.preferredReactions, action);
@@ -237,7 +237,7 @@ describe('preferred reactions duck', () => {
 
     function getAction(rootState: Readonly<StateType>) {
       const dispatch = sinon.spy();
-      resetDraftEmoji()(dispatch, () => rootState, null);
+      resetDraftEmoji()(dispatch, () => rootState);
       const [action] = dispatch.getCall(0).args;
       return action;
     }
@@ -307,10 +307,8 @@ describe('preferred reactions duck', () => {
 
     describe('thunk', () => {
       it('saves the preferred reaction emoji to local storage', async () => {
-        await savePreferredReactions()(
-          sinon.spy(),
-          () => getRootState(stateWithOpenCustomizationModal),
-          null
+        await savePreferredReactions()(sinon.spy(), () =>
+          getRootState(stateWithOpenCustomizationModal)
         );
 
         sinon.assert.calledWith(
@@ -322,10 +320,8 @@ describe('preferred reactions duck', () => {
       });
 
       it('on success, enqueues a storage service upload', async () => {
-        await savePreferredReactions()(
-          sinon.spy(),
-          () => getRootState(stateWithOpenCustomizationModal),
-          null
+        await savePreferredReactions()(sinon.spy(), () =>
+          getRootState(stateWithOpenCustomizationModal)
         );
 
         sinon.assert.calledOnce(captureChangeStub);
@@ -333,10 +329,8 @@ describe('preferred reactions duck', () => {
 
       it('on success, dispatches a pending action followed by a fulfilled action', async () => {
         const dispatch = sinon.spy();
-        await savePreferredReactions()(
-          dispatch,
-          () => getRootState(stateWithOpenCustomizationModal),
-          null
+        await savePreferredReactions()(dispatch, () =>
+          getRootState(stateWithOpenCustomizationModal)
         );
 
         sinon.assert.calledTwice(dispatch);
@@ -352,10 +346,8 @@ describe('preferred reactions duck', () => {
         storagePutStub.rejects(new Error('something went wrong'));
 
         const dispatch = sinon.spy();
-        await savePreferredReactions()(
-          dispatch,
-          () => getRootState(stateWithOpenCustomizationModal),
-          null
+        await savePreferredReactions()(dispatch, () =>
+          getRootState(stateWithOpenCustomizationModal)
         );
 
         sinon.assert.calledTwice(dispatch);
@@ -370,10 +362,8 @@ describe('preferred reactions duck', () => {
       it('on failure, does not enqueue a storage service upload', async () => {
         storagePutStub.rejects(new Error('something went wrong'));
 
-        await savePreferredReactions()(
-          sinon.spy(),
-          () => getRootState(stateWithOpenCustomizationModal),
-          null
+        await savePreferredReactions()(sinon.spy(), () =>
+          getRootState(stateWithOpenCustomizationModal)
         );
 
         sinon.assert.notCalled(captureChangeStub);

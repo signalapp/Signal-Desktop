@@ -66,16 +66,18 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     if (selectedConversationId !== lastOpenedConversationId.current) {
       if (lastOpenedConversationId.current) {
         saveDraftRecordingIfNeeded(lastOpenedConversationId.current);
-        onConversationClosed(
+        void onConversationClosed(
           lastOpenedConversationId.current,
           'ChatsTab opened another chat'
         );
       }
-      updateChatFolderStateOnTargetConversationChanged(selectedConversationId);
+      void updateChatFolderStateOnTargetConversationChanged(
+        selectedConversationId
+      );
 
       lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
-        onConversationOpened(
+        void onConversationOpened(
           selectedConversationId,
           targetedMessageId,
           targetedMessageSource
@@ -86,7 +88,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       targetedMessageId &&
       targetedMessageSource === TargetedMessageSource.NavigateToMessage
     ) {
-      scrollToMessage(selectedConversationId, targetedMessageId);
+      void scrollToMessage(selectedConversationId, targetedMessageId);
     }
   }, [
     onConversationClosed,
@@ -105,7 +107,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       if (!lastOpenedConversationId.current) {
         return;
       }
-      onConversationClosed(
+      void onConversationClosed(
         lastOpenedConversationId.current,
         'force unload requested'
       );

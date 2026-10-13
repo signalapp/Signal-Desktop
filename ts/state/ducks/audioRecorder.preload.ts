@@ -1,14 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ThunkAction } from 'redux-thunk';
 import { v4 as generateUuid } from 'uuid';
-
 import type { ReadonlyDeep } from 'type-fest';
 import { createLogger } from '../../logging/log.std.ts';
 import type { InMemoryAttachmentDraftType } from '../../types/Attachment.std.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import type { StateType as RootStateType } from '../reducer.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 import { AudioRecorder } from '../../services/audioRecorder.dom.ts';
 import { AUDIO_MPEG } from '../../types/MIME.std.ts';
@@ -16,13 +13,13 @@ import type { PeakType } from '../../types/Audio.dom.tsx';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { getComposerStateForConversation } from './composer.preload.ts';
-
 import * as Errors from '../../types/errors.std.ts';
 import {
   ErrorDialogAudioRecorderType,
   RecordingState,
 } from '../../types/AudioRecorder.std.ts';
 import { getSelectedConversationId } from '../selectors/nav.std.ts';
+import type { AsyncStateThunk } from '../types.std.ts';
 
 const log = createLogger('audioRecorder');
 const MAX_PEAKS = 400;
@@ -99,7 +96,7 @@ export const useAudioRecorderActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
 
-function warmupRecording(): ThunkAction<void, RootStateType, unknown, never> {
+function warmupRecording(): AsyncStateThunk {
   return async () => {
     drop(AudioRecorder.warmup());
   };
@@ -107,10 +104,7 @@ function warmupRecording(): ThunkAction<void, RootStateType, unknown, never> {
 
 function startRecording(
   conversationId: string
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
+): AsyncStateThunk<
   StartRecordingAction | NowRecordingAction | PeakAction | ErrorRecordingAction
 > {
   return async (dispatch, getState) => {
@@ -173,12 +167,7 @@ function completeRecordingAction(): CompleteRecordingAction {
 export function completeRecording(
   conversationId: string,
   onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
-): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CancelRecordingAction | CompleteRecordingAction
-> {
+): AsyncStateThunk<CancelRecordingAction | CompleteRecordingAction> {
   return async (dispatch, getState) => {
     const state = getState();
 
@@ -214,12 +203,7 @@ export function completeRecording(
   };
 }
 
-function cancelRecording(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  CancelRecordingAction
-> {
+function cancelRecording(): AsyncStateThunk<CancelRecordingAction> {
   return async dispatch => {
     await recorder?.stop();
 

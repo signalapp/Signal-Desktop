@@ -60,7 +60,7 @@ export const SmartCallLinkEditModal = memo(
 
     const handleUpdateCallLinkRestrictions = useCallback(
       (newRestrictions: CallLinkRestrictions) => {
-        updateCallLinkRestrictions(roomId, newRestrictions);
+        void updateCallLinkRestrictions(roomId, newRestrictions);
       },
       [roomId, updateCallLinkRestrictions]
     );
@@ -72,7 +72,7 @@ export const SmartCallLinkEditModal = memo(
 
     const handleStartCallLinkLobby = useCallback(() => {
       strictAssert(callLink != null, 'callLink not found');
-      startCallLinkLobby({ rootKey: callLink.rootKey });
+      void startCallLinkLobby({ rootKey: callLink.rootKey });
       toggleCallLinkEditModal(null);
     }, [callLink, startCallLinkLobby, toggleCallLinkEditModal]);
 

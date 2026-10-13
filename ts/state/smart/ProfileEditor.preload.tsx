@@ -110,7 +110,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor() {
 
   const editState = selectedLocation.details.state;
   const setEditState = (newState: ProfileEditorPage) => {
-    changeLocation({
+    void changeLocation({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.Profile,

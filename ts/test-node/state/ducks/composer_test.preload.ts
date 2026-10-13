@@ -87,8 +87,7 @@ describe('both/state/ducks/composer', () => {
       ];
       replaceAttachments('123', attachments)(
         dispatch,
-        getRootStateFunction('123'),
-        null
+        getRootStateFunction('123')
       );
 
       const action = dispatch.getCall(0).args[0];
@@ -104,8 +103,7 @@ describe('both/state/ducks/composer', () => {
 
       replaceAttachments('123', attachments)(
         dispatch,
-        getRootStateFunction('123'),
-        null
+        getRootStateFunction('123')
       );
 
       const action = dispatch.getCall(0).args[0];
@@ -135,8 +133,7 @@ describe('both/state/ducks/composer', () => {
       const attachments = [fakeDraftAttachment()];
       replaceAttachments('123', attachments)(
         dispatch,
-        getRootStateFunction('456'),
-        null
+        getRootStateFunction('456')
       );
 
       assert.isNull(dispatch.getCall(0));

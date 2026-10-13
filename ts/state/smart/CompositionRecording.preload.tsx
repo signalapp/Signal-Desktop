@@ -24,13 +24,13 @@ export const SmartCompositionRecording = memo(
     const { hideToast, showToast } = useToastActions();
 
     const handleCancel = useCallback(() => {
-      cancelRecording();
+      void cancelRecording();
     }, [cancelRecording]);
 
     const handleSend = useCallback(() => {
       if (selectedConversationId) {
-        completeRecording(selectedConversationId, voiceNoteAttachment => {
-          sendMultiMediaMessage(selectedConversationId, {
+        void completeRecording(selectedConversationId, voiceNoteAttachment => {
+          void sendMultiMediaMessage(selectedConversationId, {
             voiceNoteAttachment,
           });
         });

@@ -212,13 +212,13 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
   );
 
   const handleCreateCallLink = useCallback(() => {
-    createCallLink(roomId => {
+    void createCallLink(roomId => {
       toggleCallLinkEditModal(roomId);
     });
   }, [createCallLink, toggleCallLinkEditModal]);
 
   useEffect(() => {
-    markCallsTabViewed();
+    void markCallsTabViewed();
   }, [markCallsTabViewed]);
 
   return (

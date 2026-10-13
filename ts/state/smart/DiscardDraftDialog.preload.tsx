@@ -30,7 +30,7 @@ export const SmartDiscardDraftDialog = memo(function SmartDiscardDraftDialog() {
   const handleDiscard = useCallback(() => {
     toggleDiscardDraftDialog(null);
     onClearDraft(conversationId);
-    setMessageToEdit(conversationId, messageId);
+    void setMessageToEdit(conversationId, messageId);
   }, [
     toggleDiscardDraftDialog,
     conversationId,

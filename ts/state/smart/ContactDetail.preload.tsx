@@ -65,7 +65,7 @@ export const SmartContactDetail = memo(function SmartContactDetail({
     const conversationId =
       contact && lookupOrCreateConversationIdForSharedContact(contact);
     if (conversationId) {
-      onOutgoingAudioCallInConversation(conversationId);
+      void onOutgoingAudioCallInConversation(conversationId);
     }
   }, [contact, onOutgoingAudioCallInConversation]);
 
@@ -73,13 +73,13 @@ export const SmartContactDetail = memo(function SmartContactDetail({
     const conversationId =
       contact && lookupOrCreateConversationIdForSharedContact(contact);
     if (conversationId) {
-      onOutgoingVideoCallInConversation(conversationId);
+      void onOutgoingVideoCallInConversation(conversationId);
     }
   }, [contact, onOutgoingVideoCallInConversation]);
 
   useEffect(() => {
     if (!contact) {
-      popPanelForConversation();
+      void popPanelForConversation();
     }
   }, [contact, popPanelForConversation]);
 
