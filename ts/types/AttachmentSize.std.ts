@@ -66,10 +66,6 @@ export const getMaximumAutoDownloadSize = (
       'getMaximumAutoDownloadSize'
     );
   } catch (error) {
-    log.warn(
-      'Failed to parse integer out of ' +
-        'global.attachments.maxAutoDownloadSizeBytes feature flag'
-    );
     return 200 * MEBIBYTE;
   }
 };

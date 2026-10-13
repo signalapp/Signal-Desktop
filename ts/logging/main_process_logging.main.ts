@@ -31,7 +31,7 @@ import { isProduction } from '../util/version.std.ts';
 
 const { filter, flatten, map, pick, sortBy } = lodash;
 
-const MAX_LOG_LINES = 10_000_000;
+const MAX_LOG_LINES = 300_000;
 
 let isInitialized = false;
 let shouldRestart = false;
