@@ -837,7 +837,7 @@ export class Bootstrap {
       debug('creating screenshot');
       snapshots.push({
         name,
-        data: await window.screenshot(),
+        data: await window.screenshot({ animations: 'disabled' }),
       });
     });
 
@@ -852,7 +852,9 @@ export class Bootstrap {
         assert(before != null, 'No previous snapshot');
         assert.strictEqual(before.name, name, 'Wrong snapshot order');
         await anotherWindow.setViewportSize(viewportSize);
-        const after = await anotherWindow.screenshot();
+        const after = await anotherWindow.screenshot({
+          animations: 'disabled',
+        });
 
         const beforePng = PNG.sync.read(before.data);
         const afterPng = PNG.sync.read(after);
