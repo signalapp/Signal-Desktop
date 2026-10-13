@@ -1107,6 +1107,10 @@ export class ConversationModel {
     return unblocked;
   }
 
+  isTerminated(): boolean {
+    return this.get('terminated') === true;
+  }
+
   async removeContact({
     viaStorageServiceSync = false,
     shouldSave = true,
@@ -5297,10 +5301,10 @@ export class ConversationModel {
       return undefined;
     }
 
-    const ourGroups =
-      window.ConversationController.getAllGroupsInvolvingServiceId(ourAci);
-    return ourGroups
-      .filter(c => c.hasMember(ourAci) && c.hasMember(theirAci))
+    const theirGroups =
+      window.ConversationController.getAllGroupsInvolvingServiceId(theirAci);
+    return theirGroups
+      .filter(c => !c.isTerminated() && c.hasMember(ourAci))
       .sort(
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
@@ -5392,7 +5396,11 @@ export class ConversationModel {
       return;
     }
 
-    if (!this.getAccepted({ ignoreEmptyConvo: true }) && !forceFetch) {
+    const shouldDownload =
+      forceFetch ||
+      this.getAccepted({ ignoreEmptyConvo: true }) ||
+      (await this.#getSharedGroups())?.some(group => group.getAccepted());
+    if (!shouldDownload) {
       this.set({ remoteAvatarUrl: avatarUrl });
       return;
     }
