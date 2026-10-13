@@ -82,23 +82,6 @@ describe('getMuteOptions', () => {
         expectedDefaultOptions({ isCurrentlyMutedAlways: true })
       );
     });
-
-    it('returns only "Always" when that is the only allowed duration', () => {
-      assert.deepStrictEqual(
-        getMuteValuesOptions(i18n, { canOnlyBeMutedAlways: true }),
-        [expectedAlwaysOption()]
-      );
-    });
-
-    it('disables the only option when muted always and only "Always" is allowed', () => {
-      assert.deepStrictEqual(
-        getMuteValuesOptions(i18n, {
-          canOnlyBeMutedAlways: true,
-          isCurrentlyMutedAlways: true,
-        }),
-        [expectedAlwaysOption(true)]
-      );
-    });
   });
 
   describe('getConversationMuteMenu', () => {
@@ -108,16 +91,6 @@ describe('getMuteOptions', () => {
           label: 'Mute this chat for…',
           options: expectedDefaultOptions(),
         });
-      });
-
-      it('returns only "Always" when that is the only allowed duration', () => {
-        assert.deepStrictEqual(
-          getConversationMuteMenu(null, i18n, { canOnlyBeMutedAlways: true }),
-          {
-            label: 'Mute this chat for…',
-            options: [expectedAlwaysOption()],
-          }
-        );
       });
     });
 

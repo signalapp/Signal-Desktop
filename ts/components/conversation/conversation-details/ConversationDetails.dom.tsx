@@ -53,7 +53,6 @@ import { InAnotherCallTooltip } from '../InAnotherCallTooltip.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ContactNameColorType } from '../../../types/Colors.std.ts';
 import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
-import { canConversationOnlyBeMutedAlways } from '../../../conversations/canConversationOnlyBeMutedAlways.dom.ts';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
 import { AxoStackedButton } from '../../../axo/AxoStackedButton.dom.tsx';
 import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';
@@ -264,10 +263,8 @@ export function ConversationDetails({
   }, []);
 
   const muteMenu = useMemo(() => {
-    return getConversationMuteMenu(conversation.muteExpiresAt, i18n, {
-      canOnlyBeMutedAlways: canConversationOnlyBeMutedAlways(conversation),
-    });
-  }, [conversation, i18n]);
+    return getConversationMuteMenu(conversation.muteExpiresAt, i18n);
+  }, [conversation.muteExpiresAt, i18n]);
 
   const handleMuteExpiration = useCallback(
     (expiration: MuteExpiration) => {
