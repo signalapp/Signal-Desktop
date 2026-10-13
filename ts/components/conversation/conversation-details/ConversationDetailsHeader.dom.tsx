@@ -85,12 +85,14 @@ export function ConversationDetailsHeader({
         number: membersCount ?? 0,
       });
     }
-  } else if (!isMe && conversation.about) {
-    subtitle = (
-      <div className="ConversationDetailsHeader__subtitle__about">
-        <About text={conversation.about} />
-      </div>
-    );
+  } else if (!isMe) {
+    if (conversation.about) {
+      subtitle = (
+        <div className="ConversationDetailsHeader__subtitle__about">
+          <About text={conversation.about} />
+        </div>
+      );
+    }
     preferredBadge = badges?.[0];
   }
 
@@ -257,7 +259,7 @@ export function ConversationDetailsHeader({
           <UserText text={conversation.title} />
           {isInSystemContacts(conversation) && (
             <span>
-              {' '}
+              &nbsp;
               <InContactsIcon
                 className="ConversationDetailsHeader__title-contact-icon"
                 i18n={i18n}
