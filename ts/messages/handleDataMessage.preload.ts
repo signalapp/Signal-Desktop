@@ -28,6 +28,7 @@ import {
   isDirectConversation,
   isGroup,
   isGroupV1,
+  isMe,
 } from '../util/whatTypeOfConversation.dom.ts';
 import {
   respondToGroupV2Migration,
@@ -683,7 +684,7 @@ export async function handleDataMessage(
           }
         }
 
-        if (initialMessage.profileKey) {
+        if (initialMessage.profileKey && !isMe(conversation.attributes)) {
           const { profileKey } = initialMessage;
           const ourE164 = itemStorage.user.getOptionalNumber();
           if (

@@ -20,8 +20,10 @@ import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 export async function encryptProfileData(
   conversation: ConversationType,
-  { oldAvatar, newAvatar }: AvatarUpdateType
-): Promise<[ProfileRequestDataType, Uint8Array<ArrayBuffer> | undefined]> {
+  { oldAvatar, newAvatar, reupload }: AvatarUpdateType
+): Promise<
+  [ProfileRequestDataType, Uint8Array<ArrayBuffer> | undefined, boolean]
+> {
   const {
     aboutEmoji,
     aboutText,
@@ -70,7 +72,7 @@ export async function encryptProfileData(
     ? encryptProfile(newAvatar, keyBuffer)
     : undefined;
 
-  const sameAvatar = Bytes.areEqual(oldAvatar, newAvatar);
+  const canSkipAvatarUpload = !reupload && Bytes.areEqual(oldAvatar, newAvatar);
 
   const profileData = {
     version: deriveProfileKeyVersion(profileKey, serviceId),
@@ -82,10 +84,10 @@ export async function encryptProfileData(
       .map(({ id }) => id),
     paymentAddress: itemStorage.get('paymentAddress') || null,
     avatar: Boolean(newAvatar),
-    sameAvatar,
+    sameAvatar: canSkipAvatarUpload,
     commitment: deriveProfileKeyCommitment(profileKey, serviceId),
     phoneNumberSharing: Bytes.toBase64(encryptedPhoneNumberSharing),
   };
 
-  return [profileData, encryptedAvatarData];
+  return [profileData, encryptedAvatarData, canSkipAvatarUpload];
 }

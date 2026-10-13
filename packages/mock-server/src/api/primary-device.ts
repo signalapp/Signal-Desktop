@@ -37,13 +37,11 @@ import * as SignalClient from '@signalapp/libsignal-client';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 import createDebug from 'debug';
 import {
-  ClientZkProfileOperations,
-  ExpiringProfileKeyCredentialResponse,
   GroupMasterKey,
   GroupSecretParams,
   ProfileKey,
+  ProfileKeyCommitment,
   ProfileKeyCredentialPresentation,
-  ProfileKeyCredentialRequest,
   ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup';
 
@@ -102,10 +100,12 @@ export type Config = Readonly<{
     serviceId: ServiceIdString,
     deviceId?: DeviceId,
   ) => Promise<Device | undefined>;
-  issueExpiringProfileKeyCredential: (
-    device: Device,
-    request: ProfileKeyCredentialRequest,
-  ) => Promise<Buffer<ArrayBuffer> | undefined>;
+  getProfileKeyPresentation: (options: {
+    aci: AciString;
+    profileKey: ProfileKey;
+    profileKeyCommitment: ProfileKeyCommitment | undefined;
+    groupParams: GroupSecretParams;
+  }) => Promise<ProfileKeyCredentialPresentation>;
 
   getGroup: (
     publicParams: Uint8Array<ArrayBuffer>,
@@ -968,12 +968,18 @@ export class PrimaryDevice {
 
     const members = await Promise.all(
       memberDevices.map(async (member) => {
-        const presentation =
-          await member.getProfileKeyPresentation(groupParams);
+        const { profileKey } = member;
+        const { aci, profileKeyCommitment } = member.device;
+        const presentation = await this.config.getProfileKeyPresentation({
+          aci,
+          profileKey,
+          profileKeyCommitment,
+          groupParams,
+        });
 
         return {
-          aci: member.device.aci,
-          profileKey: member.profileKey,
+          aci,
+          profileKey,
           presentation,
           joinedAtVersion: 0n,
         };
@@ -1145,9 +1151,12 @@ export class PrimaryDevice {
     group: Group,
     { timestamp = Date.now(), sendUpdateTo = [] }: AcceptPniInviteOptions = {},
   ): Promise<Group> {
-    const presentation = await this.getProfileKeyPresentation(
-      group.secretParams,
-    );
+    const presentation = await this.config.getProfileKeyPresentation({
+      aci: this.device.aci,
+      profileKey: this.profileKey,
+      profileKeyCommitment: this.device.profileKeyCommitment,
+      groupParams: group.secretParams,
+    });
 
     return this.#modifyGroup({
       group,
@@ -1850,32 +1859,6 @@ export class PrimaryDevice {
   //
   // Private
   //
-
-  private async getProfileKeyPresentation(
-    groupParams: GroupSecretParams,
-  ): Promise<ProfileKeyCredentialPresentation> {
-    const ops = new ClientZkProfileOperations(this.config.serverPublicParams);
-
-    const ctx = ops.createProfileKeyCredentialRequestContext(
-      Aci.parseFromServiceIdString(this.device.aci),
-      this.profileKey,
-    );
-    const response = await this.config.issueExpiringProfileKeyCredential(
-      this.device,
-      ctx.getRequest(),
-    );
-    assert.ok(response, `Member device ${this.device.aci} not initialized`);
-
-    const credential = ops.receiveExpiringProfileKeyCredential(
-      ctx,
-      new ExpiringProfileKeyCredentialResponse(response),
-    );
-
-    return ops.createExpiringProfileKeyCredentialPresentation(
-      groupParams,
-      credential,
-    );
-  }
 
   private getPrivateKey(serviceIdKind: ServiceIdKind): PrivateKey {
     switch (serviceIdKind) {

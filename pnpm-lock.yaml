@@ -941,8 +941,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       '@signalapp/libsignal-client':
-        specifier: 0.100.0
-        version: 0.100.0
+        specifier: 0.105.0
+        version: 0.105.0
       '@tus/file-store':
         specifier: ^1.5.1
         version: 1.5.1(supports-color@10.2.2)
@@ -4865,9 +4865,6 @@ packages:
 
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==, tarball: https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz}
-
-  '@signalapp/libsignal-client@0.100.0':
-    resolution: {integrity: sha512-pS67moiIxs3h0kcO81Y9FrGbquh5xo2jyG9RG/+YyDEL6Bcz33IR5fCTdfpnYJR4pd3CoutJNbyUnieMGCpI4Q==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.100.0.tgz}
 
   '@signalapp/libsignal-client@0.105.0':
     resolution: {integrity: sha512-6H7aQ6/grE6A/wG3nAm+c7aMWhj472/wtbTnNzb9z2KEPZ933PwYGi93zy6Pm63Mxd7SiOSfoa4gSTr++F44UQ==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.105.0.tgz}
@@ -15845,11 +15842,6 @@ snapshots:
   '@sideway/formula@3.0.1': {}
 
   '@sideway/pinpoint@2.0.0': {}
-
-  '@signalapp/libsignal-client@0.100.0':
-    dependencies:
-      node-gyp-build: 4.8.4
-      type-fest: 4.26.1
 
   '@signalapp/libsignal-client@0.105.0':
     dependencies:

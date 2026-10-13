@@ -6,16 +6,16 @@ import { toLogFormat } from '../types/errors.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
 
-const log = createLogger('AccountManager');
+const log = createLogger('leaveAllGroups');
 
 export async function leaveAllGroups(): Promise<void> {
-  const ourServiceId = itemStorage.user.getCheckedAci();
+  const ourAci = itemStorage.user.getCheckedAci();
 
   const groupsToLeave = window.ConversationController.getAll().filter(
     conversation => {
       return (
         isGroupV2(conversation.attributes) &&
-        conversation.isMember(ourServiceId) &&
+        conversation.isMember(ourAci) &&
         !conversation.attributes.terminated
       );
     }

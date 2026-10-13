@@ -392,6 +392,7 @@ export class Server extends BaseServer {
       password: password ?? generateDevicePassword(),
       registrationId,
       pniRegistrationId,
+      unidentifiedAccessKey: undefined,
     });
 
     const primary = new PrimaryDevice(device, {
@@ -430,6 +431,7 @@ export class Server extends BaseServer {
       pniRegistrationId,
       password: devicePassword,
       authCredentialSalt: randomBytes(16),
+      unidentifiedAccessKey: undefined,
     });
 
     const { aci } = device;
@@ -487,8 +489,7 @@ export class Server extends BaseServer {
       send: this.send.bind(this),
       getSenderCertificate: this.getSenderCertificate.bind(this, device),
       getDeviceByServiceId: this.getDeviceByServiceId.bind(this),
-      issueExpiringProfileKeyCredential:
-        this.issueExpiringProfileKeyCredential.bind(this),
+      getProfileKeyPresentation: this.getProfileKeyPresentation.bind(this),
       getGroup: this.getGroup.bind(this),
       createGroup: this.createGroup.bind(this),
       modifyGroup: this.modifyGroup.bind(this),
@@ -510,6 +511,7 @@ export class Server extends BaseServer {
       primary: primary.device,
       registrationId,
       pniRegistrationId: primary.device.pni ? pniRegistrationId : undefined,
+      unidentifiedAccessKey: undefined,
     });
 
     for (const serviceIdKind of [ServiceIdKind.ACI, ServiceIdKind.PNI]) {

@@ -15,10 +15,16 @@ import {
   BackupCredentialType,
   BackupLevel,
   CallLinkAuthCredentialResponse,
+  ClientZkProfileOperations,
   CreateCallLinkCredentialRequest,
   CreateCallLinkCredentialResponse,
+  ExpiringProfileKeyCredentialResponse,
   GenericServerSecretParams,
   GroupPublicParams,
+  GroupSecretParams,
+  ProfileKey,
+  ProfileKeyCommitment,
+  ProfileKeyCredentialPresentation,
   ProfileKeyCredentialRequest,
   ServerSecretParams,
   ServerZkAuthOperations,
@@ -164,7 +170,8 @@ export type RegisterDeviceOptions = Readonly<
   ) & {
     registrationId: RegistrationId;
     pniRegistrationId: RegistrationId | undefined;
-    registrationLockToken?: string;
+    registrationLockToken?: string | null;
+    unidentifiedAccessKey: Buffer<ArrayBuffer> | undefined;
   }
 >;
 
@@ -552,6 +559,7 @@ export abstract class Server {
     password,
     authCredentialSalt: maybeAuthCredentialSalt,
     registrationLockToken,
+    unidentifiedAccessKey,
   }: RegisterDeviceOptions): Promise<Device> {
     if (provisionId && !this.usedProvisionIds.has(provisionId)) {
       throw new Error('Use generateProvisionId() to create new provision id');
@@ -601,6 +609,9 @@ export abstract class Server {
       isProvisioned: !!password,
       authCredentialSalt,
     });
+    if (unidentifiedAccessKey?.length && !device.accessKey?.length) {
+      device.accessKey = unidentifiedAccessKey;
+    }
 
     if (isPrimary) {
       assert(!this.primaryByServiceId.has(aci), 'Duplicate primary device');
@@ -714,6 +725,7 @@ export abstract class Server {
       registrationId,
       pniRegistrationId,
       password,
+      unidentifiedAccessKey: undefined,
     });
 
     debug('provisioned device id=%j aci=%j', device.deviceId, device.aci);
@@ -1605,16 +1617,21 @@ export abstract class Server {
     serviceId: ServiceIdString,
     deviceId = PRIMARY_DEVICE_ID,
   ): Promise<Device | undefined> {
+    const byServiceId = this.devices.get(serviceId as AciString);
+    if (byServiceId) {
+      return byServiceId.find((device) => device.deviceId === deviceId);
+    }
+
     const primary = this.primaryByServiceId.get(serviceId);
     if (primary == null) {
       return undefined;
     }
 
-    const list = this.devices.get(primary.aci);
-    if (list === undefined) {
+    const byAci = this.devices.get(primary.aci);
+    if (byAci === undefined) {
       return undefined;
     }
-    return list.find((device) => device.deviceId === deviceId);
+    return byAci.find((device) => device.deviceId === deviceId);
   }
 
   public async removeDeviceByServiceId(
@@ -1716,10 +1733,15 @@ export abstract class Server {
     });
   }
 
-  public async issueExpiringProfileKeyCredential(
-    { aci, profileKeyCommitment }: Device,
-    request: ProfileKeyCredentialRequest,
-  ): Promise<Buffer<ArrayBuffer> | undefined> {
+  public async issueExpiringProfileKeyCredential({
+    aci,
+    profileKeyCommitment,
+    request,
+  }: {
+    aci: AciString;
+    profileKeyCommitment: ProfileKeyCommitment | undefined;
+    request: ProfileKeyCredentialRequest;
+  }): Promise<Buffer<ArrayBuffer> | undefined> {
     if (!profileKeyCommitment) {
       return undefined;
     }
@@ -1736,6 +1758,44 @@ export abstract class Server {
           today + PROFILE_KEY_CREDENTIAL_EXPIRATION,
         )
         .serialize(),
+    );
+  }
+
+  async getProfileKeyPresentation({
+    aci,
+    profileKey,
+    profileKeyCommitment: providedProfileKeyCommitment,
+    groupParams,
+  }: {
+    aci: AciString;
+    profileKey: ProfileKey;
+    profileKeyCommitment: ProfileKeyCommitment | undefined;
+    groupParams: GroupSecretParams;
+  }): Promise<ProfileKeyCredentialPresentation> {
+    const ops = new ClientZkProfileOperations(this.zkSecret.getPublicParams());
+
+    const ctx = ops.createProfileKeyCredentialRequestContext(
+      Aci.parseFromServiceIdString(aci),
+      profileKey,
+    );
+    const profileKeyCommitment =
+      providedProfileKeyCommitment ??
+      profileKey.getCommitment(Aci.parseFromServiceIdString(aci));
+    const response = await this.issueExpiringProfileKeyCredential({
+      aci,
+      profileKeyCommitment,
+      request: ctx.getRequest(),
+    });
+    assert.ok(response, `Member device ${aci} not initialized`);
+
+    const credential = ops.receiveExpiringProfileKeyCredential(
+      ctx,
+      new ExpiringProfileKeyCredentialResponse(response),
+    );
+
+    return ops.createExpiringProfileKeyCredentialPresentation(
+      groupParams,
+      credential,
     );
   }
 

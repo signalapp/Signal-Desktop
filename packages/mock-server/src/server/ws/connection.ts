@@ -8,6 +8,7 @@ import { timingSafeEqual, randomBytes } from 'crypto';
 import createDebug from 'debug';
 import {
   CreateCallLinkCredentialRequest,
+  ProfileKeyCommitment,
   ProfileKeyCredentialRequest,
 } from '@signalapp/libsignal-client/zkgroup';
 import { stringify as stringifyUuid, v4 as uuidv4 } from 'uuid';
@@ -18,6 +19,7 @@ import WebSocket from 'ws';
 import { signalservice as Proto } from '../../../protos/compiled';
 import { Device } from '../../data/device';
 import {
+  AccountAttributesSchema,
   AtomicLinkingDataSchema,
   CreateCallLinkAuthSchema,
   CreateVerificationSessionSchema,
@@ -109,10 +111,11 @@ export class Connection extends Service {
           Buffer.from(params.request, 'hex'),
         );
         if (credentialType === 'expiringProfileKey') {
-          credential = await this.server.issueExpiringProfileKeyCredential(
-            target,
+          credential = await this.server.issueExpiringProfileKeyCredential({
+            aci: target.aci,
+            profileKeyCommitment: target.profileKeyCommitment,
             request,
-          );
+          });
         } else {
           return [400, { error: 'Unsupported credential type' }];
         }
@@ -171,11 +174,16 @@ export class Connection extends Service {
         }
 
         const { data } = parsedResult;
-        const { name } = data;
+        const { name, commitment } = data;
 
         primaryDevice.profileName = name
           ? Buffer.from(name, 'base64')
           : undefined;
+        if (commitment) {
+          primaryDevice.profileKeyCommitment = new ProfileKeyCommitment(
+            Buffer.from(commitment, 'base64'),
+          );
+        }
         // Note: The other fields on UpdateProfileSchema are currently not saved on device
 
         const result: UploadProfileResponse = 'ok';
@@ -707,6 +715,7 @@ export class Connection extends Service {
         pniRegistrationId,
         registrationId,
         registrationLock: registrationLockToken,
+        unidentifiedAccessKey,
       } = accountAttributes;
 
       const storage = this.server.getVerificationSession(sessionId);
@@ -738,6 +747,7 @@ export class Connection extends Service {
           registrationLockToken,
           // TODO(inutny): take as an input
           authCredentialSalt: randomBytes(16),
+          unidentifiedAccessKey: Buffer.from(unidentifiedAccessKey),
         });
       } catch (error) {
         if (error instanceof Error && error.name === 'RegistrationLock') {
@@ -970,6 +980,29 @@ export class Connection extends Service {
         this.server.setRegistrationLockToken(device.aci, registrationLock);
 
         return [200, {}];
+      }),
+    );
+
+    this.router.put(
+      '/v1/accounts/attributes',
+      requireAuth(async (_params, body) => {
+        const device = this.getDevice();
+        if (!body) {
+          return [400, { error: 'Missing body' }];
+        }
+
+        const { registrationLock, unidentifiedAccessKey } =
+          AccountAttributesSchema.parse(JSON.parse(body.toString()));
+
+        if (registrationLock?.length) {
+          this.server.setRegistrationLockToken(device.aci, registrationLock);
+        }
+
+        if (unidentifiedAccessKey?.length) {
+          device.accessKey = Buffer.from(unidentifiedAccessKey, 'base64');
+        }
+
+        return [204, {}];
       }),
     );
 

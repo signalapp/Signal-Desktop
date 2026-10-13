@@ -2525,12 +2525,21 @@ async function startApp(): Promise<void> {
     );
     const sender = window.ConversationController.get(messageDescriptor.id);
 
-    if (sender) {
-      // Will do the save for us
-      await sender.setProfileKey(profileKey, {
-        reason: 'handleMessageReceivedProfileUpdate',
-      });
+    if (!sender) {
+      return confirm();
     }
+
+    if (isMe(sender.attributes)) {
+      log.info(
+        'handleMessageReceivedProfileUpdate: Rejecting, targeted our own contact'
+      );
+      return confirm();
+    }
+
+    // Will do the save for us
+    await sender.setProfileKey(profileKey, {
+      reason: 'handleMessageReceivedProfileUpdate',
+    });
 
     return confirm();
   }
@@ -2947,6 +2956,13 @@ async function startApp(): Promise<void> {
       e164: data.source,
       reason: logId,
     });
+
+    if (isMe(conversation.attributes)) {
+      log.info('onProfileKey: Rejecting, targeted our own information');
+      confirm();
+      return;
+    }
+
     const idForLogging = getConversationIdForLogging(conversation.attributes);
 
     if (!data.profileKey) {
@@ -2998,10 +3014,27 @@ async function startApp(): Promise<void> {
       'handleMessageSentProfileUpdate: missing profileKey'
     );
 
+    if (window.ConversationController.areWePrimaryDevice()) {
+      const ourProfileKey = me.get('profileKey');
+      if (ourProfileKey !== profileKey) {
+        log.warn(
+          'handleMessageSentProfileUpdate: Rejecting attempt to change our profileKey since we are primary device!'
+        );
+      }
+
+      return confirm();
+    }
+
     // Will do the save for us if needed
-    await me.setProfileKey(profileKey, {
+    const didChange = await me.setProfileKey(profileKey, {
       reason: 'handleMessageSentProfileUpdate',
     });
+    if (didChange) {
+      window.SignalCI?.handleEvent('setProfileKey', {
+        profileKeyBase64: profileKey,
+        reason: 'handleMessageSentProfileUpdate',
+      });
+    }
 
     return confirm();
   }

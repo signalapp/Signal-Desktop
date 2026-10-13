@@ -958,6 +958,7 @@ export function SmartPreferences(): JSX.Element | null {
       // information.
       await writeProfile(getConversation(account), {
         keepAvatar: true,
+        reupload: false,
       });
     }
   );
