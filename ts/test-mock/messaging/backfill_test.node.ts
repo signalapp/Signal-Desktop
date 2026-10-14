@@ -17,6 +17,7 @@ import { Bootstrap } from '../bootstrap.node.ts';
 import {
   sendTextMessage,
   getTimelineMessageWithText,
+  getLoadedImagesInside,
 } from '../helpers.node.ts';
 
 export const debug = createDebug('mock:test:backfill');
@@ -518,9 +519,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       }
     );
 
-    await conversationStack
-      .locator('.module-image-grid--with-sticker')
-      .waitFor();
+    await getLoadedImagesInside(conversationStack).waitFor();
   });
 
   it('should not request backfill on quote/preview', async () => {

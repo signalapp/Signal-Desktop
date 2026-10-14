@@ -438,12 +438,12 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           );
 
           return (
-            aciRecord?.pniSignatureVerified === true && aciRecord === pniRecord
+            aciRecord?.pniSignatureVerified === true &&
+            aciRecord === pniRecord &&
+            phone.getOrphanedStorageKeys().length === 0
           );
         },
       });
-
-      assert.isEmpty(phone.getOrphanedStorageKeys());
 
       // Two outgoing, one incoming
       const messages = window.locator('.module-message__text');
