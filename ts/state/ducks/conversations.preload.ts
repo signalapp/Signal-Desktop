@@ -1930,6 +1930,10 @@ function deleteMessages({
       return;
     }
 
+    if (isSignalConversation(conversation.attributes)) {
+      return;
+    }
+
     const chunks = chunk(messages, MAX_MESSAGE_COUNT);
     const conversationToDelete = getConversationIdentifier(
       conversation.attributes
@@ -2137,6 +2141,16 @@ export const markViewed = (messageId: string): void => {
 
   message.set(messageUpdaterMarkViewed(message.attributes, Date.now()));
 
+  const conversationId = message.get('conversationId');
+  const convo = window.ConversationController.get(conversationId);
+
+  if (convo != null && isSignalConversation(convo.attributes)) {
+    log.info(
+      'markViewed: Signal conversation; not sending view receipt or sync'
+    );
+    return;
+  }
+
   let senderAci: AciString;
   if (isIncoming(message.attributes)) {
     const sourceServiceId = message.get('sourceServiceId');
@@ -2146,10 +2160,6 @@ export const markViewed = (messageId: string): void => {
     );
     senderAci = sourceServiceId;
 
-    const convo = window.ConversationController.get(
-      message.get('conversationId')
-    );
-    const conversationId = message.get('conversationId');
     drop(
       conversationJobQueue.add({
         type: conversationQueueJobEnum.enum.Receipts,

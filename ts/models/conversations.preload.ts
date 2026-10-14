@@ -5699,12 +5699,13 @@ export class ConversationModel {
 
     await DataWriter.updateConversation(this.attributes);
 
-    if (
-      source === 'local-delete' &&
-      !window.ConversationController.doWeHaveOtherDevices()
-    ) {
-      log.info(`${logId}}: We have no other devices; not sending sync message`);
-    } else if (source === 'local-delete') {
+    const doWeHaveOtherDevices =
+      window.ConversationController.doWeHaveOtherDevices();
+    const isSignalConvo = isSignalConversation(this.attributes);
+    const shouldSync =
+      source === 'local-delete' && doWeHaveOtherDevices && !isSignalConvo;
+
+    if (shouldSync) {
       log.info(`${logId}: Preparing sync message`);
       const timestamp = Date.now();
 
@@ -5762,6 +5763,12 @@ export class ConversationModel {
       }
 
       log.info(`${logId}: Sync message queue complete`);
+    } else {
+      log.info(`${logId}: not syncing`, {
+        source,
+        doWeHaveOtherDevices,
+        isSignalConvo,
+      });
     }
 
     log.info(`${logId}: Starting delete`);

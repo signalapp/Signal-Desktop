@@ -43,6 +43,7 @@ import * as RemoteConfig from '../../RemoteConfig.dom.ts';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
 import { BackfillFailureModalKind } from '../../components/BackfillFailureModal.dom.tsx';
 import { markAttachmentAsErrored } from '../../util/attachments/markAttachmentAsErrored.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 const log = createLogger('attachmentBackfill');
 
@@ -82,6 +83,16 @@ export class AttachmentBackfill {
       return;
     }
 
+    const convo = window.ConversationController.get(message.conversationId);
+    strictAssert(convo != null, 'Missing message conversation');
+
+    if (isSignalConversation(convo.attributes)) {
+      log.info(
+        'attachmentBackfill: Signal conversation; not sending sync request'
+      );
+      return;
+    }
+
     const existingTimer = this.#pendingRequests.get(message.id);
     if (existingTimer != null) {
       return;
@@ -91,9 +102,6 @@ export class AttachmentBackfill {
     if (addr == null) {
       throw new Error('No address for message');
     }
-
-    const convo = window.ConversationController.get(message.conversationId);
-    strictAssert(convo != null, 'Missing message conversation');
 
     this.#pendingRequests.set(
       message.id,

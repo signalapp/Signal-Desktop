@@ -23,6 +23,7 @@ import {
   getConversationIdentifier,
   getAddressableMessage,
 } from '../../util/syncIdentifiers.preload.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { singleProtoJobQueue } from '../../jobs/singleProtoJobQueue.preload.ts';
@@ -76,13 +77,17 @@ async function doRemoveAttachment(
     return;
   }
 
+  const shouldSync =
+    window.ConversationController.doWeHaveOtherDevices() &&
+    !isSignalConversation(convo.attributes);
+
   const { attachment } = mediaItem;
 
   if (message.get('attachments')?.length === 1) {
     log.info(`Deleting whole message ${mediaItem.message.id}`);
     await applyDeleteMessage(message.attributes);
 
-    if (window.ConversationController.doWeHaveOtherDevices()) {
+    if (shouldSync) {
       await singleProtoJobQueue.add(
         MessageSender.getDeleteForMeSyncMessage([
           {
@@ -116,7 +121,7 @@ async function doRemoveAttachment(
       return;
     }
 
-    if (window.ConversationController.doWeHaveOtherDevices()) {
+    if (shouldSync) {
       await singleProtoJobQueue.add(
         MessageSender.getDeleteForMeSyncMessage([
           {
