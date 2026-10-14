@@ -195,22 +195,24 @@ export function getStickerPackLink(pack: StickerPackType): string {
     .toString();
 }
 
-type StickerRecord = StorageStateRecord<{
-  stickerPack: Proto.StickerPackRecord.Params;
+type InstalledStickerRecord = StorageStateRecord<{
+  installedStickerPack: Proto.InstalledStickerPackRecord.Params;
 }>;
 
-export function getStickerPackRecordPredicate(
+export function getInstalledStickerPackRecordPredicate(
   pack: StickerPackType
-): (record: StorageStateRecord) => record is StickerRecord {
-  return (stateRecord: StorageStateRecord): stateRecord is StickerRecord => {
+): (record: StorageStateRecord) => record is InstalledStickerRecord {
+  return (
+    stateRecord: StorageStateRecord
+  ): stateRecord is InstalledStickerRecord => {
     const { type, record } = stateRecord;
-    if (record.stickerPack == null) {
+    if (record.installedStickerPack == null) {
       return false;
     }
     if (type !== IdentifierType.STICKER_PACK) {
       return false;
     }
-    return pack.id.equals(record.stickerPack.packId ?? EMPTY);
+    return pack.id.equals(record.installedStickerPack.packId ?? EMPTY);
   };
 }
 

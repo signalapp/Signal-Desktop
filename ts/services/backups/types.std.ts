@@ -75,7 +75,7 @@ export type StatsType = {
   notificationProfiles: number;
   skippedConversations: number;
   skippedMessages: number;
-  stickerPacks: number;
+  installedStickerPacks: number;
   unknownConversationReferences: Record<string, number>;
 };
 

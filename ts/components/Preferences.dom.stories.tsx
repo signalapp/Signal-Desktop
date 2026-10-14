@@ -140,7 +140,7 @@ const validateBackupResult: ExportResultType = {
     notificationProfiles: 2,
     skippedConversations: 0,
     skippedMessages: 7,
-    stickerPacks: 8,
+    installedStickerPacks: 8,
     fixedDirectMessages: 9,
     unknownConversationReferences: {},
   },

@@ -75,7 +75,7 @@ message StorageRecord {
     GroupV2Record groupV2 = 3;
     AccountRecord account = 4;
     StoryDistributionListRecord storyDistributionList = 5;
-    StickerPackRecord stickerPack = 6;
+    InstalledStickerPackRecord installedStickerPack = 6;
     CallLinkRecord callLink = 7;
     ChatFolderRecord chatFolder = 8;
     NotificationProfile notificationProfile = 9;
@@ -342,7 +342,7 @@ message StoryDistributionListRecord {
   repeated bytes recipientServiceIdsBinary = 7; // service ID binary (i.e. 16 byte UUID for ACI, 1 byte prefix + 16 byte UUID for PNI)
 }
 
-message StickerPackRecord {
+message InstalledStickerPackRecord {
   bytes packId = 1; // 16 bytes
   bytes packKey = 2; // 32 bytes, used to derive the AES-256 key
                      // aesKey = HKDF(

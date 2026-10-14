@@ -246,7 +246,7 @@ export async function createPacksFromBackup(
   packsToDownload = capturePacksToDownload(makeLookup(packsToStore, 'id'));
 }
 
-export async function getStickerPacksForBackup(): Promise<
+export async function getInstalledStickerPacksForBackup(): Promise<
   Array<StickerPackPointerType>
 > {
   const result = new Array<StickerPackPointerType>();

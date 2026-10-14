@@ -286,7 +286,7 @@ export class BackupImportStream extends Writable {
   >();
 
   #flushMessagesPromise: Promise<void> | undefined;
-  readonly #stickerPacks = new Array<StickerPackPointerType>();
+  readonly #installedStickerPacks = new Array<StickerPackPointerType>();
   #ourConversation?: ConversationAttributesType;
   readonly #pinnedConversations = new Array<[number, string]>();
   readonly #customColorById = new Map<number, CustomColorDataType>();
@@ -407,7 +407,7 @@ export class BackupImportStream extends Writable {
       }
 
       // Store sticker packs and schedule downloads
-      await createPacksFromBackup(this.#stickerPacks);
+      await createPacksFromBackup(this.#installedStickerPacks);
 
       // Add placeholder call history for unused admin call links to show in calls tab
       for (const [callLink, hasCall] of this.#adminCallLinksToHasCall) {
@@ -597,8 +597,8 @@ export class BackupImportStream extends Writable {
         }
 
         await this.#fromChatItem(item.chatItem, { aboutMe });
-      } else if (item.stickerPack) {
-        await this.#fromStickerPack(item.stickerPack);
+      } else if (item.installedStickerPack) {
+        await this.#fromStickerPack(item.installedStickerPack);
       } else if (item.adHocCall) {
         await this.#fromAdHocCall(item.adHocCall);
       } else if (item.notificationProfile) {
@@ -3948,7 +3948,7 @@ export class BackupImportStream extends Writable {
     );
     const key = Bytes.toBase64(packKeyBytes);
 
-    this.#stickerPacks.push({ id, key });
+    this.#installedStickerPacks.push({ id, key });
   }
 
   async #fromAdHocCall({

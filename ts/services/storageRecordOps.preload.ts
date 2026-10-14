@@ -831,9 +831,9 @@ export function toStoryDistributionListRecord(
   };
 }
 
-export function toStickerPackRecord(
+export function toInstalledStickerPackRecord(
   stickerPack: StickerPackInfoType
-): Proto.StickerPackRecord.Params {
+): Proto.InstalledStickerPackRecord.Params {
   const $unknown = fromStorageUnknownFields(stickerPack.storageUnknownFields);
 
   if (stickerPack.uninstalledAt !== undefined) {
@@ -2536,17 +2536,19 @@ export async function mergeStoryDistributionListRecord(
   };
 }
 
-export async function mergeStickerPackRecord(
+export async function mergeInstalledStickerPackRecord(
   storageID: string,
   storageVersion: number,
-  stickerPackRecord: Proto.StickerPackRecord
+  stickerPackRecord: Proto.InstalledStickerPackRecord
 ): Promise<MergeResultType> {
   const redactedStorageID = redactExtendedStorageID({
     storageID,
     storageVersion,
   });
   if (!stickerPackRecord.packId || Bytes.isEmpty(stickerPackRecord.packId)) {
-    throw new Error(`No stickerPackRecord identifier for ${redactedStorageID}`);
+    throw new Error(
+      `No installedStickerPackRecord identifier for ${redactedStorageID}`
+    );
   }
 
   const id = Bytes.toHex(stickerPackRecord.packId);
@@ -2556,7 +2558,7 @@ export async function mergeStickerPackRecord(
   const details = logRecordChanges(
     localStickerPack == null
       ? undefined
-      : toStickerPackRecord(localStickerPack),
+      : toInstalledStickerPackRecord(localStickerPack),
     stickerPackRecord
   );
 
@@ -2586,7 +2588,9 @@ export async function mergeStickerPackRecord(
       !stickerPackRecord.packKey ||
       Bytes.isEmpty(stickerPackRecord.packKey)
     ) {
-      throw new Error(`No stickerPackRecord key for ${redactedStorageID}`);
+      throw new Error(
+        `No installedStickerPackRecord key for ${redactedStorageID}`
+      );
     }
 
     stickerPack = {

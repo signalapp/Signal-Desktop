@@ -21,14 +21,14 @@ import {
   mergeGroupV1Record,
   mergeGroupV2Record,
   mergeStoryDistributionListRecord,
-  mergeStickerPackRecord,
+  mergeInstalledStickerPackRecord,
   toAccountRecord,
   toContactRecord,
   toGroupV1Record,
   toGroupV2Record,
   toNotificationProfileRecord,
   toStoryDistributionListRecord,
-  toStickerPackRecord,
+  toInstalledStickerPackRecord,
   toCallLinkRecord,
   mergeCallLinkRecord,
   toChatFolderRecord,
@@ -585,7 +585,7 @@ async function generateManifest(
   uninstalledStickerPacks.forEach(stickerPack => {
     const storageRecord: Proto.StorageRecord.Params = {
       record: {
-        stickerPack: toStickerPackRecord(stickerPack),
+        installedStickerPack: toInstalledStickerPackRecord(stickerPack),
       },
     };
 
@@ -654,7 +654,7 @@ async function generateManifest(
 
     const storageRecord: Proto.StorageRecord.Params = {
       record: {
-        stickerPack: toStickerPackRecord(stickerPack),
+        installedStickerPack: toInstalledStickerPackRecord(stickerPack),
       },
     };
 
@@ -1611,12 +1611,12 @@ async function mergeRecord(
       );
     } else if (
       itemType === ITEM_TYPE.STICKER_PACK &&
-      storageRecord.record?.stickerPack
+      storageRecord.record?.installedStickerPack
     ) {
-      mergeResult = await mergeStickerPackRecord(
+      mergeResult = await mergeInstalledStickerPackRecord(
         storageID,
         storageVersion,
-        storageRecord.record.stickerPack
+        storageRecord.record.installedStickerPack
       );
     } else if (
       itemType === ITEM_TYPE.CALL_LINK &&

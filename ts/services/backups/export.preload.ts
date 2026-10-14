@@ -23,7 +23,7 @@ import { createLogger } from '../../logging/log.std.ts';
 import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import { type CustomColorType } from '../../types/Colors.std.ts';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
-import { getStickerPacksForBackup } from '../../types/Stickers.preload.ts';
+import { getInstalledStickerPacksForBackup } from '../../types/Stickers.preload.ts';
 import {
   isPniString,
   isServiceIdString,
@@ -283,11 +283,11 @@ export class BackupExportStream {
     chats: 0,
     distributionLists: 0,
     fixedDirectMessages: 0,
+    installedStickerPacks: 0,
     messages: 0,
     notificationProfiles: 0,
     skippedConversations: 0,
     skippedMessages: 0,
-    stickerPacks: 0,
     unknownConversationReferences: new Map<string, number>(),
   };
   #pendingRecipients: Array<Backups.Recipient.Params> = [];
@@ -556,17 +556,17 @@ export class BackupExportStream {
       this.#stats.callLinks += 1;
     }
 
-    const stickerPacks = await getStickerPacksForBackup();
+    const installedStickerPacks = await getInstalledStickerPacksForBackup();
 
-    for (const { id, key } of stickerPacks) {
+    for (const { id, key } of installedStickerPacks) {
       yield {
-        stickerPack: {
+        installedStickerPack: {
           packId: Bytes.fromHex(id),
           packKey: Bytes.fromBase64(key),
         },
       };
 
-      this.#stats.stickerPacks += 1;
+      this.#stats.installedStickerPacks += 1;
     }
 
     const pinnedConversationIds =

@@ -12,7 +12,7 @@ import {
   STICKER_PACKS,
   EMPTY,
   storeStickerPacks,
-  getStickerPackRecordPredicate,
+  getInstalledStickerPackRecordPredicate,
   getStickerPackLink,
 } from './fixtures.node.ts';
 import {
@@ -100,7 +100,7 @@ describe('stickers', function (this: Mocha.Suite) {
         after: state,
         predicate: storageState => {
           const record = storageState.findRecord(
-            getStickerPackRecordPredicate(STICKER_PACKS[0])
+            getInstalledStickerPackRecordPredicate(STICKER_PACKS[0])
           );
           if (!record) {
             return false;
@@ -108,12 +108,12 @@ describe('stickers', function (this: Mocha.Suite) {
 
           assert.isTrue(
             STICKER_PACKS[0].key.equals(
-              record.record.stickerPack.packKey ?? EMPTY
+              record.record.installedStickerPack.packKey ?? EMPTY
             ),
             'Wrong sticker pack key'
           );
           assert.strictEqual(
-            record.record.stickerPack.position,
+            record.record.installedStickerPack.position,
             11,
             'Wrong sticker pack position'
           );
@@ -156,18 +156,18 @@ describe('stickers', function (this: Mocha.Suite) {
         after: state,
         predicate: storageState => {
           const stickerPack = storageState.findRecord(
-            getStickerPackRecordPredicate(STICKER_PACKS[0])
+            getInstalledStickerPackRecordPredicate(STICKER_PACKS[0])
           );
           if (!stickerPack) {
             return false;
           }
           assert.deepStrictEqual(
-            stickerPack.record.stickerPack.packKey,
+            stickerPack.record.installedStickerPack.packKey,
             EMPTY,
             'Sticker pack key should be removed'
           );
           const deletedAt = toNumber(
-            stickerPack.record.stickerPack.deletedAtTimestamp ?? 0n
+            stickerPack.record.installedStickerPack.deletedAtTimestamp ?? 0n
           );
           assert.isAbove(
             deletedAt,
@@ -211,10 +211,10 @@ describe('stickers', function (this: Mocha.Suite) {
 
       await phone.setStorageState(
         state.updateRecord(
-          getStickerPackRecordPredicate(STICKER_PACKS[0]),
+          getInstalledStickerPackRecordPredicate(STICKER_PACKS[0]),
           record => ({
-            stickerPack: {
-              ...record.stickerPack,
+            installedStickerPack: {
+              ...record.installedStickerPack,
               packKey: STICKER_PACKS[0].key,
               position: 7,
               deletedAtTimestamp: null,
@@ -253,19 +253,19 @@ describe('stickers', function (this: Mocha.Suite) {
         after: state,
         predicate: storageState => {
           const stickerPack = storageState.findRecord(
-            getStickerPackRecordPredicate(STICKER_PACKS[1])
+            getInstalledStickerPackRecordPredicate(STICKER_PACKS[1])
           );
           if (!stickerPack) {
             return false;
           }
           assert.isTrue(
             STICKER_PACKS[1].key.equals(
-              stickerPack.record.stickerPack.packKey ?? EMPTY
+              stickerPack.record.installedStickerPack.packKey ?? EMPTY
             ),
             'Wrong sticker pack key'
           );
           assert.strictEqual(
-            stickerPack.record.stickerPack.position,
+            stickerPack.record.installedStickerPack.position,
             11,
             'Wrong sticker pack position'
           );
@@ -377,7 +377,7 @@ describe('stickers', function (this: Mocha.Suite) {
         state.addRecord({
           type: IdentifierType.STICKER_PACK,
           record: {
-            stickerPack: {
+            installedStickerPack: {
               packId: STICKER_PACKS[0].id,
               packKey: STICKER_PACKS[0].key,
               position: 1,
@@ -400,10 +400,10 @@ describe('stickers', function (this: Mocha.Suite) {
       debug('expiring sticker pack via storage service');
       const state = await phone.expectStorageState('initial state');
       const modifiedState = state.updateRecord(
-        getStickerPackRecordPredicate(STICKER_PACKS[0]),
+        getInstalledStickerPackRecordPredicate(STICKER_PACKS[0]),
         record => ({
-          stickerPack: {
-            ...record.stickerPack,
+          installedStickerPack: {
+            ...record.installedStickerPack,
             deletedAtTimestamp: BigInt(Date.now() - 12 * durations.MONTH),
           },
         })
@@ -441,12 +441,12 @@ describe('stickers', function (this: Mocha.Suite) {
         after: newState,
         predicate: storageState =>
           storageState.hasRecord(
-            getStickerPackRecordPredicate(STICKER_PACKS[1])
+            getInstalledStickerPackRecordPredicate(STICKER_PACKS[1])
           ),
       });
 
       const oldStickerPack = stateAfter.findRecord(
-        getStickerPackRecordPredicate(STICKER_PACKS[0])
+        getInstalledStickerPackRecordPredicate(STICKER_PACKS[0])
       );
       assert.notOk(
         oldStickerPack,
@@ -454,7 +454,7 @@ describe('stickers', function (this: Mocha.Suite) {
       );
 
       const newStickerPack = stateAfter.findRecord(
-        getStickerPackRecordPredicate(STICKER_PACKS[1])
+        getInstalledStickerPackRecordPredicate(STICKER_PACKS[1])
       );
       assert.ok(
         newStickerPack,
