@@ -165,6 +165,7 @@ const DOM_PACKAGES = new Set([
   'blueimp-load-image',
   'dom-accessibility-api',
   'fabric',
+  'mediabunny',
   'radix-ui',
   'react-aria',
   'react-aria-components',
