@@ -63,6 +63,7 @@ import {
   toUntaggedPni,
 } from '../types/ServiceId.std.ts';
 import { isAciString } from '../util/isAciString.std.ts';
+import { isSignalServiceId } from '../types/SignalConversation.std.ts';
 import * as Stickers from '../types/Stickers.preload.ts';
 import type {
   StoryDistributionWithMembersType,
@@ -1532,6 +1533,11 @@ export async function mergeContactRecord(
     itemStorage.user.getOurServiceIdKind(serviceId) !== ServiceIdKind.Unknown
   ) {
     return { shouldDrop: true, details: ['our own uuid'] };
+  }
+
+  // Release notes chat state is synced via AccountRecord, not ContactRecord
+  if (isSignalServiceId(serviceId)) {
+    return { shouldDrop: true, details: ['signal release notes aci'] };
   }
 
   const { conversation } = window.ConversationController.maybeMergeContacts({
