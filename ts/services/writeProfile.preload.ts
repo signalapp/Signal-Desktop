@@ -37,11 +37,15 @@ export async function writeProfile(
   if (!model) {
     return;
   }
-  await getProfile({
-    serviceId: model.getServiceId() ?? null,
-    e164: model.get('e164') ?? null,
-    groupId: null,
-  });
+
+  // If we're re-uploading, we don't want to fetch profile here
+  if (!options.keepAvatar || !options.reupload) {
+    await getProfile({
+      serviceId: model.getServiceId() ?? null,
+      e164: model.get('e164') ?? null,
+      groupId: null,
+    });
+  }
 
   // Encrypt the profile data, update profile, and if needed upload the avatar
   const {
@@ -75,15 +79,14 @@ export async function writeProfile(
     avatarUpdate = {
       oldAvatar: avatarBuffer,
       newAvatar: avatarBuffer,
+      reupload: options.reupload,
     };
   } else {
     avatarUpdate = options.avatarUpdate;
   }
 
-  const [profileData, encryptedAvatarData] = await encryptProfileData(
-    conversation,
-    avatarUpdate
-  );
+  const [profileData, encryptedAvatarData, canSkipAvatarUpload] =
+    await encryptProfileData(conversation, avatarUpdate);
   const avatarRequestHeaders = await putProfile(profileData);
 
   // Upload the avatar if provided
@@ -98,7 +101,7 @@ export async function writeProfile(
         }
       | undefined;
   } = {};
-  if (profileData.sameAvatar) {
+  if (canSkipAvatarUpload) {
     log.info('not updating avatar');
   } else if (
     typeof avatarRequestHeaders === 'object' &&

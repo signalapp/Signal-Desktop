@@ -236,6 +236,26 @@ export class App extends EventEmitter {
     }
   }
 
+  public async waitForSetProfileKey(): Promise<{
+    profileKey: Buffer<ArrayBuffer>;
+    reason: string;
+  }> {
+    const result = (await this.#waitForEvent('setProfileKey')) as {
+      profileKeyBase64: string;
+      reason: string;
+    };
+    if (!result) {
+      throw new Error('waitForSetProfileKey: Found no data!');
+    }
+
+    const profileKey = Buffer.from(fromBase64(result.profileKeyBase64));
+    return { profileKey, reason: result.reason };
+  }
+
+  public async waitForUpdateGroupsWithNewProfileKey(): Promise<void> {
+    await this.#waitForEvent('updateGroupsWithNewProfileKey');
+  }
+
   public async waitForQueuedStickerPacks(): Promise<void> {
     return this.#waitForEvent('queuedStickerPacksDownloaded');
   }

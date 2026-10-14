@@ -275,7 +275,11 @@ export function ProfileEditor({
       setAvatarBuffer(avatar);
       onProfileChanged(undefined, {
         keepAvatar: false,
-        avatarUpdate: { oldAvatar: oldAvatarBuffer, newAvatar: avatar },
+        avatarUpdate: {
+          oldAvatar: oldAvatarBuffer,
+          newAvatar: avatar,
+          reupload: false,
+        },
       });
       setOldAvatarBuffer(avatar);
       handleBack();
@@ -425,7 +429,7 @@ export function ProfileEditor({
                   firstName: normalizedStagedFirstName,
                   familyName: normalizedStagedFamilyName,
                 },
-                { keepAvatar: true }
+                { keepAvatar: true, reupload: false }
               );
 
               // Delay navigation until setFullName resolves and we are no longer dirty
@@ -563,7 +567,10 @@ export function ProfileEditor({
                 aboutText: stagedProfile.aboutText,
               });
 
-              onProfileChanged(stagedProfile, { keepAvatar: true });
+              onProfileChanged(stagedProfile, {
+                keepAvatar: true,
+                reupload: false,
+              });
 
               // Delay navigation until setFullBio resolves and we are no longer dirty
               setTimeout(() => handleBack(), 500);

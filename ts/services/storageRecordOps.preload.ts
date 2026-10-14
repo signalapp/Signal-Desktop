@@ -2303,19 +2303,23 @@ export async function mergeAccountRecord(
   });
 
   let needsProfileFetch = false;
-  if (profileKey && profileKey.byteLength > 0) {
+  if (
+    !window.ConversationController.areWePrimaryDevice() &&
+    profileKey &&
+    profileKey.byteLength > 0
+  ) {
     needsProfileFetch = await ourConversation.setProfileKey(
       Bytes.toBase64(profileKey),
       { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
-
-    const avatarUrl = dropNull(accountRecord.avatarUrlPath || null);
-    await ourConversation.setAndMaybeFetchProfileAvatar({
-      avatarUrl,
-      decryptionKey: profileKey,
-    });
-    await itemStorage.put('avatarUrl', avatarUrl);
   }
+
+  const avatarUrl = dropNull(accountRecord.avatarUrlPath || null);
+  await ourConversation.setAndMaybeFetchProfileAvatar({
+    avatarUrl,
+    decryptionKey: profileKey,
+  });
+  await itemStorage.put('avatarUrl', avatarUrl);
 
   applyAvatarColor(ourConversation, accountRecord.avatarColor);
 

@@ -268,6 +268,7 @@ import {
   buildGroupLink,
   buildInviteLinkPasswordChange,
   buildModifyMemberLabelChange,
+  buildModifyMemberProfileKeyChange,
   buildModifyMemberRoleChange,
   buildNewGroupLinkChange,
   buildPromoteMemberChange,
@@ -292,6 +293,8 @@ import { keyTransparency } from '../services/keyTransparency.preload.ts';
 import type { PollSource } from '../messageModifiers/Polls.preload.ts';
 import { isSignalServiceId } from '../types/SignalConversation.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
+import { registrationJobQueue } from '../jobs/registrationJobQueue.preload.ts';
+import { areWeInGroupWith } from '../util/areWeInGroupWith.preload.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -1029,6 +1032,29 @@ export class ConversationModel {
       blocked = true;
     } else if (serviceId && isAciString(serviceId)) {
       drop(itemStorage.blocked.addBlockedServiceId(serviceId, timestamp));
+
+      const profileKey = itemStorage.get('profileKey');
+      if (
+        !wasBlocked &&
+        Bytes.isNotEmpty(profileKey) &&
+        window.ConversationController.areWePrimaryDevice()
+      ) {
+        // If we aren't in any groups with this contact we just blocked, rotate profileKey
+        const shouldWeRotate = !areWeInGroupWith(serviceId);
+        if (shouldWeRotate) {
+          log.info(
+            `${this.idForLogging()}: Newly blocked and not in any shared groups. Rotating profile key.`
+          );
+          drop(
+            registrationJobQueue.add({
+              type: 'RotateProfileKey',
+              id: generateGuid(),
+              oldProfileKeyBase64: Bytes.toBase64(profileKey),
+            })
+          );
+        }
+      }
+
       blocked = true;
     }
 
@@ -2864,6 +2890,41 @@ export class ConversationModel {
       active_at: this.get('active_at') || Date.now(),
     });
     await DataWriter.updateConversation(this.attributes);
+  }
+
+  async updateProfileKey(): Promise<void> {
+    const logId = 'updateProfileKey';
+
+    if (!isGroupV2(this.attributes)) {
+      throw new Error(
+        `${logId}: Cannot update in non-GV2 conversation ${this.idForLogging()}`
+      );
+    }
+
+    const us = window.ConversationController.getOurConversationOrThrow();
+    if (!us.get('profileKeyCredential')) {
+      log.warn(
+        `${logId}: Missing profileKeyCredential, fetching profile for ourselves`
+      );
+      await us.getProfiles();
+    }
+
+    const profileKeyCredentialBase64 = us.get('profileKeyCredential');
+    strictAssert(
+      profileKeyCredentialBase64,
+      `${logId}: Must have our own profileKeyCredential`
+    );
+
+    await this.modifyGroupV2({
+      name: logId,
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildModifyMemberProfileKeyChange({
+          group: this.attributes,
+          profileKeyCredentialBase64,
+          serverPublicParamsBase64: window.getServerPublicParams(),
+        }),
+    });
   }
 
   async cancelJoinRequest(): Promise<void> {
@@ -5386,8 +5447,13 @@ export class ConversationModel {
     profileKey: string,
     {
       viaStorageServiceSync = false,
+      skipProfileFetch = false,
       reason,
-    }: { viaStorageServiceSync?: boolean; reason: string }
+    }: {
+      viaStorageServiceSync?: boolean;
+      skipProfileFetch?: boolean;
+      reason: string;
+    }
   ): Promise<boolean> {
     strictAssert(
       profileKey == null || profileKey.length > 0,
@@ -5456,7 +5522,7 @@ export class ConversationModel {
     // Don't trigger immediate profile fetches when syncing to remote storage
     this.set(
       { profileKey, accessKey: Bytes.toBase64(derivedAccessKey) },
-      { noTrigger: viaStorageServiceSync }
+      { noTrigger: skipProfileFetch || viaStorageServiceSync }
     );
 
     // We _don't_ update storage service when we find out about a new profileKey unless

@@ -88,6 +88,7 @@ export type SaveAvatarToDiskActionType = (
 export type AvatarUpdateType = Readonly<{
   oldAvatar: Uint8Array<ArrayBuffer> | undefined;
   newAvatar: Uint8Array<ArrayBuffer> | undefined;
+  reupload: boolean;
 }>;
 
 export type AvatarUpdateOptionsType = Readonly<
@@ -97,6 +98,7 @@ export type AvatarUpdateOptionsType = Readonly<
     }
   | {
       keepAvatar: true;
+      reupload: boolean;
     }
 >;
 

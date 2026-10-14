@@ -2653,7 +2653,7 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
   }
 
   log.info(`${logId}: starting...`);
-  await maybeFixStorageKey(`sync/${reason}`);
+  await maybeFixStorageKey(logId);
 
   let manifest: Proto.ManifestRecord;
   try {
@@ -2666,7 +2666,7 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
 
     const localManifestVersion = manifestFromStorage || 0;
 
-    log.info(`sync: fetching latest after version=${localManifestVersion}`);
+    log.info(`${logId}: fetching latest after version=${localManifestVersion}`);
     const fetchResult = await fetchManifest(localManifestVersion);
     if (fetchResult.type === 'cannotDecrypt') {
       return {
@@ -2677,7 +2677,7 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
     }
     if (fetchResult.type === 'noManifest') {
       log.info(
-        `sync: no updates, version=${localManifestVersion}, marking storageFetchComplete=true`
+        `${logId}: no updates, version=${localManifestVersion}, marking storageFetchComplete=true`
       );
       await itemStorage.put('storageFetchComplete', true);
       return {
@@ -2698,7 +2698,7 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
       (version !== 0 || localManifestVersion !== 0)
     ) {
       log.error(
-        'sync: remote manifest version mismatch ' +
+        `${logId}: remote manifest version mismatch ` +
           `${version} <= ${localManifestVersion}`
       );
       return {
@@ -2710,14 +2710,14 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
     await window.waitForEmptyEventQueue();
 
     log.info(
-      `sync: updating to remoteVersion=${version} ` +
+      `${logId}: updating to remoteVersion=${version} ` +
         `sourceDevice=${manifest.sourceDevice ?? '?'} from ` +
         `version=${localManifestVersion}`
     );
 
     await processManifest(manifest, version);
 
-    log.info(`sync: updated to version=${version}`);
+    log.info(`${logId}: updated to version=${version}`);
 
     await itemStorage.put('manifestVersion', version);
     if (Bytes.isNotEmpty(manifest.recordIkm)) {
@@ -2735,13 +2735,12 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
       });
     }
 
-    log.info('sync: complete');
-  } catch (error) {
-    log.error('sync: error processing manifest', Errors.toLogFormat(error));
-    throw error;
+    log.info(`${logId}: complete`);
+    return { success: true, manifest };
+  } catch (err) {
+    log.error(`${logId}: error processing manifest`, Errors.toLogFormat(err));
+    throw err;
   }
-
-  return { success: true, manifest };
 }
 
 async function upload({

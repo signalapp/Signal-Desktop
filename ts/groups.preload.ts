@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
+import { v4 as generateGuid } from 'uuid';
 import { LRUCache } from 'lru-cache';
+
+import type { ClientZkGroupCipher } from '@signalapp/libsignal-client/zkgroup.js';
+
 import { createLogger } from './logging/log.std.ts';
 import {
   getCheckedGroupCredentialsForToday,
@@ -39,10 +42,10 @@ import type {
 import {
   createProfileKeyCredentialPresentation,
   decodeProfileKeyCredentialPresentation,
-  decryptGroupBlob,
-  decryptProfileKey,
   decryptAci,
+  decryptGroupBlob,
   decryptPni,
+  decryptProfileKey,
   decryptServiceId,
   deriveGroupID,
   deriveGroupPublicParams,
@@ -133,12 +136,14 @@ import {
 } from './types/GroupMemberLabels.std.ts';
 import { getConversationIdForLogging } from './util/idForLogging.preload.ts';
 import { toNumber } from './util/toNumber.std.ts';
+import { computeGroupNameHash } from './util/Conversation.preload.ts';
+import { Emoji } from './axo/emoji.std.ts';
+import { areWeInGroupWith } from './util/areWeInGroupWith.preload.ts';
+import { registrationJobQueue } from './jobs/registrationJobQueue.preload.ts';
 
 import Actions = Proto.GroupChange.Actions;
 import AccessRequired = Proto.AccessControl.AccessRequired;
 import MemberRole = Proto.Member.Role;
-import { computeGroupNameHash } from './util/Conversation.preload.ts';
-import { Emoji } from './axo/emoji.std.ts';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -860,6 +865,42 @@ export function buildInviteLinkPasswordChange(
     modifyInviteLinkPassword: {
       inviteLinkPassword: Bytes.fromBase64(inviteLinkPassword),
     },
+  });
+}
+
+export function buildModifyMemberProfileKeyChange({
+  group,
+  profileKeyCredentialBase64,
+  serverPublicParamsBase64,
+}: {
+  group: ConversationAttributesType;
+  profileKeyCredentialBase64: string;
+  serverPublicParamsBase64: string;
+}): Actions.Params {
+  if (!group.secretParams) {
+    throw new Error(
+      'buildModifyMemberProfileKeyChange: group was missing secretParams!'
+    );
+  }
+
+  const clientZkProfileCipher = getClientZkProfileOperations(
+    serverPublicParamsBase64
+  );
+  const presentation = createProfileKeyCredentialPresentation(
+    clientZkProfileCipher,
+    profileKeyCredentialBase64,
+    group.secretParams
+  );
+
+  return toGroupActionsParams({
+    version: (group.revision || 0) + 1,
+    modifyMemberProfileKeys: [
+      {
+        presentation,
+        userId: null,
+        profileKey: null,
+      },
+    ],
   });
 }
 
@@ -3323,6 +3364,13 @@ async function updateGroup(
       });
     }
   }
+  const justLeft = conversation.hasMember(ourAci) && !isMemberOrPending;
+  const previousMemberACIs = (conversation.get('membersV2') || []).map(
+    member => member.aci
+  );
+  const currentMemberACIs = (newAttributes.membersV2 || []).map(
+    member => member.aci
+  );
 
   // We update group membership last to ensure that all notifications are in place before
   //   the group updates happen on the model.
@@ -3362,6 +3410,72 @@ async function updateGroup(
 
   // Save these most recent updates to conversation
   await updateConversation(conversation.attributes);
+
+  // Do these checks after group was updated - we want areWeInGroupWith to be accurate
+  const profileKey = itemStorage.get('profileKey');
+  if (
+    window.ConversationController.areWePrimaryDevice() &&
+    Bytes.isNotEmpty(profileKey)
+  ) {
+    const shouldWeRotate = getShouldWeRotateProfileKey({
+      logId: `updateGroup/${logId}`,
+      justLeft,
+      previousMemberACIs,
+      currentMemberACIs,
+    });
+    if (shouldWeRotate) {
+      await registrationJobQueue.add({
+        type: 'RotateProfileKey',
+        id: generateGuid(),
+        oldProfileKeyBase64: Bytes.toBase64(profileKey),
+      });
+    }
+  }
+}
+
+export function getShouldWeRotateProfileKey({
+  logId,
+  justLeft,
+  previousMemberACIs,
+  currentMemberACIs,
+}: {
+  logId: string;
+  justLeft: boolean;
+  previousMemberACIs: Array<AciString>;
+  currentMemberACIs: Array<AciString>;
+}): boolean {
+  if (justLeft) {
+    const blockedAcis = previousMemberACIs.filter(aci =>
+      itemStorage.blocked.isServiceIdBlocked(aci)
+    );
+    const result = blockedAcis.some(aci => !areWeInGroupWith(aci));
+
+    if (result) {
+      log.info(
+        `${logId}: We just left group; a former member was blocked and is no longer in any shared groups`
+      );
+    }
+
+    return result;
+  }
+
+  const justLeftGroupAcis = difference(previousMemberACIs, currentMemberACIs);
+  if (justLeftGroupAcis.length > 0) {
+    const blockedAcis = justLeftGroupAcis.filter(aci =>
+      itemStorage.blocked.isServiceIdBlocked(aci)
+    );
+    const result = blockedAcis.some(aci => !areWeInGroupWith(aci));
+
+    if (result) {
+      log.info(
+        `${logId}: Group member who left group was blocked and is no longer in any shared groups`
+      );
+    }
+
+    return result;
+  }
+
+  return false;
 }
 
 // Exported for testing

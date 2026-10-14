@@ -357,7 +357,10 @@ export function applyDonationBadge({
       };
 
       void dispatch(
-        conversationActions.myProfileChanged(profileData, { keepAvatar: true })
+        conversationActions.myProfileChanged(profileData, {
+          keepAvatar: true,
+          reupload: false,
+        })
       );
       newDisplayBadgesOnProfile = true;
     } else if (
@@ -373,7 +376,10 @@ export function applyDonationBadge({
       };
 
       void dispatch(
-        conversationActions.myProfileChanged(profileData, { keepAvatar: true })
+        conversationActions.myProfileChanged(profileData, {
+          keepAvatar: true,
+          reupload: false,
+        })
       );
       newDisplayBadgesOnProfile = false;
     }

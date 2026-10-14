@@ -43,6 +43,7 @@ describe('encryptProfileData', () => {
     const [encrypted] = await encryptProfileData(conversation, {
       oldAvatar: undefined,
       newAvatar: undefined,
+      reupload: false,
     });
 
     assert.isDefined(encrypted.version);
@@ -97,6 +98,7 @@ describe('encryptProfileData', () => {
     const [encrypted] = await encryptProfileData(conversation, {
       oldAvatar: new Uint8Array([1, 2, 3]),
       newAvatar: new Uint8Array([1, 2, 3]),
+      reupload: false,
     });
 
     assert.isTrue(encrypted.sameAvatar);
@@ -106,6 +108,17 @@ describe('encryptProfileData', () => {
     const [encrypted] = await encryptProfileData(conversation, {
       oldAvatar: new Uint8Array([1, 2, 3]),
       newAvatar: new Uint8Array([4, 5, 6, 7]),
+      reupload: false,
+    });
+
+    assert.isFalse(encrypted.sameAvatar);
+  });
+
+  it('sets sameAvatar to false when avatars are same, but reupload is true', async () => {
+    const [encrypted] = await encryptProfileData(conversation, {
+      oldAvatar: new Uint8Array([1, 2, 3]),
+      newAvatar: new Uint8Array([1, 2, 3]),
+      reupload: true,
     });
 
     assert.isFalse(encrypted.sameAvatar);

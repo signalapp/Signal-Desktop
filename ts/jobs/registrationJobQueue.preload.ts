@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
@@ -9,7 +9,7 @@ import type PQueue from 'p-queue';
 
 import { DAY, MINUTE, SECOND } from '../util/durations/constants.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
-import { fromBase64, toBase64, toHex } from '../Bytes.std.ts';
+import { areEqual, fromBase64, toBase64 } from '../Bytes.std.ts';
 import { parseUnknown } from '../util/schemas.std.ts';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.ts';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue.preload.ts';
@@ -21,16 +21,20 @@ import {
   migrateSVR2,
   setupRegistrationLock,
   storeWithSVR2,
+  updateAccountAttributes,
 } from '../textsecure/WebAPI.preload.ts';
 import { normalizePin } from '../util/normalizePin.std.ts';
 import { resetWithNewKey as resetStorageServiceWithNewKey } from '../services/storage.preload.ts';
 import { getConversation } from '../util/getConversation.preload.ts';
 import { writeProfile } from '../services/writeProfile.preload.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
-import {
-  AccountEntropyPool,
-  SvrKey,
-} from '@signalapp/libsignal-client/dist/AccountKeys';
+import { updateProfileKeyForAllGroups } from '../util/updateProfileKeyForAllGroups.preload.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { getRandomBytes } from '../Crypto.node.ts';
+import { PROFILE_KEY_LENGTH } from '../textsecure/AccountManager.preload.ts';
+import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
+import { assembleAccountAttributes } from '../util/assembleAccountAttributes.preload.ts';
+import { getRegistrationLockString } from '../util/getRegistrationLockString.preload.ts';
 
 import type { Job } from './Job.std.ts';
 import type { ParsedJob } from './types.std.ts';
@@ -55,6 +59,8 @@ const registrationQueueJobEnum = z.enum([
   'StoreSVR',
   'UpdateToNewMasterKey',
   'UploadProfile',
+  'RotateProfileKey',
+  'UpdateGroupsWithNewProfileKey',
 ]);
 type RegistrationQueueJobEnum = z.infer<typeof registrationQueueJobEnum>;
 
@@ -77,6 +83,22 @@ export type RegistrationQueueJobState = {
   >;
   [registrationQueueJobEnum.enum.UpdateToNewMasterKey]?: undefined;
   [registrationQueueJobEnum.enum.UploadProfile]?: undefined;
+  [registrationQueueJobEnum.enum.RotateProfileKey]?: Record<
+    string,
+    {
+      id: string;
+      timestamp: number;
+      newProfileKeyBase64: string;
+    }
+  >;
+  [registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey]?: Record<
+    string,
+    {
+      id: string;
+      timestamp: number;
+      completedGroupIds: Array<string>;
+    }
+  >;
 };
 
 const migrateSVRJobDataSchema = z.object({
@@ -113,11 +135,31 @@ const uploadProfileJobDataSchema = z.object({
 });
 export type UploadProfileJobData = z.infer<typeof uploadProfileJobDataSchema>;
 
+const rotateProfileKeyJobDataSchema = z.object({
+  type: z.literal(registrationQueueJobEnum.enum.RotateProfileKey),
+  id: z.string(),
+  oldProfileKeyBase64: z.string(),
+});
+export type RotateProfileKeyJobData = z.infer<
+  typeof rotateProfileKeyJobDataSchema
+>;
+
+const updateGroupsWithNewProfileKeyJobDataSchema = z.object({
+  type: z.literal(registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey),
+  id: z.string(),
+  newProfileKeyBase64: z.string(),
+});
+export type UpdateGroupsWithNewProfileKeyJobData = z.infer<
+  typeof updateGroupsWithNewProfileKeyJobDataSchema
+>;
+
 export const registrationQueueJobDataSchema = z.discriminatedUnion('type', [
   migrateSVRJobDataSchema,
   storeSVRJobDataSchema,
   updateToNewMasterKeyJobDataSchema,
   uploadProfileJobDataSchema,
+  rotateProfileKeyJobDataSchema,
+  updateGroupsWithNewProfileKeyJobDataSchema,
 ]);
 export type RegistrationQueueJobData = z.infer<
   typeof registrationQueueJobDataSchema
@@ -222,6 +264,14 @@ class RegistrationJobQueue extends JobQueue<RegistrationQueueJobData> {
           await uploadProfile(data, bundle);
           break;
         }
+        case go.RotateProfileKey: {
+          await rotateProfileKey(data, bundle);
+          break;
+        }
+        case go.UpdateGroupsWithNewProfileKey: {
+          await updateGroupsWithNewProfileKey(data, bundle);
+          break;
+        }
         default: {
           // Note: This should never happen, because the zod call in parseData wouldn't
           //   accept data that doesn't look like our type specification.
@@ -245,7 +295,7 @@ async function migrateSVR(
   const { id, reason } = data;
   const { log, timestamp, isFinalAttempt } = bundle;
   const type = registrationQueueJobEnum.enum.MigrateSVR;
-  const logId = `${type}/${id}`;
+  const logId = `${type}/${timestamp}/${id}`;
 
   const svrPin = itemStorage.get('svrPin');
   const masterKey = itemStorage.get('masterKey');
@@ -315,7 +365,7 @@ async function storeSVR(
   const { id, reason } = data;
   const { log, timestamp, isFinalAttempt } = bundle;
   const type = registrationQueueJobEnum.enum.StoreSVR;
-  const logId = `${type}/${id}`;
+  const logId = `${type}/${timestamp}/${id}`;
 
   const svrPin = itemStorage.get('svrPin');
   const masterKey = itemStorage.get('masterKey');
@@ -383,10 +433,10 @@ async function updateToNewMasterKey(
   bundle: RegistrationQueueJobBundle
 ): Promise<void> {
   const { id, reglock } = data;
-  const { log } = bundle;
+  const { log, timestamp } = bundle;
   const type = registrationQueueJobEnum.enum.UpdateToNewMasterKey;
   const areWePrimary = window.ConversationController.areWePrimaryDevice();
-  const logId = `${type}/${id}`;
+  const logId = `${type}/${timestamp}/${id}`;
 
   if (!areWePrimary) {
     log.info(`${logId}: We are not primary device; returning early`);
@@ -411,27 +461,14 @@ async function updateToNewMasterKey(
   log.info(`${logId}: Complete! Scheduled a job to store masterKey in SVR.`);
 }
 
-export function getRegistrationLockString(): string {
-  const aep = itemStorage.get('accountEntropyPool');
-  if (!aep) {
-    throw new Error('missing aep!');
-  }
-
-  const svrKeyData = AccountEntropyPool.deriveSvrKey(aep);
-  const svrKey = new SvrKey(svrKeyData);
-
-  const registrationLock = svrKey.deriveRegistrationLock();
-  return toHex(registrationLock);
-}
-
 async function uploadProfile(
   data: UploadProfileJobData,
   bundle: RegistrationQueueJobBundle
 ): Promise<void> {
   const { id, firstName, familyName, avatarDataBase64 } = data;
-  const { log } = bundle;
+  const { log, timestamp } = bundle;
   const type = registrationQueueJobEnum.enum.UploadProfile;
-  const logId = `${type}/${id}`;
+  const logId = `${type}/${timestamp}/${id}`;
 
   log.info(`${logId}: Starting...`);
 
@@ -458,10 +495,176 @@ async function uploadProfile(
     avatarUpdate: {
       oldAvatar: undefined,
       newAvatar: avatarDataBase64 ? fromBase64(avatarDataBase64) : undefined,
+      reupload: false,
     },
   });
 
   log.info(`${logId}: Successfully uploaded profile!`);
+}
+
+async function rotateProfileKey(
+  data: RotateProfileKeyJobData,
+  bundle: RegistrationQueueJobBundle
+) {
+  const { id, oldProfileKeyBase64 } = data;
+  const { log, timestamp, isFinalAttempt } = bundle;
+  const type = registrationQueueJobEnum.enum.RotateProfileKey;
+  const logId = `${type}/${timestamp}/${id}`;
+
+  // A large queue might result in a lot of these jobs; we want to coalesce them if we can
+  log.info(`${logId}: Waiting for empty event queue...`);
+  try {
+    await window.waitForEmptyEventQueue();
+  } catch (error) {
+    log.error(`${logId}: waitForEmptyEvent threw:`, toLogFormat(error));
+  }
+
+  log.info(`${logId}: Starting...`);
+
+  const startingJobState = getJobState(type) || {};
+  const startingOurJobState = startingJobState[id];
+
+  let newProfileKey: Uint8Array<ArrayBuffer>;
+  let newProfileKeyBase64: string;
+  if (startingOurJobState) {
+    log.info(`${logId}: Using previously-generated profileKey...`);
+    newProfileKeyBase64 = startingOurJobState.newProfileKeyBase64;
+    newProfileKey = fromBase64(newProfileKeyBase64);
+  } else {
+    log.info(`${logId}: Generating new profileKey...`);
+    newProfileKey = getRandomBytes(PROFILE_KEY_LENGTH);
+    newProfileKeyBase64 = toBase64(newProfileKey);
+  }
+
+  const currentProfileKey = itemStorage.get('profileKey');
+  const oldProfileKey = fromBase64(oldProfileKeyBase64);
+
+  // If we kick off a bunch of these jobs at once, only the first will succeed
+  const alreadyStarted = startingOurJobState != null;
+  const matchesOld =
+    currentProfileKey && areEqual(currentProfileKey, oldProfileKey);
+  const matchesNew =
+    currentProfileKey &&
+    alreadyStarted &&
+    areEqual(currentProfileKey, newProfileKey);
+
+  if (!matchesOld && !matchesNew) {
+    log.info(
+      `${logId}: Current profileKey does not match profileKey when this job was queued or target profileKey; canceling run`
+    );
+    await putJobState(type, omit(startingJobState, id));
+    return;
+  }
+  await putJobState(type, {
+    ...startingJobState,
+    [id]: {
+      id,
+      timestamp,
+      newProfileKeyBase64,
+    },
+  });
+
+  try {
+    const me = window.ConversationController.getOurConversationOrThrow();
+
+    log.info(`${logId}: Saving new profileKey locally...`);
+    const didChange = await me.setProfileKey(newProfileKeyBase64, {
+      reason: 'rotateProfileKey',
+      skipProfileFetch: true,
+    });
+    if (didChange) {
+      window.SignalCI?.handleEvent('setProfileKey', {
+        profileKeyBase64: newProfileKeyBase64,
+        reason: 'rotateProfileKey',
+      });
+    }
+    await ourProfileKeyService.set(newProfileKey);
+
+    log.info(`${logId}: Updating account attributes...`);
+    await updateAccountAttributes(assembleAccountAttributes());
+
+    log.info(`${logId}: Uploading profile...`);
+    const meProps = getConversation(me);
+    await writeProfile(meProps, { keepAvatar: true, reupload: true });
+
+    log.info(`${logId}: Fetching profile...`);
+    await me.getProfiles();
+
+    log.info(`${logId}: Scheduling a task for profile update in groups...`);
+    await registrationJobQueue.add({
+      type: 'UpdateGroupsWithNewProfileKey',
+      id: generateUuid(),
+      newProfileKeyBase64,
+    });
+
+    await putJobState(type, omit(startingJobState, id));
+    log.info(`${logId}: Complete!`);
+  } finally {
+    if (isFinalAttempt) {
+      await putJobState(type, omit(startingJobState, id));
+    }
+  }
+}
+
+async function updateGroupsWithNewProfileKey(
+  data: UpdateGroupsWithNewProfileKeyJobData,
+  bundle: RegistrationQueueJobBundle
+) {
+  const { id, newProfileKeyBase64 } = data;
+  const { isFinalAttempt, log, timestamp } = bundle;
+  const type = registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey;
+  const logId = `${type}/${timestamp}/${id}`;
+
+  log.info(`${logId}: Starting...`);
+
+  const profileKey = fromBase64(newProfileKeyBase64);
+
+  const startingJobState = getJobState(type) || {};
+  const startingOurJobState = startingJobState[id];
+  const completedGroupIds = new Set(
+    startingOurJobState?.completedGroupIds || []
+  );
+
+  const result = await updateProfileKeyForAllGroups(
+    profileKey,
+    completedGroupIds
+  );
+
+  if (result.state === 'success') {
+    window.SignalCI?.handleEvent('updateGroupsWithNewProfileKey', {});
+
+    await putJobState(type, omit(startingJobState, id));
+    log.info(`${logId}: Complete!`);
+    return;
+  }
+
+  if (result.state === 'canceled') {
+    await putJobState(type, omit(startingJobState, id));
+    log.info(`${logId}: Job cancelled. Returning.`);
+    return;
+  }
+
+  if (isFinalAttempt) {
+    await putJobState(type, omit(startingJobState, id));
+    throw new Error(
+      `${logId}: State was ${result.state}, but this was our final attempt. Cleared state.`
+    );
+  }
+
+  if (result.state === 'failed') {
+    const updatedOurJobState = {
+      ...startingOurJobState,
+      id,
+      timestamp,
+      completedGroupIds: Array.from(result.completedGroupIds),
+    };
+    const updatedJobState = { ...startingJobState, [id]: updatedOurJobState };
+    await putJobState(type, updatedJobState);
+
+    throw new Error(`Job failed; we'll try again later`);
+  }
+
+  throw missingCaseError(result);
 }
 
 export const registrationJobQueue = new RegistrationJobQueue({

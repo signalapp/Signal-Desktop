@@ -263,6 +263,46 @@ export class ServerGroup extends Group {
       ];
     }
 
+    const modifyMemberProfileKeys = actions.modifyMemberProfileKeys ?? [];
+    for (const { presentation } of modifyMemberProfileKeys) {
+      assert.ok(
+        presentation,
+        'Missing presentation in modifyMemberProfileKeys',
+      );
+      const presentationFFI = new ProfileKeyCredentialPresentation(
+        Buffer.from(presentation),
+      );
+      this.profileOps.verifyProfileKeyCredentialPresentation(
+        this.publicParams,
+        presentationFFI,
+      );
+
+      assert.ok(
+        Buffer.from(presentationFFI.getUuidCiphertext().serialize()).equals(
+          sourceAci.serialize(),
+        ),
+        'Must be from the contact it is referencing',
+      );
+
+      const member = this.getMember(presentationFFI.getUuidCiphertext());
+      assert.ok(member, 'No existing member');
+      assert.ok(
+        !this.getPendingMember(presentationFFI.getUuidCiphertext()),
+        'Member is both pending and active',
+      );
+
+      newState.members = (newState.members ?? []).filter(
+        (entry) => entry !== member,
+      );
+
+      const profileKey = presentationFFI.getProfileKeyCiphertext().serialize();
+
+      newState.members.push({
+        ...member,
+        profileKey,
+      });
+    }
+
     const promoteMembersPendingProfileKey =
       actions.promoteMembersPendingProfileKey ?? [];
     for (const { presentation } of promoteMembersPendingProfileKey) {

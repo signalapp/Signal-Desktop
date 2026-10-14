@@ -149,6 +149,7 @@ class UsernameIntegrityService {
 
     await writeProfile(getConversation(me), {
       keepAvatar: true,
+      reupload: false,
     });
 
     log.warn('updated profile');

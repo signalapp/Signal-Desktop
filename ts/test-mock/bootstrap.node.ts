@@ -174,9 +174,10 @@ export type RegressionSample = Readonly<{
 
 export type StandaloneLinkData = Readonly<{
   aci: AciString;
+  profileKey: Buffer<ArrayBuffer>;
+  recordIkm: Buffer<ArrayBuffer> | undefined;
   startingStorageServiceVersion: bigint;
   storageKey: Buffer<ArrayBuffer>;
-  recordIkm: Buffer<ArrayBuffer> | undefined;
 }>;
 
 function sanitizePathComponent(component: string): string {
@@ -566,12 +567,20 @@ export class Bootstrap {
 
     const { version, storageKey, recordIkm } =
       await app.waitForUploadManifest();
+    const { profileKey, reason } = await app.waitForSetProfileKey();
+
+    assert.strictEqual(
+      reason,
+      'AccountManager.doCreateAccount',
+      'Expect to get profileKey from account create'
+    );
 
     return {
       aci,
+      profileKey,
+      recordIkm: recordIkm ? Buffer.from(recordIkm) : undefined,
       startingStorageServiceVersion: BigInt(version),
       storageKey: Buffer.from(storageKey),
-      recordIkm: recordIkm ? Buffer.from(recordIkm) : undefined,
     };
   }
 

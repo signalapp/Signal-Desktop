@@ -88,7 +88,7 @@ async function createPrimaryDevice(name: string): Promise<PrimaryDevice> {
     async getDeviceByServiceId() {
       throw new Error('Not implemented');
     },
-    async issueExpiringProfileKeyCredential() {
+    async getProfileKeyPresentation() {
       throw new Error('Not implemented');
     },
     async getGroup() {
