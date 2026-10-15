@@ -7097,7 +7097,7 @@
     "messageformat": "Încearcă din nou în {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Selectează codul regiunii"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Număr de telefon"
@@ -8781,7 +8781,7 @@
     "messageformat": "Mulțumesc pentru susținerea acordată Signal. Contribuția ta ajută la îndeplinirea misiunii de a proteja libertatea de exprimare și de a permite o comunicare globală sigură pentru milioane de oameni din întreaga lume, prin intermediul tehnologiei open source pentru confidențialitate. Dacă ești rezident al Statelor Unite, păstrează această chitanță pentru evidența fiscală. Signal Technology Foundation este o organizație non-profit scutită de impozite din Statele Unite, în conformitate cu secțiunea 501c3 din Codul Veniturilor Interne. Codul nostru fiscal federal este 82-4506840. Signal nu a oferit bunuri sau servicii referitoare la această contribuție."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Donează Acum"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Ești offline. Conectează-te la internet pentru a finaliza o donație."

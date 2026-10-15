@@ -7097,7 +7097,7 @@
     "messageformat": "Prøv igen om {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Vælg områdekode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonnummer"
@@ -8781,7 +8781,7 @@
     "messageformat": "Tak, fordi du støtter Signal. Dit bidrag er med til at fremme missionen om at beskytte ytringsfriheden og muliggøre sikker global kommunikation for millioner af mennesker verden over gennem open source-privatlivsteknologi. Hvis du er bosiddende i USA, bedes du gemme denne kvittering til dine skatteoptegnelser. Signal Technology Foundation er en skattefritaget nonprofitorganisation i USA i henhold til paragraf 501c3 i Internal Revenue Code. Vores Federal Tax ID er 82-4506840. Signal har ikke leveret varer eller tjenesteydelser til gengæld for dette bidrag."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Donér nu"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Du er offline. Opret forbindelse til internettet for at gennemføre donationen."

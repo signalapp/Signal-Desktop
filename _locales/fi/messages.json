@@ -7097,7 +7097,7 @@
     "messageformat": "Yritä uudelleen, kun on kulunut {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Valitse aluetunnus"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Puhelinnumero"
@@ -8781,7 +8781,7 @@
     "messageformat": "Kiitos, että tuet Signalia. Lahjoituksesi auttaa edistämään tavoitettamme suojata sananvapautta ja mahdollistaa turvallinen maailmanlaajuinen viestintä miljoonille käyttäjille ympäri maailmaa avoimen lähdekoodin tietosuojateknologialla. Jos asut Yhdysvalloissa, säilytä tämä kuitti verotusta varten. Signal Technology Foundation on verovapaa voittoa tavoittelematon organisaatio Yhdysvaltojen Internal Revenue Code -pykälän 501c3 mukaisesti. Liittovaltion verotunnuksemme on 82-4506840. Signal ei ole tarjonnut lahjoituksesta tavaroita tai palveluja vastineeksi."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Lahjoita nyt"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Olet offline-tilassa. Yhdistä internetiin lahjoituksen tekemiseksi."
