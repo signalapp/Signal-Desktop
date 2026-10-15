@@ -34,6 +34,7 @@ import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { isNumber } from 'lodash';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 
 const FIRST_REGLOCK_TRIES_THRESHOLD = 5;
 const SECOND_REGLOCK_TRIES_THRESHOLD = 3;
@@ -178,9 +179,7 @@ export function VerifyPINScreen({
   if (shouldShowIncorrectPIN?.type === 'count') {
     helperElement = (
       <div
-        className={tw(
-          'ms-1 mt-1.5 w-full text-start type-body-small text-destructive'
-        )}
+        className={tw('ms-1 mt-1.5 w-full type-body-small text-destructive')}
       >
         {i18n('icu:StandaloneRegistration--VerifyPIN--just-count', {
           triesRemaining: shouldShowIncorrectPIN.count,
@@ -191,9 +190,7 @@ export function VerifyPINScreen({
   if (shouldShowIncorrectPIN?.type === 'error-with-count') {
     helperElement = (
       <div
-        className={tw(
-          'ms-1 mt-1.5 w-full text-start type-body-small text-destructive'
-        )}
+        className={tw('ms-1 mt-1.5 w-full type-body-small text-destructive')}
       >
         {i18n(
           'icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count',
@@ -339,7 +336,7 @@ function NeedHelpDialog({
   goToCreatePINStage: ActionCreator<typeof doGoToCreatePINStage>;
 }): JSX.Element {
   return (
-    <AxoAlertDialog.Root
+    <AxoDialog.Root
       open={isOpen}
       onOpenChange={open => {
         if (!open) {
@@ -347,59 +344,59 @@ function NeedHelpDialog({
         }
       }}
     >
-      <AxoAlertDialog.Content escape="cancel-is-noop">
-        <AxoAlertDialog.Body>
-          <AxoAlertDialog.Title>
-            <div className={tw('text-start')}>
-              {i18n('icu:StandaloneRegistration--VerifyPIN--NeedHelp--header')}
-            </div>
-          </AxoAlertDialog.Title>
-          <AxoAlertDialog.Description>
-            <div className={tw('text-start')}>
-              {hasReglock ? (
-                <I18n
-                  i18n={i18n}
-                  id="icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--reglock"
-                  components={{ learnMore }}
-                />
-              ) : (
-                <I18n
-                  i18n={i18n}
-                  id="icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--no-reglock"
-                  components={{ learnMore }}
-                />
-              )}
-            </div>
-          </AxoAlertDialog.Description>
-        </AxoAlertDialog.Body>
-        <AxoAlertDialog.Footer forceAlwaysBreakToSeparateLines>
-          <AxoAlertDialog.Action
-            variant="strong-secondary"
-            onClick={() => setOpen(false)}
-          >
-            {i18n('icu:StandaloneRegistration--VerifyPIN--NeedHelp--cancel')}
-          </AxoAlertDialog.Action>
-          <AxoAlertDialog.Action
-            variant="strong-secondary"
-            onClick={() => openLinkInWebBrowser(CONTACT_SUPPORT_URL)}
-          >
-            {i18n(
-              'icu:StandaloneRegistration--VerifyPIN--NeedHelp--contact-support-button'
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:StandaloneRegistration--VerifyPIN--NeedHelp--header')}
+          </AxoDialog.Title>
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoDialog.Description>
+            {hasReglock ? (
+              <I18n
+                i18n={i18n}
+                id="icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--reglock"
+                components={{ learnMore }}
+              />
+            ) : (
+              <I18n
+                i18n={i18n}
+                id="icu:StandaloneRegistration--VerifyPIN--NeedHelp--description--no-reglock"
+                components={{ learnMore }}
+              />
             )}
-          </AxoAlertDialog.Action>
-          {hasReglock ? undefined : (
-            <AxoAlertDialog.Action
-              variant="subtle-destructive"
-              onClick={() => goToCreatePINStage()}
+          </AxoDialog.Description>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions width="fill" forceAlwaysBreakToSeparateLines>
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={() => setOpen(false)}
+            >
+              {i18n('icu:StandaloneRegistration--VerifyPIN--NeedHelp--cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={() => openLinkInWebBrowser(CONTACT_SUPPORT_URL)}
             >
               {i18n(
-                'icu:StandaloneRegistration--VerifyPIN--NeedHelp--skip-button--no-reglock'
+                'icu:StandaloneRegistration--VerifyPIN--NeedHelp--contact-support-button'
               )}
-            </AxoAlertDialog.Action>
-          )}
-        </AxoAlertDialog.Footer>
-      </AxoAlertDialog.Content>
-    </AxoAlertDialog.Root>
+            </AxoDialog.Action>
+            {hasReglock ? undefined : (
+              <AxoDialog.Action
+                variant="subtle-destructive"
+                onClick={() => goToCreatePINStage()}
+              >
+                {i18n(
+                  'icu:StandaloneRegistration--VerifyPIN--NeedHelp--skip-button--no-reglock'
+                )}
+              </AxoDialog.Action>
+            )}
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
 function SkipPINDialog({
@@ -429,9 +426,9 @@ function SkipPINDialog({
       <AxoAlertDialog.Content escape="cancel-is-noop">
         <AxoAlertDialog.Body>
           <AxoAlertDialog.Title>
-            <div className={tw('text-start')}>
+            <span className={tw('block text-start')}>
               {i18n('icu:StandaloneRegistration--VerifyPIN--SkipPIN--header')}
-            </div>
+            </span>
           </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
             <div className={tw('text-start')}>
@@ -447,7 +444,7 @@ function SkipPINDialog({
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer forceAlwaysBreakToSeparateLines>
           <AxoAlertDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={() => setOpen(false)}
           >
             {i18n(
@@ -497,11 +494,11 @@ function FewRemainingTriesDialog({
       <AxoAlertDialog.Content escape="cancel-is-noop">
         <AxoAlertDialog.Body>
           <AxoAlertDialog.Title>
-            <div className={tw('text-start')}>
+            <span className={tw('block text-start')}>
               {i18n(
                 'icu:StandaloneRegistration--VerifyPIN--FewRemainingTries--header'
               )}
-            </div>
+            </span>
           </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
             <div className={tw('text-start')}>
@@ -563,11 +560,11 @@ function NoRemainingTriesDialog({
       <AxoAlertDialog.Content escape="cancel-is-noop">
         <AxoAlertDialog.Body>
           <AxoAlertDialog.Title>
-            <div className={tw('text-start')}>
+            <span className={tw('block text-start')}>
               {i18n(
                 'icu:StandaloneRegistration--VerifyPIN--NoRemainingTries--header'
               )}
-            </div>
+            </span>
           </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
             <div className={tw('text-start')}>
@@ -579,7 +576,7 @@ function NoRemainingTriesDialog({
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer forceAlwaysBreakToSeparateLines>
           <AxoAlertDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={() => openLinkInWebBrowser(PIN_ARTICLE_ON_SUPPORT)}
           >
             {i18n(

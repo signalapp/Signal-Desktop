@@ -33,11 +33,7 @@ export function DonationPrivacyInformationModal({
         }
       }}
     >
-      <AxoDialog.Content
-        size="sm"
-        escape="cancel-is-noop"
-        disableMissingAriaDescriptionWarning
-      >
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Header floating>
           <AxoDialog.Title>
             {i18n('icu:PreferencesDonations__privacy-modal-title')}
@@ -45,19 +41,20 @@ export function DonationPrivacyInformationModal({
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
-          <img
-            className={tw('m-auto mb-3')}
-            alt={i18n(
-              'icu:PreferencesDonations__privacy-modal-icon-accessibility-label'
-            )}
-            src="images/signal-heart.svg"
-            width={64}
-            height={64}
-          />
-          <div className={tw('flex flex-col gap-4 pt-1.5 pb-4')}>
-            <div className={tw('mt-1 mb-2')}>
-              {i18n('icu:PreferencesDonations__privacy-modal-intro')}
-            </div>
+          <div className={tw('mb-2.5 flex justify-center')}>
+            <img
+              alt={i18n(
+                'icu:PreferencesDonations__privacy-modal-icon-accessibility-label'
+              )}
+              src="images/signal-heart.svg"
+              width={64}
+              height={64}
+            />
+          </div>
+          <div className={tw('flex flex-col gap-4 text-primary')}>
+            <AxoDialog.Description>
+              <p>{i18n('icu:PreferencesDonations__privacy-modal-intro')}</p>
+            </AxoDialog.Description>
             <ul className={tw('flex flex-col gap-6')}>
               <li className={tw('flex flex-row gap-4')}>
                 <div>
@@ -89,7 +86,7 @@ export function DonationPrivacyInformationModal({
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={handleDonationFAQsClick}
             >
               {i18n('icu:PreferencesDonations__faqs')}

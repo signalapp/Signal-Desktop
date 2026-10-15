@@ -33,6 +33,18 @@ export namespace AxoRadioGroup {
 
   export type RootProps = Readonly<{
     /**
+     * Label for the radio group as a whole.
+     * Note: The label should be for all options, not the currently selected one.
+     */
+    label?: string | null;
+
+    /**
+     * Reference an element that labels the radio group.
+     * Note: The label should be for all options, not the currently selected one.
+     */
+    labelledby?: string | null;
+
+    /**
      * The controlled value of the radio item to check.
      * Should be used in conjunction with `onValueChange`.
      */
@@ -76,6 +88,8 @@ export namespace AxoRadioGroup {
         onValueChange={props.onValueChange}
         disabled={props.disabled}
         className={tw('flex flex-col')}
+        aria-label={props.label ?? undefined}
+        aria-labelledby={props.labelledby ?? undefined}
       >
         {props.children}
       </RadioGroup.Root>

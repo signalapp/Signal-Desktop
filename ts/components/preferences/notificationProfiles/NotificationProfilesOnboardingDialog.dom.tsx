@@ -19,20 +19,20 @@ export function NotificationProfilesOnboardingDialog(
     <AxoDialog.Root open onOpenChange={onDismiss}>
       <AxoDialog.Content size="sm" escape="cancel-is-destructive">
         <AxoDialog.Body>
-          <div className={tw('flex flex-col items-center')}>
-            <div className={tw('mb-3')}>
-              <ProfileAvatar i18n={i18n} size="large" />
-            </div>
-            <h1 className={tw('mb-2 type-title-medium text-primary')}>
-              {i18n('icu:NotificationProfiles--title')}
-            </h1>
-            <p
-              className={tw(
-                'text-center type-body-large text-pretty text-secondary'
-              )}
-            >
-              {i18n('icu:NotificationProfiles--setup-description')}
-            </p>
+          <div className={tw('mb-2.5 flex justify-center')}>
+            <ProfileAvatar i18n={i18n} size="large" />
+          </div>
+          <div className={tw('text-center')}>
+            <AxoDialog.Title>
+              <span className={tw('type-title-medium')}>
+                {i18n('icu:NotificationProfiles--title')}
+              </span>
+            </AxoDialog.Title>
+            <AxoDialog.Description>
+              <p className={tw('text-pretty')}>
+                {i18n('icu:NotificationProfiles--setup-description')}
+              </p>
+            </AxoDialog.Description>
           </div>
         </AxoDialog.Body>
         <AxoDialog.Footer>

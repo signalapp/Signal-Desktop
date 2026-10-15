@@ -15,6 +15,10 @@
     "messageformat": "Cancel",
     "description": "Axo Design System > Alert Dialog Component > Cancel Button > Generic default Label"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK",
+    "description": "Axo Design System > Alert Dialog Component > Ok Button > Generic default Label"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Pending",
     "description": "Axo Design System > Button Component > Pending State > Generic accessibility label"
@@ -904,6 +908,10 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers.",
+    "description": "Key Transparency Onboarding Dialog > Description"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>",
     "description": "Key Transparency Onboarding Dialog > Description"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
@@ -11977,6 +11985,10 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Issues description",
     "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Accessibility Label"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Placeholder"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal.",

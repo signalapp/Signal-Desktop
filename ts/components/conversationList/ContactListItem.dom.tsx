@@ -220,9 +220,7 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
             }
             description={i18n('icu:ContactListItem__remove-system--body')}
           >
-            <AxoConfirmDialog.Cancel>
-              {i18n('icu:Confirmation--confirm')}
-            </AxoConfirmDialog.Cancel>
+            <AxoConfirmDialog.Ok />
           </AxoConfirmDialog.Root>
         );
       } else {

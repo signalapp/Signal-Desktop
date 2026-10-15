@@ -1011,6 +1011,7 @@ type SuggestLowerHandActionType = ReadonlyDeep<{
 
 type ToggleNeedsScreenRecordingPermissionsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
+  payload: boolean;
 }>;
 
 type ToggleParticipantsActionType = ReadonlyDeep<{
@@ -1486,9 +1487,7 @@ function getPresentingSources(): AsyncStateThunk<
     });
 
     if (needsPermission) {
-      dispatch({
-        type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
-      });
+      dispatch(toggleScreenRecordingPermissionsDialog(true));
     }
   };
 }
@@ -2786,9 +2785,12 @@ function toggleSelfViewExpanded(): ToggleSelfViewExpandedActionType {
   };
 }
 
-function toggleScreenRecordingPermissionsDialog(): ToggleNeedsScreenRecordingPermissionsActionType {
+function toggleScreenRecordingPermissionsDialog(
+  open: boolean
+): ToggleNeedsScreenRecordingPermissionsActionType {
   return {
     type: TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS,
+    payload: open,
   };
 }
 
@@ -4496,8 +4498,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...activeCallState,
-        showNeedsScreenRecordingPermissionsWarning:
-          !activeCallState.showNeedsScreenRecordingPermissionsWarning,
+        showNeedsScreenRecordingPermissionsWarning: action.payload,
       },
     };
   }

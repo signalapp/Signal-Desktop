@@ -55,14 +55,14 @@ export function LocalBackupExportWorkflow({
 
       progressElements = (
         <>
-          <div className={tw('mb-[17px]')}>
+          <div className={tw('mb-4')}>
             <ProgressBar
               fractionComplete={fractionComplete}
               isRTL={i18n.getLocaleDirection() === 'rtl'}
             />
           </div>
           <div
-            className={tw('mb-1.5 text-center type-body-small font-semibold')}
+            className={tw('mb-1.5 type-body-small font-semibold text-primary')}
           >
             {i18n('icu:PlaintextExport--ProgressDialog--Progress', {
               currentBytes: formatFileSize(progress.currentBytes),
@@ -74,7 +74,7 @@ export function LocalBackupExportWorkflow({
       );
     } else {
       progressElements = (
-        <div className={tw('mb-[17px]')}>
+        <div className={tw('mb-4')}>
           <ProgressBar
             fractionComplete={null}
             isRTL={i18n.getLocaleDirection() === 'rtl'}
@@ -91,33 +91,24 @@ export function LocalBackupExportWorkflow({
               {i18n('icu:LocalBackupExport--ProgressDialog--Header')}
             </AxoDialog.Title>
 
-            <AxoDialog.Description>
-              <div className={tw('mx-3.5 my-[29px]')}>
-                {progressElements}
-                <div
-                  className={tw('text-center type-body-small text-secondary')}
-                >
+            <div className={tw('my-6')}>
+              {progressElements}
+              <AxoDialog.Description>
+                <p className={tw('type-body-small')}>
                   {i18n('icu:PlaintextExport--ProgressDialog--TimeWarning')}
-                </div>
-              </div>
-            </AxoDialog.Description>
+                </p>
+              </AxoDialog.Description>
+            </div>
           </AxoDialog.Body>
           <AxoDialog.Footer>
-            <div
-              className={tw(
-                'mx-auto',
-                'flex flex-wrap',
-                'max-w-full',
-                'items-center gap-x-2 gap-y-3'
-              )}
-            >
+            <AxoDialog.Actions width="fill">
               <AxoDialog.Action
-                variant="strong-secondary"
+                variant="subtle-secondary"
                 onClick={cancelWorkflow}
               >
                 {i18n('icu:cancel')}
               </AxoDialog.Action>
-            </div>
+            </AxoDialog.Actions>
           </AxoDialog.Footer>
         </AxoDialog.Content>
       </AxoDialog.Root>
@@ -139,28 +130,28 @@ export function LocalBackupExportWorkflow({
     }
 
     return (
-      <AxoAlertDialog.Root open onOpenChange={clearWorkflow}>
-        <AxoAlertDialog.Content escape="cancel-is-noop">
-          <AxoAlertDialog.Body>
-            <div className={tw('flex flex-col items-center')}>
+      <AxoDialog.Root open onOpenChange={clearWorkflow}>
+        <AxoDialog.Content size="sm" escape="cancel-is-noop">
+          <AxoDialog.Body>
+            <div className={tw('mb-2.5 flex justify-center')}>
               <img
                 src="images/desktop-and-phone.svg"
-                className={tw('my-4')}
-                height={61}
-                width={90}
+                height={92}
+                width={138}
                 alt=""
+                className={tw('max-w-22.5')}
               />
-              <AxoAlertDialog.Title>
-                <div className={tw('mb-3 type-title-medium')}>
-                  {i18n('icu:LocalBackupExport--CompleteDialog--Header')}
-                </div>
-              </AxoAlertDialog.Title>
             </div>
-            <AxoAlertDialog.Description>
-              <div className={tw('mb-5 flex flex-col gap-5')}>
-                {i18n(
-                  'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader'
-                )}
+            <AxoDialog.Title>
+              {i18n('icu:LocalBackupExport--CompleteDialog--Header')}
+            </AxoDialog.Title>
+            <AxoDialog.Description>
+              <div className={tw('flex flex-col gap-5 text-primary')}>
+                <p>
+                  {i18n(
+                    'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader'
+                  )}
+                </p>
                 <ol className={tw('flex flex-col gap-5')}>
                   <ListItemWithIcon
                     iconName="arrow-up-down"
@@ -182,27 +173,29 @@ export function LocalBackupExportWorkflow({
                   />
                 </ol>
               </div>
-            </AxoAlertDialog.Description>
-          </AxoAlertDialog.Body>
-          <AxoAlertDialog.Footer>
-            <AxoAlertDialog.Action
-              variant="strong-secondary"
-              onClick={() => {
-                openFileInFolder(workflow.localBackupFolder);
-                clearWorkflow();
-              }}
-            >
-              {showInFolderText}
-            </AxoAlertDialog.Action>
-            <AxoAlertDialog.Action
-              variant="strong-primary"
-              onClick={clearWorkflow}
-            >
-              {i18n('icu:ok')}
-            </AxoAlertDialog.Action>
-          </AxoAlertDialog.Footer>
-        </AxoAlertDialog.Content>
-      </AxoAlertDialog.Root>
+            </AxoDialog.Description>
+          </AxoDialog.Body>
+          <AxoDialog.Footer>
+            <AxoDialog.Actions width="fill">
+              <AxoDialog.Action
+                variant="subtle-secondary"
+                onClick={() => {
+                  openFileInFolder(workflow.localBackupFolder);
+                  clearWorkflow();
+                }}
+              >
+                {showInFolderText}
+              </AxoDialog.Action>
+              <AxoDialog.Action
+                variant="strong-primary"
+                onClick={clearWorkflow}
+              >
+                {i18n('icu:ok')}
+              </AxoDialog.Action>
+            </AxoDialog.Actions>
+          </AxoDialog.Footer>
+        </AxoDialog.Content>
+      </AxoDialog.Root>
     );
   }
 
@@ -239,12 +232,7 @@ export function LocalBackupExportWorkflow({
             <AxoAlertDialog.Description>{detail}</AxoAlertDialog.Description>
           </AxoAlertDialog.Body>
           <AxoAlertDialog.Footer>
-            <AxoAlertDialog.Action
-              variant="strong-primary"
-              onClick={clearWorkflow}
-            >
-              {i18n('icu:ok')}
-            </AxoAlertDialog.Action>
+            <AxoAlertDialog.Ok />
           </AxoAlertDialog.Footer>
         </AxoAlertDialog.Content>
       </AxoAlertDialog.Root>

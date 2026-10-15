@@ -144,7 +144,11 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
       >
         {this.#isEditingAvatar && (
           <AxoDialog.Root open onOpenChange={toggleComposeEditingAvatar}>
-            <AxoDialog.Content size="md" escape="cancel-is-noop">
+            <AxoDialog.Content
+              size="md"
+              escape="cancel-is-noop"
+              disableMissingAriaDescriptionWarning
+            >
               <AxoDialog.Header>
                 <AxoDialog.Title>
                   {i18n(
@@ -214,7 +218,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
           title={null}
           description={i18n('icu:setGroupMetadata__error-message')}
         >
-          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+          <AxoConfirmDialog.Ok />
         </AxoConfirmDialog.Root>
       </form>
     );

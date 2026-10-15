@@ -8,7 +8,7 @@ import type { JSX } from 'react';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { I18n } from '../../I18n.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
@@ -78,7 +78,7 @@ export function CreatePINScreen({
       </AxoDropdownMenu.Trigger>
       <AxoDropdownMenu.Content>
         <AxoDropdownMenu.Item
-          symbol="info"
+          symbol="info-circle"
           onSelect={() => {
             setIsShowingAboutPINsDialog(true);
           }}
@@ -192,48 +192,43 @@ function AboutPINsDialog({
   setOpen: (value: boolean) => unknown;
 }): JSX.Element {
   return (
-    <AxoAlertDialog.Root
-      open={isOpen}
-      onOpenChange={open => {
-        if (!open) {
-          setOpen(false);
-        }
-      }}
-    >
-      <AxoAlertDialog.Content escape="cancel-is-noop">
-        <AxoAlertDialog.Body>
-          <AxoAlertDialog.Title>
+    <AxoDialog.Root open={isOpen} onOpenChange={setOpen}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Body>
+          <AxoDialog.Title>
             {i18n('icu:StandaloneRegistration--CreatePIN--AboutPINs--header')}
-          </AxoAlertDialog.Title>
-          <AxoAlertDialog.Description>
+          </AxoDialog.Title>
+          <AxoDialog.Description>
             {i18n(
               'icu:StandaloneRegistration--CreatePIN--AboutPINs--description'
             )}
-          </AxoAlertDialog.Description>
-        </AxoAlertDialog.Body>
-        <AxoAlertDialog.Footer>
-          <AxoConfirmDialog.Action
-            variant="strong-secondary"
-            onClick={() => {
-              openLinkInWebBrowser(PIN_ARTICLE_ON_SUPPORT);
-              setOpen(false);
-            }}
-          >
-            {i18n(
-              'icu:StandaloneRegistration--CreatePIN--AboutPINs--learn-more-button'
-            )}
-          </AxoConfirmDialog.Action>
-          <AxoConfirmDialog.Action
-            variant="strong-primary"
-            onClick={() => setOpen(false)}
-          >
-            {i18n(
-              'icu:StandaloneRegistration--CreatePIN--AboutPINs--ok-button'
-            )}
-          </AxoConfirmDialog.Action>
-        </AxoAlertDialog.Footer>
-      </AxoAlertDialog.Content>
-    </AxoAlertDialog.Root>
+          </AxoDialog.Description>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions width="fill">
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={() => {
+                openLinkInWebBrowser(PIN_ARTICLE_ON_SUPPORT);
+                setOpen(false);
+              }}
+            >
+              {i18n(
+                'icu:StandaloneRegistration--CreatePIN--AboutPINs--learn-more-button'
+              )}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={() => setOpen(false)}
+            >
+              {i18n(
+                'icu:StandaloneRegistration--CreatePIN--AboutPINs--ok-button'
+              )}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
 
@@ -277,15 +272,15 @@ function DisablePinDialog({
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoConfirmDialog.Action
-            variant="strong-secondary"
+          <AxoAlertDialog.Action
+            variant="subtle-secondary"
             onClick={() => setOpen(false)}
           >
             {i18n(
               'icu:StandaloneRegistration--CreatePIN--DisableWarning--cancel'
             )}
-          </AxoConfirmDialog.Action>
-          <AxoConfirmDialog.Action
+          </AxoAlertDialog.Action>
+          <AxoAlertDialog.Action
             variant="strong-destructive"
             onClick={() => {
               completeRegistration({ workflow });
@@ -295,7 +290,7 @@ function DisablePinDialog({
             {i18n(
               'icu:StandaloneRegistration--CreatePIN--DisableWarning--disable-button'
             )}
-          </AxoConfirmDialog.Action>
+          </AxoAlertDialog.Action>
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>
     </AxoAlertDialog.Root>

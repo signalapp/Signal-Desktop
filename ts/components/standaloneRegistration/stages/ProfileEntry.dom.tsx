@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useId } from 'react';
 
 import type { JSX } from 'react';
 
@@ -244,7 +244,11 @@ export function ProfileEntryScreen({
           }
         }}
       >
-        <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+        <AxoDialog.Content
+          size="sm"
+          escape="cancel-is-destructive"
+          disableMissingAriaDescriptionWarning
+        >
           <AxoDialog.Header>
             <AxoDialog.Title>
               {i18n(
@@ -296,6 +300,7 @@ function PhoneNumberDiscoverabilityDialog({
   phoneNumberDiscoverability: PhoneNumberDiscoverability;
   setPhoneNumberDiscoverability: (value: PhoneNumberDiscoverability) => unknown;
 }): JSX.Element {
+  const radioGroupId = useId();
   return (
     <AxoDialog.Root
       open={isOpen}
@@ -305,7 +310,11 @@ function PhoneNumberDiscoverabilityDialog({
         }
       }}
     >
-      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-destructive"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:Preferences__pnp--page-title')}
@@ -313,10 +322,14 @@ function PhoneNumberDiscoverabilityDialog({
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
-          <div className={tw('mt-5 mb-4 type-body-medium font-semibold')}>
+          <div
+            id={radioGroupId}
+            className={tw('mb-4 font-semibold text-primary')}
+          >
             {i18n('icu:Preferences__pnp__discoverability--title')}
           </div>
           <AxoRadioGroup.Root
+            labelledby={radioGroupId}
             value={phoneNumberDiscoverability}
             onValueChange={value => {
               if (
@@ -332,22 +345,18 @@ function PhoneNumberDiscoverabilityDialog({
           >
             <AxoRadioGroup.Item value={PhoneNumberDiscoverability.Discoverable}>
               <AxoRadioGroup.Label>
-                <div className={tw('type-body-medium')}>
-                  {i18n('icu:Preferences__pnp__discoverability__everyone')}
-                </div>
+                {i18n('icu:Preferences__pnp__discoverability__everyone')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
             <AxoRadioGroup.Item
               value={PhoneNumberDiscoverability.NotDiscoverable}
             >
               <AxoRadioGroup.Label>
-                <div className={tw('type-body-medium')}>
-                  {i18n('icu:Preferences__pnp__discoverability__nobody')}
-                </div>
+                {i18n('icu:Preferences__pnp__discoverability__nobody')}
               </AxoRadioGroup.Label>
             </AxoRadioGroup.Item>
           </AxoRadioGroup.Root>
-          <div className={tw('mt-3 mb-8 type-body-small text-secondary')}>
+          <div className={tw('mt-3 type-body-small')}>
             {phoneNumberDiscoverability ===
             PhoneNumberDiscoverability.Discoverable
               ? i18n(

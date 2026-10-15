@@ -9,8 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 4px;
-  margin-bottom: 24px;
+  color: var(--axo-color-label-primary);
 
   &__name {
     @include mixins.button-reset();
@@ -28,6 +27,7 @@
   }
 
   &__name__text {
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -134,6 +134,7 @@
   }
 
   &__nickname__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 
@@ -153,6 +154,7 @@
   }
 
   &__safety-number__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 
@@ -172,6 +174,7 @@
   }
 
   &__block__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 
@@ -191,6 +194,7 @@
   }
 
   &__make-admin__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 
@@ -210,6 +214,7 @@
   }
 
   &__add-to-another-group__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 
@@ -229,6 +234,7 @@
   }
 
   &__remove-from-group__bubble-icon {
+    display: block;
     height: 20px;
     width: 20px;
 

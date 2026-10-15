@@ -53,7 +53,9 @@ export function GroupDescription({
           </AxoDialog.Header>
           <AxoDialog.Body>
             <AxoDialog.Description>
-              <GroupDescriptionText text={text} />
+              <div className={tw('text-primary')}>
+                <GroupDescriptionText text={text} />
+              </div>
             </AxoDialog.Description>
           </AxoDialog.Body>
         </AxoDialog.Content>

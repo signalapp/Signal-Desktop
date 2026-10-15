@@ -7,7 +7,6 @@ import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
-import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 export type SafetyTipsModalProps = Readonly<{
   i18n: LocalizerType;
@@ -21,7 +20,11 @@ export function SafetyTipsModal({
   const [page, setPage] = useState<'summary' | 'details'>('summary');
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="md" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         {page === 'summary' ? (
           <SafetyTipsSummary
             i18n={i18n}
@@ -79,42 +82,34 @@ function SafetyTipsSummary({
         <AxoDialog.Close />
       </AxoDialog.Header>
       <AxoDialog.Body>
-        <div className={tw('sr-only')}>
-          <AxoDialog.Description>
-            {i18n('icu:SafetyTipsModal__Title-v2')}
-          </AxoDialog.Description>
-        </div>
-        <div className={tw('py-4')}>
-          <ul className={tw('mb-7 space-y-9')}>
-            {tips.map(tip => (
-              <li key={tip.key} className={tw('flex items-start gap-4')}>
-                <img
-                  role="presentation"
-                  alt=""
-                  className={tw('mt-1 size-11 shrink-0')}
-                  src={tip.iconUrl}
-                />
-                <div>
-                  <h3 className={tw('type-title-small text-primary')}>
-                    {tip.titleId}
-                  </h3>
-                  <p className={tw('mt-1 type-body-medium text-secondary')}>
-                    {tip.descriptionId}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <AxoButton.Root
-            size="lg"
-            variant="strong-secondary"
-            width="full"
-            onClick={onViewMore}
-          >
-            {i18n('icu:SafetyTipsModal__Button--ViewMore')}
-          </AxoButton.Root>
-        </div>
+        <ul className={tw('mb-7 flex flex-col gap-9')}>
+          {tips.map(tip => (
+            <li key={tip.key} className={tw('flex items-start gap-4')}>
+              <img
+                role="presentation"
+                alt=""
+                className={tw('mt-1 size-11 shrink-0')}
+                src={tip.iconUrl}
+              />
+              <div>
+                <h3 className={tw('type-title-small text-primary')}>
+                  {tip.titleId}
+                </h3>
+                <p className={tw('mt-1 type-body-medium text-secondary')}>
+                  {tip.descriptionId}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </AxoDialog.Body>
+      <AxoDialog.Footer>
+        <AxoDialog.Actions width="fill">
+          <AxoDialog.Action variant="subtle-secondary" onClick={onViewMore}>
+            {i18n('icu:SafetyTipsModal__Button--ViewMore')}
+          </AxoDialog.Action>
+        </AxoDialog.Actions>
+      </AxoDialog.Footer>
     </>
   );
 }
@@ -227,7 +222,7 @@ function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
                   <img
                     role="presentation"
                     alt=""
-                    className={tw('w-[#204px]')}
+                    className={tw('w-51')}
                     src={page.imageUrl}
                     width={240}
                   />
@@ -247,7 +242,7 @@ function SafetyTipsDetails({ i18n }: { i18n: LocalizerType }): JSX.Element {
           })}
         </div>
         <AxoDialog.Footer>
-          <div className={tw('flex w-full items-center justify-between p-1')}>
+          <div className={tw('flex w-full items-center justify-between')}>
             <div className={pageIndex === 0 ? tw('invisible') : ''}>
               <AxoIconButton.Root
                 variant="strong-secondary"

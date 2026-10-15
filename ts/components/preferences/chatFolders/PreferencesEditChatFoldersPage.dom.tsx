@@ -583,7 +583,7 @@ function SaveChangesFolderDialog(props: {
       )}
     >
       <AxoConfirmDialog.Action
-        variant="strong-secondary"
+        variant="subtle-secondary"
         onClick={props.onDiscard}
       >
         {i18n(

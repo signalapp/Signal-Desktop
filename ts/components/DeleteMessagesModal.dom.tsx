@@ -234,7 +234,7 @@ function DeleteMessagesConfirmAdminDeleteDialog(props: {
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
           <AxoAlertDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={handleCancel}
           >
             {i18n('icu:cancel')}

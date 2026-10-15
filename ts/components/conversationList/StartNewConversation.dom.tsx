@@ -79,7 +79,7 @@ export const StartNewConversation: FunctionComponent<Props> = memo(
             phoneNumber: phoneNumber.userInput,
           })}
         >
-          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+          <AxoConfirmDialog.Ok />
         </AxoConfirmDialog.Root>
       );
     }

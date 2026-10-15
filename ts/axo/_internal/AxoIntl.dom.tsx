@@ -15,6 +15,7 @@ const IntlContext =
 export namespace AxoIntl {
   const DefaultMessages = {
     'AxoAlertDialog.Cancel': 'Cancel',
+    'AxoAlertDialog.Ok': 'OK',
     'AxoButton.Pending': 'Pending',
     'AxoDialog.Back': 'Back',
     'AxoDialog.Close': 'Close',

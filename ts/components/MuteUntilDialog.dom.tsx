@@ -84,7 +84,7 @@ export function MuteUntilDialog({
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
-          <div className={tw('flex items-center gap-2')}>
+          <div className={tw('mb-2.5 flex items-center gap-2')}>
             <DatePicker
               i18n={i18n}
               aria-label={i18n('icu:MuteUntilDialog__dateLabel')}
@@ -100,13 +100,11 @@ export function MuteUntilDialog({
               onUpdateTime={setTime}
             />
           </div>
-          <div className={tw('mt-4 type-body-medium text-secondary')}>
-            {timeZoneNote}
-          </div>
+          <p className={tw('text-secondary')}>{timeZoneNote}</p>
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="strong-secondary" onClick={onClose}>
+            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
               {i18n('icu:cancel')}
             </AxoDialog.Action>
             <AxoDialog.Action

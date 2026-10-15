@@ -74,7 +74,7 @@ export namespace AxoList {
   export const Label: FC<LabelProps> = memo(props => {
     return (
       <AriaLabelled.Label asChild>
-        <h2 className={tw('type-body-medium font-semibold')}>
+        <h2 className={tw('type-body-medium font-semibold text-primary')}>
           {props.children}
         </h2>
       </AriaLabelled.Label>

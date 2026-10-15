@@ -56,7 +56,7 @@ export function DatePicker(props: PropsType): JSX.Element {
     >
       <Group
         className={tw(
-          'flex min-w-0 flex-1 items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 focus-visible-within:axo-focus-ring'
+          'flex min-w-0 flex-1 items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary focus-visible-within:axo-focus-ring'
         )}
       >
         <DateInput className={tw('inline-flex items-center')}>

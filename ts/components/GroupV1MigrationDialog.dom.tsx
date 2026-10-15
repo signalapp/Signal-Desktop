@@ -54,7 +54,7 @@ export const GroupV1MigrationDialog: FunctionComponent<PropsType> = memo(
     let secondaryButtonText: string | undefined;
     let onClickSecondaryButton: (() => void) | undefined;
     if (hasMigrated) {
-      primaryButtonText = i18n('icu:Confirmation--confirm');
+      primaryButtonText = i18n('icu:ok');
       onClickPrimaryButton = onClose;
     } else {
       primaryButtonText = i18n('icu:GroupV1--Migration--migrate');

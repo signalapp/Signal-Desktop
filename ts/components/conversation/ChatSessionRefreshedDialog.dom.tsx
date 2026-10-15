@@ -26,6 +26,7 @@ export function ChatSessionRefreshedDialog(
     openLinkInWebBrowser(
       'https://support.signal.org/hc/requests/new?desktop&chat_refreshed'
     );
+    setOpen(false);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -36,6 +37,9 @@ export function ChatSessionRefreshedDialog(
     <AxoDialog.Root open={open} onOpenChange={setOpen}>
       <AxoDialog.Trigger asChild>{props.children}</AxoDialog.Trigger>
       <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
         <AxoDialog.Body>
           <div className={tw('mb-2.5 flex justify-center')}>
             <img
@@ -45,11 +49,14 @@ export function ChatSessionRefreshedDialog(
               alt=""
             />
           </div>
+
           <AxoDialog.Title>
-            {i18n('icu:ChatRefresh--notification')}
+            <span className={tw('type-title-medium')}>
+              {i18n('icu:ChatRefresh--notification')}
+            </span>
           </AxoDialog.Title>
           <AxoDialog.Description>
-            {i18n('icu:ChatRefresh--summary')}
+            <p>{i18n('icu:ChatRefresh--summary')}</p>
           </AxoDialog.Description>
         </AxoDialog.Body>
         <AxoDialog.Footer>
@@ -64,9 +71,9 @@ export function ChatSessionRefreshedDialog(
             <AxoDialog.Action
               onClick={handleClose}
               autoFocus
-              variant="subtle-primary"
+              variant="strong-primary"
             >
-              {i18n('icu:Confirmation--confirm')}
+              {i18n('icu:ok')}
             </AxoDialog.Action>
           </AxoDialog.Actions>
         </AxoDialog.Footer>

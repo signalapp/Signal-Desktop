@@ -381,7 +381,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
 
       // We get a safety number change warning, because we get a different identity key!
       await window
-        .getByRole('alertdialog', { name: 'Safety Number Changes' })
+        .getByRole('dialog', { name: 'Safety Number Changes' })
         .getByRole('button', { name: 'Send anyway' })
         .click();
     }

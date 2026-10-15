@@ -78,11 +78,7 @@ export function PinReminderModal({
         }
       }}
     >
-      <AxoDialog.Content
-        size="sm"
-        escape="cancel-is-noop"
-        disableMissingAriaDescriptionWarning
-      >
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <form
           onSubmit={event => {
             event.preventDefault();
@@ -101,31 +97,27 @@ export function PinReminderModal({
             <AxoDialog.Close />
           </AxoDialog.Header>
           <AxoDialog.Body>
-            <div className={tw('mb-10 items-center')}>
-              <div
-                className={tw(
-                  'mb-6 text-center type-body-medium text-secondary'
-                )}
-              >
+            <AxoDialog.Description>
+              <div className={tw('mb-6')}>
                 {i18n('icu:PinReminderModal__body')}
               </div>
-              <InputContainer helperElement={helperElement}>
-                <AxoPasswordField.Root
-                  maxBytes={PIN_MAX_BYTES}
-                  maxGraphemes={PIN_MAX_GRAPHEMES}
-                  onValueChange={handlePinChange}
-                  value={pin}
-                >
-                  <AxoPasswordField.Input
-                    autoFocus
-                    autoComplete="current-password"
-                    placeholder={i18n(
-                      'icu:PinReminderModal__pin-input-placeholder'
-                    )}
-                  />
-                </AxoPasswordField.Root>
-              </InputContainer>
-            </div>
+            </AxoDialog.Description>
+            <InputContainer helperElement={helperElement}>
+              <AxoPasswordField.Root
+                maxBytes={PIN_MAX_BYTES}
+                maxGraphemes={PIN_MAX_GRAPHEMES}
+                onValueChange={handlePinChange}
+                value={pin}
+              >
+                <AxoPasswordField.Input
+                  autoFocus
+                  autoComplete="current-password"
+                  placeholder={i18n(
+                    'icu:PinReminderModal__pin-input-placeholder'
+                  )}
+                />
+              </AxoPasswordField.Root>
+            </InputContainer>
           </AxoDialog.Body>
           <AxoDialog.Footer>
             <AxoDialog.Actions>

@@ -372,7 +372,7 @@ export function PreferencesBackups({
               </AxoAlertDialog.Description>
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>
-              <AxoAlertDialog.Cancel>{i18n('icu:ok')}</AxoAlertDialog.Cancel>
+              <AxoAlertDialog.Ok />
             </AxoAlertDialog.Footer>
           </AxoAlertDialog.Content>
         </AxoAlertDialog.Root>

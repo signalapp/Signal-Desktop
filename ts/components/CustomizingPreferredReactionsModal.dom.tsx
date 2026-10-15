@@ -75,37 +75,35 @@ export function CustomizingPreferredReactionsModal({
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
-          <div className={tw('flex flex-col items-center py-16')}>
-            <ReactionPickerPicker
-              isSomethingSelected={isSomethingSelected}
-              pickerStyle={ReactionPickerPickerStyle.Menu}
-            >
-              {draftPreferredReactions.map((emoji, index) => {
-                return (
-                  <CustomizingPreferredReactionsModalItem
-                    // The index is the only thing that uniquely identifies the emoji, because
-                    //   there can be duplicates in the list.
-                    // oxlint-disable-next-line react/no-array-index-key
-                    key={index}
-                    emoji={emoji}
-                    isSelected={index === selectedDraftEmojiIndex}
-                    onSelect={() => {
-                      selectDraftEmojiToBeReplaced(index);
-                    }}
-                    onDeselect={deselectDraftEmoji}
-                    onSelectEmoji={emojiSelection => {
-                      replaceSelectedDraftEmoji(emojiSelection.emoji);
-                    }}
-                  />
-                );
-              })}
-            </ReactionPickerPicker>
-            <AxoDialog.Description>
-              <p
-                className={tw(
-                  'mt-8 text-center type-body-medium text-pretty text-secondary'
-                )}
+          <div className={tw('py-6')}>
+            <div className={tw('mb-4 flex flex-col items-center')}>
+              <ReactionPickerPicker
+                isSomethingSelected={isSomethingSelected}
+                pickerStyle={ReactionPickerPickerStyle.Menu}
               >
+                {draftPreferredReactions.map((emoji, index) => {
+                  return (
+                    <CustomizingPreferredReactionsModalItem
+                      // The index is the only thing that uniquely identifies the emoji, because
+                      //   there can be duplicates in the list.
+                      // oxlint-disable-next-line react/no-array-index-key
+                      key={index}
+                      emoji={emoji}
+                      isSelected={index === selectedDraftEmojiIndex}
+                      onSelect={() => {
+                        selectDraftEmojiToBeReplaced(index);
+                      }}
+                      onDeselect={deselectDraftEmoji}
+                      onSelectEmoji={emojiSelection => {
+                        replaceSelectedDraftEmoji(emojiSelection.emoji);
+                      }}
+                    />
+                  );
+                })}
+              </ReactionPickerPicker>
+            </div>
+            <AxoDialog.Description>
+              <p className={tw('text-center text-pretty')}>
                 {hadSaveError
                   ? i18n('icu:CustomizingPreferredReactions__had-save-error')
                   : i18n('icu:CustomizingPreferredReactions__subtitle')}
@@ -116,7 +114,7 @@ export function CustomizingPreferredReactionsModal({
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               disabled={!isDefaults || isSaving}
               onClick={resetDraftEmoji}
             >

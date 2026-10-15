@@ -21,7 +21,7 @@ export function LowDiskSpaceBackupImportModal(
     <AxoAlertDialog.Root open onOpenChange={props.onClose}>
       <AxoAlertDialog.Content escape="cancel-is-noop">
         <AxoAlertDialog.Body>
-          <div className={tw('flex justify-center text-warning')}>
+          <div className={tw('mb-2.5 flex justify-center text-warning')}>
             <div className={tw('size-fit rounded-full bg-warning-bright p-4')}>
               <AxoSymbol.Icon label={null} symbol="backup-error" size={36} />
             </div>
@@ -36,9 +36,7 @@ export function LowDiskSpaceBackupImportModal(
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Action variant="strong-primary">
-            {i18n('icu:Confirmation--confirm')}
-          </AxoAlertDialog.Action>
+          <AxoAlertDialog.Ok />
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>
     </AxoAlertDialog.Root>

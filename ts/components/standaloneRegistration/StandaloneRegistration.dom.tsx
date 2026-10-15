@@ -321,7 +321,7 @@ export function StandaloneRegistration({
         )}
       >
         <AxoConfirmDialog.Action
-          variant="strong-secondary"
+          variant="subtle-secondary"
           onClick={() => cancelRegistration()}
         >
           {i18n('icu:StandaloneRegistration--UpdateRequired--cancel')}
@@ -368,7 +368,7 @@ export function StandaloneRegistration({
         )}
       >
         <AxoConfirmDialog.Action
-          variant="strong-secondary"
+          variant="subtle-secondary"
           onClick={() => {
             openLinkInWebBrowser(CONTACT_SUPPORT_URL);
           }}

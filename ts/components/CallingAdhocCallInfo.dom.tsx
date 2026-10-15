@@ -183,7 +183,7 @@ export function CallingAdhocCallInfo({
           'icu:CallingAdhocCallInfo__UnknownContactInfoDialogBody'
         )}
       >
-        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
 
       <ModalHost

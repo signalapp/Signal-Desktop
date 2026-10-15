@@ -506,7 +506,7 @@ function InvalidCodeDialog({
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
           <AxoConfirmDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={() =>
               startRegistration({ startingPhoneNumber: workflow.phoneNumber })
             }
@@ -570,7 +570,7 @@ function MaximumAttemptsDialog({
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
           <AxoConfirmDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={() =>
               startRegistration({ startingPhoneNumber: workflow.phoneNumber })
             }
@@ -633,7 +633,7 @@ function VoiceCallNeededDialog({
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
           <AxoConfirmDialog.Action
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={() => setOpen(false)}
           >
             {i18n(

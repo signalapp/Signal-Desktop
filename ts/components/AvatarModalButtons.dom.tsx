@@ -40,7 +40,7 @@ export function AvatarModalButtons({
   if (isInsideDialog) {
     actions = (
       <AxoDialog.Actions>
-        <AxoDialog.Action variant="strong-secondary" onClick={handleCancel}>
+        <AxoDialog.Action variant="subtle-secondary" onClick={handleCancel}>
           {i18n('icu:cancel')}
         </AxoDialog.Action>
         <AxoDialog.Action

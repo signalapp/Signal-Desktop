@@ -140,9 +140,9 @@ export namespace AxoButton {
 
   export const Group: FC<GroupProps> = memo(props => {
     return (
-      <FlexWrapDetector>
+      <FlexWrapDetector.Root>
         <div className="axo-button-group">{props.children}</div>
-      </FlexWrapDetector>
+      </FlexWrapDetector.Root>
     );
   });
 

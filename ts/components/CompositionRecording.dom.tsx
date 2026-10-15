@@ -113,7 +113,7 @@ export function CompositionRecording({
         title={null}
         description={i18n('icu:voiceNoteError')}
       >
-        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
     );
   }

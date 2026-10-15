@@ -30,7 +30,11 @@ export function AnnouncementsOnlyGroupBannerAdminsDialog(
   const { i18n } = props;
   return (
     <AxoDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:AnnouncementsOnlyGroupBanner--modal')}
@@ -82,10 +86,11 @@ function GroupAdminItem(props: {
         onClick={handleClick}
         className={tw(
           'flex w-full flex-row items-center p-2',
+          'text-primary',
           'focus-visible:axo-focus-ring'
         )}
       >
-        <div className={tw('pe-3')}>
+        <span className={tw('block pe-3')}>
           <Avatar
             conversationType="direct"
             badge={props.badge}
@@ -94,13 +99,13 @@ function GroupAdminItem(props: {
             theme={props.theme}
             {...member}
           />
-        </div>
-        <div className={tw('flex flex-col items-start')}>
-          <div>
+        </span>
+        <span className={tw('flex flex-col items-start')}>
+          <span className={tw('block')}>
             <UserText text={member.isMe ? i18n('icu:you') : member.title} />
-          </div>
+          </span>
           {labelString != null && props.contactNameColor != null && (
-            <div className={tw('type-body-small')}>
+            <span className={tw('block type-body-small')}>
               <GroupMemberLabel
                 contactNameColor={props.contactNameColor}
                 contactLabel={{
@@ -109,9 +114,9 @@ function GroupAdminItem(props: {
                 }}
                 context="list"
               />
-            </div>
+            </span>
           )}
-        </div>
+        </span>
       </button>
     </div>
   );

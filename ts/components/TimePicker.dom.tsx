@@ -287,7 +287,7 @@ export function TimePicker(props: PropsType): JSX.Element {
       <TimeField
         ref={timeFieldRef}
         className={tw(
-          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5',
+          'flex items-center rounded-lg border-[2.5px] border-transparent bg-primary px-2 py-0.5 text-primary',
           'focus-visible-within:axo-focus-ring'
         )}
         aria-label={props['aria-label']}

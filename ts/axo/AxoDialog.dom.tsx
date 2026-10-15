@@ -29,6 +29,7 @@ import {
 } from './_internal/StrictContext.dom.tsx';
 import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
 import { mergeRefs } from '@react-aria/utils';
+import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
 
 const { useContentEscapeBehavior } = AxoBaseDialog;
 
@@ -46,6 +47,9 @@ const { useContentEscapeBehavior } = AxoBaseDialog;
  *       <AxoDialog.Title />
  *       <AxoDialog.Close />
  *     </AxoDialog.Header>
+ *     <AxoDialog.Search>
+ *       <AxoSearchField.Root>...</AxoSearchField.Root>
+ *     </AxoDialog.Search>
  *     <AxoDialog.Body>
  *       <AxoDialog.Description />
  *     </AxoDialog.Body>
@@ -113,10 +117,10 @@ export namespace AxoDialog {
    *     </AxoDialog.Body>
    *     <AxoDialog.Footer>
    *       <AxoDialog.Actions>
-   *         <AxoDialog.Action variant="secondary" onClick={onCancel}>
+   *         <AxoDialog.Action variant="subtle-secondary" onClick={onCancel}>
    *           Cancel
    *         </AxoDialog.Action>
-   *         <AxoDialog.Action variant="destructive" onClick={onDelete}>
+   *         <AxoDialog.Action variant="strong-destructive" onClick={onDelete}>
    *           Delete
    *         </AxoDialog.Action>
    *       </AxoDialog.Actions>
@@ -129,7 +133,7 @@ export namespace AxoDialog {
    * ```tsx
    * <AxoDialog.Root>
    *   <AxoDialog.Trigger>
-   *     <AxoButton.Root variant="secondary" size="md" width="fit" onClick={noop}>
+   *     <AxoButton.Root variant="strong-primary" size="md">
    *       Open settings
    *     </AxoButton.Root>
    *   </AxoDialog.Trigger>
@@ -332,7 +336,7 @@ export namespace AxoDialog {
         <div
           ref={ref}
           className={tw(
-            'grid items-center p-2.5',
+            'grid items-center px-4 pt-4 pb-2',
             'grid-cols-[[back-slot]_1fr_[title-slot]_auto_[close-slot]_1fr]',
             floating && tw('pointer-events-none absolute inset-x-0 top-0 z-10')
           )}
@@ -365,9 +369,9 @@ export namespace AxoDialog {
     return (
       <Dialog.Title
         className={tw(
-          'truncate text-center',
           'type-body-medium font-semibold text-primary',
-          header != null && tw('col-[title-slot] px-3.5 py-0.5'),
+          header != null &&
+            tw('col-[title-slot] truncate px-3.5 py-0.5 text-center'),
           header == null && tw('mb-2.5'),
           header?.floating && tw('sr-only')
         )}
@@ -401,7 +405,7 @@ export namespace AxoDialog {
       <div className={tw('pointer-events-auto col-[back-slot] text-start')}>
         <AxoIconButton.Root
           size="sm"
-          variant={floating ? 'elevated-secondary' : 'implied-secondary'}
+          variant={floating ? 'material-subtle' : 'implied-secondary'}
           symbol="chevron-[start]"
           label={intl.get('AxoDialog.Back')}
           tooltip={false}
@@ -509,6 +513,10 @@ export namespace AxoDialog {
      */
     forceMaxHeight?: boolean;
     /**
+     * Whether the text inside the body is selectable.
+     */
+    selectableText?: boolean;
+    /**
      * The scrollable body content.
      */
     children: ReactNode;
@@ -526,6 +534,7 @@ export namespace AxoDialog {
       padding = 'lg',
       maxHeight = 440,
       forceMaxHeight,
+      selectableText,
     } = props;
 
     const style = useMemo((): CSSProperties | undefined => {
@@ -592,12 +601,15 @@ export namespace AxoDialog {
         maxHeight={maxHeight}
         scrollbarWidth={scrollbarWidth}
         scrollbarVisibility="as-needed"
+        overscrollBehavior="auto"
       >
-        {!hasHeader && <AxoScrollArea.Hint edge="top" />}
-        {!hasFooter && <AxoScrollArea.Hint edge="bottom" />}
+        {hasHeader && <AxoScrollArea.Hint edge="top" />}
+        {hasFooter && <AxoScrollArea.Hint edge="bottom" />}
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
-            <div style={style}>{props.children}</div>
+            <div className={tw(selectableText && 'select-text')} style={style}>
+              {props.children}
+            </div>
           </AxoScrollArea.Content>
         </AxoScrollArea.Viewport>
       </AxoScrollArea.Root>
@@ -662,7 +674,11 @@ export namespace AxoDialog {
     return (
       <div
         ref={ref}
-        className={tw('flex flex-wrap items-center gap-3 px-3 py-2.5')}
+        className={tw(
+          'flex flex-wrap items-center',
+          'gap-x-2 gap-y-3',
+          'px-4 pt-2.5 pb-4'
+        )}
       >
         {props.children}
       </div>
@@ -693,7 +709,7 @@ export namespace AxoDialog {
     return (
       <div
         className={tw(
-          'px-3',
+          'px-2',
           // Allow the flex layout to place it in the same row as the actions
           // if it can be wrapped to fit within the available space:
           'basis-[min-content]',
@@ -702,7 +718,7 @@ export namespace AxoDialog {
           'min-w-[calc-size(fit-content,min(20ch,size))]',
           // Allow it to fill its own row
           'grow',
-          'type-body-large text-primary'
+          'type-body-medium text-primary'
         )}
       >
         {props.children}
@@ -717,7 +733,31 @@ export namespace AxoDialog {
    * --------------------------------------------------------------------------
    */
 
+  const footerWrapDetectorStyles = tw(
+    // When actions are not being wrapped:
+    // Try to keep all actions equal size, but don't truncate them.
+    'container-not-scrollable:*:basis-0',
+    'container-not-scrollable:*:min-w-fit',
+    // When actions are being wrapped:
+    // Make all of them full width
+    'container-scrollable:*:w-full'
+  );
+
+  // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+  const footerWrapForcedBreakStyles = tw('*:w-full');
+
+  export type ActionsWidth = 'fill' | 'fit';
+
   export type ActionsProps = Readonly<{
+    /**
+     * Make actions 'fill' the width of the footer or 'fit' aligned to the end.
+     */
+    width?: ActionsWidth;
+    /**
+     * Force actions to always break onto separate lines, even if they fit onto
+     * one line.
+     */
+    forceAlwaysBreakToSeparateLines?: boolean | null;
     /**
      * Should be `Action` and/or `IconAction` elements.
      */
@@ -728,21 +768,35 @@ export namespace AxoDialog {
    * A right-aligned group of action buttons inside `Footer`.
    */
   export const Actions: FC<ActionsProps> = memo(props => {
-    return (
+    const { width = 'fit', children } = props;
+
+    let contents = (
       <div
         className={tw(
-          // Align the buttons to the right even when there's no FooterContent:
-          'ms-auto',
-          // Allow buttons to wrap to their own lines
-          'flex flex-wrap',
-          // Prevents buttons that don't fit in the container from overflowing
+          'flex flex-wrap-reverse',
           'max-w-full',
-          'items-center gap-x-2 gap-y-3'
+          'items-center gap-x-2 gap-y-3',
+          width === 'fill' && 'w-full',
+          props.forceAlwaysBreakToSeparateLines
+            ? footerWrapForcedBreakStyles
+            : footerWrapDetectorStyles
         )}
       >
-        {props.children}
+        {children}
       </div>
     );
+
+    if (!props.forceAlwaysBreakToSeparateLines) {
+      contents = (
+        <FlexWrapDetector.Root width={width}>{contents}</FlexWrapDetector.Root>
+      );
+    }
+
+    if (width === 'fit') {
+      contents = <div className={tw('ms-auto')}>{contents}</div>;
+    }
+
+    return contents;
   });
 
   Actions.displayName = 'AxoDialog.Actions';
@@ -754,17 +808,19 @@ export namespace AxoDialog {
 
   /**
    * Visual style of an action button.
-   * - `primary`: High-emphasis confirm action.
-   * - `secondary`: Low-emphasis cancel or alternative action.
-   * - `destructive`: Irreversible or dangerous action.
+   * - `strong-primary`: High-emphasis confirm action.
+   * - `subtle-secondary`: Low-emphasis cancel or alternative action.
+   * - `strong-destructive` or `subtle-destructive`: Irreversible or dangerous action.
+   *
+   * Note: These have been removed and should not be used
+   * 1. 'strong-secondary'
+   * 2. 'subtle-primary'
    */
   export type ActionVariant =
     | 'strong-primary'
+    | 'subtle-secondary'
     | 'strong-destructive'
-    | 'strong-secondary'
-    | 'subtle-primary'
-    | 'subtle-destructive'
-    | 'subtle-secondary';
+    | 'subtle-destructive';
 
   export type Arrow = 'next' | 'external-link';
 
@@ -833,14 +889,14 @@ export namespace AxoDialog {
 
   /**
    * Visual style of an icon action button.
-   * - `primary`: High-emphasis confirm action.
-   * - `secondary`: Low-emphasis cancel or alternative action.
-   * - `destructive`: Irreversible or dangerous action.
+   * - `strong-primary`: High-emphasis confirm action.
+   * - `subtle-secondary`: Low-emphasis cancel or alternative action.
+   * - `strong-destructive`: Irreversible or dangerous action.
    */
   export type IconActionVariant =
     | 'strong-primary'
     | 'strong-destructive'
-    | 'strong-secondary';
+    | 'subtle-secondary';
 
   export type IconActionProps = Readonly<{
     /**
@@ -891,9 +947,13 @@ export namespace AxoDialog {
   export const StoryTrigger: FC<StoryTriggerProps> = memo(props => {
     const { ref, ...rest } = props;
     const innerRef = useRef<HTMLButtonElement>(null);
+    const hasClickedRef = useRef(false);
 
     useEffect(() => {
-      assert(innerRef.current).click();
+      if (!hasClickedRef.current) {
+        assert(innerRef.current).click();
+        hasClickedRef.current = true;
+      }
     }, []);
 
     return (

@@ -163,7 +163,7 @@ export function GroupV2Permissions({
           </AxoAlertDialog.Body>
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={() => {
                 setIsWarningAboutClearingLabels(false);
               }}

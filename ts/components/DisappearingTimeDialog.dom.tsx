@@ -1,10 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useState, type JSX } from 'react';
+import classNames from 'classnames';
 import { Select } from './Select.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 const DEFAULT_VALUE = 60;
 
@@ -62,17 +64,24 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
   }
 
   return (
-    <AxoAlertDialog.Root open onOpenChange={onClose}>
-      <AxoAlertDialog.Content escape="cancel-is-noop">
-        <AxoAlertDialog.Body>
-          <AxoAlertDialog.Title>
+    <AxoDialog.Root open onOpenChange={onClose}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
             {i18n('icu:DisappearingTimeDialog__title')}
-          </AxoAlertDialog.Title>
-          <AxoAlertDialog.Description>
-            {i18n('icu:DisappearingTimeDialog__body')}
-          </AxoAlertDialog.Description>
-
-          <section className="module-disappearing-time-dialog__time-boxes">
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoDialog.Description>
+            <p>{i18n('icu:DisappearingTimeDialog__body')}</p>
+          </AxoDialog.Description>
+          <section
+            className={classNames(
+              'module-disappearing-time-dialog__time-boxes',
+              tw('mt-3')
+            )}
+          >
             <Select
               ariaLabel={i18n('icu:DisappearingTimeDialog__label--value')}
               value={unitValue}
@@ -108,23 +117,28 @@ export function DisappearingTimeDialog(props: PropsType): JSX.Element {
               })}
             />
           </section>
-        </AxoAlertDialog.Body>
-        <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel />
-          <AxoAlertDialog.Action
-            variant="strong-primary"
-            onClick={() => {
-              onSubmit(
-                DurationInSeconds.fromSeconds(
-                  unitValue * (UNIT_TO_SEC.get(unit) ?? 1)
-                )
-              );
-            }}
-          >
-            {i18n('icu:DisappearingTimeDialog__set')}
-          </AxoAlertDialog.Action>
-        </AxoAlertDialog.Footer>
-      </AxoAlertDialog.Content>
-    </AxoAlertDialog.Root>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions width="fill">
+            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={() => {
+                onSubmit(
+                  DurationInSeconds.fromSeconds(
+                    unitValue * (UNIT_TO_SEC.get(unit) ?? 1)
+                  )
+                );
+                onClose();
+              }}
+            >
+              {i18n('icu:DisappearingTimeDialog__set')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

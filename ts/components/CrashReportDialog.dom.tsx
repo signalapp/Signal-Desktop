@@ -27,7 +27,7 @@ export function CrashReportDialog(props: Readonly<PropsType>): JSX.Element {
         <AxoAlertDialog.Footer>
           <AxoAlertDialog.Action
             disabled={props.isPending}
-            variant="strong-secondary"
+            variant="subtle-secondary"
             onClick={props.onErase}
           >
             {i18n('icu:CrashReportDialog__erase')}

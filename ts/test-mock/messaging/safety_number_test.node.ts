@@ -129,7 +129,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await input.press('Enter');
 
     debug('Waiting for safety number dialog');
-    const dialog = window.getByRole('alertdialog', {
+    const dialog = window.getByRole('dialog', {
       name: 'Safety Number Changes',
     });
 
@@ -186,7 +186,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await window.locator('button.SendStoryModal__send').click();
 
     debug('Waiting for safety number dialog');
-    const dialog = window.getByRole('alertdialog', {
+    const dialog = window.getByRole('dialog', {
       name: 'Safety Number Changes',
     });
     await dialog.locator(`"${alice.profileName}"`).waitFor();

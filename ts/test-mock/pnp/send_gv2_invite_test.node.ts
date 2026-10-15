@@ -145,7 +145,7 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
         '.module-GroupDialog:has-text("Invitation sent")'
       );
 
-      await modal.locator('button >> "Okay"').click();
+      await modal.locator('button >> "OK"').click();
     }
 
     debug('waiting for group data from storage service');

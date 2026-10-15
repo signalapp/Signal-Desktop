@@ -38,25 +38,30 @@ export function KeyTransparencyErrorDialog(
     <AxoDialog.Root open={open} onOpenChange={onOpenChange}>
       <AxoDialog.Content escape="cancel-is-noop" size="md">
         <AxoDialog.Body>
-          <h3 className={tw('mt-6 mb-2 type-title-small')}>
+          <AxoDialog.Title>
             {i18n('icu:KeyTransparencyErrorDialog__Title-v2')}
-          </h3>
-          <p className={tw('mb-3 type-body-medium text-primary')}>
-            <AxoDialog.Description>
+          </AxoDialog.Title>
+
+          <AxoDialog.Description>
+            <p className={tw('mb-2.5')}>
               <I18n
                 i18n={i18n}
                 id="icu:KeyTransparencyErrorDialog__Description-v2"
               />
-            </AxoDialog.Description>
-          </p>
-          <div className={tw('mt-1.5 mb-4.5 flex items-center gap-3')}>
+            </p>
+          </AxoDialog.Description>
+
+          <div className={tw('flex items-center gap-3')}>
             <AxoCheckbox.Root
               variant="square"
               id={debugLogCheckboxId}
               checked={shareDebugLog}
               onCheckedChange={setShareDebugLog}
             />
-            <label htmlFor={debugLogCheckboxId} className={tw('grow truncate')}>
+            <label
+              htmlFor={debugLogCheckboxId}
+              className={tw('grow truncate text-primary')}
+            >
               {i18n('icu:KeyTransparencyErrorDialog__ShareDebugLog__Label-v2')}
             </label>
             <AxoButton.Root

@@ -602,7 +602,7 @@ export const GroupCallRemoteParticipant: FC<PropsType> = memo(
           title={errorDialogTitle}
           description={errorDialogBody}
         >
-          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+          <AxoConfirmDialog.Ok />
         </AxoConfirmDialog.Root>
         {maybeWrapWithParticipantMenu(
           'AxoContextMenu',

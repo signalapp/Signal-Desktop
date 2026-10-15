@@ -90,11 +90,11 @@ export function WhatsNewModal({
         </AxoDialog.Header>
         <AxoDialog.Body>
           <AxoDialog.Description>
-            <h3>
+            <h3 className={tw('text-primary')}>
               {moment(releaseNotes.date).format('LL')} &middot;{' '}
               {releaseNotes.version}
             </h3>
-            {contentNode}
+            <div className={tw('text-primary')}>{contentNode}</div>
           </AxoDialog.Description>
         </AxoDialog.Body>
       </AxoDialog.Content>

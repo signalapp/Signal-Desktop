@@ -21,6 +21,7 @@
 
   &__title {
     @include mixins.font-body-1-bold;
+    color: var(--axo-color-label-primary);
   }
 
   .module-message {
