@@ -50,7 +50,7 @@ export function parseCurrencyString({
 
   const truncatedAmount = ZERO_DECIMAL_CURRENCIES.has(currency.toLowerCase())
     ? Math.trunc(parsedCurrencyValue)
-    : Math.trunc(parsedCurrencyValue * 100) / 100;
+    : Math.round(parsedCurrencyValue * 100) / 100;
 
   const parsed = safeParseStrict(humanDonationAmountSchema, truncatedAmount);
   if (!parsed.success) {
@@ -239,8 +239,8 @@ export function toStripeDonationAmount({
   currency: string;
 }): StripeDonationAmount {
   const transformedAmount = ZERO_DECIMAL_CURRENCIES.has(currency.toLowerCase())
-    ? amount
-    : amount * 100;
+    ? Math.trunc(amount)
+    : Math.round(amount * 100);
   return parseStrict(stripeDonationAmountSchema, transformedAmount);
 }
 

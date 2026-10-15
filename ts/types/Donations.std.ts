@@ -257,6 +257,7 @@ export type HumanDonationAmount = z.infer<typeof humanDonationAmountSchema>;
 // https://docs.stripe.com/currencies#minor-units
 export const stripeDonationAmountSchema = z
   .number()
+  .int()
   .nonnegative()
   .brand('stripeAmount');
 
