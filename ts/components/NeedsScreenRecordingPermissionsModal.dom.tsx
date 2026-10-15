@@ -9,7 +9,7 @@ import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 type PropsType = {
   i18n: LocalizerType;
   openSystemPreferencesAction: () => unknown;
-  toggleScreenRecordingPermissionsDialog: () => unknown;
+  toggleScreenRecordingPermissionsDialog: (open: boolean) => void;
 };
 
 export function NeedsScreenRecordingPermissionsModal({
@@ -28,10 +28,14 @@ export function NeedsScreenRecordingPermissionsModal({
             {i18n('icu:calling__presenting--permission-title')}
           </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
-            <p className={tw('mb-2')}>
+            <p className={tw('mb-2 text-primary')}>
               {i18n('icu:calling__presenting--macos-permission-description')}
             </p>
-            <ol className={tw('flex list-inside list-decimal flex-col gap-1')}>
+            <ol
+              className={tw(
+                'flex list-inside list-decimal flex-col gap-1 text-start text-primary'
+              )}
+            >
               <li>
                 {i18n('icu:calling__presenting--permission-instruction-step1')}
               </li>
@@ -52,7 +56,7 @@ export function NeedsScreenRecordingPermissionsModal({
             variant="strong-primary"
             onClick={() => {
               openSystemPreferencesAction();
-              toggleScreenRecordingPermissionsDialog();
+              toggleScreenRecordingPermissionsDialog(false);
             }}
           >
             {i18n('icu:calling__presenting--permission-open')}

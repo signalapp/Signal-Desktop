@@ -7,8 +7,6 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './ErrorModal.dom.tsx';
 import { ErrorModal } from './ErrorModal.dom.tsx';
 
-const { i18n } = window.SignalContext;
-
 export default {
   title: 'Components/ErrorModal',
   argTypes: {},
@@ -18,7 +16,6 @@ export default {
 export function Normal(): JSX.Element {
   return (
     <ErrorModal
-      i18n={i18n}
       onClose={action('onClose')}
       title="Real bad!"
       description="Just avoid that next time, kay?"

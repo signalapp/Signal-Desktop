@@ -21,6 +21,8 @@ import type { KeyTransparencyStatusType } from '../types/KeyTransparency.d.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { tw, type TailwindStyles } from '../axo/tw.dom.tsx';
 
+export const SAFETY_NUMBER_VIEWER_DIALOG_BODY_MAX_HEIGHT = 560;
+
 export type PropsType = {
   contact: ConversationType;
   i18n: LocalizerType;
@@ -71,7 +73,8 @@ export function SafetyNumberViewer({
   const safetyNumberCard = (
     <div
       className={tw(
-        'flex w-full flex-col items-center gap-4 rounded-[18px] bg-accent px-5 pt-7.5 pb-5'
+        'flex w-full flex-col items-center gap-4 rounded-[18px] bg-accent px-5 pt-7.5 pb-5',
+        'max-w-62.5'
       )}
     >
       <QrCode
@@ -117,7 +120,7 @@ export function SafetyNumberViewer({
     <div className={containerClassName}>
       {safetyNumberCard}
 
-      <div className={tw('text-center type-body-small text-secondary')}>
+      <div className={tw('text-center type-body-small')}>
         <I18n
           i18n={i18n}
           id="icu:SafetyNumberViewer__hint-v2"
@@ -226,7 +229,7 @@ function KeyTransparency({
 
   return (
     <div className={tw('w-full')}>
-      <h3 className={tw('mt-6 mb-3 type-body-medium font-medium')}>
+      <h3 className={tw('mt-6 mb-3 type-body-medium font-medium text-primary')}>
         {i18n('icu:SafetyNumberViewer__KeyTransparency__title')}
       </h3>
 
@@ -358,36 +361,39 @@ function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
   }
 
   return (
-    <AxoDialog.Root open>
+    <AxoDialog.Root
+      open
+      onOpenChange={open => {
+        if (!open) {
+          onClose();
+        }
+      }}
+    >
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Body>
-          <div className={tw('text-center')}>
+          <div className={tw('mb-2.5 flex justify-center')}>
             <div
               className={tw(
-                'inline-flex items-center justify-center',
-                'mt-6.5 mb-2.5 size-7 rounded-full',
-                'text-center align-middle text-[28px] leading-none font-light',
+                'size-fit rounded-full p-3',
                 'bg-accent-tint text-accent'
               )}
             >
-              <AxoSymbol.InlineGlyph symbol={icon} label={null} />
-            </div>
-            <h3
-              className={tw(
-                'mb-1.5 type-title-small text-balance text-primary'
-              )}
-            >
-              {title}
-            </h3>
-            <div className={tw('mb-2 type-body-medium text-secondary')}>
-              {body}
+              <AxoSymbol.Icon size={24} symbol={icon} label={null} />
             </div>
           </div>
+          <AxoDialog.Title>
+            <span className={tw('type-title-medium')}>{title}</span>
+          </AxoDialog.Title>
+          <AxoDialog.Description>
+            <p>{body}</p>
+          </AxoDialog.Description>
         </AxoDialog.Body>
         <AxoDialog.Footer>
-          <AxoDialog.Action variant="strong-primary" onClick={onClose}>
-            {i18n('icu:SafetyNumberViewer__KeyTransparency__popup__okay')}
-          </AxoDialog.Action>
+          <AxoDialog.Actions>
+            <AxoDialog.Action variant="strong-primary" onClick={onClose}>
+              {i18n('icu:ok')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
         </AxoDialog.Footer>
       </AxoDialog.Content>
     </AxoDialog.Root>

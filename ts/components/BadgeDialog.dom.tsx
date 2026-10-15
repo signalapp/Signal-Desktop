@@ -75,9 +75,15 @@ function BadgeDialogWithBadges({
     setCurrentBadgeIndex(currentBadgeIndex + change);
   };
 
+  const hidePrev = currentBadgeIndex === 0;
+  const hideNext = currentBadgeIndex === badges.length - 1;
+
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
       <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
         <AxoDialog.Body>
           <div className={tw('flex items-center gap-2')}>
             <div>
@@ -85,22 +91,24 @@ function BadgeDialogWithBadges({
                 <BadgeImage badge={currentBadge} size={96} />
               </div>
 
-              <AxoDialog.Title>
-                {firstName
-                  ? i18n('icu:BadgeDialog__name-supports-signal', {
-                      name: firstName,
-                    })
-                  : currentBadge.name}
-              </AxoDialog.Title>
-              <AxoDialog.Description>
-                <p className={tw('mb-2.5 text-center')}>
-                  <BadgeDescription
-                    firstName={firstName}
-                    template={currentBadge.descriptionTemplate}
-                    title={title}
-                  />
-                </p>
-              </AxoDialog.Description>
+              <div className={tw('text-center')}>
+                <AxoDialog.Title>
+                  {firstName
+                    ? i18n('icu:BadgeDialog__name-supports-signal', {
+                        name: firstName,
+                      })
+                    : currentBadge.name}
+                </AxoDialog.Title>
+                <AxoDialog.Description>
+                  <p className={tw('mb-2.5')}>
+                    <BadgeDescription
+                      firstName={firstName}
+                      template={currentBadge.descriptionTemplate}
+                      title={title}
+                    />
+                  </p>
+                </AxoDialog.Description>
+              </div>
               {!areWeASubscriber && (
                 <div className={tw('mb-2.5 flex justify-center')}>
                   <AxoButton.Root
@@ -114,24 +122,24 @@ function BadgeDialogWithBadges({
               )}
             </div>
 
-            <div className={tw('order-first')}>
+            <div className={tw('order-first', hidePrev && 'invisible')}>
               <AxoIconButton.Root
                 label={i18n('icu:previous')}
                 symbol="chevron-[start]"
                 onClick={() => navigate(-1)}
-                disabled={currentBadgeIndex === 0}
+                disabled={hidePrev}
                 variant="implied-secondary"
                 size="md"
                 tooltip={false}
               />
             </div>
 
-            <div className={tw('order-last')}>
+            <div className={tw('order-last', hideNext && 'invisible')}>
               <AxoIconButton.Root
                 label={i18n('icu:next')}
                 symbol="chevron-[end]"
                 onClick={() => navigate(1)}
-                disabled={currentBadgeIndex === badges.length - 1}
+                disabled={hideNext}
                 variant="implied-secondary"
                 size="md"
                 tooltip={false}

@@ -365,34 +365,28 @@ export function PreferencesLocalBackups({
             }
           }}
         >
-          <div className={tw('p-4')}>
-            <AxoAlertDialog.Content escape="cancel-is-noop">
-              <AxoAlertDialog.Body>
-                <div className={tw('my-3 flex flex-col items-center')}>
-                  <LocalBackupSetupIcon symbol="key" />
-                  <AxoAlertDialog.Title>
-                    <div className={tw('mt-3 type-title-medium')}>
-                      {i18n('icu:Preferences__recovery-key-updated__title')}
-                    </div>
-                  </AxoAlertDialog.Title>
-                </div>
-                <AxoAlertDialog.Description>
-                  <div className={tw('mb-3')}>
-                    {i18n('icu:Preferences__recovery-key-updated__description')}
-                  </div>
-                </AxoAlertDialog.Description>
-              </AxoAlertDialog.Body>
-              <AxoAlertDialog.Footer>
-                <AxoAlertDialog.Cancel />
-                <AxoAlertDialog.Action
-                  variant="strong-primary"
-                  onClick={showKeyReferenceWithAuth}
-                >
-                  {i18n('icu:Preferences__recovery-key-updated__view-key')}
-                </AxoAlertDialog.Action>
-              </AxoAlertDialog.Footer>
-            </AxoAlertDialog.Content>
-          </div>
+          <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Body>
+              <div className={tw('mb-2.5 flex justify-center')}>
+                <LocalBackupSetupIcon symbol="key" />
+              </div>
+              <AxoAlertDialog.Title>
+                {i18n('icu:Preferences__recovery-key-updated__title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Description>
+                {i18n('icu:Preferences__recovery-key-updated__description')}
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Cancel />
+              <AxoAlertDialog.Action
+                variant="strong-primary"
+                onClick={showKeyReferenceWithAuth}
+              >
+                {i18n('icu:Preferences__recovery-key-updated__view-key')}
+              </AxoAlertDialog.Action>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
         </AxoAlertDialog.Root>
       ) : null}
     </>
@@ -466,52 +460,50 @@ function DisableLocalBackupsDialog({
         size="md"
         escape={isPending ? 'cancel-is-destructive' : 'cancel-is-noop'}
       >
-        <div className={tw('p-2')}>
-          <AxoDialog.Header>
-            <AxoDialog.Title>
-              {i18n('icu:Preferences__local-backups-turn-off')}
-            </AxoDialog.Title>
-          </AxoDialog.Header>
-          <AxoDialog.Body>
-            <AxoDialog.Description>
-              <div className={tw('mb-2 text-secondary')}>
-                {i18n('icu:Preferences__local-backups-turn-off-confirmation')}
-              </div>
-            </AxoDialog.Description>
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:Preferences__local-backups-turn-off')}
+          </AxoDialog.Title>
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoDialog.Description>
+            <p className={tw('mb-2.5')}>
+              {i18n('icu:Preferences__local-backups-turn-off-confirmation')}
+            </p>
+          </AxoDialog.Description>
 
-            <label
-              className={tw('flex items-center gap-3 px-4 py-2.5')}
-              htmlFor="deleteLocalBackupsCheckbox"
+          <label
+            className={tw('flex items-center gap-3 text-primary')}
+            htmlFor="deleteLocalBackupsCheckbox"
+          >
+            <AxoCheckbox.Root
+              id="deleteLocalBackupsCheckbox"
+              variant="square"
+              checked={deleteExistingBackups}
+              disabled={isPending}
+              onCheckedChange={setDeleteExistingBackups}
+            />
+            {i18n('icu:Preferences__local-backups-turn-off-delete')}
+          </label>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={onCancel}
+              disabled={isPending}
             >
-              <AxoCheckbox.Root
-                id="deleteLocalBackupsCheckbox"
-                variant="square"
-                checked={deleteExistingBackups}
-                disabled={isPending}
-                onCheckedChange={setDeleteExistingBackups}
-              />
-              {i18n('icu:Preferences__local-backups-turn-off-delete')}
-            </label>
-          </AxoDialog.Body>
-          <AxoDialog.Footer>
-            <AxoDialog.Actions>
-              <AxoDialog.Action
-                variant="strong-secondary"
-                onClick={onCancel}
-                disabled={isPending}
-              >
-                {i18n('icu:cancel')}
-              </AxoDialog.Action>
-              <AxoDialog.Action
-                variant="strong-destructive"
-                pending={isPending}
-                onClick={handleDisableLocalBackups}
-              >
-                {i18n('icu:Preferences__local-backups-turn-off-action')}
-              </AxoDialog.Action>
-            </AxoDialog.Actions>
-          </AxoDialog.Footer>
-        </div>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-destructive"
+              pending={isPending}
+              onClick={handleDisableLocalBackups}
+            >
+              {i18n('icu:Preferences__local-backups-turn-off-action')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
       </AxoDialog.Content>
     </AxoDialog.Root>
   );
@@ -668,28 +660,32 @@ function LocalBackupsBackupKeyViewer({
         >
           <AxoAlertDialog.Content escape="cancel-is-noop">
             <AxoAlertDialog.Body>
-              <div className={tw('mt-3 mb-2 flex flex-col items-center')}>
-                <img
-                  role="presentation"
-                  alt=""
-                  className={tw('mt-1 mb-3 size-16 shrink-0')}
-                  src="images/warning-circle.svg"
-                />
-                <AxoAlertDialog.Title>
-                  {i18n('icu:Preferences__recovery-key__do-not-share-title')}
-                </AxoAlertDialog.Title>
-              </div>
-              <AxoAlertDialog.Description>
-                <div className={tw('mb-3 text-center type-body-medium')}>
-                  <I18n
-                    i18n={i18n}
-                    id="icu:CompositionInput__recovery-key-warning--description"
-                    components={{
-                      strong: Strong,
-                      learnMoreLink: learnMorePhishingLink,
-                    }}
+              <div className={tw('mb-2.5 flex justify-center')}>
+                <div
+                  className={tw(
+                    'size-fit rounded-full p-3',
+                    'bg-safety-tint text-safety'
+                  )}
+                >
+                  <AxoSymbol.Icon
+                    label={null}
+                    symbol="error-triangle"
+                    size={32}
                   />
                 </div>
+              </div>
+              <AxoAlertDialog.Title>
+                {i18n('icu:Preferences__recovery-key__do-not-share-title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Description>
+                <I18n
+                  i18n={i18n}
+                  id="icu:CompositionInput__recovery-key-warning--description"
+                  components={{
+                    strong: Strong,
+                    learnMoreLink: learnMorePhishingLink,
+                  }}
+                />
               </AxoAlertDialog.Description>
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>

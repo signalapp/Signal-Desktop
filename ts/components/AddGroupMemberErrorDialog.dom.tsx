@@ -20,7 +20,7 @@ export function AddGroupMemberMaximumGroupSizeErrorDialog(props: {
         max: props.maximumNumberOfContacts,
       })}
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }
@@ -43,7 +43,7 @@ export function AddGroupMemberRecommendedMaximumGroupSizeErrorDialog(props: {
         { max: props.recommendedMaximumNumberOfContacts }
       )}
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }

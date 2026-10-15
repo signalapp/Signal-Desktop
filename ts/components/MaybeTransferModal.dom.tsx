@@ -36,67 +36,64 @@ export function MaybeTransferModal({
         }
       }}
     >
-      <AxoDialog.Content
-        size="md"
-        escape="cancel-is-noop"
-        disableMissingAriaDescriptionWarning
-      >
-        <AxoDialog.Header floating>
-          <AxoDialog.Title>
-            {i18n('icu:MaybeTransferModal__title')}
-          </AxoDialog.Title>
-        </AxoDialog.Header>
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
         <AxoDialog.Body maxHeight={600}>
-          <div className={tw('mt-8 flex flex-col items-center')}>
+          <div className={tw('mb-2.5 flex justify-center')}>
             <img
               src="images/desktop-and-phone.svg"
-              height="80"
-              width="100"
+              height="92"
+              width="138"
               alt=""
+              className={tw('max-w-25')}
             />
-
-            <div className={tw('mt-4 text-center type-title-medium')}>
-              {i18n('icu:MaybeTransferModal__title')}
-            </div>
           </div>
-          <div className={tw('mt-3 mb-5 flex flex-col gap-5 text-secondary')}>
-            <div className={tw('text-center')}>
-              <div>{i18n('icu:MaybeTransferModal__description')}</div>
+          <div className={tw('text-balance')}>
+            <AxoDialog.Title>
+              <span className={tw('type-title-medium')}>
+                {i18n('icu:MaybeTransferModal__title')}
+              </span>
+            </AxoDialog.Title>
+          </div>
+
+          <AxoDialog.Description>
+            <p className={tw('mb-2.5')}>
+              {i18n('icu:MaybeTransferModal__description')}{' '}
               <a
-                className={tw('text-primary')}
+                className={tw('text-nowrap')}
                 href={LEARN_MORE_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
                 {i18n('icu:MaybeTransferModal__learnMore')}
               </a>
-            </div>
-            <ul className={tw('flex flex-col gap-5 px-4')}>
-              <ListItemWithIcon
-                iconName="message-thread"
-                content={
-                  <I18n
-                    i18n={i18n}
-                    id="icu:MaybeTransferModal__replaceHistory"
-                    components={{ bold: Bold }}
-                  />
-                }
-              />
-              <ListItemWithIcon
-                iconName="qrcode"
-                content={i18n('icu:MaybeTransferModal__scanQrCode')}
-              />
-              <ListItemWithIcon
-                iconName="backup"
-                content={i18n('icu:MaybeTransferModal__media')}
-              />
-            </ul>
-          </div>
+            </p>
+          </AxoDialog.Description>
+
+          <ul className={tw('flex flex-col gap-2.5')}>
+            <ListItemWithIcon
+              iconName="message-thread"
+              content={
+                <I18n
+                  i18n={i18n}
+                  id="icu:MaybeTransferModal__replaceHistory"
+                  components={{ bold: Bold }}
+                />
+              }
+            />
+            <ListItemWithIcon
+              iconName="qrcode"
+              content={i18n('icu:MaybeTransferModal__scanQrCode')}
+            />
+            <ListItemWithIcon
+              iconName="backup"
+              content={i18n('icu:MaybeTransferModal__media')}
+            />
+          </ul>
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={onDontTransfer}
             >
               {i18n('icu:MaybeTransferModal__dontTransfer')}
@@ -119,9 +116,10 @@ function ListItemWithIcon({
   content: ReactNode;
 }): ReactNode {
   return (
-    <li className={tw('flex gap-2')}>
+    <li className={tw('flex items-center gap-2')}>
       <div
         className={tw(
+          'self-start',
           'flex size-8 shrink-0 items-center justify-center rounded-full bg-primary'
         )}
       >
@@ -166,9 +164,7 @@ export function DeleteDataAndRelinkConfirmationDialog({
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Action variant="strong-secondary" onClick={onCancel}>
-            {i18n('icu:cancel')}
-          </AxoAlertDialog.Action>
+          <AxoAlertDialog.Cancel />
           <AxoButton.Root
             variant="strong-destructive"
             size="md"

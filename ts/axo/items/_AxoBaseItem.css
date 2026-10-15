@@ -22,6 +22,8 @@
   :where(.axo-item-group) .axo-item-root:where(.group) {
     /* Forward Grid */
     @apply col-span-full grid grid-cols-subgrid;
+    /* Ensure we're not inheriting other text colors */
+    @apply text-primary;
   }
 
   :where(.axo-item-root) .axo-item-root-inner {

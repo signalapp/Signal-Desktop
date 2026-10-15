@@ -82,6 +82,15 @@ export namespace AxoScrollArea {
    */
   export type ScrollbarVisibility = 'auto' | 'as-needed';
 
+  /**
+   * How the scroll area behaves when reaching the boundary.
+   * - 'auto': Normal browser behavior, scrolling may continue in another scroll container.
+   * - 'chain': Allows scrolling to continue outside the scroll container, but prevents overscroll "bounce" effects.
+   * - 'contain': Prevents scrolling from continuing outside the scroll container. "Bounce" effects may still occur.
+   * - 'none': (Default) No overscroll behavior, scrolling stops at the boundary.
+   */
+  export type OverscrollBehavior = 'auto' | 'chain' | 'contain' | 'none';
+
   /** @internal */
   type RootContextText = Readonly<{
     orientation: Orientation;
@@ -89,6 +98,7 @@ export namespace AxoScrollArea {
     scrollbarGutter: ScrollbarGutter;
     scrollbarVisibility: ScrollbarVisibility;
     scrollBehavior: ScrollBehavior;
+    overscrollBehavior: OverscrollBehavior;
   }>;
 
   /** @internal */
@@ -128,6 +138,11 @@ export namespace AxoScrollArea {
      */
     scrollBehavior?: ScrollBehavior;
     /**
+     * How the scroll area behaves when reaching the boundary.
+     * Defaults to `none`.
+     */
+    overscrollBehavior?: OverscrollBehavior;
+    /**
      * Should be `Hint`, `Mask`, and/or `Viewport` elements.
      */
     children: ReactNode;
@@ -157,6 +172,7 @@ export namespace AxoScrollArea {
       scrollbarGutter = 'stable-both-edges',
       scrollbarVisibility = 'auto',
       scrollBehavior = 'auto',
+      overscrollBehavior = 'none',
     } = props;
 
     const context = useMemo((): RootContextText => {
@@ -166,6 +182,7 @@ export namespace AxoScrollArea {
         scrollbarGutter,
         scrollbarVisibility,
         scrollBehavior,
+        overscrollBehavior,
       };
     }, [
       orientation,
@@ -173,6 +190,7 @@ export namespace AxoScrollArea {
       scrollbarGutter,
       scrollbarVisibility,
       scrollBehavior,
+      overscrollBehavior,
     ]);
 
     const style = useMemo((): CSSProperties => {
@@ -215,7 +233,6 @@ export namespace AxoScrollArea {
     'relative z-0',
     'flex size-full flex-col',
     'overflow-auto',
-    'overscroll-none',
     // <Root> handles the focus ring
     'focus-visible:outline-none'
   );
@@ -274,6 +291,16 @@ export namespace AxoScrollArea {
     }
   );
 
+  const OverscrollBehaviors = variants<OverscrollBehavior>(
+    'AxoScrollArea.OverscrollBehavior',
+    {
+      auto: tw('overscroll-auto'),
+      chain: tw('[overscroll-behavior:chain]'),
+      contain: tw('overscroll-contain'),
+      none: tw('overscroll-none'),
+    }
+  );
+
   export type ViewportProps = Readonly<{
     /**
      * Should be a `Content` element.
@@ -291,6 +318,7 @@ export namespace AxoScrollArea {
       scrollbarGutter,
       scrollbarVisibility,
       scrollBehavior,
+      overscrollBehavior,
     } = useStrictContext(RootContext);
     const [boundary, setBoundary] = useState<HTMLDivElement | null>(null);
 
@@ -312,7 +340,8 @@ export namespace AxoScrollArea {
             ViewportScrollbarWidths.get(scrollbarWidth),
             ViewportScrollbarGutters.get(scrollbarGutter),
             ViewportScrollbarVisibilities.get(scrollbarVisibility),
-            ViewportScrollBehaviors.get(scrollBehavior)
+            ViewportScrollBehaviors.get(scrollBehavior),
+            OverscrollBehaviors.get(overscrollBehavior)
           )}
           style={style}
         >

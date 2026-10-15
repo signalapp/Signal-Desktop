@@ -73,8 +73,12 @@ export function MediaPermissionsModal({
         <AxoAlertDialog.Body>
           <AxoAlertDialog.Title>{title}</AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
-            <p className={tw('mb-2')}>{subtitle}</p>
-            <ol className={tw('flex list-inside list-decimal flex-col gap-1')}>
+            <p className={tw('mb-2 text-primary')}>{subtitle}</p>
+            <ol
+              className={tw(
+                'flex list-inside list-decimal flex-col gap-1 text-primary'
+              )}
+            >
               <li>
                 {i18n('icu:MediaPermissionsModal__step-1', {
                   buttonName: i18n('icu:MediaPermissionsModal__open'),

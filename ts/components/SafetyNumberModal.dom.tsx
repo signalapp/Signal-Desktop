@@ -9,6 +9,7 @@ import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import type { SafetyNumberProps as SafetyNumberViewerPropsType } from './SafetyNumberChangeDialog.dom.tsx';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { SAFETY_NUMBER_URL } from '../types/support.std.ts';
+import { SAFETY_NUMBER_VIEWER_DIALOG_BODY_MAX_HEIGHT } from './SafetyNumberViewer.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -23,16 +24,18 @@ export function SafetyNumberModal({
   toggleSafetyNumberModal,
   renderSafetyNumberViewer,
 }: PropsType): JSX.Element | null {
-  let title: string | undefined;
   let content: ReactNode;
   let actions: ReactNode;
-  let hasXButton = true;
+  let showTitle: boolean;
+  let showClose: boolean;
 
   function onLearnMore() {
     openLinkInWebBrowser(SAFETY_NUMBER_URL);
   }
 
   if (isSafetyNumberNotAvailable(contact)) {
+    showTitle = false;
+    showClose = false;
     content = (
       <AxoDialog.Description>
         {i18n('icu:SafetyNumberNotReady__body')}
@@ -40,20 +43,25 @@ export function SafetyNumberModal({
     );
     actions = (
       <AxoDialog.Actions>
-        <AxoDialog.Action variant="strong-secondary" onClick={onLearnMore}>
+        <AxoDialog.Action
+          variant="subtle-secondary"
+          onClick={onLearnMore}
+          arrow="external-link"
+        >
           {i18n('icu:SafetyNumberNotReady__learn-more')}
         </AxoDialog.Action>
         <AxoDialog.Action
-          variant="strong-secondary"
+          variant="strong-primary"
           onClick={toggleSafetyNumberModal}
+          autoFocus
         >
           {i18n('icu:ok')}
         </AxoDialog.Action>
       </AxoDialog.Actions>
     );
-    hasXButton = false;
   } else {
-    title = i18n('icu:SafetyNumberModal__title');
+    showTitle = true;
+    showClose = true;
     content = renderSafetyNumberViewer({
       contactID: contact.id,
       onClose: toggleSafetyNumberModal,
@@ -70,13 +78,17 @@ export function SafetyNumberModal({
         }
       }}
     >
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
-        <AxoDialog.Header>
-          <AxoDialog.Title>{title}</AxoDialog.Title>
-          {hasXButton && <AxoDialog.Close />}
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header floating={!showTitle}>
+          <AxoDialog.Title>
+            {i18n('icu:SafetyNumberModal__title')}
+          </AxoDialog.Title>
+          {showClose && <AxoDialog.Close />}
         </AxoDialog.Header>
-        <AxoDialog.Body maxHeight={560}>{content}</AxoDialog.Body>
-        <AxoDialog.Footer>{actions}</AxoDialog.Footer>
+        <AxoDialog.Body maxHeight={SAFETY_NUMBER_VIEWER_DIALOG_BODY_MAX_HEIGHT}>
+          {content}
+        </AxoDialog.Body>
+        {actions != null && <AxoDialog.Footer>{actions}</AxoDialog.Footer>}
       </AxoDialog.Content>
     </AxoDialog.Root>
   );

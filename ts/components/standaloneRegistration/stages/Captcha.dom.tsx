@@ -207,7 +207,7 @@ function NeedAnotherDialog({
       )}
     >
       <AxoConfirmDialog.Action
-        variant="strong-secondary"
+        variant="subtle-secondary"
         onClick={() => setOpen(false)}
       >
         {i18n('icu:StandaloneRegistration--Captcha--NeedAnother--cancel')}
@@ -310,7 +310,7 @@ function ErrorDialog({
       )}
     >
       <AxoConfirmDialog.Action
-        variant="strong-secondary"
+        variant="subtle-secondary"
         onClick={() => setOpen(false)}
       >
         {i18n('icu:StandaloneRegistration--Captcha--Error--cancel')}

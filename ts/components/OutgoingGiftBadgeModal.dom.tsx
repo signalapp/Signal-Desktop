@@ -40,11 +40,13 @@ export function OutgoingGiftBadgeModal(
               {i18n('icu:modal--donation--title')}
             </span>
           </AxoDialog.Title>
-          <div className={tw('mb-2.5 text-center')}>
-            {i18n('icu:modal--donation--description', {
-              name: props.recipientTitle,
-            })}
-          </div>
+          <AxoDialog.Description>
+            <p className={tw('mb-2.5')}>
+              {i18n('icu:modal--donation--description', {
+                name: props.recipientTitle,
+              })}
+            </p>
+          </AxoDialog.Description>
           <div className={tw('mb-2.5 flex justify-center')}>
             {badge != null ? (
               <img
@@ -60,7 +62,7 @@ export function OutgoingGiftBadgeModal(
               />
             )}
           </div>
-          <p className={tw('text-center font-semibold')}>
+          <p className={tw('text-center font-semibold text-primary')}>
             {i18n('icu:message--donation')}
           </p>
         </AxoDialog.Body>

@@ -19,16 +19,16 @@ export function OSAuthErrorDialog({
   return (
     <AxoAlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AxoAlertDialog.Content escape="cancel-is-noop">
-        <AxoAlertDialog.Title screenReaderOnly>
-          {i18n('icu:Toast--error')}
-        </AxoAlertDialog.Title>
         <AxoAlertDialog.Body>
+          <AxoAlertDialog.Title screenReaderOnly>
+            {i18n('icu:Toast--error')}
+          </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
             {i18n('icu:Preferences__local-backups-auth-error--unauthorized')}
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Cancel>{i18n('icu:ok')}</AxoAlertDialog.Cancel>
+          <AxoAlertDialog.Ok />
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>
     </AxoAlertDialog.Root>

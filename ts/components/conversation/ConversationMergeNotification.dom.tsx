@@ -32,12 +32,15 @@ export function ConversationMergeNotification(props: PropsType): ReactNode {
     i18n,
   });
 
+  const hasObsoleteConversationTitle =
+    obsoleteConversationTitle != null && obsoleteConversationTitle !== '';
+
   return (
     <AxoChatEvent.Root variant="secondary">
       <AxoChatEvent.Body symbol="merge">
         <Emojify text={message} />
       </AxoChatEvent.Body>
-      {obsoleteConversationTitle != null && (
+      {hasObsoleteConversationTitle && (
         <ConversationMergeNotificationDialog
           i18n={i18n}
           conversationTitle={conversationTitle}
@@ -75,7 +78,7 @@ function ConversationMergeNotificationDialog(
           <AxoDialog.Close />
         </AxoDialog.Header>
         <AxoDialog.Body>
-          <div className={tw('mb-4 flex justify-center')}>
+          <div className={tw('mb-2.5 flex justify-center')}>
             <img
               role="none"
               src="images/merged-chat.svg"

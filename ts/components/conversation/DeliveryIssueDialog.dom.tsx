@@ -37,9 +37,12 @@ export function DeliveryIssueDialog(
   return (
     <AxoDialog.Root open={open} onOpenChange={setOpen}>
       <AxoDialog.Trigger asChild>{props.children}</AxoDialog.Trigger>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
         <AxoDialog.Body>
-          <div className={tw('flex justify-center')}>
+          <div className={tw('mb-2.5 flex justify-center')}>
             <img
               src="images/delivery-issue.svg"
               height="110"
@@ -47,9 +50,13 @@ export function DeliveryIssueDialog(
               alt=""
             />
           </div>
-          <AxoDialog.Title>{i18n('icu:DeliveryIssue--title')}</AxoDialog.Title>
+          <AxoDialog.Title>
+            <span className={tw('type-title-medium')}>
+              {i18n('icu:DeliveryIssue--title')}
+            </span>
+          </AxoDialog.Title>
           <AxoDialog.Description>
-            <div className={tw('text-center type-body-medium')}>
+            <p>
               {inGroup ? (
                 <I18n
                   id="icu:DeliveryIssue--summary--group"
@@ -63,7 +70,7 @@ export function DeliveryIssueDialog(
                   i18n={i18n}
                 />
               )}
-            </div>
+            </p>
           </AxoDialog.Description>
         </AxoDialog.Body>
         <AxoDialog.Footer>
@@ -76,11 +83,11 @@ export function DeliveryIssueDialog(
               {i18n('icu:DeliveryIssue--learnMore')}
             </AxoDialog.Action>
             <AxoDialog.Action
-              variant="subtle-primary"
+              variant="strong-primary"
               onClick={handleClose}
               autoFocus
             >
-              {i18n('icu:Confirmation--confirm')}
+              {i18n('icu:ok')}
             </AxoDialog.Action>
           </AxoDialog.Actions>
         </AxoDialog.Footer>

@@ -203,14 +203,14 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
       title = i18n('icu:ContactSpoofingReviewDialog__title');
       contents = (
         <>
-          <div className={tw('mb-2.5 type-body-medium text-secondary')}>
+          <div className={tw('mb-2.5')}>
             <AxoDialog.Description>
               {i18n('icu:ContactSpoofingReviewDialog__description')}
             </AxoDialog.Description>
           </div>
-          <h2 className={tw('type-title-small text-primary')}>
+          <h3 className={tw('font-semibold text-primary')}>
             {i18n('icu:ContactSpoofingReviewDialog__possibly-unsafe-title')}
-          </h2>
+          </h3>
           <ContactSpoofingReviewDialogPerson
             conversation={possiblyUnsafe.conversation}
             getPreferredBadge={getPreferredBadge}
@@ -249,9 +249,9 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             </div>
           </ContactSpoofingReviewDialogPerson>
           <hr className={tw('my-2.5 border-0 border-t border-t-secondary')} />
-          <h2 className={tw('type-title-small text-primary')}>
+          <h3 className={tw('type-body-medium font-semibold text-primary')}>
             {i18n('icu:ContactSpoofingReviewDialog__safe-title')}
-          </h2>
+          </h3>
           <ContactSpoofingReviewDialogPerson
             conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}

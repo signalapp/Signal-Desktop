@@ -12,7 +12,8 @@ export namespace AxoConfirmDialog {
 
   export type RootProps = Readonly<{
     open: boolean;
-    onOpenChange: (open: boolean) => void;
+    onOpenChange?: (open: boolean) => void;
+    onCancel?: () => void;
     title: string | ReactElement;
     description: string | ReactElement;
     forceAlwaysBreakToSeparateLines?: boolean | null;
@@ -22,15 +23,23 @@ export namespace AxoConfirmDialog {
 
   export const Root: FC<RootProps> = memo(props => {
     return (
-      <AxoAlertDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
+      <AxoAlertDialog.Root
+        open={props.open}
+        onOpenChange={props.onOpenChange}
+        onCancel={props.onCancel}
+      >
         <AxoAlertDialog.Content
           escape={props.escape ?? 'cancel-is-destructive'}
         >
           <AxoAlertDialog.Body>
-            <AxoAlertDialog.Title>{props.title}</AxoAlertDialog.Title>
-            <AxoAlertDialog.Description>
-              {props.description}
-            </AxoAlertDialog.Description>
+            {props.title != null && (
+              <AxoAlertDialog.Title>{props.title}</AxoAlertDialog.Title>
+            )}
+            {props.description != null && (
+              <AxoAlertDialog.Description>
+                {props.description}
+              </AxoAlertDialog.Description>
+            )}
           </AxoAlertDialog.Body>
           <AxoAlertDialog.Footer
             forceAlwaysBreakToSeparateLines={
@@ -47,7 +56,7 @@ export namespace AxoConfirmDialog {
   Root.displayName = `AxoConfirmDialog.Root`;
 
   /**
-   * <AxoConfirmDialog.Root>
+   * <AxoConfirmDialog.Cancel>
    * --------------------------------------------------------------------------
    */
 
@@ -67,21 +76,42 @@ export namespace AxoConfirmDialog {
   Cancel.displayName = 'AxoConfirmDialog.Cancel';
 
   /**
-   * <AxoConfirmDialog.Root>
+   * <AxoConfirmDialog.Ok>
+   * --------------------------------------------------------------------------
+   */
+
+  export type OkProps = Readonly<{
+    disabled?: boolean;
+    children?: string | ReactElement | null;
+  }>;
+
+  export const Ok: FC<OkProps> = memo(props => {
+    return (
+      <AxoAlertDialog.Ok disabled={props.disabled}>
+        {props.children}
+      </AxoAlertDialog.Ok>
+    );
+  });
+
+  Ok.displayName = 'AxoConfirmDialog.Ok';
+
+  /**
+   * <AxoConfirmDialog.Action>
    * --------------------------------------------------------------------------
    */
 
   export type ActionVariant =
     | 'strong-primary'
+    | 'subtle-secondary'
     | 'strong-destructive'
-    | 'strong-secondary';
+    | 'subtle-destructive';
 
   export type ActionProps = Readonly<{
     variant: ActionVariant;
     pending?: boolean;
     disabled?: boolean;
     autoFocus?: boolean;
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
   }>;
 

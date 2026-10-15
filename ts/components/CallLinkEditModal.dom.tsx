@@ -48,7 +48,11 @@ export function CallLinkEditModal({
 
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:CallLinkEditModal__Title')}
@@ -86,9 +90,9 @@ export function CallLinkEditModal({
                             'focus-visible:axo-focus-ring focus-visible:outline-none'
                           )}
                         >
-                          <div className={tw('line-clamp-2 break-all')}>
+                          <span className={tw('line-clamp-2 break-all')}>
                             {callLinkWebUrl}
-                          </div>
+                          </span>
                         </button>
                       </AxoItem.Description>
                       <AxoItem.Accessory centerToFullHeight>

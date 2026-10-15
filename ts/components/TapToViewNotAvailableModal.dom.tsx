@@ -39,7 +39,7 @@ export function TapToViewNotAvailableModal(
           : i18n('icu:TapToViewNotAvailableModal__body--error', parameters)
       }
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }

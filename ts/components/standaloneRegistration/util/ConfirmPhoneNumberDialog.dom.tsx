@@ -36,7 +36,7 @@ export function ConfirmPhoneNumberDialog({
         'icu:StandaloneRegistration--PhoneNumber--Confirmation--description'
       )}
     >
-      <AxoConfirmDialog.Action variant="strong-secondary" onClick={onEdit}>
+      <AxoConfirmDialog.Action variant="subtle-secondary" onClick={onEdit}>
         {i18n('icu:StandaloneRegistration--PhoneNumber--Confirmation--cancel')}
       </AxoConfirmDialog.Action>
       <AxoConfirmDialog.Action variant="strong-primary" onClick={onConfirm}>

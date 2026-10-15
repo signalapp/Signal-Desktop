@@ -94,9 +94,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor() {
         open
         onOpenChange={() => setProfileUpdateError(false)}
       >
-        <AxoConfirmDialog.Cancel>
-          {i18n('icu:Confirmation--confirm')}
-        </AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
     );
   }

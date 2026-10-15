@@ -30,9 +30,9 @@ export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
     <AxoDialog.Root open onOpenChange={onClose}>
       <AxoDialog.Content size="sm" escape="cancel-is-noop">
         <AxoDialog.Body>
-          <div className={tw('mt-4 mb-1')}>
+          <div className={tw('mb-2.5 flex justify-center')}>
             <img
-              className={tw('mx-auto dark:hidden')}
+              className={tw('dark:hidden')}
               src="images/tag_light.svg"
               height="32"
               width="32"
@@ -40,45 +40,47 @@ export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
             />
             <img
               src="images/tag_dark.svg"
-              className={tw('mx-auto hidden dark:block')}
+              className={tw('hidden dark:block')}
               height="32"
               width="32"
               alt=""
             />
           </div>
-          <AxoDialog.Title>
-            <div className={tw('type-title-small')}>
-              {i18n('icu:GroupMemberLabelInfoModal--title')}
-            </div>
-          </AxoDialog.Title>
-          <AxoDialog.Description>
-            <div className={tw('mb-1.5 type-body-medium text-secondary')}>
-              {i18n('icu:GroupMemberLabelInfoModal--description')}
-            </div>
-          </AxoDialog.Description>
+          <div className={tw('text-center')}>
+            <AxoDialog.Title>
+              <span className={tw('type-title-medium')}>
+                {i18n('icu:GroupMemberLabelInfoModal--title')}
+              </span>
+            </AxoDialog.Title>
+            <AxoDialog.Description>
+              <p>{i18n('icu:GroupMemberLabelInfoModal--description')}</p>
+            </AxoDialog.Description>
+          </div>
         </AxoDialog.Body>
         <AxoDialog.Footer>
-          {isEditMemberLabelEnabled && canAddLabel && (
+          <AxoDialog.Actions width="fill">
+            {isEditMemberLabelEnabled && canAddLabel && (
+              <AxoDialog.Action
+                variant="subtle-secondary"
+                onClick={() => {
+                  showEditMemberLabelScreen();
+                  onClose();
+                }}
+              >
+                {hasLabel
+                  ? i18n('icu:GroupMemberLabelInfoModal--edit-label')
+                  : i18n('icu:GroupMemberLabelInfoModal--add-label')}
+              </AxoDialog.Action>
+            )}
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="strong-primary"
               onClick={() => {
-                showEditMemberLabelScreen();
                 onClose();
               }}
             >
-              {hasLabel
-                ? i18n('icu:GroupMemberLabelInfoModal--edit-label')
-                : i18n('icu:GroupMemberLabelInfoModal--add-label')}
+              {i18n('icu:ok')}
             </AxoDialog.Action>
-          )}
-          <AxoDialog.Action
-            variant="strong-primary"
-            onClick={() => {
-              onClose();
-            }}
-          >
-            {i18n('icu:Confirmation--confirm')}
-          </AxoDialog.Action>
+          </AxoDialog.Actions>
         </AxoDialog.Footer>
       </AxoDialog.Content>
     </AxoDialog.Root>

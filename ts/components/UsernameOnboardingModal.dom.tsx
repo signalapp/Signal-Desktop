@@ -20,7 +20,11 @@ export function UsernameOnboardingModal({
 }: PropsType): JSX.Element {
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="md" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:UsernameOnboardingModalBody__title')}
@@ -61,7 +65,7 @@ export function UsernameOnboardingModal({
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="strong-secondary" onClick={onSkip}>
+            <AxoDialog.Action variant="subtle-secondary" onClick={onSkip}>
               {i18n('icu:UsernameOnboardingModalBody__skip')}
             </AxoDialog.Action>
             <AxoDialog.Action variant="strong-primary" onClick={onNext}>
@@ -100,9 +104,7 @@ function UsernameOnboardingModalItem(props: {
       </div>
       <div className={tw('flex-1')}>
         <h3 className={tw('type-body-large text-primary')}>{props.label}</h3>
-        <p className={tw('type-body-medium text-secondary')}>
-          {props.description}
-        </p>
+        <p className={tw('text-secondary')}>{props.description}</p>
       </div>
     </div>
   );

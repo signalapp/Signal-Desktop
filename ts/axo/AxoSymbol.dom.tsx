@@ -109,7 +109,7 @@ export namespace AxoSymbol {
    */
 
   /** Available icon sizes in pixels. */
-  export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 36 | 48;
+  export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 32 | 36 | 48;
 
   export type IconProps = Readonly<{
     /** Size of the icon in pixels. */

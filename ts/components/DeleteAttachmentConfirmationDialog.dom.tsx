@@ -1,50 +1,35 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { useCallback, type JSX } from 'react';
+import type { ReactNode } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 
-export function DeleteAttachmentConfirmationDialog({
-  i18n,
-  onDestroyAttachment,
-  open,
-  onOpenChange,
-}: {
+export type DeleteAttachmentConfirmationDialogProps = Readonly<{
   i18n: LocalizerType;
-  onDestroyAttachment: () => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}): JSX.Element {
-  const close = useCallback(() => {
-    onOpenChange(false);
-  }, [onOpenChange]);
+  onDestroyAttachment: () => void;
+}>;
 
+export function DeleteAttachmentConfirmationDialog(
+  props: DeleteAttachmentConfirmationDialogProps
+): ReactNode {
+  const { i18n } = props;
   return (
-    <AxoDialog.Root open={open} onOpenChange={onOpenChange}>
-      <AxoDialog.Content escape="cancel-is-noop" size="sm">
-        <AxoDialog.Header>
-          <AxoDialog.Title>
-            {i18n('icu:DeleteAttachmentModal__Title')}
-          </AxoDialog.Title>
-          <AxoDialog.Close />
-        </AxoDialog.Header>
-        <AxoDialog.Body>
-          {i18n('icu:DeleteAttachmentModal__Body')}
-        </AxoDialog.Body>
-        <AxoDialog.Footer>
-          <AxoDialog.Actions>
-            <AxoDialog.Action variant="strong-secondary" onClick={close}>
-              {i18n('icu:DeleteAttachmentModal__Cancel')}
-            </AxoDialog.Action>
-            <AxoDialog.Action
-              variant="strong-destructive"
-              onClick={onDestroyAttachment}
-            >
-              {i18n('icu:DeleteAttachmentModal__Delete')}
-            </AxoDialog.Action>
-          </AxoDialog.Actions>
-        </AxoDialog.Footer>
-      </AxoDialog.Content>
-    </AxoDialog.Root>
+    <AxoConfirmDialog.Root
+      open={props.open}
+      onOpenChange={props.onOpenChange}
+      title={i18n('icu:DeleteAttachmentModal__Title')}
+      description={i18n('icu:DeleteAttachmentModal__Body')}
+      escape="cancel-is-noop"
+    >
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action
+        variant="strong-destructive"
+        onClick={props.onDestroyAttachment}
+      >
+        {i18n('icu:DeleteAttachmentModal__Delete')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
   );
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memo, useCallback } from 'react';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactNode, SyntheticEvent } from 'react';
 import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
@@ -38,17 +38,39 @@ export namespace AxoBaseDialog {
   }>;
 
   export const Host: FC<HostProps> = memo(props => {
+    const handleScrollEvent = useCallback((event: SyntheticEvent) => {
+      // Prevent these events from bubbling up and being prevented by
+      // Radix UI's scroll locking.
+      event.stopPropagation();
+    }, []);
+
     return (
       <div
         className={tw(
           'absolute inset-0',
           'legacy-z-index-modal-host',
-          'flex items-center-safe justify-center-safe',
+          'size-full',
+          'h-screen w-screen',
           // Allow the entire host to be scrolled in case the window is extremely small
-          'scrollbar-width-none overflow-auto'
+          'overflow-auto',
+          // 'scrollbar-width-none',
+          'pointer-events-auto',
+          'overscroll-none'
         )}
+        onWheel={handleScrollEvent}
+        onTouchMove={handleScrollEvent}
       >
-        {props.children}
+        <div
+          className={tw(
+            'relative',
+            'flex',
+            'size-[stretch]',
+            'min-h-fit min-w-fit',
+            'items-center-safe justify-center-safe'
+          )}
+        >
+          {props.children}
+        </div>
       </div>
     );
   });
@@ -76,9 +98,11 @@ export namespace AxoBaseDialog {
   export const contentClassName = tw(
     'relative',
     'z-10',
+    'm-1',
     'max-h-full min-h-fit',
     'overflow-hidden',
-    'curved-3xl bg-material-dialog text-primary shadow-elevation-3',
+    'type-body-medium text-secondary',
+    'curved-30 bg-material-dialog shadow-elevation-3',
     'backdrop-blur-thick',
     'focus-visible:axo-focus-ring',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',

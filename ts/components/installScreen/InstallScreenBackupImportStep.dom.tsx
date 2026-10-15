@@ -107,7 +107,7 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
       errorElem = (
         <AxoConfirmDialog.Root
           open
-          onOpenChange={confirmCancel}
+          onCancel={confirmCancel}
           title={i18n('icu:BackupImportScreen__error__title')}
           description={i18n('icu:BackupImportScreen__error__body')}
         >
@@ -120,7 +120,6 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
           >
             {i18n('icu:BackupImportScreen__error__confirm')}
           </AxoConfirmDialog.Action>
-          .
         </AxoConfirmDialog.Root>
       );
     }

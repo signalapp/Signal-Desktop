@@ -121,7 +121,11 @@ export function EditHistoryMessagesModal({
 
   return (
     <AxoDialog.Root open onOpenChange={closeEditHistoryModal}>
-      <AxoDialog.Content size="md" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header floating>
           <AxoDialog.Title>
             {i18n('icu:EditHistoryMessagesModal__title')}
@@ -131,6 +135,7 @@ export function EditHistoryMessagesModal({
         <AxoDialog.Body>
           <div ref={containerElementRef} className="EditHistoryMessagesModal">
             <TimelineDateHeader
+              noPaddingTop
               i18n={i18n}
               timestamp={currentMessage.timestamp}
             />

@@ -19,7 +19,7 @@ export function DonationStillProcessingModal(props: PropsType): JSX.Element {
       title={i18n('icu:Donations__StillProcessing')}
       description={i18n('icu:Donations__StillProcessing__Description')}
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }

@@ -23,6 +23,7 @@ export function CriticalIdlePrimaryDeviceModal(
         href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
         rel="noreferrer"
         target="_blank"
+        className={tw('text-nowrap')}
       >
         {parts}
       </a>
@@ -50,12 +51,7 @@ export function CriticalIdlePrimaryDeviceModal(
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>
-          <AxoAlertDialog.Action
-            variant="strong-primary"
-            onClick={props.onClose}
-          >
-            {i18n('icu:Confirmation--confirm')}
-          </AxoAlertDialog.Action>
+          <AxoAlertDialog.Ok />
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>
     </AxoAlertDialog.Root>

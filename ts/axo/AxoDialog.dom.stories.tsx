@@ -75,7 +75,7 @@ function Template(props: {
             ) : (
               <>
                 <AxoDialog.Action
-                  variant="strong-secondary"
+                  variant="subtle-secondary"
                   onClick={action('onCancel')}
                 >
                   Cancel
@@ -201,7 +201,38 @@ export function FloatingHeader(): ReactNode {
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="strong-secondary" onClick={() => null}>
+            <AxoDialog.Action variant="subtle-secondary" onClick={() => null}>
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action variant="strong-primary" onClick={() => null}>
+              OK
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+export function FullWidthActions(): ReactNode {
+  return (
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Full Width Actions</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <AxoDialog.Description>
+            <p>This dialog demonstrates full width actions.</p>
+          </AxoDialog.Description>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions width="fill">
+            <AxoDialog.Action variant="subtle-secondary" onClick={() => null}>
               Cancel
             </AxoDialog.Action>
             <AxoDialog.Action variant="strong-primary" onClick={() => null}>
@@ -273,7 +304,7 @@ export function ExampleNicknameAndNoteDialog(): JSX.Element {
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={action('onCancel')}
             >
               Cancel
@@ -336,7 +367,7 @@ export function ExampleMuteNotificationsDialog(): JSX.Element {
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={action('onCancel')}
             >
               Cancel
@@ -424,7 +455,7 @@ export function ExampleLanguageDialog(): JSX.Element {
         <AxoDialog.Footer>
           <AxoDialog.Actions>
             <AxoDialog.Action
-              variant="strong-secondary"
+              variant="subtle-secondary"
               onClick={action('onCancel')}
             >
               Cancel

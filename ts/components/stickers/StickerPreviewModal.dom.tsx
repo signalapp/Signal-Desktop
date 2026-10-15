@@ -56,7 +56,7 @@ function renderBody({
 
   if (pack.status === 'error') {
     return (
-      <div className={tw('px-12 py-6 text-center text-destructive')}>
+      <div className={tw('py-6 text-center text-destructive')}>
         {i18n('icu:stickers--StickerPreview--Error')}
       </div>
     );
@@ -78,34 +78,34 @@ function renderBody({
   const placeholders = pack.stickerCount - pack.stickers.length;
 
   return (
-    <div className={tw('justify-items-center')}>
+    <>
       {pack.cover && (
-        <img
-          className={tw(
-            'mb-4 aspect-square max-h-20 w-full max-w-20 object-contain'
-          )}
-          src={pack.cover.url}
-          alt={pack.title}
-        />
+        <div className={tw('flex justify-center')}>
+          <img
+            className={tw(
+              'mb-4 aspect-square max-h-20 w-full max-w-20 object-contain'
+            )}
+            src={pack.cover.url}
+            alt={pack.title}
+          />
+        </div>
       )}
-      <h2 className={tw('mb-2 type-title-medium')}>
-        <UserText text={pack.title} />
-        {pack.isBlessed && (
-          <span className={tw('ms-1.5')}>
-            <OfficialChatInlineBadge />
-          </span>
-        )}
-      </h2>
-      <div
-        className={tw(
-          'mb-3 justify-items-center type-body-medium text-secondary'
-        )}
-      >
-        <div>{pack.author}</div>
-        <div>
-          {i18n('icu:stickers--StickerPreview--StickerCount', {
-            count: pack.stickerCount,
-          })}
+      <div className={tw('text-center')}>
+        <h2 className={tw('mb-2 type-title-medium text-primary')}>
+          <UserText text={pack.title} />
+          {pack.isBlessed && (
+            <span className={tw('ms-1.5')}>
+              <OfficialChatInlineBadge />
+            </span>
+          )}
+        </h2>
+        <div className={tw('mb-3 text-secondary')}>
+          <div>{pack.author}</div>
+          <div>
+            {i18n('icu:stickers--StickerPreview--StickerCount', {
+              count: pack.stickerCount,
+            })}
+          </div>
         </div>
       </div>
       <AxoStackedButton.Row spacing="md">
@@ -124,7 +124,7 @@ function renderBody({
       </AxoStackedButton.Row>
       <div
         className={tw(
-          'mt-4 grid w-max grid-cols-5 items-center justify-center gap-2.5'
+          'mt-4 grid w-max max-w-full grid-cols-5 items-center justify-center gap-2.5'
         )}
       >
         {pack.stickers.map(({ emoji, id, url }) => (
@@ -151,7 +151,7 @@ function renderBody({
           );
         })}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -264,7 +264,11 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
   return (
     <>
       <AxoDialog.Root open onOpenChange={handleOpenChange}>
-        <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Content
+          size="md"
+          escape="cancel-is-noop"
+          disableMissingAriaDescriptionWarning
+        >
           <AxoDialog.Header floating>
             <AxoDialog.Title>
               {i18n('icu:stickers--StickerPreview--Title')}
@@ -276,15 +280,17 @@ export const StickerPreviewModal = memo(function StickerPreviewModalInner({
             {renderBody({ pack, i18n, handleCopyLink, handleStartUninstall })}
           </AxoDialog.Body>
           <AxoDialog.Footer>
-            {isInstallFooterVisible(pack) && (
-              <AxoDialog.Action
-                variant="strong-primary"
-                onClick={handleInstall}
-                pending={pack.status === 'pending'}
-              >
-                {i18n('icu:stickers--StickerPreview--Install')}
-              </AxoDialog.Action>
-            )}
+            <AxoDialog.Actions>
+              {isInstallFooterVisible(pack) && (
+                <AxoDialog.Action
+                  variant="strong-primary"
+                  onClick={handleInstall}
+                  pending={pack.status === 'pending'}
+                >
+                  {i18n('icu:stickers--StickerPreview--Install')}
+                </AxoDialog.Action>
+              )}
+            </AxoDialog.Actions>
           </AxoDialog.Footer>
         </AxoDialog.Content>
       </AxoDialog.Root>

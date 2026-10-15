@@ -8,6 +8,7 @@
   display: flex;
   padding-block: 8px;
   gap: 16px;
+  color: var(--axo-color-label-primary);
 
   &:is(button) {
     @include mixins.button-reset;

@@ -267,7 +267,7 @@ function PinMessageSelectDurationDialog(props: {
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="strong-secondary" onClick={handleCancel}>
+            <AxoDialog.Action variant="subtle-secondary" onClick={handleCancel}>
               {i18n('icu:PinMessageDialog__Cancel')}
             </AxoDialog.Action>
             <AxoDialog.Action variant="strong-primary" onClick={handleConfirm}>
@@ -305,7 +305,7 @@ function PinMessageDisappearingMessagesWarningDialog(props: {
             variant="strong-primary"
             onClick={props.onConfirm}
           >
-            {i18n('icu:PinMessageDisappearingMessagesWarningDialog__Okay')}
+            {i18n('icu:ok')}
           </AxoAlertDialog.Action>
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>

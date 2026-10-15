@@ -987,7 +987,7 @@ export function SendStoryModal({
         title={null}
         description={i18n('icu:SendStoryModal__announcements-only')}
       >
-        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
 
       <AxoConfirmDialog.Root

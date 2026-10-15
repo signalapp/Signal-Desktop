@@ -763,7 +763,7 @@ export function UsernameLinkEditor({
 
         <AxoConfirmDialog.Root
           open={showError}
-          onOpenChange={onCloseError}
+          onCancel={onCloseError}
           // @ts-expect-error ConfirmationDialog migration: Needs title
           title={null}
           description={i18n('icu:UsernameLinkModalBody__error__text')}
@@ -784,7 +784,7 @@ export function UsernameLinkEditor({
           title={null}
           description={i18n('icu:UsernameLinkModalBody__recovered__text')}
         >
-          <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+          <AxoConfirmDialog.Ok />
         </AxoConfirmDialog.Root>
 
         {showColors ? (

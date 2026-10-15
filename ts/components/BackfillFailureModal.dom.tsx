@@ -35,7 +35,7 @@ export function BackfillFailureModal(props: PropsType): JSX.Element {
       title={i18n('icu:BackfillFailureModal__title')}
       description={body}
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }

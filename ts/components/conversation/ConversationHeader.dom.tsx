@@ -1163,7 +1163,7 @@ export function CannotLeaveGroupBecauseYouAreLastAdminAlert(props: {
         'icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description'
       )}
     >
-      <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+      <AxoConfirmDialog.Ok />
     </AxoConfirmDialog.Root>
   );
 }

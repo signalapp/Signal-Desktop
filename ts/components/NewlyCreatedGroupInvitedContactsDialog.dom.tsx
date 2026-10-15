@@ -74,7 +74,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
     <GroupDialog
       i18n={i18n}
       onClickPrimaryButton={onClose}
-      primaryButtonText={i18n('icu:Confirmation--confirm')}
+      primaryButtonText={i18n('icu:ok')}
       secondaryButtonText={i18n(
         'icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
       )}

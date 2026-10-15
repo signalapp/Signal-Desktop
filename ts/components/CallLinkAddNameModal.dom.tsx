@@ -51,7 +51,11 @@ export function CallLinkAddNameModal({
 
   return (
     <AxoDialog.Root open onOpenChange={onClose}>
-      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-destructive"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {callLink.name === ''

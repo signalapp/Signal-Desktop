@@ -165,7 +165,7 @@ export namespace AxoStackedButton {
    */
   export const Row: FC<RowProps> = memo(props => {
     return (
-      <FlexWrapDetector>
+      <FlexWrapDetector.Root>
         <div
           className={tw(
             // Position items
@@ -182,7 +182,7 @@ export namespace AxoStackedButton {
         >
           {props.children}
         </div>
-      </FlexWrapDetector>
+      </FlexWrapDetector.Root>
     );
   });
 

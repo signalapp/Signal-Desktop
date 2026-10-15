@@ -4,6 +4,7 @@
 import { useCallback, useState, type JSX, type MouseEvent } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type CaptchaDialogProps = Readonly<{
   i18n: LocalizerType;
@@ -49,7 +50,9 @@ export function CaptchaDialog(props: CaptchaDialogProps): JSX.Element {
       title={i18n('icu:CaptchaDialog__title')}
       description={
         <>
-          <p>{i18n('icu:CaptchaDialog__first-paragraph')}</p>
+          <p className={tw('mb-2')}>
+            {i18n('icu:CaptchaDialog__first-paragraph')}
+          </p>
           <p>{i18n('icu:CaptchaDialog__second-paragraph')}</p>
         </>
       }

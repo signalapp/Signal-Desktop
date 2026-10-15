@@ -258,13 +258,12 @@ export const SmartGlobalModalContainer = memo(
     const renderErrorModal = useCallback(
       (props: ErrorModalDataProps) => (
         <ErrorModal
-          i18n={i18n}
           onClose={closeErrorModal}
           title={props.title}
           description={props.description}
         />
       ),
-      [closeErrorModal, i18n]
+      [closeErrorModal]
     );
 
     const renderDebugLogErrorModal = useCallback(

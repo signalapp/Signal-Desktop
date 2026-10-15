@@ -9,12 +9,11 @@
     @include mixins.font-body-1;
     margin-block: 16px;
     margin-inline: 0;
+    color: var(--axo-color-label-primary);
   }
 
   &__description-warning {
     @include mixins.font-subtitle;
     color: variables.$color-gray-45;
-    margin-block: 0;
-    margin-inline: 16px;
   }
 }

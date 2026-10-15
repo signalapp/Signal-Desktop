@@ -7,6 +7,7 @@ import { Linkify } from './conversation/Linkify.dom.tsx';
 import type { RenderTextCallbackType } from '../types/Util.std.ts';
 import { Emojify } from './conversation/Emojify.dom.tsx';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
 export type NotePreviewModalProps = Readonly<{
   conversation: ConversationType;
@@ -30,9 +31,9 @@ export function NotePreviewModal(props: NotePreviewModalProps): ReactNode {
           </AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
-        <AxoDialog.Body>
+        <AxoDialog.Body selectableText>
           <AxoDialog.Description>
-            <p dir="auto">
+            <p dir="auto" className={tw('text-primary')}>
               <Linkify
                 text={props.conversation.note ?? ''}
                 renderNonLink={renderNonLink}
@@ -45,7 +46,7 @@ export function NotePreviewModal(props: NotePreviewModalProps): ReactNode {
             <AxoDialog.Action variant="subtle-secondary" onClick={props.onEdit}>
               {i18n('icu:edit')}
             </AxoDialog.Action>
-            <AxoDialog.Action variant="subtle-primary" onClick={props.onClose}>
+            <AxoDialog.Action variant="strong-primary" onClick={props.onClose}>
               {i18n('icu:done')}
             </AxoDialog.Action>
           </AxoDialog.Actions>

@@ -193,7 +193,11 @@ export function PreferencesSelectChatsDialog(
 
   return (
     <AxoDialog.Root open onOpenChange={handleClose}>
-      <AxoDialog.Content size="md" escape="cancel-is-destructive">
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-destructive"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>{props.title}</AxoDialog.Title>
           <AxoDialog.Close />
@@ -240,7 +244,7 @@ export function PreferencesSelectChatsDialog(
           <SizeObserver>
             {(ref, size) => {
               return (
-                <div ref={ref} className={tw('h-96 w-full')}>
+                <div ref={ref} className={tw('h-96 w-full text-primary')}>
                   {size != null && !size.hidden && (
                     <ConversationList
                       dimensions={size}

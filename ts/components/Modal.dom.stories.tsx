@@ -47,7 +47,7 @@ export function BareBonesLongWithButton(): JSX.Element {
     <Modal
       modalName="test"
       i18n={i18n}
-      modalFooter={<Button onClick={noop}>Okay</Button>}
+      modalFooter={<Button onClick={noop}>OK</Button>}
     >
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
@@ -65,7 +65,7 @@ export function TitleXButtonBodyAndButtonFooter(): JSX.Element {
       title="Hello world"
       onClose={onClose}
       hasXButton
-      modalFooter={<Button onClick={noop}>Okay</Button>}
+      modalFooter={<Button onClick={noop}>OK</Button>}
     >
       {LOREM_IPSUM}
     </Modal>
@@ -80,17 +80,17 @@ export function LotsOfButtonsInTheFooter(): JSX.Element {
       onClose={onClose}
       modalFooter={
         <>
-          <Button onClick={noop}>Okay X</Button>
-          <Button onClick={noop}>Okay</Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK X</Button>
+          <Button onClick={noop}>OK</Button>
+          <Button onClick={noop}>OK</Button>
           <Button onClick={noop}>
             This is a button with a fairly large amount of text
           </Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
           <Button onClick={noop}>
             This is a button with a fairly large amount of text
           </Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
         </>
       }
     >
@@ -117,7 +117,7 @@ export function LongBodyWithTitleAndButton(): JSX.Element {
       i18n={i18n}
       title="Hello world"
       onClose={onClose}
-      modalFooter={<Button onClick={noop}>Okay</Button>}
+      modalFooter={<Button onClick={noop}>OK</Button>}
     >
       <p>{LOREM_IPSUM}</p>
       <p>{LOREM_IPSUM}</p>
@@ -153,8 +153,8 @@ export function WithStickyButtonsLongBody(): JSX.Element {
       onClose={onClose}
       modalFooter={
         <>
-          <Button onClick={noop}>Okay</Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
+          <Button onClick={noop}>OK</Button>
         </>
       }
     >
@@ -175,8 +175,8 @@ export function WithStickyButtonsShortBody(): JSX.Element {
       onClose={onClose}
       modalFooter={
         <>
-          <Button onClick={noop}>Okay</Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
+          <Button onClick={noop}>OK</Button>
         </>
       }
     >
@@ -194,17 +194,17 @@ export function StickyFooterLotsOfButtons(): JSX.Element {
       title="OK"
       modalFooter={
         <>
-          <Button onClick={noop}>Okay</Button>
-          <Button onClick={noop}>Okay</Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
+          <Button onClick={noop}>OK</Button>
+          <Button onClick={noop}>OK</Button>
           <Button onClick={noop}>
             This is a button with a fairly large amount of text
           </Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
           <Button onClick={noop}>
             This is a button with a fairly large amount of text
           </Button>
-          <Button onClick={noop}>Okay</Button>
+          <Button onClick={noop}>OK</Button>
         </>
       }
     >

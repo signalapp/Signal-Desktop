@@ -10,29 +10,11 @@
     display: inline-block;
   }
 
-  &__shield-icon {
-    margin-inline: auto;
-
-    height: 24px;
-    width: 24px;
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/safety_number/safety_number.svg',
-        variables.$color-gray-90
-      );
-    }
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/safety_number/safety_number.svg',
-        variables.$color-white
-      );
-    }
-  }
-
   &__contacts {
     list-style-type: none;
     padding: 0px;
     margin-block-end: 0px;
+    color: var(--axo-color-label-primary);
   }
 
   &__row {

@@ -28,6 +28,7 @@ export const AppProvider: FC<AppProviderProps> = memo(
 
     const messages: AxoProviderProps['messages'] = {
       'AxoAlertDialog.Cancel': i18n('icu:AxoAlertDialog.Cancel'),
+      'AxoAlertDialog.Ok': i18n('icu:AxoAlertDialog.Ok'),
       'AxoBadge.MaxOverflow': max => i18n('icu:AxoBadge.MaxOverflow', { max }),
       'AxoButton.Pending': i18n('icu:AxoButton.Pending'),
       'AxoDialog.Back': i18n('icu:AxoDialog.Back'),

@@ -6,6 +6,7 @@ import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { I18n } from './I18n.dom.tsx';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 const SIGNAL_USER_SAFETY_LINK =
   'https://support.signal.org/hc/articles/9932566320410-Staying-Safe-from-Phishing-Scams-and-Impersonation';
@@ -34,37 +35,37 @@ export const RecoveryKeyPasteWarning = ({
     >
       <AxoAlertDialog.Content escape="cancel-is-noop">
         <AxoAlertDialog.Body>
-          <div className={tw('mt-3 mb-2 flex flex-col items-center')}>
-            <img
-              role="presentation"
-              alt=""
-              className={tw('mt-1 mb-3 size-16 shrink-0')}
-              src="images/warning-circle.svg"
-            />
-            <AxoAlertDialog.Title>
-              {i18n('icu:Preferences__recovery-key__do-not-share-title')}
-            </AxoAlertDialog.Title>
-          </div>
-          <AxoAlertDialog.Description>
-            <div className={tw('mb-3 text-center type-body-medium')}>
-              <I18n
-                id="icu:CompositionInput__recovery-key-warning--description"
-                i18n={i18n}
-                components={{
-                  strong: Strong,
-                  learnMoreLink: parts => (
-                    <a
-                      className={tw('whitespace-nowrap text-accent')}
-                      href={SIGNAL_USER_SAFETY_LINK}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {parts}
-                    </a>
-                  ),
-                }}
-              />
+          <div className={tw('mb-2.5 flex justify-center')}>
+            <div
+              className={tw(
+                'size-fit rounded-full p-3',
+                'bg-safety-tint text-safety'
+              )}
+            >
+              <AxoSymbol.Icon label={null} symbol="error-triangle" size={32} />
             </div>
+          </div>
+          <AxoAlertDialog.Title>
+            {i18n('icu:Preferences__recovery-key__do-not-share-title')}
+          </AxoAlertDialog.Title>
+          <AxoAlertDialog.Description>
+            <I18n
+              id="icu:CompositionInput__recovery-key-warning--description"
+              i18n={i18n}
+              components={{
+                strong: Strong,
+                learnMoreLink: parts => (
+                  <a
+                    className={tw('whitespace-nowrap text-accent')}
+                    href={SIGNAL_USER_SAFETY_LINK}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {parts}
+                  </a>
+                ),
+              }}
+            />
           </AxoAlertDialog.Description>
         </AxoAlertDialog.Body>
         <AxoAlertDialog.Footer>

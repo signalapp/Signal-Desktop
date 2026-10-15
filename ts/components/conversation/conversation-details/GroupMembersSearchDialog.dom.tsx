@@ -106,7 +106,11 @@ export function GroupMembersSearchDialog(
 
   return (
     <AxoDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
-      <AxoDialog.Content size="md" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:GroupMembersSearchDialog__DialogTitle')}
@@ -123,7 +127,7 @@ export function GroupMembersSearchDialog(
           <FilterMenu i18n={i18n} filter={filter} onFilterChange={setFilter} />
         </AxoDialog.Search>
         <AxoDialog.Body padding="md" forceMaxHeight>
-          <div className={tw('flex flex-col gap-2 pb-4')}>
+          <div className={tw('flex flex-col gap-2')}>
             {searchQuery === '' ? (
               <AlphabeticMemberList
                 i18n={i18n}

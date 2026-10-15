@@ -16,7 +16,7 @@ export function DonationInterruptedModal(props: PropsType): JSX.Element {
   return (
     <AxoConfirmDialog.Root
       open
-      onOpenChange={props.onCancelDonation}
+      onCancel={props.onCancelDonation}
       title={i18n('icu:Donations__DonationInterrupted')}
       description={i18n('icu:Donations__DonationInterrupted__Description')}
     >

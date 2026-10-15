@@ -832,7 +832,7 @@ export function ProfileEditor({
     <>
       <AxoConfirmDialog.Root
         open={usernameEditState === UsernameEditState.ConfirmingDelete}
-        onOpenChange={() => setUsernameEditState(UsernameEditState.Editing)}
+        onCancel={() => setUsernameEditState(UsernameEditState.Editing)}
         // @ts-expect-error ConfirmationDialog migration: Needs title
         title={null}
         description={i18n(
@@ -862,7 +862,7 @@ export function ProfileEditor({
       >
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
-          variant="strong-secondary"
+          variant="subtle-secondary"
           onClick={() => {
             setIsResettingUsernameLink(false);
             setEditState(ProfileEditorPage.UsernameLink);

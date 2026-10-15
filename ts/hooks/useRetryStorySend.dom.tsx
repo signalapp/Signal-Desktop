@@ -48,7 +48,7 @@ export function useRetryStorySend(
         title={null}
         description={i18n('icu:Stories__failed-send')}
       >
-        <AxoConfirmDialog.Cancel>{i18n('icu:ok')}</AxoConfirmDialog.Cancel>
+        <AxoConfirmDialog.Ok />
       </AxoConfirmDialog.Root>
     );
   }

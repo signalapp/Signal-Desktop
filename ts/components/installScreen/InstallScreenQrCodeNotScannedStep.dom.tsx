@@ -138,7 +138,7 @@ export function InstallScreenQrCodeNotScannedStep({
             </AxoAlertDialog.Body>
             <AxoAlertDialog.Footer>
               <AxoAlertDialog.Action
-                variant="strong-secondary"
+                variant="subtle-secondary"
                 onClick={restartInstall}
               >
                 {i18n('icu:cancel')}

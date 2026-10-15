@@ -25,12 +25,19 @@ export function DonationProgressModal(
 
   return (
     <AxoDialog.Root open>
-      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-destructive"
+        disableMissingAriaDescriptionWarning
+      >
+        <AxoDialog.Header floating>
+          <AxoDialog.Title>{i18n('icu:Donations__Processing')}</AxoDialog.Title>
+        </AxoDialog.Header>
         <AxoDialog.Body>
           <div className={tw('mb-2.5 flex justify-center')}>
             <SpinnerV2 size={58} strokeWidth={4} variant="brand" />
           </div>
-          <div className={tw('text-center type-body-medium text-secondary')}>
+          <div className={tw('text-center')}>
             {i18n('icu:Donations__Processing')}
           </div>
         </AxoDialog.Body>
