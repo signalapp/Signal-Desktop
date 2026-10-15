@@ -58,6 +58,11 @@ export async function handleEditMessage(
 
   log.info(idLog);
 
+  if (editAttributes.conversationId !== mainMessage.conversationId) {
+    log.warn(`${idLog}: Edit is not in the same conversation as the original`);
+    return;
+  }
+
   // Use local aci for outgoing messages and sourceServiceId for incoming.
   const senderAci = isOutgoing(mainMessage)
     ? itemStorage.user.getCheckedAci()
@@ -226,10 +231,19 @@ export async function handleEditMessage(
     quote: editedMessage.quote,
   });
 
+  const conversation = window.ConversationController.get(
+    editAttributes.conversationId
+  );
+
   // Queue up any downloads in case they're different, update the fields if so.
-  const wasUpdated = await queueAttachmentDownloads(mainMessageModel, {
-    isManualDownload: false,
-  });
+  // Like new messages, only auto-download if we've accepted the conversation or
+  // the message is outgoing; accepting the conversation will queue them later.
+  let wasUpdated = false;
+  if (conversation?.getAccepted() || isOutgoing(mainMessageModel.attributes)) {
+    wasUpdated = await queueAttachmentDownloads(mainMessageModel, {
+      isManualDownload: false,
+    });
+  }
 
   // If we've scheduled a bodyAttachment download, we need that edit to know about it
   if (wasUpdated && mainMessageModel.get('bodyAttachment')) {
@@ -249,10 +263,6 @@ export async function handleEditMessage(
       }),
     });
   }
-
-  const conversation = window.ConversationController.get(
-    editAttributes.conversationId
-  );
 
   // Send delivery receipts, but only for non-story sealed sender messages
   // and not for messages from unaccepted conversations.
