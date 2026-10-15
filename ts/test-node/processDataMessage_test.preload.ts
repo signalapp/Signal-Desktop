@@ -434,6 +434,9 @@ describe('processDataMessage', () => {
       email: [],
       address: [],
       organization: '',
+      aciBinary: null,
+      note: null,
+      nickname: null,
     };
     const out = check({
       contact: [
@@ -456,6 +459,7 @@ describe('processDataMessage', () => {
 
     assert.deepStrictEqual(out.contact, [
       {
+        aci: undefined,
         name: undefined,
         number: [],
         email: [],
@@ -465,6 +469,8 @@ describe('processDataMessage', () => {
           avatar: PROCESSED_ATTACHMENT,
           isProfile: false,
         },
+        nickname: undefined,
+        note: undefined,
       },
     ]);
   });

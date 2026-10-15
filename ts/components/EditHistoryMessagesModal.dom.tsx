@@ -43,7 +43,6 @@ const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
   canRetryDeleteForEveryone: false,
   retryDeleteForEveryone: shouldNeverBeCalled,
-  checkForAccount: shouldNeverBeCalled,
   clearSelectedMessage: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,
   containerWidthBreakpoint: WidthBreakpoint.Medium,
@@ -80,7 +79,7 @@ const MESSAGE_DEFAULT_PROPS = {
   showLightboxForViewOnceMedia: shouldNeverBeCalled,
   showMediaNoLongerAvailableToast: shouldNeverBeCalled,
   showTapToViewNotAvailableModal: shouldNeverBeCalled,
-  startConversation: shouldNeverBeCalled,
+  startConversationWithSharedContact: shouldNeverBeCalled,
   textDirection: TextDirection.Default,
   viewStory: shouldNeverBeCalled,
 };

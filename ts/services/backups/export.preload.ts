@@ -52,6 +52,7 @@ import {
 } from '../../util/whatTypeOfConversation.dom.ts';
 import { uuidToBytes } from '../../util/uuidToBytes.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
+import { combineNames } from '../../util/combineNames.std.ts';
 import { getSafeLongFromTimestamp } from '../../util/timestampLongUtils.std.ts';
 import { DAY, DurationInSeconds } from '../../util/durations/index.std.ts';
 import {
@@ -183,6 +184,7 @@ import type { ThemeType } from '../../util/preload.preload.ts';
 import { safeParseStrict } from '../../util/schemas.std.ts';
 import type { WithRequiredProperties } from '../../types/Util.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import { canHaveSharedName } from '../../util/getTitle.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -1233,7 +1235,13 @@ export class BackupExportStream {
         identityKey = options.identityKeysById.get(convo.serviceId);
       }
 
-      const { nicknameGivenName, nicknameFamilyName, note } = convo;
+      const {
+        nicknameGivenName,
+        nicknameFamilyName,
+        sharedGivenName,
+        sharedFamilyName,
+        note,
+      } = convo;
 
       const maybePni = convo.pni ?? convo.serviceId;
 
@@ -1313,6 +1321,13 @@ export class BackupExportStream {
                 ? {
                     given: nicknameGivenName ?? null,
                     family: nicknameFamilyName ?? null,
+                  }
+                : null,
+            sharedName:
+              canHaveSharedName(convo) && (sharedGivenName || sharedFamilyName)
+                ? {
+                    given: sharedGivenName ?? null,
+                    family: sharedFamilyName ?? null,
                   }
                 : null,
             note: note ?? null,
@@ -1789,7 +1804,7 @@ export class BackupExportStream {
     } else if (contact && contact[0]) {
       const [contactDetails] = contact;
 
-      const { name } = contactDetails;
+      const { name, nickname } = contactDetails;
       const hasName =
         name != null &&
         Boolean(
@@ -1800,6 +1815,9 @@ export class BackupExportStream {
           name.middleName ||
           name.nickname
         );
+
+      const hasNickname =
+        nickname != null && Boolean(nickname.givenName || nickname.familyName);
 
       item = {
         contactMessage: {
@@ -1846,6 +1864,16 @@ export class BackupExportStream {
                 })
               : null,
             organization: contactDetails.organization ?? null,
+            aci: contactDetails.aci
+              ? this.#aciToBytes(contactDetails.aci)
+              : null,
+            nickname: hasNickname
+              ? {
+                  given: nickname.givenName ?? null,
+                  family: nickname.familyName ?? null,
+                }
+              : null,
+            note: contactDetails.note ?? null,
           },
           reactions: this.#getMessageReactions(message),
         },
@@ -2483,6 +2511,10 @@ export class BackupExportStream {
         'Missing title transition data'
       );
       const { renderInfo } = message.titleTransition;
+      const sharedName = combineNames(
+        renderInfo.sharedGivenName ?? undefined,
+        renderInfo.sharedFamilyName ?? undefined
+      );
       if (renderInfo.e164) {
         updateMessage.update = {
           learnedProfileChange: {
@@ -2495,9 +2527,15 @@ export class BackupExportStream {
             previousName: { username: renderInfo.username },
           },
         };
+      } else if (sharedName) {
+        updateMessage.update = {
+          learnedProfileChange: {
+            previousName: { sharedName },
+          },
+        };
       } else {
         log.warn(
-          `${logId}: Dropping title transition without username or e164`
+          `${logId}: Dropping title transition without username, e164, or sharedName`
         );
         return { kind: NonBubbleResultKind.Drop };
       }

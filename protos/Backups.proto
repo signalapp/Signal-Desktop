@@ -290,6 +290,7 @@ message Contact {
   // Opaque blob containing key transparency data for the contact
   optional bytes keyTransparencyData = 22;
   uint64 blockedAtTimestamp = 23; // if `blocked` is true, 0 means unknown block time
+  Name sharedName = 24; // absent iff both `given` and `family` are empty, name provided by third party
 }
 
 message Group {
@@ -690,6 +691,12 @@ message ContactAttachment {
     string nickname = 6;
   }
 
+  // The sharer's Signal nickname for this contact
+  message SignalNickname {
+    string given = 1;
+    string family = 2;
+  }
+
   message Phone {
     enum Type {
       UNKNOWN = 0; // Interpret as "Home"
@@ -738,11 +745,15 @@ message ContactAttachment {
   }
 
   optional Name name = 1;
+  reserved 2;
   repeated Phone number = 3;
   repeated Email email = 4;
   repeated PostalAddress address = 5;
   optional FilePointer avatar = 6;
   string organization = 7;
+  bytes aci = 8; // should be 16 bytes
+  optional SignalNickname nickname = 9; // absent iff both `given` and `family` are empty
+  string note = 10;
 }
 
 message StickerMessage {
@@ -1057,6 +1068,7 @@ message LearnedProfileChatUpdate {
   oneof previousName {
     uint64 e164 = 1;
     string username = 2;
+    string sharedName = 3;
   }
 }
 

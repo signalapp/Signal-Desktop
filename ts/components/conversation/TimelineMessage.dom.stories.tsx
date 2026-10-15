@@ -31,7 +31,10 @@ import { pngUrl } from '../../storybook/Fixtures.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
-import { ContactFormType } from '../../types/EmbeddedContact.std.ts';
+import {
+  ContactFormType,
+  type EmbeddedContactForUIType,
+} from '../../types/EmbeddedContact.std.ts';
 import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import {
   fakeAttachment,
@@ -254,7 +257,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canForward: true,
   canRetry: overrideProps.canRetry || false,
   canRetryDeleteForEveryone: overrideProps.canRetryDeleteForEveryone || false,
-  checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('clearSelectedMessage'),
   containerElementRef: createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
@@ -368,7 +370,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   toggleDeleteMessagesModal: action('toggleDeleteMessagesModal'),
   toggleForwardMessagesModal: action('toggleForwardMessagesModal'),
   showLightbox: action('showLightbox'),
-  startConversation: action('startConversation'),
+  startConversationWithSharedContact: action(
+    'startConversationWithSharedContact'
+  ),
   status: overrideProps.status || 'sent',
   text: overrideProps.text ?? '',
   textDirection: overrideProps.textDirection || TextDirection.Default,
@@ -3609,7 +3613,8 @@ export const StoryReplyEmoji = (): JSX.Element => {
   });
 };
 
-const fullContact = {
+const aci = generateAci();
+const fullContact: EmbeddedContactForUIType = {
   avatar: {
     avatar: fakeAttachment({
       path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
@@ -3636,6 +3641,13 @@ const fullContact = {
       type: ContactFormType.HOME,
     },
   ],
+  aci,
+  note: 'note',
+  nickname: {
+    givenName: 'NickGiven',
+    familyName: 'NickFamily',
+  },
+  resolution: { type: 'aci', aci },
 };
 
 export const EmbeddedContactFullContact = Template.bind({});
@@ -3719,19 +3731,22 @@ EmbeddedContactAvatarPermanentError.args = {
 
 export const EmbeddedContactWithSendMessage = Template.bind({});
 EmbeddedContactWithSendMessage.args = {
-  contact: {
-    ...fullContact,
-    // oxlint-disable-next-line typescript/no-non-null-assertion
-    firstNumber: fullContact.number[0]!.value,
-    serviceId: generateAci(),
-  },
+  contact: fullContact,
   direction: 'incoming',
   canForward: false,
 };
 
+const emptyContact = {
+  aci: undefined,
+  nickname: undefined,
+  note: undefined,
+  resolution: { type: 'not-on-signal' },
+} satisfies EmbeddedContactForUIType;
+
 export const EmbeddedContactOnlyEmail = Template.bind({});
 EmbeddedContactOnlyEmail.args = {
   contact: {
+    ...emptyContact,
     email: fullContact.email,
   },
   canForward: false,
@@ -3740,6 +3755,7 @@ EmbeddedContactOnlyEmail.args = {
 export const EmbeddedContactGivenName = Template.bind({});
 EmbeddedContactGivenName.args = {
   contact: {
+    ...emptyContact,
     name: {
       givenName: 'Jerry',
     },
@@ -3750,6 +3766,7 @@ EmbeddedContactGivenName.args = {
 export const EmbeddedContactOrganization = Template.bind({});
 EmbeddedContactOrganization.args = {
   contact: {
+    ...emptyContact,
     organization: 'Company 5',
   },
   canForward: false,
@@ -3758,6 +3775,7 @@ EmbeddedContactOrganization.args = {
 export const EmbeddedContactGivenFamilyName = Template.bind({});
 EmbeddedContactGivenFamilyName.args = {
   contact: {
+    ...emptyContact,
     name: {
       givenName: 'Jerry',
       familyName: 'FamilyName',
@@ -3769,6 +3787,7 @@ EmbeddedContactGivenFamilyName.args = {
 export const EmbeddedContactFamilyName = Template.bind({});
 EmbeddedContactFamilyName.args = {
   contact: {
+    ...emptyContact,
     name: {
       familyName: 'FamilyName',
     },

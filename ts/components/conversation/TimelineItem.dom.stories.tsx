@@ -61,7 +61,6 @@ const getDefaultProps = () => ({
   toggleSelectMessage: action('toggleSelectMessage'),
   endPoll: action('endPoll'),
   reactToMessage: action('reactToMessage'),
-  checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('clearTargetedMessage'),
   setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
@@ -109,7 +108,9 @@ const getDefaultProps = () => ({
   scrollToPollMessage: action('scrollToPollMessage'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
-  startConversation: action('startConversation'),
+  startConversationWithSharedContact: action(
+    'startConversationWithSharedContact'
+  ),
   renderItem: () => {
     throw new Error('not implemented');
   },

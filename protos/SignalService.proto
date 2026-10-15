@@ -258,8 +258,8 @@ message DataMessage {
     optional Type type = 7;
     optional bytes authorAciBinary = 8; // 16-byte UUID
   }
-
-  message Contact {
+  
+ message Contact {
     message Name {
       optional string givenName = 1;
       optional string familyName = 2;
@@ -268,6 +268,12 @@ message DataMessage {
       optional string middleName = 5;
       reserved /*displayName*/ 6;
       optional string nickname = 7;
+    }
+
+    // The sharer's Signal nickname for this contact
+    message SignalNickname {
+      optional string given = 1;
+      optional string family = 2;
     }
 
     message Phone {
@@ -320,11 +326,15 @@ message DataMessage {
     }
 
     optional Name name = 1;
+    reserved 2;
     repeated Phone number = 3;
     repeated Email email = 4;
     repeated PostalAddress address = 5;
     optional Avatar avatar = 6;
     optional string organization = 7;
+    optional bytes aciBinary = 8; // 16-byte UUID
+    optional SignalNickname nickname = 9;
+    optional string note = 10;
   }
 
   message Sticker {

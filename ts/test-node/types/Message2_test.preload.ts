@@ -666,6 +666,9 @@ describe('Message', () => {
         body: 'hey there!',
         contact: [
           {
+            aci: undefined,
+            note: undefined,
+            nickname: undefined,
             name: {
               nickname: 'Someone somewhere',
             },
@@ -676,6 +679,9 @@ describe('Message', () => {
         body: 'hey there!',
         contact: [
           {
+            aci: undefined,
+            note: undefined,
+            nickname: undefined,
             name: {
               nickname: 'Someone somewhere',
             },
@@ -727,6 +733,9 @@ describe('Message', () => {
         ],
         contact: [
           {
+            aci: undefined,
+            note: undefined,
+            nickname: undefined,
             avatar: {
               isProfile: false,
               avatar: composeAttachment({ path: 'contact/avatar' }),
@@ -774,6 +783,9 @@ describe('Message', () => {
         ],
         contact: [
           {
+            aci: undefined,
+            note: undefined,
+            nickname: undefined,
             avatar: {
               isProfile: false,
               avatar: composeAttachment({

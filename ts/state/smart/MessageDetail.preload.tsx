@@ -11,8 +11,6 @@ import { getIntl, getTheme, getPlatform } from '../selectors/user.std.ts';
 import { getMessageDetailsSelector } from '../selectors/message.preload.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.tsx';
-import { startConversation } from '../../util/startConversation.dom.ts';
-import { useAccountsActions } from '../ducks/accounts.preload.ts';
 import { useComposerActions } from '../ducks/composer.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
@@ -42,7 +40,6 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
   const i18n = useSelector(getIntl);
   const platform = useSelector(getPlatform);
   const theme = useSelector(getTheme);
-  const { checkForAccount } = useAccountsActions();
   const { endPoll } = useComposerActions();
   const {
     cancelAttachmentDownload,
@@ -63,6 +60,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
     showExpiredOutgoingTapToViewToast,
     showMediaNoLongerAvailableToast,
     showSpoiler,
+    startConversationWithSharedContact,
   } = useConversationsActions();
   const { popPanelForConversation, pushPanelForConversation } = useNavActions();
   const {
@@ -104,7 +102,6 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
 
   return (
     <MessageDetail
-      checkForAccount={checkForAccount}
       clearTargetedMessage={clearSelectedMessage}
       contactNameColor={contactNameColor}
       contacts={contacts}
@@ -142,7 +139,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
       showMediaNoLongerAvailableToast={showMediaNoLongerAvailableToast}
       showSpoiler={showSpoiler}
       showTapToViewNotAvailableModal={showTapToViewNotAvailableModal}
-      startConversation={startConversation}
+      startConversationWithSharedContact={startConversationWithSharedContact}
       theme={theme}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       viewStory={viewStory}

@@ -17,6 +17,8 @@ import { getOwn } from '../../util/getOwn.std.ts';
 import { hasDraft } from '../../util/hasDraft.std.ts';
 import { assertDev, strictAssert } from '../../util/assert.std.ts';
 import { drop } from '../../util/drop.std.ts';
+import { lookupOrCreateConversationIdForSharedContact } from '../../util/sharedContactCreateConversation.dom.ts';
+import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 import {
   deleteAvatar,
   writeNewAvatarData,
@@ -1283,6 +1285,7 @@ export const actions = {
   showInbox,
   showMediaNoLongerAvailableToast,
   startComposing,
+  startConversationWithSharedContact,
   startSettingGroupMetadata,
   terminateGroup,
   toggleAdmin,
@@ -4793,6 +4796,21 @@ type ShowConversationArgsType = ReadonlyDeep<{
 export type ShowConversationType = ReadonlyDeep<
   (options: ShowConversationArgsType) => unknown
 >;
+
+// Creating the conversation is deferred until the user takes action
+function startConversationWithSharedContact(
+  contact: ReadonlyDeep<EmbeddedContactForUIType>
+): SyncStateThunk<TargetedConversationChangedActionType> {
+  return dispatch => {
+    const conversationId =
+      lookupOrCreateConversationIdForSharedContact(contact);
+    if (conversationId == null) {
+      return;
+    }
+
+    void dispatch(showConversation({ conversationId }));
+  };
+}
 
 function showConversation({
   conversationId,

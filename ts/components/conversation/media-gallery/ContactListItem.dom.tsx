@@ -9,7 +9,7 @@ import type {
   ContactMediaItemType,
 } from '../../../types/MediaItem.std.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { getName } from '../../../types/EmbeddedContact.std.ts';
+import { getDisplayName } from '../../../types/EmbeddedContact.std.ts';
 import { AvatarColors } from '../../../types/Colors.std.ts';
 import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.dom.tsx';
@@ -38,7 +38,7 @@ export function ContactListItem({
   const { contact } = mediaItem;
   const { avatar } = contact;
 
-  const name = getName(contact) ?? '';
+  const name = getDisplayName(contact) ?? '';
 
   const thumbnail = (
     <Avatar

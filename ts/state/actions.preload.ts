@@ -1,7 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { actions as accounts } from './ducks/accounts.preload.ts';
 import { actions as app } from './ducks/app.preload.ts';
 import { actions as audioPlayer } from './ducks/audioPlayer.preload.ts';
 import { actions as audioRecorder } from './ducks/audioRecorder.preload.ts';
@@ -41,7 +40,6 @@ import { actions as username } from './ducks/username.preload.ts';
 import type { ReduxActions } from './types.std.ts';
 
 export const actionCreators: ReduxActions = {
-  accounts,
   app,
   audioPlayer,
   audioRecorder,

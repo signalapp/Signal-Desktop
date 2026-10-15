@@ -267,7 +267,6 @@ const actions = () => ({
     'acknowledgeGroupMemberNameCollisions'
   ),
   blockGroupLinkRequests: action('blockGroupLinkRequests'),
-  checkForAccount: action('checkForAccount'),
   clearInvitedServiceIdsForNewlyCreatedGroup: action(
     'clearInvitedServiceIdsForNewlyCreatedGroup'
   ),
@@ -389,6 +388,7 @@ const renderItem = ({
     shouldCollapseBelow={false}
     shouldHideMetadata={false}
     shouldRenderDateHeader={false}
+    startConversationWithSharedContact={() => null}
     targetedMessage={null}
     {...actions()}
   />

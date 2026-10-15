@@ -147,7 +147,8 @@ message ContactRecord {
   uint64 blockedAtTimestamp = 27; // if `blocked` is true, 0 means unknown block time
   OptionalBool notifyForCallsIfMuted = 28; // If unset, use the default settings
   OptionalBool showUnreadReminders = 29; // If unset, use the default settings
-  // Next ID: 30
+  Name sharedName = 30; // Name shared from a third party
+  // Next ID: 31
 }
 
 message GroupV1Record {
@@ -191,6 +192,7 @@ message Payments {
 }
 
 message AccountRecord {
+
   enum UnreadBadgeType {
     UNKNOWN_BADGE_TYPE = 0; // Interpret as "Unread messages"
     UNREAD_MESSAGES = 1;

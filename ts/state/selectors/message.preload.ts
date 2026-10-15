@@ -54,7 +54,6 @@ import type {
 } from '../../types/ServiceId.std.ts';
 
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
-import { embeddedContactSelector } from '../../types/EmbeddedContact.std.ts';
 import {
   BodyRange,
   type HydratedBodyRangesType,
@@ -103,7 +102,6 @@ import {
 } from '../../util/getLocalAttachmentUrl.std.ts';
 import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.ts';
 
-import { getAccountSelector } from './accounts.std.ts';
 import {
   getDefaultConversationColor,
   getHasMediaBackups,
@@ -122,7 +120,6 @@ import {
 } from './conversations.dom.ts';
 import {
   getIntl,
-  getRegionCode,
   getUserACI,
   getUserPNI,
   getUserConversationId,
@@ -134,7 +131,6 @@ import type {
   MessageWithUIFieldsType,
 } from '../ducks/conversations.preload.ts';
 
-import type { AccountSelectorType } from './accounts.std.ts';
 import type { CallSelectorType, CallStateType } from './calling.std.ts';
 import type { GetConversationByIdType } from './conversations.dom.ts';
 import {
@@ -187,6 +183,9 @@ import type { PollTerminateNotificationDataType } from '../../components/convers
 import { Emoji } from '../../axo/emoji.std.ts';
 import { isDownloadableOrBackfillable } from '../../util/downloadAttachment.preload.ts';
 import type { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
+import { formatEmbeddedContactForUI } from '../../util/sharedContact.std.ts';
+import type { ResolveSharedContactType } from './sharedContact.dom.ts';
+import { getResolveSharedContactSelector } from './sharedContact.dom.ts';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -212,6 +211,7 @@ type PropsForUnsupportedMessage = {
 
 export type GetPropsForBubbleOptions = Readonly<{
   conversationSelector: GetConversationByIdType;
+  resolveSharedContact: ResolveSharedContactType;
   ourConversationId?: string;
   ourNumber?: string;
   ourAci: AciString | undefined;
@@ -221,11 +221,9 @@ export type GetPropsForBubbleOptions = Readonly<{
   targetedMessageSource: TargetedMessageSource | null;
   pinnedMessagesMessageIds: ReadonlyArray<string> | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
-  regionCode?: string;
   callSelector: CallSelectorType;
   callHistorySelector: CallHistorySelectorType;
   activeCall?: CallStateType;
-  accountSelector: AccountSelectorType;
   contactNameColors: Map<string, ContactNameColorType>;
   defaultConversationColor: DefaultConversationColorType;
   hasMediaBackups: boolean;
@@ -818,6 +816,7 @@ export type GetPropsForMessageOptions = Pick<
   GetPropsForBubbleOptions,
   | 'activeCall'
   | 'conversationSelector'
+  | 'resolveSharedContact'
   | 'ourConversationId'
   | 'ourAci'
   | 'ourPni'
@@ -827,8 +826,6 @@ export type GetPropsForMessageOptions = Pick<
   | 'targetedMessageSource'
   | 'pinnedMessagesMessageIds'
   | 'selectedMessageIds'
-  | 'regionCode'
-  | 'accountSelector'
   | 'contactNameColors'
   | 'defaultConversationColor'
   | 'hasMediaBackups'
@@ -924,12 +921,11 @@ const getPropsForMessage = (
 
   const {
     activeCall,
-    accountSelector,
     conversationSelector,
+    resolveSharedContact,
     ourConversationId,
     ourNumber,
     ourAci,
-    regionCode,
     targetedMessageId,
     targetedMessageCounter,
     targetedMessageSource,
@@ -1035,7 +1031,7 @@ const getPropsForMessage = (
       ourAci,
     }),
     canSendPollVote: !isGroupTerminated,
-    contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
+    contact: getPropsForEmbeddedContact(message, resolveSharedContact),
     contactLabel,
     contactNameColor,
     conversationColor,
@@ -1097,12 +1093,11 @@ const getPropsForMessage = (
 // component that has access to selectors.
 export const getMessagePropsSelector = createSelector(
   getConversationSelector,
+  getResolveSharedContactSelector,
   getUserConversationId,
   getUserACI,
   getUserPNI,
   getUserNumber,
-  getRegionCode,
-  getAccountSelector,
   getCachedConversationMemberColorsSelector,
   getTargetedMessage,
   getPinnedMessagesMessageIds,
@@ -1112,12 +1107,11 @@ export const getMessagePropsSelector = createSelector(
   getStoryReplyAttachmentSelector,
   (
     conversationSelector,
+    resolveSharedContact,
     ourConversationId,
     ourAci,
     ourPni,
     ourNumber,
-    regionCode,
-    accountSelector,
     cachedConversationMemberColorsSelector,
     targetedMessage,
     pinnedMessagesMessageIds,
@@ -1131,14 +1125,13 @@ export const getMessagePropsSelector = createSelector(
         message.conversationId
       );
       return getPropsForMessage(message, {
-        accountSelector,
         contactNameColors,
         conversationSelector,
+        resolveSharedContact,
         ourConversationId,
         ourNumber,
         ourAci,
         ourPni,
-        regionCode,
         targetedMessageCounter: targetedMessage?.counter ?? null,
         targetedMessageId: targetedMessage?.id ?? null,
         targetedMessageSource: targetedMessage?.source ?? null,
@@ -2247,24 +2240,17 @@ function getDeletedForEveryoneByAdmin(
 
 function getPropsForEmbeddedContact(
   message: MessageWithUIFieldsType,
-  regionCode: string | undefined,
-  accountSelector: (identifier?: string) => ServiceIdString | undefined
+  resolveSharedContact: ResolveSharedContactType
 ): ReadonlyDeep<EmbeddedContactForUIType> | undefined {
-  const contacts = message.contact;
-  if (!contacts || !contacts.length) {
-    return undefined;
+  const firstContact = message.contact?.[0];
+  if (!firstContact) {
+    return;
   }
 
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  const firstContact = contacts[0]!;
-  const numbers = firstContact?.number;
-  const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
-
-  return embeddedContactSelector(firstContact, {
-    regionCode,
-    firstNumber,
-    serviceId: accountSelector(firstNumber),
-  });
+  return formatEmbeddedContactForUI(
+    firstContact,
+    resolveSharedContact(firstContact)
+  );
 }
 
 export function getPropsForAttachment(
@@ -2927,11 +2913,10 @@ function getMessageDetailRecipients(
 }
 
 export const getMessageDetailsSelector = createSelector(
-  getAccountSelector,
   getCachedConversationMemberColorsSelector,
   getConversationSelector,
+  getResolveSharedContactSelector,
   getIntl,
-  getRegionCode,
   getMessages,
   getUserACI,
   getUserPNI,
@@ -2944,11 +2929,10 @@ export const getMessageDetailsSelector = createSelector(
   getHasMediaBackups,
   getStoryReplyAttachmentSelector,
   (
-    accountSelector,
     cachedConversationMemberColorsSelector,
     conversationSelector,
+    resolveSharedContact,
     i18n,
-    regionCode,
     messageLookup,
     ourAci,
     ourPni,
@@ -2999,16 +2983,15 @@ export const getMessageDetailsSelector = createSelector(
         contacts,
         errors,
         message: getPropsForMessage(message, {
-          accountSelector,
           contactNameColors: cachedConversationMemberColorsSelector(
             message.conversationId
           ),
           conversationSelector,
+          resolveSharedContact,
           ourAci,
           ourPni,
           ourConversationId,
           ourNumber,
-          regionCode,
           pinnedMessagesMessageIds,
           selectedMessageIds,
           targetedMessageId: null,

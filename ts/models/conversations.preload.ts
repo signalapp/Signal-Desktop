@@ -139,7 +139,9 @@ import {
   getTitleNoDefault,
   hasNumberTitle,
   hasUsernameTitle,
+  hasSharedNameTitle,
   canHaveUsername,
+  canHaveSharedName,
 } from '../util/getTitle.preload.ts';
 import { markConversationRead } from '../util/markConversationRead.preload.ts';
 import { handleMessageSend } from '../util/handleMessageSend.preload.ts';
@@ -433,7 +435,9 @@ export class ConversationModel {
       this.onChangeProfileKey();
     }
 
-    const clearUsernameTriggers: Array<keyof ConversationAttributesType> = [
+    const clearUsernameOrSharedNameTriggers: Array<
+      keyof ConversationAttributesType
+    > = [
       'name',
       'profileName',
       'profileFamilyName',
@@ -441,10 +445,21 @@ export class ConversationModel {
       'systemGivenName',
       'systemFamilyName',
       'systemNickname',
+      'nicknameGivenName',
+      'nicknameFamilyName',
     ];
 
-    if (clearUsernameTriggers.some(attrName => hasAttributeChanged(attrName))) {
+    if (
+      clearUsernameOrSharedNameTriggers.some(attrName =>
+        hasAttributeChanged(attrName)
+      )
+    ) {
       drop(this.maybeClearUsername());
+      drop(this.maybeClearSharedName());
+    }
+
+    if (hasAttributeChanged('username')) {
+      drop(this.maybeClearSharedName());
     }
 
     if (hasAttributeChanged('members') || hasAttributeChanged('membersV2')) {
@@ -2437,7 +2452,10 @@ export class ConversationModel {
     | Partial<ConversationAttributesType>
     | undefined {
     const needsTitleTransition =
-      hasNumberTitle(this.attributes) || hasUsernameTitle(this.attributes);
+      hasNumberTitle(this.attributes) ||
+      hasUsernameTitle(this.attributes) ||
+      hasSharedNameTitle(this.attributes);
+
     const update = {
       messageCount: (this.get('messageCount') || 0) + 1,
       sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
@@ -4613,6 +4631,48 @@ export class ConversationModel {
       log.info(
         `maybeClearUsername(${this.idForLogging()}): adding a notification`
       );
+      const { type, e164, username, sharedGivenName, sharedFamilyName } =
+        this.attributes;
+
+      this.set({ needsTitleTransition: undefined });
+
+      await this.addNotification('title-transition-notification', {
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Unseen,
+        titleTransition: {
+          renderInfo: {
+            type,
+            e164,
+            username,
+            sharedGivenName,
+            sharedFamilyName,
+          },
+        },
+      });
+    }
+
+    await DataWriter.updateConversation(this.attributes);
+    this.captureChange('clearUsername');
+  }
+
+  async maybeClearSharedName(): Promise<void> {
+    const { sharedGivenName, sharedFamilyName } = this.attributes;
+
+    if (
+      canHaveSharedName(this.attributes) ||
+      (!sharedGivenName && !sharedFamilyName)
+    ) {
+      return;
+    }
+
+    log.info(
+      `maybeClearSharedName(${this.idForLogging()}): clearing shared name`
+    );
+
+    if (this.get('needsTitleTransition') && getProfileName(this.attributes)) {
+      log.info(
+        `maybeClearSharedName(${this.idForLogging()}): adding a notification`
+      );
       const { type, e164, username } = this.attributes;
 
       this.set({ needsTitleTransition: undefined });
@@ -4625,13 +4685,17 @@ export class ConversationModel {
             type,
             e164,
             username,
+            sharedGivenName,
+            sharedFamilyName,
           },
         },
       });
     }
 
+    this.#doSet({ sharedGivenName: undefined, sharedFamilyName: undefined });
+
     await DataWriter.updateConversation(this.attributes);
-    this.captureChange('clearUsername');
+    this.captureChange('clearSharedName');
   }
 
   async updateUsername(
@@ -5502,7 +5566,8 @@ export class ConversationModel {
     if (this.get('needsTitleTransition')) {
       log.info(`${logId}: adding a title transition notification`);
 
-      const { type, e164, username } = this.attributes;
+      const { type, e164, username, sharedGivenName, sharedFamilyName } =
+        this.attributes;
 
       this.set({ needsTitleTransition: undefined });
 
@@ -5514,6 +5579,8 @@ export class ConversationModel {
             type,
             e164,
             username,
+            sharedGivenName,
+            sharedFamilyName,
           },
         },
       });

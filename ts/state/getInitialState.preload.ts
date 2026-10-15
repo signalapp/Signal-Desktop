@@ -1,7 +1,6 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getEmptyState as accountsEmptyState } from './ducks/accounts.preload.ts';
 import { getEmptyState as appEmptyState } from './ducks/app.preload.ts';
 import { getEmptyState as audioPlayerEmptyState } from './ducks/audioPlayer.preload.ts';
 import { getEmptyState as audioRecorderEmptyState } from './ducks/audioRecorder.preload.ts';
@@ -148,7 +147,6 @@ function generateConversationsState(): ConversationsStateType {
 
 function getEmptyState(): StateType {
   return {
-    accounts: accountsEmptyState(),
     app: appEmptyState(),
     audioPlayer: audioPlayerEmptyState(),
     audioRecorder: audioRecorderEmptyState(),

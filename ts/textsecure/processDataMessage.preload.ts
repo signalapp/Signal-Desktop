@@ -278,8 +278,19 @@ function processContact(
   }
 
   return contact.slice(0, 1).map(item => {
-    const { name, number, email, address, avatar, organization } = item;
+    const {
+      aciBinary,
+      name,
+      number,
+      email,
+      address,
+      avatar,
+      organization,
+      nickname,
+      note,
+    } = item;
     return {
+      aci: aciBinary ? fromAciUuidBytes(aciBinary) : undefined,
       name: name
         ? {
             givenName: dropNull(name.givenName),
@@ -330,6 +341,13 @@ function processContact(
             isProfile: Boolean(avatar.isProfile),
           }
         : undefined,
+      nickname: nickname
+        ? {
+            givenName: nickname.given ?? undefined,
+            familyName: nickname.family ?? undefined,
+          }
+        : undefined,
+      note: note ?? undefined,
     };
   });
 }
