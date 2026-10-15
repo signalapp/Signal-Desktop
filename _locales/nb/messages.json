@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "På hovedenheten din kan du styre hva som er koblet til kontoen din, og du kan koble til opptil fem enheter."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Enkelte innstillinger er kun tilgjengelig på hovedenheten din, blant annet kontoinnstillingene og sikkerhetskopier."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Kontoinnstillingene og sikkerhetskopiene kan kun endres på hovedenheten."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Les mer"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Du fant ut at dette nummeret tilhører {conversationTitle} etter å ha pratet med {obsoleteConversationTitle}. Vedkommendes telefonnummer er privat."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Lagre den på et trygt sted. Du trenger innloggingsinformasjonen din for å gjenopprette kontoen og dataene dine. Ikke del den med andre."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Kontokode"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Konto-ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Prøv igjen om {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Velg landskode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonnummer"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Ikke slipp inn"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Av"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "På"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Gi samtalen et navn"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Lagre vedlegg"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Siste nytt"
@@ -8781,7 +8805,7 @@
     "messageformat": "Takk for at du støtter Signal. Bidraget ditt hjelper oss med å utvikle åpen kildekode-teknologi for personvern som muliggjør fri og trygg kommunikasjon for millioner av mennesker over hele verden. Hvis du er bosatt i USA, må du ta vare på denne kvitteringen til skatteoppgjøret ditt. Signal Technology Foundation er en ideell organisasjon som er fritatt skatt i USA under avsnitt 501c3 i den amerikanske skatteloven. Vårt nasjonale skattenummer er 82-4506840. Signal har ikke levert noen varer eller tjenester som vederlag for bidraget ditt."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Gi penger nå"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Du er ikke på nett. Koble deg til internett for å gi en pengegave."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Vi har også lagt til en praktisk snarvei som lar deg åpne systeminnstillingene på Windows når du forsøker å bli med i en videosamtale, men først må gi Signal tillatelse til å bruke kameraet på enheten."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Jy bestuur van jou primêre toestel af wat gekoppel word; jy kan tot vyf toestelle koppel."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Rekeninginstellings word slegs op jou primêre toestel bestuur, waaronder jou rekeninginstellings en rugsteun."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Rekeninginstellings en rugsteun kan slegs op jou primêre toestel bestuur word."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Vind meer uit"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Nadat jy boodskappe met {obsoleteConversationTitle} uitgeruil het, het jy agtergekom dat hierdie nommer aan {conversationTitle} behoort. Hulle telefoonnommer is privaat."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Bewaar dié op 'n veilige plek, jou aantekeninligting is nodig om jou rekening en data te herwin. Moet dit nooit met enigiemand deel nie."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Rekeningsleutel"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Rekening-ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Probeer asseblief weer oor {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Kies landkode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefoonnommer"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Weier toegang"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Af"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Aan"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Voeg oproepnaam by"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Stoor aanhegsels"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat is nuut"
@@ -8781,7 +8805,7 @@
     "messageformat": "Dankie vir jou ondersteuning van Signal. Jou bydrae help om deur oopbron-privaatheidstegnologie die missie van die beskerming van vryheid van uitdrukking te befonds en veilige globale kommunikasie vir miljoene mense regoor die wêreld moontlik maak. Indien jy 'n inwoner van die Verenigde State is, behou asseblief hierdie kwitansie vir jou belastingrekords. Signal Technology Foundation is 'n niewinsgewende organisasie in die Verenigde State wat van belasting vrygestel is ingevolge artikel 501c3 van die Internal Revenue Code. Ons Federal Tax ID is 82-4506840. Signal het nie enige goedere of dienste as teenprestasie vir hierdie bydrae gelewer nie."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Skenk nou"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Jy is aflyn. Verbind asseblief aan die internet om 'n skenking te voltooi."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Ons het ook 'n gerieflike kortpad bygevoeg om jou stelselinstellings in Windows oop te maak as jy by 'n video-oproep probeer aansluit en Signal nie toestemming het om toegang tot die kamera te verkry nie."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "ใช้อุปกรณ์หลักจัดการอุปกรณ์ที่เชื่อมโยงอยู่ทั้งหมด โดยสามารถเชื่อมโยงอุปกรณ์ได้สูงสุด 5 เครื่อง"
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "การตั้งค่าเกี่ยวกับบัญชี (ซึ่งรวมถึงการตั้งค่าบัญชีและการสำรองข้อมูล) จะต้องใช้อุปกรณ์หลักในการจัดการเท่านั้น"
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "สามารถจัดการการตั้งค่าบัญชีและการสำรองข้อมูลได้บนอุปกรณ์หลักเท่านั้น"
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "หลังจากที่ส่งข้อความกับ {obsoleteConversationTitle} คุณได้ทราบว่าหมายเลขนี้เป็นของ {conversationTitle} หมายเลขโทรศัพท์นี้เป็นข้อมูลส่วนตัว"
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "คุณจำเป็นต้องใช้ข้อมูลลงชื่อเข้าใช้นี้ในการกู้คืนบัญชีและข้อมูล โปรดเก็บไว้ในที่ปลอดภัยและอย่าเปิดเผยกับใคร"
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "กุญแจเข้าบัญชี"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ไอดีบัญชี"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "โปรดลองอีกครั้งใน {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "เลือกรหัสประเทศ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "หมายเลขโทรศัพท์"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "ปฏิเสธการเข้าร่วม"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "ปิด"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "เปิด"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "เพิ่มชื่อการโทร"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "บันทึกไฟล์แนบ"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
@@ -8781,7 +8805,7 @@
     "messageformat": "ขอบคุณที่ร่วมสนับสนุน Signal การบริจาคของคุณจะช่วยเป็นพลังให้กับภารกิจในการปกป้องการแสดงออกอย่างอิสระ พร้อมมอบการสื่อสารที่ปลอดภัยและไร้พรมแดนให้แก่ผู้คนหลายล้านทั่วโลกผ่านเทคโนโลยีความเป็นส่วนตัวแบบโอเพนซอร์ส หากคุณเป็นผู้พำนักอาศัยในสหรัฐอเมริกา โปรดเก็บใบเสร็จนี้ไว้เพื่อเป็นหลักฐานในการชำระภาษี โดย Signal Technology Foundation เป็นองค์กรที่ไม่แสวงหากำไรและได้รับการยกเว้นภาษีภายใต้มาตรา 501c3 ของประมวลกฎหมายภาษีอากรของสหรัฐอเมริกา หมายเลขประจำตัวผู้เสียภาษีให้แก่รัฐบาลกลางของเราคือ 82-4506840 ทั้งนี้ Signal ไม่มีสินค้าหรือบริการเป็นการตอบแทนสำหรับการบริจาคนี้"
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "บริจาคเลย"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "คุณออฟไลน์อยู่ โปรดเชื่อมต่ออินเทอร์เน็ตเพื่อดำเนินการบริจาค"
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "พร้อมเพิ่มทางลัดใหม่ที่ให้คุณเปิดหน้าการตั้งค่าระบบบน Windows ได้สะดวกยิ่งขึ้นเมื่อคุณต้องการเข้าร่วมวิดีโอคอลแต่ Signal ยังไม่ได้รับสิทธิ์เข้าถึงกล้อง"
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

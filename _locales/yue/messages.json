@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "你部主要裝置負責管理連結咗嘅機，最多可連結 5 部裝置。"
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "帳戶設定只可以喺主要裝置度管理，包括帳戶設定同備份。"
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "帳戶設定同備份淨係可以喺你部主機上面管理。"
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "了解多啲"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "同 {obsoleteConversationTitle} 通訊之後，你知道咗呢個號碼係屬於 {conversationTitle} 嘅。對方嘅電話冧把係保密嘅。"
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "請將你嘅登入資訊存放喺安全嘅地方，你需要呢個資訊先可以恢復帳戶同資料。千祈唔好同任何人分享呢個資訊。"
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "帳戶金鑰"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "帳戶 ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "請你喺 {duration} 後再試"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "揀選國家編碼"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "電話冧把"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "拒絕加入"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "閂"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "開"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "加入通話名稱"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "儲存附件"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -8781,7 +8805,7 @@
     "messageformat": "多謝你撐 Signal。你嘅捐款係我哋嘅原動力，推動我哋透過開放原始碼嘅私隱技術，保護言論自由，俾世界各地數以百萬計嘅 Signal 用戶可以安全通訊。如果你係美國居民，請保留呢張收據作為你嘅稅務記錄。Signal Technology Foundation 係根據美國《國稅法規》(IRC) 第 501c3 條所成立嘅免稅非牟利機構。聯邦稅識別號碼係 82-4506840。Signal 冇因為呢筆捐款而提供任何商品或服務。"
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "立即捐款"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "你而家離咗線。請你連線上網去攪掂埋個捐款。"
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "我哋亦都加入咗一個捷徑，方便你喺嘗試加入視像通話嗰陣，如果 Signal 未有權存取相機，就可以用呢個捷徑打開 Windows 嘅系統設定。想俾人睇到你，而家就更加容易做得到。"
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

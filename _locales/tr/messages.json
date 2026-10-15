@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Ana cihazın, bağlı cihazları yönetir ve en fazla 5 cihaz bağlayabilirsin."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Hesap ayarları, hesap ayarları ve yedeklemeler de dahil olmak üzere yalnızca ana cihazından yönetilir."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Hesap ayarları ve yedeklemeler yalnızca ana cihazından yönetilebilir."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Daha Fazlasını Öğren"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ile mesajlaştıktan sonra bu numaranın {conversationTitle} adlı ait olduğunu öğrenmiş oldun. Bu kişinin telefon numarası gizlidir."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Bunu güvenli bir yerde sakla; hesabını ve verilerini kurtarman için giriş bilgilerin gerekir. Kimseyle paylaşma."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Hesap anahtarı"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Hesap Kimliği"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Lütfen {duration} içinde tekrar dene"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Ülke kodu seç"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefon numarası"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Girişi reddet"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Kapalı"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Açık"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Arama adı ekle"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Ekleri kaydet"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Neler Yeni"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal'ı desteklediğin için teşekkürler. Katkın açık kaynak gizlilik teknolojisi aracılığıyla, ifade özgürlüğünü koruma ve dünya çapında milyonlarca kişi için güvenli küresel iletişim sağlama misyonunu desteklemeye yardımcı olur. Amerika Birleşik Devletleri'nde ikamet ediyorsan, lütfen bu makbuzu vergi kayıtların için sakla. Signal Technology Foundation, Amerika Birleşik Devletleri'nde İç Gelir Yasası'nın 501c3 numaralı bölümü kapsamında vergiden muaf, kar amacı gütmeyen bir kuruluştur. Federal Vergi Kimlik Numaramız 82-4506840'tır. Signal bu katkı karşılığında herhangi bir mal veya hizmet sağlamamıştır."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Şimdi Bağış Yap"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Çevrim dışısın. Lütfen bağış işlemini tamamlamak için internete bağlan."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Bir görüntülü aramaya katılmaya çalışırsan ve Signal'ın kameraya erişim izni bulunmuyorsa, sistem ayarlarını Windows'ta açman için uygun bir kısayol da ekledik. Artık insanların seni görebilmesi için ne yapman gerektiğini anlaman daha kolay."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

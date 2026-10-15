@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Негизги түзмөгүңүз кайсы түзмөктөрдү байлоо керектигин чечет. 5 түзмөккө чейин байлай аласыз."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Аккаунттун айрым параметрлерин жана камдык көчүрмөлөрдү негизги түзмөгүңүздө гана тескей аласыз."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Аккаунттун параметрлерин жана камдык көчүрмөлөрдү негизги түзмөгүңүздө гана башкара аласыз."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Кененирээк маалымат"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} менен жазышкандан кийин, бул номердин ээси {conversationTitle} экенин билдиңиз. Бул телефон номери купуя."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Бул маалыматты коопсуз жерге сактап коюңуз. Аккаунтуңузду жана андагы нерселерди калыбына келтирүү үчүн керек болот. Эч ким менен бөлүшпөңүз."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Аккаунттун ачкычы"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Аккаунттун идентификатору"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "{duration} кийин кайталап көрүңүз"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Өлкөнүн кодун көрсөтүңүз"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефон номериңиз"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Четке кагуу"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Өчүк"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Күйүк"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Чалуунун аталышын кошуу"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Тиркемелерди сактоо"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңылыктар"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal'ды колдогонуңуз үчүн чоң рахмат! Салым кошуу менен, баштапкы коду ачык купуялык технологиялары аркылуу дүйнө жүзүндөгү миллиондогон адамдарга өз оюн эркин билдирип, коопсуз шарттарда баарлашуу мүмкүнчүлүгүн берүү миссиябызды жайылтканга жардам бересиз. Эгер Америка Кошмо Штаттарынын тургуну болсоңуз, бул дүмүрчөктү салык органдарына көрсөтүү үчүн сактап коюңуз. Signal Technology фонду Ички кирешелер кодексинин 501(c)(3) бөлүмү боюнча салыктан бошотулган коммерциялык эмес уюм. Федералдык салык идентификаторубуз 82-4506840. Signal бул кайрымдуулук үчүн эч кандай товар же кызмат көрсөткөн жок."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Колдоо көрсөтүү"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Интернет жок. Интернетке туташып, салымыңызды аягына чыгарыңыз."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Ошондой эле, видеочалууга кошулайын деп жатканда Signal колдонмосунун камерага уруксаты жок болсо, Windows параметрлерин дароо ачуучу ыңгайлуу баскыч кошуп койдук. Эми башкалар сизди көрө алышы үчүн эмне кылуу керектигин оңой эле түшүнөсүз."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Од вашиот примарен уред се управуваат поврзаните уреди, можете да поврзете до 5 уреди."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Со поставувањата на корисничката сметка можете да управувате само од примарниот уред, вклучувајќи ги и поставувањата за корисничка сметка и резервни копии."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Со поставувањата на корисничката сметка и резервните копии можете да управувате само од примарниот уред."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Дознајте повеќе"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "По допишување со {obsoleteConversationTitle} дознавте дека бројот припаѓа на {conversationTitle}. Нивниот телефонски број е приватен."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Чувајте ги на безбедно место, вашите информации за најава се потребни за враќање на корисничката сметка и податоците. Не ги споделувајте со никој."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Клуч за корисничка сметка"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Идентификација на корисничка сметка"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Ве молиме обидете се повторно за {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Изберете повикувачки број на земјата"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Телефонски број"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Одбиј влез"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Исклучи"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Вклучи"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Додајте име на повикот"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Зачувајте ги прилозите"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Што е ново"
@@ -8781,7 +8805,7 @@
     "messageformat": "Ви благодариме што го поддржувате Signal. Вашиот придонес ја поддржува мисијата за заштита на слободното изразување и овозможува безбедна глобална комуникација за милиони луѓе низ целиот свет, преку технологија за приватност со отворен код. Ако сте жител на Соединетите Американски Држави, ве молиме чувајте ја оваа потврда за вашите даночни пријави. Signal Technology Foundation е непрофитна организација која е ослбодена од даночни обврски според делот 501c3 од Законот за федералната даночна служба. Нашиот федерален даночен број е 82-4506840. Signal не обезбеди никакви производи или услуги како надомест за овој придонес."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Донирајте сега"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Офлајн сте. Ве молиме поврзете се на интернет за да ја завршите донацијата."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Исто така додадовме лесно пристапна кратенка за отворање на вашите системски поставувања на Windows доколку сакате да се придружите на видео повик и Signal нема дозвола за пристап до вашата камера."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

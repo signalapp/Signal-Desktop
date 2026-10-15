@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "ئاسالىق ئۈسكۈنىڭىزدە نېمىلەرگە باغلىيالايدىغانلىقىڭىزنى باشقۇرىسىز، ئەڭ كۆپ بولغاندا 5 تال ئۈسكۈنىنى باغلىيالايسىز."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "ھېسابات تەڭشەكلىرى ۋە زاپاسلارنى ئۆز ئىچىگە ئالغان بەزى ھېسابات تەڭشەكلىرى پەقەت سىزنىڭ ئاساسلىق ئۈسكۈنىڭىز تەرىپىدىنلا باشقۇرۇلىدۇ."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "ھېسابات تەڭشەكلىرى ۋە زاپاسلارنى پەقەت ئاساسلىق ئۈسكۈنىدىلا باشقۇرغىلى بولىدۇ."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "تېخىمۇ كۆپ بىلدۈرگۈ"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} بىلەن ئۇچۇرلاشقاندىن كېيىن بۇ نومۇرنىڭ «{conversationTitle}» گە تەۋە ئىكەنلىكىنى بايقىدىڭىز. ئۇلارنىڭ تېلېفون نومۇرى مەخپىي."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "كىرىش ئۇچۇرىڭىز، ھېساباتىڭىز ۋە سانلىق مەلۇماتلىرىڭىزنى ئەسلىگە كەلتۈرۈش ئۈچۈن كېرەك بولىدۇ، شۇڭا ئۇنى بىخەتەر جايدا ساقلاڭ. بۇنى ھېچكىم بىلەن ئورتاقلاشماڭ."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "ھېسابات ئاچقۇچى"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ھېسابات كىملىكى"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "{duration} تىن كېيىن قايتا سىناڭ"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "دۆلەت كودى تاللاڭ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "تېلېفون نومۇرىڭىز"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "كىرىشنى رەت قىلىڭ"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "ئېتىش"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "ئېچىش"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "چاقىرىق نامى قوشۇش"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "قوشۇمچە ھۆججەتلەرنى ساقلاڭ"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "يېڭىلىقلار"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal نى قوللىغانلىقىڭىزغا رەھمەت. سىزنىڭ قوللىشىڭىز بىزگە ياردەملىشىپ ئوچۇق مەنبە مەخپىيەتلىك تېخنىكىسى ئارقىلىق سۆز ئەركىنلىك ھوقۇقىنى قوغدايدۇ ۋە دۇنيادىكى مىليونلىغان كىشىلەرنىڭ ئالاقىلىشىش بىخەتەرلىكىگە كاپالەتلىك قىلىدۇ. ئەگەر سىز ئامېرىكىنىڭ ئاھالىسى بولسىڭىز، باج خاتىرىلىرى ئۈچۈن بۇ تالوننى ساقلاپ قويۇڭ. Signal Technology Foundation بولسا ئامېرىكا دۆلەت ئىچى باج قانۇنى 501c3 ماددىسىدىكى بەلگىلىمە بويۇنچە باجدىن كەچۈرۈم قىلىنىدىغان تاپاۋەتسىز ئورگان بولۇپ ھېسابلىنىدۇ. فېدېراتسىيە باج ID نومۇرىمىز 82-4506840. بۇ سەۋەبلىك، Signal ھېچقانداق ماددىي بۇيۇملارنى ياكى مۇلازىمەتلەرنى ئىقتىسادىي پايدا مەقسىتىدە تەمىنلىمىدى."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "دەرھال ئىئانە قىلىش"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "سىز تورغا ئۇلانمىغان. ئىئانىنى تاماملاش ئۈچۈن تورغا ئۇلاڭ."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Windows دا ۋىدېيولۇق چاقىرىققا قاتنىشىشقا ئۇرۇنغاندا، Signal نىڭ كامېراغا كىرىش رۇخسىتى بولمىسا، سىستېما تەڭشەكلىرىنى ئېچىش ئۈچۈن قولايلىق تېزلەتمە يولنىمۇ قوشتۇق. 8.30 نەشرىنىڭ يېڭىلىقلىرى ھازىر باشقىلارنىڭ سىزنى كۆرەلىشى ئۈچۈن نېمە قىلىشىڭىز كېرەكلىكىنى ئاسانلا بىلەلەيسىز."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }
