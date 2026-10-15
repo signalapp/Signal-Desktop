@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "ലിങ്ക് ചെയ്‌തവ കൈകാര്യം ചെയ്യുന്നത് നിങ്ങളുടെ പ്രൈമറി ഉപകരണമാണ്, നിങ്ങൾക്ക് 5 ഉപകരണങ്ങൾ വരെ ലിങ്ക് ചെയ്യാം."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "അക്കൗണ്ട് ക്രമീകരണങ്ങളും ബാക്കപ്പുകളും ഉൾപ്പെടെയുള്ള കാര്യങ്ങൾ നിങ്ങളുടെ പ്രൈമറി ഉപകരണത്തിൽ മാത്രമേ മാനേജ് ചെയ്യാനാകൂ."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "അക്കൗണ്ട് ക്രമീകരണങ്ങളും ബാക്കപ്പുകളും നിങ്ങളുടെ പ്രാഥമിക ഉപകരണത്തിൽ മാത്രമേ കൈകാര്യം ചെയ്യാൻ കഴിയൂ."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} എന്നയാളുമായുള്ള സന്ദേശ കൈമാറ്റത്തിന് ശേഷം, ഈ നമ്പർ {conversationTitle} എന്നയാളുടേതാണെന്ന് നിങ്ങൾ മനസ്സിലാക്കി. അവരുടെ ഫോൺ നമ്പർ സ്വകാര്യമാണ്."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "ഇത് സുരക്ഷിതമായ ഒരു സ്ഥലത്ത് സൂക്ഷിക്കുക, നിങ്ങളുടെ അക്കൗണ്ടും ഡാറ്റയും വീണ്ടെടുക്കുന്നതിന് ലോഗിൻ വിവരങ്ങൾ ആവശ്യമാണ്. ഇത് ഒരിക്കലും ആരുമായും പങ്കിടരുത്."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "അക്കൗണ്ട് കീ"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "അക്കൗണ്ട് ഐഡി"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "{duration} സമയത്തിന് ശേഷം വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "രാജ്യ കോഡ് തിരെഞ്ഞെടുക്കുക"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ഫോൺ നമ്പർ"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "പ്രവേശനം നിഷേധിക്കുക"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "ഓഫ്"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "ഓൺ"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "കോളിന്‍റെ പേര് ചേർക്കുക"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "അറ്റാച്ചുമെന്റുകൾ സംരക്ഷിക്കുക"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal-നെ പിന്തുണച്ചതിന് നന്ദി. സ്വതന്ത്രമായ അഭിപ്രായപ്രകടനം സംരക്ഷിക്കുന്നതിനും ലോകമെമ്പാടുമുള്ള ദശലക്ഷക്കണക്കിന് ആളുകൾക്ക് ഓപ്പൺ സോഴ്‌സ് സ്വകാര്യതാ സാങ്കേതികവിദ്യയിലൂടെ സുരക്ഷിതമായ ആഗോള ആശയവിനിമയം സാധ്യമാക്കുന്നതിനുമുള്ള ദൗത്യത്തിന് നിങ്ങളുടെ സംഭാവന ഇന്ധനം പകരുന്നു. നിങ്ങൾ യുണൈറ്റഡ് സ്റ്റേറ്റ്സിൽ താമസിക്കുന്ന ആളാണെങ്കിൽ, നിങ്ങളുടെ നികുതി രേഖകൾക്കായി ഈ രസീത് സൂക്ഷിക്കുക. Signal ടെക്നോളജി ഫൗണ്ടേഷൻ, ഇന്റേണൽ റവന്യൂ കോഡിന്റെ സെക്ഷൻ 501c3 പ്രകാരം യുണൈറ്റഡ് സ്റ്റേറ്റ്സിലെ നികുതി ഇളവ് ലഭിച്ച ഒരു ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്. ഞങ്ങളുടെ ഫെഡറൽ ടാക്സ് ഐഡി 82-4506840 ആണ്. ഈ സംഭാവനയ്ക്ക് പകരമായി Signal യാതൊരു സാധനങ്ങളോ സേവനങ്ങളോ നൽകിയിട്ടില്ല."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "ഇപ്പോൾ സംഭാവന ചെയ്യുക"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "നിങ്ങൾ ഓഫ്‌ലൈനാണ്. സംഭാവന പൂർത്തിയാക്കാൻ ഇൻ്റർനെറ്റുമായി ബന്ധിപ്പിക്കുക."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "നിങ്ങൾ ഒരു വീഡിയോ കോളിൽ ചേരാൻ ശ്രമിക്കുമ്പോൾ ക്യാമറ ആക്സസ് ചെയ്യാൻ Signal-ന് അനുമതിയില്ലെങ്കിൽ, Windows-ൽ സിസ്റ്റം ക്രമീകരണങ്ങൾ തുറക്കാനുള്ള സൗകര്യപ്രദമായ ഒരു കുറുക്കുവഴിയും ഞങ്ങൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. മറ്റുള്ളവർക്ക് നിങ്ങളെ കാണാൻ കഴിയുന്നതിനായി നിങ്ങൾ എന്താണ് ചെയ്യേണ്ടതെന്ന് അറിയുന്നത് ഇപ്പോൾ കൂടുതൽ എളുപ്പമാണ്."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

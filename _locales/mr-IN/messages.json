@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "तुमचा मुख्य डिव्हाईस काय लिंक केलेले आहे त्याचे व्यवस्थापन करतो, तुम्ही कमाल 5 डिव्हाईस लिंक करू शकता."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "खाते सेटिंग्ज फक्त तुमच्या मुख्य डिव्हाईसवरूनच व्यवस्थापित करता येतात, ज्यात खाते सेटिंग्ज आणि बॅकअप्सचा समावेश होतो."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "खाते सेटिंग्ज आणि बॅकअप्स फक्त तुमच्या मुख्य डिव्हाईसवरूनच व्यवस्थापित करता येतात."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "अधिक जाणा"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} सह मेसेज केल्यानंतर आपणाला हा नंबर {conversationTitle} च्या मालकीचा असल्याचे समजले. त्यांचा फोन नंबर खाजगी आहे."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "ही एका सुरक्षित जागी साठवून ठेवा, तुमची लॉगिनची माहिती तुमचे खाते आणि डेटा परत मिळवण्यासाठी गरजेची असते. ही कधीच कोणालाच देऊ नका."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "खाते की"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "खाते आयडी"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "कृपया {duration} झाल्यावर पुन्हा प्रयत्न करा"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "देश कोड निवडा"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "फोन क्रमांक"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "प्रवेश नाकारा"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "बंद"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "चालू"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "कॉलचे नाव जोडा"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "अटॅचमेंट्स जतन करा"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नवीन काय आहे"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal ला समर्थन दिल्याबद्दल धन्यवाद. तुमचे योगदान ओपन सोर्स गोपनीयता तंत्रज्ञानामार्फत मुक्त अभिव्यक्तीचे रक्षण करण्यास आणि जगभरातील लक्षावधी लोकांना संरक्षित जागतिक पातळीवर एकमेकांशी संपर्क साधण्यास मदत करते. जर तुम्ही युनायटेड स्टेट्सचे रहिवासी असाल, तर कृपया तुमच्या कर नोंदींसाठी ही पावती जपून ठेवा. सिग्नल टेक्नॉलॉजी फाऊंडेशन ही इंटर्नल रेव्हेन्यू कोडच्या कलम 501c3 अंतर्गत युनायटेड स्टेट्समधील एक करमुक्त ना-नफा संस्था आहे. आमचा फेडरल कर क्रमांक आहे 82-4506840. Signalने या योगदानाच्या बदल्यात कोणत्याही वस्तू किंवा सेवा पुरवल्या नाहीत."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "आता देणगी द्या"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "तुम्ही ऑफलाईन आहात. कृपया देणगी पूर्ण करण्यासाठी इंटरनेटशी कनेक्ट व्हा."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "तुम्ही व्हिडिओ कॉलमध्ये सामील व्हायचा प्रयत्न केलात आणि Signalकडे कॅमेरा प्राप्त करण्याची अनुमती नसेल तर तुमच्या सिस्टीमच्या सेटिंग्ज उघडण्यासाठी आम्ही एक सोयीचा शॉर्टकटही जोडला आहे. लोकांना तुम्ही दिसण्यासाठी काय करणे आवश्यक आहे ते आता सहज दिसू शकते."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

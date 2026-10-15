@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Gailu nagusiarekin, zer lotzen den kudeatzen da; gehienez, 5 gailu lot ditzakezu."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Kontuaren ezarpenak gailu nagusian bakarrik kudea daitezke; besteak beste, kontuaren ezarpenak eta babeskopiak."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Kontuaren ezarpenak eta babeskopiak soilik gailu nagusitik kudea daitezke."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Informazio gehiago"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} erabiltzailearekin mezuak trukatu ondoren, zenbaki hau {conversationTitle} erabiltzailearena dela jakin duzu. Haren telefono-zenbakia pribatua da."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Gorde hau leku seguru batean, zure kontua eta datuak berreskuratzeko behar da saioa hasteko informazioa. Ez partekatu inorekin."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Kontuaren gakoa"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Kontu-identifikatzailea"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Saiatu berriro {duration} barru"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Herrialdearen kodea aukeratu"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefono-zenbakia"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Ez utzi sartzen"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Desaktibatuta"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Aktibatuta"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Gehitu deiaren izena"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Gorde eranskinak"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri"
@@ -8781,7 +8805,7 @@
     "messageformat": "Eskerrik asko Signal-i laguntzeagatik. Zure ekarpenarekin, kode irekiko pribatutasun-teknologiaren bidez adierazpen-askatasuna babesteko eta mundu osoko milioika pertsonarentzako komunikazio segurua ahalbidetzeko dugun misioa bultzatuko duzu. Ameriketako Estatu Batuetan bizi bazara, gorde ordainagiri hau, zerga-aitorpenetarako. Signal Technology Foundation zergak ordaintzetik salbuetsita dagoen AEBko erakunde bat da, Internal Revenue Code-ko 501c3 sekzioari jarraikiz. Gure IFZa federala 82-4506840 da. Signal-ek ez du inolako ondasun edo zerbitzurik eman dohaintza honen truke."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Egin dohaintza orain"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Lineaz kanpo zaude. Konketatu Internetera dohaintza osatzeko."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Halaber, Windows-en sistemaren ezarpenak irekitzeko lasterbide eroso bat gehitu dugu, bideodei batean sartzen saiatu baina Signal-ek kamerarako sarbidea ez duenerako."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

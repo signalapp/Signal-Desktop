@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "您的主设备可以管理已链接的设备。您可以至多链接 5 台设备。"
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "账户设置只能在您的主设备上管理，包括账户设置和备份。"
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "账户设置和备份只能在您的主设备上进行管理。"
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "了解更多"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "给{obsoleteConversationTitle}发消息后，您得知此号码属于{conversationTitle}。对方的手机号码是私密号码。"
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "请将此信息储存在安全的地方。您的登录信息是恢复账户和数据所必需的信息。切勿将其分享给任何人。"
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "账户密钥"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "账户 ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "请在 {duration} 后再试"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "选择国家编码"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "手机号码"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "拒绝加入"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "关"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "开"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "添加通话名称"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "保存附件"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -8781,7 +8805,7 @@
     "messageformat": "感谢您支持 Signal。您的捐款将助力我们履行使命：保护自由表达，通过开源隐私技术让全球数百万用户享受全球安全通信。如果您是美国居民，请保留此收据作为您的税务记录。Signal 技术基金会是美国国内税收法第 501c3 条定义的美国免税非营利组织。我们的联邦税号为 82-4506840。Signal 未因本次捐款而提供任何商品或服务。"
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "立即捐款"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "您处于离线状态。请连接到互联网以完成捐款。"
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "如果您尝试加入视频通话但 Signal 无相机访问权限，我们还添加了一个方便的快捷方式，用于在 Windows 上打开系统设置。"
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Déanann do phríomhghléas bainistíocht ar a bhfuil nasctha, is féidir leat suas le 5 ghléas a nascadh."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Ar do phríomhghléas amháin a dhéantar socruithe cuntais a bhainistiú, socruithe agus cúltacaí an chuntais ina measc."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Ní féidir socruithe an chuntais agus cúltacaí a bhainistiú ach ar do phríomhghléas."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Tuilleadh Faisnéise"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Tar éis teachtaireachtaí a sheoladh chuig {obsoleteConversationTitle} fuair tú amach gur le {conversationTitle} an uimhir seo. Tá uimhir ghutháin an duine sin príobháideach."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Stóráil in áit shábháilte é; éilítear d'fhaisnéis logáil isteach le do chuntas agus do shonraí a athshlánú. Ná comhroinn le duine ar bith choíche é."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Eochair an chuntais"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Aitheantas an Chuntais"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Triail arís i gceann {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Roghnaigh cód tíre"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Uimhir ghutháin"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Diúltaigh do dhul isteach"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "As"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Air"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Cuir ainm an ghlao leis"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Sábháil ceangaltáin"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
@@ -8781,7 +8805,7 @@
     "messageformat": "Go raibh maith agat as tacú le Signal. Cabhraíonn do rannchuidiú leis an misean chun saoirse cainte a chosaint agus chun cur ar ár gcumas cumarsáid dhomhanda a chur ar fáil do na milliúin ar fud an domhain, trí theicneolaíocht phríobháideachta foinse oscailte. Más cónaitheoir de chuid na Stát Aontaithe thú, coinnigh an admháil seo do do thaifid chánach. Eagraíocht neamhbhrabúis díolmhaithe ó cháin sna Stáit Aontaithe faoi alt 501c3 den Internal Revenue Code is ea Signal Technology Foundation. Is é 82–4506840 ár nUimhir Aitheantais Cánach Feidearálaí. Níor thug Signal aon earraí nó seirbhísí mar chúiteamh ar an rannchuidiú seo."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Tabhair Airgead Anois"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Tá tú as líne. Nasc leis an Idirlíon le tabhartas a chur i gcrích."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Chuireamar aicearra áisiúil leis freisin chun socruithe do chórais a oscailt ar Windows má dhéanann tú iarracht dul isteach i bhfísghlao gan cead rochtana ar an gceamara a bheith ag Signal."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

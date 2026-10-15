@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Vaš primarni uređaj upravlja povezanim uređajima. Možete povezati najviše 5 uređaja."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Postavkama računa može se upravljati samo na primarnom uređaju, uključujući postavke računa i sigurnosne kopije."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Postavkama računa i sigurnosnim kopijama možete upravljati samo na primarnom uređaju."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Saznaj više"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Nakon razmjene poruka sa {obsoleteConversationTitle} saznali ste da ovaj broj pripada korisniku/ci {conversationTitle}. Broj telefona te osobe je privatan."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Sačuvajte ovo na sigurnom mjestu, podaci za prijavu su potrebni za oporavak računa i podataka. Nikada ih ne dijelite ni s kim."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Ključ računa"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ID računa"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Pokušajte ponovo za {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Izaberi državni kôd"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Broj telefona"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Odbij ulazak"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Isključeno"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Uključeno"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Dodajte ime poziva"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Sačuvaj priloge"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Šta je novo"
@@ -8781,7 +8805,7 @@
     "messageformat": "Hvala što podržavate Signal! Vaš doprinos pomaže u ostvarivanju misije zaštite slobode izražavanja i omogućavanja sigurne globalne komunikacije za milione širom svijeta, putem tehnologije privatnosti otvorenog koda. Ako ste stanovnik Sjedinjenih Američkih Država, sačuvajte ovaj račun za svoju poreznu evidenciju. Fondacija Signal Technology je neprofitna organizacija oslobođena poreza u Sjedinjenim Američkim Državama prema članu 501c3 Zakona o unutrašnjim prihodima. Naš federalni poreski identifikacioni broj je 82-4506840. Signal nije dostavio nikakvu robu niti pružio usluge u zamjenu za ovaj doprinos."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Doniraj odmah"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Trenutno ste van mreže. Povežite se s internetom da biste dovršili donaciju."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Dodali smo i praktičnu prečicu za otvaranje sistemskih postavki na Windowsu ako pokušate pristupiti videopozivu, a Signal nema dozvolu za pristup kameri."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

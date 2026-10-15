@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "جهازك الأساسي هو المسؤول عن إدارة الأجهزة المُرتبِطة، ويمكنك ربط حتى 5 أجهزة."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "تُدَار بعض إعدادات الحساب على جهازك الأساسي فقط، بما في ذلك إعدادات الحساب والنسخ الاحتياطية."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "يمكن إدارة إعدادات الحساب والنسخ الاحتياطية من جهازك الرئيسي فقط."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "اعرف المزيد"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "بعد تبادل الرسائل مع {obsoleteConversationTitle}، أدركتَ أن هذا الرقم يعود إلى {conversationTitle}. رقم هاتفه خاص."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "احفظ هذا في مكانٍ آمن، فبيانات تسجيل الدخول مطلوبة لاستعادة حسابك وبياناتك. لا تشاركه مع أي أحد."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "مفتاح الحساب"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "مُعرِّف الحساب"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "يُرجى المحاولة لاحقًا {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "اختر كود الدولة"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "رقم الهاتف"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "رفض الإدخال"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "في حالة إيقاف"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "في حالة تشغيل"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "إضافة اسم المكالمة"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "حفظ الملفات المُرفَقة"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما هو جديد"
@@ -8781,7 +8805,7 @@
     "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة سيجنال‬ للتكنولوجيا هي منظمة غير ربحية معفاة من الضرائب ومُسجَّلة في الولايات المتحدة ضمن البند 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82. لا يُقدِّم سيجنال أي بضائع أو خدمات مقابل هذه المساهمة."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "تبرَّع الآن"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "أنت غير متصل بالإنترنت. يُرجى الاتصال بالإنترنت لإكمال التبرُّع."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "أضفنا أيضًا اختصارًا ملائمًا لفتح إعدادات النظام على ويندوز إذا حاولت الانضمام إلى مكالمة فيديو وسيجنال لا يملك إذن الوصول إلى الكاميرا. أصبح الآن من السهل رؤية ما يجب عليك فعله ليراك الناس."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

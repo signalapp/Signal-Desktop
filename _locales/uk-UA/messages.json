@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Керування зв'язаними пристроями здійснюється з основного. Ви можете зв'язати до 5 пристроїв."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Змінювати налаштування можна тільки з основного пристрою, зокрема налаштування акаунту й резервного копіювання."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Змінювати налаштування акаунту й резервного копіювання можна тільки з основного пристрою."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Докладніше"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Після спілкування з «{obsoleteConversationTitle}» ви дізналися, що цей номер належить користувачу «{conversationTitle}». Номер телефону користувача приватний."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Зберігайте цю інформацію в надійному місці. Вона потрібна для відновлення вашого акаунту й даних. Нікому її не повідомляйте."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Ключ від акаунту"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ID акаунту"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Будь ласка, спробуйте ще раз через {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Вибір коду країни"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Номер телефону"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Не дозволити приєднатися"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Вимк."
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Увімк."
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Додати назву виклику"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Зберегти вкладення"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Що нового"
@@ -8781,7 +8805,7 @@
     "messageformat": "Дякуємо за підтримку Signal. Ваш внесок допомагає реалізувати нашу місію: захищати свободу слова і робити можливим безпечне спілкування для мільйонів людей у всьому світі за допомогою технології конфіденційного обміну повідомленнями з відкритим кодом. Якщо ви резидент Сполучених Штатів Америки, збережіть це підтвердження для звітування в податкові органи. Signal Technology Foundation — звільнена від оподаткування неприбуткова організація, створена відповідно до розділу 501c3 податкового кодексу США. Наш федеральний податковий номер: 82–4506840. За цей внесок Signal не надав ні товарів, ні послуг."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Підтримати"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Ви не в мережі. Щоб завершити донат, потрібне з'єднання з інтернетом."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Крім того, ми додали зручне сполучення клавіш для відкриття системних налаштувань Windows на випадок, якщо ви захочете приєднатися до відеовиклику, а Signal не матиме доступу до камери. Тепер вам буде простіше знайти потрібне налаштування, щоб більше не залишатися за кадром."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

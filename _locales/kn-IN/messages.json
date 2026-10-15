@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನವು ನೀವು ಲಿಂಕ್ ಮಾಡಿರುವ ಸಾಧನಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತದೆ, ನೀವು ಗರಿಷ್ಠ 5 ಸಾಧನಗಳನ್ನು ಲಿಂಕ್ ಮಾಡಬಹುದು."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳು ಸೇರಿದಂತೆ, ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆ."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ನಿಮ್ಮ ಪ್ರಾಥಮಿಕ ಸಾಧನದಲ್ಲಿ ಮಾತ್ರ ನಿರ್ವಹಿಸಬಹುದು."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ಅವರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿದ ಬಳಿಕ ಈ ಸಂಖ್ಯೆಯು {conversationTitle} ಅವರಿಗೆ ಸೇರಿದ್ದು ಎಂಬುದಾಗಿ ನಿಮಗೆ ತಿಳಿಯುತ್ತದೆ. ಅವರ ಫೋನ್ ಸಂಖ್ಯೆ ಖಾಸಗಿಯಾಗಿದೆ."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "ಇದನ್ನು ಸುರಕ್ಷಿತ ಸ್ಥಳದಲ್ಲಿ ರಕ್ಷಿಸಿ, ನಿಮ್ಮ ಖಾತೆ ಮತ್ತು ಡೇಟಾವನ್ನು ರಿಕವರ್ ಮಾಡಲು ನಿಮ್ಮ ಲಾಗಿನ್ ಮಾಹಿತಿ ಅಗತ್ಯವಿದೆ. ಇದನ್ನು ಎಂದಿಗೂ ಯಾರೊಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳಬೇಡಿ."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "ಖಾತೆ ಕೀ"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ಖಾತೆ ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "{duration} ನಲ್ಲಿ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "ದೇಶದ ಕೋಡ್ ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ಫೋನ್ ಸಂಖ್ಯೆ"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "ಪ್ರವೇಶವನ್ನು ನಿರಾಕರಿಸಿ"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "ಆಫ಼್"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "ಆನ್"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ಕರೆ ಹೆಸರು ಸೇರಿಸಿ"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "ಲಗತ್ತುಗಳನ್ನು ಸೇವ್ ಮಾಡಿ"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal ಅನ್ನು ಬೆಂಬಲಿಸುತ್ತಿರುವುದಕ್ಕೆ ಧನ್ಯವಾದಗಳು. ಮುಕ್ತ ಅಭಿವ್ಯಕ್ತಿಯನ್ನು ರಕ್ಷಿಸುವ ಮತ್ತು ಓಪನ್ ಸೋರ್‍ಸ್ ಗೌಪ್ಯತೆ ತಂತ್ರಜ್ಞಾನದ ಮೂಲಕ ಪ್ರಪಂಚದಾದ್ಯಂತ ಲಕ್ಷಾಂತರ ಜನರಿಗೆ ಸುರಕ್ಷಿತ ಜಾಗತಿಕ ಸಂವಹನವನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುವ ಧ್ಯೇಯವನ್ನು ಉತ್ತೇಜಿಸಲು ನಿಮ್ಮ ಕೊಡುಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನೀವು ಯುನೈಟೆಡ್ ಸ್ಟೇಟ್ಸ್ ನಿವಾಸಿಯಾಗಿದ್ದರೆ, ನಿಮ್ಮ ತೆರಿಗೆ ದಾಖಲೆಗಳಿಗಾಗಿ ಈ ರಸೀದಿಯನ್ನು ಇಟ್ಟುಕೊಳ್ಳಿ. Signal Technology Foundation ಎಂಬುದು ಯುನೈಟೆಡ್ ಸ್ಟೇಟ್ಸ್‌ನಲ್ಲಿ Internal Revenue Code ನ ಸೆಕ್ಷನ್ 501c3 ಅಡಿಯಲ್ಲಿ ತೆರಿಗೆ ವಿನಾಯಿತಿ ಪಡೆದ ಲಾಭರಹಿತ ಸಂಸ್ಥೆಯಾಗಿದೆ. ನಮ್ಮ Federal Tax ID is 82-4506840. ಈ ಕೊಡುಗೆಯ ಪರಿಗಣನೆಯಲ್ಲಿ Signal ಯಾವುದೇ ಸರಕುಗಳು ಅಥವಾ ಸೇವೆಗಳನ್ನು ಒದಗಿಸುವುದಿಲ್ಲ."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "ಈಗಲೇ ದೇಣಿಗೆ ನೀಡಿ"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ. ದೇಣಿಗೆಯನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು ಇಂಟರ್ನೆಟ್‌ಗೆ ಕನೆಕ್ಟ್ ಮಾಡಿ."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "ನೀವು ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸಿದಾಗ Signal ಗೆ ಕ್ಯಾಮರಾವನ್ನು ಬಳಸಲು ಅನುಮತಿ ಇಲ್ಲದಿದ್ದರೆ, Windows ನಲ್ಲಿ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಲು ಅನುಕೂಲವಾಗುವಂತಹ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸಹ ನಾವು ಸೇರಿಸಿದ್ದೇವೆ. ಜನರು ನಿಮ್ಮನ್ನು ನೋಡುವಂತಾಗಲು ನೀವು ಏನು ಮಾಡಬೇಕು ಎಂಬುದನ್ನು ಈಗ ಸುಲಭವಾಗಿ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Din primære enhed administrerer, hvilke enheder der er tilknyttet. Du kan tilknytte op til 5 enheder."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Kontoindstillinger administreres kun på din primære enhed, herunder kontoindstillinger og sikkerhedskopier."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Kontoindstillinger og sikkerhedskopier kan kun administreres på din primære enhed."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Lær mere"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Efter at have sendt en besked til {obsoleteConversationTitle}, fik du at vide at dette nummer tilhører {conversationTitle}. Vedkommendes telefonnummer er privat."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Opbevar dette et sikkert sted. Dine loginoplysninger er påkrævede for at gendanne din konto og dine data. Del dem aldrig med nogen."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Kontonøgle"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Konto-id"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Prøv igen om {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Vælg landekode"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefonnummer"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Afvis adgang"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Fra"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Til"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Tilføj opkaldsnavn"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Gem vedhæftede filer"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Nyheder"
@@ -8781,7 +8805,7 @@
     "messageformat": "Tak, fordi du støtter Signal. Dit bidrag er med til at fremme missionen om at beskytte ytringsfriheden og muliggøre sikker global kommunikation for millioner af mennesker verden over gennem open source-privatlivsteknologi. Hvis du er bosiddende i USA, bedes du gemme denne kvittering til dine skatteoptegnelser. Signal Technology Foundation er en skattefritaget nonprofitorganisation i USA i henhold til paragraf 501c3 i Internal Revenue Code. Vores Federal Tax ID er 82-4506840. Signal har ikke leveret varer eller tjenesteydelser til gengæld for dette bidrag."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Donér nu"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Du er offline. Opret forbindelse til internettet for at gennemføre donationen."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Vi har også tilføjet en praktisk genvej til systemindstillingerne i Windows, hvis du forsøger at deltage i et videoopkald, og Signal ikke har adgang til kameraet. Nu er det nemmere at se, hvad du skal gøre, så andre kan se dig."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

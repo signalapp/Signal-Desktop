@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Thiết bị chính của bạn sẽ quản lý các thiết bị đã liên kết, bạn có thể liên kết tối đa 5 thiết bị."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Cài đặt tài khoản chỉ được quản lý trên thiết bị chính của bạn, bao gồm cài đặt tài khoản và bản sao lưu."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Cài đặt tài khoản và các bản sao lưu chỉ có thể được quản lý trên thiết bị chính của bạn."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Tìm hiểu thêm"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Sau khi nhắn tin với {obsoleteConversationTitle} bạn biết số này thuộc về {conversationTitle}. Số điện thoại của người đó riêng tư."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Lưu ở nơi an toàn, bạn sẽ cần thông tin đăng nhập để khôi phục tài khoản và dữ liệu của mình. Không bao giờ chia sẻ Signal Login với bất kỳ ai."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Mã khóa tài khoản"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ID tài khoản"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Vui lòng thử lại trong {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Chọn Mã quốc gia"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Số điện thoại"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Từ chối"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Tắt"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Bật"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Thêm tên cuộc gọi"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Lưu tập tin đính kèm"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới"
@@ -8781,7 +8805,7 @@
     "messageformat": "Cảm ơn bạn đã hỗ trợ Signal. Đóng góp của bạn giúp duy trì sứ mệnh bảo vệ việc tự biểu đạt và cung cấp nền tảng giao tiếp bảo mật cho hàng triệu người trên thế giới, thông qua công nghệ mã nguồn mở hướng tới quyền riêng tư. Nếu bạn là một cư dân của Hoa Kỳ, vui lòng giữ biên lai này cho hồ sơ thuế. Signal Technology Foundation là một tổ chức phi lợi nhuận được miễn trừ nghĩa vụ thuế ở Hoa Kỳ theo mục 501c3 của Internal Revenue Code. ID Thuế Liên bang của chúng tôi là 82-4506840. Signal không cung cấp bất kỳ hàng hóa hoặc dịch vụ nào để đổi lấy khoản đóng góp này."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Ủng Hộ Ngay"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Bạn đang ngoại tuyến. Vui lòng kết nối internet để hoàn tất khoản ủng hộ."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Chúng tôi cũng đã thêm một lối tắt tiện lợi để mở cài đặt hệ thống trên Windows trong trường hợp bạn cố gắng tham gia cuộc gọi video nhưng Signal chưa được cấp quyền truy cập camera."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

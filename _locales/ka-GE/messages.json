@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "შენი მთავარი მოწყობილობა მართავს რა იქნება მიბმული, შეგიძლია 5-მდე მოწყობილობა მიაბა."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "ანგარიშის პარამეტრები მხოლოდ შენს მთავარ მოწყობილობაზე იმართება, ანგარიშის პარამეტრებისა და სათადარიგო ასლების ჩათვლით."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "ანგარიშის პარამეტრებისა და სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "გაიგე მეტი"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle}-თან მიმოწერის შემდეგ შეიტყვე, რომ ეს ნომერი {conversationTitle}-ს ეკუთვნის. ეს მობილურის ნომერი კონფიდენციალურია."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "ეს უსაფრთხო ადგილას შეინახე, შენი შესვლის ინფორმაცია შენი ანგარიშისა და მონაცემების აღსადგენადაა საჭირო. არასდროს არავის გაუზიარო."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "ანგარიშის გასაღები"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ანგარიშის ID"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "გთხოვთ, {duration}-ში თავიდან სცადო"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "აირჩიე ქვეყნის კოდი"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "ტელეფონის ნომერი"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "უარყოფა"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "გამორთული"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "ჩართული"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "ზარის სახელის დამატება"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "დანართების შენახვა"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი"
@@ -8781,7 +8805,7 @@
     "messageformat": "მადლობა Signal-ის მხარდაჭერისთვის. შენი წვლილი ხელს უწყობს გამოხატვის თავისუფლების დაცვისა და მთელ მსოფლიოში მილიონობით ადამიანისთვის უსაფრთხო გლობალური კომუნიკაციის უზრუნველყოფის მისიის განხორციელებას ღია კოდის კონფიდენციალურობის ტექნოლოგიების მეშვეობით. თუ შეერთებული შტატების რეზიდენტი ხარ, გთხოვთ, ეს ქვითარი შენი საგადასახადო ჩანაწერებისთვის შეინახო. Signal-ის ტექნოლოგიების ფონდი არის გადასახადებისგან გათავისუფლებული არაკომერციული ორგანიზაცია შეერთებულ შტატებში, Internal Revenue Code-ის 501c3 მუხლის შესაბამისად. ჩვენი ფედერალური საგადასახადო ID არის 82-4506840. ამ კონტრიბუციის გათვალისწინებით, Signal-ს პროდუქტები თუ მომსახურება არ მიუწოდებია."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "გააკეთე დონაცია ახლა"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "ონლაინ არ ხარ. გთხოვთ, დონაციის შესასრულებლად ინტერნეტს დაუკავშირდე."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "გარდა ამისა, Windows-ზე სისტემის პარამეტრების გასახსნელად მოსახერხებელი მალსახმობი დავამატეთ იმ შემთხვევისთვის, თუ ვიდეო ზარში ჩართვას ეცდები, მაგრამ Signal-ს კამერაზე წვდომის ნებართვა არ ექნება. ახლა უფრო მარტივად გაიგებ, რა უნდა გააკეთო, რომ ხალხმა დაგინახოს."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

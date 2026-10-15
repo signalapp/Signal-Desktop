@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Połączonymi urządzeniami zarządzasz na głównym urządzeniu. Możesz połączyć ze swoim kontem maksymalnie 5 urządzeń."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Ustawieniami konta możesz zarządzać tylko na głównym urządzeniu. Dotyczy to m.in. ustawień konta i kopii zapasowych."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Ustawieniami konta i tworzeniem kopii zapasowych możesz zarządzać tylko z poziomu głównego urządzenia."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Dowiedz się więcej"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Wymiana wiadomości z numerem {obsoleteConversationTitle} pozwoliła potwierdzić, że osobą, do której należy ten numer, jest {conversationTitle}. Ten numer jest ukryty."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Skopiuj go do bezpiecznego miejsca. Będzie potrzebny do odzyskania konta i danych. Nikomu go nie podawaj."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Klucz konta"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Identyfikator konta"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Spróbuj ponownie za {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Wybierz kod kraju"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Numer telefonu"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Odrzuć"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Wyłączone"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Włączone"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Dodaj nazwę połączenia"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Zapisz załączniki"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co nowego"
@@ -8781,7 +8805,7 @@
     "messageformat": "Dziękujemy za wsparcie aplikacji Signal. Twoja darowizna wspomaga rozwój otwartoźródłowej technologii, która zapewnia prywatność, chroni wolność słowa i umożliwia bezpieczną komunikację milionom osób na całym świecie. Jeśli mieszkasz w Stanach Zjednoczonych, zachowaj to potwierdzenie, aby uwzględnić darowiznę w zeznaniu podatkowym. Signal Technology Foundation jest organizacją non profit zwolnioną z podatku w USA na podstawie zapisu 501c3 Internal Revenue Code (Kodeksu Podatkowego). Nasz federalny numer identyfikacji podatkowej to 82-4506840. W zamian za tę darowiznę Signal nie przekazał żadnych towarów ani nie świadczył żadnych usług."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Wpłać darowiznę teraz"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Jesteś offline. Aby przekazać darowiznę, połącz się z internetem."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Dodaliśmy też wygodny skrót do ustawień systemowych Windows. Pojawi się, gdy spróbujesz dołączyć do połączenia wideo, a aplikacja Signal nie będzie miała dostępu do kamery. Teraz od razu zobaczysz, co trzeba zrobić, żeby inni mogli Cię zobaczyć."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

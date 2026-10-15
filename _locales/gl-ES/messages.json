@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "O teu dispositivo principal xestiona os dispositivos vinculados, e podes ter ata 5."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "A configuración da conta só se pode xestionar desde o teu dispositivo principal, incluídas as copias de seguranza."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "A configuración da conta e as copias de seguranza só se poden xestionar no teu dispositivo principal."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Saber máis"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Despois de mandar mensaxes a {obsoleteConversationTitle}, démonos de conta de que este número pertence a {conversationTitle}. O seu número de teléfono é privado."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Gárdao nun lugar seguro. Necesitarás os teus datos de acceso para recuperar a túa conta e os teus datos. Non o compartas nunca con ninguén."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Clave da conta"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "ID da conta"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "Téntao de novo en {duration}"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Seleccionar código de país"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Número de teléfono"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Denegar a entrada"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Desactivado"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Activado"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Engadir un nome de chamada"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Gardar anexos"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novidades"
@@ -8781,7 +8805,7 @@
     "messageformat": "Grazas por apoiar a Signal. A túa contribución impulsa a nosa misión de protexer a liberdade de expresión e asegurar a comunicación global para millóns de persoas arredor do mundo mediante unha tecnoloxía privada de código aberto. Se es residente dos Estados Unidos, garda este comprobante para a túa declaración fiscal. Signal Technology Foundation é una organización benéfica independente sen ánimo de lucro e está exenta de impostos de acordo coa sección 501c3 do «Internal Revenue Code». O noso identificador «Federal Tax ID» é 82-4506840. Signal non proporcionou bens nin servizos en contraprestación por esta contribución."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "Doar xa"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Estás sen conexión. Conéctate a Internet para completar o donativo."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Tamén engadimos un acceso directo para abrir a configuración do sistema en Windows se intentas unirte a unha videochamada e Signal non ten permiso para acceder á cámara."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

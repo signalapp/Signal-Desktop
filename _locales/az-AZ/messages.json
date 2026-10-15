@@ -74,9 +74,6 @@
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Əsas cihazınız əlaqələndirilən cihazları idarə edir, 5 ədədə qədər cihazı əlaqələndirə bilərsiniz."
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Hesab parametrləri və ehtiyat nüsxələr daxil parametrlər yalnız əsas cihazınızdan idarə oluna bilər."
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Hesab parametrləri və ehtiyat nüsxələr yalnız əsas cihazınızdan idarə oluna bilər."
   },
@@ -1480,6 +1477,9 @@
   },
   "icu:ConversationMerge--learn-more": {
     "messageformat": "Daha ətraflı"
+  },
+  "icu:ConversationMerge--explainer-dialog--label": {
+    "messageformat": "Message history merged"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ilə mesajlaşdıqdan sonra siz bu nömrənin {conversationTitle} adlı istifadəçiyə aid olduğunu öyrəndiniz. Onun telefon nömrəsi məxfidir."
@@ -6169,9 +6169,6 @@
   "icu:Preferences__SignalAccountKeys__Description": {
     "messageformat": "Onu təhlükəsiz yerdə saxlayın, hesabınızı və verilənlərinizi bərpa etmək üçün login məlumatlarınız tələb olunur. Onu əsla başqası ilə paylaşmayın."
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Hesab şifrəsi"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Hesab ID-si"
   },
@@ -7097,7 +7094,7 @@
     "messageformat": "{duration} ərzində yenidən cəhd edin"
   },
   "icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label": {
-    "messageformat": "Select region code"
+    "messageformat": "Ölkə kodunu seçin"
   },
   "icu:StandaloneRegistration--PhoneNumber--placeholder": {
     "messageformat": "Telefon nömrəsi"
@@ -8561,12 +8558,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Girişdən imtina et"
   },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Bağlı"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "Açıq"
-  },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Zəng adı əlavə et"
   },
@@ -8614,6 +8605,39 @@
   },
   "icu:SaveMultiDialog__title": {
     "messageformat": "Qoşmaları yaddaşda saxla"
+  },
+  "icu:EmbeddedContact__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__message": {
+    "messageformat": "Message"
+  },
+  "icu:ContactDetail__add-to-group": {
+    "messageformat": "Add to a group"
+  },
+  "icu:ContactDetail__nickname": {
+    "messageformat": "Nickname"
+  },
+  "icu:ContactDetail__note": {
+    "messageformat": "Notes"
+  },
+  "icu:email-v2": {
+    "messageformat": "Email"
+  },
+  "icu:home-v2": {
+    "messageformat": "Home"
+  },
+  "icu:mobile-v2": {
+    "messageformat": "Mobile"
+  },
+  "icu:work-v2": {
+    "messageformat": "Work"
+  },
+  "icu:phone-v2": {
+    "messageformat": "Phone"
+  },
+  "icu:address-v2": {
+    "messageformat": "Address"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
@@ -8781,7 +8805,7 @@
     "messageformat": "Signal-ı dəstəklədiyiniz üçün təşəkkürlər. Töhfəniz, açıq mənbəli məxfilik texnologiyası vasitəsilə dünyadakı milyonlarla insan üçün azad ifadəni qoruyan və təhlükəsiz qlobal ünsiyyəti təmin edən inkişaf missiyasını dəstəkləməyə kömək edir. Əgər Amerika Birləşmiş Ştatlarında yaşayırsınızsa, bu qəbzi vergi qeydləriniz üçün saxlayın. \"Signal Technology Foundation\", Daxili Gəlir Məcəlləsinin 501c3 maddəsinə əsasən Amerika Birləşmiş Ştatlarında vergidən azad edilmiş qeyri-kommersiya təşkilatıdır. Federal VÖEN: 82-4506840. Signal bu töhfə qarşılığında heç bir mal və ya xidmət təmin etməyib."
   },
   "icu:MessageCta__Donate": {
-    "messageformat": "Donate Now"
+    "messageformat": "İndi ianə ver"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "Oflayn rejimdəsiniz. İanəni tamamlamaq üçün internetə qoşulun."
@@ -9095,5 +9119,14 @@
   },
   "icu:WhatsNew__8.30--1": {
     "messageformat": "Videozəngə qoşulmağa çalışdığınız zaman Signal-ın kameraya giriş icazəsi olmadıqda, Windows-da sistem parametrlərini açmaq üçün rahat qısayol da əlavə etdik. Artıq insanların sizi görə bilməsi üçün nə etməli olduğunuzu bilmək daha asandır."
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
   }
 }

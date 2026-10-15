@@ -111,10 +111,6 @@
     "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices.",
     "description": "Second bullet point of the Linked Devices Onboarding Dialog"
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3": {
-    "messageformat": "Account settings are managed on your primary device only, including account settings and backups.",
-    "description": "(Deleted 2026/09/10) Third bullet point of the Linked Devices Onboarding Dialog"
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
     "messageformat": "Account settings and backups can only be managed on your primary device.",
     "description": "(Deleted 2026/09/23) Third bullet point of the Linked Devices Onboarding Dialog"
@@ -1236,27 +1232,27 @@
   },
   "icu:home": {
     "messageformat": "home",
-    "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for an address/phone/email"
   },
   "icu:work": {
     "messageformat": "work",
-    "description": "Shown on contact detail screen as a label for an address/phone/email"
+    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for an address/phone/email"
   },
   "icu:mobile": {
     "messageformat": "mobile",
-    "description": "Shown on contact detail screen as a label for a phone or email"
+    "description": "(Deleted 2026/10/15) Shown on contact detail screen as a label for a phone or email"
   },
   "icu:email": {
     "messageformat": "email",
-    "description": "Generic label shown if contact email has custom type but no label"
+    "description": "(Deleted 2026/10/15) Generic label shown if contact email has custom type but no label"
   },
   "icu:phone": {
     "messageformat": "phone",
-    "description": "Generic label shown if contact phone has custom type but no label"
+    "description": "(Deleted 2026/10/15) Generic label shown if contact phone has custom type but no label"
   },
   "icu:address": {
     "messageformat": "address",
-    "description": "Generic label shown if contact address has custom type but no label"
+    "description": "(Deleted 2026/10/15) Generic label shown if contact address has custom type but no label"
   },
   "icu:poBox": {
     "messageformat": "PO Box",
@@ -8204,10 +8200,6 @@
     "messageformat": "Store this in a safe place, your login info is required to recover your account and data. Never share it with anyone.",
     "description": "Description displayed in PDF version of Signal Account Keys preferences page"
   },
-  "icu:Preferences__SignalAccountKeys__AccountKey": {
-    "messageformat": "Account key",
-    "description": "(Deleted 2026/09/10) Label for the Account Key in Signal Account Keys preferences page"
-  },
   "icu:Preferences__SignalAccountKeys__AccountID": {
     "messageformat": "Account ID",
     "description": "Label for the Account ID in Signal Account Keys preferences page"
@@ -11389,14 +11381,6 @@
   "icu:CallLinkPendingParticipantModal__DenyButtonLabel": {
     "messageformat": "Deny entry",
     "description": "Call Link Pending Participant Modal > Deny Join Request Button Label"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--Off": {
-    "messageformat": "Off",
-    "description": "(Deleted 2026/09/10) Call Link Edit Modal > Require admin approval checkbox > Option > Off"
-  },
-  "icu:CallLinkRestrictionsSelect__Option--On": {
-    "messageformat": "On",
-    "description": "(Deleted 2026/09/10) Call Link Edit Modal > Require admin approval checkbox > Option > On"
   },
   "icu:CallLinkAddNameModal__Title": {
     "messageformat": "Add call name",
