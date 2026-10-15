@@ -27,9 +27,11 @@ export namespace AxoSwitchItem {
 
   export const Root: FC<RootProps> = memo(props => {
     const id = useId();
+    const switchId = useId();
 
     let accessory = (
       <AxoSwitch.Root
+        id={switchId}
         labelledby={id}
         disabled={props.disabled}
         checked={props.checked}
@@ -58,7 +60,9 @@ export namespace AxoSwitchItem {
           )}
           <AxoBaseItem.Content>
             <AriaList.Label asChild id={id}>
-              <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
+              <AxoBaseItem.Label>
+                <label htmlFor={switchId}>{props.label}</label>
+              </AxoBaseItem.Label>
             </AriaList.Label>
             {props.description != null && (
               <AriaList.Description asChild>

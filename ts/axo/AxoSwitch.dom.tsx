@@ -74,7 +74,7 @@ export namespace AxoSwitch {
         aria-label={label}
         aria-labelledby={labelledby}
         checked={checked}
-        onCheckedChange={onCheckedChange}
+        onCheckedChange={disabled ? undefined : onCheckedChange}
         disabled={disabled}
         required={required}
         className={tw(
@@ -90,8 +90,9 @@ export namespace AxoSwitch {
       >
         {/**
          * Need to pass <Switch.Root disabled={true}> above to get the right
-         * behavior but we want want the button to be focusable so we use
-         * `asChild` and make it use `aria-disabled` instead.
+         * behavior but we want the button to be focusable so we use
+         * `asChild` and make it use `aria-disabled` instead. Since that does not
+         * prevent clicks, we also omit `onCheckedChange` when disabled.
          */}
         <button type="button" disabled={false} aria-disabled={disabled}>
           <span
