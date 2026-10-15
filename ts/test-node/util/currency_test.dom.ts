@@ -29,9 +29,12 @@ describe('parseCurrencyString', () => {
     testFn({ currency: 'usd', value: '10.0' }, 10);
     testFn({ currency: 'usd', value: '10.00' }, 10);
     testFn({ currency: 'usd', value: '10.50' }, 10.5);
+    testFn({ currency: 'usd', value: '16.74' }, 16.74);
     testFn({ currency: 'usd', value: '0.69' }, 0.69);
+    testFn({ currency: 'usd', value: '8.04' }, 8.04);
     testFn({ currency: 'usd', value: '$10' }, 10);
     testFn({ currency: 'usd', value: '$10.00' }, 10);
+    testFn({ currency: 'usd', value: '$16.74' }, 16.74);
     testFn({ currency: 'usd', value: '$0.69' }, 0.69);
     testFn({ currency: 'usd', value: '$14,000.50' }, 14000.5);
     testFn({ currency: 'usd', value: '$1,000,000' }, 1000000);
@@ -82,6 +85,8 @@ describe('toHumanDonationAmount', () => {
   it('handles USD', () => {
     testFn({ amount: 1000, currency: 'usd' }, 10);
     testFn({ amount: 1000, currency: 'USD' }, 10);
+    testFn({ amount: 803, currency: 'usd' }, 8.03);
+    testFn({ amount: 1674, currency: 'USD' }, 16.74);
   });
 
   it('handles JPY', () => {
@@ -111,6 +116,8 @@ describe('toStripeDonationAmount', () => {
   it('handles USD', () => {
     testFn({ amount: 10, currency: 'usd' }, 1000);
     testFn({ amount: 10, currency: 'USD' }, 1000);
+    testFn({ amount: 8.03, currency: 'usd' }, 803);
+    testFn({ amount: 16.74, currency: 'USD' }, 1674);
   });
 
   it('handles JPY', () => {
