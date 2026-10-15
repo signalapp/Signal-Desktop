@@ -37,6 +37,7 @@ function remove(edit: EditAttributesType): void {
 export function forMessage(
   messageAttributes: Pick<
     MessageAttributesType,
+    | 'conversationId'
     | 'editMessageTimestamp'
     | 'sent_at'
     | 'source'
@@ -59,6 +60,7 @@ export function forMessage(
   const matchingEdits = editValues.filter(item => {
     return (
       item.targetSentTimestamp === sentAt &&
+      item.conversationId === messageAttributes.conversationId &&
       item.fromId === getAuthorId(messageAttributes)
     );
   });
