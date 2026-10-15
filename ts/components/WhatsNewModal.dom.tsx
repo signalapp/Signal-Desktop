@@ -19,6 +19,24 @@ type ReleaseNotesType = {
   features: Array<JSX.Element>;
 };
 
+function ExternalLink(props: {
+  href: string;
+  children: ReactNode;
+}): React.JSX.Element {
+  return (
+    <a href={props.href} target="_blank" rel="noreferrer">
+      {props.children}
+    </a>
+  );
+}
+
+/** @knipignore Exported so it doesn't get marked unused */
+export function GithubUser({ handle }: { handle: string }): React.JSX.Element {
+  return (
+    <ExternalLink href={`https://github.com/${handle}`}>@{handle}</ExternalLink>
+  );
+}
+
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -29,7 +47,19 @@ export function WhatsNewModal({
     // oxlint-disable-next-line react/purity
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<I18n i18n={i18n} id="icu:WhatsNew__bugfixes--2" />],
+    features: [
+      <I18n i18n={i18n} id="icu:WhatsNew__8.32--0" />,
+      <I18n
+        i18n={i18n}
+        id="icu:WhatsNew__8.32--1"
+        components={{ GH3mmmbulus: () => <GithubUser handle="3mmmbulus" /> }}
+      />,
+      <I18n
+        i18n={i18n}
+        id="icu:WhatsNew__8.32--2"
+        components={{ lnicola: () => <GithubUser handle="lnicola" /> }}
+      />,
+    ],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

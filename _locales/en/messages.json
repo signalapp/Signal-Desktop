@@ -12144,5 +12144,17 @@
   "icu:WhatsNew__8.30--1": {
     "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you.",
     "description": "(Deleted 2026/10/07)  Release notes for 8.30"
+  },
+  "icu:WhatsNew__8.32--0": {
+    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing.",
+    "description": "Release notes for 8.32"
+  },
+  "icu:WhatsNew__8.32--1": {
+    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!",
+    "description": "Release notes for 8.32"
+  },
+  "icu:WhatsNew__8.32--2": {
+    "messageformat": "The \"(N)\" shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix.",
+    "description": "Release notes for 8.32"
   }
 }
