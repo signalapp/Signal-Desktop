@@ -34,6 +34,7 @@ export type PinnedMessageAddProps = Readonly<{
   pinDuration: DurationSecs | null;
   pinnedByAci: AciString;
   sentAtTimestamp: SentTimestampMs;
+  receivedAtCounter: number;
   receivedAtTimestamp: ReceivedTimestampMs;
   expireTimer: DurationInSeconds | null;
   expirationStartTimestamp: number | null;
@@ -131,6 +132,7 @@ export async function onPinnedMessageAdd(
       },
       senderAci: props.pinnedByAci,
       sentAtTimestamp: props.sentAtTimestamp,
+      receivedAtCounter: props.receivedAtCounter,
       receivedAtTimestamp: props.receivedAtTimestamp,
       expireTimer: props.expireTimer,
       expirationStartTimestamp: props.expirationStartTimestamp,

@@ -17,6 +17,7 @@ import { getOwn } from '../../util/getOwn.std.ts';
 import { hasDraft } from '../../util/hasDraft.std.ts';
 import { assertDev, strictAssert } from '../../util/assert.std.ts';
 import { drop } from '../../util/drop.std.ts';
+import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
 import { lookupOrCreateConversationIdForSharedContact } from '../../util/sharedContactCreateConversation.dom.ts';
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 import {
@@ -5193,6 +5194,7 @@ function onPinnedMessageAdd(
       },
       senderAci: itemStorage.user.getCheckedAci(),
       sentAtTimestamp: pinnedAt,
+      receivedAtCounter: incrementMessageCounter(),
       receivedAtTimestamp: pinnedAt,
       expireTimer: targetConversation.get('expireTimer') ?? null,
       expirationStartTimestamp: pinnedAt,

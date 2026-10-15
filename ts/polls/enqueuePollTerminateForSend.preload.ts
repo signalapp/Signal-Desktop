@@ -13,6 +13,7 @@ import {
   type PollTerminateAttributesType,
 } from '../messageModifiers/Polls.preload.ts';
 import { isGroupV1 } from '../util/whatTypeOfConversation.dom.ts';
+import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
@@ -50,6 +51,7 @@ export async function enqueuePollTerminateForSend({
     fromConversationId: ourId,
     source: PollSource.FromThisDevice,
     targetTimestamp,
+    receivedAtCounter: incrementMessageCounter(),
     receivedAtDate: timestamp,
     timestamp,
     expireTimer: conversation.get('expireTimer'),
