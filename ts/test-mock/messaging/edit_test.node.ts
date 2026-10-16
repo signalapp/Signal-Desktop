@@ -655,7 +655,8 @@ describe('editing', function (this: Mocha.Suite) {
       }
 
       debug("testing message's send state (original)");
-      {
+
+      await expect(async () => {
         debug('getting message from app (original)');
         const message = await getMessageFromApp(originalMessageTimestamp);
 
@@ -669,7 +670,7 @@ describe('editing', function (this: Mocha.Suite) {
           'send state is delivered for main message'
         );
         assert.isUndefined(message.editHistory, 'no edit history, yet');
-      }
+      }).toPass();
 
       // Sending a v2 edited message targetting the original
       const editMessageV2Text = '12';

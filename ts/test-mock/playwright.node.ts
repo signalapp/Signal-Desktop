@@ -412,6 +412,16 @@ export class App extends EventEmitter {
     return window.evaluate('window.SignalCI.fetchManifestForPrimary()');
   }
 
+  public async pauseStorageService(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.pauseStorageService()');
+  }
+
+  public async resumeStorageService(): Promise<void> {
+    const window = await this.getWindow();
+    await window.evaluate('window.SignalCI.resumeStorageService()');
+  }
+
   // EventEmitter types
 
   public override on(type: 'close', callback: () => void): this;

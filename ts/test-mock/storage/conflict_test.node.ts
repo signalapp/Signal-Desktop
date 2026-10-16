@@ -90,6 +90,11 @@ describe('storage service', function (this: Mocha.Suite) {
         .getByRole('button', { name: 'More Info' })
         .click();
 
+      // To test explicit conflicts in local and remote state, we need
+      // to control when storage service is fetched, so we need to pause SS
+      // and ensure there are no concurrent fetches happening
+      await app.pauseStorageService();
+
       debug('updating contact on phone without sync message');
       let archivedVersion: bigint;
       {
@@ -109,6 +114,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
       await window.getByRole('menuitem', { name: 'Unarchive' }).click();
 
+      await app.resumeStorageService();
       await app.waitForManifestVersion(archivedVersion);
 
       debug('waiting for archived chats to appear again');
@@ -163,6 +169,8 @@ describe('storage service', function (this: Mocha.Suite) {
       });
     }
 
+    await app.pauseStorageService();
+
     debug('updating pins on phone without sync message');
     let archivedVersion: bigint;
     {
@@ -179,6 +187,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
     await window.getByRole('menuitem', { name: 'Unpin chat' }).click();
 
+    await app.resumeStorageService();
     await app.waitForManifestVersion(archivedVersion);
 
     debug('verifying that second contact is still unpinned');
@@ -235,8 +244,10 @@ describe('storage service', function (this: Mocha.Suite) {
       });
     }
 
+    await app.pauseStorageService();
+
     debug('updating distribution list on phone without sync');
-    let archivedVersion: bigint;
+    let newStateVersion: bigint;
     {
       const state = await phone.expectStorageState('consistency check');
 
@@ -249,29 +260,30 @@ describe('storage service', function (this: Mocha.Suite) {
       );
 
       newState = await phone.setStorageState(newState);
-      archivedVersion = newState.version;
+      newStateVersion = newState.version;
     }
+
+    const checkbox = window
+      .getByTestId('DistributionListSettingsModal')
+      .locator('input[name=replies-reactions]');
 
     debug('attempting update through UI again');
-    await window
-      .getByTestId('DistributionListSettingsModal')
-      .locator('input[name=replies-reactions]')
-      .click();
+    await checkbox.click();
 
-    await app.waitForManifestVersion(archivedVersion);
+    // Should change locally first
+    await expect(checkbox).toBeChecked();
+
+    // Then storage service should revert that change
+    await app.resumeStorageService();
+    await app.waitForManifestVersion(newStateVersion);
 
     debug('wait for checkbox to go back to unchecked');
-    {
-      const checkbox = window
-        .getByTestId('DistributionListSettingsModal')
-        .locator('input[name=replies-reactions]');
-      await expect(checkbox).not.toBeChecked();
-    }
+    await expect(checkbox).not.toBeChecked();
 
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('final state');
 
-    assert.strictEqual(finalState.version, archivedVersion);
+    assert.strictEqual(finalState.version, newStateVersion);
   });
 
   it('should handle call link conflicts', async () => {
@@ -291,6 +303,8 @@ describe('storage service', function (this: Mocha.Suite) {
         return storageState.hasRecord(getCallLinkRecordPredicate(roomId));
       },
     });
+
+    await app.pauseStorageService();
 
     debug('Updating storage without sync');
     const deletedAt = bootstrap.getTimestamp();
@@ -315,6 +329,8 @@ describe('storage service', function (this: Mocha.Suite) {
       .getByRole('alertdialog', { name: 'Delete call link?' })
       .getByRole('button', { name: 'Delete' })
       .click();
+
+    await app.resumeStorageService();
 
     debug('Waiting for manifest sync');
     await app.waitForManifestVersion(state.version);
