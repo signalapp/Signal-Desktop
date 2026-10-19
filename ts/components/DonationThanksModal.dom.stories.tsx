@@ -1,10 +1,9 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
+import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
-import type { Meta, StoryFn } from '@storybook/react';
-
-import type { PropsType } from './DonationThanksModal.dom.tsx';
+import type { Meta } from '@storybook/react';
+import type { ApplyDonationBadgeArgs } from './DonationThanksModal.dom.tsx';
 import { DonationThanksModal } from './DonationThanksModal.dom.tsx';
 import { getFakeBadge } from '../test-helpers/getFakeBadge.std.ts';
 
@@ -12,37 +11,36 @@ const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/DonationThanksModal',
-  component: DonationThanksModal,
-} satisfies Meta<PropsType>;
+} satisfies Meta;
 
 const donationBadge = getFakeBadge({ id: 'donation-badge' });
 
-const defaultProps = {
-  i18n,
-  onClose: action('onClose'),
-  badge: donationBadge,
-  applyDonationBadge: ({
-    onComplete,
-  }: {
-    badge: unknown;
-    applyBadge: boolean;
-    onComplete: (error?: Error) => void;
-  }) => {
-    action('applyDonationBadge')();
-    // Simulate async badge application
-    setTimeout(() => {
-      onComplete();
-    }, 500);
-  },
-};
+function applyDonationBadge(args: ApplyDonationBadgeArgs): void {
+  action('applyDonationBadge')(args);
+  // Simulate async badge application
+  setTimeout(() => {
+    args.onComplete(null);
+  }, 500);
+}
 
-const Template: StoryFn<PropsType> = args => <DonationThanksModal {...args} />;
+export function Default(): ReactNode {
+  return (
+    <DonationThanksModal
+      i18n={i18n}
+      badge={donationBadge}
+      applyDonationBadge={applyDonationBadge}
+      onClose={action('onClose')}
+    />
+  );
+}
 
-export const Default = Template.bind({});
-Default.args = defaultProps;
-
-export const LoadingBadge = Template.bind({});
-LoadingBadge.args = {
-  ...defaultProps,
-  badge: undefined,
-};
+export function LoadingBadge(): ReactNode {
+  return (
+    <DonationThanksModal
+      i18n={i18n}
+      badge={null}
+      applyDonationBadge={applyDonationBadge}
+      onClose={action('onClose')}
+    />
+  );
+}

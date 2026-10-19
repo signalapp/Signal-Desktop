@@ -292,9 +292,9 @@ export function applyDonationBadge({
   onComplete,
   storage = itemStorage,
 }: {
-  badge: BadgeType | undefined;
+  badge: BadgeType | null;
   applyBadge: boolean;
-  onComplete: (error?: Error) => void;
+  onComplete: (error: Error | null) => void;
 
   // Only for testing
   storage?: Pick<typeof itemStorage, 'get' | 'put'>;
@@ -302,7 +302,7 @@ export function applyDonationBadge({
   return async (dispatch, getState) => {
     const me = getMe(getState());
 
-    if (!badge) {
+    if (badge == null) {
       onComplete(new Error('No badge was given to redeem'));
       return;
     }
@@ -395,7 +395,7 @@ export function applyDonationBadge({
       }
     }
 
-    onComplete();
+    onComplete(null);
   };
 }
 
