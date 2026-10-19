@@ -1,11 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Meta, StoryFn } from '@storybook/react';
 import { useState } from 'react';
-import type { MutableRefObject, JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 import lodash from 'lodash';
+
+import type { Meta, StoryFn } from '@storybook/react';
+import type { MutableRefObject, JSX } from 'react';
 
 import { Preferences } from './Preferences.dom.tsx';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.ts';
@@ -30,7 +31,6 @@ import {
   UsernameEditState,
   UsernameLinkState,
 } from '../state/ducks/usernameEnums.std.ts';
-import type { SettingsLocation } from '../types/Nav.std.ts';
 import { NavTab, ProfileEditorPage, SettingsPage } from '../types/Nav.std.ts';
 import { PreferencesDonations } from './PreferencesDonations.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
@@ -42,7 +42,17 @@ import {
   NotificationProfilesCreateFlow,
 } from './PreferencesNotificationProfiles.dom.tsx';
 import { DayOfWeek } from '../types/NotificationProfile.std.ts';
+import { BackupLevel } from '../services/backups/types.std.ts';
+import { Emoji } from '../axo/emoji.std.ts';
+import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
+import {
+  SVC_DEFAULT_MODE,
+  SVC_DEFAULT_MODE_FOR_SCREENSHARE,
+} from '../calling/constants.std.ts';
+import { PreferencesBlocked } from './preferences/PreferencesBlocked.dom.tsx';
+import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
 
+import type { SettingsLocation } from '../types/Nav.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { PropsType } from './Preferences.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
@@ -53,20 +63,13 @@ import type {
   OneTimeDonationHumanAmounts,
 } from '../types/Donations.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { SmartPreferencesBlockedProps } from '../state/smart/PreferencesBlocked.preload.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
-import { CurrentChatFolders } from '../types/CurrentChatFolders.std.ts';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
 import type { ExportResultType } from '../services/backups/types.std.ts';
-import { BackupLevel } from '../services/backups/types.std.ts';
-import { Emoji } from '../axo/emoji.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
-import { BadgeCategory } from '../badges/BadgeCategory.std.ts';
-import {
-  SVC_DEFAULT_MODE,
-  SVC_DEFAULT_MODE_FOR_SCREENSHARE,
-} from '../calling/constants.std.ts';
 
 const { shuffle } = lodash;
 
@@ -325,6 +328,24 @@ function renderToastManager(): JSX.Element {
   return <div />;
 }
 
+function renderPreferencesBlockedPage(
+  props: SmartPreferencesBlockedProps
+): JSX.Element {
+  return (
+    <PreferencesBlocked
+      i18n={i18n}
+      blockedContacts={[]}
+      blockedGroups={[]}
+      conversationsNotBlocked={[]}
+      getPreferredBadge={() => undefined}
+      onBlock={action('onBlock')}
+      onUnblock={action('onUnblock')}
+      theme={ThemeType.light}
+      goBack={props.goBack}
+    />
+  );
+}
+
 function renderPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
 ): JSX.Element {
@@ -455,8 +476,8 @@ export default {
     backupSubscriptionStatus: { status: 'not-found' },
     backupTier: null,
     badge: undefined,
-    blockedContacts: [],
-    blockedGroups: [],
+    blockedContactCount: 0,
+    blockedGroupCount: 0,
     currentChatFoldersCount: 0,
     customColors: {},
     defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
@@ -574,6 +595,7 @@ export default {
     renderProfileEditor,
     renderToastManager,
     renderUpdateDialog,
+    renderPreferencesBlockedPage,
     renderPreferencesChatFoldersPage,
     renderPreferencesEditChatFolderPage,
     getConversationsWithCustomColor: () => [],
@@ -588,7 +610,6 @@ export default {
     getMessageSampleForSchemaVersion: async () => [
       { id: 'messageId' } as MessageAttributesType,
     ],
-    getPreferredBadge: () => undefined,
     makeSyncRequest: action('makeSyncRequest'),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
@@ -1154,59 +1175,39 @@ Internal.args = {
 
 export const PrivacyBlocked1Contact = Template.bind({});
 PrivacyBlocked1Contact.args = {
-  blockedContacts: [
-    { conversation: getDefaultConversation(), blockedAt: undefined },
-  ],
+  blockedContactCount: 1,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlocked1Group = Template.bind({});
 PrivacyBlocked1Group.args = {
-  blockedGroups: [
-    { conversation: getDefaultConversation(), blockedAt: undefined },
-  ],
+  blockedGroupCount: 1,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlocked1BothWithBlockedAt = Template.bind({});
 PrivacyBlocked1BothWithBlockedAt.args = {
-  blockedContacts: [
-    { conversation: getDefaultConversation(), blockedAt: Date.now() },
-  ],
-  blockedGroups: [
-    { conversation: getDefaultConversation(), blockedAt: Date.now() - DAY },
-  ],
+  blockedContactCount: 1,
+  blockedGroupCount: 1,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyContacts = Template.bind({});
 PrivacyBlockedManyContacts.args = {
-  blockedContacts: new Array(55).fill(undefined).map(() => ({
-    conversation: getDefaultConversation(),
-    blockedAt: undefined,
-  })),
+  blockedContactCount: 55,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyGroups = Template.bind({});
 PrivacyBlockedManyGroups.args = {
-  blockedGroups: new Array(55).fill(undefined).map(() => ({
-    conversation: getDefaultConversation(),
-    blockedAt: undefined,
-  })),
+  blockedGroupCount: 55,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlockedManyBoth = Template.bind({});
 PrivacyBlockedManyBoth.args = {
-  blockedContacts: new Array(20).fill(undefined).map(() => ({
-    conversation: getDefaultConversation(),
-    blockedAt: undefined,
-  })),
-  blockedGroups: new Array(20).fill(undefined).map(() => ({
-    conversation: getDefaultConversation(),
-    blockedAt: undefined,
-  })),
+  blockedContactCount: 20,
+  blockedGroupCount: 20,
   settingsLocation: { page: SettingsPage.Privacy },
 };
 

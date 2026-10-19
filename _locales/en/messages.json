@@ -2326,6 +2326,10 @@
     "messageformat": "Search",
     "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Search > Placeholder"
   },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats",
+    "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > No Chats"
+  },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chat types",
     "description": "Preferences > Edit Chat Folder Page > Select Chats Dialog > Chat Types Section > Title"
@@ -4666,6 +4670,10 @@
     "messageformat": "Group members will be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news.",
+    "description": "Shown as the body in the confirmation modal for unblocking the official signal chat"
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Reported as spam and blocked.",
     "description": "Shown in a toast when you successfully block a user and report them as spam"
@@ -4685,6 +4693,10 @@
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "You will no longer receive messages or updates from this group and members won't be able to add you to this group again.",
     "description": "Shown as the body in the confirmation modal for blocking a group message request"
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news.",
+    "description": "Shown as the body in the confirmation modal for blocking the official signal chat"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Report...",
@@ -8876,6 +8888,10 @@
     "messageformat": "Blocked users will not be able to call you or send you messages",
     "description": "Description at the top of the blocked preferences subpage"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group",
+    "description": "Button to allow user to search for contacts or groups to block"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blocked Users",
     "description": "Header for blocked section on the blocked preferences subpage"
@@ -8887,6 +8903,14 @@
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Blocked on {blockedAt}",
     "description": "A second line shown under the contact's name in block list if we have a timestamp for that blocked contact or group"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done",
+    "description": "Button shown at the bottom of the block chooser dialog"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search",
+    "description": "Search box placeholder shown at top of the block chooser dialog"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups",

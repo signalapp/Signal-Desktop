@@ -93,8 +93,9 @@ import type {
 } from '../util/os/promptOSAuthMain.main.ts';
 import type { DonationReceipt } from '../types/Donations.std.ts';
 import type { ChatFolderId } from '../types/ChatFolder.std.ts';
-import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
+import type { SmartPreferencesBlockedProps } from '../state/smart/PreferencesBlocked.preload.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
+import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
@@ -104,12 +105,10 @@ import { TitlebarDragArea } from './TitlebarDragArea.dom.tsx';
 import { LinkedDevicesOnboardingDialog } from './preferences/LinkedDevicesOnboardingDialog.dom.tsx';
 import { SignalAccountKeys } from './preferences/SignalAccountKeys.dom.tsx';
 import { SignalAccountKeysButton } from './preferences/SignalAccountKeysButton.dom.tsx';
-import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
-import moment from 'moment';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoSwitchItem } from '../axo/items/AxoSwitchItem.dom.tsx';
@@ -119,16 +118,12 @@ import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
 import { AxoTokens } from '../axo/AxoTokens.std.ts';
+import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
-
-export type BlockedConversation = {
-  conversation: ConversationType;
-  blockedAt: number | undefined;
-};
 
 export type PropsDataType = {
   // Settings
@@ -148,8 +143,8 @@ export type PropsDataType = {
   pauseBackupMediaDownload: VoidFunction;
   cancelBackupMediaDownload: VoidFunction;
   resumeBackupMediaDownload: VoidFunction;
-  blockedContacts: ReadonlyArray<BlockedConversation>;
-  blockedGroups: ReadonlyArray<BlockedConversation>;
+  blockedContactCount: number;
+  blockedGroupCount: number;
   customColors: Record<string, CustomColorType>;
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
@@ -277,6 +272,9 @@ type PropsFunctionType = {
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
+  renderPreferencesBlockedPage: (
+    props: SmartPreferencesBlockedProps
+  ) => JSX.Element;
   renderPreferencesChatFoldersPage: (
     props: SmartPreferencesChatFoldersPageProps
   ) => JSX.Element;
@@ -298,7 +296,6 @@ type PropsFunctionType = {
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
-  getPreferredBadge: PreferredBadgeSelectorType;
   resumeBackupMediaDownload: () => void;
   pauseBackupMediaDownload: () => void;
   getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
@@ -480,8 +477,8 @@ export function Preferences({
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
   badge,
-  blockedContacts,
-  blockedGroups,
+  blockedContactCount,
+  blockedGroupCount,
   currentChatFoldersCount,
   cloudBackupStatus,
   customColors,
@@ -495,7 +492,6 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
-  getPreferredBadge,
   hasAnyCurrentCustomChatFolders,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -618,6 +614,7 @@ export function Preferences({
   renderProfileEditor,
   renderToastManager,
   renderUpdateDialog,
+  renderPreferencesBlockedPage,
   renderPreferencesChatFoldersPage,
   renderPreferencesEditChatFolderPage,
   openFileInFolder,
@@ -708,6 +705,7 @@ export function Preferences({
     useState<'backups' | 'reg-lock' | undefined>();
   const [isSignalPinDisablePending, setIsSignalPinDisablePending] =
     useState(false);
+
   const handleDisableSignalPin = useCallback(async () => {
     if (isSignalPinDisablePending) {
       return;
@@ -913,7 +911,7 @@ export function Preferences({
       <AxoList.Group>
         {!weArePrimaryDevice && (
           <>
-            <List>
+            <PreferencesList>
               <AxoClickableItem.Root
                 symbol="device-laptop"
                 label={i18n('icu:Preferences__Account__LinkedDevice__label')}
@@ -923,7 +921,7 @@ export function Preferences({
                 )}
                 onClick={() => setLinkedDevicesOnboarding(true)}
               />
-            </List>
+            </PreferencesList>
             {linkedDevicesOnboarding && (
               <LinkedDevicesOnboardingDialog
                 i18n={i18n}
@@ -933,7 +931,7 @@ export function Preferences({
           </>
         )}
         {!phoneNumber && (
-          <List
+          <PreferencesList
             label={i18n('icu:Preferences--signal-login')}
             footerDescription={
               <I18n
@@ -963,7 +961,7 @@ export function Preferences({
                 setSettingsLocation({ page: SettingsPage.AccountKeys });
               }}
             />
-          </List>
+          </PreferencesList>
         )}
       </AxoList.Group>
     );
@@ -1005,7 +1003,7 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
       <AxoList.Group>
-        <List
+        <PreferencesList
           footerDescription={i18n('icu:Preferences--device-name__description')}
         >
           {phoneNumber && (
@@ -1018,9 +1016,9 @@ export function Preferences({
             label={i18n('icu:Preferences--device-name')}
             value={deviceName}
           />
-        </List>
+        </PreferencesList>
         {weArePrimaryDevice && (
-          <List
+          <PreferencesList
             label={i18n('icu:Preferences--signal-pin')}
             footerDescription={
               <I18n
@@ -1055,10 +1053,10 @@ export function Preferences({
               disabled={!hasSvrPin}
               onCheckedChange={onPinRemindersChange}
             />
-          </List>
+          </PreferencesList>
         )}
         {weArePrimaryDevice && (
-          <List
+          <PreferencesList
             footerDescription={i18n(
               'icu:Preferences--registration-lock__footer'
             )}
@@ -1069,10 +1067,10 @@ export function Preferences({
               disabled={!hasSvrPin}
               onCheckedChange={onRegistrationLockChange}
             />
-          </List>
+          </PreferencesList>
         )}
         {weArePrimaryDevice && (
-          <List>
+          <PreferencesList>
             <AxoClickableItem.Root
               label={i18n('icu:Preferences--signal-pin-advanced-settings')}
               arrow="next"
@@ -1081,9 +1079,9 @@ export function Preferences({
                 setSettingsLocation({ page: SettingsPage.SignalPinAdvanced })
               }
             />
-          </List>
+          </PreferencesList>
         )}
-        <List label={i18n('icu:Preferences--system')}>
+        <PreferencesList label={i18n('icu:Preferences--system')}>
           {isAutoLaunchSupported && (
             <AxoSwitchItem.Root
               label={i18n('icu:autoLaunchDescription')}
@@ -1122,8 +1120,8 @@ export function Preferences({
               )}
             </>
           )}
-        </List>
-        <List label={i18n('icu:permissions')}>
+        </PreferencesList>
+        <PreferencesList label={i18n('icu:permissions')}>
           <AxoSwitchItem.Root
             label={i18n('icu:mediaPermissionsDescription')}
             disabled={hasMediaPermissions === undefined}
@@ -1136,18 +1134,18 @@ export function Preferences({
             checked={hasMediaCameraPermissions ?? false}
             onCheckedChange={onMediaCameraPermissionsChange}
           />
-        </List>
+        </PreferencesList>
         {isAutoDownloadUpdatesSupported && (
-          <List label={i18n('icu:Preferences--updates')}>
+          <PreferencesList label={i18n('icu:Preferences--updates')}>
             <AxoSwitchItem.Root
               label={i18n('icu:Preferences__download-update')}
               checked={hasAutoDownloadUpdate}
               onCheckedChange={onAutoDownloadUpdateChange}
             />
-          </List>
+          </PreferencesList>
         )}
 
-        <List>
+        <PreferencesList>
           {!weArePrimaryDevice && (
             <ItemWithAction
               label={i18n('icu:clearDataHeader')}
@@ -1205,7 +1203,7 @@ export function Preferences({
               {i18n('icu:deleteAccountButton')}
             </AxoConfirmDialog.Action>
           </AxoConfirmDialog.Root>
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -1250,7 +1248,7 @@ export function Preferences({
 
     const pageContents = (
       <AxoList.Group>
-        <List>
+        <PreferencesList>
           <AxoClickableItem.Root
             symbol="globe"
             label={i18n('icu:Preferences__Language__Label')}
@@ -1440,7 +1438,7 @@ export function Preferences({
               }) ?? []
             }
           />
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -1468,7 +1466,9 @@ export function Preferences({
 
     const pageContents = (
       <AxoList.Group>
-        <List accessibilityLabel={i18n('icu:Preferences__button--chats')}>
+        <PreferencesList
+          accessibilityLabel={i18n('icu:Preferences__button--chats')}
+        >
           <AxoSwitchItem.Root
             label={i18n('icu:Preferences__address-book-photos--title')}
             description={i18n(
@@ -1485,8 +1485,10 @@ export function Preferences({
             checked={hasKeepMutedChatsArchived}
             onCheckedChange={onKeepMutedChatsArchivedChange}
           />
-        </List>
-        <List label={i18n('icu:Preferences__Chats__TextInputSection__Title')}>
+        </PreferencesList>
+        <PreferencesList
+          label={i18n('icu:Preferences__Chats__TextInputSection__Title')}
+        >
           <AxoSwitchItem.Root
             label={i18n('icu:spellCheckDescription')}
             description={spellCheckDirtyText}
@@ -1533,8 +1535,10 @@ export function Preferences({
               </AxoItem.Accessory>
             </AxoItem.Content>
           </AxoItem.Root>
-        </List>
-        <List label={i18n('icu:Preferences__Chats__ChatFoldersSection__Title')}>
+        </PreferencesList>
+        <PreferencesList
+          label={i18n('icu:Preferences__Chats__ChatFoldersSection__Title')}
+        >
           <AxoClickableItem.Root
             label={
               hasAnyCurrentCustomChatFolders
@@ -1564,9 +1568,9 @@ export function Preferences({
               });
             }}
           />
-        </List>
+        </PreferencesList>
 
-        <List>
+        <PreferencesList>
           <ItemWithAction
             label={i18n('icu:PlaintextExport--PreferencesRow--Header')}
             description={i18n(
@@ -1581,10 +1585,10 @@ export function Preferences({
               </AxoItem.Action>
             }
           />
-        </List>
+        </PreferencesList>
 
         {isSyncSupported && (
-          <List>
+          <PreferencesList>
             <ItemWithAction
               label={i18n('icu:sync')}
               description={
@@ -1625,7 +1629,7 @@ export function Preferences({
                 </AxoItem.Action>
               }
             />
-          </List>
+          </PreferencesList>
         )}
       </AxoList.Group>
     );
@@ -1642,7 +1646,7 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.Calls) {
     const pageContents = (
       <AxoList.Group>
-        <List accessibilityLabel={i18n('icu:calling')}>
+        <PreferencesList accessibilityLabel={i18n('icu:calling')}>
           <AxoSwitchItem.Root
             label={i18n('icu:incomingCallNotificationDescription')}
             checked={hasIncomingCallNotifications}
@@ -1653,8 +1657,8 @@ export function Preferences({
             checked={hasCallRingtoneNotification}
             onCheckedChange={onCallRingtoneNotificationChange}
           />
-        </List>
-        <List label={i18n('icu:Preferences__devices')}>
+        </PreferencesList>
+        <PreferencesList label={i18n('icu:Preferences__devices')}>
           <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--video')}
             disabled={!availableCameras.length}
@@ -1703,15 +1707,15 @@ export function Preferences({
               };
             })}
           />
-        </List>
-        <List label={i18n('icu:Preferences--advanced')}>
+        </PreferencesList>
+        <PreferencesList label={i18n('icu:Preferences--advanced')}>
           <AxoSwitchItem.Root
             description={i18n('icu:alwaysRelayCallsDetail')}
             label={i18n('icu:alwaysRelayCallsDescription')}
             checked={hasRelayCalls ?? false}
             onCheckedChange={onRelayCallsChange}
           />
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -1727,7 +1731,7 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.Notifications) {
     const pageContents = (
       <AxoList.Group>
-        <List>
+        <PreferencesList>
           <AxoSwitchItem.Root
             label={i18n('icu:Preferences__enable-notifications')}
             checked={hasNotifications}
@@ -1767,9 +1771,9 @@ export function Preferences({
               setSettingsLocation({ page: SettingsPage.WhileMuted })
             }
           />
-        </List>
+        </PreferencesList>
 
-        <List>
+        <PreferencesList>
           <AxoSwitchItem.Root
             label={i18n('icu:Preferences__reaction-notifications-title')}
             description={i18n(
@@ -1794,9 +1798,9 @@ export function Preferences({
               onCheckedChange={onNotificationAttentionChange}
             />
           )}
-        </List>
+        </PreferencesList>
 
-        <List
+        <PreferencesList
           label={i18n('icu:Preferences__Notifications__SoundsSection__Title')}
         >
           <AxoSwitchItem.Root
@@ -1811,9 +1815,9 @@ export function Preferences({
             checked={hasMessageAudio}
             onCheckedChange={onMessageAudioChange}
           />
-        </List>
+        </PreferencesList>
 
-        <List
+        <PreferencesList
           label={i18n(
             'icu:Preferences__Notifications__AppBadgeSection__Title-v2'
           )}
@@ -1855,9 +1859,9 @@ export function Preferences({
             checked={hasCountMutedConversations}
             onCheckedChange={onCountMutedConversationsChange}
           />
-        </List>
+        </PreferencesList>
 
-        <List>
+        <PreferencesList>
           <AxoClickableItem.Root
             label={i18n('icu:NotificationProfiles--setting')}
             description={i18n('icu:NotificationProfiles--manage-description')}
@@ -1868,9 +1872,9 @@ export function Preferences({
               })
             }
           />
-        </List>
+        </PreferencesList>
 
-        <List>
+        <PreferencesList>
           <ItemWithAction
             label={i18n('icu:Preferences__Notifications__Reset__title')}
             action={
@@ -1908,7 +1912,7 @@ export function Preferences({
               </AxoAlertDialog.Footer>
             </AxoAlertDialog.Content>
           </AxoAlertDialog.Root>
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -1927,42 +1931,41 @@ export function Preferences({
     let blockedDescription;
 
     if (
-      (!blockedContacts.length && !blockedGroups.length) ||
-      (blockedContacts.length && blockedGroups.length)
+      (blockedContactCount === 0 && blockedGroupCount === 0) ||
+      (blockedContactCount > 0 && blockedGroupCount > 0)
     ) {
       blockedDescription = i18n('icu:Preferences--blocked-count-both-new', {
-        num: blockedContacts.length + blockedGroups.length,
+        num: blockedContactCount + blockedGroupCount,
       });
-    } else if (blockedContacts.length) {
+    } else if (blockedContactCount) {
       blockedDescription = i18n('icu:Preferences--blocked-count-contacts-new', {
-        num: blockedContacts.length,
+        num: blockedContactCount,
       });
     } else {
       blockedDescription = i18n('icu:Preferences--blocked-count-groups-new', {
-        num: blockedGroups.length,
+        num: blockedGroupCount,
       });
     }
 
     const pageContents = (
       <AxoList.Group>
-        <List>
+        <PreferencesList>
           <AxoClickableItem.Root
             label={i18n('icu:Preferences__pnp__row--title')}
             description={i18n('icu:Preferences__pnp__row--body')}
             arrow="next"
             onClick={() => setSettingsLocation({ page: SettingsPage.PNP })}
           />
-        </List>
-        <List>
+        </PreferencesList>
+        <PreferencesList>
           <AxoClickableItem.Root
             label={i18n('icu:Preferences--blocked')}
             description={blockedDescription}
             arrow="next"
-            disabled={!blockedContacts.length && !blockedGroups.length}
             onClick={() => setSettingsLocation({ page: SettingsPage.Blocked })}
           />
-        </List>
-        <List
+        </PreferencesList>
+        <PreferencesList
           label={i18n('icu:Preferences--messaging')}
           footerDescription={i18n('icu:Preferences--messaging-help')}
         >
@@ -1976,7 +1979,7 @@ export function Preferences({
             checked={hasTypingIndicators}
             onCheckedChange={onTypingIndicatorsChange}
           />
-        </List>
+        </PreferencesList>
         {showDisappearingTimerDialog && (
           <DisappearingTimeDialog
             i18n={i18n}
@@ -1985,7 +1988,7 @@ export function Preferences({
             onSubmit={onUniversalExpireTimerChange}
           />
         )}
-        <List label={i18n('icu:disappearingMessages')}>
+        <PreferencesList label={i18n('icu:disappearingMessages')}>
           <AxoSelectItem.Root
             label={i18n('icu:settings__DisappearingMessages__timer__label')}
             description={i18n('icu:settings__DisappearingMessages__footer')}
@@ -2018,9 +2021,11 @@ export function Preferences({
               },
             ])}
           />
-        </List>
+        </PreferencesList>
         {isContentProtectionSupported && (
-          <List label={i18n('icu:Preferences__Privacy__Application')}>
+          <PreferencesList
+            label={i18n('icu:Preferences__Privacy__Application')}
+          >
             <AxoSwitchItem.Root
               description={i18n(
                 'icu:Preferences__content-protection--description'
@@ -2030,7 +2035,7 @@ export function Preferences({
               checked={hasContentProtection ?? false}
               onCheckedChange={handleContentProtectionChange}
             />
-          </List>
+          </PreferencesList>
         )}
         {confirmContentProtection ? (
           <AxoConfirmDialog.Root
@@ -2050,7 +2055,7 @@ export function Preferences({
             </AxoConfirmDialog.Action>
           </AxoConfirmDialog.Root>
         ) : null}
-        <List label={i18n('icu:Stories__title')}>
+        <PreferencesList label={i18n('icu:Stories__title')}>
           <ItemWithAction
             label={i18n('icu:Stories__settings-toggle--title')}
             description={i18n('icu:Stories__settings-toggle--description')}
@@ -2072,8 +2077,8 @@ export function Preferences({
               )
             }
           />
-        </List>
-        <List label={i18n('icu:Preferences--advanced')}>
+        </PreferencesList>
+        <PreferencesList label={i18n('icu:Preferences--advanced')}>
           <AxoSwitchItem.Root
             label={
               <>
@@ -2119,7 +2124,7 @@ export function Preferences({
               }}
             />
           )}
-        </List>
+        </PreferencesList>
         <AxoConfirmDialog.Root
           open={confirmStoriesOff}
           onOpenChange={setConfirmStoriesOff}
@@ -2150,7 +2155,7 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.DataUsage) {
     const pageContents = (
       <AxoList.Group>
-        <List
+        <PreferencesList
           label={i18n('icu:Preferences__media-auto-download')}
           footerDescription={i18n(
             'icu:Preferences__media-auto-download__description'
@@ -2196,8 +2201,8 @@ export function Preferences({
               });
             }}
           />
-        </List>
-        <List>
+        </PreferencesList>
+        <PreferencesList>
           <AxoSelectItem.Root
             label={i18n('icu:Preferences__sent-media-quality')}
             description={i18n(
@@ -2219,7 +2224,7 @@ export function Preferences({
               },
             ]}
           />
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -2284,93 +2289,9 @@ export function Preferences({
       initChatFolderParams: settingsLocation.initChatFolderParams,
     });
   } else if (settingsLocation.page === SettingsPage.Blocked) {
-    const backButton = (
-      <button
-        aria-label={i18n('icu:goBack')}
-        className="Preferences__back-icon"
-        onClick={() => setSettingsLocation({ page: SettingsPage.Privacy })}
-        type="button"
-      />
-    );
-    const pageContents = (
-      <>
-        <SettingsRow>
-          <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {i18n('icu:Preferences--blocked-users--description')}
-            </div>
-          </div>
-        </SettingsRow>
-        {blockedContacts.length > 0 ? (
-          <SettingsRow title={i18n('icu:Preferences--blocked-users')}>
-            {blockedContacts.map(({ conversation, blockedAt }) => {
-              return (
-                <div className={tw('flex w-full items-center px-[14px]')}>
-                  <div className={tw('p-2')}>
-                    <Avatar
-                      conversationType={conversation.type}
-                      badge={getPreferredBadge(conversation.badges)}
-                      i18n={i18n}
-                      size={AvatarSize.THIRTY_SIX}
-                      theme={theme}
-                      {...conversation}
-                    />
-                  </div>
-                  <div className={tw('flex flex-col')}>
-                    <div>{conversation.title}</div>
-                    {isNumber(blockedAt) && blockedAt > 0 ? (
-                      <div className={tw('type-body-small text-secondary')}>
-                        {i18n('icu:Preferences--blocked--blocked-on', {
-                          blockedAt: moment(blockedAt).format('ll'),
-                        })}
-                      </div>
-                    ) : undefined}
-                  </div>
-                </div>
-              );
-            })}
-          </SettingsRow>
-        ) : undefined}
-        {blockedGroups.length > 0 ? (
-          <SettingsRow title={i18n('icu:Preferences--blocked-groups')}>
-            {blockedGroups.map(({ conversation, blockedAt }) => {
-              return (
-                <div className={tw('flex w-full items-center px-[14px]')}>
-                  <div className={tw('p-2')}>
-                    <Avatar
-                      conversationType={conversation.type}
-                      badge={getPreferredBadge(conversation.badges)}
-                      i18n={i18n}
-                      size={AvatarSize.THIRTY_SIX}
-                      theme={theme}
-                      {...conversation}
-                    />
-                  </div>{' '}
-                  <div className={tw('flex flex-col')}>
-                    <div>{conversation.title}</div>
-                    {isNumber(blockedAt) && blockedAt > 0 ? (
-                      <div className={tw('type-body-small text-secondary')}>
-                        {i18n('icu:Preferences--blocked--blocked-on', {
-                          blockedAt: moment(blockedAt).format('ll'),
-                        })}
-                      </div>
-                    ) : undefined}{' '}
-                  </div>
-                </div>
-              );
-            })}
-          </SettingsRow>
-        ) : undefined}
-      </>
-    );
-    content = (
-      <PreferencesContent
-        backButton={backButton}
-        contents={pageContents}
-        contentsRef={settingsPaneRef}
-        title={i18n('icu:Preferences--blocked')}
-      />
-    );
+    content = renderPreferencesBlockedPage({
+      goBack: () => setSettingsLocation({ page: SettingsPage.Privacy }),
+    });
   } else if (settingsLocation.page === SettingsPage.PNP) {
     let sharingDescription: string;
 
@@ -2574,7 +2495,7 @@ export function Preferences({
   } else if (settingsLocation.page === SettingsPage.WhileMuted) {
     const pageContents = (
       <AxoList.Group>
-        <List>
+        <PreferencesList>
           <AxoSwitchItem.Root
             symbol="phone"
             label={i18n('icu:WhileMuted__calls__title')}
@@ -2608,7 +2529,7 @@ export function Preferences({
               onNotifyWhileMutedChange('replies', checked)
             }
           />
-        </List>
+        </PreferencesList>
       </AxoList.Group>
     );
     content = (
@@ -2643,7 +2564,7 @@ export function Preferences({
     if (hasSvrPin) {
       pageContents = (
         <AxoList.Group>
-          <List
+          <PreferencesList
             footerDescription={i18n(
               'icu:Preferences--disable-signal-pin--footer'
             )}
@@ -2699,13 +2620,13 @@ export function Preferences({
                 </AxoAlertDialog.Footer>
               </AxoAlertDialog.Content>
             </AxoAlertDialog.Root>
-          </List>
+          </PreferencesList>
         </AxoList.Group>
       );
     } else {
       pageContents = (
         <AxoList.Group>
-          <List
+          <PreferencesList
             footerDescription={
               <I18n
                 id="icu:Preferences--signal-pin__footer"
@@ -2728,7 +2649,7 @@ export function Preferences({
                 </AxoItem.Action>
               }
             />
-          </List>
+          </PreferencesList>
         </AxoList.Group>
       );
     }
@@ -3042,35 +2963,6 @@ export function PreferencesContent({
       </div>
       {actions && <div className="Preferences__actions">{actions}</div>}
     </div>
-  );
-}
-
-type ListProps = Readonly<{
-  accessibilityLabel?: string;
-  label?: string;
-  footerDescription?: ReactNode;
-  children: ReactNode;
-}>;
-
-function List(props: ListProps): ReactNode {
-  return (
-    <AxoList.Root accessibilityLabel={props.accessibilityLabel}>
-      {props.label != null && (
-        <AxoList.Header>
-          <AxoList.Label>{props.label}</AxoList.Label>
-        </AxoList.Header>
-      )}
-      <AxoList.Body>
-        <AxoItem.Group>{props.children}</AxoItem.Group>
-      </AxoList.Body>
-      {props.footerDescription != null && (
-        <AxoList.Footer>
-          <AxoList.FooterDescription>
-            {props.footerDescription}
-          </AxoList.FooterDescription>
-        </AxoList.Footer>
-      )}
-    </AxoList.Root>
   );
 }
 

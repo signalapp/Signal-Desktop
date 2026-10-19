@@ -20,6 +20,7 @@ import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 export type ReviewPropsType = Readonly<
   | {
@@ -120,6 +121,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             conversationName={affectedConversation}
             i18n={i18n}
             isBlocked={affectedConversation.isBlocked ?? false}
+            isSignalConversation={isSignalConversation(affectedConversation)}
             isReported={affectedConversation.isReported ?? false}
             state={
               type === ConfirmationStateType.ConfirmingDelete

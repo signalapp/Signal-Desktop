@@ -161,7 +161,9 @@ export function PreferencesSelectChatsDialog(
     if (filteredConversations.length === 0) {
       result.push({
         type: RowType.EmptyResults,
-        message: 'No items',
+        message: i18n(
+          'icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats'
+        ),
       });
     }
 

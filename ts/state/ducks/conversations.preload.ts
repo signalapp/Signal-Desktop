@@ -3939,7 +3939,7 @@ function blockAndReportSpam(
         );
       } catch (error) {
         log.error(
-          `blockConversation/${idForLogging}: Failed to queue block sync message`,
+          `blockAndReportSpam/${idForLogging}: Failed to queue block sync message`,
           Errors.toLogFormat(error)
         );
       }

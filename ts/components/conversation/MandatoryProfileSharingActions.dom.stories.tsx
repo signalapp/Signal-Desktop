@@ -49,6 +49,7 @@ function Example(args: Args) {
       i18n={i18n}
       isBlocked={conversation.isBlocked ?? false}
       isReported={conversation.isReported ?? false}
+      isSignalConversation={false}
       acceptConversation={action('acceptConversation')}
       blockAndReportSpam={action('blockAndReportSpam')}
       blockConversation={action('blockConversation')}
