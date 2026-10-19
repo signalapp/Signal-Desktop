@@ -512,14 +512,15 @@ function ActiveCallManager({
         toggleSelfViewExpanded={toggleSelfViewExpanded}
         toggleSettings={toggleSettings}
       />
-      {presentingSourcesAvailable && presentingSourcesAvailable.length ? (
-        <CallingSelectPresentingSourcesModal
-          i18n={i18n}
-          presentingSourcesAvailable={presentingSourcesAvailable}
-          selectPresentingSource={selectPresentingSource}
-          cancelPresenting={cancelPresenting}
-        />
-      ) : null}
+      {presentingSourcesAvailable &&
+        presentingSourcesAvailable.length !== 0 && (
+          <CallingSelectPresentingSourcesModal
+            i18n={i18n}
+            sources={presentingSourcesAvailable}
+            onSourceSelect={selectPresentingSource}
+            onCancel={cancelPresenting}
+          />
+        )}
       {settingsDialogOpen && renderDeviceSelection()}
       {showParticipantsList &&
         (activeCall.callMode === CallMode.Adhoc && callLink ? (
