@@ -23,6 +23,7 @@ export type Props = {
   | 'conversationName'
   | 'isBlocked'
   | 'isReported'
+  | 'isSignalConversation'
   | 'acceptConversation'
   | 'reportSpam'
   | 'blockAndReportSpam'
@@ -45,10 +46,11 @@ export function MandatoryProfileSharingActions({
   addedByName,
   conversationId,
   conversationType,
-  conversationName,
+  conversationName = { title: '' },
   i18n,
   isBlocked,
   isReported,
+  isSignalConversation,
   acceptConversation,
   reportSpam,
   blockAndReportSpam,
@@ -74,6 +76,7 @@ export function MandatoryProfileSharingActions({
           i18n={i18n}
           isBlocked={isBlocked}
           isReported={isReported}
+          isSignalConversation={isSignalConversation}
           state={mrState}
           acceptConversation={() => {
             throw new Error(

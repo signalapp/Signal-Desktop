@@ -12,7 +12,12 @@ import type {
   CustomColorType,
 } from '../../types/Colors.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
-import type { UnreadCountBadgeType } from '../../types/StorageKeys.std.ts';
+import type {
+  BlockedGroup,
+  BlockedNumber,
+  BlockedServiceId,
+  UnreadCountBadgeType,
+} from '../../types/StorageKeys.std.ts';
 import { STORAGE_KEY_DEFAULTS } from '../../types/StorageKeys.std.ts';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
@@ -339,3 +344,21 @@ export const getHasSeenAdminDeleteEducationDialog: StateSelector<boolean> =
     getItems,
     state => state.hasSeenAdminDeleteEducationDialog ?? false
   );
+
+export const getBlockedUuids: StateSelector<
+  ReadonlyArray<BlockedServiceId> | undefined
+> = createSelector(getItems, state => state['blocked-uuids']);
+
+export const getBlockedNumbers: StateSelector<
+  ReadonlyArray<BlockedNumber> | undefined
+> = createSelector(getItems, state => state.blocked);
+
+export const getBlockedGroups: StateSelector<
+  ReadonlyArray<BlockedGroup> | undefined
+> = createSelector(getItems, state => state['blocked-groups']);
+
+export const getReleaseNotesChatBlocked: StateSelector<boolean> =
+  createSelector(getItems, state => state.releaseNotesChatBlocked ?? false);
+
+export const getReleaseNotesChatBlockedAt: StateSelector<number | undefined> =
+  createSelector(getItems, state => state.releaseNotesChatBlockedAt);

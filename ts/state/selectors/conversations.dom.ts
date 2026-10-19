@@ -728,22 +728,43 @@ function canComposeConversation(
   );
 }
 
-export const getAllComposableConversations = createSelector(
+const getAllDisplayReadyConversations = createSelector(
   getConversationLookup,
   (conversationLookup: ConversationLookupType): Array<ConversationType> =>
     Object.values(conversationLookup).filter(
       conversation =>
-        !isSignalConversation(conversation) &&
         !conversation.isBlocked &&
         !conversation.removalStage &&
         !conversation.terminated &&
         !conversation.isGroupV1AndDisabled &&
-        ((isGroupV2(conversation) && !conversation.left) ||
-          !isConversationUnregistered(conversation)) &&
         // All conversation should have a title except in weird cases where
-        // they don't, in that case we don't want to show these for Forwarding.
+        // they don't, in that case we don't want to show these for the blocking search.
+        // You'll have to open the group to block it.
         conversation.titleNoDefault &&
         hasDisplayInfo(conversation)
+    )
+);
+export const getAllUnblockedConversations = createSelector(
+  getAllDisplayReadyConversations,
+  (
+    displayReadyConversations: Array<ConversationType>
+  ): Array<ConversationType> =>
+    displayReadyConversations.filter(conversation => !conversation.isMe)
+);
+
+export const getAllComposableConversations = createSelector(
+  getAllDisplayReadyConversations,
+  (
+    displayReadyConversations: Array<ConversationType>
+  ): Array<ConversationType> =>
+    displayReadyConversations.filter(
+      conversation =>
+        // Can't compose a message to the release notes channel
+        !isSignalConversation(conversation) &&
+        // You must be in the group, or...
+        ((isGroupV2(conversation) && !conversation.left) ||
+          // ...the user must be registered
+          !isConversationUnregistered(conversation))
     )
 );
 

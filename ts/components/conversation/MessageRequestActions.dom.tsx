@@ -38,6 +38,7 @@ export function MessageRequestActions({
   isBlocked,
   isHidden,
   isReported,
+  isSignalConversation,
   acceptConversation,
   blockAndReportSpam,
   blockConversation,
@@ -108,6 +109,7 @@ export function MessageRequestActions({
           i18n={i18n}
           isBlocked={isBlocked}
           isReported={isReported}
+          isSignalConversation={isSignalConversation}
           state={mrState}
           acceptConversation={acceptConversation}
           blockAndReportSpam={blockAndReportSpam}

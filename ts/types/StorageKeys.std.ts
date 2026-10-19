@@ -62,16 +62,16 @@ export type IdentityKeyMap = Record<
 >;
 
 export type BlockedGroup = {
-  blockedAt: number | undefined;
-  groupId: string;
+  readonly blockedAt: number | undefined;
+  readonly groupId: string;
 };
 export type BlockedServiceId = {
-  blockedAt: number | undefined;
-  serviceId: ServiceIdString;
+  readonly blockedAt: number | undefined;
+  readonly serviceId: ServiceIdString;
 };
 export type BlockedNumber = {
-  blockedAt: number | undefined;
-  e164: string;
+  readonly blockedAt: number | undefined;
+  readonly e164: string;
 };
 
 export type StorageAccessType = {

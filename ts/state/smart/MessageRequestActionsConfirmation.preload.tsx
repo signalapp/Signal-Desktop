@@ -15,6 +15,7 @@ import { useContactNameData } from '../../components/conversation/ContactName.do
 import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 export const SmartMessageRequestActionsConfirmation = memo(
   function SmartMessageRequestActionsConfirmation() {
@@ -71,6 +72,7 @@ export const SmartMessageRequestActionsConfirmation = memo(
         conversationName={conversationName}
         addedByName={addedByName}
         isBlocked={conversation.isBlocked ?? false}
+        isSignalConversation={isSignalConversation(conversation)}
         isReported={conversation.isReported ?? false}
         acceptConversation={acceptConversation}
         blockConversation={blockConversation}

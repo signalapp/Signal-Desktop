@@ -10,7 +10,6 @@ import type { MutableRefObject, JSX } from 'react';
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import {
-  getConversationSelector,
   getConversationsWithCustomColorSelector,
   getMe,
   getOtherTabsUnreadCount,
@@ -36,7 +35,6 @@ import {
   setPhoneNumberDiscoverability,
 } from '../../textsecure/WebAPI.preload.ts';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
-import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { format } from '../../types/PhoneNumber.std.ts';
 import {
@@ -124,6 +122,10 @@ import type { ThemeType } from '../../util/preload.preload.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import type { StateType } from '../reducer.preload.ts';
 import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.tsx';
+import {
+  SmartPreferencesBlocked,
+  type SmartPreferencesBlockedProps,
+} from './PreferencesBlocked.preload.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
@@ -131,11 +133,14 @@ import {
   STORAGE_KEY_DEFAULTS,
   type ZoomFactorType,
 } from '../../types/StorageKeys.std.ts';
-import type { BlockedConversation } from '../../components/Preferences.dom.tsx';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
 import { disableSignalPin } from '../../util/disableSignalPin.preload.ts';
+import {
+  getBlockedContacts,
+  getBlockedGroups,
+} from '../selectors/blocked.dom.ts';
 
 const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
   ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
@@ -146,6 +151,12 @@ function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
   return <SmartUpdateDialog {...props} disableDismiss />;
+}
+
+function renderPreferencesBlockedPage(
+  props: SmartPreferencesBlockedProps
+): JSX.Element {
+  return <SmartPreferencesBlocked {...props} />;
 }
 
 function renderPreferencesChatFoldersPage(
@@ -273,7 +284,6 @@ export function SmartPreferences(): JSX.Element | null {
     (state: StateType) => state.donations.receipts
   );
   const weArePrimaryDevice = useSelector(getAreWePrimaryDevice);
-  const conversationSelector = useSelector(getConversationSelector);
 
   const shouldShowUpdateDialog = dialogType !== DialogType.None;
   const badge = getPreferredBadge(me.badges);
@@ -290,6 +300,9 @@ export function SmartPreferences(): JSX.Element | null {
     }
     return getBackupKeyHash(backupKey);
   }, [backupKey]);
+
+  const blockedContactCount = useSelector(getBlockedContacts).length;
+  const blockedGroupCount = useSelector(getBlockedGroups).length;
 
   // The weird ones
 
@@ -607,47 +620,6 @@ export function SmartPreferences(): JSX.Element | null {
   } = items;
   const defaultConversationColor =
     items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
-
-  const blockedContacts: Array<BlockedConversation> = useMemo(() => {
-    const result = new Map<string, BlockedConversation>();
-
-    (items['blocked-uuids'] ?? []).forEach(item => {
-      const conversation = conversationSelector(item.serviceId);
-      result.set(conversation.id, {
-        conversation,
-        blockedAt: item.blockedAt,
-      });
-    });
-    (items.blocked ?? []).forEach(item => {
-      const conversation = conversationSelector(item.e164);
-      if (!result.has(conversation.id)) {
-        result.set(conversation.id, {
-          conversation,
-          blockedAt: item.blockedAt,
-        });
-      }
-    });
-
-    if (items.releaseNotesChatBlocked) {
-      const conversation = conversationSelector(SIGNAL_ACI);
-      result.set(conversation.id, {
-        conversation,
-        blockedAt: undefined /* TODO */,
-      });
-    }
-
-    return Array.from(result.values());
-  }, [items, conversationSelector]);
-  const blockedGroups: Array<BlockedConversation> = useMemo(() => {
-    const result: Array<BlockedConversation> = [];
-    (items['blocked-groups'] ?? []).forEach(item => {
-      result.push({
-        conversation: conversationSelector(item.groupId),
-        blockedAt: item.blockedAt,
-      });
-    });
-    return result;
-  }, [items, conversationSelector]);
 
   const emojiSkinToneDefault =
     items.emojiSkinToneDefault ?? Emoji.SkinTone.None;
@@ -1065,8 +1037,8 @@ export function SmartPreferences(): JSX.Element | null {
         }}
         backupLocalBackupsEnabled={backupLocalBackupsEnabled}
         badge={badge}
-        blockedContacts={blockedContacts}
-        blockedGroups={blockedGroups}
+        blockedContactCount={blockedContactCount}
+        blockedGroupCount={blockedGroupCount}
         currentChatFoldersCount={currentChatFoldersCount}
         cloudBackupStatus={cloudBackupStatus}
         customColors={customColors}
@@ -1085,7 +1057,6 @@ export function SmartPreferences(): JSX.Element | null {
         getMessageSampleForSchemaVersion={
           DataReader.getMessageSampleForSchemaVersion
         }
-        getPreferredBadge={getPreferredBadge}
         hasAnyCurrentCustomChatFolders={hasAnyCurrentCustomChatFolders}
         hasAudioNotifications={hasAudioNotifications}
         hasAutoConvertEmoji={hasAutoConvertEmoji}
@@ -1219,6 +1190,7 @@ export function SmartPreferences(): JSX.Element | null {
         renderProfileEditor={renderProfileEditor}
         renderToastManager={renderToastManagerWithoutMegaphone}
         renderUpdateDialog={renderUpdateDialog}
+        renderPreferencesBlockedPage={renderPreferencesBlockedPage}
         renderPreferencesChatFoldersPage={renderPreferencesChatFoldersPage}
         renderPreferencesEditChatFolderPage={
           renderPreferencesEditChatFolderPage

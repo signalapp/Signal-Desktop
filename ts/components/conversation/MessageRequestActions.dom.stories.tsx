@@ -10,6 +10,7 @@ import {
   getDefaultConversation,
   getDefaultGroup,
 } from '../../test-helpers/getDefaultConversation.std.ts';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -52,6 +53,7 @@ function Example(args: Args): JSX.Element {
       isBlocked={args.isBlocked}
       isHidden={args.isHidden}
       isReported={args.isReported}
+      isSignalConversation={isSignalConversation(conversation)}
       getSharedGroupNames={() => []}
       acceptConversation={action('acceptConversation')}
       blockAndReportSpam={action('blockAndReportSpam')}

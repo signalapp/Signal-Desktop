@@ -22,7 +22,8 @@ export type MessageRequestActionsConfirmationBaseProps = {
   addedByName: ContactNameData | null;
   conversationId: string;
   conversationType: 'group' | 'direct';
-  conversationName: ContactNameData;
+  conversationName: ContactNameData | undefined;
+  isSignalConversation: boolean;
   isBlocked: boolean;
   isReported: boolean;
   acceptConversation: (conversationId: string) => void;
@@ -42,13 +43,51 @@ export type MessageRequestActionsConfirmationProps =
 function Bold(parts: Array<string | JSX.Element>) {
   return <strong>{parts}</strong>;
 }
+
+function getUnblockConfirmBody({
+  conversationType,
+  i18n,
+  isSignalConversation,
+}: {
+  conversationType: 'group' | 'direct';
+  i18n: LocalizerType;
+  isSignalConversation: boolean;
+}): string {
+  if (conversationType === 'group') {
+    return i18n('icu:MessageRequests--unblock-group-confirm-body');
+  }
+  if (isSignalConversation) {
+    return i18n('icu:MessageRequests--unblock-signal-confirm-body');
+  }
+  return i18n('icu:MessageRequests--unblock-direct-confirm-body');
+}
+
+function getBlockConfirmBody({
+  conversationType,
+  i18n,
+  isSignalConversation,
+}: {
+  conversationType: 'group' | 'direct';
+  i18n: LocalizerType;
+  isSignalConversation: boolean;
+}): string {
+  if (conversationType === 'group') {
+    return i18n('icu:MessageRequests--block-group-confirm-body');
+  }
+  if (isSignalConversation) {
+    return i18n('icu:MessageRequests--block-signal-confirm-body');
+  }
+  return i18n('icu:MessageRequests--block-direct-confirm-body');
+}
+
 export function MessageRequestActionsConfirmation({
   addedByName,
   conversationId,
   conversationType,
-  conversationName,
+  conversationName = { title: '' },
   i18n,
   isBlocked,
+  isSignalConversation,
   state,
   acceptConversation,
   blockAndReportSpam,
@@ -57,11 +96,11 @@ export function MessageRequestActionsConfirmation({
   deleteConversation,
   onChangeState,
 }: MessageRequestActionsConfirmationProps): JSX.Element | null {
-  if (state === MessageRequestState.blocking) {
-    return (
+  return (
+    <>
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.blocking}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         title={
           conversationType === 'direct' ? (
             <I18n
@@ -93,28 +132,27 @@ export function MessageRequestActionsConfirmation({
             />
           )
         }
-        description={
-          conversationType === 'direct'
-            ? i18n('icu:MessageRequests--block-direct-confirm-body')
-            : i18n('icu:MessageRequests--block-group-confirm-body')
-        }
+        description={getBlockConfirmBody({
+          conversationType,
+          i18n,
+          isSignalConversation,
+        })}
       >
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-destructive"
-          onClick={() => blockConversation(conversationId)}
+          onClick={() => {
+            onChangeState(MessageRequestState.default);
+            blockConversation(conversationId);
+          }}
         >
           {i18n('icu:MessageRequests--block')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
 
-  if (state === MessageRequestState.reportingAndMaybeBlocking) {
-    return (
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.reportingAndMaybeBlocking}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         title={i18n('icu:MessageRequests--ReportAndMaybeBlockModal-title')}
         description={
           <>
@@ -143,7 +181,10 @@ export function MessageRequestActionsConfirmation({
         {!isBlocked && (
           <AxoConfirmDialog.Action
             variant="strong-destructive"
-            onClick={() => blockAndReportSpam(conversationId)}
+            onClick={() => {
+              onChangeState(MessageRequestState.default);
+              blockAndReportSpam(conversationId);
+            }}
           >
             {i18n(
               'icu:MessageRequests--ReportAndMaybeBlockModal-reportAndBlock'
@@ -152,19 +193,18 @@ export function MessageRequestActionsConfirmation({
         )}
         <AxoConfirmDialog.Action
           variant="strong-destructive"
-          onClick={() => reportSpam(conversationId)}
+          onClick={() => {
+            onChangeState(MessageRequestState.default);
+            reportSpam(conversationId);
+          }}
         >
           {i18n('icu:MessageRequests--ReportAndMaybeBlockModal-report')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
 
-  if (state === MessageRequestState.unblocking) {
-    return (
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.unblocking}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         title={
           <I18n
             i18n={i18n}
@@ -176,28 +216,27 @@ export function MessageRequestActionsConfirmation({
             }}
           />
         }
-        description={
-          conversationType === 'direct'
-            ? i18n('icu:MessageRequests--unblock-direct-confirm-body')
-            : i18n('icu:MessageRequests--unblock-group-confirm-body')
-        }
+        description={getUnblockConfirmBody({
+          conversationType,
+          i18n,
+          isSignalConversation,
+        })}
       >
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-primary"
-          onClick={() => acceptConversation(conversationId)}
+          onClick={() => {
+            onChangeState(MessageRequestState.default);
+            acceptConversation(conversationId);
+          }}
         >
           {i18n('icu:MessageRequests--unblock')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
 
-  if (state === MessageRequestState.deleting) {
-    return (
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.deleting}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         title={
           conversationType === 'direct' ? (
             <I18n
@@ -229,21 +268,20 @@ export function MessageRequestActionsConfirmation({
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-destructive"
-          onClick={() => deleteConversation(conversationId)}
+          onClick={() => {
+            onChangeState(MessageRequestState.default);
+            deleteConversation(conversationId);
+          }}
         >
           {conversationType === 'direct'
             ? i18n('icu:MessageRequests--delete-direct')
             : i18n('icu:MessageRequests--delete-group')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
 
-  if (state === MessageRequestState.acceptedOptions) {
-    return (
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.acceptedOptions}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         // @ts-expect-error ConfirmationDialog migration: Needs title
         title={null}
         description={
@@ -274,14 +312,10 @@ export function MessageRequestActionsConfirmation({
           {i18n('icu:MessageRequests--block')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
 
-  if (state === MessageRequestState.accepting) {
-    return (
       <AxoConfirmDialog.Root
-        open
-        onOpenChange={() => onChangeState(MessageRequestState.default)}
+        open={state === MessageRequestState.accepting}
+        onCancel={() => onChangeState(MessageRequestState.default)}
         title={i18n('icu:MessageRequests--accept-confirm-title-v2')}
         description={
           <I18n
@@ -294,13 +328,14 @@ export function MessageRequestActionsConfirmation({
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-primary"
-          onClick={() => acceptConversation(conversationId)}
+          onClick={() => {
+            onChangeState(MessageRequestState.default);
+            acceptConversation(conversationId);
+          }}
         >
           {i18n('icu:MessageRequests--accept')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
-    );
-  }
-
-  return null;
+    </>
+  );
 }
