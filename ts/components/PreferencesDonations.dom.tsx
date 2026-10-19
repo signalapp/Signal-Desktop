@@ -48,6 +48,7 @@ import { DonationVerificationModal } from './DonationVerificationModal.dom.tsx';
 import { DonationProgressModal } from './DonationProgressModal.dom.tsx';
 import { DonationStillProcessingModal } from './DonationStillProcessingModal.dom.tsx';
 import { DonationThanksModal } from './DonationThanksModal.dom.tsx';
+import type { ApplyDonationBadgeArgs } from './DonationThanksModal.dom.tsx';
 import type {
   ConversationType,
   ProfileDataType,
@@ -105,11 +106,7 @@ export type PropsDataType = {
 };
 
 type PropsActionType = {
-  applyDonationBadge: (args: {
-    badge: BadgeType | undefined;
-    applyBadge: boolean;
-    onComplete: (error?: Error) => void;
-  }) => void;
+  applyDonationBadge: (args: ApplyDonationBadgeArgs) => void;
   clearWorkflow: () => void;
   resumeWorkflow: () => void;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
@@ -700,10 +697,10 @@ export function PreferencesDonations({
     dialog = (
       <DonationThanksModal
         i18n={i18n}
-        badge={donationBadge}
+        badge={donationBadge ?? null}
         applyDonationBadge={applyDonationBadge}
-        onClose={(error?: Error) => {
-          if (error) {
+        onClose={(error: Error | null) => {
+          if (error != null) {
             log.error('Badge application failed:', error.message);
             updateLastError(
               donationErrorTypeSchema.enum.BadgeApplicationFailed

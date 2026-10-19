@@ -113,7 +113,7 @@ describe('donations duck', () => {
 
       // Helper to execute applyDonationBadge with common params
       const executeApplyDonationBadge = async (
-        badge: BadgeType | undefined,
+        badge: BadgeType | null,
         applyBadge: boolean
       ) => {
         await applyDonationBadge({
@@ -154,7 +154,7 @@ describe('donations duck', () => {
           // Note: runStorageServiceUploadJob would be called here with
           // { reason: 'donation-badge-toggle' } but we can't spy on const exports
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
 
         it('Submit OFF: No change', async () => {
@@ -175,7 +175,7 @@ describe('donations duck', () => {
           assert.equal(storage.get('displayBadgesOnProfile'), false);
           // Note: runStorageServiceUploadJob would not be called here
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
       });
 
@@ -203,7 +203,7 @@ describe('donations duck', () => {
           assert.equal(storage.get('displayBadgesOnProfile'), true);
           // Note: runStorageServiceUploadJob would not be called here (no change)
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
 
         it('Submit OFF: Hides all badges', async () => {
@@ -224,7 +224,7 @@ describe('donations duck', () => {
           // Verify storage was updated from true to false
           assert.equal(storage.get('displayBadgesOnProfile'), false);
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
       });
 
@@ -250,7 +250,7 @@ describe('donations duck', () => {
           // Verify storage remains at true (no update needed)
           assert.equal(storage.get('displayBadgesOnProfile'), true);
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
 
         it('Submit OFF: No change', async () => {
@@ -269,7 +269,7 @@ describe('donations duck', () => {
           // Verify storage remains at true (no update needed)
           assert.equal(storage.get('displayBadgesOnProfile'), true);
 
-          sinon.assert.calledOnceWithExactly(onComplete);
+          sinon.assert.calledOnceWithExactly(onComplete, null);
         });
       });
     });
@@ -278,8 +278,8 @@ describe('donations duck', () => {
       it('No Badge Data: should show error', async () => {
         const { onComplete, executeApplyDonationBadge } = await setupTest([]);
 
-        // Modal receives undefined badge
-        await executeApplyDonationBadge(undefined, true);
+        // Modal receives null badge
+        await executeApplyDonationBadge(null, true);
 
         sinon.assert.calledOnce(onComplete);
         const error = onComplete.getCall(0).args[0];
