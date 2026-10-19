@@ -8,6 +8,7 @@ import type { AciString, ServiceIdString } from './ServiceId.std.ts';
 import type { CallLinkConversationType } from './CallLink.std.ts';
 import type { CallMode } from './CallDisposition.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
+import type { Uint16 } from '@signalapp/types';
 
 export const MAX_CALLING_REACTIONS = 5;
 export const CALLING_REACTIONS_LIFETIME = 4000;
@@ -22,11 +23,20 @@ export enum CallViewMode {
 }
 
 export type PresentableSource = ReadonlyDeep<{
-  appIcon?: string;
   id: string;
   name: string;
   isScreen: boolean;
-  thumbnail: string;
+  thumbnail: PresentableSourceImage;
+  appIcon: PresentableSourceImage | null;
+}>;
+
+export const PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_HEIGHT = 102;
+export const PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_WIDTH = 184;
+
+export type PresentableSourceImage = Readonly<{
+  src: string;
+  width: Uint16;
+  height: Uint16;
 }>;
 
 export type PresentedSource = {

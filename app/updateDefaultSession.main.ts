@@ -9,6 +9,10 @@ import OS from '../ts/util/os/osMain.node.ts';
 import type { LoggerType } from '../ts/types/Logging.std.ts';
 import { strictAssert } from '../ts/util/assert.std.ts';
 import type { IpcResponseType } from '../ts/util/desktopCapturer.preload.ts';
+import {
+  PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_HEIGHT,
+  PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_WIDTH,
+} from '../ts/types/Calling.std.ts';
 
 const SPELL_CHECKER_DICTIONARY_DOWNLOAD_URL = `https://updates.signal.org/desktop/hunspell_dictionaries/${process.versions.electron}/`;
 
@@ -46,7 +50,10 @@ export function updateDefaultSession(
 
         const sources = await desktopCapturer.getSources({
           fetchWindowIcons: true,
-          thumbnailSize: { height: 102, width: 184 },
+          thumbnailSize: {
+            height: PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_HEIGHT,
+            width: PRESENTABLE_SOURCE_THUMBNAIL_REQUESTED_WIDTH,
+          },
           types: ['screen', 'window'],
         });
 

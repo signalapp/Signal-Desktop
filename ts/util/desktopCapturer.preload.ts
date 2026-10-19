@@ -2,12 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // oxlint-disable max-classes-per-file
 
-import { ipcRenderer, type DesktopCapturerSource } from 'electron';
+import {
+  ipcRenderer,
+  type DesktopCapturerSource,
+  type NativeImage,
+} from 'electron';
 import type { Stream, StreamOptions } from '@indutny/mac-screen-share';
-
+import { Uint16 } from '@signalapp/types';
 import { createLogger } from '../logging/log.std.ts';
 import * as Errors from '../types/errors.std.ts';
-import type { PresentableSource } from '../types/Calling.std.ts';
+import type {
+  PresentableSource,
+  PresentableSourceImage,
+} from '../types/Calling.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import {
   REQUESTED_SCREEN_SHARE_WIDTH,
@@ -16,7 +23,6 @@ import {
 } from '../calling/constants.std.ts';
 import { strictAssert } from './assert.std.ts';
 import { explodePromise } from './explodePromise.std.ts';
-import { isNotNil } from './isNotNil.std.ts';
 import { drop } from './drop.std.ts';
 import { SECOND } from './durations/index.std.ts';
 import { isOlderThan } from './timestamp.std.ts';
@@ -159,25 +165,27 @@ export class DesktopCapturer {
       `Invalid state in "onSources" ${this.#state.step}`
     );
 
-    const presentableSources = sources
-      .map(source => {
-        // If electron can't retrieve a thumbnail then it won't be able to
-        // present this source so we filter these out.
-        if (source.thumbnail.isEmpty()) {
-          return undefined;
-        }
-        return {
-          appIcon:
-            source.appIcon && !source.appIcon.isEmpty()
-              ? source.appIcon.toDataURL()
-              : undefined,
-          id: source.id,
-          name: this.#translateSourceName(source),
-          isScreen: isScreenSource(source),
-          thumbnail: source.thumbnail.toDataURL(),
-        };
-      })
-      .filter(isNotNil);
+    const presentableSources: Array<PresentableSource> = [];
+
+    for (const source of sources) {
+      const thumbnail = getPresentableSourceImage(source.thumbnail);
+
+      // If electron can't retrieve a thumbnail then it won't be able to
+      // present this source so we filter these out.
+      if (thumbnail == null) {
+        continue;
+      }
+
+      const presentableSource: PresentableSource = {
+        appIcon: getPresentableSourceImage(source.appIcon),
+        id: source.id,
+        name: this.#translateSourceName(source),
+        isScreen: isScreenSource(source),
+        thumbnail,
+      };
+
+      presentableSources.push(presentableSource);
+    }
 
     const { promise } = this.#state;
 
@@ -385,4 +393,18 @@ export function isNativeMacScreenShareSupported(): boolean {
   // until requested by user.
   // oxlint-disable-next-line global-require, typescript/no-var-requires
   return require('@indutny/mac-screen-share').isSupported;
+}
+
+function getPresentableSourceImage(
+  image: NativeImage | null
+): PresentableSourceImage | null {
+  if (image == null || image.isEmpty()) {
+    return null;
+  }
+  const size = image.getSize();
+  return {
+    src: image.toDataURL(),
+    width: Uint16.fromNumber(size.width),
+    height: Uint16.fromNumber(size.height),
+  };
 }
