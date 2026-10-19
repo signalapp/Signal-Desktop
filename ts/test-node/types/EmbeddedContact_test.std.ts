@@ -500,7 +500,7 @@ describe('Contact', () => {
         ],
       };
       const expected =
-        "Message the-message-id: Contact had neither 'displayName' nor 'organization'";
+        "Message the-message-id: Contact had neither 'name' nor 'organization'";
 
       const result = _validate(contact, { messageId });
       assert.deepEqual(result?.message, expected);

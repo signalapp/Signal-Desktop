@@ -3763,10 +3763,22 @@ EmbeddedContactGivenName.args = {
   canForward: false,
 };
 
-export const EmbeddedContactOrganization = Template.bind({});
-EmbeddedContactOrganization.args = {
+export const EmbeddedContactOrganizationOnly = Template.bind({});
+EmbeddedContactOrganizationOnly.args = {
   contact: {
     ...emptyContact,
+    organization: 'Company 5',
+  },
+  canForward: false,
+};
+
+export const EmbeddedContactNameAndOrganization = Template.bind({});
+EmbeddedContactNameAndOrganization.args = {
+  contact: {
+    ...emptyContact,
+    name: {
+      givenName: 'Jerry',
+    },
     organization: 'Company 5',
   },
   canForward: false,

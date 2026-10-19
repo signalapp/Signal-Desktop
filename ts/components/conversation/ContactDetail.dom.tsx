@@ -10,6 +10,7 @@ import {
   ContactFormType,
   getDisplayName,
   getDisplayNickname,
+  getFullName,
 } from '../../types/EmbeddedContact.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { canMessageSharedContact } from '../../util/sharedContact.std.ts';
@@ -182,7 +183,7 @@ export function ContactDetail({
         <div className={tw('mt-3 type-title-large text-primary select-text')}>
           {name}
         </div>
-        {Boolean(contact.organization) && (
+        {Boolean(getFullName(contact) && contact.organization) && (
           <div
             className={tw('mt-1 type-body-large text-secondary select-text')}
           >
