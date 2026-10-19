@@ -38,6 +38,7 @@ if (process.env.NODE_ENV === Environment.Test) {
 if (getEnvironment() === Environment.PackagedApp) {
   // harden production config against the local env
   process.env.NODE_CONFIG = '';
+  process.env.NODE_CONFIG_ENV = '';
   process.env.NODE_CONFIG_STRICT_MODE = '';
   process.env.HOSTNAME = '';
   process.env.NODE_APP_INSTANCE = '';
@@ -69,6 +70,7 @@ if (getEnvironment() !== Environment.PackagedApp) {
 // Log resulting env vars in use by config
 [
   'NODE_ENV',
+  'NODE_CONFIG_ENV',
   'NODE_CONFIG_DIR',
   'NODE_CONFIG',
   'ALLOW_CONFIG_MUTATIONS',
