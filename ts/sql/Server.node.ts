@@ -740,6 +740,7 @@ export const DataWriter: ServerWritableInterface = {
   resetBackupAttachmentDownloadStats,
 
   getAndProtectExistingAttachmentPath,
+  releaseAttachmentPathProtections,
   _protectAttachmentPathFromDeletion,
   resetProtectedAttachmentPaths,
 
@@ -2871,6 +2872,7 @@ function saveMessageAttachment({
     key: attachment.key,
     fileName: attachment.fileName,
     downloadPath: attachment.downloadPath,
+    transcodingTargetQuality: attachment.transcodingTargetQuality,
     transitCdnKey: attachment.cdnKey ?? attachment.cdnId,
     transitCdnNumber: attachment.cdnNumber,
     transitCdnUploadTimestamp: attachment.uploadTimestamp,

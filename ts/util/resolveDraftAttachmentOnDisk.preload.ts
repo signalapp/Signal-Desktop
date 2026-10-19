@@ -51,6 +51,7 @@ export function resolveDraftAttachmentOnDisk(
     version,
     localKey,
     audioWaveform,
+    transcodingTargetQuality,
     duration,
   } = attachment;
 
@@ -70,6 +71,7 @@ export function resolveDraftAttachmentOnDisk(
     pending: false,
     url,
     audioWaveform,
+    transcodingTargetQuality,
     duration,
   };
 }

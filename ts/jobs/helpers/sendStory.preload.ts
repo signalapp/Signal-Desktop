@@ -32,10 +32,7 @@ import {
   getSendOptions,
   getSendOptionsForRecipients,
 } from '../../util/getSendOptions.preload.ts';
-import {
-  loadPreviewData,
-  loadAttachmentData,
-} from '../../util/migrations.preload.ts';
+import { loadPreviewData } from '../../util/migrations.preload.ts';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.dom.ts';
@@ -43,6 +40,7 @@ import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';
 import { challengeHandler } from '../../services/challengeHandler.preload.ts';
 import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.ts';
 import { distributionListToSendTarget } from '../../util/distributionListToSendTarget.preload.ts';
+import { transcodeAttachment } from '../../util/transcodeAttachment.preload.ts';
 import { uploadAttachment } from '../../util/uploadAttachment.preload.ts';
 import { SendMessageChallengeError } from '../../textsecure/Errors.std.ts';
 import type { OutgoingTextAttachmentType } from '../../textsecure/SendMessage.preload.ts';
@@ -183,9 +181,14 @@ export async function sendStory(
         };
       }
     } else {
-      const hydratedAttachment = await loadAttachmentData(attachment);
+      const transcoded = await transcodeAttachment({
+        log,
+        attachment,
+        message: originalMessage,
+        targetTimestamp: timestamp,
+      });
 
-      fileAttachment = await uploadAttachment(hydratedAttachment);
+      fileAttachment = await uploadAttachment(transcoded.withData);
     }
 
     const groupV2 = isGroupV2(conversation.attributes)

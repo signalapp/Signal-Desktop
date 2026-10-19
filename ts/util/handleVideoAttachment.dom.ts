@@ -2,19 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { blobToArrayBuffer } from 'blob-util';
-import { sanitize } from '@signalapp/libsignal-client/dist/Mp4Sanitizer.js';
 import { v4 as generateUuid } from 'uuid';
 
 import { makeVideoScreenshot } from '../types/VisualAttachment.dom.ts';
 import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.std.ts';
-import { toLogFormat } from '../types/errors.std.ts';
 import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
-import { createLogger } from '../logging/log.std.ts';
-import { MemoryStream } from './MemoryStream.node.ts';
+import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import { fileToBytes } from './fileToBytes.std.ts';
-import { DurationInSeconds } from './/durations/index.std.ts';
-
-const log = createLogger('handleVideoAttachment');
+import { DurationInSeconds } from './durations/index.std.ts';
 
 export async function handleVideoAttachment(
   file: File,
@@ -28,33 +23,7 @@ export async function handleVideoAttachment(
     throw new Error('Failed to create object url for video!');
   }
   try {
-    let data = await fileToBytes(file);
-
-    if (file.type === 'video/mp4') {
-      try {
-        const result = await sanitize(
-          new MemoryStream(data),
-          BigInt(data.byteLength)
-        );
-        const metadata = result.getMetadata();
-
-        // If there is no metadata - mp4 is already in the fast state!
-        if (metadata != null) {
-          const dataLen = Number(result.getDataLen());
-          const dataOffset = Number(result.getDataOffset());
-          const sanitized = new Uint8Array(dataLen + metadata.byteLength);
-          sanitized.set(metadata, 0);
-          sanitized.set(
-            data.subarray(dataOffset, dataOffset + dataLen),
-            metadata.byteLength
-          );
-
-          data = sanitized;
-        }
-      } catch (error) {
-        log.warn(`Failed to mp4san video ${toLogFormat(error)}`);
-      }
-    }
+    const data = await fileToBytes(file);
 
     const attachment: InMemoryAttachmentDraftType = {
       contentType: stringToMIMEType(file.type),
@@ -65,6 +34,7 @@ export async function handleVideoAttachment(
       path: file.name,
       pending: false,
       size: data.byteLength,
+      transcodingTargetQuality: TranscodingTargetQuality.High,
     };
 
     if (options.generateScreenshot) {

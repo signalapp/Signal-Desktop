@@ -19,6 +19,7 @@ import { getSendOptions } from '../../util/getSendOptions.preload.ts';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
 import { findAndFormatContact } from '../../util/findAndFormatContact.preload.ts';
 import { uploadAttachment } from '../../util/uploadAttachment.preload.ts';
+import { transcodeAttachment } from '../../util/transcodeAttachment.preload.ts';
 import {
   loadAttachmentData,
   loadQuoteData,
@@ -60,6 +61,7 @@ import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { normalizeAci } from '../../util/normalizeAci.std.ts';
 import {
+  updateAttachment,
   getPropForTimestamp,
   getTargetOfThisEditTimestamp,
   getChangesForPropAtTimestamp,
@@ -768,44 +770,28 @@ async function uploadSingleAttachment({
   message: MessageModel;
   targetTimestamp: number;
 }): Promise<UploadedAttachmentType> {
-  const withData = await loadAttachmentData(attachment);
-  const uploaded = await uploadAttachment(withData);
+  const logId = `uploadSingleAttachment(${getMessageIdForLogging(message.attributes)}`;
+
+  const transcoded = await transcodeAttachment({
+    log: log.child(logId),
+    message,
+    attachment,
+    targetTimestamp,
+  });
+
+  const uploaded = await uploadAttachment(transcoded.withData);
 
   // Add digest to the attachment
-  const logId = `uploadSingleAttachment(${getMessageIdForLogging(message.attributes)}`;
-  const oldAttachments = getPropForTimestamp({
-    log,
+  const { messageUpdate } = updateAttachment({
+    log: log.child(logId),
     message: message.attributes,
-    prop: 'attachments',
     targetTimestamp,
+    oldAttachment: transcoded.attachment,
+    attachmentUpdate: copyCdnFields(uploaded),
   });
-  strictAssert(
-    oldAttachments !== undefined,
-    `${logId}: Attachment was uploaded, but message doesn't ` +
-      'have attachments anymore'
-  );
 
-  const index = oldAttachments.indexOf(attachment);
-  strictAssert(
-    index !== -1,
-    `${logId}: Attachment was uploaded, but isn't in the message anymore`
-  );
-
-  const newAttachments = [...oldAttachments];
-  newAttachments[index] = {
-    ...newAttachments[index],
-    ...copyCdnFields(uploaded),
-  };
-
-  const attributesToUpdate = getChangesForPropAtTimestamp({
-    log,
-    message: message.attributes,
-    prop: 'attachments',
-    targetTimestamp,
-    value: newAttachments,
-  });
-  if (attributesToUpdate) {
-    message.set(attributesToUpdate);
+  if (messageUpdate) {
+    message.set(messageUpdate);
   }
 
   return uploaded;

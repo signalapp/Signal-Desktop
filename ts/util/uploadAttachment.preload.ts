@@ -46,7 +46,7 @@ import {
 } from '../types/Crypto.std.ts';
 import type { ExistingAttachmentUploadData } from '../sql/Interface.std.ts';
 import { maybeRefreshRemoteConfig } from '../RemoteConfig.dom.ts';
-import { assertDev } from './assert.std.ts';
+import { strictAssert, assertDev } from './assert.std.ts';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
@@ -56,6 +56,11 @@ const log = createLogger('uploadAttachment');
 export async function uploadAttachment(
   attachment: AttachmentWithHydratedData
 ): Promise<UploadedAttachmentType> {
+  strictAssert(
+    attachment.transcodingTargetQuality == null,
+    'Attachment needs transcoding'
+  );
+
   let keys: Uint8Array<ArrayBuffer>;
   let cdnKey: string;
   let cdnNumber: number;

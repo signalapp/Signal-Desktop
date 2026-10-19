@@ -10,6 +10,7 @@ import type {
 } from './Util.std.ts';
 import type { SignalService as Proto } from '../protobuf/index.std.ts';
 import type { DurationInSeconds } from '../util/durations/index.std.ts';
+import type { TranscodingTargetQuality } from './transcoding.std.ts';
 
 export type ThumbnailType = EphemeralAttachmentFields & {
   size: number;
@@ -97,6 +98,8 @@ export type AttachmentType = EphemeralAttachmentFields & {
   chunkSize?: number;
   backupCdnNumber?: number;
   localBackupPath?: string;
+
+  transcodingTargetQuality?: TranscodingTargetQuality;
 
   audioWaveform?: ReadonlyArray<number>;
 
@@ -200,6 +203,7 @@ export type InMemoryAttachmentDraftType =
       fileName?: string;
       path?: string;
       audioWaveform?: ReadonlyArray<number>;
+      transcodingTargetQuality?: TranscodingTargetQuality;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIMEType;
@@ -231,6 +235,7 @@ export type AttachmentDraftType =
       version?: 2;
       localKey?: string;
       audioWaveform?: ReadonlyArray<number>;
+      transcodingTargetQuality?: TranscodingTargetQuality;
       duration?: DurationInSeconds;
     } & BaseAttachmentDraftType)
   | {

@@ -363,6 +363,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
     transitCdnKey: cdnKey,
     transitCdnNumber: cdnNumber,
     transitCdnUploadTimestamp: uploadTimestamp,
+    transcodingTargetQuality,
     error,
     pending,
     wasTooBig,
@@ -449,6 +450,7 @@ export function convertAttachmentDBFieldsToAttachmentType(
       : {}),
     audioWaveform:
       audioWaveform == null ? undefined : Array.from(audioWaveform),
+    transcodingTargetQuality: transcodingTargetQuality ?? undefined,
   };
 
   return result;
