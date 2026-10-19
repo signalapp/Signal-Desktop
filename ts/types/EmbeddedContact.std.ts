@@ -158,11 +158,17 @@ export function numberToAddressType(
   return DEFAULT_ADDRESS_TYPE;
 }
 
-export function getDisplayName(
+export function getFullName(
   contact: ReadonlyDeep<EmbeddedContactType>
 ): string | undefined {
   const { name } = contact;
   return combineNames(name?.givenName, name?.familyName);
+}
+
+export function getDisplayName(
+  contact: ReadonlyDeep<EmbeddedContactType>
+): string | undefined {
+  return getFullName(contact) || contact.organization || undefined;
 }
 
 export function getDisplayNickname(
@@ -262,11 +268,9 @@ export function _validate(
   contact: EmbeddedContactType,
   { messageId }: { messageId: string }
 ): Error | undefined {
-  const { organization } = contact;
-
-  if (!getDisplayName(contact) && !organization) {
+  if (!getDisplayName(contact)) {
     return new Error(
-      `Message ${messageId}: Contact had neither 'displayName' nor 'organization'`
+      `Message ${messageId}: Contact had neither 'name' nor 'organization'`
     );
   }
 

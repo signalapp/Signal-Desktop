@@ -301,7 +301,7 @@ export function GivenName(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function Organization(): JSX.Element {
+export function OrganizationOnly(): JSX.Element {
   const props = createProps({
     contact: {
       ...emptyContact,
@@ -335,6 +335,22 @@ export function FamilyName(): JSX.Element {
       name: {
         familyName: 'FamilyName',
       },
+    },
+    hasSignalAccount: true,
+  });
+
+  return <ContactDetail {...props} />;
+}
+export function NameAndOrganization(): JSX.Element {
+  const props = createProps({
+    contact: {
+      ...emptyContact,
+      ...emptyContact,
+      name: {
+        givenName: 'Jerry',
+        familyName: 'FamilyName',
+      },
+      organization: 'Organization',
     },
     hasSignalAccount: true,
   });
