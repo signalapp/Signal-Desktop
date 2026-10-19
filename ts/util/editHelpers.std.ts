@@ -12,6 +12,7 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
 import type { LoggerType } from '../types/Logging.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const { isNumber, sortBy } = lodash;
 
@@ -146,4 +147,57 @@ export function getChangesForPropAtTimestamp<T extends keyof EditHistoryType>({
   }
 
   return partialProps;
+}
+
+export function updateAttachment({
+  log,
+  message,
+  targetTimestamp,
+  oldAttachment,
+  attachmentUpdate,
+}: {
+  log: LoggerType;
+  message: ReadonlyMessageAttributesType;
+  targetTimestamp: number;
+  oldAttachment: AttachmentType;
+  attachmentUpdate: Partial<AttachmentType>;
+}): {
+  messageUpdate: Partial<MessageAttributesType> | undefined;
+  newAttachment: AttachmentType;
+} {
+  // Add digest to the attachment
+  const oldAttachments = getPropForTimestamp({
+    log,
+    message,
+    prop: 'attachments',
+    targetTimestamp,
+  });
+  strictAssert(
+    oldAttachments !== undefined,
+    `Message ${targetTimestamp} does not have attachments anymore`
+  );
+
+  const index = oldAttachments.indexOf(oldAttachment);
+  strictAssert(
+    index !== -1,
+    `Message ${targetTimestamp} does not have ` +
+      `old attachment ${oldAttachment.clientUuid} anymore`
+  );
+
+  const newAttachments = [...oldAttachments];
+  const newAttachment = {
+    ...newAttachments[index],
+    ...attachmentUpdate,
+  };
+  newAttachments[index] = newAttachment;
+
+  const messageUpdate = getChangesForPropAtTimestamp({
+    log,
+    message,
+    prop: 'attachments',
+    targetTimestamp,
+    value: newAttachments,
+  });
+
+  return { messageUpdate, newAttachment };
 }

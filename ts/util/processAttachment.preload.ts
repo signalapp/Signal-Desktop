@@ -14,7 +14,7 @@ import * as Errors from '../types/errors.std.ts';
 import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
 import { fileToBytes } from './fileToBytes.std.ts';
 import { handleImageAttachment } from './handleImageAttachment.preload.ts';
-import { handleVideoAttachment } from './handleVideoAttachment.preload.ts';
+import { handleVideoAttachment } from './handleVideoAttachment.dom.ts';
 import { isHeic, stringToMIMEType } from '../types/MIME.std.ts';
 import {
   isImageTypeSupported,

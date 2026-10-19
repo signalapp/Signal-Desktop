@@ -1092,6 +1092,7 @@ CREATE TABLE message_attachments (
   isViewOnce INTEGER,
   duration REAL,
   audioWaveform BLOB,
+  transcodingTargetQuality INTEGER,
   PRIMARY KEY (
     messageId,
     editHistoryIndex,

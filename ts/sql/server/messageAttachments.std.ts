@@ -72,6 +72,7 @@ export const permissiveMessageAttachmentSchema = z.object({
   key: permissiveStringOrNull,
   fileName: permissiveStringOrNull,
   downloadPath: permissiveStringOrNull,
+  transcodingTargetQuality: permissiveNumberOrNull,
   transitCdnKey: permissiveStringOrNull,
   transitCdnNumber: permissiveNumberOrNull,
   transitCdnUploadTimestamp: permissiveNumberOrNull,

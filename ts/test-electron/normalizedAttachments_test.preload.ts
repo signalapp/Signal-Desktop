@@ -18,6 +18,7 @@ import {
   IMAGE_PNG,
   LONG_MESSAGE,
 } from '../types/MIME.std.ts';
+import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../MessageSeenStatus.std.ts';
@@ -131,6 +132,7 @@ function composeAttachment(
     thumbnail: composeThumbnail(index),
     screenshot: composeScreenshot(index),
     thumbnailFromBackup: composeBackupThumbnail(index),
+    transcodingTargetQuality: TranscodingTargetQuality.High,
     audioWaveform: [1, 2, 3],
     duration: DurationInSeconds.fromSeconds(123),
     ...overrides,

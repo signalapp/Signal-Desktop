@@ -757,6 +757,7 @@ export const MESSAGE_ATTACHMENT_COLUMNS = [
   'thumbnailContentType',
   'thumbnailLocalKey',
   'thumbnailVersion',
+  'transcodingTargetQuality',
   'screenshotPath',
   'screenshotSize',
   'screenshotContentType',
@@ -813,6 +814,7 @@ export type MessageAttachmentDBType = {
   transitCdnNumber: number | null;
   transitCdnUploadTimestamp: number | null;
   backupCdnNumber: number | null;
+  transcodingTargetQuality: number | null;
   thumbnailPath: string | null;
   thumbnailSize: number | null;
   thumbnailContentType: string | null;
@@ -1553,6 +1555,7 @@ type WritableInterface = {
     version: number;
     contentType: MIMEType;
   }) => (ExistingAttachmentData & { reuseToken: string }) | undefined;
+  releaseAttachmentPathProtections: (attachment: AttachmentType) => void;
   _protectAttachmentPathFromDeletion: ({ path }: { path: string }) => string;
   resetProtectedAttachmentPaths: () => void;
 

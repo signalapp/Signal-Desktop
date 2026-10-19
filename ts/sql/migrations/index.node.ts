@@ -160,6 +160,7 @@ import updateToSchemaVersion1800 from './1800-deleted-fields-for-defunct-call-li
 import updateToSchemaVersion1810 from './1810-sync-conversation-group-id.std.ts';
 import updateToSchemaVersion1820 from './1820-persist-waveform.std.ts';
 import updateToSchemaVersion1830 from './1830-fix-salt-storage.node.ts';
+import updateToSchemaVersion1840 from './1840-transcoding.std.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1685,6 +1686,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1810, update: updateToSchemaVersion1810 },
   { version: 1820, update: updateToSchemaVersion1820 },
   { version: 1830, update: updateToSchemaVersion1830 },
+  { version: 1840, update: updateToSchemaVersion1840 },
 ];
 
 class DBVersionFromFutureError extends Error {
