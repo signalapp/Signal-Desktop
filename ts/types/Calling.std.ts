@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { AudioDevice } from '@signalapp/ringrtc';
+import type {
+  AudioDevice,
+  AudioDeviceList,
+  NonWindowsDefaultAudioDevice,
+  WindowsDefaultAudioDevices,
+} from '@signalapp/ringrtc';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { AciString, ServiceIdString } from './ServiceId.std.ts';
 import type { CallLinkConversationType } from './CallLink.std.ts';
@@ -207,20 +212,20 @@ export enum CallingDeviceType {
 
 export type AvailableIODevicesType = {
   availableCameras: Array<MediaDeviceInfo>;
-  availableMicrophones: Array<AudioDevice>;
-  availableSpeakers: Array<AudioDevice>;
+  availableMicrophones: AudioDeviceList;
+  availableSpeakers: AudioDeviceList;
 };
 
 export type MediaDeviceSettings = AvailableIODevicesType & {
-  selectedMicrophone: AudioDevice | undefined;
-  selectedSpeaker: AudioDevice | undefined;
+  selectedMicrophone: AudioDevicePref;
+  selectedSpeaker: AudioDevicePref;
   selectedCamera: string | undefined;
 };
 
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
-  | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
-  | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+  | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevicePref }
+  | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevicePref };
 
 export type CallingConversationType =
   | ConversationType
@@ -247,3 +252,69 @@ export type IceServerCacheType = {
 export type RemoveClientType = ReadonlyDeep<{
   demuxId: number;
 }>;
+
+export type AudioDevicePref = DefaultPref | SpecificDevicePref;
+
+export type DefaultPref = {
+  type: 'nonWindowsDefault' | 'windowsConsole' | 'windowsCommunications';
+};
+
+// Wrap this to prevent type confusion (e.g. returning an AudioDevice to
+// something that wants an AudioDevicePref)
+export type SpecificDevicePref = {
+  type: 'specificDevice';
+  device: AudioDevice;
+};
+
+export function audioDevicePrefToId(pref: AudioDevicePref): string {
+  if (pref.type === 'specificDevice') {
+    return pref.device.uniqueId;
+  }
+  return pref.type;
+}
+
+export function audioDevicePrefStrToAudioDevicePref(
+  pref: string,
+  availableDevices: AudioDeviceList
+): AudioDevicePref | undefined {
+  if (
+    pref === 'nonWindowsDefault' ||
+    pref === 'windowsConsole' ||
+    pref === 'windowsCommunications'
+  ) {
+    return { type: pref };
+  }
+  const device = availableDevices.devices.find(d => d.uniqueId === pref);
+  if (!device) {
+    return device;
+  }
+  return { type: 'specificDevice', device };
+}
+
+export function getEmptyAudioDeviceList(isWindows: boolean): AudioDeviceList {
+  let defaults: WindowsDefaultAudioDevices | NonWindowsDefaultAudioDevice;
+  if (isWindows) {
+    defaults = {
+      isWindows: true,
+      communicationsDevice: undefined,
+      consoleDevice: undefined,
+    };
+  } else {
+    defaults = {
+      isWindows: false,
+      device: undefined,
+    };
+  }
+
+  return {
+    devices: [],
+    defaults,
+  };
+}
+
+export function getDefaultAudioPreference(isWindows: boolean): AudioDevicePref {
+  if (isWindows) {
+    return { type: 'windowsCommunications' };
+  }
+  return { type: 'nonWindowsDefault' };
+}

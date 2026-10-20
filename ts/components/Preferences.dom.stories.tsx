@@ -70,6 +70,7 @@ import type { ExternalProps as SmartNotificationProfilesProps } from '../state/s
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
 import type { ExportResultType } from '../services/backups/types.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
+import type { AudioDeviceList } from '@signalapp/ringrtc';
 
 const { shuffle } = lodash;
 
@@ -99,33 +100,39 @@ function conversationSelector(conversationId?: string) {
   return found;
 }
 
-const availableMicrophones = [
-  {
-    name: 'DefAuLt (Headphones)',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
+const availableMicrophones: AudioDeviceList = {
+  devices: [
+    {
+      name: 'DefAuLt (Headphones)',
+      uniqueId: 'Default',
+    },
+  ],
+  defaults: {
+    isWindows: false,
+    device: { name: 'Monitor of UE Boom (Bluetooth)', uniqueId: 'bb.monitor' },
   },
-];
+};
 
-const availableSpeakers = [
-  {
-    name: 'Default',
-    index: 0,
-    uniqueId: 'Default',
-    i18nKey: 'default_communication_device',
+const availableSpeakers: AudioDeviceList = {
+  devices: [
+    {
+      name: 'Default',
+      uniqueId: 'Default',
+    },
+    {
+      name: "Natalie's Airpods (Bluetooth)",
+      uniqueId: 'aa',
+    },
+    {
+      name: 'UE Boom (Bluetooth)',
+      uniqueId: 'bb',
+    },
+  ],
+  defaults: {
+    isWindows: false,
+    device: { name: 'Default', uniqueId: 'Default' },
   },
-  {
-    name: "Natalie's Airpods (Bluetooth)",
-    index: 1,
-    uniqueId: 'aa',
-  },
-  {
-    name: 'UE Boom (Bluetooth)',
-    index: 2,
-    uniqueId: 'bb',
-  },
-];
+};
 
 const validateBackupResult: ExportResultType = {
   attachmentBackupJobs: [],
@@ -551,8 +558,12 @@ export default {
     resolvedLocale: 'en',
     selectedCamera:
       'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
-    selectedMicrophone: availableMicrophones[0],
-    selectedSpeaker: availableSpeakers[1],
+    selectedMicrophone: { type: 'nonWindowsDefault' },
+    selectedSpeaker: {
+      type: 'specificDevice',
+      // oxlint-disable-next-line typescript/no-non-null-assertion
+      device: availableSpeakers.devices[1]!,
+    },
     sentMediaQualitySetting: 'standard',
     shouldShowUpdateDialog: false,
     themeSetting: 'system',

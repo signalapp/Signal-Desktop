@@ -3,98 +3,113 @@
 
 import { assert } from 'chai';
 
-import { findBestMatchingAudioDeviceIndex } from '../../calling/findBestMatchingDevice.std.ts';
+import { findBestMatchingAudioDevice } from '../../calling/findBestMatchingDevice.std.ts';
+import { getEmptyAudioDeviceList } from '../../types/Calling.std.ts';
+import type { AudioDevicePref } from '../../types/Calling.std.ts';
 
 describe('"find best matching device" helpers', () => {
   describe('findBestMatchingAudioDeviceIndex', () => {
     const itReturnsUndefinedIfNoDevicesAreAvailable = () => {
       it('returns undefined if no devices are available', () => {
-        [
-          undefined,
-          { name: 'Big Microphone', index: 1, uniqueId: 'abc123' },
-        ].forEach(preferred => {
+        const prefs: Array<AudioDevicePref> = [
+          {
+            type: 'specificDevice',
+            device: { name: 'Big Microphone', uniqueId: 'abc123' },
+          },
+        ];
+        prefs.forEach(preferred => {
           assert.isUndefined(
-            findBestMatchingAudioDeviceIndex(
-              {
-                available: [],
-                preferred,
-              },
-              false
-            )
+            findBestMatchingAudioDevice({
+              available: getEmptyAudioDeviceList(false),
+              preferred,
+            })
           );
         });
       });
     };
 
-    const itReturnsTheFirstAvailableDeviceIfNoneIsPreferred = () => {
-      it('returns the first available device if none is preferred', () => {
-        assert.strictEqual(
-          findBestMatchingAudioDeviceIndex(
-            {
-              available: [
-                { name: 'A', index: 123, uniqueId: 'device-A' },
-                { name: 'B', index: 456, uniqueId: 'device-B' },
-                { name: 'C', index: 789, uniqueId: 'device-C' },
-              ],
-              preferred: undefined,
-            },
-            false
-          ),
-          0
-        );
-      });
-    };
-
     const testUniqueIdMatch = () => {
-      assert.strictEqual(
-        findBestMatchingAudioDeviceIndex(
-          {
-            available: [
-              { name: 'A', index: 123, uniqueId: 'device-A' },
-              { name: 'B', index: 456, uniqueId: 'device-B' },
-              { name: 'C', index: 789, uniqueId: 'device-C' },
+      assert.deepEqual(
+        findBestMatchingAudioDevice({
+          available: {
+            devices: [
+              { name: 'A', uniqueId: 'device-A' },
+              { name: 'B', uniqueId: 'device-B' },
+              { name: 'C', uniqueId: 'device-C' },
             ],
-            preferred: { name: 'Ignored', index: 99, uniqueId: 'device-C' },
+            defaults: { isWindows: false, device: undefined },
           },
-          false
-        ),
-        2
+          preferred: {
+            type: 'specificDevice',
+            device: { name: 'Ignored', uniqueId: 'device-C' },
+          },
+        }),
+        { name: 'C', uniqueId: 'device-C' }
       );
     };
 
     const testNameMatch = () => {
-      assert.strictEqual(
-        findBestMatchingAudioDeviceIndex(
-          {
-            available: [
-              { name: 'A', index: 123, uniqueId: 'device-A' },
-              { name: 'B', index: 456, uniqueId: 'device-B' },
-              { name: 'C', index: 789, uniqueId: 'device-C' },
+      assert.deepEqual(
+        findBestMatchingAudioDevice({
+          available: {
+            devices: [
+              { name: 'A', uniqueId: 'device-A' },
+              { name: 'B', uniqueId: 'device-B' },
+              { name: 'C', uniqueId: 'device-C' },
             ],
-            preferred: { name: 'C', index: 99, uniqueId: 'ignored' },
+            defaults: { isWindows: false, device: undefined },
           },
-          false
-        ),
-        2
+          preferred: {
+            type: 'specificDevice',
+            device: { name: 'C', uniqueId: 'Ignored' },
+          },
+        }),
+        { name: 'C', uniqueId: 'device-C' }
       );
     };
 
     const itReturnsTheFirstAvailableDeviceIfThePreferredDeviceIsNotFound =
       () => {
-        it('returns the first available device if the preferred device is not found', () => {
-          assert.strictEqual(
-            findBestMatchingAudioDeviceIndex(
-              {
-                available: [
-                  { name: 'A', index: 123, uniqueId: 'device-A' },
-                  { name: 'B', index: 456, uniqueId: 'device-B' },
-                  { name: 'C', index: 789, uniqueId: 'device-C' },
-                ],
-                preferred: { name: 'X', index: 123, uniqueId: 'Y' },
+        const list = [
+          { name: 'A', uniqueId: 'device-A' },
+          { name: 'B', uniqueId: 'device-B' },
+          { name: 'C', uniqueId: 'device-C' },
+        ];
+        it('returns the system default device if the preferred device is not found', () => {
+          assert.deepEqual(
+            findBestMatchingAudioDevice({
+              available: {
+                devices: list,
+                defaults: {
+                  isWindows: false,
+                  device: { name: 'B', uniqueId: 'device-B' },
+                },
               },
-              false
-            ),
-            0
+              preferred: {
+                type: 'specificDevice',
+                device: { name: 'X', uniqueId: 'Y' },
+              },
+            }),
+            list[1]
+          );
+        });
+        it('returns the default communications device if the preferred device is not found for windows', () => {
+          assert.deepEqual(
+            findBestMatchingAudioDevice({
+              available: {
+                devices: list,
+                defaults: {
+                  isWindows: true,
+                  communicationsDevice: { name: 'B', uniqueId: 'device-B' },
+                  consoleDevice: { name: 'C', uniqueId: 'device-C' },
+                },
+              },
+              preferred: {
+                type: 'specificDevice',
+                device: { name: 'X', uniqueId: 'Y' },
+              },
+            }),
+            list[1]
           );
         });
       };
@@ -102,67 +117,64 @@ describe('"find best matching device" helpers', () => {
     describe('find best matching device', () => {
       itReturnsUndefinedIfNoDevicesAreAvailable();
 
-      itReturnsTheFirstAvailableDeviceIfNoneIsPreferred();
-
-      it('returns 0 if that was the previous preferred index (and a device is available)', () => {
-        assert.strictEqual(
-          findBestMatchingAudioDeviceIndex(
-            {
-              available: [
-                { name: 'A', index: 123, uniqueId: 'device-A' },
-                { name: 'B', index: 456, uniqueId: 'device-B' },
-                { name: 'C', index: 789, uniqueId: 'device-C' },
+      it('returns default if that was the previous preference (and a device is available)', () => {
+        assert.deepEqual(
+          findBestMatchingAudioDevice({
+            // Note that the default isn't necessarily in the available.devices list!
+            available: {
+              devices: [
+                { name: 'A', uniqueId: 'device-A' },
+                { name: 'B', uniqueId: 'device-B' },
+                { name: 'C', uniqueId: 'device-C' },
               ],
-              preferred: { name: 'C', index: 0, uniqueId: 'device-C' },
+              defaults: {
+                isWindows: false,
+                device: { name: 'D', uniqueId: 'device-D' },
+              },
             },
-            false
-          ),
-          0
+            preferred: { type: 'nonWindowsDefault' },
+          }),
+          { name: 'D', uniqueId: 'device-D' }
         );
       });
-      it('(windows) returns 1 if that was the previous preferred index (and a device is available)', () => {
-        assert.strictEqual(
-          findBestMatchingAudioDeviceIndex(
-            {
-              available: [
-                { name: 'A', index: 123, uniqueId: 'device-A' },
-                { name: 'B', index: 456, uniqueId: 'device-B' },
-                { name: 'C', index: 789, uniqueId: 'device-C' },
+      it('returns communications default if that was the previous preference (and a device is available)', () => {
+        assert.deepEqual(
+          findBestMatchingAudioDevice({
+            available: {
+              devices: [
+                { name: 'A', uniqueId: 'device-A' },
+                { name: 'B', uniqueId: 'device-B' },
+                { name: 'C', uniqueId: 'device-C' },
               ],
-              preferred: { name: 'C', index: 1, uniqueId: 'device-C' },
+              defaults: {
+                isWindows: true,
+                communicationsDevice: { name: 'A', uniqueId: 'device-A' },
+                consoleDevice: { name: 'B', uniqueId: 'device-B' },
+              },
             },
-            true
-          ),
-          1
+            preferred: { type: 'windowsCommunications' },
+          }),
+          { name: 'A', uniqueId: 'device-A' }
         );
       });
-      it('(non-windows) returns 2 if the preferred device was at index 1 and is now at index 2', () => {
-        assert.strictEqual(
-          findBestMatchingAudioDeviceIndex(
-            {
-              available: [
-                { name: 'A', index: 123, uniqueId: 'device-A' },
-                { name: 'B', index: 456, uniqueId: 'device-B' },
-                { name: 'C', index: 789, uniqueId: 'device-C' },
+      it('returns console default if that was the previous preference (and a device is available)', () => {
+        assert.deepEqual(
+          findBestMatchingAudioDevice({
+            available: {
+              devices: [
+                { name: 'A', uniqueId: 'device-A' },
+                { name: 'B', uniqueId: 'device-B' },
+                { name: 'C', uniqueId: 'device-C' },
               ],
-              preferred: { name: 'C', index: 1, uniqueId: 'device-C' },
+              defaults: {
+                isWindows: true,
+                communicationsDevice: { name: 'A', uniqueId: 'device-A' },
+                consoleDevice: { name: 'B', uniqueId: 'device-B' },
+              },
             },
-            false
-          ),
-          2
-        );
-      });
-
-      it("returns 0 if the previous preferred index was 1 but there's only 1 audio device", () => {
-        assert.strictEqual(
-          findBestMatchingAudioDeviceIndex(
-            {
-              available: [{ name: 'A', index: 123, uniqueId: 'device-A' }],
-              preferred: { name: 'C', index: 1, uniqueId: 'device-C' },
-            },
-            false
-          ),
-          0
+            preferred: { type: 'windowsConsole' },
+          }),
+          { name: 'B', uniqueId: 'device-B' }
         );
       });
 

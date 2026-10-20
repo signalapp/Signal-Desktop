@@ -1,7 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AudioDevice } from '@signalapp/ringrtc';
 import {
   useCallback,
   useEffect,
@@ -48,7 +47,14 @@ import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
-import type { MediaDeviceSettings } from '../types/Calling.std.ts';
+import {
+  audioDevicePrefToId,
+  audioDevicePrefStrToAudioDevicePref,
+} from '../types/Calling.std.ts';
+import type {
+  MediaDeviceSettings,
+  AudioDevicePref,
+} from '../types/Calling.std.ts';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
   AutoDownloadAttachmentType,
@@ -118,6 +124,7 @@ import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
 import { AxoTokens } from '../axo/AxoTokens.std.ts';
+import { renderAudioOptions } from './CallingDeviceSelection.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
@@ -190,8 +197,8 @@ export type PropsDataType = {
   osName: 'linux' | 'macos' | 'windows' | undefined;
   phoneNumber: string | undefined;
   selectedCamera?: string;
-  selectedMicrophone?: AudioDevice;
-  selectedSpeaker?: AudioDevice;
+  selectedMicrophone: AudioDevicePref;
+  selectedSpeaker: AudioDevicePref;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -380,8 +387,8 @@ type PropsFunctionType = {
   onResetNotificationSettings: () => unknown;
   onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
-  onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
-  onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevicePref>;
+  onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevicePref>;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
@@ -759,10 +766,14 @@ export function Preferences({
 
   const onAudioInputSelectChange = useCallback(
     (value: string) => {
-      if (value === '') {
-        onSelectedMicrophoneChange(undefined);
-      } else {
-        onSelectedMicrophoneChange(availableMicrophones[parseInt(value, 10)]);
+      if (value !== '' && value !== 'emptyAudioDeviceList') {
+        const pref = audioDevicePrefStrToAudioDevicePref(
+          value,
+          availableMicrophones
+        );
+        if (pref) {
+          onSelectedMicrophoneChange(pref);
+        }
       }
     },
     [onSelectedMicrophoneChange, availableMicrophones]
@@ -804,10 +815,14 @@ export function Preferences({
 
   const onAudioOutputSelectChange = useCallback(
     (value: string) => {
-      if (value === '') {
-        onSelectedSpeakerChange(undefined);
-      } else {
-        onSelectedSpeakerChange(availableSpeakers[parseInt(value, 10)]);
+      if (value !== '' && value !== 'emptyAudioDeviceList') {
+        const pref = audioDevicePrefStrToAudioDevicePref(
+          value,
+          availableSpeakers
+        );
+        if (pref) {
+          onSelectedSpeakerChange(pref);
+        }
       }
     },
     [onSelectedSpeakerChange, availableSpeakers]
@@ -1644,6 +1659,18 @@ export function Preferences({
       </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Calls) {
+    const [microphoneOptions, enableMicSelect] = renderAudioOptions(
+      availableMicrophones,
+      i18n
+    );
+    const selectedMicrophoneId = audioDevicePrefToId(selectedMicrophone);
+
+    const [speakerOptions, enableSpeakerSelect] = renderAudioOptions(
+      availableSpeakers,
+      i18n
+    );
+    const selectedSpeakerId = audioDevicePrefToId(selectedSpeaker);
+
     const pageContents = (
       <AxoList.Group>
         <PreferencesList accessibilityLabel={i18n('icu:calling')}>
@@ -1667,43 +1694,35 @@ export function Preferences({
             placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
             options={availableCameras.map(device => {
               return {
-                label: localizeDefault(i18n, device.label),
+                label: device.label,
                 value: device.deviceId,
               };
             })}
           />
           <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--audio-input')}
-            disabled={!availableMicrophones.length}
-            value={
-              selectedMicrophone?.index.toString() ??
-              availableMicrophones.at(0)?.index.toString() ??
-              null
-            }
+            disabled={!enableMicSelect}
+            value={selectedMicrophoneId}
             onValueChange={onAudioInputSelectChange}
             placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
-            options={availableMicrophones.map(device => {
+            options={microphoneOptions.map(device => {
               return {
-                label: localizeDefault(i18n, device.name),
-                value: String(device.index),
+                label: device.text,
+                value: device.value.toString(),
               };
             })}
           />
 
           <AxoSelectItem.Root
             label={i18n('icu:callingDeviceSelection__label--audio-output')}
-            disabled={!availableSpeakers.length}
-            value={
-              selectedSpeaker?.index.toString() ??
-              availableSpeakers.at(0)?.index.toString() ??
-              null
-            }
+            disabled={!enableSpeakerSelect}
+            value={selectedSpeakerId}
             onValueChange={onAudioOutputSelectChange}
             placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
-            options={availableSpeakers.map(device => {
+            options={speakerOptions.map(device => {
               return {
-                label: localizeDefault(i18n, device.name),
-                value: String(device.index),
+                label: device.text,
+                value: device.value.toString(),
               };
             })}
           />
@@ -2924,15 +2943,6 @@ export function Preferences({
       <TitlebarDragArea />
     </>
   );
-}
-
-function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
-  return deviceLabel.toLowerCase().startsWith('default')
-    ? deviceLabel.replace(
-        /default/i,
-        i18n('icu:callingDeviceSelection__select--default')
-      )
-    : deviceLabel;
 }
 
 export function PreferencesContent({
