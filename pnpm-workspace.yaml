@@ -102,7 +102,6 @@ allowBuilds:
   '@signalapp/windows-ucv@1.0.1': true
   '@swc/core@1.10.16': true
   '@tailwindcss/oxide@4.3.0': true
-  'electron@44.7.0': true
   'fs-xattr@0.4.0': true
 
   # Disabled Builds: Use wildcard version
