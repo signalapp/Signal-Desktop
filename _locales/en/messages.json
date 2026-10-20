@@ -868,7 +868,7 @@
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
     "messageformat": "Okay",
-    "description": "A dismiss button text for an education modal in Key Transparency section"
+    "description": "(Deleted 2026/10/20) A dismiss button text for an education modal in Key Transparency section"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A safety number will be created with this person after you exchange messages with them.",
@@ -908,7 +908,7 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers.",
-    "description": "Key Transparency Onboarding Dialog > Description"
+    "description": "(Deleted 2026/10/20) Key Transparency Onboarding Dialog > Description"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
     "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>",
@@ -1800,7 +1800,7 @@
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Okay",
-    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Okay Button"
+    "description": "(Deleted 2026/10/20) Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Okay Button"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
@@ -5368,7 +5368,7 @@
   },
   "icu:Confirmation--confirm": {
     "messageformat": "Okay",
-    "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
+    "description": "(Deleted 2026/10/20) Button to dismiss popup dialog when user-initiated task has gone wrong"
   },
   "icu:MessageMaxEditsModal__Title": {
     "messageformat": "Can't edit message",
@@ -7241,7 +7241,7 @@
   },
   "icu:DeleteAttachmentModal__Cancel": {
     "messageformat": "Cancel",
-    "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
+    "description": "(Deleted 2026/10/20) Text of a button in confirmation modal when deleting an attachment from media gallery"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",
@@ -12167,14 +12167,14 @@
   },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing.",
-    "description": "Release notes for 8.32"
+    "description": "(Deleted 2026/10/20) Release notes for 8.32"
   },
   "icu:WhatsNew__8.32--1": {
     "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!",
-    "description": "Release notes for 8.32"
+    "description": "(Deleted 2026/10/20) Release notes for 8.32"
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "The \"(N)\" shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix.",
-    "description": "Release notes for 8.32"
+    "description": "(Deleted 2026/10/20) Release notes for 8.32"
   }
 }

@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "ರದ್ದುಮಾಡಿ"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "ಬಾಕಿ ಇದೆ"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "ನೀವು ಫೋನ್ ಸಂಖ್ಯೆಯ ಮೂಲಕ ಕನೆಕ್ಟ್ ಆಗಿರುವ ಸಂಪರ್ಕಗಳಿಗೆ, ಕೀ ಟ್ರಾನ್ಸ್‌ಪರೆನ್ಸಿ ಎಂಬ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಬಳಸಿಕೊಂಡು ಕನೆಕ್ಷನ್ ಸುರಕ್ಷಿತವಾಗಿದೆಯೇ ಎಂದು Signal ಸ್ವಯಂಚಾಲಿತವಾಗಿ ದೃಢೀಕರಿಸುತ್ತದೆ. ಹೆಚ್ಚಿನ ಭದ್ರತೆಗಾಗಿ, ನೀವು ಈಗಲೂ QR ಕೋಡ್ ಬಳಸಿಕೊಂಡು ಅಥವಾ ಸುರಕ್ಷಾ ಸಂಖ್ಯೆಗಳನ್ನು ಹೋಲಿಕೆ ಮಾಡುವ ಮೂಲಕ ಕನೆಕ್ಷನ್‌ಗಳನ್ನು ಮ್ಯಾನುವಲ್ ಆಗಿ ದೃಢೀಕರಿಸಬಹುದು."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
@@ -1479,7 +1485,7 @@
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ಅವರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿದ ಬಳಿಕ ಈ ಸಂಖ್ಯೆಯು {conversationTitle} ಅವರಿಗೆ ಸೇರಿದ್ದು ಎಂಬುದಾಗಿ ನಿಮಗೆ ತಿಳಿಯುತ್ತದೆ. ಅವರ ಫೋನ್ ಸಂಖ್ಯೆ ಖಾಸಗಿಯಾಗಿದೆ."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "ಹುಡುಕಿ"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ಚಾಟ್ ವಿಧಾನಗಳು"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "ಗುಂಪಿನ ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಪುನಃ ಈ ಗುಂಪಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತದೆ."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "ಸ್ಪ್ಯಾಮ್ ಎಂದು ವರದಿ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "ನೀವು ಇನ್ನು ಮುಂದೆ ಈ ಗುಂಪಿನಿಂದ ಸಂದೇಶಗಳು ಅಥವಾ ನವೀಕರಣಗಳನ್ನು ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ, ಮತ್ತು ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಮತ್ತೆ ಈ ಗುಂಪಿಗೆ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "ವರದಿ ಮಾಡಿ..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾದ ಬಳಕೆದಾರರು ನಿಮಗೆ ಕರೆ ಮಾಡಲು ಅಥವಾ ನಿಮಗೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "ನಿರ್ಬಂಧಿಸಲಾದ ಬಳಕೆದಾರರು"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "{blockedAt} ರಂದು ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು"
@@ -8607,37 +8631,37 @@
     "messageformat": "ಲಗತ್ತುಗಳನ್ನು ಸೇವ್ ಮಾಡಿ"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ಮೆಸೇಜ್"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ಮೆಸೇಜ್"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ಅಡ್ಡಹೆಸರು"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "ಟಿಪ್ಪಣಿಗಳು"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ಇಮೇಲ್"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ಮನೆ ವಿಳಾಸ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "ಮೊಬೈಲ್"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "ಕೆಲಸ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ಫೋನ್"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "ವಿಳಾಸ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "ಸಮಸ್ಯೆಗಳ ವಿವರಣೆ"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "ಸಮಸ್ಯೆಗೆ ಸಂಬಂಧಿಸಿದ ಯಾವುದೇ ವಿವರಗಳನ್ನು ಸೇರಿಸಿ. ನೀವು ಇಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳುವ ಯಾವುದೇ ಸಂಗತಿಯನ್ನು ಖಾಸಗಿಯಾಗಿ ಇರಿಸಲಾಗುತ್ತದೆ ಮತ್ತು Signal ನಲ್ಲಿ ಕರೆಗಳನ್ನು ಸುಧಾರಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ಮಾತ್ರ ಬಳಸಲಾಗುತ್ತದೆ."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "ನೀವು ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸಿದಾಗ Signal ಗೆ ಕ್ಯಾಮರಾವನ್ನು ಬಳಸಲು ಅನುಮತಿ ಇಲ್ಲದಿದ್ದರೆ, Windows ನಲ್ಲಿ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಲು ಅನುಕೂಲವಾಗುವಂತಹ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸಹ ನಾವು ಸೇರಿಸಿದ್ದೇವೆ. ಜನರು ನಿಮ್ಮನ್ನು ನೋಡುವಂತಾಗಲು ನೀವು ಏನು ಮಾಡಬೇಕು ಎಂಬುದನ್ನು ಈಗ ಸುಲಭವಾಗಿ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "ಓದದಿರುವ ಫಿಲ್ಟರ್ ಈಗ ಮೆಸೇಜ್ ಫೋಲ್ಡರ್‌ಗಳು ಮತ್ತು ಹುಡುಕಾಟ ಇಂಟರ್‌ಫೇಸ್‌ನಲ್ಲಿಯೂ ಸಹ ಬೆಂಬಲಿತವಾಗಿದೆ, ಹಾಗಾಗಿ ನೀವು ಏನನ್ನು ಕಳೆದುಕೊಂಡಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ಕಳಪೆ ನೆಟ್‌ವರ್ಕ್ ಸ್ಥಿತಿಗಳಲ್ಲಿ ಸುಧಾರಿತ ಅಪ್‌ಲೋಡ್ ವಿಶ್ವಾಸಾರ್ಹತೆ. ಧನ್ಯವಾದಗಳು, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; ಶಾರ್ಟ್‌ಕಟ್ 'ಥಂಬ್ಸ್ ಡೌನ್' ಎಮೋಜಿಯನ್ನು ಸರಿಯಾಗಿ ಸೂಚಿಸುತ್ತದೆ. ಬಗ್ ಸರಿಪಡಿಸಲು <lnicola></lnicola> ಗೆ ಥಂಬ್ಸ್ ಅಪ್ ಮಾಡಿ."
   }
 }
