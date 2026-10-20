@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Cuir ar ceal"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Ar feitheamh"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Mar shlánú sa bhreis, is féidir leat naisc a fhíorú de láimh fós agus cód QR in úsáid nó trí uimhreacha sábháilteachta a chur i gcomparáid le chéile."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Ar aghaidh"
@@ -1479,7 +1485,7 @@
     "messageformat": "Tuilleadh Faisnéise"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Stair teachtaireachtaí cumaiscthe"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Tar éis teachtaireachtaí a sheoladh chuig {obsoleteConversationTitle} fuair tú amach gur le {conversationTitle} an uimhir seo. Tá uimhir ghutháin an duine sin príobháideach."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Cuardaigh"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Cineálacha comhráite"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Beidh baill den ghrúpa in ann tusa a chur leis an ngrúpa seo arís."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Tuairiscithe mar thurscar agus bac curtha air."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Ní bhfaighidh tú teachtaireachtaí ná nuashonruithe ón ngrúpa seo a thuilleadh agus ní bheidh baill in ann thú a chur leis an ngrúpa seo arís."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Tuairiscigh..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Ní bheidh úsáideoirí bactha in ann glaonna a chur ort ná teachtaireachtaí a sheoladh chugat"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Úsáideoirí Bactha"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Bac curtha air/uirthi an {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Cúltacaí Slána Signal"
@@ -8607,37 +8631,37 @@
     "messageformat": "Sábháil ceangaltáin"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Seol tcht"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Seol tcht"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Cuir le grúpa"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Leasainm"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Nótaí"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Seoladh ríomhphoist"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Baile"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Guthán póca"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "An obair"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Guthán"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Seoladh"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Cur síos ar an bhfadhb"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Cuir aon sonraí a bhaineann leis an bhfadhb san áireamh. Coinneofar aon rud a chomhroinneann tú anseo príobháideach agus ní úsáidfear é ach chun cabhrú le glaonna in Signal a fheabhsú."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Chuireamar aicearra áisiúil leis freisin chun socruithe do chórais a oscailt ar Windows má dhéanann tú iarracht dul isteach i bhfísghlao gan cead rochtana ar an gceamara a bheith ag Signal."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Tá tacú don scagaire neamhléite i bhfillteáin teachtaireachtaí agus sa chomhéadan cuardaigh freisin."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Iontaofacht feabhsaithe uaslódála faoi dhrochdhálaí líonra. Go raibh maith agat, <GH3mmmbulus></GH3mmmbulus> !"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Díríonn an t-aicearra &quot;(N)&quot; ar an emoji Ordóga Síos mar ba cheart. Ordóga Suas do <lnicola></lnicola> as réiteach an fhabht."
   }
 }

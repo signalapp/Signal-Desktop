@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Mégse"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Folyamatban"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Azoknál a névjegyeknél, amelyekhez telefonszámon keresztül kapcsolódsz, a Signal egy kulcsátláthatóságnak nevezett folyamat segítségével automatikusan megerősítheti, hogy a kapcsolat biztonságos-e. A fokozott biztonság érdekében továbbra is ellenőrizheted manuálisan a névjegyeket egy QR-kóddal vagy biztonsági számok összehasonlításával."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Folytatás"
@@ -1479,7 +1485,7 @@
     "messageformat": "Tudj meg többet"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Üzenetelőzmények összevonva"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} felhasználóval való üzenetváltás után megtudtad, hogy ez a szám {conversationTitle} felhasználóhoz tartozik. A telefonszám privát."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Keresés"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Csevegéstípusok"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "A tagok ezután újra hozzáadhatnak majd a csoporthoz."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Megjelölve kéretlen üzenetként és letiltva."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Többé nem kapsz üzeneteket és frissítéseket ebből a csoportból, illetve a tagok sem fognak tudni újra felvenni."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Jelentés..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "A letiltott felhasználók nem fognak tudni sem felhívni, sem üzenetet küldeni neked"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Letiltott felhasználók"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Letiltás időpontja: {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Biztonságos Biztonsági mentések"
@@ -8607,37 +8631,37 @@
     "messageformat": "Mellékletek mentése"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Üzenet"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Üzenet"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Hozzáadás egy csoporthoz"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Becenév"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Megjegyzések"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Kezdőlap"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Munkahelyi"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefonszám"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Cím"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Újdonságok"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "A probléma leírása"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Kérjük, add meg a problémához kapcsolódó összes részletet. Amit itt megosztottál, az bizalmas marad, és csak a Signal-hívások fejlesztésére használjuk fel."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Hozzáadtunk egy praktikus parancsikont is, amellyel megnyithatod a rendszerbeállításaidat Windows-operációs rendszerben, ha megpróbálsz csatlakozni egy videohíváshoz, és a Signal nem rendelkezik engedéllyel a kamera eléréséhez."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Az olvasatlan üzenetek szűrője mostantól az üzenetmappákban és a keresési felületen is támogatott."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Javított feltöltési megbízhatóság rossz hálózati körülmények között. Köszönjük, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Az „(N)” gyorsbillentyű helyesen a lefelé mutató hüvelykujj emojira mutat. Felfelé mutató hüvelykujj <lnicola></lnicola> számára a hibajavításért!"
   }
 }

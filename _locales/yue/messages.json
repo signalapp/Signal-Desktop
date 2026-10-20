@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "取消"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "等緊處理"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以繼續用返二維碼或者比較安全碼人手驗證聯絡人。"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "繼續"
@@ -1479,7 +1485,7 @@
     "messageformat": "了解多啲"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "訊息紀錄已經合併"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "同 {obsoleteConversationTitle} 通訊之後，你知道咗呢個號碼係屬於 {conversationTitle} 嘅。對方嘅電話冧把係保密嘅。"
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "搜尋"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "聊天類型"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "群組成員就可以再將你加入呢個群組。"
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "已經舉報咗垃圾訊息同埋封鎖咗。"
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "你唔會再收到呢個群組嘅訊息同最新消息，而群組成員都冇得再將你加入呢個群組㗎喇。"
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "舉報..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "被封鎖咗嘅用戶唔可以打俾你或者傳送訊息俾你"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "被封鎖嘅用戶"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "喺 {blockedAt} 封鎖咗"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal 安全備份"
@@ -8607,37 +8631,37 @@
     "messageformat": "儲存附件"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "訊息"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "訊息"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "加入去一個谷度"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "綽號"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "筆記"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "電郵"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "屋企"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "手提"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "公司"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "電話"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "地址"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "問題描述"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "請提供任何同問題有關嘅詳細資料。你喺度分享嘅所有內容都會保密，同埋只會用喺協助改善 Signal 嘅通話。"
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "我哋亦都加入咗一個捷徑，方便你喺嘗試加入視像通話嗰陣，如果 Signal 未有權存取相機，就可以用呢個捷徑打開 Windows 嘅系統設定。想俾人睇到你，而家就更加容易做得到。"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "而家訊息資料夾同搜尋介面亦都支援未睇嘅篩選器，咁你就可以輕鬆睇到你錯過咗啲咩。"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "喺網絡接收差嘅情況下，提升咗上載可靠性。唔該晒，<GH3mmmbulus></GH3mmmbulus>！"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "「(N)」捷徑對應好手指公向下嘅表情符號。為<lnicola></lnicola>修復錯誤俾個 LIKE。"
   }
 }

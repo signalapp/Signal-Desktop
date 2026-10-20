@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Avbryt"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Väntar"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "För kontakter som du är ansluten till via telefonnummer kan Signal automatiskt bekräfta om anslutningen är säker med hjälp av en process som kallas nyckeltransparens. För ökad säkerhet kan du fortfarande verifiera anslutningar manuellt med hjälp av en QR-kod eller genom att jämföra säkerhetsnummer."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Fortsätt"
@@ -1479,7 +1485,7 @@
     "messageformat": "Läs mer"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Meddelandehistoriken sammanfogad"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Efter att ha skickat meddelanden med {obsoleteConversationTitle} fick du reda på att detta nummer tillhör {conversationTitle}. Deras telefonnummer är privat."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Sök"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chattyper"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Gruppmedlemmar kommer att kunna lägga till dig i den här gruppen igen."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Rapporterad som skräppost och blockerad."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Du kommer inte längre att få meddelanden eller uppdateringar från den här gruppen och medlemmar kan inte lägga till dig i den här gruppen igen."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapportera …"
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Blockerade användare kommer inte att kunna ringa eller skicka meddelanden till dig"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blockerade användare"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Blockerad {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Säkerhetskopiering av Signal"
@@ -8607,37 +8631,37 @@
     "messageformat": "Spara bilagor"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Meddelande"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Meddelande"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Lägg till i en grupp"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Smeknamn"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Anteckningar"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-post"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Hem"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Arbete"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adress"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Vad är nytt"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Problembeskrivning"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Inkludera alla detaljer som är relevanta för problemet. Allt du delar här kommer att hållas privat och kommer endast att användas för att förbättra samtal i Signal."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Vi har också lagt till en smidig genväg för att öppna systeminställningarna på Windows om du försöker gå med i ett videosamtal utan att Signal har behörighet att använda kameran."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filtret för olästa stöds nu även i meddelandemappar och i sökgränssnittet."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Förbättrad tillförlitlighet vid uppladdning under dåliga nätverksförhållanden. Tack <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Genvägen “(N)” pekar nu korrekt på emojin för tummen ner. Tummen upp till <lnicola>xx</lnicola> för buggfixen."
   }
 }

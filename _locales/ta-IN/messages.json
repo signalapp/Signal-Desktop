@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "ரத்துசெய்"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "நிலுவையில் உள்ளது"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "தொலைபேசி எண் மூலம் இணைக்கப்பட்டுள்ள தொடர்புகளுக்கு, 'குறியீடு வெளிப்படைத்தன்மை' எனும் செயல்முறையைப் பயன்படுத்தி இணைப்பு பாதுகாப்பாக உள்ளதா என்பதை சிக்னலால் தானாகவே உறுதிசெய்ய முடியும். கூடுதல் பாதுகாப்பிற்கு, QR குறியீடு மூலமாகவோ அல்லது பாதுகாப்பு எண்களை ஒப்பிட்டோ நீங்கள் இணைப்புகளைக் கைமுறையாகச் சரிபார்க்கலாம்."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "தொடர்க"
@@ -1479,7 +1485,7 @@
     "messageformat": "மேலும் அறிக"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "செய்தி வரலாறு ஒன்றிணைக்கப்பட்டது"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle}க்கு மெசேஜ் அனுப்பிய பிறகு, இந்த எண் {conversationTitle} க்கு சொந்தமானது என்பதை அறிந்து கொண்டீர்கள். அவர்களின் தொலைபேசி எண் பிரைவேட்டானது."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "தேடு"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "சாட் வகைகள்"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "குழு உறுப்பினர்கள் சேர்க்க முடியும் நீங்கள் இந்த குழுவிற்கு மீண்டும்."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "ஸ்பேம் எனப் புகாரளிக்கப்பட்டு தடுக்கப்பட்டது."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "இந்த குழுவிலிருந்து நீங்கள் இனி செய்திகளையோ புதுப்பிப்புகளையோ பெறமாட்டீர்கள், உறுப்பினர்கள் உங்களை மீண்டும் இந்தக் குழுவில் சேர்க்க முடியாது."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "புகாரளி..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "தடுக்கப்பட்ட பயனர்கள் உங்களை அழைக்கவோ அல்லது உங்களுக்கு மெசேஜ்களை அனுப்பவோ முடியாது"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "தடைசெய்யப்பட்ட பயனர்கள்"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "{blockedAt}-இல் தடைசெய்யப்பட்டது"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "சிக்னலின் பாதுகாப்பான காப்புப் பிரதிகள்"
@@ -8607,37 +8631,37 @@
     "messageformat": "இணைப்புகளை சேமித்தல்"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "மெசேஜ்"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "மெசேஜ்"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ஒரு குழுவில் சேர்க்கவும்"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "புனைப்பெயர்"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "குறிப்புகள்"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "மின்னஞ்சல்"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "வீடு"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "கைபேசி"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "அலுவலகம்"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "தொலைபேசி"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "முகவரி"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "புதிதாக என்ன உள்ளது"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "சிக்கல்கள் குறித்த விளக்கம்"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "சிக்கலுடன் தொடர்புடைய எந்த விவரங்களையும் சேர்த்திடுங்கள். நீங்கள் இங்கு பகிரும் அனைத்தும் தனிப்பட்டதாக வைக்கப்படும் மற்றும் சிக்னலில் அழைப்புகளை மேம்படுத்தும் நோக்கத்திற்கு மட்டுமே பயன்படுத்தப்படும்."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "நீங்கள் வீடியோ அழைப்பில் இணைய முயலும்போது, கேமராவை அணுக Signal-க்கு அனுமதி இல்லை எனில், Windows-இல் உங்கள் சிஸ்டம் அமைப்புகளைத் திறப்பதற்கு ஏற்ற எளியவழி ஒன்றையும் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "'படிக்கப்படாதவை' வடிகட்டி இப்போது செய்தி கோப்புறைகளிலும் தேடல் இடைமுகத்திலும் ஆதரிக்கப்படுகிறது."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "மோசமான நெட்வொர்க் நிலைகளிலும் பதிவேற்றத்தின் நம்பகத்தன்மை மேம்படுத்தப்பட்டுள்ளது. நன்றி, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; குறுக்குவழி இப்போது தம்ப்ஸ் டவுன் எமோஜியைச் சரியாகக் காட்டுகிறது. பிழையைச் சரிசெய்ததற்காக <lnicola></lnicola>-க்கு தம்ப்ஸ் அப் வழங்குங்கள்."
   }
 }

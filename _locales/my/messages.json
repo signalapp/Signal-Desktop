@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "မလုပ်တော့ပါ"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "ဆိုင်းငံ့နေသည်"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "ဖုန်းနံပါတ်ဖြင့် ချိတ်ဆက်ထားသော အဆက်အသွယ်များအတွက် Signal သည် ကီး ပွင့်လင်းမြင်သာမှုဟုခေါ်သော လုပ်ငန်းစဉ်ကို အသုံးပြု၍ ချိတ်ဆက်မှု လုံခြုံခြင်းရှိမရှိကို အလိုအလျောက် အတည်ပြုနိုင်သည်။ လုံခြုံရေးပိုမိုရရှိစေရန်အတွက် QR ကုဒ်ကို အသုံးပြု၍ သို့မဟုတ် လုံခြုံရေးနံပါတ်များကို နှိုင်းယှဉ်ခြင်းဖြင့် ချိတ်ဆက်မှုများကို ကိုယ်တိုင်အတည်ပြုနိုင်ပါသည်။"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -1479,7 +1485,7 @@
     "messageformat": "ပိုလေ့လာရန်"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "မက်ဆေ့ချ်မှတ်တမ်းကို ပေါင်းစည်းပြီးပါပြီ"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} နှင့် မက်ဆေ့ချ်ပေးပို့ပြီးနောက် ဤနံပါတ်ကို{conversationTitle} က ပိုင်ဆိုင်ကြောင်း သိရှိရပါသည်။ ၎င်းတို့ဖုန်းနံပါတ်ကို ကိုယ်ပိုင်သီးသန့်အဖြစ် ထားရှိ ထားပါသည်။"
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "ရှာရန်"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ချက်(တ်)အမျိုးအစားများ"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "အဖွဲ့ဝင်များသည် သင့်ကို အဖွဲ့ထဲသို့ ပြန်ထည့်နိုင်ပါမည်။"
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "စပမ်းအဖြစ် ရီပို့(တ်)လုပ်ပြီး ဘလော့ခ်ပြီးပါပြီ။"
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "သင်သည် ဤအဖွဲ့မှ မက်ဆေ့ချ်များ သို့မဟုတ် အပ်ဒိတ်များကို ရရှိတော့မည် မဟုတ်ပါ၊ မန်ဘာများက ဤအဖွဲ့တွင် သင့်အား ထပ်မံပေါင်းထည့်၍ ရနိုင်မည် မဟုတ်ပါ။"
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "ရီပို့(တ်)လုပ်ရန်…"
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "ဘလော့ခ်ထားသော သုံးစွဲသူများသည် သင့်ထံ ဖုန်းခေါ်ခြင်း သို့မဟုတ် မက်ဆေ့ချ်ပို့ခြင်းများ မလုပ်နိုင်တော့ပါ"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "ဘလော့ခ်ထားသော သုံးစွဲသူများ"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "{blockedAt} တွင် ပိတ်ထားသည်"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ်"
@@ -8607,37 +8631,37 @@
     "messageformat": "ပူးတွဲဖိုင်များကို သိမ်းဆည်းပါ"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "မက်ဆေ့ချ်"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "မက်ဆေ့ချ်"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်သွင်းရန်"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "အမည်ပြောင်"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "မှတ်စုများ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "အီးမေးလ်"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ပင်မစာမျက်နှာ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "မိုဘိုင်းဖုန်း"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "အလုပ်"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ဖုန်း"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "လိပ်စာ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "ပြဿနာ ဖော်ပြချက်"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "ကျေးဇူးပြု၍ ပြဿနာနှင့်သက်ဆိုင်သည့် အသေးစိတ်အချက်အလက်များကို ထည့်သွင်းပါ။ သင်မျှဝေထားသမျှကို လျှို့ဝှက်ထားမည်ဖြစ်ပြီး Signal တွင် ခေါ်ဆိုမှုများကို ပိုမိုကောင်းမွန်စေရန်အတွက်သာ အသုံးပြုမည်ဖြစ်သည်။"
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "ဗီဒီယိုကောလ်တွင် ပါဝင်ရန် ကြိုးစားသည့်အခါ Signal တွင် ကင်မရာအသုံးပြုခွင့် မရှိပါက Windows စနစ်ဆက်တင်ကို ဖွင့်နိုင်ရန် အဆင်ပြေသော ရှော့တ်ကတ်တစ်ခုကိုလည်း ထည့်သွင်းထားပါသည်။"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်များအား စစ်ထုတ်သည့် လုပ်ဆောင်ချက်ကို မက်ဆေ့ချ်ဖိုင်တွဲများနှင့် ရှာဖွေမှုမျက်နှာပြင်တို့တွင်လည်း ယခု အသုံးပြုနိုင်ပြီဖြစ်သည်။"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ကွန်ရက်အခြေအနေ မကောင်းသည့်အခါ အပ်လုဒ်လုပ်ခြင်းကို စိတ်ချရစေရန် မွမ်းမံထားသည်။ ကျေးဇူးပါ <GH3mmmbulus></GH3mmmbulus>"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "“(N)” ရှော့တ်ကတ်သည် လက်မအောက်ဆိုက်သည့် အီမိုဂျီကို မှန်ကန်စွာ ညွှန်ပြသည်။ ချို့ယွင်းချက်ကို ပြင်ဆင်ပေးသည့်အတွက် <lnicola></lnicola> ကို ကျေးဇူးတင်ပါသည်။"
   }
 }

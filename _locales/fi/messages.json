@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Peruuta"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Käsiteltävänä"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Kun yhteys toiseen käyttäjään perustuu puhelinnumeroon, Signal voi vahvistaa yhteyden suojauksen automaattisesti avaimen läpinäkyvyydeksi kutsutulla prosessilla. Lisäturvan saamiseksi voit edelleen vahvistaa yhteydet manuaalisesti QR-koodilla tai vertaamalla turvanumeroita."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Jatka"
@@ -1479,7 +1485,7 @@
     "messageformat": "Lue lisää"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Viestihistoria yhdistetty"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Lähetettyäsi viestin keskusteluun {obsoleteConversationTitle} sinulle selvisi, että tämä numero kuuluu keskusteluun {conversationTitle}. Puhelinnumero on yksityinen."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Hae"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Keskustelutyypit"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Ryhmän jäsenet voivat lisätä sinut takaisin tähän ryhmään."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Ilmoitettu roskapostista ja estetty."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Et enää saa viestejä tai päivityksiä tältä ryhmältä, eivätkä ryhmän jäsenet voi lisätä sinua takaisin ryhmään."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Ilmoita…"
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Estetyt käyttäjät eivät voi soittaa sinulle tai lähettää sinulle viestejä"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Estetyt käyttäjät"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Estetty {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure -varmuuskopiointi"
@@ -8607,37 +8631,37 @@
     "messageformat": "Tallenna liitetiedostot"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Viesti"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Viesti"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Lisää ryhmään"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Lempinimi"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Muistiinpanot"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Sähköposti"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Aloitus"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Matkapuhelin"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Työ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Puhelin"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Osoite"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Uudet ominaisuudet"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Kuvaus ongelmista"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Liitä mukaan kaikki asiaan liittyvät oleelliset tiedot. Kaikki täällä jakamasi tiedot pidetään yksityisinä ja niitä käytetään vain Signal-puheluiden parantamiseen."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Lisäsimme myös kätevän pikakuvakkeen, jolla voit avata Windowsin järjestelmäasetukset, jos yrität liittyä videopuheluun ja Signalilla ei ole lupaa käyttää kameraa."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Lukemattomien viestien suodatinta tuetaan nyt myös viestikansioissa ja haun käyttöliittymässä."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Parannettu lähetysten luotettavuus heikoilla verkkoyhteyksillä. Kiitos, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Oikotie (N) osoittaa peukalo alaspäin -emojiin. Peukku virheenkorjaamisesta, <lnicola>.</lnicola>"
   }
 }

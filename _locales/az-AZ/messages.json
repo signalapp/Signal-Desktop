@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Ləğv et"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Gözləyir"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Telefon nömrəsi ilə əlaqə saxladığınız kontaktlar üçün Signal “açar şəffaflığı” adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər. Əlavə təhlükəsizlik üçün QR kodundan istifadə etməklə və ya təhlükəsizlik nömrələri ilə müqayisə edərək bağlantıları əlinizlə də yoxlaya bilərsiniz."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Davam et"
@@ -1479,7 +1485,7 @@
     "messageformat": "Daha ətraflı"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Mesaj tarixçəsi birləşdirildi"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ilə mesajlaşdıqdan sonra siz bu nömrənin {conversationTitle} adlı istifadəçiyə aid olduğunu öyrəndiniz. Onun telefon nömrəsi məxfidir."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Axtar"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Çat növləri"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Qrup üzvləri, sizi bu qrupa yenidən əlavə edə bilər."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Spam olaraq bildirildi və bloklandı."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Artıq bu qrupdan mesaj və ya yeniləmələr almayacaqsınız və üzvlər sizi bu qrupa yenidən əlavə edə bilməyəcək."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Bildir..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Bloklanmış istifadəçilər sizə zəng edə və ya mesajlar göndərə bilməz"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Bloklanmış istifadəçilər"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Bloklanma vaxtı: {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-ın Təhlükəsiz Ehtiyat Nüsxələri"
@@ -8607,37 +8631,37 @@
     "messageformat": "Qoşmaları yaddaşda saxla"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Bir qrupa əlavə et"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Ləqəb"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Qeydlər"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-poçt"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Ev"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "İşdə"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Ünvan"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Problemlərin təsviri"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Problemə uyğun istənilən təfərrüatı seçin. Burada paylaşdığınız hər şey məxfi saxlanılır və yalnız Signal zənglərinin yaxşılaşdırılmasına kömək etmək üçün istifadə olunur."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Videozəngə qoşulmağa çalışdığınız zaman Signal-ın kameraya giriş icazəsi olmadıqda, Windows-da sistem parametrlərini açmaq üçün rahat qısayol da əlavə etdik. Artıq insanların sizi görə bilməsi üçün nə etməli olduğunuzu bilmək daha asandır."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Oxunmamış mesajlar filtri artıq mesaj qovluqlarında və axtarış interfeysində də dəstəklənir. Beləliklə, gözdən qaçırdığınız mesajları asanlıqla görə bilərsiniz."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Zəif şəbəkə şəraitində yükləmənin etibarlılığı artırılıb. Təşəkkürlər, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; qısayolu dəqiqliklə &quot;baş barmaq aşağı&quot; emojisini göstərir. Xətanın düzəldilməsi üçün <lnicola></lnicola> qədər baş barmaq emojisi."
   }
 }

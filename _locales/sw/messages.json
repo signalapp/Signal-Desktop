@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Ghairi"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Unasubiri"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Kwa wawasiliani uliounganishwa nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Kwa usalama wa ziada, bado unaweza kuthibitisha mwenyewe miunganisho ukitumia kodi ya QR au namba za usalama."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Endelea"
@@ -1479,7 +1485,7 @@
     "messageformat": "Jifunze Zaidi"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historia ya ujumbe imeunganishwa"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Baada ya kutuma ujumbe kupitia {obsoleteConversationTitle} umejua kuwa nambari hii ni ya {conversationTitle}. Nambari yao ya simu ni ya siri."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Tafuta"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Aina za gumzo"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Washiriki wa kikundi wataweza kukuongeza kwenye kundi hili tena."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Imeripotiwa kuwa spam na imezuiliwa."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Hutapokea tena ujumbe au arifa kutoka kwenye kikundi hiki na washiriki hawataweza kukuongeza kwenye kikundi hiki tena."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Mripoti..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Watumiaji waliozuiliwa hawataweza kukupigia simu au kukutumia ujumbe"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Watumiaji waliozuiliwa"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Ako blocked kwenye {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Hifadhi Nakala ya Signal iliyo Salama"
@@ -8607,37 +8631,37 @@
     "messageformat": "Hifadhi viambatisho"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Ujumbe"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Ujumbe"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Ongeza kwenye kikundi"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Jina la utani"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Maelezo"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Barua-pepe"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Nyumbani"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Simu"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Kazi"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "simu"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Anwani"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kuna Lipi Jipya?"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Maelezo ya hitilafu"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Tafadhali jumuisha maelezo yoyote yanayohusiana na tatizo. Chochote unachotuma hapa kitahifadhiwa kwa faragha na kitatumika tu kusaidia kuboresha simu katika Signal."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Pia tumeongeza njia ya mkato rahisi ili kufungua mipangilio yako ya mfumo kwenye Windows ikiwa utajaribu kujiunga kwenye simu ya video na Signal haina ruhusa ya kufikia kamera. Sasa ni rahisi kuona kile unachohitaji ili wengine wakuone."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Kichujio cha ujumbe ambao haujasomwa sasa kinapatikana pia kwenye folda za ujumbe na kiolesura cha utafutaji, hivyo unaweza kuona kwa urahisi ujumbe ambao hujausoma."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Uaminifu wa upakiaji wa faili umeboreshwa hata katika hali ya mtandao usio thabiti. Asante, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Njia ya mkato ya “(N)” sasa inaelekeza kwa usahihi kwenye emoji ya sijapenda. Hongera kwa <lnicola></lnicola> kwa kutatua hitilafu."
   }
 }

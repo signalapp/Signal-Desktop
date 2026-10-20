@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Annuleren"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "In afwachting"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Voor contacten waarmee je via een telefoonnummer bent verbonden, kan Signal automatisch bevestigen of de verbinding veilig is met een proces dat sleuteltransparantie heet. Voor extra veiligheid kun je nog steeds handmatig verbindingen verifiëren met een QR-code of door veiligheidsnummers te vergelijken."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Doorgaan"
@@ -1479,7 +1485,7 @@
     "messageformat": "Meer informatie"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Chatgeschiedenis samengevoegd"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Na het uitwisselen van berichten met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Zoeken"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chattypes"
@@ -2352,7 +2361,7 @@
     "messageformat": "Je hebt de timer voor verdwijnende berichten op {time} ingesteld."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "De timer voor verdwijnende berichten is bijgewerkt naar {time}."
+    "messageformat": "De timer voor verdwijnende berichten is op {time} ingesteld."
   },
   "icu:timerSetByMember": {
     "messageformat": "Een groepslid heeft de timer voor verdwijnende berichten op {time} ingesteld."
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Groepsleden zullen je weer kunnen toevoegen aan deze groep."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Gemeld als spam en geblokkeerd."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen, en de leden kunnen je niet opnieuw toevoegen aan de groep."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapporteren"
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Geblokkeerde personen kunnen je niet bellen en geen berichten sturen"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Geblokkeerde personen"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Geblokkeerd op {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -8607,37 +8631,37 @@
     "messageformat": "Bijlagen opslaan"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Bericht sturen"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Bericht"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Aan groep toevoegen"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Bijnaam"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notities"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Thuis"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobiel"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Werk"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefoon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adres"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Probleemomschrijving"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Vermeld alle details die relevant zijn voor het probleem. Alles wat je hier deelt, blijft vertrouwelijk en wordt uitsluitend gebruikt om oproepen in Signal te verbeteren."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "We hebben ook een handige snelkoppeling toegevoegd om je systeeminstellingen in Windows te openen als je probeert deel te nemen aan een video-oproep en Signal geen toestemming heeft om de camera te gebruiken. Nu heb je een beter beeld van wat je moet doen om zelf in beeld te komen."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Je kunt nu ook in chatmappen en in de zoekfunctie filteren op ongelezen berichten. Zo zie je gemakkelijk welke berichten je nog niet hebt gelezen."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Betrouwbaarder uploaden bij een slechte netwerkverbinding. Bedankt <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Als je nu ‘(N)’ typt krijg je het juiste duimpje, namelijk omlaag. Duimpje omhoog voor <lnicola></lnicola> die dit heeft opgelost."
   }
 }

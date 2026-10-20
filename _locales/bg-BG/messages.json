@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "Отказ"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "В очакване"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "При контактите, с които сте свързани чрез телефонен номер, Signal може автоматично да потвърди дали връзката е сигурна, като използва процес, наречен „прозрачност на ключа“. За повече сигурност все пак можете да проверявате връзките ръчно с QR код или като сравните номерата за сигурност."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Продължаване"
@@ -1479,7 +1485,7 @@
     "messageformat": "Научете повече"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Историята на съобщенията ви беше слята"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "След размяна на съобщения с {obsoleteConversationTitle} научихте, че този номер принадлежи на {conversationTitle}. Техният телефонен номер е личен."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Търсене"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Видове чатове"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Членове на групата ще могат да те добавят обратно в групата."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Потребителят е докладван за спам и блокиран."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Няма да може да получвате съобщения или известия от тази група и членовете ѝ няма да могат да ви добавят повторно."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Докладване..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Блокираните потребители не могат да ви се обаждат, нито да ви изпращат съобщения"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Блокирани потребители"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Блокиран на {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Сигурни резервни копия на Signal"
@@ -8607,37 +8631,37 @@
     "messageformat": "Запазване на прикачени файлове"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Съобщение"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Съобщение"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Добави към група"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Прякор"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Бележки"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Имейл"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Начало"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Мобилен"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Работен"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Телефон"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Адрес"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Какво ново има"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Описание на проблемите"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Моля, включете всички подробности, свързани с проблема. Всичко, което споделяте тук, ще бъде запазено поверително и ще се използва единствено, за да помогне в подобряването на обажданията в Signal."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Също така добавихме удобен пряк път за отваряне на вашите системни настройки на Windows, ако се опитате да влезете във видео обаждане, но Signal няма разрешение за достъп до камерата."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Филтърът за непрочетени съобщения вече се поддържа и в папките със съобщения, както и в интерфейса за търсене."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Подобрена надеждност на качването при лоши мрежови условия. Благодарим, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Прекият път „(N)“ правилно препраща към емоджито с палец надолу. Палец нагоре за <lnicola></lnicola> за отстраняването на бъга."
   }
 }

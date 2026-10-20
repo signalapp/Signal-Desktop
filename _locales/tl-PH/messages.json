@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "I-cancel"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "Pending"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency. Para sa karagdagang security, maaari mo pa ring i-verify ang connections manually gamit ang QR code o sa pagkumpara ng safety number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Magpatuloy"
@@ -1479,7 +1485,7 @@
     "messageformat": "Matuto pa"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Naka-merge ang message history"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Matapos mong i-message si {obsoleteConversationTitle} nalaman mong kay {conversationTitle} ang number na ito. Private ang kanyang phone number."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "Maghanap"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chat types"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "Ang mga kasapi ng grupong ito ay maaaring isali kang muli sa grupong ito."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Ni-report bilang spam at na-block na."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "Hindi ka na makaka-receive ng messages o updates mula sa group at hindi ka na rin pwedeng i-add ulit ng members dito."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "I-report..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "Hindi makakatawag o makakapag-send sa 'yo ng messages ang blocked users."
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blocked Users"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "Binlock noong {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -8607,13 +8631,13 @@
     "messageformat": "I-save ang attachments"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "I-message"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "I-message"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "I-add sa isang group"
   },
   "icu:ContactDetail__nickname": {
     "messageformat": "Nickname"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "Ilarawan ang issue mo"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Pakisama ang anumang detalye na may kaugnayan sa isyu. Anumang ibinahagi mo rito ay mapapanatiling pribado at gagamitin lamang para sa pagpapabuti ng mga tawag dito sa Signal."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "Nagdagdag rin kami ng isang convenient shortcut para mabuksan ang system settings sa Windows kapag sinubukan mong sumali sa isang video call at walang permission ang Signal na i-access ang camera."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Suportado na rin ngayon ang unread filter sa message folders at sa search interface."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Mas pinabuting upload reliability para sa hindi magandang network conditions. Maraming salamat, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Tama nang nakaturo ang &quot;(N)&quot; shortcut sa thumbs down emoji. Thumbs up kay <lnicola></lnicola> para sa bugfix."
   }
 }

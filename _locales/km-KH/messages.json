@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "បោះបង់"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "មិនទាន់សម្រេច"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "សម្រាប់ទំនាក់ទំនងដែលអ្នកបានភ្ជាប់ជាមួយតាមរយៈលេខទូរសព្ទ Signal អាចបញ្ជាក់ដោយស្វ័យប្រវត្តិថាតើការភ្ជាប់នោះមានសុវត្ថិភាពឬអត់ ដោយប្រើដំណើរការមួយដែលហៅថា តម្លាភាពកូនសោ។ ដើម្បីសុវត្ថិភាពបន្ថែម អ្នកនៅតែអាចផ្ទៀងផ្ទាត់ការភ្ជាប់ដោយដៃបាន ដោយប្រើកូដ QR ឬដោយប្រៀបធៀបលេខសុវត្ថិភាព។"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "បន្ត"
@@ -1479,7 +1485,7 @@
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកត្រូវបានបញ្ចូលគ្នា"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "បន្ទាប់ពីផ្ញើសារជាមួយ {obsoleteConversationTitle} អ្នកបានដឹងថាលេខនេះជាលេខរបស់ {conversationTitle}។ លេខទូរសព្ទរបស់គេគឺជាលេខឯកជន។"
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "ស្វែងរក"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ប្រភេទនៃការជជែក"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "សមាជិកនឹងអាចដាក់អ្នកចូលក្នុងក្រុមនេះបានម្តងទៀត។"
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "បានរាយការណ៍ជាសារឥតបានការ និងបានទប់ស្កាត់។"
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "អ្នកនឹងលែងទទួលបានសារ ឬព័ត៌មានថ្មីៗពីក្រុមនេះទៀតហើយ ហើយសមាជិកនឹងមិនអាចបញ្ចូលអ្នកទៅក្នុងក្រុមនេះម្តងទៀតបានទេ។"
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "រាយការណ៍…"
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "អ្នកប្រើដែលបានទប់ស្កាត់នឹងមិនអាចហៅ ឬផ្ញើសារមកអ្នកបានទេ"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "អ្នកប្រើដែលបានទប់ស្កាត់"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "បានទប់ស្កាត់នៅថ្ងៃទី {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal"
@@ -8607,37 +8631,37 @@
     "messageformat": "រក្សាទុកឯកសារភ្ជាប់"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ផ្ញើសារ"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ផ្ញើសារ"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ដាក់បញ្ចូលទៅក្រុមមួយ"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ឈ្មោះហៅក្រៅ"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "កំណត់ចំណាំ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "អ៊ីមែល"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ផ្ទះ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "ទូរសព្ទចល័ត"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "កន្លែងធ្វើការ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ទូរសព្ទ"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "អាសយដ្ឋាន"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "ការពណ៌នាអំពីបញ្ហា"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "សូមបញ្ចូលព័ត៌មានលម្អិតដែលទាក់ទងនឹងបញ្ហា។ អ្វីក៏ដោយដែលអ្នកចែករំលែកនៅទីនេះនឹងត្រូវបានរក្សាទុកជាឯកជន ហើយនឹងត្រូវបានប្រើដើម្បីជួយកែលម្អការហៅទូរសព្ទនៅក្នុង Signal ប៉ុណ្ណោះ។"
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "យើងក៏បានបន្ថែមផ្លូវកាត់ដ៏ងាយស្រួលមួយដែរ ដើម្បីបើកការកំណត់ប្រព័ន្ធរបស់យើងនៅលើ Windows ប្រសិនបើអ្នកព្យាយាមចូលរួមការហៅជាវីដេអូ ប៉ុន្តែ Signal មិនមានការអនុញ្ញាតក្នុងការប្រើប្រាស់កាមេរ៉ា។ ឥឡូវនេះ កាន់តែងាយស្រួលជាងមុនក្នុងការមើលថាអ្នកត្រូវធ្វើអ្វីខ្លះ ដូច្នេះអ្នកផ្សេងទៀតអាចមើលឃើញអ្នកបាន។"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "ឥឡូវនេះ មុខងារច្រោះសារដែលមិនទាន់អានក៏អាចប្រើបាននៅក្នុងថតសារ និងអ៊ីនធើហ្វេសស្វែងរកផងដែរ ដូច្នេះអ្នកអាចមើលអ្វីដែលអ្នកបានខកខានយ៉ាងងាយស្រួល។"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "បានកែលម្អភាពអាចទុកចិត្តបានលើការបង្ហោះ ក្នុងស្ថានភាពបណ្តាញមិនល្អ។ សូមអរគុណ <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "ផ្លូវកាត់ &quot;(N)&quot; ភ្ជាប់ទៅកាន់រូបអារម្មណ៍មេដៃចុះក្រោមបានយ៉ាងត្រឹមត្រូវ។ សូមឱ្យមេដៃសរសើរ <lnicola></lnicola> ចំពោះការជួសជុលបញ្ហានេះ។"
   }
 }

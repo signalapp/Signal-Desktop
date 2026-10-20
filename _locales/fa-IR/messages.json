@@ -2,6 +2,9 @@
   "icu:AxoAlertDialog.Cancel": {
     "messageformat": "لغو"
   },
+  "icu:AxoAlertDialog.Ok": {
+    "messageformat": "OK"
+  },
   "icu:AxoButton.Pending": {
     "messageformat": "در انتظار…"
   },
@@ -670,6 +673,9 @@
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
     "messageformat": "برای مخاطبانی که از طریق شماره تلفن به آن‌ها متصل هستید، سیگنال می‌تواند با استفاده از فرایندی به نام «شفافیت کلید» به‌طور خودکار تأیید کند که اتصال امن است. برای امنیت بیشتر، همچنان می‌توانید مخاطبان را به‌صورت دستی و با استفاده از کد QR یا مقایسه شماره ایمنی تأیید کنید."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description-v2": {
+    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ادامه"
@@ -1479,7 +1485,7 @@
     "messageformat": "اطلاعات بیشتر"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "تاریخچه پیام ادغام شد"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "پس از ارسال پیام با {obsoleteConversationTitle} متوجه شدید که این شماره متعلق به {conversationTitle} است. شماره تلفن او خصوصی است."
@@ -1741,6 +1747,9 @@
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__Search__Placeholder": {
     "messageformat": "جستجو"
+  },
+  "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
+    "messageformat": "No chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "انواع گفتگوها"
@@ -3512,6 +3521,9 @@
   "icu:MessageRequests--unblock-group-confirm-body": {
     "messageformat": "اعضای گروه می‌توانند دوباره شما را به این گروه اضافه کنند."
   },
+  "icu:MessageRequests--unblock-signal-confirm-body": {
+    "messageformat": "You will receive Signal updates and news."
+  },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "به‌عنوان هرزنامه گزارش و مسدود شد."
   },
@@ -3526,6 +3538,9 @@
   },
   "icu:MessageRequests--block-group-confirm-body": {
     "messageformat": "شما دیگر از این گروه پیام و به‌روزرسانی دریافت نخواهید کرد و اعضا قادر نخواهند بود دوباره شما را به این گروه اضافه کنند."
+  },
+  "icu:MessageRequests--block-signal-confirm-body": {
+    "messageformat": "You will no longer receive Signal updates and news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "گزارش کردن..."
@@ -6670,6 +6685,9 @@
   "icu:Preferences--blocked-users--description": {
     "messageformat": "کاربران مسدودشده، امکان تماس با شما یا ارسال پیام به شما را نخواهند داشت"
   },
+  "icu:Preferences--add-blocked": {
+    "messageformat": "Add Blocked User or Group"
+  },
   "icu:Preferences--blocked-users": {
     "messageformat": "کاربران مسدودشده"
   },
@@ -6678,6 +6696,12 @@
   },
   "icu:Preferences--blocked--blocked-on": {
     "messageformat": "مسدودشده در {blockedAt}"
+  },
+  "icu:Preferences--BlockChooser--Done": {
+    "messageformat": "Done"
+  },
+  "icu:Preferences--BlockChooser--Search--Placeholder": {
+    "messageformat": "Search"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "پشتیبان‌های امن سیگنال"
@@ -8607,37 +8631,37 @@
     "messageformat": "ذخیره پیوست‌ها"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "پیام"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "پیام"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "افزودن به گروه"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "نام مستعار"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "یادداشت‌ها"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ایمیل"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "خانه"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "موبایل"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "محل کار"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "تلفن"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "آدرس"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "تازه‌ها"
@@ -9005,6 +9029,9 @@
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
     "messageformat": "شرح مشکلات"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
+    "messageformat": "Describe your issue"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "لطفاً هرگونه جزئیات مرتبط با مشکل را ارائه دهید. هرچه که با ما به اشتراک می‌گذارید خصوصی خواهد ماند و فقط برای کمک به بهبود تماس‌ها در سیگنال استفاده خواهد شد."
   },
@@ -9121,12 +9148,12 @@
     "messageformat": "همچنین میان‌بر مناسبی اضافه کردیم تا اگر هنگام تلاش برای پیوستن به تماس تصویری، سیگنال اجازه دسترسی به دوربین را نداد، بتوانید تنظیمات سیستم خود را در ویندوز باز کنید."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "اکنون فیلتر «خوانده‌نشده» در پوشه‌های پیام و همچنین در رابط کاربری جستجو نیز پشتیبانی می‌شود."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "بهبود قابلیت اطمینان بارگذاری در شرایط نامناسب شبکه. ممنون، <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "میان‌بر «(N)» به‌درستی به ایموجی «دیسلایک» اشاره دارد. لایک به <lnicola></lnicola> بابت رفع این اشکال."
   }
 }
