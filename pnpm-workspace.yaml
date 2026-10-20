@@ -4,6 +4,7 @@ lockfileIncludeTarballUrl: true
 verifyDepsBeforeRun: prompt
 verifyStoreIntegrity: true
 
+linkWorkspacePackages: deep
 packages:
   - 'packages/*'
   - 'sticker-creator'

@@ -946,6 +946,9 @@ importers:
       '@signalapp/libsignal-client':
         specifier: 0.105.1
         version: 0.105.1
+      '@signalapp/types':
+        specifier: 0.3.0
+        version: link:../types
       '@tus/file-store':
         specifier: ^1.5.1
         version: 1.5.1(supports-color@10.2.2)
@@ -4888,10 +4891,6 @@ packages:
 
   '@signalapp/sqlcipher@4.1.0':
     resolution: {integrity: sha512-B4K2xIVVEoKq+eVARKZPnJzJiJD2YIe42ZMObp7bmKCL7KGBS1V9Sd5lMGXOcE4wbFrTYkWwYC9jAN6+Eft6Uw==, tarball: https://registry.npmjs.org/@signalapp/sqlcipher/-/sqlcipher-4.1.0.tgz}
-
-  '@signalapp/types@0.3.0':
-    resolution: {integrity: sha512-76xr2s0aNbcGOUY9ciy1Qc7t8alGkNYQrpgGmtoBbFl2YGoww+ZW48J8joQit4VmvDV5oLvWk1DGddWwdEAxzQ==, tarball: https://registry.npmjs.org/@signalapp/types/-/types-0.3.0.tgz}
-    engines: {node: '>=24.18.1'}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==, tarball: https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz}
@@ -11510,10 +11509,6 @@ packages:
     resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==, tarball: https://registry.npmjs.org/uuid/-/uuid-11.1.1.tgz}
     hasBin: true
 
-  uuid@13.0.0:
-    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==, tarball: https://registry.npmjs.org/uuid/-/uuid-13.0.0.tgz}
-    hasBin: true
-
   uuid@13.0.2:
     resolution: {integrity: sha512-vzi9uRZ926x4XV73S/4qQaTwPXM2JBj6/6lI/byHH1jOpCzb0zDbfytgA9LcN/hzb2l7WQSQnxITOVx5un/wGw==, tarball: https://registry.npmjs.org/uuid/-/uuid-13.0.2.tgz}
     hasBin: true
@@ -15862,7 +15857,7 @@ snapshots:
 
   '@signalapp/libsignal-client@0.105.1':
     dependencies:
-      '@signalapp/types': 0.3.0
+      '@signalapp/types': link:packages/types
       node-gyp-build: 4.8.4
       type-fest: 5.5.0
 
@@ -15888,14 +15883,6 @@ snapshots:
     dependencies:
       node-addon-api: 8.8.0
       node-gyp-build: 4.8.4
-
-  '@signalapp/types@0.3.0':
-    dependencies:
-      buffer: 6.0.3
-      semver: 7.7.4
-      type-fest: 5.5.0
-      uuid: 13.0.0
-      zod: 4.3.6(patch_hash=ab3dbef13a3a4a50b2a2fcab2bdabd3ef94a4b1607e046308492e88bdd9d5553)
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -23477,8 +23464,6 @@ snapshots:
   utila@0.4.0: {}
 
   uuid@11.1.1: {}
-
-  uuid@13.0.0: {}
 
   uuid@13.0.2: {}
 

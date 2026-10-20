@@ -158,6 +158,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
   groupMemberLabelInfoModalState?: GroupMemberLabelInfoPropsType;
+  groupV2JoinDialogOpen: boolean;
   hasConfirmationModal: boolean;
   isPinChangeModalVisible: boolean;
   isProfileNameWarningModalVisible: boolean;
@@ -284,6 +285,7 @@ export const SHOW_TERMINATE_GROUP_FAILED_MODAL =
   'globalModals/SHOW_TERMINATE_GROUP_FAILED_MODAL';
 const HIDE_TERMINATE_GROUP_FAILED_MODAL =
   'globalModals/HIDE_TERMINATE_GROUP_FAILED_MODAL';
+const TOGGLE_GROUP_V2_JOIN_DIALOG = 'globalModals/TOGGLE_GROUP_V2_JOIN_DIALOG';
 
 export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
@@ -599,6 +601,11 @@ type HideTerminateGroupFailedModalActionType = ReadonlyDeep<{
   type: typeof HIDE_TERMINATE_GROUP_FAILED_MODAL;
 }>;
 
+type ToggleGroupV2JoinDialogActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_GROUP_V2_JOIN_DIALOG;
+  payload: boolean;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseDebugLogErrorModalActionType
@@ -657,6 +664,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
   | ToggleGroupMemberLabelInfoModalActionType
+  | ToggleGroupV2JoinDialogActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
   | TogglePinReminderActionType
@@ -729,6 +737,7 @@ export const actions = {
   toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
   toggleGroupMemberLabelInfoModal,
+  toggleGroupV2JoinDialog,
   toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
   togglePinReminder,
@@ -1473,6 +1482,15 @@ function hideTerminateGroupFailedModal(): HideTerminateGroupFailedModalActionTyp
   };
 }
 
+function toggleGroupV2JoinDialog(
+  open: boolean
+): ToggleGroupV2JoinDialogActionType {
+  return {
+    type: TOGGLE_GROUP_V2_JOIN_DIALOG,
+    payload: open,
+  };
+}
+
 function toggleEditNicknameAndNoteModal(
   payload: EditNicknameAndNoteModalPropsType | null
 ): ToggleEditNicknameAndNoteModalActionType {
@@ -1649,6 +1667,7 @@ export function getEmptyState(): GlobalModalsStateType {
     notePreviewModalProps: null,
     pinMessageDialogData: null,
     terminateGroupFailedModal: null,
+    groupV2JoinDialogOpen: false,
   };
 }
 
@@ -2164,6 +2183,13 @@ export function reducer(
     return {
       ...state,
       terminateGroupFailedModal: null,
+    };
+  }
+
+  if (action.type === TOGGLE_GROUP_V2_JOIN_DIALOG) {
+    return {
+      ...state,
+      groupV2JoinDialogOpen: action.payload,
     };
   }
 

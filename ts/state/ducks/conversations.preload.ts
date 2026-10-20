@@ -10,6 +10,7 @@ import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import type { StateType as RootStateType } from '../reducer.preload.ts';
 import * as groups from '../../groups.preload.ts';
+import * as joinViaLink from '../../groups/joinViaLink.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { calling } from '../../services/calling.preload.ts';
 import { retryPlaceholders } from '../../services/retryPlaceholders.std.ts';
@@ -110,6 +111,7 @@ import { getIntl } from '../selectors/user.std.ts';
 import type {
   AvatarDataType,
   AvatarUpdateOptionsType,
+  ContactAvatarType,
 } from '../../types/Avatar.std.ts';
 import { getDefaultAvatars } from '../../types/Avatar.std.ts';
 import { getAvatarData } from '../../util/getAvatarData.dom.ts';
@@ -569,6 +571,16 @@ export type PreJoinConversationType = ReadonlyDeep<{
   memberCount: number;
   title: string;
   approvalRequired: boolean;
+
+  // Needed to complete the join
+  groupId: string;
+  masterKey: string;
+  secretParams: string;
+  publicParams: string;
+  inviteLinkPassword: string;
+  revision: number | null;
+  remoteAvatarUrl: string | null;
+  localAvatar: ContactAvatarType | null;
 }>;
 
 type ComposerGroupCreationState = ReadonlyDeep<{
@@ -1172,6 +1184,7 @@ export const actions = {
   blockGroupLinkRequests,
   cancelAttachmentDownload,
   cancelConversationVerification,
+  cancelJoinViaLink,
   changeHasGroupLink,
   clearCanceledConversationVerification,
   clearGroupCreationError,
@@ -1182,6 +1195,7 @@ export const actions = {
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
   colorSelected,
+  completeJoinViaLink,
   composeDeleteAvatarFromDisk,
   composeReplaceAvatar,
   composeSaveAvatarToDisk,
@@ -2931,6 +2945,18 @@ function setPreJoinConversation(
     payload: {
       data,
     },
+  };
+}
+
+function completeJoinViaLink(): AsyncStateThunk {
+  return async () => {
+    await joinViaLink.completeJoinViaLink();
+  };
+}
+
+function cancelJoinViaLink(): AsyncStateThunk {
+  return async () => {
+    await joinViaLink.cancelJoinViaLink();
   };
 }
 

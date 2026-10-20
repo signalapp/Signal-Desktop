@@ -34,6 +34,10 @@ export type ModifyGroupResult = Readonly<
     }
 >;
 
+export class GroupInviteLinkAuthError extends Error {}
+export class GroupPermissionError extends Error {}
+export class GroupBadRequestError extends Error {}
+
 const { AccessRequired } = Proto.AccessControl;
 const { Role } = Proto.Member;
 
@@ -104,6 +108,7 @@ export class ServerGroup extends Group {
     sourceAci: UuidCiphertext,
     sourcePni: UuidCiphertext | undefined,
     actions: Proto.GroupChange.Actions.Params,
+    inviteLinkPassword: Uint8Array<ArrayBuffer> | null = null,
   ): ModifyGroupResult {
     const appliedActions: Proto.GroupChange.Actions.Params = {
       version: actions.version,
@@ -184,6 +189,150 @@ export class ServerGroup extends Group {
       appliedActions.deleteMembers = [
         ...(appliedActions.deleteMembers ?? []),
         { deletedUserId },
+      ];
+    }
+
+    const addMembers = actions.addMembers ?? [];
+    for (const { added } of addMembers) {
+      assert.ok(added, 'Missing addMembers.added');
+      assert.ok(added.presentation, 'Missing addMembers.added.presentation');
+
+      const presentationFFI = new ProfileKeyCredentialPresentation(
+        Buffer.from(added.presentation),
+      );
+      this.profileOps.verifyProfileKeyCredentialPresentation(
+        this.publicParams,
+        presentationFFI,
+      );
+
+      const userId = presentationFFI.getUuidCiphertext();
+      assert.ok(!this.getMember(userId), 'Already a member');
+
+      // Non-members can only add themselves, via an invite link
+      const joinFromInviteLink = authMember == null;
+      if (joinFromInviteLink) {
+        assert.ok(
+          Buffer.from(userId.serialize()).equals(sourceAci.serialize()),
+          'Can only join via invite link as yourself',
+        );
+        this.verifyInviteLink(
+          inviteLinkPassword,
+          accessControl?.addFromInviteLink,
+          AccessRequired.ANY,
+        );
+      } else {
+        this.verifyAccess(
+          'members',
+          authMember,
+          accessControl?.members ?? AccessRequired.UNKNOWN,
+        );
+      }
+
+      const role = added.role ?? Role.DEFAULT;
+      if (
+        role === Role.ADMINISTRATOR &&
+        authMember?.role !== Role.ADMINISTRATOR
+      ) {
+        throw new GroupPermissionError(
+          'Only administrators can add administrators',
+        );
+      }
+
+      const newMember = {
+        role,
+        userId: userId.serialize(),
+        profileKey: presentationFFI.getProfileKeyCiphertext().serialize(),
+        presentation: null,
+        joinedAtVersion: actions.version,
+        labelEmoji: null,
+        labelString: null,
+      };
+
+      newState.membersPendingAdminApproval = (
+        newState.membersPendingAdminApproval ?? []
+      ).filter((entry) => {
+        return (
+          entry.userId == null ||
+          !Buffer.from(entry.userId).equals(userId.serialize())
+        );
+      });
+
+      newState.membersPendingProfileKey = (
+        newState.membersPendingProfileKey ?? []
+      ).filter((entry) => {
+        return (
+          entry.member?.userId == null ||
+          !Buffer.from(entry.member.userId).equals(userId.serialize())
+        );
+      });
+
+      newState.members = [...(newState.members ?? []), newMember];
+
+      appliedActions.addMembers = [
+        ...(appliedActions.addMembers ?? []),
+        { added: newMember, joinFromInviteLink },
+      ];
+    }
+
+    const addMembersPendingAdminApproval =
+      actions.addMembersPendingAdminApproval ?? [];
+    for (const { added } of addMembersPendingAdminApproval) {
+      assert.ok(added, 'Missing addMembersPendingAdminApproval.added');
+      assert.ok(
+        added.presentation,
+        'Missing addMembersPendingAdminApproval.added.presentation',
+      );
+
+      const presentationFFI = new ProfileKeyCredentialPresentation(
+        Buffer.from(added.presentation),
+      );
+      this.profileOps.verifyProfileKeyCredentialPresentation(
+        this.publicParams,
+        presentationFFI,
+      );
+
+      const userId = presentationFFI.getUuidCiphertext();
+      assert.ok(
+        Buffer.from(userId.serialize()).equals(sourceAci.serialize()),
+        'Can only request to join as yourself',
+      );
+      this.verifyInviteLink(
+        inviteLinkPassword,
+        accessControl?.addFromInviteLink,
+        AccessRequired.ADMINISTRATOR,
+      );
+
+      if (this.getMember(userId)) {
+        throw new GroupBadRequestError(
+          'cannot ask to join via invite link if already in group',
+        );
+      }
+      if (this.getPendingMember(userId)) {
+        throw new GroupBadRequestError(
+          'cannot ask to join via invite link if already in group pending profile key',
+        );
+      }
+      if (this.getPendingAdminApprovalMember(userId)) {
+        throw new GroupBadRequestError(
+          'cannot ask to join via invite link if already asked to join',
+        );
+      }
+
+      const newPendingMember = {
+        userId: userId.serialize(),
+        profileKey: presentationFFI.getProfileKeyCiphertext().serialize(),
+        presentation: null,
+        timestamp,
+      };
+
+      newState.membersPendingAdminApproval = [
+        ...(newState.membersPendingAdminApproval ?? []),
+        newPendingMember,
+      ];
+
+      appliedActions.addMembersPendingAdminApproval = [
+        ...(appliedActions.addMembersPendingAdminApproval ?? []),
+        { added: newPendingMember },
       ];
     }
 
@@ -474,9 +623,73 @@ export class ServerGroup extends Group {
     };
   }
 
+  public getJoinInfo(
+    sourceAci: UuidCiphertext,
+    inviteLinkPassword: Uint8Array<ArrayBuffer> | null,
+  ): Proto.GroupJoinInfo.Params | undefined {
+    const { state } = this;
+
+    // Requesting members can see the join info without the password
+    const pendingAdminApproval =
+      this.getPendingAdminApprovalMember(sourceAci) != null;
+
+    if (!pendingAdminApproval) {
+      const access = state.accessControl?.addFromInviteLink;
+      if (
+        access !== AccessRequired.ANY &&
+        access !== AccessRequired.ADMINISTRATOR
+      ) {
+        return undefined;
+      }
+      if (!this.isValidInviteLinkPassword(inviteLinkPassword)) {
+        return undefined;
+      }
+    }
+
+    return {
+      publicKey: state.publicKey,
+      title: state.title,
+      description: state.description,
+      avatar: state.avatarUrl,
+      memberCount: state.members?.length ?? 0,
+      addFromInviteLink: state.accessControl?.addFromInviteLink ?? null,
+      version: state.version,
+      pendingAdminApproval,
+      pendingAdminApprovalFull: false,
+    };
+  }
+
   //
   // Private
   //
+
+  private isValidInviteLinkPassword(
+    inviteLinkPassword: Uint8Array<ArrayBuffer> | null,
+  ): boolean {
+    const expected = this.state.inviteLinkPassword;
+    if (expected == null || expected.length === 0) {
+      return false;
+    }
+    if (inviteLinkPassword == null) {
+      return false;
+    }
+    return Buffer.from(inviteLinkPassword).equals(Buffer.from(expected));
+  }
+
+  private verifyInviteLink(
+    inviteLinkPassword: Uint8Array<ArrayBuffer> | null,
+    access: Proto.AccessControl['addFromInviteLink'] | null | undefined,
+    required: Proto.AccessControl['addFromInviteLink'],
+  ): void {
+    if (!this.isValidInviteLinkPassword(inviteLinkPassword)) {
+      throw new GroupInviteLinkAuthError('Invalid invite link password');
+    }
+    if (access !== required) {
+      throw new GroupInviteLinkAuthError(
+        'Invite link does not allow this kind of join',
+      );
+    }
+  }
 
   private verifyAccess(
     attribute: string,

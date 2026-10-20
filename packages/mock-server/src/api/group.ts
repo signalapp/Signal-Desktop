@@ -33,6 +33,9 @@ export type GroupFromConfigOptions = Readonly<{
 
   title: string;
   members: ReadonlyArray<GroupMember>;
+
+  addFromInviteLink?: Proto.AccessControl.AccessRequired;
+  inviteLinkPassword?: Uint8Array<ArrayBuffer>;
 }>;
 
 function encryptBlob(
@@ -86,6 +89,8 @@ export class Group extends GroupData {
     secretParams,
     title,
     members,
+    addFromInviteLink = AccessRequired.UNSATISFIABLE,
+    inviteLinkPassword,
   }: GroupFromConfigOptions): Group {
     const cipher = new ClientZkGroupCipher(secretParams);
 
@@ -98,7 +103,7 @@ export class Group extends GroupData {
       accessControl: {
         attributes: AccessRequired.MEMBER,
         members: AccessRequired.MEMBER,
-        addFromInviteLink: AccessRequired.UNSATISFIABLE,
+        addFromInviteLink,
         memberLabel: AccessRequired.MEMBER,
       },
 
@@ -118,7 +123,7 @@ export class Group extends GroupData {
       disappearingMessagesTimer: null,
       membersPendingProfileKey: null,
       membersPendingAdminApproval: null,
-      inviteLinkPassword: null,
+      inviteLinkPassword: inviteLinkPassword ?? null,
       description: null,
       announcementsOnly: null,
       membersBanned: null,
@@ -173,6 +178,14 @@ export class Group extends GroupData {
     serviceId: ServiceIdString,
   ): Proto.MemberPendingProfileKey.Params | undefined {
     return this.getPendingMember(
+      new UuidCiphertext(this.encryptServiceId(serviceId)),
+    );
+  }
+
+  public getPendingAdminApprovalMemberByServiceId(
+    serviceId: ServiceIdString,
+  ): Proto.MemberPendingAdminApproval.Params | null {
+    return this.getPendingAdminApprovalMember(
       new UuidCiphertext(this.encryptServiceId(serviceId)),
     );
   }
