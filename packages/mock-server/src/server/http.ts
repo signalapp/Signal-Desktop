@@ -35,8 +35,13 @@ import {
 } from '../data/schemas';
 import { AttachmentId } from '../types';
 import { CallLinkEntry, Server } from './base';
-import { ServerGroup } from './group';
-import { parsePassword, auth } from './common';
+import {
+  GroupBadRequestError,
+  GroupInviteLinkAuthError,
+  GroupPermissionError,
+  ServerGroup,
+} from './group';
+import { parsePassword, auth, parseGroupInviteLinkPassword } from './common';
 import { join } from 'path';
 import { createHash } from 'crypto';
 import z from 'zod';
@@ -64,7 +69,7 @@ import {
 } from '../sfu/ice';
 import { SfuClientStatus } from '../sfu/call';
 import { Hostname, IpAddress, Port } from '../sfu/config';
-
+import { GroupInviteLinkPassword } from '@signalapp/types';
 const debug = createDebug('mock:http');
 
 const ALL_METHODS = [get, post, put, patch, del, head, options] as const;
@@ -612,6 +617,38 @@ export const createHandler = (
     },
   );
 
+  const getGroupJoinInfo = get(
+    '/v2/groups/join/(:inviteLinkPassword)',
+    async (req, res) => {
+      const auth = await groupAuthAndFetch(req, res);
+      if (!auth) {
+        return;
+      }
+
+      const { group, aciCiphertext } = auth;
+      let inviteLinkPassword: GroupInviteLinkPassword.Encoded | null = null;
+      if (req.params.inviteLinkPassword != null) {
+        inviteLinkPassword = parseGroupInviteLinkPassword(
+          req.params.inviteLinkPassword,
+        );
+        if (inviteLinkPassword == null) {
+          return send(res, 403, { error: 'Invalid invite link password' });
+        }
+      }
+
+      const joinInfo = group.getJoinInfo(aciCiphertext, inviteLinkPassword);
+      if (joinInfo == null) {
+        return send(res, 403, { error: 'Forbidden' });
+      }
+
+      if (group.state.terminated) {
+        return send(res, 423, { error: 'Group is terminated' });
+      }
+
+      return send(res, 200, Proto.GroupJoinInfo.encode(joinInfo));
+    },
+  );
+
   const SECONDS_IN_SIX_HOURS = 6 * 60 * 60;
 
   async function getGroupLogsInner(
@@ -767,6 +804,16 @@ export const createHandler = (
     }
 
     const { group, aciCiphertext, pniCiphertext } = auth;
+    let inviteLinkPassword: GroupInviteLinkPassword.Encoded | null = null;
+
+    if (req.query.inviteLinkPassword != null) {
+      inviteLinkPassword = parseGroupInviteLinkPassword(
+        req.query.inviteLinkPassword,
+      );
+      if (inviteLinkPassword == null) {
+        return send(res, 403, { error: 'Invalid invite link password' });
+      }
+    }
 
     try {
       const modifyResult = await server.modifyGroup({
@@ -774,6 +821,7 @@ export const createHandler = (
         aciCiphertext: aciCiphertext.serialize(),
         pniCiphertext: pniCiphertext.serialize(),
         actions,
+        inviteLinkPassword,
       });
 
       if (modifyResult.conflict) {
@@ -790,7 +838,17 @@ export const createHandler = (
 
       debug('Failed to modify group', error.stack);
 
-      // TODO(indutny): would be nice to give 403 here
+      if (
+        error instanceof GroupInviteLinkAuthError ||
+        error instanceof GroupPermissionError
+      ) {
+        return send(res, 403, { error: error.message });
+      }
+
+      if (error instanceof GroupBadRequestError) {
+        return send(res, 400, { code: 400, message: error.message });
+      }
+
       return send(res, 500, { error: error.stack });
     }
   }
@@ -952,6 +1010,7 @@ export const createHandler = (
       getGroup,
       getGroupVersion,
       getGroupLogs,
+      getGroupJoinInfo,
       createGroup,
       modifyGroup,
 

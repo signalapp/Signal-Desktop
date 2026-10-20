@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createRoot, type Root } from 'react-dom/client';
-
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
 import type { PreJoinConversationType } from '../state/ducks/conversations.preload.ts';
@@ -25,8 +23,6 @@ import {
   LINK_VERSION_ERROR,
   parseGroupLink,
 } from '../groups.preload.ts';
-import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.dom.tsx';
-import { explodePromise } from '../util/explodePromise.std.ts';
 import { maybeDeleteAttachmentFile } from '../util/migrations.preload.ts';
 import { isAccessControlEnabled } from './util.std.ts';
 import { isGroupV1 } from '../util/whatTypeOfConversation.dom.ts';
@@ -34,15 +30,28 @@ import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.dom.tsx';
 import { sleep } from '../util/sleep.std.ts';
 import { dropNull } from '../util/dropNull.std.ts';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.ts';
-import { type Loadable, LoadingState } from '../util/loadable.std.ts';
-import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { removeConversation } from '../util/Conversation.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
+import { getPreJoinConversation } from '../state/selectors/conversations.dom.ts';
 
 const log = createLogger('joinViaLink');
 const { i18n } = window.SignalContext;
 
-export async function joinViaLink(value: string): Promise<void> {
+function getCurrentPreJoinConversation(): PreJoinConversationType | null {
+  return getPreJoinConversation(window.reduxStore.getState()) ?? null;
+}
+
+/**
+ * Validates the group link and fetches the group's info, then shows the join
+ * dialog. The dialog calls `completeJoinViaLink()` or `cancelJoinViaLink()`.
+ */
+export async function startJoinViaLink(value: string): Promise<void> {
+  // Only one join dialog can be open at a time
+  if (getCurrentPreJoinConversation() != null) {
+    log.warn('Another join dialog is already open, ignoring');
+    return;
+  }
+
   let inviteLinkPassword: string;
   let masterKey: string;
   try {
@@ -140,14 +149,8 @@ export async function joinViaLink(value: string): Promise<void> {
     return;
   }
 
-  let localAvatar: Loadable<ContactAvatarType | undefined> = result.avatar
-    ? {
-        loadingState: LoadingState.Loading,
-      }
-    : {
-        loadingState: LoadingState.Loaded,
-        value: undefined,
-      };
+  const remoteAvatarUrl =
+    result.avatar != null && result.avatar !== '' ? result.avatar : null;
   const memberCount = result.memberCount || 1;
   const approvalRequired =
     result.addFromInviteLink ===
@@ -184,269 +187,273 @@ export async function joinViaLink(value: string): Promise<void> {
     return;
   }
 
-  const getPreJoinConversation = (): PreJoinConversationType => {
-    let avatar;
-    if (localAvatar.loadingState === LoadingState.Loading) {
-      avatar = {
-        loading: true,
-      };
-    } else if (localAvatar.loadingState === LoadingState.Loaded) {
-      avatar =
-        localAvatar.value == null
-          ? undefined
-          : {
-              url: getLocalAttachmentUrl(localAvatar.value),
-            };
-    } else if (localAvatar.loadingState === LoadingState.LoadFailed) {
-      avatar = undefined;
-    } else {
-      throw missingCaseError(localAvatar);
-    }
+  // Check again, another link may have been opened while we were fetching
+  if (getCurrentPreJoinConversation() != null) {
+    log.warn(`${logId}: Another join dialog is already open, ignoring`);
+    return;
+  }
 
-    return {
-      approvalRequired,
-      avatar,
-      groupDescription,
-      memberCount,
-      title,
-    };
-  };
-
-  // Explode a promise so we know when this whole join process is complete
-  const { promise, resolve, reject } = explodePromise<void>();
-
-  const closeDialog = async () => {
-    try {
-      if (groupV2InfoRoot) {
-        groupV2InfoRoot.unmount();
-        groupV2InfoRoot = undefined;
-      }
-
-      window.reduxActions.conversations.setPreJoinConversation(undefined);
-
-      if (
-        localAvatar?.loadingState === LoadingState.Loaded &&
-        localAvatar.value?.path
-      ) {
-        await maybeDeleteAttachmentFile(localAvatar.value.path);
-      }
-      resolve();
-    } catch (error) {
-      reject(error);
-    }
-  };
-
-  const join = async () => {
-    try {
-      if (groupV2InfoRoot) {
-        groupV2InfoRoot.unmount();
-        groupV2InfoRoot = undefined;
-      }
-
-      window.reduxActions.conversations.setPreJoinConversation(undefined);
-
-      await longRunningTaskWrapper({
-        name: 'joinViaLink',
-        idForLogging: idForLogging(id),
-        // If an error happens here, we won't show a dialog. We'll rely on a top-level
-        //   error dialog provided by the caller of this function.
-        suppressErrorDialog: true,
-        task: async () => {
-          let targetConversation =
-            existingConversation ||
-            window.ConversationController.get(id) ||
-            window.ConversationController.getByDerivedGroupV2Id(id);
-          let tempConversation: ConversationModel | undefined;
-
-          // Check again to ensure that we haven't already joined or requested to join
-          //   via some other process. If so, just open that conversation.
-          if (
-            targetConversation &&
-            (targetConversation.hasMember(ourAci) ||
-              (approvalRequired &&
-                targetConversation.isMemberAwaitingApproval(ourAci)))
-          ) {
-            log.warn(
-              `${logId}: User is part of group on second check, opening conversation`
-            );
-            window.reduxActions.conversations.showConversation({
-              conversationId: targetConversation.id,
-            });
-            return;
-          }
-
-          try {
-            const avatar =
-              localAvatar?.loadingState === LoadingState.Loaded &&
-              localAvatar.value?.path &&
-              result.avatar
-                ? {
-                    url: result.avatar,
-                    ...localAvatar.value,
-                  }
-                : undefined;
-            if (!targetConversation) {
-              // Note: we save this temp conversation in the database, so we'll need to
-              //   clean it up if something goes wrong
-              tempConversation = window.ConversationController.getOrCreate(
-                id,
-                'group',
-                {
-                  // This will cause this conversation to be deleted at next startup
-                  isTemporary: true,
-
-                  active_at: Date.now(),
-                  timestamp: Date.now(),
-
-                  groupVersion: 2,
-                  masterKey,
-                  secretParams,
-                  publicParams,
-
-                  left: true,
-                  revision: result.version,
-
-                  avatar,
-
-                  description: groupDescription,
-                  groupInviteLinkPassword: inviteLinkPassword,
-                  name: title,
-                  temporaryMemberCount: memberCount,
-                }
-              );
-              targetConversation = tempConversation;
-            } else {
-              // Ensure the group maintains the title and avatar you saw when attempting
-              //   to join it.
-              const timestamp =
-                targetConversation.get('timestamp') || Date.now();
-              const active_at =
-                targetConversation.get('active_at') || Date.now();
-              targetConversation.set({
-                active_at,
-                avatar,
-                description: groupDescription,
-                groupInviteLinkPassword: inviteLinkPassword,
-                left: true,
-                name: title,
-                revision: dropNull(result.version),
-                temporaryMemberCount: memberCount,
-                timestamp,
-              });
-              await DataWriter.updateConversation(
-                targetConversation.attributes
-              );
-            }
-
-            if (isGroupV1(targetConversation.attributes)) {
-              await targetConversation.joinGroupV2ViaLinkAndMigrate({
-                approvalRequired,
-                inviteLinkPassword,
-                revision: result.version || 0,
-              });
-            } else {
-              await targetConversation.joinGroupV2ViaLink({
-                inviteLinkPassword,
-                approvalRequired,
-              });
-            }
-
-            if (tempConversation) {
-              tempConversation.set({
-                // We want to keep this conversation around, since the join succeeded
-                isTemporary: undefined,
-                profileSharing: true,
-              });
-              await DataWriter.updateConversation(tempConversation.attributes);
-            }
-
-            window.reduxActions.conversations.showConversation({
-              conversationId: targetConversation.id,
-            });
-          } catch (error) {
-            // Delete newly-created conversation if we encountered any errors
-            if (tempConversation) {
-              window.ConversationController.dangerouslyRemoveById(
-                tempConversation.id
-              );
-              await removeConversation(tempConversation.id);
-            }
-
-            throw error;
-          }
-        },
-      });
-      resolve();
-    } catch (error) {
-      reject(error);
-    }
-  };
-
-  // Initial add to redux, with basic group information
-  window.reduxActions.conversations.setPreJoinConversation(
-    getPreJoinConversation()
-  );
+  window.reduxActions.conversations.setPreJoinConversation({
+    approvalRequired,
+    avatar: remoteAvatarUrl != null ? { loading: true } : undefined,
+    groupDescription,
+    memberCount,
+    title,
+    groupId: id,
+    masterKey,
+    secretParams,
+    publicParams,
+    inviteLinkPassword,
+    revision: result.version ?? null,
+    remoteAvatarUrl,
+    localAvatar: null,
+  });
 
   log.info(`${logId}: Showing modal`);
+  window.reduxActions.globalModals.toggleGroupV2JoinDialog(true);
 
-  const groupV2InfoNode = document.createElement('div');
-  let groupV2InfoRoot: Root | undefined;
+  if (remoteAvatarUrl != null) {
+    // Don't block on the avatar download
+    void fetchAvatar({ groupId: id, remoteAvatarUrl, secretParams, logId });
+  }
+}
 
-  groupV2InfoRoot = createRoot(groupV2InfoNode);
-  groupV2InfoRoot.render(
-    createGroupV2JoinModal(window.reduxStore, { join, onClose: closeDialog })
-  );
-
-  // We declare a new function here so we can await but not block
-  const fetchAvatar = async () => {
-    if (!result.avatar) {
-      return;
-    }
-    localAvatar = {
-      loadingState: LoadingState.Loading,
-    };
-
-    let attributes: Pick<
-      ConversationAttributesType,
-      'avatar' | 'secretParams'
-    > = {
+async function fetchAvatar({
+  groupId,
+  remoteAvatarUrl,
+  secretParams,
+  logId,
+}: Readonly<{
+  groupId: string;
+  remoteAvatarUrl: string;
+  secretParams: string;
+  logId: string;
+}>): Promise<void> {
+  let attributes: Pick<ConversationAttributesType, 'avatar' | 'secretParams'> =
+    {
       avatar: null,
       secretParams,
     };
-    try {
-      const patch = await applyNewAvatar({
-        newAvatarUrl: result.avatar,
-        attributes,
-        logId,
-        forceDownload: true,
-      });
-      attributes = { ...attributes, ...patch };
+  let localAvatar: ContactAvatarType | null = null;
+  try {
+    const patch = await applyNewAvatar({
+      newAvatarUrl: remoteAvatarUrl,
+      attributes,
+      logId,
+      forceDownload: true,
+    });
+    attributes = { ...attributes, ...patch };
 
-      if (attributes.avatar && attributes.avatar.path) {
-        localAvatar = {
-          loadingState: LoadingState.Loaded,
-          value: { ...attributes.avatar },
-        };
+    if (attributes.avatar && attributes.avatar.path) {
+      localAvatar = { ...attributes.avatar };
+    }
+  } catch {
+    localAvatar = null;
+  }
 
-        // Dialog has been dismissed; we'll delete the unneeeded avatar
-        if (!groupV2InfoRoot) {
-          await maybeDeleteAttachmentFile(attributes.avatar.path);
+  const preJoinConversation = getCurrentPreJoinConversation();
+
+  // Dialog has been dismissed; we'll delete the unneeded avatar
+  if (preJoinConversation?.groupId !== groupId) {
+    if (localAvatar?.path != null) {
+      await maybeDeleteAttachmentFile(localAvatar.path);
+    }
+    return;
+  }
+
+  // Update join dialog with newly-downloaded avatar
+  window.reduxActions.conversations.setPreJoinConversation({
+    ...preJoinConversation,
+    avatar:
+      localAvatar != null
+        ? { url: getLocalAttachmentUrl(localAvatar) }
+        : undefined,
+    localAvatar,
+  });
+}
+
+/**
+ * Called when the user confirms the join dialog.
+ */
+export async function completeJoinViaLink(): Promise<void> {
+  const preJoinConversation = getCurrentPreJoinConversation();
+  if (preJoinConversation == null) {
+    log.warn('completeJoinViaLink: No pre-join conversation, ignoring');
+    return;
+  }
+
+  const {
+    groupId: id,
+    masterKey,
+    secretParams,
+    publicParams,
+    inviteLinkPassword,
+    approvalRequired,
+    revision,
+    remoteAvatarUrl,
+    localAvatar,
+    groupDescription,
+    title,
+    memberCount,
+  } = preJoinConversation;
+  const logId = `groupv2(${id})`;
+  const ourAci = itemStorage.user.getCheckedAci();
+
+  window.reduxActions.globalModals.toggleGroupV2JoinDialog(false);
+  window.reduxActions.conversations.setPreJoinConversation(undefined);
+
+  try {
+    await longRunningTaskWrapper({
+      name: 'joinViaLink',
+      idForLogging: idForLogging(id),
+      // If an error happens here, we won't show the default dialog. We'll show our own
+      //   below.
+      suppressErrorDialog: true,
+      task: async () => {
+        let targetConversation =
+          window.ConversationController.get(id) ||
+          window.ConversationController.getByDerivedGroupV2Id(id);
+        let tempConversation: ConversationModel | undefined;
+
+        // Check again to ensure that we haven't already joined or requested to join
+        //   via some other process. If so, just open that conversation.
+        if (
+          targetConversation &&
+          (targetConversation.hasMember(ourAci) ||
+            (approvalRequired &&
+              targetConversation.isMemberAwaitingApproval(ourAci)))
+        ) {
+          log.warn(
+            `${logId}: User is part of group on second check, opening conversation`
+          );
+          window.reduxActions.conversations.showConversation({
+            conversationId: targetConversation.id,
+          });
           return;
         }
-      } else {
-        localAvatar = { loadingState: LoadingState.Loaded, value: undefined };
-      }
+
+        try {
+          const avatar =
+            localAvatar != null && remoteAvatarUrl != null
+              ? {
+                  url: remoteAvatarUrl,
+                  ...localAvatar,
+                }
+              : undefined;
+          if (!targetConversation) {
+            // Note: we save this temp conversation in the database, so we'll need to
+            //   clean it up if something goes wrong
+            tempConversation = window.ConversationController.getOrCreate(
+              id,
+              'group',
+              {
+                // This will cause this conversation to be deleted at next startup
+                isTemporary: true,
+
+                active_at: Date.now(),
+                timestamp: Date.now(),
+
+                groupVersion: 2,
+                masterKey,
+                secretParams,
+                publicParams,
+
+                left: true,
+                revision: revision ?? undefined,
+
+                avatar,
+
+                description: groupDescription,
+                groupInviteLinkPassword: inviteLinkPassword,
+                name: title,
+                temporaryMemberCount: memberCount,
+              }
+            );
+            targetConversation = tempConversation;
+          } else {
+            // Ensure the group maintains the title and avatar you saw when attempting
+            //   to join it.
+            const timestamp = targetConversation.get('timestamp') || Date.now();
+            const active_at = targetConversation.get('active_at') || Date.now();
+            targetConversation.set({
+              active_at,
+              avatar,
+              description: groupDescription,
+              groupInviteLinkPassword: inviteLinkPassword,
+              left: true,
+              name: title,
+              revision: revision ?? undefined,
+              temporaryMemberCount: memberCount,
+              timestamp,
+            });
+            await DataWriter.updateConversation(targetConversation.attributes);
+          }
+
+          if (isGroupV1(targetConversation.attributes)) {
+            await targetConversation.joinGroupV2ViaLinkAndMigrate({
+              approvalRequired,
+              inviteLinkPassword,
+              revision: revision ?? 0,
+            });
+          } else {
+            await targetConversation.joinGroupV2ViaLink({
+              inviteLinkPassword,
+              approvalRequired,
+            });
+          }
+
+          if (tempConversation) {
+            tempConversation.set({
+              // We want to keep this conversation around, since the join succeeded
+              isTemporary: undefined,
+              profileSharing: true,
+            });
+            await DataWriter.updateConversation(tempConversation.attributes);
+          }
+
+          window.reduxActions.conversations.showConversation({
+            conversationId: targetConversation.id,
+          });
+        } catch (error) {
+          // Delete newly-created conversation if we encountered any errors
+          if (tempConversation) {
+            window.ConversationController.dangerouslyRemoveById(
+              tempConversation.id
+            );
+            await removeConversation(tempConversation.id);
+          }
+
+          throw error;
+        }
+      },
+    });
+  } catch (error) {
+    log.error(`${logId}: Failed to join group`, Errors.toLogFormat(error));
+    window.reduxActions.globalModals.showErrorModal({
+      title: i18n('icu:GroupV2--join--general-join-failure--title'),
+      description: i18n('icu:GroupV2--join--general-join-failure'),
+    });
+  }
+}
+
+/**
+ * Called when the user dismisses the join dialog.
+ */
+export async function cancelJoinViaLink(): Promise<void> {
+  const preJoinConversation = getCurrentPreJoinConversation();
+
+  window.reduxActions.globalModals.toggleGroupV2JoinDialog(false);
+  window.reduxActions.conversations.setPreJoinConversation(undefined);
+
+  const localAvatarPath = preJoinConversation?.localAvatar?.path;
+  if (localAvatarPath != null) {
+    try {
+      await maybeDeleteAttachmentFile(localAvatarPath);
     } catch (error) {
-      localAvatar = { loadingState: LoadingState.LoadFailed, error };
+      log.error(
+        'cancelJoinViaLink: Failed to delete avatar',
+        Errors.toLogFormat(error)
+      );
     }
-
-    // Update join dialog with newly-downloaded avatar
-    window.reduxActions.conversations.setPreJoinConversation(
-      getPreJoinConversation()
-    );
-  };
-
-  void fetchAvatar();
-
-  await promise;
+  }
 }

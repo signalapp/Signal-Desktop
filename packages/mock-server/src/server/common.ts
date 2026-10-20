@@ -7,6 +7,7 @@ import { send } from 'micro';
 import { ParseAuthHeaderResult, parseAuthHeader } from '../util';
 import type { Server } from './base';
 import type { Device } from '../data/device';
+import { Base64, Base64Url, GroupInviteLinkPassword } from '@signalapp/types';
 
 const debug = createDebug('mock:server:base');
 
@@ -34,4 +35,17 @@ export async function auth(
   }
 
   return device;
+}
+
+export function parseGroupInviteLinkPassword(
+  input: string,
+): GroupInviteLinkPassword.Encoded | null {
+  if (!Base64Url.isValid(input)) {
+    return null;
+  }
+  const base64 = Base64.fromBytes(Base64Url.toBytes(input));
+  if (!GroupInviteLinkPassword.isValid(base64)) {
+    return null;
+  }
+  return GroupInviteLinkPassword.encode(base64);
 }

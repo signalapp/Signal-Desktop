@@ -182,6 +182,9 @@ export type PropsType = {
   // TerminateGroupFailedModal
   terminateGroupFailedModal: { conversationId: string } | null;
   renderTerminateGroupFailedModal: () => JSX.Element | null;
+  // GroupV2JoinDialog
+  groupV2JoinDialogOpen: boolean;
+  renderGroupV2JoinDialog: () => JSX.Element;
   // PinChangeModal
   isPinChangeModalVisible: boolean;
   renderPinChangeModal: () => JSX.Element | null;
@@ -321,6 +324,9 @@ export function GlobalModalContainer({
   // TerminateGroupFailedModal
   terminateGroupFailedModal,
   renderTerminateGroupFailedModal,
+  // GroupV2JoinDialog
+  groupV2JoinDialogOpen,
+  renderGroupV2JoinDialog,
 }: PropsType): JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
@@ -354,6 +360,10 @@ export function GlobalModalContainer({
   // Safety Number
   if (hasSafetyNumberChangeModal || safetyNumberChangedBlockingData) {
     return renderSendAnywayDialog();
+  }
+
+  if (groupV2JoinDialogOpen) {
+    return renderGroupV2JoinDialog();
   }
 
   // Forward Modal

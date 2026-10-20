@@ -64,6 +64,23 @@ export abstract class Group {
     );
   }
 
+  public getPendingAdminApprovalMember(
+    uuidCiphertext: UuidCiphertext,
+  ): Proto.MemberPendingAdminApproval.Params | null {
+    const state = this.state;
+    const userId = Buffer.from(uuidCiphertext.serialize());
+
+    const found = state.membersPendingAdminApproval?.find((member) => {
+      if (!member.userId) {
+        return false;
+      }
+
+      return userId.equals(member.userId);
+    });
+
+    return found ?? null;
+  }
+
   public getPendingMember(
     uuidCiphertext: UuidCiphertext,
   ): Proto.MemberPendingProfileKey.Params | undefined {

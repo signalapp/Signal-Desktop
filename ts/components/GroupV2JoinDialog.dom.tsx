@@ -1,124 +1,100 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { memo, useState, useCallback } from 'react';
+import { useCallback, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { Avatar, AvatarBlur } from './Avatar.dom.tsx';
-import { Spinner } from './Spinner.dom.tsx';
-import { Button, ButtonVariant } from './Button.dom.tsx';
 import { GroupDescription } from './conversation/GroupDescription.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 
-import type { PreJoinConversationType } from '../state/ducks/conversations.preload.ts';
+export type GroupV2JoinDialogProps = Readonly<{
+  i18n: LocalizerType;
+  title: string;
+  avatarUrl: string | null;
+  avatarLoading: boolean;
+  memberCount: number;
+  groupDescription: string | null;
+  approvalRequired: boolean;
+  onJoin: () => void;
+  onClose: () => void;
+}>;
 
-type CallbackType = () => unknown;
+export function GroupV2JoinDialog(props: GroupV2JoinDialogProps): ReactNode {
+  const { i18n, onClose } = props;
 
-export type DataPropsType = PreJoinConversationType & {
-  readonly join: CallbackType;
-  readonly onClose: CallbackType;
-};
-
-export type HousekeepingPropsType = {
-  readonly i18n: LocalizerType;
-};
-
-export type PropsType = DataPropsType & HousekeepingPropsType;
-
-function focusRef(el: HTMLElement | null) {
-  if (el) {
-    el.focus();
-  }
-}
-
-export const GroupV2JoinDialog = memo(function GroupV2JoinDialogInner({
-  approvalRequired,
-  avatar,
-  groupDescription,
-  i18n,
-  join,
-  memberCount,
-  onClose,
-  title,
-}: PropsType) {
-  const [isWorking, setIsWorking] = useState(false);
-  const [isJoining, setIsJoining] = useState(false);
-
-  const joinString = approvalRequired
-    ? i18n('icu:GroupV2--join--request-to-join-button')
-    : i18n('icu:GroupV2--join--join-button');
-
-  const wrappedJoin = useCallback(() => {
-    setIsWorking(true);
-    setIsJoining(true);
-    join();
-  }, [join, setIsJoining, setIsWorking]);
-
-  const wrappedClose = useCallback(() => {
-    setIsWorking(true);
+  const handleOpenChange = useCallback(() => {
     onClose();
-  }, [onClose, setIsWorking]);
+  }, [onClose]);
 
   return (
-    <div className="module-group-v2-join-dialog">
-      <button
-        aria-label={i18n('icu:close')}
-        type="button"
-        disabled={isWorking}
-        className="module-group-v2-join-dialog__close-button"
-        onClick={wrappedClose}
-      />
-      <div className="module-group-v2-join-dialog__avatar">
-        <Avatar
-          avatarUrl={avatar ? avatar.url : undefined}
-          badge={undefined}
-          blur={AvatarBlur.NoBlur}
-          loading={avatar && !avatar.url}
-          conversationType="group"
-          title={title}
-          size={80}
-          i18n={i18n}
-        />
-      </div>
-      <div className="module-group-v2-join-dialog__title">{title}</div>
-      <div className="module-group-v2-join-dialog__metadata">
-        {i18n('icu:GroupV2--join--group-metadata--full', { memberCount })}
-      </div>
-      {groupDescription && (
-        <div className="module-group-v2-join-dialog__description">
-          <GroupDescription i18n={i18n} title={title} text={groupDescription} />
-        </div>
-      )}
-      {approvalRequired ? (
-        <div className="module-group-v2-join-dialog__prompt--approval">
-          {i18n('icu:GroupV2--join--prompt-with-approval')}
-        </div>
-      ) : (
-        <div className="module-group-v2-join-dialog__prompt">
-          {i18n('icu:GroupV2--join--prompt')}
-        </div>
-      )}
-      <div className="module-group-v2-join-dialog__buttons">
-        <Button
-          className="module-group-v2-join-dialog__button"
-          disabled={isWorking}
-          onClick={wrappedClose}
-          variant={ButtonVariant.Secondary}
-        >
-          {i18n('icu:cancel')}
-        </Button>
-        <Button
-          className="module-group-v2-join-dialog__button"
-          disabled={isWorking}
-          ref={focusRef}
-          onClick={wrappedJoin}
-          variant={ButtonVariant.Primary}
-        >
-          {isJoining ? (
-            <Spinner size="20px" svgSize="small" direction="on-avatar" />
-          ) : (
-            joinString
-          )}
-        </Button>
-      </div>
-    </div>
+    <AxoDialog.Root open onOpenChange={handleOpenChange}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header floating>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <div className={tw('mb-3 flex justify-center')}>
+            <Avatar
+              avatarUrl={props.avatarUrl ?? undefined}
+              badge={undefined}
+              blur={AvatarBlur.NoBlur}
+              loading={props.avatarLoading}
+              conversationType="group"
+              title={props.title}
+              size={80}
+              i18n={i18n}
+            />
+          </div>
+          <div className={tw('text-center')}>
+            <AxoDialog.Title>
+              <span className={tw('type-title-medium')}>{props.title}</span>
+            </AxoDialog.Title>
+            <p className={tw('text-secondary')}>
+              {i18n('icu:GroupV2--join--group-metadata--full', {
+                memberCount: props.memberCount,
+              })}
+            </p>
+
+            {props.groupDescription != null &&
+              props.groupDescription !== '' && (
+                <div className={tw('mt-3 text-secondary')}>
+                  <GroupDescription
+                    i18n={i18n}
+                    title={props.title}
+                    text={props.groupDescription}
+                  />
+                </div>
+              )}
+            <AxoDialog.Description>
+              {props.approvalRequired ? (
+                <p className={tw('mt-6 type-body-small text-secondary')}>
+                  {i18n('icu:GroupV2--join--prompt-with-approval')}
+                </p>
+              ) : (
+                <p className={tw('mt-6 text-primary')}>
+                  {i18n('icu:GroupV2--join--prompt')}
+                </p>
+              )}
+            </AxoDialog.Description>
+          </div>
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions width="fill">
+            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
+              {i18n('icu:cancel')}
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={props.onJoin}
+              autoFocus
+            >
+              {props.approvalRequired
+                ? i18n('icu:GroupV2--join--request-to-join-button')
+                : i18n('icu:GroupV2--join--join-button')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
-});
+}

@@ -96,6 +96,7 @@ import {
 import { Port, ServerMediaAddress } from '../sfu/config';
 import { CallingPublicKey } from '../sfu/crypto';
 import type { JsonValue, PartialDeep } from 'type-fest';
+import type { GroupInviteLinkPassword } from '@signalapp/types';
 
 export enum EnvelopeType {
   CipherText = 'CipherText',
@@ -227,6 +228,7 @@ export type ModifyGroupOptions = Readonly<{
   actions: Proto.GroupChange.Actions.Params;
   aciCiphertext: Uint8Array<ArrayBuffer>;
   pniCiphertext: Uint8Array<ArrayBuffer> | undefined;
+  inviteLinkPassword: GroupInviteLinkPassword.Encoded | null;
 }>;
 
 export type EncryptedStickerPack = Readonly<{
@@ -1083,6 +1085,7 @@ export abstract class Server {
     actions,
     aciCiphertext,
     pniCiphertext,
+    inviteLinkPassword,
   }: ModifyGroupOptions): Promise<ModifyGroupResult> {
     return group.modify(
       new UuidCiphertext(Buffer.from(aciCiphertext)),
@@ -1090,6 +1093,7 @@ export abstract class Server {
         ? new UuidCiphertext(Buffer.from(pniCiphertext))
         : undefined,
       actions,
+      inviteLinkPassword,
     );
   }
 

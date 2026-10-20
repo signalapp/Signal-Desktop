@@ -20,7 +20,7 @@ import {
   type NotificationClickData,
   notificationService,
 } from '../services/notifications.preload.ts';
-import { joinViaLink } from '../groups.preload.ts';
+import { startJoinViaLink } from '../groups.preload.ts';
 import {
   StoryViewModeType,
   StoryViewTargetType,
@@ -404,7 +404,7 @@ export function createIPCEvents(
         return;
       }
       try {
-        await joinViaLink(value);
+        await startJoinViaLink(value);
       } catch (error) {
         log.error(
           'showGroupViaLink: Ran into an error!',

@@ -193,6 +193,8 @@ export type EncryptTextOptions = EncryptOptions &
 export type CreateGroupOptions = Readonly<{
   title: string;
   members: ReadonlyArray<PrimaryDevice>;
+  addFromInviteLink?: Proto.AccessControl.AccessRequired;
+  inviteLinkPassword?: Uint8Array<ArrayBuffer>;
 }>;
 
 export type SendUpdateToList = ReadonlyArray<
@@ -963,6 +965,8 @@ export class PrimaryDevice {
   public async createGroup({
     title,
     members: memberDevices,
+    addFromInviteLink,
+    inviteLinkPassword,
   }: CreateGroupOptions): Promise<Group> {
     const groupParams = GroupSecretParams.generate();
 
@@ -991,6 +995,8 @@ export class PrimaryDevice {
 
       title,
       members,
+      addFromInviteLink,
+      inviteLinkPassword,
     });
 
     await this.config.createGroup(clientGroup.state);
@@ -1033,6 +1039,7 @@ export class PrimaryDevice {
       },
       aciCiphertext: group.encryptServiceId(this.device.aci),
       pniCiphertext: pni ? group.encryptServiceId(pni) : undefined,
+      inviteLinkPassword: null,
     });
 
     assert(!modifyResult.conflict, 'Group update conflict!');

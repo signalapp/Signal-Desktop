@@ -1,95 +1,108 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { JSX } from 'react';
-
+import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './GroupV2JoinDialog.dom.tsx';
 import { GroupV2JoinDialog } from './GroupV2JoinDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  memberCount: overrideProps.memberCount ?? 12,
-  avatar: overrideProps.avatar,
-  title: overrideProps.title ?? 'Random Group!',
-  approvalRequired: overrideProps.approvalRequired ?? false,
-  groupDescription: overrideProps.groupDescription,
-  join: action('join'),
-  onClose: action('onClose'),
-  i18n,
-});
-
 export default {
   title: 'Components/GroupV2JoinDialog',
-  argTypes: {},
-  args: {},
-} satisfies Meta<PropsType>;
+} satisfies Meta;
 
-export function Basic(): JSX.Element {
-  return <GroupV2JoinDialog {...createProps()} />;
-}
-
-export function ApprovalRequired(): JSX.Element {
+export function Basic(): ReactNode {
   return (
     <GroupV2JoinDialog
-      {...createProps({
-        approvalRequired: true,
-        title: 'Approval required!',
-      })}
+      i18n={i18n}
+      title="Random Group!"
+      avatarUrl={null}
+      avatarLoading={false}
+      memberCount={12}
+      groupDescription={null}
+      approvalRequired={false}
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
     />
   );
 }
 
-export function WithAvatar(): JSX.Element {
+export function ApprovalRequired(): ReactNode {
   return (
     <GroupV2JoinDialog
-      {...createProps({
-        avatar: {
-          url: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
-        },
-        title: 'Has an avatar!',
-      })}
+      i18n={i18n}
+      title="Approval required!"
+      avatarUrl={null}
+      avatarLoading={false}
+      memberCount={12}
+      groupDescription={null}
+      approvalRequired
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
     />
   );
 }
 
-export function WithOneMember(): JSX.Element {
+export function WithAvatar(): ReactNode {
   return (
     <GroupV2JoinDialog
-      {...createProps({
-        memberCount: 1,
-        title: 'Just one member!',
-      })}
+      i18n={i18n}
+      title="Has an avatar!"
+      avatarUrl="/fixtures/giphy-GVNvOUpeYmI7e.gif"
+      avatarLoading={false}
+      memberCount={12}
+      groupDescription={null}
+      approvalRequired={false}
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
     />
   );
 }
 
-export function AvatarLoadingState(): JSX.Element {
+export function WithOneMember(): ReactNode {
   return (
     <GroupV2JoinDialog
-      {...createProps({
-        avatar: {
-          loading: true,
-        },
-        title: 'Avatar loading!',
-      })}
+      i18n={i18n}
+      title="Just one member!"
+      avatarUrl={null}
+      avatarLoading={false}
+      memberCount={1}
+      groupDescription={null}
+      approvalRequired={false}
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
     />
   );
 }
 
-export function Full(): JSX.Element {
+export function AvatarLoadingState(): ReactNode {
   return (
     <GroupV2JoinDialog
-      {...createProps({
-        avatar: {
-          url: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
-        },
-        memberCount: 16,
-        groupDescription: 'Discuss meets, events, training, and recruiting.',
-        title: 'Underwater basket weavers (LA)',
-      })}
+      i18n={i18n}
+      title="Avatar loading!"
+      avatarUrl={null}
+      avatarLoading
+      memberCount={12}
+      groupDescription={null}
+      approvalRequired={false}
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
+    />
+  );
+}
+
+export function Full(): ReactNode {
+  return (
+    <GroupV2JoinDialog
+      i18n={i18n}
+      title="Underwater basket weavers (LA)"
+      avatarUrl="/fixtures/giphy-GVNvOUpeYmI7e.gif"
+      avatarLoading={false}
+      memberCount={16}
+      groupDescription="Discuss meets, events, training, and recruiting."
+      approvalRequired={false}
+      onJoin={action('onJoin')}
+      onClose={action('onClose')}
     />
   );
 }

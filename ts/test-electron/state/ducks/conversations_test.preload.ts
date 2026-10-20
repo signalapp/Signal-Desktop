@@ -1522,6 +1522,14 @@ describe('both/state/ducks/conversations', () => {
           title: 'Pre-join group!',
           memberCount: 4,
           approvalRequired: false,
+          groupId: 'group-id',
+          masterKey: 'master-key',
+          secretParams: 'secret-params',
+          publicParams: 'public-params',
+          inviteLinkPassword: 'invite-link-password',
+          revision: null,
+          remoteAvatarUrl: null,
+          localAvatar: null,
         };
         const stateWithData = reducer(
           startState,
