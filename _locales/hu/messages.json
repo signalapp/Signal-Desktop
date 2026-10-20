@@ -1479,7 +1479,7 @@
     "messageformat": "Tudj meg többet"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Üzenetelőzmények összevonva"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} felhasználóval való üzenetváltás után megtudtad, hogy ez a szám {conversationTitle} felhasználóhoz tartozik. A telefonszám privát."
@@ -8607,37 +8607,37 @@
     "messageformat": "Mellékletek mentése"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Üzenet"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Üzenet"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Hozzáadás egy csoporthoz"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Becenév"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Megjegyzések"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Kezdőlap"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Munkahelyi"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefonszám"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Cím"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Újdonságok"
@@ -9121,12 +9121,12 @@
     "messageformat": "Hozzáadtunk egy praktikus parancsikont is, amellyel megnyithatod a rendszerbeállításaidat Windows-operációs rendszerben, ha megpróbálsz csatlakozni egy videohíváshoz, és a Signal nem rendelkezik engedéllyel a kamera eléréséhez."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Az olvasatlan üzenetek szűrője mostantól az üzenetmappákban és a keresési felületen is támogatott."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Javított feltöltési megbízhatóság rossz hálózati körülmények között. Köszönjük, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Az „(N)” gyorsbillentyű helyesen a lefelé mutató hüvelykujj emojira mutat. Felfelé mutató hüvelykujj <lnicola></lnicola> számára a hibajavításért!"
   }
 }

@@ -1479,7 +1479,7 @@
     "messageformat": "Saber máis"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historial de mensaxes combinado"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Despois de mandar mensaxes a {obsoleteConversationTitle}, démonos de conta de que este número pertence a {conversationTitle}. O seu número de teléfono é privado."
@@ -8607,37 +8607,37 @@
     "messageformat": "Gardar anexos"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mensaxe"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mensaxe"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Engadir ao grupo"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Alcume"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notas"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Correo electrónico"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Enderezo"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Móbil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Traballo"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Teléfono"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Enderezo"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Novidades"
@@ -9121,12 +9121,12 @@
     "messageformat": "Tamén engadimos un acceso directo para abrir a configuración do sistema en Windows se intentas unirte a unha videochamada e Signal non ten permiso para acceder á cámara."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Agora tamén se pode filtrar por mensaxes non lidas nos cartafoles de mensaxes e na interface de busca."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Melloramos a estabilidade das cargas cando a conexión á rede é débil. Graciñas, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "O atallo «(N)» agora corresponde correctamente ao emoji do polgar cara a abaixo. Un polgar cara a arriba para <lnicola></lnicola> por corrixir o erro."
   }
 }

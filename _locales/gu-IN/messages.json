@@ -1479,7 +1479,7 @@
     "messageformat": "વધુ શીખો"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "મેસેજ હિસ્ટ્રી મર્જ કરવામાં આવી"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} સાથે મેસેજમાં વાતચીત કર્યા પછી તમે જાણ્યું કે આ નંબર {conversationTitle} નો છે. તેમનો ફોન નંબર ખાનગી છે."
@@ -8607,37 +8607,37 @@
     "messageformat": "એટેચમેન્ટ સેવ કરો"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "મેસેજ"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "મેસેજ"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ગ્રૂપમાં ઉમેરો"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ઉપનામ"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "નોંધ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ઇમેઇલ"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "હોમ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "મોબાઇલ"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "કામ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ફોન"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "સરનામું"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "નવું શું છે"
@@ -9121,12 +9121,12 @@
     "messageformat": "જો તમે વીડિયો કૉલમાં જોડાવાનો પ્રયાસ કરો અને Signal પાસે કૅમેરાનો ઉપયોગ કરવાની પરવાનગી ન હોય, તો Windows પર તમારી સિસ્ટમ સેટિંગ્સ ખોલવા માટે અમે એક અનુકૂળ શોર્ટકટ પણ ઉમેર્યો છે."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "હવે મેસેજ ફોલ્ડર અને સર્ચ ઇન્ટરફેસમાં પણ ન વાંચેલા ફિલ્ટરને સપોર્ટ મળે છે."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "નબળા નેટવર્કની સ્થિતિમાં અપલોડની વિશ્વસનીયતા સુધારી. આભાર, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; શોર્ટકટ યોગ્ય રીતે થમ્બ્સ ડાઉન ઇમોજી તરફ નિર્દેશ કરે છે. બગ સુધારા માટે માટે <lnicola></lnicola>ને થંબ્સ અપ."
   }
 }

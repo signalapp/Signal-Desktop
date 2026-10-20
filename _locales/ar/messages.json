@@ -1479,7 +1479,7 @@
     "messageformat": "اعرف المزيد"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "تمَّ دمج سِجل الرسائل"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "بعد تبادل الرسائل مع {obsoleteConversationTitle}، أدركتَ أن هذا الرقم يعود إلى {conversationTitle}. رقم هاتفه خاص."
@@ -8607,37 +8607,37 @@
     "messageformat": "حفظ الملفات المُرفَقة"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ابدأ المراسلة"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ابدأ المراسلة"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "إضافة إلى مجموعة"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "اسم مستعار"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "ملاحظات"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "البريد الإلكتروني"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "العنوان"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "الهاتف المحمول"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "العمل"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "رقم الهاتف"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "العنوان"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما هو جديد"
@@ -9121,12 +9121,12 @@
     "messageformat": "أضفنا أيضًا اختصارًا ملائمًا لفتح إعدادات النظام على ويندوز إذا حاولت الانضمام إلى مكالمة فيديو وسيجنال لا يملك إذن الوصول إلى الكاميرا. أصبح الآن من السهل رؤية ما يجب عليك فعله ليراك الناس."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "أصبح فلتر الرسائل غير المقروءة مدعومًا الآن في مجلدات الرسائل وقائمة البحث، لكي تطّلع على ما فاتك بسهولة."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "استقرار أفضل للتحميل حتى في ظروف الاتصال الضعيفة بالإنترنت. شكرًا، <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "اختصار &quot;(N)&quot; أصبح يشير للرمز التعبيري &quot;الإبهام لأسفل&quot;. يشير إبهام لفوق لـ <lnicola></lnicola> على إصلاح الخطأ."
   }
 }

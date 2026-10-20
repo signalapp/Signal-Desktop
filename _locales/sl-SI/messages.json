@@ -1479,7 +1479,7 @@
     "messageformat": "Več o tem"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Zgodovina sporočil je združena"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Po pošiljanju sporočil s/z {obsoleteConversationTitle} ste izvedeli, da ta številka pripada{conversationTitle}. Telefonska številka je zasebna."
@@ -8607,37 +8607,37 @@
     "messageformat": "Shrani priponke"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Sporočilo"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Sporočilo"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Dodaj v skupino"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Vzdevek"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Beležke"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-pošta"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Dom"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobilni telefon"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Služba"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Naslov"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kaj je novega"
@@ -9121,12 +9121,12 @@
     "messageformat": "Dodali smo tudi priročno bližnjico za odpiranje sistemskih nastavitev v sistemu Windows, če se poskušate pridružiti video klicu, vendar Signal nima dovoljenja za dostop do kamere. Zdaj je lažje videti, kaj morate storiti, da vas bodo drugi lahko videli."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filter za neprebrana sporočila je zdaj na voljo tudi v mapah s sporočili in v vmesniku za iskanje."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Zanesljivejše nalaganje tudi ob slabi omrežni povezavi. Hvala, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Bližnjica »(N)« zdaj pravilno prikazuje emoji s palcem navzdol. Palec navzgor za <lnicola></lnicola> za odpravo napake."
   }
 }

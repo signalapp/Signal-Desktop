@@ -1479,7 +1479,7 @@
     "messageformat": "اطلاعات بیشتر"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "تاریخچه پیام ادغام شد"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "پس از ارسال پیام با {obsoleteConversationTitle} متوجه شدید که این شماره متعلق به {conversationTitle} است. شماره تلفن او خصوصی است."
@@ -8607,37 +8607,37 @@
     "messageformat": "ذخیره پیوست‌ها"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "پیام"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "پیام"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "افزودن به گروه"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "نام مستعار"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "یادداشت‌ها"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ایمیل"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "خانه"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "موبایل"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "محل کار"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "تلفن"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "آدرس"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "تازه‌ها"
@@ -9121,12 +9121,12 @@
     "messageformat": "همچنین میان‌بر مناسبی اضافه کردیم تا اگر هنگام تلاش برای پیوستن به تماس تصویری، سیگنال اجازه دسترسی به دوربین را نداد، بتوانید تنظیمات سیستم خود را در ویندوز باز کنید."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "اکنون فیلتر «خوانده‌نشده» در پوشه‌های پیام و همچنین در رابط کاربری جستجو نیز پشتیبانی می‌شود."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "بهبود قابلیت اطمینان بارگذاری در شرایط نامناسب شبکه. ممنون، <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "میان‌بر «(N)» به‌درستی به ایموجی «دیسلایک» اشاره دارد. لایک به <lnicola></lnicola> بابت رفع این اشکال."
   }
 }

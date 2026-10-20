@@ -1479,7 +1479,7 @@
     "messageformat": "மேலும் அறிக"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "செய்தி வரலாறு ஒன்றிணைக்கப்பட்டது"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle}க்கு மெசேஜ் அனுப்பிய பிறகு, இந்த எண் {conversationTitle} க்கு சொந்தமானது என்பதை அறிந்து கொண்டீர்கள். அவர்களின் தொலைபேசி எண் பிரைவேட்டானது."
@@ -8607,37 +8607,37 @@
     "messageformat": "இணைப்புகளை சேமித்தல்"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "மெசேஜ்"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "மெசேஜ்"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ஒரு குழுவில் சேர்க்கவும்"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "புனைப்பெயர்"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "குறிப்புகள்"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "மின்னஞ்சல்"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "வீடு"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "கைபேசி"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "அலுவலகம்"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "தொலைபேசி"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "முகவரி"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "புதிதாக என்ன உள்ளது"
@@ -9121,12 +9121,12 @@
     "messageformat": "நீங்கள் வீடியோ அழைப்பில் இணைய முயலும்போது, கேமராவை அணுக Signal-க்கு அனுமதி இல்லை எனில், Windows-இல் உங்கள் சிஸ்டம் அமைப்புகளைத் திறப்பதற்கு ஏற்ற எளியவழி ஒன்றையும் சேர்த்துள்ளோம்."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "'படிக்கப்படாதவை' வடிகட்டி இப்போது செய்தி கோப்புறைகளிலும் தேடல் இடைமுகத்திலும் ஆதரிக்கப்படுகிறது."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "மோசமான நெட்வொர்க் நிலைகளிலும் பதிவேற்றத்தின் நம்பகத்தன்மை மேம்படுத்தப்பட்டுள்ளது. நன்றி, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; குறுக்குவழி இப்போது தம்ப்ஸ் டவுன் எமோஜியைச் சரியாகக் காட்டுகிறது. பிழையைச் சரிசெய்ததற்காக <lnicola></lnicola>-க்கு தம்ப்ஸ் அப் வழங்குங்கள்."
   }
 }

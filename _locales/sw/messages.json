@@ -1479,7 +1479,7 @@
     "messageformat": "Jifunze Zaidi"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historia ya ujumbe imeunganishwa"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Baada ya kutuma ujumbe kupitia {obsoleteConversationTitle} umejua kuwa nambari hii ni ya {conversationTitle}. Nambari yao ya simu ni ya siri."
@@ -8607,37 +8607,37 @@
     "messageformat": "Hifadhi viambatisho"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Ujumbe"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Ujumbe"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Ongeza kwenye kikundi"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Jina la utani"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Maelezo"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Barua-pepe"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Nyumbani"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Simu"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Kazi"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "simu"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Anwani"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kuna Lipi Jipya?"
@@ -9121,12 +9121,12 @@
     "messageformat": "Pia tumeongeza njia ya mkato rahisi ili kufungua mipangilio yako ya mfumo kwenye Windows ikiwa utajaribu kujiunga kwenye simu ya video na Signal haina ruhusa ya kufikia kamera. Sasa ni rahisi kuona kile unachohitaji ili wengine wakuone."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Kichujio cha ujumbe ambao haujasomwa sasa kinapatikana pia kwenye folda za ujumbe na kiolesura cha utafutaji, hivyo unaweza kuona kwa urahisi ujumbe ambao hujausoma."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Uaminifu wa upakiaji wa faili umeboreshwa hata katika hali ya mtandao usio thabiti. Asante, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Njia ya mkato ya “(N)” sasa inaelekeza kwa usahihi kwenye emoji ya sijapenda. Hongera kwa <lnicola></lnicola> kwa kutatua hitilafu."
   }
 }

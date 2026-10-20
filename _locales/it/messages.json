@@ -1479,7 +1479,7 @@
     "messageformat": "Scopri di più"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Cronologia messaggi unita"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Dopo aver inviato un messaggio a {obsoleteConversationTitle} hai scoperto che quel numero appartiene a {conversationTitle}. Il numero di telefono di questa persona è privato."
@@ -8607,37 +8607,37 @@
     "messageformat": "Salva allegati"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Messaggio"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Messaggio"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Aggiungi a un gruppo"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Soprannome"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Note"
   },
   "icu:email-v2": {
     "messageformat": "Email"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Casa"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Cellulare"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Ufficio"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefono"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Indirizzo"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cosa c'è di nuovo"
@@ -9121,12 +9121,12 @@
     "messageformat": "Abbiamo anche aggiunto una comoda shortcut per aprire le Impostazioni del tuo sistema operativo su Windows, nel caso in cui provassi a unirti a una videochiamata e Signal non avesse l'autorizzazione ad accedere alla fotocamera. Da ora è più semplice vedere e capire cosa fare in questi casi, così entrerai nelle tue videochiamate senza fare tardi."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Da adesso, il filtro \"Da leggere\" è supportato anche nelle cartelle dei messaggi e nell'interfaccia di ricerca, così puoi subito trovare i messaggi non letti."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Migliorato il funzionamento dei processi di caricamento in caso di rete instabile. Grazie, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Da adesso, la scorciatoia da tastiera &quot;(N)&quot; è correttamente associata all'emoji del pollice verso il basso. Facciamo invece un bel pollice verso l'alto a <lnicola></lnicola> per averci aiutato a individuare questo bug!"
   }
 }

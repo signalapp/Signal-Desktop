@@ -1479,7 +1479,7 @@
     "messageformat": "למידע נוסף"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "היסטוריית הודעות מוזגה"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "לאחר התכתבות עם {obsoleteConversationTitle} גילית שהמספר הזה שייך ל{conversationTitle}. מספר הטלפון שלו או שלה הוא פרטי."
@@ -8607,37 +8607,37 @@
     "messageformat": "שמירת קבצים מצורפים"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "הודעה"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "הודעה"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "הוסף אל קבוצה"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "כינוי"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "פתקים"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "אימייל"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "בית"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "נייד"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "עבודה"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "טלפון"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "כתובת"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "מה חדש"
@@ -9121,12 +9121,12 @@
     "messageformat": "הוספנו גם קיצור דרך נוח לפתיחת הגדרות המערכת שלך ב–Windows במקרה שניסית להצטרף לשיחת וידאו ול–Signal אין הרשאת גישה למצלמה."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "עכשיו אפשר לסנן הודעות שלא נקראו גם בתיקיות ההודעות ובממשק החיפוש."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "שיפרנו את אמינות העלאת הקבצים גם בתנאים של חיבור רשת חלש. תודה, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "קיצור הדרך &quot;(N)&quot; מפנה עכשיו כראוי לאימוג׳י האגודל הפונה למטה. תודה על תיקון הבאג, <lnicola></lnicola>."
   }
 }

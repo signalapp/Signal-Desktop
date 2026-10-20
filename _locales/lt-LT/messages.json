@@ -1479,7 +1479,7 @@
     "messageformat": "Sužinoti daugiau"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Žinučių istorija sujungta"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Po susirašinėjimo su {obsoleteConversationTitle} paaiškėjo, kad šis numeris priklauso {conversationTitle}. Šio žmogaus telefono numeris privatus."
@@ -8607,37 +8607,37 @@
     "messageformat": "Įrašyti priedus"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Žinutė"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Žinutė"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Pridėti į grupę"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Slapyvardis"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Užrašai"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "El. paštas"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Namų"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobilusis"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Darbo"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefonas"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresas"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Kas naujo"
@@ -9121,12 +9121,12 @@
     "messageformat": "Be to, pridėjome patogų šaukinį, leidžiantį atverti „Windows“ sistemos nustatymus, jei „Signal“ neturi prieigos prie kameros bandant prisijungti prie vaizdo skambučio."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Neperskaitytų pranešimų filtras dabar palaikomas ir žinučių aplankuose bei paieškos sąsajoje."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Patikimesnis įkėlimas esant prasto ryšio sąlygoms. Ačiū, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Šaukinys „(N)“ tinkamai nurodo žemyn nuleisto nykščio jaustuką. Ačiū už pataisymą, <lnicola></lnicola>."
   }
 }

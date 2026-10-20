@@ -1479,7 +1479,7 @@
     "messageformat": "Mehr erfahren"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Nachrichtenverlauf zusammengeführt"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Nach dem Nachrichtenaustausch mit {obsoleteConversationTitle} hast du erfahren, dass diese Nummer zu {conversationTitle} gehört. Diese Telefonnummer ist privat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Anhänge speichern"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Nachricht"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Nachricht"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Zu einer Gruppe hinzufügen"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Spitzname"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notizen"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-Mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Privat"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Arbeit"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresse"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Was ist neu?"
@@ -8949,7 +8949,7 @@
     "messageformat": "Im Profil anzeigen"
   },
   "icu:Donations__badge-modal--help-text": {
-    "messageformat": "Du kannst das auf deinem Smartphone anpassen unter: Einstellungen → An Signal spenden → Abzeichen"
+    "messageformat": "Du kannst diese Einstellung auf deinem Smartphone anpassen unter: Einstellungen → An Signal spenden → Abzeichen"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
     "messageformat": "Wie war dein Anruf?"
@@ -9121,12 +9121,12 @@
     "messageformat": "Wir haben außerdem eine praktische Tastenkombination hinzugefügt, mit der du unter Windows deine Systemeinstellungen öffnen kannst, wenn du einem Videoanruf beitreten möchtest und Signal keinen Zugriff auf deine Kamera hat. So findest du jetzt leichter heraus, was zu tun ist, damit die anderen dich sehen können."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Der Filter für ungelesene Nachrichten wird nun auch in Nachrichtenordnern und in der Suchoberfläche unterstützt, sodass du ganz einfach sehen kannst, was du bisher verpasst hast."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Verbesserte Upload-Zuverlässigkeit bei schlechten Netzwerkbedingungen. Danke, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Der Shortcut »(N)« verweist jetzt korrekt auf das Daumen-runter-Emoji. Daumen hoch an <lnicola></lnicola> für den Bugfix."
   }
 }

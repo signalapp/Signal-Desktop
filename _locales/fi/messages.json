@@ -1479,7 +1479,7 @@
     "messageformat": "Lue lisää"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Viestihistoria yhdistetty"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Lähetettyäsi viestin keskusteluun {obsoleteConversationTitle} sinulle selvisi, että tämä numero kuuluu keskusteluun {conversationTitle}. Puhelinnumero on yksityinen."
@@ -8607,37 +8607,37 @@
     "messageformat": "Tallenna liitetiedostot"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Viesti"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Viesti"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Lisää ryhmään"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Lempinimi"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Muistiinpanot"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Sähköposti"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Aloitus"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Matkapuhelin"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Työ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Puhelin"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Osoite"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Uudet ominaisuudet"
@@ -9121,12 +9121,12 @@
     "messageformat": "Lisäsimme myös kätevän pikakuvakkeen, jolla voit avata Windowsin järjestelmäasetukset, jos yrität liittyä videopuheluun ja Signalilla ei ole lupaa käyttää kameraa."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Lukemattomien viestien suodatinta tuetaan nyt myös viestikansioissa ja haun käyttöliittymässä."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Parannettu lähetysten luotettavuus heikoilla verkkoyhteyksillä. Kiitos, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Oikotie (N) osoittaa peukalo alaspäin -emojiin. Peukku virheenkorjaamisesta, <lnicola>.</lnicola>"
   }
 }

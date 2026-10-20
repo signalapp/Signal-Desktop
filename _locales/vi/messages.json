@@ -1479,7 +1479,7 @@
     "messageformat": "Tìm hiểu thêm"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Lịch sử tin nhắn đã được hợp nhất"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Sau khi nhắn tin với {obsoleteConversationTitle} bạn biết số này thuộc về {conversationTitle}. Số điện thoại của người đó riêng tư."
@@ -8607,37 +8607,37 @@
     "messageformat": "Lưu tập tin đính kèm"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Tin nhắn"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Tin nhắn"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Thêm vào một nhóm"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Biệt danh"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Ghi chú"
   },
   "icu:email-v2": {
     "messageformat": "Email"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Nhà"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Di động"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Công việc"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Số điện thoại"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Địa chỉ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Có gì mới"
@@ -9121,12 +9121,12 @@
     "messageformat": "Chúng tôi cũng đã thêm một lối tắt tiện lợi để mở cài đặt hệ thống trên Windows trong trường hợp bạn cố gắng tham gia cuộc gọi video nhưng Signal chưa được cấp quyền truy cập camera."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Bộ lọc tin nhắn chưa đọc hiện đã được hỗ trợ trong các thư mục tin nhắn cũng như trên giao diện tìm kiếm."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Cải thiện độ tin cậy khi tải lên trong điều kiện mạng kém. Cảm ơn, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Phím tắt &quot;(N)&quot; trỏ chính xác đến emoji ngón cái hướng xuống. Cảm ơn <lnicola></lnicola> vì đã sửa lỗi."
   }
 }

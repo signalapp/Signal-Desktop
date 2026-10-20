@@ -1479,7 +1479,7 @@
     "messageformat": "詳しく見る"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "メッセージ履歴が統合されました"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} へのメッセージ送信後、この番号は {conversationTitle}に含まれていると確認されました。電話番号は非公開です。"
@@ -8607,37 +8607,37 @@
     "messageformat": "添付ファイルの保存"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "メッセージ"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "メッセージ"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "グループへ追加"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ニックネーム"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "メモ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "メールアドレス"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "自宅"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "携帯"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "職場"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "電話番号"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "住所"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "更新情報"
@@ -9121,12 +9121,12 @@
     "messageformat": "また、ビデオ通話に参加しようとした際にSignalがカメラへのアクセスを許可されていない場合、システム設定を開くための便利なショートカットをWindows版に追加しました。"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "メッセージフォルダや検索インターフェースが、未読フィルターにも対応できるようになりました。"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ネットワーク接続が不安定な環境でのアップロードの信頼性が向上しました。ありがとうございます、<GH3mmmbulus></GH3mmmbulus>！"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "ショートカット「(N)」が、正しく「低評価」の絵文字を表示するようになりました。不具合を修正してくれた<lnicola></lnicola>に「いいね」を送ります。"
   }
 }

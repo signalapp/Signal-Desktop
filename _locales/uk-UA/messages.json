@@ -1479,7 +1479,7 @@
     "messageformat": "Докладніше"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Історію повідомлень об'єднано"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Після спілкування з «{obsoleteConversationTitle}» ви дізналися, що цей номер належить користувачу «{conversationTitle}». Номер телефону користувача приватний."
@@ -8607,37 +8607,37 @@
     "messageformat": "Зберегти вкладення"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Повідомлення"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Повідомлення"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Додати до групи"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Умовне ім'я"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Нотатки"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Імейл"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Дім"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Мобільний"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Робота"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Телефон"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Адреса"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Що нового"
@@ -9121,12 +9121,12 @@
     "messageformat": "Крім того, ми додали зручне сполучення клавіш для відкриття системних налаштувань Windows на випадок, якщо ви захочете приєднатися до відеовиклику, а Signal не матиме доступу до камери. Тепер вам буде простіше знайти потрібне налаштування, щоб більше не залишатися за кадром."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Фільтр непрочитаних повідомлень тепер також доступний у папках із повідомленнями та в пошуку, тож ви легко побачите все, що пропустили."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Поліпшено надійність вивантаження файлів за умов слабкого з'єднання. Дякуємо, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Тепер «(N)» веде до правильного емоджі — пальця вниз. <lnicola></lnicola>, ставимо палець угору за виправлення цієї помилки."
   }
 }

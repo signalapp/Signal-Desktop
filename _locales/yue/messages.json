@@ -1479,7 +1479,7 @@
     "messageformat": "了解多啲"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "訊息紀錄已經合併"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "同 {obsoleteConversationTitle} 通訊之後，你知道咗呢個號碼係屬於 {conversationTitle} 嘅。對方嘅電話冧把係保密嘅。"
@@ -8607,37 +8607,37 @@
     "messageformat": "儲存附件"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "訊息"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "訊息"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "加入去一個谷度"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "綽號"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "筆記"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "電郵"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "屋企"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "手提"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "公司"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "電話"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "地址"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -9121,12 +9121,12 @@
     "messageformat": "我哋亦都加入咗一個捷徑，方便你喺嘗試加入視像通話嗰陣，如果 Signal 未有權存取相機，就可以用呢個捷徑打開 Windows 嘅系統設定。想俾人睇到你，而家就更加容易做得到。"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "而家訊息資料夾同搜尋介面亦都支援未睇嘅篩選器，咁你就可以輕鬆睇到你錯過咗啲咩。"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "喺網絡接收差嘅情況下，提升咗上載可靠性。唔該晒，<GH3mmmbulus></GH3mmmbulus>！"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "「(N)」捷徑對應好手指公向下嘅表情符號。為<lnicola></lnicola>修復錯誤俾個 LIKE。"
   }
 }

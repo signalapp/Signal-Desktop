@@ -1479,7 +1479,7 @@
     "messageformat": "Tuilleadh Faisnéise"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Stair teachtaireachtaí cumaiscthe"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Tar éis teachtaireachtaí a sheoladh chuig {obsoleteConversationTitle} fuair tú amach gur le {conversationTitle} an uimhir seo. Tá uimhir ghutháin an duine sin príobháideach."
@@ -8607,37 +8607,37 @@
     "messageformat": "Sábháil ceangaltáin"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Seol tcht"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Seol tcht"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Cuir le grúpa"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Leasainm"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Nótaí"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Seoladh ríomhphoist"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Baile"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Guthán póca"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "An obair"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Guthán"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Seoladh"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
@@ -9121,12 +9121,12 @@
     "messageformat": "Chuireamar aicearra áisiúil leis freisin chun socruithe do chórais a oscailt ar Windows má dhéanann tú iarracht dul isteach i bhfísghlao gan cead rochtana ar an gceamara a bheith ag Signal."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Tá tacú don scagaire neamhléite i bhfillteáin teachtaireachtaí agus sa chomhéadan cuardaigh freisin."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Iontaofacht feabhsaithe uaslódála faoi dhrochdhálaí líonra. Go raibh maith agat, <GH3mmmbulus></GH3mmmbulus> !"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Díríonn an t-aicearra &quot;(N)&quot; ar an emoji Ordóga Síos mar ba cheart. Ordóga Suas do <lnicola></lnicola> as réiteach an fhabht."
   }
 }

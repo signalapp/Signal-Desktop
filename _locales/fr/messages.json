@@ -1479,7 +1479,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historiques des messages fusionnés"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Après avoir envoyé un message au {obsoleteConversationTitle}, vous avez découvert que ce numéro est en fait celui de {conversationTitle}. Son numéro de téléphone est privé."
@@ -8613,31 +8613,31 @@
     "messageformat": "Message"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Ajouter à un groupe"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Pseudo"
   },
   "icu:ContactDetail__note": {
     "messageformat": "Notes"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Domicile"
   },
   "icu:mobile-v2": {
     "messageformat": "Mobile"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Coordonnées professionnelles"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Téléphone"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresse"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Les nouveautés"
@@ -9121,12 +9121,12 @@
     "messageformat": "Un nouveau raccourci fait aussi son entrée : il vous permet d'ouvrir les paramètres Windows lorsque vous tentez de rejoindre un appel vidéo, mais que vous n'avez pas autorisé Signal à accéder à la caméra. Avouons que ça peut être utile."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Avec l'arrivée du filtre \"Conversations non lues\" dans les dossiers de messages et l'interface de recherche, plus rien ne vous échappe."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Et pour affronter l'automne, on a aussi boosté la fiabilité des importations pour les jours où la connexion réseau n'est pas optimale. Un grand merci à <GH3mmmbulus></GH3mmmbulus> !"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Quant au raccourci &quot;(N)&quot;, il correspond bien à l'émoji pouce en bas. Un pouce en l'air <lnicola></lnicola> bien mérité pour ce correctif !"
   }
 }

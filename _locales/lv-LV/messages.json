@@ -1479,7 +1479,7 @@
     "messageformat": "Uzzināt vairāk"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Ziņu vēsture ir apvienota"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Pēc sarakstes ar {obsoleteConversationTitle} jūs uzzinājāt, ka šis numurs pieder kontaktam {conversationTitle}. Attiecīgais tālruņa numurs ir privāts."
@@ -8607,37 +8607,37 @@
     "messageformat": "Saglabāt pielikumus"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Ziņa"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Ziņa"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Pievienot grupai"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Segvārds"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Piezīmes"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-pasta adrese"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Sākums"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobilais"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Darba"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "tālrunis"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adrese"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Jaunumi"
@@ -9121,12 +9121,12 @@
     "messageformat": "Turklāt esam pievienojuši ērtu saīsni Windows sistēmas iestatījumu atvēršanai, ja mēģināt pievienoties video zvanam, bet Signal nav atļaujas piekļūt kamerai. Tagad ir vieglāk saprast, kas jādara, lai citi lietotāji varētu jūs redzēt."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Nelasīto ziņojumu filtrs tagad ir pieejams arī ziņojumu mapēs un meklēšanas saskarnē, lai jūs varētu ērti atrast nepamanītās ziņas."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Uzlabota augšupielādes stabilitāte vāja tīkla savienojuma apstākļos. Paldies, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Saīsne “(N)” tagad pareizi atbilst emocijzīmei ar lejupvērstu īkšķi. Paldies <lnicola></lnicola> par kļūdas novēršanu!"
   }
 }

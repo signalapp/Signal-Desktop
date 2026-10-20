@@ -1479,7 +1479,7 @@
     "messageformat": "Lær mere"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Beskedhistorikken er flettet"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Efter at have sendt en besked til {obsoleteConversationTitle}, fik du at vide at dette nummer tilhører {conversationTitle}. Vedkommendes telefonnummer er privat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Gem vedhæftede filer"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Besked"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Besked"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Tilføj til en gruppe"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Kaldenavn"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Noter"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Hjem"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Arbejde"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresse"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Nyheder"
@@ -9121,12 +9121,12 @@
     "messageformat": "Vi har også tilføjet en praktisk genvej til systemindstillingerne i Windows, hvis du forsøger at deltage i et videoopkald, og Signal ikke har adgang til kameraet. Nu er det nemmere at se, hvad du skal gøre, så andre kan se dig."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filteret for ulæste beskeder kan nu også bruges i beskedmapper og i søgningen, så du nemt kan se, hvilke beskeder du har overset."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Forbedret upload ved dårlig netværksforbindelse. Tak, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Genvejen &quot;(N)&quot; indsætter nu den korrekte tommelfinger-ned-emoji. Tommel op til <lnicola></lnicola> for at rette fejlen."
   }
 }

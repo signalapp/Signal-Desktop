@@ -1479,7 +1479,7 @@
     "messageformat": "और जानें"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "पुराने मैसेज मर्ज कर दिए गए हैं"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} को मैसेज भेजने के बाद आपको पता चला कि यह नंबर {conversationTitle} का है। उनका फ़ोन नंबर प्राइवेट है।"
@@ -8607,37 +8607,37 @@
     "messageformat": "अटैचमेंट सेव करें"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "मैसेज"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "मैसेज"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ग्रुप में जोड़ें"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "निकनेम"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "नोट"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ईमेल"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "आवास"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "मोबाइल"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "ऑफ़िस"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "फ़ोन"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "पता"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "नया क्या है"
@@ -9121,12 +9121,12 @@
     "messageformat": "हमने Windows पर आपकी सिस्टम सेटिंग खोलने का एक आसान शॉर्टकट भी जोड़ा है, ताकि अगर आप वीडियो कॉल में शामिल होने की कोशिश करें और Signal के पास कैमरे का ऐक्सेस न हो, तो आप आसानी से सेटिंग बदल सकें। अब यह जानना आसान हो गया है कि आपको क्या करना होगा ताकि लोग आपको देख सकें।"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "अब मैसेज फ़ोल्डर और सर्च इंटरफ़ेस में भी 'अनरीड' फ़िल्टर की सुविधा उपलब्ध है, जिससे आसानी से पता चल जाए कि आपसे क्या छूट गया है।"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "खराब नेटवर्क में भी अपलोड करने की सुविधा बेहतर की गई है। सादर, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "'(N)' शॉर्टकट अब 'थम्स डाउन' इमोजी को सही ढंग से दर्शा रहा है। बग ठीक करने के लिए <lnicola></lnicola> का शुक्रिया।"
   }
 }

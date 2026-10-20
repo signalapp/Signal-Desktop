@@ -1479,7 +1479,7 @@
     "messageformat": "Daha ətraflı"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Mesaj tarixçəsi birləşdirildi"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ilə mesajlaşdıqdan sonra siz bu nömrənin {conversationTitle} adlı istifadəçiyə aid olduğunu öyrəndiniz. Onun telefon nömrəsi məxfidir."
@@ -8607,37 +8607,37 @@
     "messageformat": "Qoşmaları yaddaşda saxla"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Bir qrupa əlavə et"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Ləqəb"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Qeydlər"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-poçt"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Ev"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "İşdə"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Ünvan"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
@@ -9121,12 +9121,12 @@
     "messageformat": "Videozəngə qoşulmağa çalışdığınız zaman Signal-ın kameraya giriş icazəsi olmadıqda, Windows-da sistem parametrlərini açmaq üçün rahat qısayol da əlavə etdik. Artıq insanların sizi görə bilməsi üçün nə etməli olduğunuzu bilmək daha asandır."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Oxunmamış mesajlar filtri artıq mesaj qovluqlarında və axtarış interfeysində də dəstəklənir. Beləliklə, gözdən qaçırdığınız mesajları asanlıqla görə bilərsiniz."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Zəif şəbəkə şəraitində yükləmənin etibarlılığı artırılıb. Təşəkkürlər, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; qısayolu dəqiqliklə &quot;baş barmaq aşağı&quot; emojisini göstərir. Xətanın düzəldilməsi üçün <lnicola></lnicola> qədər baş barmaq emojisi."
   }
 }

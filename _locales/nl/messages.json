@@ -1479,7 +1479,7 @@
     "messageformat": "Meer informatie"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Chatgeschiedenis samengevoegd"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Na het uitwisselen van berichten met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
@@ -2352,7 +2352,7 @@
     "messageformat": "Je hebt de timer voor verdwijnende berichten op {time} ingesteld."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "De timer voor verdwijnende berichten is bijgewerkt naar {time}."
+    "messageformat": "De timer voor verdwijnende berichten is op {time} ingesteld."
   },
   "icu:timerSetByMember": {
     "messageformat": "Een groepslid heeft de timer voor verdwijnende berichten op {time} ingesteld."
@@ -8607,37 +8607,37 @@
     "messageformat": "Bijlagen opslaan"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Bericht sturen"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Bericht"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Aan groep toevoegen"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Bijnaam"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notities"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Thuis"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobiel"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Werk"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefoon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adres"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is"
@@ -9121,12 +9121,12 @@
     "messageformat": "We hebben ook een handige snelkoppeling toegevoegd om je systeeminstellingen in Windows te openen als je probeert deel te nemen aan een video-oproep en Signal geen toestemming heeft om de camera te gebruiken. Nu heb je een beter beeld van wat je moet doen om zelf in beeld te komen."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Je kunt nu ook in chatmappen en in de zoekfunctie filteren op ongelezen berichten. Zo zie je gemakkelijk welke berichten je nog niet hebt gelezen."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Betrouwbaarder uploaden bij een slechte netwerkverbinding. Bedankt <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Als je nu ‘(N)’ typt krijg je het juiste duimpje, namelijk omlaag. Duimpje omhoog voor <lnicola></lnicola> die dit heeft opgelost."
   }
 }

@@ -1479,7 +1479,7 @@
     "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "รวมประวัติการส่งข้อความเข้าด้วยกันแล้ว"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "หลังจากที่ส่งข้อความกับ {obsoleteConversationTitle} คุณได้ทราบว่าหมายเลขนี้เป็นของ {conversationTitle} หมายเลขโทรศัพท์นี้เป็นข้อมูลส่วนตัว"
@@ -8607,37 +8607,37 @@
     "messageformat": "บันทึกไฟล์แนบ"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ข้อความ"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ข้อความ"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "เพิ่มเข้ากลุ่ม"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ชื่อเล่น"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "บันทึก"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "อีเมล"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "บ้าน"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "มือถือ"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "ที่ทำงาน"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "โทรศัพท์"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "ที่อยู่"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
@@ -9121,12 +9121,12 @@
     "messageformat": "พร้อมเพิ่มทางลัดใหม่ที่ให้คุณเปิดหน้าการตั้งค่าระบบบน Windows ได้สะดวกยิ่งขึ้นเมื่อคุณต้องการเข้าร่วมวิดีโอคอลแต่ Signal ยังไม่ได้รับสิทธิ์เข้าถึงกล้อง"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "เพิ่มการรองรับให้คุณสามารถใช้ตัวกรองข้อความที่ยังไม่ได้อ่านได้ในโฟลเดอร์ข้อความและระบบค้นหาด้วยเช่นกัน"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ปรับปรุงความเสถียรในการอัปโหลดแม้เครือข่ายจะมีสัญญาณไม่ดี ขอขอบคุณ <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "แก้ไขให้ปุ่มลัด (N) กลายเป็นอีโมจิ &quot;ไม่ชอบ&quot; (thumbs down) ได้อย่างถูกต้องแล้ว ขอยกนิ้วให้ <lnicola></lnicola> ที่ช่วยจัดการบั๊กในครั้งนี้"
   }
 }

@@ -1479,7 +1479,7 @@
     "messageformat": "Mësoni më tepër"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historiku i mesazheve u bashkua"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Pas mesazheve me {obsoleteConversationTitle} mësove se ky numër i përket {conversationTitle}. Numri i tyre i telefonit është privat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Ruaj bashkëngjitjet"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesazh"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesazh"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Shtoje në grup"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Pseudonimi"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Shënime"
   },
   "icu:email-v2": {
     "messageformat": "Email"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Kryefaqja"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Celular"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Pune"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresë"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ç’ka të Re"
@@ -9121,12 +9121,12 @@
     "messageformat": "Kemi shtuar gjithashtu një shkurtore të dobishme për të hapur parametrat e sistemit në Windows, nëse përpiqesh t’i bashkohesh një thirrjeje me video dhe Signal nuk ka leje për të përdorur kamerën."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filtri i mesazheve të palexuara tashmë mbështetet edhe te dosjet e mesazheve dhe te ndërfaqja e kërkimit."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Besueshmëri e përmirësuar e ngarkimit edhe në kushte të dobëta të rrjetit. Faleminderit, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Shkurtorja &quot;(N)&quot; tani i referohet saktë figurës emoxhi me gishtin e madh poshtë. Ngritja e gishtit të madh lart <lnicola></lnicola> për rregullimin e gabimit."
   }
 }

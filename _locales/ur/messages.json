@@ -1479,7 +1479,7 @@
     "messageformat": "مزید پڑھیں"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "میسج ہسٹری ضم کر دی گئی ہے"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} سے پیغام رسانی کے بعد آپ جان گئے کہ یہ نمبر {conversationTitle} سے تعلق رکھتا ہے۔ یہ فون نمبر پرائیویٹ ہے۔"
@@ -8607,37 +8607,37 @@
     "messageformat": "منسلکات کو محفوظ کریں"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "میسج"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "میسج"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "کسی گروپ میں شامل کریں"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "عرفی نام"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "نوٹس"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ای میل"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ہوم"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "موبائل"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "کام"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "فون"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "ایڈریس"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "نیا کیا ہے"
@@ -9121,12 +9121,12 @@
     "messageformat": "ہم نے ایک آسان شارٹ کٹ بھی شامل کیا ہے تاکہ اگر آپ کسی ویڈیو کال میں شامل ہونے کی کوشش کریں اور Signal کو کیمرے تک رسائی کی اجازت نہ ہو تو آپ ونڈوز پر اپنے سسٹم کی سیٹنگز کھول سکیں۔ آپ اب یہ آسانی سے جان سکتے ہیں کہ لوگوں کو دکھانے کے لیے آپ کو کیا کرنا ہے۔"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "اب غیر پڑھے گئے میسج کا فلٹر میسج فولڈرز اور سرچ انٹرفیس میں بھی سپورٹ کردہ ہے تاکہ آپ کو فوری پتہ چل جائے کہ آپ سے کیا چھوٹ گیا ہے۔"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "خراب نیٹ ورک کی صورتِ حال اپ لوڈ کے عمل کو مزید قابلِ اعتماد بنایا گیا ہے۔ شکریہ، <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; شارٹ کٹ اب درست طور پر ناپسندیدگی کے اظہار والے ایموجی (thumbs down) پر لے جاتا ہے۔ نقص ٹھیک کرنے پر <lnicola></lnicola> کو داد۔"
   }
 }

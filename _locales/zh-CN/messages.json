@@ -1479,7 +1479,7 @@
     "messageformat": "了解更多"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "消息记录已合并"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "给{obsoleteConversationTitle}发消息后，您得知此号码属于{conversationTitle}。对方的手机号码是私密号码。"
@@ -8607,37 +8607,37 @@
     "messageformat": "保存附件"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "消息"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "消息"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "添加至群组"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "昵称"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "笔记"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "邮箱"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "主页"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "手机"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "工作"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "电话"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "地址"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
@@ -9121,12 +9121,12 @@
     "messageformat": "如果您尝试加入视频通话但 Signal 无相机访问权限，我们还添加了一个方便的快捷方式，用于在 Windows 上打开系统设置。"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "“未读”筛选功能现在也支持在消息文件夹及搜索界面中使用。"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "提升了网络不佳时的上传可靠性。对此，我们要感谢<GH3mmmbulus></GH3mmmbulus>！"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "“(N)”快捷方式现已正确对应“倒竖拇指”表情符号。感谢 <lnicola></lnicola> 修复了这个错误，点个赞！"
   }
 }

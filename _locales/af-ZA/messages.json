@@ -1479,7 +1479,7 @@
     "messageformat": "Vind meer uit"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Boodskapgeskiedenis saamgevoeg"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Nadat jy boodskappe met {obsoleteConversationTitle} uitgeruil het, het jy agtergekom dat hierdie nommer aan {conversationTitle} behoort. Hulle telefoonnommer is privaat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Stoor aanhegsels"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Boodskap"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Boodskap"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Voeg toe by ’n groep"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Noemnaam"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notas"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-pos"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Tuisblad"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Selfoon"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Werk"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Foon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adres"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat is nuut"
@@ -9121,12 +9121,12 @@
     "messageformat": "Ons het ook 'n gerieflike kortpad bygevoeg om jou stelselinstellings in Windows oop te maak as jy by 'n video-oproep probeer aansluit en Signal nie toestemming het om toegang tot die kamera te verkry nie."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Die ongelees-filter word nou ook in boodskapvouers sowel as die soek-koppelvlak ondersteun."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Verbeterde oplaaibetroubaarheid onder swak netwerktoestande. Dankie, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Die &quot;(N)&quot;-kortpad lei korrek na die duim-af-emoji. Duim omhoog <lnicola></lnicola> vir die foutregstelling."
   }
 }

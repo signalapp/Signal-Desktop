@@ -1479,7 +1479,7 @@
     "messageformat": "გაიგე მეტი"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "მიმოწერის ისტორია გაერთიანდა"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle}-თან მიმოწერის შემდეგ შეიტყვე, რომ ეს ნომერი {conversationTitle}-ს ეკუთვნის. ეს მობილურის ნომერი კონფიდენციალურია."
@@ -8607,37 +8607,37 @@
     "messageformat": "დანართების შენახვა"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "მიწერა"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "მიწერა"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ჯგუფში დამატება"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "მეტსახელი"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "ჩანიშვნები"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ელ-ფოსტა"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "მისამართი"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "მობილური"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "სამსახური"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ტელეფონი"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "მისამართი"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "რა არის ახალი"
@@ -9121,12 +9121,12 @@
     "messageformat": "გარდა ამისა, Windows-ზე სისტემის პარამეტრების გასახსნელად მოსახერხებელი მალსახმობი დავამატეთ იმ შემთხვევისთვის, თუ ვიდეო ზარში ჩართვას ეცდები, მაგრამ Signal-ს კამერაზე წვდომის ნებართვა არ ექნება. ახლა უფრო მარტივად გაიგებ, რა უნდა გააკეთო, რომ ხალხმა დაგინახოს."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "წაუკითხავი შეტყობინებების ფილტრი ახლა უკვე შეტყობინებების საქაღალდეებსა და ძიების ინტერფეისშიცაა ხელმისაწვდომი."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "უფრო საიმედო ატვირთვა არასტაბილური ინტერნეტკავშირის პირობებში. გმადლობთ, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "„(N)“ მალსახმობი სწორად მიუთითებს ქვემოთ დაშვებული ცერა თითის ემოჯიზე. გმადლობთ, <lnicola></lnicola>, ხარვეზების გამოსწორებისთვის."
   }
 }

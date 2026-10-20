@@ -1479,7 +1479,7 @@
     "messageformat": "Μάθε περισσότερα"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Το ιστορικό μηνυμάτων σου έχει συγχωνευθεί"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Μετά από μήνυμα με τον χρήστη {obsoleteConversationTitle} έμαθες ότι αυτός ο αριθμός ανήκει στον χρήστη {conversationTitle}. Ο αριθμός τηλεφώνου τους είναι ιδιωτικός."
@@ -8607,37 +8607,37 @@
     "messageformat": "Αποθήκευση συνημμένων"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Μήνυμα"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Μήνυμα"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Προσθήκη σε μια ομάδα"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Ψευδώνυμο"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Σημειώσεις"
   },
   "icu:email-v2": {
     "messageformat": "Email"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Σπίτι"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Κινητό"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Εργασία"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Τηλέφωνο"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Διεύθυνση"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Νέες δυνατότητες"
@@ -9121,12 +9121,12 @@
     "messageformat": "Προσθέσαμε επίσης μια εύχρηστη συντόμευση για να ανοίγεις τις ρυθμίσεις συστήματός στα Windows, σε περίπτωση που προσπαθήσεις να συμμετάσχεις σε μια βιντεοκλήση και το Signal δεν έχει άδεια πρόσβασης στην κάμερα."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Το φίλτρο για τα μη αναγνωσμένα μηνύματα είναι πλέον διαθέσιμο τόσο στους φακέλους μηνυμάτων όσο και στη λειτουργία αναζήτησης."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Βελτιώθηκε η αξιοπιστία της μεταφόρτωσης αρχείων σε συνθήκες ασταθούς σύνδεσης δικτύου. Ευχαριστούμε, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Η συντόμευση &quot;(N)&quot; αντιστοιχίζεται πλέον σωστά στο emoji με τον αντίχειρα προς τα κάτω. Ευχαριστούμε, <lnicola></lnicola>, για τη διόρθωση σφάλματος."
   }
 }

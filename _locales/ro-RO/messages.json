@@ -1479,7 +1479,7 @@
     "messageformat": "Află mai multe"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Istoricul mesajelor cumulat"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "După ce ai schimbat mesaje cu {obsoleteConversationTitle} ai aflat că acest număr aparține lui {conversationTitle}. Numărul de telefon este privat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Salvează atașamentele"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesaj"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Adaugă la un grup"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Pseudonim"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Notițe"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Acasă"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Serviciu"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresă"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Ce este nou"
@@ -9121,12 +9121,12 @@
     "messageformat": "Am adăugat și o scurtătură utilă ca să-ți deschizi setările de sistem pe Windows dacă încerci să te alături unui apel video și Signal nu are permisiunea să-ți acceseze camera. Acum este mai ușor să vezi ce e nevoie să faci ca oamenii să te vadă."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filtrul Mesaje necitite e acum acceptat și în dosarele de mesaje și în interfața de căutare, ca să vezi ușor ce ai ratat."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Fiabilitate de încărcare îmbunătățită, în cazul condițiilor de rețea slabă. Mulțumesc, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Scurtătura „(N)“ indică în mod corect către emoji-ul cu degetul mare în jos. Bravo <lnicola></lnicola> pentru remediere."
   }
 }

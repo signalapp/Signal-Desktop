@@ -1479,7 +1479,7 @@
     "messageformat": "Saznaj više"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historija poruka je spojena"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Nakon razmjene poruka sa {obsoleteConversationTitle} saznali ste da ovaj broj pripada korisniku/ci {conversationTitle}. Broj telefona te osobe je privatan."
@@ -8607,37 +8607,37 @@
     "messageformat": "Sačuvaj priloge"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Poruka"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Poruka"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Dodaj u grupu"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Nadimak"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Bilješke"
   },
   "icu:email-v2": {
     "messageformat": "Email"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Kućna adresa"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobilni"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Poslovni"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresa"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Šta je novo"
@@ -9121,12 +9121,12 @@
     "messageformat": "Dodali smo i praktičnu prečicu za otvaranje sistemskih postavki na Windowsu ako pokušate pristupiti videopozivu, a Signal nema dozvolu za pristup kameri."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filter nepročitanih poruka sada je dostupan i u folderima poruka i u pretrazi."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Poboljšana je pouzdanost učitavanja pri lošim mrežnim uslovima. Hvala, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Prečica „(N)“ sada ispravno upućuje na emoji palca okrenutog nadolje. Palac gore za <lnicola></lnicola>zbog ispravke greške."
   }
 }

@@ -1479,7 +1479,7 @@
     "messageformat": "Толығырақ мәлімет"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Хабарлар тарихы біріктірілді"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} деген кісімен хат алмасқан соң, бұл нөмірдің {conversationTitle} деген кісіге тиесілі екенін білдіңіз. Оның телефон нөмірі құпия."
@@ -8607,37 +8607,37 @@
     "messageformat": "Тіркемелерді сақтау"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Хат"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Хат"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Топқа қосу"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Лақап ат"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Ескертпелер"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Электрондық пошта"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Үй мекенжайы"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Ұялы"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Жұмыс"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "телефон"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Мекенжай"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Жаңалықтар"
@@ -9121,12 +9121,12 @@
     "messageformat": "Бейнеқоңырауға қосылғыңыз келсе және Signal-дың камераңызды пайдалануға рұқсаты болмаса, жүйелік параметрлеріңізді ашу үшін ыңғайлы пернелер тіркесімін қостық. Енді адамдарға көріну үшін не істеу керек екенін түсіну оңайырақ."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Енді хабар қалталары мен іздеу интерфейсінде оқылмаған хабарлар сүзгісіне қолдау көрсетіледі, осылайша оқылмай қалған хабарларды оңай көре аласыз."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Желі байланысы нашар болғанда жүктеп салу процесі жақсартылды. Рақмет, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; пернелер тіркесімі дизлайк эмоджиін дұрыс көрсетеді. Ақауды түзеткендеріңіз үшін лайк <lnicola></lnicola>."
   }
 }

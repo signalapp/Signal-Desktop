@@ -1479,7 +1479,7 @@
     "messageformat": "Matuto pa"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Naka-merge ang message history"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Matapos mong i-message si {obsoleteConversationTitle} nalaman mong kay {conversationTitle} ang number na ito. Private ang kanyang phone number."
@@ -8607,13 +8607,13 @@
     "messageformat": "I-save ang attachments"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "I-message"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "I-message"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "I-add sa isang group"
   },
   "icu:ContactDetail__nickname": {
     "messageformat": "Nickname"
@@ -9121,12 +9121,12 @@
     "messageformat": "Nagdagdag rin kami ng isang convenient shortcut para mabuksan ang system settings sa Windows kapag sinubukan mong sumali sa isang video call at walang permission ang Signal na i-access ang camera."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Suportado na rin ngayon ang unread filter sa message folders at sa search interface."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Mas pinabuting upload reliability para sa hindi magandang network conditions. Maraming salamat, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Tama nang nakaturo ang &quot;(N)&quot; shortcut sa thumbs down emoji. Thumbs up kay <lnicola></lnicola> para sa bugfix."
   }
 }

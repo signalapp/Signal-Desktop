@@ -1479,7 +1479,7 @@
     "messageformat": "Ketahui Lebih Lanjut"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Sejarah mesej digabungkan"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Selepas menghantar mesej dengan {obsoleteConversationTitle} anda mengetahui nombor ini milik {conversationTitle} . Nombor telefon mereka adalah peribadi."
@@ -8607,37 +8607,37 @@
     "messageformat": "Simpan lampiran"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesej"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mesej"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Tambah kepada kumpulan"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Nama pendek"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Nota"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mel"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Utama"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mudah alih"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Kerja"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Alamat"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Perkara Baharu"
@@ -9121,12 +9121,12 @@
     "messageformat": "Kami juga menambahkan pintasan mudah untuk membuka tetapan sistem anda pada Windows jika anda cuba untuk menyertai panggilan video dan Signal tidak mempunyai kebenaran untuk mengakses kamera."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Penapis belum dibaca kini juga disokong dalam folder mesej dan antara muka carian."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Kebolehpercayaan muat naik dipertingkatkan dalam keadaan rangkaian yang lemah. Terima kasih, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Pintasan &quot;(N)&quot; memaparkan emoji ibu jari ke bawah dengan betul. Berikan tanda ibu jari ke atas kepada <lnicola></lnicola> untuk pembaikan pepijat ini."
   }
 }

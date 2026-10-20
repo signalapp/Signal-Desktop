@@ -1479,7 +1479,7 @@
     "messageformat": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "ಸಂದೇಶ ಇತಿಹಾಸವನ್ನು ವಿಲೀನಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} ಅವರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿದ ಬಳಿಕ ಈ ಸಂಖ್ಯೆಯು {conversationTitle} ಅವರಿಗೆ ಸೇರಿದ್ದು ಎಂಬುದಾಗಿ ನಿಮಗೆ ತಿಳಿಯುತ್ತದೆ. ಅವರ ಫೋನ್ ಸಂಖ್ಯೆ ಖಾಸಗಿಯಾಗಿದೆ."
@@ -8607,37 +8607,37 @@
     "messageformat": "ಲಗತ್ತುಗಳನ್ನು ಸೇವ್ ಮಾಡಿ"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ಮೆಸೇಜ್"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ಮೆಸೇಜ್"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ಗುಂಪಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ಅಡ್ಡಹೆಸರು"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "ಟಿಪ್ಪಣಿಗಳು"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ಇಮೇಲ್"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ಮನೆ ವಿಳಾಸ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "ಮೊಬೈಲ್"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "ಕೆಲಸ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ಫೋನ್"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "ವಿಳಾಸ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "ಹೊಸತೇನಿದೆ"
@@ -9121,12 +9121,12 @@
     "messageformat": "ನೀವು ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸಿದಾಗ Signal ಗೆ ಕ್ಯಾಮರಾವನ್ನು ಬಳಸಲು ಅನುಮತಿ ಇಲ್ಲದಿದ್ದರೆ, Windows ನಲ್ಲಿ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಲು ಅನುಕೂಲವಾಗುವಂತಹ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸಹ ನಾವು ಸೇರಿಸಿದ್ದೇವೆ. ಜನರು ನಿಮ್ಮನ್ನು ನೋಡುವಂತಾಗಲು ನೀವು ಏನು ಮಾಡಬೇಕು ಎಂಬುದನ್ನು ಈಗ ಸುಲಭವಾಗಿ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "ಓದದಿರುವ ಫಿಲ್ಟರ್ ಈಗ ಮೆಸೇಜ್ ಫೋಲ್ಡರ್‌ಗಳು ಮತ್ತು ಹುಡುಕಾಟ ಇಂಟರ್‌ಫೇಸ್‌ನಲ್ಲಿಯೂ ಸಹ ಬೆಂಬಲಿತವಾಗಿದೆ, ಹಾಗಾಗಿ ನೀವು ಏನನ್ನು ಕಳೆದುಕೊಂಡಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ಕಳಪೆ ನೆಟ್‌ವರ್ಕ್ ಸ್ಥಿತಿಗಳಲ್ಲಿ ಸುಧಾರಿತ ಅಪ್‌ಲೋಡ್ ವಿಶ್ವಾಸಾರ್ಹತೆ. ಧನ್ಯವಾದಗಳು, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; ಶಾರ್ಟ್‌ಕಟ್ 'ಥಂಬ್ಸ್ ಡೌನ್' ಎಮೋಜಿಯನ್ನು ಸರಿಯಾಗಿ ಸೂಚಿಸುತ್ತದೆ. ಬಗ್ ಸರಿಪಡಿಸಲು <lnicola></lnicola> ಗೆ ಥಂಬ್ಸ್ ಅಪ್ ಮಾಡಿ."
   }
 }

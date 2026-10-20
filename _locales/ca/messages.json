@@ -1479,7 +1479,7 @@
     "messageformat": "Més informació"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historial dels missatges combinat"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Després d'enviar un missatge a{obsoleteConversationTitle}, has sabut que aquest número pertany a {conversationTitle}. El seu número de telèfon és privat."
@@ -8607,37 +8607,37 @@
     "messageformat": "Guardar fitxers adjunts"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Missatge"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Missatge"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Afegeix-lo a un grup"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Sobrenom"
   },
   "icu:ContactDetail__note": {
     "messageformat": "Notes"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Correu electrònic"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Casa"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mòbil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Feina"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telèfon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adreça"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Què hi ha de nou"
@@ -9121,12 +9121,12 @@
     "messageformat": "També hem afegit una drecera d'allò més pràctica per obrir els ajustos del sistema a Windows si, en intentar unir-te a una videotrucada, Signal no té permís per accedir a la teva càmera."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Ara també pots filtrar els teus missatges per llegir a les carpetes de missatges i la interfície de cerca."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Millores en la càrrega d'arxius amb mala connexió a la xarxa. Gràcies, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "La drecera &quot;(N)&quot; correspon a l'emoji del polze cap avall. Moltes gràcies a <lnicola></lnicola> per solucionar l'error!"
   }
 }

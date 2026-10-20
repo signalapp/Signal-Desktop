@@ -1479,7 +1479,7 @@
     "messageformat": "Zjistit více"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Historie zpráv byla sloučena"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Po komunikaci s {obsoleteConversationTitle} jste zjistil/a, že toto číslo patří k {conversationTitle}. Toto telefonní číslo je soukromé."
@@ -8607,37 +8607,37 @@
     "messageformat": "Uložit přílohy"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Zpráva"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Zpráva"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Přidat do skupiny"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Přezdívka"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Poznámky"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-mail"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Osobní"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Práce"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Adresa"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Co je nového"
@@ -9121,12 +9121,12 @@
     "messageformat": "Přidali jsme také užitečnou zkratku pro otevření systémového nastavení ve Windows, pokud se pokusíte připojit k videohovoru a Signal nemá přístup ke kameře."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Filtr nepřečtených zpráv je nyní podporován i ve složkách a ve vyhledávání."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Spolehlivější odesílání i při slabém připojení. Díky, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Zkratka „(N)“ teď správně odpovídá emoji palce dolů. Palec nahoru pro <lnicola></lnicola> za opravu chyby."
   }
 }

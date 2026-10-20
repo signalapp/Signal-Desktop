@@ -1479,7 +1479,7 @@
     "messageformat": "Informazio gehiago"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Mezu-historia bateratu egin da"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} erabiltzailearekin mezuak trukatu ondoren, zenbaki hau {conversationTitle} erabiltzailearena dela jakin duzu. Haren telefono-zenbakia pribatua da."
@@ -8607,37 +8607,37 @@
     "messageformat": "Gorde eranskinak"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Mezua"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Mezua"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Gehitu taldera"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Ezizena"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Oharrak"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "Emaila"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Hasiera"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Telefono mugikorra"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Lana"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "telefonoa"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Helbidea"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Zer berri"
@@ -9121,12 +9121,12 @@
     "messageformat": "Halaber, Windows-en sistemaren ezarpenak irekitzeko lasterbide eroso bat gehitu dugu, bideodei batean sartzen saiatu baina Signal-ek kamerarako sarbidea ez duenerako."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Irakurri gabekoen iragazkia mezu-karpetetan eta bilaketa-interfazean ere erabil daiteke orain."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Konexio txarretako kargen egonkortasuna hobetu da. Aupa zu, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; lasterbideak beheranzko erpuruaren emojia erakusten du. Erpurua gora zuri, <lnicola></lnicola>, akatsa konpontzen laguntzeagatik."
   }
 }

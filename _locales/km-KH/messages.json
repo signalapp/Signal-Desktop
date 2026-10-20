@@ -1479,7 +1479,7 @@
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "ប្រវត្តិសាររបស់អ្នកត្រូវបានបញ្ចូលគ្នា"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "បន្ទាប់ពីផ្ញើសារជាមួយ {obsoleteConversationTitle} អ្នកបានដឹងថាលេខនេះជាលេខរបស់ {conversationTitle}។ លេខទូរសព្ទរបស់គេគឺជាលេខឯកជន។"
@@ -8607,37 +8607,37 @@
     "messageformat": "រក្សាទុកឯកសារភ្ជាប់"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "ផ្ញើសារ"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "ផ្ញើសារ"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ដាក់បញ្ចូលទៅក្រុមមួយ"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ឈ្មោះហៅក្រៅ"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "កំណត់ចំណាំ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "អ៊ីមែល"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ផ្ទះ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "ទូរសព្ទចល័ត"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "កន្លែងធ្វើការ"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ទូរសព្ទ"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "អាសយដ្ឋាន"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី"
@@ -9121,12 +9121,12 @@
     "messageformat": "យើងក៏បានបន្ថែមផ្លូវកាត់ដ៏ងាយស្រួលមួយដែរ ដើម្បីបើកការកំណត់ប្រព័ន្ធរបស់យើងនៅលើ Windows ប្រសិនបើអ្នកព្យាយាមចូលរួមការហៅជាវីដេអូ ប៉ុន្តែ Signal មិនមានការអនុញ្ញាតក្នុងការប្រើប្រាស់កាមេរ៉ា។ ឥឡូវនេះ កាន់តែងាយស្រួលជាងមុនក្នុងការមើលថាអ្នកត្រូវធ្វើអ្វីខ្លះ ដូច្នេះអ្នកផ្សេងទៀតអាចមើលឃើញអ្នកបាន។"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "ឥឡូវនេះ មុខងារច្រោះសារដែលមិនទាន់អានក៏អាចប្រើបាននៅក្នុងថតសារ និងអ៊ីនធើហ្វេសស្វែងរកផងដែរ ដូច្នេះអ្នកអាចមើលអ្វីដែលអ្នកបានខកខានយ៉ាងងាយស្រួល។"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "បានកែលម្អភាពអាចទុកចិត្តបានលើការបង្ហោះ ក្នុងស្ថានភាពបណ្តាញមិនល្អ។ សូមអរគុណ <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "ផ្លូវកាត់ &quot;(N)&quot; ភ្ជាប់ទៅកាន់រូបអារម្មណ៍មេដៃចុះក្រោមបានយ៉ាងត្រឹមត្រូវ។ សូមឱ្យមេដៃសរសើរ <lnicola></lnicola> ចំពោះការជួសជុលបញ្ហានេះ។"
   }
 }

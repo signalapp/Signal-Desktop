@@ -1479,7 +1479,7 @@
     "messageformat": "Uuri täpsemalt"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "Sõnumiajalugu liidetud"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Pärast sõnumite saatmist vestluses {obsoleteConversationTitle} said sa teada, et see number kuulub vestlusesse {conversationTitle}. Tema telefoninumber on privaatne."
@@ -8607,37 +8607,37 @@
     "messageformat": "Salvesta manused"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "Sõnum"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "Sõnum"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "Lisa gruppi"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "Hüüdnimi"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "Märkmed"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "E-post"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "Avaleht"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "Mobiil"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "Töö"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "Telefon"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "Aadress"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "Mis on uut"
@@ -9121,12 +9121,12 @@
     "messageformat": "Samuti lisasime mugava otsetee süsteemi sätete avamiseks Windowsis, kui proovid liituda videokõnega ja Signalil ei ole kaamerale juurdepääsu."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "Nüüd toetavad ka sõnumikaustad ja otsinguliides lugemata sõnumite filtrit."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "Parem üleslaadimiste usaldusväärsus kehvades võrgutingimustes. Aitäh, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "Otsetee „(N)“ viitab õigesti pöial allapoole emojile. Aitäh selle paranduse eest, <lnicola></lnicola>!"
   }
 }

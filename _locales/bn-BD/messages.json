@@ -1479,7 +1479,7 @@
     "messageformat": "আরো জানুন"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "মেসেজের ইতিহাস সমন্বয় করা হয়েছে"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle}-এর সাথে মেসেজিং করার পর আপনি জানতে পেরেছেন এই নম্বরটি {conversationTitle}-এর। তার ফোন নম্বরটি ব্যক্তিগত।"
@@ -8607,37 +8607,37 @@
     "messageformat": "সংযুক্তিগুলো সংরক্ষণ করুন"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "মেসেজ পাঠান"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "মেসেজ পাঠান"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "গ্রুপে যোগ করো"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "ডাকনাম"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "নোট"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ইমেইল"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "হোম"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "মোবাইল"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "কর্মক্ষেত্র"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ফোন"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "ঠিকানা"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "নতুন কি"
@@ -9121,12 +9121,12 @@
     "messageformat": "আমরা Windows-এ সিস্টেম সেটিংস খোলার একটি সুবিধাজনক শর্টকাটও যোগ করেছি; ভিডিও কলে যোগ দেওয়ার সময় যদি Signal-এর ক্যামেরা ব্যবহারের অনুমতি না থাকে, তবে এটি কাজে আসবে।"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "এখন মেসেজ ফোল্ডার এবং সার্চ ইন্টারফেসেও 'আনরিড' ফিল্টার ব্যবহারের সুবিধা রয়েছে, যার ফলে আপনার চোখ এড়িয়ে যাওয়া মেসেজগুলি আপনি সহজেই খুঁজে পেতে পারবেন।"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "দুর্বল নেটওয়ার্ক পরিস্থিতিতেও ফাইল আপলোড করার প্রক্রিয়াটিকে আরো নির্ভরযোগ্য করা হয়েছে। ধন্যবাদ, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; শর্টকাটটি এখন সঠিকভাবে 'থাম্বস ডাউন' ইমোজির নির্দেশ দেয়। এই বাগটি ঠিক করার জন্য <lnicola></lnicola>-কে অনেক ধন্যবাদ!"
   }
 }

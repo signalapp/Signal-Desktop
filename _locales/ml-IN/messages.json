@@ -1479,7 +1479,7 @@
     "messageformat": "കൂടുതൽ അറിയുക"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "സന്ദേശ ചരിത്രം ലയിപ്പിച്ചു"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} എന്നയാളുമായുള്ള സന്ദേശ കൈമാറ്റത്തിന് ശേഷം, ഈ നമ്പർ {conversationTitle} എന്നയാളുടേതാണെന്ന് നിങ്ങൾ മനസ്സിലാക്കി. അവരുടെ ഫോൺ നമ്പർ സ്വകാര്യമാണ്."
@@ -8607,37 +8607,37 @@
     "messageformat": "അറ്റാച്ചുമെന്റുകൾ സംരക്ഷിക്കുക"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "സന്ദേശം"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "സന്ദേശം"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "ഒരു ഗ്രൂപ്പിലേക്ക് ചേർക്കുക"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "വിളിപ്പേര്"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "കുറിപ്പുകൾ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "ഇമെയിൽ"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ഹോം"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "മൊബൈൽ"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "ജോലി"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ഫോൺ"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "മേൽവിലാസം"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -9121,12 +9121,12 @@
     "messageformat": "നിങ്ങൾ ഒരു വീഡിയോ കോളിൽ ചേരാൻ ശ്രമിക്കുമ്പോൾ ക്യാമറ ആക്സസ് ചെയ്യാൻ Signal-ന് അനുമതിയില്ലെങ്കിൽ, Windows-ൽ സിസ്റ്റം ക്രമീകരണങ്ങൾ തുറക്കാനുള്ള സൗകര്യപ്രദമായ ഒരു കുറുക്കുവഴിയും ഞങ്ങൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. മറ്റുള്ളവർക്ക് നിങ്ങളെ കാണാൻ കഴിയുന്നതിനായി നിങ്ങൾ എന്താണ് ചെയ്യേണ്ടതെന്ന് അറിയുന്നത് ഇപ്പോൾ കൂടുതൽ എളുപ്പമാണ്."
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "സന്ദേശ ഫോൾഡറുകളിലും തിരയൽ ഇന്റർഫേസിലും ഇപ്പോൾ വായിക്കാത്തവയുടെ ഫിൽട്ടർ ലഭ്യമാണ്, അതിനാൽ വിട്ടുപോയവ എളുപ്പത്തിൽ കാണാനാകും."
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "മോശം നെറ്റ്‌വർക്ക് സാഹചര്യങ്ങളിലും അപ്‌ലോഡ് കൂടുതൽ കാര്യക്ഷമമാക്കി. നന്ദി, <GH3mmmbulus></GH3mmmbulus>!"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "&quot;(N)&quot; കുറുക്കുവഴി കൃത്യമായി തംബ്‌സ് ഡൗൺ ഇമോജിയെ കാണിക്കുന്നു. തകരാർ പരിഹരിച്ചതിന് <lnicola></lnicola> യ്ക്ക് അഭിനന്ദനങ്ങൾ."
   }
 }

@@ -1479,7 +1479,7 @@
     "messageformat": "ပိုလေ့လာရန်"
   },
   "icu:ConversationMerge--explainer-dialog--label": {
-    "messageformat": "Message history merged"
+    "messageformat": "မက်ဆေ့ချ်မှတ်တမ်းကို ပေါင်းစည်းပြီးပါပြီ"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "{obsoleteConversationTitle} နှင့် မက်ဆေ့ချ်ပေးပို့ပြီးနောက် ဤနံပါတ်ကို{conversationTitle} က ပိုင်ဆိုင်ကြောင်း သိရှိရပါသည်။ ၎င်းတို့ဖုန်းနံပါတ်ကို ကိုယ်ပိုင်သီးသန့်အဖြစ် ထားရှိ ထားပါသည်။"
@@ -8607,37 +8607,37 @@
     "messageformat": "ပူးတွဲဖိုင်များကို သိမ်းဆည်းပါ"
   },
   "icu:EmbeddedContact__message": {
-    "messageformat": "Message"
+    "messageformat": "မက်ဆေ့ချ်"
   },
   "icu:ContactDetail__message": {
-    "messageformat": "Message"
+    "messageformat": "မက်ဆေ့ချ်"
   },
   "icu:ContactDetail__add-to-group": {
-    "messageformat": "Add to a group"
+    "messageformat": "အဖွဲ့တစ်ဖွဲ့ထဲသို့ ထည့်သွင်းရန်"
   },
   "icu:ContactDetail__nickname": {
-    "messageformat": "Nickname"
+    "messageformat": "အမည်ပြောင်"
   },
   "icu:ContactDetail__note": {
-    "messageformat": "Notes"
+    "messageformat": "မှတ်စုများ"
   },
   "icu:email-v2": {
-    "messageformat": "Email"
+    "messageformat": "အီးမေးလ်"
   },
   "icu:home-v2": {
-    "messageformat": "Home"
+    "messageformat": "ပင်မစာမျက်နှာ"
   },
   "icu:mobile-v2": {
-    "messageformat": "Mobile"
+    "messageformat": "မိုဘိုင်းဖုန်း"
   },
   "icu:work-v2": {
-    "messageformat": "Work"
+    "messageformat": "အလုပ်"
   },
   "icu:phone-v2": {
-    "messageformat": "Phone"
+    "messageformat": "ဖုန်း"
   },
   "icu:address-v2": {
-    "messageformat": "Address"
+    "messageformat": "လိပ်စာ"
   },
   "icu:WhatsNew__modal-title": {
     "messageformat": "အသစ်များ"
@@ -9121,12 +9121,12 @@
     "messageformat": "ဗီဒီယိုကောလ်တွင် ပါဝင်ရန် ကြိုးစားသည့်အခါ Signal တွင် ကင်မရာအသုံးပြုခွင့် မရှိပါက Windows စနစ်ဆက်တင်ကို ဖွင့်နိုင်ရန် အဆင်ပြေသော ရှော့တ်ကတ်တစ်ခုကိုလည်း ထည့်သွင်းထားပါသည်။"
   },
   "icu:WhatsNew__8.32--0": {
-    "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing."
+    "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်များအား စစ်ထုတ်သည့် လုပ်ဆောင်ချက်ကို မက်ဆေ့ချ်ဖိုင်တွဲများနှင့် ရှာဖွေမှုမျက်နှာပြင်တို့တွင်လည်း ယခု အသုံးပြုနိုင်ပြီဖြစ်သည်။"
   },
   "icu:WhatsNew__8.32--1": {
-    "messageformat": "Improved upload reliability under poor network conditions. Thanks, <GH3mmmbulus></GH3mmmbulus>!"
+    "messageformat": "ကွန်ရက်အခြေအနေ မကောင်းသည့်အခါ အပ်လုဒ်လုပ်ခြင်းကို စိတ်ချရစေရန် မွမ်းမံထားသည်။ ကျေးဇူးပါ <GH3mmmbulus></GH3mmmbulus>"
   },
   "icu:WhatsNew__8.32--2": {
-    "messageformat": "The &quot;(N)&quot; shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix."
+    "messageformat": "“(N)” ရှော့တ်ကတ်သည် လက်မအောက်ဆိုက်သည့် အီမိုဂျီကို မှန်ကန်စွာ ညွှန်ပြသည်။ ချို့ယွင်းချက်ကို ပြင်ဆင်ပေးသည့်အတွက် <lnicola></lnicola> ကို ကျေးဇူးတင်ပါသည်။"
   }
 }
