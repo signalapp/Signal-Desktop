@@ -3,7 +3,7 @@
 
 import { AlertDialog } from 'radix-ui';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { memo, useCallback, useMemo, useRef } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
@@ -17,7 +17,11 @@ import {
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 
-const { useContentEscapeBehavior } = AxoBaseDialog;
+const {
+  useContentEscapeBehavior,
+  useContentRestoreFocusBehavior,
+  useTriggerPresenceRef,
+} = AxoBaseDialog;
 
 /**
  * A modal dialog that interrupts the user with important content and expects a
@@ -67,6 +71,8 @@ export namespace AxoAlertDialog {
 
   type RootContextType = Readonly<{
     setActionTriggered: () => void;
+    hasTrigger: boolean;
+    setHasTrigger: (hasTrigger: boolean) => void;
   }>;
 
   const RootContext = createStrictContext<RootContextType>(
@@ -99,6 +105,7 @@ export namespace AxoAlertDialog {
   export const Root: FC<RootProps> = memo(props => {
     const { onOpenChange, onCancel } = props;
     const actionTriggeredRef = useRef(false);
+    const [hasTrigger, setHasTrigger] = useState(false);
 
     const handleOpenChange = useCallback(
       (open: boolean) => {
@@ -119,8 +126,8 @@ export namespace AxoAlertDialog {
     }, []);
 
     const context = useMemo((): RootContextType => {
-      return { setActionTriggered };
-    }, [setActionTriggered]);
+      return { setActionTriggered, hasTrigger, setHasTrigger };
+    }, [setActionTriggered, hasTrigger, setHasTrigger]);
 
     return (
       <RootContext.Provider value={context}>
@@ -144,7 +151,14 @@ export namespace AxoAlertDialog {
    * A button that opens the dialog.
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
-    return <AlertDialog.Trigger asChild>{props.children}</AlertDialog.Trigger>;
+    const { setHasTrigger } = useStrictContext(RootContext);
+    const ref = useTriggerPresenceRef(setHasTrigger);
+
+    return (
+      <AlertDialog.Trigger ref={ref} asChild>
+        {props.children}
+      </AlertDialog.Trigger>
+    );
   });
 
   Trigger.displayName = 'AxoAlertDialog.Trigger';
@@ -177,6 +191,9 @@ export namespace AxoAlertDialog {
    */
   export const Content: FC<ContentProps> = memo(props => {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
+    const { hasTrigger } = useStrictContext(RootContext);
+    const restoreFocusHandlers = useContentRestoreFocusBehavior(hasTrigger);
+
     return (
       <AlertDialog.Portal>
         <AxoTheme.Inherit>
@@ -184,6 +201,8 @@ export namespace AxoAlertDialog {
             <AlertDialog.Overlay className={AxoBaseDialog.overlayClassName} />
             <AlertDialog.Content
               onEscapeKeyDown={handleContentEscapeEvent}
+              onOpenAutoFocus={restoreFocusHandlers.onOpenAutoFocus}
+              onCloseAutoFocus={restoreFocusHandlers.onCloseAutoFocus}
               className={tw(AxoBaseDialog.contentClassName, 'w-72 min-w-72')}
             >
               {props.children}

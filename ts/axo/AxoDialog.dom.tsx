@@ -47,7 +47,11 @@ import { mergeRefs } from '@react-aria/utils';
 import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
 import { ExperimentalAxoBaseSegmentedControl } from './_internal/AxoBaseSegmentedControl.dom.tsx';
 
-const { useContentEscapeBehavior } = AxoBaseDialog;
+const {
+  useContentEscapeBehavior,
+  useContentRestoreFocusBehavior,
+  useTriggerPresenceRef,
+} = AxoBaseDialog;
 
 /**
  * A window overlaid on either the primary window or another dialog window,
@@ -120,6 +124,8 @@ export namespace AxoDialog {
     setHasHeader: (hasHeader: boolean) => void;
     hasFooter: boolean;
     setHasFooter: (hasFooter: boolean) => void;
+    hasTrigger: boolean;
+    setHasTrigger: (hasTrigger: boolean) => void;
   }>;
 
   const RootContext = createStrictContext<RootContextType>('AxoDialog.Root');
@@ -191,6 +197,7 @@ export namespace AxoDialog {
   export const Root: FC<RootProps> = memo(props => {
     const [hasHeader, setHasHeader] = useState(false);
     const [hasFooter, setHasFooter] = useState(false);
+    const [hasTrigger, setHasTrigger] = useState(false);
 
     const context = useMemo((): RootContextType => {
       return {
@@ -198,8 +205,17 @@ export namespace AxoDialog {
         setHasHeader,
         hasFooter,
         setHasFooter,
+        hasTrigger,
+        setHasTrigger,
       };
-    }, [hasHeader, setHasHeader, hasFooter, setHasFooter]);
+    }, [
+      hasHeader,
+      setHasHeader,
+      hasFooter,
+      setHasFooter,
+      hasTrigger,
+      setHasTrigger,
+    ]);
 
     return (
       <RootContext value={context}>
@@ -232,7 +248,14 @@ export namespace AxoDialog {
    * The button that opens the dialog.
    */
   export const Trigger: FC<TriggerProps> = memo(props => {
-    return <Dialog.Trigger asChild>{props.children}</Dialog.Trigger>;
+    const { setHasTrigger } = useStrictContext(RootContext);
+    const ref = useTriggerPresenceRef(setHasTrigger);
+
+    return (
+      <Dialog.Trigger ref={ref} asChild>
+        {props.children}
+      </Dialog.Trigger>
+    );
   });
 
   Trigger.displayName = 'AxoDialog.Trigger';
@@ -290,6 +313,8 @@ export namespace AxoDialog {
   export const Content: FC<ContentProps> = memo(props => {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     const [boundary, setBoundary] = useState<Element | null>(null);
+    const { hasTrigger } = useStrictContext(RootContext);
+    const restoreFocusHandlers = useContentRestoreFocusBehavior(hasTrigger);
 
     const descriptionProps = useMemo((): Dialog.DialogContentProps => {
       if (props.disableMissingAriaDescriptionWarning) {
@@ -315,6 +340,8 @@ export namespace AxoDialog {
                 )}
                 onEscapeKeyDown={handleContentEscapeEvent}
                 onInteractOutside={handleContentEscapeEvent}
+                onOpenAutoFocus={restoreFocusHandlers.onOpenAutoFocus}
+                onCloseAutoFocus={restoreFocusHandlers.onCloseAutoFocus}
                 {...descriptionProps}
               >
                 <div className={tw('relative z-10')}>{props.children}</div>
