@@ -18,7 +18,6 @@ import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import { Modal } from './Modal.dom.tsx';
 import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
@@ -35,6 +34,8 @@ import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { LocalBackupsConfirmKeyDialog } from './LocalBackupsConfirmKeyDialog.dom.tsx';
+import { LocalBackupsSetupIcon } from './LocalBackupsSetupIcon.dom.tsx';
 
 const { noop } = lodash;
 const log = createLogger('PreferencesLocalBackups');
@@ -368,7 +369,7 @@ export function PreferencesLocalBackups({
           <AxoAlertDialog.Content escape="cancel-is-noop">
             <AxoAlertDialog.Body>
               <div className={tw('mb-2.5 flex justify-center')}>
-                <LocalBackupSetupIcon symbol="key" />
+                <LocalBackupsSetupIcon symbol="key" />
               </div>
               <AxoAlertDialog.Title>
                 {i18n('icu:Preferences__recovery-key-updated__title')}
@@ -703,34 +704,10 @@ function LocalBackupsBackupKeyViewer({
         </AxoAlertDialog.Root>
       ) : null}
       {step === 'caution' && (
-        <Modal
+        <LocalBackupsConfirmKeyDialog
           i18n={i18n}
-          modalName="LocalBackupsConfirmKeyModal"
-          className="Preferences--LocalBackupsConfirmKeyModal"
-          noMouseClose
-          noEscapeClose
-          modalFooter={
-            <AxoButton.Root
-              variant="strong-primary"
-              size="lg"
-              onClick={onBackupKeyViewed}
-            >
-              {i18n(
-                'icu:Preferences__local-backups-confirm-key-modal-continue'
-              )}
-            </AxoButton.Root>
-          }
-          onClose={() => setStep('confirm')}
-          padded={false}
-        >
-          <div className="Preferences--LocalBackupsSetupIcon Preferences--LocalBackupsSetupIcon-key" />
-          <legend className="Preferences--LocalBackupsConfirmKeyModalTitle">
-            {i18n('icu:Preferences__local-backups-confirm-key-modal-title')}
-          </legend>
-          <div className="Preferences--LocalBackupsConfirmKeyModalBody">
-            {i18n('icu:Preferences__local-backups-confirm-key-modal-body')}
-          </div>
-        </Modal>
+          onContinue={onBackupKeyViewed}
+        />
       )}
       <div className="Preferences--LocalBackupsSetupScreenPane Preferences--LocalBackupsSetupScreenPane-top">
         <div className="Preferences--LocalBackupsSetupScreenPaneContent">
@@ -835,18 +812,5 @@ function LocalBackupsBackupKeyTextarea({
       spellCheck="false"
       value={isStepViewOrReference ? backupKeyForDisplay : backupKeyInput}
     />
-  );
-}
-
-function LocalBackupSetupIcon(props: { symbol: 'key' | 'lock' }): JSX.Element {
-  return (
-    <div
-      className={tw(
-        // eslint-disable-next-line better-tailwindcss/no-restricted-classes
-        'inline-flex size-16 items-center justify-center rounded-full bg-[#D2DFFB] text-(--axo-color-brand-primary)'
-      )}
-    >
-      <AxoSymbol.Icon symbol={props.symbol} size={36} label={null} />
-    </div>
   );
 }

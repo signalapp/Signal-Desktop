@@ -733,15 +733,6 @@
   }
 }
 
-.Preferences--LocalBackupsSetupIcon-key {
-  &::before {
-    @include mixins.color-svg(
-      '../images/icons/v3/key/key.svg',
-      var(--axo-color-brand-primary)
-    );
-  }
-}
-
 .Preferences--LocalBackupsSetupIcon-lock {
   &::before {
     @include mixins.color-svg(
@@ -749,31 +740,6 @@
       var(--axo-color-brand-primary)
     );
   }
-}
-
-.Preferences--LocalBackupsConfirmKeyModal .module-Modal {
-  padding-block: 36px 20px;
-  padding-inline: 32px;
-  text-align: center;
-}
-
-.Preferences--LocalBackupsConfirmKeyModal .module-Modal__body {
-  padding: 0;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalTitle {
-  @include mixins.font-title-medium;
-  margin-block: 12px;
-}
-
-.Preferences--LocalBackupsConfirmKeyModalBody {
-  @include mixins.font-body-1;
-  margin-block: 8px 32px;
-  color: var(--axo-color-label-secondary);
-}
-
-.Preferences--LocalBackupsConfirmKeyModal .module-Modal__button-footer {
-  justify-content: center;
 }
 
 .Preferences--internal--result {
