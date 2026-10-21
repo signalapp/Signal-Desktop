@@ -57,7 +57,7 @@ import { getKeysForServiceId } from '../textsecure/getKeysForServiceId.preload.t
 import type {
   ConversationAttributesType,
   SenderKeyInfoType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { SendTypesType } from './handleMessageSend.preload.ts';
 import {
   handleMessageSend,

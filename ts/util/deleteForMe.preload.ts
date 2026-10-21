@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { createLogger } from '../logging/log.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
 import type { AddressableMessage } from '../textsecure/messageReceiverEvents.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';

@@ -44,7 +44,7 @@ import {
   isDownloadableFromTransitTier,
   isDownloadable,
 } from '../util/Attachment.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
 import { getMessageById } from '../messages/getMessageById.preload.ts';
 import { getMaximumIncomingAttachmentSize } from '../types/AttachmentSize.std.ts';

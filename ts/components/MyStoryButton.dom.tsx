@@ -12,7 +12,7 @@ import { HasStories, ResolvedSendStatus } from '../types/Stories.std.ts';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
-import { getAvatarColor } from '../types/Colors.std.ts';
+import { getAvatarColor } from '../types/Avatar.std.ts';
 import { reduceStorySendStatus } from '../util/resolveStorySendStatus.std.ts';
 
 export type PropsType = {

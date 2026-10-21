@@ -5,7 +5,7 @@ import { createLogger } from '../logging/log.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { DataReader } from '../sql/Client.preload.ts';
 import { MessageModel } from '../models/messages.preload.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 
 const log = createLogger('getMessageById');
 

@@ -20,6 +20,8 @@ import type { StickersStateType } from './ducks/stickers.preload.ts';
 import type { GifsStateType } from './ducks/gifs.preload.ts';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
 import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import type { Account } from '../types/Account.std.ts';
 import type { MegaphonesStateType } from './ducks/megaphones.preload.ts';
 
 export type ReduxInitData = {
@@ -27,6 +29,8 @@ export type ReduxInitData = {
   callHistory: ReadonlyArray<CallHistoryDetails>;
   callHistoryUnreadCountsByConversationId: Record<string, number>;
   callLinks: ReadonlyArray<CallLinkType>;
+  account: Account;
+  customChatColors: ReadonlyArray<ChatStyle.CustomChatColor>;
   chatFolders: ReadonlyArray<CurrentChatFolder>;
   donations: DonationsStateType;
   emojis: EmojisStateType;
@@ -50,6 +54,7 @@ export function initializeRedux(data: ReduxInitData): void {
   // Binding these actions to our redux store and exposing them allows us to update
   //   redux when things change in the rest of the app.
   window.reduxActions = {
+    account: bindActionCreators(actionCreators.account, store.dispatch),
     app: bindActionCreators(actionCreators.app, store.dispatch),
     installer: bindActionCreators(actionCreators.installer, store.dispatch),
     audioPlayer: bindActionCreators(actionCreators.audioPlayer, store.dispatch),
@@ -61,6 +66,7 @@ export function initializeRedux(data: ReduxInitData): void {
     badges: bindActionCreators(actionCreators.badges, store.dispatch),
     callHistory: bindActionCreators(actionCreators.callHistory, store.dispatch),
     calling: bindActionCreators(actionCreators.calling, store.dispatch),
+    chatColors: bindActionCreators(actionCreators.chatColors, store.dispatch),
     chatFolders: bindActionCreators(actionCreators.chatFolders, store.dispatch),
     composer: bindActionCreators(actionCreators.composer, store.dispatch),
     conversations: bindActionCreators(

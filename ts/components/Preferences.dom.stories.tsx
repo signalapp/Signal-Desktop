@@ -9,7 +9,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 import type { MutableRefObject, JSX } from 'react';
 
 import { Preferences } from './Preferences.dom.tsx';
-import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import { sleep } from '../util/sleep.std.ts';
@@ -56,7 +56,7 @@ import type { SettingsLocation } from '../types/Nav.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { PropsType } from './Preferences.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type {
   DonationReceipt,
   DonationWorkflow,
@@ -486,8 +486,8 @@ export default {
     blockedContactCount: 0,
     blockedGroupCount: 0,
     currentChatFoldersCount: 0,
-    customColors: {},
-    defaultConversationColor: DEFAULT_CONVERSATION_COLOR,
+    customChatColors: [],
+    defaultBubbleColor: DEFAULT_BUBBLE_COLOR,
     deviceName: 'Work Windows ME',
     emojiSkinToneDefault: Emoji.SkinTone.None,
     phoneNumber: '+1 555 123-4567',
@@ -693,18 +693,13 @@ export default {
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),
     removeCustomColor: action('removeCustomColor'),
-    removeCustomColorOnConversations: action(
-      'removeCustomColorOnConversations'
-    ),
     resumeBackupMediaDownload: action('resumeBackupMediaDownload'),
     pauseBackupMediaDownload: action('pauseBackupMediaDownload'),
     cancelBackupMediaDownload: action('cancelBackupMediaDownload'),
     resetAllChatColors: action('resetAllChatColors'),
     resetDefaultChatColor: action('resetDefaultChatColor'),
     savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
-    setGlobalDefaultConversationColor: action(
-      'setGlobalDefaultConversationColor'
-    ),
+    setGlobalDefaultBubbleColor: action('setGlobalDefaultBubbleColor'),
     setSettingsLocation: action('setSettingsLocation'),
     showPinChangeModal: action('showPinChangeModal'),
     showToast: action('showToast'),

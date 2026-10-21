@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PropsType } from './CallingLobby.dom.tsx';
 import { CallingLobby as UnwrappedCallingLobby } from './CallingLobby.dom.tsx';

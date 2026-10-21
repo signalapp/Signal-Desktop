@@ -44,8 +44,8 @@ describe('_cleanMessageData', () => {
     };
     const actual = _cleanMessageData(message);
 
-    assert.isUndefined(actual.attachments?.[0].data);
-    assert.isUndefined(actual.attachments?.[1].data);
-    assert.strictEqual(actual.attachments?.[2].data, data);
+    assert.isUndefined(actual.attachments?.[0]?.data);
+    assert.isUndefined(actual.attachments?.[1]?.data);
+    assert.strictEqual(actual.attachments?.[2]?.data, data);
   });
 });

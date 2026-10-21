@@ -1,9 +1,26 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AvatarColorType } from './Colors.std.ts';
 import type { AddressableAttachmentType } from './Attachment.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
+
+export type AvatarColorType = AxoTokens.Avatar.ColorName;
+
+export const AvatarColorMap = new Map(
+  AxoTokens.Avatar.getAllColorNames().map(colorName => {
+    return [colorName, AxoTokens.Avatar.getColorValues(colorName)];
+  })
+);
+
+export const AvatarColors = AxoTokens.Avatar.getAllColorNames();
+
+export const AVATAR_COLOR_COUNT = AvatarColors.length;
+
+export function getAvatarColor(color?: AvatarColorType): AvatarColorType {
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  return color || AvatarColors[0]!;
+}
 
 export const PersonalAvatarIcons = [
   'abstract_01',

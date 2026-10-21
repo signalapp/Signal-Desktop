@@ -3,7 +3,7 @@
 
 import { z } from 'zod';
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { StartupQueue } from '../util/StartupQueue.std.ts';

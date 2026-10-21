@@ -25,7 +25,7 @@ import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import type {
   GroupV2MemberType,
   MessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { ReactionType } from '../types/Reactions.std.ts';
 import { ReactionReadStatus } from '../types/Reactions.std.ts';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
@@ -269,6 +269,20 @@ import {
   deleteExpiredChatFolders,
   deleteChatFolderById,
 } from './server/chatFolders.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import { isBubbleColorPreset } from '../types/ChatStyle.std.ts';
+import {
+  getAllCustomChatColors,
+  createCustomChatColor,
+  createCustomChatColors,
+  updateCustomChatColor,
+  deleteCustomChatColor,
+  getExistingCustomChatColorId,
+} from './server/customChatColors.std.ts';
+import {
+  getAccount,
+  updateAccountDefaultBubbleColor,
+} from './server/account.std.ts';
 import {
   getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
@@ -306,10 +320,6 @@ import * as durations from '../util/durations/index.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import { isFile, isVisualMedia } from '../util/Attachment.std.ts';
 import { generateMessageId } from '../util/generateMessageId.node.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.ts';
 import { sqlLogger } from './sqlLogger.node.ts';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.ts';
 import {
@@ -361,6 +371,8 @@ type ConversationRow = Readonly<{
   json: string;
   profileLastFetchedAt: null | number;
   expireTimerVersion: number;
+  bubbleColorPreset: null | string;
+  customChatColorId: null | number;
 }>;
 type ConversationRows = Array<ConversationRow>;
 type StorageServiceRowFields = Readonly<{
@@ -530,6 +542,9 @@ export const DataReader: ServerReadableInterface = {
   hasAllChatsChatFolder,
   getOldestDeletedChatFolder,
 
+  getAllCustomChatColors,
+  getAccount,
+
   getAllMegaphones,
   getAllMegaphoneIds,
   hasMegaphone,
@@ -670,7 +685,7 @@ export const DataWriter: ServerWritableInterface = {
   updateConversations,
   _removeConversation,
   _removeAllConversations,
-  updateAllConversationColors,
+  removeAllConversationColors,
   removeAllProfileKeyCredentials,
   getUnreadByConversationAndMarkRead,
   getUnreadEditedMessagesAndMarkRead,
@@ -829,6 +844,12 @@ export const DataWriter: ServerWritableInterface = {
   deleteExpiredChatFolders,
   deleteChatFolderById,
 
+  createCustomChatColor,
+  createCustomChatColors,
+  updateCustomChatColor,
+  deleteCustomChatColor,
+  updateAccountDefaultBubbleColor,
+
   createMegaphone,
   updateMegaphone,
   deleteMegaphone,
@@ -872,6 +893,14 @@ export const DataWriter: ServerWritableInterface = {
 function rowToConversation(row: ConversationRow): ConversationType {
   const { expireTimerVersion } = row;
   const parsedJson = JSON.parse(row.json);
+  const bubbleColorPreset =
+    row.bubbleColorPreset != null && isBubbleColorPreset(row.bubbleColorPreset)
+      ? row.bubbleColorPreset
+      : undefined;
+  const customChatColorId =
+    row.customChatColorId != null
+      ? (row.customChatColorId as ChatStyle.CustomChatColorId)
+      : undefined;
 
   let profileLastFetchedAt: undefined | number;
   if (isNormalNumber(row.profileLastFetchedAt)) {
@@ -888,6 +917,8 @@ function rowToConversation(row: ConversationRow): ConversationType {
     ...parsedJson,
     expireTimerVersion,
     profileLastFetchedAt,
+    bubbleColorPreset,
+    customChatColorId,
   };
 }
 
@@ -1955,9 +1986,15 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     type,
     serviceId,
     expireTimerVersion,
+    bubbleColorPreset,
   } = data;
 
   const membersList = getConversationMembersList(data);
+  const customChatColorId = getExistingCustomChatColorId(
+    db,
+    data.customChatColorId,
+    `saveConversation(${id})`
+  );
 
   db.prepare(
     `
@@ -1977,7 +2014,9 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
       profileFamilyName,
       profileFullName,
       profileLastFetchedAt,
-      expireTimerVersion
+      expireTimerVersion,
+      bubbleColorPreset,
+      customChatColorId
     ) values (
       $id,
       $json,
@@ -1994,13 +2033,20 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
       $profileFamilyName,
       $profileFullName,
       $profileLastFetchedAt,
-      $expireTimerVersion
+      $expireTimerVersion,
+      $bubbleColorPreset,
+      $customChatColorId
     );
     `
   ).run({
     id,
     json: objectToJSON(
-      omit(data, ['profileLastFetchedAt', 'expireTimerVersion'])
+      omit(data, [
+        'profileLastFetchedAt',
+        'expireTimerVersion',
+        'bubbleColorPreset',
+        'customChatColorId',
+      ])
     ),
 
     e164: e164 || null,
@@ -2016,6 +2062,8 @@ function saveConversation(db: WritableDB, data: ConversationType): void {
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
     expireTimerVersion,
+    bubbleColorPreset: bubbleColorPreset ?? null,
+    customChatColorId,
   });
 }
 
@@ -2043,9 +2091,15 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     serviceId,
     groupId,
     expireTimerVersion,
+    bubbleColorPreset,
   } = data;
 
   const membersList = getConversationMembersList(data);
+  const customChatColorId = getExistingCustomChatColorId(
+    db,
+    data.customChatColorId,
+    `updateConversation(${id})`
+  );
 
   db.prepare(
     `
@@ -2064,12 +2118,20 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
       profileFamilyName = $profileFamilyName,
       profileFullName = $profileFullName,
       profileLastFetchedAt = $profileLastFetchedAt,
-      expireTimerVersion = $expireTimerVersion
+      expireTimerVersion = $expireTimerVersion,
+      bubbleColorPreset = $bubbleColorPreset,
+      customChatColorId = $customChatColorId
     WHERE id = $id;
     `
   ).run({
     id,
-    json: objectToJSON(omit(data, ['profileLastFetchedAt'])),
+    json: objectToJSON(
+      omit(data, [
+        'profileLastFetchedAt',
+        'bubbleColorPreset',
+        'customChatColorId',
+      ])
+    ),
 
     e164: e164 || null,
     serviceId: serviceId || null,
@@ -2084,6 +2146,8 @@ function updateConversation(db: WritableDB, data: ConversationType): void {
     profileFullName: combineNames(profileName, profileFamilyName) || null,
     profileLastFetchedAt: profileLastFetchedAt || null,
     expireTimerVersion,
+    bubbleColorPreset: bubbleColorPreset ?? null,
+    customChatColorId,
   });
 }
 
@@ -2115,7 +2179,12 @@ function getConversationById(
   const row = db
     .prepare(
       `
-      SELECT json, profileLastFetchedAt, expireTimerVersion
+      SELECT
+        json,
+        profileLastFetchedAt,
+        expireTimerVersion,
+        bubbleColorPreset,
+        customChatColorId
       FROM conversations
       WHERE id = $id
       `
@@ -2133,7 +2202,12 @@ function getAllConversations(db: ReadableDB): Array<ConversationType> {
   const rows: ConversationRows = db
     .prepare(
       `
-      SELECT json, profileLastFetchedAt, expireTimerVersion
+      SELECT
+        json,
+        profileLastFetchedAt,
+        expireTimerVersion,
+        bubbleColorPreset,
+        customChatColorId
       FROM conversations
       ORDER BY id ASC;
       `
@@ -2661,8 +2735,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
 
   const mainAttachments = message.attachments;
   if (mainAttachments) {
-    for (let i = 0; i < mainAttachments.length; i += 1) {
-      const attachment = mainAttachments[i];
+    for (const [index, attachment] of mainAttachments.entries()) {
       saveMessageAttachment({
         db,
         messageId,
@@ -2673,7 +2746,7 @@ function saveMessageAttachmentsForRootOrEditedVersion(
         receivedAtMs,
         attachmentType: 'attachment',
         attachment,
-        orderInMessage: i,
+        orderInMessage: index,
         editHistoryIndex,
         isViewOnce,
       });
@@ -8749,6 +8822,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM attachment_downloads;
       DELETE FROM attachment_backup_jobs;
       DELETE FROM attachment_downloads_backup_stats;
+      DELETE FROM account;
       DELETE FROM attachments_protected_from_deletion;
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM badgeImageFiles;
@@ -8757,6 +8831,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM callsHistory;
       DELETE FROM chatFolders;
       DELETE FROM conversations;
+      DELETE FROM customChatColors;
       DELETE FROM defunctCallLinks;
       DELETE FROM donationReceipts;
       DELETE FROM favorite_stickers;
@@ -8793,6 +8868,9 @@ function removeAll(db: WritableDB): void {
       DELETE FROM syncTasks;
       DELETE FROM unprocessed;
       DELETE FROM uninstalled_sticker_packs;
+
+      --- There must always be exactly one account row, this resets it
+      INSERT INTO account (id) VALUES (1);
 
       INSERT INTO messages_fts(messages_fts) VALUES('optimize');
 
@@ -9525,26 +9603,14 @@ function getStatisticsForLogging(db: ReadableDB): Record<string, string> {
   return mapValues(counts, formatCountForLogging);
 }
 
-function updateAllConversationColors(
-  db: WritableDB,
-  conversationColor?: ConversationColorType,
-  customColorData?: {
-    id: string;
-    value: CustomColorType;
-  }
-): void {
-  db.prepare(
-    `
+function removeAllConversationColors(db: WritableDB): void {
+  const [query, params] = sql`
     UPDATE conversations
-    SET json = JSON_PATCH(json, $patch);
-    `
-  ).run({
-    patch: JSON.stringify({
-      conversationColor: conversationColor || null,
-      customColor: customColorData?.value || null,
-      customColorId: customColorData?.id || null,
-    }),
-  });
+    SET
+      bubbleColorPreset = NULL,
+      customChatColorId = NULL;
+  `;
+  db.prepare(query).run(params);
 }
 
 function removeAllProfileKeyCredentials(db: WritableDB): void {

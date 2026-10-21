@@ -16,7 +16,7 @@ import lodash from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import { CallBackgroundBlur } from './CallBackgroundBlur.dom.tsx';
 import {
   CallingAudioIndicator,

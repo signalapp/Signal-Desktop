@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import type { SenderKeyInfoType } from '../model-types.d.ts';
+import type { SenderKeyInfoType } from '../model-types.std.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
 import type { StoryDistributionType } from '../sql/Interface.std.ts';
 import type { SenderKeyTargetType } from './sendToGroup.preload.ts';

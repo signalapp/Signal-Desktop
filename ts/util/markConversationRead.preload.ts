@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { hasErrors } from '../state/selectors/message.preload.ts';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue.preload.ts';

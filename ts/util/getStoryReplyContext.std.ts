@@ -4,7 +4,7 @@
 import type {
   ReadonlyMessageAttributesType,
   StoryReplyContextType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { isAciString } from './isAciString.std.ts';
 import { strictAssert } from './assert.std.ts';
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
 

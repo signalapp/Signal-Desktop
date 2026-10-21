@@ -15,7 +15,7 @@ import { MessageCache } from '../../services/MessageCache.preload.ts';
 import { getAttachmentsPath } from '../../../app/attachments.node.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 

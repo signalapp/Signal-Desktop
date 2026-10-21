@@ -68,7 +68,7 @@ import type {
   RemoveMessageOptions,
 } from './Interface.std.ts';
 import { AttachmentDownloadSource } from './Interface.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload.std.ts';
 import {
   throttledUpdateBackupMediaDownloadProgress,

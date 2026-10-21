@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { assert } from 'chai';
 
 import type { AciString } from '../types/ServiceId.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
 import type {

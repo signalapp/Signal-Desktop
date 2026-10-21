@@ -17,7 +17,7 @@ import {
   explain,
 } from './helpers.node.ts';
 
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.ts';
 
 function generateMessage(json: MessageAttributesType) {

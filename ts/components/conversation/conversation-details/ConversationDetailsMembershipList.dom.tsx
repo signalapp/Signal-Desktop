@@ -9,7 +9,7 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import { GroupMemberLabel } from '../ContactName.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
-import type { ContactNameColorType } from '../../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../../types/ContactNameColor.std.ts';
 import type { Emoji } from '../../../axo/emoji.std.ts';
 import { UserText } from '../../UserText.dom.tsx';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.ts';

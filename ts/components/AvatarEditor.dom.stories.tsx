@@ -5,10 +5,9 @@ import type { JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors, getDefaultAvatars } from '../types/Avatar.std.ts';
 import type { PropsType } from './AvatarEditor.dom.tsx';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
-import { getDefaultAvatars } from '../types/Avatar.std.ts';
 
 const { i18n } = window.SignalContext;
 

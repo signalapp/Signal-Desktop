@@ -4,8 +4,7 @@
 import { useCallback, useEffect, useState, type JSX } from 'react';
 
 import { AvatarColorPicker } from './AvatarColorPicker.dom.tsx';
-import type { AvatarColorType } from '../types/Colors.std.ts';
-import type { AvatarDataType } from '../types/Avatar.std.ts';
+import type { AvatarColorType, AvatarDataType } from '../types/Avatar.std.ts';
 import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';

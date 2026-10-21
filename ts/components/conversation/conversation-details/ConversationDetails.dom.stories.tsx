@@ -18,8 +18,10 @@ import { ThemeType } from '../../../types/Util.std.ts';
 import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 import { NavTab } from '../../../types/Nav.std.ts';
 import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.ts';
-import type { ContactNameColorType } from '../../../types/Colors.std.ts';
-import { ContactNameColors } from '../../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../../types/ContactNameColor.std.ts';
+import { ContactNameColors } from '../../../types/ContactNameColor.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../../../types/ChatStyle.std.ts';
+import { getBubbleColorRenderDataBackground } from '../../../util/getCustomColorStyle.std.ts';
 import { isNotNil } from '../../../util/isNotNil.std.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { Emoji } from '../../../axo/emoji.std.ts';
@@ -38,7 +40,7 @@ const conversation: ConversationType = getDefaultConversation({
   title: 'Some Conversation',
   groupDescription: 'Hello World!',
   type: 'group',
-  conversationColor: 'ultramarine' as const,
+  bubbleColor: { bubbleColorPreset: 'ultramarine' },
 });
 
 const allCandidateContacts = times(10, () => getDefaultConversation());
@@ -74,6 +76,8 @@ const createProps = (
   );
 
   return {
+    bubbleColorBackground:
+      getBubbleColorRenderDataBackground(DEFAULT_BUBBLE_COLOR),
     acceptConversation: action('acceptConversation'),
     addMembersToGroup: async () => {
       action('addMembersToGroup');

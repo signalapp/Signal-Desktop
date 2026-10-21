@@ -61,10 +61,9 @@ import {
   VIEWERS_CHANGED,
 } from '../../../state/ducks/storyDistributionLists.preload.ts';
 import { MY_STORY_ID } from '../../../types/Stories.std.ts';
-import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../../model-types.std.ts';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { getConversationCallMode } from '../../../util/getConversationCallMode.std.ts';
-import { itemStorage } from '../../../textsecure/Storage.preload.ts';
 import {
   generateAci,
   getAciFromPrefix,
@@ -2147,21 +2146,21 @@ describe('both/state/ducks/conversations', () => {
     describe('COLORS_CHANGED', () => {
       const abc = getDefaultConversationWithServiceId({
         id: 'abc',
-        conversationColor: 'wintergreen',
+        bubbleColor: { bubbleColorPreset: 'wintergreen' },
       });
       const def = getDefaultConversationWithServiceId({
         id: 'def',
-        conversationColor: 'infrared',
+        bubbleColor: { bubbleColorPreset: 'infrared' },
       });
       const ghi = getDefaultConversation({
         id: 'ghi',
         e164: 'ghi',
-        conversationColor: 'ember',
+        bubbleColor: { bubbleColorPreset: 'ember' },
       });
       const jkl = getDefaultConversation({
         id: 'jkl',
         groupId: 'jkl',
-        conversationColor: 'plum',
+        bubbleColor: { bubbleColorPreset: 'plum' },
       });
       const getState = () => ({
         ...getEmptyRootState(),
@@ -2194,23 +2193,18 @@ describe('both/state/ducks/conversations', () => {
         const nextState = reducer(getState().conversations, action);
 
         sinon.assert.calledOnce(dispatch);
-        assert.isUndefined(nextState.conversationLookup.abc?.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.def?.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.ghi?.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.jkl?.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.abc?.bubbleColor);
+        assert.isUndefined(nextState.conversationLookup.def?.bubbleColor);
+        assert.isUndefined(nextState.conversationLookup.ghi?.bubbleColor);
+        assert.isUndefined(nextState.conversationLookup.jkl?.bubbleColor);
         assert.isUndefined(
-          nextState.conversationsByServiceId[abc.serviceId]?.conversationColor
+          nextState.conversationsByServiceId[abc.serviceId]?.bubbleColor
         );
         assert.isUndefined(
-          nextState.conversationsByServiceId[def.serviceId]?.conversationColor
+          nextState.conversationsByServiceId[def.serviceId]?.bubbleColor
         );
-        assert.isUndefined(
-          nextState.conversationsByE164.ghi?.conversationColor
-        );
-        assert.isUndefined(
-          nextState.conversationsByGroupId.jkl?.conversationColor
-        );
-        await itemStorage.remove('defaultConversationColor');
+        assert.isUndefined(nextState.conversationsByE164.ghi?.bubbleColor);
+        assert.isUndefined(nextState.conversationsByGroupId.jkl?.bubbleColor);
       });
     });
 

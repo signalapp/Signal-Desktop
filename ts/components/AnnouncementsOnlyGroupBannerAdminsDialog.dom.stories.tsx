@@ -10,7 +10,7 @@ import { Emoji } from '../axo/emoji.std.ts';
 import {
   ContactNameColors,
   type ContactNameColorType,
-} from '../types/Colors.std.ts';
+} from '../types/ContactNameColor.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 
 const { i18n } = window.SignalContext;

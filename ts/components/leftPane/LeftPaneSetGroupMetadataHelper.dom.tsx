@@ -20,7 +20,7 @@ import type {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../../types/Avatar.std.ts';
-import { AvatarColors } from '../../types/Colors.std.ts';
+import { AvatarColors } from '../../types/Avatar.std.ts';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
 

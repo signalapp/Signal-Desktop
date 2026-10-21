@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 import lodash from 'lodash';
-import type { MessageReactionType } from '../../model-types.d.ts';
+import type { MessageReactionType } from '../../model-types.std.ts';
 import { isEmpty } from '../../util/iterables.std.ts';
 
 import {

@@ -12,7 +12,7 @@ import { Theme } from '../util/theme.std.ts';
 import { getParticipantName } from '../util/callingGetParticipantName.std.ts';
 import { ContactName } from './conversation/ContactName.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import { CallMode } from '../types/CallDisposition.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {

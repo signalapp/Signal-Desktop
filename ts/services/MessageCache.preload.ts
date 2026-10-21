@@ -13,7 +13,7 @@ import { isStory } from '../messages/helpers.std.ts';
 import { getStoryDataFromMessageAttributes } from './storyLoader.preload.ts';
 import { postSaveUpdates } from '../util/cleanup.preload.ts';
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
 import type { StoredJob } from '../jobs/types.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';

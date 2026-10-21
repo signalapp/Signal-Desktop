@@ -34,7 +34,7 @@ import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import type { SizeCallbackType } from '../calling/VideoSupport.preload.ts';

@@ -4,7 +4,7 @@
 import type {
   ReadonlyMessageAttributesType,
   ConversationAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { type AciString } from '../types/ServiceId.std.ts';
 import type { ProcessedStoryContext } from '../textsecure/Types.d.ts';
 import { createLogger } from '../logging/log.std.ts';

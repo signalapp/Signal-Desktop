@@ -6,7 +6,7 @@ import type { JSX } from 'react';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './ContactName.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
-import { ContactNameColors } from '../../types/Colors.std.ts';
+import { ContactNameColors } from '../../types/ContactNameColor.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 
 export default {

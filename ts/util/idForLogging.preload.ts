@@ -4,7 +4,7 @@
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import {
   getSource,
   getSourceDevice,

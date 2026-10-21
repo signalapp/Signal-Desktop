@@ -5,7 +5,7 @@ import { v4 as generateUuid } from 'uuid';
 import sinon from 'sinon';
 import { DataWriter } from '../sql/Client.preload.ts';
 import { ConversationModel } from '../models/conversations.preload.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import { normalizeServiceId } from '../types/ServiceId.std.ts';
 import { normalizeAci } from '../util/normalizeAci.std.ts';
 

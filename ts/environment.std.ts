@@ -58,3 +58,12 @@ export const isMockEnvironment = (): boolean => {
 export const isTestOrMockEnvironment = (): boolean => {
   return isTestEnvironment(getEnvironment()) || isMockEnvironment();
 };
+
+export function isDevEnvironment(): boolean {
+  const env = getEnvironment();
+  return (
+    env === Environment.Development ||
+    isTestEnvironment(env) ||
+    isMockEnvironment()
+  );
+}

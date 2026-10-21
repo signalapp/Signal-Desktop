@@ -4,7 +4,7 @@
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import { isIncoming, isOutgoing } from '../state/selectors/message.preload.ts';
 import { isAciString } from './isAciString.std.ts';

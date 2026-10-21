@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import { getOwn } from '../util/getOwn.std.ts';
 import { map, concat, repeat, zipObject } from '../util/iterables.std.ts';
 import { isOutgoing } from '../state/selectors/message.preload.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type {
   SendState,
   SendStateByConversationId,

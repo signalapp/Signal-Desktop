@@ -1,10 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type {
-  CustomColorsItemType,
-  DefaultConversationColorType,
-} from './Colors.std.ts';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import type { RetryItemType } from '../services/retryPlaceholders.std.ts';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.ts';
@@ -98,9 +94,6 @@ export type StorageAccessType = {
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;
   blocked: ReadonlyArray<BlockedNumber>;
-  defaultConversationColor: DefaultConversationColorType;
-
-  customColors: CustomColorsItemType;
   device_name: string;
   deviceCreatedAt: number;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
@@ -384,8 +377,6 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'autoConvertEmoji',
   'badge-count-muted-conversations',
   'call-ringtone-notification',
-  'customColors',
-  'defaultConversationColor',
   'existingOnboardingStoryMessageIds',
   'hasCompletedSafetyNumberOnboarding',
   'hasCompletedUsernameLinkOnboarding',

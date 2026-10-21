@@ -21,7 +21,7 @@ import { BackupLevel } from './services/backups/types.std.ts';
 import { fromHex } from './Bytes.std.ts';
 
 import type { IPCResponse as ChallengeResponseType } from './challenge.dom.ts';
-import type { MessageAttributesType } from './model-types.d.ts';
+import type { MessageAttributesType } from './model-types.std.ts';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
 import type { RestoreResponseType } from './textsecure/WebAPI.preload.ts';
 import { runStorageServiceSyncJob } from './services/storage.preload.ts';

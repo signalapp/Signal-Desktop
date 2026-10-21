@@ -6,7 +6,7 @@ import type { JSX } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { PropsType } from './BetterAvatarBubble.dom.tsx';
 import { BetterAvatarBubble } from './BetterAvatarBubble.dom.tsx';
 

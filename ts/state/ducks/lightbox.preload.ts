@@ -12,7 +12,7 @@ import type { ShowStickerPackPreviewActionType } from './globalModals.preload.ts
 import type { ShowToastActionType } from './toast.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import {
   getValidMessageAttachments,
   getUndownloadedAttachmentSignature,

@@ -3,7 +3,7 @@
 import type { CSSProperties, FC, Ref, ReactNode } from 'react';
 import { memo, useId, useMemo } from 'react';
 import type { Transition } from 'motion/react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { tw } from '../tw.dom.tsx';
 import { AxoBadge } from '../AxoBadge.dom.tsx';
 import { createStrictContext, useStrictContext } from './StrictContext.dom.tsx';
@@ -128,13 +128,19 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     }, [id, value, variant, width, itemWidth]);
     return (
       <RootContext.Provider value={context}>
-        <div
+        <motion.div
           ref={ref}
+          // We need the root to have `layout` so that the indicator is
+          // positioned relative to it while animating, but we set the
+          // transition to be instant
+          layout
+          initial={false}
+          transition={{ duration: 0 }}
           className={tw(RootStyles.get(variant), RootWidths.get(width))}
           {...forwardExtraPropsForRadix(rest)}
         >
           {children}
-        </div>
+        </motion.div>
       </RootContext.Provider>
     );
   });
@@ -151,7 +157,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     equal: tw('flex-1'),
   });
 
-  const IndicatorTransition: Transition = {
+  export const IndicatorTransition: Transition = {
     type: 'spring',
     stiffness: 422,
     damping: 37.3,
@@ -169,6 +175,7 @@ export namespace ExperimentalAxoBaseSegmentedControl {
   export const Item: FC<ItemProps> = memo(props => {
     const { ref, value, children, ...rest } = props;
     const context = useStrictContext(RootContext);
+    const reducedMotion = useReducedMotion();
 
     const isSelected = useMemo(() => {
       if (context.value == null) {
@@ -188,16 +195,23 @@ export namespace ExperimentalAxoBaseSegmentedControl {
           ref={ref}
           type="button"
           className={tw(
-            'relative flex min-w-0 items-center justify-center px-3 py-[5px]',
+            'group',
+            'relative flex min-w-0 items-center justify-center px-3 py-1.25',
             'cursor-pointer rounded-full type-body-medium font-medium text-primary',
-            'outline-focused-inner focus-visible:axo-focus-ring',
+
             'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
             'forced-colors:data-[axo-contextmenu-state=open]:text-[HighlightText]',
             ItemWidths.get(context.itemWidth),
-            isSelected && tw('forced-colors:text-[SelectedItemText]'),
+            isSelected &&
+              tw(
+                'focus-visible:outline-none',
+                'forced-colors:text-[SelectedItemText]'
+              ),
             !isSelected &&
               tw(
+                'focus-visible:axo-focus-ring',
                 'data-[axo-contextmenu-state=open]:bg-primary',
+
                 'forced-colors:data-[axo-contextmenu-state=open]:bg-[Highlight]'
               )
           )}
@@ -207,8 +221,15 @@ export namespace ExperimentalAxoBaseSegmentedControl {
           {isSelected && (
             <motion.span
               layoutId={`${context.id}.Indicator`}
-              className={IndicatorStyles.get(context.variant)}
-              transition={IndicatorTransition}
+              layout="x"
+              initial={false}
+              className={tw(
+                IndicatorStyles.get(context.variant),
+                'group-focus-visible:axo-focus-ring'
+              )}
+              transition={reducedMotion ? { duration: 0 } : IndicatorTransition}
+              // Must be set via `style` so motion corrects it for scale
+              // distortion while animating between items of different widths
               style={{ borderRadius: 14 }}
             />
           )}

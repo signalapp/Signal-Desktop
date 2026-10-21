@@ -8,6 +8,8 @@ import { getEmptyState as backupsEmptyState } from './ducks/backups.preload.ts';
 import { getEmptyState as badgesEmptyState } from './ducks/badges.preload.ts';
 import { getEmptyState as callHistoryEmptyState } from './ducks/callHistory.preload.ts';
 import { getEmptyState as callingEmptyState } from './ducks/calling.preload.ts';
+import { getEmptyState as accountEmptyState } from './ducks/account.preload.ts';
+import { getEmptyState as chatColorsEmptyState } from './ducks/chatColors.preload.ts';
 import {
   getEmptyState as chatFoldersEmptyState,
   getInitialChatFoldersState,
@@ -69,6 +71,8 @@ export function getInitialState(
     callLinks,
     callHistory: calls,
     callHistoryUnreadCountsByConversationId,
+    account,
+    customChatColors,
     chatFolders,
     donations,
     gifs,
@@ -99,6 +103,8 @@ export function getInitialState(
       ...callingEmptyState(),
       callLinks: makeLookup(callLinks, 'roomId'),
     },
+    account,
+    chatColors: { customChatColors },
     chatFolders: getInitialChatFoldersState(chatFolders),
     donations,
     emojis,
@@ -154,6 +160,8 @@ function getEmptyState(): StateType {
     badges: badgesEmptyState(),
     callHistory: callHistoryEmptyState(),
     calling: callingEmptyState(),
+    account: accountEmptyState(),
+    chatColors: chatColorsEmptyState(),
     chatFolders: chatFoldersEmptyState(),
     composer: composerEmptyState(),
     conversations: generateConversationsState(),

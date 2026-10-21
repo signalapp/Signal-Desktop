@@ -84,13 +84,10 @@ import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
-import type {
-  ContactNameColorType,
-  ConversationColorType,
-  CustomColorType,
-} from '../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
+import type { BubbleColorRenderData } from '../../types/ChatStyle.std.ts';
 import { createRefMerger } from '../../util/refMerger.std.ts';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.std.ts';
+import { getBubbleColorRenderDataBackground } from '../../util/getCustomColorStyle.std.ts';
 import { DAY, HOUR, MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import { BadgeImageTheme } from '../../badges/BadgeImageTheme.std.ts';
 import { getBadgeImageFileLocalPath } from '../../badges/getBadgeImageFileLocalPath.std.ts';
@@ -125,7 +122,6 @@ import { Emoji } from '../../axo/emoji.std.ts';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { TargetedMessageSource } from '../../state/ducks/conversationsEnums.std.ts';
 import { isReleaseNoteCtaId } from '../../types/releaseNotes.std.ts';
-import { AxoTokens } from '../../axo/AxoTokens.std.ts';
 
 const { drop, take, unescape } = lodash;
 
@@ -214,9 +210,8 @@ export type PropsData = {
   renderingContext: RenderingContextType;
   contactNameColor?: ContactNameColorType;
   contactLabel?: MemberLabelType;
-  conversationColor: ConversationColorType;
+  bubbleColor: BubbleColorRenderData;
   conversationTitle: string;
-  customColor?: CustomColorType;
   conversationId: string;
   displayLimit?: number;
   activeCallConversationId?: string;
@@ -264,9 +259,8 @@ export type PropsData = {
   payment?: AnyPaymentEvent;
   poll?: PollWithResolvedVotersType;
   quote?: {
-    conversationColor: ConversationColorType;
+    bubbleColor: BubbleColorRenderData;
     conversationTitle: string;
-    customColor?: CustomColorType;
     text: string;
     rawAttachment?: QuotedAttachmentForUIType;
     payment?: AnyPaymentEvent;
@@ -285,8 +279,7 @@ export type PropsData = {
   };
   storyReplyContext?: {
     authorTitle: string;
-    conversationColor: ConversationColorType;
-    customColor?: CustomColorType;
+    bubbleColor: BubbleColorRenderData;
     emoji?: Emoji.Variant;
     isFromMe: boolean;
     rawAttachment?: QuotedAttachmentForUIType;
@@ -2061,10 +2054,9 @@ export class Message extends PureComponent<Props, State> {
 
   #renderQuote(): ReactNode {
     const {
-      conversationColor,
+      bubbleColor,
       conversationId,
       conversationTitle,
-      customColor,
       direction,
       disableScroll,
       i18n,
@@ -2101,9 +2093,8 @@ export class Message extends PureComponent<Props, State> {
         authorTitle={quote.authorTitle}
         authorLabel={quote.authorLabel}
         bodyRanges={quote.bodyRanges}
-        conversationColor={conversationColor}
+        bubbleColor={bubbleColor}
         conversationTitle={conversationTitle}
-        customColor={customColor}
         isViewOnce={isViewOnce}
         isGiftBadge={isGiftBadge}
         referencedMessageNotFound={referencedMessageNotFound}
@@ -2118,8 +2109,7 @@ export class Message extends PureComponent<Props, State> {
   #renderStoryReplyContext(): ReactNode {
     const {
       conversationTitle,
-      conversationColor,
-      customColor,
+      bubbleColor,
       direction,
       i18n,
       storyReplyContext,
@@ -2145,9 +2135,8 @@ export class Message extends PureComponent<Props, State> {
         )}
         <Quote
           authorTitle={storyReplyContext.authorTitle}
-          conversationColor={conversationColor}
+          bubbleColor={bubbleColor}
           conversationTitle={conversationTitle}
-          customColor={customColor}
           i18n={i18n}
           isFromMe={storyReplyContext.isFromMe}
           isGiftBadge={false}
@@ -3271,8 +3260,7 @@ export class Message extends PureComponent<Props, State> {
       attachments,
       attachmentDroppedDueToSize,
       contact,
-      conversationColor,
-      customColor,
+      bubbleColor,
       deletedForEveryone,
       direction,
       id,
@@ -3343,10 +3331,9 @@ export class Message extends PureComponent<Props, State> {
       !(attachmentDroppedDueToSize && !text) &&
       direction === 'outgoing'
     ) {
-      Object.assign(containerStyles, getCustomColorStyle(customColor));
       Object.assign(containerStyles, {
         '--module-message__container-bg':
-          AxoTokens.ChatBubble.anyColorNameToCssBackground(conversationColor),
+          getBubbleColorRenderDataBackground(bubbleColor),
       });
     }
 

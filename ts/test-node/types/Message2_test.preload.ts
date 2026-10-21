@@ -10,7 +10,7 @@ import * as Bytes from '../../Bytes.std.ts';
 import * as MIME from '../../types/MIME.std.ts';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type {
   AddressableAttachmentType,
   AttachmentType,

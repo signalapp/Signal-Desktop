@@ -4,7 +4,7 @@
 import { SentTimestampMs } from '@signalapp/types';
 import { createLogger } from '../logging/log.std.ts';
 import { isIncoming } from '../messages/helpers.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { DataReader } from '../sql/Client.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import type { AciString } from '../types/ServiceId.std.ts';

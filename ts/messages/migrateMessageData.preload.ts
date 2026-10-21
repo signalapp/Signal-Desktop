@@ -8,7 +8,7 @@ import PQueue from 'p-queue';
 import { CURRENT_SCHEMA_VERSION } from '../types/Message2.preload.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { MINUTE } from '../util/durations/index.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';

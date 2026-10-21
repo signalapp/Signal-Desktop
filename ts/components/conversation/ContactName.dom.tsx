@@ -12,7 +12,7 @@ import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
-import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
 import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';

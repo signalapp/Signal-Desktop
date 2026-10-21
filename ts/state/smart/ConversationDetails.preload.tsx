@@ -12,7 +12,6 @@ import {
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import type { CallHistoryGroup } from '../../types/CallDisposition.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
-import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import {
   getBadgesSelector,
@@ -26,11 +25,9 @@ import {
   getConversationByServiceIdSelector,
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations.dom.ts';
-import {
-  getAreWeASubscriber,
-  getDefaultConversationColor,
-  getItems,
-} from '../selectors/items.dom.ts';
+import { getAreWeASubscriber, getItems } from '../selectors/items.dom.ts';
+import { getBubbleColorResolver } from '../selectors/chatColors.std.ts';
+import { getBubbleColorRenderDataBackground } from '../../util/getCustomColorStyle.std.ts';
 import { getSelectedNavTab } from '../selectors/nav.std.ts';
 import {
   getIntl,
@@ -114,7 +111,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     getConversationByServiceIdSelector
   );
   const conversationSelector = useSelector(getConversationByIdSelector);
-  const defaultConversationColor = useSelector(getDefaultConversationColor);
+  const bubbleColorResolver = useSelector(getBubbleColorResolver);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
@@ -162,10 +159,9 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     conversation,
     '<SmartConversationDetails> expected a conversation to be found'
   );
-  const conversationWithColorAttributes = {
-    ...conversation,
-    ...getConversationColorAttributes(conversation, defaultConversationColor),
-  };
+  const bubbleColorBackground = getBubbleColorRenderDataBackground(
+    bubbleColorResolver(conversation.bubbleColor)
+  );
 
   const groupMemberships = getGroupMemberships(
     conversation,
@@ -271,7 +267,8 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       canAddLabel={canAddLabel}
       canAddNewMembers={canAddNewMembers}
       canEditGroupInfo={canEditGroupInfo}
-      conversation={conversationWithColorAttributes}
+      bubbleColorBackground={bubbleColorBackground}
+      conversation={conversation}
       deleteAvatarFromDisk={deleteAvatarFromDisk}
       getPreferredBadge={getPreferredBadge}
       getProfilesForConversation={getProfilesForConversation}

@@ -47,7 +47,7 @@ import {
   verifyAccessKey,
   decryptProfile,
 } from '../Crypto.node.ts';
-import type { ConversationLastProfileType } from '../model-types.d.ts';
+import type { ConversationLastProfileType } from '../model-types.std.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
 import { maybeCreateGroupSendEndorsementState } from '../util/groupSendEndorsements.preload.ts';
 import { ProfileDecryptError } from '../types/errors.std.ts';

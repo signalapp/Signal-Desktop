@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '../types/ServiceId.std.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import type { LastMessageType } from '../state/ducks/conversations.preload.ts';
 import { BodyRange } from '../types/BodyRange.std.ts';
 import { dropNull } from './dropNull.std.ts';

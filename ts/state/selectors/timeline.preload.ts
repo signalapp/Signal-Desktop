@@ -24,10 +24,8 @@ import {
   getUserACI,
   getUserPNI,
 } from './user.std.ts';
-import {
-  getDefaultConversationColor,
-  getHasMediaBackups,
-} from './items.dom.ts';
+import { getHasMediaBackups } from './items.dom.ts';
+import { getBubbleColorResolver } from './chatColors.std.ts';
 import { getActiveCall, getCallSelector } from './calling.std.ts';
 import {
   getPropsForBubble,
@@ -45,7 +43,7 @@ import {
 import type { ConversationType } from '../ducks/conversations.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
-import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import { getResolveSharedContactSelector } from './sharedContact.dom.ts';
 
 // A no-op lookup for non-story-reply items. Only story replies should take a
@@ -80,7 +78,7 @@ const getTimelineItem = (
   const activeCall = getActiveCall(state);
   const pinnedMessagesMessageIds = getPinnedMessagesMessageIds(state);
   const selectedMessageIds = getSelectedMessageIds(state);
-  const defaultConversationColor = getDefaultConversationColor(state);
+  const bubbleColorResolver = getBubbleColorResolver(state);
   const hasMediaBackups = getHasMediaBackups(state);
   const getStoryReplyAttachment = message.storyReplyContext
     ? getStoryReplyAttachmentSelector(state)
@@ -102,7 +100,7 @@ const getTimelineItem = (
     activeCall,
     pinnedMessagesMessageIds,
     selectedMessageIds,
-    defaultConversationColor,
+    bubbleColorResolver,
     hasMediaBackups,
     getStoryReplyAttachment,
   });

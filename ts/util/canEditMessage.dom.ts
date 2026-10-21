@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { DAY } from './durations/index.std.ts';
 import { isMoreRecentThan } from './timestamp.std.ts';
 import { isOutgoing, isPoll } from '../messages/helpers.std.ts';

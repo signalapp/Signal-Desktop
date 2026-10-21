@@ -38,7 +38,7 @@ import type {
   LocalAttachmentV2Type,
 } from '../types/Attachment.std.ts';
 import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {

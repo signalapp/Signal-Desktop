@@ -10,16 +10,12 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
   SenderKeyInfoType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { StoredJob } from '../jobs/types.std.ts';
 import type {
   ReactionType,
   ReactionReadStatus,
 } from '../types/Reactions.std.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
 import type { BytesToStrings } from '../types/Util.std.ts';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress.std.ts';
@@ -70,6 +66,8 @@ import type { NotificationProfileType } from '../types/NotificationProfile.std.t
 import type { DonationReceipt } from '../types/Donations.std.ts';
 import type { InsertOrUpdateCallLinkFromSyncResult } from './server/callLinks.node.ts';
 import type { ChatFolderId, ChatFolder } from '../types/ChatFolder.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import type { Account } from '../types/Account.std.ts';
 import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.ts';
 import type {
   PinnedMessage,
@@ -1140,6 +1138,9 @@ type ReadableInterface = {
   hasAllChatsChatFolder: () => boolean;
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
+  getAllCustomChatColors: () => ReadonlyArray<ChatStyle.CustomChatColor>;
+  getAccount: () => Account;
+
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
   getAllMegaphoneIds: () => ReadonlyArray<RemoteMegaphoneId>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
@@ -1267,13 +1268,7 @@ type WritableInterface = {
   /** @internal use ts/util/Conversation.preload.ts */
   _removeConversation: (id: string) => void;
   _removeAllConversations: () => void;
-  updateAllConversationColors: (
-    conversationColor?: ConversationColorType,
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    }
-  ) => void;
+  removeAllConversationColors: () => void;
   removeAllProfileKeyCredentials: () => void;
 
   replaceAllEndorsementsForGroup: (data: GroupSendEndorsementsData) => void;
@@ -1555,6 +1550,18 @@ type WritableInterface = {
     messageQueueTime: number
   ) => ReadonlyArray<ChatFolderId>;
   deleteChatFolderById: (id: ChatFolderId) => void;
+
+  createCustomChatColor: (
+    color: ChatStyle.CustomChatColor['color']
+  ) => ChatStyle.CustomChatColor;
+  createCustomChatColors: (
+    colors: ReadonlyArray<ChatStyle.CustomChatColor['color']>
+  ) => ReadonlyArray<ChatStyle.CustomChatColor>;
+  updateCustomChatColor: (customChatColor: ChatStyle.CustomChatColor) => void;
+  deleteCustomChatColor: (id: ChatStyle.CustomChatColorId) => void;
+  updateAccountDefaultBubbleColor: (
+    bubbleColor: ChatStyle['bubbleColor'] | null
+  ) => void;
 
   createMegaphone: (megaphone: RemoteMegaphoneType) => void;
   updateMegaphone: (megaphone: RemoteMegaphoneType) => void;

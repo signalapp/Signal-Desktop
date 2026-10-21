@@ -63,7 +63,7 @@ import type {
   ConversationAttributesTypeType,
   ConversationRenderInfoType,
   SettableConversationAttributesType,
-} from './model-types.d.ts';
+} from './model-types.std.ts';
 import type {
   ServiceIdString,
   AciString,
@@ -72,6 +72,10 @@ import type {
 import { itemStorage } from './textsecure/Storage.preload.ts';
 import { getSelectedConversationId } from './state/selectors/nav.std.ts';
 import { unencodeNumber } from './util/unencodeNumber.std.ts';
+import {
+  getConversationBubbleColor,
+  toConversationBubbleColorAttributes,
+} from './util/conversationBubbleColor.std.ts';
 
 const { debounce, pick, uniq, without } = lodash;
 
@@ -1354,12 +1358,17 @@ export class ConversationController {
 
     const currentHadMessages = (current.get('messageCount') ?? 0) > 0;
 
+    const obsoleteBubbleColor = getConversationBubbleColor(obsolete.attributes);
+    if (
+      getConversationBubbleColor(current.attributes) == null &&
+      obsoleteBubbleColor != null
+    ) {
+      current.set(toConversationBubbleColorAttributes(obsoleteBubbleColor));
+    }
+
     const dataToCopy: Partial<ConversationAttributesType> = pick(
       obsolete.attributes,
       [
-        'conversationColor',
-        'customColor',
-        'customColorId',
         'draftAttachments',
         'draftBodyRanges',
         'draftTimestamp',

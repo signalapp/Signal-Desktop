@@ -71,7 +71,7 @@ import { isNotNil } from '../util/isNotNil.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview.dom.tsx';
-import type { DraftEditMessageType } from '../model-types.d.ts';
+import type { DraftEditMessageType } from '../model-types.std.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import {
   matchBold,

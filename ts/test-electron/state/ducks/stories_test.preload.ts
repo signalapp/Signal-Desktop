@@ -7,7 +7,7 @@ import { v4 as generateUuid } from 'uuid';
 
 import type { StoryDataType } from '../../../state/ducks/stories.preload.ts';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
-import type { MessageAttributesType } from '../../../model-types.d.ts';
+import type { MessageAttributesType } from '../../../model-types.std.ts';
 import type { StateType as RootStateType } from '../../../state/reducer.preload.ts';
 import { DurationInSeconds } from '../../../util/durations/index.std.ts';
 import { TEXT_ATTACHMENT, IMAGE_JPEG } from '../../../types/MIME.std.ts';

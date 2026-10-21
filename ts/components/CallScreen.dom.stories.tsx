@@ -21,7 +21,7 @@ import {
 import { CallMode } from '../types/CallDisposition.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { PropsType } from './CallScreen.dom.tsx';
 import { CallScreen as UnwrappedCallScreen } from './CallScreen.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';

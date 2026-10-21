@@ -4,17 +4,15 @@
 import type { MouseEvent, ReactNode, JSX, CSSProperties } from 'react';
 import { useCallback, useState } from 'react';
 import classNames from 'classnames';
-import { CustomColorEditor } from './CustomColorEditor.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.ts';
-import { ConversationColors } from '../types/Colors.std.ts';
+import { CustomColorEditorDialog } from './CustomColorEditorDialog.dom.tsx';
+import { ConversationColors, type ChatStyle } from '../types/ChatStyle.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.std.ts';
+import {
+  getCustomColorBackground,
+  resolveBubbleColorRenderData,
+} from '../util/getCustomColorStyle.std.ts';
 import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -24,102 +22,87 @@ import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTokens } from '../axo/AxoTokens.std.ts';
+import { INITIAL_CUSTOM_CHAT_COLOR } from './CustomColorEditor.dom.tsx';
 
-type CustomColorDataType = {
-  id?: string;
-  value?: CustomColorType;
-};
+type GetConversationsWithCustomChatColor = (
+  colorId: ChatStyle.CustomChatColor['id']
+) => ReadonlyArray<ConversationType>;
 
-export type PropsDataType = {
-  conversationId?: string;
-  customColors?: Record<string, CustomColorType>;
-  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+type EditingCustomColor = Readonly<{
+  id: ChatStyle.CustomChatColor['id'] | null;
+  color: ChatStyle.CustomChatColor['color'];
+}>;
+
+export type ChatColorPickerProps = Readonly<{
   i18n: LocalizerType;
-  isGlobal?: boolean;
-  selectedColor?: ConversationColorType;
-  selectedCustomColor: CustomColorDataType;
-};
+  conversationId: string | null;
+  selectedBubbleColor: ChatStyle['bubbleColor'];
+  defaultBubbleColor: ChatStyle['bubbleColor'];
+  customChatColors: ReadonlyArray<ChatStyle.CustomChatColor>;
+  getConversationsWithCustomColor: GetConversationsWithCustomChatColor;
 
-type PropsActionType = {
-  addCustomColor: (color: CustomColorType, conversationId?: string) => unknown;
-  colorSelected: (payload: {
+  onAddCustomChatColor: (
+    color: ChatStyle.CustomChatColor['color'],
+    conversationId: string | null
+  ) => void;
+  onSelectBubbleColor: (payload: {
     conversationId: string;
-    conversationColor?: ConversationColorType;
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    };
-  }) => unknown;
-  editCustomColor: (colorId: string, color: CustomColorType) => unknown;
-  removeCustomColor: (colorId: string) => unknown;
-  removeCustomColorOnConversations: (colorId: string) => unknown;
-  resetAllChatColors: () => void;
-  resetDefaultChatColor: () => void;
-  setGlobalDefaultConversationColor: (
-    color: ConversationColorType,
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    }
-  ) => unknown;
-};
-
-export type PropsType = PropsDataType & PropsActionType;
+    bubbleColor: ChatStyle['bubbleColor'] | null;
+  }) => void;
+  onEditCustomChatColor: (customChatColor: ChatStyle.CustomChatColor) => void;
+  onRemoveCustomChatColor: (
+    customChatColorId: ChatStyle.CustomChatColor['id']
+  ) => void;
+  onResetAllChatColors: () => void;
+  onResetDefaultBubbleColor: () => void;
+  onChangeGlobalDefaultBubbleColor: (
+    bubbleColor: ChatStyle['bubbleColor']
+  ) => void;
+}>;
 
 export function ChatColorPicker({
-  addCustomColor,
-  colorSelected,
+  onAddCustomChatColor,
+  onSelectBubbleColor,
   conversationId,
-  customColors = {},
-  editCustomColor,
+  customChatColors,
+  onEditCustomChatColor,
   getConversationsWithCustomColor,
   i18n,
-  isGlobal = false,
-  removeCustomColor,
-  removeCustomColorOnConversations,
-  resetAllChatColors,
-  resetDefaultChatColor,
-  selectedColor = ConversationColors[0],
-  selectedCustomColor,
-  setGlobalDefaultConversationColor,
-}: PropsType): JSX.Element {
+  onRemoveCustomChatColor,
+  onResetAllChatColors,
+  onResetDefaultBubbleColor,
+  selectedBubbleColor,
+  defaultBubbleColor,
+  onChangeGlobalDefaultBubbleColor,
+}: ChatColorPickerProps): JSX.Element {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
   const [confirmResetWhat, setConfirmResetWhat] = useState(false);
-  const [customColorToEdit, setCustomColorToEdit] = useState<
-    CustomColorDataType | undefined
-  >(undefined);
+  const [customColorToEdit, setCustomColorToEdit] =
+    useState<EditingCustomColor | null>(null);
 
   const [focusRef] = useDelayedRestoreFocus();
 
-  const onSelectColor = (
-    conversationColor: ConversationColorType,
-    customColorData?: { id: string; value: CustomColorType }
-  ): void => {
+  const onSelectColor = (bubbleColor: ChatStyle['bubbleColor']): void => {
     if (conversationId) {
-      colorSelected({
-        conversationId,
-        conversationColor,
-        customColorData,
-      });
+      onSelectBubbleColor({ conversationId, bubbleColor });
     } else {
-      setGlobalDefaultConversationColor(conversationColor, customColorData);
+      onChangeGlobalDefaultBubbleColor(bubbleColor);
     }
   };
 
-  const renderCustomColorEditorWrapper = () => (
-    <CustomColorEditorWrapper
-      customColorToEdit={customColorToEdit}
+  const renderCustomColorEditorDialog = () => (
+    <CustomColorEditorDialog
       i18n={i18n}
-      onClose={() => setCustomColorToEdit(undefined)}
-      onSave={(color: CustomColorType) => {
-        if (customColorToEdit?.id) {
-          editCustomColor(customColorToEdit.id, color);
-          onSelectColor('custom', {
+      initialColor={customColorToEdit?.color ?? null}
+      onClose={() => setCustomColorToEdit(null)}
+      onSave={(color: ChatStyle.CustomChatColor['color']) => {
+        if (customColorToEdit?.id != null) {
+          onEditCustomChatColor({
             id: customColorToEdit.id,
-            value: color,
+            color,
           });
         } else {
-          addCustomColor(color, conversationId);
+          onAddCustomChatColor(color, conversationId);
         }
       }}
     />
@@ -127,7 +110,7 @@ export function ChatColorPicker({
 
   return (
     <AxoContainer.Root>
-      {customColorToEdit ? renderCustomColorEditorWrapper() : null}
+      {customColorToEdit ? renderCustomColorEditorDialog() : null}
 
       <AxoConfirmDialog.Root
         open={confirmResetWhat}
@@ -138,15 +121,15 @@ export function ChatColorPicker({
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-primary"
-          onClick={resetDefaultChatColor}
+          onClick={onResetDefaultBubbleColor}
         >
           {i18n('icu:ChatColorPicker__confirm-reset-default')}
         </AxoConfirmDialog.Action>
         <AxoConfirmDialog.Action
           variant="strong-primary"
           onClick={() => {
-            resetDefaultChatColor();
-            resetAllChatColors();
+            onResetDefaultBubbleColor();
+            onResetAllChatColors();
           }}
         >
           {i18n('icu:ChatColorPicker__resetAll')}
@@ -162,79 +145,92 @@ export function ChatColorPicker({
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
           variant="strong-primary"
-          onClick={resetAllChatColors}
+          onClick={onResetAllChatColors}
         >
           {i18n('icu:ChatColorPicker__confirm-reset')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
 
-      <AxoList.Group>
-        <AxoList.Root>
-          <AxoList.Body>
-            <SampleMessageBubbles
-              backgroundStyle={getCustomColorStyle(selectedCustomColor.value)}
-              color={selectedColor}
-              i18n={i18n}
-            />
-          </AxoList.Body>
-        </AxoList.Root>
+      <div
+        className={tw(
+          'mb-4 bg-surface-primary',
+          'border-[0.5px] border-secondary py-4',
+          'curved-2xl'
+        )}
+      >
+        <SampleMessageBubbles
+          bubbleColor={resolveBubbleColorRenderData(
+            selectedBubbleColor,
+            defaultBubbleColor,
+            customChatColors
+          )}
+          i18n={i18n}
+        />
+      </div>
 
+      <AxoList.Group>
         <AxoList.Root>
           <AxoList.Body>
             <div className="ChatColorPicker__bubbles">
               <div role="listbox" className={tw('contents')}>
-                {ConversationColors.map((color, i) => (
-                  <button
-                    type="button"
-                    role="option"
-                    aria-label={color}
-                    aria-selected={color === selectedColor}
-                    className={classNames('ChatColorPicker__bubble', {
-                      'ChatColorPicker__bubble--selected':
-                        color === selectedColor,
-                    })}
-                    key={color}
-                    onClick={() => onSelectColor(color)}
-                    ref={i === 0 ? focusRef : undefined}
-                    style={
-                      {
-                        '--chat-color-picker-bg':
-                          AxoTokens.ChatBubble.anyColorNameToCssBackground(
-                            color
-                          ),
-                      } as CSSProperties
-                    }
-                  />
-                ))}
-                {Object.entries(customColors).map(([colorId, colorValues]) => {
+                {ConversationColors.map((color, i) => {
+                  const isSelected =
+                    selectedBubbleColor.bubbleColorPreset != null &&
+                    color === selectedBubbleColor.bubbleColorPreset;
+                  return (
+                    <button
+                      type="button"
+                      role="option"
+                      aria-label={color}
+                      aria-selected={isSelected}
+                      className={classNames('ChatColorPicker__bubble', {
+                        'ChatColorPicker__bubble--selected': isSelected,
+                      })}
+                      key={color}
+                      onClick={() =>
+                        onSelectColor({ bubbleColorPreset: color })
+                      }
+                      ref={i === 0 ? focusRef : undefined}
+                      style={
+                        {
+                          '--chat-color-picker-bg':
+                            AxoTokens.ChatBubble.anyColorNameToCssBackground(
+                              color
+                            ),
+                        } as CSSProperties
+                      }
+                    />
+                  );
+                })}
+                {customChatColors.map(customChatColor => {
+                  const isSelected =
+                    selectedBubbleColor.customChatColorId ===
+                    customChatColor.id;
                   return (
                     <CustomColorBubble
-                      color={colorValues}
-                      colorId={colorId}
+                      key={customChatColor.id}
+                      color={customChatColor}
                       getConversationsWithCustomColor={
                         getConversationsWithCustomColor
                       }
-                      key={colorId}
                       i18n={i18n}
-                      isSelected={colorId === selectedCustomColor.id}
+                      isSelected={isSelected}
                       onChoose={() => {
-                        onSelectColor('custom', {
-                          id: colorId,
-                          value: colorValues,
+                        onSelectColor({
+                          customChatColorId: customChatColor.id,
                         });
                       }}
                       onDelete={() => {
-                        removeCustomColor(colorId);
-                        removeCustomColorOnConversations(colorId);
+                        onRemoveCustomChatColor(customChatColor.id);
                       }}
                       onDupe={() => {
-                        addCustomColor(colorValues, conversationId);
+                        onAddCustomChatColor(
+                          customChatColor.color,
+                          conversationId
+                        );
                       }}
                       onEdit={() => {
-                        setCustomColorToEdit({
-                          id: colorId,
-                          value: colorValues,
-                        });
+                        setCustomColorToEdit(customChatColor);
                       }}
                     />
                   );
@@ -245,7 +241,10 @@ export function ChatColorPicker({
                 aria-label={i18n('icu:ChatColorPicker__custom-color--label')}
                 className="ChatColorPicker__bubble ChatColorPicker__bubble--custom"
                 onClick={() => {
-                  setCustomColorToEdit({ id: undefined, value: undefined });
+                  setCustomColorToEdit({
+                    id: null,
+                    color: INITIAL_CUSTOM_CHAT_COLOR,
+                  });
                 }}
               >
                 <i className="ChatColorPicker__add-icon" />
@@ -261,7 +260,7 @@ export function ChatColorPicker({
                 <AxoClickableItem.Root
                   label={i18n('icu:ChatColorPicker__reset')}
                   onClick={() => {
-                    colorSelected({ conversationId });
+                    onSelectBubbleColor({ conversationId, bubbleColor: null });
                   }}
                 />
               )}
@@ -269,7 +268,7 @@ export function ChatColorPicker({
               <AxoClickableItem.Root
                 label={i18n('icu:ChatColorPicker__resetAll')}
                 onClick={() => {
-                  if (isGlobal) {
+                  if (conversationId == null) {
                     setConfirmResetWhat(true);
                   } else {
                     setConfirmResetAll(true);
@@ -285,20 +284,18 @@ export function ChatColorPicker({
 }
 
 type CustomColorBubblePropsType = {
-  color: CustomColorType;
-  colorId: string;
-  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  color: ChatStyle.CustomChatColor;
+  getConversationsWithCustomColor: GetConversationsWithCustomChatColor;
   i18n: LocalizerType;
   isSelected: boolean;
   onDelete: () => void;
-  onDupe: () => unknown;
-  onEdit: () => unknown;
-  onChoose: () => unknown;
+  onDupe: () => void;
+  onEdit: () => void;
+  onChoose: () => void;
 };
 
 function CustomColorBubble({
   color,
-  colorId,
   getConversationsWithCustomColor,
   i18n,
   isSelected,
@@ -322,13 +319,13 @@ function CustomColorBubble({
   );
 
   const handleDelete = useCallback(() => {
-    const conversations = getConversationsWithCustomColor(colorId);
+    const conversations = getConversationsWithCustomColor(color.id);
     if (!conversations.length) {
       onDelete();
     } else {
       setConfirmDeleteCount(conversations.length);
     }
-  }, [getConversationsWithCustomColor, colorId, onDelete]);
+  }, [getConversationsWithCustomColor, color.id, onDelete]);
 
   return (
     <>
@@ -358,7 +355,7 @@ function CustomColorBubble({
         <button
           type="button"
           role="option"
-          aria-label={colorId}
+          aria-label={`${color.id}`}
           aria-selected={isSelected}
           className={classNames({
             ChatColorPicker__bubble: true,
@@ -366,7 +363,11 @@ function CustomColorBubble({
             'ChatColorPicker__bubble--selected': isSelected,
           })}
           onClick={handleClick}
-          style={getCustomColorStyle(color)}
+          style={
+            {
+              '--chat-color-picker-bg': getCustomColorBackground(color.color),
+            } as CSSProperties
+          }
         />
       </CustomColorBubbleDropdownMenu>
     </>
@@ -408,42 +409,5 @@ function CustomColorBubbleDropdownMenu(props: {
         </AxoDropdownMenu.Item>
       </AxoDropdownMenu.Content>
     </AxoDropdownMenu.Root>
-  );
-}
-
-type CustomColorEditorWrapperPropsType = {
-  customColorToEdit?: CustomColorDataType;
-  i18n: LocalizerType;
-  onClose: () => unknown;
-  onSave: (color: CustomColorType) => unknown;
-};
-
-function CustomColorEditorWrapper({
-  customColorToEdit,
-  i18n,
-  onClose,
-  onSave,
-}: CustomColorEditorWrapperPropsType): JSX.Element {
-  const editor = (
-    <CustomColorEditor
-      customColor={customColorToEdit?.value}
-      i18n={i18n}
-      onClose={onClose}
-      onSave={onSave}
-    />
-  );
-
-  return (
-    <Modal
-      modalName="ChatColorPicker"
-      hasXButton
-      i18n={i18n}
-      className="ChatColorPicker__modal"
-      noMouseClose
-      onClose={onClose}
-      title={i18n('icu:CustomColorEditor__title')}
-    >
-      {editor}
-    </Modal>
   );
 }

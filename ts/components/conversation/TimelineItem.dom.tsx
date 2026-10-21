@@ -68,7 +68,7 @@ import {
 } from './MessageRequestResponseNotification.dom.tsx';
 import type { MessageRequestState } from './MessageRequestActionsConfirmation.dom.tsx';
 import type { MessageInteractivity } from './Message.dom.tsx';
-import type { PinMessageData } from '../../model-types.d.ts';
+import type { PinMessageData } from '../../model-types.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.tsx';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';

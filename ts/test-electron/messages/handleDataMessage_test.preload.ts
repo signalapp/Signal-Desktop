@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 
 import { handleDataMessage } from '../../messages/handleDataMessage.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { MessageModel } from '../../models/messages.preload.ts';
 import { MessageCache } from '../../services/MessageCache.preload.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';

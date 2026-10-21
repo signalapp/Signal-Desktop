@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import type {
   EditHistoryType,
   MessageAttributesType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.std.ts';
 import { generateMessageId } from '../../util/generateMessageId.node.ts';

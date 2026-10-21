@@ -7,7 +7,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AvatarTextEditor.dom.tsx';
 import { AvatarTextEditor } from './AvatarTextEditor.dom.tsx';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 
 const { i18n } = window.SignalContext;
 

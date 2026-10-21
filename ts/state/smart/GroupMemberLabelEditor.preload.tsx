@@ -16,6 +16,7 @@ import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.ts';
+import { getBubbleColorResolver } from '../selectors/chatColors.std.ts';
 
 const log = createLogger('SmartGroupMemberLabelEditor');
 
@@ -45,6 +46,7 @@ export const SmartGroupMemberLabelEditor = memo(
     const memberColors = getMemberColors(conversationId);
     const ourColor = memberColors?.get(me.id);
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
+    const bubbleColorResolver = useSelector(getBubbleColorResolver);
 
     const { ourAci } = user;
     const ourMembership = conversation.memberships?.find(
@@ -93,6 +95,7 @@ export const SmartGroupMemberLabelEditor = memo(
 
     return (
       <GroupMemberLabelEditor
+        bubbleColor={bubbleColorResolver(conversation.bubbleColor)}
         canAddLabel={canAddLabel}
         existingLabelEmoji={existingLabelEmoji}
         existingLabelString={existingLabelString}

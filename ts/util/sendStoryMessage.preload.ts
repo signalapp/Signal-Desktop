@@ -4,7 +4,7 @@
 import { v4 as generateUuid } from 'uuid';
 
 import type { AttachmentType } from '../types/Attachment.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type {
   SendState,
   SendStateByConversationId,

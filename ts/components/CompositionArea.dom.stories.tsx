@@ -12,8 +12,8 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.st
 import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.ts';
 import { landscapeGreenUrl } from '../storybook/Fixtures.std.ts';
 import { RecordingState } from '../types/AudioRecorder.std.ts';
-import type { ContactNameColorType } from '../types/Colors.std.ts';
-import { ContactNameColors, ConversationColors } from '../types/Colors.std.ts';
+import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
+import { ContactNameColors } from '../types/ContactNameColor.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { PaymentEventKind } from '../types/Payment.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
@@ -273,7 +273,7 @@ export function Quote(args: Props): JSX.Element {
       theme={theme}
       quotedMessageProps={{
         text: 'something',
-        conversationColor: ConversationColors[10],
+        bubbleColor: { bubbleColorPreset: 'vermilion' },
         conversationTitle: getDefaultConversation().title,
         isGiftBadge: false,
         isViewOnce: false,
@@ -293,7 +293,7 @@ export function QuoteWithPayment(args: Props): JSX.Element {
       theme={theme}
       quotedMessageProps={{
         text: '',
-        conversationColor: ConversationColors[10],
+        bubbleColor: { bubbleColorPreset: 'vermilion' },
         conversationTitle: getDefaultConversation().title,
         isGiftBadge: false,
         isViewOnce: false,

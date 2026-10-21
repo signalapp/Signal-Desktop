@@ -19,8 +19,10 @@ import { toLogFormat } from '../../types/errors.std.ts';
 
 import type { LoggerType } from '../../types/Logging.std.ts';
 import type { WritableDB } from '../Interface.std.ts';
-import type { AvatarColorType } from '../../types/Colors.std.ts';
-import type { AvatarIconType } from '../../types/Avatar.std.ts';
+import type {
+  AvatarColorType,
+  AvatarIconType,
+} from '../../types/Avatar.std.ts';
 
 export default function updateToSchemaVersion1740(
   db: WritableDB,

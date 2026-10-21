@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ValidateConversationType } from '../model-types.d.ts';
+import type { ValidateConversationType } from '../model-types.std.ts';
 import {
   isDirectConversation,
   isGroupV1,

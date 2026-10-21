@@ -25,7 +25,7 @@ const defaultMessage: MessageDataPropsType = {
   canDeleteForEveryone: true,
   canRetryDeleteForEveryone: false,
   canSendPollVote: true,
-  conversationColor: 'crimson',
+  bubbleColor: { bubbleColorPreset: 'crimson' },
   conversationId: 'my-convo',
   conversationTitle: 'Conversation Title',
   conversationType: 'direct',

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
-import type { LastMessageStatus } from '../../model-types.d.ts';
+import type { LastMessageStatus } from '../../model-types.std.ts';
 import { MINUTE, SECOND } from '../../util/durations/index.std.ts';
 import type { MaybeMessageTimelineItemType } from '../../util/timelineUtil.std.ts';
 import {

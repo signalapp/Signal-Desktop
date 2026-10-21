@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 
 import lodash from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import { Lightbox } from './Lightbox.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';

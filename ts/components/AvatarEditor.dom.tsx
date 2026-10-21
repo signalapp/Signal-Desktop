@@ -4,8 +4,8 @@
 import { useCallback, useEffect, useRef, useState, type JSX } from 'react';
 import lodash from 'lodash';
 
-import type { AvatarColorType } from '../types/Colors.std.ts';
 import type {
+  AvatarColorType,
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,

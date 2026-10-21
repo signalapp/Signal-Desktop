@@ -33,7 +33,7 @@ import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { RemoveClientType } from '../../types/Calling.std.ts';
-import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
 import { AxoStackedButton } from '../../axo/AxoStackedButton.dom.tsx';

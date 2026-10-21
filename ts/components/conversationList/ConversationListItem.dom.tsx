@@ -16,7 +16,7 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.t
 import type { BadgeType } from '../../badges/types.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { RenderLocation } from '../conversation/MessageTextRenderer.dom.tsx';
-import type { LastMessageStatus } from '../../model-types.d.ts';
+import type { LastMessageStatus } from '../../model-types.std.ts';
 
 const EMPTY_OBJECT = Object.freeze(Object.create(null));
 

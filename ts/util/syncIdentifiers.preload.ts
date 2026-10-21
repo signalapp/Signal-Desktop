@@ -9,7 +9,7 @@ import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
   MessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { AciString, PniString } from '../types/ServiceId.std.ts';
 import { isPniString } from '../types/ServiceId.std.ts';
 import { getAuthor } from '../messages/sources.preload.ts';

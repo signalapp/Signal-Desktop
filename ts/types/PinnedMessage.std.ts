@@ -7,7 +7,7 @@ import type {
   TimestampMs,
 } from '@signalapp/types';
 import type { AciString } from '@signalapp/mock-server/src/types.js';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 
 export type PinnedMessageId = number & { PinnedMessageId: never };
 

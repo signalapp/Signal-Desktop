@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Backups } from '../../protobuf/index.std.ts';
-import type { ConversationColorType } from '../../types/Colors.std.ts';
+import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 
 export const BACKUP_VERSION = 1n;
 
@@ -15,7 +15,7 @@ const { WallpaperPreset } = Backups.ChatStyle;
 // See https://github.com/signalapp/Signal-Android-Private/blob/4a41e9f9a1ed0aba7cae0e0dc4dbcac50fddc469/app/src/main/java/org/thoughtcrime/securesms/conversation/colors/ChatColorsMapper.kt#L32
 export const WALLPAPER_TO_BUBBLE_COLOR = new Map<
   Backups.ChatStyle.WallpaperPreset,
-  ConversationColorType
+  ChatStyle.BubbleColorPreset
 >([
   [WallpaperPreset.SOLID_BLUSH, 'crimson'],
   [WallpaperPreset.SOLID_COPPER, 'vermilion'],

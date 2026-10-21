@@ -16,7 +16,7 @@ import { isDirectConversation } from '../util/whatTypeOfConversation.dom.ts';
 import { isExpiringMessage } from '../types/Message2.preload.ts';
 import { notificationService } from '../services/notifications.preload.ts';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { ReactionAttributesType } from '../messageModifiers/Reactions.preload.ts';
 import {
   type PollVoteAttributesType,

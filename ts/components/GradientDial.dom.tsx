@@ -1,31 +1,48 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type {
-  CSSProperties,
-  KeyboardEvent,
-  JSX,
-  MouseEvent as ReactMouseEvent,
-} from 'react';
-import { useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
-import { arrow } from '../util/keyboard.dom.ts';
+import type { PointerEvent, ReactNode } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { mergeProps, useMove } from 'react-aria';
+import { strictAssert } from '../util/assert.std.ts';
+import { useSizeObserver } from '../hooks/useSizeObserver.dom.tsx';
+import type { AxoColor } from '../axo/AxoColor.std.ts';
+import { Uint32 } from '@signalapp/types';
 
 export enum KnobType {
   start = 'start',
   end = 'end',
 }
 
-export type PropsType = {
-  deg?: number;
-  i18n: LocalizerType;
-  knob1Style: CSSProperties;
-  knob2Style: CSSProperties;
-  onChange: (deg: number) => unknown;
-  onClick: (knob: KnobType) => unknown;
-  selectedKnob: KnobType;
-};
+type Point = Readonly<{
+  x: number;
+  y: number;
+}>;
+
+type Size = Readonly<{
+  width: number;
+  height: number;
+}>;
+
+type Line = Readonly<{
+  start: Point;
+  end: Point;
+}>;
+
+function translatePoint(point: Point, offsetX: number, offsetY: number): Point {
+  return {
+    x: point.x + offsetX,
+    y: point.y + offsetY,
+  };
+}
+
+function sizeToCenter(size: Size): Point {
+  return {
+    x: size.width / 2,
+    y: size.height / 2,
+  };
+}
 
 // Converts from degrees to radians.
 function toRadians(degrees: number): number {
@@ -37,305 +54,238 @@ function toDegrees(radians: number): number {
   return (radians * 180) / Math.PI;
 }
 
-type CSSPosition = { left: number; top: number };
+// Wraps degrees into the range [0, 360)
+function normalizeDegrees(degrees: number): number {
+  return ((degrees % 360) + 360) % 360;
+}
 
-function getKnobCoordinates(
-  degrees: number,
-  rect: ClientRect
-): { start: CSSPosition; end: CSSPosition } {
-  const center = {
-    x: rect.width / 2,
-    y: rect.height / 2,
-  };
-  const alpha = toDegrees(Math.atan(rect.height / rect.width));
-  const beta = (360.0 - alpha * 4) / 4;
+function getVectorDegrees(vector: Point): number {
+  // The y-axis points down on screen so it needs to be flipped
+  return toDegrees(Math.atan2(-vector.y, vector.x));
+}
 
-  if (degrees < alpha) {
-    // Right top
-    const a = center.x;
-    const b = a * Math.tan(toRadians(degrees));
-
-    return {
-      start: {
-        left: rect.width,
-        top: center.y - b,
-      },
-      end: {
-        left: 0,
-        top: center.y + b,
-      },
-    };
+// Rotates `degrees` along the shortest path towards `target` by at most `step`
+function rotateTowards(degrees: number, target: number, step: number): number {
+  const diff = normalizeDegrees(target - degrees);
+  if (diff === 0 || diff === 180) {
+    // Already there, or pointing in the opposite direction
+    return degrees;
   }
-
-  if (degrees < 90) {
-    // Top right
-    const phi = 90 - degrees;
-    const a = center.y;
-    const b = a * Math.tan(toRadians(phi));
-
-    return {
-      start: {
-        left: center.x + b,
-        top: 0,
-      },
-      end: {
-        left: center.x - b,
-        top: rect.height,
-      },
-    };
+  if (diff < 180) {
+    return degrees + Math.min(step, diff);
   }
+  return degrees - Math.min(step, 360 - diff);
+}
 
-  if (degrees < 90 + beta) {
-    // Top left
-    const phi = degrees - 90;
-    const a = center.y;
-    const b = a * Math.tan(toRadians(phi));
+function getKnobCoordinates(size: Size, degrees: number): Line {
+  const radians = toRadians(degrees);
 
-    return {
-      start: {
-        left: center.x - b,
-        top: 0,
-      },
-      end: {
-        left: center.x + b,
-        top: rect.height,
-      },
-    };
-  }
+  // Degrees go counter-clockwise starting from the right
+  const directionX = Math.cos(radians);
+  const directionY = -Math.sin(radians); // y-axis is flipped
 
-  if (degrees < 180) {
-    // left top
-    const phi = 180 - degrees;
-    const a = center.x;
-    const b = a * Math.tan(toRadians(phi));
+  const center = sizeToCenter(size);
 
-    return {
-      start: {
-        left: 0,
-        top: center.y - b,
-      },
-      end: {
-        left: rect.width,
-        top: center.y + b,
-      },
-    };
-  }
+  // Extend the direction from the center until it reaches the nearest edge.
+  // (Dividing by 0 gives Infinity, which `Math.min()` ignores)
+  const distance = Math.min(
+    center.x / Math.abs(directionX),
+    center.y / Math.abs(directionY)
+  );
 
-  if (degrees < 180 + alpha) {
-    // left bottom
-    const phi = degrees - 180;
-    const a = center.x;
-    const b = a * Math.tan(toRadians(phi));
-
-    return {
-      start: {
-        left: 0,
-        top: center.y + b,
-      },
-      end: {
-        left: rect.width,
-        top: center.y - b,
-      },
-    };
-  }
-
-  if (degrees < 270) {
-    // bottom left
-    const phi = 270 - degrees;
-    const a = center.y;
-    const b = a * Math.tan(toRadians(phi));
-
-    return {
-      start: {
-        left: center.x - b,
-        top: rect.height,
-      },
-      end: {
-        left: center.x + b,
-        top: 0,
-      },
-    };
-  }
-
-  if (degrees < 270 + beta) {
-    // bottom right
-    const phi = degrees - 270;
-    const a = center.y;
-    const b = a * Math.tan(toRadians(phi));
-
-    return {
-      start: {
-        left: center.x + b,
-        top: rect.height,
-      },
-      end: {
-        left: center.x - b,
-        top: 0,
-      },
-    };
-  }
-
-  // right bottom
-  const phi = 360 - degrees;
-  const a = center.x;
-  const b = a * Math.tan(toRadians(phi));
+  const offsetX = directionX * distance;
+  const offsetY = directionY * distance;
 
   return {
-    start: {
-      left: rect.width,
-      top: center.y + b,
-    },
-    end: {
-      left: 0,
-      top: center.y - b,
-    },
+    start: translatePoint(center, offsetX, offsetY),
+    end: translatePoint(center, -offsetX, -offsetY),
   };
 }
 
-export function GradientDial({
-  deg = 180,
-  i18n,
-  knob1Style,
-  knob2Style,
-  onChange,
-  onClick,
-  selectedKnob,
-}: PropsType): JSX.Element {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+export type GradientDialProps = Readonly<{
+  i18n: LocalizerType;
+  start: AxoColor;
+  end: AxoColor;
+  angle: Uint32;
+  onAngleChange: (angle: Uint32) => void;
+  onKnobSelect: (knob: KnobType) => void;
+  selectedKnob: KnobType;
+}>;
 
-  const [knobDim, setKnobDim] = useState<{
-    start?: CSSPosition;
-    end?: CSSPosition;
-  }>({});
+export function GradientDial(props: GradientDialProps): ReactNode {
+  const { i18n, start, end, angle, onAngleChange, onKnobSelect, selectedKnob } =
+    props;
 
-  const handleMouseMove = (ev: MouseEvent | ReactMouseEvent) => {
-    if (!containerRef || !containerRef.current) {
-      return;
+  const ref = useRef<HTMLDivElement | null>(null);
+  const size = useSizeObserver(ref);
+
+  const coords = useMemo(() => {
+    if (size == null || size.hidden) {
+      return null;
     }
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const center = {
-      x: rect.width / 2,
-      y: rect.height / 2,
-    };
-
-    const a = {
-      x: ev.clientX - (rect.x + center.x),
-      y: ev.clientY - (rect.y + center.y),
-    };
-    const b = { x: center.x, y: 0 };
-    const dot = a.x * b.x + a.y * b.y;
-    const det = a.x * b.y - a.y * b.x;
-
-    const offset = selectedKnob === KnobType.end ? 180 : 0;
-    const degrees = (toDegrees(Math.atan2(det, dot)) + 360 + offset) % 360;
-
-    onChange(degrees);
-
-    ev.preventDefault();
-    ev.stopPropagation();
-  };
-
-  const handleMouseUp = () => {
-    document.removeEventListener('mouseup', handleMouseUp);
-    document.removeEventListener('mousemove', handleMouseMove);
-  };
-
-  // We want to use React.MouseEvent here because above we
-  // use the regular MouseEvent
-  const handleMouseDown = (ev: MouseEvent | ReactMouseEvent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleKeyDown = (ev: KeyboardEvent) => {
-    if (ev.key === 'ArrowDown' || ev.key === arrow('start')) {
-      onChange(Math.min(360, Math.max(0, deg + 1)));
-    }
-
-    if (ev.key === 'ArrowUp' || ev.key === arrow('end')) {
-      onChange(Math.min(360, Math.max(0, deg - 1)));
-    }
-
-    if (ev.key === 'Enter' && ev.target instanceof HTMLElement) {
-      if (ev.target.ariaLabel === '0') {
-        onClick(KnobType.start);
-      } else if (ev.target.ariaLabel === '1') {
-        onClick(KnobType.end);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (!containerRef || !containerRef.current) {
-      return;
-    }
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    setKnobDim(getKnobCoordinates(deg, containerRect));
-  }, [containerRef, deg]);
+    const center = sizeToCenter(size);
+    const knobs = getKnobCoordinates(size, angle);
+    return { center, start: knobs.start, end: knobs.end };
+  }, [size, angle]);
 
   return (
-    <div className="GradientDial__container" ref={containerRef}>
-      {knobDim.start && (
-        <div
-          aria-label={i18n('icu:GradientDial__knob-start')}
-          className={classNames('GradientDial__knob', {
-            'GradientDial__knob--selected': selectedKnob === KnobType.start,
-          })}
-          onKeyDown={handleKeyDown}
-          onMouseDown={ev => {
-            if (selectedKnob === KnobType.start) {
-              handleMouseDown(ev);
-            }
-          }}
-          onClick={() => {
-            onClick(KnobType.start);
-          }}
-          role="button"
-          style={{
-            ...knob1Style,
-            ...knobDim.start,
-          }}
-          tabIndex={0}
-        />
-      )}
-      {knobDim.end && (
-        <div
-          aria-label={i18n('icu:GradientDial__knob-end')}
-          className={classNames('GradientDial__knob', {
-            'GradientDial__knob--selected': selectedKnob === KnobType.end,
-          })}
-          onKeyDown={handleKeyDown}
-          onMouseDown={ev => {
-            if (selectedKnob === KnobType.end) {
-              handleMouseDown(ev);
-            }
-          }}
-          onClick={() => {
-            onClick(KnobType.end);
-          }}
-          role="button"
-          style={{
-            ...knob2Style,
-            ...knobDim.end,
-          }}
-          tabIndex={0}
-        />
-      )}
-      {knobDim.start && knobDim.end && (
-        <div className="GradientDial__bar--container">
-          <div
-            className="GradientDial__bar--node"
-            style={{
-              transform: `translate(-50%, -50%) rotate(${90 - deg}deg)`,
-            }}
+    <div
+      // Inset by more than the knob radius so knobs never extend past the
+      // edges of the editor
+      className={tw('absolute inset-8')}
+      ref={ref}
+    >
+      {coords != null && (
+        <>
+          <GradientDialKnob
+            i18n={i18n}
+            knob={KnobType.start}
+            angle={angle}
+            center={coords.center}
+            point={coords.start}
+            color={start}
+            selected={selectedKnob === KnobType.start}
+            onSelect={onKnobSelect}
+            onAngleChange={onAngleChange}
           />
-        </div>
+          <GradientDialKnob
+            i18n={i18n}
+            knob={KnobType.end}
+            angle={angle}
+            center={coords.center}
+            point={coords.end}
+            color={end}
+            selected={selectedKnob === KnobType.end}
+            onSelect={onKnobSelect}
+            onAngleChange={onAngleChange}
+          />
+          <div className={tw('relative size-full overflow-clip')}>
+            <div
+              className={tw(
+                // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+                'absolute top-1/2 left-1/2 -translate-1/2',
+                'origin-center',
+                'h-screen w-1.5',
+                'bg-material-quaternary backdrop-blur-thin',
+                'shadow-elevation-0'
+              )}
+              style={{
+                rotate: `${90 - angle}deg`,
+              }}
+            />
+          </div>
+        </>
       )}
     </div>
+  );
+}
+
+type GradientDialKnobProps = Readonly<{
+  i18n: LocalizerType;
+  knob: KnobType;
+  angle: number;
+  center: Point;
+  point: Point;
+  color: AxoColor;
+  selected: boolean;
+  onSelect: (knob: KnobType) => unknown;
+  onAngleChange: (angle: Uint32) => void;
+}>;
+
+function GradientDialKnob(props: GradientDialKnobProps): ReactNode {
+  const {
+    i18n,
+    knob,
+    angle,
+    center,
+    point,
+    selected,
+    onSelect,
+    onAngleChange,
+  } = props;
+  const dragPointRef = useRef<Point | null>(null);
+
+  const label =
+    knob === KnobType.start
+      ? i18n('icu:GradientDial__knob-start')
+      : i18n('icu:GradientDial__knob-end');
+
+  const handleSelect = useCallback(() => {
+    onSelect(knob);
+  }, [onSelect, knob]);
+
+  const handlePointerDown = useCallback(
+    (event: PointerEvent<HTMLButtonElement>) => {
+      // useMove() prevents the default focus behavior, focusing also selects it
+      event.currentTarget.focus();
+    },
+    []
+  );
+
+  const { moveProps } = useMove({
+    onMoveStart() {
+      dragPointRef.current = point;
+    },
+    onMove(event) {
+      const offset = knob === KnobType.end ? 180 : 0;
+      const delta: Point = { x: event.deltaX, y: event.deltaY };
+
+      let knobAngle: number;
+      if (event.pointerType === 'keyboard') {
+        // Rotate by a fixed number of degrees towards the arrow key's direction,
+        // rather than moving by pixels which would rotate less near the corners
+        const step = event.shiftKey ? 10 : 1;
+        const target = getVectorDegrees(delta);
+        knobAngle = rotateTowards(angle + offset, target, step);
+      } else {
+        strictAssert(dragPointRef.current != null, 'Missing dragPointRef');
+        const origin = dragPointRef.current;
+        const updated = translatePoint(origin, delta.x, delta.y);
+        dragPointRef.current = updated;
+        const vector = translatePoint(updated, -center.x, -center.y);
+        knobAngle = getVectorDegrees(vector);
+      }
+
+      // Angles are stored as whole degrees (like in backups)
+      onAngleChange(
+        Uint32.fromNumber(normalizeDegrees(Math.round(knobAngle - offset)))
+      );
+    },
+    onMoveEnd() {
+      dragPointRef.current = null;
+    },
+  });
+
+  return (
+    <button
+      {...mergeProps(moveProps, {
+        onPointerDown: handlePointerDown,
+      })}
+      type="button"
+      aria-label={label}
+      aria-pressed={selected}
+      className={tw(
+        'absolute legacy-z-index-base size-10 -translate-1/2 rounded-full p-[1.5px]',
+        'bg-material-quaternary backdrop-blur-thin',
+        'border-3 border-transparent',
+        'shadow-elevation-1',
+        'not-focus-visible:aria-pressed:border-focused-outer',
+        'focus-visible:aria-pressed:border-selected',
+        'focus-visible:outline-none'
+      )}
+      onFocus={handleSelect}
+      onClick={handleSelect}
+      style={{
+        top: point.y,
+        left: point.x,
+        // Inline to override the global `button { cursor: pointer }` styles
+        cursor: selected ? 'move' : undefined,
+      }}
+    >
+      <span
+        className={tw('block size-full rounded-full')}
+        style={{ backgroundColor: props.color.css() }}
+      />
+    </button>
   );
 }

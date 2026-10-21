@@ -48,7 +48,7 @@ import {
   testAttachmentLocalKey,
   testPlaintextHash,
 } from '../../test-helpers/attachments.node.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { getAttachmentsPath } from '../../../app/attachments.node.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
@@ -1975,7 +1975,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       const updatedMessage = window.MessageCache.getById(newMessage.id);
       const attachment = updatedMessage?.attributes.attachments?.[0];
 
-      assert.strictEqual(attachment.contentType, MIME.VIDEO_QUICKTIME);
+      assert.strictEqual(attachment?.contentType, MIME.VIDEO_QUICKTIME);
       assert.strictEqual(attachment.path, 'newlyDownloadedPath');
     });
 
@@ -2035,7 +2035,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       const updatedMessage = window.MessageCache.getById(newMessage.id);
       const attachment = updatedMessage?.attributes.attachments?.[0];
 
-      assert.strictEqual(attachment.path, 'newlyDownloadedPath');
+      assert.strictEqual(attachment?.path, 'newlyDownloadedPath');
     });
 
     it('does not reuse attachment if it does not exist on disk', async () => {

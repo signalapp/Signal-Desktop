@@ -26,7 +26,7 @@ import type {
 } from '../conversationJobQueue.preload.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
-import type { ConversationAttributesType } from '../../model-types.d.ts';
+import type { ConversationAttributesType } from '../../model-types.std.ts';
 import {
   OutgoingIdentityKeyError,
   SendMessageChallengeError,

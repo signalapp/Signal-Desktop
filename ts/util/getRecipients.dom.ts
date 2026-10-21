@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { getConversationMembers } from './getConversationMembers.dom.ts';

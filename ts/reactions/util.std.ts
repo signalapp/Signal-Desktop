@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { MessageReactionType } from '../model-types.d.ts';
+import type { MessageReactionType } from '../model-types.std.ts';
 import { areObjectEntriesEqual } from '../util/areObjectEntriesEqual.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 

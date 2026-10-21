@@ -23,6 +23,18 @@
     "messageformat": "Pending",
     "description": "Axo Design System > Button Component > Pending State > Generic accessibility label"
   },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue",
+    "description": "Axo Design System > Axo Color Slider Component > Hue Channel > Generic accessibility label"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation",
+    "description": "Axo Design System > Axo Color Slider Component > Saturation Channel > Generic accessibility label"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness",
+    "description": "Axo Design System > Axo Color Slider Component > Lightness Channel > Generic accessibility label"
+  },
   "icu:AxoDialog.Back": {
     "messageformat": "Back",
     "description": "Axo Design System > Dialog Component > Back Button > Generic accessibility label"

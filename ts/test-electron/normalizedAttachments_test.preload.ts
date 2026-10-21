@@ -19,7 +19,7 @@ import {
   LONG_MESSAGE,
 } from '../types/MIME.std.ts';
 import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../MessageSeenStatus.std.ts';
 import { DataWriter, DataReader } from '../sql/Client.preload.ts';

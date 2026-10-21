@@ -5,7 +5,7 @@ import type { AciString } from '../types/ServiceId.std.ts';
 import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { MessagePollVoteType } from '../types/Polls.dom.ts';
 import { PollTerminateSendStatus } from '../types/Polls.dom.ts';
 import { MessageModel } from '../models/messages.preload.ts';

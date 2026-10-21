@@ -38,7 +38,7 @@ import type {
   GroupV2PendingMemberType,
   GroupV2BannedMemberType,
   MessageAttributesType,
-} from './model-types.d.ts';
+} from './model-types.std.ts';
 import {
   createProfileKeyCredentialPresentation,
   decodeProfileKeyCredentialPresentation,

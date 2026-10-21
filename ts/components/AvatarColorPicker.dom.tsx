@@ -3,8 +3,8 @@
 
 import type { JSX } from 'react';
 
-import type { AvatarColorType } from '../types/Colors.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { BetterAvatarBubble } from './BetterAvatarBubble.dom.tsx';
 

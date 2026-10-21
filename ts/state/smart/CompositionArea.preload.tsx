@@ -32,9 +32,9 @@ import {
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.dom.ts';
 import { getHasPanelOpen } from '../selectors/nav.std.ts';
+import { getBubbleColorResolver } from '../selectors/chatColors.std.ts';
 import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.ts';
 import {
-  getDefaultConversationColor,
   getEmojiSkinToneDefault,
   getItems,
   getTextFormattingEnabled,
@@ -181,14 +181,14 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   }
 
   const ourConversationId = useSelector(getUserConversationId);
-  const defaultConversationColor = useSelector(getDefaultConversationColor);
+  const bubbleColorResolver = useSelector(getBubbleColorResolver);
 
   const quotedMessageProps = useMemo(() => {
     return quotedMessage
       ? getPropsForQuote(quotedMessage, {
           conversationSelector,
           ourConversationId,
-          defaultConversationColor,
+          bubbleColorResolver,
           isGroup,
         })
       : undefined;
@@ -196,7 +196,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     quotedMessage,
     conversationSelector,
     ourConversationId,
-    defaultConversationColor,
+    bubbleColorResolver,
     isGroup,
   ]);
 

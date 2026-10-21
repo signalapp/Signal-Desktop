@@ -4,7 +4,7 @@
 import type { AttachmentBackfillResponseSyncEvent } from '../../textsecure/messageReceiverEvents.std.ts';
 import { MessageSender } from '../../textsecure/SendMessage.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import {
   isDownloading,
@@ -304,6 +304,7 @@ export class AttachmentBackfill {
 
           changeCount += 1;
           updatedAttachments[index] = markAttachmentAsErrored(
+            // @ts-expect-error - broken after renaming model-types
             existing,
             'backfill-terminal-error'
           );

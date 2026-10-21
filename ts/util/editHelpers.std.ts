@@ -10,7 +10,7 @@ import type {
   EditHistoryType,
   MessageAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { LoggerType } from '../types/Logging.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 
@@ -82,6 +82,7 @@ export function getPropForTimestamp<
     return message[prop];
   }
 
+  // @ts-expect-error - broken after renaming model-types
   return targetEdit[prop];
 }
 
@@ -184,12 +185,12 @@ export function updateAttachment({
       `old attachment ${oldAttachment.clientUuid} anymore`
   );
 
-  const newAttachments = [...oldAttachments];
-  const newAttachment = {
-    ...newAttachments[index],
+  const newAttachment: AttachmentType = {
+    ...oldAttachment,
     ...attachmentUpdate,
   };
-  newAttachments[index] = newAttachment;
+
+  const newAttachments = oldAttachments.toSpliced(index, 1, newAttachment);
 
   const messageUpdate = getChangesForPropAtTimestamp({
     log,

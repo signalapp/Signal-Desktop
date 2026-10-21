@@ -24,7 +24,7 @@ import {
 import { MAX_SYNC_TASK_ATTEMPTS } from '../../util/syncTasks.types.std.ts';
 import { WEEK } from '../../util/durations/index.std.ts';
 
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type { SyncTaskType } from '../../util/syncTasks.preload.ts';
 
 // Snapshot before: 1270

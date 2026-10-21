@@ -422,11 +422,8 @@ export namespace AxoTokens {
     }
 
     export function anyColorNameToCssBackground(
-      name: SolidPresetName | GradientPresetName | 'custom' | null | undefined
-    ): string | undefined {
-      if (name == null || name === 'custom') {
-        return;
-      }
+      name: SolidPresetName | GradientPresetName
+    ): string {
       if (isSolidPresetName(name)) {
         return getSolidPresetValue(name);
       }

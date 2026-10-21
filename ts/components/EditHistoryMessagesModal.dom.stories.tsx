@@ -7,6 +7,7 @@ import { EditHistoryMessagesModal } from './EditHistoryMessagesModal.dom.tsx';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { TextDirection } from './conversation/Message.dom.tsx';
 import type { MessagePropsType } from '../state/selectors/message.preload.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -30,7 +31,7 @@ function getMockMessageProps(): MessagePropsType {
     canRetry: false,
     canRetryDeleteForEveryone: false,
     canSendPollVote: false,
-    conversationColor: 'ultramarine',
+    bubbleColor: DEFAULT_BUBBLE_COLOR,
     conversationId: '',
     conversationTitle: '',
     conversationType: 'direct',

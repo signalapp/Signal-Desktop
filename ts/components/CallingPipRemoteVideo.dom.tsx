@@ -22,7 +22,7 @@ import {
   type GroupCallVideoRequest,
 } from '../types/Calling.std.ts';
 import { CallMode } from '../types/CallDisposition.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.ts';
 import { MAX_FRAME_HEIGHT } from '../calling/constants.std.ts';

@@ -17,7 +17,7 @@ import { StoryViewTargetType, HasStories } from '../types/Stories.std.ts';
 
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
-import { getAvatarColor } from '../types/Colors.std.ts';
+import { getAvatarColor } from '../types/Avatar.std.ts';
 import { OfficialChatInlineBadge } from './conversation/OfficialChatInlineBadge.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 

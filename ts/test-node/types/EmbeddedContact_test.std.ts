@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 
 import { createLogger } from '../../logging/log.std.ts';
 import { IMAGE_PNG } from '../../types/MIME.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type {
   Avatar,
   Email,

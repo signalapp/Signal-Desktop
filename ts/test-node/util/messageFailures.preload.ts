@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import type { CustomError } from '../../textsecure/Types.d.ts';
 
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { NotificationType } from '../../types/notifications.std.ts';

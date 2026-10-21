@@ -1,82 +1,88 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import type { JSX } from 'react';
-
+import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { PropsType } from './ChatColorPicker.dom.tsx';
+import type { ChatColorPickerProps } from './ChatColorPicker.dom.tsx';
 import { ChatColorPicker } from './ChatColorPicker.dom.tsx';
-import { ConversationColors } from '../types/Colors.std.ts';
+import { AxoColor } from '../axo/AxoColor.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import { Uint32 } from '@signalapp/types';
 
 const { i18n } = window.SignalContext;
 
+const DEFAULT_PROPS = {
+  i18n,
+  conversationId: '',
+  onAddCustomChatColor: action('addCustomColor'),
+  onSelectBubbleColor: action('colorSelected'),
+  onEditCustomChatColor: action('editCustomColor'),
+  getConversationsWithCustomColor: (_: ChatStyle.CustomChatColorId) => [],
+
+  onRemoveCustomChatColor: action('removeCustomColor'),
+  onResetAllChatColors: action('resetAllChatColors'),
+  onResetDefaultBubbleColor: action('resetDefaultChatColor'),
+  selectedBubbleColor: { bubbleColorPreset: 'basil' },
+  defaultBubbleColor: { bubbleColorPreset: 'ultramarine' },
+  onChangeGlobalDefaultBubbleColor: action('onChangeGlobalDefaultBubbleColor'),
+} as const satisfies Partial<ChatColorPickerProps>;
+
 export default {
   title: 'Components/ChatColorPicker',
-  argTypes: {
-    selectedColor: {
-      control: {
-        type: 'select',
-        options: ConversationColors,
+} satisfies Meta;
+
+export function Default(): ReactNode {
+  return <ChatColorPicker {...DEFAULT_PROPS} customChatColors={[]} />;
+}
+
+const SAMPLE_CUSTOM_COLOR: ChatStyle.CustomChatColor = {
+  id: 3 as ChatStyle.CustomChatColorId,
+  color: {
+    gradient: {
+      angle: Uint32.fromNumber(90),
+      end: AxoColor.parse('hsl(197, 100%, 35.66%)').argbInt(),
+      start: AxoColor.parse('hsl(315, 78%, 41.25%)').argbInt(),
+    },
+  },
+};
+
+const CUSTOM_COLORS: ReadonlyArray<ChatStyle.CustomChatColor> = [
+  {
+    id: 1 as ChatStyle.CustomChatColorId,
+    color: {
+      solid: AxoColor.parse('hsl(32, 100%, 37%)').argbInt(),
+    },
+  },
+  {
+    id: 2 as ChatStyle.CustomChatColorId,
+    color: {
+      gradient: {
+        angle: Uint32.fromNumber(90),
+        start: AxoColor.parse('hsl(180, 100%, 30%)').argbInt(),
+        end: AxoColor.parse('hsl(0, 100%, 45%)').argbInt(),
       },
     },
   },
-  args: {
-    addCustomColor: action('addCustomColor'),
-    colorSelected: action('colorSelected'),
-    editCustomColor: action('editCustomColor'),
-    getConversationsWithCustomColor: (_: string) => [],
-    i18n,
-    removeCustomColor: action('removeCustomColor'),
-    removeCustomColorOnConversations: action(
-      'removeCustomColorOnConversations'
-    ),
-    resetAllChatColors: action('resetAllChatColors'),
-    resetDefaultChatColor: action('resetDefaultChatColor'),
-    selectedColor: 'basil',
-    selectedCustomColor: {},
-    setGlobalDefaultConversationColor: action(
-      'setGlobalDefaultConversationColor'
-    ),
+  SAMPLE_CUSTOM_COLOR,
+  {
+    id: 4 as ChatStyle.CustomChatColorId,
+    color: {
+      gradient: {
+        angle: Uint32.fromNumber(90),
+        start: AxoColor.parse('hsl(161, 52%, 30%)').argbInt(),
+        end: AxoColor.parse('hsl(153, 89%, 30%)').argbInt(),
+      },
+    },
   },
-} satisfies Meta<PropsType>;
+];
 
-const SAMPLE_CUSTOM_COLOR = {
-  deg: 90,
-  end: { hue: 197, saturation: 100 },
-  start: { hue: 315, saturation: 78 },
-};
-
-export function Default(args: PropsType): JSX.Element {
-  return <ChatColorPicker {...args} />;
-}
-
-const CUSTOM_COLORS = {
-  abc: {
-    start: { hue: 32, saturation: 100 },
-  },
-  def: {
-    deg: 90,
-    start: { hue: 180, saturation: 100 },
-    end: { hue: 0, saturation: 100 },
-  },
-  ghi: SAMPLE_CUSTOM_COLOR,
-  jkl: {
-    deg: 90,
-    start: { hue: 161, saturation: 52 },
-    end: { hue: 153, saturation: 89 },
-  },
-};
-
-export function CustomColors(args: PropsType): JSX.Element {
+export function CustomColors(): ReactNode {
   return (
     <ChatColorPicker
-      {...args}
-      customColors={CUSTOM_COLORS}
-      selectedColor="custom"
-      selectedCustomColor={{
-        id: 'ghi',
-        value: SAMPLE_CUSTOM_COLOR,
+      {...DEFAULT_PROPS}
+      customChatColors={CUSTOM_COLORS}
+      selectedBubbleColor={{
+        customChatColorId: SAMPLE_CUSTOM_COLOR.id,
       }}
     />
   );

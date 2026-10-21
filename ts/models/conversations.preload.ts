@@ -17,7 +17,7 @@ import type {
   QuotedMessageType,
   SenderKeyInfoType,
   SettableConversationAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { getConversation } from '../util/getConversation.preload.ts';
 import {
@@ -80,11 +80,7 @@ import type {
   ConversationType,
   DraftPreviewType,
 } from '../state/ducks/conversations.preload.ts';
-import type {
-  AvatarColorType,
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { isConversationMuted } from '../util/isConversationMuted.std.ts';
 import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
@@ -5873,27 +5869,6 @@ export class ConversationModel {
       pni: this.getPni(),
       groupId: this.get('groupId'),
     });
-  }
-
-  getConversationColor(): ConversationColorType | undefined {
-    return this.get('conversationColor');
-  }
-
-  getCustomColorData(): {
-    customColor?: CustomColorType;
-    customColorId?: string;
-  } {
-    if (this.getConversationColor() !== 'custom') {
-      return {
-        customColor: undefined,
-        customColorId: undefined,
-      };
-    }
-
-    return {
-      customColor: this.get('customColor'),
-      customColorId: this.get('customColorId'),
-    };
   }
 
   areWeAdmin(): boolean {

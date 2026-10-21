@@ -52,7 +52,7 @@ import {
 } from '../types/Calling.std.ts';
 import { CallMode } from '../types/CallDisposition.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import {
   CallingButtonToastsContainer,

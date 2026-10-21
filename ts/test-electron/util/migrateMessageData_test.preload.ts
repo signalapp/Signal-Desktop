@@ -4,7 +4,7 @@
 import assert from 'node:assert';
 import { v7 as uuid } from 'uuid';
 import { _migrateMessageData as migrateMessageData } from '../../messages/migrateMessageData.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
 import { upgradeMessageSchema } from '../../util/migrations.preload.ts';

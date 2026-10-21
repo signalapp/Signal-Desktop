@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
 import type {

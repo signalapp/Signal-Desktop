@@ -9,7 +9,7 @@ import type { PropsType as TimelineItemProps } from './TimelineItem.dom.tsx';
 import { TimelineItem } from './TimelineItem.dom.tsx';
 import { UniversalTimerNotification } from './UniversalTimerNotification.dom.tsx';
 import { CallMode } from '../../types/CallDisposition.std.ts';
-import { AvatarColors } from '../../types/Colors.std.ts';
+import { AvatarColors } from '../../types/Avatar.std.ts';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';

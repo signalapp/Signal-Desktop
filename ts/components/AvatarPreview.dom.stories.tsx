@@ -10,7 +10,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AvatarPreview.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 
 const { chunk } = lodash;
 

@@ -6,7 +6,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   ReadonlyMessageAttributesType,
   QuotedMessageType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { getSourceServiceId } from './sources.preload.ts';
 
 export function isQuoteAMatch(
