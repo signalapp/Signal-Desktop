@@ -2083,7 +2083,7 @@ export function Preferences({
             label={
               <>
                 {i18n('icu:Preferences__PrivacyPage__ShowStatusIcon__Label')}
-                <div className="Preferences__Privacy__StatusIcon" />
+                <span className="Preferences__Privacy__StatusIcon" />
               </>
             }
             description={i18n(
