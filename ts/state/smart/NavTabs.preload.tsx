@@ -21,7 +21,13 @@ import {
 import { getSelectedNavTab } from '../selectors/nav.std.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { getHasPendingUpdate } from '../selectors/updates.std.ts';
+import {
+  getIsSearching,
+  getIsSearchingInAConversation,
+} from '../selectors/search.preload.ts';
+import { useSearchActions } from '../ducks/search.preload.ts';
 
+import { NavTab } from '../../types/Nav.std.ts';
 import type { Location } from '../../types/Nav.std.ts';
 
 export type SmartNavTabsProps = Readonly<{
@@ -50,8 +56,14 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   const unreadCallsCount = useSelector(getCallHistoryUnreadCount);
   const hasFailedStorySends = useSelector(getHasAnyFailedStorySends);
   const hasPendingUpdate = useSelector(getHasPendingUpdate);
+  const isSearching = useSelector(getIsSearching);
+  const isSearchingInAConversation = useSelector(
+    getIsSearchingInAConversation
+  );
 
   const { changeLocation } = useNavActions();
+  const { clearSearchQuery, endConversationSearch, endSearch } =
+    useSearchActions();
 
   const onChangeLocation = useCallback(
     (location: Location) => {
@@ -59,9 +71,27 @@ export const SmartNavTabs = memo(function SmartNavTabs({
       // actually changing.
       if (location.tab !== selectedNavTab) {
         void changeLocation(location);
+        return;
+      }
+
+      // Pressing the already selected Chats tab resets the left pane search
+      if (location.tab === NavTab.Chats && isSearching) {
+        if (isSearchingInAConversation) {
+          endConversationSearch();
+        }
+        clearSearchQuery();
+        endSearch();
       }
     },
-    [changeLocation, selectedNavTab]
+    [
+      changeLocation,
+      clearSearchQuery,
+      endConversationSearch,
+      endSearch,
+      isSearching,
+      isSearchingInAConversation,
+      selectedNavTab,
+    ]
   );
 
   return (
