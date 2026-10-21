@@ -77,11 +77,13 @@ export namespace AxoRadioGroupList {
         disabled={props.disabled}
         asChild
       >
-        <AxoBaseItem.Root>
-          <AxoBaseItem.Leading>
-            <AxoBaseRadioGroup.Indicator />
-          </AxoBaseItem.Leading>
-          <AxoBaseItem.Content>{props.children}</AxoBaseItem.Content>
+        <AxoBaseItem.Root asChild>
+          <button type="button">
+            <AxoBaseItem.Leading>
+              <AxoBaseRadioGroup.Indicator />
+            </AxoBaseItem.Leading>
+            <AxoBaseItem.Content>{props.children}</AxoBaseItem.Content>
+          </button>
         </AxoBaseItem.Root>
       </AxoBaseRadioGroup.Item>
     );

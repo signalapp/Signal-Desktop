@@ -4,7 +4,6 @@
 import {
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   useId,
@@ -12,7 +11,6 @@ import {
 } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import * as LocaleMatcher from '@formatjs/intl-localematcher';
 import type { MutableRefObject, ReactNode, JSX, CSSProperties } from 'react';
 import type { RowType } from '@signalapp/sqlcipher';
 import type { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
@@ -33,10 +31,7 @@ import {
 } from '../util/expirationTimer.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { focusableSelector } from '../util/focusableSelectors.std.ts';
-import { Modal } from './Modal.dom.tsx';
-import { SearchInput } from './SearchInput.dom.tsx';
-import { removeDiacritics } from '../util/removeDiacritics.std.ts';
-import { assertDev } from '../util/assert.std.ts';
+import { getLocaleDisplayName } from '../util/getLocaleDisplayName.std.ts';
 import { I18n } from './I18n.dom.tsx';
 import { FunSkinTonesList } from './fun/FunSkinTones.dom.tsx';
 import { SettingsRadio, SettingsRow } from './PreferencesUtil.dom.tsx';
@@ -95,7 +90,6 @@ import type { ChatFolderId } from '../types/ChatFolder.std.ts';
 import type { SmartPreferencesBlockedProps } from '../state/smart/PreferencesBlocked.preload.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';
-import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.tsx';
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 import { isDonationsPage } from './PreferencesDonations.dom.tsx';
@@ -118,8 +112,9 @@ import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
 import { CallingDeviceSelectionItems } from './CallingDeviceSelectionItems.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
+import { PreferencesLanguageDialog } from './preferences/PreferencesLanguageDialog.dom.tsx';
 
-const { isNumber, noop, partition } = lodash;
+const { isNumber, noop } = lodash;
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -197,7 +192,6 @@ export type PropsDataType = {
   zoomFactor: ZoomFactorType | undefined;
 
   // Localization
-  availableLocales: ReadonlyArray<string>;
   localeOverride: string | null | undefined;
   preferredSystemLocales: ReadonlyArray<string>;
   resolvedLocale: string;
@@ -415,11 +409,6 @@ export type PropsType = PropsDataType & PropsFunctionType;
 
 export type PropsPreloadType = Omit<PropsType, 'i18n'>;
 
-enum LanguageDialog {
-  Selection,
-  Confirmation,
-}
-
 const DEFAULT_ZOOM_FACTORS = [
   {
     text: '75%',
@@ -455,7 +444,6 @@ export function Preferences({
   addCustomColor,
   autoDownloadAttachment,
   availableCameras,
-  availableLocales,
   availableMicrophones,
   availableSpeakers,
   backupMediaDownloadStatus,
@@ -670,8 +658,6 @@ export function Preferences({
   keyTransparencySelfHealth,
   weArePrimaryDevice,
 }: PropsType): JSX.Element {
-  const languageId = useId();
-
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
   const [confirmContentProtection, setConfirmContentProtection] =
@@ -682,13 +668,7 @@ export function Preferences({
   const [nowSyncing, setNowSyncing] = useState(false);
   const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
     useState(false);
-  const [languageDialog, setLanguageDialog] = useState<LanguageDialog | null>(
-    null
-  );
-  const [selectedLanguageLocale, setSelectedLanguageLocale] = useState<
-    string | null | undefined
-  >(localeOverride);
-  const [languageSearchInput, setLanguageSearchInput] = useState('');
+  const [languageDialogOpen, setLanguageDialogOpen] = useState(false);
   const [confirmPnpNotDiscoverable, setConfirmPnpNoDiscoverable] =
     useState(false);
   const [linkedDevicesOnboarding, setLinkedDevicesOnboarding] = useState(false);
@@ -724,10 +704,9 @@ export function Preferences({
     [setSettingsLocation]
   );
 
-  function closeLanguageDialog() {
-    setLanguageDialog(null);
-    setSelectedLanguageLocale(localeOverride);
-  }
+  const handleCloseLanguageDialog = useCallback(() => {
+    setLanguageDialogOpen(false);
+  }, []);
 
   if (settingsLocation.page === SettingsPage.Internal && !isInternalUser) {
     setSettingsLocation({ page: SettingsPage.General });
@@ -781,95 +760,6 @@ export function Preferences({
     // oxlint-disable-next-line react/exhaustive-effect-dependencies
     settingsLocation.page,
   ]);
-
-  const localeDisplayNames = window.SignalContext.getLocaleDisplayNames();
-
-  const getLocaleDisplayName = useCallback(
-    (inLocale: string, ofLocale: string): string => {
-      const displayName = localeDisplayNames[inLocale]?.[ofLocale];
-      assertDev(
-        displayName != null,
-        `Locale display name in ${inLocale} of ${ofLocale} does not exist`
-      );
-      return (
-        displayName ??
-        new Intl.DisplayNames(inLocale, {
-          type: 'language',
-          languageDisplay: 'standard',
-          style: 'long',
-          fallback: 'code',
-        }).of(ofLocale)
-      );
-    },
-    [localeDisplayNames]
-  );
-
-  const localeSearchOptions = useMemo(() => {
-    const collator = new Intl.Collator('en', { usage: 'sort' });
-
-    const availableLocalesOptions = availableLocales
-      .map(locale => {
-        const currentLocaleLabel = getLocaleDisplayName(resolvedLocale, locale);
-        const matchingLocaleLabel = getLocaleDisplayName(locale, locale);
-        return { locale, currentLocaleLabel, matchingLocaleLabel };
-      })
-      .sort((a, b) => {
-        return collator.compare(a.locale, b.locale);
-      });
-
-    const [localeOverrideMatches, localeOverrideNonMatches] = partition(
-      availableLocalesOptions,
-      option => {
-        return option.locale === localeOverride;
-      }
-    );
-
-    const preferredSystemLocaleMatch = LocaleMatcher.match(
-      preferredSystemLocales as Array<string>, // bad types
-      availableLocales as Array<string>, // bad types
-      'en',
-      { algorithm: 'best fit' }
-    );
-
-    return [
-      ...localeOverrideMatches,
-      {
-        locale: null,
-        currentLocaleLabel: i18n('icu:Preferences__Language__SystemLanguage'),
-        matchingLocaleLabel: getLocaleDisplayName(
-          preferredSystemLocaleMatch,
-          preferredSystemLocaleMatch
-        ),
-      },
-      ...localeOverrideNonMatches,
-    ];
-  }, [
-    i18n,
-    availableLocales,
-    resolvedLocale,
-    localeOverride,
-    preferredSystemLocales,
-    getLocaleDisplayName,
-  ]);
-
-  const localeSearchResults = useMemo(() => {
-    return localeSearchOptions.filter(option => {
-      const input = removeDiacritics(languageSearchInput.trim().toLowerCase());
-
-      if (input === '') {
-        return true;
-      }
-
-      function isMatch(value: string) {
-        return removeDiacritics(value.toLowerCase()).includes(input);
-      }
-
-      return (
-        isMatch(option.currentLocaleLabel) ||
-        (option.matchingLocaleLabel && isMatch(option.matchingLocaleLabel))
-      );
-    });
-  }, [localeSearchOptions, languageSearchInput]);
 
   let content: JSX.Element | undefined;
 
@@ -1235,113 +1125,18 @@ export function Preferences({
               if (localeOverride === undefined) {
                 return;
               }
-              setLanguageDialog(LanguageDialog.Selection);
+              setLanguageDialogOpen(true);
             }}
           />
-          {languageDialog === LanguageDialog.Selection && (
-            <Modal
+          {languageDialogOpen && localeOverride !== undefined && (
+            <PreferencesLanguageDialog
               i18n={i18n}
-              modalName="Preferences__LanguageModal"
-              className="Preferences__LanguageModal"
-              padded={false}
-              onClose={closeLanguageDialog}
-              title={i18n('icu:Preferences__Language__ModalTitle')}
-              modalHeaderChildren={
-                <SearchInput
-                  i18n={i18n}
-                  value={languageSearchInput}
-                  placeholder={i18n(
-                    'icu:Preferences__Language__SearchLanguages'
-                  )}
-                  onChange={event => {
-                    setLanguageSearchInput(event.currentTarget.value);
-                  }}
-                />
-              }
-              modalFooter={
-                <>
-                  <AxoButton.Root
-                    variant="subtle-secondary"
-                    size="lg"
-                    onClick={closeLanguageDialog}
-                  >
-                    {i18n('icu:cancel')}
-                  </AxoButton.Root>
-                  <AxoButton.Root
-                    variant="strong-primary"
-                    size="lg"
-                    disabled={selectedLanguageLocale === localeOverride}
-                    onClick={() => {
-                      setLanguageDialog(LanguageDialog.Confirmation);
-                    }}
-                  >
-                    {i18n('icu:Preferences__LanguageModal__Set')}
-                  </AxoButton.Root>
-                </>
-              }
-            >
-              {localeSearchResults.length === 0 && (
-                <div className="Preferences__LanguageModal__NoResults">
-                  {i18n('icu:Preferences__Language__NoResults', {
-                    searchTerm: languageSearchInput.trim(),
-                  })}
-                </div>
-              )}
-              {localeSearchResults.map(option => {
-                const id = `${languageId}:${option.locale ?? 'system'}`;
-                const isSelected = option.locale === selectedLanguageLocale;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    className="Preferences__LanguageModal__Item"
-                    onClick={() => {
-                      setSelectedLanguageLocale(option.locale);
-                    }}
-                    aria-pressed={isSelected}
-                  >
-                    <span className="Preferences__LanguageModal__Item__Inner">
-                      <span className="Preferences__LanguageModal__Item__Label">
-                        <span className="Preferences__LanguageModal__Item__Current">
-                          {option.currentLocaleLabel}
-                        </span>
-                        {option.matchingLocaleLabel != null && (
-                          <span
-                            lang={option.locale ?? resolvedLocale}
-                            className="Preferences__LanguageModal__Item__Matching"
-                          >
-                            {option.matchingLocaleLabel}
-                          </span>
-                        )}
-                      </span>
-                      {isSelected && (
-                        <span className="Preferences__LanguageModal__Item__Check" />
-                      )}
-                    </span>
-                  </button>
-                );
-              })}
-            </Modal>
-          )}
-          {languageDialog === LanguageDialog.Confirmation && (
-            <AxoConfirmDialog.Root
-              open
-              onOpenChange={closeLanguageDialog}
-              title={i18n('icu:Preferences__LanguageModal__Restart__Title')}
-              description={i18n(
-                'icu:Preferences__LanguageModal__Restart__Description'
-              )}
-            >
-              <AxoConfirmDialog.Cancel>
-                {i18n('icu:cancel')}
-              </AxoConfirmDialog.Cancel>
-              <AxoConfirmDialog.Action
-                variant="strong-primary"
-                onClick={() => onLocaleChange(selectedLanguageLocale)}
-              >
-                {i18n('icu:Preferences__LanguageModal__Restart__Button')}
-              </AxoConfirmDialog.Action>
-            </AxoConfirmDialog.Root>
+              resolvedLocale={resolvedLocale}
+              preferredSystemLocales={preferredSystemLocales}
+              localeOverride={localeOverride}
+              onLocaleChange={onLocaleChange}
+              onClose={handleCloseLanguageDialog}
+            />
           )}
           <AxoSelectItem.Root
             symbol="contrast"

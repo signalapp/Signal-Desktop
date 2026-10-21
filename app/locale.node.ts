@@ -43,13 +43,7 @@ function getCompactLocaleValues(
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
-export type LocaleDisplayNames = Record<string, Record<string, string>>;
 export type CountryDisplayNames = Record<string, Record<string, string>>;
-
-function getLocaleDisplayNames(rootDir: string): LocaleDisplayNames {
-  const targetFile = join(rootDir, 'build', 'locale-display-names.json');
-  return JSON.parse(readFileSync(targetFile, 'utf-8'));
-}
 
 function getCountryDisplayNames(rootDir: string): CountryDisplayNames {
   const targetFile = join(rootDir, 'build', 'country-display-names.json');
@@ -59,13 +53,11 @@ function getCountryDisplayNames(rootDir: string): CountryDisplayNames {
 export type LocaleDirection = 'ltr' | 'rtl';
 
 export type LocaleType = {
-  availableLocales: Array<string>;
   i18n: LocalizerType;
   name: string;
   direction: LocaleDirection;
   messages: LocaleMessagesType;
   hourCyclePreference: HourCyclePreference;
-  localeDisplayNames: LocaleDisplayNames;
   countryDisplayNames: CountryDisplayNames;
 };
 
@@ -119,7 +111,6 @@ export function load({
 
   logger.info(`locale: Matched locale: ${matchedLocale}`);
 
-  const localeDisplayNames = getLocaleDisplayNames(rootDir);
   const countryDisplayNames = getCountryDisplayNames(rootDir);
 
   let finalMessages: LocaleMessagesType;
@@ -168,13 +159,11 @@ export function load({
   logger.info(`locale: Text info direction for ${matchedLocale}: ${direction}`);
 
   return {
-    availableLocales,
     i18n,
     name: matchedLocale,
     direction,
     messages: finalMessages,
     hourCyclePreference,
-    localeDisplayNames,
     countryDisplayNames,
   };
 }
