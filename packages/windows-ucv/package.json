@@ -7,6 +7,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "addon.cpp",
+    "hour_cycle.h",
     "dist",
     "!dist/tsconfig.tsbuildinfo",
     "README.md",
@@ -16,6 +17,7 @@
     "watch": "npm run build -- --watch",
     "preinstall": "npm run build",
     "build": "tsc6",
+    "test:native": "node test/run.mjs",
     "clean": "rm -rf dist"
   },
   "keywords": [
