@@ -31,6 +31,7 @@ trustPolicyExclude:
   - 'undici-types@6.21.0'
   - 'vite@4.5.14'
   - 'webpack-dev-middleware@7.4.6'
+  - 'storybook@8.6.19'
 
 auditConfig:
   ignoreGhsas:
