@@ -97,7 +97,7 @@ export type CallingImageDataCache = Map<number, ImageData>;
 export type PropsType = {
   activeCall?: ActiveCallType;
   activeNotificationProfile: NotificationProfileType | undefined;
-  availableCameras: Array<MediaDeviceInfo>;
+  availableCameras: ReadonlyArray<MediaDeviceInfo>;
   callLink: CallLinkType | undefined;
   cancelCall: (_: CancelCallType) => void;
   changeCallView: (mode: CallViewMode) => void;
@@ -160,7 +160,7 @@ export type PropsType = {
   toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleScreenRecordingPermissionsDialog: (open: boolean) => void;
   toggleSelfViewExpanded: () => unknown;
-  toggleSettings: () => void;
+  toggleSettings: (open: boolean) => void;
   pauseVoiceNotePlayer: () => void;
 };
 

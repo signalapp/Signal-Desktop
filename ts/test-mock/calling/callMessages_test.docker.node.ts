@@ -11,6 +11,7 @@ import { promisify } from 'node:util';
 import * as durations from '../../util/durations/index.std.ts';
 import type { App } from '../playwright.node.ts';
 import { Bootstrap } from '../bootstrap.node.ts';
+import { selectAxoOption } from '../helpers.node.ts';
 import { runTurnInContainer, tearDownTurnContainer } from './helpers.node.ts';
 
 const FIXTURES = join(__dirname, '..', '..', '..', 'fixtures');
@@ -193,10 +194,13 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
 
   async function setInputAndOutput(win: Page, input: string, output: string) {
     debug(`setInputAndOutput input: ${input} output: ${output}`);
-    await win.getByLabel('Settings').click();
-    await win.locator('#audio-input').selectOption(input);
-    await win.locator('#audio-output').selectOption(output);
-    await win.locator('.module-calling-device-selection__close-button').click();
+    await win.getByRole('button', { name: 'Call Settings' }).click();
+    const dialog = win.getByRole('dialog', { name: 'Call Settings' });
+    const microphone = dialog.getByRole('combobox', { name: 'Microphone' });
+    const speaker = dialog.getByRole('combobox', { name: 'Speaker' });
+    await selectAxoOption(win, microphone, { name: input, exact: true });
+    await selectAxoOption(win, speaker, { name: output, exact: true });
+    await dialog.getByRole('button', { name: 'Close' }).click();
   }
 
   async function acceptAudioCall(win: Page) {

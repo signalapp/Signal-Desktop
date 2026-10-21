@@ -30,11 +30,11 @@ import type {
   ActiveCallReactionsType,
   ChangeIODevicePayloadType,
   GroupCallVideoRequest,
-  MediaDeviceSettings,
   ObservedRemoteMuteType,
   PresentedSource,
   PresentableSource,
   RemoveClientType,
+  MediaDeviceSettings,
 } from '../../types/Calling.std.ts';
 import {
   isCallLinkAdmin,
@@ -265,14 +265,16 @@ export type CQSSubmissionStateType = ReadonlyDeep<{
 }>;
 
 // oxlint-disable-next-line signal-desktop/enforce-type-alias-readonlydeep
-export type CallingStateType = MediaDeviceSettings & {
-  callsByConversation: CallsByConversationType;
-  adhocCalls: AdhocCallsType;
-  callLinks: CallLinksByRoomIdType;
-  activeCallState?: ActiveCallStateType | WaitingCallStateType;
-  capturerBaton?: DesktopCapturerBaton;
-  callQualitySurveySubmission: CQSSubmissionStateType;
-};
+export type CallingStateType = Readonly<
+  MediaDeviceSettings & {
+    callsByConversation: CallsByConversationType;
+    adhocCalls: AdhocCallsType;
+    callLinks: CallLinksByRoomIdType;
+    activeCallState?: ActiveCallStateType | WaitingCallStateType;
+    capturerBaton?: DesktopCapturerBaton;
+    callQualitySurveySubmission: CQSSubmissionStateType;
+  }
+>;
 
 export type AcceptCallType = ReadonlyDeep<{
   conversationId: string;
@@ -1029,6 +1031,7 @@ type ToggleSelfViewExpandedActionType = ReadonlyDeep<{
 }>;
 type ToggleSettingsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_SETTINGS';
+  payload: boolean;
 }>;
 
 type ChangeCallViewActionType = ReadonlyDeep<{
@@ -1343,13 +1346,13 @@ function changeIODevice(
   payload: ChangeIODevicePayloadType
 ): AsyncStateThunk<ChangeIODeviceFulfilledActionType> {
   return async dispatch => {
-    // Only `setPreferredCamera` returns a Promise.
+    // Only `setSelectedCamera` returns a Promise.
     if (payload.type === CallingDeviceType.CAMERA) {
-      await calling.setPreferredCamera(payload.selectedDevice);
+      await calling.setSelectedCamera(payload.selectedDevice);
     } else if (payload.type === CallingDeviceType.MICROPHONE) {
       calling.setPreferredMicrophone(payload.selectedDevice);
     } else if (payload.type === CallingDeviceType.SPEAKER) {
-      calling.setPreferredSpeaker(payload.selectedDevice);
+      calling.setSelectedSpeaker(payload.selectedDevice);
     }
     dispatch({
       type: CHANGE_IO_DEVICE_FULFILLED,
@@ -2797,9 +2800,10 @@ function toggleScreenRecordingPermissionsDialog(
   };
 }
 
-function toggleSettings(): ToggleSettingsActionType {
+function toggleSettings(open: boolean): ToggleSettingsActionType {
   return {
     type: TOGGLE_SETTINGS,
+    payload: open,
   };
 }
 
@@ -3058,7 +3062,7 @@ export function getEmptyState(): CallingStateType {
     availableCameras: [],
     availableMicrophones: getEmptyAudioDeviceList(OS.isWindows()),
     availableSpeakers: getEmptyAudioDeviceList(OS.isWindows()),
-    selectedCamera: undefined,
+    selectedCamera: null,
     selectedMicrophone: getDefaultAudioPreference(OS.isWindows()),
     selectedSpeaker: getDefaultAudioPreference(OS.isWindows()),
 
@@ -4353,7 +4357,7 @@ export function reducer(
       ...state,
       activeCallState: {
         ...activeCallState,
-        settingsDialogOpen: !activeCallState.settingsDialogOpen,
+        settingsDialogOpen: action.payload,
       },
     };
   }

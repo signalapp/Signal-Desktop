@@ -289,7 +289,7 @@ function getAlwaysRelayCalls(): boolean {
 
 function getPreferredAudioInputDevice(): AudioDevicePref {
   const stored = itemStorage.get('preferred-audio-input-device');
-  if (stored !== undefined) {
+  if (stored != null) {
     return stored;
   }
   return getDefaultAudioPreference(OS.isWindows());
@@ -303,7 +303,7 @@ async function setPreferredAudioInputDevice(
 
 function getPreferredAudioOutputDevice(): AudioDevicePref {
   const stored = itemStorage.get('preferred-audio-output-device');
-  if (stored !== undefined) {
+  if (stored != null) {
     return stored;
   }
   return getDefaultAudioPreference(OS.isWindows());
@@ -315,8 +315,8 @@ async function setPreferredAudioOutputDevice(
   await itemStorage.put('preferred-audio-output-device', device);
 }
 
-function getPreferredVideoInputDevice(): string | undefined {
-  return itemStorage.get('preferred-video-input-device');
+function getPreferredVideoInputDevice(): string | null {
+  return itemStorage.get('preferred-video-input-device') ?? null;
 }
 async function setPreferredVideoInputDevice(device: string): Promise<void> {
   await itemStorage.put('preferred-video-input-device', device);
@@ -3199,10 +3199,10 @@ class CallingClass {
     const selectedSpeaker = getPreferredAudioOutputDevice();
 
     const preferredCamera = getPreferredVideoInputDevice();
-    const selectedCamera = findBestMatchingCameraId(
-      availableCameras,
-      preferredCamera
-    );
+    const selectedCamera = findBestMatchingCameraId({
+      available: availableCameras,
+      preferred: preferredCamera,
+    });
 
     return {
       availableMicrophones,
@@ -3227,7 +3227,7 @@ class CallingClass {
       preferred,
     });
 
-    if (device === undefined) {
+    if (device == null) {
       log.error(
         'MediaDevice: findBestMatchingAudioDevice found no microphones'
       );
@@ -3258,13 +3258,13 @@ class CallingClass {
       preferred,
     });
 
-    if (device === undefined) {
+    if (device == null) {
       log.error('MediaDevice: findBestMatchingAudioDevice found no speakers');
       return;
     }
 
     log.info(
-      'MediaDevice: setPreferredSpeaker',
+      'MediaDevice: setSelectedSpeaker',
       truncateForLogging(device.name),
       truncateForLogging(device.uniqueId)
     );
@@ -3295,10 +3295,10 @@ class CallingClass {
     );
   }
 
-  setPreferredSpeaker(pref: AudioDevicePref): void {
+  setSelectedSpeaker(pref: AudioDevicePref): void {
     if (this.#lastMediaDeviceSettings === undefined) {
       log.error(
-        'MediaDevice: setPreferredSpeaker with missing #lastMediaDeviceSettings'
+        'MediaDevice: setSelectedSpeaker with missing #lastMediaDeviceSettings'
       );
       return;
     }
@@ -3341,8 +3341,8 @@ class CallingClass {
     this.#videoCapturer.disable();
   }
 
-  async setPreferredCamera(device: string): Promise<void> {
-    log.info('MediaDevice: setPreferredCamera', device);
+  async setSelectedCamera(device: string): Promise<void> {
+    log.info('MediaDevice: setSelectedCamera', device);
     drop(setPreferredVideoInputDevice(device));
     await this.#videoCapturer.setPreferredDevice(device);
   }

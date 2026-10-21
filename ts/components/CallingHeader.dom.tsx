@@ -19,7 +19,7 @@ export type PropsType = {
   onCancel?: () => void;
   participantCount: number;
   togglePip?: () => void;
-  toggleSettings: () => void;
+  toggleSettings: (open: boolean) => void;
   changeCallView?: (mode: CallViewMode) => void;
 };
 
@@ -95,8 +95,8 @@ export function CallingHeader({
         variant="elevated-secondary"
         size="lg"
         symbol="settings"
-        label={i18n('icu:callingDeviceSelection__settings')}
-        onClick={toggleSettings}
+        label={i18n('icu:callingDeviceSelection__settings-v2')}
+        onClick={() => toggleSettings(true)}
       />
       {togglePip && (
         <AxoIconButton.Root

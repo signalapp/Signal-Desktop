@@ -17,36 +17,39 @@ import type { AudioDevicePref } from '../types/Calling.std.ts';
 function defaultWithFallback(
   available: AudioDeviceList,
   preferWindowsComms = true
-): AudioDevice | undefined {
-  if (!available.defaults.isWindows) {
-    return available.defaults.device ?? available.devices[0];
+): AudioDevice | null {
+  const { defaults } = available;
+  const firstDevice = available.devices.at(0) ?? null;
+
+  if (!defaults.isWindows) {
+    return defaults.device ?? firstDevice ?? null;
   }
+
+  const { communicationsDevice, consoleDevice } = defaults;
 
   if (preferWindowsComms) {
-    return (
-      available.defaults.communicationsDevice ??
-      available.defaults.consoleDevice ??
-      available.devices[0]
-    );
+    return communicationsDevice ?? consoleDevice ?? firstDevice;
   }
-  return (
-    available.defaults.consoleDevice ??
-    available.defaults.communicationsDevice ??
-    available.devices[0]
-  );
+
+  return consoleDevice ?? communicationsDevice ?? firstDevice;
 }
 
-// Caution: You probably **only** want to use this when you are about to hand
-// a specific device id to RingRTC. For any other UI purposes, hold on to the
-// AudioDevicePref, to distinguish to the user whether they have selected the
-// system default or a specific device
-export function findBestMatchingAudioDevice({
-  available,
-  preferred,
-}: Readonly<{
+export type FindBestMatchingAudioDeviceOptions = Readonly<{
   available: AudioDeviceList;
   preferred: AudioDevicePref;
-}>): undefined | AudioDevice {
+}>;
+
+/**
+ * Caution: You probably **only** want to use this when you are about to hand
+ * a specific device id to RingRTC. For any other UI purposes, hold on to the
+ * AudioDevicePref, to distinguish to the user whether they have selected the
+ * system default or a specific device
+ */
+export function findBestMatchingAudioDevice(
+  options: FindBestMatchingAudioDeviceOptions
+): AudioDevice | null {
+  const { available, preferred } = options;
+
   if (preferred.type !== 'specificDevice') {
     return defaultWithFallback(
       available,
@@ -54,33 +57,39 @@ export function findBestMatchingAudioDevice({
     );
   }
 
-  if (preferred.device.uniqueId) {
-    const idMatch = available.devices.find(
-      d => d.uniqueId === preferred.device.uniqueId
-    );
-    if (idMatch !== undefined) {
+  if (preferred.device.uniqueId.length !== 0) {
+    const idMatch = available.devices.find(device => {
+      return device.uniqueId === preferred.device.uniqueId;
+    });
+    if (idMatch != null) {
       return idMatch;
     }
   }
 
-  const nameMatch = available.devices.find(
-    d => d.name === preferred.device.name
-  );
-  if (nameMatch !== undefined) {
+  const nameMatch = available.devices.find(device => {
+    return device.name === preferred.device.name;
+  });
+
+  if (nameMatch != null) {
     return nameMatch;
   }
 
   return defaultWithFallback(available);
 }
 
+export type FindBestMatchingCameraIdOptions = Readonly<{
+  available: ReadonlyArray<MediaDeviceInfo>;
+  preferred: string | null;
+}>;
+
 export function findBestMatchingCameraId(
-  available: ReadonlyArray<MediaDeviceInfo>,
-  preferred?: string
-): undefined | string {
+  options: FindBestMatchingCameraIdOptions
+): string | null {
+  const { available, preferred } = options;
   const matchingId = available.filter(d => d.deviceId === preferred);
   const nonInfrared = available.filter(d => !d.label.includes('IR Camera'));
 
   // By default, pick the first non-IR camera (but allow the user to pick the
   // infrared if they so desire)
-  return matchingId[0]?.deviceId ?? nonInfrared[0]?.deviceId;
+  return matchingId[0]?.deviceId ?? nonInfrared[0]?.deviceId ?? null;
 }

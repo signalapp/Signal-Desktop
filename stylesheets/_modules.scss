@@ -5072,54 +5072,6 @@ button.module-calling-participants-list__contact {
   }
 }
 
-/* Calling: Device Selection */
-
-.module-calling-device-selection {
-  position: relative;
-}
-
-.module-calling-device-selection__close-button {
-  @include mixins.button-reset;
-
-  & {
-    @include mixins.color-svg(
-      '../images/icons/v3/x/x.svg',
-      variables.$color-gray-15
-    );
-  }
-  & {
-    height: 24px;
-    position: absolute;
-    inset-inline-end: 5px;
-    top: 0;
-    width: 24px;
-    z-index: variables.$z-index-above-base;
-  }
-
-  &:focus-visible,
-  &:active,
-  &:hover {
-    background-color: variables.$color-ultramarine;
-  }
-}
-
-.module-calling-device-selection__title {
-  @include mixins.font-title-2;
-  margin-top: 12px;
-  margin-bottom: 20px;
-}
-
-.module-calling-device-selection__label {
-  @include mixins.font-body-1-bold;
-  display: block;
-  margin-bottom: 16px;
-}
-
-.module-calling-device-selection__select {
-  margin-bottom: 20px;
-  position: relative;
-}
-
 // Module: GroupV1 Disabled Actions
 
 .module-group-v1-disabled-actions {

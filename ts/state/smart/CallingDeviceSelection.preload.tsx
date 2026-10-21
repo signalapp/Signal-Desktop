@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { CallingDeviceSelection } from '../../components/CallingDeviceSelection.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
@@ -14,6 +14,11 @@ import {
   getSelectedSpeaker,
 } from '../selectors/calling.std.ts';
 import { useCallingActions } from '../ducks/calling.preload.ts';
+import {
+  CallingDeviceType,
+  type AudioDevicePref,
+} from '../../types/Calling.std.ts';
+import { drop } from '../../util/drop.std.ts';
 
 export const SmartCallingDeviceSelection = memo(
   function SmartCallingDeviceSelection() {
@@ -25,17 +30,60 @@ export const SmartCallingDeviceSelection = memo(
     const availableCameras = useSelector(getAvailableCameras);
     const selectedCamera = useSelector(getSelectedCamera);
     const { changeIODevice, toggleSettings } = useCallingActions();
+
+    const handleClose = useCallback(() => {
+      toggleSettings(false);
+    }, [toggleSettings]);
+
+    const handleSelectedCameraChange = useCallback(
+      (selectedDevice: string) => {
+        drop(
+          changeIODevice({
+            type: CallingDeviceType.CAMERA,
+            selectedDevice,
+          })
+        );
+      },
+      [changeIODevice]
+    );
+
+    const handleSelectedMicrophoneChange = useCallback(
+      (selectedDevice: AudioDevicePref) => {
+        drop(
+          changeIODevice({
+            type: CallingDeviceType.MICROPHONE,
+            selectedDevice,
+          })
+        );
+      },
+      [changeIODevice]
+    );
+
+    const handleSelectedSpeakerChange = useCallback(
+      (selectedDevice: AudioDevicePref) => {
+        drop(
+          changeIODevice({
+            type: CallingDeviceType.SPEAKER,
+            selectedDevice,
+          })
+        );
+      },
+      [changeIODevice]
+    );
+
     return (
       <CallingDeviceSelection
+        i18n={i18n}
+        onClose={handleClose}
         availableCameras={availableCameras}
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
-        changeIODevice={changeIODevice}
-        i18n={i18n}
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
-        toggleSettings={toggleSettings}
+        onSelectedCameraChange={handleSelectedCameraChange}
+        onSelectedMicrophoneChange={handleSelectedMicrophoneChange}
+        onSelectedSpeakerChange={handleSelectedSpeakerChange}
       />
     );
   }

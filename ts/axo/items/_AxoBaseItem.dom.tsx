@@ -201,6 +201,11 @@ export namespace AxoBaseItem {
      * Accessories (switches, selects, button) must be disabled separately.
      */
     disabled?: boolean;
+
+    /**
+     * Forces the item to use a stacked layout regardless of available space.
+     */
+    forceStackedLayout?: boolean;
     children: ReactNode;
   }>;
 
@@ -210,6 +215,7 @@ export namespace AxoBaseItem {
       variant = 'secondary',
       disabled = false,
       children,
+      forceStackedLayout = false,
       ...rest
     } = props;
     const groupContext = useStrictContext(GroupContext);
@@ -223,7 +229,11 @@ export namespace AxoBaseItem {
         <AriaClickable.Root asChild>
           <div
             ref={mergeRefs(ref, groupContext.register)}
-            className={css('axo-item-root', tw('group'))}
+            className={css(
+              'axo-item-root',
+              tw('group'),
+              forceStackedLayout && 'axo-item-root-force-stacked'
+            )}
             {...forwardExtraPropsForRadix(rest)}
           >
             <div

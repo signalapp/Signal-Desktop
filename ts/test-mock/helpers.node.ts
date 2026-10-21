@@ -155,6 +155,27 @@ export async function clearVerificationCode(window: Page): Promise<void> {
   }
 }
 
+export async function selectAxoOption(
+  page: Page,
+  combobox: Locator,
+  options: { name: string; exact?: boolean }
+): Promise<void> {
+  // Read this before opening, while open everything outside of the listbox
+  // (including `combobox`) is `aria-hidden` and can't be resolved by role
+  const selectId = await combobox.getAttribute('data-axo-select-id');
+  strictAssert(selectId != null, 'Missing data-axo-select-id on combobox');
+
+  await combobox.click();
+
+  // Select options are rendered in a portal outside of the combobox, the
+  // listbox has a matching `data-axo-select-id`
+  await page
+    .getByRole('listbox')
+    .and(page.locator(`[data-axo-select-id="${selectId}"]`))
+    .getByRole('option', options)
+    .click();
+}
+
 export async function expectItemsWithText(
   items: Locator,
   expected: ReadonlyArray<string | RegExp>
