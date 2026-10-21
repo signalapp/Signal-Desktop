@@ -318,12 +318,28 @@ import {
 } from '../util/messageFilePaths.std.ts';
 import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.ts';
 import { isValidPlaintextHash } from '../types/Crypto.std.ts';
-import { Emoji } from '../axo/emoji.std.ts';
+import type { Emoji } from '../axo/emoji.std.ts';
 import { WalCheckpoints } from './WalCheckpoints.std.ts';
 import {
   getExternalDraftFilesForConversation,
   getExternalAvatarFilesForConversation,
 } from '../util/conversationFilePaths.std.ts';
+import {
+  createFavoriteSticker,
+  createFavoriteStickerFromStickerRef,
+  deleteFavoriteSticker,
+  getAllFavoriteStickers,
+  getAllInstalledFavoriteStickers,
+  getFavoriteSticker,
+  getFavoriteStickersFromPack,
+  getSticker,
+  markFavoriteStickerDeleted,
+  maybeDeleteSticker,
+  rowToSticker,
+  type StickerRow,
+  updateFavoriteSticker,
+  updateFavoriteStickerStatus,
+} from './server/stickers.std.ts';
 
 const {
   fromPairs,
@@ -347,19 +363,6 @@ type ConversationRow = Readonly<{
   expireTimerVersion: number;
 }>;
 type ConversationRows = Array<ConversationRow>;
-type StickerRow = Readonly<{
-  id: number;
-  packId: string;
-  emoji: string | null;
-  height: number;
-  isCoverOnly: number;
-  lastUsed: number;
-  path: string;
-  width: number;
-  version: 1 | 2;
-  localKey: string | null;
-  size: number | null;
-}>;
 type StorageServiceRowFields = Readonly<{
   storageID?: string;
   storageVersion?: number;
@@ -560,8 +563,13 @@ export const DataReader: ServerReadableInterface = {
   getAllStickerPacks,
   getInstalledStickerPacks,
   getUninstalledStickerPacks,
+  getSticker,
   getStickerPackInfo,
   getAllStickers,
+  getAllFavoriteStickers,
+  getFavoriteStickersFromPack,
+  getAllInstalledFavoriteStickers,
+  getFavoriteSticker,
   getRecentStickers,
   getRecentEmojis,
   getRecentGifs,
@@ -771,6 +779,14 @@ export const DataWriter: ServerWritableInterface = {
   uninstallStickerPack,
   removeUninstalledStickerPack,
   clearAllErrorStickerPackAttempts,
+  clearStickerPackAttempts,
+  createFavoriteSticker,
+  createFavoriteStickerFromStickerRef,
+  updateFavoriteSticker,
+  updateFavoriteStickerStatus,
+  markFavoriteStickerDeleted,
+  deleteFavoriteSticker,
+  maybeDeleteSticker,
 
   updateEmojiUsage,
 
@@ -872,20 +888,6 @@ function rowToConversation(row: ConversationRow): ConversationType {
     ...parsedJson,
     expireTimerVersion,
     profileLastFetchedAt,
-  };
-}
-
-function rowToSticker(row: StickerRow): StickerType {
-  return {
-    ...row,
-    isCoverOnly: Boolean(row.isCoverOnly),
-    emoji:
-      row.emoji != null
-        ? Emoji.unsafeCastMaybeInvalidStringToVariant(row.emoji)
-        : undefined,
-    version: row.version || 1,
-    localKey: dropNull(row.localKey),
-    size: dropNull(row.size),
   };
 }
 
@@ -7273,6 +7275,16 @@ function clearAllErrorStickerPackAttempts(db: WritableDB): void {
     `
   ).run();
 }
+
+function clearStickerPackAttempts(db: WritableDB, packId: string): void {
+  const [query, params] = sql`
+    UPDATE sticker_packs
+    SET downloadAttempts = 0
+    WHERE id = ${packId}
+  `;
+  db.prepare(query).run(params);
+}
+
 function createOrUpdateSticker(db: WritableDB, sticker: StickerType): void {
   const {
     emoji,
@@ -8747,6 +8759,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM conversations;
       DELETE FROM defunctCallLinks;
       DELETE FROM donationReceipts;
+      DELETE FROM favorite_stickers;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;

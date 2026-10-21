@@ -41,6 +41,8 @@ export type FunContextSmartProps = Readonly<{
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
 
   // Stickers
+  favoriteStickers: ReadonlyArray<StickerType>;
+  isFavoriteStickersEnabled: boolean;
   isStickerReplySendEnabled: boolean;
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   showStickerPickerHint: boolean;
@@ -184,6 +186,8 @@ export const FunProvider = memo(function FunProvider(
       }
       onSelectEmoji={props.onSelectEmoji}
       // Stickers
+      favoriteStickers={props.favoriteStickers}
+      isFavoriteStickersEnabled={props.isFavoriteStickersEnabled}
       isStickerReplySendEnabled={props.isStickerReplySendEnabled}
       installedStickerPacks={props.installedStickerPacks}
       showStickerPickerHint={props.showStickerPickerHint}

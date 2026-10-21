@@ -143,6 +143,7 @@ window.testUtilities = {
         installedPack: null,
         packs: {},
         recentStickers: [],
+        favoriteStickers: [],
         blessedPacks: {},
         stickerManagerTab: 'all',
       },

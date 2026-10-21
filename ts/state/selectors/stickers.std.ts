@@ -5,7 +5,7 @@ import lodash, { type Dictionary } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type {
-  RecentStickerType,
+  StickerReferenceType,
   StickerManagerTabType,
 } from '../../types/Stickers.preload.ts';
 import {
@@ -113,6 +113,11 @@ const getRecents = createSelector(
   (stickers: StickersStateType) => stickers.recentStickers
 );
 
+const getFavorites = createSelector(
+  getStickers,
+  (stickers: StickersStateType) => stickers.favoriteStickers
+);
+
 export const getBlessedPacks = createSelector(
   getStickers,
   (stickers: StickersStateType) => stickers.blessedPacks
@@ -122,11 +127,26 @@ export const getRecentStickers = createSelector(
   getRecents,
   getPacks,
   (
-    recents: ReadonlyArray<RecentStickerType>,
+    recents: ReadonlyArray<StickerReferenceType>,
     packs: Dictionary<StickerPackDBType>
   ) => {
     return compact(
       recents.map(({ packId, stickerId }) => {
+        return getSticker(packs, packId, stickerId);
+      })
+    );
+  }
+);
+
+export const getInstalledFavoriteStickers = createSelector(
+  getFavorites,
+  getPacks,
+  (
+    favorites: ReadonlyArray<StickerReferenceType>,
+    packs: Dictionary<StickerPackDBType>
+  ) => {
+    return compact(
+      favorites.map(({ packId, stickerId }) => {
         return getSticker(packs, packId, stickerId);
       })
     );

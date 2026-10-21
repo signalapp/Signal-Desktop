@@ -3974,6 +3974,10 @@
     "messageformat": "Sticker Packs",
     "description": "FunPicker > Stickers Panel > Sub Nav > Label"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites",
+    "description": "FunPicker > Stickers Panel > Sub Nav > Category Label > Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Recently Used",
     "description": "FunPicker > Stickers Panel > Sub Nav > Category Label > Recents"
@@ -3989,6 +3993,10 @@
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Recently Used",
     "description": "FunPicker > Stickers Panel > Section Title > Recents"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites",
+    "description": "FunPicker > Stickers Panel > Section Title > Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Featured",

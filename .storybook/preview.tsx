@@ -259,6 +259,8 @@ function withFunProvider(Story, context) {
       recentGifs={[]}
       emojiSkinToneDefault={Emoji.SkinTone.None}
       onEmojiSkinToneDefaultChange={noop}
+      favoriteStickers={[]}
+      isFavoriteStickersEnabled
       isStickerReplySendEnabled
       installedStickerPacks={[]}
       showStickerPickerHint={false}

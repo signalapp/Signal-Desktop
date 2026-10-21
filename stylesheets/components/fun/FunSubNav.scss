@@ -237,6 +237,9 @@ $image-radius: $button-radius - $image-margin;
   @include icon('../images/icons/v3/emoji/emoji-flag.svg');
 }
 /* Stickers */
+.FunSubNav__Icon--Favorites {
+  @include icon('../images/icons/v3/star/star.svg');
+}
 .FunSubNav__Icon--Plus {
   @include icon('../images/icons/v3/plus/plus-circle.svg');
 }
