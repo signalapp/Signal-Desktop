@@ -73,6 +73,7 @@ const config = {
         'buffer', // same name as builtin
         'url', // same name as builtin
         'danger', // turn into real workspace
+        '@types/audioworklet', // only referenced via triple-slash include
       ],
       ignoreFiles: [
         'ts/components/Profiler.dom.tsx',

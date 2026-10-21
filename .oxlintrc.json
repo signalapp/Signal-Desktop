@@ -1658,6 +1658,8 @@
     "typescript/no-confusing-non-null-assertion": "error",
     // [suspicious] (⚠️ 💡 dangerous suggestion) Disallow classes used as namespaces
     "typescript/no-extraneous-class": "error",
+    // [suspicious] Disallow type operations that result in empty object types
+    "typescript/no-generated-empty-object-type": "error",
     // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary equality comparisons against boolean literals
     "typescript/no-unnecessary-boolean-literal-compare": "error", // DECIDEME (errors: 38)
     // [suspicious] (🚧 planned autofix) (💭 needs type info) Disallow unnecessary template expressions

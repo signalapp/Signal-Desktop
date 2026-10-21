@@ -1,5 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+/// <reference types="audioworklet">
 
 import type {
   WorkletMessageType,
@@ -9,45 +10,17 @@ import { Encoder } from '@signalapp/lame';
 import { WaveformBuilder, toPeak } from '../util/waveformBuilder.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 
-declare const sampleRate: number;
-
-type AudioWorkletProcessor = Readonly<{
-  port: MessagePort;
-}>;
-
-declare const AudioWorkletProcessor: {
-  prototype: AudioWorkletProcessor;
-  new (): AudioWorkletProcessor;
-};
-
-type AudioWorkletProcessorImpl = Readonly<{
-  process: (inputs: Array<Array<Float32Array<ArrayBuffer>>>) => boolean;
-}> &
-  AudioWorkletProcessor;
-
-type AudioWorkletProcessorConstructor = Readonly<{
-  new (): AudioWorkletProcessorImpl;
-}>;
-
-declare function registerProcessor(
-  name: string,
-  processorCtor: AudioWorkletProcessorConstructor
-): void;
-
 const BIT_RATE = 90;
 const Q = 7;
 
 // Produce a peak value every 100 milliseconds
 const PEAK_EVERY_S = 0.1;
-const PEAK_EVERY = Math.round(sampleRate * PEAK_EVERY_S);
+const PEAK_EVERY = Math.round(globalThis.sampleRate * PEAK_EVERY_S);
 
-class Mp3Encoder
-  extends AudioWorkletProcessor
-  implements AudioWorkletProcessorImpl
-{
+class Mp3Encoder extends globalThis.AudioWorkletProcessor {
   readonly #encoder = new Encoder({
     q: Q,
-    sampleRate,
+    sampleRate: globalThis.sampleRate,
     bitRate: BIT_RATE,
   });
   #isStopped = false;
@@ -79,7 +52,7 @@ class Mp3Encoder
           finalFrame: chunk,
           waveform: this.#waveform.collect(),
           duration: DurationInSeconds.fromSeconds(
-            this.#totalSamples / sampleRate
+            this.#totalSamples / globalThis.sampleRate
           ),
         } satisfies WorkletMessageType,
         [lametagFrame.buffer, chunk.buffer]
@@ -143,4 +116,4 @@ class Mp3Encoder
   }
 }
 
-registerProcessor('mp3-encoder', Mp3Encoder);
+globalThis.registerProcessor('mp3-encoder', Mp3Encoder);

@@ -32,7 +32,7 @@ export type DeleteForEveryoneConversation = Pick<
   'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'terminated'
 >;
 
-type Result<T extends object = Record<never, never>> =
+type Result<T extends object = object> =
   | Readonly<{ ok: true } & T>
   | Readonly<{ ok: false; reason: string }>;
 
