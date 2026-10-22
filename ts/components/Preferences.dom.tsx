@@ -192,6 +192,7 @@ export type PropsDataType = {
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
+  sendOnEnter: boolean;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -382,6 +383,7 @@ type PropsFunctionType = {
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSendOnEnterChange: CheckboxChangeHandlerType;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
@@ -586,6 +588,7 @@ export function Preferences({
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
+  onSendOnEnterChange,
   onSentMediaQualityChange,
   onSpellCheckChange,
   onTextFormattingChange,
@@ -628,6 +631,7 @@ export function Preferences({
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
+  sendOnEnter,
   sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
   setSettingsLocation,
@@ -1489,6 +1493,12 @@ export function Preferences({
         <PreferencesList
           label={i18n('icu:Preferences__Chats__TextInputSection__Title')}
         >
+          <AxoSwitchItem.Root
+            label={i18n('icu:Preferences__send-on-enter')}
+            description={i18n('icu:Preferences__send-on-enter-description')}
+            checked={sendOnEnter}
+            onCheckedChange={onSendOnEnterChange}
+          />
           <AxoSwitchItem.Root
             label={i18n('icu:spellCheckDescription')}
             description={spellCheckDirtyText}

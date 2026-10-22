@@ -880,6 +880,10 @@ export function SmartPreferences(): JSX.Element | null {
     'textFormatting',
     true
   );
+  const [sendOnEnter, onSendOnEnterChange] = createItemsAccess(
+    'sendOnEnter',
+    true
+  );
   const [lastSyncTime, onLastSyncTimeChange] = createItemsAccess(
     'synced_at',
     undefined
@@ -1159,6 +1163,7 @@ export function SmartPreferences(): JSX.Element | null {
         onSelectedCameraChange={onSelectedCameraChange}
         onSelectedMicrophoneChange={onSelectedMicrophoneChange}
         onSelectedSpeakerChange={onSelectedSpeakerChange}
+        onSendOnEnterChange={onSendOnEnterChange}
         onSentMediaQualityChange={onSentMediaQualityChange}
         onSpellCheckChange={onSpellCheckChange}
         onTextFormattingChange={onTextFormattingChange}
@@ -1207,6 +1212,7 @@ export function SmartPreferences(): JSX.Element | null {
         selectedCamera={selectedCamera}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
+        sendOnEnter={sendOnEnter}
         sentMediaQualitySetting={sentMediaQualitySetting}
         setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
         setSettingsLocation={setSettingsLocation}

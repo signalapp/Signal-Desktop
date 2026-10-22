@@ -152,6 +152,7 @@ export type OwnProps = Readonly<{
     flags: number | null;
   }) => unknown;
   setMediaQualitySetting: (conversationId: string, isHQ: boolean) => unknown;
+  sendOnEnter?: boolean;
   sendStickerMessage: (
     id: string,
     opts: { packId: string; stickerId: number }
@@ -310,6 +311,7 @@ export const CompositionArea = memo(function CompositionArea({
   onTextTooLong,
   ourConversationId,
   sendCounter,
+  sendOnEnter = true,
   sortedGroupMembers,
   // FunPicker
   onSelectEmoji,
@@ -1316,6 +1318,7 @@ export const CompositionArea = memo(function CompositionArea({
             linkPreviewLoading={linkPreviewLoadingForInput}
             linkPreviewResult={linkPreviewResultForInput}
             quotedMessageId={quotedMessageIdForInput}
+            sendOnEnter={sendOnEnter}
             showRecoveryKeyPasteWarning={textIncludesRecoveryKey}
             onCloseLinkPreview={onCloseLinkPreview}
             onDirtyChange={setDirty}

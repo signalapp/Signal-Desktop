@@ -182,6 +182,7 @@ export type Props = Readonly<{
   onScroll?: (ev: UIEvent<HTMLElement>) => void;
   ourConversationId: string | undefined;
   platform: string;
+  sendOnEnter?: boolean;
   showRecoveryKeyPasteWarning: false | ((pastedText: string) => boolean);
   quotedMessageId: string | null;
   shouldHidePopovers: boolean | null;
@@ -523,7 +524,7 @@ export function CompositionInput(props: Props): ReactElement {
       return false;
     }
 
-    if (propsRef.current.large) {
+    if (propsRef.current.large || propsRef.current.sendOnEnter === false) {
       return true;
     }
 

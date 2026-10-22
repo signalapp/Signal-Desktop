@@ -161,6 +161,7 @@ export type StorageAccessType = {
   pinnedConversationIds: ReadonlyArray<string>;
   preferContactAvatars: boolean;
   textFormatting: boolean;
+  sendOnEnter: boolean;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
   storageFetchComplete: boolean;
@@ -402,6 +403,7 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'preferredReactionEmoji',
   'reaction-notification',
   'sent-media-quality',
+  'sendOnEnter',
   'showStickerPickerHint',
   'showStickersIntroduction',
   'emojiSkinToneDefault',

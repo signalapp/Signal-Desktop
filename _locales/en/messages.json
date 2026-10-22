@@ -91,6 +91,14 @@
     "messageformat": "Membership is pending",
     "description": "Shown below the group name when selecting a group to invite a contact to, when the group item is disabled"
   },
+  "icu:Preferences__send-on-enter": {
+    "messageformat": "Send messages with Enter",
+    "description": "Label for the Enter-to-send preference"
+  },
+  "icu:Preferences__send-on-enter-description": {
+    "messageformat": "When off, Enter inserts a new line. Send with Ctrl+Enter (⌘+Enter on Mac).",
+    "description": "Description of the Enter-to-send preference"
+  },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Sent media quality",
     "description": "Title for the sent media quality setting"
