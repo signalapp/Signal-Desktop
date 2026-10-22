@@ -11,9 +11,6 @@ import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.pr
 import { I18n } from '../I18n.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog.dom.tsx';
-import { createLogger } from '../../logging/log.std.ts';
-
-const log = createLogger('GroupV1Migration');
 
 export type PropsDataType = {
   areWeInvited: boolean;
@@ -96,14 +93,12 @@ export function GroupV1Migration(props: PropsType): ReactElement {
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
-          droppedMembers={droppedMembers}
+          droppedMembers={droppedMembers ?? null}
           droppedMemberCount={droppedMemberCount}
           getPreferredBadge={getPreferredBadge}
-          hasMigrated
           i18n={i18n}
-          invitedMembers={invitedMembers}
+          invitedMembers={invitedMembers ?? null}
           invitedMemberCount={invitedMemberCount}
-          onMigrate={() => log.warn('Modal called migrate()')}
           onClose={dismissDialog}
           theme={theme}
         />

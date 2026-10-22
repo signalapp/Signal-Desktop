@@ -1,195 +1,180 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { memo, type FunctionComponent, type ReactNode } from 'react';
+import { useCallback, useMemo, type ReactNode } from 'react';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
-import { GroupDialog } from './GroupDialog.dom.tsx';
+import { Avatar, AvatarSize } from './Avatar.dom.tsx';
+import { UserText } from './UserText.dom.tsx';
+import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoContactList } from '../axo/items/AxoContactList.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 
-export type DataPropsType = {
-  readonly areWeInvited: boolean;
-  readonly droppedMembers?: Array<ConversationType>;
-  readonly droppedMemberCount: number;
-  readonly hasMigrated: boolean;
-  readonly invitedMembers?: Array<ConversationType>;
-  readonly invitedMemberCount: number;
-  readonly getPreferredBadge: PreferredBadgeSelectorType;
-  readonly i18n: LocalizerType;
-  readonly theme: ThemeType;
-};
-
-type ActionsPropsType = Readonly<{
-  onMigrate: () => unknown;
-  onClose: () => unknown;
+export type GroupV1MigrationDialogProps = Readonly<{
+  i18n: LocalizerType;
+  areWeInvited: boolean;
+  droppedMembers: ReadonlyArray<ConversationType> | null;
+  droppedMemberCount: number;
+  invitedMembers: ReadonlyArray<ConversationType> | null;
+  invitedMemberCount: number;
+  getPreferredBadge: PreferredBadgeSelectorType;
+  theme: ThemeType;
+  onClose: () => void;
 }>;
 
-export type PropsType = DataPropsType & ActionsPropsType;
+export function GroupV1MigrationDialog(
+  props: GroupV1MigrationDialogProps
+): ReactNode {
+  const { i18n, onClose } = props;
 
-export const GroupV1MigrationDialog: FunctionComponent<PropsType> = memo(
-  function GroupV1MigrationDialogInner({
-    areWeInvited,
-    droppedMembers,
-    droppedMemberCount,
-    getPreferredBadge,
-    hasMigrated,
-    i18n,
-    invitedMembers,
-    invitedMemberCount,
-    theme,
-    onClose,
-    onMigrate,
-  }: PropsType) {
-    const title = hasMigrated
-      ? i18n('icu:GroupV1--Migration--info--title')
-      : i18n('icu:GroupV1--Migration--migrate--title');
-    const keepHistory = hasMigrated
-      ? i18n('icu:GroupV1--Migration--info--keep-history')
-      : i18n('icu:GroupV1--Migration--migrate--keep-history');
+  const handleOpenChange = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
-    let primaryButtonText: string;
-    let onClickPrimaryButton: () => void;
-    let secondaryButtonText: string | undefined;
-    let onClickSecondaryButton: (() => void) | undefined;
-    if (hasMigrated) {
-      primaryButtonText = i18n('icu:ok');
-      onClickPrimaryButton = onClose;
-    } else {
-      primaryButtonText = i18n('icu:GroupV1--Migration--migrate');
-      onClickPrimaryButton = onMigrate;
-      secondaryButtonText = i18n('icu:cancel');
-      onClickSecondaryButton = onClose;
-    }
+  return (
+    <AxoDialog.Root open onOpenChange={handleOpenChange}>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n('icu:GroupV1--Migration--info--title')}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body padding="md">
+          <AxoDialog.Description>
+            <p className={tw('mb-2.5 px-2')}>
+              {i18n('icu:GroupV1--Migration--info--summary')}
+            </p>
+            <p className={tw('mb-2.5 px-2')}>
+              {i18n('icu:GroupV1--Migration--info--keep-history')}
+            </p>
+          </AxoDialog.Description>
+          {props.areWeInvited ? (
+            <p className={tw('mb-2.5 px-2')}>
+              {i18n('icu:GroupV1--Migration--info--invited--you')}
+            </p>
+          ) : (
+            <>
+              <GroupV1MigrationMembers
+                i18n={i18n}
+                kind="invited"
+                members={props.invitedMembers}
+                count={props.invitedMemberCount}
+                getPreferredBadge={props.getPreferredBadge}
+                theme={props.theme}
+              />
+              <GroupV1MigrationMembers
+                i18n={i18n}
+                kind="dropped"
+                members={props.droppedMembers}
+                count={props.droppedMemberCount}
+                getPreferredBadge={props.getPreferredBadge}
+                theme={props.theme}
+              />
+            </>
+          )}
+        </AxoDialog.Body>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={onClose}
+              autoFocus
+            >
+              {i18n('icu:ok')}
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
 
-    return (
-      <GroupDialog
-        i18n={i18n}
-        onClickPrimaryButton={onClickPrimaryButton}
-        onClose={onClose}
-        primaryButtonText={primaryButtonText}
-        title={title}
-        secondaryButtonText={secondaryButtonText}
-        onClickSecondaryButton={onClickSecondaryButton}
-      >
-        <GroupDialog.Paragraph>
-          {i18n('icu:GroupV1--Migration--info--summary')}
-        </GroupDialog.Paragraph>
-        <GroupDialog.Paragraph>{keepHistory}</GroupDialog.Paragraph>
-        {areWeInvited ? (
-          <GroupDialog.Paragraph>
-            {i18n('icu:GroupV1--Migration--info--invited--you')}
-          </GroupDialog.Paragraph>
-        ) : (
-          <>
-            {renderMembers({
-              getPreferredBadge,
-              i18n,
-              members: invitedMembers,
-              count: invitedMemberCount,
-              hasMigrated,
-              kind: 'invited',
-              theme,
-            })}
-            {renderMembers({
-              getPreferredBadge,
-              i18n,
-              members: droppedMembers,
-              count: droppedMemberCount,
-              hasMigrated,
-              kind: 'dropped',
-              theme,
-            })}
-          </>
-        )}
-      </GroupDialog>
-    );
-  }
-);
-
-function renderMembers({
-  getPreferredBadge,
-  i18n,
-  members,
-  count,
-  hasMigrated,
-  kind,
-  theme,
-}: Readonly<{
-  getPreferredBadge: PreferredBadgeSelectorType;
+type GroupV1MigrationMembersProps = Readonly<{
   i18n: LocalizerType;
-  members?: Array<ConversationType>;
-  count: number;
-  hasMigrated: boolean;
   kind: 'invited' | 'dropped';
+  members: ReadonlyArray<ConversationType> | null;
+  count: number;
+  getPreferredBadge: PreferredBadgeSelectorType;
   theme: ThemeType;
-}>): ReactNode {
-  if (count === 0) {
+}>;
+
+function GroupV1MigrationMembers(
+  props: GroupV1MigrationMembersProps
+): ReactNode {
+  const { i18n, members } = props;
+
+  const sortedMembers = useMemo(() => {
+    return members != null ? sortByTitle(members) : null;
+  }, [members]);
+
+  if (props.count === 0) {
     return null;
   }
 
-  if (!members) {
-    if (kind === 'invited') {
-      return (
-        <GroupDialog.Paragraph>
-          {i18n('icu:GroupV1--Migration--info--invited--count', { count })}
-        </GroupDialog.Paragraph>
-      );
-    }
-    if (hasMigrated) {
-      return (
-        <GroupDialog.Paragraph>
-          {i18n('icu:GroupV1--Migration--info--removed--after--count', {
-            count,
-          })}
-        </GroupDialog.Paragraph>
-      );
+  if (sortedMembers == null) {
+    let countText: string;
+    if (props.kind === 'invited') {
+      countText = i18n('icu:GroupV1--Migration--info--invited--count', {
+        count: props.count,
+      });
+    } else {
+      countText = i18n('icu:GroupV1--Migration--info--removed--after--count', {
+        count: props.count,
+      });
     }
 
-    return (
-      <GroupDialog.Paragraph>
-        {i18n('icu:GroupV1--Migration--info--removed--before--count', {
-          count,
-        })}
-      </GroupDialog.Paragraph>
-    );
+    return <p className={tw('mb-2.5 px-2')}>{countText}</p>;
   }
 
   let text: string;
-  switch (kind) {
+  switch (props.kind) {
     case 'invited':
       text =
-        members.length === 1
+        sortedMembers.length === 1
           ? i18n('icu:GroupV1--Migration--info--invited--one')
           : i18n('icu:GroupV1--Migration--info--invited--many');
       break;
     case 'dropped':
-      if (hasMigrated) {
-        text =
-          members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--after--one')
-            : i18n('icu:GroupV1--Migration--info--removed--after--many');
-      } else {
-        text =
-          members.length === 1
-            ? i18n('icu:GroupV1--Migration--info--removed--before--one')
-            : i18n('icu:GroupV1--Migration--info--removed--before--many');
-      }
+      text =
+        sortedMembers.length === 1
+          ? i18n('icu:GroupV1--Migration--info--removed--after--one')
+          : i18n('icu:GroupV1--Migration--info--removed--after--many');
       break;
     default:
-      throw missingCaseError(kind);
+      throw missingCaseError(props.kind);
   }
 
   return (
-    <>
-      <GroupDialog.Paragraph>{text}</GroupDialog.Paragraph>
-      <GroupDialog.Contacts
-        contacts={sortByTitle(members)}
-        getPreferredBadge={getPreferredBadge}
-        i18n={i18n}
-        theme={theme}
-      />
-    </>
+    <div className={tw('mb-2.5')}>
+      <p className={tw('mb-2.5 px-2')}>{text}</p>
+      <AxoContactList.Root>
+        {sortedMembers.map(member => {
+          return (
+            <AxoContactList.Item
+              key={member.id}
+              avatar={
+                <Avatar
+                  i18n={i18n}
+                  avatarPlaceholderGradient={member.avatarPlaceholderGradient}
+                  avatarUrl={member.avatarUrl}
+                  badge={props.getPreferredBadge(member.badges)}
+                  color={member.color}
+                  conversationType={member.type}
+                  hasAvatar={member.hasAvatar}
+                  noteToSelf={member.isMe}
+                  size={AvatarSize.THIRTY_TWO}
+                  theme={props.theme}
+                  title={member.title}
+                />
+              }
+              title={<UserText text={member.title} />}
+            />
+          );
+        })}
+      </AxoContactList.Root>
+    </div>
   );
 }
