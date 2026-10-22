@@ -8,7 +8,11 @@ import OS from '../../util/os/osMain.node.ts';
 import { getDefaultAvatars } from '../../types/Avatar.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useStandaloneInstallerActions } from '../ducks/standaloneInstaller.preload.ts';
-import { getIntl, getUserConversationId } from '../selectors/user.std.ts';
+import {
+  getIntl,
+  getTheme,
+  getUserConversationId,
+} from '../selectors/user.std.ts';
 import { getMe } from '../selectors/conversations.dom.ts';
 import {
   getDirection,
@@ -16,11 +20,11 @@ import {
   getWorkflow,
 } from '../selectors/standaloneInstaller.std.ts';
 import { StandaloneRegistration } from '../../components/standaloneRegistration/StandaloneRegistration.dom.tsx';
-import { trigger } from '../../shims/events.dom.ts';
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.ts';
 import { RegistrationStage } from '../../types/StandaloneRegistration.std.ts';
 import { getUpdatesState } from '../selectors/updates.std.ts';
 import { useUpdatesActions } from '../ducks/updates.preload.ts';
+import { useAppActions } from '../ducks/app.preload.ts';
 
 export const SmartStandaloneRegistration = memo(
   function SmartStandaloneRegistration() {
@@ -48,6 +52,7 @@ export const SmartStandaloneRegistration = memo(
     } = useStandaloneInstallerActions();
     const updates = useSelector(getUpdatesState);
     const { forceCheck, startUpdate } = useUpdatesActions();
+    const { openEntryPoint } = useAppActions();
 
     const currentVersion = window.getVersion();
     const kickOffForcedUpgrade = () => {
@@ -64,6 +69,7 @@ export const SmartStandaloneRegistration = memo(
     const workflow = useSelector(getWorkflow);
     const fatalError = useSelector(getFatalError);
     const direction = useSelector(getDirection);
+    const theme = useSelector(getTheme);
 
     if (!workflow) {
       return undefined;
@@ -86,8 +92,9 @@ export const SmartStandaloneRegistration = memo(
         countries={countries}
         i18n={i18n}
         readyForUpdates={readyForUpdates}
+        theme={theme}
         // The workflow
-        cancelRegistration={() => trigger('setupAsNewDevice')}
+        cancelRegistration={() => openEntryPoint()}
         completeRegistration={completeRegistration}
         createPIN={createPIN}
         direction={direction}

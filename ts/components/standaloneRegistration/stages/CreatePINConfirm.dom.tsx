@@ -42,7 +42,6 @@ export function CreatePINConfirmScreen({
   const [isValidPIN, setIsValidPIN] = useState(false);
 
   const { status } = workflow;
-  const pending = status.type === 'in-progress';
 
   const onChangePIN = useCallback(
     (value: string) => {
@@ -51,6 +50,16 @@ export function CreatePINConfirmScreen({
     },
     [setIsValidPIN, setPIN, workflow]
   );
+
+  const disabled = !isValidPIN;
+  const pending = status.type === 'in-progress';
+  const handleSubmit = useCallback(() => {
+    if (disabled || pending) {
+      return;
+    }
+    createPIN({ pin, workflow });
+    return;
+  }, [createPIN, disabled, pending, pin, workflow]);
 
   return (
     <Container>
@@ -63,40 +72,40 @@ export function CreatePINConfirmScreen({
         {i18n('icu:StandaloneRegistration--CreatePIN--confirming--description')}
       </Description>
       <Spacer className={tw('h-8')} />
-      <InputContainer className={tw('w-81')}>
-        <AxoPasswordField.Root
-          disabled={pending}
-          maxBytes={PIN_MAX_BYTES}
-          maxGraphemes={PIN_MAX_GRAPHEMES}
-          onValueChange={onChangePIN}
-          value={pin}
-        >
-          <AxoPasswordField.Input
-            autoFocus
-            autoComplete="new-password"
-            placeholder={i18n(
-              'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
-            )}
-          />
-          <AxoPasswordField.Reveal />
-        </AxoPasswordField.Root>
-      </InputContainer>
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <InputContainer className={tw('w-81')}>
+          <AxoPasswordField.Root
+            disabled={pending}
+            maxBytes={PIN_MAX_BYTES}
+            maxGraphemes={PIN_MAX_GRAPHEMES}
+            onValueChange={onChangePIN}
+            value={pin}
+          >
+            <AxoPasswordField.Input
+              autoFocus
+              autoComplete="new-password"
+              placeholder={i18n(
+                'icu:StandaloneRegistration--CreatePIN--confirming--placeholder'
+              )}
+            />
+            <AxoPasswordField.Reveal />
+          </AxoPasswordField.Root>
+        </InputContainer>
+      </form>
       <Spacer className={tw('h-8 grow')} />
       <Buttons>
         <AxoButton.Root
           variant="strong-primary"
           size="md"
-          disabled={!isValidPIN || pending}
+          disabled={disabled}
           pending={pending}
-          onClick={() => {
-            if (pin !== workflow.pin) {
-              throw new Error(
-                "Cannot confirm when new PIN doesn't match old PIN!"
-              );
-            }
-            createPIN({ pin, workflow });
-            return;
-          }}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--CreatePIN--continue')}
         </AxoButton.Root>

@@ -15,6 +15,7 @@ import type { AppStateType } from '../state/ducks/app.preload.ts';
 type PropsType = {
   state: AppStateType;
   renderCallManager: () => JSX.Element;
+  renderEntryPoint: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   hasSelectedStoryData: boolean;
   renderStandaloneRegistration: () => JSX.Element;
@@ -38,6 +39,7 @@ export function App({
   isMaximized,
   osClassName,
   renderCallManager,
+  renderEntryPoint,
   renderGlobalModalContainer,
   renderInbox,
   renderInstallScreen,
@@ -51,6 +53,8 @@ export function App({
 
   if (state.appView === AppViewType.Installer) {
     contents = renderInstallScreen();
+  } else if (state.appView === AppViewType.EntryPoint) {
+    contents = renderEntryPoint();
   } else if (state.appView === AppViewType.Standalone) {
     contents = renderStandaloneRegistration();
   } else if (state.appView === AppViewType.Inbox) {

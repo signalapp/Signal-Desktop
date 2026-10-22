@@ -3,8 +3,9 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { unstable_OneTimePasswordField as OneTimePasswordField } from 'radix-ui';
+import classNames from 'classnames';
 
-import type { JSX } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 import { createLogger } from '../../../logging/log.std.ts';
 import { VerificationTransport } from '../../../types/VerificationTransport.std.ts';
@@ -22,6 +23,11 @@ import {
   Title,
   TopMatter,
 } from '../util/StepComponents.dom.tsx';
+import { useCountdownDuration } from '../util/useCountdownDuration.std.ts';
+import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { RectangleBulletListItem } from '../../SignalConnectionsModal.dom.tsx';
+import { I18n } from '../../I18n.dom.tsx';
+import { ContactSupportLink } from '../../../util/contactSupport.dom.tsx';
 
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import type { ActionCreator } from '../../../state/types.std.ts';
@@ -31,8 +37,6 @@ import type {
   startRegistration as doStartRegistration,
   submitVerificationCode as doSubmitVerificationCode,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
-import classNames from 'classnames';
-import { useCountdownDuration } from '../util/useCountdownDuration.std.ts';
 
 const log = createLogger('StandaloneRegistration/stages/VerificationCode');
 
@@ -80,6 +84,8 @@ export function VerificationCodeScreen({
   >(undefined);
 
   const [shouldShowHavingTrouble, setShouldShowHavingTrouble] = useState(false);
+  const [shouldShowHavingTroubleDialog, setShouldShowHavingTroubleDialog] =
+    useState(false);
   const [waitSMSDuration, setWaitSMSDuration] = useState<string | undefined>(
     undefined
   );
@@ -151,10 +157,6 @@ export function VerificationCodeScreen({
     }
   }
 
-  const { status } = workflow;
-  const pending =
-    status.type === 'requesting-code' || status.type === 'submitting-code';
-
   const { callCanBeRequestedAt, codeCanBeSubmittedAt, smsCanBeRequestedAt } =
     timings || {};
   const updateCodeSubmitCountdown = useCallback(
@@ -196,6 +198,20 @@ export function VerificationCodeScreen({
     focusRef.current?.focus();
   }, []);
 
+  const { status } = workflow;
+  const pending = status.type === 'submitting-code';
+  const codePending = status.type === 'requesting-code';
+  const disabled =
+    !isValidCode ||
+    Boolean(waitSubmitDuration) ||
+    workflow.failedSubmitCodeCount >= MAX_CODE_ATTEMPTS;
+  const handleSubmit = useCallback(() => {
+    if (disabled || pending || codePending) {
+      return;
+    }
+    submitVerificationCode({ code, workflow });
+  }, [code, codePending, disabled, pending, submitVerificationCode, workflow]);
+
   return (
     <Container>
       <TopMatter
@@ -223,40 +239,47 @@ export function VerificationCodeScreen({
         </AxoButton.Root>
       </Description>
       <Spacer className={tw('h-8')} />
-      <OneTimePasswordField.Root
-        autoFocus
-        value={code}
-        disabled={pending}
-        onValueChange={onValueChange}
-        className={tw('flex flex-nowrap gap-2')}
-        aria-label={i18n(
-          'icu:StandaloneRegistration--VerificationCode--header'
-        )}
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
       >
-        {Array.from({ length: 6 }).map((_, i) => (
-          <OneTimePasswordField.Input
-            key={`Field ${i.toString()}`}
-            ref={i === 0 ? focusRef : undefined}
-            className={classNames(
-              tw(
-                'me-2.5 size-8 rounded-xl border-[0.5px] border-primary p-2.5 type-body-medium shadow-elevation-0',
-                'focus-visible:axo-focus-ring'
-              ),
-              i === 2 ? tw('me-6') : undefined
-            )}
-          />
-        ))}
-      </OneTimePasswordField.Root>
+        <OneTimePasswordField.Root
+          aria-label={i18n(
+            'icu:StandaloneRegistration--VerificationCode--header'
+          )}
+          autoFocus
+          className={tw('flex flex-nowrap gap-2')}
+          disabled={pending}
+          onValueChange={onValueChange}
+          value={code}
+        >
+          {Array.from({ length: 6 }).map((_, i) => (
+            <OneTimePasswordField.Input
+              key={`Field ${i.toString()}`}
+              ref={i === 0 ? focusRef : undefined}
+              className={classNames(
+                tw(
+                  'me-2.5 size-8 rounded-xl border-[0.5px] border-primary p-2.5 type-body-medium shadow-elevation-0',
+                  'focus-visible:axo-focus-ring'
+                ),
+                i === 2 ? tw('me-6') : undefined
+              )}
+            />
+          ))}
+        </OneTimePasswordField.Root>
+      </form>
       <Spacer className={tw('h-18')} />
       {workflow.failedToSendSMS ? undefined : (
         <AxoButton.Root
           variant="implied-primary"
           size="md"
           pending={
-            status.type === 'requesting-code' &&
-            status.transport === VerificationTransport.SMS
+            codePending && status.transport === VerificationTransport.SMS
           }
-          disabled={Boolean(waitSMSDuration) || pending}
+          disabled={Boolean(waitSMSDuration) || pending || codePending}
           onClick={() => setTransportForCodeSend(VerificationTransport.SMS)}
         >
           {waitSMSDuration
@@ -276,10 +299,9 @@ export function VerificationCodeScreen({
             variant="implied-primary"
             size="md"
             pending={
-              status.type === 'requesting-code' &&
-              status.transport === VerificationTransport.Voice
+              codePending && status.transport === VerificationTransport.Voice
             }
-            disabled={Boolean(waitCallDuration) || pending}
+            disabled={Boolean(waitCallDuration) || pending || codePending}
             onClick={() => setTransportForCodeSend(VerificationTransport.Voice)}
           >
             {waitCallDuration
@@ -298,10 +320,7 @@ export function VerificationCodeScreen({
             <AxoButton.Root
               variant="implied-primary"
               size="md"
-              onClick={
-                () => undefined
-                // TODO: what to show when user clicks Having Trouble?
-              }
+              onClick={() => setShouldShowHavingTroubleDialog(true)}
             >
               {i18n(
                 'icu:StandaloneRegistration--VerificationCode--having-trouble'
@@ -313,14 +332,9 @@ export function VerificationCodeScreen({
         <AxoButton.Root
           variant="strong-primary"
           size="md"
-          pending={status.type === 'submitting-code'}
-          disabled={
-            !isValidCode ||
-            status.type === 'requesting-code' ||
-            Boolean(waitSubmitDuration) ||
-            workflow.failedSubmitCodeCount >= MAX_CODE_ATTEMPTS
-          }
-          onClick={() => submitVerificationCode({ code, workflow })}
+          pending={pending}
+          disabled={disabled || codePending}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--VerificationCode--button')}
         </AxoButton.Root>
@@ -394,6 +408,11 @@ export function VerificationCodeScreen({
         setOpen={setCannotSendCodePermanentDialogOpen}
         startRegistration={startRegistration}
         workflow={workflow}
+      />
+      <HavingTroubleDialog
+        i18n={i18n}
+        isOpen={shouldShowHavingTroubleDialog}
+        setOpen={setShouldShowHavingTroubleDialog}
       />
     </Container>
   );
@@ -878,5 +897,79 @@ function CannotSendCodePermanentDialog({
         </AxoAlertDialog.Footer>
       </AxoAlertDialog.Content>
     </AxoAlertDialog.Root>
+  );
+}
+
+function TroubleShootingLink(parts: ReactNode): JSX.Element {
+  return (
+    <a
+      key="troubleshooting"
+      href="https://support.signal.org/hc/articles/360007318751-Registration-troubleshooting"
+      rel="noreferrer"
+      target="_blank"
+    >
+      {parts}
+    </a>
+  );
+}
+
+function HavingTroubleDialog({
+  i18n,
+  isOpen,
+  setOpen,
+}: {
+  i18n: LocalizerType;
+  isOpen: boolean;
+  setOpen: (value: boolean) => unknown;
+}): JSX.Element {
+  return (
+    <AxoDialog.Root
+      open={isOpen}
+      onOpenChange={open => {
+        if (!open) {
+          setOpen(false);
+        }
+      }}
+    >
+      <AxoDialog.Content size="md" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>
+            {i18n(
+              'icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title'
+            )}
+          </AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Body>
+          <ul className={tw('mb-2.5 flex flex-col gap-2 ps-3 text-primary')}>
+            <RectangleBulletListItem>
+              {i18n(
+                'icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1'
+              )}
+            </RectangleBulletListItem>
+            <RectangleBulletListItem>
+              {i18n(
+                'icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2'
+              )}
+            </RectangleBulletListItem>
+            <RectangleBulletListItem>
+              {i18n(
+                'icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3'
+              )}
+            </RectangleBulletListItem>
+          </ul>
+          <p className={tw('text-primary')}>
+            <I18n
+              i18n={i18n}
+              id="icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer"
+              components={{
+                troubleshootingLink: TroubleShootingLink,
+                contactSupportLink: ContactSupportLink,
+              }}
+            />
+          </p>
+        </AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

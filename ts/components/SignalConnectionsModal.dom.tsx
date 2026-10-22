@@ -43,15 +43,15 @@ export function SignalConnectionsModal(
               />
             </p>
             <ul className={tw('mb-2.5 flex flex-col gap-2 ps-3 text-primary')}>
-              <ListItem>
+              <RectangleBulletListItem>
                 {i18n('icu:SignalConnectionsModal__bullet--1')}
-              </ListItem>
-              <ListItem>
+              </RectangleBulletListItem>
+              <RectangleBulletListItem>
                 {i18n('icu:SignalConnectionsModal__bullet--2')}
-              </ListItem>
-              <ListItem>
+              </RectangleBulletListItem>
+              <RectangleBulletListItem>
                 {i18n('icu:SignalConnectionsModal__bullet--3')}
-              </ListItem>
+              </RectangleBulletListItem>
             </ul>
             <p className={tw('text-primary')}>
               {i18n('icu:SignalConnectionsModal__footer')}
@@ -67,7 +67,7 @@ type ListItemProps = Readonly<{
   children: ReactNode;
 }>;
 
-function ListItem(props: ListItemProps): ReactNode {
+export function RectangleBulletListItem(props: ListItemProps): ReactNode {
   return (
     <li className={tw('flex items-center')}>
       <span

@@ -1,0 +1,15 @@
+// Copyright 2026 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.EntryPoint--SignalLogo {
+  position: absolute;
+
+  inset-inline-start: 32px;
+  top: 64px;
+  height: 32px;
+
+  @media screen and (max-height: 815px) and (max-width: 900px) {
+    top: 32px;
+    height: 16px;
+  }
+}

@@ -23,6 +23,9 @@ import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
 import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
 import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
+import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
+import { tw } from '../../axo/tw.dom.tsx';
+import { AxoTheme } from '../../axo/AxoTheme.dom.tsx';
 
 const { noop } = lodash;
 
@@ -41,6 +44,8 @@ export type PropsType = Readonly<{
   startUpdate: () => void;
   forceCheck: () => void;
   isConfirmingDataDeletion: boolean;
+  isStandaloneFeatureEnabled: boolean;
+  openEntryPoint: () => void;
   continueInstallWithDataDeletion: () => void;
   restartInstall: () => void;
 }>;
@@ -59,6 +64,8 @@ export function InstallScreenQrCodeNotScannedStep({
   startUpdate,
   forceCheck,
   isConfirmingDataDeletion,
+  isStandaloneFeatureEnabled,
+  openEntryPoint,
   restartInstall,
   continueInstallWithDataDeletion,
   updates,
@@ -83,11 +90,32 @@ export function InstallScreenQrCodeNotScannedStep({
       <InstallScreenSignalLogo />
 
       <div className="module-InstallScreenQrCodeNotScannedStep__contents">
-        <InstallScreenQrCode
-          i18n={i18n}
-          {...provisioningUrl}
-          retryGetQrCode={retryGetQrCode}
-        />
+        {isStandaloneFeatureEnabled ? (
+          <div className={tw('flex')}>
+            <div className={tw('me-2')}>
+              <AxoTheme.Override theme="force-light">
+                <AxoIconButton.Root
+                  variant="implied-secondary"
+                  size="sm"
+                  symbol="chevron-[start]"
+                  onClick={() => openEntryPoint()}
+                  label={i18n('icu:StandaloneRegistration--back')}
+                />
+              </AxoTheme.Override>
+            </div>
+            <InstallScreenQrCode
+              i18n={i18n}
+              {...provisioningUrl}
+              retryGetQrCode={retryGetQrCode}
+            />
+          </div>
+        ) : (
+          <InstallScreenQrCode
+            i18n={i18n}
+            {...provisioningUrl}
+            retryGetQrCode={retryGetQrCode}
+          />
+        )}
         <div>
           <h1>{i18n('icu:Install__scan-this-code')}</h1>
           <ol>

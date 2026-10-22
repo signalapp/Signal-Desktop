@@ -48,6 +48,7 @@ export namespace AxoContactList {
     avatar: ReactNode;
     title: ReactNode;
     description?: ReactNode;
+    allowDescriptionOverflow?: boolean;
     value?: ReactNode;
     accessory?: ReactNode;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -70,7 +71,9 @@ export namespace AxoContactList {
             )}
             {props.description != null && (
               <AriaList.Description asChild>
-                <AxoBaseItem.Description truncate>
+                <AxoBaseItem.Description
+                  truncate={!props.allowDescriptionOverflow}
+                >
                   {props.description}
                 </AxoBaseItem.Description>
               </AriaList.Description>

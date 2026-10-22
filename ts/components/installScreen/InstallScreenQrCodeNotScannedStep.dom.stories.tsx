@@ -39,6 +39,8 @@ const DEFAULT_PROPS: Omit<PropsType, 'provisioningUrl'> = {
   currentVersion: 'v6.0.0',
   retryGetQrCode: action('retryGetQrCode'),
   isConfirmingDataDeletion: false,
+  isStandaloneFeatureEnabled: false,
+  openEntryPoint: action('openEntryPoint'),
   restartInstall: action('restartInstall'),
   continueInstallWithDataDeletion: action('continueInstallWithDataDeletion'),
 };
@@ -87,6 +89,18 @@ export function QrCodeLoading(): JSX.Element {
   );
 }
 
+export function QrCodeLoadingStandaloneIsSupported(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      {...DEFAULT_PROPS}
+      provisioningUrl={{
+        loadingState: LoadingState.Loading,
+      }}
+      isStandaloneFeatureEnabled
+    />
+  );
+}
+
 export function QrCodeFailedToLoad(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
@@ -99,11 +113,34 @@ export function QrCodeFailedToLoad(): JSX.Element {
   );
 }
 
+export function QrCodeFailedToLoadStandaloneIsSupported(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      {...DEFAULT_PROPS}
+      provisioningUrl={{
+        loadingState: LoadingState.LoadFailed,
+        error: InstallScreenQRCodeError.Unknown,
+      }}
+      isStandaloneFeatureEnabled
+    />
+  );
+}
+
 export function QrCodeLoaded(): JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       {...DEFAULT_PROPS}
       provisioningUrl={LOADED_URL}
+    />
+  );
+}
+
+export function QrCodeLoadedStandaloneIsSupported(): JSX.Element {
+  return (
+    <InstallScreenQrCodeNotScannedStep
+      {...DEFAULT_PROPS}
+      provisioningUrl={LOADED_URL}
+      isStandaloneFeatureEnabled
     />
   );
 }

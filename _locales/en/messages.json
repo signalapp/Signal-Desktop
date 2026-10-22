@@ -9440,6 +9440,46 @@
     "messageformat": "Signal Desktop failed to update, but there is a new version available. Go to {downloadUrl} and install the new version manually, then either contact support or file a bug about this problem.",
     "description": "The body of the update dialog on install screen when update cannot be installed."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo",
+    "description": "Alt text for the signal logo at the top left of the first screen shown in the app"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you.",
+    "description": "Title text shown in the middle of the first screen shown in the app, line 1"
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message.",
+    "description": "Title text shown in the middle of the first screen shown in the app, line 2"
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account",
+    "description": "Button on the first screen shown in the app, which takes you to the 'link device' flow"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options",
+    "description": "Button on the first screen shown in the app, which takes you to the 'register standalone' flow"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit",
+    "description": "Reminder that signal is a nonprofit at the bottom of the first screen shown in the app"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy",
+    "description": "Link to privacy policy at the bottom of the first screen shown in the app"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options",
+    "description": "Title of dialog shown when user clicks More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account",
+    "description": "Title of first button, to create a totally new account, on dialog shown when user clicks More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number.",
+    "description": "Description of first button, to create a totally new account, on dialog shown when user clicks More options"
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal Logo",
     "description": "Alt text for the signal logo at the top left of the standalone registration screens"
@@ -9699,6 +9739,26 @@
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "OK",
     "description": "Button to dismiss popup shown when the server told us we can't get the code to the user's number, temporarily"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?",
+    "description": "Title of dialog to help user when they are having trouble registering"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call",
+    "description": "Description bullet 1 in dialog to help user when they are having trouble registering"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number",
+    "description": "Description bullet 2 in dialog to help user when they are having trouble registering"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly",
+    "description": "Description bullet 3 in dialog to help user when they are having trouble registering"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>.",
+    "description": "Additional text in footer of dialog to help user when they are having trouble registering"
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Set up your profile",

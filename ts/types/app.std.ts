@@ -3,6 +3,7 @@
 
 export enum AppViewType {
   Blank = 'Blank',
+  EntryPoint = 'EntryPoint',
   Inbox = 'Inbox',
   Installer = 'Installer',
   Standalone = 'Standalone',

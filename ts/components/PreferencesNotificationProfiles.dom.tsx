@@ -1443,7 +1443,9 @@ function EmojiOrMoon({
     return (
       <div
         className={tw(
-          'absolute inset-s-1/2 top-1/2 -translate-1/2 text-accent'
+          // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+          'left-1/2',
+          'absolute top-1/2 -translate-1/2 text-accent'
         )}
         style={
           forceLightTheme
@@ -1464,7 +1466,11 @@ function EmojiOrMoon({
 
   return (
     <span
-      className={tw('absolute inset-s-1/2 top-1/2 -translate-1/2 leading-0')}
+      className={tw(
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+        'left-1/2',
+        'absolute top-1/2 -translate-1/2 leading-0'
+      )}
     >
       <FunStaticEmoji
         role="img"

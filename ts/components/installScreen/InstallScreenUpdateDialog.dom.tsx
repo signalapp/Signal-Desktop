@@ -173,7 +173,9 @@ function CenteredElement({ children }: { children: ReactNode }): JSX.Element {
   return (
     <div
       className={tw(
-        'absolute inset-s-1/2 top-1/2 max-w-[calc(100%-32px)] -translate-1/2'
+        // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
+        'left-1/2',
+        'absolute top-1/2 max-w-[calc(100%-32px)] -translate-1/2'
       )}
     >
       {children}

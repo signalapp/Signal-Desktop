@@ -85,7 +85,34 @@ export function ProfileEntryScreen({
 
   const fullName = `${firstName} ${lastName}`;
   const { status } = workflow;
+
+  const normalizedFirstName = normalizeProfileName(firstName);
   const pending = status.type === 'in-progress';
+  const disabled = !normalizedFirstName;
+  const handleSubmit = useCallback(() => {
+    if (disabled || pending || !normalizedFirstName) {
+      return;
+    }
+
+    finishProfileEntryStage({
+      profileData: {
+        firstName: normalizedFirstName,
+        lastName: normalizeProfileName(lastName),
+        avatarData,
+        phoneNumberDiscoverability,
+      },
+      workflow,
+    });
+  }, [
+    avatarData,
+    disabled,
+    normalizedFirstName,
+    finishProfileEntryStage,
+    lastName,
+    pending,
+    phoneNumberDiscoverability,
+    workflow,
+  ]);
 
   return (
     <Container className={tw('h-125')}>
@@ -137,37 +164,53 @@ export function ProfileEntryScreen({
         {i18n('icu:StandaloneRegistration--ProfileEntry--add-photo')}
       </AxoButton.Root>
       <Spacer className={tw('h-7')} />
-      <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root
-          disabled={pending}
-          value={firstName}
-          onValueChange={onChangeFirstName}
-          maxGraphemes={30}
-          maxBytes={30}
-        >
-          <AxoTextField.Input
-            placeholder={i18n(
-              'icu:StandaloneRegistration--ProfileEntry--first-name'
-            )}
-          />
-        </AxoTextField.Root>
-      </InputContainer>
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <InputContainer className={tw('w-100')}>
+          <AxoTextField.Root
+            disabled={pending}
+            value={firstName}
+            onValueChange={onChangeFirstName}
+            maxGraphemes={30}
+            maxBytes={30}
+          >
+            <AxoTextField.Input
+              placeholder={i18n(
+                'icu:StandaloneRegistration--ProfileEntry--first-name'
+              )}
+            />
+          </AxoTextField.Root>
+        </InputContainer>
+      </form>
       <Spacer />
-      <InputContainer className={tw('w-100')}>
-        <AxoTextField.Root
-          disabled={pending}
-          value={lastName}
-          onValueChange={onChangeLastName}
-          maxGraphemes={30}
-          maxBytes={30}
-        >
-          <AxoTextField.Input
-            placeholder={i18n(
-              'icu:StandaloneRegistration--ProfileEntry--last-name'
-            )}
-          />
-        </AxoTextField.Root>
-      </InputContainer>
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <InputContainer className={tw('w-100')}>
+          <AxoTextField.Root
+            disabled={pending}
+            value={lastName}
+            onValueChange={onChangeLastName}
+            maxGraphemes={30}
+            maxBytes={30}
+          >
+            <AxoTextField.Input
+              placeholder={i18n(
+                'icu:StandaloneRegistration--ProfileEntry--last-name'
+              )}
+            />
+          </AxoTextField.Root>
+        </InputContainer>
+      </form>
       <Spacer className={tw('h-4')} />
       <div
         className={tw(
@@ -176,10 +219,10 @@ export function ProfileEntryScreen({
       >
         <AxoSymbol.Icon symbol="group" size={18} label={null} />
         <div className={tw('flex grow flex-col items-start')}>
-          <div className={tw('type-body-medium')}>
+          <div className={tw('text-start type-body-medium')}>
             {i18n('icu:StandaloneRegistration--ProfileEntry--discoverability')}
           </div>
-          <div className={tw('type-body-small text-secondary')}>
+          <div className={tw('text-start type-body-small text-secondary')}>
             {phoneNumberDiscoverability ===
             PhoneNumberDiscoverability.Discoverable
               ? i18n('icu:Preferences__pnp__discoverability__everyone')
@@ -205,26 +248,8 @@ export function ProfileEntryScreen({
           variant="strong-primary"
           size="md"
           pending={pending}
-          disabled={!normalizeProfileName(firstName) || pending}
-          onClick={() => {
-            const normalizedFirstName = normalizeProfileName(firstName);
-            if (!normalizedFirstName) {
-              throw new Error(
-                'ProfileEntryScreen: Somehow clicked Continue with blank firstname'
-              );
-            }
-
-            finishProfileEntryStage({
-              profileData: {
-                firstName: normalizedFirstName,
-                lastName: normalizeProfileName(lastName),
-                avatarData,
-                phoneNumberDiscoverability:
-                  PhoneNumberDiscoverability.Discoverable,
-              },
-              workflow,
-            });
-          }}
+          disabled={disabled}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--ProfileEntry--continue')}
         </AxoButton.Root>
