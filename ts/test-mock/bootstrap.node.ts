@@ -609,10 +609,29 @@ export class Bootstrap {
           if (gotProvisionURL) {
             return;
           }
+          debug('clicking Relink button');
           await relinkButton.click();
           await window.getByRole('button', { name: "Don't transfer" }).click();
         } catch {
           // Ignore, provision will fail if QR code was never generated
+        }
+      })()
+    );
+
+    drop(
+      (async () => {
+        try {
+          const linkYourAccountButton = window.getByRole('button', {
+            name: 'Link your account',
+          });
+          await linkYourAccountButton.waitFor();
+          if (gotProvisionURL) {
+            return;
+          }
+          debug('clicking Link your Account button');
+          await linkYourAccountButton.click();
+        } catch {
+          // Ignore; this is okay if we're attempting to relink
         }
       })()
     );

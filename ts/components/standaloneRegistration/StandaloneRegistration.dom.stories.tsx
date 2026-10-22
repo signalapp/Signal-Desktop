@@ -3,10 +3,11 @@
 
 // oxlint-disable no-console
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { JSX } from 'react';
+import type { Meta } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n.dom.tsx';
 import {
@@ -15,12 +16,6 @@ import {
   RegistrationStage,
 } from '../../types/StandaloneRegistration.std.ts';
 import { StandaloneRegistration } from './StandaloneRegistration.dom.tsx';
-
-import type {
-  CreatePINStage,
-  RegistrationWorkflow,
-} from '../../types/StandaloneRegistration.std.ts';
-
 import messages from '../../../_locales/en/messages.json';
 import { getDefaultAvatars } from '../../types/Avatar.std.ts';
 import { MINUTE, SECOND } from '../../util/durations/constants.std.ts';
@@ -28,9 +23,16 @@ import { VerificationTransport } from '../../types/VerificationTransport.std.ts'
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 
+import type {
+  CreatePINStage,
+  RegistrationWorkflow,
+} from '../../types/StandaloneRegistration.std.ts';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext.std.ts';
+import type { PropsType } from './StandaloneRegistration.dom.tsx';
+
 const i18n = setupI18n('en', messages);
 
-const meta = {
+export default {
   component: StandaloneRegistration,
   title: 'Components/StandaloneRegistration',
   parameters: {
@@ -49,618 +51,792 @@ const meta = {
 
 const phoneNumber = '+14155551111';
 const verificationSessionId = 'verification-session-id';
+const now = Date.now();
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+const useProps = (): PropsType => ({
+  // Housekeeping
+  conversationId: 'conversationId01',
+  countries: [
+    {
+      region: 'US',
+      displayName: 'United States',
+      code: '+1',
+    },
+    {
+      region: 'FR',
+      displayName: 'France',
+      code: '+33',
+    },
+    {
+      region: 'GB',
+      displayName: 'United Kingdom',
+      code: '+44',
+    },
+  ],
+  i18n,
+  readyForUpdates: action('readyForUpdates'),
+  theme: useContext(StorybookThemeContext),
 
-export const StartingScreen: Story = {
-  args: {
-    // Housekeeping
-    conversationId: 'conversationId01',
-    countries: [
-      {
-        region: 'O',
-        displayName: 'One',
-        code: '+1',
-      },
-      {
-        region: 'T',
-        displayName: 'Two',
-        code: '+2',
-      },
-      {
-        region: 'Th',
-        displayName: 'Three',
-        code: '+3',
-      },
-    ],
-    i18n,
-    readyForUpdates: action('readyForUpdates'),
+  // The workflow
+  cancelRegistration: action('cancelRegistration'),
+  completeRegistration: action('completeRegistration'),
+  createPIN: action('createPIN'),
+  direction: Direction.FORWARD,
+  fatalError: undefined,
+  finishProfileEntryStage: action('finishProfileEntryStage'),
+  goToAccountLockedStage: action('goToAccountLockedStage'),
+  goToCreatePINStage: action('goToCreatePINStage'),
+  moveToCaptchaStage: action('moveToCaptchaStage'),
+  moveToVerificationStage: action('moveToVerificationStage'),
+  openBrowserForCaptcha: action('openBrowserForCaptcha'),
+  requestVerificationCode: action('requestVerificationCode'),
+  startConfirmingPIN: action('startConfirmingPIN'),
+  startRegistration: action('startRegistration'),
+  submitVerificationCode: action('submitVerificationCode'),
+  verifyPIN: action('verifyPIN'),
+  workflow: {
+    stage: RegistrationStage.PHONE_NUMBER,
+    status: {
+      type: 'ready',
+    },
+  },
 
-    // The workflow
-    cancelRegistration: action('cancelRegistration'),
-    completeRegistration: action('completeRegistration'),
-    createPIN: action('createPIN'),
-    direction: Direction.FORWARD,
-    fatalError: undefined,
-    finishProfileEntryStage: action('finishProfileEntryStage'),
-    goToAccountLockedStage: action('goToAccountLockedStage'),
-    goToCreatePINStage: action('goToCreatePINStage'),
-    moveToCaptchaStage: action('moveToCaptchaStage'),
-    moveToVerificationStage: action('moveToVerificationStage'),
-    openBrowserForCaptcha: action('openBrowserForCaptcha'),
-    requestVerificationCode: action('requestVerificationCode'),
-    startConfirmingPIN: action('startConfirmingPIN'),
-    startRegistration: action('startRegistration'),
-    submitVerificationCode: action('submitVerificationCode'),
-    verifyPIN: action('verifyPIN'),
-    workflow: {
-      stage: RegistrationStage.PHONE_NUMBER,
-      status: {
-        type: 'ready',
-      },
-    },
+  // Updates
+  currentVersion: 'v1.0.0',
+  forceCheck: action('forceCheck'),
+  kickOffForcedUpgrade: action('kickOffForcedUpgrade'),
+  OS: 'windows',
+  startUpdate: action('startUpdate'),
+  updates: {
+    dialogType: DialogType.None,
+    didSnooze: false,
+    showEventsCount: 0,
+    isCheckingForUpdates: false,
+  },
 
-    // Updates
-    currentVersion: 'v1.0.0',
-    forceCheck: action('forceCheck'),
-    kickOffForcedUpgrade: action('kickOffForcedUpgrade'),
-    OS: 'windows',
-    startUpdate: action('startUpdate'),
-    updates: {
-      dialogType: DialogType.None,
-      didSnooze: false,
-      showEventsCount: 0,
-      isCheckingForUpdates: false,
-    },
+  // AvatarEditor support
+  deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
+  replaceAvatar: action('replaceAvatar'),
+  saveAvatarToDisk: action('saveAvatarToDisk'),
+  userAvatarData: getDefaultAvatars(),
+});
 
-    // AvatarEditor support
-    deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
-    replaceAvatar: action('replaceAvatar'),
-    saveAvatarToDisk: action('saveAvatarToDisk'),
-    userAvatarData: getDefaultAvatars(),
-  },
-};
+export function StartingScreen(): JSX.Element {
+  const props = useProps();
+  return <StandaloneRegistration {...props} />;
+}
 
-export const StartingScreenBackwardAnimation: Story = {
-  args: {
-    ...StartingScreen.args,
-    direction: Direction.BACKWARD,
-  },
-};
+export function StartingScreenBackwardAnimation(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration {...props} {...{ direction: Direction.BACKWARD }} />
+  );
+}
 
-export const StartingScreenPrepopulatedNumber: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PHONE_NUMBER,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-    },
-  },
-};
+export function StartingScreenPrepopulatedNumber(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PHONE_NUMBER,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+        },
+      }}
+    />
+  );
+}
 
-export const StartingScreenWaiting: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PHONE_NUMBER,
-      status: {
-        type: 'waiting',
-        readyAt: Date.now() + 30 * SECOND,
-      },
-    },
-  },
-};
-export const StartingScreenInProgress: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PHONE_NUMBER,
-      phoneNumber,
-      status: {
-        type: 'in-progress',
-      },
-    },
-  },
-};
+export function StartingScreenWaiting(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PHONE_NUMBER,
+          status: {
+            type: 'waiting',
+            readyAt: now + 30 * SECOND,
+          },
+        },
+      }}
+    />
+  );
+}
+export function StartingScreenInProgress(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PHONE_NUMBER,
+          phoneNumber,
+          status: {
+            type: 'in-progress',
+          },
+        },
+      }}
+    />
+  );
+}
 
-export const GeneralErrorUpdateRequired: Story = {
-  args: {
-    ...StartingScreen.args,
-    fatalError: FatalErrorType.UPDATE_REQUIRED,
-  },
-};
+export function GeneralErrorUpdateRequired(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        fatalError: FatalErrorType.UPDATE_REQUIRED,
+      }}
+    />
+  );
+}
 
-export const GeneralErrorConnectivityError: Story = {
-  args: {
-    ...StartingScreen.args,
-    fatalError: FatalErrorType.OFFLINE,
-  },
-};
+export function GeneralErrorConnectivityError(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{ fatalError: FatalErrorType.OFFLINE }}
+    />
+  );
+}
 
-export const GeneralErrorUnexpectedError: Story = {
-  args: {
-    ...StartingScreen.args,
-    fatalError: FatalErrorType.UNEXPECTED,
-  },
-};
+export function GeneralErrorUnexpectedError(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{ fatalError: FatalErrorType.UNEXPECTED }}
+    />
+  );
+}
 
-export const Captcha: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CAPTCHA,
-      captchaCompleteCount: 0,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-      verificationSessionId,
-    },
-  },
-};
+export function Captcha(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CAPTCHA,
+          captchaCompleteCount: 0,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+          verificationSessionId,
+        },
+      }}
+    />
+  );
+}
 
-export const CaptchaInProgress: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CAPTCHA,
-      captchaCompleteCount: 0,
-      phoneNumber,
-      status: {
-        type: 'in-progress',
-        startedAt: Date.now() - 25 * SECOND,
-      },
-      verificationSessionId,
-    },
-  },
-};
+export function CaptchaInProgress(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CAPTCHA,
+          captchaCompleteCount: 0,
+          phoneNumber,
+          status: {
+            type: 'in-progress',
+            startedAt: now - 25 * SECOND,
+          },
+          verificationSessionId,
+        },
+      }}
+    />
+  );
+}
 
-export const CaptchaWithWaitTime: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CAPTCHA,
-      captchaCompleteCount: 0,
-      phoneNumber,
-      verificationSessionId,
-      status: {
-        type: 'waiting',
-        canDoCaptchaAt: Date.now() + MINUTE * 5,
-      },
-    },
-  },
-};
+export function CaptchaWithWaitTime(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CAPTCHA,
+          captchaCompleteCount: 0,
+          phoneNumber,
+          verificationSessionId,
+          status: {
+            type: 'waiting',
+            canDoCaptchaAt: now + MINUTE * 5,
+          },
+        },
+      }}
+    />
+  );
+}
 
-export const CaptchaWithAnotherNeeded: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CAPTCHA,
-      captchaCompleteCount: 0,
-      phoneNumber,
-      status: {
-        type: 'another-needed',
-      },
-      verificationSessionId,
-    },
-  },
-};
+export function CaptchaWithAnotherNeeded(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CAPTCHA,
+          captchaCompleteCount: 0,
+          phoneNumber,
+          status: {
+            type: 'another-needed',
+          },
+          verificationSessionId,
+        },
+      }}
+    />
+  );
+}
 
-export const CaptchaWithFailure: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CAPTCHA,
-      captchaCompleteCount: 0,
-      phoneNumber,
-      status: {
-        type: 'failed',
-      },
-      verificationSessionId,
-    },
-  },
-};
+export function CaptchaWithFailure(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CAPTCHA,
+          captchaCompleteCount: 0,
+          phoneNumber,
+          status: {
+            type: 'failed',
+          },
+          verificationSessionId,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCode: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCode(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWhileSubmittingCode: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'submitting-code',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWhileSubmittingCode(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'submitting-code',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWhileRequestingSMS: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'requesting-code',
-        transport: VerificationTransport.SMS,
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWhileRequestingSMS(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'requesting-code',
+            transport: VerificationTransport.SMS,
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWhileRequestingCall: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'requesting-code',
-        transport: VerificationTransport.Voice,
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWhileRequestingCall(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'requesting-code',
+            transport: VerificationTransport.Voice,
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWithFailedToSendSMS: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-      verificationSessionId,
-      failedToSendSMS: true,
-      failedToCall: false,
-    },
-  },
-};
-export const VerificationCodeWithFailedToCall: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: true,
-    },
-  },
-};
-export const VerificationCodeWithHavingTrouble: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 3,
-      status: {
-        type: 'ready',
-      },
-      phoneNumber,
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
-export const VerificationCodeWithMaximumAttempts: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 5,
-      status: {
-        type: 'ready',
-      },
-      phoneNumber,
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWithFailedToSendSMS(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+          verificationSessionId,
+          failedToSendSMS: true,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
+export function VerificationCodeWithFailedToCall(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: true,
+        },
+      }}
+    />
+  );
+}
+export function VerificationCodeWithHavingTrouble(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 3,
+          status: {
+            type: 'ready',
+          },
+          phoneNumber,
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
+export function VerificationCodeWithMaximumAttempts(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 5,
+          status: {
+            type: 'ready',
+          },
+          phoneNumber,
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWithAllDelays: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'ready',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-      timings: {
-        callCanBeRequestedAt: Date.now() + 40 * SECOND,
-        codeCanBeSubmittedAt: Date.now() + 50 * SECOND,
-        smsCanBeRequestedAt: Date.now() + 30 * SECOND,
-      },
-    },
-  },
-};
+export function VerificationCodeWithAllDelays(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'ready',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+          timings: {
+            callCanBeRequestedAt: now + 40 * SECOND,
+            codeCanBeSubmittedAt: now + 50 * SECOND,
+            smsCanBeRequestedAt: now + 30 * SECOND,
+          },
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWithIncorrectCode: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'failed',
-        error: 'incorrect-code',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWithIncorrectCode(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'failed',
+            error: 'incorrect-code',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const VerificationCodeWithInvalidCode: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'failed',
-        error: 'invalid-code',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
-export const VerificationCodeWithCannotSendCodeTemporary: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'failed',
-        error: 'cannot-send-code-temporary',
-      },
-      timings: {
-        callCanBeRequestedAt: Date.now() + 5 * MINUTE,
-        smsCanBeRequestedAt: Date.now() + 5 * MINUTE,
-        codeCanBeSubmittedAt: Date.now() + 5 * MINUTE,
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
-export const VerificationCodeWithCannotSendCodePermanent: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFICATION_CODE,
-      codeSendCount: 0,
-      failedSubmitCodeCount: 0,
-      phoneNumber,
-      status: {
-        type: 'failed',
-        error: 'cannot-send-code-permanent',
-      },
-      verificationSessionId,
-      failedToSendSMS: false,
-      failedToCall: false,
-    },
-  },
-};
+export function VerificationCodeWithInvalidCode(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'failed',
+            error: 'invalid-code',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
+export function VerificationCodeWithCannotSendCodeTemporary(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'failed',
+            error: 'cannot-send-code-temporary',
+          },
+          timings: {
+            callCanBeRequestedAt: now + 5 * MINUTE,
+            smsCanBeRequestedAt: now + 5 * MINUTE,
+            codeCanBeSubmittedAt: now + 5 * MINUTE,
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
+export function VerificationCodeWithCannotSendCodePermanent(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFICATION_CODE,
+          codeSendCount: 0,
+          failedSubmitCodeCount: 0,
+          phoneNumber,
+          status: {
+            type: 'failed',
+            error: 'cannot-send-code-permanent',
+          },
+          verificationSessionId,
+          failedToSendSMS: false,
+          failedToCall: false,
+        },
+      }}
+    />
+  );
+}
 
-export const ProfileEntry: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PROFILE_ENTRY,
-      accountState: {
-        created: true,
-        hasPin: false,
-      },
-      status: {
-        type: 'ready',
-      },
-    },
-  },
-};
-export const ProfileEntryWithDefaultData: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PROFILE_ENTRY,
-      accountState: {
-        created: true,
-        hasPin: false,
-      },
-      profileData: {
-        firstName: 'John',
-        lastName: 'Wick',
-        avatarData: undefined,
-        phoneNumberDiscoverability: PhoneNumberDiscoverability.NotDiscoverable,
-      },
-      status: {
-        type: 'ready',
-      },
-    },
-  },
-};
-export const ProfileEntryInProgress: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.PROFILE_ENTRY,
-      accountState: {
-        created: true,
-        hasPin: false,
-      },
-      status: {
-        type: 'in-progress',
-      },
-    },
-  },
-};
+export function ProfileEntry(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PROFILE_ENTRY,
+          accountState: {
+            created: true,
+            hasPin: false,
+          },
+          status: {
+            type: 'ready',
+          },
+        },
+      }}
+    />
+  );
+}
+export function ProfileEntryWithDefaultData(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PROFILE_ENTRY,
+          accountState: {
+            created: true,
+            hasPin: false,
+          },
+          profileData: {
+            firstName: 'John',
+            lastName: 'Wick',
+            avatarData: undefined,
+            phoneNumberDiscoverability:
+              PhoneNumberDiscoverability.NotDiscoverable,
+          },
+          status: {
+            type: 'ready',
+          },
+        },
+      }}
+    />
+  );
+}
+export function ProfileEntryInProgress(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.PROFILE_ENTRY,
+          accountState: {
+            created: true,
+            hasPin: false,
+          },
+          status: {
+            type: 'in-progress',
+          },
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPIN: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'ready',
-      },
-    },
-  },
-};
-export const VerifyPINInProgress: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'in-progress',
-      },
-    },
-  },
-};
-export const VerifyPINIncorrectPinTries3: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 3,
-    },
-  },
-};
-export const VerifyPINIncorrectPinTries2: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 2,
-    },
-  },
-};
-export const VerifyPINIncorrectPinTries1: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 1,
-    },
-  },
-};
-export const VerifyPINIncorrectPinTries0: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 0,
-    },
-  },
-};
+export function VerifyPIN(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'ready',
+          },
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINInProgress(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'in-progress',
+          },
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINIncorrectPinTries3(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 3,
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINIncorrectPinTries2(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 2,
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINIncorrectPinTries1(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 1,
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINIncorrectPinTries0(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 0,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINStartingWithTries2: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'ready',
-      },
-      triesRemaining: 2,
-    },
-  },
-};
-export const VerifyPINStartingWithTries1: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'ready',
-      },
-      triesRemaining: 1,
-    },
-  },
-};
+export function VerifyPINStartingWithTries2(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'ready',
+          },
+          triesRemaining: 2,
+        },
+      }}
+    />
+  );
+}
+export function VerifyPINStartingWithTries1(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'ready',
+          },
+          triesRemaining: 1,
+        },
+      }}
+    />
+  );
+}
 
 const dataForReglockAccountCreate = {
   phoneNumber,
@@ -676,151 +852,207 @@ const dataForReglockAccountCreate = {
   avatars: [],
 };
 
-export const VerifyPINWithReglock: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'ready',
-      },
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglock(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'ready',
+          },
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINWithReglockAndIncorrectPinTries5: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 5,
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglockAndIncorrectPinTries5(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 5,
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINWithReglockAndIncorrectPinTries3: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 3,
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglockAndIncorrectPinTries3(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 3,
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINWithReglockAndIncorrectPinTries1: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 1,
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglockAndIncorrectPinTries1(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 1,
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINWithReglockAndIncorrectPinTries0: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'failed',
-        error: 'incorrect-pin',
-      },
-      triesRemaining: 0,
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglockAndIncorrectPinTries0(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'failed',
+            error: 'incorrect-pin',
+          },
+          triesRemaining: 0,
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const VerifyPINWithReglockStartingWithTries1: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.VERIFY_PIN,
-      status: {
-        type: 'ready',
-      },
-      triesRemaining: 1,
-      dataForReglockAccountCreate,
-    },
-  },
-};
+export function VerifyPINWithReglockStartingWithTries1(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.VERIFY_PIN,
+          status: {
+            type: 'ready',
+          },
+          triesRemaining: 1,
+          dataForReglockAccountCreate,
+        },
+      }}
+    />
+  );
+}
 
-export const CreatePIN: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CREATE_PIN,
-    },
-  },
-};
-export const CreatePINConfirm: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CREATE_PIN_CONFIRM,
-      status: {
-        type: 'ready',
-      },
-      pin: '1234',
-    },
-  },
-};
-export const CreatePINConfirmInProgress: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.CREATE_PIN_CONFIRM,
-      status: {
-        type: 'in-progress',
-      },
-      pin: '1234',
-    },
-  },
-};
+export function CreatePIN(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CREATE_PIN,
+        },
+      }}
+    />
+  );
+}
+export function CreatePINConfirm(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CREATE_PIN_CONFIRM,
+          status: {
+            type: 'ready',
+          },
+          pin: '1234',
+        },
+      }}
+    />
+  );
+}
+export function CreatePINConfirmInProgress(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.CREATE_PIN_CONFIRM,
+          status: {
+            type: 'in-progress',
+          },
+          pin: '1234',
+        },
+      }}
+    />
+  );
+}
 
-export const AccountLocked: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.ACCOUNT_LOCKED,
-    },
-  },
-};
+export function AccountLocked(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.ACCOUNT_LOCKED,
+        },
+      }}
+    />
+  );
+}
 
-export const UpdateRequiredWithDownloadingState: Story = {
-  args: {
-    ...StartingScreen.args,
-    workflow: {
-      stage: RegistrationStage.UPDATE_REQUIRED,
-    },
-    updates: {
-      ...StartingScreen.args.updates,
-      dialogType: DialogType.Downloading,
-      downloadedSize: 50_000_000,
-      downloadSize: 60_000_000,
-    },
-  },
-};
+export function UpdateRequiredWithDownloadingState(): JSX.Element {
+  const props = useProps();
+  return (
+    <StandaloneRegistration
+      {...props}
+      {...{
+        workflow: {
+          stage: RegistrationStage.UPDATE_REQUIRED,
+        },
+        updates: {
+          ...props.updates,
+          dialogType: DialogType.Downloading,
+          downloadedSize: 50_000_000,
+          downloadSize: 60_000_000,
+        },
+      }}
+    />
+  );
+}
 
 export function ProgressionWithVerify(): React.JSX.Element {
+  const props = useProps();
   const [workflow, setWorkflow] = useState<RegistrationWorkflow | undefined>({
     stage: RegistrationStage.PHONE_NUMBER,
     phoneNumber,
@@ -834,8 +1066,8 @@ export function ProgressionWithVerify(): React.JSX.Element {
     return <div>Worklow is undefined!</div>;
   }
 
-  const props = {
-    ...StartingScreen.args,
+  const updatedProps = {
+    ...props,
     workflow,
     direction,
     cancelRegistration: (...params: Array<unknown>) => {
@@ -952,5 +1184,5 @@ export function ProgressionWithVerify(): React.JSX.Element {
     },
   };
 
-  return <StandaloneRegistration {...props} />;
+  return <StandaloneRegistration {...updatedProps} />;
 }

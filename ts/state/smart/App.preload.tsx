@@ -23,6 +23,7 @@ import { ModalContainer } from '../../components/ModalContainer.dom.tsx';
 import { SmartInbox } from './Inbox.preload.tsx';
 import { SmartInstallScreen } from './InstallScreen.preload.tsx';
 import { getApp } from '../selectors/app.std.ts';
+import { SmartEntryPoint } from './EntryPoint.preload.tsx';
 import { SmartFunProvider } from './FunProvider.preload.tsx';
 import { SmartStandaloneRegistration } from './StandaloneRegistration.preload.tsx';
 
@@ -36,6 +37,10 @@ function renderCallManager(): JSX.Element {
       <SmartCallManager />
     </ModalContainer>
   );
+}
+
+function renderEntryPoint(): JSX.Element {
+  return <SmartEntryPoint />;
 }
 
 function renderGlobalModalContainer(): JSX.Element {
@@ -88,6 +93,7 @@ export const SmartApp = memo(function SmartApp() {
           isFullScreen={isFullScreen}
           osClassName={osClassName}
           renderCallManager={renderCallManager}
+          renderEntryPoint={renderEntryPoint}
           renderGlobalModalContainer={renderGlobalModalContainer}
           renderInstallScreen={renderInstallScreen}
           renderLightbox={renderLightbox}

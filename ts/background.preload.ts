@@ -297,7 +297,10 @@ import { getBackupKeyHash } from './services/backups/crypto.preload.ts';
 import { Emoji } from './axo/emoji.std.ts';
 import { isTrustedContact } from './util/isConversationAccepted.preload.ts';
 import { registrationJobQueue } from './jobs/registrationJobQueue.preload.ts';
-import { PartialRegistrationType } from './types/StandaloneRegistration.std.ts';
+import {
+  isStandaloneEnabled,
+  PartialRegistrationType,
+} from './types/StandaloneRegistration.std.ts';
 import { PhoneNumberDiscoverability } from './util/phoneNumberDiscoverability.std.ts';
 import { getProfileData } from './state/ducks/standaloneInstaller.preload.ts';
 import { pinReminderService } from './services/pinReminder.preload.ts';
@@ -1685,7 +1688,11 @@ async function startApp(): Promise<void> {
           try {
             await window.IPC.whenWindowVisible();
           } finally {
-            window.reduxActions.installer.startInstaller();
+            if (isStandaloneEnabled(window.getVersion())) {
+              window.reduxActions.app.openEntryPoint();
+            } else {
+              window.reduxActions.installer.startInstaller();
+            }
           }
         })()
       );

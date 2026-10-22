@@ -85,7 +85,6 @@ export function VerifyPINScreen({
   );
 
   const { status } = workflow;
-  const pending = status.type === 'in-progress';
   const isIncorrectPin =
     status.type === 'failed' && status.error === 'incorrect-pin';
 
@@ -179,7 +178,9 @@ export function VerifyPINScreen({
   if (shouldShowIncorrectPIN?.type === 'count') {
     helperElement = (
       <div
-        className={tw('ms-1 mt-1.5 w-full type-body-small text-destructive')}
+        className={tw(
+          'ms-1 mt-1.5 w-full text-start type-body-small text-destructive'
+        )}
       >
         {i18n('icu:StandaloneRegistration--VerifyPIN--just-count', {
           triesRemaining: shouldShowIncorrectPIN.count,
@@ -190,7 +191,9 @@ export function VerifyPINScreen({
   if (shouldShowIncorrectPIN?.type === 'error-with-count') {
     helperElement = (
       <div
-        className={tw('ms-1 mt-1.5 w-full type-body-small text-destructive')}
+        className={tw(
+          'ms-1 mt-1.5 w-full text-start type-body-small text-destructive'
+        )}
       >
         {i18n(
           'icu:StandaloneRegistration--VerifyPIN--incorrect-pin--with-count',
@@ -209,6 +212,16 @@ export function VerifyPINScreen({
       </div>
     );
   }
+
+  const pending = status.type === 'in-progress';
+  const disabled = !isValidPIN;
+  const handleSubmit = useCallback(() => {
+    if (disabled || pending) {
+      return;
+    }
+    setShouldShowIncorrectPIN(undefined);
+    verifyPIN({ pin, workflow });
+  }, [disabled, pending, pin, setShouldShowIncorrectPIN, verifyPIN, workflow]);
 
   return (
     <Container>
@@ -246,36 +259,41 @@ export function VerifyPINScreen({
         />
       </Description>
       <Spacer className={tw('h-10')} />
-      <InputContainer className={tw('w-81')} helperElement={helperElement}>
-        <AxoPasswordField.Root
-          maxBytes={PIN_MAX_BYTES}
-          maxGraphemes={PIN_MAX_GRAPHEMES}
-          onValueChange={onChangePIN}
-          disabled={pending}
-          value={pin}
-        >
-          <AxoPasswordField.Input
-            ref={inputRef}
-            autoFocus
-            autoComplete="current-password"
-            placeholder={i18n(
-              'icu:StandaloneRegistration--VerifyPIN--placeholder'
-            )}
-          />
-          <AxoPasswordField.Reveal />
-        </AxoPasswordField.Root>
-      </InputContainer>
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <InputContainer className={tw('w-81')} helperElement={helperElement}>
+          <AxoPasswordField.Root
+            maxBytes={PIN_MAX_BYTES}
+            maxGraphemes={PIN_MAX_GRAPHEMES}
+            onValueChange={onChangePIN}
+            disabled={pending}
+            value={pin}
+          >
+            <AxoPasswordField.Input
+              ref={inputRef}
+              autoFocus
+              autoComplete="current-password"
+              placeholder={i18n(
+                'icu:StandaloneRegistration--VerifyPIN--placeholder'
+              )}
+            />
+            <AxoPasswordField.Reveal />
+          </AxoPasswordField.Root>
+        </InputContainer>
+      </form>
       <Spacer className={tw('grow')} />
       <Buttons>
         <AxoButton.Root
           variant="strong-primary"
           size="md"
           pending={pending}
-          disabled={!isValidPIN || pending}
-          onClick={() => {
-            setShouldShowIncorrectPIN(undefined);
-            verifyPIN({ pin, workflow });
-          }}
+          disabled={disabled}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--ProfileEntry--continue')}
         </AxoButton.Root>

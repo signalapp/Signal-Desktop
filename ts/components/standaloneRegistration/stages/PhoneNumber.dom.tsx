@@ -87,6 +87,16 @@ export function PhoneNumberScreen({
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const disabled = !isValidNumber || Boolean(duration);
+  const pending = status.type === 'in-progress';
+  const handleSubmit = useCallback(() => {
+    if (disabled || pending) {
+      return;
+    }
+
+    setConfirmationDialogOpen(true);
+  }, [disabled, pending, setConfirmationDialogOpen]);
+
   return (
     <Container>
       <TopMatter i18n={i18n} onBackClick={() => cancelRegistration()} />
@@ -101,52 +111,66 @@ export function PhoneNumberScreen({
         </div>
       </Description>
       <Spacer className={tw('h-9')} />
-      <InputContainer className={tw('w-81')}>
-        <AxoTextField.Root
-          disabled={status.type === 'in-progress'}
-          maxBytes={30}
-          maxGraphemes={30}
-          value={phoneNumber ?? ''}
-          onValueChange={value => validateNumber(value, regionCode)}
-        >
-          <AxoTextField.CustomLeadingSlot>
-            <button
-              type="button"
-              onClick={() => setCountryCodeDialogOpen(true)}
-              aria-label={i18n(
-                'icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label'
-              )}
-              className={tw(
-                'group flex h-[stretch] items-center px-1',
-                'focus-visible:outline-none'
-              )}
-            >
-              {regionCode ? (
-                <span className={tw('ps-3 pe-1 type-body-large text-primary')}>
-                  {codeByRegion.get(regionCode)}
-                </span>
-              ) : undefined}
-
-              <span
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <InputContainer className={tw('w-81')}>
+          <AxoTextField.Root
+            disabled={pending}
+            maxBytes={30}
+            maxGraphemes={30}
+            value={phoneNumber ?? ''}
+            onValueChange={value => validateNumber(value, regionCode)}
+          >
+            <AxoTextField.CustomLeadingSlot>
+              <button
+                type="button"
+                onClick={() => setCountryCodeDialogOpen(true)}
+                aria-label={i18n(
+                  'icu:StandaloneRegistration--PhoneNumber--RegionCodeSelector--Label'
+                )}
                 className={tw(
-                  'flex items-center justify-center rounded-full p-1',
-                  'group-hover:bg-surface-secondary',
-                  'group-focus-visible:axo-focus-ring'
+                  'group flex h-[stretch] items-center px-1',
+                  'focus-visible:outline-none'
                 )}
               >
-                <AxoSymbol.Icon size={16} symbol="chevron-down" label={null} />
-              </span>
-            </button>
-          </AxoTextField.CustomLeadingSlot>
-          <AxoTextField.Input
-            ref={textFieldRef}
-            autoFocus
-            placeholder={i18n(
-              'icu:StandaloneRegistration--PhoneNumber--placeholder'
-            )}
-          />
-        </AxoTextField.Root>
-      </InputContainer>
+                {regionCode ? (
+                  <span
+                    className={tw('ps-3 pe-1 type-body-large text-primary')}
+                  >
+                    {codeByRegion.get(regionCode)}
+                  </span>
+                ) : undefined}
+
+                <span
+                  className={tw(
+                    'flex items-center justify-center rounded-full p-1',
+                    'group-hover:bg-surface-secondary',
+                    'group-focus-visible:axo-focus-ring'
+                  )}
+                >
+                  <AxoSymbol.Icon
+                    size={16}
+                    symbol="chevron-down"
+                    label={null}
+                  />
+                </span>
+              </button>
+            </AxoTextField.CustomLeadingSlot>
+            <AxoTextField.Input
+              ref={textFieldRef}
+              autoFocus
+              placeholder={i18n(
+                'icu:StandaloneRegistration--PhoneNumber--placeholder'
+              )}
+            />
+          </AxoTextField.Root>
+        </InputContainer>
+      </form>
       <Spacer className={tw('grow')} />
       {status.type === 'waiting' && duration ? (
         <div>
@@ -159,16 +183,9 @@ export function PhoneNumberScreen({
         <AxoButton.Root
           variant="strong-primary"
           size="md"
-          disabled={!isValidNumber || Boolean(duration)}
-          pending={status.type === 'in-progress'}
-          onClick={() => {
-            if (!isValidNumber) {
-              throw new Error(
-                'PhoneNumberScreen: Cannot confirm number with invalid phone number'
-              );
-            }
-            setConfirmationDialogOpen(true);
-          }}
+          disabled={disabled}
+          pending={pending}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--PhoneNumber--button')}
         </AxoButton.Root>

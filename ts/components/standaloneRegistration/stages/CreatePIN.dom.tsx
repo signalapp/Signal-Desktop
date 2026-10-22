@@ -65,6 +65,14 @@ export function CreatePINScreen({
     [setIsValidPIN, setPIN]
   );
 
+  const disabled = !isValidPIN;
+  const handleSubmit = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+    startConfirmingPIN({ pin, workflow });
+  }, [disabled, pin, startConfirmingPIN, workflow]);
+
   const topRightMenu = (
     <AxoDropdownMenu.Root>
       <AxoDropdownMenu.Trigger>
@@ -118,48 +126,50 @@ export function CreatePINScreen({
         />
       </Description>
       <Spacer className={tw('h-8')} />
-      <InputContainer
-        className={tw('w-81')}
-        helperElement={
-          <div
-            className={tw(
-              'ms-1 mt-1.5 w-full text-start type-body-small text-secondary'
-            )}
-          >
-            {i18n('icu:StandaloneRegistration--CreatePIN--helper-text')}
-          </div>
-        }
+      <form
+        className={tw('max-w-full')}
+        onSubmit={event => {
+          event.preventDefault();
+          handleSubmit();
+        }}
       >
-        <AxoPasswordField.Root
-          maxBytes={PIN_MAX_BYTES}
-          maxGraphemes={PIN_MAX_GRAPHEMES}
-          onValueChange={onChangePIN}
-          value={pin}
+        <InputContainer
+          className={tw('w-81')}
+          helperElement={
+            <div
+              className={tw(
+                'ms-1 mt-1.5 w-full text-start type-body-small text-secondary'
+              )}
+            >
+              {i18n('icu:StandaloneRegistration--CreatePIN--helper-text')}
+            </div>
+          }
         >
-          <AxoPasswordField.Input
-            autoFocus
-            autoComplete="new-password"
-            placeholder={i18n(
-              'icu:StandaloneRegistration--CreatePIN--placeholder'
-            )}
-          />
-          <AxoPasswordField.Reveal />
-        </AxoPasswordField.Root>
-      </InputContainer>
+          <AxoPasswordField.Root
+            maxBytes={PIN_MAX_BYTES}
+            maxGraphemes={PIN_MAX_GRAPHEMES}
+            onValueChange={onChangePIN}
+            value={pin}
+          >
+            <AxoPasswordField.Input
+              autoFocus
+              autoComplete="new-password"
+              placeholder={i18n(
+                'icu:StandaloneRegistration--CreatePIN--placeholder'
+              )}
+            />
+            <AxoPasswordField.Reveal />
+          </AxoPasswordField.Root>
+        </InputContainer>
+      </form>
+
       <Spacer className={tw('grow')} />
       <Buttons>
         <AxoButton.Root
           variant="strong-primary"
           size="md"
-          disabled={!isValidPIN}
-          onClick={() => {
-            if (pin.length < PIN_LENGTH_MINIMUM) {
-              throw new Error(
-                `Cannot start confiming if PIN is not valid (length ${pin.length}`
-              );
-            }
-            startConfirmingPIN({ pin, workflow });
-          }}
+          disabled={disabled}
+          onClick={handleSubmit}
         >
           {i18n('icu:StandaloneRegistration--CreatePIN--continue')}
         </AxoButton.Root>

@@ -350,7 +350,7 @@ function continueInstallWithDataDeletion(): SyncStateThunk<InstallerActionType> 
   };
 }
 
-export function cancelInstall(): SyncStateThunk<InstallerActionType> {
+export function cancelInstall(): SyncStateThunk<CancelInstallerActionType> {
   return (dispatch, getState) => {
     const state = getState();
     const { installer } = state;

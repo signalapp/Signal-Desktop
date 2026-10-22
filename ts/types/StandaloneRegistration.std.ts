@@ -5,6 +5,21 @@ import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverabil
 import type { AvatarDataType } from './Avatar.std.ts';
 import type { VerificationTransport } from './VerificationTransport.std.ts';
 
+import { isAlpha } from '../util/version.std.ts';
+import {
+  Environment,
+  getEnvironment,
+  isTestOrMockEnvironment,
+} from '../environment.std.ts';
+
+export function isStandaloneEnabled(version: string): boolean {
+  return (
+    isAlpha(version) ||
+    isTestOrMockEnvironment() ||
+    getEnvironment() === Environment.Development
+  );
+}
+
 // Some example simple workflows:
 // - Totally new account creation:
 //   PHONE_NUMBER -> CAPTCHA -> VERIFICATION_CODE -> PROFILE_ENTRY -> CREATE_PIN -> CREATE_PIN_CONFIRM -> <complete>
