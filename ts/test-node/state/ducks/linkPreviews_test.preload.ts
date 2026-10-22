@@ -8,10 +8,10 @@ import {
   getEmptyState,
   reducer,
 } from '../../../state/ducks/linkPreviews.preload.ts';
-import type { LinkPreviewForUIType } from '../../../types/message/LinkPreviews.std.ts';
+import type { LinkPreviewDraftType } from '../../../types/LinkPreview.std.ts';
 
 describe('both/state/ducks/linkPreviews', () => {
-  function getMockLinkPreview(): LinkPreviewForUIType {
+  function getMockLinkPreview(): LinkPreviewDraftType {
     return {
       title: 'Hello World',
       domain: 'signal.org',
@@ -19,6 +19,9 @@ describe('both/state/ducks/linkPreviews', () => {
       url: 'https://www.signal.org',
       isStickerPack: false,
       isCallLink: false,
+      description: undefined,
+      date: undefined,
+      callLinkRoomId: undefined,
     };
   }
 

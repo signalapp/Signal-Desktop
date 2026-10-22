@@ -68,7 +68,7 @@ export default {
     username: undefined,
 
     onProfileChanged: action('onProfileChanged'),
-    saveAttachment: action('saveAttachment'),
+    saveAttachmentToDisk: action('saveAttachmentToDisk'),
     setUsernameLinkColor: action('setUsernameLinkColor'),
     showToast: action('showToast'),
     replaceAvatar: action('replaceAvatar'),

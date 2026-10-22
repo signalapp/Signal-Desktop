@@ -8,7 +8,6 @@ import type {
   AttachmentType,
   AddressableAttachmentType,
   AttachmentForUIType,
-  AttachmentWithHydratedData,
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
   AttachmentReadyForLocalBackup,
@@ -34,7 +33,6 @@ import type { MessageAttachmentType } from '../types/AttachmentDownload.std.ts';
 const {
   isNumber,
   padStart,
-  isFunction,
   isUndefined,
   isString,
   omit,
@@ -56,7 +54,6 @@ const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // {
 //   id: string
 //   contentType: MIMEType
-//   data: Uint8Array
 //   digest: Uint8Array
 //   fileName?: string
 //   flags: null
@@ -68,7 +65,6 @@ const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // // Outgoing message attachment fields
 // {
 //   contentType: MIMEType
-//   data: Uint8Array
 //   fileName: string
 //   size: integer
 // }
@@ -77,7 +73,7 @@ const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
 // Over time, we can expand this definition to become more narrow, e.g. require certain
 // fields, etc.
 function isValid(
-  rawAttachment?: Pick<AttachmentType, 'data' | 'path'>
+  rawAttachment?: Pick<AttachmentType, 'path'>
 ): rawAttachment is AttachmentType {
   // NOTE: We cannot use `_.isPlainObject` because `rawAttachment` is
   // deserialized by protobuf:
@@ -162,36 +158,6 @@ export function removeSchemaVersion({
   }
 
   return omit(attachment, 'schemaVersion');
-}
-
-export function loadData(
-  readAttachmentV2Data: (
-    attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array<ArrayBuffer>>
-): (
-  attachment: Partial<AttachmentType>
-) => Promise<AttachmentWithHydratedData> {
-  if (!isFunction(readAttachmentV2Data)) {
-    throw new TypeError("'readAttachmentData' must be a function");
-  }
-
-  return async attachment => {
-    if (!isValid(attachment)) {
-      throw new TypeError("'attachment' is not valid");
-    }
-
-    const isAlreadyLoaded = Boolean(attachment.data);
-    if (isAlreadyLoaded) {
-      return attachment as AttachmentWithHydratedData;
-    }
-
-    if (!isString(attachment.path)) {
-      throw new TypeError("'attachment.path' is required");
-    }
-
-    const data = await readAttachmentV2Data(attachment);
-    return { ...attachment, data, size: data.byteLength };
-  };
 }
 
 // UI-focused functions
@@ -604,8 +570,6 @@ export const save = async ({
   let data: Uint8Array<ArrayBuffer>;
   if (attachment.path) {
     data = await readAttachmentData(attachment);
-  } else if (attachment.data) {
-    data = attachment.data;
   } else {
     throw new Error('Attachment had neither path nor data');
   }

@@ -15,12 +15,10 @@ import { changeDpiBlob } from 'changedpi';
 import lodash from 'lodash';
 
 import { SignalService as Proto } from '../protobuf/index.std.ts';
-import type { SaveAttachmentActionCreatorType } from '../state/ducks/conversations.preload.ts';
 import { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { IMAGE_PNG } from '../types/MIME.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { splitText } from '../util/splitText.std.ts';
@@ -43,7 +41,10 @@ export type PropsType = Readonly<{
 
   setUsernameLinkColor: (colorId: number) => void;
   resetUsernameLink: () => void;
-  saveAttachment: SaveAttachmentActionCreatorType;
+  saveAttachmentToDisk: (options: {
+    data: Uint8Array<ArrayBuffer>;
+    name: string;
+  }) => void;
   showToast: ShowToastAction;
   onBack: () => void;
 }>;
@@ -427,7 +428,7 @@ export function UsernameLinkEditor({
 
   setUsernameLinkColor,
   resetUsernameLink,
-  saveAttachment,
+  saveAttachmentToDisk,
   showToast,
 
   onBack,
@@ -502,14 +503,12 @@ export function UsernameLinkEditor({
         return;
       }
 
-      saveAttachment({
+      saveAttachmentToDisk({
         data: pngData,
-        fileName: 'signal-username-qr-code.png',
-        contentType: IMAGE_PNG,
-        size: pngData.length,
+        name: 'signal-username-qr-code.png',
       });
     },
-    [saveAttachment, pngData]
+    [saveAttachmentToDisk, pngData]
   );
 
   const onStartColorChange = useCallback((e: MouseEvent) => {

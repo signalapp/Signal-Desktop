@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AttachmentType } from '../types/Attachment.std.ts';
-import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type { QuotedMessageType } from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.std.ts';
@@ -11,19 +11,17 @@ import {
   getMessageIdForLogging,
   getConversationIdForLogging,
 } from './idForLogging.preload.ts';
+import { missingCaseError } from './missingCaseError.std.ts';
 import { isNotNil } from './isNotNil.std.ts';
-import { resetLinkPreview } from '../services/LinkPreview.preload.ts';
-import { getRecipientsByConversation } from './getRecipientsByConversation.dom.ts';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.std.ts';
-import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
-import type { StickerWithHydratedData } from '../types/Stickers.preload.ts';
-import { DataReader } from '../sql/Client.preload.ts';
 import {
-  loadAttachmentData,
-  loadContactData,
-  loadPreviewData,
-  loadStickerData,
-} from './migrations.preload.ts';
+  resetLinkPreview,
+  transferLinkPreviewDraftToDisk,
+} from '../services/LinkPreview.preload.ts';
+import { getRecipientsByConversation } from './getRecipientsByConversation.dom.ts';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
+import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
+import type { StickerType } from '../types/Stickers.preload.ts';
+import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import {
   sortByMessageOrder,
@@ -113,21 +111,21 @@ export async function maybeForwardMessages(
         attachments: Array<AttachmentType>;
         body: string | undefined;
         bodyRanges?: DraftBodyRanges;
-        contact?: Array<EmbeddedContactWithHydratedAvatar>;
-        preview?: Array<LinkPreviewWithHydratedData>;
+        contact?: Array<EmbeddedContactType>;
+        preview?: Array<LinkPreviewType>;
         quote?: QuotedMessageType;
-        sticker?: StickerWithHydratedData;
+        sticker?: StickerType;
       };
 
-      if (sticker) {
-        const stickerWithData = await loadStickerData(sticker);
-        const stickerNoPath = stickerWithData
+      if (sticker?.data?.path) {
+        const reusedSticker = sticker
           ? {
-              ...stickerWithData,
+              ...sticker,
               data: {
-                ...stickerWithData.data,
-                path: undefined,
-                reuseToken: undefined,
+                ...sticker.data,
+                reuseToken: await DataWriter.protectAttachmentPathFromDeletion({
+                  path: sticker.data.path,
+                }),
               },
             }
           : undefined;
@@ -135,28 +133,50 @@ export async function maybeForwardMessages(
         enqueuedMessage = {
           body: undefined,
           attachments: [],
-          sticker: stickerNoPath,
+          sticker: reusedSticker,
         };
       } else if (contact?.length) {
-        const contactWithHydratedAvatar = await loadContactData(contact);
         enqueuedMessage = {
           body: undefined,
           attachments: [],
-          contact: contactWithHydratedAvatar,
+          contact: await Promise.all(
+            contact.map(async single => {
+              if (!single.avatar?.avatar?.path) {
+                return single;
+              }
+              return {
+                ...single,
+                avatar: {
+                  ...single.avatar,
+                  avatar: {
+                    ...single.avatar.avatar,
+                    reuseToken:
+                      await DataWriter.protectAttachmentPathFromDeletion({
+                        path: single.avatar.avatar.path,
+                      }),
+                  },
+                },
+              };
+            })
+          ),
         };
       } else {
-        const preview = await loadPreviewData([...previews]);
-        const attachmentsWithData = await Promise.all(
-          (attachments || []).map(async item => ({
-            ...(await loadAttachmentData(item)),
-            path: undefined,
-            thumbnail: undefined,
-            thumbnailFromBackup: undefined,
-            screenshot: undefined,
-            reuseToken: undefined,
-          }))
+        const reusedAttachments = await Promise.all(
+          (attachments || []).map(async item => {
+            return {
+              ...item,
+              thumbnail: undefined,
+              thumbnailFromBackup: undefined,
+              screenshot: undefined,
+              reuseToken: item.path
+                ? await DataWriter.protectAttachmentPathFromDeletion({
+                    path: item.path,
+                  })
+                : undefined,
+            };
+          })
         );
-        const attachmentsToSend = attachmentsWithData.filter(
+        const attachmentsToSend = reusedAttachments.filter(
           (attachment: Partial<AttachmentType>) =>
             attachmentLookup.has(
               `${attachment.fileName}/${attachment.contentType}`
@@ -167,7 +187,17 @@ export async function maybeForwardMessages(
           body: messageBody || undefined,
           bodyRanges,
           attachments: attachmentsToSend,
-          preview,
+          preview: await Promise.all(
+            previews?.map(async item => {
+              if (item.type === 'draft') {
+                return transferLinkPreviewDraftToDisk(item.preview);
+              }
+              if (item.type === 'original') {
+                return item.preview;
+              }
+              throw missingCaseError(item);
+            })
+          ),
         };
       }
 

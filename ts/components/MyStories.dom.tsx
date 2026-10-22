@@ -259,7 +259,7 @@ function StorySent({
           )}
         </div>
       </button>
-      {story.attachment && (story.attachment.path || story.attachment.data) && (
+      {story.attachment && story.attachment.path && (
         <button
           aria-label={i18n('icu:MyStories__download')}
           className="MyStories__story__download"

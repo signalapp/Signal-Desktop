@@ -159,7 +159,6 @@ describe('Conversations', () => {
           image: {
             contentType: IMAGE_PNG,
             size: 100,
-            data: new Uint8Array(),
           },
           isCallLink: false,
         },

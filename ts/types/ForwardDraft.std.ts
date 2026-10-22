@@ -3,10 +3,14 @@
 
 import lodash from 'lodash';
 import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
-import type { AttachmentForUIType } from './Attachment.std.ts';
+import type { AttachmentType, AttachmentForUIType } from './Attachment.std.ts';
 import { isVoiceMessage, isDownloaded } from '../util/Attachment.std.ts';
 import type { HydratedBodyRangesType } from './BodyRange.std.ts';
-import type { LinkPreviewForUIType } from './message/LinkPreviews.std.ts';
+import type {
+  LinkPreviewType,
+  LinkPreviewForUIType,
+} from './message/LinkPreviews.std.ts';
+import type { LinkPreviewDraftType } from './LinkPreview.std.ts';
 
 const { orderBy } = lodash;
 
@@ -20,10 +24,29 @@ export type MessageForwardDraft = Readonly<{
   previews: ReadonlyArray<LinkPreviewForUIType>;
 }>;
 
+export type MessageForwardDraftForSend = Readonly<{
+  attachments?: ReadonlyArray<AttachmentType>;
+  bodyRanges?: HydratedBodyRangesType;
+  hasContact: boolean;
+  isSticker: boolean;
+  messageBody?: string;
+  originalMessageId: string | null; // null for new messages
+  previews: ReadonlyArray<
+    | {
+        type: 'draft';
+        preview: LinkPreviewDraftType;
+      }
+    | {
+        type: 'original';
+        preview: LinkPreviewType;
+      }
+  >;
+}>;
+
 export type ForwardMessageData = Readonly<{
   // only null for new messages
   originalMessage: ReadonlyMessageAttributesType | null;
-  draft: MessageForwardDraft;
+  draft: MessageForwardDraftForSend;
 }>;
 
 export function isDraftEditable(draft: MessageForwardDraft): boolean {

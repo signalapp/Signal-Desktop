@@ -1592,7 +1592,7 @@ type WritableInterface = {
     contentType: MIMEType;
   }) => (ExistingAttachmentData & { reuseToken: string }) | undefined;
   releaseAttachmentPathProtections: (attachment: AttachmentType) => void;
-  _protectAttachmentPathFromDeletion: ({ path }: { path: string }) => string;
+  protectAttachmentPathFromDeletion: ({ path }: { path: string }) => string;
   resetProtectedAttachmentPaths: () => void;
 
   removeAll: () => void;

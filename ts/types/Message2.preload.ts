@@ -2,13 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadonlyDeep } from 'type-fest';
 
-import * as Contact from './EmbeddedContact.std.ts';
 import type {
   AddressableAttachmentType,
   AttachmentType,
-  AttachmentWithHydratedData,
   LocalAttachmentV2Type,
 } from './Attachment.std.ts';
 import {
@@ -28,31 +25,19 @@ import * as SchemaVersion from './SchemaVersion.std.ts';
 import { LONG_MESSAGE } from './MIME.std.ts';
 import type * as MIME from './MIME.std.ts';
 import type { LoggerType } from './Logging.std.ts';
-import type {
-  EmbeddedContactType,
-  EmbeddedContactWithHydratedAvatar,
-} from './EmbeddedContact.std.ts';
+import * as Contact from './EmbeddedContact.std.ts';
+import type { EmbeddedContactType } from './EmbeddedContact.std.ts';
 
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
-  QuotedMessageType,
 } from '../model-types.std.ts';
-import type {
-  LinkPreviewType,
-  LinkPreviewWithHydratedData,
-} from './message/LinkPreviews.std.ts';
-import type {
-  StickerType,
-  StickerWithHydratedData,
-} from './Stickers.preload.ts';
-import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.ts';
+import type { LinkPreviewType } from './message/LinkPreviews.std.ts';
 import {
   getLocalAttachmentUrl,
   AttachmentDisposition,
 } from '../util/getLocalAttachmentUrl.std.ts';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.ts';
-import { deepClone } from '../util/deepClone.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 import { isBodyTooLong } from '../util/longAttachment.std.ts';
 import type { MessageAttachmentType } from './AttachmentDownload.std.ts';
@@ -475,11 +460,13 @@ const toVersion2 = _withSchemaVersion({
 });
 const toVersion3 = _withSchemaVersion({
   schemaVersion: 3,
-  upgrade: _mapAttachments(migrateDataToFileSystem),
+  // We don't use schema migration to save attachments to disk
+  upgrade: noopUpgrade,
 });
 const toVersion4 = _withSchemaVersion({
   schemaVersion: 4,
-  upgrade: _mapQuotedAttachments(migrateDataToFileSystem),
+  // We don't use schema migration to save attachments to disk
+  upgrade: noopUpgrade,
 });
 // NOOP: Used to be initializeAttachmentMetadata, but it happens in version 7
 // now.
@@ -489,7 +476,7 @@ const toVersion5 = _withSchemaVersion({
 });
 const toVersion6 = _withSchemaVersion({
   schemaVersion: 6,
-  upgrade: _mapContact(Contact.parseAndWriteAvatar(migrateDataToFileSystem)),
+  upgrade: _mapContact(Contact.parseAndValidate),
 });
 // NOOP: hasFileAttachments, etc. is now computed at message save time
 const toVersion7 = _withSchemaVersion({
@@ -514,31 +501,8 @@ const toVersion9 = _withSchemaVersion({
 });
 const toVersion10 = _withSchemaVersion({
   schemaVersion: 10,
-  upgrade: async (message, context) => {
-    const processPreviews = _mapPreviewAttachments(migrateDataToFileSystem);
-    const processSticker = async (
-      stickerMessage: MessageAttributesType,
-      stickerContext: ContextType
-    ): Promise<MessageAttributesType> => {
-      const { sticker } = stickerMessage;
-      if (!sticker || !sticker.data || !sticker.data.data) {
-        return stickerMessage;
-      }
-
-      return {
-        ...stickerMessage,
-        sticker: {
-          ...sticker,
-          data: await migrateDataToFileSystem(sticker.data, stickerContext),
-        },
-      };
-    };
-
-    const previewProcessed = await processPreviews(message, context);
-    const stickerProcessed = await processSticker(previewProcessed, context);
-
-    return stickerProcessed;
-  },
+  // We don't use schema migration to save attachments to disk
+  upgrade: noopUpgrade,
 });
 
 const toVersion11 = _withSchemaVersion({
@@ -860,151 +824,6 @@ export const processNewSticker = async (
     ...local,
     width,
     height,
-  };
-};
-
-type LoadAttachmentType = (
-  attachment: Partial<AttachmentType>
-) => Promise<AttachmentWithHydratedData>;
-
-export const loadQuoteData = (
-  loadAttachmentData: LoadAttachmentType
-): ((
-  quote: QuotedMessageType | undefined | null
-) => Promise<QuotedMessageType | null>) => {
-  if (!isFunction(loadAttachmentData)) {
-    throw new TypeError('loadQuoteData: loadAttachmentData is required');
-  }
-
-  return async (
-    quote: QuotedMessageType | undefined | null
-  ): Promise<QuotedMessageType | null> => {
-    if (!quote) {
-      return null;
-    }
-
-    return {
-      ...quote,
-      attachments: await Promise.all(
-        (quote.attachments || []).map(async attachment => {
-          const { thumbnail } = attachment;
-
-          if (!thumbnail || !thumbnail.path) {
-            return attachment;
-          }
-
-          return {
-            ...attachment,
-            thumbnail: await loadAttachmentData(thumbnail),
-          };
-        })
-      ),
-    };
-  };
-};
-
-export const loadContactData = (
-  loadAttachmentData: LoadAttachmentType
-): ((
-  contact: ReadonlyArray<ReadonlyDeep<EmbeddedContactType>> | undefined
-) => Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined>) => {
-  if (!isFunction(loadAttachmentData)) {
-    throw new TypeError('loadContactData: loadAttachmentData is required');
-  }
-
-  return async (
-    contact: ReadonlyArray<ReadonlyDeep<EmbeddedContactType>> | undefined
-  ): Promise<Array<EmbeddedContactWithHydratedAvatar> | undefined> => {
-    if (!contact) {
-      return undefined;
-    }
-
-    return Promise.all(
-      contact.map(
-        async (
-          item: ReadonlyDeep<EmbeddedContactType>
-        ): Promise<EmbeddedContactWithHydratedAvatar> => {
-          const copy = deepClone(item);
-          if (!copy?.avatar?.avatar?.path) {
-            return {
-              ...copy,
-              avatar: undefined,
-            };
-          }
-
-          return {
-            ...copy,
-            avatar: {
-              ...copy.avatar,
-              avatar: {
-                ...copy.avatar.avatar,
-                ...(await loadAttachmentData(copy.avatar.avatar)),
-              },
-            },
-          };
-        }
-      )
-    );
-  };
-};
-
-export const loadPreviewData = (
-  loadAttachmentData: LoadAttachmentType
-): ((
-  preview: ReadonlyArray<ReadonlyDeep<LinkPreviewType>> | undefined
-) => Promise<Array<LinkPreviewWithHydratedData>>) => {
-  if (!isFunction(loadAttachmentData)) {
-    throw new TypeError('loadPreviewData: loadAttachmentData is required');
-  }
-
-  return async (
-    preview: ReadonlyArray<ReadonlyDeep<LinkPreviewType>> | undefined
-  ) => {
-    if (!preview || !preview.length) {
-      return [];
-    }
-
-    return Promise.all(
-      preview.map(
-        async (item: LinkPreviewType): Promise<LinkPreviewWithHydratedData> => {
-          const copy = deepClone(item);
-
-          if (!copy.image) {
-            return {
-              ...copy,
-              // Pacify typescript
-              image: undefined,
-            };
-          }
-
-          return {
-            ...copy,
-            image: await loadAttachmentData(copy.image),
-          };
-        }
-      )
-    );
-  };
-};
-
-export const loadStickerData = (
-  loadAttachmentData: LoadAttachmentType
-): ((
-  sticker: StickerType | undefined
-) => Promise<StickerWithHydratedData | undefined>) => {
-  if (!isFunction(loadAttachmentData)) {
-    throw new TypeError('loadStickerData: loadAttachmentData is required');
-  }
-
-  return async (sticker: StickerType | undefined) => {
-    if (!sticker || !sticker.data) {
-      return undefined;
-    }
-
-    return {
-      ...sticker,
-      data: await loadAttachmentData(sticker.data),
-    };
   };
 };
 

@@ -39,7 +39,6 @@ describe('Attachment', () => {
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
       const input: AttachmentType = fakeAttachment({
-        data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,
       });
       assert.strictEqual(Attachment.getFileExtension(input), 'gif');
@@ -47,7 +46,6 @@ describe('Attachment', () => {
 
     it('should return file extension for QuickTime videos', () => {
       const input: AttachmentType = fakeAttachment({
-        data: Bytes.fromString('foo'),
         contentType: MIME.VIDEO_QUICKTIME,
       });
       assert.strictEqual(Attachment.getFileExtension(input), 'mov');
@@ -59,7 +57,6 @@ describe('Attachment', () => {
       it('should return existing filename if present', () => {
         const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const actual = Attachment.getSuggestedFilename({ attachment });
@@ -70,7 +67,6 @@ describe('Attachment', () => {
     context('for attachment without filename', () => {
       it('should generate a filename based on timestamp', () => {
         const attachment: AttachmentType = fakeAttachment({
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -88,7 +84,6 @@ describe('Attachment', () => {
       it('should use filename if it is provided', () => {
         const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -105,7 +100,6 @@ describe('Attachment', () => {
       it('should use filename if it is provided and index is 1', () => {
         const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -123,7 +117,6 @@ describe('Attachment', () => {
       it('should use filename if it is provided and index is >1', () => {
         const attachment: AttachmentType = fakeAttachment({
           fileName: 'funny-cat.mov',
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -140,7 +133,6 @@ describe('Attachment', () => {
 
       it('should use provided index if > 1 and filename not provided', () => {
         const attachment: AttachmentType = fakeAttachment({
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -157,7 +149,6 @@ describe('Attachment', () => {
 
       it('should not use provided index == 1 if filename not provided', () => {
         const attachment: AttachmentType = fakeAttachment({
-          data: Bytes.fromString('foo'),
           contentType: MIME.VIDEO_QUICKTIME,
         });
         const timestamp = new Date(
@@ -178,7 +169,6 @@ describe('Attachment', () => {
     it('should return true for images', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.gif',
-        data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
       });
       assert.isTrue(Attachment.isVisualMedia(attachment));
@@ -187,7 +177,6 @@ describe('Attachment', () => {
     it('should return true for videos', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.mp4',
-        data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
       });
       assert.isTrue(Attachment.isVisualMedia(attachment));
@@ -197,7 +186,6 @@ describe('Attachment', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       });
       assert.isFalse(Attachment.isVisualMedia(attachment));
@@ -206,7 +194,6 @@ describe('Attachment', () => {
     it('should return false for other attachments', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.json',
-        data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
       });
       assert.isFalse(Attachment.isVisualMedia(attachment));
@@ -217,7 +204,6 @@ describe('Attachment', () => {
     it('should return true for JSON', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.json',
-        data: Bytes.fromString('{"foo": "bar"}'),
         contentType: MIME.APPLICATION_JSON,
       });
       assert.isTrue(Attachment.isFile(attachment));
@@ -226,7 +212,6 @@ describe('Attachment', () => {
     it('should return false for images', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.gif',
-        data: Bytes.fromString('gif'),
         contentType: MIME.IMAGE_GIF,
       });
       assert.isFalse(Attachment.isFile(attachment));
@@ -235,7 +220,6 @@ describe('Attachment', () => {
     it('should return false for videos', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'meme.mp4',
-        data: Bytes.fromString('mp4'),
         contentType: MIME.VIDEO_MP4,
       });
       assert.isFalse(Attachment.isFile(attachment));
@@ -245,7 +229,6 @@ describe('Attachment', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       });
       assert.isFalse(Attachment.isFile(attachment));
@@ -257,7 +240,6 @@ describe('Attachment', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'Voice Message.aac',
         flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_AAC,
       });
       assert.isTrue(Attachment.isVoiceMessage(attachment));
@@ -265,7 +247,6 @@ describe('Attachment', () => {
 
     it('should return true for legacy Android voice message attachment', () => {
       const attachment: AttachmentType = fakeAttachment({
-        data: Bytes.fromString('voice message'),
         contentType: MIME.AUDIO_MP3,
       });
       assert.isTrue(Attachment.isVoiceMessage(attachment));
@@ -274,7 +255,6 @@ describe('Attachment', () => {
     it('should return false for other attachments', () => {
       const attachment: AttachmentType = fakeAttachment({
         fileName: 'foo.gif',
-        data: Bytes.fromString('foo'),
         contentType: MIME.IMAGE_GIF,
       });
       assert.isFalse(Attachment.isVoiceMessage(attachment));
@@ -434,7 +414,6 @@ describe('Attachment', () => {
     it('should write data to disk and store relative path to it', async () => {
       const input = {
         contentType: MIME.IMAGE_JPEG,
-        data: Bytes.fromString('Above us only sky'),
         fileName: 'foo.jpg',
         size: 1111,
       };
@@ -453,87 +432,48 @@ describe('Attachment', () => {
         return FAKE_LOCAL_ATTACHMENT;
       };
 
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        getExistingAttachmentDataForReuse: async () => null,
-        getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
-        logger,
-      });
+      const actual = await migrateDataToFileSystem(
+        input,
+        Bytes.fromString('Above us only sky'),
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async () => null,
+          getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
+        }
+      );
       assert.deepEqual(actual, expected);
     });
 
-    it('should skip over (invalid) attachments without data', async () => {
-      const input = {
-        contentType: MIME.IMAGE_JPEG,
-        fileName: 'foo.jpg',
-        size: 1111,
-      };
-
-      const expected = {
-        contentType: MIME.IMAGE_JPEG,
-        fileName: 'foo.jpg',
-        size: 1111,
-      };
-
-      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
-
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        getExistingAttachmentDataForReuse: async () => null,
-        getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
-        logger,
-      });
-      assert.deepEqual(actual, expected);
-    });
-
-    it('should clear `data` field if it is not a typed array', async () => {
-      const input = {
-        contentType: MIME.IMAGE_JPEG,
-        // oxlint-disable-next-line typescript/no-explicit-any
-        data: 123 as any,
-        fileName: 'foo.jpg',
-        size: 1111,
-      };
-
-      const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
-
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        getExistingAttachmentDataForReuse: async () => null,
-        getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
-        logger,
-      });
-
-      assert.isUndefined(actual.data);
-    });
     it('should reuse existing data if exists', async () => {
       const input = {
         contentType: MIME.IMAGE_JPEG,
-        data: Bytes.fromString('Above us only sky'),
         fileName: 'foo.jpg',
         size: 1111,
       };
 
       const writeNewAttachmentData = sandbox.stub();
 
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        getExistingAttachmentDataForReuse: async ({
-          plaintextHash,
-          contentType,
-        }) => {
-          assert.strictEqual(plaintextHash, 'somePlaintextHash');
-          assert.strictEqual(contentType, MIME.IMAGE_JPEG);
-          return {
-            path: 'new-path',
-            version: 2,
-            localKey: 'new-local-key',
-            reuseToken: 'reuse-token',
-          };
-        },
-        getPlaintextHashForInMemoryAttachment: () => 'somePlaintextHash',
-        logger,
-      });
+      const actual = await migrateDataToFileSystem(
+        input,
+        Bytes.fromString('Above us only sky'),
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async ({
+            plaintextHash,
+            contentType,
+          }) => {
+            assert.strictEqual(plaintextHash, 'somePlaintextHash');
+            assert.strictEqual(contentType, MIME.IMAGE_JPEG);
+            return {
+              path: 'new-path',
+              version: 2,
+              localKey: 'new-local-key',
+              reuseToken: 'reuse-token',
+            };
+          },
+          getPlaintextHashForInMemoryAttachment: () => 'somePlaintextHash',
+        }
+      );
       assert.strictEqual(writeNewAttachmentData.callCount, 0);
       assert.deepEqual(actual, {
         version: 2,

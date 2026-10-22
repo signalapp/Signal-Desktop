@@ -19,11 +19,14 @@ import {
   isImageAttachment,
   isVideoAttachment,
 } from '../../util/Attachment.std.ts';
+import { writeNewAttachmentData } from '../../util/migrations.preload.ts';
+import { getExistingAttachmentDataForReuse } from '../../util/attachments/deduplicateAttachment.preload.ts';
+import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFilesystem.std.ts';
 import { isViewOnceEligible } from '../../util/viewOnceEligibility.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
-import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.ts';
+import type { LinkPreviewDraftType } from '../../types/LinkPreview.std.ts';
 import type {
   PinMessageData,
   ReadonlyMessageAttributesType,
@@ -50,7 +53,7 @@ import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUnti
 import { clearConversationDraftAttachments } from '../../util/clearConversationDraftAttachments.preload.ts';
 import { deleteDraftAttachment } from '../../util/deleteDraftAttachment.preload.ts';
 import {
-  getLinkPreviewForSend,
+  getLinkPreviewsForSend,
   hasLinkPreviewLoaded,
   maybeGrabLinkPreview,
   removeLinkPreview,
@@ -100,6 +103,7 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../util/GoogleChrome.std.ts';
+import { getPlaintextHashForInMemoryAttachment } from '../../AttachmentCrypto.node.ts';
 import type {
   AsyncStateThunk,
   StateDispatch,
@@ -126,7 +130,7 @@ type ComposerStateByConversationType = {
   disabledCounter: number;
   isViewOnce: boolean;
   linkPreviewLoading: boolean;
-  linkPreviewResult?: LinkPreviewForUIType;
+  linkPreviewResult?: LinkPreviewDraftType;
   quotedMessage?: QuotedMessageForComposerType;
   sendCounter: number;
   shouldSendHighQualityAttachments?: boolean;
@@ -612,7 +616,7 @@ function sendEditedMessage(
         await doSendEditedMessage(conversationId, {
           body: message,
           bodyRanges,
-          preview: getLinkPreviewForSend(message),
+          preview: await getLinkPreviewsForSend(message),
           quoteAuthorAci,
           quoteSentAt,
           targetMessageId,
@@ -669,7 +673,22 @@ function sendMultiMediaMessage(
     await withPreSendChecks(conversationId, options, dispatch, async () => {
       let attachments: Array<AttachmentType> = [];
       if (voiceNoteAttachment) {
-        attachments = [voiceNoteAttachment];
+        strictAssert(
+          !voiceNoteAttachment.pending,
+          'Voice note is still pending'
+        );
+        const {
+          data,
+          // oxlint-disable-next-line typescript/no-unused-vars
+          screenshotData: _screenshotData,
+          ...rest
+        } = voiceNoteAttachment;
+        const onDisk = await migrateDataToFileSystem(rest, data, {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse,
+          getPlaintextHashForInMemoryAttachment,
+        });
+        attachments = [onDisk];
       } else if (draftAttachments) {
         attachments = (
           await Promise.all(draftAttachments.map(resolveAttachmentDraftData))
@@ -698,7 +717,7 @@ function sendMultiMediaMessage(
             body: message,
             attachments,
             quote,
-            preview: getLinkPreviewForSend(message),
+            preview: await getLinkPreviewsForSend(message),
             bodyRanges,
             isViewOnce,
           },

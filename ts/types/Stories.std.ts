@@ -1,7 +1,11 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { AttachmentType } from './Attachment.std.ts';
+import type {
+  AttachmentType,
+  InMemoryAttachmentDraftType,
+  TextAttachmentType,
+} from './Attachment.std.ts';
 import type { HydratedBodyRangesType } from './BodyRange.std.ts';
 import type { LocalizerType } from './Util.std.ts';
 import type { ContactNameColorType } from './ContactNameColor.std.ts';
@@ -178,3 +182,13 @@ export type StoryMessageRecipientsType = Array<{
   distributionListIds: Array<StoryDistributionIdString>;
   isAllowedToReply: boolean;
 }>;
+
+export type StoryDraftAttachmentType =
+  | {
+      type: 'media';
+      attachment: InMemoryAttachmentDraftType;
+    }
+  | {
+      type: 'text';
+      attachment: TextAttachmentType;
+    };

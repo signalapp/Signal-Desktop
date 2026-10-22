@@ -257,7 +257,7 @@ function renderProfileEditor(): JSX.Element {
       renderUsernameEditor={() => <div />}
       replaceAvatar={action('replaceAvatar')}
       resetUsernameLink={action('resetUsernameLink')}
-      saveAttachment={action('saveAttachment')}
+      saveAttachmentToDisk={action('saveAttachmentToDisk')}
       saveAvatarToDisk={action('saveAvatarToDisk')}
       setEditState={action('setEditState')}
       setUsernameEditState={action('setUsernameEditState')}

@@ -53,7 +53,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   getPreferredBadge: () => undefined,
   i18n,
   isInFullScreenCall: false,
-  linkPreviewForSource: () => undefined,
+  linkPreview: undefined,
   onClose: action('onClose'),
   onChange: action('onChange'),
   removeLinkPreview: action('removeLinkPreview'),

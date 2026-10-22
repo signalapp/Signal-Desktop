@@ -16,6 +16,7 @@ import { AutoSubstituteAsciiEmojis } from '../../quill/auto-substitute-ascii-emo
 import { imageToBlurHash } from '../../util/imageToBlurHash.dom.ts';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
+import { useHydrateDraftLinkPreview } from '../../hooks/useHydrateDraftLinkPreview.std.ts';
 import {
   getErrorDialogAudioRecorderType,
   getRecordingState,
@@ -123,6 +124,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     sendCounter,
     shouldSendHighQualityAttachments,
   } = composerState;
+
+  const linkPreviewForUI = useHydrateDraftLinkPreview(linkPreviewResult);
 
   const isDisabled = disabledCounter > 0;
 
@@ -324,7 +327,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       setMediaQualitySetting={setMediaQualitySetting}
       // StagedLinkPreview
       linkPreviewLoading={linkPreviewLoading}
-      linkPreviewResult={linkPreviewResult ?? null}
+      linkPreviewResult={linkPreviewForUI ?? null}
       // Quote
       quotedMessageId={quotedMessage?.quote?.messageId ?? null}
       quotedMessageProps={quotedMessageProps ?? null}

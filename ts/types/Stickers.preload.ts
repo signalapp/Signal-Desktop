@@ -15,10 +15,7 @@ import * as Errors from './errors.std.ts';
 import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.ts';
 import { IMAGE_WEBP, type MIMEType } from './MIME.std.ts';
 import { sniffImageMimeType } from '../util/sniffImageMimeType.std.ts';
-import type {
-  AttachmentType,
-  AttachmentWithHydratedData,
-} from './Attachment.std.ts';
+import type { AttachmentType } from './Attachment.std.ts';
 import {
   type StickerType as StickerFromDBType,
   type StickerPackType,
@@ -79,9 +76,6 @@ export type StickerType = {
   height?: number;
   version?: 2;
   localKey?: string;
-};
-export type StickerWithHydratedData = StickerType & {
-  data: AttachmentWithHydratedData;
 };
 
 export const FavoriteStickerStatuses = [

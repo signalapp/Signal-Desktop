@@ -2,19 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useState, type JSX } from 'react';
-import lodash, { omit } from 'lodash';
+import lodash from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 
 import { createPortal } from 'react-dom';
-import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
 import type { LinkPreviewSourceType } from '../types/LinkPreview.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PropsType as SendStoryModalPropsType } from './SendStoryModal.dom.tsx';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
+import type { StoryDraftAttachmentType } from '../types/Stories.std.ts';
 import type { imageToBlurHash } from '../util/imageToBlurHash.dom.ts';
 import type { PropsType as MediaEditorPropsType } from './MediaEditor.dom.tsx';
 
-import { TEXT_ATTACHMENT } from '../types/MIME.std.ts';
 import { isVideoAttachment } from '../util/Attachment.std.ts';
 import { SendStoryModal } from './SendStoryModal.dom.tsx';
 
@@ -56,7 +57,7 @@ export type PropsType = {
   onSend: (
     listIds: Array<StoryDistributionIdString>,
     conversationIds: Array<string>,
-    attachment: AttachmentType,
+    attachment: StoryDraftAttachmentType,
     bodyRanges: DraftBodyRanges | undefined
   ) => unknown;
   imageToBlurHash: typeof imageToBlurHash;
@@ -142,7 +143,7 @@ export function StoryCreator({
   const portalElement = usePortalElement('StoryCreatorPortal');
 
   const [draftAttachment, setDraftAttachment] = useState<
-    AttachmentType | undefined
+    StoryDraftAttachmentType | undefined
   >();
   const [isReadyToSend, setIsReadyToSend] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string | undefined>();
@@ -166,26 +167,8 @@ export function StoryCreator({
         return;
       }
 
-      let attachment: AttachmentType = draft;
+      const attachment: InMemoryAttachmentDraftType = draft;
       if (isVideoAttachment(draft)) {
-        if (
-          'screenshotData' in draft &&
-          draft.screenshotData &&
-          draft.screenshotContentType
-        ) {
-          url = URL.createObjectURL(
-            new Blob([draft.screenshotData], {
-              type: draft.screenshotContentType,
-            })
-          );
-          attachment = {
-            ...omit(draft, 'screenshotData'),
-            screenshot: {
-              contentType: draft.screenshotContentType,
-              url,
-            },
-          };
-        }
         setAttachmentUrl(undefined);
         setIsReadyToSend(true);
       } else if (draft && has(draft, 'data')) {
@@ -195,7 +178,7 @@ export function StoryCreator({
         // Needs editing in MediaEditor
         setIsReadyToSend(false);
       }
-      setDraftAttachment(attachment);
+      setDraftAttachment({ type: 'media', attachment });
     }
 
     void loadAttachment();
@@ -280,12 +263,16 @@ export function StoryCreator({
                 captionBodyRanges,
               }) => {
                 setDraftAttachment({
-                  ...draftAttachment,
-                  contentType,
-                  data,
-                  size: data.byteLength,
-                  blurHash,
-                  caption,
+                  type: 'media',
+                  attachment: {
+                    clientUuid: generateUuid(),
+                    caption,
+                    pending: false,
+                    contentType,
+                    data,
+                    size: data.byteLength,
+                    blurHash,
+                  },
                 });
                 setBodyRanges(captionBodyRanges);
                 setIsReadyToSend(true);
@@ -309,9 +296,8 @@ export function StoryCreator({
               onClose={onClose}
               onDone={textAttachment => {
                 setDraftAttachment({
-                  contentType: TEXT_ATTACHMENT,
-                  textAttachment,
-                  size: textAttachment.text?.length || 0,
+                  type: 'text',
+                  attachment: textAttachment,
                 });
                 setIsReadyToSend(true);
               }}
