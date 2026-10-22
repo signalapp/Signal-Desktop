@@ -19,6 +19,7 @@ import type { LookupConversationWithoutServiceIdActionsType } from '../../util/l
 import { Spinner } from '../Spinner.dom.tsx';
 import { Button } from '../Button.dom.tsx';
 import { CountryCodeSelect } from '../CountryCodeSelect.dom.tsx';
+import { NavSidebarBackButton } from '../NavSidebar.dom.tsx';
 
 export type LeftPaneFindByPhoneNumberPropsType = {
   searchTerm: string;
@@ -75,14 +76,13 @@ export class LeftPaneFindByPhoneNumberHelper extends LeftPaneHelper<LeftPaneFind
 
     return (
       <div className="module-left-pane__header__contents">
-        <button
-          aria-label={backButtonLabel}
-          className="module-left-pane__header__contents__back-button"
-          disabled={this.#isFetching()}
-          onClick={this.getBackAction({ startComposing })}
-          title={backButtonLabel}
-          type="button"
-        />
+        <div className="module-left-pane__header__contents__back-button">
+          <NavSidebarBackButton
+            label={backButtonLabel}
+            disabled={this.#isFetching()}
+            onClick={this.getBackAction({ startComposing })}
+          />
+        </div>
         <div className="module-left-pane__header__contents__text">
           {i18n('icu:LeftPaneFindByHelper__title--findByPhoneNumber')}
         </div>

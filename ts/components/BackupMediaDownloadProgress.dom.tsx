@@ -6,10 +6,11 @@ import { useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { formatFileSize } from '../util/formatFileSize.std.ts';
 import { SpinnerV2 } from './SpinnerV2.dom.tsx';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.tsx';
 import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
@@ -63,40 +64,32 @@ export function BackupMediaDownloadProgress({
         aria-label={i18n('icu:close')}
       />
     ) : (
-      <ContextMenu
-        i18n={i18n}
-        menuOptions={[
-          isPaused
-            ? {
-                label: i18n('icu:BackupMediaDownloadProgress__button-resume'),
-                onClick: handleResume,
-              }
-            : {
-                label: i18n('icu:BackupMediaDownloadProgress__button-pause'),
-                onClick: handlePause,
-              },
-          {
-            label: i18n('icu:BackupMediaDownloadProgress__button-cancel'),
-            onClick: handleCancel,
-          },
-        ]}
-        popperOptions={{
-          placement: 'bottom-end',
-          strategy: 'absolute',
-        }}
-        portalToRoot
-      >
-        {({ onClick }) => {
-          return (
-            <button
-              type="button"
-              onClick={onClick}
-              className="BackupMediaDownloadProgress__button-more"
-              aria-label={i18n('icu:BackupMediaDownloadProgress__button-more')}
+      <div className="BackupMediaDownloadProgress__more">
+        <AxoDropdownMenu.Root>
+          <AxoDropdownMenu.Trigger>
+            <AxoIconButton.Root
+              variant="implied-secondary"
+              size="sm"
+              symbol="more"
+              label={i18n('icu:BackupMediaDownloadProgress__button-more')}
             />
-          );
-        }}
-      </ContextMenu>
+          </AxoDropdownMenu.Trigger>
+          <AxoDropdownMenu.Content align="end">
+            {isPaused ? (
+              <AxoDropdownMenu.Item onSelect={handleResume}>
+                {i18n('icu:BackupMediaDownloadProgress__button-resume')}
+              </AxoDropdownMenu.Item>
+            ) : (
+              <AxoDropdownMenu.Item onSelect={handlePause}>
+                {i18n('icu:BackupMediaDownloadProgress__button-pause')}
+              </AxoDropdownMenu.Item>
+            )}
+            <AxoDropdownMenu.Item onSelect={handleCancel}>
+              {i18n('icu:BackupMediaDownloadProgress__button-cancel')}
+            </AxoDropdownMenu.Item>
+          </AxoDropdownMenu.Content>
+        </AxoDropdownMenu.Root>
+      </div>
     );
 
   if (isCompleted) {

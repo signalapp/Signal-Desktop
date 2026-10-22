@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent, JSX } from 'react';
-import { useMemo, useState, memo } from 'react';
+import { useState, memo } from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { BadgeType } from '../../badges/types.std.ts';
@@ -11,15 +11,13 @@ import { ContactName } from '../conversation/ContactName.dom.tsx';
 import { About } from '../conversation/About.dom.tsx';
 import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
-import {
-  ContextMenu,
-  type ContextMenuOptionType,
-} from '../ContextMenu.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
 import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 
 export type ContactListItemConversationType = Pick<
   ConversationType,
@@ -88,57 +86,6 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
     const [isConfirmingBlocking, setConfirmingBlocking] = useState(false);
     const [isConfirmingRemoving, setConfirmingRemoving] = useState(false);
 
-    const menuOptions = useMemo(
-      (): ReadonlyArray<ContextMenuOptionType<unknown>> => [
-        ...(onClick
-          ? [
-              {
-                iconClassName: 'ContactListItem__context-menu__chat-icon',
-                label: i18n('icu:ContactListItem__menu__message'),
-                onClick: () => onClick(id),
-              },
-            ]
-          : []),
-        ...(!isMe && onAudioCall
-          ? [
-              {
-                iconClassName: 'ContactListItem__context-menu__phone-icon',
-                label: i18n('icu:ContactListItem__menu__audio-call'),
-                onClick: () => onAudioCall(id),
-              },
-            ]
-          : []),
-        ...(!isMe && onVideoCall
-          ? [
-              {
-                iconClassName: 'ContactListItem__context-menu__video-icon',
-                label: i18n('icu:ContactListItem__menu__video-call'),
-                onClick: () => onVideoCall(id),
-              },
-            ]
-          : []),
-        ...(!isMe && onRemove
-          ? [
-              {
-                iconClassName: 'ContactListItem__context-menu__delete-icon',
-                label: i18n('icu:ContactListItem__menu__remove'),
-                onClick: () => setConfirmingRemoving(true),
-              },
-            ]
-          : []),
-        ...(!isMe && onBlock
-          ? [
-              {
-                iconClassName: 'ContactListItem__context-menu__block-icon',
-                label: i18n('icu:ContactListItem__menu__block'),
-                onClick: () => setConfirmingBlocking(true),
-              },
-            ]
-          : []),
-      ],
-      [id, i18n, isMe, onClick, onAudioCall, onVideoCall, onRemove, onBlock]
-    );
-
     const headerName = isMe ? (
       <ContactName
         isMe={isMe}
@@ -159,15 +106,60 @@ export const ContactListItem: FunctionComponent<PropsType> = memo(
     let trailing: JSX.Element | undefined;
     if (hasContextMenu) {
       trailing = (
-        <ContextMenu
-          i18n={i18n}
-          menuOptions={menuOptions}
-          popperOptions={{ placement: 'bottom-start', strategy: 'absolute' }}
-          className="ContactListItem__context-menu"
-          popperClassName="ContactListItem__context-menu__popper"
-          ariaLabel={i18n('icu:ContactListItem__menu')}
-          portalToRoot
-        />
+        <div className="ContactListItem__context-menu">
+          <AxoDropdownMenu.Root>
+            <AxoDropdownMenu.Trigger>
+              <AxoIconButton.Root
+                variant="implied-secondary"
+                size="sm"
+                symbol="more"
+                label={i18n('icu:ContactListItem__menu')}
+              />
+            </AxoDropdownMenu.Trigger>
+            <AxoDropdownMenu.Content align="start">
+              {onClick && (
+                <AxoDropdownMenu.Item
+                  symbol="message"
+                  onSelect={() => onClick(id)}
+                >
+                  {i18n('icu:ContactListItem__menu__message')}
+                </AxoDropdownMenu.Item>
+              )}
+              {!isMe && onAudioCall && (
+                <AxoDropdownMenu.Item
+                  symbol="phone"
+                  onSelect={() => onAudioCall(id)}
+                >
+                  {i18n('icu:ContactListItem__menu__audio-call')}
+                </AxoDropdownMenu.Item>
+              )}
+              {!isMe && onVideoCall && (
+                <AxoDropdownMenu.Item
+                  symbol="videocamera"
+                  onSelect={() => onVideoCall(id)}
+                >
+                  {i18n('icu:ContactListItem__menu__video-call')}
+                </AxoDropdownMenu.Item>
+              )}
+              {!isMe && onRemove && (
+                <AxoDropdownMenu.Item
+                  symbol="minus-circle"
+                  onSelect={() => setConfirmingRemoving(true)}
+                >
+                  {i18n('icu:ContactListItem__menu__remove')}
+                </AxoDropdownMenu.Item>
+              )}
+              {!isMe && onBlock && (
+                <AxoDropdownMenu.Item
+                  symbol="block"
+                  onSelect={() => setConfirmingBlocking(true)}
+                >
+                  {i18n('icu:ContactListItem__menu__block')}
+                </AxoDropdownMenu.Item>
+              )}
+            </AxoDropdownMenu.Content>
+          </AxoDropdownMenu.Root>
+        </div>
       );
     }
 

@@ -21,11 +21,12 @@ import type {
 } from '../state/ducks/stories.preload.ts';
 import { MyStories } from './MyStories.dom.tsx';
 import { StoriesPane } from './StoriesPane.dom.tsx';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.tsx';
+import { NavSidebar } from './NavSidebar.dom.tsx';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {
   addStoryData: AddStoryData;
@@ -134,7 +135,6 @@ export function StoriesTab({
           retryMessageSend={retryMessageSend}
           renderToastManager={renderToastManager}
           savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
-          theme={theme}
           viewStory={viewStory}
         />
       ) : (
@@ -155,14 +155,15 @@ export function StoriesTab({
               <StoriesAddStoryButton
                 i18n={i18n}
                 maxAttachmentVideoSize={maxAttachmentVideoSize}
-                className="Stories__pane__add-story"
                 onAddStory={onAddStory}
                 showToast={showToast}
               />
               <AxoDropdownMenu.Root>
                 <AxoDropdownMenu.Trigger>
-                  <NavSidebarActionButton
-                    icon={<span className="StoriesTab__MoreActionsIcon" />}
+                  <AxoIconButton.Root
+                    variant="implied-secondary"
+                    size="sm"
+                    symbol="more"
                     label={i18n('icu:StoriesTab__MoreActionsLabel')}
                   />
                 </AxoDropdownMenu.Trigger>

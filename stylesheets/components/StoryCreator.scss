@@ -149,6 +149,30 @@
       margin-inline-end: 14px;
     }
 
+    &__icon-button {
+      @include mixins.button-reset;
+
+      & {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        margin-block: -6px;
+        margin-inline: -6px 8px;
+        border-radius: 4px;
+      }
+
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+      }
+    }
+
+    // Separate from the button so the icon's mask doesn't clip the focus ring
+    &__icon-button-icon {
+      display: block;
+    }
+
     &__button {
       @mixin icon($icon) {
         @include svg($icon);
@@ -168,39 +192,21 @@
       &--bg-none {
         @include icon('v2/text-effect-off-24.svg');
       }
-      &--font-regular .ContextMenu__button {
+      &--font-regular {
         @include icon('v3/font/font-regular-compact.svg');
       }
-      &--font-bold .ContextMenu__button {
+      &--font-bold {
         @include icon('v3/font/font-bold-compact.svg');
       }
-      &--font-serif .ContextMenu__button {
+      &--font-serif {
         @include icon('v3/font/font-serif-compact.svg');
       }
-      &--font-script .ContextMenu__button {
+      &--font-script {
         @include icon('v3/font/font-script-compact.svg');
       }
-      &--font-condensed .ContextMenu__button {
+      &--font-condensed {
         @include icon('v3/font/font-condensed-compact.svg');
       }
-    }
-  }
-
-  &__icon {
-    &--font-regular {
-      @include svg('v3/font/font-regular-compact.svg');
-    }
-    &--font-bold {
-      @include svg('v3/font/font-bold-compact.svg');
-    }
-    &--font-serif {
-      @include svg('v3/font/font-serif-compact.svg');
-    }
-    &--font-script {
-      @include svg('v3/font/font-script-compact.svg');
-    }
-    &--font-condensed {
-      @include svg('v3/font/font-condensed-compact.svg');
     }
   }
 

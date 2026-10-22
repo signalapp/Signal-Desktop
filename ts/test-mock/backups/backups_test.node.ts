@@ -349,7 +349,10 @@ describe('backups', function (this: Mocha.Suite) {
         await window.getByTestId('NavTabsItem--Stories').click();
 
         debug('Opening story privacy');
-        await window.locator('.StoriesTab__MoreActionsIcon').click();
+        await window
+          .locator('.NavSidebar__HeaderActions')
+          .getByRole('button', { name: 'More actions' })
+          .click();
         await window.getByRole('menuitem', { name: 'Story Privacy' }).click();
 
         const dialog = window.getByRole('dialog', { name: 'Story privacy' });

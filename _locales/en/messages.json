@@ -399,6 +399,10 @@
     "messageformat": "Archived Chats",
     "description": "Shown in place of the search box when showing archived conversation list"
   },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions",
+    "description": "Chats Tab > Chats List > Header > More Actions Button (opens context menu) > Accessibility Label"
+  },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Add chat folder",
     "description": "Chats Tab > Chats List > Header > More Actions > Menu Item > Add chat folder (when you don't have any chat folders)"

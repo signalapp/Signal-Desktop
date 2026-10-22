@@ -4,10 +4,10 @@ import { memo, useId, useMemo } from 'react';
 import type { FC, ReactNode } from 'react';
 import { Select } from 'radix-ui';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoBadge } from './AxoBadge.dom.tsx';
-import { AxoTheme } from './AxoTheme.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 import {
   createStrictContext,
@@ -379,7 +379,7 @@ export namespace AxoSelect {
     const { selectId } = useStrictContext(RootContext);
     return (
       <Select.Portal>
-        <AxoTheme.Inherit>
+        <AxoBaseLayer>
           <Select.Content
             data-axo-select-id={selectId}
             className={AxoBaseMenu.selectContentClassName}
@@ -410,7 +410,7 @@ export namespace AxoSelect {
               <AxoSymbol.Icon symbol="chevron-down" size={14} label={null} />
             </Select.ScrollDownButton>
           </Select.Content>
-        </AxoTheme.Inherit>
+        </AxoBaseLayer>
       </Select.Portal>
     );
   });

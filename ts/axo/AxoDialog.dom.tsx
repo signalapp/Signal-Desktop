@@ -27,13 +27,13 @@ import {
 } from 'motion/react';
 import type { Transition } from 'motion/react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { AxoIconButton } from './AxoIconButton.dom.tsx';
 import { AxoTooltip } from './AxoTooltip.dom.tsx';
-import { AxoTheme } from './AxoTheme.dom.tsx';
 import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 import { assert, unreachable } from './_internal/assert.std.tsx';
@@ -328,7 +328,7 @@ export namespace AxoDialog {
 
     return (
       <Dialog.Portal>
-        <AxoTheme.Inherit>
+        <AxoBaseLayer>
           <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
             <AxoBaseDialog.Host>
               <Dialog.Overlay className={AxoBaseDialog.overlayClassName} />
@@ -348,7 +348,7 @@ export namespace AxoDialog {
               </Dialog.Content>
             </AxoBaseDialog.Host>
           </AxoTooltip.CollisionBoundary>
-        </AxoTheme.Inherit>
+        </AxoBaseLayer>
       </Dialog.Portal>
     );
   });

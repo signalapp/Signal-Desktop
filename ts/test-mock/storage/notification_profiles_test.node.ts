@@ -179,7 +179,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     await window.locator('[data-testid="NavTabsItem--Chats"]').click();
 
     debug('Click triple-dot button');
-    await window.getByRole('button', { name: 'More Actions' }).click();
+    await window.getByRole('button', { name: 'More actions' }).click();
     await window
       .getByRole('menuitem', { name: 'Notification profile', exact: true })
       .click();

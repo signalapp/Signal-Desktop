@@ -10,42 +10,6 @@
   height: 100%;
 }
 
-.CallsTab__NewCallActionIcon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/phone/phone-plus-light.svg',
-      variables.$color-black
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/phone/phone-plus-light.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
-.CallsTab__MoreActionsIcon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/more/more.svg',
-      variables.$color-black
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/more/more.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
 .CallsTab__EmptyState {
   display: flex;
   width: 100%;

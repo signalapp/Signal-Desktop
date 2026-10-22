@@ -87,10 +87,7 @@ describe('story/no-sender-key', function (this: Mocha.Suite) {
         .locator('.Stories__pane__list')
         .getByRole('button', { name: 'Add a story' })
         .click();
-      await storiesPane
-        .locator('.ContextMenu__popper')
-        .getByRole('button', { name: 'Text story' })
-        .click();
+      await window.getByRole('menuitem', { name: 'Text story' }).click();
 
       debug('Focusing textarea');
       // Note: For some reason `.click()` doesn't work here anymore.

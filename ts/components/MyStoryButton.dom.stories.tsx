@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Meta, StoryFn } from '@storybook/react';
-import { expect, fn, within, userEvent } from '@storybook/test';
+import { expect, fn, within, userEvent, waitFor } from '@storybook/test';
 import { action } from '@storybook/addon-actions';
 import type { PropsType } from './MyStoryButton.dom.tsx';
 import { MyStoryButton } from './MyStoryButton.dom.tsx';
@@ -34,11 +34,18 @@ const interactionTest: StoryFn<PropsType>['play'] = async ({
   canvasElement,
 }) => {
   const canvas = within(canvasElement);
-  const btnAddStory = canvas.getByLabelText('Add a story');
+  const btnAddStory = canvas.getByRole('button', { name: 'Add a story' });
   await userEvent.click(btnAddStory);
-  const textStory = canvas.getByText('Text story');
+
+  // Menu content is rendered in a portal outside of the canvas
+  const body = within(document.body);
+  const textStory = await body.findByRole('menuitem', { name: 'Text story' });
   await userEvent.click(textStory);
   await expect(args.onAddStory).toHaveBeenCalled();
+
+  // Wait for the menu to finish closing so it stops blocking pointer events
+  await waitFor(() => expect(body.queryByRole('menu')).toBeNull());
+
   if (args.myStories.length > 0) {
     const btnStory = canvas.getByText('My Stories');
     await userEvent.click(btnStory);

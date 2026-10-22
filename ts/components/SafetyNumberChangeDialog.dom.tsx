@@ -7,11 +7,9 @@ import { InContactsIcon } from './InContactsIcon.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { ThemeType } from '../types/Util.std.ts';
+import type { ThemeType } from '../types/Util.std.ts';
 import { isInSystemContacts } from '../util/isInSystemContacts.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { ContextMenu } from './ContextMenu.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { MY_STORY_ID } from '../types/Stories.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
@@ -22,6 +20,8 @@ import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 import { SAFETY_NUMBER_VIEWER_DIALOG_BODY_MAX_HEIGHT } from './SafetyNumberViewer.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 enum DialogState {
   StartingInReview = 'StartingInReview',
@@ -341,7 +341,6 @@ function ContactSection({
             i18n={i18n}
             memberCount={serviceIds.length}
             storyName={sectionName}
-            theme={theme}
             removeFromStory={() => {
               removeFromStory(distributionId, serviceIds);
             }}
@@ -377,33 +376,37 @@ function SectionButtonWithMenu({
   removeFromStory,
   storyName,
   memberCount,
-  theme,
 }: Readonly<{
   ariaLabel: string;
   i18n: LocalizerType;
   removeFromStory: () => unknown;
   storyName: string;
   memberCount: number;
-  theme: ThemeType;
 }>) {
   const [isConfirming, setIsConfirming] = useState<boolean>(false);
 
   return (
     <>
-      <ContextMenu
-        ariaLabel={ariaLabel}
-        i18n={i18n}
-        menuOptions={[
-          {
-            iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--delete',
-            label: i18n('icu:safetyNumberChangeDialog__remove-all'),
-            onClick: () => setIsConfirming(true),
-          },
-        ]}
-        className="module-SafetyNumberChangeDialog__row__chevron"
-        popperClassName="module-SafetyNumberChangeDialog__row__chevron__popper"
-        theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-      />
+      <div className="module-SafetyNumberChangeDialog__row__chevron">
+        <AxoDropdownMenu.Root>
+          <AxoDropdownMenu.Trigger>
+            <AxoIconButton.Root
+              variant="implied-secondary"
+              size="sm"
+              symbol="chevron-down"
+              label={ariaLabel}
+            />
+          </AxoDropdownMenu.Trigger>
+          <AxoDropdownMenu.Content>
+            <AxoDropdownMenu.Item
+              symbol="x-circle"
+              onSelect={() => setIsConfirming(true)}
+            >
+              {i18n('icu:safetyNumberChangeDialog__remove-all')}
+            </AxoDropdownMenu.Item>
+          </AxoDropdownMenu.Content>
+        </AxoDropdownMenu.Root>
+      </div>
       <AxoConfirmDialog.Root
         open={isConfirming}
         onOpenChange={setIsConfirming}
@@ -505,7 +508,6 @@ function ContactRow({
             contact: contact.title,
           })}
           i18n={i18n}
-          theme={theme}
           removeFromStory={() => removeFromStory(distributionId, [serviceId])}
           verifyContact={() => setSelectedContact(contact)}
         />
@@ -530,34 +532,33 @@ function RowButtonWithMenu({
   i18n,
   removeFromStory,
   verifyContact,
-  theme,
 }: Readonly<{
   ariaLabel: string;
   i18n: LocalizerType;
   removeFromStory: () => unknown;
   verifyContact: () => unknown;
-  theme: ThemeType;
 }>) {
   return (
-    <ContextMenu
-      ariaLabel={ariaLabel}
-      i18n={i18n}
-      menuOptions={[
-        {
-          iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--verify',
-          label: i18n('icu:safetyNumberChangeDialog__verify-number'),
-          onClick: verifyContact,
-        },
-        {
-          iconClassName: 'module-SafetyNumberChangeDialog__menu-icon--delete',
-          label: i18n('icu:safetyNumberChangeDialog__remove'),
-          onClick: removeFromStory,
-        },
-      ]}
-      className="module-SafetyNumberChangeDialog__row__chevron"
-      popperClassName="module-SafetyNumberChangeDialog__row__chevron__popper"
-      theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-    />
+    <div className="module-SafetyNumberChangeDialog__row__chevron">
+      <AxoDropdownMenu.Root>
+        <AxoDropdownMenu.Trigger>
+          <AxoIconButton.Root
+            variant="implied-secondary"
+            size="sm"
+            symbol="chevron-down"
+            label={ariaLabel}
+          />
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Item symbol="shield-check" onSelect={verifyContact}>
+            {i18n('icu:safetyNumberChangeDialog__verify-number')}
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item symbol="x-circle" onSelect={removeFromStory}>
+            {i18n('icu:safetyNumberChangeDialog__remove')}
+          </AxoDropdownMenu.Item>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </div>
   );
 }
 

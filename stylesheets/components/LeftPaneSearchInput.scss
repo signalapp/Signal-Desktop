@@ -72,63 +72,8 @@
     }
   }
 
-  &__FilterButtonWrapper {
-    margin-inline-end: 8px;
-  }
-
   &__FilterButton {
-    @include mixins.button-reset;
-    & {
-      flex-shrink: 0;
-      padding: 4px;
-      border-radius: 4px;
-    }
-
-    &:not(.LeftPaneSearchInput__FilterButton--pressed):hover {
-      @include mixins.light-theme {
-        background-color: variables.$color-black-alpha-06;
-      }
-      @include mixins.dark-theme {
-        background-color: variables.$color-white-alpha-06;
-      }
-    }
-
-    &:focus-visible {
-      @include mixins.axo-focus-ring;
-    }
-
-    &::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 20px;
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/filter/filter.svg',
-          variables.$color-black
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/filter/filter.svg',
-          variables.$color-gray-15
-        );
-      }
-    }
-
-    &--pressed {
-      border-radius: 9999px;
-      background: variables.$color-accent-blue;
-      &::before {
-        @include mixins.color-svg(
-          '../images/icons/v3/filter/filter.svg',
-          variables.$color-white
-        );
-      }
-    }
-  }
-
-  &__FilterLabel {
-    @include mixins.sr-only;
+    flex-shrink: 0;
+    margin-inline-end: 8px;
   }
 }

@@ -26,7 +26,7 @@ import {
   isAriaWidgetRole,
 } from './_internal/ariaRoles.dom.tsx';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
-import { AxoTheme } from './AxoTheme.dom.tsx';
+import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 
 const { useDirection } = Direction;
@@ -429,7 +429,7 @@ export namespace AxoTooltip {
           {props.children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <AxoTheme.Inherit>
+          <AxoBaseLayer>
             <Tooltip.Content
               side={physicalDirection}
               align={Aligns.get(align)}
@@ -511,7 +511,7 @@ export namespace AxoTooltip {
                 </span>
               )}
             </Tooltip.Content>
-          </AxoTheme.Inherit>
+          </AxoBaseLayer>
         </Tooltip.Portal>
       </Tooltip.Root>
     );

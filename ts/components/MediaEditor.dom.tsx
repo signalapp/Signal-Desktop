@@ -42,7 +42,6 @@ import {
 import { createLogger } from '../logging/log.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import { CompositionInput } from './CompositionInput.dom.tsx';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { IMAGE_PNG } from '../types/MIME.std.ts';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { Slider } from './Slider.dom.tsx';
@@ -68,6 +67,7 @@ import { tw } from '../axo/tw.dom.tsx';
 import type { FunTimeStickerStyle } from './fun/constants.dom.tsx';
 import * as Errors from '../types/errors.std.ts';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 
 const { get, has, noop } = lodash;
 
@@ -964,6 +964,25 @@ export function MediaEditor({
     return null;
   }
 
+  const textStyleLabels: Record<TextStyle, string> = {
+    [TextStyle.Regular]: i18n('icu:MediaEditor__text--regular'),
+    [TextStyle.Highlight]: i18n('icu:MediaEditor__text--highlight'),
+    [TextStyle.Outline]: i18n('icu:MediaEditor__text--outline'),
+  };
+  const drawToolLabels: Record<DrawTool, string> = {
+    [DrawTool.Pen]: i18n('icu:MediaEditor__draw--pen'),
+    [DrawTool.Highlighter]: i18n('icu:MediaEditor__draw--highlighter'),
+  };
+  const drawWidthLabels: Record<DrawWidth, string> = {
+    [DrawWidth.Thin]: i18n('icu:MediaEditor__draw--thin'),
+    [DrawWidth.Regular]: i18n('icu:MediaEditor__draw--regular'),
+    [DrawWidth.Medium]: i18n('icu:MediaEditor__draw--medium'),
+    [DrawWidth.Heavy]: i18n('icu:MediaEditor__draw--heavy'),
+  };
+  const textStyleLabel = textStyleLabels[textStyle];
+  const drawToolLabel = drawToolLabels[drawTool];
+  const drawWidthLabel = drawWidthLabels[drawWidth];
+
   let toolElement: JSX.Element | undefined;
   if (editMode === EditMode.Text) {
     toolElement = (
@@ -978,39 +997,55 @@ export function MediaEditor({
               onChange={setSliderValue}
               value={sliderValue}
             />
-            <ContextMenu
-              i18n={i18n}
-              menuOptions={[
-                {
-                  iconClassName: 'MediaEditor__icon--text-regular',
-                  label: i18n('icu:MediaEditor__text--regular'),
-                  onClick: () => setTextStyle(TextStyle.Regular),
-                  value: TextStyle.Regular,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--text-highlight',
-                  label: i18n('icu:MediaEditor__text--highlight'),
-                  onClick: () => setTextStyle(TextStyle.Highlight),
-                  value: TextStyle.Highlight,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--text-outline',
-                  label: i18n('icu:MediaEditor__text--outline'),
-                  onClick: () => setTextStyle(TextStyle.Outline),
-                  value: TextStyle.Outline,
-                },
-              ]}
-              className={classNames('MediaEditor__toolbar__tool', {
-                'MediaEditor__toolbar__button--text-regular':
-                  textStyle === TextStyle.Regular,
-                'MediaEditor__toolbar__button--text-highlight':
-                  textStyle === TextStyle.Highlight,
-                'MediaEditor__toolbar__button--text-outline':
-                  textStyle === TextStyle.Outline,
-              })}
-              theme={Theme.Dark}
-              value={textStyle}
-            />
+            <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Trigger>
+                <button
+                  type="button"
+                  aria-label={textStyleLabel}
+                  className="MediaEditor__toolbar__tool MediaEditor__toolbar__menu-button"
+                >
+                  <span
+                    aria-hidden
+                    className={classNames(
+                      'MediaEditor__toolbar__menu-button-icon',
+                      {
+                        'MediaEditor__toolbar__button--text-regular':
+                          textStyle === TextStyle.Regular,
+                        'MediaEditor__toolbar__button--text-highlight':
+                          textStyle === TextStyle.Highlight,
+                        'MediaEditor__toolbar__button--text-outline':
+                          textStyle === TextStyle.Outline,
+                      }
+                    )}
+                  />
+                </button>
+              </AxoDropdownMenu.Trigger>
+              <AxoDropdownMenu.Content>
+                <AxoDropdownMenu.RadioGroup
+                  value={textStyle}
+                  onValueChange={value => setTextStyle(value as TextStyle)}
+                >
+                  <AxoDropdownMenu.RadioItem
+                    value={TextStyle.Regular}
+                    symbol="text-square"
+                  >
+                    {i18n('icu:MediaEditor__text--regular')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem
+                    value={TextStyle.Highlight}
+                    symbol="text-square-fill"
+                  >
+                    {i18n('icu:MediaEditor__text--highlight')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem
+                    value={TextStyle.Outline}
+                    symbol="text-outline"
+                  >
+                    {i18n('icu:MediaEditor__text--outline')}
+                  </AxoDropdownMenu.RadioItem>
+                </AxoDropdownMenu.RadioGroup>
+              </AxoDropdownMenu.Content>
+            </AxoDropdownMenu.Root>
           </div>
           <Button
             onClick={() => {
@@ -1042,72 +1077,98 @@ export function MediaEditor({
               onChange={setSliderValue}
               value={sliderValue}
             />
-            <ContextMenu
-              i18n={i18n}
-              menuOptions={[
-                {
-                  iconClassName: 'MediaEditor__icon--draw-pen',
-                  label: i18n('icu:MediaEditor__draw--pen'),
-                  onClick: () => setDrawTool(DrawTool.Pen),
-                  value: DrawTool.Pen,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--draw-highlighter',
-                  label: i18n('icu:MediaEditor__draw--highlighter'),
-                  onClick: () => setDrawTool(DrawTool.Highlighter),
-                  value: DrawTool.Highlighter,
-                },
-              ]}
-              className={classNames('MediaEditor__toolbar__tool', {
-                'MediaEditor__toolbar__button--draw-pen':
-                  drawTool === DrawTool.Pen,
-                'MediaEditor__toolbar__button--draw-highlighter':
-                  drawTool === DrawTool.Highlighter,
-              })}
-              theme={Theme.Dark}
-              value={drawTool}
-            />
-            <ContextMenu
-              i18n={i18n}
-              menuOptions={[
-                {
-                  iconClassName: 'MediaEditor__icon--width-thin',
-                  label: i18n('icu:MediaEditor__draw--thin'),
-                  onClick: () => setDrawWidth(DrawWidth.Thin),
-                  value: DrawWidth.Thin,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--width-regular',
-                  label: i18n('icu:MediaEditor__draw--regular'),
-                  onClick: () => setDrawWidth(DrawWidth.Regular),
-                  value: DrawWidth.Regular,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--width-medium',
-                  label: i18n('icu:MediaEditor__draw--medium'),
-                  onClick: () => setDrawWidth(DrawWidth.Medium),
-                  value: DrawWidth.Medium,
-                },
-                {
-                  iconClassName: 'MediaEditor__icon--width-heavy',
-                  label: i18n('icu:MediaEditor__draw--heavy'),
-                  onClick: () => setDrawWidth(DrawWidth.Heavy),
-                  value: DrawWidth.Heavy,
-                },
-              ]}
-              className={classNames('MediaEditor__toolbar__tool', {
-                'MediaEditor__toolbar__button--width-thin':
-                  drawWidth === DrawWidth.Thin,
-                'MediaEditor__toolbar__button--width-regular':
-                  drawWidth === DrawWidth.Regular,
-                'MediaEditor__toolbar__button--width-medium':
-                  drawWidth === DrawWidth.Medium,
-                'MediaEditor__toolbar__button--width-heavy':
-                  drawWidth === DrawWidth.Heavy,
-              })}
-              theme={Theme.Dark}
-              value={drawWidth}
-            />
+            <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Trigger>
+                <button
+                  type="button"
+                  aria-label={drawToolLabel}
+                  className="MediaEditor__toolbar__tool MediaEditor__toolbar__menu-button"
+                >
+                  <span
+                    aria-hidden
+                    className={classNames(
+                      'MediaEditor__toolbar__menu-button-icon',
+                      {
+                        'MediaEditor__toolbar__button--draw-pen':
+                          drawTool === DrawTool.Pen,
+                        'MediaEditor__toolbar__button--draw-highlighter':
+                          drawTool === DrawTool.Highlighter,
+                      }
+                    )}
+                  />
+                </button>
+              </AxoDropdownMenu.Trigger>
+              <AxoDropdownMenu.Content>
+                <AxoDropdownMenu.RadioGroup
+                  value={drawTool}
+                  onValueChange={value => setDrawTool(value as DrawTool)}
+                >
+                  <AxoDropdownMenu.RadioItem value={DrawTool.Pen}>
+                    {i18n('icu:MediaEditor__draw--pen')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem value={DrawTool.Highlighter}>
+                    {i18n('icu:MediaEditor__draw--highlighter')}
+                  </AxoDropdownMenu.RadioItem>
+                </AxoDropdownMenu.RadioGroup>
+              </AxoDropdownMenu.Content>
+            </AxoDropdownMenu.Root>
+            <AxoDropdownMenu.Root>
+              <AxoDropdownMenu.Trigger>
+                <button
+                  type="button"
+                  aria-label={drawWidthLabel}
+                  className="MediaEditor__toolbar__tool MediaEditor__toolbar__menu-button"
+                >
+                  <span
+                    aria-hidden
+                    className={classNames(
+                      'MediaEditor__toolbar__menu-button-icon',
+                      {
+                        'MediaEditor__toolbar__button--width-thin':
+                          drawWidth === DrawWidth.Thin,
+                        'MediaEditor__toolbar__button--width-regular':
+                          drawWidth === DrawWidth.Regular,
+                        'MediaEditor__toolbar__button--width-medium':
+                          drawWidth === DrawWidth.Medium,
+                        'MediaEditor__toolbar__button--width-heavy':
+                          drawWidth === DrawWidth.Heavy,
+                      }
+                    )}
+                  />
+                </button>
+              </AxoDropdownMenu.Trigger>
+              <AxoDropdownMenu.Content>
+                <AxoDropdownMenu.RadioGroup
+                  value={`${drawWidth}`}
+                  onValueChange={value => setDrawWidth(parseInt(value, 10))}
+                >
+                  <AxoDropdownMenu.RadioItem
+                    value={`${DrawWidth.Thin}`}
+                    symbol="brushsize-thin"
+                  >
+                    {i18n('icu:MediaEditor__draw--thin')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem
+                    value={`${DrawWidth.Regular}`}
+                    symbol="brushsize-regular"
+                  >
+                    {i18n('icu:MediaEditor__draw--regular')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem
+                    value={`${DrawWidth.Medium}`}
+                    symbol="brushsize-medium"
+                  >
+                    {i18n('icu:MediaEditor__draw--medium')}
+                  </AxoDropdownMenu.RadioItem>
+                  <AxoDropdownMenu.RadioItem
+                    value={`${DrawWidth.Heavy}`}
+                    symbol="brushsize-heavy"
+                  >
+                    {i18n('icu:MediaEditor__draw--heavy')}
+                  </AxoDropdownMenu.RadioItem>
+                </AxoDropdownMenu.RadioGroup>
+              </AxoDropdownMenu.Content>
+            </AxoDropdownMenu.Root>
           </div>
           <Button
             onClick={() => setEditMode(undefined)}

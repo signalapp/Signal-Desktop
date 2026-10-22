@@ -268,7 +268,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
       .locator('.Stories__pane__list')
       .getByRole('button', { name: 'Add a story' })
       .click();
-    await window.getByRole('button', { name: 'Text story' }).click();
+    await window.getByRole('menuitem', { name: 'Text story' }).click();
     // Note: For some reason `.click()` doesn't work here anymore.
     await window.locator('.TextAttachment').dispatchEvent('click');
     await window.getByRole('textbox', { name: 'Add text' }).fill('hello');
@@ -318,14 +318,14 @@ describe('story/messaging', function (this: Mocha.Suite) {
 
     debug('Ensure sender sees the reply');
     await window
-      .locator('.StoryListItem .ContextMenu__button')
-      .getByText('Mock Group')
+      .locator('.Stories__pane__list')
+      .getByRole('button', { name: /Mock Group/ })
       .click();
     // For some reason we need to click the story & exit before the reply shows up
     await window.getByRole('button', { name: 'Close' }).click();
     await window
-      .locator('.StoryListItem .ContextMenu__button')
-      .getByText('Mock Group')
+      .locator('.Stories__pane__list')
+      .getByRole('button', { name: /Mock Group/ })
       .click();
 
     await window.getByText('1 reply').click();

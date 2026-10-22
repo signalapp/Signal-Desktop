@@ -57,31 +57,36 @@ export function MyStoryButton({
       <StoriesAddStoryButton
         i18n={i18n}
         maxAttachmentVideoSize={maxAttachmentVideoSize}
-        className="StoryListItem"
         onAddStory={onAddStory}
         showToast={showToast}
       >
-        <div className="MyStories__avatar-container">
-          <Avatar
-            avatarUrl={avatarUrl}
-            badge={undefined}
-            color={getAvatarColor(color)}
-            conversationType="direct"
-            i18n={i18n}
-            profileName={profileName}
-            size={AvatarSize.FORTY_EIGHT}
-            title={title}
-          />
-          <div className="MyStories__avatar__add-story" />
-        </div>
-        <div className="StoryListItem__info">
-          <div className="StoryListItem__info--title">
-            {i18n('icu:Stories__mine')}
+        <button
+          type="button"
+          aria-label={i18n('icu:Stories__add')}
+          className="StoryListItem__button"
+        >
+          <div className="MyStories__avatar-container">
+            <Avatar
+              avatarUrl={avatarUrl}
+              badge={undefined}
+              color={getAvatarColor(color)}
+              conversationType="direct"
+              i18n={i18n}
+              profileName={profileName}
+              size={AvatarSize.FORTY_EIGHT}
+              title={title}
+            />
+            <div className="MyStories__avatar__add-story" />
           </div>
-          <div className="StoryListItem__info--timestamp">
-            {i18n('icu:Stories__add')}
+          <div className="StoryListItem__info">
+            <div className="StoryListItem__info--title">
+              {i18n('icu:Stories__mine')}
+            </div>
+            <div className="StoryListItem__info--timestamp">
+              {i18n('icu:Stories__add')}
+            </div>
           </div>
-        </div>
+        </button>
       </StoriesAddStoryButton>
     );
   }
@@ -108,23 +113,28 @@ export function MyStoryButton({
         <StoriesAddStoryButton
           i18n={i18n}
           maxAttachmentVideoSize={maxAttachmentVideoSize}
-          className="StoryListItem--active-opacity"
           onAddStory={onAddStory}
           showToast={showToast}
           onContextMenuShowingChanged={setActive}
         >
-          <Avatar
-            avatarUrl={avatarUrl}
-            badge={undefined}
-            color={getAvatarColor(color)}
-            conversationType="direct"
-            i18n={i18n}
-            profileName={profileName}
-            size={AvatarSize.FORTY_EIGHT}
-            storyRing={HasStories.Read}
-            title={title}
-          />
-          <div className="MyStories__avatar__add-story" />
+          <button
+            type="button"
+            aria-label={i18n('icu:Stories__add')}
+            className="MyStories__avatar-button StoryListItem--active-opacity"
+          >
+            <Avatar
+              avatarUrl={avatarUrl}
+              badge={undefined}
+              color={getAvatarColor(color)}
+              conversationType="direct"
+              i18n={i18n}
+              profileName={profileName}
+              size={AvatarSize.FORTY_EIGHT}
+              storyRing={HasStories.Read}
+              title={title}
+            />
+            <div className="MyStories__avatar__add-story" />
+          </button>
         </StoriesAddStoryButton>
       </div>
       <div

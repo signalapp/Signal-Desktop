@@ -74,34 +74,10 @@ button.BackupMediaDownloadProgress__button {
   }
 }
 
-button.BackupMediaDownloadProgress__button-more {
-  @include mixins.button-reset;
-  & {
-    position: absolute;
-    inset-block-start: 8px;
-    inset-inline-end: 14px;
-  }
-  &::after {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/more/more.svg',
-        variables.$color-gray-75
-      );
-    }
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/more/more.svg',
-        variables.$color-gray-20
-      );
-    }
-  }
-  &:focus-visible {
-    @include mixins.axo-focus-ring;
-  }
+.BackupMediaDownloadProgress__more {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 10px;
 }
 button.BackupMediaDownloadProgress__button-close {
   @include mixins.button-reset;
