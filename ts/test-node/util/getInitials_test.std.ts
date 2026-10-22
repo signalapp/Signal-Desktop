@@ -67,4 +67,11 @@ describe('getInitials', () => {
   it('returns initials with diacritical marks', () => {
     assert.strictEqual(getInitials('Ḟoo Ḅar'), 'ḞḄ');
   });
+
+  it('does not split letters outside the Basic Multilingual Plane', () => {
+    assert.strictEqual(getInitials('𠮷'), '𠮷');
+    assert.strictEqual(getInitials('𠮷田'), '𠮷田');
+    assert.strictEqual(getInitials('𠮷田 太郎'), '𠮷太');
+    assert.strictEqual(getInitials('山田 𠮷郎'), '山𠮷');
+  });
 });

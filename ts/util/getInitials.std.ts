@@ -18,7 +18,10 @@ export function getInitials(name?: string): string | undefined {
   }
 
   // check if chars in the parsed string are initials
-  if (parsedName.length === 2 && parsedName === parsedName.toUpperCase()) {
+  if (
+    Array.from(parsedName).length === 2 &&
+    parsedName === parsedName.toUpperCase()
+  ) {
     return parsedName;
   }
 
@@ -26,7 +29,14 @@ export function getInitials(name?: string): string | undefined {
   const partsLen = parts.length;
 
   return partsLen === 1
-    ? parts[0].charAt(0)
+    ? getFirstCharacter(parts[0])
     : // oxlint-disable-next-line typescript/no-non-null-assertion
-      parts[0].charAt(0) + parts[partsLen - 1]!.charAt(0);
+      getFirstCharacter(parts[0]) + getFirstCharacter(parts[partsLen - 1]!);
+}
+
+// Unlike `charAt(0)`, this keeps letters outside the Basic Multilingual Plane
+// (stored as surrogate pairs) intact.
+function getFirstCharacter(part: string): string {
+  const [first = ''] = part;
+  return first;
 }
