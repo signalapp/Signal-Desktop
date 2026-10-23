@@ -5274,6 +5274,18 @@
     "messageformat": "Default",
     "description": "Shown when the device is the default device"
   },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}",
+    "description": "Shown on Mac or Linux to indicate that the specified audio device is the default"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}",
+    "description": "Shown on Windows to indicate that the specified audio device is the default console device. See https://learn.microsoft.com/en-us/windows/win32/coreaudio/device-roles."
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}",
+    "description": "Shown on Windows to indicate that the specified audio device is the default communications device. See https://learn.microsoft.com/en-us/windows/win32/coreaudio/device-roles"
+  },
   "icu:muteNotificationsTitle": {
     "messageformat": "Mute notifications",
     "description": "Label for the mute notifications drop-down selector"

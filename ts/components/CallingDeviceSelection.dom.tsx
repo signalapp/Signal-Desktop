@@ -3,7 +3,7 @@
 
 import type { JSX } from 'react';
 
-import type { AudioDevice } from '@signalapp/ringrtc';
+import type { AudioDeviceList } from '@signalapp/ringrtc';
 
 import type { Option } from './Select.dom.tsx';
 import { Modal } from './Modal.dom.tsx';
@@ -13,7 +13,11 @@ import type {
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
 } from '../types/Calling.std.ts';
-import { CallingDeviceType } from '../types/Calling.std.ts';
+import {
+  CallingDeviceType,
+  audioDevicePrefToId,
+  audioDevicePrefStrToAudioDevicePref,
+} from '../types/Calling.std.ts';
 import { Theme } from '../util/theme.std.ts';
 
 export type Props = MediaDeviceSettings & {
@@ -22,34 +26,80 @@ export type Props = MediaDeviceSettings & {
   toggleSettings: () => void;
 };
 
-function localizeDefault(i18n: LocalizerType, deviceLabel: string): string {
-  return deviceLabel.toLowerCase().startsWith('default')
-    ? deviceLabel.replace(
-        /default/i,
-        i18n('icu:callingDeviceSelection__select--default')
-      )
-    : deviceLabel;
+function renderDefaultLabel(i18n: LocalizerType, deviceLabel: string): string {
+  return i18n('icu:callingDeviceSelection__select--default-nonwin', {
+    deviceName: deviceLabel,
+  });
 }
 
-function renderAudioOptions(
-  devices: Array<AudioDevice>,
+function renderDefaultComms(i18n: LocalizerType, deviceLabel: string): string {
+  return i18n('icu:callingDeviceSelection__select--default_communications', {
+    deviceName: deviceLabel,
+  });
+}
+
+function renderDefaultConsole(
+  i18n: LocalizerType,
+  deviceLabel: string
+): string {
+  return i18n('icu:callingDeviceSelection__select--default_console', {
+    deviceName: deviceLabel,
+  });
+}
+
+// returns the devices found or a placeholder option, and a boolean indicating
+// whether we found any devices (and should let the user select from the list)
+export function renderAudioOptions(
+  devices: AudioDeviceList,
   i18n: LocalizerType
-): Array<Option> {
-  if (!devices.length) {
+): [Array<Option>, boolean] {
+  const out = [];
+  if (devices.defaults.isWindows) {
+    if (devices.defaults.communicationsDevice !== undefined) {
+      out.push({
+        text: renderDefaultComms(
+          i18n,
+          devices.defaults.communicationsDevice.name
+        ),
+        // should match AudioDevicePref
+        value: 'windowsCommunications',
+      });
+    }
+    if (devices.defaults.consoleDevice !== undefined) {
+      out.push({
+        text: renderDefaultConsole(i18n, devices.defaults.consoleDevice.name),
+        // should match AudioDevicePref
+        value: 'windowsConsole',
+      });
+    }
+  } else if (devices.defaults.device !== undefined) {
+    out.push({
+      text: renderDefaultLabel(i18n, devices.defaults.device.name),
+      // should match AudioDevicePref
+      value: 'nonWindowsDefault',
+    });
+  }
+
+  for (const device of devices.devices) {
+    out.push({
+      text: device.name,
+      value: device.uniqueId,
+    });
+  }
+
+  if (!out.length) {
     return [
-      {
-        text: i18n('icu:callingDeviceSelection__select--no-device'),
-        value: '',
-      },
+      [
+        {
+          text: i18n('icu:callingDeviceSelection__select--no-device'),
+          value: 'emptyAudioDeviceList',
+        },
+      ],
+      false,
     ];
   }
 
-  return devices.map(device => {
-    return {
-      text: localizeDefault(i18n, device.name),
-      value: device.index,
-    };
-  });
+  return [out, true];
 }
 
 function renderVideoOptions(
@@ -67,23 +117,25 @@ function renderVideoOptions(
 
   return devices.map((device: MediaDeviceInfo) => {
     return {
-      text: localizeDefault(i18n, device.label),
+      text: device.label,
       value: device.deviceId,
     };
   });
 }
 
 function createAudioChangeHandler(
-  devices: Array<AudioDevice>,
+  devices: AudioDeviceList,
   changeIODevice: (payload: ChangeIODevicePayloadType) => void,
   type: CallingDeviceType.SPEAKER | CallingDeviceType.MICROPHONE
 ) {
   return (value: string): void => {
-    changeIODevice({
-      type,
-      // oxlint-disable-next-line typescript/no-non-null-assertion
-      selectedDevice: devices[Number(value)]!,
-    });
+    const pref = audioDevicePrefStrToAudioDevicePref(value, devices);
+    if (pref) {
+      changeIODevice({
+        type,
+        selectedDevice: pref,
+      });
+    }
   };
 }
 
@@ -109,12 +161,16 @@ export function CallingDeviceSelection({
   selectedSpeaker,
   toggleSettings,
 }: Props): JSX.Element {
-  const selectedMicrophoneIndex = selectedMicrophone
-    ? selectedMicrophone.index
-    : undefined;
-  const selectedSpeakerIndex = selectedSpeaker
-    ? selectedSpeaker.index
-    : undefined;
+  const selectedMicrophoneId = audioDevicePrefToId(selectedMicrophone);
+  const selectedSpeakerId = audioDevicePrefToId(selectedSpeaker);
+  const [microphoneOptions, enableMicSelect] = renderAudioOptions(
+    availableMicrophones,
+    i18n
+  );
+  const [speakerOptions, enableSpeakerSelect] = renderAudioOptions(
+    availableSpeakers,
+    i18n
+  );
 
   return (
     <Modal
@@ -159,7 +215,7 @@ export function CallingDeviceSelection({
       </label>
       <div className="module-calling-device-selection__select">
         <Select
-          disabled={!availableMicrophones.length}
+          disabled={!enableMicSelect}
           id="audio-input"
           name="audio-input"
           onChange={createAudioChangeHandler(
@@ -167,8 +223,8 @@ export function CallingDeviceSelection({
             changeIODevice,
             CallingDeviceType.MICROPHONE
           )}
-          options={renderAudioOptions(availableMicrophones, i18n)}
-          value={selectedMicrophoneIndex}
+          options={microphoneOptions}
+          value={selectedMicrophoneId}
         />
       </div>
 
@@ -180,7 +236,7 @@ export function CallingDeviceSelection({
       </label>
       <div className="module-calling-device-selection__select">
         <Select
-          disabled={!availableSpeakers.length}
+          disabled={!enableSpeakerSelect}
           id="audio-output"
           name="audio-output"
           onChange={createAudioChangeHandler(
@@ -188,8 +244,8 @@ export function CallingDeviceSelection({
             changeIODevice,
             CallingDeviceType.SPEAKER
           )}
-          options={renderAudioOptions(availableSpeakers, i18n)}
-          value={selectedSpeakerIndex}
+          options={speakerOptions}
+          value={selectedSpeakerId}
         />
       </div>
     </Modal>

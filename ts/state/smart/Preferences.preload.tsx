@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import type { AudioDevice } from '@signalapp/ringrtc';
+import type { AudioDeviceList } from '@signalapp/ringrtc';
 import type { MutableRefObject, JSX } from 'react';
 
 import { useItemsActions } from '../ducks/items.preload.ts';
@@ -107,6 +107,7 @@ import { Emoji } from '../../axo/emoji.std.ts';
 import { AppProvider } from '../../windows/AppProvider.dom.tsx';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
+import { getDefaultAudioPreference } from '../../types/Calling.std.ts';
 import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
 import {
   pauseBackupMediaDownload,
@@ -137,6 +138,7 @@ import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
 import { disableSignalPin } from '../../util/disableSignalPin.preload.ts';
+import { getEmptyAudioDeviceList } from '../../types/Calling.std.ts';
 import {
   getBlockedContacts,
   getBlockedGroups,
@@ -398,12 +400,11 @@ export function SmartPreferences(): JSX.Element | null {
   const [availableCameras, setAvailableCameras] = useState<
     Array<MediaDeviceInfo>
   >([]);
-  const [availableMicrophones, setAvailableMicrophones] = useState<
-    Array<AudioDevice>
-  >([]);
-  const [availableSpeakers, setAvailableSpeakers] = useState<
-    Array<AudioDevice>
-  >([]);
+  const [availableMicrophones, setAvailableMicrophones] =
+    useState<AudioDeviceList>(getEmptyAudioDeviceList(OS.isWindows()));
+  const [availableSpeakers, setAvailableSpeakers] = useState<AudioDeviceList>(
+    getEmptyAudioDeviceList(OS.isWindows())
+  );
 
   useEffect(() => {
     let canceled = false;
@@ -891,11 +892,11 @@ export function SmartPreferences(): JSX.Element | null {
   );
   const [selectedMicrophone, onSelectedMicrophoneChange] = createItemsAccess(
     'preferred-audio-input-device',
-    undefined
+    getDefaultAudioPreference(OS.isWindows())
   );
   const [selectedSpeaker, onSelectedSpeakerChange] = createItemsAccess(
     'preferred-audio-output-device',
-    undefined
+    getDefaultAudioPreference(OS.isWindows())
   );
 
   const [sentMediaQualitySetting, onSentMediaQualityChange] = createItemsAccess(

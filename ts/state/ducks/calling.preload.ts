@@ -51,6 +51,8 @@ import {
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
+  getEmptyAudioDeviceList,
+  getDefaultAudioPreference,
 } from '../../types/Calling.std.ts';
 import { CallMode } from '../../types/CallDisposition.std.ts';
 import { callingTones } from '../../util/callingTones.preload.ts';
@@ -138,6 +140,7 @@ import type {
   StateDispatch,
   SyncStateThunk,
 } from '../types.std.ts';
+import OS from '../../util/os/osMain.node.ts';
 
 const { omit } = lodash;
 
@@ -3053,11 +3056,11 @@ export type ActionsType = ReadonlyDeep<typeof actions>;
 export function getEmptyState(): CallingStateType {
   return {
     availableCameras: [],
-    availableMicrophones: [],
-    availableSpeakers: [],
+    availableMicrophones: getEmptyAudioDeviceList(OS.isWindows()),
+    availableSpeakers: getEmptyAudioDeviceList(OS.isWindows()),
     selectedCamera: undefined,
-    selectedMicrophone: undefined,
-    selectedSpeaker: undefined,
+    selectedMicrophone: getDefaultAudioPreference(OS.isWindows()),
+    selectedSpeaker: getDefaultAudioPreference(OS.isWindows()),
 
     callsByConversation: {},
     adhocCalls: {},

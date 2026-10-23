@@ -8,21 +8,22 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { Props } from './CallingDeviceSelection.dom.tsx';
 import { CallingDeviceSelection } from './CallingDeviceSelection.dom.tsx';
+import type { AudioDevicePref } from '../types/Calling.std.ts';
+import { getEmptyAudioDeviceList } from '../types/Calling.std.ts';
+import type { AudioDeviceList } from '@signalapp/ringrtc';
 
 const { i18n } = window.SignalContext;
 
 const audioDevice = {
   name: '',
-  index: 0,
   uniqueId: '',
-  i18nKey: undefined,
 };
 
 const createProps = ({
-  availableMicrophones = [],
-  availableSpeakers = [],
-  selectedMicrophone = audioDevice,
-  selectedSpeaker = audioDevice,
+  availableMicrophones = getEmptyAudioDeviceList(false),
+  availableSpeakers = getEmptyAudioDeviceList(false),
+  selectedMicrophone = { type: 'specificDevice', device: audioDevice },
+  selectedSpeaker = { type: 'nonWindowsDefault' },
   availableCameras = [],
   selectedCamera = '',
 }: Partial<Props> = {}): Props => ({
@@ -46,25 +47,33 @@ export function Default(): JSX.Element {
 }
 
 export function SomeDevices(): JSX.Element {
-  const availableSpeakers = [
-    {
+  const availableSpeakers: AudioDeviceList = {
+    devices: [
+      {
+        name: 'Default',
+        uniqueId: 'Default',
+      },
+      {
+        name: "Natalie's Airpods (Bluetooth)",
+        uniqueId: 'aa',
+      },
+      {
+        name: 'UE Boom (Bluetooth)',
+        uniqueId: 'bb',
+      },
+    ],
+    defaults: {
+      isWindows: false,
+      device: { name: 'Default', uniqueId: 'Default' },
+    },
+  };
+  const selectedSpeaker: AudioDevicePref = {
+    type: 'specificDevice',
+    device: {
       name: 'Default',
-      index: 0,
       uniqueId: 'Default',
-      i18nKey: 'default_communication_device',
     },
-    {
-      name: "Natalie's Airpods (Bluetooth)",
-      index: 1,
-      uniqueId: 'aa',
-    },
-    {
-      name: 'UE Boom (Bluetooth)',
-      index: 2,
-      uniqueId: 'bb',
-    },
-  ];
-  const selectedSpeaker = availableSpeakers[0];
+  };
 
   const props = createProps({
     availableSpeakers,
@@ -75,25 +84,35 @@ export function SomeDevices(): JSX.Element {
 }
 
 export function DefaultDevices(): JSX.Element {
-  const availableSpeakers = [
-    {
-      name: 'default (Headphones)',
-      index: 0,
-      uniqueId: 'Default',
-      i18nKey: 'default_communication_device',
+  const availableSpeakers: AudioDeviceList = {
+    devices: [
+      {
+        name: 'default (Headphones)',
+        uniqueId: 'Default',
+      },
+    ],
+    defaults: {
+      isWindows: true,
+      consoleDevice: { name: 'Console', uniqueId: 'console' },
+      communicationsDevice: { name: 'Comms', uniqueId: 'comms' },
     },
-  ];
-  const selectedSpeaker = availableSpeakers[0];
+  };
+  const selectedSpeaker: AudioDevicePref = { type: 'nonWindowsDefault' };
 
-  const availableMicrophones = [
-    {
-      name: 'DefAuLt (Headphones)',
-      index: 0,
-      uniqueId: 'Default',
-      i18nKey: 'default_communication_device',
+  const availableMicrophones: AudioDeviceList = {
+    devices: [
+      {
+        name: 'DefAuLt (Microphone)',
+        uniqueId: 'Default',
+      },
+    ],
+    defaults: {
+      isWindows: true,
+      consoleDevice: { name: 'Console Mic', uniqueId: 'console' },
+      communicationsDevice: { name: 'Comms Mic', uniqueId: 'comms' },
     },
-  ];
-  const selectedMicrophone = availableMicrophones[0];
+  };
+  const selectedMicrophone: AudioDevicePref = { type: 'nonWindowsDefault' };
 
   const props = createProps({
     availableMicrophones,
@@ -106,40 +125,48 @@ export function DefaultDevices(): JSX.Element {
 }
 
 export function AllDevices(): JSX.Element {
-  const availableSpeakers = [
-    {
-      name: 'Default',
-      index: 0,
-      uniqueId: 'Default',
-      i18nKey: 'default_communication_device',
+  const availableSpeakers: AudioDeviceList = {
+    devices: [
+      {
+        name: 'Default',
+        uniqueId: 'Default',
+      },
+      {
+        name: "Natalie's Airpods (Bluetooth)",
+        uniqueId: 'aa',
+      },
+      {
+        name: 'UE Boom (Bluetooth)',
+        uniqueId: 'bb',
+      },
+    ],
+    defaults: {
+      isWindows: false,
+      device: { name: 'Default', uniqueId: 'Default' },
     },
-    {
-      name: "Natalie's Airpods (Bluetooth)",
-      index: 1,
-      uniqueId: 'aa',
-    },
-    {
-      name: 'UE Boom (Bluetooth)',
-      index: 2,
-      uniqueId: 'bb',
-    },
-  ];
-  const selectedSpeaker = availableSpeakers[0];
+  };
+  const selectedSpeaker: AudioDevicePref = { type: 'windowsConsole' };
 
-  const availableMicrophones = [
-    {
-      name: 'Default',
-      index: 0,
-      uniqueId: 'Default',
-      i18nKey: 'default_communication_device',
+  const availableMicrophones: AudioDeviceList = {
+    devices: [
+      {
+        name: 'Default',
+        uniqueId: 'Default',
+      },
+      {
+        name: "Natalie's Airpods (Bluetooth)",
+        uniqueId: 'aa',
+      },
+    ],
+    defaults: {
+      isWindows: false,
+      device: {
+        name: 'Monitor of UE Boom (Bluetooth)',
+        uniqueId: 'bb.monitor',
+      },
     },
-    {
-      name: "Natalie's Airpods (Bluetooth)",
-      index: 1,
-      uniqueId: 'aa',
-    },
-  ];
-  const selectedMicrophone = availableMicrophones[0];
+  };
+  const selectedMicrophone: AudioDevicePref = { type: 'windowsCommunications' };
 
   const availableCameras = [
     {
