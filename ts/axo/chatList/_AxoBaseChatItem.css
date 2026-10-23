@@ -1,0 +1,139 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-chat-item {
+    &:is([data-hovered], [data-axo-contextmenu-state='open']) {
+      --axo-chat-item-bg: var(--axo-color-fill-primary);
+    }
+
+    &:is([data-pressed]) {
+      --axo-chat-item-bg: var(--axo-color-fill-primary-pressed);
+    }
+  }
+
+  .axo-chat-item-inner {
+    @apply flex items-center gap-3;
+    @apply curved-2xl;
+    /* Set with a variable so badge outlines can match it */
+    @apply bg-(--axo-chat-item-bg);
+    @apply forced-colors:border forced-colors:border-transparent;
+
+    :where(.axo-chat-item[data-focused]) > & {
+      @apply axo-focus-ring;
+    }
+  }
+
+  .axo-chat-item-avatar {
+    @apply relative shrink-0;
+  }
+
+  .axo-chat-item.axo-chat-item-compact {
+    @apply flex justify-center py-0.5;
+
+    .axo-chat-item-inner {
+      /* Hug the avatar */
+      @apply w-fit;
+      /* Around the 40px avatar */
+      @apply px-2.5 py-2;
+    }
+
+    .axo-chat-item-badges {
+      @apply absolute -inset-x-1.25 -top-px flex;
+      /* Count on the end */
+      @apply justify-end;
+
+      &.axo-chat-item-badges-mentioned {
+        /* Mentions on the start, count on the end */
+        @apply justify-between;
+      }
+    }
+
+    .axo-chat-item-badge {
+      @apply rounded-full;
+      @apply shadow-[0_0_0_3px_var(--axo-chat-item-bg,transparent),0_0_0_3px_var(--axo-color-surface-secondary)];
+    }
+  }
+
+  .axo-chat-item:not(.axo-chat-item-compact) {
+    @apply px-2.5 py-0.5;
+
+    .axo-chat-item-inner {
+      /* 68px tall with a 48px avatar */
+      @apply px-3.5 py-2.5;
+    }
+
+    .axo-chat-item-content {
+      @apply grid min-w-0 flex-1;
+      /*
+      * The label shrinks before the timestamp, keeping the label icon right
+      * after it. The timestamp and description each span the flexible column
+      * so the top and bottom lines don't affect each other's widths.
+      *
+      * Parts that aren't rendered collapse their (auto) columns, so spacing is
+      * set with margins instead of gaps.
+      */
+      grid-template:
+        'label label-icon timestamp timestamp timestamp' auto
+        'description description description outgoing-status badges' auto
+        / minmax(0, max-content) auto 1fr auto auto;
+    }
+
+    .axo-chat-item-label {
+      grid-area: label;
+      @apply min-w-0 self-center truncate;
+      @apply type-title-small text-primary;
+      @apply forced-colors:text-[CanvasText];
+      /* Label + 2 description lines = 54px, centered in a 68px item */
+      @apply leading-4.5;
+    }
+
+    .axo-chat-item-label-icon {
+      grid-area: label-icon;
+      @apply ms-1.5 flex self-center text-secondary;
+    }
+
+    .axo-chat-item-timestamp {
+      grid-area: timestamp;
+      @apply ms-1.5 self-center justify-self-end whitespace-nowrap;
+      @apply type-caption text-secondary;
+      @apply forced-colors:text-[GrayText];
+    }
+
+    .axo-chat-item-description {
+      grid-area: description;
+      @apply min-w-0 self-start text-start;
+      @apply type-body-medium text-secondary;
+      @apply forced-colors:text-[GrayText];
+      /* Always reserve both lines so all chat items are the same height */
+      @apply line-clamp-2 h-9;
+    }
+
+    .axo-chat-item-outgoing-status {
+      grid-area: outgoing-status;
+      @apply ms-1.5 mt-0.5 flex self-start;
+      /* Matches a 14px icon */
+      @apply text-[14px] leading-none;
+      @apply text-secondary forced-colors:text-[GrayText];
+    }
+
+    .axo-chat-item-outgoing-status-error {
+      @apply text-destructive;
+    }
+
+    .axo-chat-item-badges {
+      grid-area: badges;
+      @apply mt-px flex gap-1 self-start ps-2.5;
+    }
+
+    .axo-chat-item-count {
+      @apply shrink-0;
+    }
+
+    .axo-chat-item-accessory {
+      @apply flex shrink-0 items-center gap-2;
+    }
+  }
+}

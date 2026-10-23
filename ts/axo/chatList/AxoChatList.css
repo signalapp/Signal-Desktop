@@ -1,0 +1,29 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-chat-list-label {
+    /* Aligned with the item's avatar */
+    @apply flex h-10 items-end px-6 pb-2;
+    @apply truncate type-title-small text-primary;
+  }
+
+  .axo-chat-list-empty-state,
+  .axo-chat-list-loading-state {
+    @apply flex items-center justify-center px-3 py-12;
+    @apply text-center type-body-medium text-secondary;
+  }
+
+  .axo-chat-list-compact {
+    .axo-chat-list-label {
+      /* Render a divider, but keep the text for screen readers */
+      @apply mx-auto my-4.75 block h-0.5 w-10 rounded-full bg-secondary p-0;
+    }
+
+    .axo-chat-list-label-text {
+      @apply sr-only;
+    }
+  }
+}

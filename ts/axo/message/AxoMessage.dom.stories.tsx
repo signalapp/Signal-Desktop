@@ -3,6 +3,7 @@
 import { type ReactNode } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoMessage } from './AxoMessage.dom.tsx';
+import type { AxoOutgoingStatus } from './AxoOutgoingStatus.dom.tsx';
 import { SentTimestampMs } from '@signalapp/types';
 import { action } from '@storybook/addon-actions';
 import { tw } from '../tw.dom.tsx';
@@ -107,7 +108,7 @@ export function PartiallySent(): ReactNode {
 }
 
 function OutgoingStatusTemplate(props: {
-  outgoingStatus: AxoMessage.OutgoingStatus;
+  outgoingStatus: AxoOutgoingStatus.Status;
 }) {
   return (
     <AxoMessage.Root direction="outgoing">
@@ -131,6 +132,8 @@ export function OutgoingStatus(): ReactNode {
       <OutgoingStatusTemplate outgoingStatus="sent" />
       <OutgoingStatusTemplate outgoingStatus="delivered" />
       <OutgoingStatusTemplate outgoingStatus="read" />
+      <OutgoingStatusTemplate outgoingStatus="paused" />
+      <OutgoingStatusTemplate outgoingStatus="error" />
     </Chat>
   );
 }

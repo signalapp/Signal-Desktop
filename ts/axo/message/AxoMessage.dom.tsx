@@ -12,13 +12,12 @@ import {
 } from 'react';
 import { tw } from '../tw.dom.tsx';
 import type { SentTimestampMs } from '@signalapp/types';
-import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
 } from '../_internal/StrictContext.dom.tsx';
-import { variants } from '../_internal/variants.dom.tsx';
 import { AxoExpireTimer } from './AxoExpireTimer.dom.tsx';
+import { AxoOutgoingStatus } from './AxoOutgoingStatus.dom.tsx';
 
 // TODO: We can add  author name and timestamp as invisible text in order to
 // format the message nicely when copy and pasted
@@ -278,42 +277,12 @@ export namespace AxoMessage {
    * --------------------------------------------------------------------------
    */
 
-  export type OutgoingStatus = 'sending' | 'sent' | 'delivered' | 'read';
-
-  const OutgoingStatusSymbols = variants<OutgoingStatus, AxoSymbol.Name>(
-    'AxoMessage.OutgoingStatus',
-    {
-      sending: 'ticks',
-      sent: 'check-circle',
-      delivered: 'check-circle-on-check-circle',
-      read: 'check-circle-on-check-circle-fill',
-    }
-  );
-
   export type MetaOutgoingStatusProps = Readonly<{
-    status: OutgoingStatus;
+    status: AxoOutgoingStatus.Status;
   }>;
 
-  // TODO: Pull this into its own component so it can be used in other places like message details
   export const MetaOutgoingStatus: FC<MetaOutgoingStatusProps> = memo(props => {
-    const inlineGlyph = (
-      <AxoSymbol.InlineGlyph
-        symbol={OutgoingStatusSymbols.get(props.status)}
-        label={null}
-        preferWide
-      />
-    );
-
-    return (
-      <span
-        // TODO: Need to do more research on the best way to make this accessible
-        // but maybe something like adding role="status"` `aria-live={false}`,
-        // and `aria-label` for each status
-        className={tw(props.status === 'sending' && 'animate-spin')}
-      >
-        {inlineGlyph}
-      </span>
-    );
+    return <AxoOutgoingStatus.Root status={props.status} label={null} />;
   });
 
   MetaOutgoingStatus.displayName = 'AxoMessage.MetaOutgoingStatus';

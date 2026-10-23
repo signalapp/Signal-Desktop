@@ -57,6 +57,11 @@ export namespace AxoCheckbox {
      */
     id?: string;
     /**
+     * ID of an element that labels this checkbox, for when it can't be
+     * wrapped with a `<label>`.
+     */
+    labelledby?: string;
+    /**
      * Shape of the checkbox.
      */
     variant: Variant;
@@ -97,6 +102,7 @@ export namespace AxoCheckbox {
     return (
       <Checkbox.Root
         id={props.id}
+        aria-labelledby={props.labelledby}
         checked={props.checked}
         onCheckedChange={props.onCheckedChange}
         disabled={props.disabled}
