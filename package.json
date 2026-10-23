@@ -346,7 +346,7 @@
     "wait-on": "9.0.5",
     "webpack": "5.111.1",
     "write-file-atomic": "7.0.1",
-    "zod": "4.3.6"
+    "zod": "4.6.6"
   },
   "engines": {
     "node": "24.22.0"

@@ -1,0 +1,72 @@
+diff --git a/v4/core/core.cjs b/v4/core/core.cjs
+index 41266475c7a4125a9df8aee2553f2610a4c77f1d..c0f470495ba53032b4b4272c5a3530be0dd00ea5 100644
+--- a/v4/core/core.cjs
++++ b/v4/core/core.cjs
+@@ -1,7 +1,9 @@
+ "use strict";
+ var _a;
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.globalConfig = exports.$ZodEncodeError = exports.$ZodAsyncError = exports.$brand = exports.NEVER = void 0;
++// SIGNAL CHANGE
++exports.globalConfig = { jitless: true };
++exports.$ZodEncodeError = exports.$ZodAsyncError = exports.$brand = exports.NEVER = void 0;
+ exports.$constructor = $constructor;
+ exports.config = config;
+ const util_js_1 = require("./util.cjs");
+diff --git a/v4/core/core.js b/v4/core/core.js
+index c8a0e5fc6d2680de8f07fa35b8c196f677c8a950..3024cbe8512df77e9f340698024c44292207932d 100644
+--- a/v4/core/core.js
++++ b/v4/core/core.js
+@@ -132,8 +132,10 @@ export class $ZodEncodeError extends Error {
+         this.name = "ZodEncodeError";
+     }
+ }
+-(_a = globalThis).__zod_globalConfig ?? (_a.__zod_globalConfig = {});
+-export const globalConfig = globalThis.__zod_globalConfig;
++
++// SIGNAL CHANGE
++// (_a = globalThis).__zod_globalConfig ?? (_a.__zod_globalConfig = {});
++export const globalConfig = { jitless: true };
+ export function config(newConfig) {
+     if (newConfig)
+         Object.assign(globalConfig, newConfig);
+diff --git a/v4/core/registries.cjs b/v4/core/registries.cjs
+index 15581040b418a1602636e626271ec8779a1ffb8f..b85260ef1d11f8582b0513a2cda6380c80cf4d81 100644
+--- a/v4/core/registries.cjs
++++ b/v4/core/registries.cjs
+@@ -1,7 +1,9 @@
+ "use strict";
+ var _a;
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.globalRegistry = exports.$ZodRegistry = exports.$input = exports.$output = void 0;
++// SIGNAL CHANGE
++exports.globalRegistry = { jitless: true }
++exports.$ZodRegistry = exports.$input = exports.$output = void 0;
+ exports.registry = registry;
+ exports.$output = Symbol("ZodOutput");
+ exports.$input = Symbol("ZodInput");
+@@ -52,8 +54,9 @@ exports.$ZodRegistry = $ZodRegistry;
+ function registry() {
+     return new $ZodRegistry();
+ }
+-(_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
+-exports.globalRegistry = globalThis.__zod_globalRegistry;
++// SIGNAL CHANGE
++// (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
++exports.globalRegistry = registry();
+ 
+ // seal-cjs-exports
+ (function () {
+diff --git a/v4/core/registries.js b/v4/core/registries.js
+index e30a0b00874e9d3c150ee1c81912144722b91c5b..dc586db300f15760e804bce061b1b69bcaaeca83 100644
+--- a/v4/core/registries.js
++++ b/v4/core/registries.js
+@@ -47,5 +47,6 @@ export class $ZodRegistry {
+ export function registry() {
+     return new $ZodRegistry();
+ }
+-(_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
+-export const globalRegistry = globalThis.__zod_globalRegistry;
++// SIGNAL CHANGE
++// (_a = globalThis).__zod_globalRegistry ?? (_a.__zod_globalRegistry = registry());
++export const globalRegistry = registry();

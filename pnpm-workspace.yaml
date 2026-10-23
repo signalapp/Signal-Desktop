@@ -109,7 +109,7 @@ patchedDependencies:
   'playwright-core': 'patches/playwright-core.patch'
   'qrcode-generator': 'patches/qrcode-generator.patch'
   'react-popper@2.3.0': 'patches/react-popper@2.3.0.patch'
-  'zod@4.3.6': 'patches/zod@4.3.6.patch'
+  'zod': 'patches/zod@4.6.6.patch'
 
 strictDepBuilds: true
 allowBuilds:
