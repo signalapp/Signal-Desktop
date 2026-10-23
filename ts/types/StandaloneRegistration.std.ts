@@ -5,7 +5,7 @@ import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverabil
 import type { AvatarDataType } from './Avatar.std.ts';
 import type { VerificationTransport } from './VerificationTransport.std.ts';
 
-import { isAlpha } from '../util/version.std.ts';
+import { isNightly } from '../util/version.std.ts';
 import {
   Environment,
   getEnvironment,
@@ -14,7 +14,7 @@ import {
 
 export function isStandaloneEnabled(version: string): boolean {
   return (
-    isAlpha(version) ||
+    isNightly(version) ||
     isTestOrMockEnvironment() ||
     getEnvironment() === Environment.Development
   );

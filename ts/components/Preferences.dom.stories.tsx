@@ -482,6 +482,7 @@ export default {
     deviceName: 'Work Windows ME',
     emojiSkinToneDefault: Emoji.SkinTone.None,
     phoneNumber: '+1 555 123-4567',
+    e164: '+15551234567',
     hasAnyCurrentCustomChatFolders: false,
     hasAudioNotifications: true,
     hasAutoConvertEmoji: true,
