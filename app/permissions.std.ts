@@ -16,6 +16,7 @@ const PERMISSIONS: Record<string, boolean> = {
   fullscreen: true, // required to show videos in full-screen
   notifications: true, // required to show OS notifications for new messages
   'clipboard-sanitized-write': true, // required to copy text into clipboard
+  'display-capture': true, // required for screen sharing; TODO: DESKTOP-1611
 
   // Off by default, can be enabled by user
   media: false, // required for access to microphone and camera, used for voice notes and calling
@@ -27,7 +28,7 @@ const PERMISSIONS: Record<string, boolean> = {
   pointerLock: false,
 };
 
-function _createPermissionHandler(
+export function _createPermissionHandler(
   userConfig: Pick<ConfigType, 'get'>
 ): Parameters<typeof ElectronSession.prototype.setPermissionRequestHandler>[0] {
   return (_webContents, permission, callback, details): void => {
@@ -40,31 +41,22 @@ function _createPermissionHandler(
         return;
       }
 
-      if (
-        details.mediaTypes?.includes('audio') ||
-        details.mediaTypes?.includes('video')
-      ) {
-        if (
-          details.mediaTypes?.includes('audio') &&
-          userConfig.get('mediaPermissions')
-        ) {
-          callback(true);
-          return;
-        }
-        if (
-          details.mediaTypes?.includes('video') &&
-          userConfig.get('mediaCameraPermissions')
-        ) {
-          callback(true);
-          return;
-        }
+      const wantsAudio = details.mediaTypes?.includes('audio') ?? false;
+      const wantsVideo = details.mediaTypes?.includes('video') ?? false;
 
+      if (!wantsAudio && !wantsVideo) {
+        callback(false);
+        return;
+      }
+      if (wantsAudio && !userConfig.get('mediaPermissions')) {
+        callback(false);
+        return;
+      }
+      if (wantsVideo && !userConfig.get('mediaCameraPermissions')) {
         callback(false);
         return;
       }
 
-      // If it doesn't have 'video' or 'audio', it's probably screenshare.
-      // TODO: DESKTOP-1611
       callback(true);
       return;
     }

@@ -206,7 +206,7 @@ settings:
 
 overrides:
   '@electron/rebuild>node-gyp': 12.4.0
-  '@electron/rebuild>node-abi': 4.34.0
+  '@electron/rebuild>node-abi': 4.38.0
   '@xmldom/xmldom@0.8': ^0.8.15
   axios@1: ^1.20.0
   brace-expansion@5: ^5.0.11
@@ -614,8 +614,8 @@ importers:
         specifier: 0.7.1
         version: 0.7.1
       electron:
-        specifier: 44.9.1
-        version: 44.9.1(supports-color@8.1.1)
+        specifier: 45.0.0
+        version: 45.0.0(supports-color@8.1.1)
       electron-builder:
         specifier: 26.11.1
         version: 26.11.1(electron-builder-squirrel-windows@26.11.1)(supports-color@8.1.1)
@@ -7177,8 +7177,8 @@ packages:
     resolution: {integrity: sha512-bO3y10YikuUwUuDUQRM4KfwNkKhnpVO7IPdbsrejwN9/AABJzzTQ4GeHwyzNSrVO+tEH3/Np255a3sVZpZDjvg==, tarball: https://registry.npmjs.org/electron-winstaller/-/electron-winstaller-5.4.0.tgz}
     engines: {node: '>=8.0.0'}
 
-  electron@44.9.1:
-    resolution: {integrity: sha512-x/tECFFDa2OFNjMObFH0EGKWrCnFZPOR1wP2iMIVt0STecGl8FmDXdaiaryY0kf8mtw9kSLP2yK8dfdaWkfDmw==, tarball: https://registry.npmjs.org/electron/-/electron-44.9.1.tgz}
+  electron@45.0.0:
+    resolution: {integrity: sha512-yjz4uhMBcO6L5X7CWgRMobf2EMJPnb9j4zuf+nu/TU/6E4Sqfx7fn/a2eACo4qngjml/0JnsoZhxYroJLxLd2w==, tarball: https://registry.npmjs.org/electron/-/electron-45.0.0.tgz}
     engines: {node: '>= 22.12.0'}
     hasBin: true
 
@@ -9407,8 +9407,8 @@ packages:
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==, tarball: https://registry.npmjs.org/no-case/-/no-case-3.0.4.tgz}
 
-  node-abi@4.34.0:
-    resolution: {integrity: sha512-4Oy5Q6/Ftna9sXyrkdnKypfvm9uWRpxUPvlw4oA192QNMN39aq8k4l36TUUUU/ONw7ivGVi402Ud+UBPVDYh6A==, tarball: https://registry.npmjs.org/node-abi/-/node-abi-4.34.0.tgz}
+  node-abi@4.38.0:
+    resolution: {integrity: sha512-suSdznUPfabdaeLiNERA0LHod14RhcEn8wMPUZEQ6bKvajUCZ+aizY4pIvlLU+gImeLKp2bFDHhOc9yonISsXw==, tarball: https://registry.npmjs.org/node-abi/-/node-abi-4.38.0.tgz}
     engines: {node: '>=22.12.0'}
 
   node-abort-controller@3.1.1:
@@ -12419,7 +12419,7 @@ snapshots:
       detect-libc: 2.1.2
       got: 11.8.6
       graceful-fs: 4.2.11
-      node-abi: 4.34.0
+      node-abi: 4.38.0
       node-api-version: 0.2.1
       node-gyp: 12.4.0
       ora: 5.4.1
@@ -18414,7 +18414,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@44.9.1(supports-color@8.1.1):
+  electron@45.0.0(supports-color@8.1.1):
     dependencies:
       '@electron-internal/extract-zip': 1.0.4
       '@electron/get': 5.0.0(supports-color@8.1.1)
@@ -21046,7 +21046,7 @@ snapshots:
       lower-case: 2.0.2
       tslib: 2.8.1
 
-  node-abi@4.34.0:
+  node-abi@4.38.0:
     dependencies:
       semver: 7.7.4
 
