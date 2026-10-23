@@ -2897,12 +2897,11 @@ class CallingClass {
     ) {
       return false;
     }
-    // oxlint-disable-next-line typescript/prefer-for-of
     for (let i = 0; i < a.availableCameras.length; i += 1) {
       // oxlint-disable-next-line typescript/no-non-null-assertion
       const aCamera = a.availableCameras[i]!;
       // oxlint-disable-next-line typescript/no-non-null-assertion
-      const bCamera = a.availableCameras[i]!;
+      const bCamera = b.availableCameras[i]!;
       if (
         aCamera.deviceId !== bCamera.deviceId ||
         aCamera.groupId !== bCamera.groupId ||
