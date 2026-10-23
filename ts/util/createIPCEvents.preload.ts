@@ -83,6 +83,7 @@ export type IPCEventsCallbacksType = {
   ) => Promise<string>;
 };
 
+// oxlint-disable-next-line typescript/no-generated-empty-object-type
 type ValuesWithGetters = Omit<
   SettingsValuesType,
   // Async - we'll redefine these in IPCEventsGettersType

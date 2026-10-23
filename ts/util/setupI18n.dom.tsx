@@ -6,7 +6,6 @@ import type { JSX } from 'react';
 import type { LocaleMessagesType } from '../types/I18N.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { setupI18n as setupI18nMain } from './setupI18nMain.std.ts';
-import type { SetupI18nOptionsType } from './setupI18nMain.std.ts';
 import { strictAssert } from './assert.std.ts';
 
 function renderEmojify(parts: ReadonlyArray<unknown>): JSX.Element {
@@ -29,14 +28,9 @@ function getHourCyclePreference() {
 
 export function setupI18n(
   locale: string,
-  messages: LocaleMessagesType,
-  options: Omit<
-    SetupI18nOptionsType,
-    'renderEmojify' | 'getLocaleDirection' | 'getHourCyclePreference'
-  > = {}
+  messages: LocaleMessagesType
 ): LocalizerType {
   return setupI18nMain(locale, messages, {
-    ...options,
     renderEmojify,
     getLocaleDirection,
     getHourCyclePreference,

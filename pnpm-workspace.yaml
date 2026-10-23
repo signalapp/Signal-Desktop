@@ -18,6 +18,26 @@ minimumReleaseAgeStrict: true
 minimumReleaseAgeExclude:
   - '@signalapp/*'
   - 'electron'
+  - '@oxlint/binding-android-arm-eabi@1.88.0'
+  - '@oxlint/binding-android-arm64@1.88.0'
+  - '@oxlint/binding-darwin-arm64@1.88.0'
+  - '@oxlint/binding-darwin-x64@1.88.0'
+  - '@oxlint/binding-freebsd-x64@1.88.0'
+  - '@oxlint/binding-linux-arm-gnueabihf@1.88.0'
+  - '@oxlint/binding-linux-arm-musleabihf@1.88.0'
+  - '@oxlint/binding-linux-arm64-gnu@1.88.0'
+  - '@oxlint/binding-linux-arm64-musl@1.88.0'
+  - '@oxlint/binding-linux-ppc64-gnu@1.88.0'
+  - '@oxlint/binding-linux-riscv64-gnu@1.88.0'
+  - '@oxlint/binding-linux-riscv64-musl@1.88.0'
+  - '@oxlint/binding-linux-s390x-gnu@1.88.0'
+  - '@oxlint/binding-linux-x64-gnu@1.88.0'
+  - '@oxlint/binding-linux-x64-musl@1.88.0'
+  - '@oxlint/binding-openharmony-arm64@1.88.0'
+  - '@oxlint/binding-win32-arm64-msvc@1.88.0'
+  - '@oxlint/binding-win32-ia32-msvc@1.88.0'
+  - '@oxlint/binding-win32-x64-msvc@1.88.0'
+  - oxlint@1.88.0
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
