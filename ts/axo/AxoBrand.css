@@ -1,0 +1,12 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  .axo-brand-logo-and-watermark {
+    @apply shrink-0;
+    @apply h-auto;
+    @apply text-[light-dark(var(--axo-color-brand-primary),#fff)];
+  }
+}
