@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20250714@sha256:1ec65b2719518e27d4d25f104d93f9fac60dc437f81452302406825c46fcc9cb
+FROM ubuntu:jammy-20260930@sha256:0a9887931b0e38af2e3487ed39e29436b0535c4f3f52e57745baaf79d1898956
 
 # Allows package builders like FPM (used for creating the .deb package
 # on linux) to make their build timestamps determistic. Otherwise, a fresh
