@@ -17,6 +17,7 @@ import {
   useRef,
 } from 'react';
 import { mergeRefs } from '@react-aria/utils';
+import { Slot } from 'radix-ui';
 import {
   createStrictContext,
   useStrictContext,
@@ -195,10 +196,16 @@ export namespace AxoBaseItem {
 
   export type RootProps = Readonly<{
     ref?: Ref<HTMLDivElement>;
+    /**
+     * Render the root as the child element (e.g. a `<button>`), whose children
+     * are wrapped in the item's inner element.
+     */
+    asChild?: boolean;
     variant?: Variant;
     /**
      * Dims the contents of the item and disables its `HiddenTrigger`.
      * Accessories (switches, selects, button) must be disabled separately.
+     * With `asChild`, this is also forwarded to the child element.
      */
     disabled?: boolean;
 
@@ -212,6 +219,7 @@ export namespace AxoBaseItem {
   export const Root: FC<RootProps> = memo(props => {
     const {
       ref,
+      asChild = false,
       variant = 'secondary',
       disabled = false,
       children,
@@ -224,28 +232,44 @@ export namespace AxoBaseItem {
       return { disabled };
     }, [disabled]);
 
+    const Comp = asChild ? Slot.Root : 'div';
+
+    const renderInner = useCallback(
+      (child: ReactNode) => {
+        return (
+          <div
+            className={css(
+              'axo-item-root-inner',
+              disabled && 'axo-item-root-disabled',
+              Variants.get(variant)
+            )}
+          >
+            {child}
+          </div>
+        );
+      },
+      [disabled, variant]
+    );
+
     return (
       <RootContext value={context}>
         <AriaClickable.Root asChild>
-          <div
+          <Comp
             ref={mergeRefs(ref, groupContext.register)}
             className={css(
               'axo-item-root',
               tw('group'),
               forceStackedLayout && 'axo-item-root-force-stacked'
             )}
+            {...(asChild ? { disabled } : null)}
             {...forwardExtraPropsForRadix(rest)}
           >
-            <div
-              className={css(
-                'axo-item-root-inner',
-                disabled && 'axo-item-root-disabled',
-                Variants.get(variant)
-              )}
-            >
-              {children}
-            </div>
-          </div>
+            {asChild ? (
+              <Slot.Slottable child={children}>{renderInner}</Slot.Slottable>
+            ) : (
+              renderInner(children)
+            )}
+          </Comp>
         </AriaClickable.Root>
       </RootContext>
     );

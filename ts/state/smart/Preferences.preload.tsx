@@ -350,7 +350,6 @@ export function SmartPreferences(): JSX.Element | null {
   // Context - these don't change per startup
 
   const version = window.SignalContext.getVersion();
-  const availableLocales = window.SignalContext.getI18nAvailableLocales();
   const resolvedLocale = window.SignalContext.getI18nLocale();
   const preferredSystemLocales =
     window.SignalContext.getPreferredSystemLocales();
@@ -1025,7 +1024,6 @@ export function SmartPreferences(): JSX.Element | null {
         addCustomColor={addCustomColor}
         autoDownloadAttachment={autoDownloadAttachment}
         availableCameras={availableCameras}
-        availableLocales={availableLocales}
         availableMicrophones={availableMicrophones}
         availableSpeakers={availableSpeakers}
         backupTier={backupLevelFromNumber(backupTier)}

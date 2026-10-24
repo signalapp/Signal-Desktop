@@ -467,7 +467,6 @@ export default {
         label: 'Logitech Webcam (4e72:9058)',
       },
     ],
-    availableLocales: ['en'],
     availableMicrophones,
     availableSpeakers,
     backupFreeMediaDays: 45,

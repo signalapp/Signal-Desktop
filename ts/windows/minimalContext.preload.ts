@@ -16,7 +16,6 @@ import { createSetting } from '../util/preload.preload.ts';
 import { setupI18n } from '../util/setupI18n.dom.tsx';
 import { environment } from '../context/environment.preload.ts';
 import {
-  localeDisplayNames,
   countryDisplayNames,
   localeMessages,
 } from '../context/localeMessages.preload.ts';
@@ -44,11 +43,9 @@ export const MinimalSignalContext: MinimalSignalContextType = {
   async getMenuOptions(): Promise<MenuOptionsType> {
     return ipcRenderer.invoke('getMenuOptions');
   },
-  getI18nAvailableLocales: () => config.availableLocales,
   getI18nLocale: () => config.resolvedTranslationsLocale,
   getI18nLocaleMessages: () => localeMessages,
   i18n: setupI18n(config.resolvedTranslationsLocale, localeMessages),
-  getLocaleDisplayNames: () => localeDisplayNames,
   getCountryDisplayNames: () => countryDisplayNames,
 
   getResolvedMessagesLocale: () => config.resolvedTranslationsLocale,

@@ -24,6 +24,10 @@
     @apply col-span-full grid grid-cols-subgrid;
     /* Ensure we're not inheriting other text colors */
     @apply text-primary;
+    /* When rendered as a <button> with `asChild` */
+    @apply text-start;
+    /* When the root itself is focusable, the ring is drawn on the inner */
+    @apply focus-visible:outline-none;
   }
 
   :where(.axo-item-root) .axo-item-root-inner {
