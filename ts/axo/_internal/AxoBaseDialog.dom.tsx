@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memo, useCallback } from 'react';
-import type { FC, ReactNode, SyntheticEvent } from 'react';
+import { memo, useCallback, useMemo, useRef } from 'react';
+import type { FC, ReactNode, RefCallback, SyntheticEvent } from 'react';
 import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
@@ -139,5 +139,75 @@ export namespace AxoBaseDialog {
       },
       [escape]
     );
+  }
+
+  /**
+   * useTriggerPresenceRef()
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * Returns a ref callback for the `Trigger` element that reports whether a
+   * trigger is currently mounted.
+   */
+  export function useTriggerPresenceRef(
+    setHasTrigger: (hasTrigger: boolean) => void
+  ): RefCallback<HTMLElement> {
+    return useCallback(
+      node => {
+        setHasTrigger(node != null);
+        return () => {
+          setHasTrigger(false);
+        };
+      },
+      [setHasTrigger]
+    );
+  }
+
+  /**
+   * useContentRestoreFocusBehavior()
+   * --------------------------------------------------------------------------
+   */
+
+  export type ContentRestoreFocusHandlers = Readonly<{
+    onOpenAutoFocus: (event: Event) => void;
+    onCloseAutoFocus: (event: Event) => void;
+  }>;
+
+  /**
+   * Returns `onOpenAutoFocus` and `onCloseAutoFocus` handlers for the dialog
+   * content.
+   *
+   * Radix restores focus to the `Trigger` when the dialog closes, so without
+   * one focus would be lost to `document.body`. Instead, this restores focus to
+   * whatever was focused before the dialog opened.
+   */
+  export function useContentRestoreFocusBehavior(
+    hasTrigger: boolean
+  ): ContentRestoreFocusHandlers {
+    const previouslyFocusedRef = useRef<Element | null>(null);
+
+    const onOpenAutoFocus = useCallback(() => {
+      previouslyFocusedRef.current = document.activeElement;
+    }, []);
+
+    const onCloseAutoFocus = useCallback(
+      (event: Event) => {
+        const element = previouslyFocusedRef.current;
+        previouslyFocusedRef.current = null;
+        if (hasTrigger) {
+          return;
+        }
+        event.preventDefault();
+        if (element instanceof HTMLElement && element.isConnected) {
+          element.focus();
+        }
+      },
+      [hasTrigger]
+    );
+
+    return useMemo(() => {
+      return { onOpenAutoFocus, onCloseAutoFocus };
+    }, [onOpenAutoFocus, onCloseAutoFocus]);
   }
 }
