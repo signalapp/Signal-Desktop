@@ -718,6 +718,49 @@ CREATE INDEX edited_messages_unread ON edited_messages (
 </details>
 
 <details>
+<summary>Table: favorite_stickers</summary>
+
+```sql
+CREATE TABLE favorite_stickers (
+  packId TEXT NOT NULL,
+  stickerId INTEGER NOT NULL,
+  packKey TEXT,
+  favoritedAtTimestampMs INTEGER,
+  deletedAtTimestampMs INTEGER,
+  status TEXT NOT NULL,
+  storageID TEXT,
+  storageVersion INTEGER,
+  storageUnknownFields BLOB,
+  storageNeedsSync INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (packId, stickerId)
+) STRICT
+```
+
+<details>
+<summary>Index: favorite_stickers → favorite_stickers_by_favoritedAtTimestampMs</summary>
+
+```sql
+CREATE INDEX favorite_stickers_by_favoritedAtTimestampMs on favorite_stickers (
+  favoritedAtTimestampMs
+)
+```
+
+</details>
+
+<details>
+<summary>Index: favorite_stickers → sqlite_autoindex_favorite_stickers_1</summary>
+
+```text
+(404: SQL Not Found)
+```
+
+</details>
+
+---
+
+</details>
+
+<details>
 <summary>Table: groupCallRingCancellations</summary>
 
 ```sql

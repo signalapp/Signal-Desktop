@@ -90,6 +90,11 @@ import type {
   SentTimestampMs,
   ServerTimestampMs,
 } from '@signalapp/types';
+import type {
+  FavoriteStickerStatusType,
+  FavoriteStickerType,
+  StickerReferenceType,
+} from '../types/Stickers.preload.ts';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -416,7 +421,7 @@ export type StickerPackInfoType =
 
 export type StickerPackType = InstalledStickerPackType &
   Readonly<{
-    attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral';
+    attemptedStatus?: 'downloaded' | 'installed' | 'ephemeral' | 'known';
     author: string;
     coverStickerId: number;
     createdAt: number;
@@ -1088,9 +1093,18 @@ type ReadableInterface = {
   getAllStickerPacks: () => Array<StickerPackType>;
   getInstalledStickerPacks: () => Array<StickerPackType>;
   getUninstalledStickerPacks: () => Array<UninstalledStickerPackType>;
+  getSticker: (stickerRef: StickerReferenceType) => StickerType | undefined;
   getStickerPackInfo: (packId: string) => StickerPackInfoType | undefined;
   getAllStickers: () => Array<StickerType>;
   getRecentStickers: (options?: { limit?: number }) => Array<StickerType>;
+  getAllInstalledFavoriteStickers: () => ReadonlyArray<StickerType>;
+  getAllFavoriteStickers: () => ReadonlyArray<FavoriteStickerType>;
+  getFavoriteStickersFromPack: (
+    packId: string
+  ) => ReadonlyArray<FavoriteStickerType>;
+  getFavoriteSticker: (
+    stickerRef: StickerReferenceType
+  ) => FavoriteStickerType | undefined;
 
   getRecentEmojis: (limit: number) => ReadonlyArray<Emoji.Parent>;
   getRecentGifs: (limit: number) => ReadonlyArray<GifType>;
@@ -1460,6 +1474,21 @@ type WritableInterface = {
   uninstallStickerPack: (packId: string, timestamp: number) => boolean;
   removeUninstalledStickerPack: (packId: string) => void;
   clearAllErrorStickerPackAttempts: () => void;
+  clearStickerPackAttempts: (packId: string) => void;
+  createFavoriteSticker: (sticker: FavoriteStickerType) => void;
+  createFavoriteStickerFromStickerRef: (
+    stickerRef: StickerReferenceType
+  ) => FavoriteStickerType | undefined;
+  updateFavoriteSticker: (sticker: FavoriteStickerType) => void;
+  updateFavoriteStickerStatus: (
+    stickerRef: StickerReferenceType,
+    status: FavoriteStickerStatusType
+  ) => void;
+  markFavoriteStickerDeleted: (
+    stickerRef: StickerReferenceType
+  ) => { deletedAtTimestampMs: number; storageNeedsSync: boolean } | undefined;
+  deleteFavoriteSticker: (stickerRef: StickerReferenceType) => void;
+  maybeDeleteSticker: (stickerRef: StickerReferenceType) => string | undefined;
 
   updateEmojiUsage: (emoji: Emoji.Parent, lastUsedAt: number) => void;
 

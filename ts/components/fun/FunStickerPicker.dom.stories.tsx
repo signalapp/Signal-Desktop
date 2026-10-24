@@ -8,7 +8,11 @@ import type { FunStickerPickerProps } from './FunStickerPicker.dom.tsx';
 import { FunStickerPicker } from './FunStickerPicker.dom.tsx';
 import { MOCK_RECENT_EMOJIS } from '../../test-helpers/funPickerMocks.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
-import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
+import {
+  favoriteStickers,
+  packs,
+  recentStickers,
+} from '../../test-helpers/stickersMocks.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
@@ -38,6 +42,8 @@ function Template(props: TemplateProps): JSX.Element {
       onOpenCustomizePreferredReactionsModal={() => null}
       onSelectEmoji={() => null}
       // Stickers
+      favoriteStickers={favoriteStickers}
+      isFavoriteStickersEnabled
       isStickerReplySendEnabled
       installedStickerPacks={packs}
       showStickerPickerHint={false}

@@ -4,7 +4,11 @@ import { useCallback, useState, type JSX } from 'react';
 import { Button } from 'react-aria-components';
 import { action } from '@storybook/addon-actions';
 import { type ComponentMeta } from '../../storybook/types.std.ts';
-import { packs, recentStickers } from '../../test-helpers/stickersMocks.std.ts';
+import {
+  favoriteStickers,
+  packs,
+  recentStickers,
+} from '../../test-helpers/stickersMocks.std.ts';
 import type { FunPickerProps } from './FunPicker.dom.tsx';
 import { FunPicker } from './FunPicker.dom.tsx';
 import { FunProvider } from './FunProvider.dom.tsx';
@@ -38,6 +42,8 @@ function Template(props: TemplateProps) {
       onOpenCustomizePreferredReactionsModal={() => null}
       onSelectEmoji={() => null}
       // Stickers
+      favoriteStickers={favoriteStickers}
+      isFavoriteStickersEnabled
       isStickerReplySendEnabled
       installedStickerPacks={packs}
       showStickerPickerHint={false}

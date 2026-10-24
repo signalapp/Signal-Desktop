@@ -54,6 +54,8 @@ const SemverKeys = [
   'desktop.retireAccessKeyGroupSend.prod',
   'desktop.sendMessageViaLibsignal.beta',
   'desktop.sendMessageViaLibsignal.prod',
+  'desktop.stickerFavorites.beta',
+  'desktop.stickerFavorites.prod',
   'desktop.stickerReply.send.beta',
   'desktop.stickerReply.send.prod',
 ] as const;

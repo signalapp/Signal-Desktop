@@ -82,6 +82,8 @@ export const packs = [
     .map((_, n) => createPack({ id: `pack-${n}` }, sample(choosableStickers))),
 ];
 
+export const favoriteStickers = [sticker1, sticker2];
+
 export const recentStickers = [
   abeSticker,
   sticker1,

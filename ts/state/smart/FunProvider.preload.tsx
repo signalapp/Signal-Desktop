@@ -9,6 +9,7 @@ import { getIntl, getVersion } from '../selectors/user.std.ts';
 import { selectRecentEmojis } from '../selectors/emojis.std.ts';
 import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.tsx';
 import {
+  getInstalledFavoriteStickers,
   getInstalledStickerPacks,
   getRecentStickers,
 } from '../selectors/stickers.std.ts';
@@ -33,6 +34,7 @@ import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmoj
 import { getRecentGifs } from '../selectors/gifs.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -65,6 +67,9 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     currentVersion: version,
     remoteConfig: items.remoteConfig,
   });
+
+  const favoriteStickers = useSelector(getInstalledFavoriteStickers);
+  const isFavoriteStickersEnabled = getIsFavoriteStickersEnabled();
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
@@ -129,6 +134,8 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       }
       onSelectEmoji={handleSelectEmoji}
       // Stickers
+      favoriteStickers={favoriteStickers}
+      isFavoriteStickersEnabled={isFavoriteStickersEnabled}
       isStickerReplySendEnabled={isStickerReplySendEnabled}
       installedStickerPacks={installedStickerPacks}
       showStickerPickerHint={showStickerPickerHint}

@@ -32,6 +32,7 @@ export enum FunSectionCommon {
 
 export enum FunStickersSectionBase {
   StickersSetup = 'StickersSetup',
+  Favorites = 'Favorites',
   Featured = 'Featured',
 }
 

@@ -146,6 +146,10 @@ import { getOurAddress } from '../util/sendToGroup.preload.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 import { callLinkCleanupService } from './expiring/callLinkCleanupService.preload.ts';
 import { defunctCallLinkCleanupService } from './expiring/defunctCallLinkCleanupService.preload.ts';
+import {
+  installFavoriteSticker,
+  uninstallFavoriteSticker,
+} from '../util/stickers.preload.ts';
 
 const { isEqual } = lodash;
 
@@ -851,6 +855,41 @@ export function toInstalledStickerPackRecord(
     packId: Bytes.fromHex(stickerPack.id),
     packKey: Bytes.fromBase64(stickerPack.key),
     position: stickerPack.position ?? null,
+    deletedAtTimestamp: null,
+    $unknown,
+  };
+}
+
+export function toFavoriteStickerPackRecord(
+  favoriteSticker: Stickers.FavoriteStickerType
+): Proto.FavoriteStickerRecord.Params {
+  const {
+    packId: packIdString,
+    packKey: packKeyString,
+    stickerId,
+    deletedAtTimestampMs,
+    favoritedAtTimestampMs,
+    storageUnknownFields,
+  } = favoriteSticker;
+  const packId = Bytes.fromHex(packIdString);
+  const $unknown = fromStorageUnknownFields(storageUnknownFields);
+
+  if (deletedAtTimestampMs !== undefined) {
+    return {
+      packId,
+      packKey: null,
+      stickerId,
+      favoritedAtTimestamp: null,
+      deletedAtTimestamp: BigInt(deletedAtTimestampMs),
+      $unknown,
+    };
+  }
+
+  return {
+    packId,
+    packKey: packKeyString ? Bytes.fromBase64(packKeyString) : null,
+    stickerId,
+    favoritedAtTimestamp: BigInt(favoritedAtTimestampMs ?? 0),
     deletedAtTimestamp: null,
     $unknown,
   };
@@ -2690,6 +2729,146 @@ export async function mergeInstalledStickerPackRecord(
   const shouldDrop =
     remoteDeletedAtTimestamp > 0 &&
     isOlderThan(remoteDeletedAtTimestamp, getMessageQueueTime());
+
+  return {
+    details,
+    oldStorageID,
+    oldStorageVersion,
+    shouldDrop,
+  };
+}
+
+export async function mergeFavoriteStickerRecord(
+  storageID: string,
+  storageVersion: number,
+  storageRecord: Proto.FavoriteStickerRecord
+): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
+  const {
+    packId: packIdRaw,
+    packKey: packKeyRaw,
+    stickerId,
+    deletedAtTimestamp: deletedAtTimestampRaw,
+    favoritedAtTimestamp: favoritedAtTimestampRaw,
+  } = storageRecord;
+  if (!packIdRaw || Bytes.isEmpty(packIdRaw)) {
+    throw new Error(`No favoriteStickerRecord packId for ${redactedStorageID}`);
+  }
+
+  const packId = Bytes.toHex(packIdRaw);
+  const remoteDeletedAtTimestamp = toNumber(deletedAtTimestampRaw);
+  const remoteFavoritedAtTimestamp = toNumber(favoritedAtTimestampRaw);
+
+  const localFavoriteSticker = await DataReader.getFavoriteSticker({
+    packId,
+    stickerId,
+  });
+  const oldStorageID = localFavoriteSticker?.storageID;
+  const oldStorageVersion = localFavoriteSticker?.storageVersion;
+  const wasDeletedLocally = Boolean(localFavoriteSticker?.deletedAtTimestampMs);
+
+  const details = logRecordChanges(
+    localFavoriteSticker == null
+      ? undefined
+      : toFavoriteStickerPackRecord(localFavoriteSticker),
+    storageRecord
+  );
+
+  const storageUnknownFields =
+    toStorageUnknownFields(storageRecord.$unknown) ?? undefined;
+  const needsToClearUnknownFields =
+    !storageRecord.$unknown && localFavoriteSticker?.storageUnknownFields;
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const isDeleted = remoteDeletedAtTimestamp > 0;
+  const shouldDrop =
+    isDeleted && isOlderThan(remoteDeletedAtTimestamp, getMessageQueueTime());
+
+  details.push(
+    `wasDeletedLocally=${wasDeletedLocally}`,
+    `isDeleted=${isDeleted}`
+  );
+
+  let favoriteSticker: Stickers.FavoriteStickerType | null;
+  if (shouldDrop) {
+    // Tombstone has aged out, so we can delete it.
+    favoriteSticker = null;
+    if (localFavoriteSticker) {
+      await DataWriter.deleteFavoriteSticker({ packId, stickerId });
+    }
+  } else {
+    if (isDeleted) {
+      // Save tombstone
+      favoriteSticker = {
+        packId,
+        packKey: undefined,
+        stickerId,
+        deletedAtTimestampMs: remoteDeletedAtTimestamp,
+        favoritedAtTimestampMs: undefined,
+        status: 'deleted',
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync: false,
+      };
+    } else {
+      // Save current favorite
+      if (!packKeyRaw || Bytes.isEmpty(packKeyRaw)) {
+        throw new Error(
+          `No favoriteSticker packKey for installed favorite ${redactedStorageID}`
+        );
+      }
+
+      const packKey = Bytes.toBase64(packKeyRaw);
+
+      const localStatus = localFavoriteSticker?.status;
+      let status: Stickers.FavoriteStickerStatusType;
+      if (localStatus === 'installed') {
+        status = 'installed';
+      } else {
+        status = 'known';
+      }
+
+      favoriteSticker = {
+        packId,
+        packKey,
+        stickerId,
+        deletedAtTimestampMs: undefined,
+        favoritedAtTimestampMs: remoteFavoritedAtTimestamp,
+        status,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync: false,
+      };
+    }
+
+    if (localFavoriteSticker) {
+      await DataWriter.updateFavoriteSticker(favoriteSticker);
+    } else {
+      await DataWriter.createFavoriteSticker(favoriteSticker);
+    }
+  }
+
+  if (isDeleted || shouldDrop) {
+    if (localFavoriteSticker && localFavoriteSticker.status !== 'deleted') {
+      drop(uninstallFavoriteSticker({ packId, stickerId }));
+    }
+  } else if (favoriteSticker) {
+    if (localFavoriteSticker?.status !== 'installed') {
+      drop(installFavoriteSticker(favoriteSticker, 'storageService'));
+    } else if (
+      localFavoriteSticker.favoritedAtTimestampMs !==
+      favoriteSticker.favoritedAtTimestampMs
+    ) {
+      window.reduxActions.stickers.reloadFavoriteStickers();
+    }
+  }
 
   return {
     details,

@@ -25,6 +25,7 @@ import {
   type StickerPackStatusType,
   type UninstalledStickerPackType,
   STICKER_PACK_DEFAULTS,
+  type StorageServiceFieldsType,
 } from '../sql/Interface.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
@@ -53,6 +54,7 @@ import {
 } from '../textsecure/WebAPI.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { updateFavoriteStickersAlreadyInstalled } from '../util/stickers.preload.ts';
 
 const { isNumber, groupBy, values, chunk } = lodash;
 
@@ -82,7 +84,27 @@ export type StickerWithHydratedData = StickerType & {
   data: AttachmentWithHydratedData;
 };
 
-export type RecentStickerType = Readonly<{
+export const FavoriteStickerStatuses = [
+  'known',
+  'installed',
+  'error',
+  'deleted',
+] as const;
+
+export type FavoriteStickerStatusType =
+  (typeof FavoriteStickerStatuses)[number];
+
+export type FavoriteStickerType = Readonly<{
+  packId: string;
+  stickerId: number;
+  packKey: string | undefined;
+  favoritedAtTimestampMs: number | undefined;
+  deletedAtTimestampMs: number | undefined;
+  status: FavoriteStickerStatusType;
+}> &
+  StorageServiceFieldsType;
+
+export type StickerReferenceType = Readonly<{
   stickerId: number;
   packId: string;
 }>;
@@ -95,6 +117,7 @@ export type DownloadMap = Record<
     id: string;
     key: string;
     status?: StickerPackStatusType;
+    favoriteStickerIds?: Array<number>;
   }
 >;
 
@@ -182,13 +205,21 @@ const downloadQueueData = new Map<
     depth: number;
     finalStatus: StickerPackStatusType | undefined;
     position: number | undefined;
+    favoriteStickerIds: Array<number> | undefined;
   }
 >();
 
 export async function load(): Promise<void> {
-  const [packs, recentStickers] = await Promise.all([
+  const [
+    packs,
+    recentStickers,
+    installedFavoriteStickers,
+    allFavoriteStickers,
+  ] = await Promise.all([
     getPacksForRedux(),
     getRecentStickersForRedux(),
+    getInstalledFavoriteStickersForRedux(),
+    DataReader.getAllFavoriteStickers(),
   ]);
 
   const blessedPacks: Record<string, boolean> = Object.create(null);
@@ -196,15 +227,37 @@ export async function load(): Promise<void> {
     blessedPacks[key] = true;
   }
 
+  const packFavoritesToDownload: Record<
+    string,
+    { key: string; stickerIds: Array<number> }
+  > = Object.create(null);
+  for (const favoriteSticker of allFavoriteStickers) {
+    const { packId, packKey, status, stickerId } = favoriteSticker;
+    if (status === 'deleted' || status === 'installed' || packKey == null) {
+      continue;
+    }
+
+    const record = packFavoritesToDownload[packId];
+    if (record) {
+      record.stickerIds.push(stickerId);
+    } else {
+      packFavoritesToDownload[packId] = {
+        key: packKey,
+        stickerIds: [stickerId],
+      };
+    }
+  }
+
   initialState = {
     packs,
     recentStickers,
     blessedPacks,
+    favoriteStickers: installedFavoriteStickers,
     installedPack: null,
     stickerManagerTab: 'all',
   };
 
-  packsToDownload = capturePacksToDownload(packs);
+  packsToDownload = capturePacksToDownload(packs, packFavoritesToDownload);
 }
 
 export async function createPacksFromBackup(
@@ -306,7 +359,7 @@ export function downloadQueuedPacks(): void {
   strictAssert(packsToDownload, 'Stickers not initialized');
 
   for (const [id, packToDownload] of Object.entries(packsToDownload)) {
-    const { key, status } = packToDownload;
+    const { key, status, favoriteStickerIds } = packToDownload;
 
     // The queuing is done inside this function, no need to await here
     drop(
@@ -314,6 +367,7 @@ export function downloadQueuedPacks(): void {
         finalStatus: status,
         suppressError: true,
         actionSource: 'startup',
+        ...(favoriteStickerIds ? { favoriteStickerIds } : {}),
       })
     );
   }
@@ -331,7 +385,11 @@ export function downloadQueuedPacks(): void {
 }
 
 function capturePacksToDownload(
-  existingPackLookup: Record<string, StickerPackType>
+  existingPackLookup: Record<string, StickerPackType>,
+  packFavoritesToDownload: Record<
+    string,
+    { key: string; stickerIds: Array<number> }
+  > = {}
 ): DownloadMap {
   const toDownload: DownloadMap = Object.create(null);
 
@@ -377,6 +435,22 @@ function capturePacksToDownload(
     }
   }
 
+  // Add packs with favorites
+  for (const [id, { key, stickerIds }] of Object.entries(
+    packFavoritesToDownload
+  )) {
+    if (toDownload[id]) {
+      continue;
+    }
+
+    toDownload[id] = {
+      id,
+      key,
+      status: 'known',
+      favoriteStickerIds: stickerIds,
+    };
+  }
+
   return toDownload;
 }
 
@@ -416,9 +490,21 @@ async function getPacksForRedux(): Promise<Record<string, StickerPackType>> {
   return makeLookup(fullSet, 'id');
 }
 
-async function getRecentStickersForRedux(): Promise<Array<RecentStickerType>> {
+async function getRecentStickersForRedux(): Promise<
+  Array<StickerReferenceType>
+> {
   const recent = await DataReader.getRecentStickers();
   return recent.map(sticker => ({
+    packId: sticker.packId,
+    stickerId: sticker.id,
+  }));
+}
+
+export async function getInstalledFavoriteStickersForRedux(): Promise<
+  Array<StickerReferenceType>
+> {
+  const stickers = await DataReader.getAllInstalledFavoriteStickers();
+  return stickers.map(sticker => ({
     packId: sticker.packId,
     stickerId: sticker.id,
   }));
@@ -480,14 +566,20 @@ async function downloadSticker(
 export async function savePackMetadata(
   packId: string,
   packKey: string,
-  {
-    messageId,
-    stickerId,
-    isUnresolved,
-  }: { messageId: string; stickerId: number; isUnresolved: boolean }
+  options: {
+    messageId?: string;
+    stickerId?: number;
+    isUnresolved?: boolean;
+    resetDownloadAttempts?: boolean;
+  } = {}
 ): Promise<void> {
+  const { messageId, stickerId, isUnresolved, resetDownloadAttempts } = options;
+
   const existing = getStickerPack(packId);
   if (existing) {
+    if (resetDownloadAttempts) {
+      await DataWriter.clearStickerPackAttempts(existing.id);
+    }
     return;
   }
 
@@ -502,7 +594,12 @@ export async function savePackMetadata(
   stickerPackAdded(pack);
 
   await DataWriter.createOrUpdateStickerPack(pack);
-  if (messageId) {
+
+  if (
+    messageId !== undefined &&
+    stickerId !== undefined &&
+    isUnresolved !== undefined
+  ) {
     await DataWriter.addStickerPackReference({
       messageId,
       packId,
@@ -694,7 +791,9 @@ export async function downloadEphemeralPack(
       concurrency: 3,
     });
 
-    const successfulStickerCount = jobResults.filter(item => item).length;
+    const successfulStickerCount = jobResults.filter(
+      item => item != null
+    ).length;
     if (successfulStickerCount === 0 && nonCoverStickers.length !== 0) {
       throw new Error('downloadEphemeralPack: All stickers failed to download');
     }
@@ -721,6 +820,7 @@ export type DownloadStickerPackOptions = Readonly<{
   finalStatus?: StickerPackStatusType;
   position?: number;
   suppressError?: boolean;
+  favoriteStickerIds?: Array<number>;
 }>;
 
 export async function downloadStickerPack(
@@ -742,7 +842,14 @@ export async function downloadStickerPack(
   const finalStatus = options.finalStatus ?? data?.finalStatus;
   const depth = data ? data.depth + 1 : 1;
   const position = options.position ?? data?.position;
-  downloadQueueData.set(packId, { depth, finalStatus, position });
+  const favoriteStickerIds =
+    options.favoriteStickerIds ?? data?.favoriteStickerIds;
+  downloadQueueData.set(packId, {
+    depth,
+    finalStatus,
+    position,
+    favoriteStickerIds,
+  });
 
   const queueOptions = {
     priority:
@@ -758,6 +865,7 @@ export async function downloadStickerPack(
         ...options,
         finalStatus,
         position,
+        favoriteStickerIds,
       });
     } catch (error) {
       log.error(
@@ -788,8 +896,10 @@ async function doDownloadStickerPack(
     actionSource,
     suppressError = false,
     position,
+    favoriteStickerIds,
   }: DownloadStickerPackOptions
 ): Promise<void> {
+  const logId = `doDownloadStickerPack(${redactPackId(packId)}})`;
   const {
     stickerAdded,
     stickerPackAdded,
@@ -797,15 +907,53 @@ async function doDownloadStickerPack(
     installStickerPack,
   } = getReduxStickerActions();
 
-  if (finalStatus !== 'downloaded' && finalStatus !== 'installed') {
+  if (
+    finalStatus !== 'downloaded' &&
+    finalStatus !== 'installed' &&
+    finalStatus !== 'known'
+  ) {
     throw new Error(
       `doDownloadStickerPack: invalid finalStatus of ${finalStatus} requested.`
     );
   }
 
+  if (finalStatus === 'known' && !favoriteStickerIds) {
+    throw new Error(
+      `doDownloadStickerPack: finalStatus of known but missing stickerIds to download`
+    );
+  }
+
+  let favoriteStickerIdsToDownload: Array<number> | undefined;
+
   const existing = getStickerPack(packId);
   if (!doesPackNeedDownload(existing)) {
-    return;
+    if (!favoriteStickerIds) {
+      return;
+    }
+
+    // Update favorites install status based on existing sticker packs
+    const installedStickerIds = await updateFavoriteStickersAlreadyInstalled(
+      packId,
+      favoriteStickerIds
+    );
+    const installedStickerIdsSet = new Set(installedStickerIds);
+    favoriteStickerIdsToDownload = favoriteStickerIds.filter(
+      id => !installedStickerIdsSet.has(id)
+    );
+
+    const remainingCount = favoriteStickerIdsToDownload.length;
+    if (remainingCount === 0) {
+      log.info(
+        `${logId}: Found all favorite stickers in existing pack, skipping download`
+      );
+      return;
+    }
+
+    log.info(
+      `${logId}: Downloading ${remainingCount} remaining favorites for existing pack`
+    );
+  } else {
+    favoriteStickerIdsToDownload = favoriteStickerIds;
   }
 
   // We don't count this as an attempt if we're offline
@@ -814,9 +962,7 @@ async function doDownloadStickerPack(
     (existing ? existing.downloadAttempts || 0 : 0) + attemptIncrement;
   if (downloadAttempts > 3) {
     log.warn(
-      `Refusing to attempt another download for pack ${redactPackId(
-        packId
-      )}, attempt number ${downloadAttempts}`
+      `${logId}: Refusing to attempt another download for pack, attempt number ${downloadAttempts}`
     );
 
     if (existing && existing.status !== 'error') {
@@ -891,7 +1037,7 @@ async function doDownloadStickerPack(
     stickerPackAdded(pack);
   } catch (error) {
     log.error(
-      `Error downloading manifest for sticker pack ${redactPackId(packId)}:`,
+      `${logId}: Error downloading manifest for sticker pack:`,
       Errors.toLogFormat(error)
     );
 
@@ -916,7 +1062,7 @@ async function doDownloadStickerPack(
   try {
     const downloadStickerJob = async (
       stickerProto: Proto.StickerPack.Sticker.Params
-    ): Promise<boolean> => {
+    ): Promise<number | null> => {
       try {
         const stickerInfo = await downloadSticker(
           packId,
@@ -930,26 +1076,51 @@ async function doDownloadStickerPack(
         };
         await DataWriter.createOrUpdateSticker(sticker);
         stickerAdded(sticker);
-        return true;
+        return stickerInfo.id;
       } catch (error: unknown) {
         log.error(
           `doDownloadStickerPack/downloadStickerJob error: ${Errors.toLogFormat(
             error
           )}`
         );
-        return false;
+        return null;
       }
     };
 
-    // Download the cover first
-    await downloadStickerJob(coverProto);
+    let jobResults: Array<number | null>;
+    if (favoriteStickerIdsToDownload) {
+      const stickersToDownload: Array<Proto.StickerPack.Sticker.Params> = [];
+      for (const stickerId of favoriteStickerIdsToDownload) {
+        if (coverProto.id === stickerId) {
+          stickersToDownload.push(coverProto);
+          continue;
+        }
 
-    // Then the rest
-    const jobResults = await pMap(nonCoverStickers, downloadStickerJob, {
-      concurrency: 3,
-    });
+        const proto = nonCoverStickers.find(({ id }) => id === stickerId);
+        if (proto) {
+          stickersToDownload.push(proto);
+        } else {
+          log.warn(
+            `${logId}: downloadStickerJob: Missing requested sticker id ${stickerId}`
+          );
+        }
+      }
 
-    const successfulStickerCount = jobResults.filter(item => item).length;
+      jobResults = await pMap(stickersToDownload, downloadStickerJob, {
+        concurrency: 3,
+      });
+    } else {
+      // Download the cover first
+      await downloadStickerJob(coverProto);
+      // Then the rest
+      jobResults = await pMap(nonCoverStickers, downloadStickerJob, {
+        concurrency: 3,
+      });
+    }
+
+    const successfulStickerCount = jobResults.filter(
+      item => item != null
+    ).length;
     if (successfulStickerCount === 0 && nonCoverStickers.length !== 0) {
       throw new Error('doDownloadStickerPack: All stickers failed to download');
     }
@@ -975,10 +1146,25 @@ async function doDownloadStickerPack(
       });
     }
 
+    if (favoriteStickerIds) {
+      for (const stickerId of jobResults) {
+        if (stickerId == null) {
+          continue;
+        }
+
+        drop(
+          DataWriter.updateFavoriteStickerStatus(
+            { packId, stickerId },
+            'installed'
+          )
+        );
+      }
+    }
+
     drop(safeResolveReferences(packId));
   } catch (error) {
     log.error(
-      `Error downloading stickers for sticker pack ${redactPackId(packId)}:`,
+      `${logId}: Error downloading stickers for sticker pack:`,
       Errors.toLogFormat(error)
     );
 
@@ -1207,6 +1393,12 @@ export async function deletePackReference(
 
   // If we don't get a list of paths back, then the sticker pack was not deleted
   if (!paths) {
+    return;
+  }
+
+  // If favorites exist for this pack, then we can't delete it yet
+  const favorites = await DataReader.getFavoriteStickersFromPack(packId);
+  if (favorites.length > 0) {
     return;
   }
 
