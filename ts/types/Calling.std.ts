@@ -210,17 +210,28 @@ export enum CallingDeviceType {
   SPEAKER,
 }
 
-export type AvailableIODevicesType = {
-  availableCameras: Array<MediaDeviceInfo>;
+export type AvailableIODevicesType = Readonly<{
+  availableCameras: ReadonlyArray<MediaDeviceInfo>;
   availableMicrophones: AudioDeviceList;
   availableSpeakers: AudioDeviceList;
-};
+}>;
 
 export type MediaDeviceSettings = AvailableIODevicesType & {
   selectedMicrophone: AudioDevicePref;
   selectedSpeaker: AudioDevicePref;
-  selectedCamera: string | undefined;
+  selectedCamera: string | null;
 };
+
+export type AvailableCamerasRenderProps = Pick<
+  MediaDeviceInfo,
+  'deviceId' | 'label'
+>;
+
+export type MediaDeviceSettingsRenderProps = Readonly<
+  Omit<MediaDeviceSettings, 'availableCameras'> & {
+    availableCameras: ReadonlyArray<AvailableCamerasRenderProps>;
+  }
+>;
 
 export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }

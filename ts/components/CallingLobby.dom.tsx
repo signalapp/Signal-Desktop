@@ -38,7 +38,7 @@ import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.ts';
 
 export type PropsType = {
-  availableCameras: Array<MediaDeviceInfo>;
+  availableCameras: ReadonlyArray<MediaDeviceInfo>;
   callMode: CallMode;
   conversation: Pick<
     CallingConversationType,
@@ -86,7 +86,7 @@ export type PropsType = {
   showParticipantsList: boolean;
   toggleParticipants: () => void;
   togglePip: () => void;
-  toggleSettings: () => void;
+  toggleSettings: (open: boolean) => void;
 };
 
 export function CallingLobby({

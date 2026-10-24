@@ -2743,37 +2743,6 @@ describe('calling duck', () => {
       });
     });
 
-    describe('toggleSettings', () => {
-      const { toggleSettings } = actions;
-
-      it('toggles the settings dialog', () => {
-        const afterOneToggle = reducer(
-          stateWithActiveDirectCall,
-          toggleSettings()
-        );
-        const afterTwoToggles = reducer(afterOneToggle, toggleSettings());
-        const afterThreeToggles = reducer(afterTwoToggles, toggleSettings());
-
-        strictAssert(
-          afterOneToggle.activeCallState?.state === 'Active',
-          'state is active #1'
-        );
-        assert.isTrue(afterOneToggle.activeCallState?.settingsDialogOpen);
-
-        strictAssert(
-          afterTwoToggles.activeCallState?.state === 'Active',
-          'state is active #2'
-        );
-        assert.isFalse(afterTwoToggles.activeCallState?.settingsDialogOpen);
-
-        strictAssert(
-          afterThreeToggles.activeCallState?.state === 'Active',
-          'state is active #3'
-        );
-        assert.isTrue(afterThreeToggles.activeCallState?.settingsDialogOpen);
-      });
-    });
-
     describe('toggleParticipants', () => {
       const { toggleParticipants } = actions;
 

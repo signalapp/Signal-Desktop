@@ -47,13 +47,9 @@ import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
-import {
-  audioDevicePrefToId,
-  audioDevicePrefStrToAudioDevicePref,
-} from '../types/Calling.std.ts';
 import type {
-  MediaDeviceSettings,
   AudioDevicePref,
+  MediaDeviceSettingsRenderProps,
 } from '../types/Calling.std.ts';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import type {
@@ -120,7 +116,7 @@ import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
-import { renderAudioOptions } from './CallingDeviceSelection.dom.tsx';
+import { CallingDeviceSelectionItems } from './CallingDeviceSelectionItems.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
 
 const { isNumber, noop, partition } = lodash;
@@ -192,9 +188,6 @@ export type PropsDataType = {
   notifyWhileMuted: NotifyWhileMuted;
   osName: 'linux' | 'macos' | 'windows' | undefined;
   phoneNumber: string | undefined;
-  selectedCamera?: string;
-  selectedMicrophone: AudioDevicePref;
-  selectedSpeaker: AudioDevicePref;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -235,10 +228,6 @@ export type PropsDataType = {
   isInternalUser: boolean;
 
   // Devices
-  availableCameras: Array<
-    Pick<MediaDeviceInfo, 'deviceId' | 'groupId' | 'kind' | 'label'>
-  >;
-
   donationReceipts: ReadonlyArray<DonationReceipt>;
 
   // calling internal preferences
@@ -252,7 +241,7 @@ export type PropsDataType = {
   groupSvcMode: string | undefined;
   groupSvcModeForScreenshare: string | undefined;
   sfuUrl: string | undefined;
-} & Omit<MediaDeviceSettings, 'availableCameras'>;
+} & MediaDeviceSettingsRenderProps;
 
 type PropsFunctionType = {
   // Render props
@@ -382,7 +371,7 @@ type PropsFunctionType = {
   onRelayCallsChange: CheckboxChangeHandlerType;
   onResetNotificationSettings: () => unknown;
   onSealedSenderIndicatorsChange: CheckboxChangeHandlerType;
-  onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
+  onSelectedCameraChange: SelectChangeHandlerType<string>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevicePref>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevicePref>;
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
@@ -759,21 +748,6 @@ export function Preferences({
     [onZoomFactorChange]
   );
 
-  const onAudioInputSelectChange = useCallback(
-    (value: string) => {
-      if (value !== '' && value !== 'emptyAudioDeviceList') {
-        const pref = audioDevicePrefStrToAudioDevicePref(
-          value,
-          availableMicrophones
-        );
-        if (pref) {
-          onSelectedMicrophoneChange(pref);
-        }
-      }
-    },
-    [onSelectedMicrophoneChange, availableMicrophones]
-  );
-
   const handleContentProtectionChange = useCallback(
     (value: boolean) => {
       if (value || !isContentProtectionNeeded) {
@@ -807,21 +781,6 @@ export function Preferences({
     // oxlint-disable-next-line react/exhaustive-effect-dependencies
     settingsLocation.page,
   ]);
-
-  const onAudioOutputSelectChange = useCallback(
-    (value: string) => {
-      if (value !== '' && value !== 'emptyAudioDeviceList') {
-        const pref = audioDevicePrefStrToAudioDevicePref(
-          value,
-          availableSpeakers
-        );
-        if (pref) {
-          onSelectedSpeakerChange(pref);
-        }
-      }
-    },
-    [onSelectedSpeakerChange, availableSpeakers]
-  );
 
   const localeDisplayNames = window.SignalContext.getLocaleDisplayNames();
 
@@ -1653,18 +1612,6 @@ export function Preferences({
       </AxoPanel.Root>
     );
   } else if (settingsLocation.page === SettingsPage.Calls) {
-    const [microphoneOptions, enableMicSelect] = renderAudioOptions(
-      availableMicrophones,
-      i18n
-    );
-    const selectedMicrophoneId = audioDevicePrefToId(selectedMicrophone);
-
-    const [speakerOptions, enableSpeakerSelect] = renderAudioOptions(
-      availableSpeakers,
-      i18n
-    );
-    const selectedSpeakerId = audioDevicePrefToId(selectedSpeaker);
-
     const pageContents = (
       <AxoList.Group>
         <PreferencesList accessibilityLabel={i18n('icu:calling')}>
@@ -1680,45 +1627,18 @@ export function Preferences({
           />
         </PreferencesList>
         <PreferencesList label={i18n('icu:Preferences__devices')}>
-          <AxoSelectItem.Root
-            label={i18n('icu:callingDeviceSelection__label--video')}
-            disabled={!availableCameras.length}
-            value={selectedCamera ?? availableCameras.at(0)?.deviceId ?? null}
-            onValueChange={onSelectedCameraChange}
-            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
-            options={availableCameras.map(device => {
-              return {
-                label: device.label,
-                value: device.deviceId,
-              };
-            })}
-          />
-          <AxoSelectItem.Root
-            label={i18n('icu:callingDeviceSelection__label--audio-input')}
-            disabled={!enableMicSelect}
-            value={selectedMicrophoneId}
-            onValueChange={onAudioInputSelectChange}
-            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
-            options={microphoneOptions.map(device => {
-              return {
-                label: device.text,
-                value: device.value.toString(),
-              };
-            })}
-          />
-
-          <AxoSelectItem.Root
-            label={i18n('icu:callingDeviceSelection__label--audio-output')}
-            disabled={!enableSpeakerSelect}
-            value={selectedSpeakerId}
-            onValueChange={onAudioOutputSelectChange}
-            placeholder={i18n('icu:callingDeviceSelection__select--no-device')}
-            options={speakerOptions.map(device => {
-              return {
-                label: device.text,
-                value: device.value.toString(),
-              };
-            })}
+          <CallingDeviceSelectionItems
+            i18n={i18n}
+            forceStackedLayout={false}
+            availableCameras={availableCameras}
+            availableMicrophones={availableMicrophones}
+            availableSpeakers={availableSpeakers}
+            selectedCamera={selectedCamera}
+            selectedMicrophone={selectedMicrophone}
+            selectedSpeaker={selectedSpeaker}
+            onSelectedCameraChange={onSelectedCameraChange}
+            onSelectedMicrophoneChange={onSelectedMicrophoneChange}
+            onSelectedSpeakerChange={onSelectedSpeakerChange}
           />
         </PreferencesList>
         <PreferencesList label={i18n('icu:Preferences--advanced')}>

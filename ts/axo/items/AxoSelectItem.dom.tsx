@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, FC } from 'react';
-import { memo } from 'react';
+import { memo, useId } from 'react';
 import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoBaseItem } from './_AxoBaseItem.dom.tsx';
 import { AxoSelect } from '../AxoSelect.dom.tsx';
@@ -14,7 +14,7 @@ export namespace AxoSelectItem {
    * --------------------------------------------------------------------------
    */
 
-  type Option = Readonly<{
+  export type Option = Readonly<{
     value: string;
     label: string;
     disabled?: boolean;
@@ -25,23 +25,28 @@ export namespace AxoSelectItem {
     label: ReactNode;
     description?: ReactNode;
     disabled?: boolean;
-    placeholder: string;
+    placeholder: string | null;
     value: string | null;
     onValueChange: (value: string) => void;
     options: ReadonlyArray<Option>;
+    forceStackedLayout?: boolean;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
+    const labelId = useId();
     return (
       <AriaList.Item asChild>
-        <AxoBaseItem.Root disabled={props.disabled}>
+        <AxoBaseItem.Root
+          disabled={props.disabled}
+          forceStackedLayout={props.forceStackedLayout}
+        >
           {props.symbol != null && (
             <AxoBaseItem.Leading>
               <AxoBaseItem.Icon symbol={props.symbol} />
             </AxoBaseItem.Leading>
           )}
           <AxoBaseItem.Content>
-            <AriaList.Label asChild>
+            <AriaList.Label asChild id={labelId}>
               <AxoBaseItem.Label>{props.label}</AxoBaseItem.Label>
             </AriaList.Label>
             {props.description != null && (
@@ -57,7 +62,10 @@ export namespace AxoSelectItem {
                 value={props.value}
                 onValueChange={props.onValueChange}
               >
-                <AxoSelect.Trigger placeholder={props.placeholder} />
+                <AxoSelect.Trigger
+                  labelledby={labelId}
+                  placeholder={props.placeholder}
+                />
                 <AxoSelect.Content>
                   {props.options.map(item => {
                     return (

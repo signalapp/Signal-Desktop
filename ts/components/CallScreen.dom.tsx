@@ -157,7 +157,7 @@ export type PropsType = {
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: (open: boolean) => void;
   toggleSelfViewExpanded: () => void;
-  toggleSettings: () => void;
+  toggleSettings: (open: boolean) => void;
   changeCallView: (mode: CallViewMode) => void;
 };
 

@@ -399,12 +399,16 @@ export function SmartPreferences(): JSX.Element | null {
 
   // The select boxes for devices are disabled while these arrays have zero length
   const [availableCameras, setAvailableCameras] = useState<
-    Array<MediaDeviceInfo>
+    ReadonlyArray<MediaDeviceInfo>
   >([]);
   const [availableMicrophones, setAvailableMicrophones] =
-    useState<AudioDeviceList>(getEmptyAudioDeviceList(OS.isWindows()));
+    useState<AudioDeviceList>(() => {
+      return getEmptyAudioDeviceList(OS.isWindows());
+    });
   const [availableSpeakers, setAvailableSpeakers] = useState<AudioDeviceList>(
-    getEmptyAudioDeviceList(OS.isWindows())
+    () => {
+      return getEmptyAudioDeviceList(OS.isWindows());
+    }
   );
 
   useEffect(() => {
@@ -1203,7 +1207,7 @@ export function SmartPreferences(): JSX.Element | null {
         resumeBackupMediaDownload={resumeBackupMediaDownload}
         pauseBackupMediaDownload={pauseBackupMediaDownload}
         cancelBackupMediaDownload={cancelBackupMediaDownload}
-        selectedCamera={selectedCamera}
+        selectedCamera={selectedCamera ?? null}
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}

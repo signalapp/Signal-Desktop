@@ -5154,6 +5154,10 @@
     "messageformat": "Settings",
     "description": "Title for device selection settings"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings",
+    "description": "Title for device selection settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {#} other {#}} in call",
     "description": "Title for participants list toggle"

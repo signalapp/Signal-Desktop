@@ -100,7 +100,10 @@
   }
 
   .axo-item-content {
-    :where(.axo-item-root:not(.axo-item-root-stacked)) & {
+    :where(
+        .axo-item-root:not(.axo-item-root-stacked, .axo-item-root-force-stacked)
+      )
+      & {
       grid-template:
         'axo-item-label       axo-item-value axo-item-accessory axo-item-trailing' 1fr
         'axo-item-description axo-item-value axo-item-accessory axo-item-trailing' min-content / auto min-content min-content min-content;
@@ -129,7 +132,10 @@
       }
     }
 
-    :where(.axo-item-root.axo-item-root-stacked) & {
+    :where(
+        .axo-item-root:is(.axo-item-root-stacked, .axo-item-root-force-stacked)
+      )
+      & {
       grid-template:
         'axo-item-label       axo-item-trailing' min-content
         'axo-item-value       axo-item-trailing' min-content
@@ -139,6 +145,8 @@
       .axo-item-accessory {
         @apply mt-0.5;
         @apply flex-col items-stretch;
+        @apply min-w-0;
+        @apply -mx-1;
       }
     }
   }
