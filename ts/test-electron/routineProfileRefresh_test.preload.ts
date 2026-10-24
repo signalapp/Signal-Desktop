@@ -7,7 +7,7 @@ import { MuteExpiration } from '@signalapp/types';
 
 import lodash from 'lodash';
 import { ConversationModel } from '../models/conversations.preload.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import { DAY, HOUR, MINUTE, MONTH } from '../util/durations/index.std.ts';
 
 import { routineProfileRefresh } from '../routineProfileRefresh.preload.ts';

@@ -6,10 +6,7 @@ import type { MuteExpiration } from '@signalapp/types';
 
 import type { GroupV2ChangeType } from './types/groups.std.ts';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.ts';
-import type {
-  CustomColorType,
-  ConversationColorType,
-} from './types/Colors.std.ts';
+import type { ChatStyle } from './types/ChatStyle.std.ts';
 import type { SendMessageChallengeData } from './textsecure/Errors.std.ts';
 import type { ProfileNameChangeType } from './util/getStringForProfileChange.std.ts';
 import type { CapabilitiesType } from './types/Capabilities.d.ts';
@@ -20,7 +17,7 @@ import type { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCo
 import type {
   AttachmentDraftType,
   AttachmentType,
-} from './util/Attachment.std.ts';
+} from './types/Attachment.std.ts';
 import type { EmbeddedContactType } from './types/EmbeddedContact.std.ts';
 import { SignalService as Proto } from './protobuf/index.std.ts';
 import type { AvatarDataType, ContactAvatarType } from './types/Avatar.std.ts';
@@ -372,9 +369,11 @@ export type ConversationAttributesType = {
   // If present - the numeric value of `color` (possibly not yet supported) that
   // we got the from primary during either backup or storage service import.
   colorFromPrimary?: number;
-  conversationColor?: ConversationColorType;
-  customColor?: CustomColorType;
-  customColorId?: string;
+  // Stored in their own columns (`customChatColorId` with a foreign key), not
+  // in the json. At most one of them is set, use
+  // `toConversationBubbleColorAttributes()` to update them.
+  bubbleColorPreset?: ChatStyle.BubbleColorPreset;
+  customChatColorId?: ChatStyle.CustomChatColorId;
 
   // Set at backup import time, exported as is.
   wallpaperPhotoPointerBase64?: string;

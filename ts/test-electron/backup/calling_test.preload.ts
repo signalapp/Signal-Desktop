@@ -6,7 +6,7 @@ import { v4 as generateGuid } from 'uuid';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
 
 import type { ConversationModel } from '../../models/conversations.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type { CallHistoryDetails } from '../../types/CallDisposition.std.ts';
 import type { CallLinkType } from '../../types/CallLink.std.ts';
 

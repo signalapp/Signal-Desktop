@@ -106,6 +106,10 @@ window.testUtilities = {
       callLinks: [],
       callHistory: [],
       callHistoryUnreadCountsByConversationId: {},
+      account: {
+        defaultBubbleColor: null,
+      },
+      customChatColors: [],
       chatFolders: [],
       emojis: {
         recentEmojis: [],

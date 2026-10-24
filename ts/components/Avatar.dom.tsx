@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import lodash from 'lodash';
 
 import { filterDOMProps } from '@react-aria/utils';
-import type { AvatarColorType } from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { createLogger } from '../logging/log.std.ts';

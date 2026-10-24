@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createLogger } from '../logging/log.std.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import type { StorageInterface } from '../types/Storage.d.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { DAY, HOUR } from './durations/index.std.ts';

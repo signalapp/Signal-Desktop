@@ -3,21 +3,20 @@
 
 import { assert } from 'chai';
 
-import { getHSL } from '../../util/getHSL.std.ts';
+import { calculateLightness } from '../../util/getHSL.std.ts';
 
-describe('getHSL', () => {
+describe('calculateLightness', () => {
   it('returns expected lightness values', () => {
-    const saturation = 100;
-    assert.equal(getHSL({ hue: 0, saturation }), 'hsl(0, 100%, 45%)');
-    assert.equal(getHSL({ hue: 60, saturation }), 'hsl(60, 100%, 30%)');
-    assert.equal(getHSL({ hue: 90, saturation }), 'hsl(90, 100%, 30%)');
-    assert.equal(getHSL({ hue: 180, saturation }), 'hsl(180, 100%, 30%)');
-    assert.equal(getHSL({ hue: 240, saturation }), 'hsl(240, 100%, 50%)');
-    assert.equal(getHSL({ hue: 300, saturation }), 'hsl(300, 100%, 40%)');
-    assert.equal(getHSL({ hue: 360, saturation }), 'hsl(360, 100%, 45%)');
+    assert.equal(calculateLightness(0), 45);
+    assert.equal(calculateLightness(60), 30);
+    assert.equal(calculateLightness(90), 30);
+    assert.equal(calculateLightness(180), 30);
+    assert.equal(calculateLightness(240), 50);
+    assert.equal(calculateLightness(300), 40);
+    assert.equal(calculateLightness(360), 45);
   });
 
   it('calculates lightness between values', () => {
-    assert.equal(getHSL({ hue: 210, saturation: 100 }), 'hsl(210, 100%, 40%)');
+    assert.equal(calculateLightness(210), 40);
   });
 });

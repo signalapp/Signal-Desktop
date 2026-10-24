@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import isNumber from 'lodash/isNumber.js';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import type { ServiceIdString, AciString } from '../types/ServiceId.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import {

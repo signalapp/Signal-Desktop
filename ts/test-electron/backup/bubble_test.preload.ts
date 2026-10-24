@@ -22,7 +22,7 @@ import {
 } from './helpers.preload.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.std.ts';
 import { MY_STORY_ID } from '../../types/Stories.std.ts';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';

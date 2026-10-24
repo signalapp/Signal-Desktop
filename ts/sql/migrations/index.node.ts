@@ -163,6 +163,7 @@ import updateToSchemaVersion1830 from './1830-fix-salt-storage.node.ts';
 import updateToSchemaVersion1840 from './1840-transcoding.std.ts';
 import updateToSchemaVersion1850 from './1850-audio-preferences.std.ts';
 import updateToSchemaVersion1860 from './1860-favorite-stickers.std.ts';
+import updateToSchemaVersion1870 from './1870-account-and-chat-colors.std.ts';
 
 import { DataWriter } from '../Server.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
@@ -1691,6 +1692,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1840, update: updateToSchemaVersion1840 },
   { version: 1850, update: updateToSchemaVersion1850 },
   { version: 1860, update: updateToSchemaVersion1860 },
+  { version: 1870, update: updateToSchemaVersion1870 },
 ];
 
 class DBVersionFromFutureError extends Error {

@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 import * as grapheme from '../util/grapheme.std.ts';
 import { AvatarColorPicker } from './AvatarColorPicker.dom.tsx';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { AvatarDataType } from '../types/Avatar.std.ts';
 import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
 import { BetterAvatarBubble } from './BetterAvatarBubble.dom.tsx';

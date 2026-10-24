@@ -27,7 +27,7 @@ import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.
 import type {
   PinMessageData,
   ReadonlyMessageAttributesType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';

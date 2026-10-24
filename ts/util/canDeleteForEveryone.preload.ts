@@ -5,7 +5,7 @@ import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { getMessageAge } from './getMessageAge.std.ts';
 import {
   getAdminDeleteMaxAgeMs,

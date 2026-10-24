@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { hslToRGB, hslToRGBInt } from '../../util/hslToRGB.std.ts';
+import { hslToRGB } from '../../util/hslToRGB.std.ts';
 
 describe('hslToRGB', () => {
   it('converts pure rgb colors', () => {
@@ -23,13 +23,5 @@ describe('hslToRGB', () => {
       g: 50,
       b: 42,
     });
-  });
-});
-
-describe('hslToRGBInt', () => {
-  it('converts pure rgb colors', () => {
-    assert.equal(hslToRGBInt(0, 1, 0.5), 4294901760);
-    assert.equal(hslToRGBInt(120, 1, 0.5), 4278255360);
-    assert.equal(hslToRGBInt(240, 1, 0.5), 4278190335);
   });
 });

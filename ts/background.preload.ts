@@ -21,14 +21,13 @@ import {
   resumeTasksWithTimeout,
   reportLongRunningTasks,
 } from './textsecure/TaskWithTimeout.std.ts';
-import type { MessageAttributesType } from './model-types.d.ts';
+import type { MessageAttributesType } from './model-types.std.ts';
 import * as Bytes from './Bytes.std.ts';
 import * as Timers from './Timers.preload.ts';
 import * as indexedDb from './indexeddb.dom.ts';
 import { ToastType } from './types/Toast.dom.tsx';
 import type { MenuOptionsType } from './types/menu.std.ts';
 import { SocketStatus } from './types/SocketStatus.std.ts';
-import { DEFAULT_CONVERSATION_COLOR } from './types/Colors.std.ts';
 import { ThemeType } from './types/Util.std.ts';
 import * as durations from './util/durations/index.std.ts';
 import { drop } from './util/drop.std.ts';
@@ -458,6 +457,8 @@ async function startApp(): Promise<void> {
 
   signalProtocolStore.on('removeAllData', () => {
     window.reduxActions.stories.removeAllStories();
+    window.reduxActions.chatColors.resetCustomChatColors();
+    window.reduxActions.account.resetAccount();
   });
 
   signalProtocolStore.on('nullMessage', ({ conversationId, idForTracking }) => {
@@ -752,12 +753,6 @@ async function startApp(): Promise<void> {
       'usernameChangeSync',
       queuedEventListener(onUsernameChangeSync)
     );
-
-    if (!itemStorage.get('defaultConversationColor')) {
-      drop(
-        itemStorage.put('defaultConversationColor', DEFAULT_CONVERSATION_COLOR)
-      );
-    }
 
     senderCertificateService.initialize({
       server: {

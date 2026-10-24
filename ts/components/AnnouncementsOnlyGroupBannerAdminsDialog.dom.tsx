@@ -4,7 +4,7 @@ import { useCallback, type ReactNode } from 'react';
 import { tw } from '../axo/tw.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import type { AdminMembershipType } from '../state/selectors/conversations.dom.ts';
-import type { ContactNameColorType } from '../types/Colors.std.ts';
+import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';

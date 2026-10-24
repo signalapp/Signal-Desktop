@@ -13,7 +13,7 @@ import { MessageModel } from '../../models/messages.preload.ts';
 import type { PollMessageAttribute } from '../../types/Polls.dom.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { IMAGE_JPEG } from '../../types/MIME.std.ts';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.ts';

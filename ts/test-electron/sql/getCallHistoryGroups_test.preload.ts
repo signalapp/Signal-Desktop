@@ -21,7 +21,7 @@ import type {
   CallStatus,
 } from '../../types/CallDisposition.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
-import type { ConversationAttributesType } from '../../model-types.d.ts';
+import type { ConversationAttributesType } from '../../model-types.std.ts';
 import {
   FAKE_CALL_LINK,
   FAKE_CALL_LINK_WITH_ADMIN_KEY,

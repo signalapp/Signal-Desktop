@@ -6,7 +6,7 @@ import type { JSX } from 'react';
 import lodash from 'lodash';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PropsType } from './CallingPip.dom.tsx';
 import { CallingPip } from './CallingPip.dom.tsx';

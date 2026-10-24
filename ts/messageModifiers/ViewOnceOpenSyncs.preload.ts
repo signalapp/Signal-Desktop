@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '../types/ServiceId.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { DataReader } from '../sql/Client.preload.ts';
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';

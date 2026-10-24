@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import type { AttachmentForUIType } from './Attachment.std.ts';
 import { isVoiceMessage, isDownloaded } from '../util/Attachment.std.ts';
 import type { HydratedBodyRangesType } from './BodyRange.std.ts';

@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import type {
   MessageAttributesType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.ts';
 import { isOutgoing, isStory } from '../state/selectors/message.preload.ts';
 import { getOwn } from '../util/getOwn.std.ts';

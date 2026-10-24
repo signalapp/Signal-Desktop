@@ -13,8 +13,8 @@ import type {
   GroupV2Membership,
 } from './ConversationDetailsMembershipList.dom.tsx';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.tsx';
-import type { ContactNameColorType } from '../../../types/Colors.std.ts';
-import { ContactNameColors } from '../../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../../types/ContactNameColor.std.ts';
+import { ContactNameColors } from '../../../types/ContactNameColor.std.ts';
 import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;

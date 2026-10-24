@@ -4,7 +4,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 
 import type { RawBodyRange } from '../types/BodyRange.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import type { ICUStringMessageParamsByKeyType } from '../types/Util.std.ts';
 import * as Attachment from './Attachment.std.ts';
 import * as EmbeddedContact from '../types/EmbeddedContact.std.ts';
@@ -359,9 +359,10 @@ export function getNotificationDataForMessage(
   const { body: untrimmedBody = '', bodyRanges = [] } = attributes;
   const body = untrimmedBody.trim();
 
-  if (attachments.length) {
+  const attachment = attachments.at(0);
+  if (attachment != null) {
     // This should never happen but we want to be extra-careful.
-    const attachment = attachments[0] || {};
+
     const { contentType } = attachment;
 
     const tooBigAttachmentCount = attachments.filter(

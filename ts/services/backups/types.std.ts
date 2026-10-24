@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString, PniString } from '../../types/ServiceId.std.ts';
-import type { ConversationColorType } from '../../types/Colors.std.ts';
 import type {
   CoreAttachmentBackupJobType,
   CoreAttachmentLocalBackupJobType,
 } from '../../types/AttachmentBackup.std.ts';
+import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 
 // Duplicated here to allow loading it in a non-node environment
 export enum BackupLevel {
@@ -57,8 +57,7 @@ export type BackupImportOptions = (
 export type LocalChatStyle = Readonly<{
   wallpaperPhotoPointer: Uint8Array<ArrayBuffer> | undefined;
   wallpaperPreset: number | undefined;
-  color: ConversationColorType | undefined;
-  customColorId: string | undefined;
+  bubbleColor: ChatStyle['bubbleColor'] | undefined;
   dimWallpaperInDarkMode: boolean | undefined;
   autoBubbleColor: boolean | undefined;
 }>;

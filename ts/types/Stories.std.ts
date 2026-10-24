@@ -4,7 +4,7 @@
 import type { AttachmentType } from './Attachment.std.ts';
 import type { HydratedBodyRangesType } from './BodyRange.std.ts';
 import type { LocalizerType } from './Util.std.ts';
-import type { ContactNameColorType } from './Colors.std.ts';
+import type { ContactNameColorType } from './ContactNameColor.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import type { SendStatus } from '../messages/MessageSendState.std.ts';

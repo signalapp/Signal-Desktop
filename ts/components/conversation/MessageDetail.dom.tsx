@@ -16,7 +16,7 @@ import { Message, MessageInteractivity } from './Message.dom.tsx';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.ts';
-import type { ContactNameColorType } from '../../types/Colors.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import {
   SendStatus,
   type VisibleSendStatus,

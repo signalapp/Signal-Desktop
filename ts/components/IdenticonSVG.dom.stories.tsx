@@ -9,7 +9,7 @@ import {
   IdenticonSVGForContact,
   IdenticonSVGForGroup,
 } from './IdenticonSVG.dom.tsx';
-import { AvatarColorMap } from '../types/Colors.std.ts';
+import { AvatarColorMap } from '../types/Avatar.std.ts';
 
 export default {
   title: 'Components/IdenticonSVG',

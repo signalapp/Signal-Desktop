@@ -6,7 +6,7 @@ import type { EditAttributesType } from '../messageModifiers/Edits.preload.ts';
 import type {
   EditHistoryType,
   MessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import * as Edits from '../messageModifiers/Edits.preload.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { getValidLinkPreviews } from './getValidLinkPreviews.node.ts';

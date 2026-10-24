@@ -10,7 +10,7 @@ import type {
 } from '../../../types/MediaItem.std.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { getDisplayName } from '../../../types/EmbeddedContact.std.ts';
-import { AvatarColors } from '../../../types/Colors.std.ts';
+import { AvatarColors } from '../../../types/Avatar.std.ts';
 import type { AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.ts';
 import { Avatar, AvatarBlur, AvatarSize } from '../../Avatar.dom.tsx';
 import { ListItem } from './ListItem.dom.tsx';

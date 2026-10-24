@@ -52,7 +52,7 @@ import type {
   ConversationQueueJobBundle,
   NormalMessageSendJobData,
 } from '../conversationJobQueue.preload.ts';
-import type { QuotedMessageType } from '../../model-types.d.ts';
+import type { QuotedMessageType } from '../../model-types.std.ts';
 
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
 import { ourProfileKeyService } from '../../services/ourProfileKey.std.ts';

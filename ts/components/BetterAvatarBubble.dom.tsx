@@ -4,7 +4,7 @@
 import type { CSSProperties, MouseEvent, ReactNode, JSX } from 'react';
 import classNames from 'classnames';
 
-import type { AvatarColorType } from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoTokens } from '../axo/AxoTokens.std.ts';
 

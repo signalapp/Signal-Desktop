@@ -7,10 +7,6 @@
 .ChatColorPicker {
   $bubble-size: 52px;
 
-  &__modal .module-Modal__body {
-    overflow-x: hidden;
-  }
-
   &__bubbles {
     align-items: center;
     display: grid;

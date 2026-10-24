@@ -24,7 +24,10 @@ import {
   donationErrorTypeSchema,
   donationStateSchema,
 } from '../types/Donations.std.ts';
-import type { AvatarColorType } from '../types/Colors.std.ts';
+import type {
+  AvatarColorType,
+  AvatarUpdateOptionsType,
+} from '../types/Avatar.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { createLogger } from '../logging/log.std.ts';
@@ -50,7 +53,6 @@ import type {
   ConversationType,
   ProfileDataType,
 } from '../state/ducks/conversations.preload.ts';
-import type { AvatarUpdateOptionsType } from '../types/Avatar.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { DonationsOfflineTooltip } from './conversation/DonationsOfflineTooltip.dom.tsx';
 import { getInProgressDonation } from '../util/donations.dom.ts';

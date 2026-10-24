@@ -7,10 +7,6 @@ import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.ts';
 import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.ts';
 import type { StateType } from '../reducer.preload.ts';
 import type { ItemsStateType } from '../ducks/items.preload.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../../types/Colors.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import type {
   BlockedGroup,
@@ -19,7 +15,6 @@ import type {
   UnreadCountBadgeType,
 } from '../../types/StorageKeys.std.ts';
 import { STORAGE_KEY_DEFAULTS } from '../../types/StorageKeys.std.ts';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji.std.ts';
 import type { NotifyWhileMuted } from '../../util/notifyWhileMuted.std.ts';
 import { DEFAULT_NOTIFY_IF_MUTED } from '../../util/notifyWhileMuted.std.ts';
@@ -139,25 +134,6 @@ export const getStoriesEnabled = createSelector(
 export const getKeyTransparencyEnabled = createSelector(
   getItems,
   (state: ItemsStateType): boolean => !state.hasKeyTransparencyDisabled
-);
-
-export const getDefaultConversationColor = createSelector(
-  getItems,
-  (
-    state: ItemsStateType
-  ): {
-    color: ConversationColorType;
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    };
-  } => state.defaultConversationColor ?? DEFAULT_CONVERSATION_COLOR
-);
-
-export const getCustomColors = createSelector(
-  getItems,
-  (state: ItemsStateType): Record<string, CustomColorType> | undefined =>
-    state.customColors?.colors
 );
 
 export const getEmojiSkinToneDefault: StateSelector<Emoji.SkinTone | null> =

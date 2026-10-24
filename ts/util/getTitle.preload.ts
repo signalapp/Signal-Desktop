@@ -4,7 +4,7 @@
 import type {
   ConversationAttributesType,
   ConversationRenderInfoType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { combineNames } from './combineNames.std.ts';
 import { getRegionCodeForNumber } from './libphonenumberUtil.std.ts';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance.std.ts';

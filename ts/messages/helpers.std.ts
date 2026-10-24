@@ -7,7 +7,7 @@ import type {
   CustomError,
   ReadonlyMessageAttributesType,
   QuotedAttachmentType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 
 export function isIncoming(

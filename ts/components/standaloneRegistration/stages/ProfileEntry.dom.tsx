@@ -6,7 +6,7 @@ import { useState, useCallback, useId } from 'react';
 import type { JSX } from 'react';
 
 import { normalizeProfileName } from '../../../util/normalizeProfileName.std.ts';
-import { AvatarColors } from '../../../types/Colors.std.ts';
+import { AvatarColors } from '../../../types/Avatar.std.ts';
 import { PhoneNumberDiscoverability } from '../../../util/phoneNumberDiscoverability.std.ts';
 import { AvatarPreview } from '../../AvatarPreview.dom.tsx';
 import { AvatarEditor } from '../../AvatarEditor.dom.tsx';

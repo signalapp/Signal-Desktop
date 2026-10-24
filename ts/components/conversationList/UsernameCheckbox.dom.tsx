@@ -5,7 +5,7 @@ import { memo, useCallback } from 'react';
 import type { FunctionComponent } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.ts';
-import { AvatarColors } from '../../types/Colors.std.ts';
+import { AvatarColors } from '../../types/Avatar.std.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.ts';
 import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';

@@ -30,12 +30,9 @@ import type {
 } from '../../types/Attachment.std.ts';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../../types/Colors.std.ts';
+import type { BubbleColorRenderData } from '../../types/ChatStyle.std.ts';
 import type { AnyPaymentEvent } from '../../types/Payment.std.ts';
-import type { QuotedAttachmentType } from '../../model-types.d.ts';
+import type { QuotedAttachmentType } from '../../model-types.std.ts';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
@@ -64,9 +61,8 @@ export type QuotedAttachmentForUIType = Pick<
 export type Props = {
   authorTitle: string;
   authorLabel?: MemberLabelType;
-  conversationColor: ConversationColorType;
+  bubbleColor: BubbleColorRenderData;
   conversationTitle: string;
-  customColor?: CustomColorType;
   bodyRanges?: HydratedBodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
@@ -171,8 +167,7 @@ function getTypeLabel({
 
 export function Quote(props: Props): JSX.Element | null {
   const {
-    conversationColor,
-    customColor,
+    bubbleColor,
     isStoryReply,
     onClose,
     text,
@@ -521,7 +516,7 @@ export function Quote(props: Props): JSX.Element | null {
     directionClassName = 'module-quote--outgoing';
   }
 
-  const color = getChatBubbleColorData(conversationColor, customColor ?? null);
+  const color = getChatBubbleColorData(bubbleColor);
 
   let colorClassName: string | null;
   let colorStyle: CSSProperties | null;

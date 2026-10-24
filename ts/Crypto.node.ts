@@ -10,7 +10,7 @@ import * as Bytes from './Bytes.std.ts';
 import { Crypto } from './context/Crypto.node.ts';
 import { calculateAgreement, generateKeyPair } from './Curve.node.ts';
 import { HashType, CipherType } from './types/Crypto.std.ts';
-import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Colors.std.ts';
+import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Avatar.std.ts';
 import { ProfileDecryptError } from './types/errors.std.ts';
 import { getBytesSubarray } from './util/uuidToBytes.std.ts';
 import { logPadSize } from './util/logPadSize.std.ts';
@@ -18,7 +18,7 @@ import { Environment, getEnvironment } from './environment.std.ts';
 import { toWebSafeBase64 } from './util/webSafeBase64.std.ts';
 
 import type { AciString, PniString } from './types/ServiceId.std.ts';
-import type { AvatarColorType } from './types/Colors.std.ts';
+import type { AvatarColorType } from './types/Avatar.std.ts';
 
 const { sample } = lodash;
 

@@ -15,7 +15,8 @@ import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.ts';
 import { SECOND } from '../../../util/durations/constants.std.ts';
 import { sleep } from '../../../util/sleep.std.ts';
 import { SignalService as Proto } from '../../../protobuf/index.std.ts';
-import { ContactNameColors } from '../../../types/Colors.std.ts';
+import { ContactNameColors } from '../../../types/ContactNameColor.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../../../types/ChatStyle.std.ts';
 import { Emoji } from '../../../axo/emoji.std.ts';
 
 const { i18n } = window.SignalContext;
@@ -44,6 +45,7 @@ export default {
 } satisfies Meta<PropsType>;
 
 const createProps = (): PropsType => ({
+  bubbleColor: DEFAULT_BUBBLE_COLOR,
   canAddLabel: true,
   existingLabelEmoji: Emoji.ELEPHANT,
   existingLabelString: 'Good Memory',

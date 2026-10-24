@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { SignalService as Proto } from '../protobuf/index.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 
 import { combineNames } from '../util/combineNames.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';

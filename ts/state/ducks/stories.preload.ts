@@ -6,7 +6,7 @@ import type { ThunkActionDispatch } from 'redux-thunk';
 import * as Errors from '../../types/errors.std.ts';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,

@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.std.ts';
-import type { QuotedMessageType } from '../model-types.d.ts';
+import type { QuotedMessageType } from '../model-types.std.ts';
 import { SignalService } from '../protobuf/index.std.ts';
 import {
   isGiftBadge,
@@ -19,7 +19,6 @@ import { isQuoteAMatch } from './quotes.preload.ts';
 import { messageHasPaymentEvent } from './payments.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import type { MessageModel } from '../models/messages.preload.ts';
-import type { AttachmentType } from '../types/Attachment.std.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
 import { isDownloadable } from '../util/Attachment.std.ts';
 
@@ -171,7 +170,8 @@ export const copyQuoteContentFromOriginal = async (
   } = message.attributes;
 
   if (queryAttachments.length > 0) {
-    const queryFirst = queryAttachments[0] as AttachmentType;
+    // oxlint-disable-next-line typescript/no-non-null-assertion
+    const queryFirst = queryAttachments[0]!;
     const { thumbnail: quotedThumbnail } = queryFirst;
     const hasMediaBackups = backupsService.hasMediaBackups();
 

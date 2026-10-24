@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { isIncoming, isOutgoing } from '../messages/helpers.std.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import {

@@ -7,7 +7,7 @@ import { I18n } from './I18n.dom.tsx';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { AdminMembershipType } from '../state/selectors/conversations.dom.ts';
-import type { ContactNameColorType } from '../types/Colors.std.ts';
+import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
 import { AnnouncementsOnlyGroupBannerAdminsDialog } from './AnnouncementsOnlyGroupBannerAdminsDialog.dom.tsx';
 
 type AnnouncementsOnlyGroupBannerProps = Readonly<{

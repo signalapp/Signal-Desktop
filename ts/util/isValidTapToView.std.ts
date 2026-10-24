@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import * as GoogleChrome from './GoogleChrome.std.ts';
 
 export function isValidTapToView(message: MessageAttributesType): boolean {
@@ -17,6 +17,7 @@ export function isValidTapToView(message: MessageAttributesType): boolean {
 
   const firstAttachment = attachments[0];
   if (
+    firstAttachment != null &&
     !GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
     !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType)
   ) {

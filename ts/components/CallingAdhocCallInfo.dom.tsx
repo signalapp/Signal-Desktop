@@ -9,7 +9,7 @@ import type { CallLinkType } from '../types/CallLink.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { sortByTitle } from '../util/sortByTitle.std.ts';
 import { ModalHost } from './ModalHost.dom.tsx';
-import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.ts';
+import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Avatar.std.ts';
 import { CallingParticipantListItem } from './CallingParticipantListItem.dom.tsx';
 import type {
   CallingParticipantType,

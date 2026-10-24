@@ -8,6 +8,8 @@ import type { AudioDeviceList } from '@signalapp/ringrtc';
 import type { MutableRefObject, JSX } from 'react';
 
 import { useItemsActions } from '../ducks/items.preload.ts';
+import { useChatColorsActions } from '../ducks/chatColors.preload.ts';
+import { useAccountActions } from '../ducks/account.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import {
   getConversationsWithCustomColorSelector,
@@ -16,7 +18,6 @@ import {
 } from '../selectors/conversations.dom.ts';
 import {
   getBackupKey,
-  getCustomColors,
   getGlobalNotifyWhileMuted,
   getGlobalShowUnreadReminders,
   getHasRegistrationLock,
@@ -34,7 +35,8 @@ import {
   onHasStoriesDisabledChange,
   setPhoneNumberDiscoverability,
 } from '../../textsecure/WebAPI.preload.ts';
-import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.ts';
+import { getCustomChatColors } from '../selectors/chatColors.std.ts';
+import { getDefaultBubbleColor } from '../selectors/account.std.ts';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { format } from '../../types/PhoneNumber.std.ts';
 import {
@@ -242,18 +244,16 @@ async function forceKeyTransparencyCheck(): Promise<void> {
 
 export function SmartPreferences(): JSX.Element | null {
   const {
-    addCustomColor,
-    editCustomColor,
     putItem,
-    removeCustomColor,
-    resetDefaultChatColor,
     savePreferredLeftPaneWidth,
     setEmojiSkinToneDefault: onEmojiSkinToneDefaultChange,
-    setGlobalDefaultConversationColor,
     toggleNavTabsCollapse,
   } = useItemsActions();
+  const { addCustomColor, editCustomColor, removeCustomColor } =
+    useChatColorsActions();
+  const { resetDefaultChatColor, setGlobalDefaultBubbleColor } =
+    useAccountActions();
   const {
-    removeCustomColorOnConversations,
     resetAllChatColors,
     resetAllNotificationSettings: resetAllPerChatNotificationSettings,
   } = useConversationsActions();
@@ -268,7 +268,8 @@ export function SmartPreferences(): JSX.Element | null {
   // Selectors
 
   const currentLocation = useSelector(getSelectedLocation);
-  const customColors = useSelector(getCustomColors) ?? {};
+  const customChatColors = useSelector(getCustomChatColors);
+  const defaultBubbleColor = useSelector(getDefaultBubbleColor);
   const getConversationsWithCustomColor = useSelector(
     getConversationsWithCustomColorSelector
   );
@@ -619,8 +620,6 @@ export function SmartPreferences(): JSX.Element | null {
     attachmentDownloadManagerIdled,
     backupMediaDownloadPaused,
   } = items;
-  const defaultConversationColor =
-    items.defaultConversationColor || DEFAULT_CONVERSATION_COLOR;
 
   const emojiSkinToneDefault =
     items.emojiSkinToneDefault ?? Emoji.SkinTone.None;
@@ -1042,8 +1041,8 @@ export function SmartPreferences(): JSX.Element | null {
         blockedGroupCount={blockedGroupCount}
         currentChatFoldersCount={currentChatFoldersCount}
         cloudBackupStatus={cloudBackupStatus}
-        customColors={customColors}
-        defaultConversationColor={defaultConversationColor}
+        customChatColors={customChatColors}
+        defaultBubbleColor={defaultBubbleColor}
         deviceName={deviceName}
         disableLocalBackups={backupsService.disableLocalBackups}
         disableSignalPin={disableSignalPin}
@@ -1181,7 +1180,6 @@ export function SmartPreferences(): JSX.Element | null {
         preferredWidthFromStorage={preferredWidthFromStorage}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
-        removeCustomColorOnConversations={removeCustomColorOnConversations}
         removeCustomColor={removeCustomColor}
         renderDonationsPane={renderDonationsPane}
         renderNotificationProfilesHome={renderNotificationProfilesHome}
@@ -1209,7 +1207,7 @@ export function SmartPreferences(): JSX.Element | null {
         selectedMicrophone={selectedMicrophone}
         selectedSpeaker={selectedSpeaker}
         sentMediaQualitySetting={sentMediaQualitySetting}
-        setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+        setGlobalDefaultBubbleColor={setGlobalDefaultBubbleColor}
         setSettingsLocation={setSettingsLocation}
         shouldShowUpdateDialog={shouldShowUpdateDialog}
         showPinChangeModal={showPinChangeModal}

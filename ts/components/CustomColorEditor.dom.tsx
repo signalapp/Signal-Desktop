@@ -1,192 +1,180 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useState, type JSX } from 'react';
-import { Button, ButtonVariant } from './Button.dom.tsx';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { GradientDial, KnobType } from './GradientDial.dom.tsx';
 import { SampleMessageBubbles } from './SampleMessageBubbles.dom.tsx';
-import { Slider } from './Slider.dom.tsx';
-import { Tabs } from './Tabs.dom.tsx';
-import type { CustomColorType } from '../types/Colors.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { getHSL } from '../util/getHSL.std.ts';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.std.ts';
+import { tw } from '../axo/tw.dom.tsx';
+import { AxoColorSlider } from '../axo/AxoColorSlider.dom.tsx';
+import { AxoColor } from '../axo/AxoColor.std.ts';
+import { missingCaseError } from '../util/missingCaseError.std.ts';
+import { AxoTokens } from '../axo/AxoTokens.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import { calculateLightness } from '../util/getHSL.std.ts';
+import { Uint32 } from '@signalapp/types';
 
-export type PropsType = {
-  customColor?: CustomColorType;
+const ULTRAMARINE = AxoTokens.ChatBubble.Gradients.ultramarine;
+
+const ULTRAMARINE_START = AxoColor.parse(ULTRAMARINE.start).argbInt();
+const ULTRAMARINE_END = AxoColor.parse(ULTRAMARINE.end).argbInt();
+const ULTRAMARINE_ANGLE = Uint32.fromNumber(270 - ULTRAMARINE.deg);
+
+export const INITIAL_CUSTOM_CHAT_COLOR = {
+  gradient: {
+    start: ULTRAMARINE_START,
+    end: ULTRAMARINE_END,
+    angle: ULTRAMARINE_ANGLE,
+  },
+} as const satisfies ChatStyle.CustomChatColor['color'];
+
+const HUE_TRACK_STOPS = Array.from({ length: 13 }, (_, index) => {
+  const hue = index * 30;
+  return `hsl(${hue}, 100%, ${calculateLightness(hue)}%)`;
+});
+
+const HUE_TRACK_BACKGROUND = `linear-gradient(to right, ${HUE_TRACK_STOPS.join(', ')})`;
+
+function withCalculatedLightness(color: AxoColor): AxoColor {
+  const { hue, saturation } = color.hsl();
+  const lightness = calculateLightness(hue);
+  return AxoColor.fromHSL({ hue, saturation, lightness });
+}
+
+export type CustomColorEditorMode = 'solid' | 'gradient';
+
+export type CustomColorEditorState = Readonly<{
+  start: AxoColor;
+  end: AxoColor;
+  angle: Uint32;
+}>;
+
+export function createCustomColorEditorState(
+  initialColor: ChatStyle.CustomChatColor['color'] | null
+): CustomColorEditorState {
+  const startValue =
+    initialColor?.solid ?? initialColor?.gradient.start ?? ULTRAMARINE_START;
+  const endValue = initialColor?.gradient?.end ?? ULTRAMARINE_END;
+  const angle = initialColor?.gradient?.angle ?? ULTRAMARINE_ANGLE;
+
+  const start = AxoColor.fromARGBInt(startValue);
+  const end = AxoColor.fromARGBInt(endValue);
+
+  return { start, end, angle };
+}
+
+export function serializeCustomColorEditorState(
+  mode: CustomColorEditorMode,
+  editorState: CustomColorEditorState
+): ChatStyle.CustomChatColor['color'] {
+  const start = editorState.start.argbInt();
+  const end = editorState.end.argbInt();
+  const { angle } = editorState;
+
+  if (mode === 'solid') {
+    return { solid: start };
+  }
+  if (mode === 'gradient') {
+    return { gradient: { start, end, angle } };
+  }
+  throw missingCaseError(mode);
+}
+
+export type CustomColorEditorProps = Readonly<{
   i18n: LocalizerType;
-  onClose: () => unknown;
-  onSave: (color: CustomColorType) => unknown;
-};
+  mode: CustomColorEditorMode;
+  editorState: CustomColorEditorState;
+  onEditorStateChange: (state: CustomColorEditorState) => void;
+}>;
 
-enum TabViews {
-  Solid = 'Solid',
-  Gradient = 'Gradient',
-}
+export function CustomColorEditor(props: CustomColorEditorProps): ReactNode {
+  const { i18n, mode, editorState, onEditorStateChange } = props;
+  const [selectedKnob, setSelectedKnob] = useState(KnobType.start);
 
-function getPercentage(value: number, max: number): number {
-  return (100 * value) / max;
-}
+  const selectedColor = useMemo(() => {
+    if (selectedKnob === KnobType.start) {
+      return editorState.start;
+    }
+    if (selectedKnob === KnobType.end) {
+      return editorState.end;
+    }
+    throw missingCaseError(selectedKnob);
+  }, [selectedKnob, editorState]);
 
-function getValue(percentage: number, max: number): number {
-  return Math.round((max / 100) * percentage);
-}
-
-const MAX_HUE = 360;
-const ULTRAMARINE_ISH_VALUES = {
-  hue: 220,
-  saturation: 84,
-};
-const ULTRAMARINE_ISH: CustomColorType = {
-  start: ULTRAMARINE_ISH_VALUES,
-  deg: 180,
-};
-
-export function CustomColorEditor({
-  customColor = ULTRAMARINE_ISH,
-  i18n,
-  onClose,
-  onSave,
-}: PropsType): JSX.Element {
-  const [color, setColor] = useState<CustomColorType>(customColor);
-  const [selectedColorKnob, setSelectedColorKnob] = useState<KnobType>(
-    KnobType.start
+  const handleAngleChange = useCallback(
+    (angle: Uint32) => {
+      onEditorStateChange({ ...editorState, angle });
+    },
+    [onEditorStateChange, editorState]
   );
 
-  const { hue, saturation } =
-    color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES;
+  const handleColorChange = useCallback(
+    (value: AxoColor) => {
+      const color = withCalculatedLightness(value);
+      if (selectedKnob === KnobType.start) {
+        onEditorStateChange({ ...editorState, start: color });
+      } else if (selectedKnob === KnobType.end) {
+        onEditorStateChange({ ...editorState, end: color });
+      } else {
+        throw missingCaseError(selectedKnob);
+      }
+    },
+    [onEditorStateChange, editorState, selectedKnob]
+  );
+
+  const customColor = useMemo((): ChatStyle.CustomChatColor['color'] => {
+    return serializeCustomColorEditorState(mode, editorState);
+  }, [mode, editorState]);
+
+  const hueThumbColor = useMemo(() => {
+    const { hue } = selectedColor.hsl();
+    const lightness = calculateLightness(hue);
+    return AxoColor.fromHSL({ hue, saturation: 100, lightness });
+  }, [selectedColor]);
 
   return (
-    <Tabs
-      initialSelectedTab={color.end ? TabViews.Gradient : TabViews.Solid}
-      className="CustomColorEditor__tabs"
-      onTabChange={selectedTab => {
-        if (selectedTab === TabViews.Gradient && !color.end) {
-          setColor({
-            ...color,
-            end: ULTRAMARINE_ISH_VALUES,
-          });
-        }
-
-        if (selectedTab === TabViews.Solid && color.end) {
-          setColor({
-            ...color,
-            end: undefined,
-          });
-        }
-      }}
-      tabs={[
-        {
-          id: TabViews.Solid,
-          label: i18n('icu:CustomColorEditor__solid'),
-        },
-        {
-          id: TabViews.Gradient,
-          label: i18n('icu:CustomColorEditor__gradient'),
-        },
-      ]}
-    >
-      {({ selectedTab }) => (
-        <>
-          <div className="CustomColorEditor__messages">
-            <SampleMessageBubbles
-              backgroundStyle={getCustomColorStyle(color)}
-              color="custom"
-              i18n={i18n}
-              includeAnotherBubble
-            />
-            {selectedTab === TabViews.Gradient && (
-              <div data-supertab>
-                <GradientDial
-                  deg={color.deg}
-                  i18n={i18n}
-                  knob1Style={{ backgroundColor: getHSL(color.start) }}
-                  knob2Style={{
-                    backgroundColor: getHSL(
-                      color.end || ULTRAMARINE_ISH_VALUES
-                    ),
-                  }}
-                  onChange={deg => {
-                    setColor({
-                      ...color,
-                      deg,
-                    });
-                  }}
-                  onClick={knob => setSelectedColorKnob(knob)}
-                  selectedKnob={selectedColorKnob}
-                />
-              </div>
-            )}
-          </div>
-          <div data-supertab>
-            <div className="CustomColorEditor__slider-container">
-              {i18n('icu:CustomColorEditor__hue')}
-              <Slider
-                handleStyle={{
-                  backgroundColor: getHSL({
-                    hue,
-                    saturation: 100,
-                  }),
-                }}
-                label={i18n('icu:CustomColorEditor__hue')}
-                className="CustomColorEditor__hue-slider"
-                onChange={(percentage: number) => {
-                  setColor({
-                    ...color,
-                    [selectedColorKnob]: {
-                      ...ULTRAMARINE_ISH_VALUES,
-                      ...color[selectedColorKnob],
-                      hue: getValue(percentage, MAX_HUE),
-                    },
-                  });
-                }}
-                value={getPercentage(hue, MAX_HUE)}
-              />
-            </div>
-            <div className="CustomColorEditor__slider-container">
-              {i18n('icu:CustomColorEditor__saturation')}
-              <Slider
-                containerStyle={getCustomColorStyle({
-                  deg: 180,
-                  start: { hue, saturation: 0 },
-                  end: { hue, saturation: 100 },
-                })}
-                handleStyle={{
-                  backgroundColor: getHSL(
-                    color[selectedColorKnob] || ULTRAMARINE_ISH_VALUES
-                  ),
-                }}
-                label={i18n('icu:CustomColorEditor__saturation')}
-                className="CustomColorEditor__saturation-slider"
-                onChange={(value: number) => {
-                  setColor({
-                    ...color,
-                    [selectedColorKnob]: {
-                      ...ULTRAMARINE_ISH_VALUES,
-                      ...color[selectedColorKnob],
-                      saturation: value,
-                    },
-                  });
-                }}
-                value={saturation}
-              />
-            </div>
-          </div>
-          <div className="CustomColorEditor__footer" data-supertab>
-            <Button variant={ButtonVariant.Secondary} onClick={onClose}>
-              {i18n('icu:cancel')}
-            </Button>
-            <Button
-              onClick={() => {
-                onSave(color);
-                onClose();
-              }}
-            >
-              {i18n('icu:save')}
-            </Button>
-          </div>
-        </>
-      )}
-    </Tabs>
+    <>
+      <div
+        className={tw(
+          'mb-2.5',
+          'relative rounded-xl py-4',
+          'bg-surface-primary',
+          'inset-shadow-on-color'
+        )}
+      >
+        {/* `relative` above also makes the gradients in the bubbles span this
+            whole preview, like they span the whole chat view in the timeline */}
+        <SampleMessageBubbles i18n={i18n} bubbleColor={{ customColor }} />
+        {mode === 'gradient' && (
+          <GradientDial
+            i18n={i18n}
+            start={editorState.start}
+            end={editorState.end}
+            angle={editorState.angle}
+            onAngleChange={handleAngleChange}
+            onKnobSelect={setSelectedKnob}
+            selectedKnob={selectedKnob}
+          />
+        )}
+      </div>
+      <div className={tw('mb-1 type-body-large text-primary')}>
+        {i18n('icu:CustomColorEditor__hue')}
+      </div>
+      <AxoColorSlider.Root
+        channel="hue"
+        color={selectedColor}
+        onColorChange={handleColorChange}
+        trackBackground={HUE_TRACK_BACKGROUND}
+        thumbColor={hueThumbColor}
+      />
+      <div className={tw('mt-2 mb-1 type-body-large text-primary')}>
+        {i18n('icu:CustomColorEditor__saturation')}
+      </div>
+      <AxoColorSlider.Root
+        channel="saturation"
+        color={selectedColor}
+        onColorChange={handleColorChange}
+      />
+    </>
   );
 }

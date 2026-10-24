@@ -1,20 +1,12 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import lodash from 'lodash';
-import { v4 as getGuid } from 'uuid';
 import type { ReadonlyDeep } from 'type-fest';
 import * as storageShim from '../../shims/storage.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { drop } from '../../util/drop.std.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-} from '../../types/Colors.std.ts';
-import { ConversationColors } from '../../types/Colors.std.ts';
-import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation.dom.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import { actions as conversationActions } from './conversations.preload.ts';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.dom.ts';
 import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
@@ -72,12 +64,7 @@ export type ItemsActionType = ReadonlyDeep<
 // Action Creators
 
 export const actions = {
-  addCustomColor,
-  editCustomColor,
-  removeCustomColor,
-  resetDefaultChatColor,
   savePreferredLeftPaneWidth,
-  setGlobalDefaultConversationColor,
   toggleNavTabsCollapse,
   setEmojiSkinToneDefault,
   onSeenAdminDeleteEducationDialog,
@@ -141,127 +128,6 @@ function resetItems(): ItemsResetAction {
   return { type: 'items/RESET' };
 }
 
-function getDefaultCustomColorData() {
-  return {
-    colors: {} as Record<string, CustomColorType>,
-    version: 1,
-    order: [],
-  };
-}
-
-function addCustomColor(
-  customColor: CustomColorType,
-  conversationId?: string
-): SyncStateThunk<ItemPutAction> {
-  return (dispatch, getState) => {
-    const { customColors = getDefaultCustomColorData() } = getState().items;
-
-    let uuid = getGuid();
-    while (customColors.colors[uuid]) {
-      uuid = getGuid();
-    }
-
-    const order = new Set(customColors.order ?? []);
-    order.delete(uuid);
-    order.add(uuid);
-
-    const nextCustomColors = {
-      ...customColors,
-      colors: {
-        ...customColors.colors,
-        [uuid]: customColor,
-      },
-      order: [...order],
-    };
-
-    void dispatch(putItem('customColors', nextCustomColors));
-
-    const customColorData = {
-      id: uuid,
-      value: customColor,
-    };
-
-    if (conversationId) {
-      void dispatch(
-        conversationActions.colorSelected({
-          conversationId,
-          conversationColor: 'custom',
-          customColorData,
-        })
-      );
-    } else {
-      dispatch(setGlobalDefaultConversationColor('custom', customColorData));
-    }
-  };
-}
-
-function editCustomColor(
-  colorId: string,
-  color: CustomColorType
-): SyncStateThunk<ItemPutAction> {
-  return (dispatch, getState) => {
-    const { customColors = getDefaultCustomColorData() } = getState().items;
-
-    if (!customColors.colors[colorId]) {
-      return;
-    }
-
-    const nextCustomColors = {
-      ...customColors,
-      colors: {
-        ...customColors.colors,
-        [colorId]: color,
-      },
-    };
-
-    void dispatch(putItem('customColors', nextCustomColors));
-  };
-}
-
-function removeCustomColor(payload: string): SyncStateThunk<ItemPutAction> {
-  return (dispatch, getState) => {
-    const { customColors = getDefaultCustomColorData() } = getState().items;
-
-    const nextCustomColors = {
-      ...customColors,
-      colors: omit(customColors.colors, payload),
-      order: customColors.order?.filter(id => id !== payload),
-    };
-
-    void dispatch(putItem('customColors', nextCustomColors));
-    dispatch(resetDefaultChatColor());
-  };
-}
-
-function resetDefaultChatColor(): SyncStateThunk<ItemPutAction> {
-  return dispatch => {
-    void dispatch(
-      putItem('defaultConversationColor', {
-        color: ConversationColors[0],
-      })
-    );
-    reloadSelectedConversation();
-  };
-}
-
-function setGlobalDefaultConversationColor(
-  color: ConversationColorType,
-  customColorData?: {
-    id: string;
-    value: CustomColorType;
-  }
-): SyncStateThunk<ItemPutAction> {
-  return dispatch => {
-    void dispatch(
-      putItem('defaultConversationColor', {
-        color,
-        customColorData,
-      })
-    );
-    reloadSelectedConversation();
-  };
-}
-
 function savePreferredLeftPaneWidth(
   preferredWidth: number
 ): SyncStateThunk<ItemPutAction> {
@@ -288,11 +154,7 @@ function onSeenAdminDeleteEducationDialog(): SyncStateThunk<ItemPutAction> {
 // Reducer
 
 export function getEmptyState(): ItemsStateType {
-  return {
-    defaultConversationColor: {
-      color: ConversationColors[0],
-    },
-  };
+  return {};
 }
 
 export function reducer(

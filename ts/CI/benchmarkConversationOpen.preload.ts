@@ -15,7 +15,7 @@ import { isOlderThan } from '../util/timestamp.std.ts';
 import { sleep } from '../util/sleep.std.ts';
 import { stats } from '../test-helpers/benchmarkStats.std.ts';
 import type { StatsType } from '../test-helpers/benchmarkStats.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { postSaveUpdates } from '../util/cleanup.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';

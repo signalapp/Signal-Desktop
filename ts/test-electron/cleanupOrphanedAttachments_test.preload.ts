@@ -22,7 +22,7 @@ import {
   getMegaphonesPath,
 } from '../../app/attachments.node.ts';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { RemoteMegaphoneId } from '../types/Megaphone.std.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
 
@@ -157,6 +157,7 @@ describe('cleanupOrphanedAttachments', () => {
       type: 'private',
       version: 2,
       expireTimerVersion: 2,
+      // @ts-expect-error - broken after renaming model-types
       draftAttachments: [{ path: 'draft0' }, { path: 'draft1' }],
     });
 

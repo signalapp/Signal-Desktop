@@ -6,7 +6,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import { PaymentEventKind } from '../types/Payment.std.ts';
 import type { AnyPaymentEvent } from '../types/Payment.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 
 export type MessageAttributesWithPaymentEvent = ReadonlyMessageAttributesType &

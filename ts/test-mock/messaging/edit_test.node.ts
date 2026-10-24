@@ -21,7 +21,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { toNumber } from '../../util/toNumber.std.ts';
 import { IMAGE_GIF } from '../../types/MIME.std.ts';
 import { typeIntoInput, waitForEnabledComposer } from '../helpers.node.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { sleep } from '../../util/sleep.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 import { expect } from 'playwright/test';

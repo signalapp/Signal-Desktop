@@ -16,7 +16,7 @@ import {
   getAttachmentFromBackupTier,
 } from '../textsecure/WebAPI.preload.ts';
 import * as Errors from '../types/errors.std.ts';
-import type { ValidateConversationType } from '../model-types.d.ts';
+import type { ValidateConversationType } from '../model-types.std.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
 import { validateConversation } from '../util/validateConversation.dom.ts';
 import {

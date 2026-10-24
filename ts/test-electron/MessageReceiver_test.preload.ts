@@ -31,7 +31,7 @@ import type { ConversationModel } from '../models/conversations.preload.ts';
 import type {
   ConversationAttributesType,
   ConversationAttributesTypeType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import {
   ReceivedTimestampMs,
   SentTimestampMs,

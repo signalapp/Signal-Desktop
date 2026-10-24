@@ -27,7 +27,7 @@ import {
   sendStateReducer,
 } from './MessageSendState.std.ts';
 
-import type { CustomError, MessageAttributesType } from '../model-types.d.ts';
+import type { CustomError, MessageAttributesType } from '../model-types.std.ts';
 import type { CallbackResultType } from '../textsecure/Types.d.ts';
 import { messageSender } from '../textsecure/SendMessage.preload.ts';
 import type { MessageModel } from '../models/messages.preload.ts';

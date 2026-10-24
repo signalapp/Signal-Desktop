@@ -8,7 +8,7 @@ import { isMessageAMatchForReaction } from '../../messageModifiers/Reactions.pre
 import { generateMessageId } from '../../util/generateMessageId.node.ts';
 import { incrementMessageCounter } from '../../util/incrementMessageCounter.preload.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';

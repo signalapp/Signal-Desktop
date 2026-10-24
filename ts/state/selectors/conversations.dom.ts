@@ -35,8 +35,9 @@ import type { PropsDataType as TimelinePropsType } from '../../components/conver
 import { assertDev } from '../../util/assert.std.ts';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
-import type { ContactNameColorType } from '../../types/Colors.std.ts';
-import { ContactNameColors } from '../../types/Colors.std.ts';
+import type { ChatStyle } from '../../types/ChatStyle.std.ts';
+import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
+import { ContactNameColors } from '../../types/ContactNameColor.std.ts';
 import type { AvatarDataType } from '../../types/Avatar.std.ts';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.std.ts';
 import { normalizeServiceId } from '../../types/ServiceId.std.ts';
@@ -1366,10 +1367,10 @@ export const getInvitedContactsForNewlyCreatedGroup = createSelector(
 export const getConversationsWithCustomColorSelector = createSelector(
   getAllConversations,
   conversations => {
-    return (colorId: string): Array<ConversationType> => {
-      return conversations.filter(
-        conversation => conversation.customColorId === colorId
-      );
+    return (colorId: ChatStyle.CustomChatColorId): Array<ConversationType> => {
+      return conversations.filter(conversation => {
+        return conversation.bubbleColor?.customChatColorId === colorId;
+      });
     };
   }
 );

@@ -8,7 +8,7 @@ import type {
   MessageAttributesType,
   MessageReactionType,
   ReadonlyMessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { MessageModel } from '../models/messages.preload.ts';
 import { ReactionSource } from '../reactions/ReactionSource.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';

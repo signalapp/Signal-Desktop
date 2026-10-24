@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import type { JSX, ReactNode } from 'react';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import { UsernameEditState } from '../state/ducks/usernameEnums.std.ts';
@@ -20,8 +20,8 @@ import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { ProfileEditorPage } from '../types/Nav.std.ts';
 
-import type { AvatarColorType } from '../types/Colors.std.ts';
 import type {
+  AvatarColorType,
   AvatarDataType,
   AvatarUpdateOptionsType,
   DeleteAvatarFromDiskActionType,

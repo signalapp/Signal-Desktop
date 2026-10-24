@@ -9,7 +9,7 @@ import type { ExplodePromiseResultType } from '../../util/explodePromise.std.ts'
 import type {
   GroupV2PendingMemberType,
   ReadonlyMessageAttributesType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,

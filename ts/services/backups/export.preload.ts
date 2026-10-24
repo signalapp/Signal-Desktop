@@ -21,7 +21,8 @@ import type {
 } from '../../sql/Interface.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
-import { type CustomColorType } from '../../types/Colors.std.ts';
+import type { ChatStyle } from '../../types/ChatStyle.std.ts';
+import { getConversationBubbleColor } from '../../util/conversationBubbleColor.std.ts';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
 import { getInstalledStickerPacksForBackup } from '../../types/Stickers.preload.ts';
 import {
@@ -41,7 +42,7 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
   QuotedAttachmentType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
 import {
   isDirectConversation,
@@ -114,7 +115,6 @@ import {
   AdhocCallStatus,
 } from '../../types/CallDisposition.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
-import { hslToRGBInt } from '../../util/hslToRGB.std.ts';
 import type {
   AboutMe,
   BackupExportOptions,
@@ -168,7 +168,6 @@ import {
   isTestEnvironment,
   isTestOrMockEnvironment,
 } from '../../environment.std.ts';
-import { calculateLightness } from '../../util/getHSL.std.ts';
 import { isSignalServiceId } from '../../types/SignalConversation.std.ts';
 import { isValidE164 } from '../../util/isValidE164.std.ts';
 import { toDayOfWeekArray } from '../../types/NotificationProfile.std.ts';
@@ -297,9 +296,13 @@ export class BackupExportStream {
   > = [];
   #nextRecipientId = 1n;
 
-  // Map from custom color uuid to an index in accountSettings.customColors
-  // array.
-  readonly #customColorIdByUuid = new Map<string, bigint>();
+  // Map from database custom color ids to ids in
+  // accountSettings.customChatColors. Backup ids are renumbered from 1 so that
+  // they don't depend on the database's autoincrement counter.
+  readonly #backupIdByCustomChatColorId = new Map<
+    ChatStyle.CustomChatColorId,
+    bigint
+  >();
 
   constructor(options: BackupExportOptions) {
     this.#options = options;
@@ -640,8 +643,7 @@ export class BackupExportStream {
               ? Bytes.fromBase64(attributes.wallpaperPhotoPointerBase64)
               : undefined,
             wallpaperPreset: attributes.wallpaperPreset,
-            color: attributes.conversationColor,
-            customColorId: attributes.customColorId,
+            bubbleColor: getConversationBubbleColor(attributes) ?? undefined,
             dimWallpaperInDarkMode: attributes.dimWallpaperInDarkMode,
             autoBubbleColor: attributes.autoBubbleColor,
           }),
@@ -895,6 +897,11 @@ export class BackupExportStream {
   async #toAccountData(): Promise<Backups.AccountData.Params> {
     const me = window.ConversationController.getOurConversationOrThrow();
 
+    const [customChatColors, account] = await Promise.all([
+      DataReader.getAllCustomChatColors(),
+      DataReader.getAccount(),
+    ]);
+
     const rawPreferredReactionEmoji = itemStorage.get('preferredReactionEmoji');
 
     let preferredReactionEmoji: Array<Emoji.Variant> | undefined;
@@ -1038,9 +1045,9 @@ export class BackupExportStream {
         reactionNotifications: itemStorage.get('reaction-notification') ?? null,
         phoneNumberSharingMode,
         // Note that this should be called before `toDefaultChatStyle` because
-        // it builds `customColorIdByUuid`
-        customChatColors: this.#toCustomChatColors(),
-        defaultChatStyle: this.#toDefaultChatStyle(),
+        // it builds `backupIdByCustomChatColorId`
+        customChatColors: this.#toCustomChatColors(customChatColors),
+        defaultChatStyle: this.#toDefaultChatStyle(account.defaultBubbleColor),
         backupTier: backupTier != null ? BigInt(backupTier) : null,
         appTheme,
         callsUseLessDataSetting:
@@ -3820,66 +3827,31 @@ export class BackupExportStream {
     return revisions.filter(isNotNil);
   }
 
-  #toCustomChatColors(): Array<Backups.ChatStyle.CustomChatColor.Params> {
-    const customColors = itemStorage.get('customColors');
-    if (!customColors) {
-      return [];
-    }
-
-    const { order = [] } = customColors;
-    const map = new Map(
-      order
-        .map((id: string): [string, CustomColorType] | undefined => {
-          const color = customColors.colors[id];
-          if (color == null) {
-            return undefined;
-          }
-          return [id, color];
-        })
-        .filter(isNotNil)
-    );
-
-    // Add colors not present in the order list
-    for (const [uuid, color] of Object.entries(customColors.colors)) {
-      if (map.has(uuid)) {
-        continue;
-      }
-      map.set(uuid, color);
-    }
-
+  #toCustomChatColors(
+    customChatColors: ReadonlyArray<ChatStyle.CustomChatColor>
+  ): Array<Backups.ChatStyle.CustomChatColor.Params> {
     const result = new Array<Backups.ChatStyle.CustomChatColor.Params>();
-    for (const [uuid, color] of map.entries()) {
+    for (const color of customChatColors) {
       const id = BigInt(result.length + 1);
-      this.#customColorIdByUuid.set(uuid, id);
+      this.#backupIdByCustomChatColorId.set(color.id, id);
 
-      const start = desktopHslToRgbInt(
-        color.start.hue,
-        color.start.saturation,
-        color.start.lightness
-      );
-
-      if (color.end == null) {
+      if (color.color.solid != null) {
         result.push({
           id,
-          color: { solid: start },
+          color: { solid: color.color.solid },
         });
       } else {
-        const end = desktopHslToRgbInt(
-          color.end.hue,
-          color.end.saturation,
-          color.end.lightness
-        );
-
+        const { gradient } = color.color;
         // Desktop uses a different angle convention than the backup proto. Our degrees
         // rotate in the opposite direction (sadly!) and our start is shifted by 90
         // degrees
-        const backupAngle = 360 - ((color.deg ?? 0) + 90);
+        const backupAngle = 360 - (gradient.angle + 90);
 
         result.push({
           id,
           color: {
             gradient: {
-              colors: [start, end],
+              colors: [gradient.start, gradient.end],
               positions: [0, 1],
               angle: (backupAngle + 360) % 360,
             },
@@ -3891,8 +3863,9 @@ export class BackupExportStream {
     return result;
   }
 
-  #toDefaultChatStyle(): Backups.ChatStyle.Params | null {
-    const defaultColor = itemStorage.get('defaultConversationColor');
+  #toDefaultChatStyle(
+    bubbleColor: ChatStyle['bubbleColor'] | null
+  ): Backups.ChatStyle.Params | null {
     const wallpaperPhotoPointer = itemStorage.get(
       'defaultWallpaperPhotoPointer'
     );
@@ -3906,8 +3879,7 @@ export class BackupExportStream {
     return this.#toChatStyle({
       wallpaperPhotoPointer,
       wallpaperPreset,
-      color: defaultColor?.color,
-      customColorId: defaultColor?.customColorData?.id,
+      bubbleColor: bubbleColor ?? undefined,
       dimWallpaperInDarkMode,
       autoBubbleColor,
     });
@@ -3916,14 +3888,13 @@ export class BackupExportStream {
   #toChatStyle({
     wallpaperPhotoPointer,
     wallpaperPreset,
-    color,
-    customColorId,
+    bubbleColor: color,
     dimWallpaperInDarkMode,
     autoBubbleColor,
   }: LocalChatStyle): Backups.ChatStyle.Params | null {
     // The defaults
     if (
-      (color == null || color === 'ultramarine') &&
+      color == null &&
       wallpaperPhotoPointer == null &&
       wallpaperPreset == null &&
       !dimWallpaperInDarkMode &&
@@ -3946,18 +3917,15 @@ export class BackupExportStream {
     let bubbleColor: Backups.ChatStyle.Params['bubbleColor'];
     if (color == null || autoBubbleColor) {
       bubbleColor = { autoBubbleColor: {} };
-    } else if (color === 'custom') {
-      strictAssert(
-        customColorId != null,
-        'No custom color id for custom color'
+    } else if (color.customChatColorId != null) {
+      const backupId = this.#backupIdByCustomChatColorId.get(
+        color.customChatColorId
       );
-
-      const index = this.#customColorIdByUuid.get(customColorId);
-      if (index != null) {
-        bubbleColor = { customColorId: index };
+      if (backupId != null) {
+        bubbleColor = { customColorId: backupId };
       } else {
         log.warn(
-          `toChatStyle: chat style referenced unknown custom color ${customColorId}`
+          `toChatStyle: chat style referenced unknown custom color ${color.customChatColorId}`
         );
         bubbleColor = { autoBubbleColor: {} };
       }
@@ -3965,7 +3933,7 @@ export class BackupExportStream {
       const { BubbleColorPreset } = Backups.ChatStyle;
 
       let preset: Backups.ChatStyle.BubbleColorPreset;
-      switch (color) {
+      switch (color.bubbleColorPreset) {
         case 'ultramarine':
           preset = BubbleColorPreset.SOLID_ULTRAMARINE;
           break;
@@ -4055,19 +4023,6 @@ function checkServiceIdEquivalence(
   const rightConvo = window.ConversationController.get(right);
 
   return leftConvo && rightConvo && leftConvo === rightConvo;
-}
-
-function desktopHslToRgbInt(
-  hue: number,
-  saturation: number,
-  lightness?: number
-): number {
-  // Desktop stores saturation not as 0.123 (0 to 1.0) but 12.3 (percentage)
-  return hslToRGBInt(
-    hue,
-    saturation / 100,
-    lightness ?? calculateLightness(hue)
-  );
 }
 
 function toGroupCallStateProto(state: CallStatus): Backups.GroupCall.State {

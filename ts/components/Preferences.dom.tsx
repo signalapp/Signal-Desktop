@@ -25,7 +25,7 @@ import {
   KEY_TRANSPARENCY_URL,
   RESTORE_ACCOUNT_URL,
 } from '../types/support.std.ts';
-import { getCustomColorStyle } from '../util/getCustomColorStyle.std.ts';
+import { getBubbleColorBackground } from '../util/getCustomColorStyle.std.ts';
 import {
   DEFAULT_DURATIONS_IN_SECONDS,
   DEFAULT_DURATIONS_SET,
@@ -73,11 +73,8 @@ import type { ThemeSettingType } from '../util/theme.std.ts';
 import type { AnyToast } from '../types/Toast.dom.tsx';
 import { ToastType } from '../types/Toast.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import type {
-  ConversationColorType,
-  CustomColorType,
-  DefaultConversationColorType,
-} from '../types/Colors.std.ts';
+import type { ChatStyle } from '../types/ChatStyle.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';
 import type {
   LocalizerType,
   SentMediaQualityType,
@@ -90,7 +87,7 @@ import type {
 } from '../types/backups.node.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { isBackupPage } from '../types/PreferencesBackupPage.std.ts';
 import type { PreferencesBackupPage } from '../types/PreferencesBackupPage.std.ts';
 import type {
@@ -123,7 +120,6 @@ import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTextItem } from '../axo/items/AxoTextItem.dom.tsx';
 import { AxoPanel } from '../axo/AxoPanel.dom.tsx';
 import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.dom.tsx';
-import { AxoTokens } from '../axo/AxoTokens.std.ts';
 import { renderAudioOptions } from './CallingDeviceSelection.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
 
@@ -152,8 +148,8 @@ export type PropsDataType = {
   resumeBackupMediaDownload: VoidFunction;
   blockedContactCount: number;
   blockedGroupCount: number;
-  customColors: Record<string, CustomColorType>;
-  defaultConversationColor: DefaultConversationColorType;
+  customChatColors: ReadonlyArray<ChatStyle.CustomChatColor>;
+  defaultBubbleColor: ChatStyle['bubbleColor'];
   deviceName?: string;
   emojiSkinToneDefault: Emoji.SkinTone;
   hasAnyCurrentCustomChatFolders: boolean;
@@ -290,7 +286,10 @@ type PropsFunctionType = {
   ) => JSX.Element;
 
   // Other props
-  addCustomColor: (color: CustomColorType) => unknown;
+  addCustomColor: (
+    color: ChatStyle.CustomChatColor['color'],
+    conversationId: string | null
+  ) => void;
   disableLocalBackups: ({
     deleteExistingBackups,
   }: {
@@ -298,33 +297,30 @@ type PropsFunctionType = {
   }) => Promise<void>;
   disableSignalPin: () => Promise<void>;
   doDeleteAllData: () => unknown;
-  editCustomColor: (colorId: string, color: CustomColorType) => unknown;
+  editCustomColor: (customChatColor: ChatStyle.CustomChatColor) => unknown;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
   getMessageSampleForSchemaVersion: (
     version: number
   ) => Promise<Array<MessageAttributesType>>;
   resumeBackupMediaDownload: () => void;
   pauseBackupMediaDownload: () => void;
-  getConversationsWithCustomColor: (colorId: string) => Array<ConversationType>;
+  getConversationsWithCustomColor: (
+    colorId: ChatStyle.CustomChatColorId
+  ) => ReadonlyArray<ConversationType>;
   makeSyncRequest: () => unknown;
   onStartUpdate: () => unknown;
   pickLocalBackupFolder: () => Promise<string | undefined>;
   refreshCloudBackupStatus: () => void;
   refreshBackupSubscriptionStatus: () => void;
-  removeCustomColor: (colorId: string) => unknown;
-  removeCustomColorOnConversations: (colorId: string) => unknown;
+  removeCustomColor: (colorId: ChatStyle.CustomChatColor['id']) => void;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
   ) => Promise<PromptOSAuthResultType>;
   resetAllChatColors: () => unknown;
   resetDefaultChatColor: () => unknown;
   savePreferredLeftPaneWidth: (_: number) => void;
-  setGlobalDefaultConversationColor: (
-    color: ConversationColorType,
-    customColorData?: {
-      id: string;
-      value: CustomColorType;
-    }
+  setGlobalDefaultBubbleColor: (
+    bubbleColor: ChatStyle['bubbleColor']
   ) => unknown;
   setSettingsLocation: (settingsLocation: SettingsLocation) => unknown;
   showPinChangeModal: () => void;
@@ -488,8 +484,8 @@ export function Preferences({
   blockedGroupCount,
   currentChatFoldersCount,
   cloudBackupStatus,
-  customColors,
-  defaultConversationColor,
+  customChatColors,
+  defaultBubbleColor,
   deviceName = '',
   disableLocalBackups,
   disableSignalPin,
@@ -614,7 +610,6 @@ export function Preferences({
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
   removeCustomColor,
-  removeCustomColorOnConversations,
   renderDonationsPane,
   renderNotificationProfilesCreateFlow,
   renderNotificationProfilesHome,
@@ -636,7 +631,7 @@ export function Preferences({
   selectedMicrophone,
   selectedSpeaker,
   sentMediaQualitySetting,
-  setGlobalDefaultConversationColor,
+  setGlobalDefaultBubbleColor,
   setSettingsLocation,
   shouldShowUpdateDialog,
   showPinChangeModal,
@@ -1423,17 +1418,16 @@ export function Preferences({
             accessory={
               <div
                 className="ConversationDetails__chat-color"
-                style={{
-                  ...({
+                style={
+                  {
                     '--ConversationDetails__chat-color-bg':
-                      AxoTokens.ChatBubble.anyColorNameToCssBackground(
-                        defaultConversationColor.color
+                      getBubbleColorBackground(
+                        defaultBubbleColor,
+                        DEFAULT_BUBBLE_COLOR,
+                        customChatColors
                       ),
-                  } as CSSProperties),
-                  ...getCustomColorStyle(
-                    defaultConversationColor.customColorData?.value
-                  ),
-                }}
+                  } as CSSProperties
+                }
               />
             }
           />
@@ -2267,21 +2261,20 @@ export function Preferences({
     );
     const pageContents = (
       <ChatColorPicker
-        customColors={customColors}
-        getConversationsWithCustomColor={getConversationsWithCustomColor}
         i18n={i18n}
-        isGlobal
-        selectedColor={defaultConversationColor.color}
-        selectedCustomColor={defaultConversationColor.customColorData || {}}
+        conversationId={null}
+        selectedBubbleColor={defaultBubbleColor}
+        defaultBubbleColor={defaultBubbleColor}
+        customChatColors={customChatColors}
+        getConversationsWithCustomColor={getConversationsWithCustomColor}
         // actions
-        addCustomColor={addCustomColor}
-        colorSelected={noop}
-        editCustomColor={editCustomColor}
-        removeCustomColor={removeCustomColor}
-        removeCustomColorOnConversations={removeCustomColorOnConversations}
-        resetAllChatColors={resetAllChatColors}
-        resetDefaultChatColor={resetDefaultChatColor}
-        setGlobalDefaultConversationColor={setGlobalDefaultConversationColor}
+        onAddCustomChatColor={addCustomColor}
+        onSelectBubbleColor={noop}
+        onEditCustomChatColor={editCustomColor}
+        onRemoveCustomChatColor={removeCustomColor}
+        onResetAllChatColors={resetAllChatColors}
+        onResetDefaultBubbleColor={resetDefaultChatColor}
+        onChangeGlobalDefaultBubbleColor={setGlobalDefaultBubbleColor}
       />
     );
     content = (

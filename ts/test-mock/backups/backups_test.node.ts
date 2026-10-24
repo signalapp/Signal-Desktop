@@ -291,7 +291,7 @@ describe('backups', function (this: Mocha.Suite) {
 
       const [catMessage] = await app.getMessagesBySentAt(catTimestamp);
       const [image] = catMessage?.attachments ?? [];
-      strictAssert(image.plaintextHash, 'plaintextHash was calculated');
+      strictAssert(image?.plaintextHash, 'plaintextHash was calculated');
       strictAssert(image.digest, 'digest was calculated at download time');
       strictAssert(
         ciphertextCat.digest,
@@ -410,12 +410,12 @@ describe('backups', function (this: Mocha.Suite) {
       const [image] = catMessage?.attachments ?? [];
       if (!bootstrapLinkParams.localBackup) {
         strictAssert(
-          image.digest,
+          image?.digest,
           'digest was calculated after download from media tier'
         );
         assert.strictEqual(image.digest, toBase64(ciphertextCat.digest));
       }
-      assert.strictEqual(image.plaintextHash, catPlaintextHash);
+      assert.strictEqual(image?.plaintextHash, catPlaintextHash);
     }
 
     await comparator(app);

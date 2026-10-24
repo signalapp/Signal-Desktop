@@ -5,7 +5,7 @@ import { v4 as generateGuid } from 'uuid';
 
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import type { GroupV2ChangeType } from '../../types/groups.std.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
 import * as Bytes from '../../Bytes.std.ts';

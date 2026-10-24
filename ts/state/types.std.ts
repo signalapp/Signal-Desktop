@@ -5,6 +5,7 @@ import type { Selector } from 'reselect';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import type { Action } from 'redux';
 import type { StateType } from './reducer.preload.ts';
+import type { actions as account } from './ducks/account.preload.ts';
 import type { actions as app } from './ducks/app.preload.ts';
 import type { actions as audioPlayer } from './ducks/audioPlayer.preload.ts';
 import type { actions as audioRecorder } from './ducks/audioRecorder.preload.ts';
@@ -12,6 +13,7 @@ import type { actions as backups } from './ducks/backups.preload.ts';
 import type { actions as badges } from './ducks/badges.preload.ts';
 import type { actions as callHistory } from './ducks/callHistory.preload.ts';
 import type { actions as calling } from './ducks/calling.preload.ts';
+import type { actions as chatColors } from './ducks/chatColors.preload.ts';
 import type { actions as chatFolders } from './ducks/chatFolders.preload.ts';
 import type { actions as composer } from './ducks/composer.preload.ts';
 import type { actions as conversations } from './ducks/conversations.preload.ts';
@@ -43,6 +45,7 @@ import type { actions as user } from './ducks/user.preload.ts';
 import type { actions as username } from './ducks/username.preload.ts';
 
 export type ReduxActions = {
+  account: typeof account;
   app: typeof app;
   audioPlayer: typeof audioPlayer;
   audioRecorder: typeof audioRecorder;
@@ -50,6 +53,7 @@ export type ReduxActions = {
   badges: typeof badges;
   callHistory: typeof callHistory;
   calling: typeof calling;
+  chatColors: typeof chatColors;
   chatFolders: typeof chatFolders;
   composer: typeof composer;
   conversations: typeof conversations;

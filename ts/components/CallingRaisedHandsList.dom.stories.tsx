@@ -15,7 +15,7 @@ import {
   CallingRaisedHandsListButton,
 } from './CallingRaisedHandsList.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import { getDefaultConversationWithServiceId } from '../test-helpers/getDefaultConversation.std.ts';
 
 const { times } = lodash;

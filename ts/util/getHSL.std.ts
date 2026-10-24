@@ -40,29 +40,3 @@ export function calculateLightness(hue: number): number {
 
   return lightness;
 }
-
-function adjustLightnessValue(
-  lightness: number,
-  percentIncrease: number
-): number {
-  return lightness + lightness * percentIncrease;
-}
-
-export function getHSL(
-  {
-    hue,
-    saturation,
-    lightness,
-  }: {
-    hue: number;
-    saturation: number;
-    lightness?: number;
-  },
-  adjustedLightness = 0
-): string {
-  return `hsl(${hue}, ${saturation}%, ${
-    lightness == null || adjustedLightness !== 0
-      ? adjustLightnessValue(calculateLightness(hue), adjustedLightness)
-      : lightness * 100
-  }%)`;
-}

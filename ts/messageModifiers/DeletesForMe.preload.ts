@@ -6,7 +6,7 @@ import * as Errors from '../types/errors.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.ts';
 
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type {
   ConversationIdentifier,
   AddressableMessage,

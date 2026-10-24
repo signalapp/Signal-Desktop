@@ -3,8 +3,8 @@
 
 import loadImage from 'blueimp-load-image';
 import { renderToString } from 'react-dom/server';
-import type { AvatarColorType } from '../types/Colors.std.ts';
-import { AvatarColorMap } from '../types/Colors.std.ts';
+import type { AvatarColorType } from '../types/Avatar.std.ts';
+import { AvatarColorMap } from '../types/Avatar.std.ts';
 import {
   IdenticonSVGForCallLink,
   IdenticonSVGForContact,

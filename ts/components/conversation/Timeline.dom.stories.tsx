@@ -52,7 +52,7 @@ function mockMessageTimelineItem(
       conversationId: 'conversation-id',
       conversationTitle: 'Conversation Title',
       conversationType: 'group',
-      conversationColor: 'crimson',
+      bubbleColor: { bubbleColorPreset: 'crimson' },
       direction: 'incoming',
       status: 'sent',
       text: 'Hello there from the new world!',
@@ -84,11 +84,11 @@ const items: Record<string, TimelineItemType> = {
     author: getDefaultConversation({
       phoneNumber: '(202) 555-2001',
     }),
-    conversationColor: 'forest',
+    bubbleColor: { bubbleColorPreset: 'forest' },
     text: '🔥',
   }),
   'id-2': mockMessageTimelineItem('id-2', {
-    conversationColor: 'forest',
+    bubbleColor: { bubbleColorPreset: 'forest' },
     direction: 'incoming',
     text: 'Hello there from the new world! http://somewhere.com',
   }),
@@ -182,7 +182,7 @@ const items: Record<string, TimelineItemType> = {
     timestamp: Date.now(),
   },
   'id-10': mockMessageTimelineItem('id-10', {
-    conversationColor: 'plum',
+    bubbleColor: { bubbleColorPreset: 'plum' },
     direction: 'outgoing',
     text: '🔥',
   }),

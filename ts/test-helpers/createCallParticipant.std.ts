@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
 import { getDefaultConversationWithServiceId } from './getDefaultConversation.std.ts';
 import { generateAci } from './serviceIdUtils.std.ts';

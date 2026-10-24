@@ -21,7 +21,7 @@ import {
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { fromAciObject } from '../types/ServiceId.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import type { GroupV2MemberType } from '../model-types.d.ts';
+import type { GroupV2MemberType } from '../model-types.std.ts';
 import { DurationInSeconds } from './durations/index.std.ts';
 import { parseStrict } from './schemas.std.ts';
 import { DataReader } from '../sql/Client.preload.ts';

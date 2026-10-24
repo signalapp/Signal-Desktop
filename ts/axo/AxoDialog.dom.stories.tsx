@@ -245,6 +245,74 @@ export function FullWidthActions(): ReactNode {
   );
 }
 
+export function Tabs(): ReactNode {
+  const [tab, setTab] = useState('short');
+  return (
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
+      </AxoDialog.Trigger>
+      <AxoDialog.Content
+        size="md"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
+        <AxoDialog.Header>
+          <AxoDialog.Title>Tabs</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.Tabs value={tab} onValueChange={setTab}>
+          <AxoDialog.TabList>
+            <AxoDialog.Tab value="short">Short</AxoDialog.Tab>
+            <AxoDialog.Tab value="long">Long</AxoDialog.Tab>
+            <AxoDialog.Tab value="cards">Cards</AxoDialog.Tab>
+          </AxoDialog.TabList>
+          <AxoDialog.TabContent value="short">
+            <AxoDialog.Body>
+              <p>{TEXT_SHORT}</p>
+            </AxoDialog.Body>
+          </AxoDialog.TabContent>
+          <AxoDialog.TabContent value="long">
+            <AxoDialog.Body>
+              {Array.from({ length: 6 }, (_, index) => {
+                return (
+                  <p key={index} className={tw('mb-3')}>
+                    {TEXT_LONG}
+                  </p>
+                );
+              })}
+            </AxoDialog.Body>
+          </AxoDialog.TabContent>
+          <AxoDialog.TabContent value="cards">
+            <AxoDialog.Body padding="md">
+              <div className={tw('flex flex-col gap-3')}>
+                <Box>1</Box>
+                <Box>2</Box>
+              </div>
+            </AxoDialog.Body>
+          </AxoDialog.TabContent>
+        </AxoDialog.Tabs>
+        <AxoDialog.Footer>
+          <AxoDialog.Actions>
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={action('onCancel')}
+            >
+              Cancel
+            </AxoDialog.Action>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={action('onSave')}
+            >
+              Save
+            </AxoDialog.Action>
+          </AxoDialog.Actions>
+        </AxoDialog.Footer>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
 function Spacer(props: { height: 8 | 12 }) {
   return <div style={{ height: props.height }} />;
 }

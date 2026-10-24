@@ -13,7 +13,7 @@ import { SECOND } from '../util/durations/index.std.ts';
 import type { ValidationResultType as BackupValidationResultType } from '../services/backups/index.preload.ts';
 import { SettingsRow, FlowingSettingsControl } from './PreferencesUtil.dom.tsx';
 import type { MessageCountBySchemaVersionType } from '../sql/Interface.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { DonationReceipt } from '../types/Donations.std.ts';
 import type { StorageAccessType } from '../types/StorageKeys.std.ts';
 import { createLogger } from '../logging/log.std.ts';

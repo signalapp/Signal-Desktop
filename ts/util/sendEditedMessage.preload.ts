@@ -8,7 +8,7 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type {
   MessageAttributesType,
   QuotedMessageType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { ErrorWithToast } from '../types/ErrorWithToast.std.ts';

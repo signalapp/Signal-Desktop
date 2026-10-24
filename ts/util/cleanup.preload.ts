@@ -8,7 +8,7 @@ import { pick } from 'lodash';
 import type {
   ConversationAttributesType,
   MessageAttributesType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { MessageModel } from '../models/messages.preload.ts';
 
 import * as Errors from '../types/errors.std.ts';
@@ -405,9 +405,8 @@ export const GROUP_CLEANUP_FIELDS: Partial<ConversationAttributesType> = {
 
   color: undefined,
   colorFromPrimary: undefined,
-  conversationColor: undefined,
-  customColor: undefined,
-  customColorId: undefined,
+  bubbleColorPreset: undefined,
+  customChatColorId: undefined,
 
   wallpaperPhotoPointerBase64: undefined,
   wallpaperPreset: undefined,

@@ -26,7 +26,7 @@ import {
   stringToMIMEType,
 } from '../types/MIME.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 
 const { groupBy } = lodash;

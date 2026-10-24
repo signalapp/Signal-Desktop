@@ -14,8 +14,8 @@ import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
+  AvatarColorType,
 } from '../../../types/Avatar.std.ts';
-import type { AvatarColorType } from '../../../types/Colors.std.ts';
 import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 

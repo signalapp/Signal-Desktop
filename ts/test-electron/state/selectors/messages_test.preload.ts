@@ -8,7 +8,7 @@ import { SendStatus } from '../../../messages/MessageSendState.std.ts';
 import type {
   MessageAttributesType,
   ShallowChallengeError,
-} from '../../../model-types.d.ts';
+} from '../../../model-types.std.ts';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import {
   generateGroupId,

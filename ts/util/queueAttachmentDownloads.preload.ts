@@ -17,7 +17,7 @@ import type {
   EditHistoryType,
   MessageAttributesType,
   QuotedMessageType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import {
   isDownloading,
@@ -526,7 +526,7 @@ async function queueNormalAttachments({
 
   let count = 0;
   const nextAttachments = await Promise.all(
-    attachments.map(attachment => {
+    attachments.map(async attachment => {
       if (!attachment) {
         return attachment;
       }

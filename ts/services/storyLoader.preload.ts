@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 import type { StoryDataType } from '../state/ducks/stories.preload.ts';
 import * as durations from '../util/durations/index.std.ts';
 import { createLogger } from '../logging/log.std.ts';

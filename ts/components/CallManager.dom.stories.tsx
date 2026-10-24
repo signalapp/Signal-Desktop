@@ -23,7 +23,7 @@ import type {
   ConversationType,
   ConversationTypeType,
 } from '../state/ducks/conversations.preload.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCallVideoFrameSource.std.ts';
 import { StorySendMode } from '../types/Stories.std.ts';

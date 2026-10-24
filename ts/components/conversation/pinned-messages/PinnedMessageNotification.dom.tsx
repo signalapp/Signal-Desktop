@@ -7,7 +7,7 @@ import { I18n } from '../../I18n.dom.tsx';
 import { SystemMessage } from '../SystemMessage.dom.tsx';
 import { UserText } from '../../UserText.dom.tsx';
 import { Button, ButtonSize, ButtonVariant } from '../../Button.dom.tsx';
-import type { PinMessageData } from '../../../model-types.d.ts';
+import type { PinMessageData } from '../../../model-types.std.ts';
 import type { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.ts';
 
 export type PinnedMessageNotificationData = Readonly<{

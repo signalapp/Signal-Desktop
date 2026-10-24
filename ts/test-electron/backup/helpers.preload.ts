@@ -15,7 +15,7 @@ import type {
   EditHistoryType,
   MessageAttributesType,
   MessageReactionType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import type {
   SendStateByConversationId,
   SendState,

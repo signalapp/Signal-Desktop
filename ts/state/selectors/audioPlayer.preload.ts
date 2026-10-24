@@ -17,7 +17,7 @@ import {
 import type { StateType } from '../reducer.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { getLocalAttachmentUrl } from '../../util/getLocalAttachmentUrl.std.ts';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import { getMessageIdForLogging } from '../../util/idForLogging.preload.ts';
 import * as Attachment from '../../util/Attachment.std.ts';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.ts';

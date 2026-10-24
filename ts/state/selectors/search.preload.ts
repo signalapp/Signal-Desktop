@@ -37,7 +37,7 @@ import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import type { RawBodyRange } from '../../types/BodyRange.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { getSelectedConversationId } from './nav.std.ts';
 import { isConversationInChatFolder } from '../../types/ChatFolder.std.ts';
 import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';

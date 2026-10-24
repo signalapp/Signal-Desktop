@@ -69,7 +69,7 @@ import type { SmartCompositionRecordingDraftProps } from '../state/smart/Composi
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import SelectModeActions from './conversation/SelectModeActions.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import type { DraftEditMessageType } from '../model-types.d.ts';
+import type { DraftEditMessageType } from '../model-types.std.ts';
 import type { ForwardMessagesPayload } from '../state/ducks/globalModals.preload.ts';
 import { ForwardMessagesModalType } from './ForwardMessagesModal.dom.tsx';
 import { FunPicker } from './fun/FunPicker.dom.tsx';
@@ -85,7 +85,7 @@ import { tw } from '../axo/tw.dom.tsx';
 import type { PollCreateType } from '../types/Polls.dom.ts';
 import { PollCreateModal } from './PollCreateModal.dom.tsx';
 import { hasDraft } from '../util/hasDraft.std.ts';
-import type { ContactNameColorType } from '../types/Colors.std.ts';
+import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 

@@ -24,7 +24,7 @@ import {
 import type {
   MessageAttributesType,
   QuotedMessageType,
-} from '../../model-types.d.ts';
+} from '../../model-types.std.ts';
 import {
   hasRequiredInformationForRemoteBackup,
   isVoiceMessage,

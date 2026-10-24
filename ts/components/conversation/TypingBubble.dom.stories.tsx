@@ -8,7 +8,7 @@ import type { Meta } from '@storybook/react';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
 import type { TypingBubblePropsType } from './TypingBubble.dom.tsx';
 import { TypingBubble } from './TypingBubble.dom.tsx';
-import { AvatarColors } from '../../types/Colors.std.ts';
+import { AvatarColors } from '../../types/Avatar.std.ts';
 import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 

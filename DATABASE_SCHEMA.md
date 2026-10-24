@@ -4,6 +4,21 @@
 # Database Schema
 
 <details>
+<summary>Table: account</summary>
+
+```sql
+CREATE TABLE account (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  defaultBubbleColorPreset TEXT,
+  defaultCustomChatColorId INTEGER REFERENCES customChatColors (id) ON DELETE SET NULL
+) STRICT
+```
+
+---
+
+</details>
+
+<details>
 <summary>Table: attachment_backup_jobs</summary>
 
 ```sql
@@ -533,7 +548,9 @@ CREATE TABLE conversations (
   serviceId TEXT,
   groupId TEXT,
   profileLastFetchedAt INTEGER,
-  expireTimerVersion INTEGER NOT NULL DEFAULT 1
+  expireTimerVersion INTEGER NOT NULL DEFAULT 1,
+  bubbleColorPreset TEXT,
+  customChatColorId INTEGER REFERENCES customChatColors (id) ON DELETE SET NULL
 )
 ```
 
@@ -544,6 +561,15 @@ CREATE TABLE conversations (
 CREATE INDEX conversations_active ON conversations (active_at)
 WHERE
   active_at IS NOT NULL
+```
+
+</details>
+
+<details>
+<summary>Index: conversations → conversations_customChatColorId</summary>
+
+```sql
+CREATE INDEX conversations_customChatColorId ON conversations (customChatColorId)
 ```
 
 </details>
@@ -594,6 +620,23 @@ WHERE
 ```
 
 </details>
+
+---
+
+</details>
+
+<details>
+<summary>Table: customChatColors</summary>
+
+```sql
+CREATE TABLE customChatColors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  solid INTEGER,
+  gradientStart INTEGER,
+  gradientEnd INTEGER,
+  gradientAngle INTEGER
+) STRICT
+```
 
 ---
 

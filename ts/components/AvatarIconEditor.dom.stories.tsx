@@ -7,8 +7,11 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './AvatarIconEditor.dom.tsx';
 import { AvatarIconEditor } from './AvatarIconEditor.dom.tsx';
-import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar.std.ts';
-import { AvatarColors } from '../types/Colors.std.ts';
+import {
+  GroupAvatarIcons,
+  PersonalAvatarIcons,
+  AvatarColors,
+} from '../types/Avatar.std.ts';
 import { createAvatarData } from '../util/createAvatarData.std.ts';
 
 const { i18n } = window.SignalContext;

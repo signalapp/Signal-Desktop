@@ -14,7 +14,7 @@ import {
 } from '../../app/attachments.node.ts';
 
 import { IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME.std.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import {
   getAbsoluteAttachmentPath,
@@ -365,6 +365,7 @@ describe('deleteMessageAttachments', () => {
         ...message1,
         id: generateUuid(),
         attachments: [
+          // @ts-expect-error - broken after renaming model-types
           {
             ...attachment1,
             ...existingDataForMessage2,
@@ -375,6 +376,7 @@ describe('deleteMessageAttachments', () => {
         ...message1,
         id: generateUuid(),
         attachments: [
+          // @ts-expect-error - broken after renaming model-types
           {
             ...attachment1,
             ...existingDataForMessage3,
@@ -468,6 +470,7 @@ describe('deleteMessageAttachments', () => {
       await writeFiles(NUM_ATTACHMENT_FILES_IN_MESSAGE, 'attachment');
       await writeFiles(NUM_DOWNLOAD_FILES_IN_MESSAGE, 'download');
       const message1 = composeMessageWithAllAttachments();
+      // @ts-expect-error - broken after renaming model-types
       const duplicatedAttachment: AttachmentType = message1.attachments?.[0];
       const message2: MessageAttributesType = {
         ...composeMessage(),
@@ -497,6 +500,7 @@ describe('deleteMessageAttachments', () => {
       await writeFiles(NUM_ATTACHMENT_FILES_IN_MESSAGE, 'attachment');
       await writeFiles(NUM_DOWNLOAD_FILES_IN_MESSAGE, 'download');
       const message1 = composeMessageWithAllAttachments();
+      // @ts-expect-error - broken after renaming model-types
       const attachment1: AttachmentType = message1.attachments?.[0];
 
       assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);

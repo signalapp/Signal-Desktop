@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import { randomBytes } from 'node:crypto';
-import { MuteExpiration } from '@signalapp/types';
+import { MuteExpiration, Uint32 } from '@signalapp/types';
 
 import { getRandomBytes } from '../../Crypto.node.ts';
 import * as Bytes from '../../Bytes.std.ts';
@@ -13,8 +13,9 @@ import {
   deriveGroupID,
   deriveGroupSecretParams,
 } from '../../util/zkgroup.node.ts';
-import { DataWriter } from '../../sql/Client.preload.ts';
-import type { ConversationAttributesType } from '../../model-types.d.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import type { AxoColor } from '../../axo/AxoColor.std.ts';
+import type { ConversationAttributesType } from '../../model-types.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import {
@@ -135,5 +136,72 @@ describe('backup/conversations', () => {
       unblockedGroupInfo.groupId
     );
     assert.isFalse(unblockedGroupAfter?.isBlocked());
+  });
+
+  it('roundtrips custom chat colors', async () => {
+    const RED = { solid: 0xffff0000 as AxoColor.ARGBInt };
+    const GRADIENT = {
+      gradient: {
+        start: 0xffff0000 as AxoColor.ARGBInt,
+        end: 0xff0000ff as AxoColor.ARGBInt,
+        angle: Uint32.fromNumber(45),
+      },
+    };
+
+    // So that database ids don't start at 1
+    const deleted = await DataWriter.createCustomChatColor(RED);
+    await DataWriter.deleteCustomChatColor(deleted.id);
+
+    const red = await DataWriter.createCustomChatColor(RED);
+    const gradient = await DataWriter.createCustomChatColor(GRADIENT);
+    await DataWriter.updateAccountDefaultBubbleColor({
+      customChatColorId: gradient.id,
+    });
+
+    const customAci = generateAci();
+    const presetAci = generateAci();
+    const deletedAci = generateAci();
+    await window.ConversationController.getOrCreateAndWait(
+      customAci,
+      'private',
+      { active_at: 1, customChatColorId: red.id }
+    );
+    await window.ConversationController.getOrCreateAndWait(
+      presetAci,
+      'private',
+      { active_at: 1, bubbleColorPreset: 'crimson' }
+    );
+    // An in-memory model still holding onto a deleted color
+    await window.ConversationController.getOrCreateAndWait(
+      deletedAci,
+      'private',
+      { active_at: 1, customChatColorId: deleted.id }
+    );
+
+    await symmetricRoundtripHarness([]);
+
+    const customChatColors = await DataReader.getAllCustomChatColors();
+    assert.deepEqual(
+      customChatColors.map(customChatColor => customChatColor.color),
+      [RED, GRADIENT]
+    );
+    const [redAfter, gradientAfter] = customChatColors;
+    strictAssert(redAfter != null && gradientAfter != null, 'colors exist');
+
+    assert.deepEqual(await DataReader.getAccount(), {
+      defaultBubbleColor: { customChatColorId: gradientAfter.id },
+    });
+
+    const customAfter = window.ConversationController.get(customAci);
+    assert.strictEqual(customAfter?.get('customChatColorId'), redAfter.id);
+    assert.isUndefined(customAfter?.get('bubbleColorPreset'));
+
+    const presetAfter = window.ConversationController.get(presetAci);
+    assert.strictEqual(presetAfter?.get('bubbleColorPreset'), 'crimson');
+    assert.isUndefined(presetAfter?.get('customChatColorId'));
+
+    const deletedAfter = window.ConversationController.get(deletedAci);
+    assert.isUndefined(deletedAfter?.get('customChatColorId'));
+    assert.isUndefined(deletedAfter?.get('bubbleColorPreset'));
   });
 });

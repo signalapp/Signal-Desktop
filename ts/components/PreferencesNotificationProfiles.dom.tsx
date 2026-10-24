@@ -23,7 +23,7 @@ import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { Input } from './Input.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
-import { AvatarColorMap, AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColorMap, AvatarColors } from '../types/Avatar.std.ts';
 import { PreferencesSelectChatsDialog } from './preferences/PreferencesSelectChatsDialog.dom.tsx';
 import { DayOfWeek } from '../types/NotificationProfile.std.ts';
 import { Avatar } from './Avatar.dom.tsx';

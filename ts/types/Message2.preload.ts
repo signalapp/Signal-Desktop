@@ -37,7 +37,7 @@ import type {
   MessageAttributesType,
   QuotedAttachmentType,
   QuotedMessageType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type {
   LinkPreviewType,
   LinkPreviewWithHydratedData,
@@ -406,7 +406,7 @@ export const _mapQuotedAttachments =
       }
 
       const upgradedThumbnail = await upgradeAttachment(
-        thumbnail as AttachmentType,
+        thumbnail,
         context,
         message
       );

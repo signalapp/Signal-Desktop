@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageModel } from '../models/messages.preload.ts';
-import type { MessageAttributesType } from '../model-types.d.ts';
+import type { MessageAttributesType } from '../model-types.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 
 import { createLogger } from '../logging/log.std.ts';

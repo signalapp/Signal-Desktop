@@ -28,7 +28,8 @@ import { Tabs } from './Tabs.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
 import { WidthBreakpoint } from './_util.std.ts';
-import { getAvatarColor } from '../types/Colors.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';
+import { getAvatarColor } from '../types/Avatar.std.ts';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
@@ -674,7 +675,7 @@ function ReplyOrReactionMessage({
         bodyRanges={reply.bodyRanges}
         contactNameColor={reply.contactNameColor}
         containerElementRef={containerElementRef}
-        conversationColor="ultramarine"
+        bubbleColor={DEFAULT_BUBBLE_COLOR}
         conversationId={reply.conversationId}
         conversationTitle={reply.author.title}
         conversationType="group"

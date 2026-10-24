@@ -10,7 +10,7 @@ import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type { GroupListItemConversationType } from '../components/conversationList/GroupListItem.dom.tsx';
 import { toBase64 } from '../Bytes.std.ts';
 import { getRandomColor } from './getRandomColor.std.ts';
-import { ConversationColors } from '../types/Colors.std.ts';
+import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';
 import { StorySendMode } from '../types/Stories.std.ts';
 import { getAvatarPlaceholderGradient } from '../utils/getAvatarPlaceholderGradient.std.ts';
 import { generateAci } from './serviceIdUtils.std.ts';
@@ -42,7 +42,7 @@ export function getDefaultConversation(
     avatarUrl: getAvatarPath(),
     badges: [],
     e164: `+${casual.phone.replace(/-/g, '')}`,
-    conversationColor: ConversationColors[0],
+    bubbleColor: DEFAULT_BUBBLE_COLOR,
     color: getRandomColor(),
     firstName,
     id: generateUuid(),
@@ -88,7 +88,7 @@ export function getDefaultGroup(
     avatarUrl: getAvatarPath(),
     badges: [],
     color: getRandomColor(),
-    conversationColor: ConversationColors[0],
+    bubbleColor: DEFAULT_BUBBLE_COLOR,
     groupDescription: casual.sentence,
     groupId: generateGroupId(),
     groupLink: casual.url,

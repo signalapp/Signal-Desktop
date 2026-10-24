@@ -3,7 +3,7 @@
 
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.std.ts';
-import type { QuotedMessageType } from '../model-types.d.ts';
+import type { QuotedMessageType } from '../model-types.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { SafetyNumberChangeSource } from '../types/SafetyNumberChangeSource.std.ts';
 import { blockSendUntilConversationsAreVerified } from './blockSendUntilConversationsAreVerified.dom.ts';

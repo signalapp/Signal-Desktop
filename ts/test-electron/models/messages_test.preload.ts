@@ -8,7 +8,7 @@ import { v4 as generateUuid } from 'uuid';
 import type { AttachmentType } from '../../types/Attachment.std.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { MessageModel } from '../../models/messages.preload.ts';
 import type { RawBodyRange } from '../../types/BodyRange.std.ts';
 import { DataWriter } from '../../sql/Client.preload.ts';

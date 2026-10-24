@@ -3,7 +3,7 @@
 
 import { memo, useMemo, type JSX } from 'react';
 import { useSelector } from 'react-redux';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
 import { EditHistoryMessagesModal } from '../../components/EditHistoryMessagesModal.dom.tsx';
 import { getIntl, getPlatform } from '../selectors/user.std.ts';
 import { getMessagePropsSelector } from '../selectors/message.preload.ts';

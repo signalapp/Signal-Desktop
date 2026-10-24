@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingAdhocCallInfo.dom.tsx';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.tsx';
-import { AvatarColors } from '../types/Colors.std.ts';
+import { AvatarColors } from '../types/Avatar.std.ts';
 import type { GroupCallRemoteParticipantType } from '../types/Calling.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import type { CallLinkType } from '../types/CallLink.std.ts';

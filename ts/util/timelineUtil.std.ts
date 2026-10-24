@@ -13,7 +13,7 @@ import { toLogFormat } from '../types/errors.std.ts';
 import { MINUTE } from './durations/index.std.ts';
 import { missingCaseError } from './missingCaseError.std.ts';
 import { isSameDay } from './timestamp.std.ts';
-import type { LastMessageStatus } from '../model-types.d.ts';
+import type { LastMessageStatus } from '../model-types.std.ts';
 
 const { isNumber } = lodash;
 

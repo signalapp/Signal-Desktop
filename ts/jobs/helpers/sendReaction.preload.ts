@@ -9,7 +9,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { repeat, zipObject } from '../../util/iterables.std.ts';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import { MessageModel } from '../../models/messages.preload.ts';
-import type { MessageReactionType } from '../../model-types.d.ts';
+import type { MessageReactionType } from '../../model-types.std.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
 
 import * as reactionUtil from '../../reactions/util.std.ts';

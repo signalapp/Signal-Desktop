@@ -6,7 +6,7 @@ import { createRef, type JSX } from 'react';
 
 import { action } from '@storybook/addon-actions';
 
-import { ConversationColors } from '../../types/Colors.std.ts';
+import { ConversationColors } from '../../types/ChatStyle.std.ts';
 import { pngUrl } from '../../storybook/Fixtures.std.ts';
 import type { Props as TimelineMessagesProps } from './TimelineMessage.dom.tsx';
 import { TimelineMessage } from './TimelineMessage.dom.tsx';
@@ -27,6 +27,8 @@ import { WidthBreakpoint } from '../_util.std.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import { PaymentEventKind } from '../../types/Payment.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
+import { AxoColor } from '../../axo/AxoColor.std.ts';
+import { Uint32 } from '@signalapp/types';
 
 const { i18n } = window.SignalContext;
 
@@ -52,7 +54,7 @@ export default {
   },
   args: {
     authorTitle: 'Default Sender',
-    conversationColor: 'forest',
+    bubbleColor: { bubbleColorPreset: 'forest' },
     doubleCheckMissingQuoteReference: action(
       'doubleCheckMissingQuoteReference'
     ),
@@ -89,7 +91,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   clearTargetedMessage: action('default--clearTargetedMessage'),
   containerElementRef: createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
-  conversationColor: 'crimson',
+  bubbleColor: { bubbleColorPreset: 'crimson' },
   conversationId: 'conversationId',
   conversationTitle: 'Conversation Title',
   conversationType: 'direct', // override
@@ -177,7 +179,7 @@ const defaultMessageProps: TimelineMessagesProps = {
 const renderInMessage = ({
   authorTitle,
   authorLabel,
-  conversationColor,
+  bubbleColor,
   isFromMe,
   rawAttachment,
   isViewOnce,
@@ -187,12 +189,12 @@ const renderInMessage = ({
 }: Props) => {
   const messageProps = {
     ...defaultMessageProps,
-    conversationColor,
+    bubbleColor,
     quote: {
       authorId: 'an-author',
       authorTitle,
       authorLabel,
-      conversationColor,
+      bubbleColor,
       conversationTitle: getDefaultConversation().title,
       isFromMe,
       rawAttachment,
@@ -254,7 +256,7 @@ export function IncomingOutgoingColors(args: Props): JSX.Element {
       {ConversationColors.map(color =>
         renderInMessage({
           ...args,
-          conversationColor: color,
+          bubbleColor: { bubbleColorPreset: color },
           authorLabel: {
             labelEmoji: Emoji.ONE,
             labelString: 'First',
@@ -605,18 +607,24 @@ export function CustomColor(args: Props): JSX.Element {
     <>
       <Quote
         {...args}
-        customColor={{
-          start: { hue: 82, saturation: 35 },
+        bubbleColor={{
+          customColor: {
+            solid: AxoColor.parse('hsl(82, 35%, 30%)').argbInt(),
+          },
         }}
       />
       <Quote
         {...args}
         isIncoming={false}
         text="A gradient"
-        customColor={{
-          deg: 192,
-          start: { hue: 304, saturation: 85 },
-          end: { hue: 231, saturation: 76 },
+        bubbleColor={{
+          customColor: {
+            gradient: {
+              angle: Uint32.fromNumber(192),
+              start: AxoColor.parse('hsl(304, 85%, 40.33%)').argbInt(),
+              end: AxoColor.parse('hsl(231, 76%, 47%)').argbInt(),
+            },
+          },
         }}
       />
     </>

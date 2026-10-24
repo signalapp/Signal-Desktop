@@ -5,7 +5,7 @@ import pMap from 'p-map';
 
 import { createLogger } from '../logging/log.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import { encryptLegacyAttachment } from './encryptLegacyAttachment.preload.ts';
 import { AttachmentDisposition } from './getLocalAttachmentUrl.std.ts';
 import { isNotNil } from './isNotNil.std.ts';

@@ -45,7 +45,7 @@ import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { SeenStatus, maxSeenStatus } from '../MessageSeenStatus.std.ts';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.ts';
-import type { ConversationAttributesType } from '../model-types.d.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
 import { MessageSender } from '../textsecure/SendMessage.preload.ts';
 import * as Bytes from '../Bytes.std.ts';

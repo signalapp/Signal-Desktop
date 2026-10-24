@@ -182,7 +182,7 @@ import {
   SentTimestampMs,
   ServerTimestampMs,
 } from '@signalapp/types';
-import type { ConversationAttributesTypeType } from '../model-types.d.ts';
+import type { ConversationAttributesTypeType } from '../model-types.std.ts';
 
 const { isBoolean, isNumber, isString, noop } = lodash;
 

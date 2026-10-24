@@ -26,7 +26,7 @@ import type {
   MessageType,
 } from '../../state/ducks/conversations.preload.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type { MessageAttributesType } from '../../model-types.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 describe('util/CollapseSets', () => {

@@ -5,7 +5,7 @@ import type { AttachmentType } from '../types/Attachment.std.ts';
 import type {
   MessageAttributesType,
   QuotedAttachmentType,
-} from '../model-types.d.ts';
+} from '../model-types.std.ts';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type { StickerType } from '../types/Stickers.preload.ts';
 import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.std.ts';
