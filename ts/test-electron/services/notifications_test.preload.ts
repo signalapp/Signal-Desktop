@@ -26,6 +26,8 @@ describe('NotificationService', () => {
       let service: NotificationService;
       let closeNotification: sinon.SinonStub;
       let showNotification: sinon.SinonStub;
+      let createNativeNotification: sinon.SinonStub;
+      let playSound: sinon.SinonStub;
       let getNotificationSetting: sinon.SinonStub;
 
       beforeEach(() => {
@@ -37,14 +39,14 @@ describe('NotificationService', () => {
         if (platform === 'macos') {
           sandbox.stub(os, 'release').returns('27.0.0');
         }
-        sandbox.stub(Sound.prototype, 'play').resolves();
+        playSound = sandbox.stub(Sound.prototype, 'play').resolves();
         sandbox.stub(window.IPC, 'drawAttention');
         sandbox
           .stub(window.SignalContext.activeWindowService, 'isActive')
           .returns(false);
 
         const closeNativeNotification = sandbox.stub();
-        const createNativeNotification = sandbox
+        createNativeNotification = sandbox
           .stub(window, 'Notification')
           .returns({
             close: closeNativeNotification,
@@ -55,15 +57,23 @@ describe('NotificationService', () => {
         const showWindowsNotification = sandbox
           .stub(window.IPC, 'showWindowsNotification')
           .resolves();
+        const clearMacNotifications = sandbox
+          .stub(window.IPC, 'clearAllMacNotifications')
+          .resolves();
+        const showMacNotification = sandbox
+          .stub(window.IPC, 'showMacNotification')
+          .resolves();
 
-        closeNotification =
-          platform === 'windows'
-            ? clearWindowsNotifications
-            : closeNativeNotification;
-        showNotification =
-          platform === 'windows'
-            ? showWindowsNotification
-            : createNativeNotification;
+        if (platform === 'windows') {
+          closeNotification = clearWindowsNotifications;
+          showNotification = showWindowsNotification;
+        } else if (platform === 'macos') {
+          closeNotification = clearMacNotifications;
+          showNotification = showMacNotification;
+        } else {
+          closeNotification = closeNativeNotification;
+          showNotification = createNativeNotification;
+        }
 
         service = new NotificationService();
         service.initialize({
@@ -121,7 +131,7 @@ describe('NotificationService', () => {
           iconAbsolutePath: string | undefined;
         }): void {
           sinon.assert.calledOnce(showNotification);
-          if (platform === 'windows') {
+          if (platform === 'windows' || platform === 'macos') {
             assert.include(showNotification.firstCall.args[0], {
               heading: expected.title,
               body: expected.body,
@@ -449,12 +459,21 @@ describe('NotificationService', () => {
         });
       });
 
-      if (platform === 'windows') {
+      function stubSoundSetting(enabled: boolean): void {
+        sandbox.stub(itemStorage, 'get').callsFake((key, defaultValue) => {
+          if (key === 'audio-notification') {
+            return enabled;
+          }
+          return defaultValue;
+        });
+      }
+
+      if (platform === 'windows' || platform === 'macos') {
         it('preserves the click target during focus-triggered clearing', () => {
           showMessage();
           const { token } = showNotification.firstCall.args[0];
 
-          // Windows can focus the app (triggering clear()) before we resolve the link
+          // The click can focus the app (triggering clear()) before we resolve the link
           service.clear();
           assert.deepEqual(service.resolveToken(token), {
             conversationId: 'chat',
@@ -464,6 +483,37 @@ describe('NotificationService', () => {
 
           clock.tick(DEBOUNCE_INTERVAL);
           assert.isUndefined(service.resolveToken(token));
+        });
+      }
+
+      if (platform === 'macos') {
+        it('attaches the sound to the notification instead of playing it', () => {
+          stubSoundSetting(true);
+          queueMessage();
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.calledOnceWithMatch(showNotification, { silent: false });
+          sinon.assert.notCalled(playSound);
+          sinon.assert.notCalled(createNativeNotification);
+        });
+
+        it('posts a silent notification when the sound setting is off', () => {
+          stubSoundSetting(false);
+          queueMessage();
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.calledOnceWithMatch(showNotification, { silent: true });
+          sinon.assert.notCalled(playSound);
+        });
+      }
+
+      if (platform === 'linux') {
+        it('shows a silent web notification and plays the sound itself', () => {
+          stubSoundSetting(true);
+          queueMessage();
+          clock.tick(DEBOUNCE_INTERVAL);
+          sinon.assert.calledOnceWithMatch(showNotification, 'Alice', {
+            silent: true,
+          });
+          sinon.assert.calledOnce(playSound);
         });
       }
     });

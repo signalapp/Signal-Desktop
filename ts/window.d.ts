@@ -22,7 +22,10 @@ import type { CIType } from './CI.preload.ts';
 import type { IPCEventsType } from './util/createIPCEvents.preload.ts';
 import type { SignalContextType } from './windows/context.preload.ts';
 import type { PropsPreloadType as PreferencesPropsType } from './components/Preferences.dom.tsx';
-import type { WindowsNotificationData } from './services/notifications.preload.ts';
+import type {
+  MacNotificationData,
+  WindowsNotificationData,
+} from './services/notifications.preload.ts';
 import type { QueryStatsOptions } from './sql/main.main.ts';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.ts';
 import type { SignalClipboardType } from './windows/clipboard.preload.ts';
@@ -30,6 +33,7 @@ import type { PDFWindowPropsType } from './windows/pdf/types.std.ts';
 
 export type IPCType = {
   addSetupMenuItems: () => void;
+  clearAllMacNotifications: () => Promise<void>;
   clearAllWindowsNotifications: () => Promise<void>;
   closeAbout: () => void;
   crashReports: {
@@ -67,6 +71,7 @@ export type IPCType = {
     forCamera: boolean
   ) => Promise<void>;
   showSettings: () => void;
+  showMacNotification: (data: MacNotificationData) => Promise<void>;
   showWindow: () => void;
   showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
