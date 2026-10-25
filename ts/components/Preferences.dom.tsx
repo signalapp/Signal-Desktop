@@ -113,6 +113,7 @@ import { PinLearnMoreLink } from './standaloneRegistration/util/StepComponents.d
 import { CallingDeviceSelectionItems } from './CallingDeviceSelectionItems.dom.tsx';
 import { PreferencesList } from './preferences/PreferencesList.dom.tsx';
 import { PreferencesLanguageDialog } from './preferences/PreferencesLanguageDialog.dom.tsx';
+import { DeleteAccountConfirmDialog } from './preferences/DeleteAccountConfirmDialog.dom.tsx';
 
 const { isNumber, noop } = lodash;
 
@@ -182,7 +183,6 @@ export type PropsDataType = {
   notificationContent: NotificationSettingType;
   notifyWhileMuted: NotifyWhileMuted;
   osName: 'linux' | 'macos' | 'windows' | undefined;
-  phoneNumber: string | undefined;
   sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType | undefined;
   universalExpireTimer: DurationInSeconds;
@@ -204,6 +204,8 @@ export type PropsDataType = {
   navTabsCollapsed: boolean;
   otherTabsUnreadCount: number;
   preferredWidthFromStorage: number;
+  phoneNumber: string | undefined;
+  e164: string | undefined;
   shouldShowUpdateDialog: boolean;
   theme: ThemeType;
   weArePrimaryDevice: boolean;
@@ -467,6 +469,7 @@ export function Preferences({
   disableLocalBackups,
   disableSignalPin,
   doDeleteAllData,
+  e164,
   editCustomColor,
   emojiSkinToneDefault,
   getConversationsWithCustomColor,
@@ -659,6 +662,7 @@ export function Preferences({
   weArePrimaryDevice,
 }: PropsType): JSX.Element {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [superConfirmDelete, setSuperConfirmDelete] = useState(false);
   const [confirmStoriesOff, setConfirmStoriesOff] = useState(false);
   const [confirmContentProtection, setConfirmContentProtection] =
     useState(false);
@@ -1033,7 +1037,6 @@ export function Preferences({
               {i18n('icu:clearDataButton')}
             </AxoConfirmDialog.Action>
           </AxoConfirmDialog.Root>
-
           {weArePrimaryDevice && (
             <ItemWithAction
               label={i18n('icu:deleteAccountHeader')}
@@ -1041,13 +1044,36 @@ export function Preferences({
               action={
                 <AxoItem.Action
                   variant="subtle-destructive"
-                  onClick={() => setConfirmDelete(true)}
+                  onClick={() => {
+                    if (e164) {
+                      setSuperConfirmDelete(true);
+                    } else {
+                      setConfirmDelete(true);
+                    }
+                  }}
                 >
                   {i18n('icu:deleteAccountButton')}
                 </AxoItem.Action>
               }
             />
           )}
+          {/* Delete account, first confirmation if user has a phone number */}
+          {e164 && (
+            <DeleteAccountConfirmDialog
+              key={e164}
+              i18n={i18n}
+              open={superConfirmDelete}
+              e164={e164}
+              onDelete={() => {
+                setSuperConfirmDelete(false);
+                setConfirmDelete(true);
+              }}
+              setClosed={() => {
+                setSuperConfirmDelete(false);
+              }}
+            />
+          )}
+          {/* Delete account, second confirmation */}
           <AxoConfirmDialog.Root
             open={confirmDelete && weArePrimaryDevice}
             onOpenChange={setConfirmDelete}

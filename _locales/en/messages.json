@@ -2997,6 +2997,30 @@
     "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups. The app will close after this process is complete.",
     "description": "Description of dialog shown when users choose to delete their account"
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account",
+    "description": "Title of big confirm dialog first shown when user chooses to delete their account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups.",
+    "description": "Description shown in big confirm dialog first shown when user chooses to delete their account"
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number",
+    "description": "Guidance for text entry in big confirm dialog first shown when user chooses to delete their account"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code",
+    "description": "Placeholder (default will be provided, this is only if user deletes that text) for country code text in big confirm dialog first shown when user chooses to delete their account"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number",
+    "description": "Placeholder for phone number text box in big confirm dialog first shown when user chooses to delete their account"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete",
+    "description": "Button in big confirm dialog first shown when user chooses to delete their account"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "You have obsolete data from a prior installation of Signal Desktop. If you choose to continue, it will be deleted and you will start from scratch.",
     "description": "Shown if user last ran Signal Desktop before October 2018"

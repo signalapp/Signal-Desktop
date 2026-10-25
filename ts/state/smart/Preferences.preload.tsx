@@ -116,6 +116,19 @@ import {
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
 } from '../../util/backupMediaDownload.preload.ts';
+import {
+  STORAGE_KEY_DEFAULTS,
+  type ZoomFactorType,
+} from '../../types/StorageKeys.std.ts';
+import { pinReminderService } from '../../services/pinReminder.preload.ts';
+import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
+import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
+import { disableSignalPin } from '../../util/disableSignalPin.preload.ts';
+import { getEmptyAudioDeviceList } from '../../types/Calling.std.ts';
+import {
+  getBlockedContacts,
+  getBlockedGroups,
+} from '../selectors/blocked.dom.ts';
 
 import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
@@ -132,19 +145,6 @@ import {
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
-import {
-  STORAGE_KEY_DEFAULTS,
-  type ZoomFactorType,
-} from '../../types/StorageKeys.std.ts';
-import { pinReminderService } from '../../services/pinReminder.preload.ts';
-import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
-import { maybeUpdateRegistrationLock } from '../../util/registrationLock.preload.ts';
-import { disableSignalPin } from '../../util/disableSignalPin.preload.ts';
-import { getEmptyAudioDeviceList } from '../../types/Calling.std.ts';
-import {
-  getBlockedContacts,
-  getBlockedGroups,
-} from '../selectors/blocked.dom.ts';
 
 const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
   ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
@@ -370,7 +370,8 @@ export function SmartPreferences(): JSX.Element | null {
 
   // Textsecure - user can change number and change this device's name
 
-  const phoneNumber = format(useSelector(getUserNumber) ?? '', {});
+  const e164 = useSelector(getUserNumber);
+  const phoneNumber = format(e164 ?? '', {});
   const isSyncSupported = !weArePrimaryDevice;
 
   const [deviceName, setDeviceName] = useState(
@@ -1049,6 +1050,7 @@ export function SmartPreferences(): JSX.Element | null {
         disableLocalBackups={backupsService.disableLocalBackups}
         disableSignalPin={disableSignalPin}
         emojiSkinToneDefault={emojiSkinToneDefault}
+        e164={e164}
         phoneNumber={phoneNumber}
         doDeleteAllData={doDeleteAllData}
         editCustomColor={editCustomColor}
