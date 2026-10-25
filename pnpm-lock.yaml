@@ -205,8 +205,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@electron/rebuild>node-gyp': 12.4.0
+  '@electron/rebuild>node-gyp': 13.1.0
   '@electron/rebuild>node-abi': 4.38.0
+  '@electron/get>undici': 7.30.1
   '@xmldom/xmldom@0.8': ^0.8.15
   axios@1: ^1.20.0
   brace-expansion@5: ^5.0.11
@@ -214,7 +215,7 @@ overrides:
   brace-expansion@1: ^1.1.20
   builder-util-runtime: 9.7.0
   canvas: '-'
-  danger@13.0.10>undici@<6.28.1: ^6.28.1
+  danger@13.0.10>undici@<6.28.1: ^6.29.1
   js-yaml@3: ^3.15.2
   jsdom: '-'
   react-popper@2.3.0>react-dom: 19.2.4
@@ -5980,9 +5981,9 @@ packages:
   '@yuku-toolchain/types@0.8.7':
     resolution: {integrity: sha512-2Z53dNxAJL6UvFoIrDZvYf3zlO8s4VJK4O2hhaB4mXVwwpX/7ajtss3cmfqKvamlNLWyt9FSWs4eoYdlbxpnHA==, tarball: https://registry.npmjs.org/@yuku-toolchain/types/-/types-0.8.7.tgz}
 
-  abbrev@4.0.0:
-    resolution: {integrity: sha512-a1wflyaL0tHtJSmLSOVybYhy22vRih4eduhhrkcjgrWGnRfrZtovJ2FRjxuTtkkj47O/baf0R86QU5OuYpz8fA==, tarball: https://registry.npmjs.org/abbrev/-/abbrev-4.0.0.tgz}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  abbrev@5.0.0:
+    resolution: {integrity: sha512-/XrFJgzQQQHpti1raDJC6m4ws6aNktmjBlhk8Fdlk7LwCEuDoieEJJY9OFHjfiFJFFRM2tK+Ky/IsfbbmlMu1w==, tarball: https://registry.npmjs.org/abbrev/-/abbrev-5.0.0.tgz}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==, tarball: https://registry.npmjs.org/abort-controller/-/abort-controller-3.0.0.tgz}
@@ -9457,9 +9458,9 @@ packages:
     resolution: {integrity: sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==, tarball: https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-4.8.4.tgz}
     hasBin: true
 
-  node-gyp@12.4.0:
-    resolution: {integrity: sha512-OMcPNvqTCFUnNaBlmdgq+lfNqY7gTiSmNRDjY3uAXRyudeKZEZxu3CLtjMQrx4zZxCX2b/mpNqTtwuCJgXhHkw==, tarball: https://registry.npmjs.org/node-gyp/-/node-gyp-12.4.0.tgz}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  node-gyp@13.1.0:
+    resolution: {integrity: sha512-FpNzOLFACKG0oRBYbZ5WOeWD1EqRTIWX90MaRIWTO18lVYPx8fqIjrdS3pihjnCkSmgop6zVGkSqg1vXZLksuw==, tarball: https://registry.npmjs.org/node-gyp/-/node-gyp-13.1.0.tgz}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
   node-int64@0.4.0:
@@ -9473,9 +9474,9 @@ packages:
     resolution: {integrity: sha512-YHs7BmmcsdAI5Ozuf8JZo6PT0mv2GIWC9vMfvUC3dp65M8hn7Ux8CPL+2oBI7juNuj9d0ndhTcznq2ODBps9cQ==, tarball: https://registry.npmjs.org/node-releases/-/node-releases-2.0.54.tgz}
     engines: {node: '>=18'}
 
-  nopt@9.0.0:
-    resolution: {integrity: sha512-Zhq3a+yFKrYwSBluL4H9XP3m3y5uvQkB/09CwDruCiRmR/UJYnn9W4R48ry0uGC70aeTPKLynBtscP9efFFcPw==, tarball: https://registry.npmjs.org/nopt/-/nopt-9.0.0.tgz}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  nopt@10.0.1:
+    resolution: {integrity: sha512-df3sBr/6ax9hSGuC3CspvLlbnX8cP5L5nZwXF8cGN8l0zSWR6BvzmQ6jPUKjvo6+/xdpkNvEcucBNUdBeeV13g==, tarball: https://registry.npmjs.org/nopt/-/nopt-10.0.1.tgz}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
   normalize-path@3.0.0:
@@ -10033,9 +10034,9 @@ packages:
     resolution: {integrity: sha512-rksPWtoZb2ZpT5OVgtmy0KHVM+Dca3iVwWY9ifwhcexfjebtgjg3wmrUt9PvJ59XIYBcknQeYHD8IAnVlh9lAw==, tarball: https://registry.npmjs.org/prettyjson/-/prettyjson-1.2.5.tgz}
     hasBin: true
 
-  proc-log@6.1.0:
-    resolution: {integrity: sha512-iG+GYldRf2BQ0UDUAd6JQ/RwzaQy6mXmsk/IzlYyal4A4SNFw54MeH4/tLkF4I5WoWG9SQwuqWzS99jaFQHBuQ==, tarball: https://registry.npmjs.org/proc-log/-/proc-log-6.1.0.tgz}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  proc-log@7.0.0:
+    resolution: {integrity: sha512-FYgfaA69XZ93zaXLoMNQ+ViDXGGBgR8aLh03txzcFhV+9xOXx7+8DLCULrKKpR9+GsH9ZfHm82aSUPpozX0Ztg==, tarball: https://registry.npmjs.org/proc-log/-/proc-log-7.0.0.tgz}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==, tarball: https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz}
@@ -11376,13 +11377,17 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==, tarball: https://registry.npmjs.org/undici-types/-/undici-types-7.16.0.tgz}
 
-  undici@6.29.0:
-    resolution: {integrity: sha512-R+RODBqp6i2pPflGdq+xIOUkl+RNfGgHwoinecKu/JCuf2uO06cOKoDbI2P7Dn6KcswdKwrczbU6IYJ6K8X+wg==, tarball: https://registry.npmjs.org/undici/-/undici-6.29.0.tgz}
+  undici@6.29.1:
+    resolution: {integrity: sha512-EvRlUt/QqAEvXdQeRMYUfwOQsfzpDztykrG2owGEE/rBOBoYv9uF39ZzsNDh4lTFHhTr2XOZjKkYgueD12ZmGA==, tarball: https://registry.npmjs.org/undici/-/undici-6.29.1.tgz}
     engines: {node: '>=18.17'}
 
-  undici@7.30.0:
-    resolution: {integrity: sha512-dkrQXeHSaoamnItlYbmzG0wFYrM0ZwDxCIg0A7aKjTyyhh9svRzCNFEzV+Vm05/yehjCzjDZ31KXfGEjYSztDQ==, tarball: https://registry.npmjs.org/undici/-/undici-7.30.0.tgz}
+  undici@7.30.1:
+    resolution: {integrity: sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==, tarball: https://registry.npmjs.org/undici/-/undici-7.30.1.tgz}
     engines: {node: '>=20.18.1'}
+
+  undici@8.12.3:
+    resolution: {integrity: sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==, tarball: https://registry.npmjs.org/undici/-/undici-8.12.3.tgz}
+    engines: {node: '>=22.19.0'}
 
   unicode-number@1.1.0:
     resolution: {integrity: sha512-ESNAPL6G8jAZcjZRnJXNU1H6CvmEB7aJt+CB9yu3DRj1GOX9SIelt/2JAeZObzcAPAwjlBw9/kfjwipprqxSuQ==, tarball: https://registry.npmjs.org/unicode-number/-/unicode-number-1.1.0.tgz}
@@ -11667,9 +11672,9 @@ packages:
     engines: {node: ^18.17.0 || >=20.5.0}
     hasBin: true
 
-  which@6.0.1:
-    resolution: {integrity: sha512-oGLe46MIrCRqX7ytPUf66EAYvdeMIZYn3WaocqqKZAxrBpkqHfL/qvTyJ/bTk5+AqHCjXmrv3CEWgy368zhRUg==, tarball: https://registry.npmjs.org/which/-/which-6.0.1.tgz}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  which@7.0.0:
+    resolution: {integrity: sha512-RancgH2dmbLdHl6LRhEqvklWMgl/Hdnun0Y90KhBOLkMefg8Qa7/Zel8Sm+8HEcP6DEjzsWzpkuBQEZok58isA==, tarball: https://registry.npmjs.org/which/-/which-7.0.0.tgz}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
   word-wrap@1.2.5:
@@ -12384,7 +12389,7 @@ snapshots:
       semver: 7.7.4
       sumchecker: 3.0.1(supports-color@8.1.1)
     optionalDependencies:
-      undici: 7.30.0
+      undici: 7.30.1
     transitivePeerDependencies:
       - supports-color
 
@@ -12424,7 +12429,7 @@ snapshots:
       graceful-fs: 4.2.11
       node-abi: 4.38.0
       node-api-version: 0.2.1
-      node-gyp: 12.4.0
+      node-gyp: 13.1.0
       ora: 5.4.1
       read-binary-file-arch: 1.0.6(supports-color@8.1.1)
       semver: 7.7.4
@@ -17078,7 +17083,7 @@ snapshots:
 
   '@yuku-toolchain/types@0.8.7': {}
 
-  abbrev@4.0.0: {}
+  abbrev@5.0.0: {}
 
   abort-controller@3.0.0:
     dependencies:
@@ -18057,7 +18062,7 @@ snapshots:
       regenerator-runtime: 0.13.11
       require-from-string: 2.0.2
       supports-hyperlinks: 4.4.0
-      undici: 6.29.0
+      undici: 6.29.1
     transitivePeerDependencies:
       - supports-color
 
@@ -21089,18 +21094,18 @@ snapshots:
 
   node-gyp-build@4.8.4: {}
 
-  node-gyp@12.4.0:
+  node-gyp@13.1.0:
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.2
       graceful-fs: 4.2.11
-      nopt: 9.0.0
-      proc-log: 6.1.0
+      nopt: 10.0.1
+      proc-log: 7.0.0
       semver: 7.7.4
       tar: 7.5.22
       tinyglobby: 0.2.17
-      undici: 6.29.0
-      which: 6.0.1
+      undici: 8.12.3
+      which: 7.0.0
 
   node-int64@0.4.0: {}
 
@@ -21110,9 +21115,9 @@ snapshots:
 
   node-releases@2.0.54: {}
 
-  nopt@9.0.0:
+  nopt@10.0.1:
     dependencies:
-      abbrev: 4.0.0
+      abbrev: 5.0.0
 
   normalize-path@3.0.0: {}
 
@@ -21700,7 +21705,7 @@ snapshots:
       colors: 1.4.0
       minimist: 1.2.8
 
-  proc-log@6.1.0: {}
+  proc-log@7.0.0: {}
 
   process-nextick-args@2.0.1: {}
 
@@ -23327,10 +23332,12 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@6.29.0: {}
+  undici@6.29.1: {}
 
-  undici@7.30.0:
+  undici@7.30.1:
     optional: true
+
+  undici@8.12.3: {}
 
   unicode-number@1.1.0: {}
 
@@ -23638,7 +23645,7 @@ snapshots:
     dependencies:
       isexe: 3.1.5
 
-  which@6.0.1:
+  which@7.0.0:
     dependencies:
       isexe: 4.0.0
 

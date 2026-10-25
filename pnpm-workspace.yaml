@@ -62,8 +62,9 @@ auditConfig:
     - GHSA-hp3w-g68c-fv3c # @storybook/test-runner > ... > sprintf-js
 
 overrides:
-  '@electron/rebuild>node-gyp': '12.4.0'
+  '@electron/rebuild>node-gyp': '13.1.0'
   '@electron/rebuild>node-abi': '4.38.0'
+  '@electron/get>undici': '7.30.1'
   '@xmldom/xmldom@0.8': '^0.8.15'
   'axios@1': '^1.20.0'
   'brace-expansion@5': '^5.0.11'
@@ -71,7 +72,7 @@ overrides:
   'brace-expansion@1': '^1.1.20'
   'builder-util-runtime': '9.7.0'
   'canvas': '-'
-  'danger@13.0.10>undici@<6.28.1': '^6.28.1'
+  'danger@13.0.10>undici@<6.28.1': '^6.29.1'
   'js-yaml@3': '^3.15.2'
   'jsdom': '-'
   'react-popper@2.3.0>react-dom': '19.2.4'
