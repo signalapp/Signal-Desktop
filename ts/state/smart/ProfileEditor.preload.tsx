@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import type { JSX } from 'react';
 
 import { ProfileEditor } from '../../components/ProfileEditor.dom.tsx';
+import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 import { useUsernameActions } from '../ducks/username.preload.ts';
@@ -69,7 +70,6 @@ export const SmartProfileEditor = memo(function SmartProfileEditor() {
     deleteAvatarFromDisk,
     myProfileChanged,
     replaceAvatar,
-    saveAttachment,
     saveAvatarToDisk,
     setProfileUpdateError,
   } = useConversationsActions();
@@ -141,7 +141,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor() {
         renderUsernameEditor={renderUsernameEditor}
         replaceAvatar={replaceAvatar}
         resetUsernameLink={resetUsernameLink}
-        saveAttachment={saveAttachment}
+        saveAttachmentToDisk={saveAttachmentToDisk}
         saveAvatarToDisk={saveAvatarToDisk}
         setEditState={setEditState}
         setUsernameEditState={setUsernameEditState}

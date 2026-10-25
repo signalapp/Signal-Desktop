@@ -297,7 +297,7 @@ describe('cleanupOrphanedAttachments', () => {
         postSaveUpdates: () => Promise.resolve(),
       });
 
-      await DataWriter._protectAttachmentPathFromDeletion({
+      await DataWriter.protectAttachmentPathFromDeletion({
         path: `attachment${attachmentIndex + 1}`,
       });
       await DataWriter.cleanupOrphanedAttachments({ _block: true });

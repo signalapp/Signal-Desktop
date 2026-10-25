@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type JSX } from 'react';
 import lodash from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 import { SearchInput } from './SearchInput.dom.tsx';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -19,9 +20,14 @@ import {
   EditMyStoryPrivacy,
   Page as StoriesSettingsPage,
 } from './StoriesSettingsModal.dom.tsx';
-import type { StoryDistributionListWithMembersDataType } from '../types/Stories.std.ts';
+import type {
+  StoryDistributionListWithMembersDataType,
+  StoryDraftAttachmentType,
+} from '../types/Stories.std.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
+import { TEXT_ATTACHMENT } from '../types/MIME.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { Button, ButtonVariant } from './Button.dom.tsx';
 import { Checkbox } from './Checkbox.dom.tsx';
@@ -34,7 +40,6 @@ import { PagedModal, ModalPage } from './Modal.dom.tsx';
 import { StoryDistributionListName } from './StoryDistributionListName.dom.tsx';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { StoryImage } from './StoryImage.dom.tsx';
-import type { AttachmentType } from '../types/Attachment.std.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { getStoryBackground } from '../util/getStoryBackground.std.ts';
 import {
@@ -52,7 +57,7 @@ import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
 const { noop, sortBy } = lodash;
 
 export type PropsType = {
-  draftAttachment: AttachmentType;
+  draftAttachment: StoryDraftAttachmentType;
   candidateConversations: Array<ConversationType>;
   distributionLists: Array<StoryDistributionListWithMembersDataType>;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -292,11 +297,18 @@ export function SendStoryModal({
   useEffect(() => {
     let url: undefined | string;
 
-    if (draftAttachment.url) {
+    if (
+      draftAttachment.type === 'media' &&
+      !draftAttachment.attachment.pending &&
+      draftAttachment.attachment.data
+    ) {
+      url = makeObjectUrl(
+        draftAttachment.attachment.screenshotData ||
+          draftAttachment.attachment.data,
+        draftAttachment.attachment.screenshotContentType ||
+          draftAttachment.attachment.contentType
+      );
       // oxlint-disable-next-line react/set-state-in-effect
-      setObjectUrl(draftAttachment.url);
-    } else if (draftAttachment.data) {
-      url = makeObjectUrl(draftAttachment.data, draftAttachment.contentType);
       setObjectUrl(url);
     }
     return () => {
@@ -631,10 +643,34 @@ export function SendStoryModal({
       </>
     );
 
-    const attachment = {
-      ...draftAttachment,
-      url: objectUrl,
-    };
+    let attachment: AttachmentType;
+    if (draftAttachment.type === 'media') {
+      if (draftAttachment.attachment.pending) {
+        attachment = {
+          ...draftAttachment.attachment,
+          url: objectUrl,
+        };
+      } else {
+        const {
+          // oxlint-disable-next-line typescript/no-unused-vars
+          data: _data,
+          // oxlint-disable-next-line typescript/no-unused-vars
+          screenshotData: _screenshotData,
+          ...rest
+        } = draftAttachment.attachment;
+        attachment = {
+          ...rest,
+          url: objectUrl,
+        };
+      }
+    } else {
+      attachment = {
+        contentType: TEXT_ATTACHMENT,
+        textAttachment: draftAttachment.attachment,
+        size: draftAttachment.attachment.text?.length || 0,
+        clientUuid: generateUuid(),
+      };
+    }
 
     // my stories always first, the rest sorted by recency
     const fullList = sortBy(

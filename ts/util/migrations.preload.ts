@@ -22,12 +22,7 @@ import {
   makeVideoScreenshot,
   revokeObjectUrl,
 } from '../types/VisualAttachment.dom.ts';
-import { loadData } from './Attachment.std.ts';
 import {
-  loadContactData as doLoadContactData,
-  loadPreviewData as doLoadPreviewData,
-  loadQuoteData as doLoadQuoteData,
-  loadStickerData as doLoadStickerData,
   processNewAttachment as doProcessNewAttachment,
   processNewSticker as doProcessNewSticker,
   upgradeSchema,
@@ -110,11 +105,6 @@ function createEncryptedWriterForNew(basePath: string): EncryptedWriter {
 }
 
 export const readAttachmentData = createEncryptedReader(ATTACHMENTS_PATH);
-export const loadAttachmentData = loadData(readAttachmentData);
-export const loadContactData = doLoadContactData(loadAttachmentData);
-export const loadPreviewData = doLoadPreviewData(loadAttachmentData);
-export const loadQuoteData = doLoadQuoteData(loadAttachmentData);
-export const loadStickerData = doLoadStickerData(loadAttachmentData);
 export const getAbsoluteAttachmentPath =
   createAbsolutePathGetter(ATTACHMENTS_PATH);
 

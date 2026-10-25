@@ -764,7 +764,7 @@ export const DataWriter: ServerWritableInterface = {
 
   getAndProtectExistingAttachmentPath,
   releaseAttachmentPathProtections,
-  _protectAttachmentPathFromDeletion,
+  protectAttachmentPathFromDeletion,
   resetProtectedAttachmentPaths,
 
   getNextAttachmentBackupJobs,
@@ -3111,7 +3111,7 @@ function getAndProtectExistingAttachmentPath(
   })();
 }
 
-function _protectAttachmentPathFromDeletion(
+function protectAttachmentPathFromDeletion(
   db: WritableDB,
   { path }: { path: string }
 ): string {

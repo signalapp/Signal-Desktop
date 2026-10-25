@@ -13,12 +13,10 @@ import { normalize as normalizePhoneNumber } from './PhoneNumber.std.ts';
 import type {
   AttachmentType,
   AttachmentForUIType,
-  AttachmentWithHydratedData,
   UploadedAttachmentType,
 } from './Attachment.std.ts';
 import { toLogFormat } from './errors.std.ts';
 import type { AciString } from './ServiceId.std.ts';
-import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.ts';
 import type { ContextType } from './Message2.preload.ts';
 import type { SharedContactResolutionType } from '../util/sharedContact.std.ts';
 
@@ -43,8 +41,6 @@ export type EmbeddedContactForUIType = EmbeddedContactWithAvatarForUIType & {
   resolution: SharedContactResolutionType;
 };
 
-export type EmbeddedContactWithHydratedAvatar =
-  GenericEmbeddedContactType<AvatarWithHydratedData>;
 export type EmbeddedContactWithUploadedAvatar =
   GenericEmbeddedContactType<UploadedAvatar>;
 
@@ -106,7 +102,6 @@ type GenericAvatar<Attachment> = {
 
 export type Avatar = GenericAvatar<AttachmentType>;
 export type AvatarForUI = GenericAvatar<AttachmentForUIType>;
-export type AvatarWithHydratedData = GenericAvatar<AttachmentWithHydratedData>;
 export type UploadedAvatar = GenericAvatar<UploadedAttachmentType>;
 
 const DEFAULT_PHONE_TYPE = Proto.DataMessage.Contact.Phone.Type.HOME;
@@ -178,52 +173,29 @@ export function getDisplayNickname(
   return combineNames(nickname?.givenName, nickname?.familyName);
 }
 
-export function parseAndWriteAvatar(
-  upgradeAttachment: typeof migrateDataToFileSystem
-) {
-  return async (
-    contact: EmbeddedContactType,
-    context: Pick<
-      ContextType,
-      | 'getRegionCode'
-      | 'logger'
-      | 'writeNewAttachmentData'
-      | 'getExistingAttachmentDataForReuse'
-      | 'getPlaintextHashForInMemoryAttachment'
-    >,
-    message: ReadonlyMessageAttributesType
-  ): Promise<EmbeddedContactType> => {
-    const { getRegionCode, logger } = context;
-    const { avatar } = contact;
+export async function parseAndValidate(
+  contact: EmbeddedContactType,
+  context: Pick<ContextType, 'getRegionCode' | 'logger'>,
+  message: ReadonlyMessageAttributesType
+): Promise<EmbeddedContactType> {
+  const { getRegionCode, logger } = context;
 
-    const contactWithUpdatedAvatar =
-      avatar && avatar.avatar
-        ? {
-            ...contact,
-            avatar: {
-              ...avatar,
-              avatar: await upgradeAttachment(avatar.avatar, context),
-            },
-          }
-        : omit(contact, ['avatar']);
+  // eliminates empty numbers, emails, and addresses; adds type if not provided
+  const parsedContact = parseContact(contact, {
+    regionCode: getRegionCode(),
+  });
 
-    // eliminates empty numbers, emails, and addresses; adds type if not provided
-    const parsedContact = parseContact(contactWithUpdatedAvatar, {
-      regionCode: getRegionCode(),
-    });
+  const error = _validate(parsedContact, {
+    messageId: idForLogging(message),
+  });
+  if (error) {
+    logger.error(
+      'parseAndWriteAvatar: contact was malformed.',
+      toLogFormat(error)
+    );
+  }
 
-    const error = _validate(parsedContact, {
-      messageId: idForLogging(message),
-    });
-    if (error) {
-      logger.error(
-        'parseAndWriteAvatar: contact was malformed.',
-        toLogFormat(error)
-      );
-    }
-
-    return parsedContact;
-  };
+  return parsedContact;
 }
 
 function parseContact(
@@ -325,7 +297,7 @@ function parseAddress(address: PostalAddress): PostalAddress | undefined {
 }
 
 function parseAvatar(avatar?: Avatar): { avatar: Avatar } | undefined {
-  if (!avatar) {
+  if (!avatar?.avatar) {
     return undefined;
   }
 

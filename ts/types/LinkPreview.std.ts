@@ -10,7 +10,7 @@ import LinkifyIt from 'linkify-it';
 
 import { maybeParseUrl } from '../util/url.std.ts';
 
-import type { AttachmentWithHydratedData } from './Attachment.std.ts';
+import type { InMemoryAttachmentDraftType } from './Attachment.std.ts';
 import {
   artAddStickersRoute,
   groupInvitesRoute,
@@ -22,14 +22,20 @@ import { Emoji } from '../axo/emoji.std.ts';
 
 const { isNumber, compact, isEmpty, range } = lodash;
 
-export type LinkPreviewImage = AttachmentWithHydratedData;
+export type LinkPreviewDraftImageType = InMemoryAttachmentDraftType;
 
-export type LinkPreviewResult = {
-  title: string | null;
+export type LinkPreviewDraftType = {
+  title: string | undefined;
   url: string;
-  image?: LinkPreviewImage;
-  description: string | null;
-  date: number | null;
+  image?: LinkPreviewDraftImageType;
+  description: string | undefined;
+  date: number | undefined;
+
+  // Hydrated separately
+  domain: string | undefined;
+  isStickerPack: boolean;
+  isCallLink: boolean;
+  callLinkRoomId: string | undefined;
 };
 
 export enum LinkPreviewSourceType {

@@ -6,7 +6,11 @@ import type {
   AttachmentDraftType,
   AttachmentType,
 } from '../types/Attachment.std.ts';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.ts';
 import { readDraftData } from './migrations.preload.ts';
+import { migrateDataToFileSystem } from './attachments/migrateDataToFilesystem.std.ts';
+import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.ts';
+import { writeNewAttachmentData } from './migrations.preload.ts';
 
 const log = createLogger('resolveAttachmentDraftData');
 
@@ -29,8 +33,9 @@ export async function resolveAttachmentDraftData(
     return;
   }
 
-  return {
-    ...attachment,
-    data,
-  };
+  return migrateDataToFileSystem(attachment, data, {
+    writeNewAttachmentData,
+    getExistingAttachmentDataForReuse,
+    getPlaintextHashForInMemoryAttachment,
+  });
 }

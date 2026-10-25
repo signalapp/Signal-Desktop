@@ -16,7 +16,6 @@ import {
   getMyStories,
   getFakeDistributionListsWithMembers,
 } from '../test-helpers/getFakeDistributionLists.std.ts';
-import { VIDEO_MP4 } from '../types/MIME.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
 
 const { i18n } = window.SignalContext;
@@ -31,10 +30,14 @@ export default {
   component: SendStoryModal,
   args: {
     draftAttachment: {
-      contentType: VIDEO_MP4,
-      fileName: 'pixabay-Soap-Bubble-7141.mp4',
-      url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-      size: 1,
+      type: 'text',
+      attachment: {
+        color: 4286869806,
+        text: 'hello',
+        textBackgroundColor: 4293263387,
+        textForegroundColor: 4294967295,
+        textStyle: 1,
+      },
     },
     candidateConversations: Array.from(Array(100), () =>
       getDefaultConversation()

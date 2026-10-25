@@ -305,7 +305,7 @@ describe('deleteMessageAttachments', () => {
     });
 
     it('is not safe to delete if the file is protected, even if no references', async () => {
-      await DataWriter._protectAttachmentPathFromDeletion({
+      await DataWriter.protectAttachmentPathFromDeletion({
         path: 'attachment0',
       });
 
@@ -627,7 +627,7 @@ describe('deleteMessageAttachments', () => {
         },
       };
 
-      await DataWriter._protectAttachmentPathFromDeletion({
+      await DataWriter.protectAttachmentPathFromDeletion({
         path: 'attachment0',
       });
       await cleanupAttachmentFiles(attachment);

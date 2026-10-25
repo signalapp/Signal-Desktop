@@ -14,8 +14,13 @@ import type {
 import { canBeTranscoded } from './Attachment.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import * as Bytes from '../Bytes.std.ts';
-
+import { sha256 } from '../Crypto.node.ts';
+import {
+  maybeDeleteAttachmentFile,
+  writeNewAttachmentData,
+} from './migrations.preload.ts';
 import { toNumber } from './toNumber.std.ts';
+import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.ts';
 
 const log = createLogger('attachments');
 
@@ -30,19 +35,12 @@ export const downscaleOutgoingAttachment = async (
     return attachment;
   }
 
-  let scaleTarget: string | Blob;
-  const { data, path, size } = attachment;
+  const { path, size } = attachment;
 
-  if (data) {
-    scaleTarget = new Blob([data], {
-      type: attachment.contentType,
-    });
-  } else {
-    if (!path) {
-      return attachment;
-    }
-    scaleTarget = getLocalAttachmentUrl(attachment);
+  if (!path) {
+    return attachment;
   }
+  const scaleTarget = getLocalAttachmentUrl(attachment);
 
   try {
     const { blob: xcodedDataBlob } = await scaleImageToLevel({
@@ -51,22 +49,30 @@ export const downscaleOutgoingAttachment = async (
       size,
       highQuality: false,
     });
-    const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
+    const xcodedData = new Uint8Array(await blobToArrayBuffer(xcodedDataBlob));
+    const plaintextHash = Bytes.toHex(sha256(xcodedData));
 
-    // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
-    // image data. Ideally, we’d preserve the original image data for users who want to
-    // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
-    // by potentially doubling stored image data.
-    // See: https://github.com/signalapp/Signal-Desktop/issues/1589
-    // We also clear out the attachment path because we're changing
-    // the attachment data so it no longer matches the old path.
-    // Path and data should always be in agreement.
-    const xcodedAttachment = {
-      ...attachment,
-      data: new Uint8Array(xcodedDataArrayBuffer),
-      size: xcodedDataArrayBuffer.byteLength,
-      path: undefined,
-    };
+    const existing = await getExistingAttachmentDataForReuse({
+      plaintextHash,
+      contentType: attachment.contentType,
+    });
+
+    let xcodedAttachment: AttachmentType;
+    if (existing == null) {
+      xcodedAttachment = {
+        ...attachment,
+        ...(await writeNewAttachmentData(xcodedData)),
+      };
+    } else {
+      xcodedAttachment = {
+        ...attachment,
+        size: xcodedData.byteLength,
+        ...existing,
+      };
+    }
+
+    // Delete old attachment
+    await maybeDeleteAttachmentFile(path);
 
     return xcodedAttachment;
   } catch (error: unknown) {

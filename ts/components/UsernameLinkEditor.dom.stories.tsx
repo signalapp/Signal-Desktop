@@ -72,7 +72,7 @@ export default {
 
 const Template: StoryFn<PropsType> = args => {
   const [attachment, setAttachment] = useState<string | undefined>();
-  const saveAttachment = useCallback(
+  const saveAttachmentToDisk = useCallback(
     ({ data }: { data?: Uint8Array<ArrayBuffer> }) => {
       if (!data) {
         setAttachment(undefined);
@@ -95,7 +95,10 @@ const Template: StoryFn<PropsType> = args => {
 
   return (
     <>
-      <UsernameLinkEditor {...args} saveAttachment={saveAttachment} />
+      <UsernameLinkEditor
+        {...args}
+        saveAttachmentToDisk={saveAttachmentToDisk}
+      />
       {attachment && (
         <img
           src={attachment}

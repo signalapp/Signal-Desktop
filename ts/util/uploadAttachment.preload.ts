@@ -1,10 +1,10 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { createReadStream } from 'node:fs';
+import { PassThrough } from 'node:stream';
 import { LibSignalErrorBase, ErrorCode } from '@signalapp/libsignal-client';
 import type {
   AttachmentType,
-  AttachmentWithHydratedData,
   UploadedAttachmentType,
 } from '../types/Attachment.std.ts';
 import * as Bytes from '../Bytes.std.ts';
@@ -28,6 +28,7 @@ import {
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {
   type EncryptedAttachmentV2,
+  decryptAttachmentV2ToSink,
   encryptAttachmentV2ToDisk,
   safeUnlink,
   type PlaintextSourceType,
@@ -54,7 +55,7 @@ const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
 const log = createLogger('uploadAttachment');
 
 export async function uploadAttachment(
-  attachment: AttachmentWithHydratedData
+  attachment: AttachmentType
 ): Promise<UploadedAttachmentType> {
   strictAssert(
     attachment.transcodingTargetQuality == null,
@@ -90,19 +91,40 @@ export async function uploadAttachment(
         ? dataForReuse.chunkSize
         : undefined;
   } else {
+    strictAssert(attachment.path != null, 'Attachment must be present on disk');
+    strictAssert(
+      attachment.localKey != null,
+      'Attachment must be encrypted on disk'
+    );
+
     keys = getRandomBytes(64);
     uploadTimestamp = Date.now();
 
-    ({
-      cdnKey,
-      cdnNumber,
-      encrypted: { digest, plaintextHash, incrementalMac, chunkSize },
-    } = await encryptAndUploadAttachment({
-      keys,
-      needIncrementalMac,
-      plaintext: { data: attachment.data },
-      uploadType: 'standard',
-    }));
+    const passthrough = new PassThrough();
+    [
+      {
+        cdnKey,
+        cdnNumber,
+        encrypted: { digest, plaintextHash, incrementalMac, chunkSize },
+      },
+    ] = await Promise.all([
+      encryptAndUploadAttachment({
+        keys,
+        needIncrementalMac,
+        plaintext: { stream: passthrough, size: attachment.size },
+        uploadType: 'standard',
+      }),
+      decryptAttachmentV2ToSink(
+        {
+          idForLogging: `uploadAttachment(${attachment.clientUuid})`,
+          size: attachment.size,
+          ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
+          type: 'local',
+          keysBase64: attachment.localKey,
+        },
+        passthrough
+      ),
+    ]);
   }
 
   const {
@@ -137,7 +159,7 @@ export async function uploadAttachment(
     cdnNumber,
     clientUuid: clientUuid ? uuidToBytes(clientUuid) : null,
     key: keys,
-    size: attachment.data.byteLength,
+    size: attachment.size,
     digest,
     plaintextHash,
     incrementalMac: incrementalMac ?? null,

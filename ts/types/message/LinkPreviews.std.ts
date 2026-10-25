@@ -1,11 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type {
-  AttachmentType,
-  AttachmentForUIType,
-  AttachmentWithHydratedData,
-} from '../Attachment.std.ts';
+import type { AttachmentType, AttachmentForUIType } from '../Attachment.std.ts';
 
 type GenericLinkPreviewType<Image> = {
   title?: string;
@@ -21,8 +17,6 @@ type GenericLinkPreviewType<Image> = {
 
 export type LinkPreviewType = GenericLinkPreviewType<AttachmentType>;
 export type LinkPreviewForUIType = GenericLinkPreviewType<AttachmentForUIType>;
-export type LinkPreviewWithHydratedData =
-  GenericLinkPreviewType<AttachmentWithHydratedData>;
 
 export function isSameLinkPreview(
   prev: LinkPreviewType | undefined | null,

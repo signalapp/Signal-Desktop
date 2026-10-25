@@ -13,6 +13,7 @@ import { getIntl, getTheme, getRegionCode } from '../selectors/user.std.ts';
 import { getLinkPreview } from '../selectors/linkPreviews.std.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { maybeForwardMessages } from '../../util/maybeForwardMessages.preload.ts';
+import { useHydrateDraftLinkPreview } from '../../hooks/useHydrateDraftLinkPreview.std.ts';
 import {
   maybeGrabLinkPreview,
   resetLinkPreview,
@@ -27,6 +28,7 @@ import { strictAssert } from '../../util/assert.std.ts';
 import type {
   ForwardMessageData,
   MessageForwardDraft,
+  MessageForwardDraftForSend,
 } from '../../types/ForwardDraft.std.ts';
 import { getForwardMessagesProps } from '../selectors/globalModals.std.ts';
 import { applyRangesToText } from '../../types/BodyRange.std.ts';
@@ -66,7 +68,10 @@ function SmartForwardMessagesModalInner({
   const candidateConversations = useSelector(getAllComposableConversations);
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const i18n = useSelector(getIntl);
-  const linkPreviewForSource = useSelector(getLinkPreview);
+  const linkPreview = useSelector(getLinkPreview)(
+    LinkPreviewSourceType.ForwardMessageModal
+  );
+  const linkPreviewForUI = useHydrateDraftLinkPreview(linkPreview);
   const regionCode = useSelector(getRegionCode);
   const theme = useSelector(getTheme);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
@@ -135,13 +140,44 @@ function SmartForwardMessagesModalInner({
       try {
         const messages = await Promise.all(
           finalDrafts.map(async (draft): Promise<ForwardMessageData> => {
-            if (draft.originalMessageId == null) {
-              return { draft, originalMessage: null };
+            let draftForSend: MessageForwardDraftForSend;
+            if (!draft.previews?.length) {
+              draftForSend = {
+                ...draft,
+                previews: [],
+              };
+            } else {
+              strictAssert(draft.previews.length === 1, 'expected one preview');
+              const [first] = draft.previews;
+              strictAssert(first != null, 'expected one preview');
+
+              if (!first.image || first.image.path) {
+                draftForSend = {
+                  ...draft,
+                  previews: [{ type: 'original', preview: first }],
+                };
+              } else {
+                strictAssert(
+                  first === linkPreviewForUI,
+                  'expected draft preview to match the hydrated version'
+                );
+                strictAssert(linkPreview != null, 'expected draft preview');
+
+                draftForSend = {
+                  ...draft,
+                  previews: [{ type: 'draft', preview: linkPreview }],
+                };
+              }
             }
-            const message = await getMessageById(draft.originalMessageId);
+            if (draftForSend.originalMessageId == null) {
+              return { draft: draftForSend, originalMessage: null };
+            }
+            const message = await getMessageById(
+              draftForSend.originalMessageId
+            );
             strictAssert(message, 'no message found');
             return {
-              draft,
+              draft: draftForSend,
               originalMessage: message.attributes,
             };
           })
@@ -160,7 +196,7 @@ function SmartForwardMessagesModalInner({
         log.warn('doForwardMessage', Errors.toLogFormat(err));
       }
     },
-    [forwardMessagesProps, closeModal]
+    [forwardMessagesProps, closeModal, linkPreview, linkPreviewForUI]
   );
 
   if (!drafts.length) {
@@ -172,7 +208,7 @@ function SmartForwardMessagesModalInner({
       drafts={drafts}
       candidateConversations={candidateConversations}
       doForwardMessages={doForwardMessages}
-      linkPreviewForSource={linkPreviewForSource}
+      linkPreview={linkPreviewForUI}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       isInFullScreenCall={isInFullScreenCall}

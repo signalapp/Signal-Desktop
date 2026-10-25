@@ -11,7 +11,7 @@ import {
   isDownloaded,
 } from '../util/Attachment.std.ts';
 import {
-  loadAttachmentData,
+  readAttachmentData,
   maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.ts';
 import { getMessageById } from '../messages/getMessageById.preload.ts';
@@ -97,8 +97,7 @@ export async function addAttachmentToMessage(
 
     try {
       if (attachment.path) {
-        const loaded = await loadAttachmentData(attachment);
-        attachmentData = loaded.data;
+        attachmentData = await readAttachmentData(attachment);
       }
 
       const editHistory = message.get('editHistory');

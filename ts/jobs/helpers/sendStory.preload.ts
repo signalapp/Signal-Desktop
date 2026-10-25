@@ -32,7 +32,6 @@ import {
   getSendOptions,
   getSendOptionsForRecipients,
 } from '../../util/getSendOptions.preload.ts';
-import { loadPreviewData } from '../../util/migrations.preload.ts';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.ts';
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.ts';
 import { isGroupV2, isMe } from '../../util/whatTypeOfConversation.dom.ts';
@@ -50,7 +49,6 @@ import {
   saveErrorsOnMessage,
 } from '../../test-node/util/messageFailures.preload.ts';
 import { send } from '../../messages/send.preload.ts';
-import { strictAssert } from '../../util/assert.std.ts';
 
 const { isEqual } = lodash;
 
@@ -166,17 +164,13 @@ export async function sendStory(
           preview: undefined,
         };
       } else {
-        const previewData = await loadPreviewData([localAttachment.preview]);
-        const hydratedPreview = previewData[0];
-        strictAssert(hydratedPreview, 'Missing hydratedPreview');
-
         textAttachment = {
           ...localAttachment,
           preview: {
-            ...hydratedPreview,
+            ...localAttachment.preview,
             image:
-              hydratedPreview.image &&
-              (await uploadAttachment(hydratedPreview.image)),
+              localAttachment.preview.image &&
+              (await uploadAttachment(localAttachment.preview.image)),
           },
         };
       }
@@ -188,7 +182,7 @@ export async function sendStory(
         targetTimestamp: timestamp,
       });
 
-      fileAttachment = await uploadAttachment(transcoded.withData);
+      fileAttachment = await uploadAttachment(transcoded);
     }
 
     const groupV2 = isGroupV2(conversation.attributes)

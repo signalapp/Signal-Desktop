@@ -9,6 +9,8 @@ import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange.std.ts';
+import type { StoryDraftAttachmentType } from '../../types/Stories.std.ts';
+import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
 import { StoryCreator } from '../../components/StoryCreator.dom.tsx';
 import {
   getCandidateContactsForNewGroup,
@@ -36,6 +38,7 @@ import {
 import { imageToBlurHash } from '../../util/imageToBlurHash.dom.ts';
 import { processAttachment } from '../../util/processAttachment.preload.ts';
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
+import { useHydrateDraftLinkPreview } from '../../hooks/useHydrateDraftLinkPreview.std.ts';
 import { useEmojisActions } from '../ducks/emojis.preload.ts';
 import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.ts';
 import { useComposerActions } from '../ducks/composer.preload.ts';
@@ -108,6 +111,8 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
     return linkPreviewForSource(LinkPreviewSourceType.StoryCreator);
   }, [linkPreviewForSource]);
 
+  const linkPreviewForUI = useHydrateDraftLinkPreview(linkPreview);
+
   const convertDraftBodyRangesIntoHydrated = useCallback(
     (
       bodyRanges: DraftBodyRanges | undefined
@@ -115,6 +120,23 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       return hydrateRanges(bodyRanges, conversationSelector);
     },
     [conversationSelector]
+  );
+
+  const onSend = useCallback(
+    (
+      listIds: Array<StoryDistributionIdString>,
+      conversationIds: Array<string>,
+      draftAttachment: StoryDraftAttachmentType,
+      bodyRanges: DraftBodyRanges | undefined
+    ) =>
+      sendStoryMessage(
+        listIds,
+        conversationIds,
+        draftAttachment,
+        draftAttachment.type === 'text' ? linkPreview : undefined,
+        bodyRanges
+      ),
+    [linkPreview, sendStoryMessage]
   );
 
   return (
@@ -132,7 +154,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       imageToBlurHash={imageToBlurHash}
       isFormattingEnabled={isFormattingEnabled}
       isSending={isSending}
-      linkPreview={linkPreview}
+      linkPreview={linkPreviewForUI}
       me={me}
       mostRecentActiveStoryTimestampByGroupOrDistributionList={
         mostRecentActiveStoryTimestampByGroupOrDistributionList
@@ -146,7 +168,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       onRemoveMembers={removeMembersFromDistributionList}
       onRepliesNReactionsChanged={allowsRepliesChanged}
       onSelectedStoryList={verifyStoryListMembers}
-      onSend={sendStoryMessage}
+      onSend={onSend}
       onTextTooLong={onTextTooLong}
       onViewersUpdated={updateStoryViewers}
       ourConversationId={ourConversationId}

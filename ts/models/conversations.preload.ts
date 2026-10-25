@@ -30,6 +30,7 @@ import {
   upgradeMessageSchema,
   writeNewAttachmentData,
 } from '../util/migrations.preload.ts';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 import { drop } from '../util/drop.std.ts';
 import { isShallowEqual } from '../util/isShallowEqual.std.ts';
 import type { NotifyWhileMutedKey } from '../util/notifyWhileMuted.std.ts';
@@ -54,13 +55,10 @@ import { getDraftPreview } from '../util/getDraftPreview.preload.ts';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import { getStoryReplyContext } from '../util/getStoryReplyContext.std.ts';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
-import type {
-  StickerType,
-  StickerWithHydratedData,
-} from '../types/Stickers.preload.ts';
+import type { StickerType } from '../types/Stickers.preload.ts';
 import * as Stickers from '../types/Stickers.preload.ts';
 import { StorySendMode } from '../types/Stories.std.ts';
-import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.std.ts';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
 import {
   type GroupV2InfoType,
   messageSender,
@@ -112,7 +110,10 @@ import {
   decryptProfileName,
   hashProfileKey,
 } from '../Crypto.node.ts';
-import { decryptAttachmentV2 } from '../AttachmentCrypto.node.ts';
+import {
+  decryptAttachmentV2,
+  getPlaintextHashForInMemoryAttachment,
+} from '../AttachmentCrypto.node.ts';
 import * as Bytes from '../Bytes.std.ts';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import { migrateColor } from '../util/migrateColor.node.ts';
@@ -145,10 +146,7 @@ import { getConversationMembers } from '../util/getConversationMembers.dom.ts';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup.dom.ts';
 import { ReadStatus } from '../messages/MessageReadStatus.std.ts';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
-import type {
-  LinkPreviewType,
-  LinkPreviewWithHydratedData,
-} from '../types/message/LinkPreviews.std.ts';
+import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type { PollCreateType } from '../types/Polls.dom.ts';
 import {
   MINUTE,
@@ -225,6 +223,7 @@ import {
   getMessageAuthorText,
 } from '../util/getMessageAuthorText.preload.ts';
 import { downscaleOutgoingAttachment } from '../util/attachments.preload.ts';
+import { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.ts';
 import {
   MessageRequestResponseSource,
   type MessageRequestResponseInfo,
@@ -4199,6 +4198,7 @@ export class ConversationModel {
 
     const { key } = packData;
     const { emoji, width, height } = stickerData;
+
     const data = await readStickerData(stickerData);
 
     // We need this content type to be an image so we can display an `<img>` instead of a
@@ -4218,23 +4218,30 @@ export class ConversationModel {
       contentType = IMAGE_WEBP;
     }
 
-    const sticker: StickerWithHydratedData = {
+    const sticker: StickerType = {
       packId,
       stickerId,
       packKey: key,
       emoji,
-      data: {
-        size: data.byteLength,
+      data: await migrateDataToFileSystem(
+        {
+          contentType,
+          width,
+          height,
+          size: data.byteLength,
+          blurHash: await imageToBlurHash(
+            new Blob([data], {
+              type: IMAGE_JPEG,
+            })
+          ),
+        },
         data,
-        contentType,
-        width,
-        height,
-        blurHash: await imageToBlurHash(
-          new Blob([data], {
-            type: IMAGE_JPEG,
-          })
-        ),
-      },
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse,
+          getPlaintextHashForInMemoryAttachment,
+        }
+      ),
     };
 
     drop(
@@ -4371,12 +4378,12 @@ export class ConversationModel {
     }: {
       attachments: Array<AttachmentType>;
       body: string | undefined;
-      contact?: Array<EmbeddedContactWithHydratedAvatar>;
+      contact?: Array<EmbeddedContactType>;
       bodyRanges?: DraftBodyRanges;
       isViewOnce?: boolean;
-      preview?: Array<LinkPreviewWithHydratedData>;
+      preview?: Array<LinkPreviewType>;
       quote?: QuotedMessageType;
-      sticker?: StickerWithHydratedData;
+      sticker?: StickerType;
       poll?: PollCreateType;
     },
     {

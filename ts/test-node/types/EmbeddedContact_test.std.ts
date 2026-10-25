@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as sinon from 'sinon';
 
 import { createLogger } from '../../logging/log.std.ts';
-import { IMAGE_PNG } from '../../types/MIME.std.ts';
 import type { MessageAttributesType } from '../../model-types.std.ts';
 import type {
   Avatar,
@@ -16,10 +14,9 @@ import type {
 import {
   _validate,
   ContactFormType,
-  parseAndWriteAvatar,
+  parseAndValidate,
   parsePhoneItem,
 } from '../../types/EmbeddedContact.std.ts';
-import { fakeAttachment } from '../../test-helpers/fakeAttachment.std.ts';
 
 const logger = createLogger('EmbeddedContact_test');
 
@@ -54,23 +51,13 @@ describe('Contact', () => {
     };
   };
 
-  describe('parseAndWriteAvatar', () => {
+  describe('parseAndValidate', () => {
     const defaultContext = {
       logger,
       getRegionCode: () => '1',
-      writeNewAttachmentData: sinon
-        .stub()
-        .throws(new Error("Shouldn't be called")),
-      getPlaintextHashForInMemoryAttachment: sinon.stub(),
-      getExistingAttachmentDataForReuse: sinon.stub(),
     };
 
     it('handles message with no avatar in contact', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -88,7 +75,7 @@ describe('Contact', () => {
           },
         ],
       } as const;
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message
@@ -97,11 +84,6 @@ describe('Contact', () => {
     });
 
     it('turns phone numbers to e164 format', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -131,7 +113,7 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         {
           ...defaultContext,
@@ -143,11 +125,6 @@ describe('Contact', () => {
     });
 
     it('removes contact avatar if it has no sub-avatar', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -180,93 +157,7 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(
-        message.contact[0],
-        defaultContext,
-        message
-      );
-      assert.deepEqual(result, expected);
-    });
-
-    it('writes avatar to disk', async () => {
-      const upgradeAttachment = async () => {
-        return fakeAttachment({
-          path: 'abc/abcdefg',
-          contentType: IMAGE_PNG,
-        });
-      };
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
-      const message = {
-        ...getDefaultMessageAttrs(),
-        contact: [
-          {
-            ...emptyContact,
-            name: {
-              nickname: 'Someone Somewhere',
-            },
-            number: [
-              {
-                type: 1,
-                value: NUMBER,
-              },
-            ],
-            email: [
-              {
-                type: 2,
-                value: 'someone@somewhere.com',
-              },
-            ],
-            address: [
-              {
-                type: 1,
-                street: '5 Somewhere Ave.',
-              },
-            ],
-            avatar: {
-              otherKey: 'otherValue',
-              avatar: {
-                contentType: 'image/png',
-                data: Buffer.from('It’s easy if you try'),
-              },
-            } as unknown as Avatar,
-          },
-        ],
-      } as const;
-      const expected = {
-        ...emptyContact,
-        name: {
-          nickname: 'Someone Somewhere',
-        },
-        number: [
-          {
-            type: 1,
-            value: NUMBER,
-          },
-        ],
-        email: [
-          {
-            type: 2,
-            value: 'someone@somewhere.com',
-          },
-        ],
-        address: [
-          {
-            type: 1,
-            street: '5 Somewhere Ave.',
-          },
-        ],
-        avatar: {
-          otherKey: 'otherValue',
-          isProfile: false,
-          avatar: fakeAttachment({
-            contentType: IMAGE_PNG,
-            path: 'abc/abcdefg',
-          }),
-        },
-      };
-
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message
@@ -275,11 +166,6 @@ describe('Contact', () => {
     });
 
     it('removes number element if it ends up with no value', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -314,7 +200,7 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message
@@ -323,11 +209,6 @@ describe('Contact', () => {
     });
 
     it('drops address if it has no real values', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -362,7 +243,7 @@ describe('Contact', () => {
           },
         ],
       };
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message
@@ -371,11 +252,6 @@ describe('Contact', () => {
     });
 
     it('removes invalid elements if no values remain in contact', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         source: NUMBER,
@@ -406,7 +282,7 @@ describe('Contact', () => {
           nickname: 'Someone Somewhere',
         },
       };
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message
@@ -415,11 +291,6 @@ describe('Contact', () => {
     });
 
     it('handles a contact with just organization', async () => {
-      const upgradeAttachment = sinon
-        .stub()
-        .throws(new Error("Shouldn't be called"));
-      const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
-
       const message = {
         ...getDefaultMessageAttrs(),
         contact: [
@@ -435,7 +306,7 @@ describe('Contact', () => {
           },
         ],
       } as const;
-      const result = await upgradeVersion(
+      const result = await parseAndValidate(
         message.contact[0],
         defaultContext,
         message

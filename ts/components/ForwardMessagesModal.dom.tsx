@@ -27,7 +27,6 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
-import { LinkPreviewSourceType } from '../types/LinkPreview.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
@@ -62,9 +61,7 @@ export type DataPropsType = {
   i18n: LocalizerType;
   isInFullScreenCall: boolean;
 
-  linkPreviewForSource: (
-    source: LinkPreviewSourceType
-  ) => LinkPreviewForUIType | void;
+  linkPreview: LinkPreviewForUIType | void;
   onClose: () => void;
   onChange: (
     updatedDrafts: ReadonlyArray<MessageForwardDraft>,
@@ -90,7 +87,7 @@ export function ForwardMessagesModal({
   drafts,
   candidateConversations,
   doForwardMessages,
-  linkPreviewForSource,
+  linkPreview,
   getPreferredBadge,
   i18n,
   isInFullScreenCall,
@@ -117,9 +114,7 @@ export function ForwardMessagesModal({
   const lonelyDraft = isLonelyDraft ? drafts[0] : null;
   const isLonelyDraftEditable =
     lonelyDraft != null && isDraftEditable(lonelyDraft);
-  const lonelyLinkPreview = isLonelyDraft
-    ? linkPreviewForSource(LinkPreviewSourceType.ForwardMessageModal)
-    : null;
+  const lonelyLinkPreview = isLonelyDraft ? linkPreview : null;
 
   const hasSelectedMaximumNumberOfContacts =
     selectedContacts.length >= MAX_FORWARD;

@@ -29,7 +29,6 @@ export type BackupThumbnailType = WithOptionalProperties<ThumbnailType, 'size'>;
 // These fields do not get saved to the DB.
 export type EphemeralAttachmentFields = {
   totalDownloaded?: number;
-  data?: Uint8Array<ArrayBuffer>;
   /**
    * Identifies this attachment's claim on reused paths in
    * attachments_protected_from_deletion; saveMessageAttachments releases the claim when
@@ -41,7 +40,6 @@ export type EphemeralAttachmentFields = {
   /** For messages not already on disk, this will be a data url */
   url?: string;
   incrementalUrl?: string;
-  screenshotData?: Uint8Array<ArrayBuffer>;
   /** @deprecated Legacy field */
   screenshotPath?: string;
 
@@ -55,6 +53,9 @@ export type EphemeralAttachmentFields = {
   iv?: never;
   isReencryptableToSameDigest?: never;
   reencryptionInfo?: never;
+  /** @deprecated Disallowed Uint8Array fields, must never be on AttachmentType */
+  data?: never;
+  screenshotData?: never;
 };
 
 /**
@@ -154,10 +155,6 @@ export type UploadedAttachmentType = Omit<
     plaintextHash: string;
   }>;
 
-export type AttachmentWithHydratedData = AttachmentType & {
-  data: Uint8Array<ArrayBuffer>;
-};
-
 export enum TextAttachmentStyleType {
   DEFAULT = 0,
   REGULAR = 1,
@@ -189,6 +186,8 @@ export type BaseAttachmentDraftType = {
   screenshotContentType?: MIMEType;
   size: number;
   flags?: number;
+  // Used for stories
+  caption?: string;
 };
 
 // An ephemeral attachment type, used between user's request to add the attachment as
@@ -198,6 +197,7 @@ export type InMemoryAttachmentDraftType =
       data: Uint8Array<ArrayBuffer>;
       clientUuid: string;
       pending: false;
+      plaintextHash?: string;
       screenshotData?: Uint8Array<ArrayBuffer>;
       duration?: DurationInSeconds;
       fileName?: string;

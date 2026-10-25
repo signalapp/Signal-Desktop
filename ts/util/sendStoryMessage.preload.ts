@@ -4,6 +4,7 @@
 import { v4 as generateUuid } from 'uuid';
 
 import type { AttachmentType } from '../types/Attachment.std.ts';
+import type { LinkPreviewDraftType } from '../types/LinkPreview.std.ts';
 import type { MessageAttributesType } from '../model-types.std.ts';
 import type {
   SendState,
@@ -28,9 +29,9 @@ import { incrementMessageCounter } from './incrementMessageCounter.preload.ts';
 import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
 import { isNotNil } from './isNotNil.std.ts';
 import { collect } from './iterables.std.ts';
-import { loadPreviewData, upgradeMessageSchema } from './migrations.preload.ts';
+import { upgradeMessageSchema } from './migrations.preload.ts';
 import { DurationInSeconds } from './durations/index.std.ts';
-import { sanitizeLinkPreview } from '../services/LinkPreview.preload.ts';
+import { transferLinkPreviewDraftToDisk } from '../services/LinkPreview.preload.ts';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import { MessageModel } from '../models/messages.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
@@ -41,6 +42,7 @@ export async function sendStoryMessage(
   listIds: Array<string>,
   conversationIds: Array<string>,
   attachment: AttachmentType,
+  linkPreviewDraft: LinkPreviewDraftType | undefined,
   bodyRanges: DraftBodyRanges | undefined
 ): Promise<void> {
   if (getStoriesBlocked()) {
@@ -136,17 +138,43 @@ export async function sendStoryMessage(
       sendStateByListId.set(distributionList.id, sendStateByConversationId);
     });
 
-  const attachments: Array<AttachmentType> = [attachment];
-
-  const linkPreview = attachment?.textAttachment?.preview;
-  const sanitizedLinkPreview = linkPreview
-    ? // oxlint-disable-next-line typescript/no-non-null-assertion
-      sanitizeLinkPreview((await loadPreviewData([linkPreview]))[0]!)
+  const preview = linkPreviewDraft
+    ? await transferLinkPreviewDraftToDisk(linkPreviewDraft)
     : undefined;
+
   // If a text attachment has a link preview we remove it from the
   // textAttachment data structure and instead process the preview and add
   // it as a "preview" property for the message attributes.
-  const preview = sanitizedLinkPreview ? [sanitizedLinkPreview] : undefined;
+
+  let attachments: Array<AttachmentType>;
+  const { textAttachment } = attachment;
+  if (textAttachment) {
+    attachments = [
+      {
+        ...attachment,
+        textAttachment: {
+          ...textAttachment,
+          preview:
+            preview == null
+              ? undefined
+              : {
+                  ...preview,
+                  image:
+                    preview.image == null
+                      ? undefined
+                      : {
+                          ...preview.image,
+
+                          // TODO(indutny): we shouldn't use UI types here
+                          isPermanentlyUndownloadable: false,
+                        },
+                },
+        },
+      },
+    ];
+  } else {
+    attachments = [attachment];
+  }
 
   // * Gather all the job data we'll be sending to the sendStory job
   // * Create the message for each distribution list
@@ -173,7 +201,7 @@ export async function sendStoryMessage(
           expireTimer: DurationInSeconds.DAY,
           expirationStartTimestamp: Date.now(),
           id: generateUuid(),
-          preview,
+          preview: preview == null ? undefined : [preview],
           readStatus: ReadStatus.Read,
           received_at: incrementMessageCounter(),
           received_at_ms: timestamp,
@@ -282,6 +310,7 @@ export async function sendStoryMessage(
 
       const messageAttributes = await upgradeMessageSchema({
         attachments,
+        preview: preview == null ? undefined : [preview],
         bodyRanges,
         canReplyToStory: true,
         conversationId: group.id,
