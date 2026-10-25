@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { NavSidebar, NavSidebarActionButton } from './NavSidebar.dom.tsx';
+import { NavSidebar } from './NavSidebar.dom.tsx';
 import { CallsList } from './CallsList.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type {
@@ -23,6 +23,7 @@ import type { CallStateType } from '../state/selectors/calling.std.ts';
 import type { StartCallData } from './ConfirmLeaveCallModal.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import type { NotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
@@ -227,8 +228,10 @@ export function CallsTab({
             <>
               {sidebarView === CallsTabSidebarView.CallsListView && (
                 <>
-                  <NavSidebarActionButton
-                    icon={<span className="CallsTab__NewCallActionIcon" />}
+                  <AxoIconButton.Root
+                    variant="implied-secondary"
+                    size="sm"
+                    symbol="phone-plus"
                     label={i18n('icu:CallsTab__NewCallActionLabel')}
                     onClick={() => {
                       updateSidebarView(CallsTabSidebarView.NewCallView);
@@ -236,8 +239,10 @@ export function CallsTab({
                   />
                   <AxoDropdownMenu.Root>
                     <AxoDropdownMenu.Trigger>
-                      <NavSidebarActionButton
-                        icon={<span className="CallsTab__MoreActionsIcon" />}
+                      <AxoIconButton.Root
+                        variant="implied-secondary"
+                        size="sm"
+                        symbol="more"
                         label={i18n('icu:CallsTab__MoreActionsLabel')}
                       />
                     </AxoDropdownMenu.Trigger>

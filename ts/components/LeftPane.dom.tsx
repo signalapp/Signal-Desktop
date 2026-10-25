@@ -56,11 +56,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../types/Avatar.std.ts';
 import { useSizeObserver } from '../hooks/useSizeObserver.dom.tsx';
-import {
-  NavSidebar,
-  NavSidebarActionButton,
-  NavSidebarSearchHeader,
-} from './NavSidebar.dom.tsx';
+import { NavSidebar, NavSidebarSearchHeader } from './NavSidebar.dom.tsx';
 import { BackupMediaDownloadProgress } from './BackupMediaDownloadProgress.dom.tsx';
 import type {
   ServerAlertsType,
@@ -71,6 +67,7 @@ import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
 import type { Location } from '../types/Nav.std.ts';
 import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.dom.tsx';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import type { ChatFolder } from '../types/ChatFolder.std.ts';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
@@ -878,16 +875,20 @@ export function LeftPane({
               </AxoDropdownMenu.Content>
             </AxoDropdownMenu.Root>
           )}
-          <NavSidebarActionButton
+          <AxoIconButton.Root
+            variant="implied-secondary"
+            size="sm"
+            symbol="compose"
             label={i18n('icu:newConversation')}
-            icon={<span className="module-left-pane__startComposingIcon" />}
             onClick={startComposing}
           />
           <AxoDropdownMenu.Root>
             <AxoDropdownMenu.Trigger>
-              <NavSidebarActionButton
-                icon={<span className="module-left-pane__moreActionsIcon" />}
-                label="More Actions"
+              <AxoIconButton.Root
+                variant="implied-secondary"
+                size="sm"
+                symbol="more"
+                label={i18n('icu:LeftPane__MoreActionsLabel')}
               />
             </AxoDropdownMenu.Trigger>
             <AxoDropdownMenu.Content>

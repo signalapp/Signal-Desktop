@@ -28,6 +28,7 @@ export default {
     myStories: [],
     onForwardStory: action('onForwardStory'),
     onSaveStory: action('onSaveStory'),
+    preferredLeftPaneWidth: 380,
     preferredWidthFromStorage: 380,
     queueStoryDownload: action('queueStoryDownload'),
     renderToastManager: () => <i />,

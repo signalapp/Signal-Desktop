@@ -7,10 +7,10 @@ import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
+import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
 import type { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
-import { AxoTheme } from './AxoTheme.dom.tsx';
 import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 import {
   createStrictContext,
@@ -196,7 +196,7 @@ export namespace AxoAlertDialog {
 
     return (
       <AlertDialog.Portal>
-        <AxoTheme.Inherit>
+        <AxoBaseLayer>
           <AxoBaseDialog.Host>
             <AlertDialog.Overlay className={AxoBaseDialog.overlayClassName} />
             <AlertDialog.Content
@@ -208,7 +208,7 @@ export namespace AxoAlertDialog {
               {props.children}
             </AlertDialog.Content>
           </AxoBaseDialog.Host>
-        </AxoTheme.Inherit>
+        </AxoBaseLayer>
       </AlertDialog.Portal>
     );
   });

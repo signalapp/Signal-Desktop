@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect, useRef, type JSX } from 'react';
-import classNames from 'classnames';
 import type {
   ConversationType,
   ShowConversationType,
@@ -11,8 +10,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { SearchInput } from './SearchInput.dom.tsx';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
-import { Tooltip, TooltipPlacement } from './Tooltip.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 type BasePropsType = {
   clearConversationSearch: () => void;
@@ -200,26 +198,16 @@ export function LeftPaneSearchInput({
         )}
       </SearchInput>
       {filterButtonEnabled && (
-        <Tooltip
-          direction={TooltipPlacement.Bottom}
-          content={i18n('icu:filterByUnreadButtonLabel')}
-          theme={Theme.Dark}
-          delay={2000}
-          wrapperClassName="LeftPaneSearchInput__FilterButtonWrapper"
-        >
-          <button
-            className={classNames('LeftPaneSearchInput__FilterButton', {
-              'LeftPaneSearchInput__FilterButton--pressed': filterPressed,
-            })}
-            type="button"
-            aria-pressed={filterPressed}
+        <div className="LeftPaneSearchInput__FilterButton">
+          <AxoIconButton.Root
+            variant="implied-secondary"
+            size="sm"
+            symbol="filter"
+            label={i18n('icu:filterByUnreadButtonLabel')}
+            pressed={filterPressed}
             onClick={() => onFilterClick?.(!filterPressed)}
-          >
-            <span className="LeftPaneSearchInput__FilterLabel">
-              {i18n('icu:filterByUnreadButtonLabel')}
-            </span>
-          </button>
-        </Tooltip>
+          />
+        </div>
       )}
     </>
   );

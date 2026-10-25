@@ -1,10 +1,19 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { ContextMenu } from 'radix-ui';
 import type { FC, KeyboardEvent, MouseEvent } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.tsx';
+import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
 import {
@@ -12,7 +21,6 @@ import {
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
 import { AxoDragRegion } from './AxoDragRegion.dom.tsx';
-import { AxoTheme } from './AxoTheme.dom.tsx';
 
 const { useDisableDragRegions } = AxoDragRegion;
 
@@ -287,17 +295,21 @@ export namespace AxoContextMenu {
     const { open } = useStrictContext(RootContext);
     return (
       <ContextMenu.Portal>
-        <AxoTheme.Inherit>
+        <AxoBaseLayer>
           <ContextMenu.Content
             className={AxoBaseMenu.menuContentClassName}
             alignOffset={-6}
             collisionPadding={6}
             onCloseAutoFocus={props.onCloseAutoFocus}
+            onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+            onClick={AxoBaseMenu.menuContentEventStopPropagation}
+            onContextMenu={AxoBaseMenu.menuContentEventStopPropagation}
+            onKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
             inert={!open}
           >
             {props.children}
           </ContextMenu.Content>
-        </AxoTheme.Inherit>
+        </AxoBaseLayer>
       </ContextMenu.Portal>
     );
   });
@@ -315,12 +327,17 @@ export namespace AxoContextMenu {
    * A single selectable item in the context menu.
    */
   export const Item: FC<ItemProps> = memo(props => {
+    const textId = useId();
+    const descriptionId = useId();
+    const hasDescription = props.description != null;
     return (
       <ContextMenu.Item
         disabled={props.disabled}
         textValue={props.textValue}
         onSelect={props.onSelect}
         className={AxoBaseMenu.menuItemClassName}
+        aria-labelledby={hasDescription ? textId : undefined}
+        aria-describedby={hasDescription ? descriptionId : undefined}
       >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
@@ -328,7 +345,17 @@ export namespace AxoContextMenu {
           </AxoBaseMenu.ItemLeadingSlot>
         )}
         <AxoBaseMenu.ItemContentSlot>
-          <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
+          {hasDescription ? (
+            <AxoBaseMenu.ItemTextWithDescription
+              textId={textId}
+              descriptionId={descriptionId}
+              description={props.description}
+            >
+              {props.children}
+            </AxoBaseMenu.ItemTextWithDescription>
+          ) : (
+            <AxoBaseMenu.ItemText>{props.children}</AxoBaseMenu.ItemText>
+          )}
           {props.keyboardShortcut && (
             <AxoBaseMenu.ItemKeyboardShortcut
               keyboardShortcut={props.keyboardShortcut}
@@ -572,13 +599,16 @@ export namespace AxoContextMenu {
   export const SubContent: FC<SubContentProps> = memo(props => {
     return (
       <ContextMenu.Portal>
-        <ContextMenu.SubContent
-          alignOffset={-6}
-          collisionPadding={6}
-          className={AxoBaseMenu.menuSubContentClassName}
-        >
-          {props.children}
-        </ContextMenu.SubContent>
+        <AxoBaseLayer>
+          <ContextMenu.SubContent
+            alignOffset={-6}
+            collisionPadding={6}
+            className={AxoBaseMenu.menuSubContentClassName}
+            onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+          >
+            {props.children}
+          </ContextMenu.SubContent>
+        </AxoBaseLayer>
       </ContextMenu.Portal>
     );
   });

@@ -9,18 +9,17 @@ import {
   StoryViewModeType,
 } from '../types/Stories.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { ThemeType } from '../types/Util.std.ts';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryDistributionListName } from './StoryDistributionListName.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
 import { resolveStorySendStatus } from '../util/resolveStorySendStatus.std.ts';
 import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.tsx';
 import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 
 export type PropsType = {
@@ -45,7 +44,6 @@ export type PropsType = {
     containerWidthBreakpoint: WidthBreakpoint;
   }) => JSX.Element;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
-  theme: ThemeType;
 };
 
 export function MyStories({
@@ -68,7 +66,6 @@ export function MyStories({
   preferredLeftPaneWidth,
   renderToastManager,
   savePreferredLeftPaneWidth,
-  theme,
 }: PropsType): JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
@@ -133,7 +130,6 @@ export function MyStories({
                   retryMessageSend={retryMessageSend}
                   setConfirmDeleteStory={setConfirmDeleteStory}
                   story={story}
-                  theme={theme}
                   viewStory={viewStory}
                 />
               ))}
@@ -160,7 +156,6 @@ type StorySentPropsType = Pick<
   | 'retryMessageSend'
   | 'viewStory'
   | 'onMediaPlaybackStart'
-  | 'theme'
 > & {
   setConfirmDeleteStory: (_: StoryViewType | undefined) => unknown;
   story: StoryViewType;
@@ -176,7 +171,6 @@ function StorySent({
   retryMessageSend,
   setConfirmDeleteStory,
   story,
-  theme,
   viewStory,
 }: StorySentPropsType): JSX.Element {
   const sendStatus = resolveStorySendStatus(story.sendState ?? []);
@@ -275,38 +269,44 @@ function StorySent({
           type="button"
         />
       )}
-      <ContextMenu
-        i18n={i18n}
-        menuOptions={[
-          {
-            iconClassName: 'MyStories__icon--forward',
-            label: i18n('icu:forward'),
-            onClick: () => {
-              onForward(story.messageId);
-            },
-          },
-          {
-            iconClassName: 'StoryListItem__icon--info',
-            label: i18n('icu:StoryListItem__info'),
-            onClick: () => {
-              viewStory({
-                storyId: story.messageId,
-                storyViewMode: StoryViewModeType.MyStories,
-                viewTarget: StoryViewTargetType.Details,
-              });
-            },
-          },
-          {
-            iconClassName: 'MyStories__icon--delete',
-            label: i18n('icu:delete'),
-            onClick: () => {
-              setConfirmDeleteStory(story);
-            },
-          },
-        ]}
-        className="MyStories__story__more"
-        theme={theme === ThemeType.dark ? Theme.Dark : Theme.Light}
-      />
+      <div className="MyStories__story__more">
+        <AxoDropdownMenu.Root>
+          <AxoDropdownMenu.Trigger>
+            <AxoIconButton.Root
+              variant="strong-secondary"
+              size="sm"
+              symbol="more"
+              label={i18n('icu:MyStories__more')}
+            />
+          </AxoDropdownMenu.Trigger>
+          <AxoDropdownMenu.Content>
+            <AxoDropdownMenu.Item
+              symbol="forward"
+              onSelect={() => onForward(story.messageId)}
+            >
+              {i18n('icu:forward')}
+            </AxoDropdownMenu.Item>
+            <AxoDropdownMenu.Item
+              symbol="info"
+              onSelect={() => {
+                viewStory({
+                  storyId: story.messageId,
+                  storyViewMode: StoryViewModeType.MyStories,
+                  viewTarget: StoryViewTargetType.Details,
+                });
+              }}
+            >
+              {i18n('icu:StoryListItem__info')}
+            </AxoDropdownMenu.Item>
+            <AxoDropdownMenu.Item
+              symbol="trash"
+              onSelect={() => setConfirmDeleteStory(story)}
+            >
+              {i18n('icu:delete')}
+            </AxoDropdownMenu.Item>
+          </AxoDropdownMenu.Content>
+        </AxoDropdownMenu.Root>
+      </div>
     </div>
   );
 }

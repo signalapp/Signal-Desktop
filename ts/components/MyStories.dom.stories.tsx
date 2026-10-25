@@ -11,7 +11,6 @@ import { MyStories } from './MyStories.dom.tsx';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
 import { getFakeMyStory } from '../test-helpers/getFakeStory.dom.tsx';
-import { sleep } from '../util/sleep.std.ts';
 
 const { i18n } = window.SignalContext;
 
@@ -54,18 +53,20 @@ const interactionTest: StoryFn<PropsType>['play'] = async ({
   await userEvent.click(btnDownload!);
   await expect(args.onSave).toHaveBeenCalled();
 
-  const btnBack = canvas.getByText('Back');
+  const btnBack = canvas.getByRole('button', { name: 'Back' });
   await userEvent.click(btnBack);
   await expect(args.onBack).toHaveBeenCalled();
 
-  const [btnCtxMenu] = canvas.getAllByLabelText('Context menu');
+  const [btnMoreOptions] = canvas.getAllByRole('button', {
+    name: 'More options',
+  });
+  // oxlint-disable-next-line typescript/no-non-null-assertion
+  await userEvent.click(btnMoreOptions!);
 
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  await userEvent.click(btnCtxMenu!);
-  await sleep(300);
-  const [btnFwd] = canvas.getAllByLabelText('Forward');
-  // oxlint-disable-next-line typescript/no-non-null-assertion
-  await userEvent.click(btnFwd!);
+  // Menu content is rendered in a portal outside of the canvas
+  const body = within(document.body);
+  const btnFwd = await body.findByRole('menuitem', { name: 'Forward' });
+  await userEvent.click(btnFwd);
   await expect(args.onForward).toHaveBeenCalled();
 };
 

@@ -14,7 +14,6 @@ import { tinykeys } from 'tinykeys';
 import classNames from 'classnames';
 import type { DraftBodyRanges } from '../types/BodyRange.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ContextMenuOptionType } from './ContextMenu.dom.tsx';
 import type {
   ConversationType,
   SaveAttachmentActionCreatorType,
@@ -27,7 +26,6 @@ import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.
 import { createLogger } from '../logging/log.std.ts';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
@@ -42,7 +40,6 @@ import {
   StoryViewTargetType,
 } from '../types/Stories.std.ts';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.tsx';
-import { Theme } from '../util/theme.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { getAvatarColor } from '../types/Avatar.std.ts';
 import { getStoryBackground } from '../util/getStoryBackground.std.ts';
@@ -61,6 +58,9 @@ import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
+import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
 const log = createLogger('StoryViewer');
 
@@ -507,54 +507,58 @@ export function StoryViewer({
 
   const isSent = Boolean(sendState);
 
-  let contextMenuOptions:
-    | ReadonlyArray<ContextMenuOptionType<unknown>>
-    | undefined;
+  let contextMenuItems: JSX.Element | undefined;
 
   if (isSent) {
     // TODO: DESKTOP-9943
-    contextMenuOptions = [
-      {
-        iconClassName: 'StoryListItem__icon--info',
-        label: i18n('icu:StoryListItem__info'),
-        onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
-      },
-      {
-        iconClassName: 'StoryListItem__icon--delete',
-        label: i18n('icu:StoryListItem__delete'),
-        onClick: () => setConfirmDeleteStory(story),
-      },
-    ];
+    contextMenuItems = (
+      <>
+        <AxoDropdownMenu.Item
+          symbol="info"
+          onSelect={() => setCurrentViewTarget(StoryViewTargetType.Details)}
+        >
+          {i18n('icu:StoryListItem__info')}
+        </AxoDropdownMenu.Item>
+        <AxoDropdownMenu.Item
+          symbol="trash"
+          onSelect={() => setConfirmDeleteStory(story)}
+        >
+          {i18n('icu:StoryListItem__delete')}
+        </AxoDropdownMenu.Item>
+      </>
+    );
   } else if (!isSignalConversation) {
-    contextMenuOptions = [
-      {
-        iconClassName: 'StoryListItem__icon--info',
-        label: i18n('icu:StoryListItem__info'),
-        onClick: () => setCurrentViewTarget(StoryViewTargetType.Details),
-      },
-      {
-        iconClassName: isHidden
-          ? 'StoryListItem__icon--unhide'
-          : 'StoryListItem__icon--hide',
-        label: isHidden
-          ? i18n('icu:StoryListItem__unhide')
-          : i18n('icu:StoryListItem__hide'),
-        onClick: () => {
-          if (isHidden) {
-            onHideStory(conversationId);
-          } else {
-            setHasConfirmHideStory(true);
-          }
-        },
-      },
-      {
-        iconClassName: 'StoryListItem__icon--chat',
-        label: i18n('icu:StoryListItem__go-to-chat'),
-        onClick: () => {
-          onGoToConversation(conversationId);
-        },
-      },
-    ];
+    contextMenuItems = (
+      <>
+        <AxoDropdownMenu.Item
+          symbol="info"
+          onSelect={() => setCurrentViewTarget(StoryViewTargetType.Details)}
+        >
+          {i18n('icu:StoryListItem__info')}
+        </AxoDropdownMenu.Item>
+        {isHidden ? (
+          <AxoDropdownMenu.Item
+            symbol="check-circle"
+            onSelect={() => onHideStory(conversationId)}
+          >
+            {i18n('icu:StoryListItem__unhide')}
+          </AxoDropdownMenu.Item>
+        ) : (
+          <AxoDropdownMenu.Item
+            symbol="x-circle"
+            onSelect={() => setHasConfirmHideStory(true)}
+          >
+            {i18n('icu:StoryListItem__hide')}
+          </AxoDropdownMenu.Item>
+        )}
+        <AxoDropdownMenu.Item
+          symbol="open"
+          onSelect={() => onGoToConversation(conversationId)}
+        >
+          {i18n('icu:StoryListItem__go-to-chat')}
+        </AxoDropdownMenu.Item>
+      </>
+    );
   }
 
   function doRetryMessageSend() {
@@ -819,15 +823,25 @@ export function StoryViewer({
                   }
                   type="button"
                 />
-                {contextMenuOptions && (
-                  <ContextMenu
-                    aria-label={i18n('icu:MyStories__more')}
-                    i18n={i18n}
-                    menuOptions={contextMenuOptions}
-                    className="StoryViewer__more"
-                    onMenuShowingChanged={setIsShowingContextMenu}
-                    theme={Theme.Dark}
-                  />
+                {contextMenuItems && (
+                  <AxoTheme.Override theme="force-dark">
+                    <AxoDropdownMenu.Root
+                      open={isShowingContextMenu}
+                      onOpenChange={setIsShowingContextMenu}
+                    >
+                      <AxoDropdownMenu.Trigger>
+                        <AxoIconButton.Root
+                          variant="implied-secondary"
+                          size="sm"
+                          symbol="more"
+                          label={i18n('icu:MyStories__more')}
+                        />
+                      </AxoDropdownMenu.Trigger>
+                      <AxoDropdownMenu.Content>
+                        {contextMenuItems}
+                      </AxoDropdownMenu.Content>
+                    </AxoDropdownMenu.Root>
+                  </AxoTheme.Override>
                 )}
               </div>
             </div>

@@ -38,8 +38,7 @@
         background: variables.$color-gray-65;
       }
 
-      & .MyStories__story__download,
-      .MyStories__story__more .ContextMenu__button {
+      & .MyStories__story__download {
         @include mixins.light-theme() {
           background: variables.$color-gray-20;
         }
@@ -148,84 +147,24 @@
       }
     }
 
-    &__more .ContextMenu__button {
-      align-items: center;
-      border-radius: 100%;
-      display: flex;
-      height: 28px;
-      justify-content: center;
+    &__more {
       margin-inline-start: 16px;
-      width: 28px;
-      @include mixins.light-theme {
-        background: variables.$color-gray-15;
-      }
-      @include mixins.dark-theme {
-        background: variables.$color-gray-65;
-      }
-
-      &::after {
-        content: '';
-        height: 18px;
-        width: 18px;
-        @include mixins.light-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/more/more-compact.svg',
-            variables.$color-black
-          );
-        }
-        @include mixins.dark-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/more/more-compact.svg',
-            variables.$color-gray-15
-          );
-        }
-      }
-
-      &:hover {
-        @include mixins.light-theme() {
-          background: variables.$color-white !important;
-        }
-        @include mixins.dark-theme() {
-          background: variables.$color-gray-75 !important;
-        }
-      }
-    }
-  }
-
-  &__icon {
-    &--forward {
-      @include mixins.light-theme() {
-        @include mixins.color-svg(
-          '../images/icons/v3/forward/forward-compact.svg',
-          variables.$color-black
-        );
-      }
-      @include mixins.dark-theme() {
-        @include mixins.color-svg(
-          '../images/icons/v3/forward/forward-compact.svg',
-          variables.$color-white
-        );
-      }
-    }
-
-    &--delete {
-      @include mixins.light-theme() {
-        @include mixins.color-svg(
-          '../images/icons/v3/trash/trash-compact.svg',
-          variables.$color-black
-        );
-      }
-      @include mixins.dark-theme() {
-        @include mixins.color-svg(
-          '../images/icons/v3/trash/trash-compact.svg',
-          variables.$color-white
-        );
-      }
     }
   }
 
   &__avatar-container {
     position: relative;
+  }
+
+  &__avatar-button {
+    @include mixins.button-reset;
+    & {
+      display: flex;
+    }
+
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
   }
 
   &__avatar__add-story {

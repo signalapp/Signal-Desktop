@@ -1,137 +1,14 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-@use '../mixins';
-@use '../variables';
-
 .ContactListItem {
   &__context-menu {
-    &__chat-icon {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/chat/chat-compact.svg',
-          variables.$color-white
-        );
-      }
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/chat/chat-compact.svg',
-          variables.$color-black
-        );
-      }
-    }
+    opacity: 0;
 
-    &__phone-icon {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/phone/phone-compact.svg',
-          variables.$color-white
-        );
-      }
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/phone/phone-compact.svg',
-          variables.$color-black
-        );
-      }
-    }
-
-    &__video-icon {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/video/video-compact.svg',
-          variables.$color-white
-        );
-      }
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/video/video-compact.svg',
-          variables.$color-black
-        );
-      }
-    }
-
-    &__delete-icon {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/minus/minus-circle-compact.svg',
-          variables.$color-white
-        );
-      }
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/minus/minus-circle-compact.svg',
-          variables.$color-black
-        );
-      }
-    }
-
-    &__block-icon {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/block/block-compact.svg',
-          variables.$color-white
-        );
-      }
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/block/block-compact.svg',
-          variables.$color-black
-        );
-      }
-    }
-
-    // Overrides
-    &__popper.ContextMenu__popper {
-      min-width: 240px;
-    }
-
-    .ContextMenu__button {
-      opacity: 0;
-
-      .ContactListItem:hover &,
-      .ContactListItem:focus-within & {
-        opacity: 1;
-      }
-
-      &:hover {
-        @include mixins.light-theme {
-          background-color: variables.$color-gray-20;
-        }
-
-        @include mixins.dark-theme {
-          background-color: variables.$color-gray-80;
-        }
-      }
-
-      &:focus-visible {
-        @include mixins.axo-focus-ring;
-      }
-
-      width: 28px;
-      height: 28px;
-      padding: 4px;
-      border-radius: 4px;
-
-      &::after {
-        display: block;
-        width: 20px;
-        height: 20px;
-        content: '';
-
-        @include mixins.dark-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/more/more.svg',
-            variables.$color-white
-          );
-        }
-        @include mixins.light-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/more/more.svg',
-            variables.$color-black
-          );
-        }
-      }
+    .ContactListItem:hover &,
+    .ContactListItem:focus-within &,
+    &:has([data-axo-dropdownmenu-state='open']) {
+      opacity: 1;
     }
   }
 }

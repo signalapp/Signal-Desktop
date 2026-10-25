@@ -15,49 +15,20 @@
     justify-content: flex-end;
   }
 
-  &__debugger.ContextMenu__container {
-    justify-content: flex-start;
-  }
+  &__debugger {
+    @include mixins.button-reset;
+    & {
+      color: variables.$color-gray-25;
+      display: block;
+      font-weight: 600;
+    }
 
-  &__debugger .ContextMenu__button {
-    color: variables.$color-gray-25;
-    display: block;
-    font-weight: 600;
-    height: auto;
-    width: auto;
+    &:focus-visible {
+      @include mixins.axo-focus-ring;
+    }
 
     .StoryDetailsModal__debugger__button__text {
       font-weight: normal;
-    }
-  }
-
-  &__copy-icon {
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/copy/copy.svg',
-        variables.$color-white
-      );
-    }
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/copy/copy.svg',
-        variables.$color-black
-      );
-    }
-  }
-
-  &__download-icon {
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/save/save.svg',
-        variables.$color-white
-      );
-    }
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/save/save.svg',
-        variables.$color-black
-      );
     }
   }
 

@@ -1,9 +1,10 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode, JSX } from 'react';
+import type { ReactNode, JSX, SyntheticEvent } from 'react';
 import { tw } from '../tw.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
+import { assert } from './assert.std.tsx';
 
 // In the future we should be relying more on insert order of
 // dialogs/popovers/menus into portals
@@ -168,6 +169,45 @@ export namespace AxoBaseMenu {
   }
 
   /**
+   * <AxoBaseMenu.ItemTextWithDescription>
+   * --------------------------------------------------------------------------
+   */
+
+  const itemDescriptionClassName = tw(
+    'text-start type-body-small whitespace-normal text-secondary',
+    'forced-color-adjust-none forced-colors:text-inherit'
+  );
+
+  export type ItemTextWithDescriptionProps = Readonly<{
+    textId: string;
+    descriptionId: string;
+    description: ReactNode;
+    children: ReactNode;
+  }>;
+
+  /**
+   * Truncated label text with a wrapping description below it.
+   *
+   * The item should set `aria-labelledby={textId}` and
+   * `aria-describedby={descriptionId}`, otherwise the description gets merged
+   * into the item's accessible name.
+   */
+  export function ItemTextWithDescription(
+    props: ItemTextWithDescriptionProps
+  ): JSX.Element {
+    return (
+      <span className={tw('flex min-w-0 flex-auto flex-col')}>
+        <span id={props.textId} className={itemTextClassName}>
+          {props.children}
+        </span>
+        <span id={props.descriptionId} className={itemDescriptionClassName}>
+          {props.description}
+        </span>
+      </span>
+    );
+  }
+
+  /**
    * <AxoBaseMenu.ItemCheckPlaceholder>
    * --------------------------------------------------------------------------
    */
@@ -300,6 +340,16 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
+  export function menuContentEventStopPropagation(
+    event: SyntheticEvent | Event
+  ): void {
+    assert(
+      event.type !== 'pointerdown',
+      'Radix needs pointerdown to reach the document to detect clicks outside of the menu'
+    );
+    event.stopPropagation();
+  }
+
   export const menuContentClassName = tw(
     baseContentClassName,
     baseContentGridClassName,
@@ -323,6 +373,11 @@ export namespace AxoBaseMenu {
        * prevent the context menu from closing when selecting that item.
        */
       onSelect: (event: Event) => void;
+      /**
+       * Secondary text displayed below the label.
+       * Exposed as the item's accessible description rather than its name.
+       */
+      description?: ReactNode;
       children: ReactNode;
     }>;
 

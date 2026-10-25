@@ -18,6 +18,7 @@ import {
 } from '../../util/uuidFetchState.std.ts';
 import type { GroupListItemConversationType } from '../conversationList/GroupListItem.dom.tsx';
 import { isProbablyAUsername } from '../../util/Username.dom.ts';
+import { NavSidebarBackButton } from '../NavSidebar.dom.tsx';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemConversationType>;
@@ -85,13 +86,12 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }>): ReactNode {
     return (
       <div className="module-left-pane__header__contents">
-        <button
-          onClick={this.getBackAction({ showInbox })}
-          className="module-left-pane__header__contents__back-button"
-          title={i18n('icu:backToInbox')}
-          aria-label={i18n('icu:backToInbox')}
-          type="button"
-        />
+        <div className="module-left-pane__header__contents__back-button">
+          <NavSidebarBackButton
+            label={i18n('icu:backToInbox')}
+            onClick={this.getBackAction({ showInbox })}
+          />
+        </div>
         <div className="module-left-pane__header__contents__text">
           {i18n('icu:newConversation')}
         </div>

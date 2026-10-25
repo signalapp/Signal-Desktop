@@ -198,6 +198,25 @@
     margin-inline: 16px;
     min-width: 418px;
 
+    // Must come before `&__tool` so `button-reset` doesn't override its margin
+    &__menu-button {
+      @include mixins.button-reset;
+
+      & {
+        display: flex;
+        border-radius: 4px;
+      }
+
+      &:focus-visible {
+        @include mixins.axo-focus-ring;
+      }
+    }
+
+    // Separate from the button so the icon's mask doesn't clip the focus ring
+    &__menu-button-icon {
+      display: block;
+    }
+
     &__tool {
       margin-inline-start: 14px;
     }
@@ -220,31 +239,31 @@
         }
       }
 
-      &--draw-pen .ContextMenu__button {
+      &--draw-pen {
         @include icon('v3/brush/brush-pen-compact.svg');
       }
-      &--draw-highlighter .ContextMenu__button {
+      &--draw-highlighter {
         @include icon('v3/brush/brush-highlighter-compact.svg');
       }
-      &--width-thin .ContextMenu__button {
+      &--width-thin {
         @include icon('v3/brush_size/brush_size-thin-compact.svg');
       }
-      &--width-regular .ContextMenu__button {
+      &--width-regular {
         @include icon('v3/brush_size/brush_size-regular-compact.svg');
       }
-      &--width-medium .ContextMenu__button {
+      &--width-medium {
         @include icon('v3/brush_size/brush_size-medium-compact.svg');
       }
-      &--width-heavy .ContextMenu__button {
+      &--width-heavy {
         @include icon('v3/brush_size/brush_size-heavy-compact.svg');
       }
-      &--text-regular .ContextMenu__button {
+      &--text-regular {
         @include icon('v3/text/text-square-compact.svg');
       }
-      &--text-highlight .ContextMenu__button {
+      &--text-highlight {
         @include icon('v3/text/text-square-fill-compact.svg');
       }
-      &--text-outline .ContextMenu__button {
+      &--text-outline {
         @include icon('v3/text/text-outline-compact.svg');
       }
       &--rotate {
@@ -259,71 +278,6 @@
       &--crop-unlocked {
         @include icon('v3/crop/crop-unlock.svg');
       }
-    }
-  }
-
-  &__icon {
-    &--draw-pen {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush/brush-pen-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--draw-highlighter {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush/brush-highlighter-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--text-regular {
-      @include mixins.color-svg(
-        '../images/icons/v3/text/text-square-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--text-highlight {
-      @include mixins.color-svg(
-        '../images/icons/v3/text/text-square-fill-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--text-outline {
-      @include mixins.color-svg(
-        '../images/icons/v3/text/text-outline-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--width-thin {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush_size/brush_size-thin-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--width-regular {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush_size/brush_size-regular-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--width-medium {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush_size/brush_size-medium-compact.svg',
-        variables.$color-white
-      );
-    }
-
-    &--width-heavy {
-      @include mixins.color-svg(
-        '../images/icons/v3/brush_size/brush_size-heavy-compact.svg',
-        variables.$color-white
-      );
     }
   }
 

@@ -150,6 +150,43 @@ export function WithHeader(): JSX.Element {
   );
 }
 
+export function WithItemDescriptions(): JSX.Element {
+  return (
+    <Container>
+      <AxoDropdownMenu.Root>
+        <AxoDropdownMenu.Trigger>
+          <AxoButton.Root variant="strong-secondary" size="md">
+            Open Dropdown Menu
+          </AxoButton.Root>
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Item
+            symbol="stories"
+            description="Visible only to specific people"
+            onSelect={action('onCustomStory')}
+          >
+            Custom story
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item
+            symbol="group"
+            description="Share to an existing group"
+            onSelect={action('onGroupStory')}
+          >
+            Group story
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item
+            symbol="info"
+            description={LONG_TEXT}
+            onSelect={action('onLongDescription')}
+          >
+            Long description
+          </AxoDropdownMenu.Item>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </Container>
+  );
+}
+
 const LONG_TEXT =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nostrum, inventore quia tenetur sunt non ab fuga explicabo ullam tempore.';
 

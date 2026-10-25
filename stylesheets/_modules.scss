@@ -4664,84 +4664,8 @@ button.module-calling-participants-list__contact {
     padding-block: 15px;
 
     &__back-button {
-      @include mixins.button-reset;
-
-      & {
-        margin-inline-start: 16px;
-
-        width: 20px;
-        height: 20px;
-      }
-
-      &:disabled {
-        cursor: not-allowed;
-      }
-
-      @include mixins.light-theme {
-        &:dir(ltr) {
-          @include mixins.color-svg(
-            '../images/icons/v3/chevron/chevron-left.svg',
-            variables.$color-gray-60
-          );
-        }
-        &:dir(rtl) {
-          @include mixins.color-svg(
-            '../images/icons/v3/chevron/chevron-right.svg',
-            variables.$color-gray-60
-          );
-        }
-      }
-      @include mixins.light-theme {
-        &:dir(ltr) {
-          &:focus-visible {
-            @include mixins.color-svg(
-              '../images/icons/v3/chevron/chevron-left.svg',
-              variables.$color-ultramarine
-            );
-          }
-        }
-        &:dir(rtl) {
-          &:focus {
-            @include mixins.color-svg(
-              '../images/icons/v3/chevron/chevron-right.svg',
-              variables.$color-ultramarine
-            );
-          }
-        }
-      }
-
-      @include mixins.dark-theme {
-        &:dir(ltr) {
-          @include mixins.color-svg(
-            '../images/icons/v3/chevron/chevron-left.svg',
-            variables.$color-gray-25
-          );
-        }
-        &:dir(rtl) {
-          @include mixins.color-svg(
-            '../images/icons/v3/chevron/chevron-right.svg',
-            variables.$color-gray-25
-          );
-        }
-      }
-      @include mixins.dark-theme {
-        &:dir(ltr) {
-          &:focus-visible {
-            @include mixins.color-svg(
-              '../images/icons/v3/chevron/chevron-left.svg',
-              variables.$color-ultramarine-light
-            );
-          }
-        }
-        &:dir(rtl) {
-          &:focus-visible {
-            @include mixins.color-svg(
-              '../images/icons/v3/chevron/chevron-right.svg',
-              variables.$color-ultramarine-light
-            );
-          }
-        }
-      }
+      margin-block: -4px;
+      margin-inline-start: 12px;
 
       .NavSidebar--narrow & {
         margin-inline-start: 0;
@@ -4751,7 +4675,7 @@ button.module-calling-participants-list__contact {
     &__text {
       @include mixins.font-body-1-bold;
       flex-grow: 1;
-      padding-inline-end: 36px;
+      padding-inline-end: 40px;
       text-align: center;
 
       @include mixins.light-theme {
@@ -4788,42 +4712,6 @@ button.module-calling-participants-list__contact {
         margin-inline-end: 12px;
       }
     }
-  }
-}
-
-.module-left-pane__startComposingIcon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/compose/compose.svg',
-      variables.$color-gray-75
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/compose/compose.svg',
-      variables.$color-gray-15
-    );
-  }
-}
-
-.module-left-pane__moreActionsIcon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/more/more.svg',
-      variables.$color-black
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/more/more.svg',
-      variables.$color-gray-15
-    );
   }
 }
 

@@ -6,20 +6,20 @@ import { useState, useCallback } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import { ContextMenu } from './ContextMenu.dom.tsx';
 import { ToastType } from '../types/Toast.dom.tsx';
 import {
   isVideoGoodForStories,
   ReasonVideoNotGood,
 } from '../util/isVideoGoodForStories.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {
+  /** The trigger button, defaults to a "plus" icon button */
   children?: ReactNode;
   i18n: LocalizerType;
   maxAttachmentVideoSize: number;
-  /** @deprecated */
-  className?: string;
   onAddStory: (file?: File) => unknown;
   onContextMenuShowingChanged?: (value: boolean) => void;
   showToast: ShowToastAction;
@@ -29,7 +29,6 @@ export function StoriesAddStoryButton({
   children,
   i18n,
   maxAttachmentVideoSize,
-  className,
   onAddStory,
   showToast,
   onContextMenuShowingChanged,
@@ -90,28 +89,26 @@ export function StoriesAddStoryButton({
 
   return (
     <>
-      <ContextMenu
-        ariaLabel={i18n('icu:Stories__add')}
-        i18n={i18n}
-        onMenuShowingChanged={onContextMenuShowingChanged}
-        menuOptions={[
-          {
-            label: i18n('icu:Stories__add-story--media'),
-            onClick: onAddMedia,
-          },
-          {
-            label: i18n('icu:Stories__add-story--text'),
-            onClick: () => onAddStory(),
-          },
-        ]}
-        className={className}
-        popperOptions={{
-          placement: 'bottom',
-          strategy: 'absolute',
-        }}
-      >
-        {children}
-      </ContextMenu>
+      <AxoDropdownMenu.Root onOpenChange={onContextMenuShowingChanged}>
+        <AxoDropdownMenu.Trigger>
+          {children ?? (
+            <AxoIconButton.Root
+              variant="implied-secondary"
+              size="sm"
+              symbol="plus"
+              label={i18n('icu:Stories__add')}
+            />
+          )}
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Item onSelect={onAddMedia}>
+            {i18n('icu:Stories__add-story--media')}
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item onSelect={() => onAddStory()}>
+            {i18n('icu:Stories__add-story--text')}
+          </AxoDropdownMenu.Item>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
       <AxoConfirmDialog.Root
         open={error != null}
         onOpenChange={() => setError(undefined)}
