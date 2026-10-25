@@ -146,11 +146,9 @@ describe('groups/terminate', function (this: Mocha.Suite) {
     debug('waiting for PNI invitation modal');
 
     {
-      const modal = window.locator(
-        '.module-GroupDialog:has-text("Invitation sent")'
-      );
+      const modal = window.getByRole('dialog', { name: 'Invitation sent' });
 
-      await modal.locator('button >> "OK"').click();
+      await modal.getByRole('button', { name: 'OK' }).click();
     }
 
     debug('waiting for group data from storage service');
