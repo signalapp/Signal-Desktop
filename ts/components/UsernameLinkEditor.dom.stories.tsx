@@ -14,7 +14,6 @@ import {
   PRINT_WIDTH,
   PRINT_HEIGHT,
 } from './UsernameLinkEditor.dom.tsx';
-import { Modal } from './Modal.dom.tsx';
 
 const ColorEnum = Proto.AccountRecord.UsernameLink.Color;
 
@@ -23,6 +22,9 @@ const { i18n } = window.SignalContext;
 export default {
   component: UsernameLinkEditor,
   title: 'Components/UsernameLinkEditor',
+  parameters: {
+    layout: 'fullscreen',
+  },
   argTypes: {
     link: {
       control: { type: 'text' },
@@ -93,9 +95,7 @@ const Template: StoryFn<PropsType> = args => {
 
   return (
     <>
-      <Modal modalName="story" i18n={i18n} hasXButton>
-        <UsernameLinkEditor {...args} saveAttachment={saveAttachment} />
-      </Modal>
+      <UsernameLinkEditor {...args} saveAttachment={saveAttachment} />
       {attachment && (
         <img
           src={attachment}
