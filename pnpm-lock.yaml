@@ -266,8 +266,8 @@ importers:
         specifier: 2.0.21
         version: 2.0.21
       '@signalapp/libsignal-client':
-        specifier: 0.105.1
-        version: 0.105.1
+        specifier: 0.105.4
+        version: 0.105.4
       '@signalapp/mute-state-change':
         specifier: workspace:*
         version: link:packages/mute-state-change
@@ -948,8 +948,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       '@signalapp/libsignal-client':
-        specifier: 0.105.1
-        version: 0.105.1
+        specifier: 0.105.4
+        version: 0.105.4
       '@signalapp/types':
         specifier: 0.3.0
         version: link:../types
@@ -4778,8 +4778,8 @@ packages:
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==, tarball: https://registry.npmjs.org/@sideway/pinpoint/-/pinpoint-2.0.0.tgz}
 
-  '@signalapp/libsignal-client@0.105.1':
-    resolution: {integrity: sha512-EQRQp76gXce7RNCz1emRlDAGlKmuSWfHYhyEz9buR9FHGIvXEdhL4PH2lt+nT5FYzGEFvfu/P4X0dhtrDhkb6g==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.105.1.tgz}
+  '@signalapp/libsignal-client@0.105.4':
+    resolution: {integrity: sha512-gnnke/ctqBjNHBCnnNxD7A8wEbqnH2d5VNXRQ4/Pbup8+sad6phkwz3xTfUdsh/MLYi6EiI2PnkzGHff4tECsg==, tarball: https://registry.npmjs.org/@signalapp/libsignal-client/-/libsignal-client-0.105.4.tgz}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==, tarball: https://registry.npmjs.org/@signalapp/minimask/-/minimask-1.0.1.tgz}
@@ -15787,7 +15787,7 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
-  '@signalapp/libsignal-client@0.105.1':
+  '@signalapp/libsignal-client@0.105.4':
     dependencies:
       '@signalapp/types': link:packages/types
       node-gyp-build: 4.8.4
