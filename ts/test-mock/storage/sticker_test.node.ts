@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { expect } from 'playwright/test';
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 import * as durations from '../../util/durations/index.std.ts';
@@ -293,6 +294,12 @@ describe('stickers', function (this: Mocha.Suite) {
       },
       timestamp: firstTimestamp,
     });
+
+    debug('waiting for first sticker to be saved');
+    await expect(async () => {
+      const [message] = await app.getMessagesInDBBySentAt(firstTimestamp);
+      strictAssert(message?.sticker?.data?.path, 'first sticker saved');
+    }).toPass({ timeout: 2 * durations.SECOND });
 
     await sendTextMessage({
       from: firstContact,

@@ -39,6 +39,9 @@ export type CIType = {
   getMessagesBySentAt: (
     sentAt: number
   ) => Promise<ReadonlyArray<MessageAttributesType>>;
+  getMessagesInDBBySentAt: (
+    sentAt: number
+  ) => Promise<ReadonlyArray<MessageAttributesType>>;
   getPendingEventCount: (event: string) => number;
   getSocketStatus: () => SocketStatuses;
   handleEvent: (event: string, data: unknown) => unknown;
@@ -174,13 +177,17 @@ export function getCI({
   }
 
   async function getMessagesBySentAt(sentAt: number) {
-    const messages = await ipcInvoke<ReadonlyArray<MessageAttributesType>>(
+    const messages = await getMessagesInDBBySentAt(sentAt);
+    return messages.map(
+      m => window.MessageCache.register(new MessageModel(m)).attributes
+    );
+  }
+
+  async function getMessagesInDBBySentAt(sentAt: number) {
+    return ipcInvoke<ReadonlyArray<MessageAttributesType>>(
       AccessType.Read,
       'getMessagesBySentAt',
       [sentAt]
-    );
-    return messages.map(
-      m => window.MessageCache.register(new MessageModel(m)).attributes
     );
   }
 
@@ -346,6 +353,7 @@ export function getCI({
     getConversationId,
     createNotificationToken,
     getMessagesBySentAt,
+    getMessagesInDBBySentAt,
     getSocketStatus,
     handleEvent,
     setProvisioningURL,
