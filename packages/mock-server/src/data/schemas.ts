@@ -111,7 +111,7 @@ export const AccountAttributesSchema = z.object({
   pniRegistrationId: RegistrationIdSchema.optional(),
   name: z.string().optional().nullable(),
   capabilities: z.object({
-    attachmentBackfill: z.boolean(),
+    attachmentBackfill: z.boolean().optional(),
     spqr: z.boolean(),
     usernameChangeSyncMessage: z.boolean(),
     // TODO(indutny): read it
@@ -134,7 +134,7 @@ export const RegisterAccountSchema = z.object({
     pniRegistrationId: RegistrationIdSchema.optional(),
     name: z.string().optional(),
     capabilities: z.object({
-      attachmentBackfill: z.boolean(),
+      attachmentBackfill: z.boolean().optional(),
       spqr: z.boolean(),
       usernameChangeSyncMessage: z.boolean(),
       // TODO(indutny): read it

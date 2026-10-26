@@ -9,7 +9,8 @@ export function getCapabilities({
   optionalPhoneNumber: boolean;
 }): CapabilitiesUploadType {
   return {
-    attachmentBackfill: true,
+    // Server only uses the primary device's value for attachmentBackfill
+    attachmentBackfill: false,
     spqr: true,
     usernameChangeSyncMessage: true,
     optionalPhoneNumber,

@@ -8,7 +8,7 @@ export type CapabilitiesType = {
   usernameChangeSyncMessage: boolean;
 };
 export type CapabilitiesUploadType = {
-  attachmentBackfill: true;
+  attachmentBackfill: boolean;
   spqr: true;
   usernameChangeSyncMessage: true;
   optionalPhoneNumber: boolean;
