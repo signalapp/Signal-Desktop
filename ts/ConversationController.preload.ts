@@ -735,6 +735,7 @@ export class ConversationController {
     reason,
     fromPniSignature = false,
     mergeOldAndNew = safeCombineConversations,
+    additionalInitialProps,
   }: {
     aci?: AciString;
     e164?: string;
@@ -742,6 +743,7 @@ export class ConversationController {
     reason: string;
     fromPniSignature?: boolean;
     mergeOldAndNew?: (options: SafeCombineConversationsParams) => Promise<void>;
+    additionalInitialProps?: Partial<SettableConversationAttributesType>;
   }): {
     conversation: ConversationModel;
     mergePromises: Array<Promise<void>>;
@@ -1014,7 +1016,11 @@ export class ConversationController {
     strictAssert(identifier, `${logId}: identifier must be truthy!`);
 
     return {
-      conversation: this.getOrCreate(identifier, 'private', { e164, pni }),
+      conversation: this.getOrCreate(identifier, 'private', {
+        ...additionalInitialProps,
+        e164,
+        pni,
+      }),
       mergePromises,
     };
   }
