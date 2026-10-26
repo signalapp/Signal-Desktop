@@ -8,16 +8,6 @@ import { getMessageQueueTime } from './getMessageQueueTime.dom.ts';
 
 const SIX_HOURS = 6 * HOUR;
 
-export function isConversationEverUnregistered({
-  serviceId,
-  discoveredUnregisteredAt,
-}: Readonly<{
-  serviceId?: ServiceIdString;
-  discoveredUnregisteredAt?: number;
-}>): boolean {
-  return !serviceId || discoveredUnregisteredAt !== undefined;
-}
-
 export function isConversationUnregistered({
   serviceId,
   discoveredUnregisteredAt,

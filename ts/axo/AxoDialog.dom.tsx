@@ -1251,6 +1251,10 @@ export namespace AxoDialog {
      */
     symbol: AxoSymbol.Name;
     /**
+     * When `true`, prevents interaction.
+     */
+    disabled?: boolean | null;
+    /**
      * Event handler called when the button is clicked.
      */
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -1266,6 +1270,7 @@ export namespace AxoDialog {
         variant={props.variant}
         size="md"
         symbol={props.symbol}
+        disabled={props.disabled}
         onClick={props.onClick}
       />
     );

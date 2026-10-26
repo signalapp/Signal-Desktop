@@ -9,7 +9,7 @@ import { combineNames } from './combineNames.std.ts';
 import { getRegionCodeForNumber } from './libphonenumberUtil.std.ts';
 import { instance, PhoneNumberFormat } from './libphonenumberInstance.std.ts';
 import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
-import { isConversationEverUnregistered } from './isConversationUnregistered.dom.ts';
+import { isConversationEverUnregistered } from './isConversationEverUnregistered.std.ts';
 import { getE164 } from './getE164.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 

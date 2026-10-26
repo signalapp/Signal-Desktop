@@ -23,14 +23,14 @@ import type { SharedContactResolutionType } from '../util/sharedContact.std.ts';
 const { omit } = lodash;
 
 type GenericEmbeddedContactType<AvatarType> = {
-  name?: Name;
+  name?: EmbeddedContactName;
   number?: ReadonlyArray<Phone>;
   email?: ReadonlyArray<Email>;
   address?: ReadonlyArray<PostalAddress>;
   avatar?: AvatarType;
   organization?: string;
   aci: AciString | undefined;
-  nickname: Nickname | undefined;
+  nickname: EmbeddedContactNickname | undefined;
   note: string | undefined;
 };
 
@@ -44,7 +44,7 @@ export type EmbeddedContactForUIType = EmbeddedContactWithAvatarForUIType & {
 export type EmbeddedContactWithUploadedAvatar =
   GenericEmbeddedContactType<UploadedAvatar>;
 
-type Name = {
+export type EmbeddedContactName = {
   givenName?: string;
   familyName?: string;
   prefix?: string;
@@ -53,7 +53,7 @@ type Name = {
   nickname?: string;
 };
 
-type Nickname = {
+export type EmbeddedContactNickname = {
   givenName: string | undefined;
   familyName: string | undefined;
 };
@@ -153,15 +153,20 @@ export function numberToAddressType(
   return DEFAULT_ADDRESS_TYPE;
 }
 
+type ContactNameFieldsType = Readonly<{
+  name?: Readonly<EmbeddedContactName> | null;
+  organization?: string | null;
+}>;
+
 export function getFullName(
-  contact: ReadonlyDeep<EmbeddedContactType>
+  contact: ContactNameFieldsType
 ): string | undefined {
   const { name } = contact;
   return combineNames(name?.givenName, name?.familyName);
 }
 
 export function getDisplayName(
-  contact: ReadonlyDeep<EmbeddedContactType>
+  contact: ContactNameFieldsType
 ): string | undefined {
   return getFullName(contact) || contact.organization || undefined;
 }

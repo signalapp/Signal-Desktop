@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
 import { filterAndSortConversations } from '../../../util/filterAndSortConversations.std.ts';
+import { groupByFirstInitial } from '../../../util/groupByFirstInitial.std.ts';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.tsx';
 import { AxoSearchField } from '../../../axo/fields/AxoSearchField.dom.tsx';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
@@ -23,8 +24,6 @@ import { missingCaseError } from '../../../util/missingCaseError.std.ts';
 import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.ts';
 import { drop } from '../../../util/drop.std.ts';
 import { I18n } from '../../I18n.dom.tsx';
-
-const IS_LETTER_REGEX = /^\p{Letter}\p{Mark}*/u;
 
 export enum GroupMembersSearchDialogFilter {
   All = '',
@@ -284,40 +283,8 @@ function AlphabeticMemberList(props: AlphabeticMemberListProps): ReactNode {
   const { i18n, members } = props;
 
   const sections = useMemo(() => {
-    const segmenter = new Intl.Segmenter([], { granularity: 'grapheme' });
-
-    function getFirstInitial(conversation: ConversationType): string {
-      const title = conversation.titleNoDefault ?? '';
-      const segments = segmenter.segment(title);
-
-      for (const segment of segments) {
-        if (IS_LETTER_REGEX.test(segment.segment)) {
-          return segment.segment.toUpperCase();
-        }
-      }
-
-      return '';
-    }
-
-    const groups = new Map<string, Array<GroupV2Membership>>();
-
-    for (const member of members) {
-      const initial = getFirstInitial(member.member);
-      const group = groups.getOrInsert(initial, []);
-      group.push(member);
-    }
-
-    const initials = Array.from(groups.keys()).toSorted((a, b) => {
-      if (a === '') return 1;
-      if (b === '') return -1;
-      return a.localeCompare(b);
-    });
-
-    return initials.map(initial => {
-      return {
-        initial,
-        members: groups.get(initial) ?? [],
-      };
+    return groupByFirstInitial(members, member => {
+      return member.member.titleNoDefault ?? '';
     });
   }, [members]);
 
@@ -326,7 +293,7 @@ function AlphabeticMemberList(props: AlphabeticMemberListProps): ReactNode {
       {sections.map(section => {
         return (
           <AxoContactList.Root key={section.initial} title={section.initial}>
-            {section.members.map(member => {
+            {section.items.map(member => {
               return (
                 <MemberItem
                   key={member.member.id}

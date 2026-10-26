@@ -37,6 +37,8 @@ import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import type { PollCreateType } from '../../types/Polls.dom.ts';
 import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.ts';
+import { enqueueSharedContactForSend } from '../../util/enqueueSharedContactForSend.preload.ts';
+import type { ShareContactType } from '../../util/shareContact.std.ts';
 import {
   ADD_PREVIEW as ADD_LINK_PREVIEW,
   REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
@@ -296,6 +298,7 @@ export const actions = {
   setQuoteByMessageId,
   setQuotedMessage,
   setViewOnce,
+  shareContact,
   updateComposerDisabled,
 };
 
@@ -878,6 +881,47 @@ function sendPoll(
     }
 
     dispatch(noopAction('sendPoll'));
+  };
+}
+
+function shareContact(
+  conversationId: string,
+  contact: ShareContactType
+): AsyncStateThunk<NoopActionType | ShowToastActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('shareContact: No conversation found');
+    }
+
+    const recipientsByConversation = getRecipientsByConversation([
+      conversation.attributes,
+    ]);
+
+    try {
+      const sendAnyway = await blockSendUntilConversationsAreVerified(
+        recipientsByConversation,
+        SafetyNumberChangeSource.MessageSend
+      );
+      if (!sendAnyway) {
+        return;
+      }
+
+      const toast = shouldShowInvalidMessageToast(conversation.attributes);
+      if (toast != null) {
+        dispatch({
+          type: SHOW_TOAST,
+          payload: toast,
+        });
+        return;
+      }
+
+      await enqueueSharedContactForSend(conversation, contact);
+    } catch (error) {
+      log.error('shareContact error:', Errors.toLogFormat(error));
+    }
+
+    dispatch(noopAction('shareContact'));
   };
 }
 

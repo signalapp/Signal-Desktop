@@ -7,7 +7,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { isInSystemContacts } from './isInSystemContacts.std.ts';
 import { isSignalConversation } from './isSignalConversation.dom.ts';
 import { isDirectConversation } from './whatTypeOfConversation.dom.ts';
-import { isConversationEverUnregistered } from './isConversationUnregistered.dom.ts';
+import { isConversationEverUnregistered } from './isConversationEverUnregistered.std.ts';
 import { isBlocked } from './isBlocked.preload.ts';
 
 export function isSignalConnection(

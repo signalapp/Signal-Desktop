@@ -86,6 +86,7 @@ export default {
     isDisabled: false,
     isFormattingEnabled: true,
     isPollSend1to1Enabled: true,
+    isShareContactEnabled: true,
     sendEditedMessage: action('sendEditedMessage'),
     sendMultiMediaMessage: action('sendMultiMediaMessage'),
     platform: 'darwin',
@@ -155,7 +156,8 @@ export default {
     isSignalConversation: false,
     isFetchingUUID: false,
     renderSmartCompositionRecording: () => <div>RECORDING</div>,
-    renderSmartCompositionRecordingDraft: _ => <div>RECORDING DRAFT</div>,
+    renderSmartCompositionRecordingDraft: () => <div>RECORDING DRAFT</div>,
+    renderShareContactDialog: () => <div>SHARE CONTACT DIALOG</div>,
     // Select mode
     selectedMessageIds: undefined,
     toggleSelectMode: action('toggleSelectMode'),

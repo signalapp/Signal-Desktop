@@ -43,7 +43,7 @@ import {
 import { getHasPanelOpen } from '../selectors/nav.std.ts';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.ts';
 import { getIntl, getTheme, getUserACI } from '../selectors/user.std.ts';
-import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationEverUnregistered } from '../../util/isConversationEverUnregistered.std.ts';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.ts';
