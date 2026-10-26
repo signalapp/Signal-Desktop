@@ -43,9 +43,9 @@ import { StoryImage } from './StoryImage.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { getStoryBackground } from '../util/getStoryBackground.std.ts';
 import {
-  makeObjectUrl,
-  revokeObjectUrl,
-} from '../types/VisualAttachment.dom.ts';
+  getLocalAttachmentUrl,
+  AttachmentDisposition,
+} from '../util/getLocalAttachmentUrl.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
@@ -292,31 +292,12 @@ export function SendStoryModal({
     selectedNames = selectedStoryNames.join(', ');
   }
 
-  const [objectUrl, setObjectUrl] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    let url: undefined | string;
-
-    if (
-      draftAttachment.type === 'media' &&
-      !draftAttachment.attachment.pending &&
-      draftAttachment.attachment.data
-    ) {
-      url = makeObjectUrl(
-        draftAttachment.attachment.screenshotData ||
-          draftAttachment.attachment.data,
-        draftAttachment.attachment.screenshotContentType ||
-          draftAttachment.attachment.contentType
-      );
-      // oxlint-disable-next-line react/set-state-in-effect
-      setObjectUrl(url);
-    }
-    return () => {
-      if (url) {
-        revokeObjectUrl(url);
-      }
-    };
-  }, [setObjectUrl, draftAttachment]);
+  let url: string | undefined;
+  if (draftAttachment.type === 'media' && !draftAttachment.attachment.pending) {
+    url = getLocalAttachmentUrl(draftAttachment.attachment, {
+      disposition: AttachmentDisposition.Draft,
+    });
+  }
 
   const modalCommonProps: Pick<ModalPropsType, 'hasXButton' | 'i18n'> = {
     hasXButton: true,
@@ -645,24 +626,10 @@ export function SendStoryModal({
 
     let attachment: AttachmentType;
     if (draftAttachment.type === 'media') {
-      if (draftAttachment.attachment.pending) {
-        attachment = {
-          ...draftAttachment.attachment,
-          url: objectUrl,
-        };
-      } else {
-        const {
-          // oxlint-disable-next-line typescript/no-unused-vars
-          data: _data,
-          // oxlint-disable-next-line typescript/no-unused-vars
-          screenshotData: _screenshotData,
-          ...rest
-        } = draftAttachment.attachment;
-        attachment = {
-          ...rest,
-          url: objectUrl,
-        };
-      }
+      attachment = {
+        ...draftAttachment.attachment,
+        url,
+      };
     } else {
       attachment = {
         contentType: TEXT_ATTACHMENT,

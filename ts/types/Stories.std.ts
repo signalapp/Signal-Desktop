@@ -3,7 +3,7 @@
 
 import type {
   AttachmentType,
-  InMemoryAttachmentDraftType,
+  AttachmentDraftType,
   TextAttachmentType,
 } from './Attachment.std.ts';
 import type { HydratedBodyRangesType } from './BodyRange.std.ts';
@@ -186,7 +186,7 @@ export type StoryMessageRecipientsType = Array<{
 export type StoryDraftAttachmentType =
   | {
       type: 'media';
-      attachment: InMemoryAttachmentDraftType;
+      attachment: AttachmentDraftType;
     }
   | {
       type: 'text';

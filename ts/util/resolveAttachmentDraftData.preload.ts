@@ -33,9 +33,42 @@ export async function resolveAttachmentDraftData(
     return;
   }
 
-  return migrateDataToFileSystem(attachment, data, {
-    writeNewAttachmentData,
-    getExistingAttachmentDataForReuse,
-    getPlaintextHashForInMemoryAttachment,
-  });
+  let newScreenshot: AttachmentType | undefined;
+  if (attachment.screenshot != null) {
+    const screenshotData = await readDraftData(attachment.screenshot);
+    const expectedSize =
+      attachment.screenshot.size ?? screenshotData.byteLength;
+    if (screenshotData.byteLength !== expectedSize) {
+      log.error(
+        `Screenshot size from disk ${screenshotData.byteLength} did not match attachment size ${expectedSize}`
+      );
+      return;
+    }
+
+    newScreenshot = await migrateDataToFileSystem(
+      {
+        ...attachment.screenshot,
+        size: screenshotData.byteLength,
+      },
+      screenshotData,
+      {
+        writeNewAttachmentData,
+        getExistingAttachmentDataForReuse,
+        getPlaintextHashForInMemoryAttachment,
+      }
+    );
+  }
+
+  return migrateDataToFileSystem(
+    {
+      ...attachment,
+      screenshot: newScreenshot,
+    },
+    data,
+    {
+      writeNewAttachmentData,
+      getExistingAttachmentDataForReuse,
+      getPlaintextHashForInMemoryAttachment,
+    }
+  );
 }

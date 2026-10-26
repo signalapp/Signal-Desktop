@@ -1,11 +1,18 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Readable } from 'node:stream';
+import { Buffer } from 'node:buffer';
 import {
+  CURRENT_ATTACHMENT_VERSION,
   readAndDecryptDataFromDisk,
   writeNewAttachmentData as doWriteNewAttachmentData,
   createDeleter,
 } from '../../app/attachments.node.ts';
+import {
+  generateKeys,
+  encryptAttachmentV2ToDisk,
+} from '../AttachmentCrypto.node.ts';
 import {
   createAbsolutePathGetter,
   createPlaintextReader,
@@ -157,6 +164,30 @@ export const getAbsoluteDraftPath = createAbsolutePathGetter(DRAFT_PATH);
 export const writeNewDraftData = createEncryptedWriterForNew(DRAFT_PATH);
 export const deleteDraftFile = createDeleter(DRAFT_PATH);
 export const readDraftData = createEncryptedReader(DRAFT_PATH);
+
+export async function writeNewDraftStream(
+  stream: Readable,
+  size: number
+): Promise<LocalAttachmentV2Type> {
+  const keys = generateKeys();
+  const encrypted = await encryptAttachmentV2ToDisk({
+    getAbsoluteAttachmentPath: getAbsoluteDraftPath,
+    keys,
+    needIncrementalMac: false,
+    plaintext: {
+      stream,
+      size,
+    },
+  });
+
+  return {
+    version: CURRENT_ATTACHMENT_VERSION,
+    plaintextHash: encrypted.plaintextHash,
+    path: encrypted.path,
+    size,
+    localKey: Buffer.from(keys).toString('base64'),
+  };
+}
 
 export const getAbsoluteDownloadsPath =
   createAbsolutePathGetter(DOWNLOADS_PATH);

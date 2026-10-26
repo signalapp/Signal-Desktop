@@ -53,6 +53,7 @@ export function resolveDraftAttachmentOnDisk(
     audioWaveform,
     transcodingTargetQuality,
     duration,
+    screenshot,
   } = attachment;
 
   return {
@@ -73,5 +74,6 @@ export function resolveDraftAttachmentOnDisk(
     audioWaveform,
     transcodingTargetQuality,
     duration,
+    screenshot,
   };
 }
