@@ -5460,10 +5460,23 @@ export class ConversationModel {
       return;
     }
 
+    const ourAci = itemStorage.user.getAci();
+    const theirAci = this.getAci();
     const shouldDownload =
       forceFetch ||
       this.getAccepted({ ignoreEmptyConvo: true }) ||
-      (await this.#getSharedGroups())?.some(group => group.getAccepted());
+      (ourAci != null &&
+        theirAci != null &&
+        !this.isBlocked() &&
+        !this.isUnregistered() &&
+        window.ConversationController.getAll().some(
+          c =>
+            isGroupV2(c.attributes) &&
+            !c.isTerminated() &&
+            c.getAccepted() &&
+            c.isMember(theirAci) &&
+            c.isMember(ourAci)
+        ));
     if (!shouldDownload) {
       this.set({ remoteAvatarUrl: avatarUrl });
       return;
