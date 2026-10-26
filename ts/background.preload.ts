@@ -100,6 +100,7 @@ import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
 import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { getProfile } from './util/getProfile.preload.ts';
+import { getCapabilities } from './util/getCapabilities.std.ts';
 import type {
   AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
@@ -2083,12 +2084,11 @@ async function startApp(): Promise<void> {
 
   async function registerCapabilities() {
     try {
-      await doRegisterCapabilities({
-        attachmentBackfill: true,
-        spqr: true,
-        usernameChangeSyncMessage: true,
-        optionalPhoneNumber: itemStorage.user.getOptionalNumber() == null,
-      });
+      await doRegisterCapabilities(
+        getCapabilities({
+          optionalPhoneNumber: itemStorage.user.getOptionalNumber() == null,
+        })
+      );
     } catch (error) {
       log.error(
         'Error: Unable to register our capabilities.',

@@ -2029,7 +2029,7 @@ export class MessageSender {
         })
       ),
       type: 'attachmentBackfillRequestSync',
-      urgent: false,
+      urgent: true,
     };
   }
 
