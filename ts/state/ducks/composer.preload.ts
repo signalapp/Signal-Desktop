@@ -75,7 +75,7 @@ import { isFileDangerous } from '../../util/isFileDangerous.std.ts';
 import { stringToMIMEType } from '../../types/MIME.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
 import { replaceIndex } from '../../util/replaceIndex.std.ts';
-import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData.preload.ts';
+import { promoteDraftAttachment } from '../../util/promoteDraftAttachment.preload.ts';
 import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentOnDisk.preload.ts';
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast.preload.ts';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.ts';
@@ -694,7 +694,7 @@ function sendMultiMediaMessage(
         attachments = [onDisk];
       } else if (draftAttachments) {
         attachments = (
-          await Promise.all(draftAttachments.map(resolveAttachmentDraftData))
+          await Promise.all(draftAttachments.map(promoteDraftAttachment))
         ).filter(isNotNil);
       }
 

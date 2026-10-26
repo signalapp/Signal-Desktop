@@ -54,6 +54,7 @@ export function resolveDraftAttachmentOnDisk(
     transcodingTargetQuality,
     duration,
     screenshot,
+    plaintextHash,
   } = attachment;
 
   return {
@@ -75,5 +76,6 @@ export function resolveDraftAttachmentOnDisk(
     transcodingTargetQuality,
     duration,
     screenshot,
+    plaintextHash,
   };
 }

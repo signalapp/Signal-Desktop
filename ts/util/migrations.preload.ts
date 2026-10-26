@@ -164,6 +164,10 @@ export const getAbsoluteDraftPath = createAbsolutePathGetter(DRAFT_PATH);
 export const writeNewDraftData = createEncryptedWriterForNew(DRAFT_PATH);
 export const deleteDraftFile = createDeleter(DRAFT_PATH);
 export const readDraftData = createEncryptedReader(DRAFT_PATH);
+export const copyDraftIntoAttachmentDirectory = copyIntoAttachmentsDirectory({
+  sourceDir: DRAFT_PATH,
+  targetDir: ATTACHMENTS_PATH,
+});
 
 export async function writeNewDraftStream(
   stream: Readable,
