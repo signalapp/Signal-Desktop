@@ -2786,6 +2786,8 @@ async function sync({ reason }: { reason: string }): Promise<SyncResult> {
 
     log.info(`${logId}: fetching latest after version=${localManifestVersion}`);
     const fetchResult = await fetchManifest(localManifestVersion);
+    log.info(`${logId}: fetch returned state '${fetchResult.type}'`);
+
     if (fetchResult.type === 'cannotDecrypt') {
       return {
         success: false,
@@ -3135,30 +3137,27 @@ export function runStorageServiceUploadJobAfterEnabled({
 
 export const runStorageServiceUploadJob = debounce(
   ({ reason }: { reason: string }) => {
+    const logId = `runStorageServiceUploadJob(${reason})`;
+
     if (!storageServiceEnabled) {
-      log.info(`runStorageServiceUploadJob(${reason}): called before enabled `);
+      log.info(`${logId}: called before enabled `);
       return;
     }
 
     void storageJobQueue(
       async () => {
         try {
-          await upload({
-            reason: `runStorageServiceUploadJob/${reason}`,
-          });
+          await upload({ reason: logId });
         } catch (error) {
           if (error instanceof CannotDecryptError) {
             drop(stopStorageServiceSync(error));
             return;
           }
 
-          log.error(
-            'runStorageServiceUploadJob: Upload failed',
-            Errors.toLogFormat(error)
-          );
+          log.error(`${logId}: Upload failed`, Errors.toLogFormat(error));
         }
       },
-      `upload v${itemStorage.get('manifestVersion')}`
+      `${logId} v${itemStorage.get('manifestVersion')}`
     );
   },
   isMockEnvironment() ? 0 : 500
@@ -3166,8 +3165,10 @@ export const runStorageServiceUploadJob = debounce(
 
 export const runStorageServiceSyncJob = debounce(
   ({ reason }: { reason: string }) => {
+    const logId = `runStorageServiceSyncJob(${reason})`;
+
     if (!storageServiceEnabled) {
-      log.info(`runStorageServiceSyncJob(${reason}): called before enabled`);
+      log.info(`${logId}: called before enabled`);
       return;
     }
 
@@ -3175,24 +3176,29 @@ export const runStorageServiceSyncJob = debounce(
       storageJobQueue(
         async () => {
           try {
-            await sync({ reason });
+            const result = await sync({ reason: logId });
+
+            if (!result.success && result.error === 'cannotDecrypt') {
+              throw new CannotDecryptError("Sync returned 'cannotDecrypt'");
+            }
+
+            if (!result.success && result.error !== 'sameManifest') {
+              throw new Error(`Failed with type '${result.error}'`);
+            }
           } catch (error) {
             if (error instanceof CannotDecryptError) {
               drop(stopStorageServiceSync(error));
               return;
             }
 
-            log.error(
-              'runStorageServiceSyncJob: Sync failed',
-              Errors.toLogFormat(error)
-            );
+            log.error(`${logId}: Sync failed`, Errors.toLogFormat(error));
             return;
           }
 
           // Notify listeners about sync completion
           window.Whisper.events.emit('storageService:syncComplete');
         },
-        `sync v${itemStorage.get('manifestVersion')}`
+        `${logId} v${itemStorage.get('manifestVersion')}`
       )
     );
   },

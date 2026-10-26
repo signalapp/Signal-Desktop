@@ -1585,6 +1585,11 @@ export async function mergeContactRecord(
     pni,
     fromPniSignature: pniSignatureVerified,
     reason: 'mergeContactRecord',
+    // If we create a contact from scratch, ensure we know it came from storage service
+    additionalInitialProps: {
+      storageID,
+      storageVersion,
+    },
   });
 
   // We're going to ignore this; it's likely a PNI-only contact we've already merged
