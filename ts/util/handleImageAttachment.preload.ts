@@ -2,35 +2,38 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { v4 as genUuid } from 'uuid';
 
 import { blobToArrayBuffer } from '../types/VisualAttachment.dom.ts';
 import type { MIMEType } from '../types/MIME.std.ts';
 import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME.std.ts';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.ts';
+import type { AttachmentDraftType } from '../types/Attachment.std.ts';
 import { canBeTranscoded } from './Attachment.std.ts';
 import { imageToBlurHash } from './imageToBlurHash.dom.ts';
 import { scaleImageToLevel } from './scaleImageToLevel.preload.ts';
+import { writeNewDraftData } from './migrations.preload.ts';
 
 export async function handleImageAttachment(
-  file: File
-): Promise<InMemoryAttachmentDraftType> {
+  file: File,
+  { clientUuid }: { clientUuid: string }
+): Promise<AttachmentDraftType> {
   let processedFile: File | Blob = file;
 
   if (isHeic(file.type, file.name)) {
-    const uuid = genUuid();
     const bytes = new Uint8Array(await file.arrayBuffer());
 
     const convertedData = await new Promise<Uint8Array<ArrayBuffer>>(
       (resolve, reject) => {
-        ipcRenderer.once(`convert-image:${uuid}`, (_, { error, response }) => {
-          if (response) {
-            resolve(response);
-          } else {
-            reject(error);
+        ipcRenderer.once(
+          `convert-image:${clientUuid}`,
+          (_, { error, response }) => {
+            if (response) {
+              resolve(response);
+            } else {
+              reject(error);
+            }
           }
-        });
-        ipcRenderer.send('convert-image', uuid, bytes);
+        );
+        ipcRenderer.send('convert-image', clientUuid, bytes);
       }
     );
 
@@ -51,14 +54,10 @@ export async function handleImageAttachment(
 
   return {
     blurHash,
-    clientUuid: genUuid(),
+    clientUuid,
     contentType,
-    data: new Uint8Array(data),
-    // We strip fileNames from visual attachments
-    fileName: undefined,
-    path: file.name,
     pending: false,
-    size: data.byteLength,
+    ...(await writeNewDraftData(new Uint8Array(data))),
   };
 }
 

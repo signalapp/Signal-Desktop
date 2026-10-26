@@ -3,7 +3,7 @@
 
 import path from 'node:path';
 import lodash from 'lodash';
-import { v4 as generateUuid } from 'uuid';
+import { v7 as generateUuid } from 'uuid';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type {
@@ -1032,12 +1032,19 @@ function addAttachment(
   conversationId: string,
   attachment: InMemoryAttachmentDraftType
 ): AsyncStateThunk<ReplaceAttachmentsActionType> {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     // We do async operations first so multiple in-process addAttachments don't stomp on
     //   each other.
     const onDisk = await writeDraftAttachment(attachment);
-    const toAdd = { ...onDisk, clientUuid: generateUuid() };
+    await dispatch(addDraftAttachment(conversationId, onDisk));
+  };
+}
 
+function addDraftAttachment(
+  conversationId: string,
+  attachment: AttachmentDraftType
+): AsyncStateThunk<ReplaceAttachmentsActionType> {
+  return async (dispatch, getState) => {
     const state = getState();
 
     const isSelectedConversation =
@@ -1055,27 +1062,27 @@ function addAttachment(
     // We expect there to either be a pending draft attachment or an existing
     // attachment that we'll be replacing.
     const hasDraftAttachmentPending = draftAttachments.some(
-      draftAttachment => draftAttachment.path === attachment.path
+      draftAttachment => draftAttachment.clientUuid === attachment.clientUuid
     );
 
     // User has canceled the draft so we don't need to continue processing
     if (!hasDraftAttachmentPending) {
-      await deleteDraftAttachment(toAdd);
+      await deleteDraftAttachment(attachment);
       return;
     }
 
     // Remove any pending attachments that were transcoding
     const index = draftAttachments.findIndex(
-      draftAttachment => draftAttachment.path === attachment.path
+      draftAttachment => draftAttachment.clientUuid === attachment.clientUuid
     );
     let nextAttachments = draftAttachments;
     if (index < 0) {
       log.warn(
         `addAttachment: Failed to find pending attachment with path ${attachment.path}`
       );
-      nextAttachments = [...draftAttachments, toAdd];
+      nextAttachments = [...draftAttachments, attachment];
     } else {
-      nextAttachments = replaceIndex(draftAttachments, index, toAdd);
+      nextAttachments = replaceIndex(draftAttachments, index, attachment);
     }
 
     dispatch(replaceAttachments(conversationId, nextAttachments));
@@ -1295,6 +1302,7 @@ function processAttachments({
             const attachment = await processAttachment(file, {
               generateScreenshot: true,
               flags,
+              clientUuid: pendingAttachment.clientUuid,
             });
             if (!attachment) {
               void dispatch(
@@ -1302,7 +1310,7 @@ function processAttachments({
               );
               return;
             }
-            void dispatch(addAttachment(conversationId, attachment));
+            void dispatch(addDraftAttachment(conversationId, attachment));
           } catch (err) {
             log.error(
               'handleAttachmentsProcessing: failed to process attachment:',
@@ -1418,9 +1426,8 @@ function removeAttachment(
 
     const targetAttachmentIndex = attachments.findIndex(attachment => {
       return (
-        (attachment.clientUuid != null &&
-          attachment.clientUuid === draft.clientUuid) ||
-        (attachment.path != null && attachment.path === draft.path)
+        attachment.clientUuid != null &&
+        attachment.clientUuid === draft.clientUuid
       );
     });
     if (targetAttachmentIndex === -1) {

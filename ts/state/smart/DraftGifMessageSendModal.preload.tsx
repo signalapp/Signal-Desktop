@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { v4 as generateUuid } from 'uuid';
 import { getIntl, getTheme } from '../selectors/user.std.ts';
 import type { DraftGifMessageSendModalProps } from '../../components/DraftGifMessageSendModal.dom.tsx';
 import { DraftGifMessageSendModal } from '../../components/DraftGifMessageSendModal.dom.tsx';
@@ -15,7 +16,6 @@ import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.d
 import { drop } from '../../util/drop.std.ts';
 import { processAttachment } from '../../util/processAttachment.preload.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.ts';
 import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
@@ -105,15 +105,12 @@ export const SmartDraftGifMessageSendModal = memo(
           const file = new File([bytes], 'gif.mp4', {
             type: 'video/mp4',
           });
-          const inMemoryAttachment = await processAttachment(file, {
+          const attachment = await processAttachment(file, {
+            clientUuid: generateUuid(),
             generateScreenshot: false,
             flags: Proto.AttachmentPointer.Flags.GIF,
           });
-          strictAssert(
-            inMemoryAttachment != null,
-            'Attachment should not be null'
-          );
-          const attachment = await writeDraftAttachment(inMemoryAttachment);
+          strictAssert(attachment != null, 'Attachment should not be null');
           strictAssert(!attachment.pending, 'Attachment should not be pending');
           setGifDownloadState({
             loadingState: LoadingState.Loaded,

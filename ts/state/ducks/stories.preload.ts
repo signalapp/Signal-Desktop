@@ -26,7 +26,7 @@ import type { SyncType } from '../../jobs/helpers/syncHelpers.preload.ts';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
-import { writeNewAttachmentData } from '../../util/migrations.preload.ts';
+import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations.preload.ts';
 import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
@@ -675,22 +675,11 @@ function sendStoryMessage(
     try {
       let attachment: AttachmentType;
       if (draftAttachment.type === 'media') {
-        strictAssert(
-          !draftAttachment.attachment.pending,
-          'Must not be pending'
+        const resolved = await resolveAttachmentDraftData(
+          draftAttachment.attachment
         );
-        const {
-          data,
-          // oxlint-disable-next-line typescript/no-unused-vars
-          pending: _pending,
-          // oxlint-disable-next-line typescript/no-unused-vars
-          screenshotData: _screenshotData,
-          ...rest
-        } = draftAttachment.attachment;
-        attachment = {
-          ...rest,
-          ...(await writeNewAttachmentData(data)),
-        };
+        strictAssert(resolved != null, 'Failed to resolve draft attachment');
+        attachment = resolved;
       } else {
         attachment = {
           contentType: TEXT_ATTACHMENT,
