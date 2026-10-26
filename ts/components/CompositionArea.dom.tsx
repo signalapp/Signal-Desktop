@@ -131,6 +131,7 @@ export type OwnProps = Readonly<{
   isGroupV1AndDisabled: boolean | null;
   isMissingMandatoryProfileSharing: boolean | null;
   isPollSend1to1Enabled: boolean;
+  isShareContactEnabled: boolean;
   isSignalConversation: boolean;
   isActive: boolean;
   lastEditableMessageId: string | null;
@@ -215,6 +216,10 @@ export type OwnProps = Readonly<{
   renderSmartCompositionRecordingDraft: (
     props: SmartCompositionRecordingDraftProps
   ) => JSX.Element | null;
+  renderShareContactDialog: (props: {
+    conversationId: string;
+    onClose: () => void;
+  }) => JSX.Element;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   areSelectedMessagesForwardable: boolean | undefined;
   toggleSelectMode: (on: boolean) => void;
@@ -260,6 +265,7 @@ export const CompositionArea = memo(function CompositionArea({
   imageToBlurHash,
   isDisabled,
   isPollSend1to1Enabled,
+  isShareContactEnabled,
   isSignalConversation,
   isActive,
   lastEditableMessageId,
@@ -351,6 +357,7 @@ export const CompositionArea = memo(function CompositionArea({
   isFetchingUUID,
   renderSmartCompositionRecording,
   renderSmartCompositionRecordingDraft,
+  renderShareContactDialog,
   // Selected messages
   selectedMessageIds,
   areSelectedMessagesForwardable,
@@ -365,6 +372,8 @@ export const CompositionArea = memo(function CompositionArea({
     AttachmentDraftType | undefined
   >();
   const [isPollModalOpen, setIsPollModalOpen] = useState(false);
+  const [isShareContactDialogOpen, setIsShareContactDialogOpen] =
+    useState(false);
   const inputApiRef = useRef<InputApi | null>(null);
   const fileInputRef = useRef<null | HTMLInputElement>(null);
   const photoVideoInputRef = useRef<null | HTMLInputElement>(null);
@@ -479,6 +488,26 @@ export const CompositionArea = memo(function CompositionArea({
     },
     [conversationId, sendPoll, handleClosePollModal]
   );
+
+  // Wait for the menu to finish closing before opening the dialog, so the
+  // menu's focus handling doesn't steal focus from the dialog
+  const isShareContactDialogPending = useRef(false);
+
+  const handleAddMenuCloseAutoFocus = useCallback((event: Event) => {
+    if (isShareContactDialogPending.current) {
+      isShareContactDialogPending.current = false;
+      event.preventDefault();
+      setIsShareContactDialogOpen(true);
+    }
+  }, []);
+
+  const handleOpenShareContactDialog = useCallback(() => {
+    isShareContactDialogPending.current = true;
+  }, []);
+
+  const handleCloseShareContactDialog = useCallback(() => {
+    setIsShareContactDialogOpen(false);
+  }, []);
 
   function maybeEditAttachment(attachment: AttachmentDraftType) {
     if (!isImageTypeSupported(attachment.contentType)) {
@@ -856,7 +885,9 @@ export const CompositionArea = memo(function CompositionArea({
               />
             </AxoDropdownMenu.Trigger>
           </div>
-          <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Content
+            onCloseAutoFocus={handleAddMenuCloseAutoFocus}
+          >
             <AxoDropdownMenu.Item symbol="photo" onSelect={launchMediaPicker}>
               {i18n('icu:CompositionArea__AttachMenu__PhotosAndVideos')}
             </AxoDropdownMenu.Item>
@@ -869,6 +900,14 @@ export const CompositionArea = memo(function CompositionArea({
                 onSelect={handleOpenPollModal}
               >
                 {i18n('icu:CompositionArea__AttachMenu__Poll')}
+              </AxoDropdownMenu.Item>
+            )}
+            {isShareContactEnabled && (
+              <AxoDropdownMenu.Item
+                symbol="person-circle"
+                onSelect={handleOpenShareContactDialog}
+              >
+                {i18n('icu:CompositionArea__AttachMenu__Contact')}
               </AxoDropdownMenu.Item>
             )}
           </AxoDropdownMenu.Content>
@@ -1393,6 +1432,11 @@ export const CompositionArea = memo(function CompositionArea({
           onSendPoll={handleSendPoll}
         />
       )}
+      {isShareContactDialogOpen &&
+        renderShareContactDialog({
+          conversationId,
+          onClose: handleCloseShareContactDialog,
+        })}
     </div>
   );
 });

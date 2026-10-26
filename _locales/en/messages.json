@@ -6474,6 +6474,90 @@
     "messageformat": "Poll",
     "description": "Menu item to create a poll"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact",
+    "description": "Menu item to share a contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact",
+    "description": "ShareContactDialog > Select contact step > Dialog title"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search",
+    "description": "ShareContactDialog > Select contact step > Search field placeholder"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts",
+    "description": "ShareContactDialog > Select contact step > Shown when there are no contacts to share"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”",
+    "description": "ShareContactDialog > Select contact step > Shown when no contacts match the search query"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact",
+    "description": "ShareContactDialog > Share contact step > Dialog title"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}.",
+    "description": "ShareContactDialog > Share contact step > Explains that sharing a Signal contact lets recipients message them"
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact",
+    "description": "ShareContactDialog > Share contact step > Accessibility label for the send button"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name",
+    "description": "ShareContactDialog > Share contact step > Accessibility label for the button to edit the contact's name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name",
+    "description": "ShareContactDialog > Edit name step > Dialog title"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the name prefix field (e.g. Dr.)"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the first name field"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the middle name field"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the last name field"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the name suffix field (e.g. Jr.)"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization",
+    "description": "ShareContactDialog > Edit name step > Placeholder and label for the organization (company) field"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo",
+    "description": "ShareContactDialog > Share contact step > Accessibility label for the button to choose which photo to share for the contact"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo",
+    "description": "ShareContactDialog > Select photo step > Dialog title"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo",
+    "description": "ShareContactDialog > Select photo and Share contact steps > Accessibility label for the photo from the user's phone contacts"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo",
+    "description": "ShareContactDialog > Select photo and Share contact steps > Accessibility label for the contact's Signal profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar",
+    "description": "ShareContactDialog > Select photo and Share contact steps > Accessibility label for the default avatar showing the contact's initials"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Add attachment or poll",
     "description": "Aria label for plus button that opens attachment menu"

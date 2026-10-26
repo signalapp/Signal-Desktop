@@ -83,8 +83,8 @@ import { strictAssert } from '../util/assert.std.ts';
 import { isConversationMuted } from '../util/isConversationMuted.std.ts';
 import { canConversationBeUnarchived } from '../util/canConversationBeUnarchived.preload.ts';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly.std.ts';
+import { isConversationEverUnregistered } from '../util/isConversationEverUnregistered.std.ts';
 import {
-  isConversationEverUnregistered,
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
 } from '../util/isConversationUnregistered.dom.ts';
