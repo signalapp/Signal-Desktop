@@ -339,6 +339,15 @@ export class App extends EventEmitter {
     return window.evaluate(`window.SignalCI.getMessagesBySentAt(${timestamp})`);
   }
 
+  public async getMessagesInDBBySentAt(
+    timestamp: number
+  ): Promise<Array<MessageAttributesType>> {
+    const window = await this.getWindow();
+    return window.evaluate(
+      `window.SignalCI.getMessagesInDBBySentAt(${timestamp})`
+    );
+  }
+
   public async waitForMessage({
     timestamp,
     predicate,
