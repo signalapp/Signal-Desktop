@@ -221,6 +221,7 @@ export type AttachmentDraftType =
   | ({
       url?: string;
       screenshot?: ScreenshotType;
+      plaintextHash?: string;
       // Legacy field
       screenshotPath?: string;
       pending: false;

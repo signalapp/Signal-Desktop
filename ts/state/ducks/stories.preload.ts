@@ -26,7 +26,7 @@ import type { SyncType } from '../../jobs/helpers/syncHelpers.preload.ts';
 import type { StoryDistributionIdString } from '../../types/StoryDistributionId.std.ts';
 import type { ServiceIdString } from '../../types/ServiceId.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
-import { resolveAttachmentDraftData } from '../../util/resolveAttachmentDraftData.preload.ts';
+import { promoteDraftAttachment } from '../../util/promoteDraftAttachment.preload.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { TARGETED_CONVERSATION_CHANGED } from './conversations.preload.ts';
 import { SIGNAL_ACI } from '../../types/SignalConversation.std.ts';
@@ -675,7 +675,7 @@ function sendStoryMessage(
     try {
       let attachment: AttachmentType;
       if (draftAttachment.type === 'media') {
-        const resolved = await resolveAttachmentDraftData(
+        const resolved = await promoteDraftAttachment(
           draftAttachment.attachment
         );
         strictAssert(resolved != null, 'Failed to resolve draft attachment');

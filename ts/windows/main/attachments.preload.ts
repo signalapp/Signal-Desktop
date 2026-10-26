@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
 import { join, normalize, basename, parse as pathParse } from 'node:path';
 import { existsSync } from 'node:fs';
+import { constants as FS_CONSTANTS, copyFile } from 'node:fs/promises';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
@@ -79,7 +80,7 @@ export const copyIntoAttachmentsDirectory = ({
     }
 
     await fse.ensureFile(normalized);
-    await fse.copy(sourcePath, normalized);
+    await copyFile(sourcePath, normalized, FS_CONSTANTS.COPYFILE_FICLONE);
     const { size } = await fse.stat(normalized);
 
     return {
