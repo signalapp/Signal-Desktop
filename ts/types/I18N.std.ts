@@ -41,3 +41,15 @@ export enum HourCyclePreference {
 }
 
 export const HourCyclePreferenceSchema = z.nativeEnum(HourCyclePreference);
+
+// User-facing setting for overriding the resolved hour cycle preference. Values
+//  are persisted in ephemeral config.
+export enum HourCyclePreferenceSetting {
+  FollowSystem = 'FollowSystem',
+  AlwaysUse12Hour = 'AlwaysUse12Hour',
+  AlwaysUse24Hour = 'AlwaysUse24Hour',
+}
+
+export const HourCyclePreferenceSettingSchema = z.nativeEnum(
+  HourCyclePreferenceSetting
+);
