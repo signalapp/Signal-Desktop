@@ -72,10 +72,6 @@ export type FunContextProps = FunContextSmartProps &
     onStoredSearchInputChange: (nextSearchInput: string) => void;
     shouldAutoFocus: boolean;
     onChangeShouldAutoFocus: (shouldAutoFocus: boolean) => void;
-
-    // Sticker reply
-    stagedStickerReply: FunStickerSelection | null;
-    onStageStickerReply: (selection: FunStickerSelection | null) => void;
   }>;
 
 const FunContext = createContext<FunContextProps | null>(null);
@@ -119,10 +115,6 @@ export const FunProvider = memo(function FunProvider(
   // Search Input
   const [storedSearchInput, setStoredSearchInput] = useState<string>('');
 
-  // Sticker reply
-  const [stagedStickerReply, setStagedStickerReply] =
-    useState<FunStickerSelection | null>(null);
-
   const [shouldAutoFocus, setShouldAutoFocus] = useState(true);
 
   // Callbacks
@@ -142,13 +134,6 @@ export const FunProvider = memo(function FunProvider(
   const handleStoredSearchInputChange = useCallback(
     (newSearchInput: string) => {
       setStoredSearchInput(newSearchInput);
-    },
-    []
-  );
-
-  const handleStageStickerReply = useCallback(
-    (selection: FunStickerSelection | null) => {
-      setStagedStickerReply(selection);
     },
     []
   );
@@ -191,10 +176,8 @@ export const FunProvider = memo(function FunProvider(
       isStickerReplySendEnabled={props.isStickerReplySendEnabled}
       installedStickerPacks={props.installedStickerPacks}
       showStickerPickerHint={props.showStickerPickerHint}
-      stagedStickerReply={stagedStickerReply}
       onClearStickerPickerHint={props.onClearStickerPickerHint}
       onSelectSticker={props.onSelectSticker}
-      onStageStickerReply={handleStageStickerReply}
       // GIFs
       fetchGiphyTrending={props.fetchGiphyTrending}
       fetchGiphySearch={props.fetchGiphySearch}
