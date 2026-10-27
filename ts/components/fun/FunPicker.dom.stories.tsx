@@ -67,7 +67,6 @@ export default {
   title: 'Components/Fun/FunPicker',
   component: Template,
   args: {
-    isReply: false,
     placement: 'bottom',
     theme: undefined,
     onSelectEmoji: action('onSelectEmoji'),

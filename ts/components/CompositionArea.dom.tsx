@@ -815,7 +815,6 @@ export const CompositionArea = memo(function CompositionArea({
         )}
       >
         <FunPicker
-          isReply={Boolean(quotedMessageId)}
           placement="top start"
           open={funPickerOpen}
           onOpenChange={handleFunPickerOpenChange}

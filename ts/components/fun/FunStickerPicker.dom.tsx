@@ -48,7 +48,6 @@ export const FunStickerPicker = memo(function FunStickerPicker(
       <FunPopover placement={props.placement} theme={props.theme}>
         <FunErrorBoundary>
           <FunPanelStickers
-            isReply={false}
             showTimeStickers={props.showTimeStickers}
             onSelectTimeSticker={props.onSelectTimeSticker}
             onSelectSticker={props.onSelectSticker}
