@@ -8,6 +8,15 @@
   "icu:AxoButton.Pending": {
     "messageformat": "In attesa"
   },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
+  },
   "icu:AxoDialog.Back": {
     "messageformat": "Indietro"
   },
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Il tuo dispositivo principale gestisce i dispositivi collegati e puoi collegarne fino a 5."
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Puoi gestire i backup e le impostazioni dell'account solo sul tuo dispositivo principale."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Le Impostazioni dell'account e dei Backup sicuri di Signal possono essere gestite solamente dal tuo dispositivo principale."
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "Chat archiviate"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Aggiungi cartella delle chat"
@@ -675,7 +684,7 @@
     "messageformat": "Per le chat avviate usando il numero di telefono, Signal può confermare automaticamente che la conversazione sia sicura tramite la \"trasparenza delle chiavi\". Per maggiore sicurezza, puoi comunque effettuare una verifica manuale scansionando un codice QR o confrontando i numeri di sicurezza."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Per le chat avviate usando il numero di telefono, Signal può confermare automaticamente che la conversazione sia sicura tramite un processo chiamato &quot;trasparenza delle chiavi&quot;.</paragraph><paragraph>Per maggiore sicurezza, puoi comunque effettuare una verifica manuale delle chat scansionando un codice QR o confrontando i numeri di sicurezza.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continua"
@@ -1749,7 +1758,7 @@
     "messageformat": "Cerca"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Nessuna chat"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Tipi di chat"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "Verranno eliminati le informazioni legate al tuo account, il profilo e tutti i tuoi messaggi. Inoltre, uscirai da tutte le chat di gruppo di Signal. L'app si chiuderà da sola dopo la fine dell'operazione."
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Hai dati obsoleti da un'installazione precedente di Signal Desktop. Se scegli di continuare, verranno eliminati e inizierai da zero."
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "Riproduci suoni di chiamata"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "Mostra notifiche per le chiamate"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Abilita le chiamate in arrivo"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "Pacchetti di adesivi"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Usati di recente"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Usati di recente"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "In evidenza"
@@ -3522,7 +3552,7 @@
     "messageformat": "I membri del gruppo potranno aggiungerti di nuovo a questo gruppo."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Riceverai aggiornamenti e novità da Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Utente segnalato come spam e bloccato."
@@ -3540,7 +3570,7 @@
     "messageformat": "Non riceverai più messaggi o aggiornamenti da questo gruppo e i membri non potranno aggiungerti di nuovo a questo gruppo."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Non riceverai più aggiornamenti e novità da Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Segnala…"
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Impostazioni"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} in chiamata} other {{people,number} in chiamata}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "Predefinito"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Silenzia notifiche"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Sondaggio"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Aggiungi allegato o sondaggio"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Modifica messaggio"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "Includi le chat silenziate nel conteggio totale delle chat non lette"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Soprannome"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Suoni"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "Icona dell'app"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Icone messaggi da leggere"
   },
@@ -6686,7 +6785,7 @@
     "messageformat": "Gli utenti bloccati non potranno chiamarti né inviarti messaggi"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Aggiungi utente o gruppo bloccato"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Utenti bloccati"
@@ -6698,10 +6797,10 @@
     "messageformat": "Bloccato il {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Fatto"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backup sicuri di Signal"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Non è stato possibile aggiornare Signal Desktop, anche se è presente una nuova versione. Vai su {downloadUrl} e installa manualmente la nuova versione, poi contatta la nostra assistenza oppure inviaci una segnalazione per informarci dell'accaduto."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Logo Signal"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "OK"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Imposta il tuo profilo"
@@ -9030,7 +9174,7 @@
     "messageformat": "Descrizione del problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Descrivi il tuo problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Includi qualsiasi dettaglio rilevante relativo al problema riscontrato. Tutto ciò che condividi qui rimarrà privato e verrà usato solo per migliorare la qualità delle chiamate su Signal."
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "Da adesso, la scorciatoia da tastiera &quot;(N)&quot; è correttamente associata all'emoji del pollice verso il basso. Facciamo invece un bel pollice verso l'alto a <lnicola></lnicola> per averci aiutato a individuare questo bug!"
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

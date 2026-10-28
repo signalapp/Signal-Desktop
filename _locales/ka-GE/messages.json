@@ -8,6 +8,15 @@
   "icu:AxoButton.Pending": {
     "messageformat": "იგზავნება"
   },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
+  },
   "icu:AxoDialog.Back": {
     "messageformat": "უკან"
   },
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "შენი მთავარი მოწყობილობა მართავს რა იქნება მიბმული, შეგიძლია 5-მდე მოწყობილობა მიაბა."
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "ანგარიშის პარამეტრებისა და სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "ანგარიშის პარამეტრებისა და Signal-ის უსაფრთხო სათადარიგო ასლების მართვა მხოლოდ შენს მთავარ მოწყობილობაზეა შესაძლებელი."
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "დაარქივებული ჩატები"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "ჩატის საქაღალდის დამატება"
@@ -675,7 +684,7 @@
     "messageformat": "Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია. დამატებითი უსაფრთხოებისთვის, კავშირების ვერიფიკაცია ხელითაც შეგიძლია, QR კოდის ან ნომრის გამოყენებით."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია.</paragraph><paragraph>დამატებითი უსაფრთხოებისთვის, კავშირების ვერიფიკაცია ხელითაც შეგიძლია, QR კოდის ან ნომრის გამოყენებით.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "გაგრძელება"
@@ -1749,7 +1758,7 @@
     "messageformat": "ძიება"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "ჩატები ვერ მოიძებნა"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ჩატის ტიპები"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "ეს წაშლის შენი ანგარიშის ინფორმაციას, პროფილს და ყველა შეტყობინებას. ასევე წაიშლები Signal-ის ყველა ჯგუფიდან. აპი დაიხურება ამ პროცესის დასრულების შემდეგ."
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "შენ გაქვს მოძველებული მონაცემები Signal Desktop-ის წინა ინსტალაციისდან. თუ გაგრძელებას აირჩევ, ის წაიშლება და ნულიდან დაიწყებ."
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "ზარის მელოდიების დაკვრა"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "ზარების შეტყობინებების ჩვენება"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "შემომავალი ზარების ჩართვა"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "სტიკერების ნაკრები"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "ბოლოს გამოყენებული"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "ბოლოს გამოყენებული"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "გამორჩეული"
@@ -3522,7 +3552,7 @@
     "messageformat": "ჯგუფის წევრებს შეეძლებათ ისევ ამ ჯგუფში თქვენი დამატება."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Signal-ის შესახებ სიახლეებსა და აფდეითებს მიიღებ."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "დაფიქსირდა როგორც სპამი და დაიბლოკა."
@@ -3540,7 +3570,7 @@
     "messageformat": "ამ ჯგუფიდან შეტყობინებებს ან განახლებებს აღარ მიიღებ, და წევრები ვეღარ შეძლებენ შენს დამატებას ამ ჯგუფში."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Signal-ის შესახებ სიახლეებსა და აფდეითებს აღარ მიიღებ."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "დარეპორტება..."
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} ზარზე} other {{people,number} ზარზე}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "ძირითადი"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "სიახლეების გათიშვა"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "გამოკითხვა"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "დაამატე დანართი ან გამოკითხვა"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "შეტყობინების რედაქტირება"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "შეიყვანე დადუმებული ჩატები ემბლემების რაოდენობაში"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "მეტსახელი"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "ხმები"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "აპლიკაციის ემბლემა"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "წაუკითხავი ემბლემები"
   },
@@ -6686,7 +6785,7 @@
     "messageformat": "დაბლოკილ მომხმარებლებს არ ექნებათ შესაძლებლობა დაგირეკონ ან მოგწერონ."
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "დაამატე დაბლოკილი მომხმარებელი ან ჯგუფი"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "დაბლოკილი მომხმარებლები"
@@ -6698,10 +6797,10 @@
     "messageformat": "დაბლოკვის თარიღია {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "შესრულებულია"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ძიება"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Signal Desktop-ის განახლება ვერ მოხერხდა, მაგრამ ახალი ვერსია ხელმისაწვდომია. გადადი {downloadUrl}-ზე და ახალი ვერსია ხელით გადმოწერე, შემდეგ ან მხარდაჭერის გუნდს დაუკავშირდი, ან ამ პრობლემის შესახებ განაცხადე."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal-ის ლოგო"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "OK"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "შექმენი შენი პროფილი"
@@ -9030,7 +9174,7 @@
     "messageformat": "პრობლემის აღწერა"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "აღწერე შენი პრობლემა"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "გთხოვთ საკითხთან დაკავშირებული ნებისმიერი დეტალი მიუთითო. ყველაფერს, რასაც აქ გააზიარებ, კონფიდენციალურობას შევუნარჩუნებთ და მხოლოდ Signal-ის ზარების გასაუმჯობესებლად გამოვიყენებთ."
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "„(N)“ მალსახმობი სწორად მიუთითებს ქვემოთ დაშვებული ცერა თითის ემოჯიზე. გმადლობთ, <lnicola></lnicola>, ხარვეზების გამოსწორებისთვის."
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

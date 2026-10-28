@@ -8,6 +8,15 @@
   "icu:AxoButton.Pending": {
     "messageformat": "Đang chờ"
   },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
+  },
   "icu:AxoDialog.Back": {
     "messageformat": "Trở lại"
   },
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Thiết bị chính của bạn sẽ quản lý các thiết bị đã liên kết, bạn có thể liên kết tối đa 5 thiết bị."
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Cài đặt tài khoản và các bản sao lưu chỉ có thể được quản lý trên thiết bị chính của bạn."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Cài đặt tài khoản và Sao lưu bảo mật Signal chỉ có thể được quản lý trên thiết bị chính của bạn."
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "Cuộc trò chuyện đã lưu trữ"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Thêm thư mục trò chuyện"
@@ -675,7 +684,7 @@
     "messageformat": "Đối với các liên hệ bạn đã kết nối thông qua số điện thoại, Signal có thể tự động xác nhận xem kết nối có an toàn hay không bằng cách sử dụng quy trình được gọi là độ minh bạch của mã khóa. Để tăng độ bảo mật, bạn vẫn có thể xác minh thủ công các kết nối bằng mã QR hoặc bằng cách so sánh mã số an toàn."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Đối với các liên hệ bạn đã kết nối thông qua số điện thoại, Signal có thể tự động xác nhận xem kết nối có an toàn hay không bằng cách sử dụng quy trình được gọi là độ minh bạch của mã khóa.</paragraph><paragraph>Để tăng độ bảo mật, bạn vẫn có thể xác minh thủ công các kết nối bằng mã QR hoặc bằng cách so sánh mã số an toàn.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Tiếp tục"
@@ -1749,7 +1758,7 @@
     "messageformat": "Tìm kiếm"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Không có cuộc trò chuyện"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Loại cuộc trò chuyện"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "Hành động này sẽ xóa thông tin tài khoản, hồ sơ và tất cả tin nhắn của bạn. Chúng tôi cũng sẽ xóa bạn khỏi tất cả nhóm Signal. Ứng dụng sẽ đóng sau khi quá trình này hoàn tất."
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Bạn có dữ liệu cũ từ một lần cài đặt trước của Signal Desktop. Nếu bạn chọn để tiếp tục, dữ liệu sẽ bị xoá và bạn sẽ bắt đầu lại từ đầu."
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "Phát âm thanh gọi điện"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "Hiện thông báo cuộc gọi"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Cho phép cuộc gọi đến"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "Gói Nhãn dán"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Sử dụng gần đây"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Nổi bật"
@@ -3522,7 +3552,7 @@
     "messageformat": "Các thành viên trong nhóm có thể thêm lại bạn vào nhóm."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Bạn sẽ nhận được các cập nhật và tin tức của Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Đã báo cáo spam và chặn."
@@ -3540,7 +3570,7 @@
     "messageformat": "Bạn sẽ không thể nhận được tin nhắn hoặc cập nhật từ nhóm này và các thành viên sẽ không thể thêm bạn vào lại nhóm này."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Bạn sẽ không còn nhận được các cập nhật và tin tức của Signal nữa."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Báo cáo…"
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Cài đặt"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} trong cuộc gọi}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "Mặc định"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Tắt tiếng thông báo"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Hỏi ý kiến"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Thêm tập tin hoặc hỏi ý kiến"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Chỉnh sửa tin nhắn"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "Bao gồm các cuộc trò chuyện đã tắt tiếng vào số lượng hiển thị"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Biệt danh"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Âm thanh"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "Huy hiệu ứng dụng"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Huy hiệu chưa đọc"
   },
@@ -6686,7 +6785,7 @@
     "messageformat": "Người dùng bị chặn sẽ không thể gửi tin nhắn hay gọi cho bạn"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Thêm người dùng bị chặn hoặc nhóm"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Người dùng Đã Chặn"
@@ -6698,10 +6797,10 @@
     "messageformat": "Bị chặn vào {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Xong"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Tìm kiếm"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sao lưu bảo mật Signal"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Signal Desktop cập nhật không thành công, nhưng hiện có phiên bản mới. Truy cập {downloadUrl} và cài đặt thủ công phiên bản mới, sau đó liên hệ bộ phận hỗ trợ hoặc báo cáo về vấn đề này."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal Logo"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "OK"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Thiết lập hồ sơ"
@@ -9030,7 +9174,7 @@
     "messageformat": "Mô tả vấn đề"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Mô tả vấn đề của bạn"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Vui lòng cung cấp mọi thông tin liên quan đến vấn đề. Mọi thông tin bạn chia sẻ ở đây sẽ được bảo mật và chỉ được sử dụng để tăng chất lượng cuộc gọi Signal."
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "Phím tắt &quot;(N)&quot; trỏ chính xác đến emoji ngón cái hướng xuống. Cảm ơn <lnicola></lnicola> vì đã sửa lỗi."
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

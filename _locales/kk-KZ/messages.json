@@ -8,6 +8,15 @@
   "icu:AxoButton.Pending": {
     "messageformat": "Күтілуде"
   },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
+  },
   "icu:AxoDialog.Back": {
     "messageformat": "Артқа"
   },
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Негізгі құрылғыңыз арқылы байланыстырылған құрылғыларды басқара аласыз. Ең көбі 5 құрылғы байланыстыруға болады."
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Аккаунт параметрлері мен сақтық көшірмелерді тек негізгі құрылғыда басқаруға болады."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Аккаунт параметрлері және Signal қауіпсіз сақтық көшірмесін тек негізгі құрылғыдан басқаруға болады."
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "Мұрағатталған чаттар"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Чат қалтасын қосу"
@@ -675,7 +684,7 @@
     "messageformat": "Телефон нөмірі арқылы байланыс орнатқан контактілер үшін Signal байланыстың қаншалықты қауіпсіз екенін \"кілт ашықтығы\" деп аталатын процестің көмегімен автоматты түрде растай алады. Қауіпсіздікті нығайту үшін QR коды немесе қауіпсіздік нөмірлері арқылы контактілерді бұрынғыдай қолмен растай аласыз."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Телефон нөмірі арқылы байланыс орнатқан контактілер үшін Signal байланыстың қаншалықты қауіпсіз екенін &quot;кілт ашықтығы&quot; деп аталатын процестің көмегімен автоматты түрде растай алады.</paragraph><paragraph>Қауіпсіздікті нығайту үшін QR кодын пайдалану немесе қауіпсіздік нөмірлерін салыстыру арқылы контактілерді бұрынғыдай қолмен растай аласыз.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Жалғастыру"
@@ -1749,7 +1758,7 @@
     "messageformat": "Іздеу"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Чаттар жоқ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Чат түрлері"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "Онда аккаунт ақпараты, профиль және барлық хабар жойылып кетеді. Сонымен қатар барлық Signal тобынан шығасыз. Бұл процесс аяқталған соң, қолданба жабылады."
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal-дың компьютерлік нұсқасын бұған дейін орнатқаннан ескі деректер қалып қойған. Жалғастыратын болсаңыз, ол жойылады және бәрін басынан бастайсыз."
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "Қоңырау дауыстарын ойнату"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "Қоңыраулар үшін хабарландыруларды көрсету"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Кіріс қоңырауларын қосу"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "Стикерлер жинағы"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Жақында қолданылғандар"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Жақында қолданылғандар"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Таңдаулы"
@@ -3522,7 +3552,7 @@
     "messageformat": "Топ мүшелері сізді бұл топқа қайта қоса алады."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Signal туралы жаңалықтар алып отырасыз."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Спам деп хабарланып, блокталды."
@@ -3540,7 +3570,7 @@
     "messageformat": "Енді бұл топтан ешқандай хаттарды немесе жаңартуларды алмайсыз және оның мүшелері сізді осы топқа қайта қоса алмайды."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Енді Signal туралы жаңалықтар алмайтын боласыз."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Шағымдану..."
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Параметрлер"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {Қоңырауда {people,number}} other {Қоңырауда {people,number}}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "Әдепкі параметр"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Хабарландырулардың дыбысын өшіру"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Сауалнама"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Тіркеме немесе сауалнама қосыңыз"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Хатты өзгерту"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "Дыбыссыз чаттарды таңба санына қосу"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Лақап ат"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Дыбыстар"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "Қолданба танымбелгісі"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Оқылмаған танымбелгілер"
   },
@@ -6686,7 +6785,7 @@
     "messageformat": "Блокталған пайдаланушылар сізге қоңырау шала алмайды немесе хабар жібере алмайды"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Блокталған пайдаланушыны немесе топты қосу"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Блокталған пайдаланушылар"
@@ -6698,10 +6797,10 @@
     "messageformat": "Блокталған уақыты: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Дайын"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Іздеу"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal қауіпсіз сақтық көшірмелері"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Компьютерге арналған Signal жаңартылмады, бірақ оның жаңа нұсқасы бар. {downloadUrl} веб-бетіне кіріп, жаңа нұсқасын қолмен орнатыңыз, содан кейін қолдау қызметіне хабарласыңыз немесе бұл мәселе бойынша тикет ашыңыз."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal логотипі"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "OK"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Профиль параметрлерін реттеу"
@@ -9030,7 +9174,7 @@
     "messageformat": "Ақаулардың сипаттамасы"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Мәселені сипаттаңыз"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Осы ақауға қатысты деректердің барлығын енгізіңіз. Осы жерде бөліскен ақпаратыңыздың барлығы құпия сақталады және Signal-дағы қоңыраулар сапасын жақсарту үшін ғана қолданылады."
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "&quot;(N)&quot; пернелер тіркесімі дизлайк эмоджиін дұрыс көрсетеді. Ақауды түзеткендеріңіз үшін лайк <lnicola></lnicola>."
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

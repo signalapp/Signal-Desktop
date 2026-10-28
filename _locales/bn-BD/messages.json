@@ -3,10 +3,19 @@
     "messageformat": "বাতিল করুন"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "ঠিক আছে"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "স্থগিত"
+  },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "ফিরে যান"
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "আপনার মূল ডিভাইসটি লিংক করা ডিভাইসগুলো পরিচালনা করে, আপনি সর্বোচ্চ 5-টি ডিভাইস লিংক করতে পারবেন।"
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "অ্যাকাউন্টের সেটিংস এবং ব্যাকআপ শুধুমাত্র আপনার প্রাথমিক ডিভাইস থেকেই নিয়ন্ত্রণ করা যাবে।"
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "অ্যাকাউন্ট সেটিংস এবং Signal নিরাপদ ব্যাকআপ শুধুমাত্র আপনার প্রাথমিক ডিভাইসে নিয়ন্ত্রণ করা যাবে।"
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "আর্কাইভকৃত চ্যাট"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "চ্যাট ফোল্ডার যোগ করুন"
@@ -675,7 +684,7 @@
     "messageformat": "ফোন নম্বরের মাধ্যমে আপনি যেসব কন্টাক্টের সাথে সংযুক্ত আছেন, তাদের জন্য Signal স্বয়ংক্রিয়ভাবে 'কি' ট্রান্সপারেন্সি নামক একটি প্রক্রিয়া ব্যবহার করে সংযোগটি সুরক্ষিত কিনা তা নিশ্চিত করতে পারে। বাড়তি নিরাপত্তার জন্য, আপনি এখনো একটি QR কোড ব্যবহার করে অথবা নিরাপত্তা নম্বর তুলনা করে সংযোগগুলো ম্যানুয়ালি যাচাই করতে পারেন।"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>ফোন নম্বরের মাধ্যমে আপনি যেসব কন্টাক্টের সাথে সংযুক্ত আছেন, তাদের জন্য Signal স্বয়ংক্রিয়ভাবে 'কি' ট্রান্সপারেন্সি নামক একটি প্রক্রিয়া ব্যবহার করে সংযোগটি সুরক্ষিত কিনা তা নিশ্চিত করতে পারে।</paragraph><paragraph>বাড়তি নিরাপত্তার জন্য, আপনি এখনো একটি QR কোড ব্যবহার করে অথবা নিরাপত্তা নম্বর তুলনা করে সংযোগগুলো ম্যানুয়ালি যাচাই করতে পারেন।</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "চালিয়ে যান"
@@ -1749,7 +1758,7 @@
     "messageformat": "অনুসন্ধান"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "কোন চ্যাট নেই"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "চ্যাটের ধরন"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "এর ফলে আপনার অ্যাকাউন্টের তথ্য, প্রোফাইল ও আপনার সকল মেসেজ মুছে যাবে। আপনাকে সকল Signal গ্রুপ থেকেও সরিয়ে দেওয়া হবে। এই প্রক্রিয়াটি সম্পন্ন হওয়ার পর অ্যাপটি বন্ধ হয়ে যাবে।"
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার কিছু পুরনো ডেটা রয়েছে। আপনি চালিয়ে গেলে এগুলো মুছে যাবে এবং আপনি আবার প্রথম থেকে শুরু করবেন।"
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "কল আসার শব্দ প্লে করুন"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "কলগুলির বিজ্ঞপ্তি দেখান"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "আগত কলগুলি সক্রিয় করুন"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "স্টিকার প্যাক"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "ফিচারকৃত"
@@ -3522,7 +3552,7 @@
     "messageformat": "গ্রুপের সদস্যরা আপনাকে আবার এই গ্রুপে যোগ করতে পারবেন।"
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "আপনি Signal-এর আপডেট ও খবর পাবেন।"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "স্প্যাম হিসেবে রিপোর্ট এবং ব্লক করা হয়েছে।"
@@ -3540,7 +3570,7 @@
     "messageformat": "আপনি এই গ্রুপ থেকে আর বার্তা বা আপডেট পাবেন না এবং এর সদস্যরা আপনাকে আর এই গ্রুপে যোগ করতে পারবেন না।"
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "আপনি আর Signal-এর আপডেট ও খবর পাবেন না।"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "রিপোর্ট করুন..."
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "সেটিংস"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} জন কলে আছেন} other {{people,number} জন কলে আছেন}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "ডিফল্ট"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "নোটিফিকেশন মিউট করুন"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "জরিপ"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "সংযুক্তি বা জরিপ যোগ করুন"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ম্যাসেজ এডিট করুন"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "মিউটকৃত চ্যাট ব্যাজ গণনায় অন্তর্ভুক্ত করুন"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "ডাকনাম"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "শব্দসমূহ"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "অ্যাপ ব্যাজ"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "অপঠিত ব্যাজ"
   },
@@ -6686,7 +6785,7 @@
     "messageformat": "ব্লক করা ব্যবহারকারীরা আপনাকে কল করতে বা মেসেজ পাঠাতে পারবেন না"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "ব্লক করা ব্যবহারকারী বা গ্রুপ যোগ করুন"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "ব্লক করা হয়েছে এমন ইউজার"
@@ -6698,10 +6797,10 @@
     "messageformat": "{blockedAt} তারিখে ব্লক করা হয়েছে"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "শেষ"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "অনুসন্ধান"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal নিরাপদ ব্যাকআপ"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Signal ডেস্কটপ আপডেট করতে ব্যর্থ হয়েছে, তবে একটি নতুন সংস্করণ পাওয়া যাচ্ছে। {downloadUrl}-এ যান এবং ম্যানুয়ালি নতুন সংস্করণ ইনস্টল করুন, তারপর সহায়তায় যোগাযোগ করুন বা এই সমস্যা সম্পর্কে একটি বাগ ফাইল করুন।"
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal লোগো"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "ঠিক আছে"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "আপনার প্রোফাইল সেট করুন"
@@ -9030,7 +9174,7 @@
     "messageformat": "সমস্যার বিবরণ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "আপনার সমস্যাটি বর্ণনা করুন"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "সমস্যাটির সাথে প্রাসঙ্গিক যেকোনো বিবরণ অন্তর্ভুক্ত করুন। আপনি এখানে যা কিছু শেয়ার করবেন তা গোপন রাখা হবে এবং শুধুমাত্র Signal-এ কল উন্নত করতে সাহায্য করার জন্য ব্যবহার করা হবে।"
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "&quot;(N)&quot; শর্টকাটটি এখন সঠিকভাবে 'থাম্বস ডাউন' ইমোজির নির্দেশ দেয়। এই বাগটি ঠিক করার জন্য <lnicola></lnicola>-কে অনেক ধন্যবাদ!"
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

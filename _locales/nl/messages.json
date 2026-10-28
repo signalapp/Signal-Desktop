@@ -3,10 +3,19 @@
     "messageformat": "Annuleren"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Begrepen"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "In afwachting"
+  },
+  "icu:AxoColorSlider.Hue": {
+    "messageformat": "Hue"
+  },
+  "icu:AxoColorSlider.Saturation": {
+    "messageformat": "Saturation"
+  },
+  "icu:AxoColorSlider.Lightness": {
+    "messageformat": "Lightness"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Terug"
@@ -76,9 +85,6 @@
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--2": {
     "messageformat": "Je primaire apparaat beheert welke apparaten gekoppeld zijn. Je kunt maximaal 5 gekoppelde apparaten tegelijk hebben."
-  },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Accountinstellingen en back-ups kunnen alleen op je primaire apparaat worden beheerd."
   },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Accountinstellingen en Signal Secure Backups kunnen alleen op je primaire apparaat worden beheerd."
@@ -280,6 +286,9 @@
   },
   "icu:archivedConversations": {
     "messageformat": "Gearchiveerde chats"
+  },
+  "icu:LeftPane__MoreActionsLabel": {
+    "messageformat": "More actions"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Chatmap toevoegen"
@@ -675,7 +684,7 @@
     "messageformat": "Voor contacten waarmee je via een telefoonnummer bent verbonden, kan Signal automatisch bevestigen of de verbinding veilig is met een proces dat sleuteltransparantie heet. Voor extra veiligheid kun je nog steeds handmatig verbindingen verifiëren met een QR-code of door veiligheidsnummers te vergelijken."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Voor contacten waarmee je via een telefoonnummer bent verbonden, kan Signal automatisch bevestigen of de verbinding veilig is met een proces dat sleuteltransparantie heet.</paragraph><paragraph>Voor extra veiligheid kun je nog steeds handmatig verbindingen verifiëren met een QR-code of door veiligheidsnummers te vergelijken.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Doorgaan"
@@ -1749,7 +1758,7 @@
     "messageformat": "Zoeken"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Geen chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chattypes"
@@ -2243,6 +2252,24 @@
   "icu:deleteAccountDialogBody": {
     "messageformat": "Hiermee worden alle accountgegevens, je profiel en al je berichten verwijderd. Je wordt ook verwijderd uit alle Signal-groepen. De app wordt gesloten nadat dit proces is voltooid."
   },
+  "icu:DeleteAccountConfirmDialog--Title": {
+    "messageformat": "Delete account"
+  },
+  "icu:DeleteAccountConfirmDialog--Description": {
+    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+  },
+  "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
+    "messageformat": "Confirm your phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
+    "messageformat": "Country code"
+  },
+  "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
+    "messageformat": "Phone number"
+  },
+  "icu:DeleteAccountConfirmDialog--DeleteButton": {
+    "messageformat": "Delete"
+  },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Je hebt nog verouderde gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je ervoor kiest om verder te gaan, dan zullen alle gegevens worden gewist en zal je met een schone installatie van Signal Desktop beginnen."
   },
@@ -2395,9 +2422,6 @@
   },
   "icu:callRingtoneNotificationDescription": {
     "messageformat": "Oproepgeluid laten horen"
-  },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "Meldingen over oproepen weergeven"
   },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Inkomende oproepen toelaten"
@@ -2996,6 +3020,9 @@
   "icu:FunPanelSticker__SubNavLabel": {
     "messageformat": "Stickerpakketten"
   },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
+    "messageformat": "Favorites"
+  },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Onlangs gebruikt"
   },
@@ -3007,6 +3034,9 @@
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
     "messageformat": "Onlangs gebruikt"
+  },
+  "icu:FunPanelStickers__SectionTitle--Favorites": {
+    "messageformat": "Favorites"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Uitgelicht"
@@ -3522,7 +3552,7 @@
     "messageformat": "Groepsleden zullen je weer kunnen toevoegen aan deze groep."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Je ontvangt updates en nieuws van Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Gemeld als spam en geblokkeerd."
@@ -3540,7 +3570,7 @@
     "messageformat": "Je zult niet langer berichten of meldingen van deze groep ontvangen, en de leden kunnen je niet opnieuw toevoegen aan de groep."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Je ontvangt geen updates en nieuws van Signal meer."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapporteren"
@@ -3869,6 +3899,9 @@
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Instellingen"
   },
+  "icu:callingDeviceSelection__settings-v2": {
+    "messageformat": "Call Settings"
+  },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} in de oproep} other {{people,number} in de oproep}}"
   },
@@ -3973,6 +4006,15 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "Systeemstandaard"
+  },
+  "icu:callingDeviceSelection__select--default-nonwin": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_console": {
+    "messageformat": "Default: {deviceName}"
+  },
+  "icu:callingDeviceSelection__select--default_communications": {
+    "messageformat": "Default Communications: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Meldingen dempen"
@@ -4826,6 +4868,69 @@
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Peiling"
   },
+  "icu:CompositionArea__AttachMenu__Contact": {
+    "messageformat": "Contact"
+  },
+  "icu:ShareContactDialog__SelectContact__Title": {
+    "messageformat": "Select contact"
+  },
+  "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
+    "messageformat": "Search"
+  },
+  "icu:ShareContactDialog__SelectContact__EmptyState": {
+    "messageformat": "No contacts"
+  },
+  "icu:ShareContactDialog__SelectContact__NoResults": {
+    "messageformat": "No results for “{searchQuery}”"
+  },
+  "icu:ShareContactDialog__ShareContact__Title": {
+    "messageformat": "Share contact"
+  },
+  "icu:ShareContactDialog__ShareContact__Description": {
+    "messageformat": "Anyone you share this profile with will be able to message {name}."
+  },
+  "icu:ShareContactDialog__ShareContact__Send": {
+    "messageformat": "Send contact"
+  },
+  "icu:ShareContactDialog__ShareContact__EditName": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Title": {
+    "messageformat": "Edit name"
+  },
+  "icu:ShareContactDialog__EditName__Prefix": {
+    "messageformat": "Prefix"
+  },
+  "icu:ShareContactDialog__EditName__GivenName": {
+    "messageformat": "First name"
+  },
+  "icu:ShareContactDialog__EditName__MiddleName": {
+    "messageformat": "Middle name"
+  },
+  "icu:ShareContactDialog__EditName__FamilyName": {
+    "messageformat": "Last name"
+  },
+  "icu:ShareContactDialog__EditName__Suffix": {
+    "messageformat": "Suffix"
+  },
+  "icu:ShareContactDialog__EditName__Organization": {
+    "messageformat": "Organization"
+  },
+  "icu:ShareContactDialog__ShareContact__EditPhoto": {
+    "messageformat": "Edit photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__Title": {
+    "messageformat": "Select a photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
+    "messageformat": "Contact photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
+    "messageformat": "Profile photo"
+  },
+  "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
+    "messageformat": "Default avatar"
+  },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Bijlage of peiling toevoegen"
   },
@@ -4864,9 +4969,6 @@
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Bericht bewerken"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "Gedempte chats meetellen in de notificatiebadge"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Bijnaam"
@@ -6304,9 +6406,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Geluiden"
   },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App-badge"
-  },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Badge voor ongelezen berichten"
   },
@@ -6674,10 +6773,10 @@
     "messageformat": "Geblokkeerd"
   },
   "icu:Preferences--blocked-count-both-new": {
-    "messageformat": "{num, plural, =0 { Geen gebruikers of groepen } one {{num,number} gebruiker of groep} other {{num,number} gebruikers of groepen}}"
+    "messageformat": "{num, plural, =0 { Geen personen of groepen } one {{num,number} persoon of groep} other {{num,number} personen of groepen}}"
   },
   "icu:Preferences--blocked-count-contacts-new": {
-    "messageformat": "{num, plural, =0 { Geen gebruikers } one {{num,number} gebruiker} other {{num,number} gebruikers}}"
+    "messageformat": "{num, plural, =0 { Geen personen } one {{num,number} persoon} other {{num,number} personen}}"
   },
   "icu:Preferences--blocked-count-groups-new": {
     "messageformat": "{num, plural, =0 { Geen groepen } one {{num,number} groep} other {{num,number} groepen}}"
@@ -6686,7 +6785,7 @@
     "messageformat": "Geblokkeerde personen kunnen je niet bellen en geen berichten sturen"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Persoon of groep blokkeren"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Geblokkeerde personen"
@@ -6698,10 +6797,10 @@
     "messageformat": "Geblokkeerd op {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Klaar"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Zoeken"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Secure Backups"
@@ -7099,6 +7198,36 @@
   "icu:InstallScreenUpdateDialog--cannot-update__body": {
     "messageformat": "Signal Desktop kon niet worden bijgewerkt, maar er is een nieuwe versie beschikbaar. Ga naar {downloadUrl} en installeer de nieuwe versie handmatig. Neem vervolgens contact op met ondersteuning of dien een foutrapport in over dit probleem."
   },
+  "icu:EntryPoint--signal-logo": {
+    "messageformat": "Signal Logo"
+  },
+  "icu:EntryPoint--Title--Line1": {
+    "messageformat": "Take privacy with you."
+  },
+  "icu:EntryPoint--Title--Line2": {
+    "messageformat": "Be yourself in every message."
+  },
+  "icu:EntryPoint--link-button": {
+    "messageformat": "Link your account"
+  },
+  "icu:EntryPoint--more-options-button": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--nonprofit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
+  "icu:EntryPoint--terms": {
+    "messageformat": "Terms & privacy policy"
+  },
+  "icu:EntryPoint--MoreOptions--Title": {
+    "messageformat": "More options"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
+    "messageformat": "Create a new account"
+  },
+  "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
+    "messageformat": "Create a new Signal account using your phone number."
+  },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal-logo"
   },
@@ -7293,6 +7422,21 @@
   },
   "icu:StandaloneRegistration--VerificationCode--CannotSendCodeTemporary--ok-button": {
     "messageformat": "Begrepen"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
+    "messageformat": "Having trouble registering?"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
+    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
+    "messageformat": "Confirm you can receive a phone call to the number"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
+    "messageformat": "Check that you have entered your phone number correctly"
+  },
+  "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
+    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Stel je profiel in"
@@ -9030,7 +9174,7 @@
     "messageformat": "Probleemomschrijving"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Beschrijf het probleem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Vermeld alle details die relevant zijn voor het probleem. Alles wat je hier deelt, blijft vertrouwelijk en wordt uitsluitend gebruikt om oproepen in Signal te verbeteren."
@@ -9063,7 +9207,7 @@
     "messageformat": "Diagnostische informatie"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Uploaden"
+    "messageformat": "Indienen"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
     "messageformat": "Indienen is mislukt"
@@ -9155,5 +9299,11 @@
   },
   "icu:WhatsNew__8.32--2": {
     "messageformat": "Als je nu ‘(N)’ typt krijg je het juiste duimpje, namelijk omlaag. Duimpje omhoog voor <lnicola></lnicola> die dit heeft opgelost."
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices."
   }
 }

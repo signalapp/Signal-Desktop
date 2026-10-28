@@ -127,10 +127,6 @@
     "messageformat": "Your primary device manages what’s linked, you can link up to 5 devices.",
     "description": "Second bullet point of the Linked Devices Onboarding Dialog"
   },
-  "icu:LinkedDevicesOnboardingDialog__bullet--3--1": {
-    "messageformat": "Account settings and backups can only be managed on your primary device.",
-    "description": "(Deleted 2026/09/23) Third bullet point of the Linked Devices Onboarding Dialog"
-  },
   "icu:LinkedDevicesOnboardingDialog__bullet--3--2": {
     "messageformat": "Account settings and Signal Secure Backups can only be managed on your primary device.",
     "description": "Third bullet point of the Linked Devices Onboarding Dialog"
@@ -3224,10 +3220,6 @@
     "messageformat": "Play calling sounds",
     "description": "Description for call ringtone notification setting"
   },
-  "icu:callSystemNotificationDescription": {
-    "messageformat": "Show notifications for calls",
-    "description": "(Deleted 2026/09/23) Description for call notification setting"
-  },
   "icu:incomingCallNotificationDescription": {
     "messageformat": "Enable incoming calls",
     "description": "Description for incoming calls setting"
@@ -4168,19 +4160,19 @@
   },
   "icu:FunPicker__Label--StickerReply": {
     "messageformat": "Reply",
-    "description": "When replying to a message and previewing a sticker to send, this is the label for the preview view."
+    "description": "(Deleted 2026/10/28) When replying to a message and previewing a sticker to send, this is the label for the preview view."
   },
   "icu:FunPicker__Label--SendStickerReply": {
     "messageformat": "Send",
-    "description": "When replying to a message and previewing a sticker to send, this is the accessibility label for the Send button. Sticker Picker > Preview sticker > Send button > Accessibility label"
+    "description": "(Deleted 2026/10/28) When replying to a message and previewing a sticker to send, this is the accessibility label for the Send button. Sticker Picker > Preview sticker > Send button > Accessibility label"
   },
   "icu:FunPicker__Label--CancelStickerReply": {
     "messageformat": "Cancel",
-    "description": "When replying to a message and previewing a sticker to send, this is the accessibility label for the Cancel button. Sticker Picker > Preview sticker > Cancel button > Accessibility label"
+    "description": "(Deleted 2026/10/28) When replying to a message and previewing a sticker to send, this is the accessibility label for the Cancel button. Sticker Picker > Preview sticker > Cancel button > Accessibility label"
   },
   "icu:FunPicker__Label--Sticker": {
     "messageformat": "Sticker",
-    "description": "When replying to a message and previewing a sticker to send, this is the accessibility label for the sticker preview image."
+    "description": "(Deleted 2026/10/28) When replying to a message and previewing a sticker to send, this is the accessibility label for the sticker preview image."
   },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Cancel",
@@ -5180,7 +5172,7 @@
   },
   "icu:callingDeviceSelection__settings": {
     "messageformat": "Settings",
-    "description": "Title for device selection settings"
+    "description": "(Deleted 2026/10/28) Title for device selection settings"
   },
   "icu:callingDeviceSelection__settings-v2": {
     "messageformat": "Call Settings",
@@ -5324,7 +5316,7 @@
   },
   "icu:callingDeviceSelection__select--default": {
     "messageformat": "Default",
-    "description": "Shown when the device is the default device"
+    "description": "(Deleted 2026/10/28) Shown when the device is the default device"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
     "messageformat": "Default: {deviceName}",
@@ -6172,7 +6164,7 @@
   },
   "icu:GroupV1--Migration--migrate": {
     "messageformat": "Upgrade",
-    "description": "Shown on Migrate dialog to kick off the process"
+    "description": "(Deleted 2026/10/28) Shown on Migrate dialog to kick off the process"
   },
   "icu:GroupV1--Migration--info--title": {
     "messageformat": "What are New Groups?",
@@ -6180,7 +6172,7 @@
   },
   "icu:GroupV1--Migration--migrate--title": {
     "messageformat": "Upgrade to New Group",
-    "description": "Shown on Migration popup after choosing to migrate group"
+    "description": "(Deleted 2026/10/28) Shown on Migration popup after choosing to migrate group"
   },
   "icu:GroupV1--Migration--info--summary": {
     "messageformat": "New Groups have features like @mentions and group admins, and will support more features in the future.",
@@ -6192,7 +6184,7 @@
   },
   "icu:GroupV1--Migration--migrate--keep-history": {
     "messageformat": "All message history and media will be kept from before the upgrade.",
-    "description": "Shown on Migration popup before GV1 migration"
+    "description": "(Deleted 2026/10/28) Shown on Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--invited--you": {
     "messageformat": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
@@ -6212,15 +6204,15 @@
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "These members are not capable of joining New Groups, and will be removed from the group:",
-    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    "description": "(Deleted 2026/10/28) Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--before--one": {
     "messageformat": "This member is not capable of joining New Groups, and will be removed from the group:",
-    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    "description": "(Deleted 2026/10/28) Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--before--count": {
     "messageformat": "{count, plural, one {# member is} other {# members are}} not capable of joining New Groups, and will be removed from the group.",
-    "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
+    "description": "(Deleted 2026/10/28) Shown on Learn More popup after or Migration popup before GV1 migration"
   },
   "icu:GroupV1--Migration--info--removed--after--many": {
     "messageformat": "These members were not capable of joining New Groups, and were removed from the group:",
@@ -6609,10 +6601,6 @@
   "icu:CompositionInput__editing-message": {
     "messageformat": "Edit message",
     "description": "Status text displayed above composition input when editing a message"
-  },
-  "icu:countMutedConversationsDescription": {
-    "messageformat": "Include muted chats in badge count",
-    "description": "(Deleted 2026/09/23) Description for counting muted conversations in badge setting"
   },
   "icu:ContactModal--nickname": {
     "messageformat": "Nickname",
@@ -8527,10 +8515,6 @@
   "icu:Preferences__Notifications__SoundsSection__Title": {
     "messageformat": "Sounds",
     "description": "Preferences > Notifications > Sounds Section > Title"
-  },
-  "icu:Preferences__Notifications__AppBadgeSection__Title": {
-    "messageformat": "App badge",
-    "description": "(Deleted 2026/09/23) Preferences > Notifications > App Badge Section > Title"
   },
   "icu:Preferences__Notifications__AppBadgeSection__Title-v2": {
     "messageformat": "Unread badges",
@@ -11096,7 +11080,7 @@
   },
   "icu:ContextMenu--button": {
     "messageformat": "Context menu",
-    "description": "Default aria-label for the context menu buttons"
+    "description": "(Deleted 2026/10/28) Default aria-label for the context menu buttons"
   },
   "icu:EditUsernameModalBody__username-label": {
     "messageformat": "Username",
