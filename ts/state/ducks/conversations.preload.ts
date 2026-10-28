@@ -4190,7 +4190,7 @@ export type DragAttachmentActionCreatorType = ReadonlyDeep<
 function dragAttachment(
   attachment: AttachmentType,
   timestamp = Date.now()
-): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
+): AsyncStateThunk<ShowToastActionType> {
   return async () => {
     const fullPath = await Attachment.save({
       attachment,
