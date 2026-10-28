@@ -5,8 +5,10 @@ import type { CapabilitiesUploadType } from '../types/Capabilities.d.ts';
 
 export function getCapabilities({
   optionalPhoneNumber,
+  hasPin,
 }: {
   optionalPhoneNumber: boolean;
+  hasPin: boolean;
 }): CapabilitiesUploadType {
   return {
     // Server only uses the primary device's value for attachmentBackfill
@@ -14,5 +16,6 @@ export function getCapabilities({
     spqr: true,
     usernameChangeSyncMessage: true,
     optionalPhoneNumber,
+    ...(hasPin ? { storage: true } : undefined),
   };
 }

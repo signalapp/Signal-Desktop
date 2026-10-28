@@ -1,12 +1,14 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { drop } from './drop.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { deleteFromSVR2 } from '../textsecure/WebAPI.preload.ts';
 import { strictAssert } from './assert.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { pinReminderService } from '../services/pinReminder.preload.ts';
+import { updateCapabilities } from './updateCapabilities.preload.ts';
 
 const log = createLogger('disableSignalPin');
 
@@ -33,6 +35,9 @@ export async function disableSignalPin(): Promise<void> {
     await itemStorage.put('svrPin', undefined);
     await itemStorage.put('pinReminders', false);
     await pinReminderService.handlePinRemindersSettingChanged(false);
+
+    // We can drop storage capability now that user has removed their PIN
+    drop(updateCapabilities());
   } catch (error) {
     log.error('Failed to disable Signal PIN.', toLogFormat(error));
     window.reduxActions.globalModals.showErrorModal({

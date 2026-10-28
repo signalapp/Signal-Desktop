@@ -22,6 +22,7 @@ export function assembleAccountAttributes(): AccountAttributesJSON {
 
   const capabilities: CapabilitiesUploadType = getCapabilities({
     optionalPhoneNumber: itemStorage.user.getOptionalNumber() == null,
+    hasPin: Boolean(itemStorage.get('isSvrPinStored')),
   });
 
   const ourAci = itemStorage.user.getCheckedAci();

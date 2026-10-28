@@ -292,6 +292,7 @@ import { isSignalServiceId } from '../types/SignalConversation.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 import { registrationJobQueue } from '../jobs/registrationJobQueue.preload.ts';
 import { areWeInGroupWith } from '../util/areWeInGroupWith.preload.ts';
+import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -425,10 +426,6 @@ export class ConversationModel {
         name in attributes && attributes[name] !== previousAttributes[name]
       );
     };
-
-    if (hasAttributeChanged('profileKey')) {
-      this.onChangeProfileKey();
-    }
 
     const clearUsernameOrSharedNameTriggers: Array<
       keyof ConversationAttributesType
@@ -5378,12 +5375,6 @@ export class ConversationModel {
       );
   }
 
-  onChangeProfileKey(): void {
-    if (isDirectConversation(this.attributes)) {
-      drop(this.getProfiles());
-    }
-  }
-
   async getProfiles(): Promise<void> {
     // request all conversation members' keys
     const conversations = this.getMembers();
@@ -5605,11 +5596,15 @@ export class ConversationModel {
       });
     }
 
-    // Don't trigger immediate profile fetches when syncing to remote storage
-    this.set(
-      { profileKey, accessKey: Bytes.toBase64(derivedAccessKey) },
-      { noTrigger: skipProfileFetch || viaStorageServiceSync }
-    );
+    this.set({ profileKey, accessKey: Bytes.toBase64(derivedAccessKey) });
+
+    if (isMe(this.attributes)) {
+      await ourProfileKeyService.set(Bytes.fromBase64(profileKey));
+    }
+
+    if (!skipProfileFetch && isDirectConversation(this.attributes)) {
+      drop(this.getProfiles());
+    }
 
     // We _don't_ update storage service when we find out about a new profileKey unless
     // we're a primary device

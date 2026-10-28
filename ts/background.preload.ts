@@ -100,7 +100,6 @@ import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
 import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { getProfile } from './util/getProfile.preload.ts';
-import { getCapabilities } from './util/getCapabilities.std.ts';
 import type {
   AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
@@ -149,7 +148,6 @@ import {
   onNavigatorOffline,
   onNavigatorOnline,
   reconnect as reconnectWebAPI,
-  registerCapabilities as doRegisterCapabilities,
   registerRequestHandler,
   reportMessage,
   unregisterRequestHandler,
@@ -305,6 +303,7 @@ import {
 import { PhoneNumberDiscoverability } from './util/phoneNumberDiscoverability.std.ts';
 import { getProfileData } from './state/ducks/standaloneInstaller.preload.ts';
 import { pinReminderService } from './services/pinReminder.preload.ts';
+import { updateCapabilities } from './util/updateCapabilities.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -1492,6 +1491,27 @@ async function startApp(): Promise<void> {
       await itemStorage.put(BLOCKED_UUIDS_ID, blockedAcis);
     }
 
+    log.info('profileKey cleanup: starting...');
+    const storageProfileKey = itemStorage.get('profileKey');
+    const storageProfileKeyBase64 = storageProfileKey
+      ? Bytes.toBase64(storageProfileKey)
+      : undefined;
+
+    const me = window.ConversationController.getOurConversation();
+    const convoProfileKeyBase64 = me?.get('profileKey');
+
+    if (
+      me &&
+      convoProfileKeyBase64 &&
+      convoProfileKeyBase64 !== storageProfileKeyBase64
+    ) {
+      log.info(
+        'profileKey cleanup: storage and convo profileKeys did not match. Updating storage.'
+      );
+      const convoProfileKey = Bytes.fromBase64(convoProfileKeyBase64);
+      await ourProfileKeyService.set(convoProfileKey);
+    }
+
     const signalItem = blockedAcis.find(item =>
       isSignalServiceId(item.serviceId)
     );
@@ -2021,7 +2041,7 @@ async function startApp(): Promise<void> {
 
     // Note: we always have to register our capabilities all at once, so we do this
     //   after connect on every startup
-    drop(registerCapabilities());
+    drop(updateCapabilities());
     drop(ensureAEP());
     drop(maybeQueueDeviceInfoFetch());
     Stickers.downloadQueuedPacks();
@@ -2078,21 +2098,6 @@ async function startApp(): Promise<void> {
       log.warn(
         'ensureAEP: AEP not captured, but sync requested recently.' +
           'Not running'
-      );
-    }
-  }
-
-  async function registerCapabilities() {
-    try {
-      await doRegisterCapabilities(
-        getCapabilities({
-          optionalPhoneNumber: itemStorage.user.getOptionalNumber() == null,
-        })
-      );
-    } catch (error) {
-      log.error(
-        'Error: Unable to register our capabilities.',
-        Errors.toLogFormat(error)
       );
     }
   }

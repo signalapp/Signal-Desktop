@@ -73,7 +73,6 @@ import {
 import { normalizeAci } from '../util/normalizeAci.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.ts';
-import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
@@ -1426,7 +1425,6 @@ export default class AccountManager extends EventTarget {
     await itemStorage.put('identityKeyMap', identityKeyMap);
     await itemStorage.put('registrationIdMap', registrationIdMap);
 
-    await ourProfileKeyService.set(profileKey);
     const me = window.ConversationController.getOurConversationOrThrow();
     await me.setProfileKey(Bytes.toBase64(profileKey), {
       reason: 'registration',
