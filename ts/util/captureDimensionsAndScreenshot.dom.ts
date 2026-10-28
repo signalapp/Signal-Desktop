@@ -28,11 +28,6 @@ export async function captureDimensionsAndScreenshot(
     writeNewAttachmentData: (
       data: Uint8Array<ArrayBuffer>
     ) => Promise<LocalAttachmentV2Type>;
-    makeObjectUrl: (
-      data: Uint8Array<ArrayBuffer> | ArrayBuffer,
-      contentType: MIMEType
-    ) => string;
-    revokeObjectUrl: (path: string) => void;
     getImageDimensions: (params: {
       objectUrl: string;
       logger: LoggerType;
@@ -58,8 +53,6 @@ export async function captureDimensionsAndScreenshot(
 
   const {
     writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
     getImageDimensions: getImageDimensionsFromURL,
     makeImageThumbnail,
     makeVideoScreenshot,
@@ -132,73 +125,72 @@ export async function captureDimensionsAndScreenshot(
 
   strictAssert(isVideoTypeSupported(contentType), 'enforced by early return');
 
-  if (attachment.height && attachment.width && attachment.screenshot?.path) {
-    return attachment;
+  let updatedAttachment = attachment;
+  if (!attachment.height || !attachment.width || !attachment.screenshot?.path) {
+    try {
+      const { blob, duration, width, height } = await makeVideoScreenshot({
+        objectUrl: localUrl,
+        contentType: THUMBNAIL_CONTENT_TYPE,
+        logger,
+      });
+      const screenshotBuffer = await blobToArrayBuffer(blob);
+      const screenshot = await writeNewAttachmentData(
+        new Uint8Array(screenshotBuffer)
+      );
+
+      updatedAttachment = {
+        ...attachment,
+        duration,
+        screenshot: {
+          ...screenshot,
+          contentType: THUMBNAIL_CONTENT_TYPE,
+          width,
+          height,
+        },
+        width,
+        height,
+      };
+    } catch (error) {
+      logger.error(
+        'captureDimensionsAndScreenshot: error processing video; skipping screenshot generation',
+        toLogFormat(error)
+      );
+    }
   }
+  if (
+    updatedAttachment.screenshot?.path &&
+    !updatedAttachment.thumbnail?.path &&
+    options.generateThumbnail
+  ) {
+    try {
+      const screenshotUrl = getLocalAttachmentUrl(updatedAttachment.screenshot);
 
-  let screenshotObjectUrl: string | undefined;
-  try {
-    const { blob, duration } = await makeVideoScreenshot({
-      objectUrl: localUrl,
-      contentType: THUMBNAIL_CONTENT_TYPE,
-      logger,
-    });
-    const screenshotBuffer = await blobToArrayBuffer(blob);
-    screenshotObjectUrl = makeObjectUrl(
-      screenshotBuffer,
-      THUMBNAIL_CONTENT_TYPE
-    );
-    const { width, height } = await getImageDimensionsFromURL({
-      objectUrl: screenshotObjectUrl,
-      logger,
-    });
-    const screenshot = await writeNewAttachmentData(
-      new Uint8Array(screenshotBuffer)
-    );
-
-    let thumbnail: LocalAttachmentV2Type | undefined;
-    if (options.generateThumbnail) {
       const thumbnailBuffer = await blobToArrayBuffer(
         await makeImageThumbnail({
           size: THUMBNAIL_SIZE,
-          objectUrl: screenshotObjectUrl,
+          objectUrl: screenshotUrl,
           contentType: THUMBNAIL_CONTENT_TYPE,
           logger,
         })
       );
 
-      thumbnail = await writeNewAttachmentData(new Uint8Array(thumbnailBuffer));
-    }
-
-    return {
-      ...attachment,
-      duration,
-      screenshot: {
-        ...screenshot,
-        contentType: THUMBNAIL_CONTENT_TYPE,
-        width,
-        height,
-      },
-      thumbnail: thumbnail
-        ? {
-            ...thumbnail,
-            contentType: THUMBNAIL_CONTENT_TYPE,
-            width: THUMBNAIL_SIZE,
-            height: THUMBNAIL_SIZE,
-          }
-        : undefined,
-      width,
-      height,
-    };
-  } catch (error) {
-    logger.error(
-      'captureDimensionsAndScreenshot: error processing video; skipping screenshot generation',
-      toLogFormat(error)
-    );
-    return attachment;
-  } finally {
-    if (screenshotObjectUrl !== undefined) {
-      revokeObjectUrl(screenshotObjectUrl);
+      updatedAttachment = {
+        ...updatedAttachment,
+        thumbnail: {
+          ...updatedAttachment.thumbnail,
+          ...(await writeNewAttachmentData(new Uint8Array(thumbnailBuffer))),
+          contentType: THUMBNAIL_CONTENT_TYPE,
+          width: THUMBNAIL_SIZE,
+          height: THUMBNAIL_SIZE,
+        },
+      };
+    } catch (error) {
+      logger.error(
+        'captureDimensionsAndScreenshot: error processing video; skipping screenshot thumbnail generation',
+        toLogFormat(error)
+      );
     }
   }
+
+  return updatedAttachment;
 }

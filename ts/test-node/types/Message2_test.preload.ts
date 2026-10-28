@@ -72,16 +72,11 @@ describe('Message', () => {
         contentType: MIME.MIMEType;
         logger: LoggerType;
       }) => new Blob(),
-      makeObjectUrl: (
-        _data: Uint8Array<ArrayBuffer> | ArrayBuffer,
-        _contentType: MIME.MIMEType
-      ) => 'fake-object-url',
       makeVideoScreenshot: async (_params: {
         objectUrl: string;
         contentType: MIME.MIMEType;
         logger: LoggerType;
       }) => ({ blob: new Blob(), duration: 1, width: 1, height: 1 }),
-      revokeObjectUrl: (_objectUrl: string) => undefined,
       readAttachmentData: async (
         attachment: Partial<AddressableAttachmentType>
       ): Promise<Uint8Array<ArrayBuffer>> => {

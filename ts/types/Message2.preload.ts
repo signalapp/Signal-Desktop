@@ -68,17 +68,12 @@ export type ContextType = {
     contentType: MIME.MIMEType;
     logger: LoggerType;
   }) => Promise<Blob>;
-  makeObjectUrl: (
-    data: Uint8Array<ArrayBuffer> | ArrayBuffer,
-    contentType: MIME.MIMEType
-  ) => string;
   makeVideoScreenshot: (params: {
     objectUrl: string;
     contentType: MIME.MIMEType;
     logger: LoggerType;
   }) => Promise<MakeVideoScreenshotResultType>;
   maxVersion?: number;
-  revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
   ) => Promise<Uint8Array<ArrayBuffer>>;
@@ -722,8 +717,6 @@ export const processNewAttachment = async (
   attachmentType: MessageAttachmentType,
   {
     writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
     getImageDimensions,
     makeImageThumbnail,
     makeVideoScreenshot,
@@ -731,8 +724,6 @@ export const processNewAttachment = async (
   }: Pick<
     ContextType,
     | 'writeNewAttachmentData'
-    | 'makeObjectUrl'
-    | 'revokeObjectUrl'
     | 'getImageDimensions'
     | 'makeImageThumbnail'
     | 'makeVideoScreenshot'
@@ -741,12 +732,6 @@ export const processNewAttachment = async (
 ): Promise<AttachmentType> => {
   if (!isFunction(writeNewAttachmentData)) {
     throw new TypeError('context.writeNewAttachmentData is required');
-  }
-  if (!isFunction(makeObjectUrl)) {
-    throw new TypeError('context.makeObjectUrl is required');
-  }
-  if (!isFunction(revokeObjectUrl)) {
-    throw new TypeError('context.revokeObjectUrl is required');
   }
   if (!isFunction(getImageDimensions)) {
     throw new TypeError('context.getImageDimensions is required');
@@ -776,8 +761,6 @@ export const processNewAttachment = async (
       },
       {
         writeNewAttachmentData,
-        makeObjectUrl,
-        revokeObjectUrl,
         getImageDimensions,
         makeImageThumbnail,
         makeVideoScreenshot,

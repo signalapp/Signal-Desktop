@@ -25,9 +25,7 @@ import {
 import {
   getImageDimensions,
   makeImageThumbnail,
-  makeObjectUrl,
   makeVideoScreenshot,
-  revokeObjectUrl,
 } from '../types/VisualAttachment.dom.ts';
 import {
   processNewAttachment as doProcessNewAttachment,
@@ -207,8 +205,6 @@ export const processNewAttachment = (
 ): ReturnType<typeof doProcessNewAttachment> =>
   doProcessNewAttachment(attachment, attachmentType, {
     writeNewAttachmentData,
-    makeObjectUrl,
-    revokeObjectUrl,
     getImageDimensions,
     makeImageThumbnail,
     makeVideoScreenshot,
@@ -245,10 +241,8 @@ export const upgradeMessageSchema = (
     getPlaintextHashForInMemoryAttachment,
     getRegionCode: () => itemStorage.get('regionCode'),
     makeImageThumbnail,
-    makeObjectUrl,
     makeVideoScreenshot,
     readAttachmentData,
-    revokeObjectUrl,
     writeNewAttachmentData,
     writeNewStickerData,
     logger,
