@@ -18,6 +18,7 @@ import {
   generateAci,
   generatePni,
 } from '../test-helpers/serviceIdUtils.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const ACI_1 = generateAci();
 const ACI_2 = generateAci();
@@ -152,6 +153,130 @@ describe('ConversationController', () => {
         `${name} has been deleted`
       );
     }
+
+    describe('when primary', () => {
+      let ourAci: AciString;
+      let ourE164: string;
+      let ourPni: PniString;
+
+      beforeEach(async () => {
+        ourAci = generateAci();
+        ourPni = generatePni();
+        ourE164 = '+141555501234';
+
+        await itemStorage.put('uuid_id', `${ourAci}.1`);
+        await itemStorage.put('number_id', `${ourE164}.1`);
+        await itemStorage.user.setCredentials({
+          aci: ourAci,
+          pni: ourPni,
+          number: ourE164,
+          deviceId: 1,
+          password: 'unused',
+        });
+      });
+      afterEach(async () => {
+        await DataWriter.removeAll();
+        await itemStorage.fetch();
+      });
+
+      it('when given all three of our fields, returns new conversation with all fields', () => {
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ourAci,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(result, 'result', {
+          aci: ourAci,
+          e164: ourE164,
+          pni: ourPni,
+        });
+
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ourAci,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(second, 'second', {
+          aci: ourAci,
+          e164: ourE164,
+          pni: ourPni,
+        });
+
+        assert.strictEqual(result.id, second.id, 'result and second match');
+      });
+      it('when ACI does not match, matching e164 and pni are cleared', () => {
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ourAci,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(result, 'result', {
+          aci: ourAci,
+          e164: ourE164,
+          pni: ourPni,
+        });
+
+        const randomAci = generateAci();
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: randomAci,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(second, 'second', {
+          aci: randomAci,
+        });
+
+        assert.notEqual(result.id, second.id, 'result and second do not match');
+      });
+      it('when when ACI is not provided but e164/pni are, matches our conversation', () => {
+        const { conversation: result } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            aci: ourAci,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(result, 'result', {
+          aci: ourAci,
+          e164: ourE164,
+          pni: ourPni,
+        });
+
+        const { conversation: second } =
+          window.ConversationController.maybeMergeContacts({
+            mergeOldAndNew,
+            e164: ourE164,
+            pni: ourPni,
+            reason,
+          });
+
+        expectPropsAndLookups(second, 'second', {
+          aci: ourAci,
+          e164: ourE164,
+          pni: ourPni,
+        });
+
+        assert.strictEqual(result.id, second.id, 'result and second match');
+      });
+    });
 
     describe('non-destructive updates', () => {
       it('creates a new conversation with just ACI if no matches', () => {

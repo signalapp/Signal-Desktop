@@ -3182,17 +3182,17 @@ export const runStorageServiceSyncJob = debounce(
               throw new CannotDecryptError("Sync returned 'cannotDecrypt'");
             }
 
-            if (!result.success && result.error !== 'sameManifest') {
-              throw new Error(`Failed with type '${result.error}'`);
+            if (!result.success && result.error === 'sameManifest') {
+              log.info(`${logId}: Sync returned 'sameManifest'`);
+            } else if (!result.success) {
+              log.error(`${logId}: Sync failed, returning '${result.error}'`);
             }
           } catch (error) {
             if (error instanceof CannotDecryptError) {
               drop(stopStorageServiceSync(error));
-              return;
+            } else {
+              log.error(`${logId}: Sync failed`, Errors.toLogFormat(error));
             }
-
-            log.error(`${logId}: Sync failed`, Errors.toLogFormat(error));
-            return;
           }
 
           // Notify listeners about sync completion

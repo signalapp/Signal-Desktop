@@ -2897,6 +2897,7 @@ export async function createAccount({
 
   const capabilities: CapabilitiesUploadType = getCapabilities({
     optionalPhoneNumber: number == null,
+    hasPin: false,
   });
 
   const accountAttributes = new AccountAttributes({
@@ -2959,6 +2960,7 @@ export async function linkDevice(
 
   const capabilities: CapabilitiesUploadType = getCapabilities({
     optionalPhoneNumber: !options.hasE164,
+    hasPin: false,
   });
 
   const jsonData = {

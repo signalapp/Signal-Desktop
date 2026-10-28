@@ -7,6 +7,7 @@ import { v7 as generateUuid } from 'uuid';
 
 import type PQueue from 'p-queue';
 
+import { drop } from '../util/drop.std.ts';
 import { DAY, MINUTE, SECOND } from '../util/durations/constants.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { areEqual, fromBase64, toBase64 } from '../Bytes.std.ts';
@@ -32,9 +33,9 @@ import { updateProfileKeyForAllGroups } from '../util/updateProfileKeyForAllGrou
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { getRandomBytes } from '../Crypto.node.ts';
 import { PROFILE_KEY_LENGTH } from '../textsecure/AccountManager.preload.ts';
-import { ourProfileKeyService } from '../services/ourProfileKey.std.ts';
 import { assembleAccountAttributes } from '../util/assembleAccountAttributes.preload.ts';
 import { getRegistrationLockString } from '../util/getRegistrationLockString.preload.ts';
+import { updateCapabilities } from '../util/updateCapabilities.preload.ts';
 
 import type { Job } from './Job.std.ts';
 import type { ParsedJob } from './types.std.ts';
@@ -399,6 +400,10 @@ async function storeSVR(
   if (result.success) {
     await putJobState(type, omit(startingJobState, id));
     await itemStorage.put('isSvrPinStored', true);
+
+    // We want to set storage=true on server, but if it fails we do it on every startup
+    drop(updateCapabilities());
+
     log.info(`${logId}: Store succeeded!`);
     return;
   }
@@ -499,6 +504,9 @@ async function uploadProfile(
     },
   });
 
+  log.info(`${logId}: Fetching profile...`);
+  await me.getProfiles();
+
   log.info(`${logId}: Successfully uploaded profile!`);
 }
 
@@ -578,7 +586,6 @@ async function rotateProfileKey(
         reason: 'rotateProfileKey',
       });
     }
-    await ourProfileKeyService.set(newProfileKey);
 
     log.info(`${logId}: Updating account attributes...`);
     await updateAccountAttributes(assembleAccountAttributes());
