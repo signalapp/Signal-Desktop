@@ -29,12 +29,14 @@ export namespace AxoSwitchItem {
     const id = useId();
 
     let accessory = (
-      <AxoSwitch.Root
-        labelledby={id}
-        disabled={props.disabled}
-        checked={props.checked}
-        onCheckedChange={props.onCheckedChange}
-      />
+      <AxoBaseItem.DescribedBy>
+        <AxoSwitch.Root
+          labelledby={id}
+          disabled={props.disabled}
+          checked={props.checked}
+          onCheckedChange={props.onCheckedChange}
+        />
+      </AxoBaseItem.DescribedBy>
     );
 
     if (props.tooltip != null) {

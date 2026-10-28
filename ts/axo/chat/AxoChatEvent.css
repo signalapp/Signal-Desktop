@@ -23,6 +23,9 @@
     :where(.axo-chat-event-destructive) & {
       @apply text-destructive;
     }
+
+    /* Symbols don't adjust their colors, so they need a system color */
+    @apply forced-colors:text-[CanvasText];
   }
 
   .axo-chat-event-inline-action {

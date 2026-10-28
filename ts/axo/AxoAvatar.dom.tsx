@@ -181,7 +181,9 @@ export namespace AxoAvatar {
     label: string | null;
     /**
      * When provided, renders the content as a `<button>` with this click handler.
-     * Without it, renders as a `<div role="img">`.
+     * Without it, renders as a `<div role="img">`
+     *
+     * If you provide an `onClick` handler, you must also provide a `label`.
      */
     onClick?: ((event: MouseEvent<HTMLButtonElement>) => void) | null;
     /**
@@ -208,21 +210,28 @@ export namespace AxoAvatar {
    * Renders as a button when `onClick` is provided, otherwise as an image.
    */
   export const Content: FC<ContentProps> = memo(props => {
-    if (props.onClick != null) {
+    const { label, onClick, children } = props;
+
+    if (onClick != null) {
+      assert(label != null, 'Must provide a label when passing onClick');
       return (
-        <ContentButton label={props.label} onClick={props.onClick}>
-          {props.children}
+        <ContentButton label={label} onClick={onClick}>
+          {children}
         </ContentButton>
       );
     }
 
+    if (label == null) {
+      return (
+        <div aria-hidden className={baseContentStyles}>
+          {children}
+        </div>
+      );
+    }
+
     return (
-      <div
-        role="img"
-        aria-label={props.label ?? undefined}
-        className={baseContentStyles}
-      >
-        {props.children}
+      <div role="img" aria-label={label} className={baseContentStyles}>
+        {children}
       </div>
     );
   });
@@ -385,10 +394,11 @@ export namespace AxoAvatar {
     }
 
     return (
-      // oxlint-disable-next-line jsx-a11y/alt-text
       <img
         ref={ref}
         src={props.src}
+        // Decorative, the avatar is labelled by `Content`
+        alt=""
         width={props.srcWidth}
         height={props.srcHeight}
         decoding="async"
@@ -439,9 +449,10 @@ export namespace AxoAvatar {
     }, [preset]);
 
     return (
-      // oxlint-disable-next-line jsx-a11y/alt-text
       <img
         src={src}
+        // Decorative, the avatar is labelled by `Content`
+        alt=""
         width={1024}
         height={1024}
         className={tw(
@@ -519,32 +530,36 @@ export namespace AxoAvatar {
   }>;
 
   /**
-   * Renders initials as an SVG on a colored background.
+   * Renders initials on a colored background.
    */
   export const Initials: FC<InitialsProps> = memo(props => {
     const style = useMemo((): CSSProperties => {
       const color = AxoTokens.Avatar.getColorValues(props.color);
-      return { fill: color.fg, background: color.bg };
+      return {
+        '--axo-avatar-initials-fg': color.fg,
+        '--axo-avatar-initials-bg': color.bg,
+      } as CSSProperties;
     }, [props.color]);
 
     return (
-      <svg
-        width={256}
-        height={256}
-        viewBox="0 0 256 256"
-        className={tw('size-full fill-current', 'rounded-full')}
+      <span
+        // Decorative, the avatar is labelled by `Content`. A pseudo-element
+        // keeps them out of the button's visible text, which must match its
+        // label.
+        aria-hidden
+        data-initials={props.initials}
+        className={tw(
+          'flex size-full items-center justify-center rounded-full',
+          '@container',
+          'bg-(--axo-avatar-initials-bg) text-(--axo-avatar-initials-fg)',
+          'before:content-[attr(data-initials)]',
+          // 120/256 of the avatar's width
+          'before:text-[46.875cqi] before:leading-none',
+          'forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]',
+          'forced-colors:border forced-colors:border-[CanvasText]'
+        )}
         style={style}
-      >
-        <text
-          x="50%"
-          y="50%"
-          dominantBaseline="central"
-          textAnchor="middle"
-          fontSize={120}
-        >
-          {props.initials}
-        </text>
-      </svg>
+      />
     );
   });
 
@@ -683,17 +698,18 @@ export namespace AxoAvatar {
       draggable: false,
     };
 
+    // Decorative, clickable badges are labelled by their button
     const children = (
       <>
-        {/* oxlint-disable-next-line jsx-a11y/alt-text */}
         <img
           {...baseImageProps}
+          alt=""
           src={badge.light}
           className={tw('size-full dark:hidden')}
         />
-        {/* oxlint-disable-next-line jsx-a11y/alt-text */}
         <img
           {...baseImageProps}
+          alt=""
           src={badge.dark}
           className={tw('size-full not-dark:hidden')}
         />

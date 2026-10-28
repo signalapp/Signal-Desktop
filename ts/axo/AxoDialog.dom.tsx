@@ -314,7 +314,7 @@ export namespace AxoDialog {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     const [boundary, setBoundary] = useState<Element | null>(null);
     const { hasTrigger } = useStrictContext(RootContext);
-    const restoreFocusHandlers = useContentRestoreFocusBehavior(hasTrigger);
+    const { dialogContentProps } = useContentRestoreFocusBehavior(hasTrigger);
 
     const descriptionProps = useMemo((): Dialog.DialogContentProps => {
       if (props.disableMissingAriaDescriptionWarning) {
@@ -340,8 +340,8 @@ export namespace AxoDialog {
                 )}
                 onEscapeKeyDown={handleContentEscapeEvent}
                 onInteractOutside={handleContentEscapeEvent}
-                onOpenAutoFocus={restoreFocusHandlers.onOpenAutoFocus}
-                onCloseAutoFocus={restoreFocusHandlers.onCloseAutoFocus}
+                aria-modal="true"
+                {...dialogContentProps}
                 {...descriptionProps}
               >
                 <div className={tw('relative z-10')}>{props.children}</div>

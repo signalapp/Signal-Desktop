@@ -78,12 +78,15 @@ export namespace AxoExpireTimer {
     }
 
     const durationMs = DurationMs.fromDurationSecs(expireTimer.duration);
-    const interval = DurationMs.fromMilliseconds(Math.ceil(durationMs / 12));
-    const offset = DurationMs.fromMilliseconds(
-      Math.max(0, now - expireTimer.startedAt)
-    );
+    const elapsed = Math.max(0, now - expireTimer.startedAt);
 
-    const currentIndex = Math.floor(offset / interval);
+    // Already expired (messages can render before they're deleted)
+    if (elapsed >= durationMs) {
+      return { symbol: 'timer-countdown-0', updateAt: null };
+    }
+
+    const interval = Math.ceil(durationMs / 12);
+    const currentIndex = Math.floor(elapsed / interval);
     const nextIndex = currentIndex + 1;
 
     const symbol = getExpireTimerIntervalIndexSymbol(currentIndex);
@@ -116,6 +119,9 @@ export namespace AxoExpireTimer {
    * --------------------------------------------------------------------------
    */
 
+  /** Max `setTimeout()` delay (signed 32-bit integer) */
+  const MAX_TIMEOUT_DELAY = 2 ** 31 - 1;
+
   export type RootProps = Readonly<{
     expireTimer: ExpireTimer;
   }>;
@@ -135,8 +141,11 @@ export namespace AxoExpireTimer {
         return;
       }
 
-      const delay = DurationMs.fromMilliseconds(
-        Math.max(0, state.updateAt - now)
+      // Clamped because longer delays fire immediately, which can happen if
+      // `startedAt` is in the future. Firing early just reschedules.
+      const delay = Math.min(
+        Math.max(0, state.updateAt - now),
+        MAX_TIMEOUT_DELAY
       );
 
       const timer = setTimeout(() => {

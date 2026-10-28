@@ -295,12 +295,17 @@ export namespace AxoTooltip {
    */
   export const Root: FC<RootProps> = memo(props => {
     const {
+      disabled,
       delay,
       side = 'top',
       align = 'center',
-      keyboardShortcut,
+      label,
       experimentalTimestamp,
+      keyboardShortcut,
       keepOpenOnActivation,
+      tooltipRepeatsTriggerAccessibleName,
+      children,
+      __FORCE_OPEN,
     } = props;
     const direction = useDirection();
     const collisionBoundary = useContext(CollisionBoundaryContext);
@@ -335,6 +340,21 @@ export namespace AxoTooltip {
     const hasAccessory = useMemo(() => {
       return keyboardShortcut != null || formattedTimestamp != null;
     }, [keyboardShortcut, formattedTimestamp]);
+
+    if (tooltipRepeatsTriggerAccessibleName) {
+      assert(
+        !hasAccessory,
+        'tooltipRepeatsTriggerAccessibleName cannot be used with an accessory'
+      );
+    }
+
+    const triggerDescriptionProps = useMemo(() => {
+      if (tooltipRepeatsTriggerAccessibleName) {
+        // Overrides Radix's `aria-describedby`
+        return { 'aria-describedby': undefined };
+      }
+      return null;
+    }, [tooltipRepeatsTriggerAccessibleName]);
 
     const handlePointerDown = useCallback(
       (event: PointerEvent) => {
@@ -378,7 +398,7 @@ export namespace AxoTooltip {
     }, []);
 
     useEffect(() => {
-      if (props.disabled) {
+      if (disabled) {
         return;
       }
 
@@ -397,12 +417,12 @@ export namespace AxoTooltip {
           `<AxoTooltip.Root> child must have an accessible name`
         );
 
-        if (props.tooltipRepeatsTriggerAccessibleName) {
+        if (tooltipRepeatsTriggerAccessibleName) {
           return;
         }
 
         assert(
-          triggerName !== props.label,
+          triggerName !== label,
           `<AxoTooltip.Root> label must not repeat child trigger's accessible name. ` +
             'Use the tooltipRepeatsTriggerAccessibleName prop if you would ' +
             'like to make the tooltip presentational only.'
@@ -410,14 +430,14 @@ export namespace AxoTooltip {
       }
     });
 
-    if (props.disabled) {
-      return <>{props.children}</>;
+    if (disabled) {
+      return <>{children}</>;
     }
 
     return (
       <Tooltip.Root
         delayDuration={delayDuration}
-        {...(props.__FORCE_OPEN === true ? { open: true } : undefined)}
+        {...(__FORCE_OPEN === true ? { open: true } : undefined)}
       >
         <Tooltip.Trigger
           asChild
@@ -425,8 +445,9 @@ export namespace AxoTooltip {
           onPointerDown={handlePointerDown}
           onClick={handleClick}
           onFocus={handleFocus}
+          {...triggerDescriptionProps}
         >
-          {props.children}
+          {children}
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <AxoBaseLayer>
@@ -438,6 +459,10 @@ export namespace AxoTooltip {
               collisionBoundary={collisionBoundary.elements}
               collisionPadding={collisionBoundary.padding}
               hideWhenDetached
+              // Also hides the visually hidden `role="tooltip"`
+              aria-hidden={
+                tooltipRepeatsTriggerAccessibleName ? true : undefined
+              }
               className={tw(
                 'group flex items-baseline justify-center gap-2 overflow-hidden',
                 'px-2.5 py-1.5 type-body-small',
@@ -484,9 +509,9 @@ export namespace AxoTooltip {
               />
               <Label
                 tooltipRepeatsTriggerAccessibleName={
-                  props.tooltipRepeatsTriggerAccessibleName
+                  tooltipRepeatsTriggerAccessibleName
                 }
-                label={props.label}
+                label={label}
               />
               {keyboardShortcut != null && (
                 <span

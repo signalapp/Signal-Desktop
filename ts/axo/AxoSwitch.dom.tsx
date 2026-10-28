@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { FC, Ref } from 'react';
-import { memo } from 'react';
+import type { FC, MouseEvent, Ref } from 'react';
+import { memo, useCallback } from 'react';
 import { Switch } from 'radix-ui';
 import { tw } from './tw.dom.tsx';
 import { AxoSymbol } from './AxoSymbol.dom.tsx';
@@ -66,6 +66,18 @@ export namespace AxoSwitch {
       required,
       ...rest
     } = props;
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (disabled) {
+          // Radix ignores aria-disabled
+          event.preventDefault();
+        }
+      },
+      [disabled]
+    );
+
     return (
       <Switch.Root
         asChild
@@ -84,7 +96,9 @@ export namespace AxoSwitch {
           'data-disabled:bg-control',
           'not-data-disabled:active:bg-primary-pressed',
           'focus-visible:axo-focus-ring',
-          'overflow-hidden'
+          'overflow-hidden',
+          'forced-colors:border-[ButtonText]',
+          'forced-colors:data-disabled:border-[GrayText]'
         )}
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -93,7 +107,12 @@ export namespace AxoSwitch {
          * behavior but we want want the button to be focusable so we use
          * `asChild` and make it use `aria-disabled` instead.
          */}
-        <button type="button" disabled={false} aria-disabled={disabled}>
+        <button
+          type="button"
+          disabled={false}
+          aria-disabled={disabled}
+          onClick={handleClick}
+        >
           <span
             className={tw(
               'absolute inset-y-0',
@@ -104,16 +123,18 @@ export namespace AxoSwitch {
               '-translate-x-3.5 group-data-[state=checked]:translate-x-0 rtl:translate-x-3.5',
               'bg-accent group-not-data-disabled:group-active:bg-accent-pressed',
               'transition-all duration-200 ease-out-cubic',
-              'forced-colors:bg-[AccentColor]',
-              'forced-colors:group-data-disabled:bg-[GrayText]'
+              'forced-colors:bg-[Highlight]',
+              'forced-colors:group-data-disabled:bg-[GrayText]',
+              'forced-colors:group-data-disabled:group-data-[state=checked]:opacity-100'
             )}
           />
           <span
             className={tw(
-              'invisible forced-colors:visible',
+              'invisible forced-colors:group-data-[state=checked]:visible',
               'absolute inset-s-0.5 z-0 text-[12px]',
               'forced-color-adjust-none',
-              'forced-colors:text-[AccentColorText]'
+              'forced-colors:text-[HighlightText]',
+              'forced-colors:group-data-disabled:text-[Canvas]'
             )}
           >
             <AxoSymbol.InlineGlyph symbol="check" label={null} />
@@ -129,8 +150,10 @@ export namespace AxoSwitch {
               'transition-all duration-200 ease-out-cubic',
               'data-[state=checked]:translate-x-3.5',
               'rtl:data-[state=checked]:-translate-x-3.5',
-              'forced-colors:border',
-              'forced-colors:data-disabled:bg-[ButtonFace]'
+              'forced-colors:border forced-colors:border-[ButtonText]',
+              'forced-colors:bg-[ButtonFace]',
+              'forced-colors:data-disabled:bg-[ButtonFace]',
+              'forced-colors:data-disabled:border-[GrayText]'
             )}
           />
         </button>

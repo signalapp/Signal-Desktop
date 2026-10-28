@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { Meta } from '@storybook/react';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import { AxoItem } from './AxoItem.dom.tsx';
@@ -455,15 +455,29 @@ export function IconActions(): ReactNode {
   );
 }
 
-function Switch() {
+type AccessoryProps = Readonly<{
+  labelledby: string;
+}>;
+
+function Switch(props: AccessoryProps) {
   const [checked, setChecked] = useState(false);
-  return <AxoSwitch.Root checked={checked} onCheckedChange={setChecked} />;
+  return (
+    <AxoSwitch.Root
+      labelledby={props.labelledby}
+      checked={checked}
+      onCheckedChange={setChecked}
+    />
+  );
 }
 
-function Select() {
+function Select(props: AccessoryProps) {
   const [value, setValue] = useState<string | null>(null);
   return (
-    <AxoSelect.Root value={value} onValueChange={setValue}>
+    <AxoSelect.Root
+      labelledby={props.labelledby}
+      value={value}
+      onValueChange={setValue}
+    >
       <AxoSelect.Trigger placeholder="Select an option" />
       <AxoSelect.Content>
         <AxoSelect.Item value="option1">
@@ -481,43 +495,44 @@ function Select() {
 }
 
 export function OtherAccessories(): ReactNode {
+  const id = useId();
   return (
     <div className={tw('mx-auto max-w-150')}>
       <AxoItem.Group>
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Label id={`${id}-1`}>Label of item</AxoItem.Label>
             <AxoItem.Trailing>
-              <Switch />
+              <Switch labelledby={`${id}-1`} />
             </AxoItem.Trailing>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Label id={`${id}-2`}>Another label</AxoItem.Label>
             <AxoItem.Accessory>
-              <Select />
+              <Select labelledby={`${id}-2`} />
             </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Label>Label of item</AxoItem.Label>
+            <AxoItem.Label id={`${id}-3`}>Label of item</AxoItem.Label>
             <AxoItem.Description>Description of the item</AxoItem.Description>
             <AxoItem.Trailing>
-              <Switch />
+              <Switch labelledby={`${id}-3`} />
             </AxoItem.Trailing>
           </AxoItem.Content>
         </AxoItem.Root>
 
         <AxoItem.Root>
           <AxoItem.Content>
-            <AxoItem.Label>Another label</AxoItem.Label>
+            <AxoItem.Label id={`${id}-4`}>Another label</AxoItem.Label>
             <AxoItem.Description>{LONG_DESCRIPTION}</AxoItem.Description>
             <AxoItem.Accessory>
-              <Select />
+              <Select labelledby={`${id}-4`} />
             </AxoItem.Accessory>
           </AxoItem.Content>
         </AxoItem.Root>
@@ -635,6 +650,7 @@ export function StressTests(): ReactNode {
 }
 
 export function Disabled(): ReactNode {
+  const id = useId();
   return (
     <div className={tw('mx-auto max-w-150')}>
       <AxoItem.Group>
@@ -658,9 +674,10 @@ export function Disabled(): ReactNode {
 
         <AxoItem.Root disabled>
           <AxoItem.Content>
-            <AxoItem.Label>Another title</AxoItem.Label>
+            <AxoItem.Label id={`${id}-1`}>Another title</AxoItem.Label>
             <AxoItem.Accessory>
               <AxoSwitch.Root
+                labelledby={`${id}-1`}
                 disabled
                 checked
                 onCheckedChange={action('onCheckedChange')}
@@ -671,12 +688,13 @@ export function Disabled(): ReactNode {
 
         <AxoItem.Root disabled>
           <AxoItem.Content>
-            <AxoItem.Label>Yet another title</AxoItem.Label>
+            <AxoItem.Label id={`${id}-2`}>Yet another title</AxoItem.Label>
             <AxoItem.Description>
               Description that explains what this means
             </AxoItem.Description>
             <AxoItem.Accessory>
               <AxoSelect.Root
+                labelledby={`${id}-2`}
                 disabled
                 value="option1"
                 onValueChange={action('onValueChange')}
@@ -697,6 +715,7 @@ export function Disabled(): ReactNode {
 }
 
 export function Destructive(): ReactNode {
+  const id = useId();
   return (
     <div className={tw('mx-auto max-w-150')}>
       <AxoItem.Group>
@@ -730,9 +749,10 @@ export function Destructive(): ReactNode {
 
         <AxoItem.Root variant="destructive" disabled>
           <AxoItem.Content>
-            <AxoItem.Label>Disabled item</AxoItem.Label>
+            <AxoItem.Label id={`${id}-1`}>Disabled item</AxoItem.Label>
             <AxoItem.Accessory>
               <AxoSwitch.Root
+                labelledby={`${id}-1`}
                 disabled
                 checked
                 onCheckedChange={action('onCheckedChange')}
@@ -743,12 +763,13 @@ export function Destructive(): ReactNode {
 
         <AxoItem.Root variant="destructive">
           <AxoItem.Content>
-            <AxoItem.Label>Yet another item</AxoItem.Label>
+            <AxoItem.Label id={`${id}-2`}>Yet another item</AxoItem.Label>
             <AxoItem.Description>
               Description that explains what this means
             </AxoItem.Description>
             <AxoItem.Accessory>
               <AxoSelect.Root
+                labelledby={`${id}-2`}
                 value="option1"
                 onValueChange={action('onValueChange')}
               >

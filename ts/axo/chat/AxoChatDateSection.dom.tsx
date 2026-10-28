@@ -71,6 +71,7 @@ export namespace AxoChatDateSection {
             'stuck-t:bg-material-primary',
             'stuck-t:backdrop-blur-thin',
             'stuck-t:shadow-elevation-1',
+            'forced-colors:stuck-t:border forced-colors:stuck-t:border-[CanvasText]',
             'transition-shadow'
           )}
         >

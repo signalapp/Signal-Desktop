@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memo, useCallback, useMemo, useRef } from 'react';
-import type { FC, ReactNode, RefCallback, SyntheticEvent } from 'react';
+import type {
+  FC,
+  FocusEvent,
+  ReactNode,
+  RefCallback,
+  SyntheticEvent,
+} from 'react';
 import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
@@ -169,26 +175,35 @@ export namespace AxoBaseDialog {
    * --------------------------------------------------------------------------
    */
 
-  export type ContentRestoreFocusHandlers = Readonly<{
-    onOpenAutoFocus: (event: Event) => void;
-    onCloseAutoFocus: (event: Event) => void;
+  export type ContentRestoreFocusBehavior = Readonly<{
+    dialogContentProps: {
+      onFocusCapture: (event: FocusEvent) => void;
+      onCloseAutoFocus: (event: Event) => void;
+    };
   }>;
 
   /**
-   * Returns `onOpenAutoFocus` and `onCloseAutoFocus` handlers for the dialog
+   * Returns `onFocusCapture` and `onCloseAutoFocus` handlers for the dialog
    * content.
    *
    * Radix restores focus to the `Trigger` when the dialog closes, so without
    * one focus would be lost to `document.body`. Instead, this restores focus to
    * whatever was focused before the dialog opened.
+   *
+   * The previously focused element is the `relatedTarget` of the first focus
+   * event inside the dialog. Radix skips `onOpenAutoFocus` when an element
+   * inside the dialog has `autoFocus` (which React focuses while committing),
+   * but focus still moves into the dialog either way.
    */
   export function useContentRestoreFocusBehavior(
     hasTrigger: boolean
-  ): ContentRestoreFocusHandlers {
+  ): ContentRestoreFocusBehavior {
     const previouslyFocusedRef = useRef<Element | null>(null);
 
-    const onOpenAutoFocus = useCallback(() => {
-      previouslyFocusedRef.current = document.activeElement;
+    const onFocusCapture = useCallback((event: FocusEvent) => {
+      if (previouslyFocusedRef.current == null) {
+        previouslyFocusedRef.current = event.relatedTarget;
+      }
     }, []);
 
     const onCloseAutoFocus = useCallback(
@@ -207,7 +222,7 @@ export namespace AxoBaseDialog {
     );
 
     return useMemo(() => {
-      return { onOpenAutoFocus, onCloseAutoFocus };
-    }, [onOpenAutoFocus, onCloseAutoFocus]);
+      return { dialogContentProps: { onFocusCapture, onCloseAutoFocus } };
+    }, [onFocusCapture, onCloseAutoFocus]);
   }
 }

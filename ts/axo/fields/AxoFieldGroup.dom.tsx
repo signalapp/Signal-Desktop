@@ -12,6 +12,10 @@ export namespace AxoFieldGroup {
    */
 
   export type RootProps = Readonly<{
+    /** Accessible label for the group. */
+    label?: string;
+    /** ID of an element that labels the group. */
+    labelledby?: string;
     /** Disables all inputs and actions within the field. */
     disabled?: boolean;
     /** Makes all inputs within the field read-only. */
@@ -21,7 +25,12 @@ export namespace AxoFieldGroup {
 
   export const Root: FC<RootProps> = memo(props => {
     return (
-      <AxoBaseField.Group disabled={props.disabled} readOnly={props.readOnly}>
+      <AxoBaseField.Group
+        label={props.label}
+        labelledby={props.labelledby}
+        disabled={props.disabled}
+        readOnly={props.readOnly}
+      >
         {props.children}
       </AxoBaseField.Group>
     );

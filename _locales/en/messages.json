@@ -43,9 +43,57 @@
     "messageformat": "Close",
     "description": "Axo Design System > Dialog Component > Close Button > Generic accessibility label"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading",
+    "description": "Axo Design System > Loading Indicator Component > Spinner > Generic accessibility label"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play",
+    "description": "Axo Design System > Media Button Component > Play Button > Generic accessibility label"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause",
+    "description": "Axo Design System > Media Button Component > Pause Button > Generic accessibility label"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download",
+    "description": "Axo Design System > Media Button Component > Download Button > Generic accessibility label"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download",
+    "description": "Axo Design System > Media Button Component > Cancel Download Button (while downloading) > Generic accessibility label"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending",
+    "description": "Axo Design System > Outgoing Message Status Component > Sending Status > Generic accessibility label for a message that is still being sent"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent",
+    "description": "Axo Design System > Outgoing Message Status Component > Sent Status > Generic accessibility label for a message that was sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered",
+    "description": "Axo Design System > Outgoing Message Status Component > Delivered Status > Generic accessibility label for a message that was delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read",
+    "description": "Axo Design System > Outgoing Message Status Component > Read Status > Generic accessibility label for a message that was read by the recipient"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused",
+    "description": "Axo Design System > Outgoing Message Status Component > Paused Status > Generic accessibility label for a message whose sending is paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send",
+    "description": "Axo Design System > Outgoing Message Status Component > Error Status > Generic accessibility label for a message that failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Show Password",
     "description": "Axo Design System > Password Field Component > Reveal Button > Generic accessibility label"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading",
+    "description": "Axo Design System > Progress Indicator Component > Progress Ring > Generic accessibility label"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Clear",

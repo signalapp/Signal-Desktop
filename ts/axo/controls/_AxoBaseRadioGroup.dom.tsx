@@ -34,8 +34,10 @@ export namespace AxoBaseRadioGroup {
    */
   export const Item: FC<ItemProps> = memo(props => {
     return (
-      <AriaLabelled.Root asChild>
-        <RadioGroup.Item {...props} />
+      <AriaLabelled.Root>
+        <AriaLabelled.Target asChild>
+          <RadioGroup.Item {...props} />
+        </AriaLabelled.Target>
       </AriaLabelled.Root>
     );
   });
@@ -58,18 +60,22 @@ export namespace AxoBaseRadioGroup {
             'data-[state=unchecked]:bg-control',
             'data-[state=unchecked]:enabled:active:bg-control-pressed',
             'data-[state=checked]:bg-accent',
-            'data-[state=checked]:active:bg-accent-pressed',
+            'data-[state=checked]:not-data-disabled:active:bg-accent-pressed',
             'data-disabled:border-secondary',
+            'data-disabled:inset-shadow-none',
             'overflow-hidden',
-            'forced-colors:data-[state=checked]:bg-[SelectedItem]'
+            'forced-colors:data-[state=checked]:bg-[SelectedItem]',
+            'forced-colors:data-disabled:border-[GrayText]',
+            'forced-colors:data-disabled:data-[state=checked]:bg-[Canvas]'
           )}
         >
           <span
             className={tw(
               'size-2.25 rounded-full',
               'group-data-[state=checked]:bg-(--axo-color-label-primary-oncolor)',
-              'group-data-[state=checked]:data-disabled:bg-(--axo-color-label-disabled-oncolor)',
-              'forced-colors:group-data-[state=checked]:bg-[SelectedItemText]'
+              'group-data-[state=checked]:group-data-disabled:bg-(--axo-color-label-disabled-oncolor)',
+              'forced-colors:group-data-[state=checked]:bg-[SelectedItemText]',
+              'forced-colors:group-data-[state=checked]:group-data-disabled:bg-[GrayText]'
             )}
           />
         </span>

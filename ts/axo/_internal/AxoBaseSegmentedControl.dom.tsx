@@ -190,50 +190,54 @@ export namespace ExperimentalAxoBaseSegmentedControl {
     }, [value, context.value]);
 
     return (
-      <AriaLabelled.Root asChild>
-        <button
-          ref={ref}
-          type="button"
-          className={tw(
-            'group',
-            'relative flex min-w-0 items-center justify-center px-3 py-1.25',
-            'cursor-pointer rounded-full type-body-medium font-medium text-primary',
+      <AriaLabelled.Root>
+        <AriaLabelled.Target asChild>
+          <button
+            ref={ref}
+            type="button"
+            className={tw(
+              'group',
+              'relative flex min-w-0 items-center justify-center px-3 py-1.25',
+              'cursor-pointer rounded-full type-body-medium font-medium text-primary',
 
-            'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
-            'forced-colors:data-[axo-contextmenu-state=open]:text-[HighlightText]',
-            ItemWidths.get(context.itemWidth),
-            isSelected &&
-              tw(
-                'focus-visible:outline-none',
-                'forced-colors:text-[SelectedItemText]'
-              ),
-            !isSelected &&
-              tw(
-                'focus-visible:axo-focus-ring',
-                'data-[axo-contextmenu-state=open]:bg-primary',
+              'forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
+              'forced-colors:data-[axo-contextmenu-state=open]:text-[HighlightText]',
+              ItemWidths.get(context.itemWidth),
+              isSelected &&
+                tw(
+                  'focus-visible:outline-none',
+                  'forced-colors:text-[SelectedItemText]'
+                ),
+              !isSelected &&
+                tw(
+                  'focus-visible:axo-focus-ring',
+                  'data-[axo-contextmenu-state=open]:bg-primary',
 
-                'forced-colors:data-[axo-contextmenu-state=open]:bg-[Highlight]'
-              )
-          )}
-          {...forwardExtraPropsForRadix(rest)}
-        >
-          {children}
-          {isSelected && (
-            <motion.span
-              layoutId={`${context.id}.Indicator`}
-              layout="x"
-              initial={false}
-              className={tw(
-                IndicatorStyles.get(context.variant),
-                'group-focus-visible:axo-focus-ring'
-              )}
-              transition={reducedMotion ? { duration: 0 } : IndicatorTransition}
-              // Must be set via `style` so motion corrects it for scale
-              // distortion while animating between items of different widths
-              style={{ borderRadius: 14 }}
-            />
-          )}
-        </button>
+                  'forced-colors:data-[axo-contextmenu-state=open]:bg-[Highlight]'
+                )
+            )}
+            {...forwardExtraPropsForRadix(rest)}
+          >
+            {children}
+            {isSelected && (
+              <motion.span
+                layoutId={`${context.id}.Indicator`}
+                layout="x"
+                initial={false}
+                className={tw(
+                  IndicatorStyles.get(context.variant),
+                  'group-focus-visible:axo-focus-ring'
+                )}
+                transition={
+                  reducedMotion ? { duration: 0 } : IndicatorTransition
+                }
+                // Must be set via `style` so motion corrects it for scale
+                // distortion while animating between items of different widths
+                style={{ borderRadius: 14 }}
+              />
+            )}
+          </button>
+        </AriaLabelled.Target>
       </AriaLabelled.Root>
     );
   });

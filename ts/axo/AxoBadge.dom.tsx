@@ -57,7 +57,11 @@ export namespace AxoBadge {
   });
 
   const Sizes = variants<Size>('AxoBadge.Size', {
-    dot: tw('size-1.5'),
+    dot: tw(
+      'size-1.5',
+      // Dots are hard to see in forced colors mode without an outline
+      'forced-colors:outline forced-colors:outline-[CanvasText]'
+    ),
     sm: tw('size-fit min-h-3.5 min-w-3.5'),
     md: tw('size-fit min-h-4 min-w-4'),
     lg: tw('size-fit min-h-4.5 min-w-4.5'),
@@ -82,7 +86,16 @@ export namespace AxoBadge {
     return Sizes.keys();
   }
 
-  let cachedNumberFormat: Intl.NumberFormat;
+  const cachedNumberFormats = new Map<string, Intl.NumberFormat>();
+
+  function getNumberFormat(locale: AxoIntl.AppLocaleTag): Intl.NumberFormat {
+    let numberFormat = cachedNumberFormats.get(locale);
+    if (numberFormat == null) {
+      numberFormat = new Intl.NumberFormat(locale);
+      cachedNumberFormats.set(locale, numberFormat);
+    }
+    return numberFormat;
+  }
 
   function formatBadgeCount(
     value: number,
@@ -92,8 +105,7 @@ export namespace AxoBadge {
     if (value > max) {
       return intl.get('AxoBadge.MaxOverflow')(max);
     }
-    cachedNumberFormat ??= new Intl.NumberFormat();
-    return cachedNumberFormat.format(value);
+    return getNumberFormat(intl.resolvedAppLocale.tag).format(value);
   }
 
   /**
@@ -162,7 +174,7 @@ export namespace AxoBadge {
    * ```
    */
   export const Root: FC<RootProps> = memo(props => {
-    const { variant, size, value, max } = props;
+    const { variant, size, value, max, label } = props;
     const intl = useAxoIntl();
 
     const children = useMemo(() => {
@@ -198,7 +210,8 @@ export namespace AxoBadge {
 
     return (
       <span
-        aria-label={props.label ?? undefined}
+        role={label != null ? 'img' : undefined}
+        aria-label={label ?? undefined}
         className={tw(baseStyles, Variants.get(variant), Sizes.get(size))}
       >
         {children}

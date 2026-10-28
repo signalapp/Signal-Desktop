@@ -218,22 +218,24 @@ export namespace AxoDropdownMenu {
     return (
       <DropdownMenu.Portal>
         <AxoBaseLayer>
-          <AriaLabelled.Root asChild>
-            <DropdownMenu.Content
-              sideOffset={4}
-              align={props.align}
-              side={props.side}
-              collisionPadding={6}
-              className={AxoBaseMenu.menuContentClassName}
-              onCloseAutoFocus={props.onCloseAutoFocus}
-              onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
-              onClick={AxoBaseMenu.menuContentEventStopPropagation}
-              onContextMenu={AxoBaseMenu.menuContentEventStopPropagation}
-              onKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
-              inert={!open}
-            >
-              {props.children}
-            </DropdownMenu.Content>
+          <AriaLabelled.Root>
+            <AriaLabelled.Target asChild>
+              <DropdownMenu.Content
+                sideOffset={4}
+                align={props.align}
+                side={props.side}
+                collisionPadding={6}
+                className={AxoBaseMenu.menuContentClassName}
+                onCloseAutoFocus={props.onCloseAutoFocus}
+                onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+                onClick={AxoBaseMenu.menuContentEventStopPropagation}
+                onContextMenu={AxoBaseMenu.menuContentEventStopPropagation}
+                onKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+                inert={!open}
+              >
+                {props.children}
+              </DropdownMenu.Content>
+            </AriaLabelled.Target>
           </AriaLabelled.Root>
         </AxoBaseLayer>
       </DropdownMenu.Portal>
@@ -647,15 +649,17 @@ export namespace AxoDropdownMenu {
     return (
       <DropdownMenu.Portal>
         <AxoBaseLayer>
-          <AriaLabelled.Root asChild>
-            <DropdownMenu.SubContent
-              alignOffset={-6}
-              collisionPadding={6}
-              className={AxoBaseMenu.menuSubContentClassName}
-              onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
-            >
-              {props.children}
-            </DropdownMenu.SubContent>
+          <AriaLabelled.Root>
+            <AriaLabelled.Target asChild>
+              <DropdownMenu.SubContent
+                alignOffset={-6}
+                collisionPadding={6}
+                className={AxoBaseMenu.menuSubContentClassName}
+                onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+              >
+                {props.children}
+              </DropdownMenu.SubContent>
+            </AriaLabelled.Target>
           </AriaLabelled.Root>
         </AxoBaseLayer>
       </DropdownMenu.Portal>

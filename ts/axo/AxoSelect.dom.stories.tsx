@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { AxoSelect } from './AxoSelect.dom.tsx';
 import { tw } from './tw.dom.tsx';
+import { Story } from './_storybook-helpers/Story.dom.tsx';
 
 export default {
   title: 'Axo/AxoSelect',
@@ -29,8 +30,18 @@ function Template(props: {
   triggerChevron?: AxoSelect.TriggerChevron;
 }) {
   const [value, setValue] = useState<string | null>(null);
+  const label = [
+    'Food',
+    props.triggerVariant,
+    props.triggerWidth,
+    props.triggerChevron,
+    props.disabled ? 'disabled' : null,
+  ]
+    .filter(part => part != null)
+    .join(' ');
   return (
     <AxoSelect.Root
+      label={label}
       value={value}
       onValueChange={setValue}
       disabled={props.disabled}
@@ -77,7 +88,7 @@ export function Basic(): JSX.Element {
   return (
     <div
       className={tw(
-        'flex h-96 w-full flex-col items-center justify-center gap-2'
+        'flex min-h-96 w-full flex-col items-center justify-center gap-2'
       )}
     >
       <div className={tw('flex w-full gap-2')}>
@@ -162,6 +173,35 @@ export function Basic(): JSX.Element {
           disabled
         />
       </div>
+    </div>
+  );
+}
+
+export function Open(): JSX.Element {
+  const [value, setValue] = useState<string | null>('banana');
+  return (
+    <div className={tw('flex h-96 w-full items-center justify-center')}>
+      <AxoSelect.Root label="Food" value={value} onValueChange={setValue}>
+        <Story.AutoTrigger asChild>
+          <AxoSelect.Trigger placeholder="Choose a food" />
+        </Story.AutoTrigger>
+        <AxoSelect.Content>
+          <AxoSelect.Group>
+            <AxoSelect.Label>Fruits</AxoSelect.Label>
+            <TemplateItem value="apple">Apple</TemplateItem>
+            <TemplateItem value="banana">Banana</TemplateItem>
+            <TemplateItem value="cherry" disabled>
+              Cherry
+            </TemplateItem>
+          </AxoSelect.Group>
+          <AxoSelect.Separator />
+          <AxoSelect.Group>
+            <AxoSelect.Label>Vegetables</AxoSelect.Label>
+            <TemplateItem value="carrot">Carrot</TemplateItem>
+            <TemplateItem value="leek">Leek</TemplateItem>
+          </AxoSelect.Group>
+        </AxoSelect.Content>
+      </AxoSelect.Root>
     </div>
   );
 }

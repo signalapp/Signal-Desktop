@@ -95,7 +95,8 @@ export function Indeterminate(): ReactNode {
   const [total, setTotal] = useState(true);
 
   return (
-    <>
+    // Spaced out so the checkboxes meet the minimum target size
+    <div className={tw('flex flex-col items-start gap-3')}>
       <Checkbox
         checked={completed}
         onCheckedChange={setCompleted}
@@ -112,7 +113,7 @@ export function Indeterminate(): ReactNode {
         completed={completed ? 30 : 'indeterminate'}
         total={total ? 100 : 'indeterminate'}
       />
-    </>
+    </div>
   );
 }
 

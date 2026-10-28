@@ -25,6 +25,14 @@ export namespace AxoBaseSpinner {
    */
   export type Variant = 'default' | 'oncolor';
 
+  /**
+   * The system color of the progress in forced colors mode:
+   * - `disabled`: `GrayText`, for pending/disabled states.
+   * - `text`: `CanvasText`, for standalone progress.
+   * - `button`: `ButtonText`, for progress inside of an enabled button.
+   */
+  export type ForcedColor = 'disabled' | 'text' | 'button';
+
   const Sizes = variants<Size, number>('AxoBaseSpinner.Size', {
     sm: 16,
     md: 24,
@@ -48,6 +56,15 @@ export namespace AxoBaseSpinner {
     oncolor: tw('stroke-(--axo-color-label-primary-oncolor)'),
   });
 
+  const ProgressForcedColors = variants<ForcedColor>(
+    'AxoBaseSpinner.ForcedColor',
+    {
+      disabled: tw('forced-colors:stroke-[GrayText]'),
+      text: tw('forced-colors:stroke-[CanvasText]'),
+      button: tw('forced-colors:stroke-[ButtonText]'),
+    }
+  );
+
   export type ProgressValue = Readonly<{
     completed: number;
     total: number;
@@ -63,10 +80,23 @@ export namespace AxoBaseSpinner {
     variant: Variant;
     value: Value;
     track: boolean;
+    /**
+     * Accessible label for the progress bar.
+     */
+    label?: string;
+    /**
+     * ID of an element that labels the progress bar.
+     */
+    labelledby?: string;
+    /**
+     * The system color of the progress in forced colors mode.
+     */
+    forcedColor?: ForcedColor;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { value } = props;
+    const { value, label, labelledby } = props;
+    const forcedColor = props.forcedColor ?? 'disabled';
 
     const size =
       typeof props.size === 'number' ? props.size : Sizes.get(props.size);
@@ -78,17 +108,21 @@ export namespace AxoBaseSpinner {
       if (value === 'indeterminate') {
         return {
           role: 'progressbar',
+          'aria-label': label,
+          'aria-labelledby': labelledby,
           // without aria-valuenow/etc this is indeterminate
         };
       }
 
       return {
         role: 'progressbar',
+        'aria-label': label,
+        'aria-labelledby': labelledby,
         'aria-valuenow': value.completed,
         'aria-valuemin': 0,
         'aria-valuemax': value.total,
       };
-    }, [value]);
+    }, [value, label, labelledby]);
 
     const progressProps = useMemo((): SVGProps<SVGCircleElement> => {
       if (value === 'indeterminate') {
@@ -128,7 +162,10 @@ export namespace AxoBaseSpinner {
             cx={center}
             cy={center}
             r={radius}
-            className={TrackVariants.get(props.variant)}
+            className={tw(
+              TrackVariants.get(props.variant),
+              'forced-colors:stroke-[GrayText]'
+            )}
             strokeWidth={strokeWidth}
           />
         )}
@@ -145,7 +182,7 @@ export namespace AxoBaseSpinner {
             className={tw(
               ProgressVariants.get(props.variant),
               'fill-none',
-              'forced-colors:stroke-[GrayText]',
+              ProgressForcedColors.get(forcedColor),
               progressProps.className
             )}
             cx={center}

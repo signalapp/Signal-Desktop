@@ -131,6 +131,7 @@ export namespace AxoRadioGroup {
         <button
           type="button"
           className={tw(
+            'group/axo-radio-item',
             'flex gap-3 rounded-xs py-2.5 text-start focus-visible:axo-focus-ring'
           )}
         >
@@ -161,7 +162,12 @@ export namespace AxoRadioGroup {
   export const Label: FC<LabelProps> = memo(props => {
     return (
       <AxoBaseRadioGroup.Label asChild>
-        <span className={tw('truncate type-body-large text-primary')}>
+        <span
+          className={tw(
+            'truncate type-body-large text-primary',
+            'group-data-disabled/axo-radio-item:text-disabled'
+          )}
+        >
           {props.children}
         </span>
       </AxoBaseRadioGroup.Label>

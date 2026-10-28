@@ -15,6 +15,7 @@ import type {
 } from 'react';
 import { mergeProps } from '@react-aria/utils';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { AriaLabelled } from '../aria/AriaLabelled.dom.tsx';
 import { assert } from '../_internal/assert.std.tsx';
 import { utf8 } from '../_internal/utf8.std.ts';
 import {
@@ -213,6 +214,10 @@ export namespace AxoBaseField {
 
   export type GroupProps = Readonly<{
     variant?: Variant;
+    /** Accessible label for the group. */
+    label?: string;
+    /** ID of an element that labels the group. */
+    labelledby?: string;
     /** Disables all textboxes and actions within the field. */
     disabled?: boolean;
     /** Makes all textboxes within the field read-only. */
@@ -222,7 +227,14 @@ export namespace AxoBaseField {
   }>;
 
   export const Group: FC<GroupProps> = memo(props => {
-    const { variant: propsVariant, disabled, readOnly, children } = props;
+    const {
+      variant: propsVariant,
+      label,
+      labelledby,
+      disabled,
+      readOnly,
+      children,
+    } = props;
     const variantOverride = useStrictContextNullable(VariantOverrideContext);
 
     const variant = variantOverride ?? propsVariant;
@@ -235,6 +247,8 @@ export namespace AxoBaseField {
       <GroupContext.Provider value={context}>
         <div
           role="group"
+          aria-label={label}
+          aria-labelledby={labelledby}
           className={css('axo-field-group', getContainerClassName(variant))}
         >
           {children}
@@ -333,14 +347,16 @@ export namespace AxoBaseField {
 
     return (
       <RootContext value={context}>
-        <div
-          className={css(
-            'axo-field-root',
-            group == null && getContainerClassName(variant)
-          )}
-        >
-          {children}
-        </div>
+        <AriaLabelled.Root>
+          <div
+            className={css(
+              'axo-field-root',
+              group == null && getContainerClassName(variant)
+            )}
+          >
+            {children}
+          </div>
+        </AriaLabelled.Root>
       </RootContext>
     );
   });
@@ -546,7 +562,9 @@ export namespace AxoBaseField {
 
     return (
       <div className="axo-field-textbox-wrapper">
-        <input {...inputAttrs} />
+        <AriaLabelled.Target asChild>
+          <input {...inputAttrs} />
+        </AriaLabelled.Target>
       </div>
     );
   });
@@ -598,7 +616,9 @@ export namespace AxoBaseField {
 
     return (
       <div className="axo-field-textbox-wrapper">
-        <textarea {...textAreaAttrs} />
+        <AriaLabelled.Target asChild>
+          <textarea {...textAreaAttrs} />
+        </AriaLabelled.Target>
       </div>
     );
   });
@@ -645,7 +665,7 @@ export namespace AxoBaseField {
       return remainingCount <= threshold;
     }, [maxCountForRemaining, remainingCount]);
 
-    return (
+    const count = (
       <span
         className={css(
           'axo-field-count',
@@ -657,6 +677,13 @@ export namespace AxoBaseField {
         {remainingCount}
       </span>
     );
+
+    // Only describe the textbox while the count is visible
+    if (!showRemainingCount) {
+      return count;
+    }
+
+    return <AriaLabelled.Description asChild>{count}</AriaLabelled.Description>;
   });
 
   Count.displayName = 'AxoBaseField.Count';
@@ -880,7 +907,11 @@ export namespace AxoBaseField {
   }>;
 
   export const ValidationError: FC<ValidationErrorProps> = memo(props => {
-    return <div className="axo-field-error">{props.children}</div>;
+    return (
+      <AriaLabelled.ErrorMessage asChild>
+        <div className="axo-field-error">{props.children}</div>
+      </AriaLabelled.ErrorMessage>
+    );
   });
 
   ValidationError.displayName = 'AxoBaseField.ValidationError';

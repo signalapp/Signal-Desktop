@@ -5,8 +5,8 @@ import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoDropdownMenu } from './AxoDropdownMenu.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
+import { Story } from './_storybook-helpers/Story.dom.tsx';
 
 export default {
   title: 'Axo/AxoDropdownMenu',
@@ -28,9 +28,7 @@ export function Basic(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="strong-secondary" size="md">
-            Open Dropdown Menu
-          </AxoButton.Root>
+          <Story.AutoTrigger>Open Dropdown Menu</Story.AutoTrigger>
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
           <AxoDropdownMenu.Item
@@ -114,9 +112,7 @@ export function WithHeader(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="strong-secondary" size="md">
-            Open Dropdown Menu
-          </AxoButton.Root>
+          <Story.AutoTrigger>Open Dropdown Menu</Story.AutoTrigger>
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
           <AxoDropdownMenu.Header
@@ -155,9 +151,7 @@ export function WithItemDescriptions(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="strong-secondary" size="md">
-            Open Dropdown Menu
-          </AxoButton.Root>
+          <Story.AutoTrigger>Open Dropdown Menu</Story.AutoTrigger>
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
           <AxoDropdownMenu.Item
@@ -259,9 +253,7 @@ export function StressTestLongText(): JSX.Element {
     <Container>
       <AxoDropdownMenu.Root>
         <AxoDropdownMenu.Trigger>
-          <AxoButton.Root variant="strong-secondary" size="md">
-            Open Dropdown Menu
-          </AxoButton.Root>
+          <Story.AutoTrigger>Open Dropdown Menu</Story.AutoTrigger>
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
           {content}

@@ -8,5 +8,6 @@
     @apply shrink-0;
     @apply h-auto;
     @apply text-[light-dark(var(--axo-color-brand-primary),#fff)];
+    @apply forced-colors:text-[CanvasText];
   }
 }

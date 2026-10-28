@@ -495,6 +495,8 @@ export namespace AxoContextMenu {
       <ContextMenu.RadioItem
         value={props.value}
         className={AxoBaseMenu.menuRadioItemClassName}
+        disabled={props.disabled}
+        textValue={props.textValue}
         onSelect={props.onSelect}
       >
         <AxoBaseMenu.ItemLeadingSlot>
@@ -567,7 +569,11 @@ export namespace AxoContextMenu {
    */
   export const SubTrigger: FC<SubTriggerProps> = memo(props => {
     return (
-      <ContextMenu.SubTrigger className={AxoBaseMenu.menuSubTriggerClassName}>
+      <ContextMenu.SubTrigger
+        disabled={props.disabled}
+        textValue={props.textValue}
+        className={AxoBaseMenu.menuSubTriggerClassName}
+      >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
             <AxoBaseMenu.ItemSymbol symbol={props.symbol} />

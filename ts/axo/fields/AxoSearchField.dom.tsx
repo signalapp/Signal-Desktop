@@ -38,10 +38,11 @@ export namespace AxoSearchField {
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { value, onValueChange, disabled, children } = props;
+    const { id, value, onValueChange, disabled, children } = props;
     return (
       <AxoBaseField.Root
         variant="search"
+        id={id}
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}

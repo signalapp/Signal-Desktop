@@ -5,6 +5,7 @@ import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
 import { tw } from './tw.dom.tsx';
+import { Story } from './_storybook-helpers/Story.dom.tsx';
 
 export default {
   title: 'Axo/AxoContextMenu',
@@ -18,7 +19,16 @@ export function Basic(): JSX.Element {
     <div className={tw('flex h-96 w-full items-center justify-center')}>
       <AxoContextMenu.Root>
         <AxoContextMenu.Trigger>
-          <div className={tw('bg-primary p-12 text-accent')}>Right-Click</div>
+          <Story.AutoTrigger asChild kind="contextmenu">
+            <div
+              className={tw(
+                'bg-primary p-12 text-accent',
+                'forced-colors:border forced-colors:border-dashed'
+              )}
+            >
+              Right-Click
+            </div>
+          </Story.AutoTrigger>
         </AxoContextMenu.Trigger>
         <AxoContextMenu.Content>
           <AxoContextMenu.Item

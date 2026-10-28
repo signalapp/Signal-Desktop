@@ -40,9 +40,16 @@ export namespace AxoSymbol {
     return useMemo(() => {
       return (
         <>
-          <span aria-hidden className="axo-symbol-glyph">
-            {glyph}
-          </span>
+          {/*
+           * The glyph is rendered with CSS (see `.axo-symbol-glyph::before`)
+           * so that it isn't included in the `textContent` of its parents
+           * (Ex: menu item typeahead, copied text)
+           */}
+          <span
+            aria-hidden
+            className="axo-symbol-glyph"
+            data-axo-symbol-glyph={glyph}
+          />
           {label != null && (
             <VisuallyHidden className="axo-symbol-label">
               {label}

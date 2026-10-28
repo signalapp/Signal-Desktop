@@ -120,7 +120,14 @@ export namespace AxoCheckbox {
           'data-[state=checked]:enabled:active:bg-accent-pressed',
           'data-[state=checked]:data-disabled:text-disabled-oncolor',
           'focus-visible:axo-focus-ring',
-          'overflow-hidden'
+          'overflow-hidden',
+          'forced-colors:border-[ButtonText]',
+          'forced-colors:data-[state=checked]:border-[Highlight]',
+          'forced-colors:data-[state=checked]:bg-[Highlight]',
+          'forced-colors:data-[state=checked]:text-[HighlightText]',
+          'forced-colors:data-disabled:border-[GrayText]',
+          'forced-colors:data-disabled:data-[state=checked]:bg-[GrayText]',
+          'forced-colors:data-disabled:data-[state=checked]:text-[Canvas]'
         )}
       >
         <Checkbox.Indicator asChild>

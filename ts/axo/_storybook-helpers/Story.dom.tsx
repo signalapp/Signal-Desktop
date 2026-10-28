@@ -1,10 +1,15 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode, FC } from 'react';
-import { memo } from 'react';
+import type { ReactNode, FC, Ref } from 'react';
+import { memo, useEffect, useRef } from 'react';
+import { Slot } from 'radix-ui';
+import { mergeRefs } from '@react-aria/utils';
 import { tw } from '../tw.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { AxoButton } from '../AxoButton.dom.tsx';
+import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
+import { assert, unreachable } from '../_internal/assert.std.tsx';
 
 export namespace Story {
   /**
@@ -97,4 +102,99 @@ export namespace Story {
   });
 
   Legend.displayName = 'Story.Legend';
+
+  /**
+   * <Story.AutoTrigger>
+   * --------------------------------------------------------------------------
+   */
+
+  export type AutoTriggerProps = Readonly<{
+    asChild?: boolean;
+    ref?: Ref<HTMLElement>;
+    kind?: 'click' | 'contextmenu';
+    children: ReactNode;
+  }>;
+
+  /**
+   * Opens the menu/select/dialog of the trigger it wraps when the story is
+   * first rendered, so the story (and its screenshots) shows it open.
+   *
+   * @example
+   * ```tsx
+   * <AxoDropdownMenu.Trigger>
+   *   <Story.AutoTrigger>Open</Story.AutoTrigger>
+   * </AxoDropdownMenu.Trigger>
+   * ```
+   *
+   * @example
+   * ```tsx
+   * <AxoContextMenu.Trigger>
+   *   <Story.AutoTrigger asChild kind="contextmenu">
+   *     <div>Right Click</div>
+   *   </Story.AutoTrigger>
+   * </AxoContextMenu.Trigger>
+   * ```
+   */
+  export const AutoTrigger: FC<AutoTriggerProps> = memo(props => {
+    const { asChild, ref: outerRef, kind = 'click', children, ...rest } = props;
+    const innerRef = useRef<HTMLElement>(null);
+    const ref = mergeRefs(innerRef, outerRef);
+    const hasTriggeredRef = useRef(false);
+
+    useEffect(() => {
+      const element = assert(innerRef.current);
+
+      if (hasTriggeredRef.current) {
+        return;
+      }
+      hasTriggeredRef.current = true;
+
+      const rect = element.getBoundingClientRect();
+
+      const init: PointerEventInit & MouseEventInit = {
+        bubbles: true,
+        cancelable: true,
+        button: kind === 'click' ? 0 : 2,
+        buttons: kind === 'click' ? 1 : 2,
+        pointerType: 'mouse',
+        clientX: rect.x + rect.width / 2,
+        clientY: rect.y + rect.height / 2,
+      };
+
+      if (kind === 'click') {
+        element.dispatchEvent(new PointerEvent('pointerdown', init));
+        element.dispatchEvent(new PointerEvent('mousedown', init));
+        element.dispatchEvent(new PointerEvent('pointerup', init));
+        element.dispatchEvent(new PointerEvent('mouseup', init));
+        element.dispatchEvent(new PointerEvent('click', init));
+      } else if (kind === 'contextmenu') {
+        element.dispatchEvent(new PointerEvent('pointerdown', init));
+        element.dispatchEvent(new PointerEvent('mousedown', init));
+        element.dispatchEvent(new PointerEvent('contextmenu', init));
+      } else {
+        unreachable(kind);
+      }
+    }, [kind]);
+
+    if (asChild) {
+      return (
+        <Slot.Root ref={ref} {...forwardExtraPropsForRadix(rest)}>
+          {children}
+        </Slot.Root>
+      );
+    }
+
+    return (
+      <AxoButton.Root
+        ref={ref as Ref<HTMLButtonElement>}
+        size="md"
+        variant="strong-primary"
+        {...forwardExtraPropsForRadix(rest)}
+      >
+        {children}
+      </AxoButton.Root>
+    );
+  });
+
+  AutoTrigger.displayName = 'Story.AutoTrigger';
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC, ReactNode } from 'react';
-import { memo } from 'react';
+import { memo, useId } from 'react';
 import { RadioGroup } from 'radix-ui';
 import { AxoList } from './AxoList.dom.tsx';
 import { AxoBaseItem } from './_AxoBaseItem.dom.tsx';
@@ -27,11 +27,12 @@ export namespace AxoRadioGroupList {
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
+    const titleId = useId();
     return (
       <AxoList.Root>
         {props.title != null && (
           <AxoList.Header>
-            <AxoList.Label>{props.title}</AxoList.Label>
+            <AxoList.Label id={titleId}>{props.title}</AxoList.Label>
             {/* We probably don't ever want to show a description without a title */}
             {props.description != null && (
               <AxoList.Description>{props.description}</AxoList.Description>
@@ -44,6 +45,7 @@ export namespace AxoRadioGroupList {
             value={props.value}
             onValueChange={props.onValueChange}
             disabled={props.disabled}
+            aria-labelledby={props.title != null ? titleId : undefined}
           >
             <AxoBaseItem.Group spacing="md">{props.children}</AxoBaseItem.Group>
           </RadioGroup.Root>

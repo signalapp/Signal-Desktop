@@ -34,6 +34,8 @@ export namespace AxoPasswordField {
   export type AutoComplete = 'current-password' | 'new-password';
 
   export type RootProps = Readonly<{
+    /** Provide your own id for the `<input>` to target with a `<label>`. Auto-generated if omitted. */
+    id?: string;
     /** Controlled value of the input. */
     value: string;
     /** Called with the new value on every change. */
@@ -61,6 +63,7 @@ export namespace AxoPasswordField {
       <Context value={context}>
         <AxoBaseField.Root
           variant="text"
+          id={props.id}
           value={props.value}
           onValueChange={props.onValueChange}
           maxGraphemes={props.maxGraphemes}

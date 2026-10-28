@@ -1,9 +1,10 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { type FC, memo } from 'react';
+import { type FC, memo, useMemo } from 'react';
 import { tw } from '../tw.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { variants } from '../_internal/variants.dom.tsx';
+import { useAxoIntl } from '../_internal/AxoIntl.dom.tsx';
 
 export namespace AxoOutgoingStatus {
   export type Status =
@@ -26,6 +27,26 @@ export namespace AxoOutgoingStatus {
     }
   );
 
+  type StatusLabelKey =
+    | 'AxoOutgoingStatus.Sending'
+    | 'AxoOutgoingStatus.Sent'
+    | 'AxoOutgoingStatus.Delivered'
+    | 'AxoOutgoingStatus.Read'
+    | 'AxoOutgoingStatus.Paused'
+    | 'AxoOutgoingStatus.Error';
+
+  const StatusLabels = variants<Status, StatusLabelKey>(
+    'AxoOutgoingStatus.Status',
+    {
+      sending: 'AxoOutgoingStatus.Sending',
+      sent: 'AxoOutgoingStatus.Sent',
+      delivered: 'AxoOutgoingStatus.Delivered',
+      read: 'AxoOutgoingStatus.Read',
+      paused: 'AxoOutgoingStatus.Paused',
+      error: 'AxoOutgoingStatus.Error',
+    }
+  );
+
   /**
    * <AxoOutgoingStatus.Root>
    * --------------------------------------------------------------------------
@@ -33,10 +54,25 @@ export namespace AxoOutgoingStatus {
 
   export type RootProps = Readonly<{
     status: Status;
-    label: string | null;
+    /**
+     * Visually hidden label for screen readers. Pass `null` if the status is
+     * already described by the surrounding context.
+     */
+    label?: string | null;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
+    const { status } = props;
+    const intl = useAxoIntl();
+
+    const label = useMemo(() => {
+      // `null` hides the status from screen readers
+      if (props.label !== undefined) {
+        return props.label;
+      }
+      return intl.get(StatusLabels.get(status));
+    }, [intl, props.label, status]);
+
     return (
       <span
         // TODO: Need to do more research on the best way to make this accessible
@@ -50,7 +86,7 @@ export namespace AxoOutgoingStatus {
       >
         <AxoSymbol.InlineGlyph
           symbol={StatusSymbols.get(props.status)}
-          label={props.label}
+          label={label}
           preferWide
         />
       </span>

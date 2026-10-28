@@ -52,6 +52,15 @@ export namespace ExperimentalAxoSegmentedControl {
 
   export type RootProps = Readonly<{
     /**
+     * Accessible label for the group of items, required unless `labelledby`
+     * is provided.
+     */
+    label?: string;
+    /**
+     * ID of an element that labels the group of items.
+     */
+    labelledby?: string;
+    /**
      * Width of the entire control.
      */
     width: RootWidth;
@@ -84,6 +93,7 @@ export namespace ExperimentalAxoSegmentedControl {
    * @example Tab-style navigation
    * ```tsx
    * <AxoSegmentedControl.Root
+   *   label="Media type"
    *   variant="no-track"
    *   width="full"
    *   itemWidth="equal"
@@ -117,6 +127,8 @@ export namespace ExperimentalAxoSegmentedControl {
         orientation="horizontal"
         loop
         rovingFocus
+        aria-label={props.label}
+        aria-labelledby={props.labelledby}
         asChild
       >
         <ExperimentalAxoBaseSegmentedControl.Root

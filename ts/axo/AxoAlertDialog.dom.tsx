@@ -192,7 +192,7 @@ export namespace AxoAlertDialog {
   export const Content: FC<ContentProps> = memo(props => {
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
     const { hasTrigger } = useStrictContext(RootContext);
-    const restoreFocusHandlers = useContentRestoreFocusBehavior(hasTrigger);
+    const { dialogContentProps } = useContentRestoreFocusBehavior(hasTrigger);
 
     return (
       <AlertDialog.Portal>
@@ -201,9 +201,9 @@ export namespace AxoAlertDialog {
             <AlertDialog.Overlay className={AxoBaseDialog.overlayClassName} />
             <AlertDialog.Content
               onEscapeKeyDown={handleContentEscapeEvent}
-              onOpenAutoFocus={restoreFocusHandlers.onOpenAutoFocus}
-              onCloseAutoFocus={restoreFocusHandlers.onCloseAutoFocus}
+              aria-modal="true"
               className={tw(AxoBaseDialog.contentClassName, 'w-72 min-w-72')}
+              {...dialogContentProps}
             >
               {props.children}
             </AlertDialog.Content>

@@ -7,6 +7,7 @@ import { memo, useMemo } from 'react';
 import { createStrictContext, useStrictContext } from './StrictContext.dom.tsx';
 import type { LanguageTag } from '@signalapp/types';
 import { Direction as RadixDirection } from 'radix-ui';
+import { I18nProvider } from 'react-aria';
 
 const IntlContext =
   createStrictContext<AxoIntl.ContextType>('AxoIntl.Provider');
@@ -22,9 +23,21 @@ export namespace AxoIntl {
     'AxoColorSlider.Lightness': 'Lightness',
     'AxoDialog.Back': 'Back',
     'AxoDialog.Close': 'Close',
+    'AxoLoadingIndicator.Loading': 'Loading',
+    'AxoMediaButton.Play': 'Play',
+    'AxoMediaButton.Pause': 'Pause',
+    'AxoMediaButton.Download': 'Download',
+    'AxoMediaButton.CancelDownload': 'Cancel download',
+    'AxoOutgoingStatus.Sending': 'Sending',
+    'AxoOutgoingStatus.Sent': 'Sent',
+    'AxoOutgoingStatus.Delivered': 'Delivered',
+    'AxoOutgoingStatus.Read': 'Read',
+    'AxoOutgoingStatus.Paused': 'Sending paused',
+    'AxoOutgoingStatus.Error': 'Failed to send',
     'AxoTextField.Clear': 'Clear',
     'AxoPasswordField.Reveal': 'Show Password',
-    'AxoBadge.MaxOverflow': (max: number) => `${max}+`,
+    'AxoProgressIndicator.Loading': 'Loading',
+    'AxoBadge.MaxOverflow': (max: number) => `${max.toLocaleString()}+`,
     'AxoContactName.InSystemContactsLabel': 'This person is in your contacts.',
   };
 
@@ -118,7 +131,9 @@ export namespace AxoIntl {
     return (
       <IntlContext.Provider value={intl}>
         <RadixDirection.Provider dir={intl.resolvedAppLocale.direction}>
-          {props.children}
+          <I18nProvider locale={intl.resolvedAppLocale.tag}>
+            {props.children}
+          </I18nProvider>
         </RadixDirection.Provider>
       </IntlContext.Provider>
     );

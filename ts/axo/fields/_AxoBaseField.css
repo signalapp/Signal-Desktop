@@ -13,7 +13,6 @@
     @apply forced-colors:border-[ButtonBorder];
     @apply forced-colors:bg-[ButtonFace];
     @apply forced-colors:text-[ButtonText];
-    @apply forced-colors:has-user-invalid:border-[LinkText];
 
     /**
      * Variants
@@ -46,6 +45,13 @@
       .axo-field-root {
         @apply curved-xl;
       }
+    }
+
+    /**
+     * Must be after other variants for specificity.
+     */
+    &:has(:user-invalid, [aria-invalid='true']) {
+      @apply forced-colors:border-[LinkText];
     }
   }
 
@@ -140,6 +146,11 @@
     @apply ps-2.5 pe-1;
     @apply forced-colors:text-[ButtonText];
     @apply pointer-events-none;
+
+    .axo-field-root:has(.axo-field-textbox:disabled) & {
+      @apply text-disabled;
+      @apply forced-colors:text-[GrayText];
+    }
   }
 
   .axo-field-count {
@@ -165,7 +176,7 @@
     }
 
     &.axo-field-count-warn {
-      @apply text-destructive forced-color-adjust-none;
+      @apply text-destructive forced-colors:text-[LinkText];
 
       &.axo-field-count-disabled {
         @apply text-destructive-disabled forced-colors:text-[GrayText];
@@ -191,7 +202,8 @@
       @apply forced-colors:text-[ButtonText];
     }
 
-    &:disabled {
+    /* `.axo-field-action` uses `aria-disabled` to stay focusable */
+    &:is(:disabled, [aria-disabled='true']) {
       .axo-field-action-inner,
       .axo-field-clear-inner {
         @apply text-disabled;
@@ -199,7 +211,7 @@
       }
     }
 
-    &:enabled {
+    &:not(:disabled, [aria-disabled='true']) {
       &:hover {
         .axo-field-action-inner,
         .axo-field-clear-inner {

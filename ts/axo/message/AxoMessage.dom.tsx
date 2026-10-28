@@ -130,7 +130,8 @@ export namespace AxoMessage {
           context.direction === 'outgoing' &&
             'bg-surface-message-outgoing text-primary-oncolor',
           context.direction === 'incoming' &&
-            'bg-surface-message-incoming text-primary'
+            'bg-surface-message-incoming text-primary',
+          'forced-colors:border forced-colors:border-[CanvasText]'
         )}
       >
         {props.children}
@@ -218,7 +219,9 @@ export namespace AxoMessage {
           className={tw(
             'inline-flex gap-[0.5ch] type-caption',
             context.direction === 'incoming' && 'text-secondary',
-            context.direction === 'outgoing' && 'text-secondary-oncolor'
+            context.direction === 'outgoing' && 'text-secondary-oncolor',
+            // Inline glyphs inherit the color with `forced-color-adjust: none`
+            'forced-colors:text-[CanvasText]'
           )}
         >
           {props.children}
@@ -279,10 +282,15 @@ export namespace AxoMessage {
 
   export type MetaOutgoingStatusProps = Readonly<{
     status: AxoOutgoingStatus.Status;
+    /**
+     * Visually hidden label for screen readers. Pass `null` if the status is
+     * already described by the surrounding context.
+     */
+    label?: string | null;
   }>;
 
   export const MetaOutgoingStatus: FC<MetaOutgoingStatusProps> = memo(props => {
-    return <AxoOutgoingStatus.Root status={props.status} label={null} />;
+    return <AxoOutgoingStatus.Root status={props.status} label={props.label} />;
   });
 
   MetaOutgoingStatus.displayName = 'AxoMessage.MetaOutgoingStatus';
@@ -312,7 +320,10 @@ export namespace AxoMessage {
       <button
         type="button"
         onClick={handleClick}
-        className={tw('rounded-xs focus-visible:axo-focus-ring')}
+        className={tw(
+          'rounded-xs focus-visible:axo-focus-ring',
+          'forced-colors:text-[LinkText] forced-colors:underline'
+        )}
       >
         {props.children}
       </button>

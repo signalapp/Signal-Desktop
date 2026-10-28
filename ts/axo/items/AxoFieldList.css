@@ -10,7 +10,7 @@
       @apply block;
       @apply mx-2 my-[2.5px];
       @apply border-b border-b-primary;
-      @apply forced-colors:border-b-0;
+      @apply forced-colors:border-b-[GrayText];
     }
   }
 }

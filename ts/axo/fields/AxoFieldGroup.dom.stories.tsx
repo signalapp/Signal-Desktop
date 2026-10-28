@@ -15,7 +15,7 @@ export function Basic(): ReactNode {
   const [familyName, setFamilyName] = useState('');
 
   return (
-    <AxoFieldGroup.Root>
+    <AxoFieldGroup.Root label="Name">
       <AxoTextField.Root
         value={givenName}
         onValueChange={setGivenName}
@@ -42,7 +42,7 @@ export function Fit(): ReactNode {
   const [discriminator, setDiscriminator] = useState('');
 
   return (
-    <AxoFieldGroup.Root>
+    <AxoFieldGroup.Root label="Username">
       <AxoTextField.Root
         value={nickname}
         onValueChange={setNickname}
@@ -97,7 +97,7 @@ export function KitchenSink(): ReactNode {
   );
 
   return (
-    <AxoFieldGroup.Root>
+    <AxoFieldGroup.Root label="Name">
       <AxoTextField.Root
         value={givenName}
         onValueChange={onGivenNameChange}

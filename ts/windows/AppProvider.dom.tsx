@@ -36,7 +36,21 @@ export const AppProvider: FC<AppProviderProps> = memo(
       'AxoColorSlider.Lightness': i18n('icu:AxoColorSlider.Lightness'),
       'AxoDialog.Back': i18n('icu:AxoDialog.Back'),
       'AxoDialog.Close': i18n('icu:AxoDialog.Close'),
+      'AxoLoadingIndicator.Loading': i18n('icu:AxoLoadingIndicator.Loading'),
+      'AxoMediaButton.Play': i18n('icu:AxoMediaButton.Play'),
+      'AxoMediaButton.Pause': i18n('icu:AxoMediaButton.Pause'),
+      'AxoMediaButton.Download': i18n('icu:AxoMediaButton.Download'),
+      'AxoMediaButton.CancelDownload': i18n(
+        'icu:AxoMediaButton.CancelDownload'
+      ),
+      'AxoOutgoingStatus.Sending': i18n('icu:AxoOutgoingStatus.Sending'),
+      'AxoOutgoingStatus.Sent': i18n('icu:AxoOutgoingStatus.Sent'),
+      'AxoOutgoingStatus.Delivered': i18n('icu:AxoOutgoingStatus.Delivered'),
+      'AxoOutgoingStatus.Read': i18n('icu:AxoOutgoingStatus.Read'),
+      'AxoOutgoingStatus.Paused': i18n('icu:AxoOutgoingStatus.Paused'),
+      'AxoOutgoingStatus.Error': i18n('icu:AxoOutgoingStatus.Error'),
       'AxoPasswordField.Reveal': i18n('icu:AxoPasswordField.Reveal'),
+      'AxoProgressIndicator.Loading': i18n('icu:AxoProgressIndicator.Loading'),
       'AxoTextField.Clear': i18n('icu:AxoTextField.Clear'),
       'AxoContactName.InSystemContactsLabel': i18n('icu:contactInAddressBook'),
     };

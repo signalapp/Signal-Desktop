@@ -76,7 +76,7 @@ function AxoContextMenuTest() {
 function AxoSelectTest() {
   const [value, setValue] = useState<string | null>(null);
   return (
-    <AxoSelect.Root value={value} onValueChange={setValue}>
+    <AxoSelect.Root label="AxoSelect" value={value} onValueChange={setValue}>
       <AxoSelect.Trigger placeholder="AxoSelect" />
       <AxoSelect.Content>
         <AxoSelect.Item value="1">
@@ -196,7 +196,7 @@ export function Basic(): JSX.Element {
 
       <AxoTheme.Override theme="force-dark">
         <Section>
-          <Label>Force Light</Label>
+          <Label>Force Dark</Label>
           <TestCases />
 
           <AxoTheme.Override theme="auto">

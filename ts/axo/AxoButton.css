@@ -28,20 +28,6 @@
     @apply items-center-safe justify-center-safe;
     @apply rounded-full;
     @apply focus-visible:axo-focus-ring;
-
-    @media (forced-colors: active) {
-      @apply bg-[ButtonFace] text-[ButtonText];
-      @apply border border-[ButtonBorder] focus:border-[Highlight];
-
-      &[aria-disabled='true'] {
-        @apply text-[GrayText];
-      }
-
-      &[aria-pressed='true'] {
-        @apply bg-[SelectedItem];
-        @apply text-[SelectedItemText];
-      }
-    }
   }
 
   .axo-button-inner {
@@ -187,5 +173,25 @@
 
   .axo-button-spinner {
     @apply absolute inset-0 flex items-center justify-center;
+  }
+
+  /**
+   * Must be after other variants for specificity.
+   */
+  @media (forced-colors: active) {
+    .axo-button {
+      @apply bg-[ButtonFace] text-[ButtonText];
+      @apply border border-[ButtonBorder] focus:border-[Highlight];
+
+      &[aria-disabled='true'],
+      &[data-axo-discouraged='true'] {
+        @apply text-[GrayText];
+      }
+
+      &[aria-pressed='true'] {
+        @apply bg-[SelectedItem];
+        @apply text-[SelectedItemText];
+      }
+    }
   }
 }

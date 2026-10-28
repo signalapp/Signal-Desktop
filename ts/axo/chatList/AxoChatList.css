@@ -20,6 +20,7 @@
     .axo-chat-list-label {
       /* Render a divider, but keep the text for screen readers */
       @apply mx-auto my-4.75 block h-0.5 w-10 rounded-full bg-secondary p-0;
+      @apply forced-colors:bg-[GrayText];
     }
 
     .axo-chat-list-label-text {

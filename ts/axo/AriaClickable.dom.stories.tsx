@@ -43,7 +43,11 @@ function CardSeeMoreLink(props: { onClick: () => void; children: ReactNode }) {
     <>
       <span
         id={id}
-        className={tw('text-accent', 'group-data-hovered:underline')}
+        className={tw(
+          'text-accent',
+          'group-data-hovered:underline',
+          'forced-colors:text-[LinkText] forced-colors:underline'
+        )}
       >
         {props.children}
       </span>

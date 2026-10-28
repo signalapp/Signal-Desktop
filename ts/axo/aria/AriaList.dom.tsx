@@ -84,8 +84,10 @@ export namespace AriaList {
   export const Item: FC<ItemProps> = memo(props => {
     const Comp = props.asChild ? Slot.Root : 'div';
     return (
-      <AriaLabelled.Root asChild id={props.id}>
-        <Comp role="listitem">{props.children}</Comp>
+      <AriaLabelled.Root>
+        <AriaLabelled.Target asChild id={props.id}>
+          <Comp role="listitem">{props.children}</Comp>
+        </AriaLabelled.Target>
       </AriaLabelled.Root>
     );
   });

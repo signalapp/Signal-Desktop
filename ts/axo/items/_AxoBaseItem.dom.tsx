@@ -14,6 +14,7 @@ import {
   useLayoutEffect,
   useMemo,
   useCallback,
+  useId,
   useRef,
 } from 'react';
 import { mergeRefs } from '@react-aria/utils';
@@ -25,7 +26,10 @@ import {
 import { css } from '../_internal/css.dom.tsx';
 import { tw } from '../tw.dom.tsx';
 import { AriaClickable } from '../AriaClickable.dom.tsx';
-import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
+import {
+  concatIds,
+  forwardExtraPropsForRadix,
+} from '../_internal/props.dom.tsx';
 import { AxoIconButton } from '../AxoIconButton.dom.tsx';
 import { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoButton } from '../AxoButton.dom.tsx';
@@ -186,9 +190,52 @@ export namespace AxoBaseItem {
     destructive: css('axo-item-root-destructive'),
   });
 
+  /**
+   * Collects the elements (values and descriptions) that should describe the
+   * item's focusable control, so screen reader users hear them when they
+   * focus the control and not just when they're reading the list item.
+   */
+  function useDescribedBy(): [string | null, RefCallback<HTMLElement>] {
+    const [elements, setElements] = useState<ReadonlySet<HTMLElement>>(
+      () => new Set()
+    );
+
+    const register: RefCallback<HTMLElement> = useCallback(maybeElement => {
+      const element = assert(maybeElement, 'Missing element');
+      setElements(prev => new Set(prev).add(element));
+      return () => {
+        setElements(prev => {
+          const next = new Set(prev);
+          next.delete(element);
+          return next;
+        });
+      };
+    }, []);
+
+    const describedby = useMemo(() => {
+      if (elements.size === 0) {
+        return null;
+      }
+      // Sorted in DOM order, since elements can be registered in any order.
+      // Values and descriptions are never nested in each other.
+      return Array.from(elements)
+        .sort((a, b) => {
+          const position = a.compareDocumentPosition(b);
+          return position === Node.DOCUMENT_POSITION_PRECEDING ? 1 : -1;
+        })
+        .map(element => element.id)
+        .join(' ');
+    }, [elements]);
+
+    return [describedby, register];
+  }
+
   /** @internal */
   type RootContextType = Readonly<{
     disabled: boolean;
+    /** Space separated ids of the item's values and descriptions */
+    describedby: string | null;
+    registerDescription: RefCallback<HTMLElement>;
   }>;
 
   /** @internal */
@@ -227,10 +274,11 @@ export namespace AxoBaseItem {
       ...rest
     } = props;
     const groupContext = useStrictContext(GroupContext);
+    const [describedby, registerDescription] = useDescribedBy();
 
     const context = useMemo((): RootContextType => {
-      return { disabled };
-    }, [disabled]);
+      return { disabled, describedby, registerDescription };
+    }, [disabled, describedby, registerDescription]);
 
     const Comp = asChild ? Slot.Root : 'div';
 
@@ -423,9 +471,15 @@ export namespace AxoBaseItem {
 
   export const Value: FC<ValueProps> = memo(props => {
     const { ref, children, ...rest } = props;
+    const { registerDescription } = useStrictContext(RootContext);
+    const fallbackId = useId();
+    const mergedRef = useMemo(() => {
+      return mergeRefs<HTMLDivElement>(ref, registerDescription);
+    }, [ref, registerDescription]);
     return (
       <div
-        ref={ref}
+        ref={mergedRef}
+        id={fallbackId}
         className="axo-item-value"
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -449,9 +503,15 @@ export namespace AxoBaseItem {
 
   export const Description: FC<DescriptionProps> = memo(props => {
     const { ref, truncate, children, ...rest } = props;
+    const { registerDescription } = useStrictContext(RootContext);
+    const fallbackId = useId();
+    const mergedRef = useMemo(() => {
+      return mergeRefs<HTMLDivElement>(ref, registerDescription);
+    }, [ref, registerDescription]);
     return (
       <div
-        ref={ref}
+        ref={mergedRef}
+        id={fallbackId}
         className={css('axo-item-description', truncate && tw('truncate'))}
         {...forwardExtraPropsForRadix(rest)}
       >
@@ -474,14 +534,19 @@ export namespace AxoBaseItem {
     onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   }>;
 
+  /**
+   * Labelled by `label` or `labelledby`, and described by the item's values
+   * and descriptions.
+   */
   export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
-    const { disabled } = useStrictContext(RootContext);
+    const { disabled, describedby } = useStrictContext(RootContext);
     const { ref, label, labelledby, onClick, ...rest } = props;
     return (
       <AriaClickable.HiddenTrigger
         ref={ref}
         label={label}
         labelledby={labelledby}
+        describedby={describedby ?? undefined}
         disabled={disabled}
         onClick={onClick}
         {...forwardExtraPropsForRadix(rest)}
@@ -490,6 +555,42 @@ export namespace AxoBaseItem {
   });
 
   HiddenTrigger.displayName = 'AxoBaseItem.HiddenTrigger';
+
+  /**
+   * <AxoBaseItem.DescribedBy>
+   * --------------------------------------------------------------------------
+   */
+
+  export type DescribedByProps = Readonly<{
+    /**
+     * A focusable control (like a switch) that forwards extra props to its
+     * element.
+     */
+    children: ReactNode;
+  }>;
+
+  /**
+   * Adds the item's values and descriptions to the `aria-describedby` of a
+   * focusable control that isn't a `HiddenTrigger` (like a switch).
+   */
+  export const DescribedBy: FC<DescribedByProps> = memo(props => {
+    const { children, ...rest } = props;
+    const { describedby } = useStrictContext(RootContext);
+    // Keep any `aria-describedby` from a parent with `asChild` (like a
+    // tooltip trigger)
+    const parentProps: Readonly<{ 'aria-describedby'?: string }> = rest;
+    const merged = concatIds(describedby, parentProps['aria-describedby']);
+    return (
+      <Slot.Root
+        {...forwardExtraPropsForRadix(rest)}
+        aria-describedby={merged ?? undefined}
+      >
+        {children}
+      </Slot.Root>
+    );
+  });
+
+  DescribedBy.displayName = 'AxoBaseItem.DescribedBy';
 
   /**
    * <AxoBaseItem.Accessory>
@@ -507,7 +608,8 @@ export namespace AxoBaseItem {
         className="axo-item-accessory"
         style={{ maxHeight: props.centerToFullHeight ? 'none' : undefined }}
       >
-        {props.children}
+        {/* Above the `HiddenTrigger` so they can be clicked */}
+        <AriaClickable.SubWidget>{props.children}</AriaClickable.SubWidget>
       </div>
     );
   });

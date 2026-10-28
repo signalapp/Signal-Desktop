@@ -9,6 +9,7 @@ import { variants } from './_internal/variants.dom.tsx';
 import { AxoBaseSpinner } from './status/_AxoBaseSpinner.dom.tsx';
 import { assert } from './_internal/assert.std.tsx';
 import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
+import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
 
 export namespace AxoMediaButton {
   export type Status = 'paused' | 'playing' | 'undownloaded' | 'downloading';
@@ -20,10 +21,34 @@ export namespace AxoMediaButton {
     downloading: 'x',
   });
 
+  type StatusLabelKey =
+    | 'AxoMediaButton.Play'
+    | 'AxoMediaButton.Pause'
+    | 'AxoMediaButton.Download'
+    | 'AxoMediaButton.CancelDownload';
+
+  const StatusLabels = variants<Status, StatusLabelKey>(
+    'AxoMediaButton.Status',
+    {
+      paused: 'AxoMediaButton.Play',
+      playing: 'AxoMediaButton.Pause',
+      undownloaded: 'AxoMediaButton.Download',
+      downloading: 'AxoMediaButton.CancelDownload',
+    }
+  );
+
   export type RootProps = Readonly<{
     status: Status;
     downloadedBytes: number | 'indeterminate';
     totalBytes: number | 'indeterminate';
+    /**
+     * Accessible label for the button.
+     */
+    label?: string;
+    /**
+     * ID of an element that labels the button, overrides the default label.
+     */
+    labelledby?: string;
     /**
      * When `true`, prevents interaction.
      */
@@ -35,8 +60,17 @@ export namespace AxoMediaButton {
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { status, downloadedBytes, totalBytes, disabled, onClick, ...rest } =
-      props;
+    const {
+      status,
+      downloadedBytes,
+      totalBytes,
+      label,
+      labelledby,
+      disabled,
+      onClick,
+      ...rest
+    } = props;
+    const intl = useAxoIntl();
 
     const handleClick = useCallback(
       (event: MouseEvent<HTMLButtonElement>) => {
@@ -49,6 +83,13 @@ export namespace AxoMediaButton {
       },
       [disabled, onClick]
     );
+
+    const defaultLabel = useMemo(() => {
+      if (labelledby != null) {
+        return undefined;
+      }
+      return intl.get(StatusLabels.get(status));
+    }, [intl, labelledby, status]);
 
     return (
       <button
@@ -63,6 +104,8 @@ export namespace AxoMediaButton {
           'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
           'forced-colors:aria-disabled:text-[GrayText]'
         )}
+        aria-label={label ?? defaultLabel}
+        aria-labelledby={labelledby}
         aria-disabled={disabled ?? undefined}
         onClick={handleClick}
         {...forwardExtraPropsForRadix(rest)}
@@ -73,6 +116,7 @@ export namespace AxoMediaButton {
             size={42}
             downloadedBytes={downloadedBytes}
             totalBytes={totalBytes}
+            disabled={disabled ?? false}
           />
         )}
       </button>
@@ -86,6 +130,7 @@ export namespace AxoMediaButton {
     size: number;
     downloadedBytes: number | 'indeterminate';
     totalBytes: number | 'indeterminate';
+    disabled: boolean;
   }>;
 
   /** @internal */
@@ -115,6 +160,7 @@ export namespace AxoMediaButton {
           variant="default"
           value={value}
           track={false}
+          forcedColor={props.disabled ? 'disabled' : 'button'}
         />
       </span>
     );

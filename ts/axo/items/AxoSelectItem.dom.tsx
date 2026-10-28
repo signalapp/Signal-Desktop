@@ -58,14 +58,14 @@ export namespace AxoSelectItem {
             )}
             <AxoBaseItem.Accessory>
               <AxoSelect.Root
+                labelledby={labelId}
                 disabled={props.disabled}
                 value={props.value}
                 onValueChange={props.onValueChange}
               >
-                <AxoSelect.Trigger
-                  labelledby={labelId}
-                  placeholder={props.placeholder}
-                />
+                <AxoBaseItem.DescribedBy>
+                  <AxoSelect.Trigger placeholder={props.placeholder} />
+                </AxoBaseItem.DescribedBy>
                 <AxoSelect.Content>
                   {props.options.map(item => {
                     return (

@@ -5,8 +5,8 @@ import { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoMenuBuilder } from './AxoMenuBuilder.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
+import { Story } from './_storybook-helpers/Story.dom.tsx';
 
 export default {
   title: 'Axo/AxoMenuBuilder',
@@ -100,9 +100,7 @@ export function Basic(): JSX.Element {
   return (
     <div className={tw('flex h-96 w-full items-center justify-center gap-8')}>
       <Template renderer="AxoDropdownMenu">
-        <AxoButton.Root variant="strong-secondary" size="md">
-          Open Dropdown Menu
-        </AxoButton.Root>
+        <Story.AutoTrigger>Open Dropdown Menu</Story.AutoTrigger>
       </Template>
       <Template renderer="AxoContextMenu">
         <div className={tw('bg-primary p-12 text-accent')}>Right-Click</div>

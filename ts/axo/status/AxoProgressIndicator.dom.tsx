@@ -3,6 +3,7 @@
 import type { FC } from 'react';
 import { memo, useMemo } from 'react';
 import { AxoBaseSpinner } from './_AxoBaseSpinner.dom.tsx';
+import { useAxoIntl } from '../_internal/AxoIntl.dom.tsx';
 
 export namespace AxoProgressIndicator {
   /**
@@ -28,10 +29,20 @@ export namespace AxoProgressIndicator {
     completed: number | 'indeterminate';
     total: number | 'indeterminate';
     noTrack?: boolean;
+    /**
+     * Accessible label for the progress indicator.
+     */
+    label?: string;
+    /**
+     * ID of an element that labels the progress indicator, overrides the
+     * default label.
+     */
+    labelledby?: string;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
-    const { completed, total } = props;
+    const { completed, total, label, labelledby } = props;
+    const intl = useAxoIntl();
 
     const value = useMemo((): AxoBaseSpinner.Value => {
       if (completed === 'indeterminate' || total === 'indeterminate') {
@@ -40,6 +51,9 @@ export namespace AxoProgressIndicator {
       return { completed, total };
     }, [completed, total]);
 
+    const defaultLabel =
+      labelledby == null ? intl.get('AxoProgressIndicator.Loading') : undefined;
+
     return (
       <AxoBaseSpinner.Root
         size={props.size}
@@ -47,6 +61,9 @@ export namespace AxoProgressIndicator {
         variant="default"
         value={value}
         track={!props.noTrack}
+        label={label ?? defaultLabel}
+        labelledby={labelledby}
+        forcedColor="text"
       />
     );
   });

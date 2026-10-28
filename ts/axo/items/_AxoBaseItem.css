@@ -101,6 +101,8 @@
 
   :where(.axo-item-trailing) .axo-item-arrow {
     @apply type-body-medium text-placeholder;
+    /* Symbols don't adjust their colors, so it would keep its alpha */
+    @apply forced-colors:text-[CanvasText];
   }
 
   .axo-item-content {
@@ -189,13 +191,13 @@
 :where(.axo-item-root-destructive) {
   .axo-item-icon,
   .axo-item-label {
-    @apply text-destructive forced-colors:text-[GrayText];
+    @apply text-destructive forced-colors:text-[CanvasText];
   }
 
   &:where(.axo-item-root-disabled) {
     .axo-item-icon,
     .axo-item-label {
-      @apply text-destructive-disabled;
+      @apply text-destructive-disabled forced-colors:text-[GrayText];
     }
   }
 }

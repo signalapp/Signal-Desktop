@@ -13,6 +13,11 @@
     font-weight: inherit;
   }
 
+  .axo-symbol-glyph::before {
+    /* Empty alt text hides the generated content from screen readers */
+    content: attr(data-axo-symbol-glyph) / '';
+  }
+
   .axo-symbol-label {
     @apply select-none;
   }

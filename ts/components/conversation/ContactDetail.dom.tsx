@@ -150,6 +150,15 @@ export function ContactDetail({
   const name = getDisplayName(contact);
   const nickname = getDisplayNickname(contact);
 
+  // The name is already shown below the avatar, so when the avatar is a button
+  // it's labelled by what it does instead
+  let avatarLabel = name ?? null;
+  if (isAvatarClickable) {
+    avatarLabel = attachment.pending
+      ? i18n('icu:cancelDownload')
+      : i18n('icu:downloadAttachment');
+  }
+
   const hasSignalAccount = canMessageSharedContact(contact);
   const hasFields = Boolean(
     contact.number?.length ||
@@ -169,7 +178,7 @@ export function ContactDetail({
         <ContactAvatar
           contact={contact}
           isIncoming
-          label={name ?? null}
+          label={avatarLabel}
           onClick={
             isAvatarClickable
               ? (event: MouseEvent) => {

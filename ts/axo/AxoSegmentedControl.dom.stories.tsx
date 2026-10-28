@@ -26,6 +26,7 @@ function Template(props: {
         {`itemWidth=${props.itemWidth}`}
       </h2>
       <ExperimentalAxoSegmentedControl.Root
+        label="Folders"
         variant={props.variant}
         width={props.width}
         itemWidth={props.itemWidth}

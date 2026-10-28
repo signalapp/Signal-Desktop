@@ -3,6 +3,7 @@
 import type { FC } from 'react';
 import { memo } from 'react';
 import { AxoBaseSpinner } from './_AxoBaseSpinner.dom.tsx';
+import { useAxoIntl } from '../_internal/AxoIntl.dom.tsx';
 
 export namespace AxoLoadingIndicator {
   /**
@@ -26,9 +27,24 @@ export namespace AxoLoadingIndicator {
   export type RootProps = Readonly<{
     size: Size;
     weight?: Weight;
+    /**
+     * Accessible label for the loading indicator.
+     */
+    label?: string;
+    /**
+     * ID of an element that labels the loading indicator, overrides the
+     * default label.
+     */
+    labelledby?: string;
   }>;
 
   export const Root: FC<RootProps> = memo(props => {
+    const { label, labelledby } = props;
+    const intl = useAxoIntl();
+
+    const defaultLabel =
+      labelledby == null ? intl.get('AxoLoadingIndicator.Loading') : undefined;
+
     return (
       <AxoBaseSpinner.Root
         size={props.size}
@@ -36,6 +52,8 @@ export namespace AxoLoadingIndicator {
         variant="default"
         value="indeterminate"
         track={false}
+        label={label ?? defaultLabel}
+        labelledby={labelledby}
       />
     );
   });

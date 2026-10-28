@@ -407,7 +407,8 @@ export namespace AxoBaseMenu {
 
   const baseLabelClassName = tw(
     labeledItemClassName,
-    'type-body-small text-secondary'
+    'type-body-small text-secondary',
+    'forced-colors:text-[CanvasText]'
   );
 
   export const menuLabelClassName = tw(baseLabelClassName);

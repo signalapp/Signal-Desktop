@@ -454,25 +454,19 @@ export function ExampleMuteNotificationsDialog(): JSX.Element {
 }
 
 function ExampleItem(props: { label: string; description: string }) {
-  const labelId = useId();
-  const descriptionId = useId();
-
+  // The option is named by all of its visible text (both lines), so that
+  // speech input users can say what they see.
   return (
     <div
       role="option"
       aria-selected={false}
-      aria-labelledby={labelId}
-      aria-describedby={descriptionId}
       tabIndex={0}
       className={tw('rounded-lg px-[13px] py-2.5 hover:bg-primary')}
     >
-      <div id={labelId} className={tw('truncate type-body-large text-primary')}>
+      <div className={tw('truncate type-body-large text-primary')}>
         {props.label}
       </div>
-      <div
-        id={descriptionId}
-        className={tw('truncate type-body-small text-secondary')}
-      >
+      <div className={tw('truncate type-body-small text-secondary')}>
         {props.description}
       </div>
     </div>
@@ -504,6 +498,7 @@ export function ExampleLanguageDialog(): JSX.Element {
         <AxoDialog.Body padding="sm">
           <div
             role="listbox"
+            aria-label="Languages"
             style={{
               paddingInline:
                 'calc(11px - var(--axo-scrollbar-gutter-thin-vertical)',

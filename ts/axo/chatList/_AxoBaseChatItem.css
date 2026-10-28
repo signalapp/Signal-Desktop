@@ -21,6 +21,18 @@
     @apply bg-(--axo-chat-item-bg);
     @apply forced-colors:border forced-colors:border-transparent;
 
+    /* The background is removed in forced colors mode */
+    :where(
+        .axo-chat-item:is(
+          [data-hovered],
+          [data-pressed],
+          [data-axo-contextmenu-state='open']
+        )
+      )
+      > & {
+      @apply forced-colors:border-[Highlight];
+    }
+
     :where(.axo-chat-item[data-focused]) > & {
       @apply axo-focus-ring;
     }
@@ -120,7 +132,7 @@
     }
 
     .axo-chat-item-outgoing-status-error {
-      @apply text-destructive;
+      @apply text-destructive forced-colors:text-[CanvasText];
     }
 
     .axo-chat-item-badges {

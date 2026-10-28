@@ -66,22 +66,27 @@ export function Variants(): JSX.Element {
               return (
                 <div
                   key={variant}
-                  className={tw(
-                    'p-2 text-center',
-                    Themes[row.theme],
-                    Backgrounds[row.background]
-                  )}
+                  // Translucent backgrounds need an opaque surface of the same
+                  // theme behind them
+                  className={tw('bg-surface-primary', Themes[row.theme])}
                   style={{
                     gridRow: rowIndex + 1,
                     gridColumn: variantIndex + 2,
                   }}
                 >
-                  <AxoIconButton.Root
-                    variant={variant}
-                    size="lg"
-                    symbol="lock-fill"
-                    label={variant}
-                  />
+                  <div
+                    className={tw(
+                      'size-full p-2 text-center',
+                      Backgrounds[row.background]
+                    )}
+                  >
+                    <AxoIconButton.Root
+                      variant={variant}
+                      size="lg"
+                      symbol="lock-fill"
+                      label={variant}
+                    />
+                  </div>
                 </div>
               );
             })}

@@ -12,26 +12,30 @@ export default {
 
 export function Basic(): ReactNode {
   return (
-    <AriaLabelled.Root asChild>
-      <div role="figure">
-        <AriaLabelled.Label>Label</AriaLabelled.Label>
-        <AriaLabelled.Description>Description</AriaLabelled.Description>
-      </div>
+    <AriaLabelled.Root>
+      <AriaLabelled.Target asChild>
+        <div role="figure">
+          <AriaLabelled.Label>Label</AriaLabelled.Label>
+          <AriaLabelled.Description>Description</AriaLabelled.Description>
+        </div>
+      </AriaLabelled.Target>
     </AriaLabelled.Root>
   );
 }
 
 export function AsChild(): ReactNode {
   return (
-    <AriaLabelled.Root asChild>
-      <div role="figure">
-        <AriaLabelled.Label asChild>
-          <div className={tw('type-body-medium font-semibold')}>Label</div>
-        </AriaLabelled.Label>
-        <AriaLabelled.Description asChild>
-          <div className={tw('type-caption text-secondary')}>Description</div>
-        </AriaLabelled.Description>
-      </div>
+    <AriaLabelled.Root>
+      <AriaLabelled.Target asChild>
+        <div role="figure">
+          <AriaLabelled.Label asChild>
+            <div className={tw('type-body-medium font-semibold')}>Label</div>
+          </AriaLabelled.Label>
+          <AriaLabelled.Description asChild>
+            <div className={tw('type-caption text-secondary')}>Description</div>
+          </AriaLabelled.Description>
+        </div>
+      </AriaLabelled.Target>
     </AriaLabelled.Root>
   );
 }
