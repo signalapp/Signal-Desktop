@@ -3,6 +3,7 @@
 #include <winrt/windows.foundation.metadata.h>
 #include <winrt/windows.security.credentials.ui.h>
 
+#include "hour_cycle.h"
 #include "napi.h"
 
 using namespace winrt;
@@ -137,11 +138,18 @@ void RequestVerification(const Napi::CallbackInfo& info) {
   });
 }
 
+Napi::Value GetHourCyclePreference(const Napi::CallbackInfo& info) {
+  return Napi::String::New(info.Env(),
+                          GetUserHourCyclePreference(GetLocaleInfoEx));
+}
+
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "checkAvailability"),
               Napi::Function::New(env, CheckAvailability));
   exports.Set(Napi::String::New(env, "requestVerification"),
               Napi::Function::New(env, RequestVerification));
+  exports.Set(Napi::String::New(env, "getHourCyclePreference"),
+              Napi::Function::New(env, GetHourCyclePreference));
   return exports;
 }
 

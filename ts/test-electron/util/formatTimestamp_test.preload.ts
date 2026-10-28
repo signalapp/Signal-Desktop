@@ -10,6 +10,7 @@ import {
   formatDateTimeLong,
   formatDateTimeShort,
   formatTime,
+  getDateTimeFormatter,
 } from '../../util/formatTimestamp.dom.ts';
 import { HourCyclePreference } from '../../types/I18N.std.ts';
 import i18n from '../../test-node/util/i18n.node.ts';
@@ -83,6 +84,45 @@ describe('formatTimestamp', () => {
   testCase('ja', HourCyclePreference.Prefer12, max, '午後11:00:00');
   testCase('ja', HourCyclePreference.Prefer24, min, '0:00:00');
   testCase('ja', HourCyclePreference.Prefer24, max, '23:00:00');
+
+  describe('regional hour-cycle overrides', () => {
+    function testHourCycleOverride(
+      locale: string,
+      preference: HourCyclePreference,
+      hour: number,
+      expectedHour: string
+    ) {
+      it(`uses ${preference} with ${locale} at hour ${hour}`, () => {
+        localesStub.returns([locale]);
+        localeOverrideStub.returns(null);
+        hourCycleStub.returns(preference);
+        const formatter = getDateTimeFormatter({
+          hour: 'numeric',
+          minute: '2-digit',
+        });
+        const parts = formatter.formatToParts(new Date(2023, 0, 1, hour, 42));
+        assert.equal(
+          parts.find(part => part.type === 'hour')?.value,
+          expectedHour
+        );
+        assert.equal(
+          parts.some(part => part.type === 'dayPeriod'),
+          preference === HourCyclePreference.Prefer12
+        );
+      });
+    }
+
+    for (const [locale, preference, hour, expectedHour] of [
+      ['en-US', HourCyclePreference.Prefer24, 0, '00'],
+      ['en-US', HourCyclePreference.Prefer24, 12, '12'],
+      ['en-US', HourCyclePreference.Prefer24, 18, '18'],
+      ['de-DE', HourCyclePreference.Prefer12, 0, '12'],
+      ['de-DE', HourCyclePreference.Prefer12, 12, '12'],
+      ['de-DE', HourCyclePreference.Prefer12, 18, '6'],
+    ] as const) {
+      testHourCycleOverride(locale, preference, hour, expectedHour);
+    }
+  });
 
   describe('formatDate', () => {
     beforeEach(() => {
