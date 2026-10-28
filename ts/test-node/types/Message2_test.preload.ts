@@ -80,7 +80,7 @@ describe('Message', () => {
         objectUrl: string;
         contentType: MIME.MIMEType;
         logger: LoggerType;
-      }) => ({ blob: new Blob(), duration: undefined }),
+      }) => ({ blob: new Blob(), duration: 1, width: 1, height: 1 }),
       revokeObjectUrl: (_objectUrl: string) => undefined,
       readAttachmentData: async (
         attachment: Partial<AddressableAttachmentType>

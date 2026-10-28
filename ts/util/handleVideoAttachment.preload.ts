@@ -44,7 +44,12 @@ export async function handleVideoAttachment(
       try {
         const screenshotContentType = IMAGE_PNG;
 
-        const { blob: screenshotBlob, duration } = await makeVideoScreenshot({
+        const {
+          blob: screenshotBlob,
+          duration,
+          width,
+          height,
+        } = await makeVideoScreenshot({
           objectUrl,
           contentType: screenshotContentType,
         });
@@ -58,6 +63,8 @@ export async function handleVideoAttachment(
           )),
           contentType: screenshotContentType,
         };
+        attachment.width = width;
+        attachment.height = height;
       } catch (error) {
         log.warn('failed to generate screenshot', error);
       }
