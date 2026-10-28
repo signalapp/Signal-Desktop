@@ -12384,5 +12384,13 @@
   "icu:WhatsNew__8.32--2": {
     "messageformat": "The \"(N)\" shortcut correctly points to the thumbs down emoji. Thumbs up to <lnicola></lnicola> for the bugfix.",
     "description": "(Deleted 2026/10/20) Release notes for 8.32"
+  },
+  "icu:WhatsNew__8.34--0": {
+    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone.",
+    "description": "Release notes for 8.34"
+  },
+  "icu:WhatsNew__8.34--1": {
+    "messageformat": "Improved handling and performance for connected audio devices.",
+    "description": "Release notes for 8.34"
   }
 }
