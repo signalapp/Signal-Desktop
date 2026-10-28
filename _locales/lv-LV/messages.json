@@ -3,7 +3,7 @@
     "messageformat": "Atcelt"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Ok"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Gaidīšanas statusā"
@@ -675,7 +675,7 @@
     "messageformat": "Signal automātiski pārbaudīs savienojuma drošību kontaktpersonām, kas pievienotas ar tālruņa numuru, izmantojot procesu, ko sauc par atslēgu caurskatāmību. Papildu drošībai savienojumus joprojām varat verificēt manuāli, izmantojot QR kodu vai salīdzinot drošības numurus."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Signal automātiski pārbaudīs savienojuma drošību kontaktpersonām, kas pievienotas ar tālruņa numuru, izmantojot procesu, ko sauc par atslēgu caurskatāmību.</paragraph><paragraph>Papildu drošībai savienojumus joprojām varat verificēt manuāli, izmantojot QR kodu vai salīdzinot drošības numurus.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Turpināt"
@@ -1749,7 +1749,7 @@
     "messageformat": "Meklēt"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Nav sarunu"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Sarunu veidi"
@@ -3522,7 +3522,7 @@
     "messageformat": "Grupas dalībnieki varēs atkal jūs pievienot šai grupai."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Jūs saņemsiet Signal atjauninājumus un ziņas par jaunumiem."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Lietotājs atzīmēts kā surogātpasta izplatītājs un bloķēts."
@@ -3540,7 +3540,7 @@
     "messageformat": "Jūs turpmāk nesaņemsiet ziņas vai atjauninājumus no šīs grupas, un dalībnieki nevarēs jūs pievienot šai grupai atkal."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Jūs vairs nesaņemsiet Signal atjauninājumus un ziņas par jaunumiem."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Ziņot…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Bloķētie lietotāji nevarēs jums piezvanīt vai sūtīt ziņas"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Pievienot bloķētu lietotāju vai grupu"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Bloķētie lietotāji"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bloķēts plkst. {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Darīts"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Meklēt"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal drošās rezerves kopijas"
@@ -9030,7 +9030,7 @@
     "messageformat": "Problēmas apraksts"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Aprakstiet problēmu"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Lūdzu, norādiet jebkādu informāciju, kas attiecas uz problēmu. Visa šeit sniegtā informācija tiks uzskatīta par privātu un izmantota tikai zvanu uzlabošanai programmā Signal."

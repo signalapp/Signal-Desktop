@@ -675,7 +675,7 @@
     "messageformat": "Për kontaktet me të cilët je lidhur me anë të numrit të telefonit, Signal mund të konfirmojë automatikisht nëse lidhja është e sigurt duke përdorur një proces të quajtur kod transparence. Për siguri të shtuar, mund t’i verifikosh lidhjet manualisht duke përdorur kod QR ose duke krahasuar numrat e sigurisë."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Për kontaktet me të cilët je lidhur me anë të numrit të telefonit, Signal mund të konfirmojë automatikisht nëse lidhja është e sigurt duke përdorur një proces të quajtur kod transparence.</paragraph><paragraph>Për siguri të shtuar, mund t’i verifikosh lidhjet manualisht duke përdorur kod QR ose duke krahasuar numrat e sigurisë.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Vazhdo"
@@ -1749,7 +1749,7 @@
     "messageformat": "Kërko"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Asnjë bisedë"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Llojet e bisedave"
@@ -3522,7 +3522,7 @@
     "messageformat": "Anëtarë të grupit do të jenë në gjendje t’ju rishtojnë te ky grup."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Do të marrësh përditësime dhe lajme nga Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "I raportuar si mesazh i padëshiruar dhe është bllokuar."
@@ -3540,7 +3540,7 @@
     "messageformat": "S’do të merrni më mesazhe apo përditësime nga ky grup, dhe anëtarët e tij s’do të jenë në gjendje t’ju shtojnë sërish te ky grup."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Nuk do të marrësh më përditësime dhe lajme nga Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Raporto..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Përdoruesit e bllokuar nuk do të mund të telefonojnë apo të dërgojnë mesazhe"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Shto përdoruesin ose grupin e bllokuar"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Përdoruesit e bllokuar"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bllokuar më {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "U bë"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Kërko"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Kopjeruajtjet e sigurta të Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Përshkrimi i problemeve"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Përshkruaj problemin"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Të lutem, përfshi çdo detaj që lidhet me çështjen. Çdo gjë që ndan këtu do të mbahet private dhe do të përdoret vetëm për të ndihmuar në përmirësimin e thirrjeve në Signal."

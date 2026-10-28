@@ -3,7 +3,7 @@
     "messageformat": "Ghairi"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Sawa"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Unasubiri"
@@ -675,7 +675,7 @@
     "messageformat": "Kwa wawasiliani uliounganishwa nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Kwa usalama wa ziada, bado unaweza kuthibitisha mwenyewe miunganisho ukitumia kodi ya QR au namba za usalama."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Kwa anwani ulizounganisha nazo moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo miunganisho hiyo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo.</paragraph><paragraph>Kwa usalama wa ziada, bado unaweza kuthibitisha mwenyewe miunganisho ukitumia code ya QR au namba za usalama.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Endelea"
@@ -1749,7 +1749,7 @@
     "messageformat": "Tafuta"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Hakuna magumzo"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Aina za gumzo"
@@ -3522,7 +3522,7 @@
     "messageformat": "Washiriki wa kikundi wataweza kukuongeza kwenye kundi hili tena."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Utapokea sasisho za taarifa na habari za Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Imeripotiwa kuwa spam na imezuiliwa."
@@ -3540,7 +3540,7 @@
     "messageformat": "Hutapokea tena ujumbe au arifa kutoka kwenye kikundi hiki na washiriki hawataweza kukuongeza kwenye kikundi hiki tena."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Hutapokea tena sasisho za taarifa na habari za Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Mripoti..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Watumiaji waliozuiliwa hawataweza kukupigia simu au kukutumia ujumbe"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Muweke Mtumiaji au Kikundi Kilichozuiliwa"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Watumiaji waliozuiliwa"
@@ -6698,10 +6698,10 @@
     "messageformat": "Ako blocked kwenye {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Imekamilika"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Tafuta"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Hifadhi Nakala ya Signal iliyo Salama"
@@ -9030,7 +9030,7 @@
     "messageformat": "Maelezo ya hitilafu"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Elezea tatizo lako"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Tafadhali jumuisha maelezo yoyote yanayohusiana na tatizo. Chochote unachotuma hapa kitahifadhiwa kwa faragha na kitatumika tu kusaidia kuboresha simu katika Signal."

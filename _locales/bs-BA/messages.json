@@ -675,7 +675,7 @@
     "messageformat": "Za kontakte s kojima ste povezani putem telefonskog broja, Signal može automatski potvrditi da li je veza sigurna pomoću procesa koji se naziva transparentnost ključa. Za dodatnu sigurnost, i dalje možete ručno provjeriti veze pomoću QR koda ili sigurnosnog broja."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Za kontakte s kojima ste povezani putem telefonskog broja, Signal može automatski potvrditi da li je veza sigurna pomoću postupka koji se naziva transparentnost ključa.</paragraph> <paragraph>Za dodatnu sigurnost možete i dalje ručno provjeriti veze pomoću QR koda ili poređenjem sigurnosnih brojeva.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Nastavi"
@@ -1749,7 +1749,7 @@
     "messageformat": "Traži"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Nema chatova"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Vrste chata"
@@ -3522,7 +3522,7 @@
     "messageformat": "Članovi grupe moći će Vas ponovo uvrstiti u grupu."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Primat ćete ažuriranja i novosti od Signala."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Prijavljeno kao neželjena poruka i blokirano."
@@ -3540,7 +3540,7 @@
     "messageformat": "Nećete više primati poruke ni novosti iz ove grupe, a članovi vas više neće moći dodati u ovu grupu."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Više nećete primati ažuriranja i novosti od Signala."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Prijavi..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Blokirani korisnici neće vas moći zvati ili slati vam poruke"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Dodaj korisnika ili grupu na listu blokiranih"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blokirani korisnici"
@@ -6698,10 +6698,10 @@
     "messageformat": "Blokirano na {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Uredu"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Traži"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Zaštićene kopije podataka"
@@ -9030,7 +9030,7 @@
     "messageformat": "Opis problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Opišite problem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Molimo vas da navedete sve detalje relevantne za problem. Sve što ovdje podijelite bit će privatno i koristit će se samo za poboljšanje poziva u Signalu."

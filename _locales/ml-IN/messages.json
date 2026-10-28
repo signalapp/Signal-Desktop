@@ -3,7 +3,7 @@
     "messageformat": "റദ്ദാക്കുക"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "ഓകെ"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "ശേഷിക്കുന്നു"
@@ -675,7 +675,7 @@
     "messageformat": "ഫോൺ നമ്പർ വഴി നിങ്ങൾ കണക്റ്റുചെയ്‌തിരിക്കുന്ന കോൺടാക്‌റ്റുകൾക്ക്, കീ ട്രാൻസ്പരൻസി എന്ന പ്രക്രിയ ഉപയോഗിച്ച് കണക്ഷൻ സുരക്ഷിതമാണോ എന്ന് Signal-ന് ഓട്ടോമാറ്റിയ്ക്കായി സ്ഥിരീകരിക്കാൻ കഴിയും. അധിക സുരക്ഷയ്ക്കായി, ഒരു QR കോഡ് ഉപയോഗിച്ചോ സുരക്ഷാ നമ്പറുകൾ താരതമ്യം ചെയ്തോ നിങ്ങൾക്ക് ഇപ്പോഴും കണക്ഷനുകൾ നേരിട്ട് പരിശോധിച്ചുറപ്പിക്കാന്‍ കഴിയും."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>ഫോൺ നമ്പർ വഴി നിങ്ങൾ കണക്റ്റുചെയ്‌തിരിക്കുന്ന കോൺടാക്‌റ്റുകൾക്ക്, കീ ട്രാൻസ്പരൻസി എന്ന പ്രക്രിയ ഉപയോഗിച്ച് കണക്ഷൻ സുരക്ഷിതമാണോ എന്ന് Signal-ന് ഓട്ടോമാറ്റിയ്ക്കായി സ്ഥിരീകരിക്കാൻ കഴിയും.</paragraph><paragraph>അധിക സുരക്ഷയ്ക്കായി, ഒരു QR കോഡ് ഉപയോഗിച്ചോ സുരക്ഷാ നമ്പറുകൾ താരതമ്യം ചെയ്തോ നിങ്ങൾക്ക് ഇപ്പോഴും കണക്ഷനുകൾ നേരിട്ട് പരിശോധിച്ചുറപ്പിക്കാന്‍ കഴിയും.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "തുടരുക"
@@ -1749,7 +1749,7 @@
     "messageformat": "തിരയൽ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "ചാറ്റുകളൊന്നുമില്ല"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ചാറ്റ് തരങ്ങൾ"
@@ -3522,7 +3522,7 @@
     "messageformat": "ഗ്രൂപ്പ് അംഗങ്ങൾക്ക് നിങ്ങളെ വീണ്ടും ഈ ഗ്രൂപ്പിലേക്ക് ചേർക്കാൻ കഴിയും."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "നിങ്ങൾക്ക് Signal അപ്‌ഡേറ്റുകളും വാർത്തകളും ലഭിക്കും."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "സ്പാം റിപ്പോർട്ട് ചെയ്ത ശേഷം ബ്ലോക്ക് ചെയ്തു"
@@ -3540,7 +3540,7 @@
     "messageformat": "ഈ ഗ്രൂപ്പിൽ നിന്ന് നിങ്ങൾക്ക് ഇനി സന്ദേശങ്ങള്‍-ളോ അപ്‌ഡേറ്റുകളോ ലഭിക്കില്ല കൂടാതെ അംഗങ്ങൾക്ക് നിങ്ങളെ ഈ ഗ്രൂപ്പിലേക്ക് വീണ്ടും ചേർക്കാനാകില്ല."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "നിങ്ങൾക്ക് ഇനി Signal അപ്‌ഡേറ്റുകളും വാർത്തകളും ലഭിക്കില്ല."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "റിപ്പോർട്ട് ചെയ്യുക..."
@@ -6686,7 +6686,7 @@
     "messageformat": "ബ്ലോക്ക് ചെയ്ത ഉപയോക്താക്കൾക്ക് നിങ്ങളെ വിളിക്കാനോ നിങ്ങൾക്ക് സന്ദേശങ്ങള്‍ അയയ്ക്കാനോ കഴിയില്ല"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "ബ്ലോക്ക് ചെയ്‌ത ഉപയോക്താവിനെയോ ഗ്രൂപ്പിനെയോ ചേർക്കുക"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "ബ്ലോക്ക് ചെയ്ത ഉപയോക്താക്കൾ"
@@ -6698,10 +6698,10 @@
     "messageformat": "{blockedAt}-ന് ബ്ലോക്ക് ചെയ്തു"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "ചെയ്‌തു"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "തിരയൽ"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal സുരക്ഷിത ബാക്കപ്പുകൾ"
@@ -9030,7 +9030,7 @@
     "messageformat": "പ്രശ്നങ്ങളുടെ വിവരണം"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "നിങ്ങളുടെ പ്രശ്നം വിവരിക്കുക"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "പ്രശ്നവുമായി ബന്ധപ്പെട്ട എന്തെങ്കിലും വിശദാംശങ്ങൾ ഉൾപ്പെടുത്തുക. നിങ്ങൾ ഇവിടെ പങ്കിടുന്ന എന്തും സ്വകാര്യമായി സൂക്ഷിക്കും, Signal-ലെ കോളുകൾ മെച്ചപ്പെടുത്താൻ മാത്രമേ അത് ഉപയോഗിക്കൂ."

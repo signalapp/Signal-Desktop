@@ -3,7 +3,7 @@
     "messageformat": "Kanselleer"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Goed"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Hangend"
@@ -675,7 +675,7 @@
     "messageformat": "Vir kontakte waarmee jy deur 'n telefoonnommer verbind is, kan Signal outomaties bevestig of die verbinding veilig is deur 'n proses genaamd sleuteldeursigtigheid te gebruik. Vir bykomende sekuriteit kan jy steeds verbindings handmatig verifieer deur 'n QR-kode te gebruik of deur veiligheidsnommer te vergelyk."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Vir kontakte waarmee jy deur 'n telefoonnommer verbind is, kan Signal outomaties bevestig of die verbinding veilig is deur 'n proses genaamd sleuteldeursigtigheid te gebruik.</paragraph><paragraph>Vir bykomende sekuriteit kan jy steeds verbindings handmatig verifieer deur 'n QR-kode te gebruik of deur veiligheidsnommers te vergelyk.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Gaan voort"
@@ -1749,7 +1749,7 @@
     "messageformat": "Soek"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Geen kletse nie"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Kletstipes"
@@ -3522,7 +3522,7 @@
     "messageformat": "Groeplede sal jou weer by die groep kan voeg."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Jy sal opdaterings en nuus van Signal ontvang."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "As gemorspos gerapporteer en versper."
@@ -3540,7 +3540,7 @@
     "messageformat": "Jy sal nie meer boodskappe of bywerkings van hierdie groep ontvang nie, en lede sal nie in staat wees om jou weer by hierdie groep by te voeg nie."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Jy sal nie meer opdaterings en nuus van Signal ontvang nie."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapporteer…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Versperde gebruikers sal jou nie kan bel of vir jou boodskappe kan stuur nie"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Voeg versperde gebruiker of groep by"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Versperde gebruikers"
@@ -6698,10 +6698,10 @@
     "messageformat": "Versper op {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Klaar"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Soek"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal se Veilige Rugsteun"
@@ -9030,7 +9030,7 @@
     "messageformat": "Probleembeskrywing"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Beskryf jou probleem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Sluit asseblief enige besonderhede in wat met die probleem verband hou. Enigiets wat jy hier deel, sal privaat gehou word en sal slegs gebruik word om oproepe in Signal te help verbeter."

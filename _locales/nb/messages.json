@@ -675,7 +675,7 @@
     "messageformat": "Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om forbindelsen er sikker via noe som kalles «key transparency». Du kan også bekrefte tilkoblingene manuelt med en QR-kode eller ved å sammenligne sikkerhetsnumre."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om tilkoblingen er sikker via noe som kalles «key transparency».</paragraph> <paragraph>Du kan også bekrefte tilkoblingene manuelt med en QR-kode eller ved å sammenligne sikkerhetsnumre.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Fortsett"
@@ -1749,7 +1749,7 @@
     "messageformat": "Søk"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Ingen samtaler"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Samtaletyper"
@@ -3522,7 +3522,7 @@
     "messageformat": "Gruppemedlemmer kan legge deg til denne gruppen igjen."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Du vil få oppdateringer fra Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Rapportert som søppelpost og blokkért."
@@ -3540,7 +3540,7 @@
     "messageformat": "Du vil ikke lengre motta meldinger eller oppdateringer fra denne gruppen, og medlemmer vil ikke være i stand til å legge deg til i gruppen igjen."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Du vil ikke få flere oppdateringer fra Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Rapporter …"
@@ -6686,7 +6686,7 @@
     "messageformat": "Blokkerte brukere kan ikke ringe til deg eller sende deg meldinger"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Legg til blokkert bruker eller gruppe"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blokkerte brukere"
@@ -6698,10 +6698,10 @@
     "messageformat": "Blokkert {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Ferdig"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Søk"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sikre sikkerhetskopier på Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Beskriv problemet her"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Beskriv problemet"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Gi oss så detaljert informasjon som mulig. Alt du deler, holdes privat og blir kun brukt til å gjøre anropene på Signal bedre."

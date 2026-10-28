@@ -3,7 +3,7 @@
     "messageformat": "Ləğv et"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Oldu"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Gözləyir"
@@ -675,7 +675,7 @@
     "messageformat": "Telefon nömrəsi ilə əlaqə saxladığınız kontaktlar üçün Signal “açar şəffaflığı” adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər. Əlavə təhlükəsizlik üçün QR kodundan istifadə etməklə və ya təhlükəsizlik nömrələri ilə müqayisə edərək bağlantıları əlinizlə də yoxlaya bilərsiniz."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Telefon nömrəsi ilə əlaqə saxladığınız kontaktlar üçün Signal &quot;açar şəffaflığı&quot; adlanan proses vasitəsilə bağlantının təhlükəsiz olduğunu avtomatik təsdiqləyə bilər.</paragraph><paragraph>Əlavə təhlükəsizlik üçün QR kodundan istifadə etməklə və ya təhlükəsizlik nömrələri ilə müqayisə etməklə bağlantıları əlinizlə də yoxlaya bilərsiniz.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Davam et"
@@ -1749,7 +1749,7 @@
     "messageformat": "Axtar"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Çat yoxdur"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Çat növləri"
@@ -3522,7 +3522,7 @@
     "messageformat": "Qrup üzvləri, sizi bu qrupa yenidən əlavə edə bilər."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Signal ilə bağlı yeniləmə və xəbərlər alacaqsınız."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Spam olaraq bildirildi və bloklandı."
@@ -3540,7 +3540,7 @@
     "messageformat": "Artıq bu qrupdan mesaj və ya yeniləmələr almayacaqsınız və üzvlər sizi bu qrupa yenidən əlavə edə bilməyəcək."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Artıq Signal ilə bağlı yeniləmə və xəbərlər almayacaqsınız."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Bildir..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Bloklanmış istifadəçilər sizə zəng edə və ya mesajlar göndərə bilməz"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Bloklanmış İstifadəçi və ya Qrupu əlavə edin"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Bloklanmış istifadəçilər"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bloklanma vaxtı: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Hazırdır"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Axtar"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal-ın Təhlükəsiz Ehtiyat Nüsxələri"
@@ -9030,7 +9030,7 @@
     "messageformat": "Problemlərin təsviri"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Probleminizi təsvir edin"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Problemə uyğun istənilən təfərrüatı seçin. Burada paylaşdığınız hər şey məxfi saxlanılır və yalnız Signal zənglərinin yaxşılaşdırılmasına kömək etmək üçün istifadə olunur."

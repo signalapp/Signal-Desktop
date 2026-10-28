@@ -675,7 +675,7 @@
     "messageformat": "Azoknál a névjegyeknél, amelyekhez telefonszámon keresztül kapcsolódsz, a Signal egy kulcsátláthatóságnak nevezett folyamat segítségével automatikusan megerősítheti, hogy a kapcsolat biztonságos-e. A fokozott biztonság érdekében továbbra is ellenőrizheted manuálisan a névjegyeket egy QR-kóddal vagy biztonsági számok összehasonlításával."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Azoknál a névjegyeknél, amelyekhez telefonszámon keresztül kapcsolódsz, a Signal egy kulcsátláthatóságnak nevezett folyamat segítségével automatikusan megerősítheti, hogy a kapcsolat biztonságos-e.</paragraph><paragraph>A fokozott biztonság érdekében továbbra is ellenőrizheted a névjegyeket manuálisan egy QR-kóddal vagy a biztonsági számok összehasonlításával.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Folytatás"
@@ -1749,7 +1749,7 @@
     "messageformat": "Keresés"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Nincs csevegés"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Csevegéstípusok"
@@ -3522,7 +3522,7 @@
     "messageformat": "A tagok ezután újra hozzáadhatnak majd a csoporthoz."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "A Signallal kapcsolatos frissítéseket és híreket fogsz kapni."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Megjelölve kéretlen üzenetként és letiltva."
@@ -3540,7 +3540,7 @@
     "messageformat": "Többé nem kapsz üzeneteket és frissítéseket ebből a csoportból, illetve a tagok sem fognak tudni újra felvenni."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Többé nem fogsz kapni Signallal kapcsolatos frissítéseket és híreket."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Jelentés..."
@@ -6686,7 +6686,7 @@
     "messageformat": "A letiltott felhasználók nem fognak tudni sem felhívni, sem üzenetet küldeni neked"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Letiltott felhasználó vagy csoport hozzáadása"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Letiltott felhasználók"
@@ -6698,10 +6698,10 @@
     "messageformat": "Letiltás időpontja: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Befejezés"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Keresés"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal Biztonságos Biztonsági mentések"
@@ -9030,7 +9030,7 @@
     "messageformat": "A probléma leírása"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Írd le a problémádat"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Kérjük, add meg a problémához kapcsolódó összes részletet. Amit itt megosztottál, az bizalmas marad, és csak a Signal-hívások fejlesztésére használjuk fel."

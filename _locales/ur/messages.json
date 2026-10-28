@@ -3,7 +3,7 @@
     "messageformat": "منسوخ کریں"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "ٹھیک ہے"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "زیر التواء"
@@ -675,7 +675,7 @@
     "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی تحفظ کے لیے، آپ اب بھی کنیکشنز کی دستی طور پر QR کوڈ یا حفاظتی نمبر کا موازنہ کر کے تصدیق کر سکتے ہیں۔"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔</paragraph><paragraph>اضافی تحفظ کے لیے، آپ اب بھی دستی طور پر QR کوڈ استعمال کر کے یا حفاظتی نمبرز کا موازنہ کر کے کنیکشنز کی تصدیق کر سکتے ہیں۔</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "جاری رکھیں"
@@ -1749,7 +1749,7 @@
     "messageformat": "تلا ‎ش کر یں"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "کوئی چیٹس نہیں ہیں"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "چیٹ کی اقسام"
@@ -3522,7 +3522,7 @@
     "messageformat": "گروپ ممبران آپ کو دوبارہ اس گروپ میں شامل کرسکیں گے۔"
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "آپ کو Signal کی اپ ڈیٹس اور خبریں موصول ہوں گی۔"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "اسپام کے طور پر رپورٹ کیا گیا اور بلاک کر دیا گیا۔"
@@ -3540,7 +3540,7 @@
     "messageformat": "آپ کو اب اس گروپ کی جانب سے پیغامات یا اپ ڈیٹس نہیں آئیں گے اور ممبران آپ کو دوبارہ اس گروپ میں شامل نہیں کرسکیں گے۔"
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "آپ کو اب Signal کی اپ ڈیٹس اور خبریں موصول نہیں ہوں گی۔"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "رپورٹ کریں..."
@@ -6686,7 +6686,7 @@
     "messageformat": "بلاک کردہ یوزرز آپ کو کال نہیں کر سکیں گے یا میسجز نہیں بھیج سکیں گے"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "بلاک کردہ یوزر یا گروپ کو شامل کریں"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "بلاک کردہ یوزرز"
@@ -6698,10 +6698,10 @@
     "messageformat": "{blockedAt} کو بلاک کردہ"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "ہو گیا"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "تلا ‎ش کر یں"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal کے محفوظ بیک اپس"
@@ -9030,7 +9030,7 @@
     "messageformat": "مسائل کی تفصیل"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "اپنا مسئلہ بیان کریں"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "براہ کرم مسئلے سے متعلق کوئی تفصیلات شامل کریں۔ آپ جو کچھ یہاں شیئر کرتے ہیں اسے مخفی رکھا جائے گا اور صرف Signal میں کالز کو بہتر بنانے میں استعمال کیا جائے گا۔"

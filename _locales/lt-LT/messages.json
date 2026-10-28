@@ -3,7 +3,7 @@
     "messageformat": "Atšaukti"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Gerai"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Laukiama"
@@ -675,7 +675,7 @@
     "messageformat": "Jei su adresatais bendraujate naudodami telefono numerius, „Signal“ automatiškai patvirtins, ar ryšys saugus, pagal rakto skaidrumo procesą. Dėl papildomo saugumo ryšius vis dar galite patvirtinti patys, naudodami QR kodą arba palygindami saugumo numerius."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Jei su adresatais bendraujate naudodami telefono numerius, „Signal“ automatiškai patvirtins, ar ryšys saugus, pagal rakto skaidrumo procesą.</paragraph><paragraph>Dėl papildomo saugumo ryšius vis dar galite patvirtinti patys, naudodami QR kodą arba palygindami saugumo numerius.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Tęsti"
@@ -1749,7 +1749,7 @@
     "messageformat": "Ieškoti"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Pokalbių nėra"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Pokalbių tipai"
@@ -3522,7 +3522,7 @@
     "messageformat": "Grupės nariai galės ir vėl jus pridėti į šią grupę."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Gausite „Signal“ atnaujinimus ir naujienas."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Pranešta apie šlamštą ir užblokuota."
@@ -3540,7 +3540,7 @@
     "messageformat": "Jūs daugiau nebegausite žinučių ar atnaujinimų iš šios grupės, o nariai nebegalės vėl pridėti jūsų į šią grupę."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Daugiau nebegausite „Signal“ atnaujinimų ir naujienų."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Pranešti…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Užblokuoti naudotojai negalės jums skambinti ar siųsti žinučių"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Pridėti užblokuotą naudotoją ar grupę"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Užblokuoti naudotojai"
@@ -6698,10 +6698,10 @@
     "messageformat": "Užblokuotas {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Atlikta"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Ieškoti"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "„Signal“ saugiosios atsarginės kopijos"
@@ -9030,7 +9030,7 @@
     "messageformat": "Problemų aprašymas"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Aprašykite savo problemą"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Pateikite visą su problema susijusią informaciją. Viskas, kuo čia pasidalinsite, bus laikoma privačiai ir naudojama tik skambučiams „Signal“ sistemoje tobulinti."

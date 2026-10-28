@@ -675,7 +675,7 @@
     "messageformat": "U kontaktů, se kterými jste propojeni pomocí telefonního čísla, může aplikace Signal automaticky potvrdit, zda je připojení zabezpečené, pomocí procesu zvaného transparentnost klíče. Pro větší bezpečnost můžete připojení i nadále ověřovat ručně pomocí QR kódu nebo porovnáním bezpečnostních čísel."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>U kontaktů, se kterými jste propojeni přes telefonní číslo, může Signal automaticky potvrdit zabezpečení spojení pomocí procesu transparentnosti klíče.</paragraph><paragraph>Pro větší bezpečnost můžete spojení i nadále ověřovat ručně pomocí QR kódu nebo porovnáním bezpečnostních čísel.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Pokračovat"
@@ -1749,7 +1749,7 @@
     "messageformat": "Hledat"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Žádné chaty"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Typy chatů"
@@ -3522,7 +3522,7 @@
     "messageformat": "Členové skupiny vás budou moci znovu přidat do této skupiny."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Budete dostávat aktualizace a novinky o aplikaci Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Nahlášeno jako spam a zablokováno."
@@ -3540,7 +3540,7 @@
     "messageformat": "Z této skupiny již nebudete dostávat zprávy ani aktualizace a členové vás nebudou moci do této skupiny znovu přidat."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Už nebudete dostávat aktualizace a novinky o aplikaci Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Nahlásit…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Blokovaní uživatelé vám nebudou moci volat ani posílat zprávy"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Zablokovat uživatele nebo skupinu"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Zablokovaní uživatelé"
@@ -6698,10 +6698,10 @@
     "messageformat": "Zablokováno: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Hotovo"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Hledat"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Zabezpečené zálohování služby Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Popis problémů"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Popište svůj problém"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Uveďte prosím všechny podrobnosti, které se k problému vztahují. Vše, co zde sdílíte, zůstane soukromé a bude použito pouze ke zlepšení hovorů v aplikaci Signal."

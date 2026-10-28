@@ -675,7 +675,7 @@
     "messageformat": "Телефон нөмірі арқылы байланыс орнатқан контактілер үшін Signal байланыстың қаншалықты қауіпсіз екенін \"кілт ашықтығы\" деп аталатын процестің көмегімен автоматты түрде растай алады. Қауіпсіздікті нығайту үшін QR коды немесе қауіпсіздік нөмірлері арқылы контактілерді бұрынғыдай қолмен растай аласыз."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Телефон нөмірі арқылы байланыс орнатқан контактілер үшін Signal байланыстың қаншалықты қауіпсіз екенін &quot;кілт ашықтығы&quot; деп аталатын процестің көмегімен автоматты түрде растай алады.</paragraph><paragraph>Қауіпсіздікті нығайту үшін QR кодын пайдалану немесе қауіпсіздік нөмірлерін салыстыру арқылы контактілерді бұрынғыдай қолмен растай аласыз.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Жалғастыру"
@@ -1749,7 +1749,7 @@
     "messageformat": "Іздеу"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Чаттар жоқ"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Чат түрлері"
@@ -3522,7 +3522,7 @@
     "messageformat": "Топ мүшелері сізді бұл топқа қайта қоса алады."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Signal туралы жаңалықтар алып отырасыз."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Спам деп хабарланып, блокталды."
@@ -3540,7 +3540,7 @@
     "messageformat": "Енді бұл топтан ешқандай хаттарды немесе жаңартуларды алмайсыз және оның мүшелері сізді осы топқа қайта қоса алмайды."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Енді Signal туралы жаңалықтар алмайтын боласыз."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Шағымдану..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Блокталған пайдаланушылар сізге қоңырау шала алмайды немесе хабар жібере алмайды"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Блокталған пайдаланушыны немесе топты қосу"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Блокталған пайдаланушылар"
@@ -6698,10 +6698,10 @@
     "messageformat": "Блокталған уақыты: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Дайын"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Іздеу"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal қауіпсіз сақтық көшірмелері"
@@ -9030,7 +9030,7 @@
     "messageformat": "Ақаулардың сипаттамасы"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Мәселені сипаттаңыз"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Осы ақауға қатысты деректердің барлығын енгізіңіз. Осы жерде бөліскен ақпаратыңыздың барлығы құпия сақталады және Signal-дағы қоңыраулар сапасын жақсарту үшін ғана қолданылады."

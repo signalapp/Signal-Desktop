@@ -141,10 +141,10 @@
     "messageformat": "La version de votre base de données est incompatible avec cette version de Signal. Veuillez ouvrir la dernière version de Signal sur votre ordinateur."
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau."
+    "messageformat": "Impossible d'accéder à la clé de chiffrement de la base de données, car le backend du trousseau de clés de chiffrement associé au système d'exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d'environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l'ancien environnement de bureau."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
-    "messageformat": "Impossible d’accéder à la clé de chiffrement de la base de données, car le backend du keyring de chiffrement associé au système d’exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d’environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l’ancien environnement de bureau ou essayez d’exécuter Signal avec l’indicateur de ligne de commande --password-store=\"{previousBackendFlag}\""
+    "messageformat": "Impossible d'accéder à la clé de chiffrement de la base de données, car le backend du trousseau de clés de chiffrement associé au système d'exploitation est passé de {previousBackend} à {currentBackend}. Cela peut se produire lorsque vous changez d'environnement de bureau pour passer de GNOME à KDE, par exemple.\n\nPour y remédier, revenez à l'ancien environnement de bureau ou essayez d'exécuter Signal avec l'indicateur de ligne de commande --password-store=\"{previousBackendFlag}\""
   },
   "icu:systemEncryptionError": {
     "messageformat": "System encryption error"
@@ -675,7 +675,7 @@
     "messageformat": "Lorsque vous avez pris contact avec quelqu'un via un numéro de téléphone, Signal peut vérifier automatiquement si la connexion est sécurisée grâce à un processus appelé transparence des clés. Pour une sécurité renforcée, vous pouvez aussi le vérifier manuellement en scannant un code QR ou en comparant des numéros de sécurité."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Lorsque vous prenez contact avec quelqu'un via un numéro de téléphone, Signal peut vérifier automatiquement si la connexion est sécurisée grâce à un processus appelé transparence des clés. </paragraph><paragraph>Pour une sécurité renforcée, vous pouvez aussi procéder à une vérification manuelle en scannant le code QR de votre contact ou en comparant vos numéros de sécurité.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuer"
@@ -1749,7 +1749,7 @@
     "messageformat": "Rechercher"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Aucune conversation"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Types de conversations"
@@ -3522,7 +3522,7 @@
     "messageformat": "Les membres pourront de nouveau vous ajouter à ce groupe."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Vous recevrez les notes de version et les actualités de Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Signalé comme spam et bloqué."
@@ -3540,7 +3540,7 @@
     "messageformat": "Ce groupe ne pourra plus vous envoyer de messages, ni vous tenir informé des dernières actualités, et ses membres ne pourront plus vous y ajouter."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Vous ne recevrez plus ni notes de version, ni actualités de Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Signaler"
@@ -6686,7 +6686,7 @@
     "messageformat": "Les utilisateurs bloqués ne pourront ni vous appeler, ni vous envoyer de messages."
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Bloquer un utilisateur ou un groupe"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Utilisateurs bloqués"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bloqué le {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "OK"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Rechercher"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Sauvegardes sécurisées Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Description des problèmes"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Décrivez le problème rencontré"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Veuillez décrire le problème de la façon la plus précise possible. Toutes ces informations resteront confidentielles. Nous ne les utiliserons que pour améliorer les appels passés sur Signal."

@@ -3,7 +3,7 @@
     "messageformat": "بىكار قىلىش"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "بولىدۇ"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "كۈتۈۋاتىدۇ…"
@@ -675,7 +675,7 @@
     "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، سىز يەنىلا QR كودى ياكى بىخەتەرلىك نومۇرلىرىنى سېلىشتۇرۇش ئارقىلىق ئۇلىنىشلارنى قولدا دەلىللىيەلەيسىز."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. </paragraph><paragraph>بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، سىز يەنىلا QR كودى ياكى بىخەتەرلىك نومۇرلىرىنى سېلىشتۇرۇش ئارقىلىق ئۇلىنىشلارنى قولدا دەلىللىيەلەيسىز.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -1749,7 +1749,7 @@
     "messageformat": "ئىزدە"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "پاراڭلار يوق"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "پاراڭ تۈرلىرى"
@@ -3522,7 +3522,7 @@
     "messageformat": "گۇرۇپپا ئەزالىرى سىزنى بۇ گۇرۇپپىغا قايتا قوشالايدۇ."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Signal يېڭىلانمىلىرىنى ۋە خەۋەرلىرىنى قوبۇل قىلىسىز."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "ئەخلەت ئۇچۇر دەپ مەلۇم قىلىنىپ چەكلەندى."
@@ -3540,7 +3540,7 @@
     "messageformat": "سىز ئەمدى بۇ گۇرۇپپىدىن كەلگەن ئۇچۇر ياكى يېڭىلانمىلارنى تاپشۇرۇۋالمايسىز، ھەمدە ئەزالارمۇ سىزنى بۇ گۇرۇپپىغا ئەمدى قايتا قوشالمايدۇ."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Signal يېڭىلانمىلىرىنى ۋە خەۋەرلىرىنى قوبۇل قىلالمايسىز."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "مەلۇم قىلىش…"
@@ -6686,7 +6686,7 @@
     "messageformat": "چەكلەنگەن ئىشلەتكۈچىلەر سىزگە تېلېفون قىلالمايدۇ ياكى ئۇچۇر ئەۋەتەلمەيدۇ"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "چەكلەنگەن ئىشلەتكۈچى ياكى گۇرۇپپىنى قوشۇش"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "چەكلەنگەن ئىشلەتكۈچىلەر"
@@ -6698,10 +6698,10 @@
     "messageformat": "{blockedAt} دە چەكلەنگەن"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "تامام"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ئىزدە"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal بىخەتەر زاپاسلانمىللىرى"
@@ -9030,7 +9030,7 @@
     "messageformat": "مەسىلىلەرنىڭ چۈشەندۈرۈلۈشى"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "بايقىغان مەسىلىنى تەسۋىرلەڭ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "مەسىلىگە مۇناسىۋەتلىك قانداق تەپسىلاتلار بولسا قوشۇپ قويۇڭ. بۇ يەردە ھەمبەھىرلىگەن ھەر قانداق مەزمۇن شەخسىي ھالەتتە ساقلىنىدۇ ھەمدە Signalدىكى تېلېفونلىشىش سۈپىتىنى ياردەملىشىپ ياخشىلاشقا ئىشلىتىلىدۇ."

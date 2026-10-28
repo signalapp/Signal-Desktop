@@ -3,7 +3,7 @@
     "messageformat": "ยกเลิก"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "ตกลง"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "รอดำเนินการ"
@@ -675,7 +675,7 @@
     "messageformat": "หากคุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์ Signal จะสามารถใช้ขั้นตอนที่เรียกว่า Key Transparency ในการยืนยันความปลอดภัยของเครือข่ายโดยอัตโนมัติ เพื่อความปลอดภัยยิ่งขึ้น คุณยังคงสามารถตรวจยืนยันเครือข่ายด้วยตนเองผ่านทางคิวอาร์โค้ดหรือโดยการเทียบหมายเลขความปลอดภัย"
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>หากคุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์ Signal จะสามารถใช้ขั้นตอนที่เรียกว่า Key Transparency ในการยืนยันความปลอดภัยของเครือข่ายโดยอัตโนมัติ</paragraph><paragraph>เพื่อความปลอดภัยยิ่งขึ้น คุณยังคงสามารถตรวจยืนยันเครือข่ายด้วยตนเองผ่านทางคิวอาร์โค้ดหรือโดยการเทียบหมายเลขความปลอดภัย</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ดำเนินการต่อ"
@@ -1749,7 +1749,7 @@
     "messageformat": "ค้นหา"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "ไม่มีแชท"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ประเภทของแชท"
@@ -3522,7 +3522,7 @@
     "messageformat": "สมาชิกกลุ่มจะสามารถเพิ่มคุณเข้ากลุ่มนี้อีก"
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "คุณจะได้รับข้อมูลอัปเดตและข่าวสารจาก Signal"
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "รายงานว่าเป็นสแปมและบล็อกแล้ว"
@@ -3540,7 +3540,7 @@
     "messageformat": "คุณจะไม่ได้รับข้อความหรือข่าวสารจากกลุ่มนี้อีกต่อไป และสมาชิกจะไม่สามารถเพิ่มคุณกลับเข้ามาในกลุ่มนี้ได้อีก"
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "คุณจะไม่ได้รับข้อมูลอัปเดตและข่าวสารจาก Signal อีกต่อไป"
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "รายงาน..."
@@ -6686,7 +6686,7 @@
     "messageformat": "ผู้ใช้ที่ถูกบล็อกจะไม่สามารถโทรหรือส่งข้อความหาคุณได้"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "เพิ่มผู้ใช้หรือกลุ่มที่ต้องการบล็อก"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "ผู้ใช้ที่ถูกบล็อก"
@@ -6698,10 +6698,10 @@
     "messageformat": "บล็อกเมื่อ {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "เสร็จสิ้น"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "ค้นหา"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "คำอธิบายเกี่ยวกับปัญหา"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "อธิบายถึงปัญหาที่คุณพบ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "โปรดแจ้งรายละเอียดต่างๆ ที่เกี่ยวข้องกับปัญหาที่คุณพบ ข้อมูลทั้งหมดของคุณจะถูกรวบรวมอย่างเป็นส่วนตัว รวมถึงจะถูกนำไปใช้เพื่อจุดประสงค์ในการปรับปรุงและพัฒนาการโทรของ Signal เท่านั้น"

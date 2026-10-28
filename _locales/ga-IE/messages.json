@@ -3,7 +3,7 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "CGL"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Ar feitheamh"
@@ -675,7 +675,7 @@
     "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Mar shlánú sa bhreis, is féidir leat naisc a fhíorú de láimh fós agus cód QR in úsáid nó trí uimhreacha sábháilteachta a chur i gcomparáid le chéile."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid.</paragraph><paragraph>Mar shlánú sa bhreis, is féidir leat naisc a fhíorú de láimh fós agus cód QR in úsáid nó trí uimhreacha sábháilteachta a chur i gcomparáid le chéile.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Ar aghaidh"
@@ -1749,7 +1749,7 @@
     "messageformat": "Cuardaigh"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Níl aon chomhráite ann"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Cineálacha comhráite"
@@ -3522,7 +3522,7 @@
     "messageformat": "Beidh baill den ghrúpa in ann tusa a chur leis an ngrúpa seo arís."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Gheobhaidh tú nuashonruithe agus nuacht de chuid Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Tuairiscithe mar thurscar agus bac curtha air."
@@ -3540,7 +3540,7 @@
     "messageformat": "Ní bhfaighidh tú teachtaireachtaí ná nuashonruithe ón ngrúpa seo a thuilleadh agus ní bheidh baill in ann thú a chur leis an ngrúpa seo arís."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Ní bhfaighidh tú nuashonruithe agus nuacht de chuid Signal a thuilleadh."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Tuairiscigh..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Ní bheidh úsáideoirí bactha in ann glaonna a chur ort ná teachtaireachtaí a sheoladh chugat"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Cuir úsáideoir nó grúpa bactha leis"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Úsáideoirí Bactha"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bac curtha air/uirthi an {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Déanta"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cuardaigh"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Cúltacaí Slána Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Cur síos ar an bhfadhb"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Déan cur síos ar an bhfadhb"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Cuir aon sonraí a bhaineann leis an bhfadhb san áireamh. Coinneofar aon rud a chomhroinneann tú anseo príobháideach agus ní úsáidfear é ach chun cabhrú le glaonna in Signal a fheabhsú."

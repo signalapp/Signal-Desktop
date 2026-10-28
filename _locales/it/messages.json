@@ -675,7 +675,7 @@
     "messageformat": "Per le chat avviate usando il numero di telefono, Signal può confermare automaticamente che la conversazione sia sicura tramite la \"trasparenza delle chiavi\". Per maggiore sicurezza, puoi comunque effettuare una verifica manuale scansionando un codice QR o confrontando i numeri di sicurezza."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Per le chat avviate usando il numero di telefono, Signal può confermare automaticamente che la conversazione sia sicura tramite un processo chiamato &quot;trasparenza delle chiavi&quot;.</paragraph><paragraph>Per maggiore sicurezza, puoi comunque effettuare una verifica manuale delle chat scansionando un codice QR o confrontando i numeri di sicurezza.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continua"
@@ -1749,7 +1749,7 @@
     "messageformat": "Cerca"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Nessuna chat"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Tipi di chat"
@@ -3522,7 +3522,7 @@
     "messageformat": "I membri del gruppo potranno aggiungerti di nuovo a questo gruppo."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Riceverai aggiornamenti e novità da Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Utente segnalato come spam e bloccato."
@@ -3540,7 +3540,7 @@
     "messageformat": "Non riceverai più messaggi o aggiornamenti da questo gruppo e i membri non potranno aggiungerti di nuovo a questo gruppo."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Non riceverai più aggiornamenti e novità da Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Segnala…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Gli utenti bloccati non potranno chiamarti né inviarti messaggi"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Aggiungi utente o gruppo bloccato"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Utenti bloccati"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bloccato il {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Fatto"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Cerca"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backup sicuri di Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Descrizione del problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Descrivi il tuo problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Includi qualsiasi dettaglio rilevante relativo al problema riscontrato. Tutto ciò che condividi qui rimarrà privato e verrà usato solo per migliorare la qualità delle chiamate su Signal."

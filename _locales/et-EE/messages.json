@@ -3,7 +3,7 @@
     "messageformat": "Loobu"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "Sobib"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "Ootel"
@@ -675,7 +675,7 @@
     "messageformat": "Kontaktide puhul, kellega lõid ühenduse telefoninumbri kaudu, kinnitab Signal automaatselt, kas ühendus on turvaline, kasutades protsessi nimega võtme läbipaistvus. Täiendava turvalisuse eesmärgil saab ühendusi endiselt kinnitada ka käsitsi QR-koodi abil või turvanumbreid võrreldes."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Kontaktide puhul, kellega lõid ühenduse telefoninumbri kaudu, kinnitab Signal automaatselt, kas ühendus on turvaline, kasutades protsessi nimega võtme läbipaistvus.</paragraph><paragraph>Täiendava turvalisuse eesmärgil saab ühendusi endiselt kinnitada ka käsitsi QR-koodi abil või turvanumbreid võrreldes.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Jätka"
@@ -1749,7 +1749,7 @@
     "messageformat": "Otsi"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Vestlusi ei ole"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Vestluste tüübid"
@@ -3522,7 +3522,7 @@
     "messageformat": "Grupi liikmetel on võimalik sind sellesse gruppi uuesti lisada."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Sa saad Signali värskendusi ja uudiseid."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Rämpspostitusest teatatud ja blokeeritud."
@@ -3540,7 +3540,7 @@
     "messageformat": "Sa ei saa enam sellelt grupilt sõnumeid ega värskendusi ja liikmed ei saa sind uuesti sellesse gruppi lisada."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Sa ei saa enam Signali värskendusi ega uudiseid."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Teata …"
@@ -6686,7 +6686,7 @@
     "messageformat": "Blokeeritud kasutajad ei saa sulle helistada ega sõnumeid saata"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Lisa blokeeritud kasutaja või grupp"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blokeeritud kasutajad"
@@ -6698,10 +6698,10 @@
     "messageformat": "Blokeerimise aeg: {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Valmis"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Otsi"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signali turvalised varukoopiad"
@@ -9030,7 +9030,7 @@
     "messageformat": "Probleemide kirjeldus"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Kirjelda probleemi"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Palun lisa kõik probleemiga seotud üksikasjad. Kogu infot, mida siin jagad, hoitakse privaatsena ja seda kasutatakse ainult Signali kõnede täiustamiseks."

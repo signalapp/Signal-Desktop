@@ -675,7 +675,7 @@
     "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency. Para sa karagdagang security, maaari mo pa ring i-verify ang connections manually gamit ang QR code o sa pagkumpara ng safety number."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Para sa contacts na konektado sa 'yo via phone number, maaaring awtomatikong kumpirmahin ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency.</paragraph><paragraph>Para sa karagdagang seguridad, maaari mo pa ring i-verify ang connections manually gamit ang QR code o sa pamamagitan ng pagkumpara ng safety numbers.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Magpatuloy"
@@ -1749,7 +1749,7 @@
     "messageformat": "Maghanap"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Walang chats"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Chat types"
@@ -3522,7 +3522,7 @@
     "messageformat": "Ang mga kasapi ng grupong ito ay maaaring isali kang muli sa grupong ito."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Makakatanggap ka ng Signal updates at news."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Ni-report bilang spam at na-block na."
@@ -3540,7 +3540,7 @@
     "messageformat": "Hindi ka na makaka-receive ng messages o updates mula sa group at hindi ka na rin pwedeng i-add ulit ng members dito."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Hindi ka na makakatanggap ng Signal updates at news."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "I-report..."
@@ -6686,7 +6686,7 @@
     "messageformat": "Hindi makakatawag o makakapag-send sa 'yo ng messages ang blocked users."
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "I-add ang Naka-block na User o Group"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Blocked Users"
@@ -6698,7 +6698,7 @@
     "messageformat": "Binlock noong {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Tapos na"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
     "messageformat": "Search"
@@ -9030,7 +9030,7 @@
     "messageformat": "Ilarawan ang issue mo"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Ilarawan ang isyung naranasan mo"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Pakisama ang anumang detalye na may kaugnayan sa isyu. Anumang ibinahagi mo rito ay mapapanatiling pribado at gagamitin lamang para sa pagpapabuti ng mga tawag dito sa Signal."

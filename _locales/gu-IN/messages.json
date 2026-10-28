@@ -3,7 +3,7 @@
     "messageformat": "રદ કરો"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "ઓકે"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "બાકી"
@@ -93,7 +93,7 @@
     "messageformat": "સૉફ્ટવેર સ્વીકૃતિઓ"
   },
   "icu:privacyPolicy": {
-    "messageformat": "શરતો અને ગોપનીયતા નીતિ"
+    "messageformat": "શરતો અને પ્રાઇવસી પોલિસી"
   },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
@@ -141,7 +141,7 @@
     "messageformat": "તમારા ડેટાબેઝનું વર્ઝન Signalના આ વર્ઝન સાથે મેચ થતું નથી. ખાતરી કરો કે તમે તમારા કમ્પ્યૂટર પર Signalનું લેટેસ્ટ વર્ઝન ખોલી રહ્યાં છો."
   },
   "icu:databaseError__safeStorageBackendChange": {
-    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend} માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો."
+    "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend}માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો."
   },
   "icu:databaseError__safeStorageBackendChangeWithPreviousFlag": {
     "messageformat": "ડેટાબેઝ એન્ક્રિપ્શન કી ઍક્સેસ કરવામાં અસમર્થ કારણ કે OS એન્ક્રિપ્શન કીરીંગ બેકએન્ડ {previousBackend}માંથી {currentBackend}માં બદલાઈ ગયું છે. આ તો થઈ શકે છે જો ડેસ્કટોપ એન્વાયર્નમેન્ટ બદલાય, ઉદાહરણ તરીકે GNOME અને KDE વચ્ચે.\n\nકૃપા કરીને પહેલાંના ડેસ્કટોપ એન્વાયર્નમેન્ટ પર સ્વિચ કરો અથવા કમાન્ડ લાઇન ફ્લેગ --password-store=\"{previousBackendFlag}\" સાથે Signalને રન કરવાનો પ્રયાસ કરો"
@@ -189,10 +189,10 @@
     "messageformat": "બધું બતાવો"
   },
   "icu:appMenuQuit": {
-    "messageformat": "સિગ્નલ છોડો"
+    "messageformat": "Signalમાંથી બહાર નીકળો"
   },
   "icu:editMenuUndo": {
-    "messageformat": "પૂર્વવત્ કરો"
+    "messageformat": "ફેરફાર રદ કરો"
   },
   "icu:editMenuRedo": {
     "messageformat": "પહેલાં હતું તેમ કરો"
@@ -675,7 +675,7 @@
     "messageformat": "ફોન નંબર દ્વારા તમે જે સંપર્કો સાથે જોડાયેલા છો, તેમના માટે Signal કી ટ્રાન્સપરન્સી નામની પ્રક્રિયાનો ઉપયોગ કરીને કનેક્શન સુરક્ષિત છે કે નહીં તેની ખાતરી આપમેળે કરી શકે છે. વધુ સુરક્ષા માટે, તમે હજી પણ QR કોડનો ઉપયોગ કરીને અથવા સેફ્ટી નંબરની તુલના કરીને કનેક્શનને વેરિફાય કરી શકો છો."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>ફોન નંબર દ્વારા તમે જે સંપર્કો સાથે જોડાયેલા છો, તેમના માટે Signal કી ટ્રાન્સપરન્સી નામની પ્રક્રિયાનો ઉપયોગ કરીને કનેક્શન સુરક્ષિત છે કે નહીં તેની ખાતરી આપમેળે કરી શકે છે.</paragraph><paragraph>વધુ સુરક્ષા માટે, તમે હજી પણ QR કોડનો ઉપયોગ કરીને અથવા સેફ્ટી નંબરની તુલના કરીને કનેક્શનને વેરિફાય કરી શકો છો.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ચાલુ રાખો"
@@ -1749,7 +1749,7 @@
     "messageformat": "શોધો"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "કોઈ ચેટ નથી"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "ચેટના પ્રકારો"
@@ -3522,7 +3522,7 @@
     "messageformat": "ગ્રુપના સભ્યો તમને આ ગ્રુપમાં ફરીથી ઉમેરવામાં સમર્થ હશે."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "તમને Signal અપડેટ અને સમાચારો પ્રાપ્ત થશે."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "સ્પામ તરીકે જાણ કરી અને બ્લૉક કર્યા."
@@ -3540,7 +3540,7 @@
     "messageformat": "તમને હવે આ ગ્રુપ તરફથી મેસેજ ઓ અથવા અપડેટ્સ પ્રાપ્ત થશે નહીં અને મેમ્બર્સ તમને ફરીથી આ ગ્રુપમાં ઉમેરી શકશે નહીં."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "તમને હવેથી Signal અપડેટ અને સમાચારો પ્રાપ્ત થશે નહીં."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "રિપોર્ટ કરો..."
@@ -6686,7 +6686,7 @@
     "messageformat": "બ્લૉક કરેલા ઉપયોગકર્તાઓ તમને કૉલ કે મેસેજ કરી શકશે નહીં"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "બ્લૉક કરેલો ઉપયોગકર્તા અથવા ગ્રૂપ ઉમેરો"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "બ્લૉક કરેલા ઉપયોગકર્તાઓ"
@@ -6698,10 +6698,10 @@
     "messageformat": "{blockedAt}ના રોજ બ્લૉક કર્યા"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "થઈ ગયું"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "શોધો"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Signal સુરક્ષિત બેકઅપ"
@@ -9030,7 +9030,7 @@
     "messageformat": "સમસ્યાઓનું વર્ણન"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "તમારી સમસ્યાનું વર્ણન કરો"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "કૃપા કરીને સમસ્યાને લગતી કોઈ પણ વિગતો શામેલ કરો. તમે અહીં જે કંઈ પણ શેર કરશો તે ખાનગી રાખવામાં આવશે અને તેનો ઉપયોગ ફક્ત Signalમાં કૉલને બહેતર બનાવવામાં મદદ માટે કરવામાં આવશે."

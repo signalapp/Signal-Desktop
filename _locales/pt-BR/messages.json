@@ -675,7 +675,7 @@
     "messageformat": "Para contatos conectados ao seu número de telefone, o Signal pode confirmar automaticamente se a conexão é segura usando um processo chamado transparência de chaves. Para uma camada extra de segurança, você ainda pode verificar as conexões manualmente usando um código QR ou comparando os números de segurança. "
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>Para contatos conectados ao seu número de telefone, o Signal pode confirmar automaticamente se a conexão é segura usando um processo chamado transparência de chaves.</paragraph><paragraph>Para uma camada extra de segurança, você ainda pode verificar as conexões manualmente usando um código QR ou comparando os números de segurança.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuar"
@@ -1749,7 +1749,7 @@
     "messageformat": "Pesquisar"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "Sem conversas"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "Tipos de conversa"
@@ -3522,7 +3522,7 @@
     "messageformat": "Membros do grupo poderão adicionar você ao grupo novamente."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "Você receberá atualizações e novidades do Signal."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "Denunciado como spam e bloqueado."
@@ -3540,7 +3540,7 @@
     "messageformat": "Você não receberá mais mensagens ou notificações deste grupo e os membros não poderão adicioná-lo a este grupo de novo."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "Você não receberá mais atualizações e novidades do Signal."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "Denunciar…"
@@ -6686,7 +6686,7 @@
     "messageformat": "Usuários bloqueados não poderão ligar nem enviar mensagens para você. "
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "Adicionar usuário ou grupo bloqueado"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "Pessoas bloqueadas"
@@ -6698,10 +6698,10 @@
     "messageformat": "Bloqueado à(s) {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "Pronto"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "Pesquisar"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "Backups seguros do Signal"
@@ -9030,7 +9030,7 @@
     "messageformat": "Descrição dos problemas"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "Descreva seu problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "Inclua quaisquer detalhes relevantes sobre o problema. Tudo o que você compartilhar aqui será mantido em sigilo e usado apenas para ajudar a melhorar as chamadas no Signal."

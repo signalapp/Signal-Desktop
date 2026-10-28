@@ -3,7 +3,7 @@
     "messageformat": "لغو"
   },
   "icu:AxoAlertDialog.Ok": {
-    "messageformat": "OK"
+    "messageformat": "باشه"
   },
   "icu:AxoButton.Pending": {
     "messageformat": "در انتظار…"
@@ -675,7 +675,7 @@
     "messageformat": "برای مخاطبانی که از طریق شماره تلفن به آن‌ها متصل هستید، سیگنال می‌تواند با استفاده از فرایندی به نام «شفافیت کلید» به‌طور خودکار تأیید کند که اتصال امن است. برای امنیت بیشتر، همچنان می‌توانید مخاطبان را به‌صورت دستی و با استفاده از کد QR یا مقایسه شماره ایمنی تأیید کنید."
   },
   "icu:KeyTransparencyOnboardingDialog__Description-v2": {
-    "messageformat": "<paragraph>For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency.</paragraph><paragraph>For added security, you can still verify connections manually using a QR code or by comparing safety numbers.</paragraph>"
+    "messageformat": "<paragraph>برای مخاطبانی که از طریق شماره تلفن به آن‌ها متصل هستید، سیگنال می‌تواند با استفاده از فرایندی به نام «شفافیت کلید» به‌طور خودکار تأیید کند که اتصال امن است.</paragraph><paragraph>برای امنیت بیشتر، همچنان می‌توانید اتصال‌ها را به‌صورت دستی و با استفاده از کد QR یا مقایسه شماره‌های ایمنی تأیید کنید.</paragraph>"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ادامه"
@@ -1749,7 +1749,7 @@
     "messageformat": "جستجو"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__NoChats": {
-    "messageformat": "No chats"
+    "messageformat": "گفتگویی وجود ندارد"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__Title": {
     "messageformat": "انواع گفتگوها"
@@ -3522,7 +3522,7 @@
     "messageformat": "اعضای گروه می‌توانند دوباره شما را به این گروه اضافه کنند."
   },
   "icu:MessageRequests--unblock-signal-confirm-body": {
-    "messageformat": "You will receive Signal updates and news."
+    "messageformat": "به‌روزرسانی‌ها و اخبار سیگنال را دریافت خواهید کرد."
   },
   "icu:MessageRequests--block-and-report-spam-success-toast": {
     "messageformat": "به‌عنوان هرزنامه گزارش و مسدود شد."
@@ -3540,7 +3540,7 @@
     "messageformat": "شما دیگر از این گروه پیام و به‌روزرسانی دریافت نخواهید کرد و اعضا قادر نخواهند بود دوباره شما را به این گروه اضافه کنند."
   },
   "icu:MessageRequests--block-signal-confirm-body": {
-    "messageformat": "You will no longer receive Signal updates and news."
+    "messageformat": "دیگر به‌روزرسانی‌ها و اخبار سیگنال را دریافت نخواهید کرد."
   },
   "icu:MessageRequests--reportAndMaybeBlock": {
     "messageformat": "گزارش کردن..."
@@ -6686,7 +6686,7 @@
     "messageformat": "کاربران مسدودشده، امکان تماس با شما یا ارسال پیام به شما را نخواهند داشت"
   },
   "icu:Preferences--add-blocked": {
-    "messageformat": "Add Blocked User or Group"
+    "messageformat": "افزودن کاربر یا گروه مسدودشده"
   },
   "icu:Preferences--blocked-users": {
     "messageformat": "کاربران مسدودشده"
@@ -6698,10 +6698,10 @@
     "messageformat": "مسدودشده در {blockedAt}"
   },
   "icu:Preferences--BlockChooser--Done": {
-    "messageformat": "Done"
+    "messageformat": "تمام"
   },
   "icu:Preferences--BlockChooser--Search--Placeholder": {
-    "messageformat": "Search"
+    "messageformat": "جستجو"
   },
   "icu:Preferences--signal-backups": {
     "messageformat": "پشتیبان‌های امن سیگنال"
@@ -9030,7 +9030,7 @@
     "messageformat": "شرح مشکلات"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__Placeholder": {
-    "messageformat": "Describe your issue"
+    "messageformat": "مشکلتان را شرح دهید"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
     "messageformat": "لطفاً هرگونه جزئیات مرتبط با مشکل را ارائه دهید. هرچه که با ما به اشتراک می‌گذارید خصوصی خواهد ماند و فقط برای کمک به بهبود تماس‌ها در سیگنال استفاده خواهد شد."
