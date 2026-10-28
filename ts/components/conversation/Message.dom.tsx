@@ -1359,7 +1359,6 @@ export class Message extends PureComponent<Props, State> {
     const isDraggable = !!firstAttachment.path && !isAttachmentNotAvailable;
     return (
       <div
-        className="module-message__simple-attachment-container"
         draggable={isDraggable}
         onDragStart={(event: React.DragEvent) => {
           event.preventDefault();
