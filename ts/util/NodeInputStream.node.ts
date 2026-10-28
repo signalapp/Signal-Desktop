@@ -28,14 +28,10 @@ export class NodeInputStream extends InputStream {
       }
 
       const remaining = amount - this.#buffer.length;
-      if (remaining <= 0) {
+      if (remaining <= 0 || this.#stream.readableEnded) {
         const result = this.#buffer.subarray(0, amount);
         this.#buffer = this.#buffer.subarray(amount);
         return result;
-      }
-
-      if (this.#stream.readableEnded) {
-        return this.#buffer;
       }
 
       const chunk = this.#stream.read();

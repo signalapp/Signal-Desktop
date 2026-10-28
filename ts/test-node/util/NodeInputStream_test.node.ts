@@ -22,8 +22,18 @@ describe('NodeInputStream', () => {
 
     const stream = new NodeInputStream(input);
     await stream.skip('prefix'.length);
-    const data = await stream.read(1024);
-    assert.strictEqual(data.toString(), 'content');
+    {
+      const data = await stream.read(1);
+      assert.strictEqual(data.toString(), 'c');
+    }
+    {
+      const data = await stream.read(6);
+      assert.strictEqual(data.toString(), 'ontent');
+    }
+    {
+      const data = await stream.read(1024);
+      assert.strictEqual(data.toString(), '');
+    }
     await stream.close();
   });
 
