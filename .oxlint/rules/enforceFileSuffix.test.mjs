@@ -68,6 +68,31 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
       filename: 'a.std.ts',
       code: `import type { ReadonlyDeep } from './b.dom.ts'`,
     },
+    {
+      name: 'std test file',
+      filename: 'a.std.test.ts',
+      code: `import { test } from 'vitest'; import { x } from './a.std.ts';`,
+    },
+    {
+      name: 'std bench file',
+      filename: 'a.std.bench.ts',
+      code: `import { test } from 'vitest'; import { x } from './a.std.ts';`,
+    },
+    {
+      name: 'dom test file',
+      filename: 'a.dom.test.tsx',
+      code: `import { page } from 'vitest/browser'; import { x } from './a.dom.tsx';`,
+    },
+    {
+      name: 'dom visual test file',
+      filename: 'a.dom.visual.test.tsx',
+      code: `import { render } from 'vitest-browser-react';`,
+    },
+    {
+      name: 'node mts file',
+      filename: 'a.node.mts',
+      code: `import type { BrowserCommand } from 'vitest/node'; import { x } from 'vitest/node';`,
+    },
   ],
   invalid: [
     ...DISALLOWED_REFERENCES.map(({ fileSuffix, depSuffixes }) => {
@@ -101,6 +126,29 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
         ],
       };
     }),
+
+    {
+      name: 'test file without a suffix',
+      filename: 'a.test.ts',
+      code: '',
+      errors: [
+        {
+          messageId: 'wrongFileSuffix',
+          data: { fileSuffix: 'test', expectedSuffix: 'std' },
+        },
+      ],
+    },
+    {
+      name: 'vitest/browser in std test file',
+      filename: 'a.std.test.ts',
+      code: `import { page } from 'vitest/browser';`,
+      errors: [
+        {
+          messageId: 'wrongFileSuffix',
+          data: { fileSuffix: 'std', expectedSuffix: 'dom' },
+        },
+      ],
+    },
 
     // Invalid imports
     {

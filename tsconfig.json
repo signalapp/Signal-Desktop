@@ -11,7 +11,8 @@
     ".babelrc.mjs",
     ".prettierrc.mjs",
     ".stylelintrc.mjs",
-    "knip.js"
+    "knip.js",
+    "vitest.config.mts"
   ],
   "compilerOptions": {
     /*
