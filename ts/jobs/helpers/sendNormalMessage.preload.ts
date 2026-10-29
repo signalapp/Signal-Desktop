@@ -62,7 +62,7 @@ import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import {
   isBodyTooLong,
-  MAX_BODY_ATTACHMENT_BYTE_LENGTH,
+  MAX_PLAINTEXT_BODY_ATTACHMENT_BYTE_LENGTH,
   trimBody,
 } from '../../util/longAttachment.std.ts';
 import {
@@ -631,7 +631,7 @@ async function getMessageSendData({
 
   if (
     maybeLongAttachment &&
-    maybeLongAttachment.size > MAX_BODY_ATTACHMENT_BYTE_LENGTH
+    maybeLongAttachment.size > MAX_PLAINTEXT_BODY_ATTACHMENT_BYTE_LENGTH
   ) {
     throw new Error(
       `Body attachment too long for send: ${maybeLongAttachment.size}`

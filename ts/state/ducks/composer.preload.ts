@@ -65,7 +65,7 @@ import {
 import {
   getAttachmentSizeLimit,
   getRenderDetailsForLimit,
-  isAttachmentTooLargeToSend,
+  isAttachmentTooLarge,
 } from '../../types/AttachmentSize.std.ts';
 import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.ts';
@@ -1381,7 +1381,10 @@ function preProcessAttachment(
   });
 
   if (
-    isAttachmentTooLargeToSend({ plaintextSize: file.size, limit: sizeLimit })
+    isAttachmentTooLarge({
+      plaintextSize: file.size,
+      ciphertextLimit: sizeLimit,
+    })
   ) {
     return {
       toastType: isVideoAttachment({ contentType: fileType })

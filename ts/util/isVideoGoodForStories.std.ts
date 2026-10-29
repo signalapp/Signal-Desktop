@@ -5,7 +5,7 @@ import MP4Box from 'mp4box';
 import { VIDEO_MP4, isVideo } from '../types/MIME.std.ts';
 import {
   getRenderDetailsForLimit,
-  isAttachmentTooLargeToSend,
+  isAttachmentTooLarge,
 } from '../types/AttachmentSize.std.ts';
 import { explodePromise } from './explodePromise.std.ts';
 
@@ -89,9 +89,9 @@ export async function isVideoGoodForStories(
   }
 
   if (
-    isAttachmentTooLargeToSend({
+    isAttachmentTooLarge({
       plaintextSize: src.byteLength,
-      limit: maxAttachmentVideoSize,
+      ciphertextLimit: maxAttachmentVideoSize,
     })
   ) {
     return {

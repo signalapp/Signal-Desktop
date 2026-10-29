@@ -87,7 +87,7 @@ import { dropNull } from '../util/dropNull.std.ts';
 import { SimpleQuillWrapper } from './SimpleQuillWrapper.dom.tsx';
 import { FUN_STATIC_EMOJI_CLASS } from './fun/FunEmoji.dom.tsx';
 import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.tsx';
-import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
+import { MAX_PLAINTEXT_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.ts';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoTooltip } from '../axo/AxoTooltip.dom.tsx';
@@ -684,7 +684,7 @@ export function CompositionInput(props: Props): ReactElement {
 
       // FIXME
       // oxlint-disable-next-line no-undef
-      if (Buffer.byteLength(text) > MAX_BODY_ATTACHMENT_BYTE_LENGTH) {
+      if (Buffer.byteLength(text) > MAX_PLAINTEXT_BODY_ATTACHMENT_BYTE_LENGTH) {
         quill.history.undo();
         propsRef.current.onTextTooLong();
         return;
