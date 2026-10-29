@@ -76,7 +76,13 @@ describe('Message', () => {
         objectUrl: string;
         contentType: MIME.MIMEType;
         logger: LoggerType;
-      }) => ({ blob: new Blob(), duration: 1, width: 1, height: 1 }),
+      }) => ({
+        blob: new Blob(),
+        duration: 1,
+        videoBitrateMbps: 1,
+        width: 1,
+        height: 1,
+      }),
       readAttachmentData: async (
         attachment: Partial<AddressableAttachmentType>
       ): Promise<Uint8Array<ArrayBuffer>> => {

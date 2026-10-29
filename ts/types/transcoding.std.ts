@@ -2,6 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 export enum TranscodingTargetQuality {
-  Low = 0,
+  Standard = 0,
   High = 1,
 }

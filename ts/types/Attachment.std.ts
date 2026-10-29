@@ -237,6 +237,7 @@ export type AttachmentDraftType =
       localKey?: string;
       audioWaveform?: ReadonlyArray<number>;
       transcodingTargetQuality?: TranscodingTargetQuality;
+      transcodedHighQualitySize?: number;
       duration?: DurationInSeconds;
     } & BaseAttachmentDraftType)
   | {

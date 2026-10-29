@@ -102,6 +102,7 @@ export enum ToastType {
   ViewOnceDisabled = 'ViewOnceDisabled',
   ViewOnceEnabled = 'ViewOnceEnabled',
   VideoFileSize = 'VideoFileSize',
+  VideoFileDuration = 'VideoFileDuration',
   VoiceNoteLimit = 'VoiceNoteLimit',
   VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
@@ -190,6 +191,10 @@ export type AnyToast =
   | {
       toastType: ToastType.FileSize | ToastType.VideoFileSize;
       parameters: { limit: number; units: string };
+    }
+  | {
+      toastType: ToastType.VideoFileDuration;
+      parameters: { maxDuration: number };
     }
   | { toastType: ToastType.GroupLinkCopied }
   | {

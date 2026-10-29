@@ -167,6 +167,7 @@ export function DebugLogWindow({
           containerWidthBreakpoint={null}
           expandNarrowLeftPane={shouldNeverBeCalled}
           isInFullScreenCall={false}
+          systemPreferredLanguages={[]}
         />
       </div>
     );
@@ -235,6 +236,7 @@ export function DebugLogWindow({
         containerWidthBreakpoint={null}
         expandNarrowLeftPane={shouldNeverBeCalled}
         isInFullScreenCall={false}
+        systemPreferredLanguages={[]}
       />
     </div>
   );

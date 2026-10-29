@@ -119,6 +119,7 @@ export default {
     // MediaQualitySelector
     setMediaQualitySetting: action('setMediaQualitySetting'),
     shouldSendHighQualityAttachments: false,
+    showMediaQualitySelector: true,
     // ViewOnce
     isViewOnce: false,
     setViewOnce: action('setViewOnce'),

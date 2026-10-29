@@ -327,6 +327,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         containerWidthBreakpoint={containerWidthBreakpoint}
         expandNarrowLeftPane={action('expandNarrowLeftPane')}
         isInFullScreenCall={false}
+        systemPreferredLanguages={[]}
       />
     ),
     renderLeftPaneChatFolders: () => (

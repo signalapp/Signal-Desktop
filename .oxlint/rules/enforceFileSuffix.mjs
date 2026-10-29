@@ -220,6 +220,7 @@ const STD_PACKAGES = new Set([
   'babel-core',
   'babel-loader',
   'babel-plugin-lodash',
+  'binary-search',
   'blurhash',
   'buffer',
   'card-validator',

@@ -66,6 +66,7 @@ export type SemverKeyType = ArrayValues<typeof SemverKeys>;
 
 const ScalarKeys = [
   'client.maxAllowedClockSkewSeconds',
+  'client.attachments.videoTranscodingConfiguration',
   'desktop.callQualitySurveyPPM',
   'desktop.calling.dredDuration.alpha',
   'desktop.calling.dredDuration.beta',
