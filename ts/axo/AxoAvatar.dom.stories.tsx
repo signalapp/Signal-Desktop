@@ -83,7 +83,7 @@ export function Gradients(): JSX.Element {
     <Row>
       {Array.from({ length: gradientsCount }, (_, index) => {
         return (
-          <Cell label="">
+          <Cell key={index} label="">
             <AxoAvatar.Root size={64}>
               <AxoAvatar.Content label={null}>
                 <AxoAvatar.Gradient identifierHash={index} />

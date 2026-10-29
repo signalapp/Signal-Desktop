@@ -12,7 +12,7 @@ function TestField(props: Readonly<{ placeholder: string }>): ReactNode {
   return (
     <AxoTextField.Root
       value="Jamie"
-      onValueChange={vi.fn()}
+      onValueChange={vi.fn<() => void>()}
       maxGraphemes={200}
       maxBytes={800}
     >
@@ -33,13 +33,10 @@ describe('AxoFieldGroup', () => {
         <TestField placeholder="Family name" />
       </AxoFieldGroup.Root>
     );
-    for (const element of [
-      ...screen.getByRole('textbox').all(),
-      ...screen.getByRole('button').all(),
-    ]) {
-      // oxlint-disable-next-line no-await-in-loop
-      await expect.element(element).toBeDisabled();
-    }
+    await expect.element(screen.getByPlaceholder('Given name')).toBeDisabled();
+    await expect.element(screen.getByPlaceholder('Family name')).toBeDisabled();
+    await expect.element(screen.getByRole('button').nth(0)).toBeDisabled();
+    await expect.element(screen.getByRole('button').nth(1)).toBeDisabled();
   });
 
   test('read-only groups make every field read-only', async () => {
@@ -50,9 +47,11 @@ describe('AxoFieldGroup', () => {
         <TestField placeholder="Family name" />
       </AxoFieldGroup.Root>
     );
-    for (const textbox of screen.getByRole('textbox').all()) {
-      // oxlint-disable-next-line no-await-in-loop
-      await expect.element(textbox).toHaveAttribute('readonly');
-    }
+    await expect
+      .element(screen.getByPlaceholder('Given name'))
+      .toHaveAttribute('readonly');
+    await expect
+      .element(screen.getByPlaceholder('Family name'))
+      .toHaveAttribute('readonly');
   });
 });

@@ -61,7 +61,7 @@ describe('AxoSegmentedControl', () => {
   });
 
   test('clicking the selected item deselects it', async () => {
-    const onValueChange = vi.fn();
+    const onValueChange = vi.fn<(value: string | null) => void>();
     await renderAxo(<TestControl onValueChange={onValueChange} />);
 
     await getItem('Inbox').click();

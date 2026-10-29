@@ -14,7 +14,7 @@ function FocusedTextField(): ReactNode {
     <div className={tw('w-80 p-4')}>
       <AxoTextField.Root
         value="Typed text"
-        onValueChange={vi.fn()}
+        onValueChange={vi.fn<() => void>()}
         maxGraphemes={200}
         maxBytes={800}
       >

@@ -74,7 +74,9 @@ describe('AxoPasswordField', () => {
 
     await expect.element(input).toBeDisabled();
     await expect.element(reveal).toHaveAttribute('aria-disabled', 'true');
-    expect(await getTabSequence()).toEqual(['button "Show Password"']);
+    await expect(getTabSequence()).resolves.toStrictEqual([
+      'button "Show Password"',
+    ]);
 
     await reveal.click({ force: true });
     await expect.element(reveal).toHaveAttribute('aria-pressed', 'false');

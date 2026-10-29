@@ -50,7 +50,7 @@ describe('AxoTextField', () => {
   });
 
   test('truncates to maxGraphemes', async () => {
-    const onValueChange = vi.fn();
+    const onValueChange = vi.fn<(value: string) => void>();
     const screen = await renderAxo(
       <TestTextField maxGraphemes={5} onValueChange={onValueChange} />
     );
@@ -70,14 +70,14 @@ describe('AxoTextField', () => {
       });
 
       await expect.element(clear).not.toBeVisible();
-      expect(await getTabSequence()).toEqual(['textbox']);
+      await expect(getTabSequence()).resolves.toStrictEqual(['textbox']);
 
       await screen.getByRole('textbox').fill('Jamie');
       await expect.element(clear).toBeVisible();
     });
 
     test('clears the value and focuses the input', async () => {
-      const onValueChange = vi.fn();
+      const onValueChange = vi.fn<(value: string) => void>();
       const screen = await renderAxo(
         <TestTextField defaultValue="Jamie" onValueChange={onValueChange} />
       );
@@ -95,7 +95,7 @@ describe('AxoTextField', () => {
   });
 
   test('disabled fields cannot be cleared and actions stay focusable', async () => {
-    const onAction = vi.fn();
+    const onAction = vi.fn<() => void>();
     const screen = await renderAxo(
       <TestTextField defaultValue="Jamie" disabled>
         <AxoTextField.Action
@@ -112,7 +112,9 @@ describe('AxoTextField', () => {
         screen.getByRole('button', { name: 'Clear', includeHidden: true })
       )
       .toBeDisabled();
-    expect(await getTabSequence()).toEqual(['button "More actions"']);
+    await expect(getTabSequence()).resolves.toStrictEqual([
+      'button "More actions"',
+    ]);
     await expect.element(action).toHaveAttribute('aria-disabled', 'true');
     await action.click({ force: true });
     expect(onAction).not.toHaveBeenCalled();
@@ -152,25 +154,26 @@ describe('AxoTextField', () => {
         .toHaveAttribute('aria-errormessage', errorId);
     });
 
+    function TestValidation(): ReactNode {
+      const [value, setValue] = useState('');
+      return (
+        <AxoTextField.Root
+          value={value}
+          onValueChange={setValue}
+          maxGraphemes={200}
+          maxBytes={800}
+        >
+          <AxoTextField.Input placeholder="Name" />
+          {value.length < 3 && (
+            <AxoTextField.ValidationError>
+              Name is too short
+            </AxoTextField.ValidationError>
+          )}
+        </AxoTextField.Root>
+      );
+    }
+
     test('input is valid again once the validation error is removed', async () => {
-      function TestValidation(): ReactNode {
-        const [value, setValue] = useState('');
-        return (
-          <AxoTextField.Root
-            value={value}
-            onValueChange={setValue}
-            maxGraphemes={200}
-            maxBytes={800}
-          >
-            <AxoTextField.Input placeholder="Name" />
-            {value.length < 3 && (
-              <AxoTextField.ValidationError>
-                Name is too short
-              </AxoTextField.ValidationError>
-            )}
-          </AxoTextField.Root>
-        );
-      }
       const screen = await renderAxo(<TestValidation />);
       const textbox = screen.getByRole('textbox', { name: 'Name' });
 

@@ -13,7 +13,7 @@ describe('AxoMediaButton', () => {
   testStoriesWithAxe(stories);
 
   test('disabled buttons stay focusable but do not call onClick', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     await renderAxo(
       <AxoMediaButton.Root
         status="paused"
@@ -38,7 +38,7 @@ describe('AxoMediaButton', () => {
         status="downloading"
         downloadedBytes={300}
         totalBytes={1000}
-        onClick={vi.fn()}
+        onClick={vi.fn<() => void>()}
       />
     );
 

@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, onTestFinished, test, vi } from 'vitest';
 import type { MockInstance } from 'vitest';
 import {
   _hasEmojiLocalizer,
@@ -150,16 +150,35 @@ const EMOJI_EDGE_CASES: Array<EmojiEdgeCase> = [
   },
 ];
 
-describe('Emoji', () => {
-  beforeEach(() => {
-    expect(_hasEmojiLocalizer()).toBe(false);
-  });
+/**
+ * Compares every edge case at once, so a failure shows the label of each case
+ * that doesn't match.
+ */
+function checkEdgeCases<T>(
+  actual: (edgeCase: EmojiEdgeCase) => T,
+  expected: (edgeCase: EmojiEdgeCase) => T
+): void {
+  expect(
+    EMOJI_EDGE_CASES.map(edgeCase => {
+      return { label: edgeCase.label, value: actual(edgeCase) };
+    })
+  ).toStrictEqual(
+    EMOJI_EDGE_CASES.map(edgeCase => {
+      return { label: edgeCase.label, value: expected(edgeCase) };
+    })
+  );
+}
 
-  afterEach(() => {
-    vi.restoreAllMocks();
+/** Sets up the emoji locale for the rest of the current test */
+function setupLocale(localeData: Emoji.EmojiLocaleData): void {
+  expect(_hasEmojiLocalizer()).toBe(false);
+  Emoji.setupLocale(localeData);
+  onTestFinished(() => {
     _resetEmojiLocalizer();
   });
+}
 
+describe('Emoji', () => {
   function spyGetMatches() {
     type Next = ReturnType<typeof Emoji.getMatches>['next'];
     let spy: MockInstance<Next> | null = null;
@@ -205,9 +224,7 @@ describe('Emoji', () => {
 
   describe('Emoji.getDisplayLabel()', () => {
     function setup() {
-      Emoji.setupLocale([
-        { emoji: '😄', rank: 1, tags: ['not-a-default-tag'] },
-      ]);
+      setupLocale([{ emoji: '😄', rank: 1, tags: ['not-a-default-tag'] }]);
     }
 
     function check(input: string, expected: string) {
@@ -232,7 +249,7 @@ describe('Emoji', () => {
 
   describe('Emoji.getCompletionLabel()', () => {
     function setup() {
-      Emoji.setupLocale([
+      setupLocale([
         { emoji: '😄', rank: 1, tags: ['this-is_not, ñormalîzed'] },
       ]);
     }
@@ -284,12 +301,11 @@ describe('Emoji', () => {
       check('😀😀', false);
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(edgeCase.input, edgeCase.isEmoji);
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.isEmoji(edgeCase.input),
+        edgeCase => edgeCase.isEmoji
+      );
     });
   });
 
@@ -318,12 +334,11 @@ describe('Emoji', () => {
       check('👋👋', false);
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(edgeCase.input, edgeCase.isParent);
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.isParent(edgeCase.input),
+        edgeCase => edgeCase.isParent
+      );
     });
   });
 
@@ -353,20 +368,17 @@ describe('Emoji', () => {
       check('👋🏻👋🏿', false);
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(edgeCase.input, edgeCase.isSkinToneVariant);
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.isSkinToneVariant(edgeCase.input),
+        edgeCase => edgeCase.isSkinToneVariant
+      );
     });
   });
 
   describe('Emoji.matchShortName()', () => {
     function setup() {
-      Emoji.setupLocale([
-        { emoji: '😄', rank: 1, tags: ['not-a-default-tag'] },
-      ]);
+      setupLocale([{ emoji: '😄', rank: 1, tags: ['not-a-default-tag'] }]);
     }
 
     function check(input: string, expected: string | null) {
@@ -436,7 +448,9 @@ describe('Emoji', () => {
     });
 
     test('throws for non-emoji input', () => {
-      expect(() => Emoji.getParent('a' as unknown as Emoji.Parent)).toThrow();
+      expect(() => Emoji.getParent('a' as unknown as Emoji.Parent)).toThrow(
+        'Expected "a" to be a parent'
+      );
     });
   });
 
@@ -478,7 +492,35 @@ describe('Emoji', () => {
     });
   });
 
-  describe.todo('Emoji.iterateAllVariants()');
+  describe('Emoji.iterateAllVariants()', () => {
+    function getAllVariants(): ReadonlyArray<string> {
+      return Array.from(Emoji.iterateAllVariants());
+    }
+
+    test('yields each emoji followed by its skin tone variants', () => {
+      const variants = getAllVariants();
+      const start = variants.indexOf('👋');
+      expect(variants.slice(start, start + 6)).toStrictEqual([
+        '👋',
+        '👋🏻',
+        '👋🏼',
+        '👋🏽',
+        '👋🏾',
+        '👋🏿',
+      ]);
+    });
+
+    test('yields emoji without skin tone variants once', () => {
+      expect(
+        getAllVariants().filter(variant => variant === '😀')
+      ).toStrictEqual(['😀']);
+    });
+
+    test('yields every variant once', () => {
+      const variants = getAllVariants();
+      expect(new Set(variants).size).toBe(variants.length);
+    });
+  });
 
   describe('Emoji.replaceEmojiWithSpaces()', () => {
     function check(input: string, expected: string) {
@@ -499,12 +541,11 @@ describe('Emoji', () => {
       check('👋🏻', '    ');
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(`a${edgeCase.input}b`, `a${' '.repeat(edgeCase.codeUnits)}b`);
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.replaceEmojiWithSpaces(`a${edgeCase.input}b`),
+        edgeCase => `a${' '.repeat(edgeCase.codeUnits)}b`
+      );
     });
   });
 
@@ -526,18 +567,21 @@ describe('Emoji', () => {
       check('😀😀', '');
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(`a${edgeCase.input}b`, 'ab');
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.stripEmojiFromText(`a${edgeCase.input}b`),
+        () => 'ab'
+      );
     });
   });
 
   describe('Emoji.getMatches()', () => {
     function check(input: string, expected: Array<Emoji.Match>) {
-      expect(Array.from(Emoji.getMatches(input))).toEqual(expected);
+      expect(Array.from(Emoji.getMatches(input))).toStrictEqual(expected);
+    }
+
+    function getExpectedMatches(edgeCase: EmojiEdgeCase): Array<Emoji.Match> {
+      return edgeCase.isEmoji ? [match(edgeCase.input, 0)] : [];
     }
 
     function match(emoji: string, offset: number): Emoji.Match {
@@ -563,21 +607,17 @@ describe('Emoji', () => {
       check('a😀b👋🏻c', [match('😀', 1), match('👋🏻', 4)]);
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(
-            edgeCase.input,
-            edgeCase.isEmoji ? [match(edgeCase.input, 0)] : []
-          );
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Array.from(Emoji.getMatches(edgeCase.input)),
+        edgeCase => getExpectedMatches(edgeCase)
+      );
     });
   });
 
   describe('Emoji.getSegments()', () => {
     function check(input: string, expected: Array<Emoji.Segment>) {
-      expect(Array.from(Emoji.getSegments(input))).toEqual(expected);
+      expect(Array.from(Emoji.getSegments(input))).toStrictEqual(expected);
     }
 
     function text(value: string, offset: number): Emoji.TextSegment {
@@ -595,10 +635,12 @@ describe('Emoji', () => {
 
     test('doesnt call Emoji.getMatches() for empty input', () => {
       const spy = vi.spyOn(Emoji, 'getMatches');
-      expect(Array.from(Emoji.getSegments(''))).toEqual([text('', 0)]);
+      expect(Array.from(Emoji.getSegments(''))).toStrictEqual([text('', 0)]);
       expect(spy).not.toHaveBeenCalled();
 
-      expect(Array.from(Emoji.getSegments('  '))).toEqual([text('  ', 0)]);
+      expect(Array.from(Emoji.getSegments('  '))).toStrictEqual([
+        text('  ', 0),
+      ]);
       expect(spy).not.toHaveBeenCalled();
     });
 
@@ -608,18 +650,18 @@ describe('Emoji', () => {
 
       expect(getMatchesSpy.getNextCallCount()).toBe(0);
 
-      function next(value: string, count: number) {
+      function checkNext(value: string, count: number) {
         expect(iterator.next().value?.value).toBe(value);
         expect(getMatchesSpy.getNextCallCount()).toBe(count);
       }
 
       // Note: Only calls getMatches().next() when searching for the next emoji
-      next('a', 1);
-      next('😀', 1);
-      next('b', 2);
-      next('😀', 2);
-      next('c', 3);
-      next('😀', 3);
+      checkNext('a', 1);
+      checkNext('😀', 1);
+      checkNext('b', 2);
+      checkNext('😀', 2);
+      checkNext('c', 3);
+      checkNext('😀', 3);
     });
 
     test('yields an empty string', () => {
@@ -695,12 +737,11 @@ describe('Emoji', () => {
       check('😀\n', false);
     });
 
-    describe('EMOJI_EDGE_CASES', () => {
-      for (const edgeCase of EMOJI_EDGE_CASES) {
-        test(edgeCase.label, () => {
-          check(edgeCase.input, edgeCase.isEmoji);
-        });
-      }
+    test('handles EMOJI_EDGE_CASES', () => {
+      checkEdgeCases(
+        edgeCase => Emoji.isLoneEmoji(edgeCase.input),
+        edgeCase => edgeCase.isEmoji
+      );
     });
   });
 
@@ -810,9 +851,7 @@ describe('Emoji', () => {
 
   describe('search', () => {
     function setup() {
-      Emoji.setupLocale([
-        { emoji: '😀', rank: 1, tags: ['not-a-default-tag'] },
-      ]);
+      setupLocale([{ emoji: '😀', rank: 1, tags: ['not-a-default-tag'] }]);
     }
 
     function check(input: string, expected: Array<string>) {
@@ -820,7 +859,7 @@ describe('Emoji', () => {
         Emoji.search(input).map(emoji => {
           return Emoji.getCompletionLabel(emoji);
         })
-      ).toEqual(expected);
+      ).toStrictEqual(expected);
     }
 
     test('returns nothing for empty string', () => {
@@ -858,7 +897,7 @@ describe('Emoji', () => {
     });
 
     test('ranks primary short name above aliases on prefix matches', () => {
-      Emoji.setupLocale([
+      setupLocale([
         {
           emoji: '🤔',
           rank: 26,
@@ -881,7 +920,7 @@ describe('Emoji', () => {
       const prefix = `${term}andhereissomemoretext`;
       const fuzzy = `fuzzy-${term}`;
 
-      Emoji.setupLocale([
+      setupLocale([
         // Prefix Match: Default Short Name
         { emoji: '1️⃣', rank: 4, tags: [prefix, 'ignore'] },
         // Prefix Match: Alt Short Name
@@ -894,7 +933,7 @@ describe('Emoji', () => {
       const results = Emoji.search(term).map(emoji => {
         return Emoji.getDefaultVariant(emoji);
       });
-      expect(results).toEqual(['1️⃣', '2️⃣', '3️⃣', '4️⃣']);
+      expect(results).toStrictEqual(['1️⃣', '2️⃣', '3️⃣', '4️⃣']);
     });
   });
 });

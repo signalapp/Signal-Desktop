@@ -18,7 +18,7 @@ function TestContactList(props: TestContactListProps): ReactNode {
       <AxoContactList.ActionItem
         symbol="plus"
         title="Add members"
-        onClick={vi.fn()}
+        onClick={vi.fn<() => void>()}
       />
       <AxoContactList.Item
         avatar={null}
@@ -45,8 +45,8 @@ describe('AxoContactList', () => {
   testStoriesWithAxe(stories);
 
   test('accessories are clickable without activating the item', async () => {
-    const onOpenJamie = vi.fn();
-    const onMessageJamie = vi.fn();
+    const onOpenJamie = vi.fn<() => void>();
+    const onMessageJamie = vi.fn<() => void>();
     const screen = await renderAxo(
       <TestContactList
         onOpenJamie={onOpenJamie}

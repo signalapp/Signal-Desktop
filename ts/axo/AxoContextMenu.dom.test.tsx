@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
 import { renderAxo } from './_test-helpers/render.dom.tsx';
@@ -16,8 +16,13 @@ function TestMenu(props: Readonly<{ children?: ReactNode }>): ReactNode {
         {props.children ?? <button type="button">Conversation</button>}
       </AxoContextMenu.Trigger>
       <AxoContextMenu.Content>
-        <AxoContextMenu.Item onSelect={vi.fn()}>Reload</AxoContextMenu.Item>
-        <AxoContextMenu.RadioGroup value="tyler" onValueChange={vi.fn()}>
+        <AxoContextMenu.Item onSelect={vi.fn<() => void>()}>
+          Reload
+        </AxoContextMenu.Item>
+        <AxoContextMenu.RadioGroup
+          value="tyler"
+          onValueChange={vi.fn<() => void>()}
+        >
           <AxoContextMenu.RadioItem value="jamie">
             Jamie
           </AxoContextMenu.RadioItem>
@@ -36,10 +41,6 @@ const menu = page.getByRole('menu');
 describe('AxoContextMenu', () => {
   testStoriesWithAxe(stories);
 
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
   describe('opens with the keyboard shortcut', () => {
     async function check(platform: string, shortcut: string) {
       vi.stubGlobal('platform', platform);
@@ -51,10 +52,10 @@ describe('AxoContextMenu', () => {
       await expect.poll(describeFocused).toBe('menuitem "Reload"');
     }
 
-    test('Windows', () => {
-      return check('win32', '{Control>}{Shift>}{F10}{/Shift}{/Control}');
-    });
-    test('macOS', () => check('darwin', '{Meta>}{F12}{/Meta}'));
+    test('on Windows', () =>
+      check('win32', '{Control>}{Shift>}{F10}{/Shift}{/Control}'));
+
+    test('on macOS', () => check('darwin', '{Meta>}{F12}{/Meta}'));
   });
 
   test('does not open when right clicking a link', async () => {

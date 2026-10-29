@@ -13,13 +13,16 @@ function FocusTest() {
   return (
     <div className={tw('p-4')}>
       <AxoAvatar.Root size={48}>
-        <AxoAvatar.Content label="View Jamie's profile" onClick={vi.fn()}>
+        <AxoAvatar.Content
+          label="View Jamie's profile"
+          onClick={vi.fn<() => void>()}
+        >
           <AxoAvatar.Initials initials="JK" color="A100" />
         </AxoAvatar.Content>
         <AxoAvatar.Badge
           label={BADGES_FIXTURE.planet.name}
           svgs={BADGES_FIXTURE.planet.svgs}
-          onClick={vi.fn()}
+          onClick={vi.fn<() => void>()}
         />
       </AxoAvatar.Root>
     </div>

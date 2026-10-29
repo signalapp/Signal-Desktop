@@ -21,7 +21,10 @@ function TestItems(): ReactNode {
           <AxoItem.Content>
             <AxoItem.Label>Notifications</AxoItem.Label>
             <AxoItem.Description>Sounds and badges</AxoItem.Description>
-            <AxoItem.HiddenTrigger label="Notifications" onClick={vi.fn()} />
+            <AxoItem.HiddenTrigger
+              label="Notifications"
+              onClick={vi.fn<() => void>()}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>
@@ -33,7 +36,10 @@ function TestItems(): ReactNode {
           </AxoItem.Leading>
           <AxoItem.Content>
             <AxoItem.Label>Appearance</AxoItem.Label>
-            <AxoItem.HiddenTrigger label="Appearance" onClick={vi.fn()} />
+            <AxoItem.HiddenTrigger
+              label="Appearance"
+              onClick={vi.fn<() => void>()}
+            />
             <AxoItem.Trailing>
               <AxoItem.Arrow />
             </AxoItem.Trailing>

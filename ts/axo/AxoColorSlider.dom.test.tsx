@@ -41,13 +41,13 @@ describe('AxoColorSlider', () => {
   testStoriesWithAxe(stories);
 
   test('changes only its own channel', async () => {
-    const onColorChange = vi.fn();
+    const onColorChange = vi.fn<(color: AxoColor) => void>();
     await renderAxo(<TestSliders onColorChange={onColorChange} />);
 
     await userEvent.tab();
     await userEvent.tab();
     await userEvent.keyboard('{End}');
-    expect(onColorChange.mock.lastCall?.[0].hsl()).toEqual({
+    expect(onColorChange.mock.lastCall?.[0].hsl()).toStrictEqual({
       hue: 180,
       saturation: 50,
       lightness: 100,

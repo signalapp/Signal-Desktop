@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { afterEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { page } from 'vitest/browser';
 import { DurationSecs, TimestampMs } from '@signalapp/types';
 import { AxoExpireTimer } from './AxoExpireTimer.dom.tsx';
@@ -43,10 +43,6 @@ const COUNTDOWN_SYMBOLS: ReadonlyArray<AxoSymbol.Name> = [
 
 describe('AxoExpireTimer', () => {
   testStoriesWithAxe(stories);
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
 
   test('counts down until the message expires', async () => {
     vi.useFakeTimers({
@@ -103,6 +99,9 @@ describe('AxoExpireTimer', () => {
       },
       now
     );
-    expect(state).toEqual({ symbol: 'timer-countdown-0', updateAt: null });
+    expect(state).toStrictEqual({
+      symbol: 'timer-countdown-0',
+      updateAt: null,
+    });
   });
 });

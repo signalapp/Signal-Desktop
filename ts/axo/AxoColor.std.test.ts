@@ -19,7 +19,7 @@ describe('AxoColor', () => {
 
   describe('hsl', () => {
     test('preserves hsl channels', () => {
-      expect(AxoColor.parse('hsl(340, 70%, 43.33%)').hsl()).toEqual({
+      expect(AxoColor.parse('hsl(340, 70%, 43.33%)').hsl()).toStrictEqual({
         hue: 340,
         saturation: 70,
         lightness: 43.33,
@@ -27,7 +27,7 @@ describe('AxoColor', () => {
     });
 
     test('converts other color spaces to hsl', () => {
-      expect(AxoColor.parse('#f00').hsl()).toEqual({
+      expect(AxoColor.parse('#f00').hsl()).toStrictEqual({
         hue: 0,
         saturation: 100,
         lightness: 50,
@@ -40,7 +40,7 @@ describe('AxoColor', () => {
       const hsl = AxoColor.parse('hsl(197, 100%, 35.66%)').hsl();
       const color = AxoColor.fromHSL(hsl);
       expect(color.css()).toBe('hsla(197, 100%, 35.66%, 1)');
-      expect(color.hsl()).toEqual(hsl);
+      expect(color.hsl()).toStrictEqual(hsl);
     });
   });
 

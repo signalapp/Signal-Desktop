@@ -12,7 +12,7 @@ describe('AxoStackedButton', () => {
   testStoriesWithAxe(stories);
 
   test('disabled buttons stay focusable but do not call onClick', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     await renderAxo(
       <AxoStackedButton.Root
         symbol="camera"
@@ -22,7 +22,7 @@ describe('AxoStackedButton', () => {
       />
     );
 
-    expect(await getTabSequence()).toEqual(['button "Video"']);
+    await expect(getTabSequence()).resolves.toStrictEqual(['button "Video"']);
     const button = page.getByRole('button', { name: 'Video' });
     await expect.element(button).toHaveAttribute('aria-disabled', 'true');
     await userEvent.keyboard('{Enter}');
@@ -31,7 +31,7 @@ describe('AxoStackedButton', () => {
   });
 
   test('pending buttons are described as "Pending" and do not call onClick', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     await renderAxo(
       <AxoStackedButton.Root
         symbol="minus-circle"
@@ -50,7 +50,7 @@ describe('AxoStackedButton', () => {
   });
 
   test('discouraged buttons can still be clicked', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     await renderAxo(
       <AxoStackedButton.Root
         symbol="phone"

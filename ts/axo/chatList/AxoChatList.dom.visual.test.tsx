@@ -23,6 +23,7 @@ describe('AxoChatList', () => {
     }
 
     test('light', () => check('light'));
+
     test('forced-colors', () => check('forced-colors'));
   });
 
@@ -38,6 +39,7 @@ describe('AxoChatList', () => {
     }
 
     test('light', () => check('light'));
+
     test('forced-colors', () => check('forced-colors'));
   });
 });

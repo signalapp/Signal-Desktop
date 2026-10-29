@@ -37,6 +37,7 @@ describe('AxoChatDateSection', () => {
     }
 
     test('light', () => check('light'));
+
     test('forced-colors', () => check('forced-colors'));
   });
 });

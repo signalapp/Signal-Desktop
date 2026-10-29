@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { afterEach, beforeAll, beforeEach } from 'vitest';
+import { afterEach, beforeAll, beforeEach, vi } from 'vitest';
 // Importing `vitest-browser-react` also registers automatic cleanup
 import 'vitest-browser-react';
 import { configure } from 'vitest-browser-react/pure';
@@ -54,11 +54,49 @@ function resetFocusNavigationStartingPoint(): void {
   element.remove();
 }
 
+const ALLOWED_CONSOLE_MESSAGES: ReadonlyArray<string> = [
+  // Tests emulate reduced motion on purpose
+  'You have Reduced Motion enabled on your device.',
+];
+
+const unexpectedConsoleMessages: Array<string> = [];
+
+/**
+ * Warnings from React and Radix often point at real bugs, so fail the test
+ * instead of only logging them.
+ */
+function failTestsOnConsole(method: 'error' | 'warn'): void {
+  const original = console[method];
+  console[method] = (...args: Array<unknown>) => {
+    original(...args);
+    const [message] = args;
+    if (typeof message !== 'string') {
+      unexpectedConsoleMessages.push(`console.${method}()`);
+    } else if (
+      !ALLOWED_CONSOLE_MESSAGES.some(allowed => message.startsWith(allowed))
+    ) {
+      unexpectedConsoleMessages.push(`console.${method}(): ${message}`);
+    }
+  };
+}
+
+failTestsOnConsole('error');
+failTestsOnConsole('warn');
+
 beforeEach(() => {
+  unexpectedConsoleMessages.length = 0;
   applyDocumentEnvironment('light', 'ltr');
   resetFocusNavigationStartingPoint();
 });
 
 afterEach(async () => {
+  // Test files can't use hooks, so tests can use fake timers without cleanup
+  vi.useRealTimers();
   await resetEmulatedMedia();
+
+  if (unexpectedConsoleMessages.length > 0) {
+    throw new Error(
+      `Unexpected console messages, see stderr for details:\n\n${unexpectedConsoleMessages.join('\n')}`
+    );
+  }
 });

@@ -15,7 +15,7 @@ describe('AxoPasswordField', () => {
       <div className={tw('w-80 p-4')}>
         <AxoPasswordField.Root
           value="hunter2"
-          onValueChange={vi.fn()}
+          onValueChange={vi.fn<() => void>()}
           maxGraphemes={64}
           maxBytes={256}
         >

@@ -122,7 +122,7 @@ export namespace ExperimentalAxoSegmentedControl {
     return (
       <ToggleGroup.Root
         type="single"
-        value={props.value ?? undefined}
+        value={props.value ?? ''}
         onValueChange={handleValueChange}
         orientation="horizontal"
         loop

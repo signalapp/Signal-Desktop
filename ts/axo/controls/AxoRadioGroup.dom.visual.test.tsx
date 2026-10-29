@@ -12,7 +12,11 @@ import * as stories from './AxoRadioGroup.dom.stories.tsx';
 function DisabledRadioGroup(): ReactNode {
   return (
     <div className={tw('p-4')}>
-      <AxoRadioGroup.Root label="Disabled" value="on" onValueChange={vi.fn()}>
+      <AxoRadioGroup.Root
+        label="Disabled"
+        value="on"
+        onValueChange={vi.fn<() => void>()}
+      >
         <AxoRadioGroup.Item value="on">
           <AxoRadioGroup.Label>Enabled, checked</AxoRadioGroup.Label>
         </AxoRadioGroup.Item>
@@ -23,7 +27,7 @@ function DisabledRadioGroup(): ReactNode {
       <AxoRadioGroup.Root
         label="Disabled"
         value="on"
-        onValueChange={vi.fn()}
+        onValueChange={vi.fn<() => void>()}
         disabled
       >
         <AxoRadioGroup.Item value="on">

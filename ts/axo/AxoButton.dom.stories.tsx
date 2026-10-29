@@ -41,7 +41,7 @@ export function Basic(): JSX.Element {
     <div className={tw('grid gap-1 p-4')}>
       {allSizes.map(size => {
         return (
-          <div>
+          <div key={size}>
             <h2 className={tw('p-1 type-title-medium')}>Size: {size}</h2>
             {allVariants.map(variant => {
               return (
@@ -141,6 +141,7 @@ export function Spinner(): JSX.Element {
               {allVariants.map(variant => {
                 return (
                   <AxoButton.Root
+                    key={variant}
                     variant={variant}
                     size={size}
                     disabled={pending}

@@ -12,7 +12,11 @@ import * as stories from './AxoSearchField.dom.stories.tsx';
 function DisabledSearchField(): ReactNode {
   return (
     <div className={tw('w-80 p-4')}>
-      <AxoSearchField.Root value="Jamie" onValueChange={vi.fn()} disabled>
+      <AxoSearchField.Root
+        value="Jamie"
+        onValueChange={vi.fn<() => void>()}
+        disabled
+      >
         <AxoSearchField.Icon />
         <AxoSearchField.Input placeholder="Search" />
         <AxoSearchField.Clear />

@@ -20,8 +20,8 @@ describe('AxoAvatar', () => {
 
   describe('Content', () => {
     test('clicks do not bubble up to parents', async () => {
-      const onClick = vi.fn();
-      const onParentClick = vi.fn();
+      const onClick = vi.fn<() => void>();
+      const onParentClick = vi.fn<() => void>();
       await renderAxo(
         // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         <div onClick={onParentClick}>
@@ -63,8 +63,8 @@ describe('AxoAvatar', () => {
 
   describe('Badge', () => {
     test('clicking the badge does not click the avatar', async () => {
-      const onAvatarClick = vi.fn();
-      const onBadgeClick = vi.fn();
+      const onAvatarClick = vi.fn<() => void>();
+      const onBadgeClick = vi.fn<() => void>();
       await renderAxo(
         <AxoAvatar.Root size={48}>
           <AxoAvatar.Content
@@ -95,7 +95,7 @@ describe('AxoAvatar', () => {
           <AxoAvatar.Badge
             label={BADGE.name}
             svgs={BADGE.svgs}
-            onClick={vi.fn()}
+            onClick={vi.fn<() => void>()}
           />
         </AxoAvatar.Root>
       );

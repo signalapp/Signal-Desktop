@@ -14,24 +14,31 @@ describe('AxoSwitch', () => {
   test('disabled switches stay focusable', async () => {
     await renderAxo(
       <>
-        <AxoSwitch.Root label="One" checked={false} onCheckedChange={vi.fn()} />
+        <AxoSwitch.Root
+          label="One"
+          checked={false}
+          onCheckedChange={vi.fn<() => void>()}
+        />
         <AxoSwitch.Root
           label="Two"
           disabled
           checked={false}
-          onCheckedChange={vi.fn()}
+          onCheckedChange={vi.fn<() => void>()}
         />
       </>
     );
 
-    expect(await getTabSequence()).toEqual(['switch "One"', 'switch "Two"']);
+    await expect(getTabSequence()).resolves.toStrictEqual([
+      'switch "One"',
+      'switch "Two"',
+    ]);
     await expect
       .element(page.getByRole('switch', { name: 'Two' }))
       .toHaveAttribute('aria-disabled', 'true');
   });
 
   test('disabled switches cannot be toggled', async () => {
-    const onCheckedChange = vi.fn();
+    const onCheckedChange = vi.fn<() => void>();
     const screen = await renderAxo(
       <>
         <AxoSwitch.Root
