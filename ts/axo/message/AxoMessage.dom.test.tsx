@@ -45,8 +45,8 @@ describe('AxoMessage', () => {
   });
 
   test('meta actions call onClick without propagating', async () => {
-    const onRetry = vi.fn();
-    const onParentClick = vi.fn();
+    const onRetry = vi.fn<() => void>();
+    const onParentClick = vi.fn<() => void>();
     await renderAxo(
       // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div onClick={onParentClick}>

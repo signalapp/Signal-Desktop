@@ -17,7 +17,7 @@ describe('AxoColorSlider', () => {
         <AxoColorSlider.Root
           channel="hue"
           color={AxoColor.fromHSL({ hue: 240, saturation: 60, lightness: 50 })}
-          onColorChange={vi.fn()}
+          onColorChange={vi.fn<() => void>()}
           trackBackground="linear-gradient(to right, #f00, #0f0, #00f)"
           thumbColor={AxoColor.parse('#0ff')}
         />
@@ -32,7 +32,7 @@ describe('AxoColorSlider', () => {
         <AxoColorSlider.Root
           channel="lightness"
           color={AxoColor.fromHSL({ hue: 0, saturation: 0, lightness: 0 })}
-          onColorChange={vi.fn()}
+          onColorChange={vi.fn<() => void>()}
           trackBackground="linear-gradient(to right, #000, #f00 10%, #fff)"
           thumbColor={AxoColor.parse('#000')}
         />

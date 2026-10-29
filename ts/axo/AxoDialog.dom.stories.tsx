@@ -49,7 +49,11 @@ function Template(props: {
       <AxoDialog.Trigger asChild>
         <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
-      <AxoDialog.Content size={props.contentSize} escape="cancel-is-noop">
+      <AxoDialog.Content
+        size={props.contentSize}
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           {props.back && <AxoDialog.Back onClick={action('onBack')} />}
           <AxoDialog.Title>Title</AxoDialog.Title>
@@ -347,7 +351,11 @@ export function ExampleNicknameAndNoteDialog(): JSX.Element {
       <AxoDialog.Trigger asChild>
         <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
-      <AxoDialog.Content size="sm" escape="cancel-is-destructive">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-destructive"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>Nickname</AxoDialog.Title>
           <AxoDialog.Close />
@@ -418,7 +426,11 @@ export function ExampleMuteNotificationsDialog(): JSX.Element {
       <AxoDialog.Trigger asChild>
         <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>Mute notifications</AxoDialog.Title>
           <AxoDialog.Close />
@@ -479,7 +491,11 @@ export function ExampleLanguageDialog(): JSX.Element {
       <AxoDialog.Trigger asChild>
         <AxoDialog.StoryTrigger />
       </AxoDialog.Trigger>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>Language</AxoDialog.Title>
           <AxoDialog.Close />

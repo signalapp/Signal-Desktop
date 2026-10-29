@@ -37,8 +37,13 @@ describe('AxoDropdownMenu', () => {
   test('typeahead focuses checkbox items', async () => {
     await renderAxo(
       <TestMenu>
-        <AxoDropdownMenu.Item onSelect={vi.fn()}>Reload</AxoDropdownMenu.Item>
-        <AxoDropdownMenu.CheckboxItem checked onCheckedChange={vi.fn()}>
+        <AxoDropdownMenu.Item onSelect={vi.fn<() => void>()}>
+          Reload
+        </AxoDropdownMenu.Item>
+        <AxoDropdownMenu.CheckboxItem
+          checked
+          onCheckedChange={vi.fn<() => void>()}
+        >
           Show Bookmarks
         </AxoDropdownMenu.CheckboxItem>
       </TestMenu>

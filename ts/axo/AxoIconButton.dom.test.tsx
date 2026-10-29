@@ -21,7 +21,7 @@ describe('AxoIconButton', () => {
   testStoriesWithAxe(stories);
 
   test('disabled buttons stay focusable but do not call onClick', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     await renderAxo(
       <AxoIconButton.Root
         label="Close"
@@ -33,7 +33,7 @@ describe('AxoIconButton', () => {
       />
     );
 
-    expect(await getTabSequence()).toEqual(['button "Close"']);
+    await expect(getTabSequence()).resolves.toStrictEqual(['button "Close"']);
     const button = page.getByRole('button', { name: 'Close' });
     await expect.element(button).toHaveAttribute('aria-disabled', 'true');
     await userEvent.keyboard('{Enter}');
@@ -42,7 +42,7 @@ describe('AxoIconButton', () => {
   });
 
   test('pending buttons do not call onClick', async () => {
-    const onClick = vi.fn();
+    const onClick = vi.fn<() => void>();
     const screen = await renderAxo(
       <AxoIconButton.Root
         label="Send"

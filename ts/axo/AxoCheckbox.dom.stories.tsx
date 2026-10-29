@@ -35,7 +35,7 @@ export function Basic(): JSX.Element {
       <h1 className={tw('type-title-large')}>AxoCheckbox</h1>
       {AxoCheckbox._getAllVariants().map(variant => {
         return (
-          <section>
+          <section key={variant}>
             <Template
               variant={variant}
               label="Unchecked"

@@ -66,7 +66,7 @@ describe('AxoItem', () => {
   });
 
   test('clicking anywhere on the item calls onClick', async () => {
-    const onOpenNotifications = vi.fn();
+    const onOpenNotifications = vi.fn<() => void>();
     const screen = await renderAxo(
       <TestItems onOpenNotifications={onOpenNotifications} />
     );
@@ -75,7 +75,7 @@ describe('AxoItem', () => {
   });
 
   test('disabled items stay focusable but do not call onClick', async () => {
-    const onOpenPrivacy = vi.fn();
+    const onOpenPrivacy = vi.fn<() => void>();
     const screen = await renderAxo(<TestItems onOpenPrivacy={onOpenPrivacy} />);
     const trigger = screen.getByRole('button', { name: 'Open privacy' });
 
@@ -95,7 +95,7 @@ describe('AxoClickableItem', () => {
           label="Chats"
           description="Manage chat history"
           tooltip="Opens settings"
-          onClick={vi.fn()}
+          onClick={vi.fn<() => void>()}
         />
       </AxoItem.Group>
     );

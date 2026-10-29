@@ -4,6 +4,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { page } from 'vitest/browser';
 import { AxoChatItem } from './AxoChatItem.dom.tsx';
 import { AxoContextMenu } from '../AxoContextMenu.dom.tsx';
+import { assert } from '../_internal/assert.std.tsx';
 import { renderAxo } from '../_test-helpers/render.dom.tsx';
 import { testStoriesWithAxe } from '../_test-helpers/stories.dom.tsx';
 import * as stories from './AxoChatList.dom.stories.tsx';
@@ -19,11 +20,14 @@ describe('AxoChatList', () => {
             <AxoChatItem.Content>
               <AxoChatItem.Label>Alice</AxoChatItem.Label>
             </AxoChatItem.Content>
-            <AxoChatItem.HiddenTrigger label="Alice" onClick={vi.fn()} />
+            <AxoChatItem.HiddenTrigger
+              label="Alice"
+              onClick={vi.fn<() => void>()}
+            />
           </AxoChatItem.Root>
         </AxoContextMenu.Trigger>
         <AxoContextMenu.Content>
-          <AxoContextMenu.Item onSelect={vi.fn()}>
+          <AxoContextMenu.Item onSelect={vi.fn<() => void>()}>
             Mark unread
           </AxoContextMenu.Item>
         </AxoContextMenu.Content>
@@ -32,7 +36,7 @@ describe('AxoChatList', () => {
 
     const button = page.getByRole('button', { name: 'Alice' });
     const item = page.elementLocator(
-      button.element().closest('.axo-chat-item') ?? document.body
+      assert(button.element().closest('.axo-chat-item'))
     );
     await button.click({ button: 'right' });
     await expect.element(page.getByRole('menu')).toBeVisible();

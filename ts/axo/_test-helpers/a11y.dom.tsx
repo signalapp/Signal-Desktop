@@ -119,11 +119,12 @@ export async function expectNoAxeViolations(
     return !disabledRules.has(violation.id);
   });
 
-  if (violations.length > 0) {
-    expect.fail(
-      `Found ${violations.length} axe violation(s):\n\n${formatAxeViolations(violations)}`
-    );
-  }
+  // Always asserts, so it counts towards `expect.requireAssertions`
+  expect(
+    violations.length > 0
+      ? `Found ${violations.length} axe violation(s):\n\n${formatAxeViolations(violations)}`
+      : ''
+  ).toBe('');
 }
 
 /**

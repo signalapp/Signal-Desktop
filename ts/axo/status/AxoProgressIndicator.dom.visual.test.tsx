@@ -75,6 +75,7 @@ describe('AxoProgressIndicator', () => {
     }
 
     test('light', () => check('light'));
+
     test('forced-colors', () => check('forced-colors'));
   });
 });

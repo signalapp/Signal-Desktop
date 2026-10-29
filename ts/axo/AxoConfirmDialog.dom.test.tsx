@@ -36,9 +36,9 @@ const dialog = page.getByRole('alertdialog');
 describe('AxoConfirmDialog', () => {
   testStoriesWithAxe(stories);
 
-  test('Escape does nothing by default', async () => {
-    const onCancel = vi.fn();
-    const onOpenChange = vi.fn();
+  test('pressing Escape does nothing by default', async () => {
+    const onCancel = vi.fn<() => void>();
+    const onOpenChange = vi.fn<(open: boolean) => void>();
     await renderAxo(
       <TestConfirmDialog onCancel={onCancel} onOpenChange={onOpenChange} />
     );
@@ -49,9 +49,9 @@ describe('AxoConfirmDialog', () => {
     expect(onOpenChange).not.toHaveBeenCalled();
   });
 
-  test('Escape cancels if cancel is a noop', async () => {
-    const onCancel = vi.fn();
-    const onOpenChange = vi.fn();
+  test('pressing Escape cancels if cancel is a noop', async () => {
+    const onCancel = vi.fn<() => void>();
+    const onOpenChange = vi.fn<(open: boolean) => void>();
     await renderAxo(
       <TestConfirmDialog
         escape="cancel-is-noop"

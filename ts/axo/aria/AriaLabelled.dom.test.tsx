@@ -102,23 +102,24 @@ describe('AriaLabelled', () => {
     expectIdRefsToExist(figure.element(), 'aria-labelledby');
   });
 
+  function Toggleable(): ReactNode {
+    const [showSecond, setShowSecond] = useState(true);
+    return (
+      <AriaLabelled.Root>
+        <AriaLabelled.Target asChild>
+          <div role="figure">
+            <AriaLabelled.Label>First</AriaLabelled.Label>
+            {showSecond && <AriaLabelled.Label>Second</AriaLabelled.Label>}
+            <button type="button" onClick={() => setShowSecond(false)}>
+              Remove
+            </button>
+          </div>
+        </AriaLabelled.Target>
+      </AriaLabelled.Root>
+    );
+  }
+
   test('updates when labels are removed', async () => {
-    function Toggleable(): ReactNode {
-      const [showSecond, setShowSecond] = useState(true);
-      return (
-        <AriaLabelled.Root>
-          <AriaLabelled.Target asChild>
-            <div role="figure">
-              <AriaLabelled.Label>First</AriaLabelled.Label>
-              {showSecond && <AriaLabelled.Label>Second</AriaLabelled.Label>}
-              <button type="button" onClick={() => setShowSecond(false)}>
-                Remove
-              </button>
-            </div>
-          </AriaLabelled.Target>
-        </AriaLabelled.Root>
-      );
-    }
     const screen = await renderAxo(<Toggleable />);
     const figure = screen.getByRole('figure');
 

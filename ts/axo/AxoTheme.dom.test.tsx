@@ -47,10 +47,11 @@ describe('AxoTheme', () => {
     }
 
     test('light', () => check('light'));
+
     test('dark', () => check('dark'));
   });
 
-  test('Inherit re-applies the color scheme inside portals', async () => {
+  test('<AxoTheme.Inherit> re-applies the color scheme inside portals', async () => {
     await renderAxo(
       <AxoTheme.Override theme="force-dark">
         {createPortal(
@@ -65,7 +66,7 @@ describe('AxoTheme', () => {
     expect(getColorScheme('portalled')).toBe('dark');
   });
 
-  test('Inherit defaults to "auto" without an Override', async () => {
+  test('<AxoTheme.Inherit> defaults to "auto" without an <AxoTheme.Override>', async () => {
     await renderAxo(
       <AxoTheme.Inherit>
         <div data-testid="inherit" />

@@ -214,26 +214,6 @@
     "import/default": "error",
     // [correctness] Ensure imported namespaces contain dereferenced properties as they are dereferenced.
     "import/namespace": "error",
-    // [correctness] Enforce assertion to be made in a test body
-    // "jest/expect-expect": "error",
-    // [correctness] Disallow calling expect conditionally
-    // "jest/no-conditional-expect": "error",
-    // [correctness] Disallow disabled tests
-    // "jest/no-disabled-tests": "error",
-    // [correctness] Disallow using exports in files containing tests
-    // "jest/no-export": "error",
-    // [correctness] (🛠️ autofix) Disallow focused tests
-    // "jest/no-focused-tests": "error",
-    // [correctness] Disallow using expect outside of it or test blocks
-    // "jest/no-standalone-expect": "error",
-    // [correctness] Require a message for toThrow()
-    // "jest/require-to-throw-message": "error",
-    // [correctness] Enforce valid describe() callback
-    // "jest/valid-describe-callback": "error",
-    // [correctness] (🚧 planned autofix) Enforce valid expect() usage
-    // "jest/valid-expect": "error",
-    // [correctness] (🛠️ autofix) Enforce valid titles
-    // "jest/valid-title": "error",
     // [correctness] (🚧 planned autofix) Ensures that property names in JSDoc are not duplicated on the same block and that nested properties have defined roots.
     // "jsdoc/check-property-names": "error",
     // [correctness] (🚧 planned autofix) Reports invalid block tag names.
@@ -538,16 +518,6 @@
     "unicorn/prefer-set-size": "error",
     // [correctness] (✅ recommended) (🛠️ autofix) Prefer String#startsWith() & String#endsWith() over RegExp#test().
     "unicorn/prefer-string-starts-ends-with": "off",
-    // [correctness] Enforce using .each or .for consistently
-    // "vitest/consistent-each-for": "error",
-    // [correctness] (💡 suggestion) Enforce hoisted APIs to be on top of the file
-    // "vitest/hoisted-apis-on-top": "error",
-    // [correctness] Disallow conditional tests
-    // "vitest/no-conditional-tests": "error",
-    // [correctness] (🚧 planned autofix) Require local Test Context for concurrent snapshot tests
-    // "vitest/require-local-test-context-for-concurrent-snapshots": "error",
-    // [correctness] Disallow .todo usage
-    // "vitest/warn-todo": "error",
     // [correctness] Disallow using arrow functions to define watcher
     // "vue/no-arrow-functions-in-watch": "error",
     // [correctness] (🛠️ autofix) Disallow using deprecated destroyed and beforeDestroy lifecycle hooks (in Vue.js 3.0.0+)
@@ -701,8 +671,6 @@
     "eslint/symbol-description": "error",
     // [pedantic] Enforce the maximum number of dependencies a module can have.
     "import/max-dependencies": "off", // DECIDEME (errors: 476)
-    // [pedantic] Disallow conditional logic in tests
-    // "jest/no-conditional-in-test": "error",
     // [pedantic] (🚧 planned autofix) Requires that all function parameters are documented with a @param tag.
     // "jsdoc/require-param": "error",
     // [pedantic] (🚧 planned autofix) Requires that each @param tag has a description value.
@@ -1279,90 +1247,6 @@
     ],
     // [style] Prefer a default export if module exports a single name or multiple names.
     "import/prefer-default-export": "off", // DECIDEME (errors: 631)
-    // [style] (🛠️ autofix) Enforce test and it usage conventions
-    // "jest/consistent-test-it": "error",
-    // [style] Enforces a maximum number assertion calls in a test body
-    // "jest/max-expects": "error",
-    // [style] Enforces a maximum depth to nested describe calls
-    // "jest/max-nested-describe": "error",
-    // [style] (🛠️ autofix) Disallow alias methods
-    // "jest/no-alias-methods": "error",
-    // [style] Disallow confusing usages of jest.setTimeout
-    // "jest/no-confusing-set-timeout": "error",
-    // [style] (🛠️ autofix) Disallow use of deprecated functions
-    // "jest/no-deprecated-functions": "error",
-    // [style] (🚧 planned autofix) Disallow using a callback in asynchronous tests and hooks
-    // "jest/no-done-callback": "error",
-    // [style] Disallow duplicate setup and teardown hooks
-    // "jest/no-duplicate-hooks": "error",
-    // [style] Disallow setup and teardown hooks
-    // "jest/no-hooks": "error",
-    // [style] Disallow identical titles
-    // "jest/no-identical-title": "error",
-    // [style] Disallow string interpolation inside snapshots
-    // "jest/no-interpolation-in-snapshots": "error",
-    // [style] (🛠️ autofix) Disallow Jasmine globals
-    // "jest/no-jasmine-globals": "error",
-    // [style] Disallow large snapshots
-    // "jest/no-large-snapshots": "error",
-    // [style] Disallow manually importing from __mocks__
-    // "jest/no-mocks-import": "error",
-    // [style] Disallow specific jest. methods
-    // "jest/no-restricted-jest-methods": "error",
-    // [style] Disallow specific matchers & modifiers
-    // "jest/no-restricted-matchers": "error",
-    // [style] (🛠️ autofix) Require using .only and .skip over f and x
-    // "jest/no-test-prefixes": "error",
-    // [style] Disallow explicitly returning from tests
-    // "jest/no-test-return-statement": "error",
-    // [style] (🛠️ autofix) Disallow unnecessary async function wrapper for expected promises
-    // "jest/no-unneeded-async-expect-function": "error",
-    // [style] (🛠️ autofix) Disallow using jest.mock() factories without an explicit type parameter
-    // "jest/no-untyped-mock-factory": "error",
-    // [style] (🛠️ autofix) Enforce padding around test and it blocks
-    // "jest/padding-around-test-blocks": "error",
-    // [style] (🛠️ autofix) Suggest using toHaveBeenCalledWith()
-    // "jest/prefer-called-with": "error",
-    // [style] (🛠️ autofix) Suggest using the built-in comparison matchers
-    // "jest/prefer-comparison-matcher": "error",
-    // [style] Prefer using .each rather than manual loops
-    // "jest/prefer-each": "error",
-    // [style] (🚧 planned autofix) Suggest using the built-in equality matchers
-    // "jest/prefer-equality-matcher": "error",
-    // [style] (🛠️ autofix) Prefer await expect(...).resolves over expect(await ...) syntax
-    // "jest/prefer-expect-resolves": "error",
-    // [style] Prefer having hooks in a consistent order
-    // "jest/prefer-hooks-in-order": "error",
-    // [style] Suggest having hooks before any test cases
-    // "jest/prefer-hooks-on-top": "error",
-    // [style] (🛠️ autofix) Prefer jest.mocked() over fn as jest.Mock
-    // "jest/prefer-jest-mocked": "error",
-    // [style] (🛠️ autofix) Enforce lowercase test names
-    // "jest/prefer-lowercase-title": "error",
-    // [style] (🛠️ autofix) Prefer mock resolved/rejected shorthands for promises
-    // "jest/prefer-mock-promise-shorthand": "error",
-    // [style] (🛠️ autofix) Prefer mock return shorthands
-    // "jest/prefer-mock-return-shorthand": "error",
-    // [style] (💡 suggestion) Suggest using jest.spyOn()
-    // "jest/prefer-spy-on": "error",
-    // [style] (🛠️ autofix) Suggest using toStrictEqual()
-    // "jest/prefer-strict-equal": "error",
-    // [style] (🛠️ autofix) Suggest using toBe() for primitive literals
-    // "jest/prefer-to-be": "error",
-    // [style] (🛠️ autofix) Suggest using toContain()
-    // "jest/prefer-to-contain": "error",
-    // [style] (🛠️ autofix) Suggest using toHaveBeenCalled
-    // "jest/prefer-to-have-been-called": "error",
-    // [style] (🛠️ autofix) Suggest using toHaveBeenCalledTimes()
-    // "jest/prefer-to-have-been-called-times": "error",
-    // [style] (🛠️ autofix) Suggest using toHaveLength()
-    // "jest/prefer-to-have-length": "error",
-    // [style] (🛠️ autofix) Suggest using test.todo
-    // "jest/prefer-todo": "error",
-    // [style] Require setup and teardown code to be within a hook
-    // "jest/require-hook": "error",
-    // [style] Require test cases and hooks to be inside a describe block
-    // "jest/require-top-level-describe": "error",
     // [style] Require return statements after callbacks.
     "node/callback-return": "off", // DECIDEME (errors: 54)
     // [style] Require require() calls to be placed at top-level module scope
@@ -1543,30 +1427,6 @@
     "unicorn/text-encoding-identifier-case": "off", // DECIDEME (errors: 20)
     // [style] (🛠️ autofix) Require new when creating an error.
     "unicorn/throw-new-error": "error",
-    // [style] Require test file pattern
-    // "vitest/consistent-test-filename": "error",
-    // [style] (🛠️ autofix) Enforce using vitest or vi but not both
-    // "vitest/consistent-vitest-vi": "error",
-    // [style] (💡 suggestion) Disallow importing node:test
-    // "vitest/no-import-node-test": "error",
-    // [style] (🛠️ autofix) Disallow importing Vitest globals
-    // "vitest/no-importing-vitest-globals": "error",
-    // [style] (🛠️ autofix) Enforce using toBeCalledOnce() or toHaveBeenCalledOnce()
-    // "vitest/prefer-called-once": "error",
-    // [style] (🛠️ autofix) Enforce using toBeCalledTimes(1) or toHaveBeenCalledTimes(1)
-    // "vitest/prefer-called-times": "error",
-    // [style] (🛠️ autofix) Enforce using a function as a describe title over an equivalent string
-    // "vitest/prefer-describe-function-title": "error",
-    // [style] (🛠️ autofix) Enforce using expectTypeOf instead of expect(typeof ...)
-    // "vitest/prefer-expect-type-of": "error",
-    // [style] (🛠️ autofix) Prefer dynamic import in mock
-    // "vitest/prefer-import-in-mock": "error",
-    // [style] (🛠️ autofix) Enforce using toBeFalsy()
-    // "vitest/prefer-to-be-falsy": "error",
-    // [style] (🛠️ autofix) Enforce using toBeObject()
-    // "vitest/prefer-to-be-object": "error",
-    // [style] (🛠️ autofix) Enforce using toBeTruthy
-    // "vitest/prefer-to-be-truthy": "error",
     // [style] (🚧 planned autofix) Enforce declaration style of defineEmits
     // "vue/define-emits-declaration": "error",
     // [style] Enforce declaration style of defineProps
@@ -1616,8 +1476,6 @@
     "import/no-self-import": "error",
     // [suspicious] Forbid unassigned imports
     "import/no-unassigned-import": "off", // DECIDEME (errors: 34)
-    // [suspicious] Disallow commented out tests
-    // "jest/no-commented-out-tests": "error",
     // [suspicious] (💡 suggestion) Disallows the use of approximate constants, instead preferring the use of the constants in the Math object.
     "oxc/approx-constant": "error",
     // [suspicious] (💡 suggestion) Checks for a op= a op b or a op= b op a patterns.
@@ -1832,6 +1690,241 @@
             "message": "Use toMatchAriaInlineSnapshot() instead"
           }
         ]
+      }
+    },
+    {
+      // Vitest tests (helpers in _test-helpers/ and _test-setup/ are excluded)
+      "files": ["ts/axo/**/*.test.{ts,tsx}"],
+      "plugins": [
+        "eslint",
+        "import",
+        "jest",
+        "jsx-a11y",
+        "node",
+        "oxc",
+        "promise",
+        "react",
+        "react-perf",
+        "typescript",
+        "unicorn",
+        "vitest"
+      ],
+      "rules": {
+        // --------------------------------------------------------------------
+        // Vitest
+        // --------------------------------------------------------------------
+
+        // [correctness] Enforce using .each or .for consistently
+        "vitest/consistent-each-for": "off", // [reason: Superseded by prefer-each, .each and .for aren't used]
+        // [style] Require test file pattern
+        "vitest/consistent-test-filename": [
+          "error",
+          { "pattern": "\\.(?:std|node|dom)(?:\\.visual)?\\.test\\.tsx?$" }
+        ],
+        // [style] (🛠️ autofix) Enforce test and it usage conventions
+        "vitest/consistent-test-it": [
+          "error",
+          { "fn": "test", "withinDescribe": "test" }
+        ],
+        // [style] (🛠️ autofix) Enforce using vitest or vi but not both
+        "vitest/consistent-vitest-vi": ["error", { "fn": "vi" }],
+        // [correctness] Enforce assertion to be made in a test body
+        "vitest/expect-expect": [
+          "error",
+          {
+            "assertFunctionNames": [
+              "expect",
+              "expect*",
+              "assert",
+              "assertType",
+              "check",
+              "check*"
+            ]
+          }
+        ],
+        // [correctness] (💡 suggestion) Enforce hoisted APIs to be on top of the file
+        "vitest/hoisted-apis-on-top": "error",
+        // [style] Enforces a maximum number assertion calls in a test body
+        "vitest/max-expects": "off", // [reason: Tests can make as many assertions as they need]
+        // [style] Enforces a maximum depth to nested describe calls
+        "vitest/max-nested-describe": ["error", { "max": 2 }],
+        // [style] (🛠️ autofix) Disallow alias methods
+        "vitest/no-alias-methods": "error",
+        // [suspicious] Disallow commented out tests
+        "vitest/no-commented-out-tests": "error",
+        // [correctness] Disallow calling expect conditionally
+        "vitest/no-conditional-expect": "error",
+        // [pedantic] Disallow conditional logic in tests
+        "vitest/no-conditional-in-test": "error",
+        // [correctness] Disallow conditional tests
+        "vitest/no-conditional-tests": "error",
+        // [correctness] Disallow disabled tests
+        "vitest/no-disabled-tests": "error",
+        // [style] Disallow duplicate setup and teardown hooks
+        "vitest/no-duplicate-hooks": "off", // [reason: Superseded by no-hooks]
+        // [correctness] (🛠️ autofix) Disallow focused tests
+        "vitest/no-focused-tests": "error",
+        // [style] Disallow setup and teardown hooks
+        "vitest/no-hooks": "error", // [note: Use onTestFinished() for cleanup instead]
+        // [style] Disallow identical titles
+        "vitest/no-identical-title": "error",
+        // [style] (💡 suggestion) Disallow importing node:test
+        "vitest/no-import-node-test": "error",
+        // [style] (🛠️ autofix) Disallow importing Vitest globals
+        "vitest/no-importing-vitest-globals": "off", // [reason: Superseded by prefer-importing-vitest-globals]
+        // [style] Disallow string interpolation inside snapshots
+        "vitest/no-interpolation-in-snapshots": "error",
+        // [style] Disallow large snapshots
+        "vitest/no-large-snapshots": "error",
+        // [style] Disallow manually importing from __mocks__
+        "vitest/no-mocks-import": "error",
+        // [style] Disallow specific matchers & modifiers
+        "vitest/no-restricted-matchers": [
+          "error",
+          {
+            "toMatchSnapshot": "Use toMatchInlineSnapshot() instead",
+            "toMatchFileSnapshot": "Use toMatchInlineSnapshot() instead",
+            "toThrowErrorMatchingSnapshot": "Use toThrowErrorMatchingInlineSnapshot() instead",
+            "toMatchAriaSnapshot": "Use toMatchAriaInlineSnapshot() instead"
+          }
+        ],
+        // [style] Disallow specific vi. methods
+        "vitest/no-restricted-vi-methods": "off", // [reason: No vi methods are restricted]
+        // [correctness] Disallow using expect outside of it or test blocks
+        "vitest/no-standalone-expect": "error",
+        // [style] (🛠️ autofix) Require using .only and .skip over f and x
+        "vitest/no-test-prefixes": "error",
+        // [style] Disallow explicitly returning from tests
+        "vitest/no-test-return-statement": "error",
+        // [style] (🛠️ autofix) Disallow unnecessary async function wrapper for expected promises
+        "vitest/no-unneeded-async-expect-function": "error",
+        // [style] (🛠️ autofix) Enforce padding around afterAll blocks
+        "vitest/padding-around-after-all-blocks": "off", // [reason: Superseded by no-hooks]
+        // [style] (🛠️ autofix) Enforce padding around test and it blocks
+        "vitest/padding-around-test-blocks": "error",
+        // [style] (⚠️🛠️ dangerous autofix) Prefer toHaveBeenCalledExactlyOnceWith() over toHaveBeenCalledOnce() and toHaveBeenCalledWith()
+        "vitest/prefer-called-exactly-once-with": "error",
+        // [style] (🛠️ autofix) Enforce using toBeCalledOnce() or toHaveBeenCalledOnce()
+        "vitest/prefer-called-once": "error",
+        // [style] (🛠️ autofix) Enforce using toBeCalledTimes(1) or toHaveBeenCalledTimes(1)
+        "vitest/prefer-called-times": "off", // [reason: Superseded by prefer-called-once]
+        // [style] (🛠️ autofix) Suggest using toHaveBeenCalledWith()
+        "vitest/prefer-called-with": "error",
+        // [style] (🛠️ autofix) Suggest using the built-in comparison matchers
+        "vitest/prefer-comparison-matcher": "error",
+        // [style] (🛠️ autofix) Enforce using a function as a describe title over an equivalent string
+        "vitest/prefer-describe-function-title": "off", // [reason: Axo components are namespaces, not functions]
+        // [style] Prefer using .each rather than manual loops
+        "vitest/prefer-each": "error", // [note: Bans loops around test(), use explicit test() + check() calls instead of .each]
+        // [style] (🚧 planned autofix) Suggest using the built-in equality matchers
+        "vitest/prefer-equality-matcher": "error",
+        // [style] (💡 suggestion) Suggest using expect.assertions() or expect.hasAssertions()
+        "vitest/prefer-expect-assertions": "off", // [reason: Awaiting async assertions makes this unnecessary]
+        // [style] (🛠️ autofix) Prefer await expect(...).resolves over expect(await ...) syntax
+        "vitest/prefer-expect-resolves": "error",
+        // [style] (🛠️ autofix) Enforce using expectTypeOf instead of expect(typeof ...)
+        "vitest/prefer-expect-type-of": "error",
+        // [style] Prefer having hooks in a consistent order
+        "vitest/prefer-hooks-in-order": "off", // [reason: Superseded by no-hooks]
+        // [style] Suggest having hooks before any test cases
+        "vitest/prefer-hooks-on-top": "off", // [reason: Superseded by no-hooks]
+        // [style] (🛠️ autofix) Prefer dynamic import in mock
+        "vitest/prefer-import-in-mock": "error",
+        // [style] (🛠️ autofix) Enforce importing Vitest globals
+        "vitest/prefer-importing-vitest-globals": "error",
+        // [style] (🛠️ autofix) Enforce lowercase test names
+        "vitest/prefer-lowercase-title": ["error", { "ignore": ["describe"] }],
+        // [style] (🛠️ autofix) Prefer mock resolved/rejected shorthands for promises
+        "vitest/prefer-mock-promise-shorthand": "error",
+        // [style] (🛠️ autofix) Prefer mock return shorthands
+        "vitest/prefer-mock-return-shorthand": "error",
+        // [correctness] Prefer including a hint with external snapshots
+        "vitest/prefer-snapshot-hint": "off", // [reason: External snapshots are banned by no-restricted-matchers]
+        // [style] (💡 suggestion) Suggest using vi.spyOn()
+        "vitest/prefer-spy-on": "error",
+        // [style] (🛠️ autofix) Enforce using toBe(true) and toBe(false) over matchers that coerce types to boolean
+        "vitest/prefer-strict-boolean-matchers": "error",
+        // [style] (🛠️ autofix) Suggest using toStrictEqual()
+        "vitest/prefer-strict-equal": "error",
+        // [style] (🛠️ autofix) Suggest using toBe() for primitive literals
+        "vitest/prefer-to-be": "error",
+        // [style] (🛠️ autofix) Enforce using toBeFalsy()
+        "vitest/prefer-to-be-falsy": "off", // [reason: Superseded by prefer-strict-boolean-matchers]
+        // [style] (🛠️ autofix) Enforce using toBeObject()
+        "vitest/prefer-to-be-object": "off", // [reason: toBeObject() is from jest-extended, which isn't used]
+        // [style] (🛠️ autofix) Enforce using toBeTruthy
+        "vitest/prefer-to-be-truthy": "off", // [reason: Superseded by prefer-strict-boolean-matchers]
+        // [style] (🛠️ autofix) Suggest using toContain()
+        "vitest/prefer-to-contain": "error",
+        // [style] (🛠️ autofix) Suggest using toHaveBeenCalledTimes()
+        "vitest/prefer-to-have-been-called-times": "error",
+        // [style] (🛠️ autofix) Suggest using toHaveLength()
+        "vitest/prefer-to-have-length": "error",
+        // [style] (🛠️ autofix) Suggest using test.todo
+        "vitest/prefer-todo": "off", // [reason: Superseded by warn-todo]
+        // [correctness] Require expect.poll() and expect.element() to be awaited
+        "vitest/require-awaited-expect-poll": "error",
+        // [style] Require setup and teardown code to be within a hook
+        "vitest/require-hook": "off", // [reason: Superseded by no-hooks]
+        // [correctness] (🚧 planned autofix) Require local Test Context for concurrent snapshot tests
+        "vitest/require-local-test-context-for-concurrent-snapshots": "error",
+        // [correctness] Enforce using type parameters with Vitest mock functions
+        "vitest/require-mock-type-parameters": "error",
+        // [restriction] Require a timeout for each test
+        "vitest/require-test-timeout": "off", // [reason: The default timeout in vitest.config.mts applies]
+        // [correctness] Require a message for toThrow()
+        "vitest/require-to-throw-message": "error",
+        // [style] Require test cases and hooks to be inside a describe block
+        "vitest/require-top-level-describe": "error",
+        // [correctness] Enforce valid describe() callback
+        "vitest/valid-describe-callback": "error",
+        // [correctness] (🚧 planned autofix) Enforce valid expect() usage
+        "vitest/valid-expect": "error",
+        // [correctness] Require promises that have expectations in their chain to be valid
+        "vitest/valid-expect-in-promise": "error",
+        // [correctness] (🛠️ autofix) Enforce valid titles
+        "vitest/valid-title": "error",
+        // [correctness] Disallow .todo usage
+        "vitest/warn-todo": "error",
+
+        // --------------------------------------------------------------------
+        // Jest (only rules without a vitest/ equivalent, which supersedes the rest)
+        // --------------------------------------------------------------------
+
+        // [style] Disallow confusing usages of jest.setTimeout
+        "jest/no-confusing-set-timeout": "off", // [reason: jest.setTimeout() doesn't exist in Vitest]
+        // [style] (🛠️ autofix) Disallow use of deprecated functions
+        "jest/no-deprecated-functions": "off", // [reason: Only checks deprecated Jest APIs]
+        // [style] (🚧 planned autofix) Disallow using a callback in asynchronous tests and hooks
+        "jest/no-done-callback": "error",
+        // [correctness] Disallow using exports in files containing tests
+        "jest/no-export": "error",
+        // [style] (🛠️ autofix) Disallow Jasmine globals
+        "jest/no-jasmine-globals": "off", // [reason: Jasmine globals don't exist in Vitest]
+        // [style] Disallow specific jest. methods
+        "jest/no-restricted-jest-methods": "off", // [reason: Only checks jest methods, see vitest/no-restricted-vi-methods]
+        // [style] (🛠️ autofix) Disallow using jest.mock() factories without an explicit type parameter
+        "jest/no-untyped-mock-factory": "off", // [reason: Only checks jest.mock(), see vitest/require-mock-type-parameters]
+        // [style] Prefer having the last statement in a test be an assertion
+        "jest/prefer-ending-with-an-expect": [
+          "error",
+          {
+            "assertFunctionNames": [
+              "expect",
+              "expect*",
+              "assert",
+              "assertType",
+              "check",
+              "check*"
+            ]
+          }
+        ],
+        // [style] (🛠️ autofix) Prefer importing Jest globals
+        "jest/prefer-importing-jest-globals": "off", // [reason: Superseded by vitest/prefer-importing-vitest-globals]
+        // [style] (🛠️ autofix) Prefer jest.mocked() over fn as jest.Mock
+        "jest/prefer-jest-mocked": "off", // [reason: Only checks jest.mocked()]
+        // [style] (🛠️ autofix) Suggest using toHaveBeenCalled
+        "jest/prefer-to-have-been-called": "error"
       }
     },
     {

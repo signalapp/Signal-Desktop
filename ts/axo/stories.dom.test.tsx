@@ -1,6 +1,6 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import type { ImportGlobFunction } from 'vite/types/importGlob.d.ts';
 
 type ImportMetaWithGlob = ImportMeta & { glob: ImportGlobFunction };
@@ -19,18 +19,20 @@ const VISUAL_TESTS = new Set(
   )
 );
 
-test('every component with stories has tests', () => {
-  const missing = STORIES.map(file => {
-    return file.replace('.dom.stories.tsx', '.dom.test.tsx');
-  }).filter(file => !TESTS.has(file));
-  // Call `testStoriesWithAxe()` from `_test-helpers/stories.dom.tsx` in them
-  expect(missing).toEqual([]);
-});
+describe('stories', () => {
+  test('every component with stories has tests', () => {
+    const missing = STORIES.map(file => {
+      return file.replace('.dom.stories.tsx', '.dom.test.tsx');
+    }).filter(file => !TESTS.has(file));
+    // Call `testStoriesWithAxe()` from `_test-helpers/stories.dom.tsx` in them
+    expect(missing).toStrictEqual([]);
+  });
 
-test('every component with stories has visual tests', () => {
-  const missing = STORIES.map(file => {
-    return file.replace('.dom.stories.tsx', '.dom.visual.test.tsx');
-  }).filter(file => !VISUAL_TESTS.has(file));
-  // Call `testStoryScreenshots()` from `_test-helpers/stories.dom.tsx` in them
-  expect(missing).toEqual([]);
+  test('every component with stories has visual tests', () => {
+    const missing = STORIES.map(file => {
+      return file.replace('.dom.stories.tsx', '.dom.visual.test.tsx');
+    }).filter(file => !VISUAL_TESTS.has(file));
+    // Call `testStoryScreenshots()` from `_test-helpers/stories.dom.tsx` in them
+    expect(missing).toStrictEqual([]);
+  });
 });

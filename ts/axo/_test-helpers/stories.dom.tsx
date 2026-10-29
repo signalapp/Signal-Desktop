@@ -140,9 +140,8 @@ export function testStoriesWithAxe(
           );
         }
 
-        if (errors.length > 0) {
-          expect.fail(errors.join('\n\n'));
-        }
+        // Always asserts, so it counts towards `expect.requireAssertions`
+        expect(errors.join('\n\n')).toBe('');
       });
     }
   });

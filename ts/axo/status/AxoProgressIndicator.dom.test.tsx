@@ -38,9 +38,8 @@ describe('AxoProgressIndicator', () => {
         .not.toHaveAttribute('aria-valuenow');
     }
 
-    test('when completed is indeterminate', () => {
-      return check('indeterminate', 100);
-    });
+    test('when completed is indeterminate', () => check('indeterminate', 100));
+
     test('when total is indeterminate', () => check(30, 'indeterminate'));
   });
 });

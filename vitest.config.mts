@@ -83,6 +83,20 @@ export default defineConfig({
   },
   test: {
     pool: 'threads',
+    // Test files can't use hooks, so mocks, globals, and env variables are
+    // reset automatically before each test
+    clearMocks: true,
+    restoreMocks: true,
+    unstubGlobals: true,
+    unstubEnvs: true,
+    // The slowest test on CI takes about 6s, keep failures from waiting much
+    // longer than that (browser mode defaults to 15s)
+    testTimeout: 10_000,
+    expect: {
+      // Fail tests that never make an assertion, like when a check() helper
+      // isn't called
+      requireAssertions: true,
+    },
     projects: [
       {
         extends: true,

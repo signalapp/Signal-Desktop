@@ -1,21 +1,14 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { _Timers as Timers } from './timers.dom.tsx';
 
 describe('Timers', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
   test('add() fires the callback after the given delay', () => {
+    vi.useFakeTimers();
     const timers = new Timers();
-    const cb1 = vi.fn();
-    const cb2 = vi.fn();
+    const cb1 = vi.fn<() => void>();
+    const cb2 = vi.fn<() => void>();
 
     timers.add(100, cb1);
     timers.add(101, cb2);
@@ -24,17 +17,18 @@ describe('Timers', () => {
     expect(cb1).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(1);
-    expect(cb1).toHaveBeenCalled();
+    expect(cb1).toHaveBeenCalledOnce();
 
     expect(cb2).not.toHaveBeenCalled();
     vi.advanceTimersByTime(1);
-    expect(cb2).toHaveBeenCalled();
+    expect(cb2).toHaveBeenCalledOnce();
   });
 
   test('add() returns a cancel function that prevents the callback', () => {
+    vi.useFakeTimers();
     const timers = new Timers();
-    const cb1 = vi.fn();
-    const cb2 = vi.fn();
+    const cb1 = vi.fn<() => void>();
+    const cb2 = vi.fn<() => void>();
 
     const cancel1 = timers.add(100, cb1);
     const cancel2 = timers.add(200, cb2);
@@ -43,16 +37,17 @@ describe('Timers', () => {
 
     vi.advanceTimersByTime(200);
     expect(cb1).not.toHaveBeenCalled();
-    expect(cb2).toHaveBeenCalled();
+    expect(cb2).toHaveBeenCalledOnce();
 
     expect(() => cancel2()).not.toThrow();
   });
 
   test('cancelAll() cancels every still pending timer', () => {
+    vi.useFakeTimers();
     const timers = new Timers();
-    const cb1 = vi.fn();
-    const cb2 = vi.fn();
-    const cb3 = vi.fn();
+    const cb1 = vi.fn<() => void>();
+    const cb2 = vi.fn<() => void>();
+    const cb3 = vi.fn<() => void>();
 
     timers.add(100, cb1);
     timers.add(200, cb2);
@@ -62,7 +57,7 @@ describe('Timers', () => {
     timers.cancelAll();
 
     vi.advanceTimersByTime(500);
-    expect(cb1).toHaveBeenCalled();
+    expect(cb1).toHaveBeenCalledOnce();
     expect(cb2).not.toHaveBeenCalled();
     expect(cb3).not.toHaveBeenCalled();
   });

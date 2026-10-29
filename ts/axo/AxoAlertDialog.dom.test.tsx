@@ -98,9 +98,9 @@ describe('AxoAlertDialog', () => {
 
   describe('onCancel', () => {
     test('is not called when an action closes the dialog', async () => {
-      const onDiscard = vi.fn();
-      const onCancel = vi.fn();
-      const onOpenChange = vi.fn();
+      const onDiscard = vi.fn<() => void>();
+      const onCancel = vi.fn<() => void>();
+      const onOpenChange = vi.fn<(open: boolean) => void>();
       await renderAxo(
         <TestAlertDialog
           onDiscard={onDiscard}
@@ -118,7 +118,7 @@ describe('AxoAlertDialog', () => {
     });
 
     test('is called when canceling after an action prevented closing', async () => {
-      const onCancel = vi.fn();
+      const onCancel = vi.fn<() => void>();
       await renderAxo(
         <TestAlertDialog
           onCancel={onCancel}
@@ -136,7 +136,7 @@ describe('AxoAlertDialog', () => {
     });
 
     test('is called by Escape', async () => {
-      const onCancel = vi.fn();
+      const onCancel = vi.fn<() => void>();
       await renderAxo(<TestAlertDialog onCancel={onCancel} />);
 
       await trigger.click();
@@ -147,8 +147,8 @@ describe('AxoAlertDialog', () => {
     });
   });
 
-  test('Escape does nothing if cancel is destructive', async () => {
-    const onCancel = vi.fn();
+  test('pressing Escape does nothing if cancel is destructive', async () => {
+    const onCancel = vi.fn<() => void>();
     await renderAxo(
       <TestAlertDialog escape="cancel-is-destructive" onCancel={onCancel} />
     );

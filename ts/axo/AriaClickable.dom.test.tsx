@@ -55,15 +55,15 @@ describe('AriaClickable', () => {
   testStoriesWithAxe(stories);
 
   test('clicking the card calls the trigger onClick', async () => {
-    const onOpen = vi.fn();
+    const onOpen = vi.fn<() => void>();
     await renderAxo(<TestCard onOpen={onOpen} />);
     await card.click({ position: { x: 4, y: 4 } });
     expect(onOpen).toHaveBeenCalledOnce();
   });
 
   test('clicking a sub-widget or dead area does not click the trigger', async () => {
-    const onOpen = vi.fn();
-    const onDelete = vi.fn();
+    const onOpen = vi.fn<() => void>();
+    const onDelete = vi.fn<() => void>();
     await renderAxo(<TestCard onOpen={onOpen} onDelete={onDelete} />);
 
     await deleteButton.click();
@@ -73,7 +73,7 @@ describe('AriaClickable', () => {
   });
 
   test('disabled triggers do not call onClick', async () => {
-    const onOpen = vi.fn();
+    const onOpen = vi.fn<() => void>();
     await renderAxo(<TestCard disabled onOpen={onOpen} />);
     await expect.element(trigger).toHaveAttribute('aria-disabled', 'true');
     await card.click({ position: { x: 4, y: 4 } });

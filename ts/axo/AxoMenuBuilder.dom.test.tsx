@@ -26,22 +26,30 @@ function TestMenu(props: TestMenuProps): ReactNode {
         <AxoMenuBuilder.Item symbol="reply" onSelect={() => props.onReply?.()}>
           Reply
         </AxoMenuBuilder.Item>
-        <AxoMenuBuilder.Item disabled onSelect={vi.fn()}>
+        <AxoMenuBuilder.Item disabled onSelect={vi.fn<() => void>()}>
           Forward
         </AxoMenuBuilder.Item>
         <AxoMenuBuilder.Separator />
         <AxoMenuBuilder.Sub>
           <AxoMenuBuilder.SubTrigger>More</AxoMenuBuilder.SubTrigger>
           <AxoMenuBuilder.SubContent>
-            <AxoMenuBuilder.Item onSelect={vi.fn()}>Info</AxoMenuBuilder.Item>
+            <AxoMenuBuilder.Item onSelect={vi.fn<() => void>()}>
+              Info
+            </AxoMenuBuilder.Item>
           </AxoMenuBuilder.SubContent>
         </AxoMenuBuilder.Sub>
         <AxoMenuBuilder.Group>
           <AxoMenuBuilder.Label>Options</AxoMenuBuilder.Label>
-          <AxoMenuBuilder.CheckboxItem checked onCheckedChange={vi.fn()}>
+          <AxoMenuBuilder.CheckboxItem
+            checked
+            onCheckedChange={vi.fn<() => void>()}
+          >
             Pin
           </AxoMenuBuilder.CheckboxItem>
-          <AxoMenuBuilder.RadioGroup value="a" onValueChange={vi.fn()}>
+          <AxoMenuBuilder.RadioGroup
+            value="a"
+            onValueChange={vi.fn<() => void>()}
+          >
             <AxoMenuBuilder.RadioItem value="a">A</AxoMenuBuilder.RadioItem>
             <AxoMenuBuilder.RadioItem value="b">B</AxoMenuBuilder.RadioItem>
           </AxoMenuBuilder.RadioGroup>
@@ -60,7 +68,7 @@ const trigger = page.getByRole('button', {
 describe('AxoMenuBuilder', () => {
   testStoriesWithAxe(stories);
 
-  test('AxoDropdownMenu renderer opens on click', async () => {
+  test('the dropdown menu renderer opens on click', async () => {
     await renderAxo(<TestMenu renderer="AxoDropdownMenu" />);
 
     await trigger.click();
@@ -79,8 +87,8 @@ describe('AxoMenuBuilder', () => {
     `);
   });
 
-  test('AxoContextMenu renderer opens on right click', async () => {
-    const onReply = vi.fn();
+  test('the context menu renderer opens on right click', async () => {
+    const onReply = vi.fn<() => void>();
     await renderAxo(<TestMenu renderer="AxoContextMenu" onReply={onReply} />);
 
     await trigger.click();

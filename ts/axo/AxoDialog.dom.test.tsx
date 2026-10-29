@@ -26,7 +26,7 @@ function TestDialog(props: TestDialogProps): ReactNode {
       </AxoDialog.Trigger>
       <AxoDialog.Content size="md" escape={props.escape ?? 'cancel-is-noop'}>
         <AxoDialog.Header>
-          <AxoDialog.Back onClick={vi.fn()} />
+          <AxoDialog.Back onClick={vi.fn<() => void>()} />
           <AxoDialog.Title>Settings</AxoDialog.Title>
           <AxoDialog.Close />
         </AxoDialog.Header>
@@ -37,10 +37,16 @@ function TestDialog(props: TestDialogProps): ReactNode {
         </AxoDialog.Body>
         <AxoDialog.Footer>
           <AxoDialog.Actions>
-            <AxoDialog.Action variant="subtle-secondary" onClick={vi.fn()}>
+            <AxoDialog.Action
+              variant="subtle-secondary"
+              onClick={vi.fn<() => void>()}
+            >
               Cancel
             </AxoDialog.Action>
-            <AxoDialog.Action variant="strong-primary" onClick={vi.fn()}>
+            <AxoDialog.Action
+              variant="strong-primary"
+              onClick={vi.fn<() => void>()}
+            >
               Save
             </AxoDialog.Action>
           </AxoDialog.Actions>
@@ -107,8 +113,8 @@ describe('AxoDialog', () => {
     },
   });
 
-  test('Escape and clicking outside do nothing if cancel is destructive', async () => {
-    const onOpenChange = vi.fn();
+  test('pressing Escape or clicking outside does nothing if cancel is destructive', async () => {
+    const onOpenChange = vi.fn<(open: boolean) => void>();
     await renderAxo(
       <TestDialog escape="cancel-is-destructive" onOpenChange={onOpenChange} />
     );

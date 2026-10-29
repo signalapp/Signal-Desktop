@@ -36,7 +36,7 @@ describe('AxoSelectItem', () => {
   testStoriesWithAxe(stories);
 
   test('renders the options', async () => {
-    const onValueChange = vi.fn();
+    const onValueChange = vi.fn<(value: string) => void>();
     const screen = await renderAxo(
       <TestSelectItem onValueChange={onValueChange} />
     );

@@ -55,7 +55,9 @@ describe('AxoSegmentedControl', () => {
     }
 
     test('light', () => check('light'));
+
     test('dark', () => check('dark'));
+
     test('forced-colors', () => check('forced-colors'));
   });
 });
