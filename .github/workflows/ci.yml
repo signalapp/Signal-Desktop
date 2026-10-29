@@ -537,6 +537,36 @@ jobs:
       - name: Stop storybook server
         cancel: storybook-server
 
+  axo:
+    name: Axo
+    runs-on: ubuntu-latest-8-cores
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          install-playwright: true
+
+      # Imported by ts/axo/emoji.std.ts
+      - name: Build emoji data
+        run: pnpm run build:emoji-data
+
+      - name: Run axo tests
+        run: pnpm run test:axo
+
+      - name: Upload failure screenshots and traces
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: axo-test-failures
+          path: |
+            .vitest/attachments
+            ts/axo/**/__traces__
+          if-no-files-found: ignore
+
   benchmark:
     name: Benchmark
     strategy:
@@ -671,6 +701,7 @@ jobs:
       - check-min-os-version
       - danger
       - storybook
+      - axo
       - benchmark
     runs-on: ubuntu-latest
     steps:

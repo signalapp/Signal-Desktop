@@ -18,6 +18,8 @@ stylesheets/manifest.css
 stylesheets/tailwind.css
 ts/util/lint/exceptions.json
 storybook-static
+.vitest/**
+**/__traces__/**
 build/locale-display-names.json
 build/country-display-names.json
 build/compact-locales/**/*.json

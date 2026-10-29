@@ -14,7 +14,8 @@ const IntlContext =
 
 /** Localization context for built-in Axo UI strings. */
 export namespace AxoIntl {
-  const DefaultMessages = {
+  /** English messages, used when a message is missing and in tests. */
+  export const DefaultMessages = {
     'AxoAlertDialog.Cancel': 'Cancel',
     'AxoAlertDialog.Ok': 'OK',
     'AxoButton.Pending': 'Pending',
@@ -37,7 +38,7 @@ export namespace AxoIntl {
     'AxoTextField.Clear': 'Clear',
     'AxoPasswordField.Reveal': 'Show Password',
     'AxoProgressIndicator.Loading': 'Loading',
-    'AxoBadge.MaxOverflow': (max: number) => `${max.toLocaleString()}+`,
+    'AxoBadge.MaxOverflow': (max: number): string => `${max.toLocaleString()}+`,
     'AxoContactName.InSystemContactsLabel': 'This person is in your contacts.',
   };
 

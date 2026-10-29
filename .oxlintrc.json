@@ -1792,7 +1792,8 @@
         "dangerfile.mjs",
         "knip.js",
         "preload.wrapper.ts",
-        "rolldown.config.ts"
+        "rolldown.config.ts",
+        "vitest.config.mts"
       ],
       "env": { "node": true }
     },
@@ -1823,7 +1824,14 @@
     {
       "files": ["ts/axo/**"],
       "rules": {
-        "eslint/no-inner-declarations": "off"
+        "eslint/no-inner-declarations": "off",
+        "eslint/no-restricted-properties": [
+          "error",
+          {
+            "property": "toMatchAriaSnapshot",
+            "message": "Use toMatchAriaInlineSnapshot() instead"
+          }
+        ]
       }
     },
     {
@@ -1856,7 +1864,8 @@
         "dangerfile.mjs",
         "knip.js",
         "preload.wrapper.ts",
-        "rolldown.config.ts"
+        "rolldown.config.ts",
+        "vitest.config.mts"
       ],
       "rules": {
         "signal-desktop/enforce-file-suffix": "off"

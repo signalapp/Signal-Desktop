@@ -27,6 +27,7 @@ libtextsecure/components.js
 stylesheets/*.css
 !stylesheets/tailwind-config.css
 /storybook-static/
+
 preload.bundle.*
 preload.wrapper.js
 bundles/
@@ -42,6 +43,10 @@ ts/protobuf/*.d.ts
 
 # CSS Modules
 **/*.scss.d.ts
+
+# Vitest
+/.vitest/
+__traces__/
 
 # Editors
 /.idea
