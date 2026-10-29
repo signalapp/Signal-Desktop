@@ -25,8 +25,8 @@ env:
 
 jobs:
   update-screenshots:
-    # Must match the runner of the `axo` job in ci.yml, which compares against
-    # these screenshots
+    # Must match the runner of the `axo-visual` job in ci.yml, which compares
+    # against these screenshots
     runs-on: ubuntu-latest-8-cores
     timeout-minutes: 15
 

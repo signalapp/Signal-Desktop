@@ -112,6 +112,13 @@ runs:
           ~/AppData/Local/electron-builder/Cache
         key: electron-builder-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
+    - id: playwright-version
+      name: Get playwright version
+      if: ${{ inputs.install-playwright == 'true' }}
+      run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      working-directory: .
+      shell: bash
+
     - id: playwright-cache
       name: Setup playwright chromium cache
       if: ${{ inputs.install-playwright == 'true' }}
