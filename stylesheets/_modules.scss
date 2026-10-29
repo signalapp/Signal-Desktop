@@ -217,6 +217,16 @@
   @include module-message__buttons__button('../images/icons/v3/save/save.svg');
 }
 
+.module-message__buttons__favorite {
+  @include module-message__buttons__button('../images/icons/v3/star/star.svg');
+}
+
+.module-message__buttons__unfavorite {
+  @include module-message__buttons__button(
+    '../images/icons/v3/star/star-slash.svg'
+  );
+}
+
 .module-message__buttons__react {
   @include module-message__buttons__button(
     '../images/icons/v3/heart/heart-plus.svg'

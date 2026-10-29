@@ -23,6 +23,8 @@ type MessageContextMenuProps = Readonly<{
   onCopy: (() => void) | null;
   onForward: (() => void) | null;
   onDeleteMessage: (() => void) | null;
+  onFavoriteSticker: (() => void) | null;
+  onUnfavoriteSticker: (() => void) | null;
   onPinMessage: (() => void) | null;
   onUnpinMessage: (() => void) | null;
   onMoreInfo: (() => void) | null;
@@ -39,6 +41,8 @@ export function MessageContextMenu({
   onDebugMessage,
   onDownload,
   onEdit,
+  onFavoriteSticker,
+  onUnfavoriteSticker,
   onReplyToMessage,
   onReact,
   onEndPoll,
@@ -84,6 +88,19 @@ export function MessageContextMenu({
                 }}
               >
                 {i18n('icu:MessageContextMenu__reply')}
+              </AxoMenuBuilder.Item>
+            )}
+            {onFavoriteSticker && (
+              <AxoMenuBuilder.Item symbol="star" onSelect={onFavoriteSticker}>
+                {i18n('icu:messageContextMenu__sticker--addFavorite')}
+              </AxoMenuBuilder.Item>
+            )}
+            {onUnfavoriteSticker && (
+              <AxoMenuBuilder.Item
+                symbol="star-slash"
+                onSelect={onUnfavoriteSticker}
+              >
+                {i18n('icu:messageContextMenu__sticker--removeFavorite')}
               </AxoMenuBuilder.Item>
             )}
             {onReact && (

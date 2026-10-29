@@ -47,6 +47,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useLinkPreviewActions } from '../ducks/linkPreviews.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
 import { useStoryDistributionListsActions } from '../ducks/storyDistributionLists.preload.ts';
+import { useStickersActions } from '../ducks/stickers.preload.ts';
 
 export type PropsType = {
   file?: File;
@@ -103,6 +104,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
   const { onUseEmoji } = useEmojisActions();
   const { pauseVoiceNotePlayer } = useAudioPlayerActions();
   const { onTextTooLong } = useComposerActions();
+  const { markStickerAsFavorite } = useStickersActions();
 
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
   const platform = useSelector(getPlatform);
@@ -163,6 +165,7 @@ export const SmartStoryCreator = memo(function SmartStoryCreator() {
       onDeleteList={deleteDistributionList}
       onDistributionListCreated={createDistributionList}
       onHideMyStoriesFrom={hideMyStoriesFrom}
+      onMarkStickerAsFavorite={markStickerAsFavorite}
       onMediaPlaybackStart={pauseVoiceNotePlayer}
       onSelectEmoji={onUseEmoji}
       onRemoveMembers={removeMembersFromDistributionList}

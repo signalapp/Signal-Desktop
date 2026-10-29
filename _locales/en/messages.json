@@ -415,6 +415,14 @@
     "messageformat": "More actions",
     "description": "Label for context button next to each message"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites",
+    "description": "Context menu label and button tooltip for each sticker message, which lets you add the sticker to your favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites",
+    "description": "Context menu label and button tooltip for each sticker message, which lets you remove a sticker from your favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "Copy Link",
     "description": "Shown in the context menu for a link to indicate that the user can copy the link"
@@ -4089,6 +4097,14 @@
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "No stickers found",
     "description": "FunPicker > Stickers Panel > Search Results > Empty State > Heading"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites",
+    "description": "FunPicker > Stickers Panel > Sticker Context Menu (right click a sticker to open menu) > Add to favorite stickers"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites",
+    "description": "FunPicker > Stickers Panel > Sticker Context Menu (right click a sticker to open menu) > Remove from favorite stickers"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Sticker Preview",

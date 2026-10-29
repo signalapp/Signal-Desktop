@@ -18,6 +18,10 @@ export type FunStickerPickerProps = Readonly<{
   showTimeStickers: boolean;
   onSelectTimeSticker?: (style: FunTimeStickerStyle) => void;
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
+  onMarkStickerAsFavorite: (
+    stickerSelection: FunStickerSelection,
+    markAsFavorite: boolean
+  ) => void;
   placement?: Placement;
   theme?: ThemeType;
   children: ReactNode;
@@ -53,6 +57,7 @@ export const FunStickerPicker = memo(function FunStickerPicker(
             onSelectSticker={props.onSelectSticker}
             onClose={handleClose}
             onAddStickerPack={null}
+            onMarkStickerAsFavorite={props.onMarkStickerAsFavorite}
           />
         </FunErrorBoundary>
       </FunPopover>

@@ -45,6 +45,7 @@ import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import { getResolveSharedContactSelector } from './sharedContact.dom.ts';
+import { getIsFavoriteStickerSelector } from './stickers.std.ts';
 
 // A no-op lookup for non-story-reply items. Only story replies should take a
 // dependency on the stories slice
@@ -83,6 +84,7 @@ const getTimelineItem = (
   const getStoryReplyAttachment = message.storyReplyContext
     ? getStoryReplyAttachmentSelector(state)
     : noStoryReplyAttachment;
+  const getIsFavoriteSticker = getIsFavoriteStickerSelector(state);
 
   return getPropsForBubble(message, {
     conversationSelector,
@@ -102,6 +104,7 @@ const getTimelineItem = (
     selectedMessageIds,
     bubbleColorResolver,
     hasMediaBackups,
+    getIsFavoriteSticker,
     getStoryReplyAttachment,
   });
 };

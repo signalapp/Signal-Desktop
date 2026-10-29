@@ -118,6 +118,38 @@ const getFavorites = createSelector(
   (stickers: StickersStateType) => stickers.favoriteStickers
 );
 
+type FavoritesLookupType = Record<string, Record<number, boolean>>;
+
+const getFavoritesLookup = createSelector(
+  getFavorites,
+  (favorites: ReadonlyArray<StickerReferenceType>): FavoritesLookupType => {
+    const packIdsToStickerIds: FavoritesLookupType = {};
+    for (const { packId, stickerId } of favorites) {
+      if (!packIdsToStickerIds[packId]) {
+        packIdsToStickerIds[packId] = {};
+      }
+      packIdsToStickerIds[packId][stickerId] = true;
+    }
+    return packIdsToStickerIds;
+  }
+);
+
+export const getIsFavoriteStickerSelector = createSelector(
+  getFavoritesLookup,
+  (
+    selector: FavoritesLookupType
+  ): ((stickerRef: StickerReferenceType | undefined) => boolean) => {
+    return (stickerRef: StickerReferenceType | undefined) => {
+      if (!stickerRef) {
+        return false;
+      }
+
+      const { packId, stickerId } = stickerRef;
+      return Boolean(selector[packId]?.[stickerId]);
+    };
+  }
+);
+
 export const getBlessedPacks = createSelector(
   getStickers,
   (stickers: StickersStateType) => stickers.blessedPacks
