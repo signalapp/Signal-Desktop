@@ -29,7 +29,10 @@ import {
   getUndownloadedAttachmentSignature,
 } from './Attachment.std.ts';
 import { AttachmentDownloadUrgency } from '../types/AttachmentDownload.std.ts';
-import { getMaximumAutoDownloadSize } from '../types/AttachmentSize.std.ts';
+import {
+  getMaximumAutoDownloadSize,
+  isAttachmentTooLarge,
+} from '../types/AttachmentSize.std.ts';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import { strictAssert } from './assert.std.ts';
 import { isNotNil } from './isNotNil.std.ts';
@@ -123,7 +126,12 @@ function isAutoDownloadEnabled(
     return false;
   }
 
-  if (attachment.size >= getMaximumAutoDownloadSize(RemoteConfig.getValue)) {
+  if (
+    isAttachmentTooLarge({
+      plaintextSize: attachment.size,
+      ciphertextLimit: getMaximumAutoDownloadSize(RemoteConfig.getValue),
+    })
+  ) {
     return false;
   }
 
@@ -375,7 +383,11 @@ export async function queueAttachmentDownloads(
     if (!copiedSticker) {
       if (
         sticker.data &&
-        (isManualDownload || sticker.data.size < MAX_STICKER_AUTO_DOWNLOAD_SIZE)
+        (isManualDownload ||
+          !isAttachmentTooLarge({
+            plaintextSize: sticker.data.size,
+            ciphertextLimit: MAX_STICKER_AUTO_DOWNLOAD_SIZE,
+          }))
       ) {
         if (shouldQueueAttachmentBasedOnSignature(sticker.data)) {
           log.info(`${logId}: Queueing sticker download`);
@@ -575,7 +587,10 @@ async function queueNormalAttachments({
         } else if (isAudio(contentType)) {
           if (
             isVoiceMessage(attachment) &&
-            attachment.size < MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE
+            !isAttachmentTooLarge({
+              plaintextSize: attachment.size,
+              ciphertextLimit: MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE,
+            })
           ) {
             disposition = undefined;
           } else {

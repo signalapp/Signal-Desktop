@@ -8,7 +8,7 @@ import type { AttachmentDraftType } from '../types/Attachment.std.ts';
 import {
   getAttachmentSizeLimit,
   getRenderDetailsForLimit,
-  isAttachmentTooLargeToSend,
+  isAttachmentTooLarge,
 } from '../types/AttachmentSize.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
@@ -68,9 +68,9 @@ export async function processAttachment(
   });
 
   if (
-    isAttachmentTooLargeToSend({
+    isAttachmentTooLarge({
       plaintextSize: attachment.size,
-      limit: sizeLimit,
+      ciphertextLimit: sizeLimit,
     })
   ) {
     window.reduxActions.toast.showToast({

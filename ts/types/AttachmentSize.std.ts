@@ -102,17 +102,17 @@ export function getAttachmentSizeLimit({
     : getMaximumOutgoingAttachmentSize(getRemoteConfigValue);
 }
 
-export function isAttachmentTooLargeToSend({
+export function isAttachmentTooLarge({
   plaintextSize,
-  limit,
+  ciphertextLimit,
 }: {
   plaintextSize: number;
-  limit: number;
+  ciphertextLimit: number;
 }): boolean {
   const paddedAndEncryptedSize = getAttachmentCiphertextSize({
     unpaddedPlaintextSize: plaintextSize,
     mediaTier: MediaTier.STANDARD,
   });
 
-  return paddedAndEncryptedSize > limit;
+  return paddedAndEncryptedSize > ciphertextLimit;
 }

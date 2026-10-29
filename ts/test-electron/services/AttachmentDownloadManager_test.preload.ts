@@ -55,8 +55,8 @@ import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const { omit } = lodash;
 
-const maxAttachmentSize = 100 * MEBIBYTE;
-const maxTextAttachmentSize = 5 * KIBIBYTE;
+const maxCiphertextAttachmentSize = 100 * MEBIBYTE;
+const maxPlaintextTextAttachmentSize = 5 * KIBIBYTE;
 const minimumFreeDiskSpace = 500 * MEBIBYTE;
 
 function composeJob({
@@ -172,8 +172,8 @@ describe('AttachmentDownloadManager', () => {
       }),
       onLowDiskSpaceBackupImport,
       hasMediaBackups,
-      maxAttachmentSize,
-      maxTextAttachmentSize,
+      maxCiphertextAttachmentSize,
+      maxPlaintextTextAttachmentSize,
       minimumFreeDiskSpace,
       getMessageQueueTime: () => 45 * DAY,
       statfs,
@@ -1019,8 +1019,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
       options: {
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         hasMediaBackups,
       },
       dependencies: {
@@ -1079,8 +1079,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
       options: {
         isForCurrentlyVisibleMessage: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         hasMediaBackups: false,
       },
       dependencies: {
@@ -1397,12 +1397,12 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   });
 
   describe('attachment size errors', () => {
-    it('throws AttachmentSizeError if attachment > maxAttachmentSize', async () => {
+    it('throws AttachmentSizeError if attachment > maxCiphertextAttachmentSize', async () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
         attachmentOverrides: {
-          size: maxAttachmentSize + 1,
+          size: maxCiphertextAttachmentSize + 1,
         },
       });
 
@@ -1412,8 +1412,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           isForCurrentlyVisibleMessage: false,
           hasMediaBackups: true,
           abortSignal: abortController.signal,
-          maxAttachmentSize,
-          maxTextAttachmentSize,
+          maxCiphertextAttachmentSize,
+          maxPlaintextTextAttachmentSize,
           messageExpiresAt: null,
           dependencies: {
             cleanupAttachmentFiles,
@@ -1426,12 +1426,12 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         'AttachmentSizeError'
       );
     });
-    it('throws AttachmentSizeError if longText attachment > maxTextAttachmentSize', async () => {
+    it('throws AttachmentSizeError if longText attachment > maxPlaintextTextAttachmentSize', async () => {
       const job = composeJob({
         messageId: '1',
         receivedAt: 1,
         attachmentOverrides: {
-          size: maxTextAttachmentSize + 1,
+          size: maxPlaintextTextAttachmentSize + 1,
         },
         jobOverrides: {
           attachmentType: 'long-message',
@@ -1444,8 +1444,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           isForCurrentlyVisibleMessage: false,
           hasMediaBackups: true,
           abortSignal: abortController.signal,
-          maxAttachmentSize,
-          maxTextAttachmentSize,
+          maxCiphertextAttachmentSize,
+          maxPlaintextTextAttachmentSize,
           messageExpiresAt: null,
           dependencies: {
             cleanupAttachmentFiles,
@@ -1475,8 +1475,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1516,8 +1516,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1574,8 +1574,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1614,8 +1614,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: true,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1655,8 +1655,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1694,8 +1694,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: true,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1752,8 +1752,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           isForCurrentlyVisibleMessage: false,
           hasMediaBackups: true,
           abortSignal: abortController.signal,
-          maxAttachmentSize,
-          maxTextAttachmentSize,
+          maxCiphertextAttachmentSize,
+          maxPlaintextTextAttachmentSize,
           messageExpiresAt: null,
           dependencies: {
             cleanupAttachmentFiles,
@@ -1883,8 +1883,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -1958,8 +1958,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -2018,8 +2018,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -2060,8 +2060,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
@@ -2103,8 +2103,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         isForCurrentlyVisibleMessage: false,
         hasMediaBackups: false,
         abortSignal: abortController.signal,
-        maxAttachmentSize,
-        maxTextAttachmentSize,
+        maxCiphertextAttachmentSize,
+        maxPlaintextTextAttachmentSize,
         messageExpiresAt: null,
         dependencies: {
           cleanupAttachmentFiles,
