@@ -9,6 +9,7 @@ import {
   _getAxoSymbolInlineGlyph,
 } from './_internal/AxoSymbolDefs.generated.std.ts';
 import type { _AxoSymbolName } from './_internal/AxoSymbolDefs.generated.std.ts';
+import type { UnionToTuple } from 'type-fest';
 
 const { useDirection } = Direction;
 
@@ -117,6 +118,10 @@ export namespace AxoSymbol {
 
   /** Available icon sizes in pixels. */
   export type IconSize = 12 | 14 | 16 | 18 | 20 | 24 | 32 | 36 | 48 | 60;
+
+  export function getAllIconSizes(): UnionToTuple<IconSize> {
+    return [12, 14, 16, 18, 20, 24, 32, 36, 48, 60];
+  }
 
   export type IconProps = Readonly<{
     /** Size of the icon in pixels. */
