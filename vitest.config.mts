@@ -6,6 +6,12 @@ import type { TestProjectInlineConfiguration } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import tailwindcss from '@tailwindcss/vite';
 import { axoBrowserCommands } from './ts/axo/_test-setup/setup-commands.std.mts';
+import {
+  OrphanedScreenshotsReporter,
+  resolveScreenshotPath,
+} from './ts/axo/_test-setup/orphaned-screenshots.node.mts';
+
+const VISUAL_PROJECT_NAME = 'axo-visual';
 
 const BROWSER_SETUP_FILES = [
   './stylesheets/tailwind-config.css',
@@ -83,6 +89,12 @@ export default defineConfig({
   },
   test: {
     pool: 'threads',
+    reporters: [
+      // Vitest's defaults, which are replaced when setting `reporters`
+      'default',
+      ...(process.env.GITHUB_ACTIONS === 'true' ? ['github-actions'] : []),
+      new OrphanedScreenshotsReporter({ projectName: VISUAL_PROJECT_NAME }),
+    ],
     // Test files can't use hooks, so mocks, globals, and env variables are
     // reset automatically before each test
     clearMocks: true,
@@ -123,7 +135,7 @@ export default defineConfig({
         // reference screenshots are platform specific.
         extends: true,
         test: {
-          name: 'axo-visual',
+          name: VISUAL_PROJECT_NAME,
           include: ['ts/axo/**/*.dom.visual.test.{ts,tsx}'],
           setupFiles: BROWSER_SETUP_FILES,
           browser: browserConfig({
@@ -135,6 +147,7 @@ export default defineConfig({
             deviceScaleFactor: 2,
             expect: {
               toMatchScreenshot: {
+                resolveScreenshotPath,
                 comparatorName: 'pixelmatch',
                 comparatorOptions: {
                   // How different a pixel's color can be before it counts as
