@@ -19,9 +19,12 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from './GoogleChrome.std.ts';
-import { isVideoAttachment } from './Attachment.std.ts';
-import { writeNewDraftStream } from './migrations.preload.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
+import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
+import { isVideoAttachment } from './Attachment.std.ts';
+import { strictAssert } from './assert.std.ts';
+import { writeNewDraftStream, deleteDraftFile } from './migrations.preload.ts';
+import { getMaxVideoDuration } from './getTranscodingOptions.preload.ts';
 
 const log = createLogger('processAttachment');
 
@@ -37,13 +40,34 @@ export async function processAttachment(
   const fileType = stringToMIMEType(file.type);
 
   let attachment: AttachmentDraftType | undefined;
+  let plaintextSize = file.size;
   try {
     if (options.disableTranscoding) {
       // Used only in StoryCreator
     } else if (isImageTypeSupported(fileType) || isHeic(fileType, file.name)) {
       attachment = await handleImageAttachment(file, options);
     } else if (isVideoTypeSupported(fileType)) {
-      attachment = await handleVideoAttachment(file, options);
+      ({ attachment, transcodedStandardSize: plaintextSize } =
+        await handleVideoAttachment(file, options));
+
+      const maxVideoDuration = getMaxVideoDuration(
+        TranscodingTargetQuality.Standard
+      );
+
+      if (
+        !attachment.pending &&
+        attachment.duration != null &&
+        attachment.duration > maxVideoDuration
+      ) {
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.VideoFileDuration,
+          parameters: {
+            maxDuration: maxVideoDuration,
+          },
+        });
+        await deleteDraftFile(attachment.path);
+        return undefined;
+      }
     }
   } catch (e) {
     log.error(
@@ -69,7 +93,7 @@ export async function processAttachment(
 
   if (
     isAttachmentTooLarge({
-      plaintextSize: attachment.size,
+      plaintextSize,
       ciphertextLimit: sizeLimit,
     })
   ) {
@@ -79,6 +103,8 @@ export async function processAttachment(
         : ToastType.FileSize,
       parameters: getRenderDetailsForLimit(sizeLimit),
     });
+    strictAssert(!attachment.pending, "processed attachment can't be pending");
+    await deleteDraftFile(attachment.path);
     return undefined;
   }
 

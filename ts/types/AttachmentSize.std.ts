@@ -6,8 +6,13 @@ import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 import type * as RemoteConfig from '../RemoteConfig.dom.ts';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
 import { MediaTier } from './AttachmentDownload.std.ts';
+import type { AttachmentDraftType } from './Attachment.std.ts';
 import type { MIMEType } from './MIME.std.ts';
-import { isVideoAttachment } from '../util/Attachment.std.ts';
+import { VIDEO_MP4 } from './MIME.std.ts';
+import {
+  isImageAttachment,
+  isVideoAttachment,
+} from '../util/Attachment.std.ts';
 
 const log = createLogger('AttachmentSize');
 
@@ -115,4 +120,43 @@ export function isAttachmentTooLarge({
   });
 
   return paddedAndEncryptedSize > ciphertextLimit;
+}
+
+export function canSendInHighQuality(
+  draftAttachments: ReadonlyArray<AttachmentDraftType>,
+  {
+    maxHighQualityVideoDuration,
+    getRemoteConfigValue,
+  }: {
+    maxHighQualityVideoDuration: number;
+    getRemoteConfigValue: typeof RemoteConfig.getValue;
+  }
+): boolean {
+  const videoCiphertextSizeLimit = getAttachmentSizeLimit({
+    contentType: VIDEO_MP4,
+    getRemoteConfigValue,
+  });
+
+  return draftAttachments.some(attachment => {
+    if (isImageAttachment(attachment)) {
+      return true;
+    }
+    if (isVideoAttachment(attachment)) {
+      if (attachment.pending || attachment.duration == null) {
+        return false;
+      }
+      if (attachment.transcodedHighQualitySize != null) {
+        if (
+          isAttachmentTooLarge({
+            plaintextSize: attachment.transcodedHighQualitySize,
+            ciphertextLimit: videoCiphertextSizeLimit,
+          })
+        ) {
+          return false;
+        }
+      }
+      return attachment.duration <= maxHighQualityVideoDuration;
+    }
+    return false;
+  });
 }

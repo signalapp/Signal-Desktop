@@ -4,7 +4,10 @@
 import { Readable } from 'node:stream';
 import { blobToArrayBuffer } from 'blob-util';
 
-import { makeVideoScreenshot } from '../types/VisualAttachment.dom.ts';
+import {
+  makeVideoScreenshot,
+  estimateTranscodedVideoSize,
+} from '../types/VisualAttachment.dom.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { IMAGE_PNG, stringToMIMEType } from '../types/MIME.std.ts';
 import type { AttachmentDraftType } from '../types/Attachment.std.ts';
@@ -14,6 +17,8 @@ import {
   writeNewDraftData,
   writeNewDraftStream,
 } from './migrations.preload.ts';
+import { getTranscodingOptions } from './getTranscodingOptions.preload.ts';
+import { assertDev } from './assert.std.ts';
 
 const log = createLogger('handleVideoAttachment');
 
@@ -24,7 +29,10 @@ export async function handleVideoAttachment(
     flags: number | null;
     clientUuid: string;
   }
-): Promise<AttachmentDraftType> {
+): Promise<{
+  attachment: AttachmentDraftType;
+  transcodedStandardSize: number;
+}> {
   const objectUrl = URL.createObjectURL(file);
   if (!objectUrl) {
     throw new Error('Failed to create object url for video!');
@@ -37,8 +45,12 @@ export async function handleVideoAttachment(
       // We strip fileNames from visual attachments
       fileName: undefined,
       pending: false,
+      // This is overriden in `enqueueMessageForSend` based on `sendHQImages`
+      // boolean.
       transcodingTargetQuality: TranscodingTargetQuality.High,
     };
+
+    let transcodedStandardSize = file.size;
 
     if (options.generateScreenshot) {
       try {
@@ -47,12 +59,46 @@ export async function handleVideoAttachment(
         const {
           blob: screenshotBlob,
           duration,
+          videoBitrateMbps,
           width,
           height,
         } = await makeVideoScreenshot({
           objectUrl,
           contentType: screenshotContentType,
         });
+
+        // Estimate file size to aid size checks in UI or show toast early
+        const standard = getTranscodingOptions(
+          TranscodingTargetQuality.Standard,
+          duration
+        );
+        const high = getTranscodingOptions(
+          TranscodingTargetQuality.High,
+          duration
+        );
+
+        const sizes = await Promise.all(
+          [standard, high].map(config =>
+            estimateTranscodedVideoSize({
+              url: objectUrl,
+              duration,
+
+              targetResolution: config.resolution,
+              // Don't raise the bitrate
+              targetBitrate: Math.min(
+                videoBitrateMbps,
+                config.videoBitrateMbps
+              ),
+            })
+          )
+        );
+        assertDev(
+          sizes.length === 2 && sizes[0] != null && sizes[1] != null,
+          'Expected two numbers'
+        );
+        transcodedStandardSize = sizes[0];
+        const transcodedHighQualitySize = sizes[1];
+
         attachment.duration =
           duration == null
             ? undefined
@@ -65,6 +111,7 @@ export async function handleVideoAttachment(
         };
         attachment.width = width;
         attachment.height = height;
+        attachment.transcodedHighQualitySize = transcodedHighQualitySize;
       } catch (error) {
         log.warn('failed to generate screenshot', error);
       }
@@ -74,7 +121,7 @@ export async function handleVideoAttachment(
       attachment.flags = options.flags;
     }
 
-    return attachment;
+    return { attachment, transcodedStandardSize };
   } finally {
     URL.revokeObjectURL(objectUrl);
   }

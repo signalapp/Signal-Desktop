@@ -6332,6 +6332,10 @@ Signal Desktop makes use of the following open source projects.
 
     License: MIT
 
+## binary-search
+
+    License: CC0-1.0
+
 ## blob-util
 
     Apache License

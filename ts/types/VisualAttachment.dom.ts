@@ -2,7 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import loadImage from 'blueimp-load-image';
-import { Input, UrlSource, ALL_FORMATS, CanvasSink } from 'mediabunny';
+import {
+  Input,
+  UrlSource,
+  ALL_FORMATS,
+  CanvasSink,
+  NullTarget,
+  Conversion,
+  Output,
+  Mp4OutputFormat,
+  Quality,
+} from 'mediabunny';
 import { blobToArrayBuffer } from 'blob-util';
 import { toLogFormat } from './errors.std.ts';
 import type { MIMEType } from './MIME.std.ts';
@@ -216,6 +226,7 @@ export type MakeVideoScreenshotOptionsType = Readonly<{
 export type MakeVideoScreenshotResultType = Readonly<{
   blob: Blob;
   duration: number;
+  videoBitrateMbps: number;
   width: number;
   height: number;
 }>;
@@ -238,6 +249,9 @@ export async function makeVideoScreenshot({
     throw new Error('No video track');
   }
 
+  // Compute rough bitrate over a second or so
+  const { averageBitrate: videoBitrate } = await track.computePacketStats(30);
+
   const sink = new CanvasSink(track);
 
   const wrappedCanvas = await sink.getCanvas(0);
@@ -258,7 +272,87 @@ export async function makeVideoScreenshot({
   return {
     blob,
     duration,
+    videoBitrateMbps: videoBitrate / 1e6,
     width,
     height,
   };
+}
+
+export async function estimateTranscodedVideoSize({
+  url,
+  duration,
+
+  targetResolution,
+  targetBitrate,
+}: {
+  url: string;
+  duration: number;
+
+  targetResolution: number;
+  targetBitrate: number;
+}): Promise<number> {
+  const source = new UrlSource(url);
+
+  const input = new Input({
+    formats: ALL_FORMATS,
+    source,
+  });
+
+  const track = await input.getPrimaryVideoTrack();
+  if (track == null) {
+    throw new Error('No video track');
+  }
+
+  const [width, height] = await Promise.all([
+    track.getDisplayWidth(),
+    track.getDisplayHeight(),
+  ]);
+
+  const target = new NullTarget();
+
+  const output = new Output({
+    target,
+    format: new Mp4OutputFormat(),
+  });
+
+  let outputSize = 0;
+  target.on('write', ({ end }) => {
+    outputSize = Math.max(outputSize, end);
+  });
+
+  const quality = new Quality({
+    bitrate: Math.floor(targetBitrate * 1e6),
+    bitrateMode: 'constant',
+  });
+
+  const conversion = await Conversion.init({
+    input,
+    output,
+    tracks: 'primary', // Keep only one track per type
+    video:
+      width > height
+        ? {
+            // Horizontal video
+            height: Math.min(height, targetResolution),
+            quality,
+          }
+        : {
+            // Vertical video
+            width: Math.min(width, targetResolution),
+            quality,
+          },
+    trim: {
+      // One second video should fit into memory and let us estimate the coded
+      // size
+      end: 1,
+    },
+  });
+
+  if (!conversion.isValid) {
+    throw new Error('Failed to transcode');
+  }
+
+  await conversion.execute();
+
+  return Math.ceil(outputSize * duration);
 }

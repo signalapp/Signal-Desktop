@@ -42,6 +42,7 @@ import { getNotificationTextForMessage } from '../util/getNotificationTextForMes
 import { getNotificationDataForMessage } from '../util/getNotificationDataForMessage.preload.ts';
 import type { ProfileNameChangeType } from '../util/getStringForProfileChange.std.ts';
 import type { AttachmentType, ThumbnailType } from '../types/Attachment.std.ts';
+import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import { toDayMillis } from '../util/timestamp.std.ts';
 import { areWeAdmin } from '../util/areWeAdmin.preload.ts';
 import { isBlocked } from '../util/isBlocked.preload.ts';
@@ -4490,6 +4491,13 @@ export class ConversationModel {
     if (!sendHQImages && !isForwarding) {
       attachmentsToSend = await Promise.all(
         attachmentsToSend.map(async attachment => {
+          if (attachment.transcodingTargetQuality != null) {
+            return {
+              ...attachment,
+              transcodingTargetQuality: TranscodingTargetQuality.Standard,
+            };
+          }
+
           const downscaledAttachment =
             await downscaleOutgoingAttachment(attachment);
           if (downscaledAttachment !== attachment && attachment.path) {

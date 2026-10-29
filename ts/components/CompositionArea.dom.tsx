@@ -41,7 +41,7 @@ import type {
   AttachmentDraftType,
   InMemoryAttachmentDraftType,
 } from '../types/Attachment.std.ts';
-import { isImageAttachment, isVoiceMessage } from '../util/Attachment.std.ts';
+import { isVoiceMessage } from '../util/Attachment.std.ts';
 import { isViewOnceEligible } from '../util/viewOnceEligibility.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import { AudioCapture } from './conversation/AudioCapture.dom.tsx';
@@ -188,6 +188,7 @@ export type OwnProps = Readonly<{
   >;
   quotedMessageAuthorAci: AciString | null;
   quotedMessageSentAt: number | null;
+  showMediaQualitySelector: boolean;
 
   removeAttachment: (
     conversationId: string,
@@ -307,6 +308,7 @@ export const CompositionArea = memo(function CompositionArea({
   // MediaQualitySelector
   setMediaQualitySetting,
   shouldSendHighQualityAttachments,
+  showMediaQualitySelector,
   // CompositionInput
   draftBodyRanges,
   draftText,
@@ -654,8 +656,6 @@ export const CompositionArea = memo(function CompositionArea({
       // ignore quotes, can be sent with voice message
       quotedMessageId: null,
     });
-
-  const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
   const showViewOnceToggle = isViewOnceEligible(
     draftAttachments,

@@ -25,6 +25,7 @@ import { migrateDataToFileSystem } from '../../util/attachments/migrateDataToFil
 import { isViewOnceEligible } from '../../util/viewOnceEligibility.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
+import { TranscodingTargetQuality } from '../../types/transcoding.std.ts';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.ts';
 import type { LinkPreviewDraftType } from '../../types/LinkPreview.std.ts';
 import type {
@@ -63,12 +64,14 @@ import {
   suspendLinkPreviews,
 } from '../../services/LinkPreview.preload.ts';
 import {
+  canSendInHighQuality,
   getAttachmentSizeLimit,
   getRenderDetailsForLimit,
   isAttachmentTooLarge,
 } from '../../types/AttachmentSize.std.ts';
 import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.ts';
+import { getMaxVideoDuration } from '../../util/getTranscodingOptions.preload.ts';
 import { processAttachment } from '../../util/processAttachment.preload.ts';
 import { hasDraftAttachments } from '../../util/hasDraftAttachments.std.ts';
 import { isFileDangerous } from '../../util/isFileDangerous.std.ts';
@@ -673,6 +676,15 @@ function sendMultiMediaMessage(
 
     const state = getState();
 
+    const maxHighQualityVideoDuration = getMaxVideoDuration(
+      TranscodingTargetQuality.High
+    );
+
+    const canSendInHQ = canSendInHighQuality(draftAttachments ?? [], {
+      getRemoteConfigValue,
+      maxHighQualityVideoDuration,
+    });
+
     await withPreSendChecks(conversationId, options, dispatch, async () => {
       let attachments: Array<AttachmentType> = [];
       if (voiceNoteAttachment) {
@@ -710,9 +722,10 @@ function sendMultiMediaMessage(
         : undefined;
 
       const sendHQImages =
-        shouldSendHighQualityAttachments !== undefined
+        canSendInHQ &&
+        (shouldSendHighQualityAttachments !== undefined
           ? shouldSendHighQualityAttachments
-          : state.items['sent-media-quality'] === 'high';
+          : state.items['sent-media-quality'] === 'high');
 
       try {
         await conversation.enqueueMessageForSend(
@@ -1373,25 +1386,28 @@ function preProcessAttachment(
     return { toastType: ToastType.CannotMixMultiAndNonMultiAttachments };
   }
 
-  // Putting this after everything else because the other checks are more
-  // important to show to the user.
-  const sizeLimit = getAttachmentSizeLimit({
-    contentType: fileType,
-    getRemoteConfigValue,
-  });
+  // Let video be transcoded to smaller size before rejecting it here
+  if (!isVideoTypeSupported(fileType)) {
+    // Putting this after everything else because the other checks are more
+    // important to show to the user.
+    const sizeLimit = getAttachmentSizeLimit({
+      contentType: fileType,
+      getRemoteConfigValue,
+    });
 
-  if (
-    isAttachmentTooLarge({
-      plaintextSize: file.size,
-      ciphertextLimit: sizeLimit,
-    })
-  ) {
-    return {
-      toastType: isVideoAttachment({ contentType: fileType })
-        ? ToastType.VideoFileSize
-        : ToastType.FileSize,
-      parameters: getRenderDetailsForLimit(sizeLimit),
-    };
+    if (
+      isAttachmentTooLarge({
+        plaintextSize: file.size,
+        ciphertextLimit: sizeLimit,
+      })
+    ) {
+      return {
+        toastType: isVideoAttachment({ contentType: fileType })
+          ? ToastType.VideoFileSize
+          : ToastType.FileSize,
+        parameters: getRenderDetailsForLimit(sizeLimit),
+      };
+    }
   }
 
   return undefined;

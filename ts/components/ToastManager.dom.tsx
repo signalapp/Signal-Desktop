@@ -3,10 +3,11 @@
 
 import type { JSX } from 'react';
 
+import type { LanguageTag } from '@signalapp/types';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 
-import { SECOND } from '../util/durations/index.std.ts';
+import { SECOND, MINUTE } from '../util/durations/index.std.ts';
 import { Toast } from './Toast.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
 import { UsernameMegaphone } from './UsernameMegaphone.dom.tsx';
@@ -48,6 +49,7 @@ export type PropsType = {
   containerWidthBreakpoint: WidthBreakpoint | null;
   isCompositionAreaVisible?: boolean;
   isInFullScreenCall: boolean;
+  systemPreferredLanguages: Array<LanguageTag>;
 };
 
 const SHORT_TIMEOUT = 3 * SECOND;
@@ -64,6 +66,7 @@ function renderToast({
   setDidResumeDonation,
   OS,
   toast,
+  systemPreferredLanguages,
 }: PropsType): JSX.Element | null {
   if (toast === undefined) {
     return null;
@@ -606,6 +609,20 @@ function renderToast({
         {i18n('icu:videoFileTooLargeWarning', {
           limit: toast.parameters.limit,
           units: toast.parameters.units,
+        })}
+      </Toast>
+    );
+  }
+  if (toastType === ToastType.VideoFileDuration) {
+    const maxDuration = new Intl.DurationFormat(systemPreferredLanguages, {
+      style: 'long',
+    }).format({
+      minutes: Math.floor(toast.parameters.maxDuration / (MINUTE / SECOND)),
+    });
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:videoFileTooLongWarning', {
+          maxDuration,
         })}
       </Toast>
     );

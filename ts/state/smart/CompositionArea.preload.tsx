@@ -5,10 +5,12 @@ import { useCallback, useMemo, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { CompositionArea } from '../../components/CompositionArea.dom.tsx';
 import { useContactNameData } from '../../components/conversation/ContactName.dom.tsx';
+import { canSendInHighQuality } from '../../types/AttachmentSize.std.ts';
 import type {
   DraftBodyRanges,
   HydratedBodyRangesType,
 } from '../../types/BodyRange.std.ts';
+import { TranscodingTargetQuality } from '../../types/transcoding.std.ts';
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
@@ -65,6 +67,8 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
+import { getMaxVideoDuration } from '../../util/getTranscodingOptions.preload.ts';
+import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -162,7 +166,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       return getAddedByForGroup(conversation);
     }
     return null;
-  }, [conversation]);
+  }, [
+    // oxlint-disable-next-line react/preserve-manual-memoization
+    conversation,
+  ]);
 
   const conversationName = useContactNameData(conversation);
   strictAssert(conversationName, 'conversationName is required');
@@ -170,7 +177,11 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
 
   const hydratedDraftBodyRanges = useMemo(() => {
     return hydrateRanges(draftBodyRanges, conversationSelector);
-  }, [conversationSelector, draftBodyRanges]);
+  }, [
+    conversationSelector,
+    // oxlint-disable-next-line react/preserve-manual-memoization
+    draftBodyRanges,
+  ]);
 
   const convertDraftBodyRangesIntoHydrated = useCallback(
     (
@@ -202,6 +213,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
         })
       : undefined;
   }, [
+    // oxlint-disable-next-line react/preserve-manual-memoization
     quotedMessage,
     conversationSelector,
     ourConversationId,
@@ -274,6 +286,15 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     [accountEntropyPool]
   );
 
+  const maxHighQualityVideoDuration = getMaxVideoDuration(
+    TranscodingTargetQuality.High
+  );
+
+  const showMediaQualitySelector = canSendInHighQuality(draftAttachments, {
+    getRemoteConfigValue,
+    maxHighQualityVideoDuration,
+  });
+
   return (
     <CompositionArea
       // Base
@@ -331,6 +352,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       // MediaEditor
       imageToBlurHash={imageToBlurHash}
       // MediaQualitySelector
+      showMediaQualitySelector={showMediaQualitySelector}
       shouldSendHighQualityAttachments={
         shouldSendHighQualityAttachments !== undefined
           ? shouldSendHighQualityAttachments

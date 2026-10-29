@@ -295,6 +295,11 @@ function getToast(toastType: ToastType): AnyToast {
         toastType: ToastType.VideoFileSize,
         parameters: { limit: 100, units: 'MB' },
       };
+    case ToastType.VideoFileDuration:
+      return {
+        toastType: ToastType.VideoFileDuration,
+        parameters: { maxDuration: 300 },
+      };
     case ToastType.ViewOnceDisabled:
       return { toastType: ToastType.ViewOnceDisabled };
     case ToastType.ViewOnceEnabled:
@@ -373,6 +378,7 @@ export default {
     megaphoneType: MegaphoneType.UsernameOnboarding,
     OS: 'macOS',
     isInFullScreenCall: false,
+    systemPreferredLanguages: [],
   },
 } satisfies Meta<Args>;
 

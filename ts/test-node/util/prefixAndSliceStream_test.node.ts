@@ -3,17 +3,8 @@
 
 import { assert } from 'chai';
 
+import { text } from '../../test-helpers/iterables.node.ts';
 import { prefixAndSliceStream } from '../../util/prefixAndSliceStream.std.ts';
-
-async function collect(
-  iterable: AsyncIterable<Uint8Array<ArrayBuffer>>
-): Promise<string> {
-  const chunks = new Array<Uint8Array<ArrayBuffer>>();
-  for await (const chunk of iterable) {
-    chunks.push(chunk);
-  }
-  return Buffer.concat(chunks).toString();
-}
 
 async function* toIterator<T>(arr: Array<T>): AsyncIterable<T> {
   for (const chunk of arr) {
@@ -46,7 +37,7 @@ function afterSlicingIt(
         prefixBytes
       );
 
-      assert.strictEqual(await collect(out), expected);
+      assert.strictEqual(await text(out), expected);
     });
   }
 }
