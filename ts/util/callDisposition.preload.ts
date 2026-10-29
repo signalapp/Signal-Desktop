@@ -327,9 +327,9 @@ const statusToProto: Record<
   [CallStatusValue.GenericGroupCall]: null,
   [CallStatusValue.GenericAdhocCall]:
     Proto.SyncMessage.CallEvent.Event.OBSERVED,
-  [CallStatusValue.OutgoingRing]: null,
+  [CallStatusValue.OutgoingRing]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
   [CallStatusValue.Ringing]: null,
-  [CallStatusValue.Joined]: null,
+  [CallStatusValue.Joined]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
   [CallStatusValue.JoinedAdhoc]: Proto.SyncMessage.CallEvent.Event.ACCEPTED,
   [CallStatusValue.Unknown]: Proto.SyncMessage.CallEvent.Event.UNKNOWN_EVENT,
 };
@@ -732,6 +732,7 @@ function transitionTimestamp(
     callHistory.status === DirectCallStatus.Accepted ||
     callHistory.status === GroupCallStatus.Accepted ||
     callHistory.status === GroupCallStatus.Joined ||
+    callHistory.status === GroupCallStatus.OutgoingRing ||
     callHistory.status === AdhocCallStatus.Joined
   ) {
     if (callEvent.event === RemoteCallEvent.Accepted) {
@@ -767,7 +768,6 @@ function transitionTimestamp(
     callHistory.status === DirectCallStatus.Pending ||
     callHistory.status === DirectCallStatus.Unknown ||
     callHistory.status === GroupCallStatus.GenericGroupCall ||
-    callHistory.status === GroupCallStatus.OutgoingRing ||
     callHistory.status === GroupCallStatus.Ringing ||
     callHistory.status === DirectCallStatus.Missed ||
     callHistory.status === DirectCallStatus.MissedNotificationProfile ||
@@ -911,6 +911,9 @@ function transitionGroupCallStatus(
   }
 
   if (event === LocalCallEvent.Ringing) {
+    if (direction === CallDirection.Outgoing) {
+      return GroupCallStatus.OutgoingRing;
+    }
     return GroupCallStatus.Ringing;
   }
 
@@ -999,6 +1002,11 @@ function transitionAdhocCallStatus(
 // actions
 // -------
 
+type CallHistoryUpdateResult = Readonly<{
+  prevCallHistory: CallHistoryDetails | null;
+  updatedCallHistory: CallHistoryDetails;
+}>;
+
 async function updateLocalCallHistory({
   callEvent,
   receivedAtCounter,
@@ -1009,7 +1017,7 @@ async function updateLocalCallHistory({
   receivedAtCounter: number | null;
   receivedAtMS: number | null;
   serverGuid: string | null;
-}): Promise<CallHistoryDetails | null> {
+}): Promise<CallHistoryUpdateResult | null> {
   const conversation = window.ConversationController.get(callEvent.peerId);
   strictAssert(
     conversation != null,
@@ -1017,7 +1025,7 @@ async function updateLocalCallHistory({
       callEvent
     )}`
   );
-  return conversation.queueJob<CallHistoryDetails | null>(
+  return conversation.queueJob<CallHistoryUpdateResult | null>(
     'updateLocalCallHistory',
     async () => {
       log.info(
@@ -1058,7 +1066,7 @@ async function updateLocalCallHistory({
         serverGuid,
         eventTimestamp: callEvent.eventTimestamp,
       });
-      return updatedCallHistory;
+      return { prevCallHistory, updatedCallHistory };
     }
   );
 }
@@ -1424,13 +1432,22 @@ export async function updateCallHistoryFromLocalEvent({
   receivedAtMS?: number | null;
   serverGuid?: string | null;
 }): Promise<void> {
-  const updatedCallHistory = await updateLocalCallHistory({
+  const result = await updateLocalCallHistory({
     callEvent,
     receivedAtCounter: receivedAtCounter ?? null,
     receivedAtMS: receivedAtMS ?? null,
     serverGuid: serverGuid ?? null,
   });
-  if (updatedCallHistory == null) {
+  if (result == null) {
+    return;
+  }
+  const { prevCallHistory, updatedCallHistory } = result;
+
+  if (prevCallHistory?.status === updatedCallHistory.status) {
+    log.info(
+      'updateCallHistoryFromLocalEvent: Status unchanged, not syncing:',
+      formatCallHistory(updatedCallHistory)
+    );
     return;
   }
   await updateRemoteCallHistory(updatedCallHistory);
