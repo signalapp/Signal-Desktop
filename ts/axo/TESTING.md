@@ -85,6 +85,10 @@ to the branch, adds the `updated-screenshots` label, and removes the
 `update-screenshots` label so it can be added again. Review the screenshots
 before merging.
 
+When a story or test is renamed or removed, CI fails until its old screenshots
+are deleted. Delete the files it lists, or add the `update-screenshots` label
+to delete them automatically.
+
 Running `pnpm test:axo:visual` locally on macOS or Windows creates screenshots
 for that platform, which are ignored by git.
 
