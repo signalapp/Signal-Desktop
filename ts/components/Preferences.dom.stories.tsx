@@ -483,6 +483,7 @@ export default {
     emojiSkinToneDefault: Emoji.SkinTone.None,
     phoneNumber: '+1 555 123-4567',
     e164: '+15551234567',
+    hasAllowSealedSenderFromAnyone: false,
     hasAnyCurrentCustomChatFolders: false,
     hasAudioNotifications: true,
     hasAutoConvertEmoji: true,
@@ -614,6 +615,9 @@ export default {
       { id: 'messageId' } as MessageAttributesType,
     ],
     makeSyncRequest: action('makeSyncRequest'),
+    onAllowSealedSenderFromAnyoneChange: action(
+      'onAllowSealedSenderFromAnyoneChange'
+    ),
     onAudioNotificationsChange: action('onAudioNotificationsChange'),
     onAutoConvertEmojiChange: action('onAutoConvertEmojiChange'),
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
@@ -1169,6 +1173,12 @@ export const Internal = Template.bind({});
 Internal.args = {
   settingsLocation: { page: SettingsPage.Internal },
   isInternalUser: true,
+};
+
+export const PrivacyPrimaryDevice = Template.bind({});
+PrivacyPrimaryDevice.args = {
+  weArePrimaryDevice: true,
+  settingsLocation: { page: SettingsPage.Privacy },
 };
 
 export const PrivacyBlocked1Contact = Template.bind({});

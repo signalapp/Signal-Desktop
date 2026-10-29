@@ -1053,14 +1053,17 @@ export class BackupExportStream {
         callsUseLessDataSetting:
           itemStorage.get('callsUseLessDataSetting') ||
           Backups.AccountData.CallsUseLessDataSetting.MOBILE_DATA_ONLY,
+        allowSealedSenderFromAnyone: itemStorage.get(
+          'allowSealedSenderFromAnyone',
+          false
+        ),
 
         // Test only values
         ...(isTestOrMockEnvironment()
           ? {
               optimizeOnDeviceStorage:
                 itemStorage.get('optimizeOnDeviceStorage') ?? null,
-              allowSealedSenderFromAnyone:
-                itemStorage.get('allowSealedSenderFromAnyone') ?? null,
+
               pinReminders: itemStorage.get('pinReminders') ?? null,
               screenLockTimeoutMinutes:
                 itemStorage.get('screenLockTimeoutMinutes') ?? null,
@@ -1075,7 +1078,6 @@ export class BackupExportStream {
             }
           : {
               optimizeOnDeviceStorage: null,
-              allowSealedSenderFromAnyone: null,
               pinReminders: null,
               screenLockTimeoutMinutes: null,
               autoDownloadSettings: null,

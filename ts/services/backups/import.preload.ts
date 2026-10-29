@@ -171,6 +171,7 @@ import {
 } from '../../types/StorageKeys.std.ts';
 import { fromAciUuidBytes } from '../../util/ServiceId.node.ts';
 import type { AxoColor } from '../../axo/AxoColor.std.ts';
+import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts';
 
 const { isNumber } = lodash;
 
@@ -518,6 +519,20 @@ export class BackupImportStream extends Writable {
         }
       } else {
         log.info(`${this.#logId}: successfully processed all frames.`);
+      }
+
+      if (window.ConversationController.areWePrimaryDevice()) {
+        try {
+          await registrationJobQueue.add({
+            type: 'UpdateAccountAttributes',
+            id: generateUuid(),
+          });
+        } catch (queueAddError) {
+          log.error(
+            `${this.#logId}: Failed to queue account attributes update`,
+            Errors.toLogFormat(queueAddError)
+          );
+        }
       }
 
       done();
@@ -996,6 +1011,10 @@ export class BackupImportStream extends Writable {
     await window.Events.setThemeSetting(
       toThemeSetting(accountSettings?.appTheme)
     );
+    await itemStorage.put(
+      'allowSealedSenderFromAnyone',
+      Boolean(accountSettings?.allowSealedSenderFromAnyone)
+    );
 
     if (isTestOrMockEnvironment()) {
       // Only relevant for tests
@@ -1015,10 +1034,6 @@ export class BackupImportStream extends Writable {
       await itemStorage.put(
         'callsUseLessDataSetting',
         accountSettings?.callsUseLessDataSetting
-      );
-      await itemStorage.put(
-        'allowSealedSenderFromAnyone',
-        accountSettings?.allowSealedSenderFromAnyone
       );
 
       const autoDownload = accountSettings?.autoDownloadSettings;
