@@ -65,7 +65,7 @@ export function CallQualitySurveyDialog(
   const [userHasSeenOtherForm, setUserHasSeenOtherForm] = useState(false);
   const debugLogCheckboxId = useId();
   const otherTextareaErrorId = useId();
-  const [shareDebugLog, setShareDebugLog] = useState(false);
+  const [shareDebugLog, setShareDebugLog] = useState(true);
 
   // Validation for the issues page
   const hasOtherIssue = callQualityIssues.has(Issue.OTHER);
