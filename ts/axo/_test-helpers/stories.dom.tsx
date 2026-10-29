@@ -46,8 +46,15 @@ async function settle(): Promise<void> {
     })
   );
 
-  // Let React render updates from `onLoad` handlers on images
-  await new Promise(requestAnimationFrame);
+  // Let React render updates from `onLoad` handlers on images, and let
+  // `ResizeObserver` callbacks update layouts (like stacked `AxoItem`s).
+  // Those run after `requestAnimationFrame` callbacks in the same frame, so
+  // also wait for the rest of the frame.
+  await new Promise(resolve => {
+    requestAnimationFrame(() => {
+      setTimeout(resolve, 0);
+    });
+  });
 
   for (const animation of document.getAnimations()) {
     // Scroll-driven and infinite animations can't be finished
@@ -230,7 +237,7 @@ export function testStoryScreenshots(
               context.skip(skipReason);
             }
 
-            // `animations: 'disabled'` below only covers CSS animations, JS
+            // `settle()` below only covers CSS and Web Animations, JS
             // animations (like `motion` layout animations) respect reduced motion
             await emulateMedia({
               reducedMotion: 'reduce',
@@ -255,7 +262,18 @@ export function testStoryScreenshots(
 
             await expect(page.elementLocator(target)).toMatchScreenshot(
               `${story.name}-${mode}`,
-              { screenshotOptions: { animations: 'disabled' } }
+              {
+                screenshotOptions: {
+                  // `settle()` already finished animations. Playwright would
+                  // also cancel scroll-driven animations, like the edge
+                  // shadows in AxoScrollArea.
+                  animations: 'allow',
+                  // Forced colors overrides the `caret-color` that Playwright
+                  // uses to hide carets, so always show them instead. They
+                  // don't blink because of `caret-animation` in setup.css.
+                  caret: 'initial',
+                },
+              }
             );
           });
         }

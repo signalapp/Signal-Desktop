@@ -3,12 +3,20 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/* Disable all CSS animations/transitions */
+/**
+ * Disable all CSS animations/transitions
+ *
+ * `auto` is the same as `0s` for regular animations, but scroll-driven
+ * animations (like AxoScrollArea's edge shadows) still fill their range
+ * instead of jumping to their end state.
+ */
 *,
 *::before,
 *::after {
-  animation-duration: 0s !important;
+  animation-duration: auto !important;
   animation-delay: 0s !important;
   transition-duration: 0s !important;
   transition-delay: 0s !important;
+  /* Stop carets from blinking so they're always visible in screenshots */
+  caret-animation: manual !important;
 }

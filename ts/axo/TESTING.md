@@ -5,17 +5,16 @@
 
 ## Commands
 
-| Command                   | Description                          |
-| ------------------------- | ------------------------------------ |
-| `pnpm test:axo`           | Run all tests once                   |
-| `pnpm test:axo AxoSelect` | Run test files matching a filter     |
-| `pnpm test:axo -u`        | Update snapshots                     |
-| `pnpm test:axo:watch`     | Watch mode                           |
-| `pnpm test:axo:ui`        | Vitest UI                            |
-| `pnpm test:axo:visual`    | Visual regression tests              |
-| `pnpm test:axo:visual -u` | Update visual regression screenshots |
-| `pnpm test:axo:bench`     | Benchmarks                           |
-| `pnpm test:axo:coverage`  | Coverage report                      |
+| Command                   | Description                      |
+| ------------------------- | -------------------------------- |
+| `pnpm test:axo`           | Run all tests once               |
+| `pnpm test:axo AxoSelect` | Run test files matching a filter |
+| `pnpm test:axo -u`        | Update snapshots                 |
+| `pnpm test:axo:watch`     | Watch mode                       |
+| `pnpm test:axo:ui`        | Vitest UI                        |
+| `pnpm test:axo:visual`    | Visual regression tests          |
+| `pnpm test:axo:bench`     | Benchmarks                       |
+| `pnpm test:axo:coverage`  | Coverage report                  |
 
 Add `--browser.headless=false` to watch browser tests run.
 
@@ -76,9 +75,18 @@ test("can't be toggled when disabled", async () => {
 
 ## Visual regression tests
 
-Reference screenshots in `__screenshots__/` depend on the platform, so visual
-tests aren't part of `pnpm test:axo`. Review updated screenshots before
-committing them.
+Reference screenshots in `__screenshots__/` depend on the platform, so they're
+only generated on Linux in GitHub Actions, the same environment that CI compares
+them in.
+
+To update them, add the `update-screenshots` label to your pull request. The
+"Update Visual Regression Screenshots" workflow commits any changed screenshots
+to the branch, adds the `updated-screenshots` label, and removes the
+`update-screenshots` label so it can be added again. Review the screenshots
+before merging.
+
+Running `pnpm test:axo:visual` locally on macOS or Windows creates screenshots
+for that platform, which are ignored by git.
 
 ## Debugging failures
 

@@ -46,8 +46,6 @@ const config = {
         // Others
         'codemods/**/*.mjs',
         'scripts/**/*.mjs',
-        // TODO: Remove once the axo story tests use it
-        'ts/axo/_test-helpers/stories.dom.tsx',
         // TODO: Remove once the axo component tests use it
         'ts/axo/_test-helpers/a11y.dom.tsx',
       ],

@@ -13,8 +13,33 @@ setEnvironment(Environment.Test, false);
 
 configure({ reactStrictMode: true });
 
+/**
+ * Fonts are only downloaded once text uses them, so screenshots could be taken
+ * with fallback fonts. Load every font that components use upfront instead.
+ */
+const PRELOADED_FONTS = [
+  '400 1em Inter',
+  '500 1em Inter',
+  '600 1em Inter',
+  'italic 400 1em Inter',
+  'italic 600 1em Inter',
+  '1em SignalSymbols',
+  '1em MonoSpecial',
+  '1em "Signal Emoji Small"',
+  // Downloaded from updates.signal.org
+  '1em "Signal Emoji Large"',
+];
+
+async function preloadFont(font: string): Promise<void> {
+  // Rejects if the font fails to download
+  const fontFaces = await document.fonts.load(font);
+  if (fontFaces.length === 0) {
+    throw new Error(`No @font-face matches "${font}"`);
+  }
+}
+
 beforeAll(async () => {
-  await document.fonts.ready;
+  await Promise.all(PRELOADED_FONTS.map(preloadFont));
 });
 
 /**
