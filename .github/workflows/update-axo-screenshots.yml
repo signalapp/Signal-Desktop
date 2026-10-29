@@ -1,0 +1,154 @@
+# Copyright 2026 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Update Visual Regression Screenshots
+
+on:
+  # Add the `update-screenshots` label to a pull request. Unlike the other
+  # triggers, this uses the workflow from the pull request's branch.
+  pull_request:
+    types: [labeled]
+  # Only available once this workflow is on the default branch
+  workflow_dispatch:
+
+env:
+  AUTHOR_NAME: 'automated-signal'
+  AUTHOR_EMAIL: '37887102+automated-signal@users.noreply.github.com'
+  COMMIT_MESSAGE: |
+    test: update visual regression screenshots
+
+    Co-authored-by: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+  # `github.ref_name` is `<number>/merge` for pull requests
+  BRANCH: ${{ github.head_ref || github.ref_name }}
+  TRIGGER_LABEL: update-screenshots
+  UPDATED_LABEL: updated-screenshots
+
+jobs:
+  update-screenshots:
+    # Must match the runner of the `axo` job in ci.yml, which compares against
+    # these screenshots
+    runs-on: ubuntu-latest-8-cores
+    timeout-minutes: 15
+
+    # safety first: don't run on main, or for pull requests from forks, which
+    # can't be pushed to
+    if: >-
+      (github.event_name == 'workflow_dispatch' &&
+        github.ref_name != github.event.repository.default_branch) ||
+      (github.event_name == 'pull_request' &&
+        github.event.label.name == 'update-screenshots' &&
+        github.event.pull_request.head.repo.full_name == github.repository)
+
+    # one at a time per branch
+    concurrency:
+      group: visual-regression-screenshots@${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
+
+    permissions:
+      contents: write # needs to push changes
+      pull-requests: write # needs to update labels
+
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.BRANCH }}
+          # Code from the branch runs below, only the push step gets a token
+          persist-credentials: false
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ env.AUTHOR_NAME }}"
+          git config --global user.email "${{ env.AUTHOR_EMAIL }}"
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          install-playwright: true
+
+      # Imported by ts/axo/emoji.std.ts
+      - name: Build emoji data
+        run: pnpm run build:emoji-data
+
+      # Uses a lower comparator threshold, see vitest.config.mts
+      - name: Update Visual Regression Screenshots
+        run: pnpm run test:axo:visual --update
+
+      # check what changed
+      - name: Check for changes
+        id: check_changes
+        run: |
+          CHANGED_FILES=$(git status --porcelain | awk '{print $2}')
+          if [ "${CHANGED_FILES:+x}" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+
+            # save the list for the summary
+            echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "changed_count=$(echo "$CHANGED_FILES" | wc -l)" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          fi
+
+      # commit if there are changes
+      - name: Commit changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add -A
+          git commit -m "${{ env.COMMIT_MESSAGE }}"
+
+      - name: Push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        # Pushes with the default `GITHUB_TOKEN` don't start CI without a
+        # maintainer approving it
+        env:
+          TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT }}
+          REPO: ${{ github.repository }}
+        run: git push "https://x-access-token:${TOKEN}@github.com/${REPO}.git" "HEAD:$BRANCH"
+
+      # makes pull requests that updated screenshots easy to find
+      - name: Label pull request
+        if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # `workflow_dispatch` runs might not have a pull request
+          PR_NUMBER=$(gh pr view "$BRANCH" --json number --jq .number || true)
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "$UPDATED_LABEL"
+          fi
+
+      # so that adding the label again runs this again
+      - name: Remove trigger label
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr edit "$PR_NUMBER" --remove-label "$TRIGGER_LABEL"
+
+      # pretty summary for humans
+      - name: Summary
+        run: |
+          if [[ "${{ steps.check_changes.outputs.changes }}" == "true" ]]; then
+            echo "### 📸 Visual Regression Screenshots Updated" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Successfully updated **${{ steps.check_changes.outputs.changed_count }}** screenshot(s) on \`$BRANCH\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "#### Changed Files:" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            echo "${{ steps.check_changes.outputs.changed_files }}" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ The updated screenshots have been committed and pushed. Your visual regression baseline is now up to date!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ℹ️ No Screenshot Updates Required" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "The visual regression test command ran successfully but no screenshots needed updating." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All screenshots are already up to date! 🎉" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -14,15 +14,37 @@ const BROWSER_SETUP_FILES = [
   './ts/axo/_test-setup/setup.css',
 ];
 
+/**
+ * `--update` only replaces screenshots that don't match, so it needs a lower
+ * threshold to save subtle changes like a faint shadow. Using the same
+ * threshold for every run would make tests fail on tiny rendering differences.
+ */
+const IS_UPDATING_SCREENSHOTS = process.argv.some(arg => {
+  return arg === '-u' || arg === '--update' || arg.startsWith('--update=');
+});
+
 type BrowserConfig = NonNullable<
   NonNullable<TestProjectInlineConfiguration['test']>['browser']
 >;
 
-function browserConfig(overrides: BrowserConfig = {}): BrowserConfig {
+type BrowserConfigOverrides = BrowserConfig &
+  Readonly<{
+    deviceScaleFactor?: number;
+  }>;
+
+function browserConfig({
+  deviceScaleFactor = 1,
+  ...overrides
+}: BrowserConfigOverrides = {}): BrowserConfig {
   return {
     enabled: true,
     headless: true,
     provider: playwright({
+      launchOptions: {
+        // Headless Chromium on Linux snaps glyphs to whole pixels by default,
+        // which makes the spacing between letters uneven
+        args: ['--font-render-hinting=none'],
+      },
       contextOptions: {
         // Keep dates, times, and number formatting the same on every machine
         locale: 'en-US',
@@ -31,6 +53,7 @@ function browserConfig(overrides: BrowserConfig = {}): BrowserConfig {
         reducedMotion: 'reduce',
         // Enforce selectors match one element
         strictSelectors: true,
+        deviceScaleFactor,
       },
     }),
     instances: [{ browser: 'chromium' }],
@@ -93,13 +116,17 @@ export default defineConfig({
             // Traces double how long these take, and failures already save
             // the actual and diff images
             trace: 'off',
+            // Match HiDPI displays so that 0.5px borders and subpixel text
+            // positioning are rendered the same way most users see them
+            deviceScaleFactor: 2,
             expect: {
               toMatchScreenshot: {
                 comparatorName: 'pixelmatch',
                 comparatorOptions: {
-                  // Anti-aliased pixels are already ignored, any other
-                  // changed pixel is a real change
-                  threshold: 0.1,
+                  // How different a pixel's color can be before it counts as
+                  // changed: 0.1 allows about ±25 brightness levels, 0.01
+                  // about ±2. Anti-aliased pixels are ignored either way.
+                  threshold: IS_UPDATING_SCREENSHOTS ? 0.01 : 0.1,
                 },
               },
             },

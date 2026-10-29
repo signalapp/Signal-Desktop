@@ -557,6 +557,12 @@ jobs:
       - name: Run axo tests
         run: pnpm run test:axo
 
+      # Reference screenshots are updated by update-axo-screenshots.yml, which
+      # must use the same runner as this job
+      - name: Run axo visual regression tests
+        if: ${{ !cancelled() }}
+        run: pnpm run test:axo:visual
+
       - name: Upload failure screenshots and traces
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

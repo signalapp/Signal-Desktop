@@ -47,6 +47,9 @@ ts/protobuf/*.d.ts
 # Vitest
 /.vitest/
 __traces__/
+# Reference screenshots are only generated on Linux in GitHub Actions
+**/__screenshots__/**/*-darwin.png
+**/__screenshots__/**/*-win32.png
 
 # Editors
 /.idea
