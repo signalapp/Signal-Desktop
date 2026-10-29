@@ -43,6 +43,7 @@ import { isNotNil } from '../../util/isNotNil.std.ts';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import type { StickerReferenceType } from '../../types/Stickers.preload.ts';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
@@ -58,6 +59,8 @@ export type PropsData = {
   canReply: boolean;
   canPinMessage: boolean;
   selectedReaction?: Emoji.Variant;
+  stickerRef: StickerReferenceType | undefined;
+  isFavoriteSticker: boolean;
   isTargeted: boolean;
   isSignalConversation: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
@@ -93,6 +96,10 @@ export type PropsActions = {
   ) => void;
   handleClickCtaButton: (callToActionId: string) => void;
   handleDebugMessage: () => void;
+  markStickerAsFavorite: (
+    stickerRef: StickerReferenceType,
+    markAsFavorite: boolean
+  ) => void;
 } & Omit<MessagePropsActions, 'onToggleSelect' | 'onReplyToMessage'>;
 
 export type Props = PropsData &
@@ -126,6 +133,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     i18n,
     id,
     interactivity,
+    isFavoriteSticker,
     isPinned,
     isSignalConversation,
     isTargeted,
@@ -134,6 +142,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     endPoll,
     expirationLength,
     handleDebugMessage,
+    markStickerAsFavorite,
     onPinnedMessageRemove,
     pushPanelForConversation,
     reactToMessage,
@@ -147,6 +156,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     selectedReaction,
     setQuoteByMessageId,
     setMessageToEdit,
+    stickerRef,
     text,
     timestamp,
     toggleDeleteMessagesModal,
@@ -279,6 +289,14 @@ export function TimelineMessage(props: Props): JSX.Element {
 
   const handleDownload = canDownload ? openGenericAttachment : null;
 
+  const handleFavoriteSticker = useCallback(() => {
+    if (!stickerRef) {
+      return;
+    }
+
+    markStickerAsFavorite(stickerRef, !isFavoriteSticker);
+  }, [isFavoriteSticker, stickerRef, markStickerAsFavorite]);
+
   const handleReplyToMessage = useCallback(() => {
     if (!canReply) {
       return;
@@ -374,6 +392,12 @@ export function TimelineMessage(props: Props): JSX.Element {
               messageIds: [id],
             });
           }}
+          onFavoriteSticker={
+            stickerRef && !isFavoriteSticker ? handleFavoriteSticker : null
+          }
+          onUnfavoriteSticker={
+            stickerRef && isFavoriteSticker ? handleFavoriteSticker : null
+          }
           onPinMessage={
             canPinMessage && !isPinned ? handleOpenPinMessageDialog : null
           }
@@ -403,6 +427,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       copyMessageText,
       handleDebugMessage,
       handleDownload,
+      handleFavoriteSticker,
       handleReact,
       handleOpenPinMessageDialog,
       handleUnpinMessage,
@@ -410,12 +435,14 @@ export function TimelineMessage(props: Props): JSX.Element {
       handleReplyToMessage,
       i18n,
       id,
+      isFavoriteSticker,
       isPinned,
       pushPanelForConversation,
       retryDeleteForEveryone,
       retryMessageSend,
       setMessageToEdit,
       shouldShowAdditional,
+      stickerRef,
       toggleDeleteMessagesModal,
       toggleForwardMessagesModal,
       toggleSelectMessage,
@@ -427,9 +454,11 @@ export function TimelineMessage(props: Props): JSX.Element {
       <Manager>
         <MessageMenu
           i18n={i18n}
+          isFavoriteSticker={isFavoriteSticker}
           isWindowWidthNotNarrow={isWindowWidthNotNarrow}
           direction={direction}
           onDownload={handleDownload}
+          onFavoriteSticker={stickerRef ? handleFavoriteSticker : null}
           onReplyToMessage={canReply ? handleReplyToMessage : null}
           onReact={canReact ? handleReact : null}
           renderMessageContextMenu={renderMessageContextMenu}
@@ -466,17 +495,20 @@ export function TimelineMessage(props: Props): JSX.Element {
     );
   }, [
     i18n,
+    isFavoriteSticker,
     isWindowWidthNotNarrow,
     direction,
     canReply,
     canReact,
     handleDownload,
+    handleFavoriteSticker,
     handleReplyToMessage,
     handleReact,
     reactionPickerRoot,
     popperPreventOverflowModifier,
     renderReactionPicker,
     selectedReaction,
+    stickerRef,
     reactToMessage,
     toggleReactionPicker,
     id,
@@ -503,8 +535,10 @@ export function TimelineMessage(props: Props): JSX.Element {
 
 type MessageMenuProps = {
   i18n: LocalizerType;
+  isFavoriteSticker: boolean;
   isWindowWidthNotNarrow: boolean;
   onDownload: (() => void) | null;
+  onFavoriteSticker: (() => void) | null;
   onReplyToMessage: (() => void) | null;
   onReact: (() => void) | null;
   renderMessageContextMenu: (
@@ -516,8 +550,10 @@ type MessageMenuProps = {
 function MessageMenu({
   i18n,
   direction,
+  isFavoriteSticker,
   isWindowWidthNotNarrow,
   onDownload,
+  onFavoriteSticker,
   onReplyToMessage,
   onReact,
   renderMessageContextMenu,
@@ -561,6 +597,27 @@ function MessageMenu({
                 );
               }}
             </Reference>
+          )}
+
+          {onFavoriteSticker && (
+            <button
+              type="button"
+              onClick={onFavoriteSticker}
+              aria-label={
+                isFavoriteSticker
+                  ? i18n('icu:messageContextMenu__sticker--removeFavorite')
+                  : i18n('icu:messageContextMenu__sticker--addFavorite')
+              }
+              className={
+                isFavoriteSticker
+                  ? 'module-message__buttons__unfavorite'
+                  : 'module-message__buttons__favorite'
+              }
+              onDoubleClick={ev => {
+                // Prevent double click from triggering the replyToMessage action
+                ev.stopPropagation();
+              }}
+            />
           )}
 
           {onDownload && (

@@ -486,7 +486,7 @@ function markStickerAsFavorite(
   return async () => {
     if (markAsFavorite) {
       const favoriteSticker =
-        await DataWriter.createFavoriteStickerFromStickerRef(stickerRef);
+        await DataWriter.addFavoriteStickerFromStickerRef(stickerRef);
       if (!favoriteSticker) {
         log.error(
           `${logId}: Failed to mark sticker as favorite because pack is not known or installed`

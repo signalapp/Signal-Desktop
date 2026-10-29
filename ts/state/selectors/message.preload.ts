@@ -185,6 +185,9 @@ import {
   getBubbleColorResolver,
   type BubbleColorResolver,
 } from './chatColors.std.ts';
+import type { StickerReferenceType } from '../../types/Stickers.preload.ts';
+import { getIsFavoriteStickerSelector } from './stickers.std.ts';
+import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -226,6 +229,9 @@ export type GetPropsForBubbleOptions = Readonly<{
   contactNameColors: Map<string, ContactNameColorType>;
   bubbleColorResolver: BubbleColorResolver;
   hasMediaBackups: boolean;
+  getIsFavoriteSticker: (
+    stickerRef: StickerReferenceType | undefined
+  ) => boolean;
   getStoryReplyAttachment: (
     storyMessageId: string
   ) => AttachmentType | undefined;
@@ -821,6 +827,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'contactNameColors'
   | 'bubbleColorResolver'
   | 'hasMediaBackups'
+  | 'getIsFavoriteSticker'
   | 'getStoryReplyAttachment'
 >;
 
@@ -914,6 +921,7 @@ const getPropsForMessage = (
   const {
     activeCall,
     conversationSelector,
+    getIsFavoriteSticker,
     resolveSharedContact,
     ourConversationId,
     ourNumber,
@@ -945,7 +953,14 @@ const getPropsForMessage = (
   const quote = getPropsForQuote(message, { ...options, isGroup });
 
   const isGroupTerminated = isGroup && conversation.terminated;
+
   const { sticker } = message;
+  const isFavoriteStickersEnabled = getIsFavoriteStickersEnabled();
+  const stickerRef: StickerReferenceType | undefined =
+    sticker && isFavoriteStickersEnabled
+      ? { packId: sticker.packId, stickerId: sticker.stickerId }
+      : undefined;
+  const isFavoriteSticker = getIsFavoriteSticker(stickerRef);
 
   const isMessageTapToView = isTapToView(message);
   const activeCallConversationId = activeCall?.conversationId;
@@ -1048,6 +1063,7 @@ const getPropsForMessage = (
     id: message.id,
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),
+    isFavoriteSticker,
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
     isPinned,
     isSelected,
@@ -1068,6 +1084,7 @@ const getPropsForMessage = (
     readStatus: message.readStatus ?? ReadStatus.Read,
     selectedReaction,
     status: getMessagePropStatus(message, ourConversationId),
+    stickerRef,
     text: message.body,
     textDirection: getTextDirection(message.body),
     timestamp: getMessageSentTimestamp(message, { includeEdits: false, log }),
@@ -1092,6 +1109,7 @@ export const getMessagePropsSelector = createSelector(
   getSelectedMessageIds,
   getBubbleColorResolver,
   getHasMediaBackups,
+  getIsFavoriteStickerSelector,
   getStoryReplyAttachmentSelector,
   (
     conversationSelector,
@@ -1106,6 +1124,7 @@ export const getMessagePropsSelector = createSelector(
     selectedMessageIds,
     bubbleColorResolver,
     hasMediaBackups,
+    getIsFavoriteSticker,
     getStoryReplyAttachment
   ) =>
     (message: MessageWithUIFieldsType) => {
@@ -1127,6 +1146,7 @@ export const getMessagePropsSelector = createSelector(
         selectedMessageIds,
         bubbleColorResolver,
         hasMediaBackups,
+        getIsFavoriteSticker,
         getStoryReplyAttachment,
       });
     }
@@ -2915,6 +2935,7 @@ export const getMessageDetailsSelector = createSelector(
   getBubbleColorResolver,
   getHasUnidentifiedDeliveryIndicators,
   getHasMediaBackups,
+  getIsFavoriteStickerSelector,
   getStoryReplyAttachmentSelector,
   (
     cachedConversationMemberColorsSelector,
@@ -2931,6 +2952,7 @@ export const getMessageDetailsSelector = createSelector(
     bubbleColorResolver,
     hasUnidentifiedDeliveryIndicators,
     hasMediaBackups,
+    getIsFavoriteSticker,
     getStoryReplyAttachment
   ): ((messageId: string) => SmartMessageDetailPropsType | undefined) =>
     (messageId: string) => {
@@ -2987,6 +3009,7 @@ export const getMessageDetailsSelector = createSelector(
           targetedMessageSource: null,
           bubbleColorResolver,
           hasMediaBackups,
+          getIsFavoriteSticker,
           getStoryReplyAttachment,
         }),
         receivedAt: message.received_at_ms ?? message.received_at ?? 0,

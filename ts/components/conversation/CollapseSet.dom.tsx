@@ -400,6 +400,8 @@ function CollapseSetButton(
       onMoreInfo={null}
       onPinMessage={null}
       onUnpinMessage={null}
+      onFavoriteSticker={null}
+      onUnfavoriteSticker={null}
     >
       <AxoButton.Root
         size="md"

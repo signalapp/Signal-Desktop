@@ -30,6 +30,7 @@ export default {
     onDone: action('onDone'),
     onSelectEmoji: action('onSelectEmoji'),
     onTextTooLong: action('onTextTooLong'),
+    onMarkStickerAsFavorite: action('onMarkStickerAsFavorite'),
     platform: 'darwin',
     emojiSkinToneDefault: Emoji.SkinTone.None,
     convertDraftBodyRangesIntoHydrated: () => undefined,

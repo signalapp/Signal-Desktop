@@ -92,6 +92,7 @@ export type PropsType = {
     MediaEditorPropsType,
     | 'isFormattingEnabled'
     | 'emojiSkinToneDefault'
+    | 'onMarkStickerAsFavorite'
     | 'onSelectEmoji'
     | 'onTextTooLong'
     | 'platform'
@@ -120,6 +121,7 @@ export function StoryCreator({
   onDeleteList,
   onDistributionListCreated,
   onHideMyStoriesFrom,
+  onMarkStickerAsFavorite,
   onMediaPlaybackStart,
   onSelectEmoji,
   onRemoveMembers,
@@ -306,6 +308,7 @@ export function StoryCreator({
               }}
               onSelectEmoji={onSelectEmoji}
               onTextTooLong={onTextTooLong}
+              onMarkStickerAsFavorite={onMarkStickerAsFavorite}
               ourConversationId={ourConversationId}
               platform={platform}
               emojiSkinToneDefault={emojiSkinToneDefault}

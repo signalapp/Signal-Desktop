@@ -1471,7 +1471,7 @@ type WritableInterface = {
   clearAllErrorStickerPackAttempts: () => void;
   clearStickerPackAttempts: (packId: string) => void;
   createFavoriteSticker: (sticker: FavoriteStickerType) => void;
-  createFavoriteStickerFromStickerRef: (
+  addFavoriteStickerFromStickerRef: (
     stickerRef: StickerReferenceType
   ) => FavoriteStickerType | undefined;
   updateFavoriteSticker: (sticker: FavoriteStickerType) => void;

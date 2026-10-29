@@ -88,6 +88,7 @@ import { hasDraft } from '../util/hasDraft.std.ts';
 import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import type { StickerReferenceType } from '../types/Stickers.preload.ts';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -232,6 +233,10 @@ export type OwnProps = Readonly<{
     props: SmartDraftGifMessageSendModalProps | null
   ) => void;
 
+  onMarkStickerAsFavorite: (
+    stickerRef: StickerReferenceType,
+    markAsFavorite: boolean
+  ) => void;
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   emojiSkinToneDefault: Emoji.SkinTone | null;
 }>;
@@ -320,6 +325,7 @@ export const CompositionArea = memo(function CompositionArea({
   sendCounter,
   sortedGroupMembers,
   // FunPicker
+  onMarkStickerAsFavorite,
   onSelectEmoji,
   emojiSkinToneDefault,
   sendStickerMessage,
@@ -716,6 +722,18 @@ export const CompositionArea = memo(function CompositionArea({
     },
     [sendStickerMessage, conversationId]
   );
+  const handleFunPickerMarkStickerAsFavorite = useCallback(
+    (stickerSelection: FunStickerSelection, markAsFavorite: boolean) => {
+      onMarkStickerAsFavorite(
+        {
+          packId: stickerSelection.stickerPackId,
+          stickerId: stickerSelection.stickerId,
+        },
+        markAsFavorite
+      );
+    },
+    [onMarkStickerAsFavorite]
+  );
 
   const [confirmGifSelection, setConfirmGifSelection] =
     useState<FunGifSelection | null>(null);
@@ -822,6 +840,7 @@ export const CompositionArea = memo(function CompositionArea({
           onSelectSticker={handleFunPickerSelectSticker}
           onSelectGif={handleFunPickerSelectGif}
           onAddStickerPack={handleFunPickerAddStickerPack}
+          onMarkStickerAsFavorite={handleFunPickerMarkStickerAsFavorite}
         >
           <FunPickerButton i18n={i18n} />
         </FunPicker>
@@ -1269,6 +1288,7 @@ export const CompositionArea = memo(function CompositionArea({
               );
             }}
             onSelectEmoji={onSelectEmoji}
+            onMarkStickerAsFavorite={onMarkStickerAsFavorite}
             onTextTooLong={onTextTooLong}
             ourConversationId={ourConversationId}
             platform={platform}

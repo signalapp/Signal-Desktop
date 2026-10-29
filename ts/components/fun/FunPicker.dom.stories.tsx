@@ -49,6 +49,7 @@ function Template(props: TemplateProps) {
       showStickerPickerHint={false}
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
+      onMarkStickerAsFavorite={() => null}
       // Gifs
       fetchGiphySearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGiphyTrending={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
@@ -73,6 +74,7 @@ export default {
     onSelectSticker: action('onSelectSticker'),
     onSelectGif: action('onSelectGif'),
     onAddStickerPack: action('onAddStickerPack'),
+    onMarkStickerAsFavorite: action('onMarkStickerAsFavorite'),
   },
 } satisfies ComponentMeta<TemplateProps>;
 

@@ -34,6 +34,10 @@ export type FunPickerProps = Readonly<{
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
   onSelectGif: (gifSelection: FunGifSelection) => void;
   onAddStickerPack: (() => void) | null;
+  onMarkStickerAsFavorite: (
+    stickerSelection: FunStickerSelection,
+    markAsFavorite: boolean
+  ) => void;
   placement?: Placement;
   theme?: ThemeType;
   children: ReactNode;
@@ -126,6 +130,7 @@ export const FunPicker = memo(function FunPicker(
                 showTimeStickers={false}
                 onSelectSticker={props.onSelectSticker}
                 onAddStickerPack={props.onAddStickerPack}
+                onMarkStickerAsFavorite={props.onMarkStickerAsFavorite}
                 onClose={handleClose}
               />
             </FunErrorBoundary>

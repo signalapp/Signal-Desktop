@@ -170,6 +170,21 @@ export function getSticker(
   return row ? rowToSticker(row) : undefined;
 }
 
+function getKeyFromStickerPack(
+  db: ReadableDB,
+  packId: string
+): string | undefined {
+  const stickerPack = db
+    .prepare(
+      `
+      SELECT key FROM sticker_packs
+      WHERE id IS $packId
+      `
+    )
+    .get<{ key: string }>({ packId });
+  return stickerPack?.key;
+}
+
 // Write
 
 export function createFavoriteSticker(
@@ -207,45 +222,58 @@ export function createFavoriteSticker(
   ).run(row);
 }
 
-export function createFavoriteStickerFromStickerRef(
+export function addFavoriteStickerFromStickerRef(
   db: WritableDB,
   { packId, stickerId }: StickerReferenceType
 ): FavoriteStickerType | undefined {
   return db.transaction(() => {
-    // If already favorited do nothing
     const existingFavorite = getFavoriteSticker(db, { packId, stickerId });
     if (existingFavorite) {
-      return existingFavorite;
+      const { deletedAtTimestampMs, favoritedAtTimestampMs } = existingFavorite;
+      if (!deletedAtTimestampMs && favoritedAtTimestampMs) {
+        return existingFavorite;
+      }
     }
 
-    // Get pack to get key
-    const installedPack = db
-      .prepare(
-        `
-        SELECT key FROM sticker_packs
-        WHERE id IS $packId
-        `
-      )
-      .get<{ key: string }>({ packId });
-    if (!installedPack) {
+    const packKey =
+      existingFavorite?.packKey ?? getKeyFromStickerPack(db, packId);
+    if (!packKey) {
       return undefined;
     }
 
-    // Get sticker to see if it's installed
-    const installedSticker = getSticker(db, { packId, stickerId });
-
-    const sticker: FavoriteStickerType = {
-      packId,
-      stickerId,
-      packKey: installedPack.key,
+    const isStickerInstalled = Boolean(getSticker(db, { packId, stickerId }));
+    const updatedProps: Pick<
+      FavoriteStickerType,
+      | 'packKey'
+      | 'favoritedAtTimestampMs'
+      | 'deletedAtTimestampMs'
+      | 'status'
+      | 'storageNeedsSync'
+    > = {
+      packKey,
       favoritedAtTimestampMs: new Date().getTime(),
       deletedAtTimestampMs: undefined,
-      status: installedSticker ? 'installed' : 'known',
+      status: isStickerInstalled ? 'installed' : 'known',
       storageNeedsSync: true,
     };
-    createFavoriteSticker(db, sticker);
 
-    return sticker;
+    let favoriteSticker: FavoriteStickerType;
+    if (existingFavorite) {
+      favoriteSticker = {
+        ...existingFavorite,
+        ...updatedProps,
+      };
+      updateFavoriteSticker(db, favoriteSticker);
+    } else {
+      favoriteSticker = {
+        ...updatedProps,
+        packId,
+        stickerId,
+      };
+      createFavoriteSticker(db, favoriteSticker);
+    }
+
+    return favoriteSticker;
   })();
 }
 

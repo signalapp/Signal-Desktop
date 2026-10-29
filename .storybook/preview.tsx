@@ -280,6 +280,17 @@ function withFunProvider(Story, context) {
         // oxlint-disable-next-line no-console
         console.log('onSelectGif', gifSelection);
       }}
+      onMarkStickerAsFavorite={function (
+        stickerSelection: FunStickerSelection,
+        markAsFavorite: boolean
+      ): void {
+        // oxlint-disable-next-line no-console
+        console.log(
+          'onMarkStickerAsFavorite',
+          stickerSelection,
+          markAsFavorite
+        );
+      }}
     >
       <Story {...context} />
     </FunProvider>

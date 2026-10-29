@@ -43,6 +43,7 @@ import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
+import { useStickersActions } from '../ducks/stickers.preload.ts';
 
 const log = createLogger('TimelineItem');
 
@@ -210,6 +211,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     onOutgoingVideoCallInConversation,
     returnToActiveCall,
   } = useCallingActions();
+  const { markStickerAsFavorite } = useStickersActions();
 
   const onOpenEditNicknameAndNoteModal = useCallback(
     (contactId: string) => {
@@ -291,6 +293,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       cancelAttachmentDownload={cancelAttachmentDownload}
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       markAttachmentAsCorrupted={markAttachmentAsCorrupted}
+      markStickerAsFavorite={markStickerAsFavorite}
       messageExpanded={messageExpanded}
       openGiftBadge={openGiftBadge}
       pushPanelForConversation={pushPanelForConversation}

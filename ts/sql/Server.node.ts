@@ -336,7 +336,7 @@ import {
 } from '../util/conversationFilePaths.std.ts';
 import {
   createFavoriteSticker,
-  createFavoriteStickerFromStickerRef,
+  addFavoriteStickerFromStickerRef,
   deleteFavoriteSticker,
   getAllFavoriteStickers,
   getAllInstalledFavoriteStickers,
@@ -796,7 +796,7 @@ export const DataWriter: ServerWritableInterface = {
   clearAllErrorStickerPackAttempts,
   clearStickerPackAttempts,
   createFavoriteSticker,
-  createFavoriteStickerFromStickerRef,
+  addFavoriteStickerFromStickerRef,
   updateFavoriteSticker,
   updateFavoriteStickerStatus,
   markFavoriteStickerDeleted,

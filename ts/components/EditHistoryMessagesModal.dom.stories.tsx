@@ -41,6 +41,7 @@ function getMockMessageProps(): MessagePropsType {
     direction: 'outgoing',
     isBlocked: false,
     isMessageRequestAccepted: false,
+    isFavoriteSticker: false,
     isPinned: false,
     isSignalConversation: false,
     isSMS: false,
@@ -49,6 +50,7 @@ function getMockMessageProps(): MessagePropsType {
     isTargetedSource: null,
     isVoiceMessagePlayed: false,
     previews: [],
+    stickerRef: undefined,
     timestamp: 0,
     text: 'hello world',
   };

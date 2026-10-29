@@ -69,6 +69,7 @@ import { useNavActions } from '../ducks/nav.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { getMaxVideoDuration } from '../../util/getTranscodingOptions.preload.ts';
 import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
+import { useStickersActions } from '../ducks/stickers.preload.ts';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -266,6 +267,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   } = useGlobalModalActions();
   const { showToast } = useToastActions();
   const { onEditorStateChange } = useComposerActions();
+  const { markStickerAsFavorite } = useStickersActions();
 
   AutoSubstituteAsciiEmojis.enable(itemStorage.get('autoConvertEmoji', true));
   const { accountEntropyPool } = items;
@@ -374,6 +376,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       // Fun Picker
       emojiSkinToneDefault={emojiSkinToneDefault}
       onSelectEmoji={onUseEmoji}
+      onMarkStickerAsFavorite={markStickerAsFavorite}
       // Message Requests
       acceptedMessageRequest={conversation.acceptedMessageRequest ?? null}
       removalStage={conversation.removalStage ?? null}

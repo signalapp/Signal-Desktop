@@ -87,6 +87,8 @@ export const CallingNotification: FC<PropsType> = memo(
         onMoreInfo={null}
         onPinMessage={null}
         onUnpinMessage={null}
+        onFavoriteSticker={null}
+        onUnfavoriteSticker={null}
       >
         <div inert={props.isSelectMode}>
           <SystemMessage

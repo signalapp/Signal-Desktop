@@ -48,6 +48,10 @@ export type FunContextSmartProps = Readonly<{
   showStickerPickerHint: boolean;
   onClearStickerPickerHint: () => unknown;
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
+  onMarkStickerAsFavorite: (
+    stickerSelection: FunStickerSelection,
+    markAsFavorite: boolean
+  ) => void;
 
   // GIFs
   fetchGiphyTrending: typeof fetchGiphyTrending;
@@ -178,6 +182,7 @@ export const FunProvider = memo(function FunProvider(
       showStickerPickerHint={props.showStickerPickerHint}
       onClearStickerPickerHint={props.onClearStickerPickerHint}
       onSelectSticker={props.onSelectSticker}
+      onMarkStickerAsFavorite={props.onMarkStickerAsFavorite}
       // GIFs
       fetchGiphyTrending={props.fetchGiphyTrending}
       fetchGiphySearch={props.fetchGiphySearch}

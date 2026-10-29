@@ -294,6 +294,9 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isSticker: isBoolean(overrideProps.isSticker)
     ? overrideProps.isSticker
     : false,
+  isFavoriteSticker: isBoolean(overrideProps.isFavoriteSticker)
+    ? overrideProps.isFavoriteSticker
+    : false,
   isBlocked: isBoolean(overrideProps.isBlocked)
     ? overrideProps.isBlocked
     : false,
@@ -320,6 +323,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
+  markStickerAsFavorite: action('markStickerAsFavorite'),
   messageExpanded: action('messageExpanded'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
@@ -380,6 +384,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     'startConversationWithSharedContact'
   ),
   status: overrideProps.status || 'sent',
+  stickerRef: overrideProps.stickerRef,
   text: overrideProps.text ?? '',
   textDirection: overrideProps.textDirection || TextDirection.Default,
   textAttachment: overrideProps.textAttachment || {
@@ -853,6 +858,7 @@ Sticker.args = {
   ],
   isSticker: true,
   status: 'sent',
+  stickerRef: { packId: 'abc', stickerId: 1 },
 };
 
 export const StickerThatFailsToLoad = Template.bind({});
@@ -871,6 +877,23 @@ StickerThatFailsToLoad.args = {
   status: 'sent',
 };
 
+export const StickerFavorite = Template.bind({});
+StickerFavorite.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+      fileName: '512x515-thumbs-up-lincoln.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  isFavoriteSticker: true,
+  isSticker: true,
+  status: 'sent',
+  stickerRef: { packId: 'abc', stickerId: 1 },
+};
+
 export const StickerInGroup = Template.bind({});
 StickerInGroup.args = {
   attachments: [
@@ -886,6 +909,7 @@ StickerInGroup.args = {
   contactNameColor: '180',
   isSticker: true,
   status: 'sent',
+  stickerRef: { packId: 'abc', stickerId: 1 },
 };
 
 export const StickerWithLabelInGroup = Template.bind({});
@@ -902,6 +926,7 @@ StickerWithLabelInGroup.args = {
   conversationType: 'group',
   isSticker: true,
   status: 'sent',
+  stickerRef: { packId: 'abc', stickerId: 1 },
   contactNameColor: '260',
   contactLabel: {
     labelEmoji: Emoji.POULTRY_LEG,
@@ -923,6 +948,7 @@ StickerWithLongNameAndLabelInGroup.args = {
   conversationType: 'group',
   isSticker: true,
   status: 'sent',
+  stickerRef: { packId: 'abc', stickerId: 1 },
   author: {
     ...getDefaultConversation(),
     title: 'Long long long long long long long long long long long name',
@@ -4152,6 +4178,7 @@ export function PermanentlyUndownloadableAttachments(): JSX.Element {
     ],
     isSticker: true,
     status: 'sent',
+    stickerRef: { packId: 'abc', stickerId: 1 },
   });
   const longMessageProps = createProps({
     text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
