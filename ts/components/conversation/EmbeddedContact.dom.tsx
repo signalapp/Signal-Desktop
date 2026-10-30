@@ -70,7 +70,7 @@ export function EmbeddedContact({
           variant={
             isIncoming ? 'message-incoming-primary' : 'message-outgoing-primary'
           }
-          size="lg"
+          size="md"
           width="full"
           onClick={event => {
             event.stopPropagation();

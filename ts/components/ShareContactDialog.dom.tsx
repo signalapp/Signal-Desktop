@@ -18,11 +18,14 @@ import { AxoTokens } from '../axo/AxoTokens.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { EmbeddedContactName } from '../types/EmbeddedContact.std.ts';
+import {
+  getContactInitials,
+  getFullName,
+} from '../types/EmbeddedContact.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { format as formatPhoneNumber } from '../types/PhoneNumber.std.ts';
 import { combineNames } from '../util/combineNames.std.ts';
-import { getInitials } from '../util/getInitials.std.ts';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 import { groupByFirstInitial } from '../util/groupByFirstInitial.std.ts';
 import type {
@@ -400,7 +403,8 @@ function ShareSelectedContactStep(
     [onStepChange]
   );
 
-  const name = combineNames(draft.name?.givenName, draft.name?.familyName);
+  const name = getFullName({ name: draft.name });
+  const initials = getContactInitials(draft);
   const nickname = combineNames(
     draft.nickname?.givenName,
     draft.nickname?.familyName
@@ -423,6 +427,7 @@ function ShareSelectedContactStep(
       <SelectPhotoStep
         i18n={i18n}
         conversation={conversation}
+        initials={initials}
         avatar={draft.avatar}
         avatarOptions={draft.avatarOptions}
         onCancel={handleCancelEdit}
@@ -467,6 +472,7 @@ function ShareSelectedContactStep(
                   >
                     <ConversationAvatar
                       conversation={conversation}
+                      initials={initials}
                       avatarUrl={draft.avatar?.url}
                       size={48}
                       label={getPhotoLabel(i18n, draft.avatar)}
@@ -481,6 +487,13 @@ function ShareSelectedContactStep(
                     onEdit={handleEditName}
                   >
                     <UserText text={name} />
+                    {draft.organization && (
+                      <span
+                        className={tw('block type-body-small text-secondary')}
+                      >
+                        <UserText text={draft.organization} />
+                      </span>
+                    )}
                   </EditableFieldItem>
                 )}
                 {draft.e164 != null && (
@@ -560,6 +573,7 @@ function getPhotoLabel(
 type SelectPhotoStepProps = Readonly<{
   i18n: LocalizerType;
   conversation: ConversationType;
+  initials: string | undefined;
   avatar: ShareContactAvatarType | null;
   avatarOptions: ReadonlyArray<ShareContactAvatarType>;
   onCancel: () => void;
@@ -567,7 +581,7 @@ type SelectPhotoStepProps = Readonly<{
 }>;
 
 function SelectPhotoStep(props: SelectPhotoStepProps): ReactNode {
-  const { i18n, conversation, avatarOptions, onSave } = props;
+  const { i18n, conversation, initials, avatarOptions, onSave } = props;
 
   const [value, setValue] = useState(() => getPhotoValue(props.avatar));
 
@@ -598,6 +612,7 @@ function SelectPhotoStep(props: SelectPhotoStepProps): ReactNode {
               <PhotoOption
                 key={getPhotoValue(option)}
                 conversation={conversation}
+                initials={undefined}
                 value={getPhotoValue(option)}
                 checked={getPhotoValue(option) === value}
                 label={getPhotoLabel(i18n, option)}
@@ -607,6 +622,7 @@ function SelectPhotoStep(props: SelectPhotoStepProps): ReactNode {
           })}
           <PhotoOption
             conversation={conversation}
+            initials={initials}
             value={DEFAULT_PHOTO_VALUE}
             checked={value === DEFAULT_PHOTO_VALUE}
             label={getPhotoLabel(i18n, null)}
@@ -630,6 +646,7 @@ function SelectPhotoStep(props: SelectPhotoStepProps): ReactNode {
 
 type PhotoOptionProps = Readonly<{
   conversation: ConversationType;
+  initials: string | undefined;
   value: string;
   checked: boolean;
   label: string;
@@ -645,6 +662,7 @@ function PhotoOption(props: PhotoOptionProps): ReactNode {
     >
       <ConversationAvatar
         conversation={props.conversation}
+        initials={props.initials}
         avatarUrl={props.avatarUrl}
         size={80}
         // Labeled above
@@ -865,7 +883,9 @@ function EditableFieldItem(props: EditableFieldItemProps): ReactNode {
         </AxoItem.Label>
         <AxoItem.HiddenTrigger label={props.editLabel} onClick={props.onEdit} />
         <AxoItem.Accessory centerToFullHeight>
-          <AxoSymbol.Icon symbol="pencil" size={20} label={null} />
+          <span className={tw('pointer-events-none')}>
+            <AxoSymbol.Icon symbol="pencil" size={20} label={null} />
+          </span>
         </AxoItem.Accessory>
       </AxoItem.Content>
     </AxoItem.Root>
@@ -877,19 +897,19 @@ const DEFAULT_AVATAR_COLOR: AxoTokens.Avatar.ColorName = 'A200';
 function ConversationAvatar(
   props: Readonly<{
     conversation: ConversationType;
+    initials: string | undefined;
     avatarUrl: string | undefined;
     size: AxoAvatar.Size;
     label: string | null;
   }>
 ): ReactNode {
-  const { conversation, avatarUrl, size, label } = props;
+  const { conversation, initials, avatarUrl, size, label } = props;
 
   const color =
     conversation.color != null &&
     AxoTokens.Avatar.isColorName(conversation.color)
       ? conversation.color
       : DEFAULT_AVATAR_COLOR;
-  const initials = getInitials(conversation.title);
 
   let content: ReactNode;
   if (avatarUrl) {

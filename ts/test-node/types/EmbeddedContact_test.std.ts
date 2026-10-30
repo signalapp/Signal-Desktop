@@ -14,6 +14,8 @@ import type {
 import {
   _validate,
   ContactFormType,
+  getContactInitials,
+  getFullName,
   parseAndValidate,
   parsePhoneItem,
 } from '../../types/EmbeddedContact.std.ts';
@@ -354,6 +356,89 @@ describe('Contact', () => {
       };
       const actual = parsePhoneItem(phone, { regionCode: undefined });
       assert.deepEqual(actual, expected);
+    });
+  });
+
+  describe('getFullName', () => {
+    it('returns undefined with no name', () => {
+      assert.isUndefined(getFullName({ name: undefined }));
+      assert.isUndefined(getFullName({ name: {} }));
+    });
+
+    it('combines given and family names', () => {
+      assert.strictEqual(
+        getFullName({ name: { givenName: 'Jane', familyName: 'Doe' } }),
+        'Jane Doe'
+      );
+    });
+
+    it('keeps CJK ordering with only given and family names', () => {
+      assert.strictEqual(
+        getFullName({ name: { givenName: '振宁', familyName: '杨' } }),
+        '杨振宁'
+      );
+    });
+
+    it('includes prefix, middle name, and suffix', () => {
+      assert.strictEqual(
+        getFullName({
+          name: {
+            prefix: 'Dr.',
+            givenName: 'Jane',
+            middleName: 'Q.',
+            familyName: 'Doe',
+            suffix: 'Jr.',
+          },
+        }),
+        'Dr. Jane Q. Doe Jr.'
+      );
+    });
+
+    it('skips missing parts', () => {
+      assert.strictEqual(
+        getFullName({ name: { givenName: 'Jane', suffix: 'PhD' } }),
+        'Jane PhD'
+      );
+      assert.strictEqual(
+        getFullName({ name: { prefix: 'Dr.', familyName: 'Doe' } }),
+        'Dr. Doe'
+      );
+      assert.strictEqual(
+        getFullName({ name: { middleName: 'Quinn' } }),
+        'Quinn'
+      );
+    });
+  });
+
+  describe('getContactInitials', () => {
+    it('ignores prefix, middle name, and suffix', () => {
+      assert.strictEqual(
+        getContactInitials({
+          name: {
+            prefix: 'Dr.',
+            givenName: 'Jane',
+            middleName: 'Quinn',
+            familyName: 'Doe',
+            suffix: 'Jr.',
+          },
+        }),
+        'JD'
+      );
+    });
+
+    it('falls back to the display name', () => {
+      assert.strictEqual(
+        getContactInitials({ name: { middleName: 'Quinn' } }),
+        'Q'
+      );
+      assert.strictEqual(
+        getContactInitials({ name: null, organization: 'Signal' }),
+        'S'
+      );
+    });
+
+    it('returns undefined with no name or organization', () => {
+      assert.isUndefined(getContactInitials({ name: null }));
     });
   });
 
