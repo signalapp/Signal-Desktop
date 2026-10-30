@@ -19,6 +19,7 @@
     align-items: center;
     backdrop-filter: blur(90px);
     background: variables.$color-black-alpha-20;
+    container-type: size;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -145,6 +146,12 @@
     padding-inline: 0;
     margin-bottom: 24px;
     text-shadow: 0px 0px 48px 0px variables.$color-black-alpha-80;
+
+    &--expanded {
+      @include mixins.scrollbar-on-hover;
+      max-height: 50cqh;
+      overflow-y: auto;
+    }
   }
 
   &__actions {
