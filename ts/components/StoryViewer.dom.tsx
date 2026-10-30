@@ -130,7 +130,6 @@ export type PropsType = {
 
 const CAPTION_BUFFER = 20;
 const CAPTION_INITIAL_LENGTH = 200;
-const CAPTION_MAX_LENGTH = 700;
 const MOUSE_IDLE_TIME = 3000;
 
 enum Arrow {
@@ -249,9 +248,13 @@ export function StoryViewer({
       return;
     }
 
+    if (hasExpandedCaption) {
+      return { text: value, hasReadMore: false };
+    }
+
     return graphemeAndLinkAwareSlice(
       value,
-      hasExpandedCaption ? CAPTION_MAX_LENGTH : CAPTION_INITIAL_LENGTH,
+      CAPTION_INITIAL_LENGTH,
       CAPTION_BUFFER
     );
   }, [attachment?.caption, hasExpandedCaption]);
@@ -715,7 +718,11 @@ export function StoryViewer({
 
           <div className="StoryViewer__meta">
             {caption && (
-              <div className="StoryViewer__caption">
+              <div
+                className={classNames('StoryViewer__caption', {
+                  'StoryViewer__caption--expanded': hasExpandedCaption,
+                })}
+              >
                 <MessageBody
                   bodyRanges={bodyRanges}
                   i18n={i18n}
