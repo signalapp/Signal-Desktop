@@ -49,6 +49,8 @@ export class MentionCompletion {
 
   outsideClickDestructor?: () => void;
 
+  #isEndingComposition = false;
+
   readonly #onInput = (event: Event): void => {
     this.onCompositionInput(event);
   };
@@ -97,6 +99,19 @@ export class MentionCompletion {
     // keep results up to date while the user is composing (e.g. Korean,
     // Japanese, Chinese input).
     this.quill.root.addEventListener('input', this.#onInput);
+
+    // When a composition ends, Quill catches up on the selection it ignored
+    // while composing and emits a SELECTION_CHANGE for the cursor having moved
+    // past the committed text. That isn't the user moving the cursor away from
+    // the mention, so we shouldn't clear the results. Otherwise, a Korean IME
+    // user pressing Enter or Tab mid-composition would send the message or
+    // insert a tab instead of completing the mention.
+    this.quill.on(Emitter.events.COMPOSITION_BEFORE_END, () => {
+      this.#isEndingComposition = true;
+    });
+    this.quill.on(Emitter.events.COMPOSITION_END, () => {
+      this.#isEndingComposition = false;
+    });
   }
 
   destroy(): void {
@@ -122,6 +137,10 @@ export class MentionCompletion {
   }
 
   onSelectionChange(): void {
+    if (this.#isEndingComposition) {
+      return;
+    }
+
     // Selection should never change while we're editing a mention
     this.clearResults();
   }

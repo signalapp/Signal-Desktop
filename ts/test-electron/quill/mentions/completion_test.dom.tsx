@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 import type Quill from '@signalapp/quill-cjs';
@@ -129,6 +130,38 @@ describe('MentionCompletion', () => {
   afterEach(() => {
     mentionCompletion.destroy();
     mockQuill.root.remove();
+  });
+
+  describe('onSelectionChange', () => {
+    function emitQuillEvent(event: string) {
+      const call = mockQuill.on
+        ?.getCalls()
+        .find(({ args }) => args[0] === event);
+      assert.exists(call, `no handler for ${event}`);
+      call?.args[1]();
+    }
+
+    beforeEach(() => {
+      mentionCompletion.results = members;
+    });
+
+    it('clears results when the selection changes', () => {
+      mentionCompletion.onSelectionChange();
+
+      assert.isEmpty(mentionCompletion.results);
+    });
+
+    it('keeps results when the selection changes as a composition ends', () => {
+      emitQuillEvent(Emitter.events.COMPOSITION_BEFORE_END);
+      mentionCompletion.onSelectionChange();
+
+      assert.equal(mentionCompletion.results, members);
+
+      emitQuillEvent(Emitter.events.COMPOSITION_END);
+      mentionCompletion.onSelectionChange();
+
+      assert.isEmpty(mentionCompletion.results);
+    });
   });
 
   describe('onCompositionInput', () => {
