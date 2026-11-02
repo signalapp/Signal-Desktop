@@ -21,7 +21,11 @@ function check({
   expected: Array<CheckProps>;
 }) {
   const conversations = input.map(props => {
-    return getDefaultConversation(props);
+    return getDefaultConversation({
+      // Ensure no random firstName fixture value gets matched on
+      firstName: undefined,
+      ...props,
+    });
   });
   const results = filterAndSortConversations(conversations, searchTerm, 'US');
   const actual = results.map(convo => {

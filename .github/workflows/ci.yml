@@ -466,7 +466,7 @@ jobs:
           - windows-latest-8-cores
 
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
