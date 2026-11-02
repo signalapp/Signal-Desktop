@@ -58,9 +58,6 @@ auditConfig:
   ignoreGhsas:
     - GHSA-hfvx-25r5-qc3w # fabric (toSVG)
     - GHSA-7g7r-gx96-252g # electron-builder > app-builder-lib
-    - GHSA-vfj7-8cjw-p6xm # stylelint > fast-glob > micromatch > braces
-    - GHSA-w22m-hvvm-xmwx # fabric
-    - GHSA-hp3w-g68c-fv3c # @storybook/test-runner > ... > sprintf-js
 
 overrides:
   '@electron/rebuild>node-gyp': '13.1.0'
@@ -91,6 +88,9 @@ overrides:
   diff@>=6.0.0 <8.0.3: ^8.0.3
   serialize-javascript@>=5.0.0 <7.0.5: ^7.0.5
   uuid@<11.1.1: ^11.1.1
+  follow-redirects@<1.16.2: ^1.16.2
+  joi@>=17.1.1 <17.13.9: ^17.13.9
+  joi@>=18.0.0 <18.3.1: ^18.3.1
 
 allowUnusedPatches: false
 patchedDependencies:
