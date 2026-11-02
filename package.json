@@ -284,7 +284,7 @@
     "lodash": "4.18.1",
     "log-symbols": "7.0.1",
     "lru-cache": "11.2.7",
-    "mediabunny": "1.62.1",
+    "mediabunny": "1.65.0",
     "memoizee": "0.4.17",
     "micromatch": "4.0.8",
     "mocha": "11.7.5",
