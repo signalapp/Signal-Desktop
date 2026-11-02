@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { IMAGE_JPEG, IMAGE_PNG } from '../../types/MIME.std.ts';
 import { sniffImageMimeType } from '../../util/sniffImageMimeType.std.ts';
 
-import { canvasToBlob } from '../../util/canvasToBlob.std.ts';
+import { canvasToBlob } from '../../util/canvasToBlob.dom.ts';
 
 describe('canvasToBlob', () => {
   let canvas: HTMLCanvasElement;

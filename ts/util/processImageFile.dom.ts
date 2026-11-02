@@ -3,7 +3,7 @@
 
 import type { LoadImageOptions } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
-import { canvasToBytes } from './canvasToBytes.std.ts';
+import { canvasToBytes } from './canvasToBytes.dom.ts';
 
 export async function processImageFile(
   file: File
