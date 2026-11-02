@@ -276,8 +276,8 @@ importers:
         specifier: workspace:*
         version: link:packages/mute-state-change
       '@signalapp/ringrtc':
-        specifier: 2.73.0
-        version: 2.73.0(supports-color@8.1.1)
+        specifier: 2.74.0
+        version: 2.74.0(supports-color@8.1.1)
       '@signalapp/sqlcipher':
         specifier: 4.1.0
         version: 4.1.0
@@ -4832,8 +4832,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==, tarball: https://registry.npmjs.org/@signalapp/quill-cjs/-/quill-cjs-2.1.2.tgz}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.73.0':
-    resolution: {integrity: sha512-NKhiSpFXk0rpa5ipEpXbBxj3RERWSSzuh76h2COdaFxHjrkNWp5+xlCN0lq3mAthvOUwJ3NV5kYhfEHdIbNuyw==, tarball: https://registry.npmjs.org/@signalapp/ringrtc/-/ringrtc-2.73.0.tgz}
+  '@signalapp/ringrtc@2.74.0':
+    resolution: {integrity: sha512-+lg2kXO2iRg7+7eA2TGtlFh5mYxBgAnikgalWi8X7kZddos3gk0mjos36e5Ozduv0kK5xYcng2LwjJeMmFI4TQ==, tarball: https://registry.npmjs.org/@signalapp/ringrtc/-/ringrtc-2.74.0.tgz}
     hasBin: true
 
   '@signalapp/sqlcipher@4.1.0':
@@ -16022,7 +16022,7 @@ snapshots:
       lodash: 4.18.1
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.73.0(supports-color@8.1.1)':
+  '@signalapp/ringrtc@2.74.0(supports-color@8.1.1)':
     dependencies:
       https-proxy-agent: 7.0.6(supports-color@8.1.1)
       tar: 7.5.22
