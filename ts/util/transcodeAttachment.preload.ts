@@ -201,10 +201,7 @@ async function transcodeVideo(
   const output = new Output({
     target,
     format: new Mp4OutputFormat({
-      // Note: we don't use `fastStart` since `mp4sanitizer` re-orders the boxes
-      // for us.
-      // Use 1970 as the creation time
-      creationTime: 0,
+      fastStart: 'reserve',
     }),
   });
 
@@ -240,8 +237,11 @@ async function transcodeVideo(
             ...videoOptions,
             width: Math.min(width, options.resolution),
           },
+    // TODO(indutny): verify that creation time is not preserved
     // Don't preserve metadata
-    tags: () => ({}),
+    tags: () => ({
+      creationTime: null,
+    }),
   });
 
   if (!conversion.isValid) {
