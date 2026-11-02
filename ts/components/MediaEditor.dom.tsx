@@ -47,7 +47,7 @@ import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { Slider } from './Slider.dom.tsx';
 import { Theme } from '../util/theme.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
-import { canvasToBytes } from '../util/canvasToBytes.std.ts';
+import { canvasToBytes } from '../util/canvasToBytes.dom.ts';
 import { loadImage } from '../util/loadImage.std.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { useFabricHistory } from '../mediaEditor/useFabricHistory.dom.ts';

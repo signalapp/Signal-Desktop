@@ -19,7 +19,7 @@ import type { MIMEType } from './MIME.std.ts';
 import { IMAGE_JPEG, IMAGE_PNG } from './MIME.std.ts';
 import type { LoggerType } from './Logging.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
-import { canvasToBlob } from '../util/canvasToBlob.std.ts';
+import { canvasToBlob } from '../util/canvasToBlob.dom.ts';
 import { KIBIBYTE } from './AttachmentSize.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 

@@ -7,7 +7,7 @@ import loadImage from 'blueimp-load-image';
 import type { MIMEType } from '../types/MIME.std.ts';
 import { IMAGE_JPEG } from '../types/MIME.std.ts';
 import { getCountryCode } from '../types/PhoneNumber.std.ts';
-import { canvasToBlob } from './canvasToBlob.std.ts';
+import { canvasToBlob } from './canvasToBlob.dom.ts';
 import { getValue } from '../RemoteConfig.dom.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 

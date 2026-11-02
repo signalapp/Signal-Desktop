@@ -1,7 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import lodash from 'lodash';
 import { IMAGE_JPEG } from '../types/MIME.std.ts';
+
+const { noop } = lodash;
 
 /**
  * Similar to [the built-in `toBlob` method][0], but returns a Promise.
@@ -13,7 +16,7 @@ export async function canvasToBlob(
   mimeType = IMAGE_JPEG,
   quality?: number
 ): Promise<Blob> {
-  return new Promise((resolve, reject) =>
+  return new Promise((resolve, reject) => {
     canvas.toBlob(
       result => {
         if (result) {
@@ -24,6 +27,10 @@ export async function canvasToBlob(
       },
       mimeType,
       quality
-    )
-  );
+    );
+    // Workaround for a Chromium bug. Conversion to the blob task doesn't seem
+    // to kick off immediately without it, causing delays up to 1 second without
+    // this change.
+    window.requestAnimationFrame(noop);
+  });
 }
