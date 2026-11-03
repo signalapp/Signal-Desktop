@@ -588,6 +588,7 @@ export function FunPanelStickers({
                           return (
                             <Row
                               key={row.key}
+                              sectionId={section.id}
                               i18n={i18n}
                               rowIndex={row.rowIndex}
                               cells={row.cells}
@@ -622,6 +623,7 @@ const Row = memo(function Row(props: {
   favoriteStickersSet: Set<string>;
   cells: ReadonlyArray<CellLayoutNode>;
   focusedCellKey: CellKey | null;
+  sectionId: string;
   onClickSticker: (
     event: PointerEvent,
     stickerSelection: FunStickerSelection
@@ -647,6 +649,7 @@ const Row = memo(function Row(props: {
             cellKey={cell.key}
             rowIndex={cell.rowIndex}
             colIndex={cell.colIndex}
+            sectionId={props.sectionId}
             favoriteStickersSet={props.favoriteStickersSet}
             stickerLookup={props.stickerLookup}
             isTabbable={isTabbable}
@@ -666,6 +669,7 @@ const Cell = memo(function Cell(props: {
   cellKey: CellKey;
   colIndex: number;
   rowIndex: number;
+  sectionId: string;
   favoriteStickersSet: Set<string>;
   stickerLookup: StickerLookup;
   isTabbable: boolean;
@@ -679,8 +683,13 @@ const Cell = memo(function Cell(props: {
     markAsFavorite: boolean
   ) => void;
 }): JSX.Element {
-  const { i18n, onClickSticker, onClickTimeSticker, onClickStickerAsFavorite } =
-    props;
+  const {
+    i18n,
+    sectionId,
+    onClickSticker,
+    onClickTimeSticker,
+    onClickStickerAsFavorite,
+  } = props;
 
   const isFavoriteSticker = props.favoriteStickersSet.has(props.value);
   const stickerLookupItem = props.stickerLookup[props.value];
@@ -702,8 +711,14 @@ const Cell = memo(function Cell(props: {
   );
 
   const handleClickMarkAsFavorite = useCallback(
-    (markAsFavorite: boolean) => {
+    (event: Event, markAsFavorite: boolean) => {
       if (stickerLookupItem.kind === 'sticker') {
+        // When unfavoriting from the Favorites list, the sticker disappears so the default
+        // behavior to refocus the previous selection can't find the original sticker.
+        if (!markAsFavorite && sectionId === FunStickersSectionBase.Favorites) {
+          event.preventDefault();
+        }
+
         onClickStickerAsFavorite(
           {
             stickerPackId: stickerLookupItem.sticker.packId,
@@ -714,16 +729,22 @@ const Cell = memo(function Cell(props: {
         );
       }
     },
-    [stickerLookupItem, onClickStickerAsFavorite]
+    [sectionId, stickerLookupItem, onClickStickerAsFavorite]
   );
 
-  const handleFavorite = useCallback(() => {
-    handleClickMarkAsFavorite(true);
-  }, [handleClickMarkAsFavorite]);
+  const handleFavorite = useCallback(
+    (event: Event) => {
+      handleClickMarkAsFavorite(event, true);
+    },
+    [handleClickMarkAsFavorite]
+  );
 
-  const handleUnfavorite = useCallback(() => {
-    handleClickMarkAsFavorite(false);
-  }, [handleClickMarkAsFavorite]);
+  const handleUnfavorite = useCallback(
+    (event: Event) => {
+      handleClickMarkAsFavorite(event, false);
+    },
+    [handleClickMarkAsFavorite]
+  );
 
   if (stickerLookupItem.kind === 'sticker') {
     return (
@@ -779,8 +800,8 @@ const Cell = memo(function Cell(props: {
 
 function StickerContextMenu(props: {
   i18n: LocalizerType;
-  onClickFavorite: (() => void) | null;
-  onClickUnfavorite: (() => void) | null;
+  onClickFavorite: ((event: Event) => void) | null;
+  onClickUnfavorite: ((event: Event) => void) | null;
   children: ReactNode;
 }) {
   const { i18n, onClickFavorite, onClickUnfavorite } = props;
