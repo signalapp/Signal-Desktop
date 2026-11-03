@@ -21,6 +21,7 @@ import {
   getConversationSelector,
 } from '../selectors/conversations.dom.ts';
 import { getIntl, getRegionCode, getTheme } from '../selectors/user.std.ts';
+import { getItems } from '../selectors/items.dom.ts';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 import { getE164 } from '../../util/getE164.std.ts';
@@ -56,6 +57,8 @@ export const SmartShareContactDialog = memo(function SmartShareContactDialog({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const allConversations = useSelector(getAllConversations);
   const conversationSelector = useSelector(getConversationSelector);
+  const preferContactAvatars =
+    useSelector(getItems).preferContactAvatars === true;
   const { shareContact } = useComposerActions();
 
   const recipient = conversationSelector(conversationId);
@@ -74,9 +77,11 @@ export const SmartShareContactDialog = memo(function SmartShareContactDialog({
         contactConversationId
       );
       strictAssert(contactConversation, 'Missing contact conversation');
-      return getShareContactDraft(contactConversation.attributes);
+      return getShareContactDraft(contactConversation.attributes, {
+        preferContactAvatars,
+      });
     },
-    []
+    [preferContactAvatars]
   );
 
   const handleShareContact = useCallback(

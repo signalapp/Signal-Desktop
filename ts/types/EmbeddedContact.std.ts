@@ -8,6 +8,7 @@ import { SignalService as Proto } from '../protobuf/index.std.ts';
 import type { ReadonlyMessageAttributesType } from '../model-types.std.ts';
 
 import { combineNames } from '../util/combineNames.std.ts';
+import { getInitials } from '../util/getInitials.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { normalize as normalizePhoneNumber } from './PhoneNumber.std.ts';
 import type {
@@ -162,13 +163,34 @@ export function getFullName(
   contact: ContactNameFieldsType
 ): string | undefined {
   const { name } = contact;
-  return combineNames(name?.givenName, name?.familyName);
+  if (!name?.prefix && !name?.middleName && !name?.suffix) {
+    return combineNames(name?.givenName, name?.familyName);
+  }
+
+  return [
+    name.prefix,
+    name.givenName,
+    name.middleName,
+    name.familyName,
+    name.suffix,
+  ]
+    .filter(Boolean)
+    .join(' ');
 }
 
 export function getDisplayName(
   contact: ContactNameFieldsType
 ): string | undefined {
   return getFullName(contact) || contact.organization || undefined;
+}
+
+export function getContactInitials(
+  contact: ContactNameFieldsType
+): string | undefined {
+  const { name } = contact;
+  return getInitials(
+    combineNames(name?.givenName, name?.familyName) || getDisplayName(contact)
+  );
 }
 
 export function getDisplayNickname(

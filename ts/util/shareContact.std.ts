@@ -171,18 +171,28 @@ function toShareContactAvatar(
 // When sharing contacts, we prefer the system contact avatar over the
 // profile avatar, regardless of the user's display preference
 function getAvatarOptions(
-  attributes: ConversationAttributesType
+  attributes: ConversationAttributesType,
+  { preferContactAvatars }: { preferContactAvatars: boolean }
 ): ReadonlyArray<ShareContactAvatarType> {
-  return [
-    toShareContactAvatar(attributes.avatar ?? undefined, false),
-    toShareContactAvatar(attributes.profileAvatar ?? undefined, true),
-  ].filter(isNotNil);
+  const systemAvatar = toShareContactAvatar(
+    attributes.avatar ?? undefined,
+    false
+  );
+  const profileAvatar = toShareContactAvatar(
+    attributes.profileAvatar ?? undefined,
+    true
+  );
+  const options = preferContactAvatars
+    ? [systemAvatar, profileAvatar]
+    : [profileAvatar, systemAvatar];
+  return options.filter(isNotNil);
 }
 
 export function getShareContactDraft(
-  attributes: ConversationAttributesType
+  attributes: ConversationAttributesType,
+  { preferContactAvatars }: { preferContactAvatars: boolean }
 ): ShareContactDraftType {
-  const avatarOptions = getAvatarOptions(attributes);
+  const avatarOptions = getAvatarOptions(attributes, { preferContactAvatars });
   return {
     aci: getRegisteredAci(attributes),
     avatar: avatarOptions.at(0) ?? null,

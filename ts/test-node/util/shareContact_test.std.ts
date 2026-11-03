@@ -149,7 +149,8 @@ describe('shareContact', () => {
           systemNickname: 'Nick',
           profileName: 'Profile',
           profileFamilyName: 'Name',
-        })
+        }),
+        { preferContactAvatars: true }
       );
       assert.deepEqual(result.name, {
         givenName: 'System',
@@ -160,37 +161,22 @@ describe('shareContact', () => {
     it('falls back to the system nickname, then the profile name', () => {
       assert.deepEqual(
         getShareContactDraft(
-          getAttributes({ systemNickname: 'Nick', profileName: 'Profile' })
+          getAttributes({ systemNickname: 'Nick', profileName: 'Profile' }),
+          { preferContactAvatars: true }
         ).name,
         { givenName: 'Nick' }
       );
       assert.deepEqual(
         getShareContactDraft(
-          getAttributes({ profileName: 'Profile', profileFamilyName: 'Name' })
+          getAttributes({ profileName: 'Profile', profileFamilyName: 'Name' }),
+          { preferContactAvatars: true }
         ).name,
         { givenName: 'Profile', familyName: 'Name' }
       );
-      assert.isNull(getShareContactDraft(getAttributes()).name);
-    });
-
-    it('offers the system avatar before the profile avatar', () => {
-      const systemAvatar = { path: 'system.jpg' };
-      const profileAvatar = { path: 'profile.jpg' };
-      const result = getShareContactDraft(
-        getAttributes({ avatar: systemAvatar, profileAvatar })
+      assert.isNull(
+        getShareContactDraft(getAttributes(), { preferContactAvatars: true })
+          .name
       );
-
-      assert.deepEqual(
-        result.avatarOptions.map(option => [
-          option.attachment,
-          option.isProfile,
-        ]),
-        [
-          [systemAvatar, false],
-          [profileAvatar, true],
-        ]
-      );
-      assert.strictEqual(result.avatar, result.avatarOptions[0]);
     });
 
     it('skips avatars that have not been downloaded', () => {
@@ -198,7 +184,8 @@ describe('shareContact', () => {
         getAttributes({
           avatar: { url: 'https://example.com/avatar' },
           profileAvatar: { path: 'profile.jpg' },
-        })
+        }),
+        { preferContactAvatars: true }
       );
       assert.lengthOf(result.avatarOptions, 1);
       assert.isTrue(result.avatar?.isProfile);
@@ -207,12 +194,15 @@ describe('shareContact', () => {
     it('only includes the ACI for registered contacts', () => {
       const serviceId = generateAci();
       assert.strictEqual(
-        getShareContactDraft(getAttributes({ serviceId })).aci,
+        getShareContactDraft(getAttributes({ serviceId }), {
+          preferContactAvatars: true,
+        }).aci,
         serviceId
       );
       assert.isNull(
         getShareContactDraft(
-          getAttributes({ serviceId, discoveredUnregisteredAt: Date.now() })
+          getAttributes({ serviceId, discoveredUnregisteredAt: Date.now() }),
+          { preferContactAvatars: true }
         ).aci
       );
     });
@@ -223,7 +213,8 @@ describe('shareContact', () => {
           e164: '+15101234567',
           nicknameGivenName: 'P',
           note: 'Met in 2017',
-        })
+        }),
+        { preferContactAvatars: true }
       );
       assert.strictEqual(result.e164, '+15101234567');
       assert.deepEqual(result.nickname, {

@@ -5,8 +5,7 @@ import type { JSX, MouseEvent, ReactNode } from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import { getDisplayName } from '../../types/EmbeddedContact.std.ts';
-import { getInitials } from '../../util/getInitials.std.ts';
+import { getContactInitials } from '../../types/EmbeddedContact.std.ts';
 import { useAttachmentStatus } from '../../hooks/useAttachmentStatus.std.ts';
 import { AxoAvatar } from '../../axo/AxoAvatar.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
@@ -33,7 +32,7 @@ export function ContactAvatar({
 }): JSX.Element {
   const attachment = contact.avatar?.avatar;
   const status = useAttachmentStatus(attachment);
-  const initials = getInitials(getDisplayName(contact));
+  const initials = getContactInitials(contact);
 
   let content: ReactNode;
   if (status != null && status.state !== 'ReadyToShow') {
