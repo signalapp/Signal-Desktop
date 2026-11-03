@@ -306,6 +306,12 @@ export namespace AxoContextMenu {
             onContextMenu={AxoBaseMenu.menuContentEventStopPropagation}
             onKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
             inert={!open}
+            // TEMPORARY: Remove once FunPopover has been migrated to Radix.
+            // When rendered inside a react-aria modal overlay, this stops
+            // react-aria from making the menu `inert` and from treating clicks
+            // in it as outside the overlay. Undocumented, but used by
+            // react-aria's own toasts.
+            data-react-aria-top-layer="true"
           >
             {props.children}
           </ContextMenu.Content>
@@ -611,6 +617,8 @@ export namespace AxoContextMenu {
             collisionPadding={6}
             className={AxoBaseMenu.menuSubContentClassName}
             onEscapeKeyDown={AxoBaseMenu.menuContentEventStopPropagation}
+            // TEMPORARY: See <AxoContextMenu.Content>
+            data-react-aria-top-layer="true"
           >
             {props.children}
           </ContextMenu.SubContent>

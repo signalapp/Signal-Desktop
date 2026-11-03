@@ -7,6 +7,7 @@ import { Dialog, Popover } from 'react-aria-components';
 import classNames from 'classnames';
 import { Tooltip } from 'radix-ui';
 import { ThemeType } from '../../../types/Util.std.ts';
+import { tw } from '../../../axo/tw.dom.tsx';
 
 export type FunPopoverProps = Readonly<{
   placement?: Placement;
@@ -37,13 +38,21 @@ export function FunPopover(props: FunPopoverProps): JSX.Element {
     <Tooltip.Provider>
       <Popover
         data-fun-overlay
-        className={classNames('FunPopover', {
-          // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
-          'light-theme': props.theme === ThemeType.light,
-          'dark-theme': props.theme === ThemeType.dark,
-        })}
+        className={classNames(
+          'FunPopover',
+          {
+            // oxlint-disable-next-line signal-desktop/enforce-class-name-has-styles
+            'light-theme': props.theme === ThemeType.light,
+            'dark-theme': props.theme === ThemeType.dark,
+          },
+          tw('legacy-z-index-popup')
+        )}
         placement={props.placement}
         shouldCloseOnInteractOutside={shouldCloseOnInteractOutside}
+        style={{
+          // Remove the default z-index that React Aria's <Popover> adds
+          zIndex: undefined,
+        }}
       >
         <Dialog className="FunPopover__Dialog">{props.children}</Dialog>
       </Popover>
