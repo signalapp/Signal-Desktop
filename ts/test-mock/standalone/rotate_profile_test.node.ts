@@ -34,6 +34,7 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
 
   let groupA: Group;
   let groupB: Group;
+  let groupC: Group;
 
   async function createGroup({
     title,
@@ -134,6 +135,12 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
       title: 'groupWithJustMe',
       members: [],
     });
+    groupC = await createGroup({
+      ourAci: aci,
+      ourProfileKey: new ProfileKey(profileKey),
+      title: 'groupNotAccepted',
+      members: [],
+    });
 
     let secondState = firstState.addContact(firstContact, {
       identityState: Proto.ContactRecord.IdentityState.VERIFIED,
@@ -154,9 +161,11 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
 
     secondState = secondState.addGroup(groupA, { whitelisted: true });
     secondState = secondState.addGroup(groupB, { whitelisted: true });
+    secondState = secondState.addGroup(groupC, { whitelisted: false });
 
     secondState = secondState.pin(firstContact);
     secondState = secondState.pin(secondContact);
+    secondState = secondState.pinGroup(groupC);
 
     await server.setStorageState({
       aci,
@@ -175,6 +184,12 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
       const leftPane = window.locator('#LeftPane');
       await leftPane
         .locator(`[data-testid="${firstContact.device.aci}"]`)
+        .waitFor();
+
+      debug('verify groupC has been fetched');
+      await leftPane
+        .getByTestId(groupC.id)
+        .getByText('groupNotAccepted')
         .waitFor();
     }
   });
@@ -310,6 +325,29 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
     assert.isTrue(
       areEqual(ourProfileBPlaintext.serialize(), newProfileKey),
       'Profile key should be updated in group B'
+    );
+
+    debug('Check group C');
+
+    const groupCLocal = await server.getGroup(groupC.publicParams.serialize());
+    const clientZkC = new ClientZkGroupCipher(groupC.secretParams);
+    const ourUuidCiphertextC = clientZkC.encryptServiceId(
+      toServiceIdObject(aci)
+    );
+    const ourMemberC = groupCLocal?.getMember(ourUuidCiphertextC);
+
+    strictAssert(ourMemberC, 'should find our own member in group C');
+    strictAssert(
+      ourMemberC?.profileKey,
+      'our member in group C should have a profile key'
+    );
+    const ourProfileCPlaintext = clientZkC.decryptProfileKey(
+      new ProfileKeyCiphertext(ourMemberC?.profileKey),
+      toServiceIdObject(aci)
+    );
+    assert.isTrue(
+      areEqual(ourProfileCPlaintext.serialize(), profileKey),
+      'Profile key should not be updated in group C without profileSharing'
     );
   });
 });
