@@ -240,7 +240,7 @@ export async function makeVideoScreenshot({
 
   const sink = new CanvasSink(track);
 
-  const wrappedCanvas = await sink.getCanvas(0);
+  const wrappedCanvas = await sink.getCanvas(await track.getFirstTimestamp());
   if (wrappedCanvas == null) {
     throw new Error('No video frame');
   }
