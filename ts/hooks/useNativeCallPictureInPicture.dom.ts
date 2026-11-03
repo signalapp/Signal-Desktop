@@ -146,6 +146,7 @@ export function useNativeCallPictureInPicture(
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const cleanupRef = useRef<(() => void) | undefined>(undefined);
+  const isEnteringRef = useRef(false);
 
   const stopRendering = useCallback(() => {
     cleanupRef.current?.();
@@ -180,6 +181,10 @@ export function useNativeCallPictureInPicture(
       log.error('Unable to get 2d context');
       return;
     }
+
+    // Set once this session is torn down, so late failures don't affect a
+    // newer session
+    let isStopped = false;
 
     // Only allocated once the main window stalls
     let frameBuffer: Uint8Array<ArrayBuffer> | undefined;
@@ -301,7 +306,12 @@ export function useNativeCallPictureInPicture(
           isWriting = false;
         } catch (error) {
           frame.close();
-          log.warn('Failed to write frame', Errors.toLogFormat(error));
+          if (isStopped) {
+            return;
+          }
+          // A failed writer stays errored, so no further frames can be shown
+          log.error('Failed to write frame', Errors.toLogFormat(error));
+          void exit();
         }
       };
       pushFrame = () => {
@@ -365,6 +375,7 @@ export function useNativeCallPictureInPicture(
     pushFrame();
     const intervalId = setInterval(pushFrame, FRAME_INTERVAL_MS);
     cleanupRef.current = () => {
+      isStopped = true;
       clearInterval(intervalId);
       cancelAnimationFrame(rafId);
       frameBuffer = undefined;
@@ -377,17 +388,29 @@ export function useNativeCallPictureInPicture(
       log.error('Failed to enter', Errors.toLogFormat(error));
       stopRendering();
     }
-  }, [stopRendering]);
+  }, [exit, stopRendering]);
 
   const toggle = useCallback(() => {
     if (!isSupported) {
       return;
     }
+    if (isEnteringRef.current) {
+      return;
+    }
     if (document.pictureInPictureElement) {
       void exit();
-    } else {
-      void enter();
+      return;
     }
+    const enterOnce = async () => {
+      isEnteringRef.current = true;
+      try {
+        await enter();
+      } catch (error) {
+        log.error('Failed to enter', Errors.toLogFormat(error));
+      }
+      isEnteringRef.current = false;
+    };
+    void enterOnce();
   }, [enter, exit, isSupported]);
 
   // Call controls inside the pip window
@@ -408,7 +431,6 @@ export function useNativeCallPictureInPicture(
         // Unsupported action in this Chromium version
       }
     }
-    mediaSession.metadata = new MediaMetadata({ title: options.title });
 
     return () => {
       for (const action of Object.keys(handlers)) {
@@ -418,9 +440,8 @@ export function useNativeCallPictureInPicture(
           // Unsupported action in this Chromium version
         }
       }
-      mediaSession.metadata = null;
     };
-  }, [isActive, options.title]);
+  }, [isActive]);
 
   useEffect(() => {
     if (!isActive || !('mediaSession' in navigator)) {
