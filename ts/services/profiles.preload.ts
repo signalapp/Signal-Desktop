@@ -625,7 +625,7 @@ async function doGetProfile(
     let sealedSender: SEALED_SENDER;
 
     if (isFieldDefined(profile.unidentifiedAccess)) {
-      if (isFieldDefined(profile.unrestrictedUnidentifiedAccess)) {
+      if (profile.unrestrictedUnidentifiedAccess) {
         sealedSender = SEALED_SENDER.UNRESTRICTED;
       } else if (accessKey != null) {
         const haveCorrectKey = verifyAccessKey(
@@ -646,7 +646,7 @@ async function doGetProfile(
     log.info(
       `${logId}: setting sealedSender to ${SEALED_SENDER[sealedSender]} ` +
         `(unidentifiedAccess: ${isFieldDefined(profile.unidentifiedAccess)}, ` +
-        `unrestrictedUnidentifiedAccess: ${isFieldDefined(profile.unrestrictedUnidentifiedAccess)}, ` +
+        `unrestrictedUnidentifiedAccess: ${Boolean(profile.unrestrictedUnidentifiedAccess)}, ` +
         `accessKey: ${accessKey != null})`
     );
     c.set({ sealedSender });

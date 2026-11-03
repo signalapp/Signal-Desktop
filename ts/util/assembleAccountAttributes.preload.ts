@@ -48,8 +48,10 @@ export function assembleAccountAttributes(): AccountAttributesJSON {
     deriveAccessKeyFromProfileKey(profileKey)
   );
 
-  // Desktop doesn't currently support this setting, so default it to false
-  const unrestrictedUnidentifiedAccess = false;
+  const unrestrictedUnidentifiedAccess = itemStorage.get(
+    'allowSealedSenderFromAnyone',
+    false
+  );
 
   const phoneNumberDiscoverability = itemStorage.get(
     'phoneNumberDiscoverability',

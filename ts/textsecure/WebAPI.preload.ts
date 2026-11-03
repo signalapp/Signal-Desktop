@@ -984,7 +984,7 @@ export type ProfileType = Readonly<{
   avatar?: string;
   phoneNumberSharing?: string;
   unidentifiedAccess?: string;
-  unrestrictedUnidentifiedAccess?: string;
+  unrestrictedUnidentifiedAccess?: boolean;
   uuid?: string;
   credential?: string;
 

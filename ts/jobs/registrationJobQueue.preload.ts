@@ -4,8 +4,7 @@
 import { z } from 'zod';
 import { omit } from 'lodash';
 import { v7 as generateUuid } from 'uuid';
-
-import type PQueue from 'p-queue';
+import PQueue from 'p-queue';
 
 import { drop } from '../util/drop.std.ts';
 import { DAY, MINUTE, SECOND } from '../util/durations/constants.std.ts';
@@ -22,7 +21,7 @@ import {
   migrateSVR2,
   setupRegistrationLock,
   storeWithSVR2,
-  updateAccountAttributes,
+  updateAccountAttributes as doUpdateAccountAttributes,
 } from '../textsecure/WebAPI.preload.ts';
 import { normalizePin } from '../util/normalizePin.std.ts';
 import { resetWithNewKey as resetStorageServiceWithNewKey } from '../services/storage.preload.ts';
@@ -57,11 +56,12 @@ const MAX_ATTEMPTS = exponentialBackoffMaxAttempts(
 //   these values, you'll likely need to write a database migration.
 const registrationQueueJobEnum = z.enum([
   'MigrateSVR',
+  'RotateProfileKey',
   'StoreSVR',
+  'UpdateAccountAttributes',
+  'UpdateGroupsWithNewProfileKey',
   'UpdateToNewMasterKey',
   'UploadProfile',
-  'RotateProfileKey',
-  'UpdateGroupsWithNewProfileKey',
 ]);
 type RegistrationQueueJobEnum = z.infer<typeof registrationQueueJobEnum>;
 
@@ -74,16 +74,6 @@ export type RegistrationQueueJobState = {
       sessionData: string;
     }
   >;
-  [registrationQueueJobEnum.enum.StoreSVR]?: Record<
-    string,
-    {
-      id: string;
-      timestamp: number;
-      sessionData: string;
-    }
-  >;
-  [registrationQueueJobEnum.enum.UpdateToNewMasterKey]?: undefined;
-  [registrationQueueJobEnum.enum.UploadProfile]?: undefined;
   [registrationQueueJobEnum.enum.RotateProfileKey]?: Record<
     string,
     {
@@ -92,6 +82,15 @@ export type RegistrationQueueJobState = {
       newProfileKeyBase64: string;
     }
   >;
+  [registrationQueueJobEnum.enum.StoreSVR]?: Record<
+    string,
+    {
+      id: string;
+      timestamp: number;
+      sessionData: string;
+    }
+  >;
+  [registrationQueueJobEnum.enum.UpdateAccountAttributes]?: undefined;
   [registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey]?: Record<
     string,
     {
@@ -100,6 +99,8 @@ export type RegistrationQueueJobState = {
       completedGroupIds: Array<string>;
     }
   >;
+  [registrationQueueJobEnum.enum.UpdateToNewMasterKey]?: undefined;
+  [registrationQueueJobEnum.enum.UploadProfile]?: undefined;
 };
 
 const migrateSVRJobDataSchema = z.object({
@@ -109,12 +110,38 @@ const migrateSVRJobDataSchema = z.object({
 });
 export type MigrateSVRJobData = z.infer<typeof migrateSVRJobDataSchema>;
 
+const rotateProfileKeyJobDataSchema = z.object({
+  type: z.literal(registrationQueueJobEnum.enum.RotateProfileKey),
+  id: z.string(),
+  oldProfileKeyBase64: z.string(),
+});
+export type RotateProfileKeyJobData = z.infer<
+  typeof rotateProfileKeyJobDataSchema
+>;
+
 const storeSVRJobDataSchema = z.object({
   type: z.literal(registrationQueueJobEnum.enum.StoreSVR),
   id: z.string(),
   reason: z.string(),
 });
 export type StoreSVRJobData = z.infer<typeof storeSVRJobDataSchema>;
+
+const updateAccountAttributesSchema = z.object({
+  type: z.literal(registrationQueueJobEnum.enum.UpdateAccountAttributes),
+  id: z.string(),
+});
+export type UpdateAccountAttributesSchemaJobData = z.infer<
+  typeof updateAccountAttributesSchema
+>;
+
+const updateGroupsWithNewProfileKeyJobDataSchema = z.object({
+  type: z.literal(registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey),
+  id: z.string(),
+  newProfileKeyBase64: z.string(),
+});
+export type UpdateGroupsWithNewProfileKeyJobData = z.infer<
+  typeof updateGroupsWithNewProfileKeyJobDataSchema
+>;
 
 const updateToNewMasterKeyJobDataSchema = z.object({
   type: z.literal(registrationQueueJobEnum.enum.UpdateToNewMasterKey),
@@ -136,31 +163,14 @@ const uploadProfileJobDataSchema = z.object({
 });
 export type UploadProfileJobData = z.infer<typeof uploadProfileJobDataSchema>;
 
-const rotateProfileKeyJobDataSchema = z.object({
-  type: z.literal(registrationQueueJobEnum.enum.RotateProfileKey),
-  id: z.string(),
-  oldProfileKeyBase64: z.string(),
-});
-export type RotateProfileKeyJobData = z.infer<
-  typeof rotateProfileKeyJobDataSchema
->;
-
-const updateGroupsWithNewProfileKeyJobDataSchema = z.object({
-  type: z.literal(registrationQueueJobEnum.enum.UpdateGroupsWithNewProfileKey),
-  id: z.string(),
-  newProfileKeyBase64: z.string(),
-});
-export type UpdateGroupsWithNewProfileKeyJobData = z.infer<
-  typeof updateGroupsWithNewProfileKeyJobDataSchema
->;
-
 export const registrationQueueJobDataSchema = z.discriminatedUnion('type', [
   migrateSVRJobDataSchema,
+  rotateProfileKeyJobDataSchema,
   storeSVRJobDataSchema,
+  updateAccountAttributesSchema,
+  updateGroupsWithNewProfileKeyJobDataSchema,
   updateToNewMasterKeyJobDataSchema,
   uploadProfileJobDataSchema,
-  rotateProfileKeyJobDataSchema,
-  updateGroupsWithNewProfileKeyJobDataSchema,
 ]);
 export type RegistrationQueueJobData = z.infer<
   typeof registrationQueueJobDataSchema
@@ -186,6 +196,14 @@ async function putJobState<T extends RegistrationQueueJobEnum>(
   const overallState = itemStorage.get('registrationJobQueueState');
   const newState = { ...overallState, [type]: state };
   await itemStorage.put('registrationJobQueueState', newState);
+}
+
+// We always want to do these in order - gather data, ensure server has it, then next
+const accountAttributesQueue = new PQueue({ concurrency: 1 });
+async function updateAccountAttributesInSerial(): Promise<void> {
+  await accountAttributesQueue.add(() =>
+    doUpdateAccountAttributes(assembleAccountAttributes())
+  );
 }
 
 class RegistrationJobQueue extends JobQueue<RegistrationQueueJobData> {
@@ -253,8 +271,20 @@ class RegistrationJobQueue extends JobQueue<RegistrationQueueJobData> {
           await migrateSVR(data, bundle);
           break;
         }
+        case go.RotateProfileKey: {
+          await rotateProfileKey(data, bundle);
+          break;
+        }
         case go.StoreSVR: {
           await storeSVR(data, bundle);
+          break;
+        }
+        case go.UpdateAccountAttributes: {
+          await updateAccountAttributes(data, bundle);
+          break;
+        }
+        case go.UpdateGroupsWithNewProfileKey: {
+          await updateGroupsWithNewProfileKey(data, bundle);
           break;
         }
         case go.UpdateToNewMasterKey: {
@@ -263,14 +293,6 @@ class RegistrationJobQueue extends JobQueue<RegistrationQueueJobData> {
         }
         case go.UploadProfile: {
           await uploadProfile(data, bundle);
-          break;
-        }
-        case go.RotateProfileKey: {
-          await rotateProfileKey(data, bundle);
-          break;
-        }
-        case go.UpdateGroupsWithNewProfileKey: {
-          await updateGroupsWithNewProfileKey(data, bundle);
           break;
         }
         default: {
@@ -510,6 +532,20 @@ async function uploadProfile(
   log.info(`${logId}: Successfully uploaded profile!`);
 }
 
+async function updateAccountAttributes(
+  data: UpdateAccountAttributesSchemaJobData,
+  bundle: RegistrationQueueJobBundle
+) {
+  const { id } = data;
+  const { log, timestamp } = bundle;
+  const type = registrationQueueJobEnum.enum.UpdateAccountAttributes;
+  const logId = `${type}/${timestamp}/${id}`;
+
+  log.info(`${logId}: Updating account attributes...`);
+  await updateAccountAttributesInSerial();
+  log.info(`${logId}: Complete!`);
+}
+
 async function rotateProfileKey(
   data: RotateProfileKeyJobData,
   bundle: RegistrationQueueJobBundle
@@ -588,7 +624,7 @@ async function rotateProfileKey(
     }
 
     log.info(`${logId}: Updating account attributes...`);
-    await updateAccountAttributes(assembleAccountAttributes());
+    await updateAccountAttributesInSerial();
 
     log.info(`${logId}: Uploading profile...`);
     const meProps = getConversation(me);

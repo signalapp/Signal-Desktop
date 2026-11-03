@@ -2486,6 +2486,18 @@
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender",
+    "description": "Preferences > Privacy Page > Sealed Sender section header"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone",
+    "description": "Preferences > Privacy Page > Allow From Anyone Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>.",
+    "description": "Preferences > Privacy Page > Allow From Anyone Checkbox > Description"
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Show status icon",
     "description": "Preferences > Privacy Page > Show Status Icon Checkbox > Label"

@@ -22,6 +22,7 @@ import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.ts';
 import {
   KEY_TRANSPARENCY_URL,
   RESTORE_ACCOUNT_URL,
+  SEALED_SENDER_URL,
 } from '../types/support.std.ts';
 import { getBubbleColorBackground } from '../util/getCustomColorStyle.std.ts';
 import {
@@ -144,6 +145,7 @@ export type PropsDataType = {
   defaultBubbleColor: ChatStyle['bubbleColor'];
   deviceName?: string;
   emojiSkinToneDefault: Emoji.SkinTone;
+  hasAllowSealedSenderFromAnyone: boolean;
   hasAnyCurrentCustomChatFolders: boolean;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -327,6 +329,7 @@ type PropsFunctionType = {
   addVisibleMegaphone: (megaphone: VisibleRemoteMegaphoneType) => void;
 
   // Change handlers
+  onAllowSealedSenderFromAnyoneChange: CheckboxChangeHandlerType;
   onAudioNotificationsChange: CheckboxChangeHandlerType;
   onAutoConvertEmojiChange: CheckboxChangeHandlerType;
   onAutoDownloadAttachmentChange: (
@@ -475,6 +478,7 @@ export function Preferences({
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  hasAllowSealedSenderFromAnyone,
   hasAnyCurrentCustomChatFolders,
   hasAudioNotifications,
   hasAutoConvertEmoji,
@@ -531,6 +535,7 @@ export function Preferences({
   navTabsCollapsed,
   notificationContent,
   notifyWhileMuted,
+  onAllowSealedSenderFromAnyoneChange,
   onAudioNotificationsChange,
   onAutoConvertEmojiChange,
   onAutoDownloadAttachmentChange,
@@ -1832,7 +1837,9 @@ export function Preferences({
             }
           />
         </PreferencesList>
-        <PreferencesList label={i18n('icu:Preferences--advanced')}>
+        <PreferencesList
+          label={i18n('icu:Preferences__PrivacyPage__SealedSender')}
+        >
           <AxoSwitchItem.Root
             label={
               <>
@@ -1846,7 +1853,38 @@ export function Preferences({
             checked={hasSealedSenderIndicators}
             onCheckedChange={onSealedSenderIndicatorsChange}
           />
-          {isKeyTransparencyAvailable && (
+          {weArePrimaryDevice && (
+            <AxoSwitchItem.Root
+              label={i18n(
+                'icu:Preferences__PrivacyPage__AllowFromAnyone__Label'
+              )}
+              description={
+                <I18n
+                  i18n={i18n}
+                  id="icu:Preferences__PrivacyPage__AllowFromAnyone__Description"
+                  components={{
+                    learnMoreLink: (parts: Array<JSX.Element | string>) => {
+                      return (
+                        <a
+                          className={tw('text-primary')}
+                          href={SEALED_SENDER_URL}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {parts}
+                        </a>
+                      );
+                    },
+                  }}
+                />
+              }
+              checked={hasAllowSealedSenderFromAnyone}
+              onCheckedChange={onAllowSealedSenderFromAnyoneChange}
+            />
+          )}
+        </PreferencesList>
+        {isKeyTransparencyAvailable && (
+          <PreferencesList label={i18n('icu:Preferences--advanced')}>
             <AxoSwitchItem.Root
               label={i18n(
                 'icu:Preferences__PrivacyPage__KeyTransparency__Label'
@@ -1877,8 +1915,8 @@ export function Preferences({
                 );
               }}
             />
-          )}
-        </PreferencesList>
+          </PreferencesList>
+        )}
         <AxoConfirmDialog.Root
           open={confirmStoriesOff}
           onOpenChange={setConfirmStoriesOff}
