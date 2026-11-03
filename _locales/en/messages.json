@@ -5262,6 +5262,14 @@
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
   },
+  "icu:calling__native-pip--on": {
+    "messageformat": "Pop out video",
+    "description": "Title for button that moves the call video into a separate floating window"
+  },
+  "icu:calling__native-pip--off": {
+    "messageformat": "Return video to Signal",
+    "description": "Title for button that closes the floating call video window"
+  },
   "icu:calling__preview--maximize": {
     "messageformat": "Maximize preview",
     "description": "Title for button to make in-call video preview bigger"

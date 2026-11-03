@@ -16,8 +16,10 @@ export type PropsType = {
   callViewMode?: CallViewMode;
   i18n: LocalizerType;
   isGroupCall?: boolean;
+  isNativePipActive?: boolean;
   onCancel?: () => void;
   participantCount: number;
+  toggleNativePip?: () => void;
   togglePip?: () => void;
   toggleSettings: (open: boolean) => void;
   changeCallView?: (mode: CallViewMode) => void;
@@ -28,8 +30,10 @@ export function CallingHeader({
   changeCallView,
   i18n,
   isGroupCall = false,
+  isNativePipActive = false,
   onCancel,
   participantCount,
+  toggleNativePip,
   togglePip,
   toggleSettings,
 }: PropsType): JSX.Element {
@@ -98,6 +102,19 @@ export function CallingHeader({
         label={i18n('icu:callingDeviceSelection__settings-v2')}
         onClick={() => toggleSettings(true)}
       />
+      {toggleNativePip && (
+        <AxoIconButton.Root
+          variant="elevated-secondary"
+          size="lg"
+          symbol="open"
+          label={
+            isNativePipActive
+              ? i18n('icu:calling__native-pip--off')
+              : i18n('icu:calling__native-pip--on')
+          }
+          onClick={toggleNativePip}
+        />
+      )}
       {togglePip && (
         <AxoIconButton.Root
           variant="elevated-secondary"

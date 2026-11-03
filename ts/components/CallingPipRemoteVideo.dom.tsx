@@ -26,7 +26,7 @@ import { AvatarColors } from '../types/Avatar.std.ts';
 import type { SetRendererCanvasType } from '../state/ducks/calling.preload.ts';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.ts';
 import { MAX_FRAME_HEIGHT } from '../calling/constants.std.ts';
-import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
+import { useIsCallVideoVisible } from '../hooks/useNativeCallPictureInPicture.dom.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.ts';
 import { isReconnecting } from '../util/callingIsReconnecting.std.ts';
@@ -116,7 +116,7 @@ export function CallingPipRemoteVideo({
 
   const getGroupCallFrameBuffer = useGetCallingFrameBuffer();
 
-  const isPageVisible = usePageVisibility();
+  const isPageVisible = useIsCallVideoVisible();
 
   const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
     useMemo(() => {

@@ -134,6 +134,8 @@ const IPC: IPCType = {
   removeSetupMenuItems: () => ipc.send('remove-setup-menu-items'),
   setAutoHideMenuBar: autoHide => ipc.send('set-auto-hide-menu-bar', autoHide),
   setAutoLaunch: value => ipc.invoke('set-auto-launch', value),
+  setBackgroundThrottling: value =>
+    ipc.send('set-background-throttling', value),
   setBadgeCount: badgeCount => ipc.send('set-badge-count', badgeCount),
   setMenuBarVisibility: visibility =>
     ipc.send('set-menu-bar-visibility', visibility),

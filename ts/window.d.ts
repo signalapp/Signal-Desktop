@@ -53,6 +53,7 @@ export type IPCType = {
   removeSetupMenuItems: () => unknown;
   setAutoHideMenuBar: (value: boolean) => void;
   setAutoLaunch: (value: boolean) => Promise<void>;
+  setBackgroundThrottling: (value: boolean) => void;
   setBadgeCount: (badgeCount: number) => void;
   setMediaPermissions: (value: boolean) => Promise<void>;
   setMediaCameraPermissions: (value: boolean) => Promise<void>;

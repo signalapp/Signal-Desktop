@@ -463,6 +463,10 @@ export class CanvasVideoRenderer {
     }
   }
 
+  getSource(): VideoFrameSource | undefined {
+    return this.source;
+  }
+
   enable(source: VideoFrameSource): void {
     if (this.source === source) {
       return;

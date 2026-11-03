@@ -1117,6 +1117,13 @@ ipc.on('show-window', () => {
   showWindow();
 });
 
+// Disabled while the call video is popped out into a picture-in-picture
+// window, so it keeps rendering when the main window is hidden or on another
+// workspace.
+ipc.on('set-background-throttling', (_event, value: unknown) => {
+  mainWindow?.webContents.setBackgroundThrottling(value !== false);
+});
+
 ipc.on('start-tracking-query-stats', () => {
   sql.startTrackingQueryStats();
 });

@@ -4,6 +4,7 @@
 import lodash from 'lodash';
 import { memo, useEffect, useState, type JSX } from 'react';
 import { useSelector } from 'react-redux';
+import type { VideoFrameSource } from '@signalapp/ringrtc';
 import type {
   DirectIncomingCall,
   GroupIncomingCall,
@@ -77,6 +78,10 @@ function renderCallingParticipantMenu(
 
 const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
+
+function getDirectCallVideoFrameSource(): VideoFrameSource | undefined {
+  return callingService.videoRenderer.getSource();
+}
 
 const notifyForCall = callingService.notifyForCall.bind(callingService);
 
@@ -495,6 +500,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       closeNeedPermissionScreen={closeNeedPermissionScreen}
       declineCall={declineCall}
       denyUser={denyUser}
+      getDirectCallVideoFrameSource={getDirectCallVideoFrameSource}
       getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
       getIsSharingPhoneNumberWithEverybody={
         getIsSharingPhoneNumberWithEverybody

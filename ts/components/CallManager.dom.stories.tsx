@@ -117,6 +117,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
   denyUser: action('deny-user'),
+  getDirectCallVideoFrameSource: () => undefined,
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
     fakeGetGroupCallVideoFrameSource(demuxId),
   getIsSharingPhoneNumberWithEverybody: () => false,

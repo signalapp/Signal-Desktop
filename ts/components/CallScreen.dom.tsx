@@ -154,6 +154,8 @@ export type PropsType = {
   switchFromPresentationView: () => void;
   toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleParticipants: () => void;
+  isNativePipActive?: boolean;
+  toggleNativePip?: () => void;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: (open: boolean) => void;
   toggleSelfViewExpanded: () => void;
@@ -239,6 +241,8 @@ export function CallScreen({
   switchToPresentationView,
   switchFromPresentationView,
   toggleCallLinkPendingParticipantModal,
+  toggleNativePip,
+  isNativePipActive,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -1098,7 +1102,9 @@ export function CallScreen({
           changeCallView={changeCallView}
           i18n={i18n}
           isGroupCall={isGroupCall}
+          isNativePipActive={isNativePipActive}
           participantCount={participantCount}
+          toggleNativePip={toggleNativePip}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
         />

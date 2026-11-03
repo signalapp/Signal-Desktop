@@ -23,7 +23,7 @@ import type {
 import { CallViewMode } from '../types/Calling.std.ts';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { usePageVisibility } from '../hooks/usePageVisibility.dom.ts';
+import { useIsCallVideoVisible } from '../hooks/useNativeCallPictureInPicture.dom.ts';
 import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio.dom.ts';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
@@ -622,7 +622,7 @@ function useInvisibleParticipants(
 }
 
 function useVideoRequestMode(): VideoRequestMode {
-  const isPageVisible = usePageVisibility();
+  const isPageVisible = useIsCallVideoVisible();
 
   const [result, setResult] = useState<VideoRequestMode>(
     isPageVisible ? VideoRequestMode.Normal : VideoRequestMode.LowResolution

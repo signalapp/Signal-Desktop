@@ -56,6 +56,7 @@ import { isGroupOrAdhocActiveCall } from '../util/isGroupOrAdhocCall.std.ts';
 import { CallingAdhocCallInfo } from './CallingAdhocCallInfo.dom.tsx';
 import { callLinkRootKeyToUrl } from '../util/callLinkRootKeyToUrl.std.ts';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
+import { useNativeCallPictureInPicture } from '../hooks/useNativeCallPictureInPicture.dom.ts';
 import { copyCallLink } from '../util/copyLinksWithToast.dom.ts';
 import {
   redactNotificationProfileId,
@@ -68,7 +69,7 @@ import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
-const { noop } = lodash;
+const { maxBy, noop } = lodash;
 
 const log = createLogger('CallManager');
 
@@ -102,6 +103,7 @@ export type PropsType = {
   cancelCall: (_: CancelCallType) => void;
   changeCallView: (mode: CallViewMode) => void;
   closeNeedPermissionScreen: () => void;
+  getDirectCallVideoFrameSource: () => VideoFrameSource | undefined;
   getGroupCallVideoFrameSource: (
     conversationId: string,
     demuxId: number
@@ -197,6 +199,7 @@ function ActiveCallManager({
   i18n,
   isOnline,
   getIsSharingPhoneNumberWithEverybody,
+  getDirectCallVideoFrameSource,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   me,
@@ -307,6 +310,47 @@ function ActiveCallManager({
     strictAssert(callLink != null, 'Missing call link');
     showShareCallLinkViaSignal(callLink, i18n);
   }, [callLink, i18n, showShareCallLinkViaSignal]);
+
+  const hangUpFromNativePip = useCallback(() => {
+    hangUpActiveCall('native pip button click');
+  }, [hangUpActiveCall]);
+  const toggleAudioFromNativePip = useCallback(() => {
+    setLocalAudio({ enabled: !hasLocalAudio });
+  }, [hasLocalAudio, setLocalAudio]);
+  const toggleVideoFromNativePip = useCallback(() => {
+    setLocalVideo({ enabled: !hasLocalVideo });
+  }, [hasLocalVideo, setLocalVideo]);
+
+  // Same participant as shown by CallingPipRemoteVideo
+  const getNativePipVideoFrameSource = useCallback(():
+    | VideoFrameSource
+    | undefined => {
+    if (activeCall.callMode === CallMode.Direct) {
+      return getDirectCallVideoFrameSource();
+    }
+    const speaker = maxBy(activeCall.remoteParticipants, participant =>
+      participant.presenting ? Infinity : participant.speakerTime || -Infinity
+    );
+    if (!speaker?.hasRemoteVideo) {
+      return undefined;
+    }
+    return getGroupCallVideoFrameSourceForActiveCall(speaker.demuxId);
+  }, [
+    activeCall,
+    getDirectCallVideoFrameSource,
+    getGroupCallVideoFrameSourceForActiveCall,
+  ]);
+
+  // OS-level floating window, which can be moved to other workspaces/monitors
+  const nativePip = useNativeCallPictureInPicture({
+    title: conversation.title,
+    hasLocalAudio,
+    hasLocalVideo,
+    getVideoFrameSource: getNativePipVideoFrameSource,
+    hangUp: hangUpFromNativePip,
+    toggleAudio: toggleAudioFromNativePip,
+    toggleVideo: toggleVideoFromNativePip,
+  });
 
   let isCallFull: boolean;
   let showCallLobby: boolean;
@@ -487,6 +531,7 @@ function ActiveCallManager({
         i18n={i18n}
         imageDataCache={imageDataCache}
         isCallLinkAdmin={isCallLinkAdmin}
+        isNativePipActive={nativePip.isActive}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
         renderCallingParticipantMenu={renderCallingParticipantMenu}
@@ -507,6 +552,7 @@ function ActiveCallManager({
         toggleScreenRecordingPermissionsDialog={
           toggleScreenRecordingPermissionsDialog
         }
+        toggleNativePip={nativePip.isSupported ? nativePip.toggle : undefined}
         toggleParticipants={toggleParticipants}
         togglePip={togglePip}
         toggleSelfViewExpanded={toggleSelfViewExpanded}
@@ -567,6 +613,7 @@ export function CallManager({
   closeNeedPermissionScreen,
   declineCall,
   denyUser,
+  getDirectCallVideoFrameSource,
   getGroupCallVideoFrameSource,
   getPresentingSources,
   hangUpActiveCall,
@@ -684,6 +731,7 @@ export function CallManager({
           changeCallView={changeCallView}
           closeNeedPermissionScreen={closeNeedPermissionScreen}
           denyUser={denyUser}
+          getDirectCallVideoFrameSource={getDirectCallVideoFrameSource}
           getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
           getPresentingSources={getPresentingSources}
           hangUpActiveCall={hangUpActiveCall}
