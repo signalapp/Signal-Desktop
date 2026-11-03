@@ -205,8 +205,15 @@ async function transcodeVideo(
     }),
   });
 
+  // Compute rough bitrate over a second or so
+  const { averageBitrate: sourceVideoBitrate } =
+    await videoTrack.computePacketStats(30);
+
   const quality = new Quality({
-    bitrate: Math.floor(options.videoBitrateMbps * 1e6),
+    bitrate: Math.min(
+      sourceVideoBitrate,
+      Math.floor(options.videoBitrateMbps * 1e6)
+    ),
     bitrateMode: 'constant',
   });
 
