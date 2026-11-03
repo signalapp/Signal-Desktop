@@ -611,7 +611,10 @@ class CallingClass {
   // A cache to limit requests for relay servers.
   #iceServersCache: IceServerCacheType | undefined;
 
-  #lastMediaDeviceSettings?: MediaDeviceSettings;
+  #mediaDeviceSettings?: MediaDeviceSettings;
+  #appliedCameraId: string | undefined;
+  #appliedMicrophoneId: string | undefined;
+  #appliedSpeakerId: string | undefined;
   #deviceReselectionTimer?: NodeJS.Timeout;
   #callsLookup: { [key: string]: Call | GroupCall };
 
@@ -3125,20 +3128,17 @@ class CallingClass {
 
   async #maybeUpdateDevices(newSettings: MediaDeviceSettings): Promise<void> {
     if (
-      !this.#mediaDeviceSettingsEqual(
-        this.#lastMediaDeviceSettings,
-        newSettings
-      )
+      !this.#mediaDeviceSettingsEqual(this.#mediaDeviceSettings, newSettings)
     ) {
       log.info(
         'MediaDevice: available devices changed (from->to)',
-        cleanForLogging(this.#lastMediaDeviceSettings),
+        cleanForLogging(this.#mediaDeviceSettings),
         cleanForLogging(newSettings)
       );
 
-      await this.#selectPreferredDevices(newSettings);
-      this.#lastMediaDeviceSettings = newSettings;
+      this.#mediaDeviceSettings = newSettings;
       this.#reduxInterface?.refreshIODevices(newSettings);
+      await this.#selectPreferredDevices(newSettings);
     }
   }
 
@@ -3221,18 +3221,15 @@ class CallingClass {
     );
   }
 
-  #setAudioInput(available: AudioDeviceList, preferred: AudioDevicePref) {
-    const device = findBestMatchingAudioDevice({
-      available,
-      preferred,
-    });
-
+  #setAudioInput(device: AudioDevice | null) {
     if (device == null) {
       log.error(
         'MediaDevice: findBestMatchingAudioDevice found no microphones'
       );
+      this.#appliedMicrophoneId = undefined;
       return;
     }
+    this.#appliedMicrophoneId = device.uniqueId;
 
     log.info(
       'MediaDevice: setPreferredMicrophone',
@@ -3245,6 +3242,9 @@ class CallingClass {
         try {
           await RingRTC.setAudioInputById(device.uniqueId);
         } catch {
+          if (this.#appliedMicrophoneId === device.uniqueId) {
+            this.#appliedMicrophoneId = undefined;
+          }
           // TODO: DESKTOP-10656: handle this error case
           log.error('MediaDevice: failed to set audio input');
         }
@@ -3252,16 +3252,13 @@ class CallingClass {
     );
   }
 
-  #setAudioOutput(available: AudioDeviceList, preferred: AudioDevicePref) {
-    const device = findBestMatchingAudioDevice({
-      available,
-      preferred,
-    });
-
+  #setAudioOutput(device: AudioDevice | null) {
     if (device == null) {
       log.error('MediaDevice: findBestMatchingAudioDevice found no speakers');
+      this.#appliedSpeakerId = undefined;
       return;
     }
+    this.#appliedSpeakerId = device.uniqueId;
 
     log.info(
       'MediaDevice: setSelectedSpeaker',
@@ -3274,6 +3271,9 @@ class CallingClass {
         try {
           await RingRTC.setAudioOutputById(device.uniqueId);
         } catch {
+          if (this.#appliedSpeakerId === device.uniqueId) {
+            this.#appliedSpeakerId = undefined;
+          }
           // TODO: DESKTOP-10656: handle this error case
           log.error('MediaDevice: failed to set audio output');
         }
@@ -3282,28 +3282,35 @@ class CallingClass {
   }
 
   setPreferredMicrophone(pref: AudioDevicePref): void {
-    if (this.#lastMediaDeviceSettings === undefined) {
+    if (this.#mediaDeviceSettings === undefined) {
       log.error(
-        'MediaDevice: setPreferredMicrophone with missing #lastMediaDeviceSettings'
+        'MediaDevice: setPreferredMicrophone with missing #mediaDeviceSettings'
       );
       return;
     }
     drop(setPreferredAudioInputDevice(pref));
     this.#setAudioInput(
-      this.#lastMediaDeviceSettings.availableMicrophones,
-      pref
+      findBestMatchingAudioDevice({
+        available: this.#mediaDeviceSettings.availableMicrophones,
+        preferred: pref,
+      })
     );
   }
 
   setSelectedSpeaker(pref: AudioDevicePref): void {
-    if (this.#lastMediaDeviceSettings === undefined) {
+    if (this.#mediaDeviceSettings === undefined) {
       log.error(
-        'MediaDevice: setSelectedSpeaker with missing #lastMediaDeviceSettings'
+        'MediaDevice: setSelectedSpeaker with missing #mediaDeviceSettings'
       );
       return;
     }
     drop(setPreferredAudioOutputDevice(pref));
-    this.#setAudioOutput(this.#lastMediaDeviceSettings.availableSpeakers, pref);
+    this.#setAudioOutput(
+      findBestMatchingAudioDevice({
+        available: this.#mediaDeviceSettings.availableSpeakers,
+        preferred: pref,
+      })
+    );
   }
 
   async enableLocalCamera(mode: CallMode): Promise<void> {
@@ -3342,9 +3349,21 @@ class CallingClass {
   }
 
   async setSelectedCamera(device: string): Promise<void> {
-    log.info('MediaDevice: setSelectedCamera', device);
     drop(setPreferredVideoInputDevice(device));
-    await this.#videoCapturer.setPreferredDevice(device);
+    await this.#setCamera(device);
+  }
+
+  async #setCamera(deviceId: string): Promise<void> {
+    log.info('MediaDevice: selecting camera', deviceId);
+    this.#appliedCameraId = deviceId;
+    try {
+      await this.#videoCapturer.setPreferredDevice(deviceId);
+    } catch (error) {
+      if (this.#appliedCameraId === deviceId) {
+        this.#appliedCameraId = undefined;
+      }
+      log.error('MediaDevice: failed to set camera', Errors.toLogFormat(error));
+    }
   }
 
   async handleCallingMessage(
@@ -3484,29 +3503,31 @@ class CallingClass {
   }
 
   async #selectPreferredDevices(settings: MediaDeviceSettings): Promise<void> {
-    if (
-      (!this.#lastMediaDeviceSettings && settings.selectedCamera) ||
-      (this.#lastMediaDeviceSettings &&
-        settings.selectedCamera &&
-        this.#lastMediaDeviceSettings.selectedCamera !==
-          settings.selectedCamera)
-    ) {
-      log.info('MediaDevice: selecting camera', settings.selectedCamera);
-      await this.#videoCapturer.setPreferredDevice(settings.selectedCamera);
-    }
-
     if (settings.selectedMicrophone) {
-      this.#setAudioInput(
-        settings.availableMicrophones,
-        settings.selectedMicrophone
-      );
+      const microphone = findBestMatchingAudioDevice({
+        available: settings.availableMicrophones,
+        preferred: settings.selectedMicrophone,
+      });
+      if (microphone?.uniqueId !== this.#appliedMicrophoneId) {
+        this.#setAudioInput(microphone);
+      }
     }
 
     if (settings.selectedSpeaker) {
-      this.#setAudioOutput(
-        settings.availableSpeakers,
-        settings.selectedSpeaker
-      );
+      const speaker = findBestMatchingAudioDevice({
+        available: settings.availableSpeakers,
+        preferred: settings.selectedSpeaker,
+      });
+      if (speaker?.uniqueId !== this.#appliedSpeakerId) {
+        this.#setAudioOutput(speaker);
+      }
+    }
+
+    const { selectedCamera } = settings;
+    if (!selectedCamera) {
+      this.#appliedCameraId = undefined;
+    } else if (selectedCamera !== this.#appliedCameraId) {
+      await this.#setCamera(selectedCamera);
     }
   }
 
