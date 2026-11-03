@@ -4,9 +4,13 @@
 import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
-import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
 import { areEqual } from '../Bytes.std.ts';
 import { isOnline } from '../textsecure/WebAPI.preload.ts';
+import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
+import { isMember } from './groupMembershipUtils.preload.ts';
+import { isBlocked } from './isBlocked.preload.ts';
+import type { ConversationAttributesType } from '../model-types.std.ts';
+import type { AciString } from '../types/ServiceId.std.ts';
 
 const log = createLogger('updateProfileKeyForAllGroups');
 
@@ -21,6 +25,19 @@ type UpdateProfileKeyResult =
   | {
       state: 'canceled';
     };
+
+function shouldShareProfileKeyWithGroup(
+  attributes: ConversationAttributesType,
+  ourAci: AciString
+): boolean {
+  return (
+    isGroupV2(attributes) &&
+    isMember(attributes, ourAci) &&
+    !attributes.terminated &&
+    Boolean(attributes.profileSharing) &&
+    !isBlocked(attributes)
+  );
+}
 
 export async function updateProfileKeyForAllGroups(
   profileKeyForUpdate: Uint8Array<ArrayBuffer>,
@@ -39,10 +56,8 @@ export async function updateProfileKeyForAllGroups(
       const groupId = conversation.get('groupId');
 
       return (
-        isGroupV2(conversation.attributes) &&
         groupId &&
-        conversation.isMember(ourAci) &&
-        !conversation.get('terminated') &&
+        shouldShareProfileKeyWithGroup(conversation.attributes, ourAci) &&
         !groupIdsAlreadyCompleted.has(groupId)
       );
     }
@@ -65,7 +80,10 @@ export async function updateProfileKeyForAllGroups(
       const groupId = group.get('groupId');
 
       // First, double-check that we still need to update the group
-      if (!groupId || !group.isMember(ourAci) || group.get('terminated')) {
+      if (
+        !groupId ||
+        !shouldShareProfileKeyWithGroup(group.attributes, ourAci)
+      ) {
         log.warn(`Group ${group.idForLogging()} no longer needs an update`);
         continue;
       }
