@@ -210,9 +210,8 @@ async function transcodeVideo(
     await videoTrack.computePacketStats(30);
 
   const quality = new Quality({
-    bitrate: Math.min(
-      sourceVideoBitrate,
-      Math.floor(options.videoBitrateMbps * 1e6)
+    bitrate: Math.floor(
+      Math.min(sourceVideoBitrate, options.videoBitrateMbps * 1e6)
     ),
     bitrateMode: 'constant',
   });
