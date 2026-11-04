@@ -125,6 +125,7 @@ const config = {
         'src/index.ts!',
         'certs/generate-trust-root.js',
         'certs/generate-zk-params.js',
+        'scripts/**/*.mjs',
       ],
       ignoreFiles: ['src/**/*.ts', 'test/**/*.ts'],
       ignoreDependencies: ['.*'],

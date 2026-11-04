@@ -19,6 +19,9 @@ service Attachments {
 
   // Retrieve an upload form that can be used to perform a resumable upload
   rpc GetUploadForm(GetUploadFormRequest) returns (GetUploadFormResponse) {}
+
+  // Retrieve an upload form that can be used to upload a sticker pack
+  rpc GetStickerUploadForm(GetStickerUploadFormRequest) returns (GetStickerUploadFormResponse) {}
 }
 
 message GetUploadFormRequest {
@@ -36,4 +39,20 @@ message GetUploadFormResponse {
     // `global.attachments.maxBytes`
     errors.FailedPrecondition exceeds_max_upload_length = 2 [(tag.reason) = "oversize_upload"];
   }
+}
+
+message GetStickerUploadFormRequest {
+  // The number of stickers in the sticker pack to upload
+  uint32 sticker_count = 1 [(require.range) = {min: 1, max: 201}];
+}
+
+message GetStickerUploadFormResponse {
+  // A randomly-generated ID for the new sticker pack
+  string pack_id = 1;
+
+  // An upload form clients must use to upload a manifest for the sticker pack
+  common.S3UploadForm manifest_upload_form = 2;
+
+  // Upload forms for individual stickers within the sticker pack
+  repeated common.S3UploadForm sticker_upload_forms = 3;
 }

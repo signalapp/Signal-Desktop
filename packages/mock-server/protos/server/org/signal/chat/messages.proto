@@ -16,6 +16,8 @@ import "org/signal/chat/require.proto";
 import "org/signal/chat/errors.proto";
 import "org/signal/chat/tag.proto";
 
+import "TextSecure.proto";
+
 // Provides methods for sending "unsealed sender" messages.
 service Messages {
 
@@ -31,6 +33,68 @@ service Messages {
   // Sends a "sync" message to all other devices linked to the authenticated
   // sender's account.
   rpc SendSyncMessage(SendSyncMessageRequest) returns (SendMessageAuthenticatedSenderResponse) {}
+
+  // Retrieve messages for the authenticated device. When the caller receives
+  // and successfully processes a message returned in a GetMessagesResponse they
+  // must send a corresponding GetMessagesRequest indicating that the message
+  // has been processed (an ack). Acks should only be sent for messages
+  // delivered via the currently open RPC.
+  //
+  // Only the first GetMessagesRequest may contain request parameters that
+  // configure the stream. The first request must not contain an ack.
+  //
+  // The server will keep the stream open until the client disconnects. Only
+  // one GetMessages stream may be open per device. If a second GetMessages
+  // stream is opened, the server may terminate any of the streams with
+  // a STREAM_CLOSED error reason. A GetMessagesStreamClosed message will be
+  // present in the error details.
+  rpc GetMessages(stream GetMessagesRequest) returns (stream GetMessagesResponse) {}
+
+  // Reports a message as spam.
+  rpc ReportMessage(ReportMessageRequest) returns (ReportMessageResponse) {}
+}
+
+message GetMessagesRequest {
+  message GetMessageOptions {
+    // If present and true, the server will not deliver any messages with the
+    // story flag set. This flag may only be set on the first GetMessagesRequest
+    // sent from the client to the server in an RPC stream.
+    bool drop_stories = 1;
+  }
+  oneof request {
+    // Configuration options for the message stream. Required for the first
+    // request of the stream, forbidden on subsequent reqeusts.
+    GetMessageOptions options = 1;
+
+    // The server_guid of an envelope previously returned in a
+    // GetMessagesResponse that has been successfully processed by the caller.
+    // Forbidden on the first request of the stream, required on subsequent
+    // requests.
+    bytes server_guid_ack = 2;
+  }
+}
+
+// The reason why a GetMessages RPC is being closed by the server.
+message GetMessagesStreamClosed {
+  oneof reason {
+    // Another caller has opened a GetMessages stream for the same device.
+    google.protobuf.Empty conflicting_stream = 1;
+  }
+}
+
+message GetMessagesResponse {
+  oneof response {
+    // A message. On successful receipt of an envelope the caller should ack
+    // the envelope by sending a GetMessagesRequest with the envelope's server
+    // guid. Acks should only be sent for envelopes received on the currently
+    // open RPC.
+    textsecure.Envelope envelope = 1;
+
+    // An indicator that all outstanding messages for the device have been
+    // drained and acked by the client. The stream will remain open and continue
+    // to deliver newly arrived messages.
+    google.protobuf.Empty queue_empty = 2;
+  }
 }
 
 // Provides methods for sending "sealed sender" messages.
@@ -181,6 +245,7 @@ message SendSyncMessageRequest {
 message SendSealedSenderMessageRequest {
 
   // The service identifier of the account to which to deliver the message.
+  // If `destination` is a PNI, `authorization` must be a group send token.
   common.ServiceIdentifier destination = 1;
 
   // If true, this message will only be delivered to destination devices that
@@ -324,19 +389,19 @@ message MismatchedDevices {
   // A list of device IDs that are linked to the destination account, but were
   // not included in the collection of messages bound for the destination
   // account.
-  repeated uint32 missing_devices = 2 [(require.range).max = 0x7f];
+  repeated uint32 missing_devices = 2 [(require.each) = {range: {max: 0x7f}}];
 
   // A list of device IDs that were included in the collection of messages bound
   // for the destination account, but are not currently linked to the
   // destination account.
-  repeated uint32 extra_devices = 3 [(require.range).max = 0x7f];
+  repeated uint32 extra_devices = 3 [(require.each) = {range: {max: 0x7f}}];
 
   // A list of device IDs that present in the collection of messages bound for
   // the destination account and are linked to the destination account, but have
   // a different registration ID than the registration ID presented by the
   // sender (indicating that the destination device has likely been replaced by
   // another device).
-  repeated uint32 stale_devices = 4 [(require.range).max = 0x7f];
+  repeated uint32 stale_devices = 4 [(require.each) = {range: {max: 0x7f}}];
 }
 
 message MultiRecipientMismatchedDevices {
@@ -373,4 +438,19 @@ message ChallengeRequired {
   // resolved by simply waiting. May not be set if the challenge cannot be
   // resolved by waiting.
   optional uint64 retry_after_seconds = 3;
+}
+
+message ReportMessageRequest {
+  // The service identifier of the party that sent the offending message
+  common.ServiceIdentifier source_service_identifier = 1;
+
+  // The GUID of the offending message
+  bytes message_guid = 2 [(require.exactlySize) = 16];
+
+  // The spam-reporting token attached to the offending message
+  bytes report_spam_token = 3;
+}
+
+
+message ReportMessageResponse {
 }

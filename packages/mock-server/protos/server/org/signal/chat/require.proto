@@ -147,6 +147,71 @@ extend google.protobuf.FieldOptions {
    *````
    */
   optional bool present = 70007;
+
+  /*
+   * Requires a value of a string field to be a valid base64 URL string. The
+   * string may be padded or unpadded. If the field is `optional`, this check
+   * allows a value to be not set.
+   *
+   *  ```
+   *  import "org/signal/chat/require.proto";
+   *
+   *  message Data {
+   *    string myString = 1 [(require.base64url) = true];
+   *  }
+   *  ```
+   */
+  optional bool base64url  = 70008;
+
+  /*
+   * Requires a common.ServiceIdentifier field to have its IdentityType
+   * be the given type (`aci` or `pni`).
+   *
+   *  ```
+   *  import "org/signal/chat/require.proto";
+   *  import "org/signal/chat/common.proto";
+   *
+   *  message Data {
+   *    common.ServiceIdentifier accountIdentifier = 1 [(require.identityType) = IDENTITY_TYPE_ACI];
+   *  }
+   *  ```
+   */
+  optional IdentityType identityType = 70009;
+
+  /*
+   * Applies element-wise constraints to the elements of a `repeated` field.
+   * Top-level `require.*` annotations on a `repeated` field constrain the
+   * collection itself (e.g. element count), `each` constrains the
+   * individual elements.
+   *
+   * ```
+   * import "org/signal/chat/require.proto";
+   *
+   * message Data {
+   *   // 1-20 username hashes, each exactly 32 bytes
+   *   repeated bytes username_hashes = 1 [
+   *     (require.size) = {min: 1, max: 20},
+   *     (require.each) = { exactlySize: 32 }
+   *   ];
+   * }
+   * ```
+   *
+   * Applicable only to `repeated` fields.
+   */
+  optional ElementConstraint each = 70010;
+
+  // next 70011
+}
+
+message ElementConstraint {
+  optional bool nonEmpty = 1;
+  optional SizeConstraint size = 2;
+  repeated uint32 exactlySize = 3;
+  optional bool e164 = 4;
+  optional bool base64url = 5;
+  optional ValueRangeConstraint range = 6;
+  optional IdentityType identityType = 7;
+  optional bool specified = 8;
 }
 
 message SizeConstraint {
@@ -182,3 +247,12 @@ enum Auth {
   AUTH_ONLY_ANONYMOUS = 2;
 }
 
+// This is duplicated from common.proto because:
+//
+// 1. importing would be a circular dependency
+// 2. the canonical declaration belongs there
+enum IdentityType {
+  IDENTITY_TYPE_UNSPECIFIED = 0;
+  IDENTITY_TYPE_ACI = 1;
+  IDENTITY_TYPE_PNI = 2;
+}

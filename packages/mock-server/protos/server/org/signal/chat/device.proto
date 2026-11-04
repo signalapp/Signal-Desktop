@@ -18,6 +18,8 @@ import "org/signal/chat/tag.proto";
 
 // Provides methods for working with devices attached to a Signal account.
 service Devices {
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+
   // Returns a list of devices associated with the caller's account.
   rpc GetDevices(GetDevicesRequest) returns (GetDevicesResponse) {}
 
@@ -104,12 +106,12 @@ message RemoveDeviceResponse {}
 message SetPushTokenRequest {
   message ApnsTokenRequest {
     // A "standard" APNs device token.
-    string apns_token = 1 [(require.nonEmpty) = true];
+    string apns_token = 1 [(require.nonEmpty) = true, (require.size) = {max: 1024}];
   }
 
   message FcmTokenRequest {
     // An FCM push token.
-    string fcm_token = 1 [(require.nonEmpty) = true];
+    string fcm_token = 1 [(require.nonEmpty) = true, (require.size) = {max: 1024}];
   }
 
   oneof token_request {

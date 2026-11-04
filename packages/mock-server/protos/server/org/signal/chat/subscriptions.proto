@@ -1,0 +1,445 @@
+/*
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.signal.chat.purchase;
+
+import "google/protobuf/empty.proto";
+import "org/signal/chat/common.proto";
+import "org/signal/chat/require.proto";
+import "org/signal/chat/errors.proto";
+import "org/signal/chat/tag.proto";
+
+// Service for creating donation subscriptions
+//
+// Configuration for subscription levels can be found in ProductConfiguration.
+service Subscriptions {
+  option (require.auth) = AUTH_ONLY_ANONYMOUS;
+  // Creates a subscriber record if it does not exist, otherwise refreshes its last access time.
+  //
+  //  Subscribers MUST periodically hit this endpoint to update the access time on the subscription record. Subscribers
+  //  SHOULD attempt to make an update call approximately every 3 days. Not accessing this endpoint for an extended
+  //  period of time will result in the subscription being canceled.
+  rpc UpdateSubscriber(UpdateSubscriberRequest) returns (UpdateSubscriberResponse) {}
+
+  // Cancels any current subscription at the end of the current subscription period.
+  //
+  // Note: Apple IAP subscriptions do not support server-side cancellation, so this method should only be called after
+  // cancelling a subscription from storekit to keep server data up to date.
+  rpc DeleteSubscriber(DeleteSubscriberRequest) returns (DeleteSubscriberResponse) {}
+
+  // Returns a client secret that can be used to set up a new payment method with the payment processor.
+  rpc CreatePaymentMethod(CreatePaymentMethodRequest) returns (CreatePaymentMethodResponse) {}
+
+  // Returns a PayPal billing agreement approval URL and token that can be used to set up PayPal as a payment method.
+  //
+  // The presented billing agreement may be localized. Callers should set their
+  // language preferences via an "Accept-Language" header on the request:
+  // https://datatracker.ietf.org/doc/html/rfc3282#section-3
+  rpc CreatePayPalPaymentMethod(CreatePayPalPaymentMethodRequest) returns (CreatePayPalPaymentMethodResponse) {}
+
+  // Sets the default payment method for a subscriber.
+  rpc SetDefaultPaymentMethod(SetDefaultPaymentMethodRequest) returns (SetDefaultPaymentMethodResponse) {}
+
+  // Sets the subscription level and currency for a subscriber.
+  rpc SetSubscriptionLevel(SetSubscriptionLevelRequest) returns (SetSubscriptionLevelResponse) {}
+
+  // Returns information about the current subscription associated with the provided subscriberId if one exists.
+  //
+  // Although it uses [Stripe's values](https://stripe.com/docs/billing/subscriptions/overview#subscription-statuses),
+  // the status field in the response is generic, with [Braintree-specific values](https://developer.paypal.com/braintree/docs/guides/recurring-billing/overview#subscription-statuses) mapped
+  // to Stripe's. Since we don't support trials or unpaid subscriptions, the associated statuses will never be returned
+  // by the API.
+  rpc GetSubscriptionInformation(GetSubscriptionInformationRequest) returns (GetSubscriptionInformationResponse) {}
+
+  // Create a receipt from a valid payment invoice that can be used to obtain an entitlement
+  //
+  // This request is repeatable so long as the ReceiptCredentialRequest remains the same. Clients should use the same
+  // ReceiptCredentialRequest value until they attempt to redeem the resulting ReceiptCredentialPresentation. After
+  // this point, the ReceiptCredentialRequest MUST NOT be reused or you may not be able to redeem a valid payment
+  // invoice. Clients SHOULD retry requests at this endpoint with the same ReceiptCredentialRequest value until
+  // receiving a response. After receiving a response, clients should then compute the ReceiptCredentialPresentation
+  // and redeem it at the receipt redemption endpoint. Once the first attempt is made there, the same
+  // ReceiptCredentialRequest MUST NOT be used again to request a receipt credential.
+  //
+  // Note that you may in fact redeem TWO or more invoices for the same ReceiptCredentialRequest while retrying this
+  // operation if a later invoice gets paid while you are retrying. However, the returned receipt is always for the
+  // latest invoice, so it will have the latest expiration possible and no entitlement time will be lost. The important
+  // thing is not to reuse ReceiptCredentialRequest after you have started attempting to redeem the associated
+  // ReceiptCredentialPresentation. Then you may produce a ReceiptCredentialPresentation for a later invoice that
+  // cannot be redeemed.
+  //
+  // Clients MUST validate that the generated receipt credential's level and expiration matches their expectations.
+  rpc GetReceiptCredential(GetReceiptCredentialRequest) returns (GetReceiptCredentialResponse) {}
+
+  // Set a token that represents an IAP subscription made with App Store/Google Play Billing.
+  //
+  // To set up an App Store subscription:
+  // 1. Create a subscriber with UpdateSubscriber (you must regularly refresh this subscriber)
+  // 2. [Create a subscription](https://developer.apple.com/documentation/storekit/in-app_purchase/) with the App Store
+  //    directly via StoreKit and obtain a originalTransactionId.
+  // 3. Call this RPC with the originalTransactionId
+  // 4. Obtain a receipt via GetReceiptCredential which can then be used to obtain the
+  //    entitlement
+  //
+  // Play Billing: Set a purchaseToken that represents an IAP subscription made with Google Play Billing.
+  //
+  // To set up a subscription with Google Play Billing:
+  // 1. Create a subscriber with UpdateSubscriber (you must regularly refresh this subscriber)
+  // 2. [Create a subscription](https://developer.android.com/google/play/billing/integrate) with Google Play Billing
+  //    directly and obtain a purchaseToken. Do not [acknowledge](https://developer.android.com/google/play/billing/integrate#subscriptions)
+  //    the purchaseToken.
+  // 3. Call this RPC with the purchaseToken
+  // 4. Obtain a receipt via GetReceiptCredential which can then be used to obtain the
+  //    entitlement
+  //
+  // After calling this method, the payment is confirmed. Callers must durably store their subscriberId before calling
+  // this method to ensure their payment is tracked.
+  //
+  // Once a purchaseToken to is posted to a subscriberId, the same subscriberId must not be used with another payment
+  // method. A different playbilling purchaseToken can be posted to the same subscriberId, in this case the subscription
+  // associated with the old purchaseToken will be cancelled.
+  rpc SetIapSubscription(SetIapSubscriptionRequest) returns (SetIapSubscriptionResponse) {}
+
+  // Returns a localized bank mandate for the specified bank transfer type.
+  //
+  // Callers should set their language preferences via an "Accept-Language"
+  // header on the request:
+  // https://datatracker.ietf.org/doc/html/rfc3282#section-3
+  rpc GetBankMandate(GetBankMandateRequest) returns (GetBankMandateResponse) {}
+}
+
+message UpdateSubscriberRequest {
+  // New subscriber-ids must be a randomly-generated 32 byte byte-string.
+  bytes subscriber_id = 1 [(require.exactlySize) = 32];
+  // A libsignal DonationPermit from rpc Donations.CreateDonationPermits.
+  // Not required if the subscriber already exists.
+  bytes donation_permit = 2;
+}
+
+message UpdateSubscriberResponse {
+  oneof response {
+    google.protobuf.Empty success = 1;
+    // The donation permit was expired or already spent
+    errors.FailedZkAuthentication permit_rejected = 2 [(tag.reason) = "permit_rejected"];
+  }
+}
+
+message DeleteSubscriberRequest {
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+}
+
+message DeleteSubscriberResponse {
+  oneof response {
+    google.protobuf.Empty success = 1;
+    // The subscriber did not exist
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // The associated subscription is not a type that can be cancelled by the server. Cancel client-side, and then retry.
+    errors.FailedPrecondition cannot_cancel_subscription = 3 [(tag.reason) = "cannot_cancel_subscription"];
+  }
+}
+
+enum PaymentProvider {
+  PAYMENT_PROVIDER_UNKNOWN = 0;
+  PAYMENT_PROVIDER_STRIPE = 1;
+  PAYMENT_PROVIDER_BRAINTREE = 2;
+  PAYMENT_PROVIDER_GOOGLE_PLAY_BILLING = 3;
+  PAYMENT_PROVIDER_APPLE_APP_STORE = 4;
+}
+
+enum PaymentMethod {
+  PAYMENT_METHOD_UNKNOWN = 0;
+  // A credit card or debit card, including those from Apple Pay and Google Pay
+  PAYMENT_METHOD_CARD = 1;
+  // A SEPA debit account
+  PAYMENT_METHOD_SEPA_DEBIT = 2;
+  // An iDEAL account
+  PAYMENT_METHOD_IDEAL = 3;
+  // A PayPal account
+  PAYMENT_METHOD_PAYPAL = 4;
+  PAYMENT_METHOD_GOOGLE_PLAY_BILLING = 5;
+  PAYMENT_METHOD_APPLE_APP_STORE = 6;
+}
+
+enum SubscriptionStatus {
+  SUBSCRIPTION_STATUS_UNKNOWN = 0;
+  // The subscription is in good standing and the most recent payment was successful.
+  SUBSCRIPTION_STATUS_ACTIVE = 1;
+  // Payment failed when creating the subscription, or the subscription's start date is in the future.
+  SUBSCRIPTION_STATUS_INCOMPLETE = 2;
+  // Payment on the latest renewal failed but there are processor retries left, or payment wasn't attempted.
+  SUBSCRIPTION_STATUS_PAST_DUE = 3;
+  // The subscription has been canceled.
+  SUBSCRIPTION_STATUS_CANCELED = 4;
+  // The latest renewal hasn't been paid but the subscription remains in place.
+  SUBSCRIPTION_STATUS_UNPAID = 5;
+}
+
+message CreatePaymentMethodRequest {
+  // Only PAYMENT_METHOD_CARD, PAYMENT_METHOD_SEPA_DEBIT, and PAYMENT_METHOD_IDEAL are supported;
+  // other values will result in an INVALID_ARGUMENT error.
+  bytes subscriber_id = 1 [(require.exactlySize) = 32];
+  PaymentMethod payment_method = 2 [(require.specified) = true];
+  // a libsignal DonationPermit from rpc Donations.CreateDonationPermits
+  bytes donation_permit = 3 [(require.nonEmpty) = true];
+}
+
+message CreatePaymentMethodResponse {
+  message CreatePaymentMethodResult {
+    string clientSecret = 1;
+    PaymentProvider paymentProvider = 2;
+  }
+
+  oneof response {
+    CreatePaymentMethodResult result = 1;
+    // The subscriber did not exist
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // New payment processor does not match existing processor associated with
+    // the subscription
+    errors.FailedPrecondition subscription_processor_conflict = 3 [(tag.reason) = "subscription_processor_conflict"];
+    // The donation permit was expired or already spent
+    errors.FailedZkAuthentication permit_rejected = 4 [(tag.reason) = "permit_rejected"];
+  }
+}
+
+message CreatePayPalPaymentMethodRequest {
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+  // a callback URL (e.g. an in-client URL handler) for when the user approved the payment
+  string returnUrl = 2;
+  // a callback URL (e.g. an in-client URL handler) for when the user did not approve the payment
+  string cancelUrl = 3;
+}
+
+message CreatePayPalPaymentMethodResponse {
+  message CreatePayPalPaymentMethodResult {
+    // a URL to open where the user may approve the payment
+    string approvalUrl = 1;
+    // an opaque PayPal payment identifier to use with SetDefaultPaymentMethodRequest
+    string token = 2;
+  }
+
+  oneof response {
+    CreatePayPalPaymentMethodResult result = 1;
+    // The subscriber did not exist
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // New payment processor does not match existing processor associated with
+    // the subscription
+    errors.FailedPrecondition subscription_processor_conflict = 3 [(tag.reason) = "subscription_processor_conflict"];
+  }
+}
+
+message SetDefaultPaymentMethodRequest {
+  message StripePaymentMethod {
+    string paymentMethodToken = 1 [(require.nonEmpty) = true];
+  }
+  message BraintreePaymentMethod {
+    string paymentMethodToken = 1 [(require.nonEmpty) = true];
+  }
+  message SepaPaymentMethod {
+    string setupIntentId = 1 [(require.nonEmpty) = true];
+  }
+
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+  oneof request {
+    StripePaymentMethod stripe = 2;
+    BraintreePaymentMethod braintree = 3;
+    SepaPaymentMethod sepa = 4;
+  }
+}
+
+message SetDefaultPaymentMethodResponse {
+  oneof response {
+    google.protobuf.Empty success = 1;
+    // The subscriber did not exist, or the referenced setup intent was not found
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // No payment method has been created for the subscriber, or the provided
+    // payment method has not finished being set up with the processor
+    errors.FailedPrecondition payment_method_not_set_up = 3 [(tag.reason) = "payment_method_not_set_up"];
+  }
+}
+
+message SetSubscriptionLevelRequest {
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+  uint64 level = 2;
+  string currency = 3;
+  string idempotencyKey = 4;
+}
+
+// Information about a charge failure.
+
+// Meaningfully interpreting chargeFailure response fields requires inspecting the processor field first.
+//
+// For Stripe, code will be one of the [codes defined here](https://stripe.com/docs/api/charges/object#charge_object-failure_code),
+// while message [may contain a further textual description](https://stripe.com/docs/api/charges/object#charge_object-failure_message).
+// The outcome fields are optional, but present values will directly map to Stripe [response properties](https://stripe.com/docs/api/charges/object#charge_object-outcome-network_status)
+//
+// For Braintree, the outcome fields will be null. The code and message will contain one of
+//   - a processor decline code (as a string) in code, and associated text in message, as defined this [table](https://developer.paypal.com/braintree/docs/reference/general/processor-responses/authorization-responses)
+//   - `gateway` in code, with a [reason](https://developer.paypal.com/braintree/articles/control-panel/transactions/gateway-rejections) in message
+//   - `code` = "unknown", message = "unknown"
+//
+// IAP payment processors will never include charge failure information, and detailed order information should be
+// retrieved from the payment processor directly
+message ChargeFailure {
+  PaymentProvider processor = 1;
+  // See [Stripe failure codes](https://stripe.com/docs/api/charges/object#charge_object-failure_code) or
+  // [Braintree decline codes](https://developer.paypal.com/braintree/docs/reference/general/processor-responses/authorization-responses#decline-codes)
+  // depending on which processor was used
+  string code = 2;
+  // See [Stripe failure codes](https://stripe.com/docs/api/charges/object#charge_object-failure_code) or
+  // [Braintree decline codes](https://developer.paypal.com/braintree/docs/reference/general/processor-responses/authorization-responses#decline-codes)
+  // depending on which processor was used
+  string message = 3;
+  // See [Outcome Network Status](https://stripe.com/docs/api/charges/object#charge_object-outcome-network_status)
+  optional string outcome_network_status = 4;
+  // See [Outcome Reason](https://stripe.com/docs/api/charges/object#charge_object-outcome-reason)
+  optional string outcome_reason = 5;
+  // See [Outcome Type](https://stripe.com/docs/api/charges/object#charge_object-outcome-type)
+  optional string outcome_type = 6;
+}
+
+message PaymentRequired {
+  optional ChargeFailure charge_failure = 1;
+}
+
+message SetSubscriptionLevelResponse {
+  oneof response {
+    google.protobuf.Empty success = 1;
+    // The subscriber did not exist
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // No payment method has been created for the subscriber
+    errors.FailedPrecondition payment_method_not_set_up = 3 [(tag.reason) = "payment_method_not_set_up"];
+    // The payment processor does not support this operation
+    errors.FailedPrecondition unsupported_operation = 4 [(tag.reason) = "unsupported_operation"];
+    // The requested level was invalid
+    errors.FailedPrecondition unsupported_level = 5 [(tag.reason) = "unsupported_level"];
+    // The requested currency was invalid
+    errors.FailedPrecondition unsupported_currency = 6 [(tag.reason) = "unsupported_currency"];
+    // The card could not be charged
+    errors.FailedPrecondition payment_requires_action = 7 [(tag.reason) = "payment_requires_action"];
+    // Cannot transition from existing level to the requested level
+    errors.FailedPrecondition invalid_level_transition = 8 [(tag.reason) = "invalid_level_transition"];
+    // The idempotency key was invalid or re-used with a modified request
+    errors.FailedPrecondition invalid_idempotency_key = 9 [(tag.reason) = "invalid_idempotency_key"];
+    // The payment failed; see charge failure details
+    ChargeFailure charge_failure = 10 [(tag.reason) = "charge_failure"];
+  }
+}
+
+message SetIapSubscriptionRequest {
+  message AppStorePurchase {
+    string original_transaction_id = 1 [(require.nonEmpty) = true];
+  }
+  message PlayBillingPurchase {
+    string purchase_token = 1 [(require.nonEmpty) = true];
+  }
+
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+  oneof request {
+    AppStorePurchase app_store = 2;
+    PlayBillingPurchase play_billing = 3;
+  }
+}
+
+message SetIapSubscriptionResponse {
+  message SetIapSubscriptionResult {
+    uint64 level = 1;
+  }
+
+  oneof response {
+    SetIapSubscriptionResult success = 1;
+    // The subscriber did not exist or the provided purchase identifier does not exist
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // New payment processor does not match existing processor associated with
+    // the subscription
+    errors.FailedPrecondition subscription_processor_conflict = 3 [(tag.reason) = "subscription_processor_conflict"];
+    // The subscription is not in a purchase state that grants the user an
+    // entitlement
+    errors.FailedPrecondition payment_required = 4 [(tag.reason) = "payment_required"];
+    // The provided purchase identifier is malformed or the identified
+    // transaction is not supported for use at this endpoint
+    errors.FailedPrecondition invalid_transaction = 5 [(tag.reason) = "invalid_transaction"];
+  }
+}
+
+message GetReceiptCredentialRequest {
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+  bytes receiptCredentialRequest = 2 [(require.exactlySize) = 97];
+}
+
+message GetReceiptCredentialResponse {
+  message GetReceiptCredentialResult {
+    bytes receiptCredentialResponse = 1;
+  }
+
+  oneof response {
+    GetReceiptCredentialResult success = 1;
+    // The subscriber did not exist or it did not have an associated subscription
+    errors.NotFound subscriber_not_found = 2 [(tag.reason) = "subscriber_not_found"];
+    // No invoice has been issued for this subscription OR invoice is in 'draft' or 'open' state
+    errors.FailedPrecondition no_paid_invoice = 3 [(tag.reason) = "no_paid_invoice"];
+    // Invoice is in any state other than 'draft', 'open', or 'paid'; Charge failure details may be present
+    PaymentRequired payment_required = 4 [(tag.reason) = "payment_required"];
+    // Latest paid receipt on subscription was already redeemed for a receipt credential but with a different GetReceiptCredentialRequest
+    errors.FailedPrecondition already_redeemed = 5 [(tag.reason) = "already_redeemed"];
+  }
+}
+
+message GetSubscriptionInformationRequest {
+  bytes subscriberId = 1 [(require.exactlySize) = 32];
+}
+
+message GetSubscriptionInformationResponse {
+  message Subscription {
+    // The subscription level
+    uint64 level = 1;
+    // If present, UNIX Epoch Timestamp in seconds, can be used to calculate next billing date.
+    optional uint64 billing_cycle_anchor = 2;
+    // UNIX Epoch Timestamp in seconds, when the current subscription period ends
+    uint64 end_of_current_period = 3;
+    // Whether there is a currently active subscription
+    bool active = 4;
+    // If true, an active subscription will not auto-renew at the end of the current period
+    bool cancel_at_period_end = 5;
+    // A three-letter ISO 4217 currency code for currency used in the subscription
+    string currency = 6;
+    // The amount paid for the subscription in the currency's minor unit
+    uint64 amount = 7;
+    // The subscription's status, mapped to Stripe's statuses. trialing will never be returned
+    SubscriptionStatus status = 8;
+    // The payment provider associated with the subscription
+    PaymentProvider processor = 9;
+    // The payment method associated with the subscription
+    PaymentMethod payment_method = 10;
+    // Whether the latest charge for the subscription is in a non-terminal state
+    bool payment_processing = 11;
+    // if present, contains information that may be interpreted to help the user fix a failure
+    optional ChargeFailure charge_failure = 12;
+  }
+
+  oneof response {
+    Subscription success = 1;
+    // The subscriber exists but has no subscription with a payment processor
+    google.protobuf.Empty no_subscription = 2;
+    // The subscriber did not exist
+    errors.NotFound subscriber_not_found = 3 [(tag.reason) = "subscriber_not_found"];
+  }
+}
+
+enum BankTransferType {
+  BANK_TRANSFER_TYPE_UNKNOWN = 0;
+  BANK_TRANSFER_TYPE_SEPA_DEBIT = 1;
+}
+
+message GetBankMandateRequest {
+  BankTransferType bank_transfer_type = 1 [(require.specified) = true];
+}
+
+message GetBankMandateResponse {
+  string mandate = 1;
+}

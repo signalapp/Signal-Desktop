@@ -1,0 +1,65 @@
+/*
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.signal.chat.purchase;
+
+import "org/signal/chat/require.proto";
+import "org/signal/chat/errors.proto";
+import "org/signal/chat/tag.proto";
+import "org/signal/chat/subscriptions.proto";
+
+// Service for one-time purchases of logins
+service LoginPurchase {
+  option (require.auth) = AUTH_ONLY_ANONYMOUS;
+
+  // Obtain a ZK receipt credential for a completed one-time login payment.
+  //
+  // The receipt credential can then be presented at registration
+  rpc CreateLoginReceiptCredential(CreateLoginReceiptCredentialRequest) returns (CreateLoginReceiptCredentialResponse) {}
+}
+
+message CreateLoginReceiptCredentialRequest {
+  // The payment processor. Currently, only GOOGLE_PLAY_BILLING and
+  // APPLE_APP_STORE are supported.
+  PaymentProvider processor = 1 [(require.specified) = true];
+
+  // The identifier of a completed purchase for a signal login within the
+  // payment provider
+  string purchase_identifier = 2 [(require.nonEmpty) = true];
+
+  // The receipt credential request. Subsequent retries to create a login
+  // credential for the same purchase_identifier must use an identical
+  // receipt_credential_request.
+  //
+  // Callers must validate that the generated receipt credential has the
+  // following properties:
+  //
+  // - Level == 300 (The login level)
+  // - ExpirationTime % 86400 == 0
+  // - ExpirationTime == PurchaseTime + (5 * 366 * 86400) +/- (7 * 86400)
+  bytes receipt_credential_request = 3 [(require.nonEmpty) = true];
+}
+
+message CreateLoginReceiptCredentialResponse {
+  message CreateLoginReceiptCredentialResult {
+    bytes receipt_credential_response = 1;
+  }
+
+  oneof response {
+    CreateLoginReceiptCredentialResult result = 1;
+    // The purchase is still pending with the payment provider. The client may retry later.
+    errors.FailedPrecondition payment_still_processing = 2 [(tag.reason) = "payment_still_processing"];
+    // The purchase did not complete successfully.
+    PaymentRequired payment_required = 3 [(tag.reason) = "payment_required"];
+    // The payment provider has no purchase with the provided purchase_identifier
+    errors.NotFound payment_not_found = 4 [(tag.reason) = "payment_not_found"];
+    // The purchase was already redeemed for a receipt credential, but with a different receipt credential request
+    errors.FailedPrecondition receipt_already_issued = 5 [(tag.reason) = "receipt_already_issued"];
+  }
+}

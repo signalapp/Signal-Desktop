@@ -1,0 +1,59 @@
+/*
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.signal.chat.donations;
+
+import "google/protobuf/empty.proto";
+import "org/signal/chat/require.proto";
+import "org/signal/chat/errors.proto";
+import "org/signal/chat/tag.proto";
+
+service Donations {
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+  //  Redeem a receipt acquired from Subscriptions.GetReceiptCredential
+  //  to add a badge to the account. After successful redemption, profile
+  //  responses will include the corresponding badge (if configured as visible)
+  //  until the expiration time on the receipt.
+  rpc RedeemReceipt(RedeemReceiptRequest) returns (RedeemReceiptResponse) {}
+
+  // Generate a set of anonymous, single-use, permits for use with /v1/subscription endpoints.
+  //
+  // If rate limited, reduce requested permit count and/or try again after the prescribed delay.
+  rpc CreateDonationPermits(CreateDonationPermitsRequest) returns (CreateDonationPermitsResponse) {}
+}
+
+message RedeemReceiptRequest {
+  // Presentation of the ZK receipt acquired when the subscription was created
+  bytes receiptCredentialPresentation = 1 [(require.exactlySize) = 329];
+  // If true, the corresponding badge should be visible on the profile
+  bool visible = 2;
+  // If true, and the new badge is visible, it should be the primary badge on the profile
+  bool primary = 3;
+}
+
+message RedeemReceiptResponse {
+  oneof response {
+    // The receipt was successfully redeemed
+    google.protobuf.Empty success = 1;
+    // The provided presentation is invalid
+    errors.FailedZkAuthentication failed_authentication = 2 [(tag.reason) = "failed_authentication"];
+    // The receipt was already redeemed for a different account
+    errors.FailedPrecondition already_redeemed = 3 [(tag.reason) = "already_redeemed"];
+  }
+}
+
+message CreateDonationPermitsRequest {
+  // a serialized libsignal DonationPermitsRequest
+  bytes donation_permits_request = 1 [(require.nonEmpty) = true];
+}
+
+message CreateDonationPermitsResponse {
+  // a serialized libsignal DonationPermitsResponse
+  bytes donation_permits_response = 1;
+}

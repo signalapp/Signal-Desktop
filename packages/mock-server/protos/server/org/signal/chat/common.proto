@@ -19,29 +19,36 @@ enum IdentityType {
 
 message ServiceIdentifier {
   // The type of identity represented by this service identifier.
-  IdentityType identity_type = 1;
+  IdentityType identity_type = 1 [(require.specified) = true];
 
   // The UUID of the identity represented by this service identifier.
   bytes uuid = 2 [(require.exactlySize) = 16];
 }
 
+// All identifiers associated with an account.
 message AccountIdentifiers {
-  // A list of service identifiers for the identified account.
+  // A list of service identifiers for the identified account. Always includes
+  // exactly one ACI service identifier and at most one PNI service identifier.
   repeated ServiceIdentifier service_identifiers = 1;
 
-  // The phone number associated with the identified account.
-  string e164 = 2;
+  // The phone number associated with the identified account. May be empty if
+  // the given account does not have a phone number.
+  string e164 = 2 [(org.signal.chat.require.e164) = true];
 
   // The username hash (if any) associated with the identified account. May be
   // empty if no username is associated with the identified account.
-  bytes username_hash = 3;
+  bytes username_hash = 3  [(org.signal.chat.require.exactlySize) = 0, (org.signal.chat.require.exactlySize) = 32];
+
+  // The username link handle UUID associated with the identified account.
+  // May be empty if no username is associated with the identified account.
+  bytes username_link_handle = 4 [(org.signal.chat.require.exactlySize) = 0, (org.signal.chat.require.exactlySize) = 16];
 }
 
 message EcPreKey {
   // A locally-unique identifier for this key, which will be provided by
   // peers using this key to encrypt messages so the private key can be looked
   // up.
-  uint32 key_id = 1;
+  int32 key_id = 1  [(require.range).min = 0];
 
   // The public key, serialized in libsignal's elliptic-curve public key format.
   bytes public_key = 2  [(require.nonEmpty) = true];
@@ -51,7 +58,7 @@ message EcSignedPreKey {
   // A locally-unique identifier for this key, which will be provided by
   // peers using this key to encrypt messages so the private key can be looked
   // up.
-  uint32 key_id = 1;
+  int32 key_id = 1 [(require.range).min = 0];
 
   // The public key, serialized in libsignal's elliptic-curve public key format.
   bytes public_key = 2  [(require.nonEmpty) = true];
@@ -64,7 +71,7 @@ message EcSignedPreKey {
 message KemSignedPreKey {
   // An locally-unique identifier for this key, which will be provided by peers
   // using this key to encrypt messages so the private key can be looked up.
-  uint32 key_id = 1;
+  int32 key_id = 1 [(require.range).min = 0];
 
   // The public key, serialized in libsignal's Kyber1024 public key format.
   bytes public_key = 2 [(require.nonEmpty) = true];
@@ -83,6 +90,9 @@ enum DeviceCapability {
   reserved 5;
   DEVICE_CAPABILITY_ATTACHMENT_BACKFILL = 6;
   DEVICE_CAPABILITY_SPARSE_POST_QUANTUM_RATCHET = 7;
+  DEVICE_CAPABILITY_PROFILES_V2 = 8;
+  DEVICE_CAPABILITY_USERNAME_CHANGE_SYNC_MESSAGE = 9;
+  DEVICE_CAPABILITY_OPTIONAL_PHONE_NUMBER = 10;
 }
 
 message ZkCredential {
@@ -112,4 +122,55 @@ message UploadForm {
 
   // The URL to upload to with the appropriate protocol
   string signed_upload_location = 4;
+}
+
+// An upload location, credentials, and metadata which may be used to upload an
+// object to AWS S3
+message S3UploadForm {
+  // The S3 key (i.e. path and filename) for the uploaded file.
+  string key = 1;
+
+  // A scoped credential. Includes the AWS access key, date, region targeted,
+  // and AWS service.
+  string credential = 2;
+
+  // The type of access control for the uploaded file.
+  string acl = 3;
+
+  // The algorithm used to calculate a signature on the S3 policy.
+  string algorithm = 4;
+
+  // The timestamp (formatted as "yyyyMMdd'T'HHmmssX") at which the S3 policy
+  // and signature were generated.
+  string date = 5;
+
+  // The S3 policy (as a base64-encoded JSON string) used to upload the file.
+  string policy = 6;
+
+  // A digital signature (formatted as a hex string) on the S3 policy.
+  string signature = 7;
+}
+
+message BadgeSvg {
+  // File name of the scalable vector graphic for light mode.
+  string light = 1;
+  // File name of the scalable vector graphic for dark mode.
+  string dark = 2;
+}
+
+message Badge {
+  // An ID that uniquely identifies the badge.
+  string id = 1;
+  // The category the badge falls in ("donor" or "other").
+  string category = 2;
+  // The badge name.
+  string name = 3;
+  // The badge description.
+  string description = 4;
+  // Different size badge SVG files.
+  repeated string sprites6 = 5;
+  // File name of the scalable vector graphic representing this badge.
+  string svg = 6;
+  // Pairs of light/dark SVG files designed for display at different sizes.
+  repeated BadgeSvg svgs = 7;
 }

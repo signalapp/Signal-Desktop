@@ -27,7 +27,8 @@
     "lint:prettier": "pprettier --check '**/*.ts'",
     "lint": "npm run lint:prettier",
     "test": "npm run mocha && npm run lint",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "sync-grpc-protos": "node scripts/sync-grpc-protos.mjs"
   },
   "repository": {
     "type": "git",
