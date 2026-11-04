@@ -332,6 +332,11 @@ async function downloadRanges(
 ): Promise<void> {
   const { ranges } = options;
 
+  // We have exact copy on disk
+  if (ranges.length === 0) {
+    return;
+  }
+
   // If we have way too many ranges - split them up into multiple requests
   if (ranges.length > MAX_SINGLE_REQ_RANGES) {
     await pMap(
