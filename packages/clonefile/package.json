@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "name": "@signalapp/clonefile",
+  "description": "clonefile bindings for Node.js",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "types": "index.d.ts",
+  "keywords": [
+    "clonefile",
+    "macos"
+  ],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "binding.gyp",
+    "addon.cc",
+    "README.md"
+  ],
+  "author": {
+    "name": "Signal Messenger, LLC",
+    "email": "support@signal.org"
+  },
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "bindings": "1.5.0",
+    "node-addon-api": "8.5.0"
+  },
+  "scripts": {
+    "format": "npm run format:js && npm run format:c",
+    "format:js": "prettier --cache --write .",
+    "format:c": "xcrun clang-format --style=chromium -Werror --verbose -i *.cc"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

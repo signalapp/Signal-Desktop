@@ -12,6 +12,7 @@ const external = [
   // Native libraries
   '@signalapp/libsignal-client',
   /^@signalapp\/libsignal-client\/.*/,
+  '@signalapp/clonefile',
   '@signalapp/ringrtc',
   '@signalapp/sqlcipher',
   '@signalapp/mute-state-change',

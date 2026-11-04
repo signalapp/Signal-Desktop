@@ -19,6 +19,7 @@ const SIGNAL_LIBS = [
   '@signalapp/libsignal-client',
   '@signalapp/ringrtc',
   '@signalapp/mute-state-change',
+  '@signalapp/clonefile',
   '@signalapp/lame',
 ];
 

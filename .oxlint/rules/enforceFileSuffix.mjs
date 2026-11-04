@@ -80,6 +80,7 @@ const NODE_PACKAGES = new Set([
   '@indutny/simple-windows-notifications',
   '@signalapp/libsignal-client',
   '@signalapp/mute-state-change',
+  '@signalapp/clonefile',
   '@signalapp/ringrtc',
   '@signalapp/sqlcipher',
   '@signalapp/windows-ucv',

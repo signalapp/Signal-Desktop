@@ -126,6 +126,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/@eslint/.+',
     '^node_modules/@signalapp/mock-server/.+',
     '^node_modules/@signalapp/mute-state-change/node_modules/prettier/.+',
+    '^node_modules/@signalapp/clonefile/node_modules/prettier/.+',
     '^node_modules/@svgr/.+',
     '^node_modules/@types/.+',
     '^node_modules/@vitest/.+',

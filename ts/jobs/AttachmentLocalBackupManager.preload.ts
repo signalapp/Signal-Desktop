@@ -3,13 +3,9 @@
 
 import { createWriteStream, existsSync } from 'node:fs';
 import { extname } from 'node:path';
-import {
-  constants as FS_CONSTANTS,
-  copyFile,
-  mkdir,
-  rename,
-} from 'node:fs/promises';
+import { mkdir, rename } from 'node:fs/promises';
 import { exists } from 'fs-extra';
+import { clonefile } from '@signalapp/clonefile';
 
 import { getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath } from '../util/migrations.preload.ts';
 import {
@@ -101,12 +97,7 @@ export async function runAttachmentBackupJob(
     const tempPath = `${destinationLocalBackupFilePath}.tmp-${Bytes.toHex(getRandomBytes(8))}`;
 
     try {
-      // Set COPYFILE_FICLONE for Copy on Write (OS dependent, graceful fallback to copy)
-      await copyFile(
-        sourceAttachmentPath,
-        tempPath,
-        FS_CONSTANTS.COPYFILE_FICLONE
-      );
+      await clonefile(sourceAttachmentPath, tempPath);
       await rename(tempPath, destinationLocalBackupFilePath);
     } catch (error) {
       await safeUnlink(tempPath);

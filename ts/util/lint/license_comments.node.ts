@@ -41,6 +41,7 @@ const FILES_TO_IGNORE = [
   '.smartling-source.sh',
   'packages/mock-server/protos/README.md',
   'packages/mute-state-change/dist/acknowledgments.md',
+  'packages/clonefile/dist/acknowledgments.md',
   'packages/lame/dist/acknowledgments.md',
   'sticker-creator/src/util/protos.d.ts',
   'sticker-creator/src/util/protos.js',

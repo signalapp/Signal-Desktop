@@ -1945,6 +1945,7 @@
         "packages/types/tsdown.config.mjs",
         "packages/lame/**",
         "packages/mute-state-change/**",
+        "packages/clonefile/**",
         "packages/windows-ucv/**",
         "packages/mock-server/**",
         "scripts/**",
@@ -1965,7 +1966,11 @@
       }
     },
     {
-      "files": ["packages/windows-ucv/**", "packages/mock-server/**"],
+      "files": [
+        "packages/windows-ucv/**",
+        "packages/mock-server/**",
+        "packages/clonefile/**"
+      ],
       "env": { "node": true },
       "globals": {
         "window": "readonly",

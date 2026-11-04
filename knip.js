@@ -113,6 +113,10 @@ const config = {
       ignoreBinaries: ['xcrun'],
       ignoreDependencies: ['node-addon-api'],
     },
+    'packages/clonefile': {
+      ignoreBinaries: ['xcrun'],
+      ignoreDependencies: ['node-addon-api'],
+    },
     'packages/windows-ucv': {
       ignoreDependencies: ['node-addon-api'],
     },

@@ -3,9 +3,16 @@
 
 import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
-import { join, normalize, basename, parse as pathParse } from 'node:path';
+import {
+  join,
+  normalize,
+  dirname,
+  basename,
+  parse as pathParse,
+} from 'node:path';
 import { existsSync } from 'node:fs';
-import { constants as FS_CONSTANTS, copyFile } from 'node:fs/promises';
+import { mkdir } from 'node:fs/promises';
+import { clonefile } from '@signalapp/clonefile';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
 
@@ -79,8 +86,10 @@ export const copyIntoAttachmentsDirectory = ({
       throw new Error('Invalid relative path');
     }
 
-    await fse.ensureFile(normalized);
-    await copyFile(sourcePath, normalized, FS_CONSTANTS.COPYFILE_FICLONE);
+    await mkdir(dirname(normalized), {
+      recursive: true,
+    });
+    await clonefile(sourcePath, normalized);
     const { size } = await fse.stat(normalized);
 
     return {

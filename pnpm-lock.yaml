@@ -270,6 +270,9 @@ importers:
       '@indutny/simple-windows-notifications':
         specifier: 2.0.21
         version: 2.0.21
+      '@signalapp/clonefile':
+        specifier: workspace:*
+        version: link:packages/clonefile
       '@signalapp/libsignal-client':
         specifier: 0.106.0
         version: 0.106.0
@@ -968,6 +971,19 @@ importers:
       fs-xattr:
         specifier: 0.4.0
         version: 0.4.0(patch_hash=325d1e5f73cce8e15671dbd2394e091aadb71600f41d97d1a8cb63960c188112)
+
+  packages/clonefile:
+    dependencies:
+      bindings:
+        specifier: 1.5.0
+        version: 1.5.0
+      node-addon-api:
+        specifier: 8.5.0
+        version: 8.5.0
+    devDependencies:
+      prettier:
+        specifier: 3.6.2
+        version: 3.6.2
 
   packages/lame: {}
 
