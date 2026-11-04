@@ -400,18 +400,21 @@ export abstract class Updater {
       let downloadResult: DownloadUpdateResultType | undefined;
 
       try {
+        strictAssert(
+          gte(this.version, oldVersion),
+          'New version must be >= old version'
+        );
         if (oldVersion === this.version) {
           strictAssert(
-            checkType === CheckType.AllowSameVersion,
-            'Same version might be only used with AllowSameVersion'
+            checkType === CheckType.AllowSameVersion ||
+              checkType === CheckType.ForceDownload,
+            'Same version might be only used with AllowSameVersion or ForceDownload'
           );
           downloadResult = await this.#useLocalInstaller(updateInfo);
-        } else if (lt(oldVersion, this.version)) {
+        }
+
+        if (downloadResult == null) {
           downloadResult = await this.#downloadUpdate(updateInfo, mode);
-        } else {
-          throw new Error(
-            `Downloaded version ${oldVersion} is higher than remote ${this.version}`
-          );
         }
       } catch (error) {
         // Restore state in case of download error
@@ -775,15 +778,11 @@ export abstract class Updater {
   }
 
   async #downloadUpdate(
-    {
-      fileName,
-      sha512,
-      differentialData,
-      size,
-      version,
-    }: UpdateInformationType,
+    info: UpdateInformationType,
     mode: DownloadMode
   ): Promise<DownloadUpdateResultType | undefined> {
+    const { fileName, sha512, differentialData, size } = info;
+
     const baseUrl = getUpdatesBase();
     const updateFileUrl = `${baseUrl}/${fileName}`;
 
@@ -796,10 +795,7 @@ export abstract class Updater {
     const blockMapUrl = `${baseUrl}/${blockMapFileName}`;
 
     let cacheDir = await createUpdateCacheDirIfNeeded();
-    const targetId = createHash('sha512')
-      .update(`${version}-${sha512}`)
-      .digest('hex');
-    const targetFileName = `${targetId}${extname(fileName)}`;
+    const targetFileName = getCachedUpdateFileName(info);
     const targetUpdatePath = join(cacheDir, targetFileName);
 
     const tempDir = await createTempDir();
@@ -977,19 +973,18 @@ export abstract class Updater {
     }
   }
 
-  async #useLocalInstaller({
-    fileName,
-    sha512,
-  }: UpdateInformationType): Promise<DownloadUpdateResultType> {
+  async #useLocalInstaller(
+    info: UpdateInformationType
+  ): Promise<DownloadUpdateResultType | undefined> {
+    const { fileName, sha512 } = info;
     const cacheDir = await createUpdateCacheDirIfNeeded();
-    const updateFilePath = join(cacheDir, fileName);
-    const checkResult = await checkIntegrity(updateFilePath, sha512);
+    const updateFileName = getCachedUpdateFileName(info);
 
-    if (!checkResult.ok) {
-      throw new Error(
-        `Invalid digest for local installer: ${checkResult.error}`
-      );
-    }
+    const legacyFilePath = join(cacheDir, fileName);
+    const updateFilePath = join(cacheDir, updateFileName);
+
+    validatePath(cacheDir, updateFilePath);
+    validatePath(cacheDir, legacyFilePath);
 
     const signatureFileName = getSignatureFileName(fileName);
     const baseUrl = getUpdatesBase();
@@ -1000,10 +995,28 @@ export abstract class Updater {
       'hex'
     );
 
-    return {
-      updateFilePath,
-      signature,
-    };
+    for (const path of [updateFilePath, legacyFilePath]) {
+      // oxlint-disable-next-line no-await-in-loop
+      if (!(await pathExists(path))) {
+        continue;
+      }
+
+      // oxlint-disable-next-line no-await-in-loop
+      const checkResult = await checkIntegrity(path, sha512);
+      if (!checkResult.ok) {
+        throw new Error(
+          `Invalid digest for local installer: ${checkResult.error}`
+        );
+      }
+
+      return {
+        updateFilePath,
+        signature,
+      };
+    }
+
+    // No cached updater available
+    return undefined;
   }
 
   async #downloadAndReport(
@@ -1259,6 +1272,16 @@ export async function getTempDir(): Promise<string> {
 function getUpdateCacheDir() {
   // We only use tmpdir() when this code is run outside of an Electron app (as in: tests)
   return app ? getUpdateCachePath(app.getPath('userData')) : tmpdir();
+}
+
+function getCachedUpdateFileName({
+  fileName,
+  version,
+  sha512,
+}: UpdateInformationType): string {
+  const id = createHash('sha512').update(`${version}-${sha512}`).digest('hex');
+
+  return `${id}${extname(fileName)}`;
 }
 
 export async function createUpdateCacheDirIfNeeded(): Promise<string> {
