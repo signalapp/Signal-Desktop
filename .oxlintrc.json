@@ -1668,7 +1668,12 @@
 
     // disables
     {
-      "files": ["scripts/**", "danger/**", "ts/util/lint/**"],
+      "files": [
+        "scripts/**",
+        "danger/**",
+        "ts/util/lint/**",
+        "packages/mock-server/scripts/**"
+      ],
       "rules": {
         "no-console": "off"
       }

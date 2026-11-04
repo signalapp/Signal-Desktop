@@ -59,6 +59,9 @@ service Backups {
   // Clients must validate the receipt level on the credential matches a known
   // receipt level before using it.
   rpc GetBackupAuthCredentials(GetBackupAuthCredentialsRequest) returns (GetBackupAuthCredentialsResponse) {}
+
+  // Retrieve backup ID rotation limits
+  rpc GetBackupIdLimits(google.protobuf.Empty) returns (GetBackupIdLimitsResponse) {}
 }
 
 message SetBackupIdRequest {
@@ -125,6 +128,13 @@ message GetBackupAuthCredentialsResponse {
   Credentials credentials = 1;
 }
 
+message GetBackupIdLimitsResponse {
+  // If true, a call to SetBackupId may succeed without waiting
+  bool hasPermitsRemaining = 1;
+  // How long to wait before a permit becomes available, in seconds
+  uint64 retryAfterSeconds = 2;
+}
+
 // Service for backup operations with anonymous credentials
 //
 // This service never requires account authentication. It instead requires a
@@ -132,17 +142,19 @@ message GetBackupAuthCredentialsResponse {
 // to the account.
 //
 // To register an anonymous credential:
-//   1. Set a backup-id on the authenticated channel via Backups::SetBackupId
-//   2. Retrieve BackupAuthCredentials via Backups::GetBackupAuthCredentials
-//   3. Generate a key pair and set the public key via
-//      BackupsAnonymous::SetPublicKey
+//
+// 1. Set a backup-id on the authenticated channel via Backups::SetBackupId
+// 2. Retrieve BackupAuthCredentials via Backups::GetBackupAuthCredentials
+// 3. Generate a key pair and set the public key via
+//    BackupsAnonymous::SetPublicKey
 //
 // Unless otherwise noted, requests for this service require a
 // SignedPresentation, which includes:
-//   - a presentation generated from a BackupAuthCredential issued by
-//     GetBackupAuthCredentials
-//   - a signature of that presentation using the private key of a key pair
-//     previously set with SetPublicKey.
+//
+// - a presentation generated from a BackupAuthCredential issued by
+//   GetBackupAuthCredentials
+// - a signature of that presentation using the private key of a key pair
+//   previously set with SetPublicKey.
 service BackupsAnonymous {
   option (require.auth) = AUTH_ONLY_ANONYMOUS;
 
@@ -181,6 +193,9 @@ service BackupsAnonymous {
   //
   // On retries, a particular destination media id must not be reused with a
   // different source media id or different encryption parameters.
+  //
+  // The response stream may be closed with STREAM_CLOSED error reason. In this
+  // case, a BackupStreamClosed message will be present in the error details.
   rpc CopyMedia(CopyMediaRequest) returns (stream CopyMediaResponse) {}
 
   // Retrieve a page of media objects stored for this backup-id. A client may
@@ -192,6 +207,9 @@ service BackupsAnonymous {
 
   // Delete media objects stored with this backup-id. Streams the locations of
   // media items back when the item has successfully been removed.
+  //
+  // The response stream may be closed with STREAM_CLOSED error reason. In this
+  // case, a BackupStreamClosed message will be present in the error details.
   rpc DeleteMedia(DeleteMediaRequest) returns (stream DeleteMediaResponse) {}
 
   // Delete all backup metadata, objects, and stored public key. To use
@@ -282,16 +300,20 @@ message GetBackupInfoRequest {
 }
 message GetMessageBackupInfoResponse {
   message MessageBackupInfo {
-    // The base directory of your backup data on the cdn. The message backup can
-    // be found in the returned cdn at /backup_dir/backup_name
+    // The base directory of your backup data on the cdn. Always non-empty, even
+    // if a backup has not actually been stored to the cdn. If a backup was
+    // previously uploaded and has not expired, it can be found in the returned
+    // cdn at /backup_dir/backup_name.
     string backup_dir = 1;
 
     // The CDN type where the message backup is stored. Media may be stored
     // elsewhere.
     uint32 cdn = 2;
 
-    // The location of the message backup on the cdn. If a backup was previously
-    // uploaded and unexpired, it can be found at /backup_dir/backup_name.
+    // The location of the message backup on the cdn. Always non-empty, even
+    // if a backup has not actually been stored to the cdn. If a backup was
+    // previously uploaded and has not expired, it can be found in the returned
+    // cdn at /backup_dir/backup_name.
     string backup_name = 3;
   }
 
@@ -307,12 +329,16 @@ message GetMessageBackupInfoResponse {
 }
 message GetMediaBackupInfoResponse {
   message MediaBackupInfo {
-    // The base directory of your backup data on the cdn.
+    // The base directory of your backup data on the cdn. Always non-empty, even
+    // if no media has been stored to the cdn or the credential is for a tier
+    // that does not support media.
     string backup_dir = 1;
 
     // The prefix path component for media objects on a cdn. Stored media for a
-    // media_id can be found at /backup_dir/media_dir/media_id, where the media_id
-    // is encoded in unpadded url-safe base64.
+    // media_id can be found at /backup_dir/media_dir/media_id, where the
+    // media_id is encoded in unpadded url-safe base64. Always non-empty, even
+    // if no media has been stored to the cdn or the credential is for a tier
+    // that does not support media.
     string media_dir = 2;
 
     // The amount of space used to store media
@@ -390,11 +416,11 @@ message CopyMediaItem {
   uint32 source_attachment_cdn = 1 [(require.range).min = 1, (require.range).max = 3];
 
   // The attachment key of the object to copy into the backup
-  string source_key = 2 [(require.nonEmpty) = true];
+  string source_key = 2 [(require.nonEmpty) = true, (require.base64url) = true];
 
   // The length of the source attachment before the encryption applied by the
   // copy operation
-  uint32 object_length = 3;
+  uint64 object_length = 3;
 
   // media_id to copy on to the backup CDN
   bytes media_id = 4 [(require.exactlySize) = 15];
@@ -429,20 +455,25 @@ message CopyMediaResponse {
     // The media item was successfully copied into the backup
     CopySuccess success = 2;
 
+    // The source object was not found
+    SourceNotFound source_not_found = 3 [(tag.reason) = "source_not_found"];
+
+    // The provided object length was incorrect
+    WrongSourceLength wrong_source_length = 4 [(tag.reason) = "wrong_source_length"];
+
+    // All media capacity has been consumed. Free some space to continue.
+    OutOfSpace out_of_space = 5 [(tag.reason) = "out_of_space"];
+  }
+}
+
+// The reason why a media stream RPC is being prematurely closed by the server.
+message BackupStreamClosed {
+  oneof reason {
     // The provided backup auth credential presentation could not be
     // authenticated. Either, the presentation could not be verified, or
     // the public key signature was invalid, or there is no backup associated
     // with the backup-id in the presentation.
-    errors.FailedZkAuthentication failed_authentication = 3 [(tag.reason) = "failed_authentication"];
-
-    // The source object was not found
-    SourceNotFound source_not_found = 4 [(tag.reason) = "source_not_found"];
-
-    // The provided object length was incorrect
-    WrongSourceLength wrong_source_length = 5 [(tag.reason) = "wrong_source_length"];
-
-    // All media capacity has been consumed. Free some space to continue.
-    OutOfSpace out_of_space = 6 [(tag.reason) = "out_of_space"];
+    errors.FailedZkAuthentication failed_authentication = 1 [(tag.reason) = "failed_authentication"];
   }
 }
 
@@ -452,9 +483,11 @@ message ListMediaRequest {
   // A cursor returned by a previous call to ListMedia, absent on the first call
   optional string cursor = 2;
 
-  // If provided, the maximum number of entries to return in a page
-  uint32 limit = 3 [(require.range) = {min: 1, max: 10000}];
+  // If provided, the maximum number of entries to return in a page. If absent,
+  // a server-chosen default is used.
+  optional uint32 limit = 3 [(require.range) = {min: 1, max: 10000}];
 }
+
 message ListMediaResponse {
   message ListEntry {
     // The backup cdn where this media object is stored
@@ -527,13 +560,5 @@ message DeleteMediaRequest {
 }
 
 message DeleteMediaResponse {
-  oneof response {
-    DeleteMediaItem deleted_item = 1;
-
-    // The provided backup auth credential presentation could not be
-    // authenticated. Either, the presentation could not be verified, or
-    // the public key signature was invalid, or there is no backup associated
-    // with the backup-id in the presentation.
-    errors.FailedZkAuthentication failed_authentication = 2 [(tag.reason) = "failed_authentication"];
-  }
+  DeleteMediaItem deleted_item = 1;
 }

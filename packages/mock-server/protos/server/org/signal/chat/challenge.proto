@@ -1,0 +1,97 @@
+/*
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.signal.chat.challenge;
+
+import "google/protobuf/empty.proto";
+import "org/signal/chat/errors.proto";
+import "org/signal/chat/require.proto";
+import "org/signal/chat/tag.proto";
+
+service Challenge {
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+
+  // Submit proof of a challenge completion.
+  //
+  // Some server endpoints (the "send message" endpoint, for example) may return
+  // a response indicating the client must complete a challenge before continuing.
+  // Clients may use this endpoint to provide proof of a completed challenge.
+  // If successful, the client may then continue their original operation.
+  rpc AnswerChallenge(AnswerChallengeRequest) returns (AnswerChallengeResponse) {}
+
+  // Requests that a challenge value be sent to the authenticated account's
+  // primary device via push notification. Once received, callers may present
+  // the challenge value via the HandleChallengeResponse RPC.
+  //
+  // APNs challenge payloads will be formatted as follows:
+  //
+  // ```
+  // {
+  //     "aps": {
+  //         "sound": "default",
+  //         "alert": {
+  //             "loc-key": "APN_Message"
+  //         }
+  //     },
+  //     "rateLimitChallenge": "{CHALLENGE_TOKEN}"
+  // }
+  // ```
+  //
+  // FCM challenge payloads will be formatted as follows:
+  //
+  // ```
+  // {"rateLimitChallenge": "{CHALLENGE_TOKEN}"}
+  // ```
+  rpc RequestPushChallenge(RequestPushChallengeRequest) returns (RequestPushChallengeResponse) {}
+}
+
+message AnswerChallengeRequest {
+
+  message AnswerPushChallengeRequest {
+    // The challenge string provided to the client via a push payload
+    string challenge = 1  [(require.nonEmpty) = true];
+  }
+
+  message AnswerCaptchaChallengeRequest {
+    // A string representing a solved captcha
+    // Example: signal-hcaptcha.30b01b46-d8c9-4c30-bbd7-9719acfe0c10.challenge.abcdefg1345
+    string captcha = 1  [(require.nonEmpty) = true];
+  }
+
+  // The opaque token id from the ChallengeRequired response returned by the
+  // server endpoint that requested the challenge
+  string token = 1  [(require.nonEmpty) = true];
+
+  oneof request {
+    AnswerPushChallengeRequest push = 2;
+    AnswerCaptchaChallengeRequest captcha = 3;
+  }
+}
+
+message AnswerChallengeResponse {
+  // Whether the challenge proof was accepted
+  bool success = 1;
+}
+
+message RequestPushChallengeRequest {
+}
+
+message RequestPushChallengeResponse {
+  message SentPushChallenge {
+  }
+
+  oneof response {
+    // The server attempted to send a challenge value to the authenticated
+    // account's primary device via a push notification.
+    google.protobuf.Empty sent_push_challenge = 1;
+
+    // The authenticated account's primary device does not have a push token.
+    errors.FailedPrecondition no_push_token = 2 [(tag.reason) = "no_push_token"];
+  }
+}

@@ -9,9 +9,13 @@ option java_multiple_files = true;
 
 package org.signal.chat.payments;
 
+import "org/signal/chat/require.proto";
+
 // Provides methods for working with payments.
 service Payments {
-  
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+
+
   rpc GetCurrencyConversions(GetCurrencyConversionsRequest) returns (GetCurrencyConversionsResponse) {}
 }
 

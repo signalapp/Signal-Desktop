@@ -1,0 +1,99 @@
+/*
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.signal.chat.purchase;
+
+import "org/signal/chat/require.proto";
+import "org/signal/chat/subscriptions.proto";
+
+// Retrieve product metadata for one-time donations, subscriptions, and backups
+service ProductConfiguration {
+  option (require.auth) = AUTH_ONLY_ANONYMOUS;
+
+  // Returns configuration for donation subscriptions, backup subscriptions, and one-time donation (
+  // "boost" and "gift") minimum and suggested amounts. Badges are referenced by ID only; resolve those
+  // IDs to full badge details via RemoteConfiguration.GetBadges.
+  rpc GetConfiguration(GetConfigurationRequest) returns (GetConfigurationResponse) {}
+}
+
+message GetConfigurationRequest {}
+
+message GetConfigurationResponse {
+  // Map of lower-cased ISO 3 currency codes to currency-specific configuration
+  map<string, CurrencyConfiguration> currencies = 1;
+  // Map of numeric donation level IDs to level-specific badge configuration
+  map<uint64, LevelConfiguration> badge_levels = 2;
+  // Configuration for backup subscription options
+  BackupConfiguration backup = 3;
+  // Maximum value of a one-time SEPA donation, in EUR [minor units](https://docs.stripe.com/currencies#minor-units)
+  uint64 sepa_maximum_euros = 4;
+  // Configuration for one-time Signal Login purchases
+  LoginConfiguration login = 5;
+}
+
+message AmountList {
+  // Amount in the currency's minor unit. Unless otherwise noted, currencies are
+  // two-decimal: divide by 100 to get the value in the specified currency.
+  // Some currencies are [zero-decimal](https://docs.stripe.com/currencies#zero-decimal);
+  // for zero-decimal currencies no multiplication is required.
+  repeated uint64 amounts = 1;
+}
+
+message CurrencyConfiguration {
+  // Minimum one-time donation in the currency's minor unit
+  uint64 minimum = 1;
+  // Map of one-time donation level IDs to suggested amounts
+  map<uint64, AmountList> one_time = 2;
+  // Map of subscription level IDs to the amount charged in the currency's minor
+  // unit
+  map<uint64, uint64> subscription = 3;
+  // Map of backup subscription level IDs to the amount charged in the
+  // currency's minor unit
+  map<uint64, uint64> backup_subscription = 4;
+  repeated PaymentMethod supported_payment_methods = 5;
+}
+
+message LevelConfiguration {
+  // The ID of the badge awarded at this level. Resolve to full badge details
+  // via RemoteConfiguration.GetBadges.
+  string badge_id = 1;
+
+  // The duration for which a badge is valid. Present only for
+  // one-time (boost, gift) badges
+  optional uint64 badge_duration_seconds = 2;
+}
+
+// Configuration for a backup level - use to present appropriate client interfaces
+message BackupLevelConfiguration {
+  // The amount of media storage in bytes that a paying subscriber may store
+  uint64 storage_allowance_bytes = 1;
+  // The play billing productID associated with this backup level
+  string play_product_id = 2;
+  // The duration, in days, for which your backed up media is retained on the server after you stop refreshing with a paid credential
+  uint64 media_ttl_days = 3;
+}
+
+message BackupConfiguration {
+  // A map of numeric backup level IDs to level-specific backup configuration
+  map<uint64, BackupLevelConfiguration> levels = 1;
+  // The number of days of media a free tier backup user gets
+  uint64 free_tier_media_days = 2;
+}
+
+// Configuration for one-time Signal Login purchases
+message LoginConfiguration {
+  // The receipt level associated with a Signal Login purchase
+  uint64 level = 1;
+  // The play billing productID associated with a Signal Login purchase
+  string play_product_id = 2;
+  // The play billing optionID to use to purchase a Signal Login
+  string play_option_id = 4;
+  // The App Store productID associated with a Signal Login purchase
+  string app_store_product_id = 3;
+}

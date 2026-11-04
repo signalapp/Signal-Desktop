@@ -19,3 +19,18 @@ option cc_enable_arenas = true;
 //     }
 //
 message Empty {}
+
+// `Any` contains an arbitrary serialized protocol buffer message along with a
+// URL that describes the type of the serialized message.
+message Any {
+  string type_url = 1;
+  bytes value = 2;
+}
+
+// A Duration represents a signed, fixed-length span of time represented
+// as a count of seconds and fractions of seconds at nanosecond
+// resolution.
+message Duration {
+  int64 seconds = 1;
+  int32 nanos = 2;
+}

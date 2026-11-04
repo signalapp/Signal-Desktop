@@ -9,23 +9,56 @@ option java_multiple_files = true;
 
 package org.signal.chat.calling;
 
-// Provides methods for getting credentials for one-on-one and group calls.
-service Calling {
+import "org/signal/chat/require.proto";
 
-  // Generates and returns TURN credentials for the caller.
-  rpc GetTurnCredentials(GetTurnCredentialsRequest) returns (GetTurnCredentialsResponse) {}
+// Provides methods for getting credentials and relay options for one-on-one
+// calls.
+service Calling {
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+
+  // Retrieves TURN credentials and relay options for one-on-one calls.
+  rpc GetCallingRelays(GetCallingRelaysRequest) returns (GetCallingRelaysResponse) {}
 }
 
-message GetTurnCredentialsRequest {}
+message GetCallingRelaysRequest {}
 
-message GetTurnCredentialsResponse {
-  // A username that can be presented to authenticate with a TURN server.
-  string username = 1;
+message GetCallingRelaysResponse {
+  message HostnameUrlList {
+    // A collection of hostname-based TURN, TURNS, or STUN URLs a client can use
+    // to connect to a relay.
+    repeated string urls = 1;
+  }
 
-  // A password that can be presented to authenticate with a TURN server.
-  string password = 2;
+  message IpUrlList {
+    // A collection of IP-based TURN, TURNS, or STUN URLs a client can use to
+    // connect to a relay.
+    repeated string urls = 1;
 
-  // A list of TURN (or TURNS or STUN) servers where the provided credentials
-  // may be used.
-  repeated string urls = 3;
+    // A hostname clients must use to validate the relay's TLS certificate when
+    // connecting via an IP-based TURNS URL. May not be specified if `urls`
+    // contains no TURNS URLs.
+    optional string hostname = 2;
+  }
+
+  message Relay {
+    // A username that can be presented to authenticate with a TURN server.
+    string username = 1;
+
+    // A password that can be presented to authenticate with a TURN server.
+    string password = 2;
+
+    // The duration, in seconds, after which the included username and password
+    // will no longer be valid.
+    uint64 credential_ttl_seconds = 3;
+
+    // A collection of hostname-based URLs clients may use to connect to this
+    // relay.
+    optional HostnameUrlList hostname_urls = 4;
+
+    // A collection of IP-based URLs clients may use to connect to this relay.
+    optional IpUrlList ip_urls = 5;
+  }
+
+  // A collection of calling relays a client may use for one-on-one calls.
+  repeated Relay relays = 1;
 }

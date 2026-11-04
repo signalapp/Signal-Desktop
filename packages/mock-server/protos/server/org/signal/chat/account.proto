@@ -4,15 +4,23 @@ option java_multiple_files = true;
 
 package org.signal.chat.account;
 
+import "google/protobuf/empty.proto";
+
 import "org/signal/chat/common.proto";
 import "org/signal/chat/errors.proto";
+import "org/signal/chat/messages.proto";
 import "org/signal/chat/require.proto";
 import "org/signal/chat/tag.proto";
 
 // Provides methods for working with Signal accounts.
 service Accounts {
+  option (require.auth) = AUTH_ONLY_AUTHENTICATED;
+
   // Returns basic identifiers for the authenticated account.
   rpc GetAccountIdentity(GetAccountIdentityRequest) returns (GetAccountIdentityResponse) {}
+
+  // Returns entitlements for the authenticated account.
+  rpc GetEntitlements(GetEntitlementsRequest) returns (GetEntitlementsResponse) {}
 
   // Deletes the authenticated account, purging all associated data in the
   // process.
@@ -57,11 +65,64 @@ service Accounts {
 
   // Sets the registration recovery password for the authenticated account.
   rpc SetRegistrationRecoveryPassword(SetRegistrationRecoveryPasswordRequest) returns (SetRegistrationRecoveryPasswordResponse) {}
+
+  // Store a public key used to issue and verify zero-knowledge (anonymous) credentials for the account.
+  rpc SetZkCredentialKey(SetZkCredentialKeyRequest) returns (SetZkCredentialKeyResponse) {}
+
+  // Changes the phone number associated with the authenticated account.
+  rpc ChangeNumber(ChangeNumberRequest) returns (ChangeNumberResponse) {}
+
+  // Produces a report of non-ephemeral account data stored by the service
+  rpc GetAccountDataReport(GetAccountDataReportRequest) returns (GetAccountDataReportResponse) {}
+
+  // Gets the capabilities for the authenticated account.
+  rpc GetCapabilities(GetCapabilitiesRequest) returns (GetCapabilitiesResponse) {}
+
+  // Generates and stores a pending TOTP key for the authenticated account.
+  // To "activate" the key, callers must call the `ConfirmTotpKey` endpoint.
+  //
+  // TOTP keys may only be generated for accounts without phone numbers.
+  rpc GenerateTotpKey(GenerateTotpKeyRequest) returns (GenerateTotpKeyResponse) {}
+
+  // Confirms that the caller has stored and can derive one-time passwords from
+  // a pending TOTP key generated via `GenerateTotpKey` and stores/activates the
+  // key for the caller's account
+  //
+  // TOTP keys may only be generated for accounts without phone numbers.
+  rpc ConfirmTotpKey(ConfirmTotpKeyRequest) returns (ConfirmTotpKeyResponse) {}
+
+  // Returns parameters for initiating a WebAuthn registration ceremony
+  //
+  // WebAuthn credentials may only be registered for accounts without phone numbers
+  rpc StartWebAuthnRegistration(StartWebAuthnRegistrationRequest) returns (StartWebAuthnRegistrationResponse) {}
+
+  // Concludes a WebAuthn registration ceremony to add a passkey to the authenticated account
+  //
+  // WebAuthn credentials may only be registered for accounts without phone numbers
+  rpc FinishWebAuthnRegistration(FinishWebAuthnRegistrationRequest) returns (FinishWebAuthnRegistrationResponse) {}
+
+  // Returns a list of confirmed MFA keys for the authenticated account
+  rpc ListMfaKeys(ListMfaKeysRequest) returns (ListMfaKeysResponse) {}
+
+  // Updates encrypted, user-supplied metadata (e.g. a human-readable name and
+  // creation timestamp) for an existing, confirmed MFA key
+  rpc SetMfaKeyMetadata(SetMfaKeyMetadataRequest) returns (SetMfaKeyMetadataResponse) {}
+
+  // Removes an MFA key from the authenticated account
+  rpc RemoveMfaKey(RemoveMfaKeyRequest) returns (RemoveMfaKeyResponse) {}
+
+  // Requests the parameters needed to verify with an MFA factor associated with this account.
+  rpc StartMfaVerification(StartMfaVerificationRequest) returns (StartMfaVerificationResponse) {}
+
+  // Attemps to verify an MFA factor associated with this account.
+  rpc FinishMfaVerification(FinishMfaVerificationRequest) returns (FinishMfaVerificationResponse) {}
 }
 
 // Provides methods for looking up Signal accounts. Callers must not provide
 // identifying credentials when calling methods in this service.
 service AccountsAnonymous {
+  option (require.auth) = AUTH_ONLY_ANONYMOUS;
+
   // Checks whether an account with the given service identifier exists.
   rpc CheckAccountExistence(CheckAccountExistenceRequest) returns (CheckAccountExistenceResponse) {}
 
@@ -71,14 +132,47 @@ service AccountsAnonymous {
 
   // Finds the encrypted username identified by a given username link handle.
   rpc LookupUsernameLink(LookupUsernameLinkRequest) returns (LookupUsernameLinkResponse) {}
+
+  // Gets the publicly-visible capabilities enabled on the account identified by
+  // the provided ACI.
+  rpc GetCapabilities(GetCapabilitiesAnonymousRequest) returns (GetCapabilitiesAnonymousResponse) {}
 }
 
 message GetAccountIdentityRequest {
 }
 
 message GetAccountIdentityResponse {
-  // A set of account identifiers for the authenticated account.
+  // The identifiers for the authenticated account.
   common.AccountIdentifiers account_identifiers = 1;
+}
+
+message GetEntitlementsRequest {
+}
+
+message GetEntitlementsResponse {
+  message BadgeEntitlement {
+    // The id of the badge the account is entitled. Metadata to display for
+    // badges may be obtained by cross-referencing badge ids with
+    // RemoteConfiguration.GetBadges.
+    string badge_id = 1;
+    // When the badge expires, in number of seconds since epoch
+    uint64 expiration_epoch_seconds = 2;
+    // Whether the badge is currently configured to be visible
+    bool visible = 3;
+  }
+
+  message BackupEntitlement {
+    // The backup level of the account
+    uint64 level = 1;
+    // When the backup entitlement expires, in number of seconds since epoch
+    uint64 expiration_epoch_seconds = 2;
+  }
+
+  // Active badges added via Donations.redeemReceipt
+  repeated BadgeEntitlement badges = 1;
+
+  // If present, the backup level set via Backups.redeemReceipt
+  BackupEntitlement backup = 2;
 }
 
 message DeleteAccountRequest {
@@ -102,9 +196,8 @@ message ClearRegistrationLockResponse {
 }
 
 message ReserveUsernameHashRequest {
-  // A prioritized list of username hashes to attempt to reserve. Each hash must
-  // be exactly 32 bytes.
-  repeated bytes username_hashes = 1 [(require.size) = {min: 1, max: 20}];
+  // A prioritized list of username hashes to attempt to reserve.
+  repeated bytes username_hashes = 1 [(require.size) = {min: 1, max: 20}, (require.each) = {exactlySize: 32}];
 }
 
 message UsernameNotAvailable {}
@@ -135,8 +228,7 @@ message ConfirmUsernameHashRequest {
 
 message ConfirmUsernameHashResponse {
   message ConfirmedUsernameHash {
-    // The newly-confirmed username hash.
-    bytes username_hash = 1;
+    reserved 1; // username_hash
 
     // The server-generated username link handle for the newly-confirmed username.
     bytes username_link_handle = 2;
@@ -190,16 +282,20 @@ message DeleteUsernameLinkResponse {
 }
 
 message ConfigureUnidentifiedAccessRequest {
-  // The key that other users must provide to interact with this account
-  // anonymously (i.e. to retrieve keys or profiles or to send messages) unless
-  // unrestricted unidentified access is permitted. Must be present if
-  // unrestricted unidentified access is not allowed.
-  bytes unidentified_access_key = 1;
+  oneof configuration {
+    // The key that other users must provide to interact with this account
+    // anonymously (i.e. to retrieve keys or profiles or to send messages) unless
+    // unrestricted unidentified access is permitted. Must be present if
+    // unrestricted unidentified access is not allowed.
+    bytes unidentified_access_key = 1 [(require.exactlySize) = 16];
 
-  // If `true`, any user may interact with this account anonymously without
-  // providing an unidentified access key. Otherwise, users must provide the
-  // given unidentified access key to interact with this account anonymously.
-  bool allow_unrestricted_unidentified_access = 2;
+    // If set, any user may interact with this account anonymously without
+    // providing an unidentified access key. Otherwise, users must provide the
+    // given unidentified access key to interact with this account anonymously.
+    // Setting unrestricted unidentified access will clear any existing
+    // unidentified_access_key
+    google.protobuf.Empty allow_unrestricted_unidentified_access = 2;
+  }
 }
 
 message ConfigureUnidentifiedAccessResponse {
@@ -264,4 +360,384 @@ message LookupUsernameLinkResponse {
     // No username was found for the provided link handle.
     errors.NotFound not_found = 2 [(tag.reason) = "not_found"];
   }
+}
+
+message SetZkCredentialKeyRequest {
+  // A serialized libsignal ZkCredentialPublicKey
+  bytes public_key = 1 [(require.exactlySize) = 33];
+}
+
+message SetZkCredentialKeyResponse {
+  // A random, non-zero, value that must be included in credential requests using the key.
+  //
+  // This value allows the server to ratchet the resulting binding identity,
+  // as reverting to the previous key will result in a new rotation ID.
+  uint64 rotation_id = 1;
+}
+
+message ChangeNumberRequest {
+  // A means of authenticating the change-number request for the new phone
+  // number. Exactly one must be provided.
+  oneof verification {
+    // A verified registration session ID (as returned by the registration
+    // service) for the new phone number.
+    bytes session_id = 1 [(require.nonEmpty) = true];
+
+    // A registration recovery password for the new phone number.
+    bytes recovery_password = 2 [(require.exactlySize) = 32];
+  }
+
+  // The new phone number for the authenticated account.
+  string number = 3 [(require.e164) = true];
+
+  // The registration lock secret for the new phone number, if the account
+  // associated with the new phone number has a registration lock configured.
+  bytes registration_lock = 4 [(require.exactlySize) = 0, (require.exactlySize) = 32];
+
+  // The new public identity key to use for the phone-number identity (PNI)
+  // associated with the new phone number.
+  bytes pni_identity_key = 5 [(require.nonEmpty) = true];
+
+  // Synchronization messages to send to companion devices to supply the private
+  // keys associated with the new identity key and their new pre-keys. Exactly
+  // one message must be supplied for each device other than the sending
+  // (primary) device. May be omitted if no companion devices are linked to the
+  // account.
+  messages.IndividualRecipientMessageBundle device_messages = 6;
+
+  // A new signed EC pre-key for each device on the account, including the
+  // sending device, keyed by device ID. Each must be accompanied by a valid
+  // signature from the identity key in this request.
+  map<uint32, common.EcSignedPreKey> device_pni_signed_pre_keys = 7;
+
+  // A new signed post-quantum last-resort pre-key for each device on the
+  // account, including the sending device, keyed by device ID. Each must be
+  // accompanied by a valid signature from the identity key in this request.
+  map<uint32, common.KemSignedPreKey> device_pni_pq_last_resort_pre_keys = 8;
+
+  // The new phone-number-identity registration ID for each device on the
+  // account, including the sending device, keyed by device ID.
+  map<uint32, uint32> pni_registration_ids = 9;
+}
+
+message ChangeNumberResponse {
+  oneof response {
+    // The identifiers of the account after the successful
+    // number change.
+    common.AccountIdentifiers account_identifiers = 1;
+
+    // Mismatched number of devices or device ids in 'devices to notify' list
+    messages.MismatchedDevices mismatched_devices = 2 [(tag.reason) = "mismatched_devices"];
+
+    // The account associated with the new phone number has a registration lock,
+    // and the provided registration lock secret was missing or incorrect.
+    RegistrationLockFailure registration_lock_failure = 3 [(tag.reason) = "registration_lock_failure"];
+
+    // Mismatched registration ids in 'devices to notify' list
+    StaleDevices stale_devices = 4 [(tag.reason) = "stale_devices"];
+
+    // One or more device messages was too large
+    errors.FailedPrecondition message_too_large = 5 [(tag.reason) = "message_too_large"];
+
+    // The registration session is unverified
+    errors.FailedPrecondition unverified_registration_session = 6 [(tag.reason) = "unverified_registration_session"];
+
+    // The number does not match the registration session, or the registration session is invalid
+    errors.FailedPrecondition invalid_registration_session = 7 [(tag.reason) = "invalid_registration_session"];
+
+    errors.FailedPrecondition recovery_password_verification_failed = 8 [(tag.reason) = "recovery_password_verification_failed"];
+  }
+}
+
+// Information about the current Registration lock and SVR credentials. With a correct PIN, the credentials can
+// be used to recover the secret used to derive the registration lock password.
+message RegistrationLockFailure {
+  // Time remaining in milliseconds before the existing registration lock expires
+  uint64 time_remaining_millis = 1;
+
+  // Credentials that can be used with SVR2
+  ExternalServiceCredentials svr2_credentials = 2;
+}
+
+// A username/password pair for authenticating with an external service.
+message ExternalServiceCredentials {
+  // A username that can be presented to authenticate with the external service.
+  string username = 1;
+
+  // A password that can be presented to authenticate with the external service.
+  string password = 2;
+}
+
+// A list of devices that are linked to the account but presented a stale
+// registration ID (indicating the device has likely been replaced by another
+// device).
+message StaleDevices {
+  // The IDs of devices that are no longer active.
+  repeated uint32 stale_devices = 1 [(require.each) = {range: {max: 0x7f}}];
+}
+
+message GetAccountDataReportRequest {
+}
+
+message GetAccountDataReportResponse {
+  // The JSON representation of the data report
+  string json = 3;
+  // A plaintext representation of the data report
+  string text = 4;
+}
+
+message GetCapabilitiesRequest {
+}
+
+message Capabilities {
+  // A list of capabilities enabled on the account.
+  repeated common.DeviceCapability capabilities = 1;
+}
+
+message GetCapabilitiesResponse {
+  // A list of capabilities enabled on the account.
+  Capabilities capabilities = 1;
+}
+
+message GetCapabilitiesAnonymousRequest {
+  // The ACI of the account for which to get capabilities.
+  common.ServiceIdentifier account_identifier = 1 [(require.present) = true, (require.identityType) = IDENTITY_TYPE_ACI];
+
+  oneof authentication {
+    // The unidentified access key for the targeted account.
+    bytes unidentified_access_key = 2 [(require.exactlySize) = 16];
+
+    // A group send endorsement token for the targeted account.
+    bytes group_send_token = 3 [(require.nonEmpty) = true];
+  }
+}
+
+message GetCapabilitiesAnonymousResponse {
+  oneof response {
+    // A list of capabilities enabled on the account.
+    Capabilities capabilities = 1;
+    errors.NotFound not_found = 2 [(tag.reason) = "not_found"];
+    errors.FailedUnidentifiedAuthorization failed_unidentified_authorization = 3 [(tag.reason) = "failed_unidentified_authorization"];
+  }
+}
+
+message TotpParameters {
+  // The HMAC algorithm (e.g. "HmacSHA256") used by the TOTP generator
+  string algorithm = 1;
+
+  // The length of one-time passwords (in decimal digits) produced and expected
+  // by the TOTP generator
+  uint32 password_length = 2;
+
+  // The time step (in seconds) used by the TOTP generator
+  uint32 time_step_seconds = 3;
+}
+
+message GenerateTotpKeyRequest {
+}
+
+message GenerateTotpKeyResponse {
+  message KeyGenerated {
+    // The raw TOTP key
+    bytes key = 1;
+
+    // The TOTP parameters associated with the generated key
+    TotpParameters totp_parameters = 2;
+  }
+
+  oneof response {
+    // A new, pending TOTP key has been generated and added to the authenticated
+    // account
+    KeyGenerated key_generated = 1;
+
+    // The authenticated account already has too many TOTP keys, and the caller
+    // must remove one before adding more
+    errors.FailedPrecondition too_many_totp_keys = 2 [(tag.reason) = "too_many_totp_keys"];
+
+    // The authenticated account already has too many MFA keys of all types, and
+    // the caller must remove one before adding more
+    errors.FailedPrecondition too_many_mfa_keys = 3 [(tag.reason) = "too_many_mfa_keys"];
+  }
+}
+
+message ConfirmTotpKeyRequest {
+  // A one-time password derived from the current pending TOTP key
+  uint32 one_time_password = 1;
+
+  // The ciphertext of user-provided metadata (presumably including a
+  // human-readable name and creation timestamp) to be attached to the
+  // newly-confirmed key
+  bytes metadata_ciphertext = 2 [(require.exactlySize) = 160];
+}
+
+message ConfirmTotpKeyResponse {
+  message KeyConfirmed {
+    // The account-specific identifier for the newly-confirmed TOTP key
+    uint32 key_id = 1 [(require.range) = {min: 0, max: 127}];
+  }
+
+  oneof response {
+    // The provided one-time password was accepted and the pending TOTP key was
+    // stored with the provided name ciphertext
+    KeyConfirmed key_confirmed = 1;
+
+    // The provided one-time password was not valid for any reason (including
+    // incorrect passwords, misaligned clocks, or missing account records)
+    errors.FailedPrecondition one_time_password_not_verified = 2 [(tag.reason) = "one_time_password_not_verified"];
+
+    // The authenticated account already has too many MFA keys of all types, and
+    // the caller must remove one before adding more
+    errors.FailedPrecondition too_many_mfa_keys = 3 [(tag.reason) = "too_many_mfa_keys"];
+  }
+}
+
+message StartWebAuthnRegistrationRequest {
+}
+
+message StartWebAuthnRegistrationResponse {
+  message WebAuthnCreateParameters {
+    // The "user handle" (user.id) that should be handed to the authenticator
+    bytes user_handle = 1;
+
+    // The COSE IDs (https://www.iana.org/assignments/cose#algorithms) of
+    // acceptable algorithms for the created key
+    repeated int64 allowed_algorithms = 2;
+
+    // A list of the credential IDs already registered for this account; these
+    // can be passed to candidate authenticators to tell them not to create a
+    // new key if they already have a private key matching one of these
+    repeated bytes exclude_credential_ids = 3;
+  }
+
+  oneof response {
+    // The parameters to use for a WebAuthn registration ceremony
+    WebAuthnCreateParameters params = 1;
+
+    // The authenticated account already has too many MFA keys, and the
+    // caller must remove one before adding one
+    errors.FailedPrecondition too_many_mfa_keys = 2 [(tag.reason) = "too_many_mfa_keys"];
+  }
+}
+
+message FinishWebAuthnRegistrationRequest {
+  // The attestation object from a completed registration ceremony, serialized
+  // as specified in https://www.w3.org/TR/webauthn/#attestation-object
+  bytes attestation_object = 1;
+
+  // The "collected client data" map used in the registration ceremony, as the
+  // exact JSON map that was hashed for the authenticator
+  string collected_client_data_json = 2;
+
+  // The ciphertext of user-provided metadata (presumably including a
+  // human-readable name and creation timestamp) to be attached to the
+  // newly-confirmed key
+  bytes metadata_ciphertext = 3 [(require.exactlySize) = 160];
+}
+
+message FinishWebAuthnRegistrationResponse {
+  message KeyConfirmed {
+    // An account-specific identifier for the new WebAuthn key
+    uint32 key_id = 1 [(require.range) = {min: 0, max: 127}];
+  }
+
+  oneof response {
+    // The provided public key has been registered for the account
+    KeyConfirmed key_confirmed = 1;
+
+    // The registration response was not verified successfully for any reason
+    errors.FailedPrecondition key_not_confirmed = 2 [(tag.reason) = "registration_ceremony_unsuccessful"];
+
+    // The authenticated account already has too many MFA keys, and the
+    // caller must remove one before adding one (this can be true even if it
+    // was not when starting the request, since there is nothing to prevent
+    // multiple registrations from occurring in parallel)
+    errors.FailedPrecondition too_many_mfa_keys = 3 [(tag.reason) = "too_many_mfa_keys"];
+  }
+}
+
+message ListMfaKeysRequest {}
+
+message ListMfaKeysResponse {
+  message MfaKeyMetadata {
+    enum MfaKeyType {
+      MFA_KEY_TYPE_UNSPECIFIED = 0;
+      MFA_KEY_TYPE_TOTP = 1;
+      MFA_KEY_TYPE_WEBAUTHN = 2;
+    }
+
+    // The user-provided ciphertext for metadata associated with this MFA key
+    bytes metadata_ciphertext = 1 [(require.exactlySize) = 160];
+
+    // The type of MFA factor this key is for
+    MfaKeyType type = 2;
+  }
+
+  map<uint32, MfaKeyMetadata> keys = 1;
+}
+
+message SetMfaKeyMetadataRequest {
+  // The account-specific identifier of the MFA key to modify
+  uint32 key_id = 1 [(require.range) = {min: 0, max: 127}];
+
+  // The ciphertext of the new user-provided metadata to be attached to the
+  // identified key
+  bytes metadata_ciphertext = 2 [(require.exactlySize) = 160];
+}
+
+message SetMfaKeyMetadataResponse {
+  message MetadataUpdated {
+  }
+
+  oneof response {
+    // New metadata was stored for the identified key
+    MetadataUpdated success = 1;
+
+    // No TOTP was found with the given ID
+    errors.NotFound key_not_found = 2 [(tag.reason) = "key_not_found"];
+  }
+}
+
+message RemoveMfaKeyRequest {
+  // The account-specific identifier of the MFA key to remove
+  uint32 key_id = 1 [(require.range) = {min: 0, max: 127}];
+}
+
+message RemoveMfaKeyResponse {
+}
+
+message StartMfaVerificationRequest {
+}
+
+message StartMfaVerificationResponse {
+  /// If true, a TOTP password will be accepted for verification
+  bool has_totp = 1;
+
+  message WebAuthnAuthenticationParameters {
+    /// A random challenge that must be included in the authenticator response, to prevent replay attacks
+    bytes challenge = 1;
+
+    /// The estimated amount of time, in seconds, after which an otherwise-valid response will be rejected
+    uint32 timeout_seconds = 2;
+
+    /// A list of credential IDs associated with this account
+    repeated bytes allowed_credential_ids = 3;
+  }
+
+  /// If present, information required to complete a WebAuthn authentication
+  optional WebAuthnAuthenticationParameters webauthn_authentication_parameters = 2;
+}
+
+message FinishMfaVerificationRequest {
+  oneof credential {
+    /// A 6-digit TOTP password to validate
+    uint32 totp_password = 1;
+
+    /// A WebAuthn-compatible JSON-serialized authentication response
+    string webauthn_authentication_response_json = 2;
+  }
+}
+
+message FinishMfaVerificationResponse {
+  /// If true, the selected authentication factor was verified correctly.
+  bool success = 1;
 }
