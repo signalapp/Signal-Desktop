@@ -781,7 +781,7 @@ export abstract class Updater {
     info: UpdateInformationType,
     mode: DownloadMode
   ): Promise<DownloadUpdateResultType | undefined> {
-    const { fileName, sha512, differentialData, size } = info;
+    const { fileName, differentialData, size } = info;
 
     const baseUrl = getUpdatesBase();
     const updateFileUrl = `${baseUrl}/${fileName}`;
@@ -840,32 +840,6 @@ export abstract class Updater {
       }
 
       let gotUpdate = false;
-      if (!gotUpdate && (await pathExists(targetUpdatePath))) {
-        const checkResult = await checkIntegrity(targetUpdatePath, sha512);
-        if (checkResult.ok) {
-          this.logger.info(
-            `downloadUpdate: Not downloading update ${updateFileUrl}, ` +
-              'local file has the same hash'
-          );
-
-          // Move file into downloads directory
-          try {
-            await gracefulRename(this.logger, targetUpdatePath, tempUpdatePath);
-            gotUpdate = true;
-          } catch (error) {
-            this.logger.error(
-              'downloadUpdate: failed to move already downloaded file',
-              Errors.toLogFormat(error)
-            );
-          }
-        } else {
-          this.logger.error(
-            'downloadUpdate: integrity check failure',
-            checkResult.error
-          );
-        }
-      }
-
       const isDifferentialEnabled =
         differentialData && mode !== DownloadMode.FullOnly;
       if (!gotUpdate && isDifferentialEnabled) {
@@ -1010,7 +984,7 @@ export abstract class Updater {
       }
 
       return {
-        updateFilePath,
+        updateFilePath: path,
         signature,
       };
     }
