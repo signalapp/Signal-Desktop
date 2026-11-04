@@ -1277,10 +1277,8 @@ function getUpdateCacheDir() {
 function getCachedUpdateFileName({
   fileName,
   version,
-  sha512,
 }: UpdateInformationType): string {
-  const id = createHash('sha512').update(`${version}-${sha512}`).digest('hex');
-
+  const id = createHash('sha256').update(version).digest('hex');
   return `${id}${extname(fileName)}`;
 }
 
