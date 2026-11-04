@@ -321,7 +321,7 @@ export class Device {
   ): Promise<number> {
     const keys = this.keys.get(serviceIdKind);
     if (!keys) {
-      throw new Error('No keys available for device');
+      return 0;
     }
     if (keys.preKeyIterator) {
       return PRE_KEY_ITERATOR_COUNT;
@@ -334,7 +334,7 @@ export class Device {
   ): Promise<number> {
     const keys = this.keys.get(serviceIdKind);
     if (!keys) {
-      throw new Error('No keys available for device');
+      return 0;
     }
     if (keys.kyberPreKeyIterator) {
       return PRE_KEY_ITERATOR_COUNT;

@@ -372,22 +372,6 @@ export class Connection extends Service {
       }),
     );
 
-    this.router.get(
-      '/v2/keys',
-      requireAuth(async (_params, _rawBody, _headers, query) => {
-        const device = this.getDevice();
-        const serviceIdKind = serviceIdKindFromQuery(query);
-
-        return [
-          200,
-          {
-            count: await device.getPreKeyCount(serviceIdKind),
-            pqCount: await device.getKyberPreKeyCount(serviceIdKind),
-          },
-        ];
-      }),
-    );
-
     this.router.get('/v2/keys/:serviceId/:deviceId', async (params) => {
       const serviceId = params.serviceId as ServiceIdString | undefined;
       const deviceId = parseInt(params.deviceId ?? '', 10) as DeviceId;
