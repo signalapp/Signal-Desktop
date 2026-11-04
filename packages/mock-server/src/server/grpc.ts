@@ -95,6 +95,7 @@ function toServiceIdentifier(
 const GRPC_STATUS_OK = 0;
 const GRPC_STATUS_UNKNOWN = 2;
 const GRPC_STATUS_ABORTED = 10;
+const GRPC_STATUS_UNIMPLEMENTED = 12;
 const GRPC_STATUS_UNAUTHENTICATED = 16;
 
 // The domain the chat server uses for `google.rpc.ErrorInfo` details
@@ -896,14 +897,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
-  const notFoundAfterAuth: RouteHandler = async (req, res) => {
-    const device = await auth(server, req);
-    if (!device) {
-      return sendRaw(res, 401, { error: 'Not authorized' });
-    }
+  const unimplemented: RouteHandler = async (req, res) => {
+    const endpoint = req.params._ ?? '';
+    const message = Object.hasOwn($services, endpoint)
+      ? `Mock server does not implement ${endpoint}`
+      : `Method not found: ${endpoint}`;
 
     debug('Unsupported request %s %s', req.method, req.url);
-    return sendRaw(res, 404, { error: 'Not supported yet' });
+    sendGrpcResponse(res, Buffer.alloc(0), GRPC_STATUS_UNIMPLEMENTED, message);
   };
 
   const routes = router(
@@ -928,7 +929,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onCopyBackupMedia,
     onListBackupMedia,
 
-    ...ALL_METHODS.map((method) => method('/*', notFoundAfterAuth)),
+    ...ALL_METHODS.map((method) => method('/*', unimplemented)),
   );
 
   return (req, res) => {
