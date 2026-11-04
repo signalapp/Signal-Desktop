@@ -29,7 +29,7 @@
   "homepage": "https://github.com/signalapp/mute-state-change#readme",
   "dependencies": {
     "bindings": "1.5.0",
-    "node-addon-api": "8.5.0"
+    "node-addon-api": "8.9.2"
   },
   "scripts": {
     "format": "npm run format:js && npm run format:c",

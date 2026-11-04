@@ -978,8 +978,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0
       node-addon-api:
-        specifier: 8.5.0
-        version: 8.5.0
+        specifier: 8.9.2
+        version: 8.9.2
     devDependencies:
       prettier:
         specifier: 3.6.2
@@ -1075,8 +1075,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0
       node-addon-api:
-        specifier: 8.5.0
-        version: 8.5.0
+        specifier: 8.9.2
+        version: 8.9.2
     devDependencies:
       prettier:
         specifier: 3.6.2
@@ -1119,8 +1119,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0
       node-addon-api:
-        specifier: 8.8.0
-        version: 8.8.0
+        specifier: 8.9.2
+        version: 8.9.2
     devDependencies:
       '@types/bindings':
         specifier: 1.5.5
@@ -9570,12 +9570,8 @@ packages:
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==, tarball: https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz}
 
-  node-addon-api@8.5.0:
-    resolution: {integrity: sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A==, tarball: https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.5.0.tgz}
-    engines: {node: ^18 || ^20 || >= 21}
-
-  node-addon-api@8.8.0:
-    resolution: {integrity: sha512-c5Ko1fZJIJmzhFIkhRN76WTq+fC6tWnGy9CXA0fA+XygsWZmEwG8vmbkNqxMyoaa0Tin4djul49NzdVcJJcjeA==, tarball: https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.8.0.tgz}
+  node-addon-api@8.9.2:
+    resolution: {integrity: sha512-VijLXbi3UACN69I0JVXJsX4tjACjNoQDgv2gTF6sx2wWEi8tkSg2eX8p5gSIFi8z2+DL3oHmY6OyKce38SDolg==, tarball: https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.9.2.tgz}
     engines: {node: ^18 || ^20 || >= 21}
 
   node-api-version@0.2.1:
@@ -13110,7 +13106,7 @@ snapshots:
   '@indutny/mac-screen-share@1.2.5':
     dependencies:
       bindings: 1.5.0
-      node-addon-api: 8.8.0
+      node-addon-api: 8.9.2
 
   '@indutny/parallel-prettier@3.0.0(prettier@3.8.3)':
     dependencies:
@@ -13142,7 +13138,7 @@ snapshots:
   '@indutny/simple-windows-notifications@2.0.21':
     dependencies:
       bindings: 1.5.0
-      node-addon-api: 8.8.0
+      node-addon-api: 8.9.2
 
   '@indutny/sneequals@4.0.0': {}
 
@@ -16048,7 +16044,7 @@ snapshots:
 
   '@signalapp/sqlcipher@4.1.0':
     dependencies:
-      node-addon-api: 8.8.0
+      node-addon-api: 8.9.2
       node-gyp-build: 4.8.4
 
   '@sinclair/typebox@0.27.8': {}
@@ -21417,9 +21413,7 @@ snapshots:
 
   node-addon-api@7.1.1: {}
 
-  node-addon-api@8.5.0: {}
-
-  node-addon-api@8.8.0: {}
+  node-addon-api@8.9.2: {}
 
   node-api-version@0.2.1:
     dependencies:

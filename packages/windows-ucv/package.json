@@ -32,7 +32,7 @@
   "license": "AGPL-3.0-only",
   "dependencies": {
     "bindings": "1.5.0",
-    "node-addon-api": "8.8.0"
+    "node-addon-api": "8.9.2"
   },
   "devDependencies": {
     "@types/bindings": "1.5.5",

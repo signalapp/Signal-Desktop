@@ -379,7 +379,6 @@
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
-    "nativeRebuilder": "parallel",
     "mac": {
       "artifactName": "${name}-mac-${arch}-${version}.${ext}",
       "category": "public.app-category.social-networking",
