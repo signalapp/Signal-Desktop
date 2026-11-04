@@ -595,6 +595,9 @@ export function FunPanelStickers({
                               stickerLookup={stickerLookup}
                               favoriteStickersSet={favoriteStickersSet}
                               focusedCellKey={focusedCellKey}
+                              isFavoriteStickersEnabled={
+                                isFavoriteStickersEnabled
+                              }
                               onClickSticker={handleClickSticker}
                               onClickTimeSticker={handleClickTimeSticker}
                               onClickStickerAsFavorite={
@@ -623,6 +626,7 @@ const Row = memo(function Row(props: {
   favoriteStickersSet: Set<string>;
   cells: ReadonlyArray<CellLayoutNode>;
   focusedCellKey: CellKey | null;
+  isFavoriteStickersEnabled: boolean;
   sectionId: string;
   onClickSticker: (
     event: PointerEvent,
@@ -652,6 +656,7 @@ const Row = memo(function Row(props: {
             sectionId={props.sectionId}
             favoriteStickersSet={props.favoriteStickersSet}
             stickerLookup={props.stickerLookup}
+            isFavoriteStickersEnabled={props.isFavoriteStickersEnabled}
             isTabbable={isTabbable}
             onClickSticker={props.onClickSticker}
             onClickTimeSticker={props.onClickTimeSticker}
@@ -672,6 +677,7 @@ const Cell = memo(function Cell(props: {
   sectionId: string;
   favoriteStickersSet: Set<string>;
   stickerLookup: StickerLookup;
+  isFavoriteStickersEnabled: boolean;
   isTabbable: boolean;
   onClickSticker: (
     event: PointerEvent,
@@ -685,6 +691,7 @@ const Cell = memo(function Cell(props: {
 }): JSX.Element {
   const {
     i18n,
+    isFavoriteStickersEnabled,
     sectionId,
     onClickSticker,
     onClickTimeSticker,
@@ -747,29 +754,51 @@ const Cell = memo(function Cell(props: {
   );
 
   if (stickerLookupItem.kind === 'sticker') {
+    if (isFavoriteStickersEnabled) {
+      return (
+        <FunGridCell
+          data-key={props.cellKey}
+          colIndex={props.colIndex}
+          rowIndex={props.rowIndex}
+        >
+          <StickerContextMenu
+            i18n={i18n}
+            onClickFavorite={isFavoriteSticker ? null : handleFavorite}
+            onClickUnfavorite={isFavoriteSticker ? handleUnfavorite : null}
+          >
+            <FunItemButton
+              excludeFromTabOrder={!props.isTabbable}
+              aria-label={stickerLookupItem.sticker.emoji ?? ''}
+              onClick={handleClick}
+            >
+              <FunSticker
+                role="presentation"
+                src={stickerLookupItem.sticker.url}
+                size={68}
+              />
+            </FunItemButton>
+          </StickerContextMenu>
+        </FunGridCell>
+      );
+    }
+
     return (
       <FunGridCell
         data-key={props.cellKey}
         colIndex={props.colIndex}
         rowIndex={props.rowIndex}
       >
-        <StickerContextMenu
-          i18n={i18n}
-          onClickFavorite={isFavoriteSticker ? null : handleFavorite}
-          onClickUnfavorite={isFavoriteSticker ? handleUnfavorite : null}
+        <FunItemButton
+          excludeFromTabOrder={!props.isTabbable}
+          aria-label={stickerLookupItem.sticker.emoji ?? ''}
+          onClick={handleClick}
         >
-          <FunItemButton
-            excludeFromTabOrder={!props.isTabbable}
-            aria-label={stickerLookupItem.sticker.emoji ?? ''}
-            onClick={handleClick}
-          >
-            <FunSticker
-              role="presentation"
-              src={stickerLookupItem.sticker.url}
-              size={68}
-            />
-          </FunItemButton>
-        </StickerContextMenu>
+          <FunSticker
+            role="presentation"
+            src={stickerLookupItem.sticker.url}
+            size={68}
+          />
+        </FunItemButton>
       </FunGridCell>
     );
   }
