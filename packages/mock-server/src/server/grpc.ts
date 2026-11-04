@@ -24,7 +24,12 @@ import SealedSenderMultiRecipientMessage from '@signalapp/libsignal-client/dist/
 import { Message } from '../data/schemas';
 import type { Device } from '../data/device';
 
-import { DeviceId, RegistrationId, ServiceIdString } from '../types';
+import {
+  DeviceId,
+  RegistrationId,
+  ServiceIdKind,
+  ServiceIdString,
+} from '../types';
 import { $services, org, signalservice as Proto } from '../../protos/compiled';
 import {
   AttachmentUploadForm,
@@ -735,6 +740,18 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onGetPreKeyCount = authenticatedGrpcRoute(
+    'org.signal.chat.keys.Keys/GetPreKeyCount',
+    async (_body, device) => {
+      return {
+        aciEcPreKeyCount: await device.getPreKeyCount(ServiceIdKind.ACI),
+        aciKemPreKeyCount: await device.getKyberPreKeyCount(ServiceIdKind.ACI),
+        pniEcPreKeyCount: await device.getPreKeyCount(ServiceIdKind.PNI),
+        pniKemPreKeyCount: await device.getKyberPreKeyCount(ServiceIdKind.PNI),
+      };
+    },
+  );
+
   const onReserveUsername = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ReserveUsernameHash',
     async ({ usernameHashes }, device) => {
@@ -829,6 +846,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onConfirmUsername,
     onDeleteUsername,
     onSetUsernameLink,
+    onGetPreKeyCount,
     onSetBackupPublicKey,
     onRefreshBackup,
     onGetBackupCdnCredentials,

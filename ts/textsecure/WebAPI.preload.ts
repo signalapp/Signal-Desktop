@@ -1132,10 +1132,10 @@ export type AttachmentUploadFormType = {
   signedUploadLocation: string;
 };
 
-const ServerKeyCountSchema = z.object({
-  count: z.number(),
-  pqCount: z.number(),
-});
+export type ServerKeyCountType = Readonly<{
+  count: number;
+  pqCount: number;
+}>;
 
 export type LinkDeviceOptionsType = Readonly<
   {
@@ -3502,15 +3502,27 @@ export async function setPhoneNumberDiscoverability(
 
 export async function getMyKeyCounts(
   serviceIdKind: ServiceIdKind
-): Promise<z.infer<typeof ServerKeyCountSchema>> {
-  return _ajax({
-    host: 'chatService',
-    call: 'keys',
-    urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
-    httpType: 'GET',
-    responseType: 'json',
-    zodSchema: ServerKeyCountSchema,
+): Promise<ServerKeyCountType> {
+  const counts = await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.getPreKeyCount();
   });
+
+  if (serviceIdKind === ServiceIdKind.ACI) {
+    return {
+      count: counts.aciEcPreKeyCount,
+      pqCount: counts.aciKemPreKeyCount,
+    };
+  }
+
+  if (serviceIdKind === ServiceIdKind.PNI) {
+    return {
+      count: counts.pniEcPreKeyCount,
+      pqCount: counts.pniKemPreKeyCount,
+    };
+  }
+
+  throw new Error(`Unsupported ServiceIdKind: ${serviceIdKind}`);
 }
 
 function handleKeys(res: ServerKeyResponseType): ServerKeysType {
