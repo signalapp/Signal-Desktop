@@ -97,6 +97,7 @@ export function EntryPoint({
                   variant="strong-primary"
                   size="lg"
                   width="full"
+                  data-testid="EntryPoint--link-button"
                   onClick={() => startLinkProcess()}
                 >
                   <AxoSymbol.InlineGlyph symbol="qrcode" label={null} />

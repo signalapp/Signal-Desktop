@@ -621,9 +621,9 @@ export class Bootstrap {
     drop(
       (async () => {
         try {
-          const linkYourAccountButton = window.getByRole('button', {
-            name: 'Link your account',
-          });
+          const linkYourAccountButton = window.getByTestId(
+            'EntryPoint--link-button'
+          );
           await linkYourAccountButton.waitFor();
           if (gotProvisionURL) {
             return;
