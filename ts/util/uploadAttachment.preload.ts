@@ -55,78 +55,129 @@ const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
 const log = createLogger('uploadAttachment');
 
 export async function uploadAttachment(
-  attachment: AttachmentType
+  attachment: AttachmentType,
+  { allowFileName = false }: { allowFileName?: boolean } = {}
 ): Promise<UploadedAttachmentType> {
   strictAssert(
     attachment.transcodingTargetQuality == null,
     'Attachment needs transcoding'
   );
 
-  let keys: Uint8Array<ArrayBuffer>;
-  let cdnKey: string;
-  let cdnNumber: number;
-  let digest: Uint8Array<ArrayBuffer>;
-  let plaintextHash: string;
-  let incrementalMac: Uint8Array<ArrayBuffer> | undefined;
-  let chunkSize: number | undefined;
-  let uploadTimestamp: number;
-
-  const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
-  const dataForReuse = await getAttachmentUploadDataForReuse(attachment);
-
-  if (dataForReuse && isValidPlaintextHash(attachment.plaintextHash)) {
-    log.info('reusing attachment uploaded at', dataForReuse.uploadTimestamp);
-
-    ({ cdnKey, cdnNumber, uploadTimestamp } = dataForReuse);
-    keys = Bytes.fromBase64(dataForReuse.key);
-
-    digest = Bytes.fromBase64(dataForReuse.digest);
-    plaintextHash = attachment.plaintextHash;
-    incrementalMac =
-      needIncrementalMac && dataForReuse.incrementalMac
-        ? Bytes.fromBase64(dataForReuse.incrementalMac)
-        : undefined;
-    chunkSize =
-      needIncrementalMac && dataForReuse.chunkSize
-        ? dataForReuse.chunkSize
-        : undefined;
-  } else {
-    strictAssert(attachment.path != null, 'Attachment must be present on disk');
-    strictAssert(
-      attachment.localKey != null,
-      'Attachment must be encrypted on disk'
-    );
-
-    keys = getRandomBytes(64);
-    uploadTimestamp = Date.now();
-
-    const passthrough = new PassThrough();
-    [
-      {
-        cdnKey,
-        cdnNumber,
-        encrypted: { digest, plaintextHash, incrementalMac, chunkSize },
-      },
-    ] = await Promise.all([
-      encryptAndUploadAttachment({
-        keys,
-        needIncrementalMac,
-        plaintext: { stream: passthrough, size: attachment.size },
-        uploadType: 'standard',
-      }),
-      decryptAttachmentV2ToSink(
-        {
-          idForLogging: `uploadAttachment(${attachment.clientUuid})`,
-          size: attachment.size,
-          ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
-          type: 'local',
-          keysBase64: attachment.localKey,
-        },
-        passthrough
-      ),
-    ]);
+  const existingPointer = await getReusableAttachmentPointer(attachment, {
+    allowFileName,
+  });
+  if (existingPointer) {
+    return existingPointer;
   }
 
+  strictAssert(attachment.path != null, 'Attachment must be present on disk');
+  strictAssert(
+    attachment.localKey != null,
+    'Attachment must be encrypted on disk'
+  );
+
+  const keys = getRandomBytes(64);
+  const uploadTimestamp = Date.now();
+
+  const passthrough = new PassThrough();
+  const [
+    {
+      cdnKey,
+      cdnNumber,
+      encrypted: { digest, plaintextHash, incrementalMac, chunkSize },
+    },
+  ] = await Promise.all([
+    encryptAndUploadAttachment({
+      keys,
+      needIncrementalMac: supportsIncrementalMac(attachment.contentType),
+      plaintext: { stream: passthrough, size: attachment.size },
+      uploadType: 'standard',
+    }),
+    decryptAttachmentV2ToSink(
+      {
+        idForLogging: `uploadAttachment(${attachment.clientUuid})`,
+        size: attachment.size,
+        ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
+        type: 'local',
+        keysBase64: attachment.localKey,
+      },
+      passthrough
+    ),
+  ]);
+
+  return getAttachmentPointer(
+    attachment,
+    {
+      keys,
+      cdnKey,
+      cdnNumber,
+      digest,
+      plaintextHash,
+      incrementalMac,
+      chunkSize,
+      uploadTimestamp,
+    },
+    { allowFileName }
+  );
+}
+
+export async function getReusableAttachmentPointer(
+  attachment: AttachmentType,
+  { allowFileName = false }: { allowFileName?: boolean } = {}
+): Promise<UploadedAttachmentType | undefined> {
+  const dataForReuse = await getAttachmentUploadDataForReuse(attachment);
+  if (!dataForReuse || !isValidPlaintextHash(attachment.plaintextHash)) {
+    return undefined;
+  }
+
+  log.info('reusing attachment uploaded at', dataForReuse.uploadTimestamp);
+
+  const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
+  return getAttachmentPointer(
+    attachment,
+    {
+      keys: Bytes.fromBase64(dataForReuse.key),
+      cdnKey: dataForReuse.cdnKey,
+      cdnNumber: dataForReuse.cdnNumber,
+      digest: Bytes.fromBase64(dataForReuse.digest),
+      plaintextHash: attachment.plaintextHash,
+      incrementalMac:
+        needIncrementalMac && dataForReuse.incrementalMac
+          ? Bytes.fromBase64(dataForReuse.incrementalMac)
+          : undefined,
+      chunkSize:
+        needIncrementalMac && dataForReuse.chunkSize
+          ? dataForReuse.chunkSize
+          : undefined,
+      uploadTimestamp: dataForReuse.uploadTimestamp,
+    },
+    { allowFileName }
+  );
+}
+
+function getAttachmentPointer(
+  attachment: AttachmentType,
+  {
+    keys,
+    cdnKey,
+    cdnNumber,
+    digest,
+    plaintextHash,
+    incrementalMac,
+    chunkSize,
+    uploadTimestamp,
+  }: {
+    keys: Uint8Array<ArrayBuffer>;
+    cdnKey: string;
+    cdnNumber: number;
+    digest: Uint8Array<ArrayBuffer>;
+    plaintextHash: string;
+    incrementalMac: Uint8Array<ArrayBuffer> | undefined;
+    chunkSize: number | undefined;
+    uploadTimestamp: number;
+  },
+  { allowFileName }: { allowFileName: boolean }
+): UploadedAttachmentType {
   const {
     blurHash,
     caption,
@@ -139,7 +190,10 @@ export async function uploadAttachment(
   } = attachment;
 
   let { fileName } = attachment;
-  if (isImageAttachment(attachment) || isVideoAttachment(attachment)) {
+  if (
+    !allowFileName &&
+    (isImageAttachment(attachment) || isVideoAttachment(attachment))
+  ) {
     assertDev(
       fileName == null || fileName === '',
       'Filename should be stripped from visual attachments'

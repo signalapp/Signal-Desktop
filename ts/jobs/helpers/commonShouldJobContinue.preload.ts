@@ -22,9 +22,9 @@ export async function commonShouldJobContinue({
   backoffOptions?: ExponentialBackoffOptionsType;
   log: LoggerType;
   skipWait: boolean;
-  timeRemaining: number;
+  timeRemaining?: number;
 }>): Promise<boolean> {
-  if (timeRemaining <= 0) {
+  if (timeRemaining != null && timeRemaining <= 0) {
     log.info("giving up because it's been too long");
     return false;
   }

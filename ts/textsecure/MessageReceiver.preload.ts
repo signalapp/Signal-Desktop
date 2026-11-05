@@ -112,6 +112,7 @@ import type {
   ViewSyncEventData,
 } from './messageReceiverEvents.std.ts';
 import {
+  AttachmentBackfillRequestSyncEvent,
   AttachmentBackfillResponseSyncEvent,
   CallEventSyncEvent,
   CallLinkUpdateSyncEvent,
@@ -260,6 +261,8 @@ const MUST_BE_URGENT_TYPES: Array<SendTypesType> = [
   'readSync',
 ];
 const CAN_BE_URGENT_TYPES: Array<SendTypesType> = [
+  'attachmentBackfillRequestSync',
+  'attachmentBackfillResponseSync',
   'callingMessage',
   'senderKeyDistributionMessage',
 
@@ -699,6 +702,11 @@ export default class MessageReceiver
   public override addEventListener(
     name: 'deleteForMeSync',
     handler: (ev: DeleteForMeSyncEvent) => void
+  ): void;
+
+  public override addEventListener(
+    name: 'attachmentBackfillRequestSync',
+    handler: (ev: AttachmentBackfillRequestSyncEvent) => void
   ): void;
 
   public override addEventListener(
@@ -3147,6 +3155,12 @@ export default class MessageReceiver
         syncMessage.content.deviceNameChange
       );
     }
+    if (syncMessage.content?.attachmentBackfillRequest) {
+      return this.#handleAttachmentBackfillRequest(
+        envelope,
+        syncMessage.content.attachmentBackfillRequest
+      );
+    }
     if (syncMessage.content?.attachmentBackfillResponse) {
       return this.#handleAttachmentBackfillResponse(
         envelope,
@@ -3805,6 +3819,44 @@ export default class MessageReceiver
     await this.#dispatchAndWait(logId, deleteSyncEventSync);
 
     log.info('handleDeleteForMeSync: finished');
+  }
+
+  async #handleAttachmentBackfillRequest(
+    envelope: ProcessedEnvelope,
+    request: Proto.SyncMessage.AttachmentBackfillRequest
+  ): Promise<void> {
+    const logId = getEnvelopeId(envelope);
+    log.info('handleAttachmentBackfillRequest', logId);
+
+    logUnexpectedUrgentValue(envelope, 'attachmentBackfillRequestSync');
+
+    const targetMessage =
+      request.targetMessage == null
+        ? undefined
+        : processAddressableMessage(request.targetMessage, logId);
+    const targetConversation =
+      request.targetConversation == null
+        ? undefined
+        : processConversationIdentifier(request.targetConversation, logId);
+
+    if (targetMessage == null || targetConversation == null) {
+      log.warn(
+        `handleAttachmentBackfillRequest(${logId}): ` +
+          'missing or invalid target, dropping'
+      );
+      this.#removeFromCache(envelope);
+      return;
+    }
+
+    const attachmentBackfillRequestSync =
+      new AttachmentBackfillRequestSyncEvent(
+        { targetMessage, targetConversation },
+        envelope.timestamp,
+        envelope.id,
+        this.#removeFromCache.bind(this, envelope)
+      );
+
+    await this.#dispatchAndWait(logId, attachmentBackfillRequestSync);
   }
 
   async #handleAttachmentBackfillResponse(

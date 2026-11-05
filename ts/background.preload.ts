@@ -89,6 +89,7 @@ import {
 } from './jobs/initializeAllJobQueues.preload.ts';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue.preload.ts';
 import { conversationJobQueue } from './jobs/conversationJobQueue.preload.ts';
+import { handleAttachmentBackfillRequest } from './jobs/attachmentBackfillResponseJobQueue.preload.ts';
 import { ourProfileKeyService } from './services/ourProfileKey.std.ts';
 import { notificationService } from './services/notifications.preload.ts';
 import { areWeASubscriberService } from './services/areWeASubscriber.dom.ts';
@@ -101,6 +102,7 @@ import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { getProfile } from './util/getProfile.preload.ts';
 import type {
+  AttachmentBackfillRequestSyncEvent,
   AttachmentBackfillResponseSyncEvent,
   ConfigurationEvent,
   DeliveryEvent,
@@ -740,6 +742,10 @@ async function startApp(): Promise<void> {
     messageReceiver.addEventListener(
       'deleteForMeSync',
       queuedEventListener(onDeleteForMeSync)
+    );
+    messageReceiver.addEventListener(
+      'attachmentBackfillRequestSync',
+      queuedEventListener(onAttachmentBackfillRequestSync)
     );
     messageReceiver.addEventListener(
       'attachmentBackfillResponseSync',
@@ -4201,6 +4207,13 @@ async function startApp(): Promise<void> {
     await queueSyncTasks(syncTasks, DataWriter.removeSyncTaskById);
 
     log.info(`${logId}: Done`);
+  }
+  async function onAttachmentBackfillRequestSync(
+    ev: AttachmentBackfillRequestSyncEvent
+  ) {
+    const { confirm } = ev;
+    await handleAttachmentBackfillRequest(ev);
+    confirm();
   }
   async function onAttachmentBackfillResponseSync(
     ev: AttachmentBackfillResponseSyncEvent
