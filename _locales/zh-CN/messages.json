@@ -9,13 +9,13 @@
     "messageformat": "处理中"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "色调"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "饱和度"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "明度"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "返回"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "关闭"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "显示密码"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "清除"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "更多操作"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "复制链接"
   },
@@ -288,7 +330,7 @@
     "messageformat": "已存档聊天"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "更多操作"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "添加聊天文件夹"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "此视频文件由于过大而无法发送。您至多可以发送大小为 {limit,number}{units} 的视频文件。"
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "无法加载选中的附件。"
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "取消"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "显示状态图标"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "这将会删除您的账户信息、个人资料以及全部消息。您也将会被移出所有 Signal 群组。Signal 应用将会在此流程完成后关闭。"
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "删除账户"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "这将会删除您的账户信息、个人资料以及全部消息。您也将会被移出所有 Signal 群组。"
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "确认您的手机号码"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "国家代码"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "手机号码"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "您先前安装的 Signal Desktop 中有旧的数据。如果选择继续，它将被删除，并且您将从头开始。"
@@ -3021,7 +3075,7 @@
     "messageformat": "表情贴图包"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "收藏夹"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "最近使用"
@@ -3036,13 +3090,19 @@
     "messageformat": "最近使用"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "收藏夹"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "精选"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "没有找到表情"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "表情预览"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "由 GIPHY 提供支持"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "清空搜索"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "肤色"
@@ -3900,7 +3957,7 @@
     "messageformat": "设置"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "通话设置"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} 人参与通话}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "默认"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "默认：{deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "默认：{deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "默认通信：{deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "静音通知"
@@ -4869,67 +4926,67 @@
     "messageformat": "投票"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "联系人"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "选择联系人"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "搜索"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "无联系人"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "没有找到“{searchQuery}”的相关结果"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "分享联系人"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "您与之共享此个人资料的任何人都可以向 {name} 发送消息。"
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "发送联系人"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "编辑名称"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "编辑名称"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "前缀"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "名字"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "中间名"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "姓氏"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "后缀"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "机构"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "编辑照片"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "选择一张照片"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "联系人照片"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "头像"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "默认头像"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "添加附件或投票"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN 码提醒"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "提醒次数将逐渐减少"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "注册锁定"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "桌面版 Signal 更新失败，但我们有一个可用的新版本。请前往 {downloadUrl} 手动安装新版 Signal，然后针对更新问题联系支持团队或发送故障报告。"
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal 徽标"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "让隐私与您形影不离。"
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "在每一条消息中展现真正的自己。"
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "链接您的账户"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "更多选项"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 是一个非营利组织"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "协议与隐私政策"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "更多选项"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "创建新账户"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "使用您的手机号码创建一个新的 Signal 账户。"
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal 徽标"
@@ -7424,19 +7478,19 @@
     "messageformat": "好"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "在注册时遇到问题？"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "确保您的手机网络信号可接收短信或来电"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "确认该号码可接收来电"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "请检查您的手机号码是否输入正确"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "如果您仍然无法注册，请按以下<troubleshootingLink>故障排除步骤</troubleshootingLink>进行操作，或<contactSupportLink>联系支持人员</contactSupportLink>。"
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "设置个人资料"
@@ -9301,9 +9355,9 @@
     "messageformat": "“(N)”快捷方式现已正确对应“倒竖拇指”表情符号。感谢 <lnicola></lnicola> 修复了这个错误，点个赞！"
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "支持联系人共享。"
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "提升了已连接音频设备的处理能力与性能。"
   }
 }

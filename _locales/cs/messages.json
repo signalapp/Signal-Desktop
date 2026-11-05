@@ -9,13 +9,13 @@
     "messageformat": "Čeká na odeslání"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Odstín"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Sytost"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Jas"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Zpět"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "Zavřít"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Zobrazit heslo"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Vymazat"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "Další akce"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "Zkopírovat odkaz"
   },
@@ -288,7 +330,7 @@
     "messageformat": "Archivované chaty"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Další akce"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Přidat složku s chaty"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "Toto video nelze odeslat, protože je příliš velké. Můžete posílat videa o velikosti až {limit,number}{units}."
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nelze načíst vybranou přílohu."
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Zrušit"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Zobrazit ikonu stavu"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "Tím se vymažou informace o vašem účtu, váš profil a všechny vaše zprávy. Budete také odebráni ze všech skupin ve službě Signal. Po dokončení tohoto procesu se aplikace zavře."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Smazat účet"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Tím se vymažou informace o vašem účtu, váš profil a všechny vaše zprávy. Budete také odebráni ze všech skupin ve službě Signal."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Potvrďte své telefonní číslo"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Kód země"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Telefonní číslo"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Smazat"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Máte zastaralá data z předchozí instalace aplikace Signal Desktop. Pokud se rozhodnete pokračovat, budou odstraněna a budete muset začít od začátku."
@@ -3021,7 +3075,7 @@
     "messageformat": "Balíček nálepek"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Oblíbené"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nedávno použité"
@@ -3036,13 +3090,19 @@
     "messageformat": "Nedávno použité"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Oblíbené"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Doporučené"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Nebyly nalezeny žádné nálepky"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Náhled nálepky"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "Poháněno GIPHY"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Vymazat hledání"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Odstín pleti"
@@ -3900,7 +3957,7 @@
     "messageformat": "Nastavení"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Nastavení hovorů"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} v hovoru} few {{people,number} v hovoru} many {{people,number} v hovoru} other {{people,number} v hovoru}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "Výchozí"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Výchozí: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Výchozí: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Výchozí komunikace: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Vypnout oznámení"
@@ -4869,67 +4926,67 @@
     "messageformat": "Anketa"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Vybrat kontakt"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Hledat"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Žádné kontakty"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Žádné výsledky pro „{searchQuery}“"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Sdílet kontakt"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Každý, s kým sdílíte tento profil, bude moci poslat zprávu uživateli {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Poslat kontakt"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Upravit jméno"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Upravit jméno"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Titul před jménem"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Křestní jméno"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Druhé jméno"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Příjmení"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Titul za jménem"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Organizace"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Upravit fotku"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Vybrat fotku"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Fotografie kontaktu"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profilová fotka"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Výchozí avatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Přidat přílohu nebo anketu"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "Připomínání PIN"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "Časem se vás budeme ptát méně často."
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "Zámek registrace"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "Aplikaci Signal Desktop se nepodařilo aktualizovat, ale je k dispozici nová verze. Přejděte na {downloadUrl} a nainstalujte si novou verzi ručně, poté se obraťte na podporu nebo chybu nahlaste."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Logo Signal"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Vezměte si soukromí s sebou."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Buďte sami sebou v každé zprávě."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Propojit účet"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Další možnosti"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je nezisková organizace"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Smluvní podmínky a zásady ochrany osobních údajů"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Další možnosti"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Vytvořit nový účet"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Vytvořte si nový účet Signal pomocí svého telefonního čísla."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Logo Signal"
@@ -7424,19 +7478,19 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Máte potíže s registrací?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Ujistěte se, že má váš telefon mobilní signál pro příjem SMS nebo hovoru"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Ověřte, že na daném čísle můžete přijímat hovory"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Zkontrolujte, zda jste správně zadali své telefonní číslo"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Pokud se vám stále nedaří zaregistrovat, zkuste <troubleshootingLink>průvodce řešením problémů</troubleshootingLink> nebo <contactSupportLink>kontaktujte podporu</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Nastavte si profil"
@@ -9301,9 +9355,9 @@
     "messageformat": "Zkratka „(N)“ teď správně odpovídá emoji palce dolů. Palec nahoru pro <lnicola></lnicola> za opravu chyby."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Podpora sdílení kontaktů."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Vylepšená správa a výkon připojených zvukových zařízení."
   }
 }

@@ -9,13 +9,13 @@
     "messageformat": "Gözləyir"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Rəng tonu"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Doydurma"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Açıq rəngli"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Geri"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "Bağla"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Parolu göstər"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Təmizlə"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "Daha çox əməliyyat"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "Bağlantını kopyala"
   },
@@ -288,7 +330,7 @@
     "messageformat": "Arxivləşdirilmiş çatlar"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Daha çox əməliyyat"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Çat qovluğu əlavə et"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "Video faylının həcmi çox böyük olduğu üçün göndərmək mümkün olmadı. {limit,number}{units} həcminə qədər olan video fayllarını göndərə bilərsiniz."
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Ləğv et"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Status nişanını göstər"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "Bu seçim sizin hesab məlumatlarınızı, profilinizi və bütün mesajlarınızı siləcək. Siz həm də bütün Signal qruplarından çıxarılacaqsınız. Proses tamamlandıqdan sonra tətbiq bağlanacaq."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Hesabı sil"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Bu seçim sizin hesab məlumatlarınızı, profilinizi və bütün mesajlarınızı siləcək. Siz həm də bütün Signal qruplarından çıxarılacaqsınız."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Telefon nömrənizi təsdiqləyin"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Ölkə kodu"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Telefon nömrəsi"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "\"Signal Masaüstü\"nün əvvəlki quraşdırmasından qalma köhnə verilənləriniz var. \"Davam et\"i seçsəniz, bu verilənlər silinəcək və sıfırdan başlayacaqsınız."
@@ -3021,7 +3075,7 @@
     "messageformat": "Stiker paketləri"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Sevimlilər"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Son istifadə edilən"
@@ -3036,13 +3090,19 @@
     "messageformat": "Son istifadə edilən"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Sevimlilər"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Xüsusi"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "Heç bir stiker tapılmadı"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Stikerə önbaxış"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "GIPHY tərəfindən dəstəklənir"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Axtarışı təmizlə"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "Dəri tonu"
@@ -3900,7 +3957,7 @@
     "messageformat": "Tənzimləmələr"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Zəng tənzimləmələri"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} nəfər zəngdədir} other {{people,number} nəfər zəngdədir}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "İlkin"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Standart: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Standart: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Standart rabitə cihazları: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Bildirişlərin səsini bağla"
@@ -4869,67 +4926,67 @@
     "messageformat": "Səsvermə"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Əlaqə"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Kontakt seçin"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Axtar"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Kontaktlar yoxdur"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” üçün heç bir nəticə yoxdur"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Kontaktı paylaş"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Bu profili paylaşdığınız hər kəs {name} adlı şəxsə mesaj göndərə biləcək."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Kontakt məlumatını göndər"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Adı redaktə et"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Adı redaktə et"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Prefiks"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Ad"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "İkinci ad"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Soyad"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Suffiks"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Təşkilat"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Fotoya düzəliş et"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Foto seçin"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Əlaqə fotosu"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profil fotosu"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Standart avatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Qoşma və ya səsvermə əlavə et"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN xatırladıcıları"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "Vaxt keçdikcə daha az soruşulacaq"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "Qeydiyyat Kilidi"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "\"Signal Desktop\"u yeniləmək mümkün olmadı, lakin yeni versiya mövcuddur. {downloadUrl} ünvanına keçin və yeni versiyanı əl ilə quraşdırın, sonra dəstək şöbəsi ilə əlaqə saxlayın və ya bu problem haqqında bildirin."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal loqosu"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Məxfiliyinizi hər yerdə qoruyun."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Hər mesajda özünüz olun."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Hesabınızı əlaqələndirin"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Daha çox seçim"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal qeyri-kommersiya təşkilatıdır"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Şərtlər və Gizlilik Siyasəti"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Daha çox seçim"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Yeni hesab yaradın"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Telefon nömrəsindən istifadə edərək yeni Signal hesabı yaradın."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal loqosu"
@@ -7424,19 +7478,19 @@
     "messageformat": "Oldu"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Qeydiyyatdan keçməkdə çətinlik çəkirsiniz?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "SMS və ya zəngləri almaq üçün telefonunuzun şəbəkəyə bağlandığına əmin olun."
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Bu nömrəyə zəng qəbul edə bildiyinizi təsdiqləyin"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Telefon nömrənizi düzgün daxil etdiyinizi təsdiqləyin"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Hələ də qeydiyyatdan keçə bilmirsinizsə bu <troubleshootingLink>nasazlıqların aradan qaldırılması addımlarını</troubleshootingLink> yerinə yetirin və ya <contactSupportLink>Dəstək komandası ilə əlaqə saxlayın</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Profilinizi quraşdırın"
@@ -9301,9 +9355,9 @@
     "messageformat": "&quot;(N)&quot; qısayolu dəqiqliklə &quot;baş barmaq aşağı&quot; emojisini göstərir. Xətanın düzəldilməsi üçün <lnicola></lnicola> qədər baş barmaq emojisi."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Artıq Signal Desktop kontaktların paylaşılması xüsusiyyətini də dəstəkləyir. Beləliklə gözünüzü kompüter ekranından ayırmağa və smartfonunuza toxunmağa ehtiyac qalmır."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Qoşulmuş audio cihazlar üçün təkmilləşdirilmiş istifadə və effektivlik."
   }
 }

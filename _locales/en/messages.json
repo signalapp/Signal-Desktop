@@ -4194,10 +4194,6 @@
     "messageformat": "Powered by GIPHY",
     "description": "FunPicker > GIFs Panel > Giphy Attribution (Must use brand name 'GIPHY' in all caps)"
   },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "Clear Search",
-    "description": "(Deleted 2026/10/01) FunPicker > Search Field > Clear Search Button > Accessibility Label"
-  },
   "icu:FunSkinTones__List": {
     "messageformat": "Skin tone",
     "description": "FunPicker > Emojis Panel > Skin Tone Picker > Accessibility label"
@@ -8568,10 +8564,6 @@
     "messageformat": "PIN reminders",
     "description": "Header for Signal PIN reminders setting"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "You'll be asked less frequently over time",
-    "description": "(Deleted 2026/10/01) Description for Signal PIN reminders setting"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "Registration Lock",
     "description": "Label for Registration Lock settings"
@@ -12451,10 +12443,10 @@
   },
   "icu:WhatsNew__8.34--0": {
     "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone.",
-    "description": "Release notes for 8.34"
+    "description": "(Deleted 2026/11/05) Release notes for 8.34"
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Improved handling and performance for connected audio devices.",
-    "description": "Release notes for 8.34"
+    "description": "(Deleted 2026/11/05) Release notes for 8.34"
   }
 }
