@@ -843,6 +843,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onRedeemReceipt = authenticatedGrpcRoute(
+    'org.signal.chat.donations.Donations/RedeemReceipt',
+    async () => {
+      // TODO: Verify the receipt and add its badge to the account
+      return { response: { success: {} } };
+    },
+  );
+
   const onGetPreKeyCount = authenticatedGrpcRoute(
     'org.signal.chat.keys.Keys/GetPreKeyCount',
     async (_body, device) => {
@@ -994,6 +1002,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onGetMediaBackupInfo,
     onCopyBackupMedia,
     onListBackupMedia,
+    onRedeemReceipt,
 
     ...ALL_METHODS.map((method) => method('/*', unimplemented)),
   );

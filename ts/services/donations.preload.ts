@@ -9,6 +9,7 @@ import {
   ReceiptSerial,
   ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
+import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import * as countryCodes from 'country-codes-list';
 
 import * as Bytes from '../Bytes.std.ts';
@@ -624,6 +625,15 @@ export async function _runDonationWorkflow(): Promise<void> {
         if (error.name === 'HTTPError' && typeof error.code === 'number') {
           log.warn(`${logId}: Got a ${error.code} error, retrying donation`);
           // continuing
+        } else if (
+          error instanceof LibSignalErrorBase &&
+          (error.is(ErrorCode.IoError) ||
+            error.is(ErrorCode.ChatServiceInactive))
+        ) {
+          log.warn(
+            `${logId}: Network error, retrying donation. ${Errors.toLogFormat(error)}`
+          );
+          // continuing
         } else {
           log.warn(
             `${logId}: Donation step threw unexpectedly. Failing donation. ${Errors.toLogFormat(error)}`
@@ -1109,23 +1119,18 @@ export async function _redeemReceipt(
     const receiptCredentialPresentation = generateReceiptCredentialPresentation(
       workflow.receiptCredentialBase64
     );
-    const receiptCredentialPresentationBase64 = Bytes.toBase64(
-      receiptCredentialPresentation.serialize()
-    );
 
     const me = window.ConversationController.getOurConversationOrThrow();
     const myBadges = me.attributes.badges;
+    const showBadges =
+      myBadges != null &&
+      myBadges.length > 0 &&
+      myBadges.every(myBadge => 'isVisible' in myBadge && myBadge.isVisible);
 
-    const jsonPayload = {
-      receiptCredentialPresentation: receiptCredentialPresentationBase64,
-      visible:
-        !!myBadges &&
-        myBadges.length > 0 &&
-        myBadges.every(myBadge => 'isVisible' in myBadge && myBadge.isVisible),
-      primary: false,
-    };
-
-    await redeemReceipt(jsonPayload);
+    await redeemReceipt({
+      receiptCredentialPresentation,
+      badgeVisibility: showBadges ? 'setVisible' : 'doNotSet',
+    });
 
     // After the receipt credential, our profile will change to add new badges.
     // Refresh our profile to get new badges.

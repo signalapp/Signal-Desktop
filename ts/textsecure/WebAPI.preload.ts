@@ -22,6 +22,7 @@ import {
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 import type {
   BackupAuth,
+  BadgeVisibility,
   LinkedDevice,
   CopyBackupMediaItem,
   CopyBackupMediaOutcome,
@@ -31,7 +32,10 @@ import type {
   RegisterAccountResponse,
 } from '@signalapp/libsignal-client/dist/net.js';
 import { Svr2MigrationSession } from '@signalapp/libsignal-client/dist/net.js';
-import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
+import {
+  GroupSendFullToken,
+  type ReceiptCredentialPresentation,
+} from '@signalapp/libsignal-client/zkgroup.js';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import type {
   SingleOutboundSealedSenderMessage,
@@ -808,7 +812,6 @@ const CHAT_CALLS = {
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
   callQualitySurvey: 'v1/call_quality_survey',
-  redeemReceipt: 'v1/donation/redeem-receipt',
   registrationLock: 'v1/accounts/registration_lock',
   reportMessage: 'v1/messages/report',
   setBackupId: 'v1/archives/backupid',
@@ -1268,9 +1271,8 @@ export type CreateDonationPermitsResultType = z.infer<
 >;
 
 export type RedeemReceiptOptionsType = Readonly<{
-  receiptCredentialPresentation: string;
-  visible: boolean;
-  primary: boolean;
+  receiptCredentialPresentation: ReceiptCredentialPresentation;
+  badgeVisibility: BadgeVisibility;
 }>;
 
 export type RequestVerificationResultType = Readonly<{
@@ -2092,15 +2094,16 @@ export async function getOnboardingStoryManifest(): Promise<{
   };
 }
 
-export async function redeemReceipt(
-  options: RedeemReceiptOptionsType
-): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'redeemReceipt',
-    httpType: 'POST',
-    jsonData: options,
-    responseType: 'byteswithdetails',
+export async function redeemReceipt({
+  receiptCredentialPresentation,
+  badgeVisibility,
+}: RedeemReceiptOptionsType): Promise<void> {
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    await chat.redeemDonationReceipt({
+      presentation: receiptCredentialPresentation,
+      badgeVisibility,
+    });
   });
 }
 
