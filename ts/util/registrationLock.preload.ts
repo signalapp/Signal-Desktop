@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { getRegistrationLockString } from './getRegistrationLockString.preload.ts';
+import { getSvrKey } from './getRegistrationLockString.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import {
   disableRegistrationLock,
@@ -23,7 +23,7 @@ export async function maybeUpdateRegistrationLock(
       const svrPin = itemStorage.get('svrPin');
       strictAssert(svrPin, 'pin must be set to enable reglock');
 
-      await setupRegistrationLock(getRegistrationLockString());
+      await setupRegistrationLock(getSvrKey());
       await itemStorage.put('registrationLock', true);
     } else {
       await disableRegistrationLock();

@@ -9,15 +9,17 @@ import {
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { toHex } from '../Bytes.std.ts';
 
-export function getRegistrationLockString(): string {
+export function getSvrKey(): SvrKey {
   const aep = itemStorage.get('accountEntropyPool');
   if (!aep) {
     throw new Error('missing aep!');
   }
 
   const svrKeyData = AccountEntropyPool.deriveSvrKey(aep);
-  const svrKey = new SvrKey(svrKeyData);
+  return new SvrKey(svrKeyData);
+}
 
-  const registrationLock = svrKey.deriveRegistrationLock();
+export function getRegistrationLockString(): string {
+  const registrationLock = getSvrKey().deriveRegistrationLock();
   return toHex(registrationLock);
 }

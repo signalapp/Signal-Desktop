@@ -37,6 +37,7 @@ import {
   GroupSendFullToken,
   type ReceiptCredentialPresentation,
 } from '@signalapp/libsignal-client/zkgroup.js';
+import type { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import type {
   SingleOutboundSealedSenderMessage,
@@ -813,7 +814,6 @@ const CHAT_CALLS = {
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
   callQualitySurvey: 'v1/call_quality_survey',
-  registrationLock: 'v1/accounts/registration_lock',
   setBackupId: 'v1/archives/backupid',
   signed: 'v2/keys/signed',
   storageToken: 'v1/storage/auth',
@@ -3044,23 +3044,17 @@ export async function unlink(): Promise<void> {
   });
 }
 
-export async function setupRegistrationLock(
-  registrationLock: string
-): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'registrationLock',
-    httpType: 'PUT',
-    jsonData: {
-      registrationLock,
-    },
+export async function setupRegistrationLock(svrKey: SvrKey): Promise<void> {
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.setRegistrationLock({ svrKey });
   });
 }
+
 export async function disableRegistrationLock(): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'registrationLock',
-    httpType: 'DELETE',
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.clearRegistrationLock();
   });
 }
 
