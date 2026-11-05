@@ -11,6 +11,7 @@ import { HTTPError } from '../types/HTTPError.std.ts';
 import { isOnline } from './WebAPI.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
 import { accountManager } from './AccountManager.preload.ts';
+import { checkOurPniIdentityKey } from '../util/checkOurPniIdentityKey.preload.ts';
 
 const log = createLogger('UpdateKeysListener');
 
@@ -60,19 +61,21 @@ export class UpdateKeysListener {
       try {
         await accountManager.maybeUpdateKeys(ServiceIdKind.PNI);
       } catch (error) {
-        if (
-          error instanceof HTTPError &&
-          (error.code === 422 || error.code === 403)
-        ) {
-          log.error(`run: Got a ${error.code} uploading PNI keys; unlinking`);
-          window.Whisper.events.emit('unlinkAndDisconnect');
-        } else {
-          const errorString =
-            error instanceof HTTPError
-              ? error.code.toString()
-              : Errors.toLogFormat(error);
+        log.error(
+          `run: Failure uploading PNI keys. Not trying again. ${Errors.toLogFormat(error)}`
+        );
+
+        // Server rejects PNI keys signed with an identity key it no longer has
+        // (ex: after the primary changed number), but that failure is reported
+        // to us as an IoError, which we can't distinguish from other network
+        // failures. Instead of just unlinking immediately, we can check the key
+        // directly and unlink if it doesn't match
+        try {
+          await checkOurPniIdentityKey();
+        } catch (checkError) {
           log.error(
-            `run: Failure uploading PNI keys. Not trying again. ${errorString}`
+            'run: Failed to check our PNI identity key',
+            Errors.toLogFormat(checkError)
           );
         }
       }

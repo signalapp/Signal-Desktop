@@ -16,6 +16,7 @@ import {
   LibSignalErrorBase,
   ErrorCode,
   ServiceId,
+  ServiceIdKind as LibSignalServiceIdKind,
   type KEMPublicKey,
   type PreKeyBundle,
   type PublicKey,
@@ -1883,18 +1884,6 @@ function serializeSignedPreKey(
   };
 }
 
-function serviceIdKindToQuery(kind: ServiceIdKind): string {
-  let value: string;
-  if (kind === ServiceIdKind.ACI) {
-    value = 'aci';
-  } else if (kind === ServiceIdKind.PNI) {
-    value = 'pni';
-  } else {
-    throw new Error(`Unsupported ServiceIdKind: ${kind}`);
-  }
-  return `identity=${value}`;
-}
-
 export async function whoami(): Promise<WhoamiResultType> {
   return _ajax({
     host: 'chatService',
@@ -3085,73 +3074,57 @@ export async function getIceServers(): Promise<GetIceServersResultType> {
   })) as GetIceServersResultType;
 }
 
-type JSONSignedPreKeyType = {
-  keyId: number;
-  publicKey: string;
-  signature: string;
-};
-type JSONPreKeyType = {
-  keyId: number;
-  publicKey: string;
-};
-type JSONKyberPreKeyType = {
-  keyId: number;
-  publicKey: string;
-  signature: string;
-};
-
-type JSONKeysType = {
-  preKeys?: Array<JSONPreKeyType>;
-  pqPreKeys?: Array<JSONKyberPreKeyType>;
-  pqLastResortPreKey?: JSONKyberPreKeyType;
-  signedPreKey?: JSONSignedPreKeyType;
-};
+function toLibsignalServiceIdKind(kind: ServiceIdKind): LibSignalServiceIdKind {
+  if (kind === ServiceIdKind.ACI) {
+    return LibSignalServiceIdKind.Aci;
+  }
+  if (kind === ServiceIdKind.PNI) {
+    return LibSignalServiceIdKind.Pni;
+  }
+  throw new Error(`Unsupported ServiceIdKind: ${kind}`);
+}
 
 export async function registerKeys(
-  genKeys: UploadKeysType,
+  { preKeys, pqPreKeys, pqLastResortPreKey, signedPreKey }: UploadKeysType,
   serviceIdKind: ServiceIdKind
 ): Promise<void> {
-  const preKeys = genKeys.preKeys?.map(key => ({
-    keyId: key.keyId,
-    publicKey: Bytes.toBase64(key.publicKey.serialize()),
-  }));
-  const pqPreKeys = genKeys.pqPreKeys?.map(key => ({
-    keyId: key.keyId,
-    publicKey: Bytes.toBase64(key.publicKey.serialize()),
-    signature: Bytes.toBase64(key.signature),
-  }));
-
   if (
     !preKeys?.length &&
     !pqPreKeys?.length &&
-    !genKeys.pqLastResortPreKey &&
-    !genKeys.signedPreKey
+    pqLastResortPreKey == null &&
+    signedPreKey == null
   ) {
     throw new Error(
       'registerKeys: None of the four potential key types were provided!'
     );
   }
-  if (preKeys && preKeys.length === 0) {
+  if (preKeys != null && preKeys.length === 0) {
     throw new Error('registerKeys: Attempting to upload zero preKeys!');
   }
-  if (pqPreKeys && pqPreKeys.length === 0) {
+  if (pqPreKeys != null && pqPreKeys.length === 0) {
     throw new Error('registerKeys: Attempting to upload zero pqPreKeys!');
   }
 
-  const keys: JSONKeysType = {
-    preKeys,
-    pqPreKeys,
-    pqLastResortPreKey: serializeSignedPreKey(genKeys.pqLastResortPreKey),
-    signedPreKey: serializeSignedPreKey(genKeys.signedPreKey),
-  };
+  const identity = toLibsignalServiceIdKind(serviceIdKind);
 
-  await _ajax({
-    host: 'chatService',
-    isRegistration: true,
-    call: 'keys',
-    urlParameters: `?${serviceIdKindToQuery(serviceIdKind)}`,
-    httpType: 'PUT',
-    jsonData: keys,
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    const uploads: Array<Promise<void>> = [];
+    if (signedPreKey != null) {
+      uploads.push(chat.setSignedEcPreKey({ identity, preKey: signedPreKey }));
+    }
+    if (pqLastResortPreKey != null) {
+      uploads.push(
+        chat.setLastResortKemPreKey({ identity, preKey: pqLastResortPreKey })
+      );
+    }
+    if (preKeys != null) {
+      uploads.push(chat.setOneTimeEcPreKeys({ identity, preKeys }));
+    }
+    if (pqPreKeys != null) {
+      uploads.push(chat.setOneTimeKemPreKeys({ identity, preKeys: pqPreKeys }));
+    }
+    await Promise.all(uploads);
   });
 }
 

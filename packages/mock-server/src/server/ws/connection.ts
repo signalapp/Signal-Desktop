@@ -23,7 +23,6 @@ import {
   AtomicLinkingDataSchema,
   CreateCallLinkAuthSchema,
   CreateVerificationSessionSchema,
-  DeviceKeysSchema,
   MessageListSchema,
   ModifyVerificationSessionSchema,
   RegisterAccountResponse,
@@ -46,7 +45,6 @@ import {
 } from '../../types';
 import {
   decodeKyberPreKey,
-  decodePreKey,
   decodeSignedPreKey,
   generateAccessKeyVerifier,
   hashRemoteConfig,
@@ -57,7 +55,6 @@ import {
   getDevicesKeysResult,
   isValidAccessKey,
   parseAuthHeader,
-  serviceIdKindFromQuery,
   toBase64,
 } from '../../util';
 
@@ -330,37 +327,6 @@ export class Connection extends Service {
             ),
           },
         ];
-      }),
-    );
-
-    this.router.put(
-      '/v2/keys',
-      requireAuth(async (_params, rawBody, _headers, query) => {
-        if (!rawBody) {
-          return [422, { error: 'Missing body' }];
-        }
-
-        const serviceIdKind = serviceIdKindFromQuery(query);
-
-        const body = DeviceKeysSchema.parse(JSON.parse(rawBody.toString()));
-        try {
-          await server.updateDeviceKeys(this.getDevice(), serviceIdKind, {
-            preKeys: body.preKeys.map(decodePreKey),
-            kyberPreKeys: body.pqPreKeys?.map(decodeKyberPreKey),
-            lastResortKey: body.pqLastResortPreKey
-              ? decodeKyberPreKey(body.pqLastResortPreKey)
-              : undefined,
-            signedPreKey: body.signedPreKey
-              ? decodeSignedPreKey(body.signedPreKey)
-              : undefined,
-          });
-        } catch (error) {
-          assert(error instanceof Error);
-          debug('updateDeviceKeys error', error.stack);
-          return [400, { error: error.message }];
-        }
-
-        return [200, { ok: true }];
       }),
     );
 

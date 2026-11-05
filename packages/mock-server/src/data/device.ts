@@ -255,16 +255,29 @@ export class Device {
       throw new Error('setKeys: Missing lastResortKey');
     }
 
+    // Each kind of one-time pre-key is only replaced when it is provided
+    const replacesPreKeys = keys.preKeys != null || keys.preKeyIterator != null;
+    const replacesKyberPreKeys =
+      keys.kyberPreKeys != null || keys.kyberPreKeyIterator != null;
+
     this.keys.set(serviceIdKind, {
       identityKey: keys.identityKey,
 
       signedPreKey,
-      preKeys: keys.preKeys?.slice() ?? [],
-      kyberPreKeys: keys.kyberPreKeys?.slice() ?? [],
+      preKeys: replacesPreKeys
+        ? (keys.preKeys?.slice() ?? [])
+        : (existingKeys?.preKeys ?? []),
+      kyberPreKeys: replacesKyberPreKeys
+        ? (keys.kyberPreKeys?.slice() ?? [])
+        : (existingKeys?.kyberPreKeys ?? []),
       lastResortKey,
 
-      preKeyIterator: keys.preKeyIterator,
-      kyberPreKeyIterator: keys.kyberPreKeyIterator,
+      preKeyIterator: replacesPreKeys
+        ? keys.preKeyIterator
+        : existingKeys?.preKeyIterator,
+      kyberPreKeyIterator: replacesKyberPreKeys
+        ? keys.kyberPreKeyIterator
+        : existingKeys?.kyberPreKeyIterator,
     });
   }
 
