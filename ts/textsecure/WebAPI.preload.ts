@@ -797,7 +797,6 @@ const CHAT_CALLS = {
   discovery: 'v1/discovery',
   getGroupCredentials: 'v1/certificate/auth/group',
   getIceServers: 'v2/calling/relays',
-  getStickerPackUpload: 'v1/sticker/pack/form',
   getBackupCredentials: 'v1/archives/auth',
   keys: 'v2/keys',
   linkDevice: 'v1/devices/link',
@@ -1469,23 +1468,6 @@ const StorageServiceCredentialsSchema = z.object({
 const callLinkCreateAuthResponseSchema = z.object({
   credential: z.string(),
 }) satisfies z.ZodSchema<CallLinkCreateAuthResponseType>;
-
-const StickerPackUploadAttributesSchema = z.object({
-  acl: z.string(),
-  algorithm: z.string(),
-  credential: z.string(),
-  date: z.string(),
-  id: z.number(),
-  key: z.string(),
-  policy: z.string(),
-  signature: z.string(),
-});
-
-const StickerPackUploadFormSchema = z.object({
-  packId: z.string(),
-  manifest: StickerPackUploadAttributesSchema,
-  stickers: z.array(StickerPackUploadAttributesSchema),
-});
 
 const TransferArchiveSchema = z.union([
   z.object({
@@ -4121,13 +4103,15 @@ export async function putStickers(
   onProgress?: () => void
 ): Promise<string> {
   // Get manifest and sticker upload parameters
-  const { packId, manifest, stickers } = await _ajax({
-    host: 'chatService',
-    call: 'getStickerPackUpload',
-    responseType: 'json',
-    httpType: 'GET',
-    urlParameters: `/${encryptedStickers.length}`,
-    zodSchema: StickerPackUploadFormSchema,
+  const {
+    packId,
+    manifestUploadForm: manifest,
+    stickerUploadForms: stickers,
+  } = await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.getStickerUploadForms({
+      numberOfStickers: encryptedStickers.length,
+    });
   });
 
   // Upload manifest
