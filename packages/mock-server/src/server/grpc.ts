@@ -875,10 +875,29 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetRegistrationLock = authenticatedGrpcRoute(
+    'org.signal.chat.account.Accounts/SetRegistrationLock',
+    async ({ registrationLock }, device) => {
+      server.setRegistrationLockToken(
+        device.aci,
+        Buffer.from(registrationLock).toString('hex'),
+      );
+      return {};
+    },
+  );
+
   const onReportMessage = authenticatedGrpcRoute(
     'org.signal.chat.messages.Messages/ReportMessage',
     async () => {
       // TODO: Record reported messages
+      return {};
+    },
+  );
+
+  const onClearRegistrationLock = authenticatedGrpcRoute(
+    'org.signal.chat.account.Accounts/ClearRegistrationLock',
+    async (_body, device) => {
+      server.setRegistrationLockToken(device.aci, undefined);
       return {};
     },
   );
@@ -1012,6 +1031,8 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onSetRegistrationLock,
+    onClearRegistrationLock,
     onReportMessage,
     onSetCapabilities,
     onRemoveDevice,

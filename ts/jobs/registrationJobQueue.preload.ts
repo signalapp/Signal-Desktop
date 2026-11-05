@@ -33,7 +33,7 @@ import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { getRandomBytes } from '../Crypto.node.ts';
 import { PROFILE_KEY_LENGTH } from '../textsecure/AccountManager.preload.ts';
 import { assembleAccountAttributes } from '../util/assembleAccountAttributes.preload.ts';
-import { getRegistrationLockString } from '../util/getRegistrationLockString.preload.ts';
+import { getSvrKey } from '../util/getRegistrationLockString.preload.ts';
 import { updateCapabilities } from '../util/updateCapabilities.preload.ts';
 
 import type { Job } from './Job.std.ts';
@@ -476,7 +476,7 @@ async function updateToNewMasterKey(
 
   if (reglock) {
     log.info(`${logId}: Updating registration lock string...`);
-    await setupRegistrationLock(getRegistrationLockString());
+    await setupRegistrationLock(getSvrKey());
   }
 
   await registrationJobQueue.add({

@@ -26,7 +26,6 @@ import {
   DeviceKeysSchema,
   MessageListSchema,
   ModifyVerificationSessionSchema,
-  PutRegistrationLockSchema,
   RegisterAccountResponse,
   RegisterAccountSchema,
   RequestVerificationCodeSchema,
@@ -939,27 +938,6 @@ export class Connection extends Service {
     );
 
     this.router.put(
-      '/v1/accounts/registration_lock',
-      requireAuth(async (_params, body) => {
-        const device = this.getDevice();
-        if (!body) {
-          return [400, { error: 'Missing body' }];
-        }
-
-        const { registrationLock } = PutRegistrationLockSchema.parse(
-          JSON.parse(body.toString()),
-        );
-        if (registrationLock.length !== 64) {
-          return [400, { error: 'registrationLock should be 64 characters' }];
-        }
-
-        this.server.setRegistrationLockToken(device.aci, registrationLock);
-
-        return [200, {}];
-      }),
-    );
-
-    this.router.put(
       '/v1/accounts/attributes',
       requireAuth(async (_params, body) => {
         const device = this.getDevice();
@@ -979,16 +957,6 @@ export class Connection extends Service {
         }
 
         return [204, {}];
-      }),
-    );
-
-    this.router.del(
-      '/v1/accounts/registration_lock',
-      requireAuth(async () => {
-        const device = this.getDevice();
-        this.server.setRegistrationLockToken(device.aci, undefined);
-
-        return [200, {}];
       }),
     );
 
