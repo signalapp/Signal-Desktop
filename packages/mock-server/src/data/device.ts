@@ -97,6 +97,7 @@ export class Device {
   public accessKey?: Buffer<ArrayBuffer>;
   public profileKeyCommitment?: ProfileKeyCommitment;
   public profileName?: Buffer<ArrayBuffer>;
+  public encryptedName?: Buffer<ArrayBuffer>;
   public readonly authCredentialSalt: Buffer<ArrayBuffer>;
 
   private keys = new Map<ServiceIdKind, InternalDeviceKeys>();

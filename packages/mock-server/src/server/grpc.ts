@@ -713,6 +713,25 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onGetDevices = authenticatedGrpcRoute(
+    'org.signal.chat.device.Devices/GetDevices',
+    async (_body, device) => {
+      const devices = await server.getAllDevicesByServiceId(device.aci);
+      return {
+        devices: devices.map((linkedDevice) => ({
+          id: linkedDevice.deviceId,
+          name: linkedDevice.encryptedName ?? null,
+          lastSeen: BigInt(Date.now()),
+          registrationId: linkedDevice.getCheckedRegistrationId(
+            ServiceIdKind.ACI,
+          ),
+          // TODO: Encrypt the device's creation time
+          createdAtCiphertext: null,
+        })),
+      };
+    },
+  );
+
   const onGetMediaBackupInfo = grpcRoute(
     'org.signal.chat.backup.BackupsAnonymous/GetMediaBackupInfo',
     async ({ signedPresentation }) => {
@@ -1014,6 +1033,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onGetBackupCdnCredentials,
     onGetBackupUploadForm,
     onGetMessageBackupInfo,
+    onGetDevices,
     onGetMediaBackupInfo,
     onCopyBackupMedia,
     onListBackupMedia,
