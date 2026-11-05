@@ -9,13 +9,13 @@
     "messageformat": "স্থগিত"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "হিয়ু"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "স্যাচুরেশন"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "লাইটনেস"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "ফিরে যান"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "বন্ধ"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "পাসওয়ার্ড দেখান"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "সাফ করুন"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "আরও ক্রিয়া"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "লিঙ্ক কপি করুন"
   },
@@ -288,7 +330,7 @@
     "messageformat": "আর্কাইভকৃত চ্যাট"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "আরও ক্রিয়া"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "চ্যাট ফোল্ডার যোগ করুন"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "এই ফাইলটি বড় হবার কারণে পাঠানো যাচ্ছে না। আপনি {limit,number}{units} পর্যন্ত ভিডিও ফাইল পাঠাতে পারেন।"
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।"
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "বাতিল করুন"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "স্ট্যাটাস আইকন দেখান"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "এর ফলে আপনার অ্যাকাউন্টের তথ্য, প্রোফাইল ও আপনার সকল মেসেজ মুছে যাবে। আপনাকে সকল Signal গ্রুপ থেকেও সরিয়ে দেওয়া হবে। এই প্রক্রিয়াটি সম্পন্ন হওয়ার পর অ্যাপটি বন্ধ হয়ে যাবে।"
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "অ্যাকাউন্ট মুছে ফেলুন"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "এর ফলে আপনার অ্যাকাউন্টের তথ্য, প্রোফাইল ও আপনার সকল মেসেজ মুছে যাবে। আপনাকে সকল Signal গ্রুপ থেকেও সরিয়ে দেওয়া হবে।"
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "আপনার ফোন নম্বর নিশ্চিত করুন"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "দেশ কোড"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "ফোন নম্বর"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "মুছে ফেলুন"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "পূর্বের Signal ডেস্কটপ ইনস্টলেশন থেকে আপনার কিছু পুরনো ডেটা রয়েছে। আপনি চালিয়ে গেলে এগুলো মুছে যাবে এবং আপনি আবার প্রথম থেকে শুরু করবেন।"
@@ -3021,7 +3075,7 @@
     "messageformat": "স্টিকার প্যাক"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "ফেভারিটস"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
@@ -3036,13 +3090,19 @@
     "messageformat": "সম্প্রতি ব্যাবহৃত হয়েছে"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "ফেভারিটস"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "ফিচারকৃত"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "স্টিকার প্রিভিউ"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "GIPHY দ্বারা চালিত"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "অনুসন্ধান সাফ করুন"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "ত্বকের রঙ"
@@ -3900,7 +3957,7 @@
     "messageformat": "সেটিংস"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "কল সেটিংস"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} জন কলে আছেন} other {{people,number} জন কলে আছেন}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "ডিফল্ট"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ডিফল্ট: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ডিফল্ট: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "ডিফল্ট যোগাযোগ: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "নোটিফিকেশন মিউট করুন"
@@ -4869,67 +4926,67 @@
     "messageformat": "জরিপ"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "পরিচিতি"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "পরিচিতি নির্বাচন করুন"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "অনুসন্ধান"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "কোনো কন্টাক্ট নেই"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}”-এর জন্য কোনো ফলাফল পাওয়া যায়নি"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "পরিচিতি শেয়ার করুন"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "আপনি যাদের সাথে এই প্রোফাইলটি শেয়ার করবেন, তারা সবাই {name}-কে মেসেজ পাঠাতে পারবেন।"
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "কন্টাক্ট পাঠান"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "নাম এডিট করুন"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "নাম এডিট করুন"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "উপসর্গ"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "নামের প্রথম অংশ"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "মধ্যবর্তী নাম"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "নামের শেষ অংশ"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "প্রত্যয়"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "প্রতিষ্ঠান"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "ছবি সম্পাদনা করুন"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "একটি ছবি বেছে নিন"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "পরিচিতির ছবি"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "প্রোফাইলের ছবি"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "ডিফল্ট অবতার"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "সংযুক্তি বা জরিপ যোগ করুন"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN অনুস্মারক"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "আপনাকে মাঝে মাঝে জিজ্ঞেস করা হবে"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "রেজিস্ট্রেশন লক"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "Signal ডেস্কটপ আপডেট করতে ব্যর্থ হয়েছে, তবে একটি নতুন সংস্করণ পাওয়া যাচ্ছে। {downloadUrl}-এ যান এবং ম্যানুয়ালি নতুন সংস্করণ ইনস্টল করুন, তারপর সহায়তায় যোগাযোগ করুন বা এই সমস্যা সম্পর্কে একটি বাগ ফাইল করুন।"
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal লোগো"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "গোপনীয়তা বজায় রাখুন।"
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "প্রতিটি মেসেজে নিজের মতো করে মত প্রকাশ করুন।"
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "আপনার অ্যাকাউন্ট লিংক করুন"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "আরো অপশন"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal একটি অলাভজনক প্রতিষ্ঠান"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "শর্তাদি এবং গোপনীয়তা নীতি"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "আরো অপশন"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "একটি নতুন অ্যাকাউন্ট তৈরি করুন"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "আপনার ফোন নম্বর ব্যবহার করে একটি নতুন Signal অ্যাকাউন্ট তৈরি করুন।"
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal লোগো"
@@ -7424,19 +7478,19 @@
     "messageformat": "ঠিক আছে"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "রেজিস্ট্রেশন করতে সমস্যা হচ্ছে?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "SMS বা কল পেতে আপনার ফোনে সেলুলার সিগন্যাল রয়েছে কি না তা নিশ্চিত করুন"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "নিশ্চিত করুন যে আপনি নম্বরটিতে একটি ফোন কল পেতে পারেন"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "আপনি আপনার ফোন নম্বর সঠিকভাবে লিখেছেন কি না, তা যাচাই করে নিন"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "যদি আপনি এখনো রেজিস্টার করতে না পারেন, তবে এই <troubleshootingLink>সমস্যা সমাধানের ধাপগুলো</troubleshootingLink> অনুসরণ করুন অথবা <contactSupportLink>সাপোর্ট টিমের সাথে যোগাযোগ করুন</contactSupportLink>।"
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "আপনার প্রোফাইল সেট করুন"
@@ -9301,9 +9355,9 @@
     "messageformat": "&quot;(N)&quot; শর্টকাটটি এখন সঠিকভাবে 'থাম্বস ডাউন' ইমোজির নির্দেশ দেয়। এই বাগটি ঠিক করার জন্য <lnicola></lnicola>-কে অনেক ধন্যবাদ!"
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "কন্টাক্ট শেয়ার করার সুবিধা।"
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "সংযুক্ত অডিও ডিভাইসগুলোর ক্ষেত্রে উন্নত কার্যকারিতা ও ব্যবস্থাপনা।"
   }
 }

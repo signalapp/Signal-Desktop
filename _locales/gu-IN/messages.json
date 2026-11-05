@@ -9,13 +9,13 @@
     "messageformat": "બાકી"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "રંગ"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "સેચ્યુરેશન"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "લાઇટનેસ"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "પાછળ"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "બંધ કરો"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "પાસવર્ડ બતાવો"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "દૂર કરવું"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "વધુ પગલાં"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "લિંક કૉપિ કરો"
   },
@@ -288,7 +330,7 @@
     "messageformat": "આર્કાઇવ કરેલી ચેટ"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "વધુ પગલાં"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "ચેટ ફોલ્ડર ઉમેરો"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "આ વીડિયો ફાઇલ મોકલી શકતા નથી કારણ કે તે બહુ મોટી છે. તમે {limit,number}{units} સુધીની વીડિયો ફાઈલો મોકલી શકો છો."
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "પસંદ કરેલ અટેચમેન્ટ લોડ કરવામાં અસમર્થ."
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "રદ કરો"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "સ્ટેટસ આઇકન બતાવો"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "આ તમારા એકાઉન્ટની માહિતી, પ્રોફાઇલ અને તમારા બધા મેસેજ ડિલીટ થશે. તમને બધા Signal ગ્રૂપમાંથી પણ દૂર કરવામાં આવશે. આ પ્રક્રિયા પૂર્ણ થયા પછી ઍપ બંધ થઈ જશે."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "એકાઉન્ટ ડિલીટ કરો"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "આ તમારા એકાઉન્ટની માહિતી, પ્રોફાઇલ અને તમારા બધા મેસેજ ડિલીટ થશે. તમને બધા Signal ગ્રૂપમાંથી પણ દૂર કરવામાં આવશે."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "તમારા ફોન નંબરની ખાતરી કરો"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "દેશનો કોડ"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "ફોન નંબર"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ડિલીટ કરો"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "તમારી પાસે Signal ડેસ્કટોપના પહેલાંના ઇન્સ્ટોલેશનનો અપ્રચલિત ડેટા છે. જો તમે ચાલુ રાખવાનું પસંદ કરો છો, તો તે ડિલીટ કરવામાં આવશે અને તમે પહેલેથી શરૂ કરશો."
@@ -3021,7 +3075,7 @@
     "messageformat": "સ્ટીકર પેક"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "મનપસંદ"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "તાજેતરમાં વપરાયેલ"
@@ -3036,13 +3090,19 @@
     "messageformat": "તાજેતરમાં વપરાયેલ"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "મનપસંદ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "ફીચર્ડ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "કોઈ સ્ટીકર મળ્યા નથી"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "સ્ટીકર પ્રિવ્યૂ"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "GIPHY દ્વારા સંચાલિત"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "શોધ સાફ કરો"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "સ્કીન ટોન"
@@ -3900,7 +3957,7 @@
     "messageformat": "સેટિંગ્સ"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "કૉલ સેટિંગ્સ"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} કૉલમાં} other {{people,number} કૉલમાં}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "ડિફોલ્ટ"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ડિફોલ્ટ: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ડિફોલ્ટ: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "ડિફોલ્ટ કોમ્યુનિકેશન: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "નોટિફિકેશન મ્યૂટ કરો"
@@ -4869,67 +4926,67 @@
     "messageformat": "મતદાન"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "સંપર્ક"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "સંપર્ક પસંદ કરો"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "શોધો"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "કોઈ સંપર્કો નથી"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "“{searchQuery}” માટે કોઈ પરિણામ નથી"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "સંપર્ક શેર કરો"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "તમે જેમની પણ સાથે આ પ્રોફાઇલ શેર કરશો તે {name}ને મેસેજ કરી શકશે."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "સંપર્ક મોકલો"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "નામમાં ફેરફાર કરો"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "નામમાં ફેરફાર કરો"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "પ્રિફિક્સ"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "પહેલું નામ"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "પિતાનું નામ"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "અટક"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "સફિક્સ"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "સંસ્થા"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "ફોટામાં ફેરફાર કરો"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "ફોટો પસંદ કરો"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "સંપર્ક ફોટો"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "પ્રોફાઇલ ફોટો"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "ડિફોલ્ટ અવતાર"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "જોડાણ અથવા મતદાન ઉમેરો"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "પિન રિમાઇન્ડર"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "સમય જતાં તમને ઓછી વાર પૂછવામાં આવશે"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "રજીસ્ટ્રેશન લૉક"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "Signal Desktop અપડેટ થવામાં નિષ્ફળ રહ્યું, પરંતુ એક નવું વર્ઝન ઉપલબ્ધ છે. {downloadUrl} પર જાઓ અને નવું વર્ઝન જાતે ઇન્સ્ટોલ કરો, પછી કાં તો સપોર્ટનો સંપર્ક કરો અથવા આ સમસ્યા વિશે બગ ફાઇલ કરો."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal લોગો"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "પ્રાઇવસી તમારી સાથે રાખો."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "દરેક મેસેજમાં પોતાની અભિવ્યક્તિ જાળવી રાખો."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "તમારા એકાઉન્ટને લિંક કરો"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "વધુ વિકલ્પો"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal બિનનફાકારક સંસ્થા છે"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "શરતો અને પ્રાઇવસી પોલિસી"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "વધુ વિકલ્પો"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "નવું એકાઉન્ટ બનાવો"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "તમારા ફોન નંબરનો ઉપયોગ કરીને નવું Signal એકાઉન્ટ બનાવો."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal લોગો"
@@ -7424,19 +7478,19 @@
     "messageformat": "ઓકે"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "રજિસ્ટર કરવામાં મુશ્કેલી આવી રહી છે?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "ખાતરી કરો કે તમારા ફોન પર તમારા SMS અથવા કૉલ પ્રાપ્ત કરવા માટે સેલ્યુલર Signal છે"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "તમે નંબર પર ફોન કૉલ પ્રાપ્ત કરી શકો છો તે કન્ફર્મ કરો"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "તપાસો કે તમે તમારો ફોન નંબર યોગ્ય રીતે દાખલ કર્યો છે"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "જો તમે હજી પણ રજીસ્ટર ન કરી શકતા હો, આ <troubleshootingLink>સમસ્યાનિવારણ પગલાં</troubleshootingLink> અનુસરો અથવા <contactSupportLink>સપોર્ટનો સંપર્ક કરો</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "તમારી પ્રોફાઇલ સેટ કરો"
@@ -9301,9 +9355,9 @@
     "messageformat": "&quot;(N)&quot; શોર્ટકટ યોગ્ય રીતે થમ્બ્સ ડાઉન ઇમોજી તરફ નિર્દેશ કરે છે. બગ સુધારા માટે માટે <lnicola></lnicola>ને થંબ્સ અપ."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "સંપર્ક શેર કરવા માટેનો સપોર્ટ."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "કનેક્ટ કરેલા ઓડિયો ડિવાઇસ માટે બહેતર સંચાલન અને પર્ફોર્મન્સ."
   }
 }

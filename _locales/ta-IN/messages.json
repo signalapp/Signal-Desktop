@@ -9,13 +9,13 @@
     "messageformat": "நிலுவையில் உள்ளது"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "சாயல்"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "செறிவூட்டல்"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "வெளிர்"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "மீண்டும்"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "நெருக்கமான"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "கடவுச்சொல்லைக் காட்டுக"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "அழி"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "மேலும் செயல்கள்"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "இணைப்பை நகலெடுக்க"
   },
@@ -288,7 +330,7 @@
     "messageformat": "காப்பகப்படுத்தப்பட்ட சாட்ஸ்"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "மேலும் செயல்கள்"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "சாட் கோப்புறையைச் சேர்த்திடுக"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "இந்த வீடியோ கோப்பின் அளவு மிகவும் பெரியதாக இருப்பதால் அதை அனுப்ப முடியாது. நீங்கள் {limit,number}{units} வரை வீடியோ கோப்புகளை அனுப்ப முடியும்."
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ரத்துசெய்"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "நிலை ஐகானைக் காட்டு"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "இது உங்கள் கணக்குத் தகவல், சுயவிவரம் மற்றும் உங்களின் அனைத்து மெசேஜ்களையும் நீக்கும். நீங்கள் அனைத்துச் சிக்னல் தொகுப்புகளில் இருந்தும் அகற்றப்படுவீர்கள். இந்தச் செயல்முறை முடிந்ததும் செயலி மூடப்படும்."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "கணக்கை நீக்கு"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "இது உங்கள் கணக்குத் தகவல், சுயவிவரம் மற்றும் உங்களின் அனைத்து மெசேஜ்களையும் நீக்கும். நீங்கள் அனைத்துச் சிக்னல் தொகுப்புகளில் இருந்தும் அகற்றப்படுவீர்கள்."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "உங்கள் தொலைபேசி எண்ணை உறுதிப்படுத்தவும்"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "நாட்டின் குறியீடு"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "தொலைபேசி எண்"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "சிக்னல் டெஸ்க்டாப்பின் முந்தைய நிறுவலிலிருந்து பயன்படுத்த முடியாத தரவு உங்கள் டெஸ்க்டாப்பில் உள்ளது. தொடர நீங்கள் தேர்வுசெய்தால் Signal desktop update, அது நீக்கப்படும், நீங்கள் புதிதாகத் தொடங்குவீர்கள்."
@@ -3021,7 +3075,7 @@
     "messageformat": "ஸ்டிக்கர் பேக்குகள்"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "பிடித்தவை"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
@@ -3036,13 +3090,19 @@
     "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "பிடித்தவை"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "இடம்பெற்றது"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ஸ்டிக்கர் முன்னோட்டம்"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "GIPHY மூலம் வழங்கப்படுகிறது"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "தேடலை நீக்கு"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "ஸ்கின் டோன்"
@@ -3900,7 +3957,7 @@
     "messageformat": "அமைப்புகள்"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "அழைப்பு அமைப்புகள்"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} அழைப்பில்} other {{people,number} அழைப்பில்}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "இயல்புநிலை"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "இயல்புநிலை: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "இயல்புநிலை: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "இயல்புநிலைத் தொடர்புகள்: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "அறிவிப்புகளை ஒலியடக்கு"
@@ -4869,67 +4926,67 @@
     "messageformat": "வாக்கெடுப்பு"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "தொடர்பு"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "தொடர்புகளை தேர்ந்தெடு"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "தேடு"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "தொடர்புகள் இல்லை"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "''{searchQuery}\"-க்கான முடிவுகள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "தொடர்பைப் பகிர்"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "இந்தச் சுயவிவரத்தை நீங்கள் யாருடன் பகிர்ந்துகொள்கிறீர்களோ, அவர்களால் {name}-க்குச் செய்தி அனுப்ப முடியும்."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "தொடர்பை அனுப்பவும்"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "பெயரைத் திருத்தவும்"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "பெயரைத் திருத்தவும்"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "முன்னொட்டு"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "முதல் பெயர்"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "நடுப்பெயர்"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "கடந்த பெயர்"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "பின்னொட்டு"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "அமைப்பு"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "படத்தை திருத்த"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "படத்தைத் தேர்ந்தெடுக்கவும்"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "தொடர்பின் புகைப்படம்"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "சுயவிவரப் படம்"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "இயல்புநிலை அவதார்"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "இணைப்பு அல்லது வாக்கெடுப்பைச் சேர்த்திடுக"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "கடவுஎண் பின் நினைவூட்டல்கள்"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "காலப்போக்கில் உங்களிடம் குறைவாகக் கேட்கப்படும்"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "பதிவு பூட்டு"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "Signal டெஸ்க்டாப்பை புதுப்பிக்க முடியவில்லை, ஆனால் புதிய பதிப்பு உள்ளது. {downloadUrl} க்குச் சென்று புதிய பதிப்பை கைமுறையாக நிறுவவும், பின்னர் ஆதரவைத் தொடர்புகொள்ளவும் அல்லது இந்தச் பிரச்சனைப் பற்றிய பிழையைப் பதிவு செய்யவும்."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal லோகோ"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "தனியுரிமையை உங்களுடனே எடுத்துச் செல்லுங்கள்."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "ஒவ்வொரு செய்தியிலும் நீங்களாகவே இருங்கள்."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "உங்கள் கணக்கை இணைக்கவும்"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "அதிக விருப்பத்தேர்வுகள்"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "சிக்னல் ஓர் இலாப நோக்கற்ற அமைப்பாகும்"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "விதிமுறைகள் மற்றும் தனியுரிமைக் கொள்கை"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "அதிக விருப்பத்தேர்வுகள்"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "புதிய கணக்கை உருவாக்கு"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "உங்கள் தொலைபேசி எண்ணைப் பயன்படுத்திப் புதிய Signal கணக்கை உருவாக்கவும்."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal லோகோ"
@@ -7424,19 +7478,19 @@
     "messageformat": "சரி"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "பதிவு செய்வதில் சிக்கல் உள்ளதா?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "உங்கள் எஸ்எம்எஸ் அல்லது அழைப்பைப் பெற உங்கள் தொலைபேசியில் செல்லுலார் சிக்னல் இருப்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "இந்த எண்ணுக்கு உங்களுக்குத் தொலைபேசி அழைப்பு வரும் என்பதை உறுதிப்படுத்தவும்"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "உங்கள் தொலைபேசி எண்ணைச் சரியாக உள்ளிட்டுள்ளீர்களா என்பதைச் சரிபார்க்கவும்"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "உங்களால் இன்னமும் பதிவுசெய்ய முடியவில்லை எனில், இந்தப் <troubleshootingLink>பிழைகாணல் படிகளைப்</troubleshootingLink> பின்பற்றவும் அல்லது <contactSupportLink>ஆதரவுக் குழுவைத் தொடர்புகொள்ளவும்</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "உங்கள் சுயவிவரத்தை அமைக்கவும்"
@@ -9301,9 +9355,9 @@
     "messageformat": "&quot;(N)&quot; குறுக்குவழி இப்போது தம்ப்ஸ் டவுன் எமோஜியைச் சரியாகக் காட்டுகிறது. பிழையைச் சரிசெய்ததற்காக <lnicola></lnicola>-க்கு தம்ப்ஸ் அப் வழங்குங்கள்."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "தொடர்புகளைப் பகிர்வதையும் ஆதரிக்கிறது."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "இணைக்கப்பட்ட ஆடியோ சாதனங்களுக்கான கையாளுதல் மற்றும் செயல்திறன் மேம்படுத்தப்பட்டுள்ளது."
   }
 }

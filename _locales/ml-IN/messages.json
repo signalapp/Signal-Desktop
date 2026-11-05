@@ -9,13 +9,13 @@
     "messageformat": "ശേഷിക്കുന്നു"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "ഹ്യൂ"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "സാച്ചുറേഷൻ"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "ലൈറ്റ്നെസ്"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "തിരികെ പോകുക"
@@ -23,8 +23,44 @@
   "icu:AxoDialog.Close": {
     "messageformat": "അടയ്ക്കുക"
   },
+  "icu:AxoLoadingIndicator.Loading": {
+    "messageformat": "Loading"
+  },
+  "icu:AxoMediaButton.Play": {
+    "messageformat": "Play"
+  },
+  "icu:AxoMediaButton.Pause": {
+    "messageformat": "Pause"
+  },
+  "icu:AxoMediaButton.Download": {
+    "messageformat": "Download"
+  },
+  "icu:AxoMediaButton.CancelDownload": {
+    "messageformat": "Cancel download"
+  },
+  "icu:AxoOutgoingStatus.Sending": {
+    "messageformat": "Sending"
+  },
+  "icu:AxoOutgoingStatus.Sent": {
+    "messageformat": "Sent"
+  },
+  "icu:AxoOutgoingStatus.Delivered": {
+    "messageformat": "Delivered"
+  },
+  "icu:AxoOutgoingStatus.Read": {
+    "messageformat": "Read"
+  },
+  "icu:AxoOutgoingStatus.Paused": {
+    "messageformat": "Sending paused"
+  },
+  "icu:AxoOutgoingStatus.Error": {
+    "messageformat": "Failed to send"
+  },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "പാസ്‌വേഡ് കാണിക്കുക"
+  },
+  "icu:AxoProgressIndicator.Loading": {
+    "messageformat": "Loading"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "മായ്‌ക്കുക"
@@ -266,6 +302,12 @@
   "icu:messageContextMenuButton": {
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
+  "icu:messageContextMenu__sticker--addFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:messageContextMenu__sticker--removeFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:contextMenuCopyLink": {
     "messageformat": "ലിങ്ക് കോപ്പി ചെയ്യുക"
   },
@@ -288,7 +330,7 @@
     "messageformat": "ആർക്കൈവ് ചെയ്‌ത ചാറ്റുകൾ"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "ചാറ്റ് ഫോൾഡർ ചേർക്കുക"
@@ -781,6 +823,9 @@
   },
   "icu:videoFileTooLargeWarning": {
     "messageformat": "ഈ വീഡിയോ ഫയലിന്റെ വലുപ്പം വളരെ കൂടുതലായതിനാൽ അയയ്ക്കാൻ കഴിയില്ല. നിങ്ങൾക്ക് {limit,number}{units} വരെയുള്ള വീഡിയോ ഫയലുകൾ അയക്കാം."
+  },
+  "icu:videoFileTooLongWarning": {
+    "messageformat": "Cannot send video because it is longer than {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
@@ -1823,6 +1868,15 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "റദ്ദാക്കുക"
   },
+  "icu:Preferences__PrivacyPage__SealedSender": {
+    "messageformat": "Sealed Sender"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
+    "messageformat": "Allow from Anyone"
+  },
+  "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
+    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+  },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "സ്റ്റാറ്റസ് ചിഹ്നം കാണിക്കുക"
   },
@@ -2253,22 +2307,22 @@
     "messageformat": "ഇത് നിങ്ങളുടെ അക്കൗണ്ട് വിവരങ്ങളും പ്രൊഫൈലും എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കും. നിങ്ങളെ എല്ലാ Signal ഗ്രൂപ്പുകളിൽ നിന്നും നീക്കുകയും ചെയ്യും. ഈ പ്രോസസ് പൂർത്തിയായതിന് ശേഷം ആപ്പ് അടയ്ക്കും."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "അക്കൗണ്ട് ഇല്ലാതാക്കൂ"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "ഇത് നിങ്ങളുടെ അക്കൗണ്ട് വിവരങ്ങളും പ്രൊഫൈലും എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കും. നിങ്ങളെ എല്ലാ Signal ഗ്രൂപ്പുകളിൽ നിന്നും നീക്കുകയും ചെയ്യും."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "നിങ്ങളുടെ ഫോൺ നമ്പർ സ്ഥിരീകരിക്കുക"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "രാജ്യ കോഡ്"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "ഫോൺ നമ്പർ"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ഇല്ലാതാക്കുക"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Signal Desktop-ന്റെ ഒരു മുൻ ഇൻസ്റ്റലേഷനിൽ നിന്ന് കാലഹരണപ്പെട്ട ഡാറ്റ നിങ്ങളുടെ പക്കലുണ്ട്. നിങ്ങൾ തുടരാൻ തീരുമാനിക്കുകയാണെങ്കിൽ, അത് ഇല്ലാതാക്കപ്പെടും കൂടാതെ നിങ്ങൾ ആദ്യം മുതൽ ആരംഭിക്കും."
@@ -3021,7 +3075,7 @@
     "messageformat": "സ്റ്റിക്കർ പായ്ക്കുകൾ"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവ"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
@@ -3036,13 +3090,19 @@
     "messageformat": "അടുത്തിടെ ഉപയോഗിച്ചവ"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവ"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "ഫീച്ചർ ചെയ്തവ"
   },
   "icu:FunPanelStickers__SearchResults__EmptyHeading": {
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "സ്റ്റിക്കർ പ്രിവ്യൂ"
@@ -3100,9 +3160,6 @@
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
     "messageformat": "GIPHY നൽകുന്നത്"
-  },
-  "icu:FunSearch__ClearButtonLabel": {
-    "messageformat": "തിരച്ചിലുകൾ മായ്‌ക്കുക"
   },
   "icu:FunSkinTones__List": {
     "messageformat": "സ്കിൻ ടോൺ"
@@ -3900,7 +3957,7 @@
     "messageformat": "ക്രമീകരണങ്ങൾ"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "കോൾ ക്രമീകരണങ്ങൾ"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} കോളിൽ} other {{people,number} കോളിൽ}}"
@@ -4008,13 +4065,13 @@
     "messageformat": "സ്ഥിരസ്ഥിതി"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ഡിഫോൾട്ട്: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ഡിഫോൾട്ട്: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "ഡിഫോൾട്ട് ആശയവിനിമയം: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "അറിയിപ്പുകൾ മ്യൂട്ട് ചെയ്യുക"
@@ -4869,67 +4926,67 @@
     "messageformat": "പോൾ"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "കോൺ‌ടാക്റ്റ്"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "കോൺടാക്റ്റ് തിരഞ്ഞെടുക്കുക"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "തിരയൽ"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "കോൺടാക്റ്റുകളൊന്നുമില്ല"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "\"{searchQuery}\" എന്നതിന് ഫലങ്ങളൊന്നുമില്ല"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "കോൺടാക്റ്റ് പങ്കിടുക"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "നിങ്ങൾ ഈ പ്രൊഫൈൽ പങ്കിടുന്ന ആർക്കും {name} എന്നതിലേക്ക് സന്ദേശം അയക്കാൻ കഴിയും."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "കോൺടാക്റ്റ് അയയ്ക്കുക"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "പേര് എഡിറ്റ് ചെയ്യുക"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "പ്രിഫിക്‌സ്"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "പേരിന്റെ ആദ്യഭാഗം"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "മധ്യനാമം"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "പേരിൻ്റെ അവസാന ഭാഗം"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "സഫിക്സ്"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "സംഘടന"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "ഫോട്ടോ എഡിറ്റ് ചെയ്യുക"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "ഒരു ഫോട്ടോ തിരഞ്ഞെടുക്കുക"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "കോൺ‌ടാക്റ്റിന്റെ ഫോട്ടോ"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "പ്രൊഫൈൽ ഫോട്ടോ"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "ഡിഫോൾട്ട് അവതാർ"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "അറ്റാച്ചുമെൻ്റ് അല്ലെങ്കിൽ പോൾ ചേർക്കുക"
@@ -6385,9 +6442,6 @@
   "icu:Preferences--pin-reminders--header": {
     "messageformat": "PIN ഓർമ്മപ്പെടുത്തലുകൾ"
   },
-  "icu:Preferences--pin-reminders--description": {
-    "messageformat": "കാലക്രമേണ നിങ്ങളോട് കുറച്ച് തവണ ചോദിക്കും"
-  },
   "icu:Preferences--registration-lock__label": {
     "messageformat": "രജിസ്ട്രേഷൻ ലോക്ക്"
   },
@@ -7199,34 +7253,34 @@
     "messageformat": "Signal ഡെസ്‌ക്ടോപ് അപ്ഡേറ്റ് ചെയ്യാനായില്ല, പക്ഷെ പുതിയൊരു പതിപ്പ് കൂടി ലഭ്യമാണ്. {downloadUrl} എന്നതിലേക്ക് പോയി മാനുവലായി പുതിയ പതിപ്പ് ഇൻസ്റ്റാൾ ചെയ്യൂ, അതിന് ശേഷം ഈ പ്രശ്നവുമായി ബന്ധപ്പെട്ട് പിന്തുണയുമായി ബന്ധപ്പെടുക അല്ലെങ്കിൽ ഒരു ബഗ് ഫയൽ ചെയ്യുക."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal ലോഗോ"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "സ്വകാര്യത എപ്പോഴും നിങ്ങളോടൊപ്പം കരുതുക."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "ഓരോ സന്ദേശത്തിലും നിങ്ങളായിരിക്കുക."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "നിങ്ങളുടെ അക്കൗണ്ട് ലിങ്ക് ചെയ്യുക"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "കൂടുതൽ ഓപ്‌ഷനുകൾ"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ഒരു ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "നിബന്ധനകളും സ്വകാര്യതാ നയവും"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "കൂടുതൽ ഓപ്‌ഷനുകൾ"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "ഒരു പുതിയ അക്കൗണ്ട് സൃഷ്ടിക്കുക"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "നിങ്ങളുടെ ഫോൺ നമ്പർ ഉപയോഗിച്ച് ഒരു പുതിയ Signal അക്കൗണ്ട് സൃഷ്ടിക്കുക."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal ലോഗോ"
@@ -7424,19 +7478,19 @@
     "messageformat": "ഓകെ"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "രജിസ്റ്റർ ചെയ്യുന്നതിൽ ബുദ്ധിമുട്ട് നേരിടുന്നുണ്ടോ?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "നിങ്ങളുടെ SMS അല്ലെങ്കിൽ കോൾ സ്വീകരിക്കുന്നതിന് നിങ്ങളുടെ ഫോണിന് സെല്ലുലാർ സിഗ്നൽ ഉണ്ടെന്ന് ഉറപ്പാക്കുക"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "ഈ നമ്പറിലേക്ക് ഫോൺ കോൾ സ്വീകരിക്കാൻ കഴിയുമെന്ന് സ്ഥിരീകരിക്കുക"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "നിങ്ങളുടെ ഫോൺ നമ്പർ ശരിയായിത്തന്നെയാണോ നൽകിയിട്ടുള്ളതെന്ന് പരിശോധിക്കുക"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "നിങ്ങൾക്ക് ഇപ്പോഴും രജിസ്റ്റർ ചെയ്യാൻ കഴിയുന്നില്ലെങ്കിൽ, ഈ <troubleshootingLink>ട്രബിൾഷൂട്ടിംഗ് ഘട്ടങ്ങൾ</troubleshootingLink> പിന്തുടരുക അല്ലെങ്കിൽ <contactSupportLink>സപ്പോർട്ടുമായി ബന്ധപ്പെടുക</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "നിങ്ങളുടെ പ്രൊഫൈൽ സജ്ജമാക്കുക"
@@ -9301,9 +9355,9 @@
     "messageformat": "&quot;(N)&quot; കുറുക്കുവഴി കൃത്യമായി തംബ്‌സ് ഡൗൺ ഇമോജിയെ കാണിക്കുന്നു. തകരാർ പരിഹരിച്ചതിന് <lnicola></lnicola> യ്ക്ക് അഭിനന്ദനങ്ങൾ."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Signal ഡെസ്ക്ടോപ്പ് ഇപ്പോൾ കോൺടാക്റ്റ് പങ്കിടലിനെയും പിന്തുണയ്ക്കുന്നു; അതിനാൽ സ്മാർട്ട്‌ഫോണിൽ നേരിട്ട് തൊടാതെ തന്നെ കമ്പ്യൂട്ടർ സ്ക്രീനിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കാം."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "കണക്റ്റ് ചെയ്ത ഓഡിയോ ഉപകരണങ്ങളുടെ മികച്ച പ്രവർത്തനവും പ്രകടനവും."
   }
 }
