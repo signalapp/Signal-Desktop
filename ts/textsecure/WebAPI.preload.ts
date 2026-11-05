@@ -12,6 +12,7 @@ import type { ZodType } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
 import {
+  Aci,
   LibSignalErrorBase,
   ErrorCode,
   ServiceId,
@@ -813,7 +814,6 @@ const CHAT_CALLS = {
   callLinkCreateAuth: 'v1/call-link/create-auth',
   callQualitySurvey: 'v1/call_quality_survey',
   registrationLock: 'v1/accounts/registration_lock',
-  reportMessage: 'v1/messages/report',
   setBackupId: 'v1/archives/backupid',
   signed: 'v2/keys/signed',
   storageToken: 'v1/storage/auth',
@@ -2692,15 +2692,13 @@ export async function reportMessage({
   serverGuid,
   token,
 }: ReportMessageOptionsType): Promise<void> {
-  const jsonData = { token };
-
-  await _ajax({
-    host: 'chatService',
-    call: 'reportMessage',
-    httpType: 'POST',
-    urlParameters: urlPathFromComponents([senderAci, serverGuid]),
-    responseType: 'bytes',
-    jsonData,
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.reportMessage({
+      source: Aci.parseFromServiceIdString(senderAci),
+      messageGuid: serverGuid,
+      reportSpamToken: token != null ? Bytes.fromBase64(token) : null,
+    });
   });
 }
 

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
+import { ErrorCode, LibSignalErrorBase } from '@signalapp/libsignal-client';
 import * as durations from '../util/durations/index.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { waitForOnline } from '../util/waitForOnline.dom.ts';
@@ -13,22 +14,12 @@ import { map } from '../util/iterables.std.ts';
 import type { JOB_STATUS } from './JobQueue.std.ts';
 import { JobQueue } from './JobQueue.std.ts';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.ts';
-import { parseIntWithFallback } from '../util/parseIntWithFallback.std.ts';
 import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.ts';
-import { HTTPError } from '../types/HTTPError.std.ts';
 import { sleeper } from '../util/sleeper.std.ts';
 import { parseUnknown } from '../util/schemas.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
-const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
-  404, 408, 410, 412, 413, 414, 417, 423, 424, 425, 426, 428, 429, 431, 449,
-]);
-
-const is4xxStatus = (code: number): boolean => code >= 400 && code <= 499;
-const is5xxStatus = (code: number): boolean => code >= 500 && code <= 599;
-const isRetriable4xxStatus = (code: number): boolean =>
-  RETRYABLE_4XX_FAILURE_STATUSES.has(code);
 
 const reportSpamJobDataSchema = z.object({
   aci: aciSchema,
@@ -83,38 +74,24 @@ class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
 
       return undefined;
     } catch (err: unknown) {
-      if (!(err instanceof HTTPError)) {
-        throw err;
-      }
-
-      const code = parseIntWithFallback(err.code, -1);
-
-      // This is an unexpected case, except for -1, which can happen for network failures.
-      if (code < 400) {
-        throw err;
-      }
-
-      if (code === 508) {
-        log.info('server responded with 508. Giving up on this job');
-        return undefined;
-      }
-
-      if (isRetriable4xxStatus(code) || is5xxStatus(code)) {
-        log.info(
-          `server responded with ${code} status code. Sleeping before our next attempt`
+      if (
+        err instanceof LibSignalErrorBase &&
+        err.is(ErrorCode.RateLimitedError)
+      ) {
+        log.info('rate limited. Sleeping before our next attempt');
+        await sleeper.sleep(
+          err.retryAfterSecs * durations.SECOND,
+          'reportSpamJobQueue: rate limited'
         );
+      } else if (
+        err instanceof LibSignalErrorBase &&
+        (err.is(ErrorCode.IoError) || err.is(ErrorCode.ChatServiceInactive))
+      ) {
+        log.info('request failed. Sleeping before our next attempt');
         await sleeper.sleep(
           RETRY_WAIT_TIME,
-          `reportSpamJobQueue: server responded with ${code} status code`
+          'reportSpamJobQueue: request failed'
         );
-        throw err;
-      }
-
-      if (is4xxStatus(code)) {
-        log.error(
-          `server responded with ${code} status code. Giving up on this job`
-        );
-        return undefined;
       }
 
       throw err;
