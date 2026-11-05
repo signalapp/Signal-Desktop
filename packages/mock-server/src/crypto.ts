@@ -14,15 +14,9 @@ import {
 import { signalservice as Proto } from '../protos/compiled';
 
 import { Attachment } from './data/attachment';
-import type { ServerPreKey, ServerSignedPreKey } from './data/schemas';
+import type { ServerSignedPreKey } from './data/schemas';
 import { NEVER_EXPIRES, SERVER_CERTIFICATE_ID } from './constants';
-import {
-  AciString,
-  DeviceId,
-  KyberPreKey,
-  PreKey,
-  SignedPreKey,
-} from './types';
+import { AciString, DeviceId, KyberPreKey, SignedPreKey } from './types';
 import { ReadonlyDeep } from 'type-fest';
 
 const AES_KEY_SIZE = 32;
@@ -400,13 +394,6 @@ export function generateAccessKeyVerifier(
   const zeroes = Buffer.alloc(32);
 
   return crypto.createHmac('sha256', accessKey).update(zeroes).digest();
-}
-
-export function decodePreKey({ keyId, publicKey }: ServerPreKey): PreKey {
-  return {
-    keyId,
-    publicKey: PublicKey.deserialize(Buffer.from(publicKey, 'base64')),
-  };
 }
 
 export function decodeSignedPreKey({

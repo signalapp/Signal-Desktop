@@ -20,7 +20,13 @@ import {
   router,
   type ServerRequest,
 } from 'microrouter';
-import { ServiceId, Aci, Pni } from '@signalapp/libsignal-client';
+import {
+  ServiceId,
+  Aci,
+  Pni,
+  PublicKey,
+  KEMPublicKey,
+} from '@signalapp/libsignal-client';
 import SealedSenderMultiRecipientMessage from '@signalapp/libsignal-client/dist/SealedSenderMultiRecipientMessage';
 import { Message } from '../data/schemas';
 import type { Device } from '../data/device';
@@ -98,6 +104,19 @@ function toServiceIdentifier(
   }
 
   throw new Error(`Invalid service id: ${string}`);
+}
+
+function toServiceIdKind(
+  identityType: org.signal.chat.common.IdentityType,
+): ServiceIdKind {
+  const { IdentityType } = org.signal.chat.common;
+  if (identityType === IdentityType.IDENTITY_TYPE_ACI) {
+    return ServiceIdKind.ACI;
+  }
+  if (identityType === IdentityType.IDENTITY_TYPE_PNI) {
+    return ServiceIdKind.PNI;
+  }
+  throw new Error(`Unsupported identity type: ${identityType}`);
 }
 
 function fromServiceIdentifier(
@@ -1138,6 +1157,19 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetOneTimeEcPreKeys = authenticatedGrpcRoute(
+    'org.signal.chat.keys.Keys/SetOneTimeEcPreKeys',
+    async ({ identityType, preKeys }, device) => {
+      await server.updateDeviceKeys(device, toServiceIdKind(identityType), {
+        preKeys: preKeys.map(({ keyId, publicKey }) => ({
+          keyId,
+          publicKey: PublicKey.deserialize(publicKey),
+        })),
+      });
+      return {};
+    },
+  );
+
   const onSetDiscoverableByPhoneNumber = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/SetDiscoverableByPhoneNumber',
     async () => {
@@ -1165,6 +1197,20 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetOneTimeKemSignedPreKeys = authenticatedGrpcRoute(
+    'org.signal.chat.keys.Keys/SetOneTimeKemSignedPreKeys',
+    async ({ identityType, preKeys }, device) => {
+      await server.updateDeviceKeys(device, toServiceIdKind(identityType), {
+        kyberPreKeys: preKeys.map(({ keyId, publicKey, signature }) => ({
+          keyId,
+          publicKey: KEMPublicKey.deserialize(publicKey),
+          signature: Buffer.from(signature),
+        })),
+      });
+      return {};
+    },
+  );
+
   const onReportMessage = authenticatedGrpcRoute(
     'org.signal.chat.messages.Messages/ReportMessage',
     async () => {
@@ -1173,10 +1219,40 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetEcSignedPreKey = authenticatedGrpcRoute(
+    'org.signal.chat.keys.Keys/SetEcSignedPreKey',
+    async ({ identityType, signedPreKey }, device) => {
+      assert(signedPreKey != null, 'Missing signedPreKey');
+      await server.updateDeviceKeys(device, toServiceIdKind(identityType), {
+        signedPreKey: {
+          keyId: signedPreKey.keyId,
+          publicKey: PublicKey.deserialize(signedPreKey.publicKey),
+          signature: Buffer.from(signedPreKey.signature),
+        },
+      });
+      return {};
+    },
+  );
+
   const onClearRegistrationLock = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ClearRegistrationLock',
     async (_body, device) => {
       server.setRegistrationLockToken(device.aci, undefined);
+      return {};
+    },
+  );
+
+  const onSetKemLastResortPreKey = authenticatedGrpcRoute(
+    'org.signal.chat.keys.Keys/SetKemLastResortPreKey',
+    async ({ identityType, signedPreKey }, device) => {
+      assert(signedPreKey != null, 'Missing signedPreKey');
+      await server.updateDeviceKeys(device, toServiceIdKind(identityType), {
+        lastResortKey: {
+          keyId: signedPreKey.keyId,
+          publicKey: KEMPublicKey.deserialize(signedPreKey.publicKey),
+          signature: Buffer.from(signedPreKey.signature),
+        },
+      });
       return {};
     },
   );
@@ -1315,6 +1391,10 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onSetOneTimeEcPreKeys,
+    onSetOneTimeKemSignedPreKeys,
+    onSetEcSignedPreKey,
+    onSetKemLastResortPreKey,
     onSetDiscoverableByPhoneNumber,
     onDeleteAccount,
     onSetRegistrationLock,

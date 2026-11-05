@@ -10,7 +10,6 @@ import type { JsonValue } from 'type-fest';
 
 import { DAY_IN_SECONDS } from './constants';
 import { type RegistrationId, ServiceIdKind } from './types';
-import { ParsedUrlQuery } from 'node:querystring';
 import { Device } from './data/device';
 
 export function unreachable(input: never): never {
@@ -344,16 +343,6 @@ export function assertJsonValue(root: unknown): asserts root is JsonValue {
   if (issues.length > 0) {
     throw new TypeError(`Invalid JsonValue:\n${issues.join('\n')}`);
   }
-}
-
-export function serviceIdKindFromQuery(
-  query: Record<string, string> | ParsedUrlQuery | undefined,
-): ServiceIdKind {
-  if (query && (query.identity === 'pni' || query.identity === 'PNI')) {
-    return ServiceIdKind.PNI;
-  }
-
-  return ServiceIdKind.ACI;
 }
 
 export function booleanFromQuery(
