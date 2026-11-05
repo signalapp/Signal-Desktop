@@ -13,6 +13,30 @@ import { type RegistrationId, ServiceIdKind } from './types';
 import { ParsedUrlQuery } from 'node:querystring';
 import { Device } from './data/device';
 
+export function unreachable(input: never): never {
+  throw new TypeError(`Expected case to be unreachable, found ${input}`);
+}
+
+export function isValidAccessKey(
+  accessKey: Uint8Array | null,
+  target: Device,
+): boolean {
+  if (accessKey == null) {
+    return false;
+  }
+
+  if (target.accessKey == null) {
+    return false;
+  }
+
+  // timingSafeEqual throws when the lengths differ
+  if (accessKey.length !== target.accessKey.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(accessKey, target.accessKey);
+}
+
 type PromiseQueueEntry<T> = Readonly<{
   value: T;
   cancel: () => void;

@@ -4,7 +4,7 @@
 import assert from 'assert';
 import { Buffer } from 'buffer';
 import { Http2ServerRequest } from 'http2';
-import { timingSafeEqual, randomBytes } from 'crypto';
+import { randomBytes } from 'crypto';
 import createDebug from 'debug';
 import {
   CreateCallLinkCredentialRequest,
@@ -55,6 +55,7 @@ import { Server } from '../base';
 import {
   booleanFromQuery,
   getDevicesKeysResult,
+  isValidAccessKey,
   parseAuthHeader,
   serviceIdKindFromQuery,
   toBase64,
@@ -1208,7 +1209,7 @@ export class Connection extends Service {
         headers['unidentified-access-key'],
         'base64',
       );
-      if (!timingSafeEqual(accessKey, target.accessKey)) {
+      if (!isValidAccessKey(accessKey, target)) {
         return 'Invalid access key';
       }
     }
