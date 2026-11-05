@@ -850,6 +850,18 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onCreateDonationPermits = authenticatedGrpcRoute(
+    'org.signal.chat.donations.Donations/CreateDonationPermits',
+    async ({ donationPermitsRequest }) => {
+      // TODO: Rate limit by the number of permits requested
+      return {
+        donationPermitsResponse: await server.issueDonationPermits(
+          donationPermitsRequest,
+        ),
+      };
+    },
+  );
+
   const onGetPreKeyCount = authenticatedGrpcRoute(
     'org.signal.chat.keys.Keys/GetPreKeyCount',
     async (_body, device) => {
@@ -1006,6 +1018,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onCopyBackupMedia,
     onListBackupMedia,
     onRedeemReceipt,
+    onCreateDonationPermits,
 
     ...ALL_METHODS.map((method) => method('/*', unimplemented)),
   );

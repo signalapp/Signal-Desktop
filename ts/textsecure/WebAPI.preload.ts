@@ -35,7 +35,10 @@ import type {
 import { Svr2MigrationSession } from '@signalapp/libsignal-client/dist/net.js';
 import {
   GroupSendFullToken,
+  type DonationPermit,
+  type DonationPermitRequestContext,
   type ReceiptCredentialPresentation,
+  type ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
 import type { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
@@ -796,7 +799,6 @@ const CHAT_CALLS = {
   createBoost: 'v1/subscription/boost/create',
   createPaypalBoost: 'v1/subscription/boost/paypal/create',
   confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
-  donationPermits: 'v1/donation/permit',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -1261,14 +1263,9 @@ export type ConfirmPaypalBoostResultType = z.infer<
 >;
 
 export type CreateDonationPermitsOptionsType = Readonly<{
-  permitRequest: string;
+  requestContext: DonationPermitRequestContext;
+  serverParams: ServerPublicParams;
 }>;
-const CreateDonationPermitsResultSchema = z.object({
-  permitResponse: z.string(),
-});
-export type CreateDonationPermitsResultType = z.infer<
-  typeof CreateDonationPermitsResultSchema
->;
 
 export type RedeemReceiptOptionsType = Readonly<{
   receiptCredentialPresentation: ReceiptCredentialPresentation;
@@ -4862,16 +4859,13 @@ export function confirmPaypalBoostPayment(
   });
 }
 
-export async function createDonationPermits(
-  options: CreateDonationPermitsOptionsType
-): Promise<CreateDonationPermitsResultType> {
-  return _ajax({
-    host: 'chatService',
-    call: 'donationPermits',
-    httpType: 'POST',
-    jsonData: options,
-    responseType: 'json',
-    zodSchema: CreateDonationPermitsResultSchema,
+export async function createDonationPermits({
+  requestContext,
+  serverParams,
+}: CreateDonationPermitsOptionsType): Promise<Array<DonationPermit>> {
+  return _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.createDonationPermits({ requestContext, serverParams });
   });
 }
 
