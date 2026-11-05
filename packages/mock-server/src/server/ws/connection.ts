@@ -308,13 +308,6 @@ export class Connection extends Service {
     );
 
     this.router.put(
-      '/v1/devices/capabilities',
-      requireAuth(async () => {
-        return [200, { ok: true }];
-      }),
-    );
-
-    this.router.put(
       '/v1/devices/unauthenticated_delivery',
       requireAuth(async () => {
         return [200, { ok: true }];

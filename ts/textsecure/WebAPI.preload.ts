@@ -25,6 +25,7 @@ import type {
   LinkedDevice,
   CopyBackupMediaItem,
   CopyBackupMediaOutcome,
+  DeviceCapability,
   ProvisioningConnection,
   ProvisioningConnectionListener,
   RegisterAccountResponse,
@@ -810,7 +811,6 @@ const CHAT_CALLS = {
   callQualitySurvey: 'v1/call_quality_survey',
   redeemReceipt: 'v1/donation/redeem-receipt',
   registrationLock: 'v1/accounts/registration_lock',
-  registerCapabilities: 'v1/devices/capabilities',
   reportMessage: 'v1/messages/report',
   setBackupId: 'v1/archives/backupid',
   signed: 'v2/keys/signed',
@@ -2296,14 +2296,38 @@ export async function modifyStorageRecords(
   });
 }
 
+const DEVICE_CAPABILITY_BY_KEY: Record<
+  keyof CapabilitiesUploadType,
+  DeviceCapability
+> = {
+  attachmentBackfill: 'attachmentBackfill',
+  spqr: 'sparsePostQuantumRatchet',
+  usernameChangeSyncMessage: 'usernameChangeSyncMessage',
+  optionalPhoneNumber: 'optionalPhoneNumber',
+  storage: 'storage',
+};
+
+function toDeviceCapabilities(
+  capabilities: CapabilitiesUploadType
+): Set<DeviceCapability> {
+  const result = new Set<DeviceCapability>();
+  for (const [keyStr, value] of Object.entries(DEVICE_CAPABILITY_BY_KEY)) {
+    const key = keyStr as keyof CapabilitiesUploadType;
+    if (capabilities[key]) {
+      result.add(value);
+    }
+  }
+  return result;
+}
+
 export async function registerCapabilities(
   capabilities: CapabilitiesUploadType
 ): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'registerCapabilities',
-    httpType: 'PUT',
-    jsonData: capabilities,
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.setCapabilities({
+      capabilities: toDeviceCapabilities(capabilities),
+    });
   });
 }
 

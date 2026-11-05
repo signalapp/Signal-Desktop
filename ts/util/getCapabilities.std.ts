@@ -16,6 +16,6 @@ export function getCapabilities({
     spqr: true,
     usernameChangeSyncMessage: true,
     optionalPhoneNumber,
-    ...(hasPin ? { storage: true } : undefined),
+    storage: hasPin,
   };
 }
