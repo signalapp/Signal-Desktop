@@ -4,7 +4,6 @@
 import {
   DonationPermit,
   DonationPermitRequestContext,
-  DonationPermitResponse,
   ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
 import { z } from 'zod';
@@ -82,24 +81,16 @@ async function requestDonationPermits(): Promise<{
   const context = DonationPermitRequestContext.forCount(
     PERMIT_COUNT_PER_REQUEST
   );
-  const request = context.request();
-  const permitRequest = Bytes.toBase64(request.serialize());
 
-  const response = await createDonationPermits({ permitRequest });
-  const { permitResponse: permitResponseBytes } = response;
-  const permitResponse = new DonationPermitResponse(
-    Bytes.fromBase64(permitResponseBytes)
-  );
-
-  const permits = context.receive(
-    permitResponse,
-    serverPublicParams,
-    new Date()
-  );
-  strictAssert(permits.length, 'Donation permits must be present');
+  const permits = await createDonationPermits({
+    requestContext: context,
+    serverParams: serverPublicParams,
+  });
+  const [firstPermit] = permits;
+  strictAssert(firstPermit, 'Donation permits must be present');
 
   const expiresAt = Math.min(
-    permitResponse.expiration.getTime(),
+    firstPermit.expiration.getTime(),
     new Date().getTime() + MAX_PERMIT_CACHE_TIME
   );
   strictAssert(isInFuture(expiresAt), 'Expiry must be in future');

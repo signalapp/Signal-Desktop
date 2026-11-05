@@ -18,6 +18,9 @@ import {
   ClientZkProfileOperations,
   CreateCallLinkCredentialRequest,
   CreateCallLinkCredentialResponse,
+  DonationPermitDerivedKeyPair,
+  DonationPermitRequest,
+  DonationPermitResponse,
   ExpiringProfileKeyCredentialResponse,
   GenericServerSecretParams,
   GroupPublicParams,
@@ -1735,6 +1738,16 @@ export abstract class Server {
         this.genericServerSecret,
       );
     });
+  }
+
+  public async issueDonationPermits(
+    request: Uint8Array<ArrayBuffer>,
+  ): Promise<Uint8Array<ArrayBuffer>> {
+    const keyPair = DonationPermitDerivedKeyPair.forExpiration(
+      DonationPermitResponse.defaultExpiration(),
+      this.zkSecret,
+    );
+    return new DonationPermitRequest(request).issue(keyPair).serialize();
   }
 
   public async issueExpiringProfileKeyCredential({
