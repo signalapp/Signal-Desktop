@@ -56,6 +56,8 @@ import {
 
 const debug = createDebug('mock:grpc');
 
+type DevicePreKeyBundleParams = org.signal.chat.keys.DevicePreKeyBundle.Params;
+
 async function auth(
   server: Server,
   req: ServerRequest,
@@ -679,6 +681,75 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onGetPreKeysAnonymous = grpcRoute(
+    'org.signal.chat.keys.KeysAnonymous/GetPreKeys',
+    async ({ request }) => {
+      assert(request?.targetIdentifier != null, 'Missing targetIdentifier');
+      const { identityType, uuid } = request.targetIdentifier;
+      const target =
+        identityType === org.signal.chat.common.IdentityType.IDENTITY_TYPE_PNI
+          ? Pni.fromUuidBytes(Buffer.from(uuid))
+          : Aci.fromUuidBytes(Buffer.from(uuid));
+      const serviceId = target.getServiceIdString() as ServiceIdString;
+
+      // TODO: Check the unidentified access key or group send token
+      const allDevices = await server.getAllDevicesByServiceId(serviceId);
+      const matchingDevices = allDevices.filter((device) => {
+        return request.deviceId == null || device.deviceId === request.deviceId;
+      });
+
+      const [primary] = matchingDevices;
+      if (primary == null) {
+        return { response: { targetNotFound: {} } };
+      }
+
+      const serviceIdKind = primary.getServiceIdKind(serviceId);
+      const identityKey = await primary.getIdentityKey(serviceIdKind);
+
+      const devicePreKeys = new Map<DeviceId, DevicePreKeyBundleParams>();
+
+      await Promise.all(
+        matchingDevices.map(async (device) => {
+          const { signedPreKey, preKey, pqPreKey } =
+            await device.popSingleUseKey(serviceIdKind);
+
+          const bundle: DevicePreKeyBundleParams = {
+            ecSignedPreKey: {
+              keyId: signedPreKey.keyId,
+              publicKey: signedPreKey.publicKey.serialize(),
+              signature: signedPreKey.signature,
+            },
+            ecOneTimePreKey: preKey
+              ? {
+                  keyId: preKey.keyId,
+                  publicKey: preKey.publicKey.serialize(),
+                }
+              : null,
+            kemOneTimePreKey: {
+              keyId: pqPreKey.keyId,
+              publicKey: pqPreKey.publicKey.serialize(),
+              signature: pqPreKey.signature,
+            },
+            registrationId: device.getCheckedRegistrationId(serviceIdKind),
+          };
+
+          devicePreKeys.set(device.deviceId, bundle);
+        }),
+      );
+
+      return {
+        response: {
+          preKeys: {
+            identityKey: identityKey.serialize(),
+            devicePreKeys,
+            unrestrictedUnidentifiedAccess: false,
+            unidentifiedAccessKeyFingerprint: null,
+          },
+        },
+      };
+    },
+  );
+
   const onLookupUsernameLink = grpcRoute(
     'org.signal.chat.account.AccountsAnonymous/LookupUsernameLink',
     async ({ usernameLinkHandle }) => {
@@ -1235,6 +1306,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onSendStory,
     onCheckAccountExistence,
     onLookupUsernameHash,
+    onGetPreKeysAnonymous,
     onLookupUsernameLink,
     onGetUploadForm,
     onGetStickerUploadForm,

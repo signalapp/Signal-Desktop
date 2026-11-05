@@ -17,6 +17,7 @@ import {
   ErrorCode,
   ServiceId,
   type KEMPublicKey,
+  type PreKeyBundle,
   type PublicKey,
   CiphertextMessage,
 } from '@signalapp/libsignal-client';
@@ -3587,26 +3588,54 @@ export async function getKeysForServiceId(
   return handleKeys(keys);
 }
 
+export type PreKeysAuthType = Exclude<SealedSenderAuthType, 'story'>;
+
+export type PreKeyBundlesType = Readonly<{
+  identityKey: PublicKey;
+  preKeyBundles: ReadonlyArray<PreKeyBundle>;
+}>;
+
 export async function getKeysForServiceIdUnauth(
   serviceId: ServiceIdString,
-  deviceId?: number,
-  {
-    accessKey,
-    groupSendToken,
-  }: { accessKey?: string; groupSendToken?: GroupSendToken } = {}
-): Promise<ServerKeysType> {
-  const keys = await _ajax({
-    host: 'chatService',
-    call: 'keys',
-    httpType: 'GET',
-    urlParameters: `/${serviceId}/${deviceId || '*'}`,
-    responseType: 'json',
-    unauthenticated: true,
-    accessKey,
-    groupSendToken,
-    zodSchema: ServerKeyResponseSchema,
-  });
-  return handleKeys(keys);
+  auth: PreKeysAuthType
+): Promise<PreKeyBundlesType> {
+  try {
+    return await _retry(async () => {
+      const chat = await socketManager.getUnauthenticatedApi();
+      return chat.getPreKeys({
+        target: ServiceId.parseFromServiceIdString(serviceId),
+        device: 'all',
+        auth,
+      });
+    });
+  } catch (error) {
+    throw mapGetPreKeysLibsignalError(error);
+  }
+}
+
+// Temporarily map libsignal errors to HttpError for send jobs and sendToGroup
+function mapGetPreKeysLibsignalError(error: unknown): unknown {
+  if (!(error instanceof LibSignalErrorBase)) {
+    return error;
+  }
+
+  if (error.is(ErrorCode.IoError) || error.is(ErrorCode.ChatServiceInactive)) {
+    return new HTTPError(`getPreKeys: ${error.message}`, {
+      code: 0,
+      headers: {},
+    });
+  }
+
+  if (error.is(ErrorCode.RateLimitedError)) {
+    return new HTTPError('getPreKeys: libsignal threw RateLimitedError', {
+      code: 429,
+      headers: {
+        'retry-after': error.retryAfterSecs.toString(),
+      },
+    });
+  }
+
+  return error;
 }
 
 function mapSendMessageLibsignalError(

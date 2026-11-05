@@ -10,6 +10,7 @@ import {
   ProtocolAddress,
   PublicKey,
 } from '@signalapp/libsignal-client';
+import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 
 import {
   OutgoingIdentityKeyError,
@@ -22,11 +23,13 @@ import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import type {
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth,
+  PreKeysAuthType,
   ServerKeysType,
 } from './WebAPI.preload.ts';
 import { createLogger } from '../logging/log.std.ts';
-import { isRecord } from '../util/isRecord.std.ts';
+import * as Bytes from '../Bytes.std.ts';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.ts';
+import { ZERO_ACCESS_KEY } from '../types/SealedSender.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';
@@ -46,20 +49,25 @@ export async function getKeysForServiceId(
   groupSendToken: GroupSendToken | null
 ): Promise<{ accessKeyFailed?: boolean }> {
   try {
-    const { keys, accessKeyFailed } = await getServerKeys(
+    const { preKeyBundles, accessKeyFailed } = await getServerKeys(
       serviceId,
       server,
+      devicesToUpdate,
       accessKey,
       groupSendToken
     );
 
-    await handleServerKeys(serviceId, keys, devicesToUpdate);
+    await handleServerKeys(serviceId, preKeyBundles, devicesToUpdate);
 
     return {
       accessKeyFailed,
     };
   } catch (error) {
-    if (error instanceof HTTPError && error.code === 404) {
+    if (
+      (error instanceof HTTPError && error.code === 404) ||
+      (error instanceof LibSignalErrorBase &&
+        error.is(ErrorCode.ServiceIdNotFound))
+    ) {
       await signalProtocolStore.archiveAllSessions(serviceId);
 
       throw new UnregisteredUserError(serviceId, error);
@@ -69,32 +77,48 @@ export async function getKeysForServiceId(
   }
 }
 
-function isUnauthorizedError(error: unknown) {
+function isUnauthorizedError(error: unknown): boolean {
   return (
-    isRecord(error) &&
-    typeof error.code === 'number' &&
-    (error.code === 401 || error.code === 403)
+    error instanceof LibSignalErrorBase &&
+    error.is(ErrorCode.RequestUnauthorized)
   );
+}
+
+function toPreKeysAuth(accessKey: string): PreKeysAuthType {
+  if (accessKey === ZERO_ACCESS_KEY) {
+    return 'unrestricted';
+  }
+  return { accessKey: Bytes.fromBase64(accessKey) };
+}
+
+function shouldUpdateDevice(
+  deviceId: number,
+  devicesToUpdate: ReadonlyArray<number> | null
+): boolean {
+  return devicesToUpdate == null || devicesToUpdate.includes(deviceId);
 }
 
 async function getServerKeys(
   serviceId: ServiceIdString,
   server: ServerType,
+  devicesToUpdate: ReadonlyArray<number> | null,
   accessKey: string | null,
   groupSendToken: GroupSendToken | null
-): Promise<{ accessKeyFailed: boolean; keys: ServerKeysType }> {
+): Promise<{
+  accessKeyFailed: boolean;
+  preKeyBundles: ReadonlyArray<PreKeyBundle>;
+}> {
   // Return true only when attempted with access key
   let accessKeyFailed = false;
 
   if (accessKey != null) {
     // Try the access key first
     try {
-      const keys = await server.getKeysForServiceIdUnauth(
+      const { preKeyBundles } = await server.getKeysForServiceIdUnauth(
         serviceId,
-        undefined,
-        { accessKey }
+        toPreKeysAuth(accessKey)
       );
-      return { keys, accessKeyFailed };
+      return { preKeyBundles, accessKeyFailed };
     } catch (error) {
       accessKeyFailed = true;
       if (!isUnauthorizedError(error)) {
@@ -105,12 +129,11 @@ async function getServerKeys(
 
   if (groupSendToken != null) {
     try {
-      const keys = await server.getKeysForServiceIdUnauth(
+      const { preKeyBundles } = await server.getKeysForServiceIdUnauth(
         serviceId,
-        undefined,
-        { groupSendToken }
+        new GroupSendFullToken(groupSendToken)
       );
-      return { keys, accessKeyFailed };
+      return { preKeyBundles, accessKeyFailed };
     } catch (error) {
       if (!isUnauthorizedError(error)) {
         throw error;
@@ -118,16 +141,56 @@ async function getServerKeys(
     }
   }
 
+  const keys = await server.getKeysForServiceId(serviceId);
   return {
-    keys: await server.getKeysForServiceId(serviceId),
+    preKeyBundles: toPreKeyBundles(serviceId, keys, devicesToUpdate),
     accessKeyFailed,
   };
 }
 
-async function handleServerKeys(
+function toPreKeyBundles(
   serviceId: ServiceIdString,
   response: ServerKeysType,
-  devicesToUpdate: Array<number> | null
+  devicesToUpdate: ReadonlyArray<number> | null
+): ReadonlyArray<PreKeyBundle> {
+  const identityKey = PublicKey.deserialize(response.identityKey);
+
+  return response.devices
+    .filter(device => shouldUpdateDevice(device.deviceId, devicesToUpdate))
+    .map(device => {
+      const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
+        device;
+      if (signedPreKey == null) {
+        throw new Error(
+          `getKeysForIdentifier/${serviceId}: Missing signed prekey for deviceId ${deviceId}`
+        );
+      }
+      if (pqPreKey == null) {
+        throw new Error(
+          `getKeysForIdentifier/${serviceId}: Missing signed PQ prekey for deviceId ${deviceId}`
+        );
+      }
+
+      return PreKeyBundle.new(
+        registrationId,
+        deviceId,
+        preKey?.keyId || null,
+        preKey ? PublicKey.deserialize(preKey.publicKey) : null,
+        signedPreKey.keyId,
+        PublicKey.deserialize(signedPreKey.publicKey),
+        signedPreKey.signature,
+        identityKey,
+        pqPreKey.keyId,
+        KEMPublicKey.deserialize(pqPreKey.publicKey),
+        pqPreKey.signature
+      );
+    });
+}
+
+async function handleServerKeys(
+  serviceId: ServiceIdString,
+  preKeyBundles: ReadonlyArray<PreKeyBundle>,
+  devicesToUpdate: ReadonlyArray<number> | null
 ): Promise<void> {
   const ourAci = itemStorage.user.getCheckedAci();
   const ourDeviceId = itemStorage.user.getCheckedDeviceId();
@@ -141,53 +204,19 @@ async function handleServerKeys(
   });
 
   await Promise.all(
-    response.devices.map(async device => {
-      const { deviceId, registrationId, pqPreKey, preKey, signedPreKey } =
-        device;
-      if (devicesToUpdate != null && !devicesToUpdate.includes(deviceId)) {
+    preKeyBundles.map(async preKeyBundle => {
+      const deviceId = preKeyBundle.deviceId();
+      if (!shouldUpdateDevice(deviceId, devicesToUpdate)) {
         return;
       }
 
-      if (device.registrationId === 0) {
+      if (preKeyBundle.registrationId() === 0) {
         log.info(
           `handleServerKeys/${serviceId}: Got device registrationId zero!`
         );
       }
-      if (!signedPreKey) {
-        throw new Error(
-          `getKeysForIdentifier/${serviceId}: Missing signed prekey for deviceId ${deviceId}`
-        );
-      }
-      if (!pqPreKey) {
-        throw new Error(
-          `getKeysForIdentifier/${serviceId}: Missing signed PQ prekey for deviceId ${deviceId}`
-        );
-      }
       const protocolAddress = ProtocolAddress.new(serviceId, deviceId);
       const localAddress = ProtocolAddress.new(ourAci, ourDeviceId);
-      const preKeyId = preKey?.keyId || null;
-      const preKeyObject = preKey
-        ? PublicKey.deserialize(preKey.publicKey)
-        : null;
-      const signedPreKeyObject = PublicKey.deserialize(signedPreKey.publicKey);
-      const identityKey = PublicKey.deserialize(response.identityKey);
-
-      const { keyId: pqPreKeyId, signature: pqPreKeySignature } = pqPreKey;
-      const pqPreKeyPublic = KEMPublicKey.deserialize(pqPreKey.publicKey);
-
-      const preKeyBundle = PreKeyBundle.new(
-        registrationId,
-        deviceId,
-        preKeyId,
-        preKeyObject,
-        signedPreKey.keyId,
-        signedPreKeyObject,
-        signedPreKey.signature,
-        identityKey,
-        pqPreKeyId,
-        pqPreKeyPublic,
-        pqPreKeySignature
-      );
 
       const address = new QualifiedAddress(
         ourAci,
