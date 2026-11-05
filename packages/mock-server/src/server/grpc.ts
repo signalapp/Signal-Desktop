@@ -4,6 +4,7 @@
 import assert from 'assert';
 import type { ServerResponse } from 'http';
 import { Buffer } from 'buffer';
+import crypto from 'crypto';
 import createDebug from 'debug';
 import { stringify as stringifyUuid, v4 as uuidv4 } from 'uuid';
 import { RequestHandler, buffer, send as sendRaw } from 'micro';
@@ -545,6 +546,34 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onGetStickerUploadForm = authenticatedGrpcRoute(
+    'org.signal.chat.attachments.Attachments/GetStickerUploadForm',
+    async ({ stickerCount }) => {
+      const packId = crypto.randomBytes(16).toString('hex');
+
+      // TODO: Accept uploads with these forms and store the sticker pack
+      function toUploadForm(key: string) {
+        return {
+          key,
+          credential: '',
+          acl: '',
+          algorithm: '',
+          date: '',
+          policy: '',
+          signature: '',
+        };
+      }
+
+      return {
+        packId,
+        manifestUploadForm: toUploadForm(`stickers/${packId}/manifest.proto`),
+        stickerUploadForms: Array.from({ length: stickerCount }, (_, index) =>
+          toUploadForm(`stickers/${packId}/full/${index}`),
+        ),
+      };
+    },
+  );
+
   const onSetBackupPublicKey = grpcRoute(
     'org.signal.chat.backup.BackupsAnonymous/SetPublicKey',
     async ({ signedPresentation, publicKey }) => {
@@ -923,6 +952,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onLookupUsernameHash,
     onLookupUsernameLink,
     onGetUploadForm,
+    onGetStickerUploadForm,
     onReserveUsername,
     onConfirmUsername,
     onDeleteUsername,
