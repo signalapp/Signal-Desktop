@@ -13,7 +13,6 @@ import { reducer as rootReducer } from '../../../state/reducer.preload.ts';
 import { noopAction } from '../../../state/ducks/noop.std.ts';
 import type {
   ActiveCallStateType,
-  CallingActionType,
   CallingStateType,
   DirectCallStateType,
   GroupCallReactionsReceivedActionType,
@@ -1612,19 +1611,15 @@ describe('calling duck', () => {
         });
       });
 
-      it('preserves adminKey', () => {
+      it('preserves adminKey', async () => {
         const { startCallLinkLobby } = actions;
         const { roomId, rootKey, adminKey } = FAKE_CALL_LINK_WITH_ADMIN_KEY;
         const dispatch = sinon.spy();
-        const result = reducer(
-          getStateWithAdminKey().calling,
-          startCallLinkLobby({
-            rootKey,
-          })(
-            dispatch,
-            getStateWithAdminKey
-          ) as unknown as Readonly<CallingActionType>
-        );
+        await startCallLinkLobby({ rootKey })(dispatch, getStateWithAdminKey);
+
+        const action = dispatch.lastCall.args[0];
+        assert.equal(action.type, 'calling/START_CALL_LINK_LOBBY');
+        const result = reducer(getStateWithAdminKey().calling, action);
         assert.equal(result.callLinks[roomId]?.adminKey, adminKey);
       });
     });
