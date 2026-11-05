@@ -818,7 +818,6 @@ const CHAT_CALLS = {
   subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
   transferArchive: 'v1/devices/transfer_archive',
-  confirmUsername: 'v1/accounts/username_hash/confirm',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -1058,18 +1057,14 @@ export type VerifyServiceIdResponseType = z.infer<
 >;
 
 export type ConfirmUsernameOptionsType = Readonly<{
-  hash: Uint8Array<ArrayBuffer>;
-  proof: Uint8Array<ArrayBuffer>;
+  username: string;
   encryptedUsername: Uint8Array<ArrayBuffer>;
   abortSignal?: AbortSignal;
 }>;
 
-const confirmUsernameResultZod = z.object({
-  usernameLinkHandle: z.string(),
-});
-export type ConfirmUsernameResultType = z.infer<
-  typeof confirmUsernameResultZod
->;
+export type ConfirmUsernameResultType = Readonly<{
+  usernameLinkHandle: string;
+}>;
 
 export type ResolveUsernameByLinkOptionsType = Readonly<{
   entropy: Uint8Array<ArrayBuffer>;
@@ -2635,24 +2630,22 @@ export async function reserveUsername({
   return { usernameHash };
 }
 export async function confirmUsername({
-  hash,
-  proof,
+  username: newUsername,
   encryptedUsername,
   abortSignal,
 }: ConfirmUsernameOptionsType): Promise<ConfirmUsernameResultType> {
-  return _ajax({
-    host: 'chatService',
-    call: 'confirmUsername',
-    httpType: 'PUT',
-    jsonData: {
-      usernameHash: toWebSafeBase64(Bytes.toBase64(hash)),
-      zkProof: toWebSafeBase64(Bytes.toBase64(proof)),
-      encryptedUsername: toWebSafeBase64(Bytes.toBase64(encryptedUsername)),
+  const usernameLinkHandle = await _retry(
+    async () => {
+      const chat = await socketManager.getAuthenticatedApi();
+      return chat.confirmUsername(
+        { username: newUsername, usernameCiphertext: encryptedUsername },
+        { abortSignal }
+      );
     },
-    responseType: 'json',
-    abortSignal,
-    zodSchema: confirmUsernameResultZod,
-  });
+    { abortSignal }
+  );
+
+  return { usernameLinkHandle };
 }
 
 export async function replaceUsernameLink({

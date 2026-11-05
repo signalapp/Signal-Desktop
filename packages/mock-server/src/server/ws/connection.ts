@@ -11,7 +11,7 @@ import {
   ProfileKeyCommitment,
   ProfileKeyCredentialRequest,
 } from '@signalapp/libsignal-client/zkgroup';
-import { stringify as stringifyUuid, v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { KEMPublicKey, PublicKey } from '@signalapp/libsignal-client';
 
 import WebSocket from 'ws';
@@ -34,7 +34,6 @@ import {
   SubmitVerificationCodeSchema,
   UpdateProfileSchema,
   UploadProfileResponse,
-  UsernameConfirmationSchema,
   VerificationSession,
 } from '../../data/schemas';
 import {
@@ -1064,45 +1063,6 @@ export class Connection extends Service {
           ],
         },
       ]),
-    );
-
-    // Temporary endpoint until gRPC migration is completed
-    this.router.put(
-      '/v1/accounts/username_hash/confirm',
-      requireAuth(async (_params, rawBody) => {
-        if (!rawBody) {
-          return [422, { error: 'Missing body' }];
-        }
-
-        const {
-          usernameHash,
-          zkProof,
-          encryptedUsername: usernameCiphertext,
-        } = UsernameConfirmationSchema.parse(JSON.parse(rawBody.toString()));
-
-        const result = await server.confirmUsername(this.getDevice().aci, {
-          usernameHash,
-          zkProof,
-          usernameCiphertext,
-        });
-
-        if (!result) {
-          return [
-            409,
-            {
-              error:
-                "Given username hash doesn't match the reserved one or no reservation found.",
-            },
-          ];
-        }
-
-        return [
-          200,
-          {
-            usernameLinkHandle: stringifyUuid(result.usernameLinkHandle),
-          },
-        ];
-      }),
     );
   }
 
