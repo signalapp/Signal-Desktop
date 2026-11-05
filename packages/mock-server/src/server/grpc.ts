@@ -47,7 +47,12 @@ import {
   Server,
 } from './base';
 import { parsePassword } from './common';
-import { fromURLSafeBase64, toURLSafeBase64 } from '../util';
+import {
+  fromURLSafeBase64,
+  isValidAccessKey,
+  toURLSafeBase64,
+  unreachable,
+} from '../util';
 
 const debug = createDebug('mock:grpc');
 
@@ -91,6 +96,45 @@ function toServiceIdentifier(
   }
 
   throw new Error(`Invalid service id: ${string}`);
+}
+
+function fromServiceIdentifier(
+  identifier: org.signal.chat.common.ServiceIdentifier | null,
+): ServiceIdString {
+  if (identifier == null) {
+    throw new Error('Missing service identifier');
+  }
+
+  const { IdentityType } = org.signal.chat.common;
+
+  let serviceId: ServiceId;
+  if (identifier.identityType === IdentityType.IDENTITY_TYPE_ACI) {
+    serviceId = Aci.fromUuidBytes(identifier.uuid);
+  } else if (identifier.identityType === IdentityType.IDENTITY_TYPE_PNI) {
+    serviceId = Pni.fromUuidBytes(identifier.uuid);
+  } else {
+    throw new Error(`Unsupported identity type: ${identifier.identityType}`);
+  }
+
+  return serviceId.getServiceIdString() as ServiceIdString;
+}
+
+function fromMessageBundle(
+  bundle: org.signal.chat.messages.IndividualRecipientMessageBundle,
+): Array<Message> {
+  return Array.from(bundle.messages.entries()).map(([deviceId, message]) => {
+    if (!message) {
+      throw new Error('Missing message');
+    }
+
+    return {
+      type: convertSendMessageType(message.type),
+      destinationDeviceId: deviceId as DeviceId,
+      destinationRegistrationId: message.registrationId as RegistrationId,
+      // TODO(indutny): pass buffer
+      content: Buffer.from(message.payload).toString('base64'),
+    };
+  });
 }
 
 // gRPC status codes used by the mock.
@@ -190,6 +234,18 @@ type GrpcRequest<Endpoint extends keyof typeof $services> = ReturnType<
 type GrpcResponse<Endpoint extends keyof typeof $services> = Parameters<
   (typeof $services)[Endpoint]['Response']['encode']
 >[0];
+
+type SendMessageAuthenticatedSenderResult = NonNullable<
+  org.signal.chat.messages.SendMessageAuthenticatedSenderResponse.Params['response']
+>;
+
+type SendMessageResult = NonNullable<
+  org.signal.chat.messages.SendMessageResponse.Params['response']
+>;
+
+// Only responses that can be returned by both
+type SendIndividualMessageResult = SendMessageAuthenticatedSenderResult &
+  SendMessageResult;
 
 function convertSendMessageType(
   type: org.signal.chat.messages.SendMessageType,
@@ -301,6 +357,62 @@ export const createHandler = (server: Server): RequestHandler => {
 
       return handler(grpcRequest, device);
     });
+  }
+
+  // Returns a `response` that is valid for both authenticated sends
+  // (SendMessage, SendSyncMessage) and the sealed sender SendSingleRecipientMessage
+  async function sendIndividualMessage(
+    source: Device | undefined,
+    targetServiceId: ServiceIdString,
+    bundle: org.signal.chat.messages.IndividualRecipientMessageBundle | null,
+  ): Promise<SendIndividualMessageResult> {
+    if (bundle == null) {
+      throw new Error('Missing bundle');
+    }
+
+    const prepared = await server.prepareMultiDeviceMessage(
+      source,
+      targetServiceId,
+      fromMessageBundle(bundle),
+      bundle.timestamp,
+    );
+
+    if (prepared.status === 'ok') {
+      await server.handlePreparedMultiDeviceMessage(
+        source,
+        prepared.targetServiceId,
+        prepared.result,
+      );
+      return { success: {} };
+    }
+
+    if (prepared.status === 'unknown') {
+      return { destinationNotFound: {} };
+    }
+
+    if (prepared.status === 'incomplete') {
+      return {
+        mismatchedDevices: {
+          serviceIdentifier: toServiceIdentifier(targetServiceId),
+          missingDevices: prepared.missingDevices.slice(),
+          extraDevices: prepared.extraDevices.slice(),
+          staleDevices: null,
+        },
+      };
+    }
+
+    if (prepared.status === 'stale') {
+      return {
+        mismatchedDevices: {
+          serviceIdentifier: toServiceIdentifier(targetServiceId),
+          missingDevices: null,
+          extraDevices: null,
+          staleDevices: prepared.staleDevices.slice(),
+        },
+      };
+    }
+
+    unreachable(prepared);
   }
 
   async function onMultiRecipientMessage(
@@ -433,55 +545,116 @@ export const createHandler = (server: Server): RequestHandler => {
 
   const onSendSyncMessage = authenticatedGrpcRoute(
     'org.signal.chat.messages.Messages/SendSyncMessage',
-    async ({ messages: bundle }, device) => {
-      if (!bundle) {
-        throw new Error('Missing bundle');
+    async ({ messages }, device) => {
+      return {
+        // Sending to ourselves
+        response: await sendIndividualMessage(device, device.aci, messages),
+      };
+    },
+  );
+
+  const onSendMessage = authenticatedGrpcRoute(
+    'org.signal.chat.messages.Messages/SendMessage',
+    async ({ destination, messages }, device) => {
+      const targetServiceId = fromServiceIdentifier(destination);
+
+      if (
+        server.isSendRateLimited({
+          source: device.aci,
+          target: targetServiceId,
+        })
+      ) {
+        return {
+          response: {
+            challengeRequired: {
+              token: 'token',
+              challengeOptions: [
+                org.signal.chat.messages.ChallengeRequired.ChallengeType
+                  .CAPTCHA,
+              ],
+              retryAfterSeconds: null,
+            },
+          },
+        };
       }
-      const { timestamp, messages } = bundle;
 
-      const prepared = await server.prepareMultiDeviceMessage(
-        device,
-        device.aci, // Sending to ourselves
-        Array.from(messages.entries()).map(([deviceId, message]) => {
-          if (!message) {
-            throw new Error('Missing message');
-          }
+      return {
+        response: await sendIndividualMessage(
+          device,
+          targetServiceId,
+          messages,
+        ),
+      };
+    },
+  );
 
-          return {
-            type: convertSendMessageType(message.type),
-            destinationDeviceId: deviceId as DeviceId,
-            destinationRegistrationId: message.registrationId as RegistrationId,
-            // TODO(indutny): pass buffer
-            content: Buffer.from(message.payload).toString('base64'),
-          };
-        }),
-        timestamp,
-      );
+  const onSendSingleRecipientMessage = grpcRoute(
+    'org.signal.chat.messages.MessagesAnonymous/SendSingleRecipientMessage',
+    async ({ destination, messages, authorization }) => {
+      const targetServiceId = fromServiceIdentifier(destination);
+      const target = await server.getDeviceByServiceId(targetServiceId);
+      const exists = target != null && !server.isUnregistered(targetServiceId);
 
-      switch (prepared.status) {
-        case 'ok':
-          await server.handlePreparedMultiDeviceMessage(
-            device,
-            prepared.targetServiceId,
-            prepared.result,
-          );
+      // An unknown destination is "not found" for group send tokens, but an
+      // authorization failure for access keys so that access keys can't be
+      // used to probe whether an account exists.
+      if (authorization?.groupSendToken != null) {
+        // TODO: Verify group send tokens
+        if (!exists) {
+          return { response: { destinationNotFound: {} } };
+        }
+      } else {
+        // TODO: Support unrestricted unidentified access. Until then,
+        // `unrestrictedAccess` is always rejected.
+        const accessKey = authorization?.unidentifiedAccessKey ?? null;
+        if (!exists || !isValidAccessKey(accessKey, target)) {
           return {
             response: {
-              success: {},
+              failedUnidentifiedAuthorization: {
+                description: 'Invalid access key',
+              },
             },
           };
-        case 'unknown':
-          return {
-            response: {
-              destinationNotFound: {},
-            },
-          };
-        case 'incomplete':
-          throw new Error('TODO(indutny)');
-        case 'stale':
-          throw new Error('TODO(indutny)');
+        }
       }
-      throw new Error('TODO(indutny)');
+
+      return {
+        response: await sendIndividualMessage(
+          undefined,
+          targetServiceId,
+          messages,
+        ),
+      };
+    },
+  );
+
+  const onSendStory = grpcRoute(
+    'org.signal.chat.messages.MessagesAnonymous/SendStory',
+    async ({ destination, messages }) => {
+      const targetServiceId = fromServiceIdentifier(destination);
+      const target = await server.getDeviceByServiceId(targetServiceId);
+      if (target == null || server.isUnregistered(targetServiceId)) {
+        return { response: { destinationNotFound: {} } };
+      }
+
+      return {
+        response: await sendIndividualMessage(
+          undefined,
+          targetServiceId,
+          messages,
+        ),
+      };
+    },
+  );
+
+  const onCheckAccountExistence = grpcRoute(
+    'org.signal.chat.account.AccountsAnonymous/CheckAccountExistence',
+    async ({ serviceIdentifier }) => {
+      const serviceId = fromServiceIdentifier(serviceIdentifier);
+      const device = await server.getDeviceByServiceId(serviceId);
+      return {
+        accountExists: device != null && !server.isUnregistered(serviceId),
+      };
     },
   );
 
@@ -1049,6 +1222,10 @@ export const createHandler = (server: Server): RequestHandler => {
     onSendMultiRecipientMessage,
     onSendMultiRecipientStory,
     onSendSyncMessage,
+    onSendMessage,
+    onSendSingleRecipientMessage,
+    onSendStory,
+    onCheckAccountExistence,
     onLookupUsernameHash,
     onLookupUsernameLink,
     onGetUploadForm,
