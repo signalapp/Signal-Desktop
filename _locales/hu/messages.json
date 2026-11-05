@@ -9,13 +9,13 @@
     "messageformat": "Folyamatban"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Színárnyalat"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Szaturáció"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Világos"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Vissza"
@@ -288,7 +288,7 @@
     "messageformat": "Archivált csevegések"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "További tevékenységek"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Csevegésmappa hozzáadása"
@@ -2253,22 +2253,22 @@
     "messageformat": "Ezzel fiók információid, profilod és minden üzeneted törlésre kerül. Emellett az összes Signal-csoportból is eltávolításra kerülsz. Az alkalmazás a folyamat befejezése után bezárul."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Fiók törlése"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Ezzel fiók információid, profilod és minden üzeneted törlésre kerül. Emellett az összes Signal-csoportból is eltávolításra kerülsz."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Erősítsd meg a telefonszámodat"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Országkód"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Telefonszám"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Törlés"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Egy korábbi Signal Desktop telepítés elavult adatokat hagyott hátra. Ha úgy döntesz, hogy folytatod, akkor ezek az adatok törölve lesznek, és elölről kell kezdened."
@@ -3021,7 +3021,7 @@
     "messageformat": "Matricacsomagok"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Kedvencek"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nemrég használt"
@@ -3036,7 +3036,7 @@
     "messageformat": "Nemrég használt"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Kedvencek"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Kiemelt"
@@ -3900,7 +3900,7 @@
     "messageformat": "Beállítások"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Hívás beállításai"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} személy a hívásban} other {{people,number} személy a hívásban}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "Alapértelmezett"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Alapértelmezett: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Alapértelmezett: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Alapértelmezett kommunikációk: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Értesítések némítása"
@@ -4869,67 +4869,67 @@
     "messageformat": "Szavazás"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Névjegy"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Névjegy kiválasztása"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Keresés"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Nincsenek névjegyek"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nincs találat a következőre: „{searchQuery}”"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Kontakt megosztás"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Bárki, akivel megosztod ezt a profilt, üzenetet küldhet {name} felhasználónak."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Névjegy küldése"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Név szerkesztése"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Név szerkesztése"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Előtag"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Keresztnév"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Második keresztnév"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Vezetéknév"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Utótag"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Szervezet"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Fotó szerkesztése"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Fotó kiválasztása"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Kontakt fotó"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profilkép"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Alapértelmezett avatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Melléklet vagy szavazás hozzáadása"
@@ -7199,34 +7199,34 @@
     "messageformat": "A Signal Desktop frissítése nem sikerült, de elérhető egy új verzió. Nyisd meg a {downloadUrl} weboldalt, és telepítsd manuálisan az új verziót, majd lépj kapcsolatba az ügyfélszolgálattal, vagy jelentsd a hibát a problémával kapcsolatban."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal-logó"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Tegyél az adataid védelméért!"
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Légy önmagad minden egyes üzenetváltáskor!"
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Kösd össze a fiókod"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "További lehetőségek"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "A Signal egy nonprofit szervezet"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Adatvédelmi és Általános Szerződési Feltételek"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "További lehetőségek"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Új fiók létrehozása"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Hozz létre egy új Signal-fiókot a telefonszámoddal."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal-logó"
@@ -7424,19 +7424,19 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Problémáid vannak a regisztrációval?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Gondoskodj róla, hogy a telefonod elérhető legyen a mobilhálózaton SMS vagy hívás fogadása érdekében"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Erősítsd meg, hogy fogadhatsz-e hívást a számra"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Ellenőrizd, hogy helyesen adtad-e meg a telefonszámod"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Amennyiben továbbra sem tudsz regisztrálni, kövesd ezeket a <troubleshootingLink>hibaelhárítási lépéseket</troubleshootingLink> vagy <contactSupportLink>vedd fel a kapcsolatot az ügyfélszolgálattal</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Profilod beállítása"
@@ -9301,9 +9301,9 @@
     "messageformat": "Az „(N)” gyorsbillentyű helyesen a lefelé mutató hüvelykujj emojira mutat. Felfelé mutató hüvelykujj <lnicola></lnicola> számára a hibajavításért!"
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Névjegymegosztás támogatása."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Továbbfejlesztett kezelés és teljesítmény a csatlakoztatott audioeszközökhöz."
   }
 }

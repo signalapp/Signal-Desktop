@@ -9,13 +9,13 @@
     "messageformat": "U obradi"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Nijansa"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Zasićenost"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Svjetlina"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Natrag"
@@ -288,7 +288,7 @@
     "messageformat": "Arhivirani chatovi"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Više radnji"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Dodaj folder chata"
@@ -2253,22 +2253,22 @@
     "messageformat": "Ovim ćete izbrisati svoje informacije o računu, profil i sve svoje poruke. Također ćete biti uklonjeni iz Signal Grupa. Aplikacija će se zatvoriti nakon što se ovaj postupak završi."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Izbriši račun"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Ovim ćete izbrisati svoje informacije o računu, profil i sve svoje poruke. Također ćete biti uklonjeni iz Signal Grupa."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Potvrdite svoj broj telefona"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Državni kōd"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Broj telefona"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Imate zastarjele podatke od ranije instalacije Signal Desktopa. Ako se odlučite nastaviti, izbrisat će se i počet ćete ispočetka."
@@ -3021,7 +3021,7 @@
     "messageformat": "Paketi naljepnica"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Omiljeno"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nedavno korištene"
@@ -3036,7 +3036,7 @@
     "messageformat": "Nedavno korištene"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Omiljeno"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Istaknuto"
@@ -3900,7 +3900,7 @@
     "messageformat": "Podešavanja"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Postavke poziva"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {U pozivu: {people,number}} few {U pozivu: {people,number}} many {U pozivu: {people,number}} other {U pozivu: {people,number}}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "Standardno"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Zadano: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Zadano: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Zadano za komunikaciju: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Isključi zvuk obavijesti"
@@ -4869,67 +4869,67 @@
     "messageformat": "Anketa"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Odaberi kontakt"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Traži"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Nema kontakata"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Nema rezultata za “{searchQuery}”"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Podijeli kontakt"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Svako s kim podijelite ovaj profil moći će poslati poruku {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Pošalji kontakt"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Uredi ime"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Uredi ime"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Prefiks"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Ime"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Drugo ime"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Prezime"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Sufiks"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Organizacija"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Obradi fotografiju"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Odaberite fotografiju"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Slika kontakta"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profilna fotografija"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Zadani avatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Dodaj prilog ili anketu"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal Desktop se nije uspio ažurirati, ali je dostupna nova verzija. Idite na {downloadUrl} i ručno instalirajte novu verziju, a zatim kontaktirajte podršku ili prijavite grešku o ovom problemu."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Logotip Signala"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Ponesite privatnost sa sobom."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Budite svoji u svakoj poruci."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Povežite račun"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Više opcija"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je neprofitna organizacija"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Uslovi i pravila privatnosti"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Više opcija"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Kreirajte novi račun"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Kreirajte novi Signal račun pomoću broja telefona."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Logotip Signala"
@@ -7424,19 +7424,19 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Imate problema s registracijom?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Potvrdite da je Vaš telefon spojen na mobilnu mrežu kako biste mogli primiti SMS ili poziv"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Provjerite možete li primiti telefonski poziv na taj broj"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Provjerite jeste li ispravno unijeli svoj broj telefona"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Ako se i dalje ne možete registrirati, slijedite ove <troubleshootingLink>korake za rješavanje problema</troubleshootingLink> ili se <contactSupportLink>obratite podršci</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Podesite svoj profil"
@@ -9301,9 +9301,9 @@
     "messageformat": "Prečica „(N)“ sada ispravno upućuje na emoji palca okrenutog nadolje. Palac gore za <lnicola></lnicola>zbog ispravke greške."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Podrška za dijeljenje kontakata."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Poboljšano upravljanje i performanse povezanih audio uređaja."
   }
 }

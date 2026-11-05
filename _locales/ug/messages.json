@@ -9,13 +9,13 @@
     "messageformat": "كۈتۈۋاتىدۇ…"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "سايە"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "تويۇنۇش"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "يورۇقلۇق"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "قايت"
@@ -288,7 +288,7 @@
     "messageformat": "ئارخىپلانغان پاراڭلار"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "تېخىمۇ كۆپ مەشغۇلات"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "پاراڭ ھۆججىتى قىسقۇچى قوشۇش"
@@ -2253,22 +2253,22 @@
     "messageformat": "بۇ مەشغۇلات ھېسابات ئۇچۇرى، سەپلىمە ھۆججەت ۋە بارلىق ئۇچۇرلىرىڭىزنى ئۆچۈرىدۇ. بۇنىڭ بىلەنن بىرلىكتە سىز بارلىق Signal گۇرۇپپىسىدىن چىقىرىۋېتىلىسىز. بۇ جەريان تاماملانغاندىن كېيىن ئەپ تاقىلىدۇ."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "ھېساباتنى ئۆچۈر"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "بۇ مەشغۇلات ھېسابات ئۇچۇرى، سەپلىمە ھۆججەت ۋە بارلىق ئۇچۇرلىرىڭىزنى ئۆچۈرىدۇ. بۇنىڭ بىلەنن بىرلىكتە سىز بارلىق Signal گۇرۇپپىسىدىن چىقىرىۋېتىلىسىز."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "تېلېفون نومۇرىڭىزنى جەزىملەشتۈرۈڭ"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "دۆلەت كودى"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "تېلېفون نومۇرىڭىز"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "بۇرۇن قاچىلىغان Signal ئۈستەليۈزى نەشرىدىكى ۋاقتى ئۆتكەن سانلىق مەلۇماتلار بار بولۇپ، ئەگەر داۋاملاشتۇرسىڭىز، ئۇلار ئۆچۈرۈلىدۇ ۋە ھەممىنى باشتىن باشلايسىز."
@@ -3021,7 +3021,7 @@
     "messageformat": "چاپلاق بولاقلىرى"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "ياقتۇرغان تاللانمىلار"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "يېقىندا ئىشلىتىلدى"
@@ -3036,7 +3036,7 @@
     "messageformat": "يېقىندا ئىشلىتىلدى"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "ياقتۇرغان تاللانمىلار"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "ئالاھىدە"
@@ -3900,7 +3900,7 @@
     "messageformat": "تەڭشەكلەر"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "چاقىرىش تەڭشىكى"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} چاقىرىقتا}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "كۆڭۈلدىكى"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ئالدىن بەلگىلەپ قويۇلغان: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ئالدىن بەلگىلەپ قويۇلغان: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "ئالدىن بەلگىلەپ قويۇلغان ئالاقىلىشىشلار:{deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "ئۈنسىز ئۇقتۇرۇش"
@@ -4869,67 +4869,67 @@
     "messageformat": "ئشلەتكۈچىلەرنىڭ رايىنى سىناش"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "ئالاقىداش"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "ئالاقەداش تاللا"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "ئىزدە"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "ئالاقىلاشقۇچىلار يوق"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "{searchQuery} ئۈچۈن نەتىجە يوق"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "ئالاقەداش ھەمبەھىر"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "سىز تەمىنلىگەن بۇ ھېسابات ئارقىلىق، ھەرقانداق ئادەم {name} گە ئۇچۇر يوللىيالايدۇ."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "ئالاقىداش يوللاش"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "ئات تەھرىر"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "ئات تەھرىر"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "ئاتاق"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "ئات"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "ئوتتۇرانچى ئىسىم"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "فامىلە"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "قوشۇمچە نام"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "تەشكىل"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "رەسىمنى تەھرىرلەش"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "بىر رەسىم تاللاڭ"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "ئالاقەداش سۈرەت"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "باش سۈرەت"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "ئالدىن بېكىتىپ قويغان ئاۋاتار رەسىم"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "قوشۇمچە ھۆججەت ياكى راي سىناشنى قوشۇش"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal ئۈستەليۈزىنىڭ يېڭى نەشرى چىققان بولسىمۇ، ئۇنى يېڭى نەشرىگە يېڭىلىغىلى بولمىدى. «{downloadUrl}» گە كىرىپ يېڭى نەشرىنى قولدا قاچىلاڭ ۋە ياردەمچى خادىم بىلەن ئالاقىلىشىپ ياكى دوكلات يوللاپ بۇ مەسىلىنى دوكلات قىلىڭ."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal لوگوسى"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "شەخسىيىتىڭىزنى ئۆزىڭىز بىلەن بىللە ئېلىپ يۈرۈڭ."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "ھەربىر ئۇچۇر ئالاقىسىدە ئۆزىڭىز بولۇڭ."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "ھېساباتىڭىزنى ئۇلاڭ"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "تېخىمۇ كۆپ تاللاش"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal پايدا ئالمايدىغان بىر تەشكىلات"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "شەرتلەر &  مەخپىيەتلىك تۈزۈمى"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "تېخىمۇ كۆپ تاللاش"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "يېڭى بىر ھېسابات قۇرۇش"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "تېلېفون نومۇرىڭىزنى ئىشلىتىپ يېڭى بىر ھېسابات قۇرۇڭ."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal لوگوسى"
@@ -7424,19 +7424,19 @@
     "messageformat": "بولىدۇ"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "تىزىملىتىشتا قىيىنچىلىققا يولۇقتىڭىزمۇ؟"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "تېلېفونىڭىزنىڭ كەلگەن SMS ياكى تېلېفوننى قوبۇل قىلىدىغان يانفون سىگنالى بارلىقىغا كاپالەتلىك قىلىڭ"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "بۇ نومۇرنىڭ تېلېفون قوبۇل قىلالايدىغانلىقىغا كاپالەتلىك قىلىڭ"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "تېلېفون نومۇرىنى توغرا كىرگۈزۈڭ"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "ئەگەر يەنىلا تىزىملىتىشقا ئامالسىز بولسىڭىز، بۇ <troubleshootingLink>مەسىلىنى ھەل قىلىش باسقۇچلىرى</troubleshootingLink>غا ئەگىشىڭ ياكى <contactSupportLink>قوللاش مۇلازىمىتى بىلەن ئالاقىلىشىڭ</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "ئارخىپىڭىزنى بەلگىلەڭ"
@@ -9301,9 +9301,9 @@
     "messageformat": "«(N)» تېزلەتمىسى توغرا ھالدا باش بارماقنى تۆۋەنگە قارىتىش emoji سىغا ئۇلىنىدۇ. <lnicola></lnicola> نىڭ بۇ مەسىلىنى تۈزىگەنلىكىگە قارىتا بىر يۇقىرىغا قارىغان باش بارماق بېرىلدى."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "ئالاقىداشلارنى ھەمبەھىرلەشنى قوللاش ئىقتىدارى قوشۇلدى. 8.34 نەشرىنىڭ يېڭىلىقلىرى."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "ئۇلانغان ئاۋاز ئۈسكۈنىلىرىنىڭ بىر تەرەپ قىلىنىشى ۋە ئىقتىدارى ياخشىلاندى."
   }
 }

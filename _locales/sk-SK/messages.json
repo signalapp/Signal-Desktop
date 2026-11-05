@@ -9,13 +9,13 @@
     "messageformat": "Čaká na spracovanie"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Odtieň"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Sýtosť"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Jasnosť"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Späť"
@@ -288,7 +288,7 @@
     "messageformat": "Archivované čety"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Viac akcií"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Pridať priečinok četov"
@@ -2253,22 +2253,22 @@
     "messageformat": "Týmto sa vymažú informácie o vašom účte, profil a všetky vaše správy. Taktiež vás to odstráni zo všetkých Signal skupín. Po dokončení tohto procesu sa aplikácia zatvorí."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Vymazať účet"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Týmto sa vymažú informácie o vašom účte, profil a všetky vaše správy. Taktiež vás to odstráni zo všetkých Signal skupín."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Potvrďte svoje telefónne číslo"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Kód krajiny"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Telefónne číslo"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Vymazať"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Toto zariadenie obsahuje staré dáta z predošlej inštalácie Signalu. Ak budete pokračovať, zmažú sa a začnete s čistým štítom."
@@ -3021,7 +3021,7 @@
     "messageformat": "Balíčky nálepiek"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Obľúbené"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nedávno použité"
@@ -3036,7 +3036,7 @@
     "messageformat": "Nedávno použité"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Obľúbené"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Odporúčané"
@@ -3900,7 +3900,7 @@
     "messageformat": "Nastavenia"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Nastavenia hovoru"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} v hovore} few {{people,number} v hovore} many {{people,number} v hovore} other {{people,number} v hovore}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "Predvolená"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Predvolené: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Predvolené: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Predvolená komunikácia: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Stlmiť upozornenia"
@@ -4869,67 +4869,67 @@
     "messageformat": "Anketa"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Vybrať kontakt"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Hľadať"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Žiadne kontakty"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Žiadne výsledky pre „{searchQuery}“"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Zdieľať kontakt"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Každý, s kým zdieľate tento profil, bude môcť odosielať správy používateľovi {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Odoslať kontakt"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Upraviť meno"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Upraviť meno"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Titul pred"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Krstné meno"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Stredné meno"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Priezvisko"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Titul za"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Organizácia"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Upraviť fotografiu"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Vyberte fotku"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Fotka kontaktu"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profilová fotka"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Predvolený avatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Pridať prílohu alebo anketu"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal Desktop sa nepodarilo aktualizovať, k dispozícii je však nová verzia. Nainštalujte novú verziu manuálne z {downloadUrl} a následne kontaktujte podporu alebo nahláste tento problém."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Logo Signal"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Majte svoje súkromie stále so sebou."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Buďte sami sebou v každej správe."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Prepojte svoj účet"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Viac možností"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je nezisková organizácia"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Podmienky a Ochrana osobných údajov"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Viac možností"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Vytvoriť si nový účet"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Vytvorte si nový účet Signal pomocou svojho telefónneho čísla."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Logo Signal"
@@ -7424,19 +7424,19 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Máte problém s registráciou?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Uistite sa, že váš telefón má mobilný signál pre prijatie SMS alebo hovoru"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Preverte si, či na tomto čísle môžete prijať hovor"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Skontrolujte, či ste zadali svoje telefónne číslo správne"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Ak sa stále nemôžete zaregistrovať, postupujte podľa týchto <troubleshootingLink>krokov na riešenie problémov</troubleshootingLink> alebo <contactSupportLink>kontaktujte podporu</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Nastavte si svoj profil"
@@ -9301,9 +9301,9 @@
     "messageformat": "Skratka „(N)“ správne ukazuje na emoji s palcom dole. Palec hore pre <lnicola></lnicola> za opravu chyby."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Podpora zdieľania kontaktov."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Vylepšené správanie a výkon pripojených audio zariadení."
   }
 }

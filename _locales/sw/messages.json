@@ -9,13 +9,13 @@
     "messageformat": "Unasubiri"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Ukolevu wa rangi"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Ukolevu"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Mwangaza"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Rudi nyuma"
@@ -288,7 +288,7 @@
     "messageformat": "Gumzo Zilizohifadhiwa"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Vitendo zaidi"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Weka folda la gumzo"
@@ -2253,22 +2253,22 @@
     "messageformat": "Mchakato huu utafuta maelezo ya akaunti yako, wasifu na jumbe zako zote. Pia utaondolewa kwenye vikundi vyote vya Signal. Programu hii itafunga baada ya mchakato huu kukamilika."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Futa akaunti"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Mchakato huu utafuta maelezo ya akaunti yako, wasifu na jumbe zako zote. Pia utaondolewa kwenye vikundi vyote vya Signal."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Thibitisha namba yako ya simu"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Code ya nchi"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Nambari ya simu"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Futa"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Una data nzee kutokana na usanikishaji wa awali wa Signal Desktop. Ukichagua kuendelea, itafutwa na utaanza kutoka mwanzoni."
@@ -3900,7 +3900,7 @@
     "messageformat": "Mipangilio"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Mpangilio wa kupiga simu"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} katika mazungumzo ya simu} other {{people,number} katika mazungumzo ya simu}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "Chaguo msingi"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Chaguomsingi: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Chaguomsingi: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Mawasiliano Chaguomsingi: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Nyamazisha arifa"
@@ -4869,67 +4869,67 @@
     "messageformat": "Kura ya maoni"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Mwasiliani"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Chagua mtu wa kuwasiliana naye"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Tafuta"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Hakuna anwani"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Hakuna matokeo ya \"{searchQuery}\""
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Shiriki anwani"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Mtu yeyote utakayemtumia wasifu huu, ataweza kumtumia ujumbe {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Tuma muwasiliani"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Hariri jina"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Hariri jina"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Kiambishi awali"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Jina la kwanza"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Jina la katikati"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Jina La Mwisho"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Kiambishi tamati"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Shirika"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Hariri picha"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Chagua picha"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Picha ya mwasiliani"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Picha ya wasifu"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Avata chaguomsingi"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Ongeza kiambatisho au kura ya maoni"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal Desktop imeshindwa kusasisha, lakini kuna toleo jipya linalopatikana. Nenda kwa {downloadUrl} usakinishe toleo jipya wewe mwenyewe, kisha uwasiliane na Msaada au utume ripoti ya hitilafu kuhusu tatizo hili."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Nembo ya Signal"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Kuwa na faragha kila mahali."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Jieleze katika kila ujumbe."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Unganisha akaunti yako"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Chaguzi zaidi"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ni shirika lilisilo la faida"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Sera ya Masharti na Usiri"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Chaguzi zaidi"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Fungua akaunti mpya"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Fungua akaunti mpya ya Signal ukitumia namba yako ya simu."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Nembo ya Signal"
@@ -7424,19 +7424,19 @@
     "messageformat": "Sawa"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Unasumbuka kujisajili?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Hakikisha simu yako ina ishara ya rununu ili kupokea Ujumbe wa ko Mfupi au mwito"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Thibitisha kuwa unaweza kupokea simu kwenye namba hiyo"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Angalia kama umeingiza namba yako ya simu kwa usahihi"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Ikiwa bado huwezi kusajili, fuata <troubleshootingLink>hatua hizi za utatuzi</troubleshootingLink> au <contactSupportLink>Wasiliana na Kitengo cha Huduma kwa Wateja</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Anzisha wasifu wako"
@@ -9301,9 +9301,9 @@
     "messageformat": "Njia ya mkato ya “(N)” sasa inaelekeza kwa usahihi kwenye emoji ya sijapenda. Hongera kwa <lnicola></lnicola> kwa kutatua hitilafu."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Signal Desktop sasa inaegemeza utumaji wa anwani pia, ili uweze kutazama skrini ya kompyuta yako bila kutazama simu mahiri yako moja kwa moja."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Ushughulikiaji na utendaji ulioboreshwa kwa vifaa vya sauti vilivyounganishwa."
   }
 }

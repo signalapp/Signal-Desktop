@@ -9,13 +9,13 @@
     "messageformat": "В ожидании"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Оттенок"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Насыщенность"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Яркость"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Назад"
@@ -288,7 +288,7 @@
     "messageformat": "Архивированные чаты"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Больше действий"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Добавить папку чата"
@@ -2253,22 +2253,22 @@
     "messageformat": "Будут удалены информация вашей учётной записи, ваш профиль и все ваши сообщения. Вы также будете удалены из всех групп Signal. После завершения этого процесса приложение закроется."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Удалить учётную запись"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Будут удалены информация вашей учётной записи, ваш профиль и все ваши сообщения. Вы также будете удалены из всех групп Signal."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Подтвердите свой номер телефона"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Код страны"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Номер телефона"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Удалить"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнете с нуля."
@@ -3021,7 +3021,7 @@
     "messageformat": "Наборы стикеров"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Избранное"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Недавно использованные"
@@ -3036,7 +3036,7 @@
     "messageformat": "Недавно использованные"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Избранное"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Избранные"
@@ -3900,7 +3900,7 @@
     "messageformat": "Настройки"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Настройки звонков"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} в звонке} few {{people,number} в звонке} many {{people,number} в звонке} other {{people,number} в звонке}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "По умолчанию"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "По умолчанию: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "По умолчанию: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Аудиоустройство по умолчанию: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Отключить уведомления"
@@ -4869,67 +4869,67 @@
     "messageformat": "Опрос"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Контакт"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Выберите контакт"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Поиск"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Контакты отсутствуют"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Нет результатов для «{searchQuery}»"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Поделиться контактом"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Любой, с кем вы поделитесь этим профилем, сможет отправлять сообщения {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Отправить контакт"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Изменить имя"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Изменить имя"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "Префикс"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Имя"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Отчество"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Фамилия"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "Суффикс"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Организация"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Редактировать фото"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Выберите фото"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Фотография контакта"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Фото профиля"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Аватар по умолчанию"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Добавить вложение или опрос"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal Desktop обновить не удалось, но доступна новая версия. Перейдите к {downloadUrl} и установите новую версию вручную, а затем свяжитесь со службой поддержки или напишите сообщение об этой ошибке."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Логотип Signal"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Конфиденциальность всегда с вами."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Будьте собой в каждом сообщении."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Привяжите свою учётную запись"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Больше опций"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal — некоммерческая организация"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Условия и Политика конфиденциальности"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Больше опций"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Создать новую учётную запись"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Создайте новую учётную запись Signal, используя номер телефона."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Логотип Signal"
@@ -7424,19 +7424,19 @@
     "messageformat": "ОК"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Возникли проблемы с регистрацией?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Убедитесь, что ваш телефон находится в зоне действия сети и сможет принять SMS или звонок"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Убедитесь, что вы можете получить телефонный звонок на этот номер"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Убедитесь, что вы правильно ввели номер телефона"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Если вы по-прежнему не можете зарегистрироваться, <troubleshootingLink>выполните следующие шаги для устранения неполадок</troubleshootingLink> или <contactSupportLink>свяжитесь с поддержкой</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Настройте свой профиль"
@@ -9301,9 +9301,9 @@
     "messageformat": "Сокращение «(N)» правильно указывает на эмодзи «большой палец вниз». Спасибо <lnicola></lnicola> за исправление ошибки."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "В Signal Desktop теперь тоже можно делиться контактами — так что вы можете продолжать смотреть на экран компьютера без контакта со своим смартфоном."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Улучшенная обработка и производительность для подключённых аудиоустройств."
   }
 }

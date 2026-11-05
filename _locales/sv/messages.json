@@ -9,13 +9,13 @@
     "messageformat": "Väntar"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "Nyans"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "Mättnad"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "Ljushet"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "Tillbaka"
@@ -288,7 +288,7 @@
     "messageformat": "Arkiverade chattar"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Fler åtgärder"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "Lägg till chattmapp"
@@ -2253,22 +2253,22 @@
     "messageformat": "Detta tar bort din kontoinformation, din profil och alla dina meddelanden. Du tas också bort från alla Signal-grupper. Appen stängs när den här processen är klar."
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "Ta bort konto"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "Detta tar bort din kontoinformation, din profil och alla dina meddelanden. Du tas också bort från alla Signal-grupper."
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "Bekräfta ditt telefonnummer"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "Landskod"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "Telefonnummer"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "Ta bort"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har föråldrade data från en tidigare installation av Signal Desktop. Om du väljer att fortsätta kommer det att tas bort och du kommer att börja från början."
@@ -3021,7 +3021,7 @@
     "messageformat": "Klistermärkespaket"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Favoriter"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "Nyligen använda"
@@ -3036,7 +3036,7 @@
     "messageformat": "Nyligen använda"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "Favoriter"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "Utvalda"
@@ -3900,7 +3900,7 @@
     "messageformat": "Inställningar"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "Samtalsinställningar"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, one {{people,number} i samtalet} other {{people,number} i samtalet}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "Standard"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Standard: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "Standard: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "Standardkommunikation: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "Tysta aviseringar"
@@ -4869,67 +4869,67 @@
     "messageformat": "Omröstning"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "Välj kontakt"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "Sök"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "Inga kontakter"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "Inga resultat för ”{searchQuery}”"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "Dela kontakt"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "Alla du delar den här profilen med kommer att kunna skicka meddelanden till {name}."
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "Skicka kontakt"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "Redigera namn"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "Redigera namn"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
     "messageformat": "Prefix"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "Förnamn"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "Mellannamn"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "Efternamn"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
     "messageformat": "Suffix"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "Organisation"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "Ändra foto"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "Välj en bild"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "Kontaktfoto"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "Profilbild"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "Standardavatar"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "Lägg till bilaga eller omröstning"
@@ -7199,34 +7199,34 @@
     "messageformat": "Signal Desktop kunde inte uppdateras men det finns en ny version tillgänglig. Gå till {downloadUrl} och installera den nya versionen manuellt, kontakta sedan antingen supporten eller skicka ett felmeddelande om det här problemet."
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "Signal-logotyp"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "Ta med dig integriteten."
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "Var dig själv i varje meddelande."
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "Länka ditt konto"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "Fler alternativ"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal är en ideell organisation"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "Licens- och integritetspolicy"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "Fler alternativ"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "Skapa ett nytt konto"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "Skapa ett nytt Signal-konto med ditt telefonnummer."
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "Signal-logotyp"
@@ -7424,19 +7424,19 @@
     "messageformat": "OK"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "Har problem med att registrera?"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "Se till att din telefon har mobilnät för att ta emot ditt sms eller samtal"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "Bekräfta att du kan ta emot ett telefonsamtal till numret"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "Kontrollera att du har angett ditt telefonnummer korrekt"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "Om du fortfarande inte kan registrera dig, följ de här <troubleshootingLink>felsökningsstegen</troubleshootingLink> eller <contactSupportLink>kontakta supporten</contactSupportLink>."
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "Ställ in din profil"
@@ -9301,9 +9301,9 @@
     "messageformat": "Genvägen “(N)” pekar nu korrekt på emojin för tummen ner. Tummen upp till <lnicola>xx</lnicola> för buggfixen."
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "Stöd för delning av kontakter."
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "Förbättrad hantering och prestanda för anslutna ljudenheter."
   }
 }

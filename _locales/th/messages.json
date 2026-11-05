@@ -9,13 +9,13 @@
     "messageformat": "รอดำเนินการ"
   },
   "icu:AxoColorSlider.Hue": {
-    "messageformat": "Hue"
+    "messageformat": "โทนสี"
   },
   "icu:AxoColorSlider.Saturation": {
-    "messageformat": "Saturation"
+    "messageformat": "ความอิ่มสี"
   },
   "icu:AxoColorSlider.Lightness": {
-    "messageformat": "Lightness"
+    "messageformat": "ความสว่าง"
   },
   "icu:AxoDialog.Back": {
     "messageformat": "กลับ"
@@ -288,7 +288,7 @@
     "messageformat": "แชทที่ถูกเก็บในที่เก็บถาวร"
   },
   "icu:LeftPane__MoreActionsLabel": {
-    "messageformat": "More actions"
+    "messageformat": "การดำเนินการเพิ่มเติม"
   },
   "icu:LeftPane__MoreActionsMenu__AddChatFolder": {
     "messageformat": "เพิ่มโฟลเดอร์แชท"
@@ -2253,22 +2253,22 @@
     "messageformat": "ข้อมูลบัญชี โปรไฟล์ และข้อความทั้งหมดของคุณจะถูกลบ โดยคุณจะถูกลบออกจากกลุ่ม Signal ทั้งหมดด้วยเช่นกัน แอปจะปิดหลังขั้นตอนนี้เสร็จสิ้น"
   },
   "icu:DeleteAccountConfirmDialog--Title": {
-    "messageformat": "Delete account"
+    "messageformat": "ลบบัญชี"
   },
   "icu:DeleteAccountConfirmDialog--Description": {
-    "messageformat": "This will delete your account info, profile, and all of your messages. You will also be removed from all Signal groups."
+    "messageformat": "ข้อมูลบัญชี โปรไฟล์ และข้อความทั้งหมดของคุณจะถูกลบ โดยคุณจะถูกลบออกจากกลุ่ม Signal ทั้งหมดด้วยเช่นกัน"
   },
   "icu:DeleteAccountConfirmDialog--ConfirmNumber": {
-    "messageformat": "Confirm your phone number"
+    "messageformat": "ยืนยันหมายเลขโทรศัพท์ของคุณ"
   },
   "icu:DeleteAccountConfirmDialog--CountryCodePlaceholder": {
-    "messageformat": "Country code"
+    "messageformat": "รหัสประเทศ"
   },
   "icu:DeleteAccountConfirmDialog--NumberPlaceholder": {
-    "messageformat": "Phone number"
+    "messageformat": "หมายเลขโทรศัพท์"
   },
   "icu:DeleteAccountConfirmDialog--DeleteButton": {
-    "messageformat": "Delete"
+    "messageformat": "ลบ"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "คุณมีข้อมูลที่ล้าสมัยจากการติดตั้ง Signal เดสก์ท็อปครั้งก่อนหน้า หากเลือกที่จะดำเนินการต่อ ข้อมูลดังกล่าวจะถูกลบและทุกอย่างจะเริ่มต้นใหม่ทั้งหมด"
@@ -3021,7 +3021,7 @@
     "messageformat": "ชุดสติกเกอร์"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "รายการโปรด"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
     "messageformat": "เพิ่งใช้"
@@ -3036,7 +3036,7 @@
     "messageformat": "เพิ่งใช้"
   },
   "icu:FunPanelStickers__SectionTitle--Favorites": {
-    "messageformat": "Favorites"
+    "messageformat": "รายการโปรด"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "แนะนำ"
@@ -3900,7 +3900,7 @@
     "messageformat": "การตั้งค่า"
   },
   "icu:callingDeviceSelection__settings-v2": {
-    "messageformat": "Call Settings"
+    "messageformat": "ตั้งค่าการโทร"
   },
   "icu:calling__participants--pluralized": {
     "messageformat": "{people, plural, other {{people,number} คนอยู่ในสาย}}"
@@ -4008,13 +4008,13 @@
     "messageformat": "ค่าเริ่มต้น"
   },
   "icu:callingDeviceSelection__select--default-nonwin": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ค่าเริ่มต้น: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_console": {
-    "messageformat": "Default: {deviceName}"
+    "messageformat": "ค่าเริ่มต้น: {deviceName}"
   },
   "icu:callingDeviceSelection__select--default_communications": {
-    "messageformat": "Default Communications: {deviceName}"
+    "messageformat": "อุปกรณ์สื่อสารค่าเริ่มต้น: {deviceName}"
   },
   "icu:muteNotificationsTitle": {
     "messageformat": "ปิดเสียงการแจ้งเตือน"
@@ -4869,67 +4869,67 @@
     "messageformat": "โพล"
   },
   "icu:CompositionArea__AttachMenu__Contact": {
-    "messageformat": "Contact"
+    "messageformat": "ผู้ติดต่อ"
   },
   "icu:ShareContactDialog__SelectContact__Title": {
-    "messageformat": "Select contact"
+    "messageformat": "เลือกผู้ติดต่อ"
   },
   "icu:ShareContactDialog__SelectContact__SearchPlaceholder": {
-    "messageformat": "Search"
+    "messageformat": "ค้นหา"
   },
   "icu:ShareContactDialog__SelectContact__EmptyState": {
-    "messageformat": "No contacts"
+    "messageformat": "ไม่มีผู้ติดต่อ"
   },
   "icu:ShareContactDialog__SelectContact__NoResults": {
-    "messageformat": "No results for “{searchQuery}”"
+    "messageformat": "ไม่พบผลลัพธ์สำหรับ “{searchQuery}”"
   },
   "icu:ShareContactDialog__ShareContact__Title": {
-    "messageformat": "Share contact"
+    "messageformat": "แชร์ผู้ติดต่อ"
   },
   "icu:ShareContactDialog__ShareContact__Description": {
-    "messageformat": "Anyone you share this profile with will be able to message {name}."
+    "messageformat": "ผู้ใช้ที่คุณแชร์โปรไฟล์นี้ให้จะสามารถส่งข้อความหา {name}"
   },
   "icu:ShareContactDialog__ShareContact__Send": {
-    "messageformat": "Send contact"
+    "messageformat": "ส่งผู้ติดต่อ"
   },
   "icu:ShareContactDialog__ShareContact__EditName": {
-    "messageformat": "Edit name"
+    "messageformat": "แก้ไขชื่อ"
   },
   "icu:ShareContactDialog__EditName__Title": {
-    "messageformat": "Edit name"
+    "messageformat": "แก้ไขชื่อ"
   },
   "icu:ShareContactDialog__EditName__Prefix": {
-    "messageformat": "Prefix"
+    "messageformat": "คำนำหน้า"
   },
   "icu:ShareContactDialog__EditName__GivenName": {
-    "messageformat": "First name"
+    "messageformat": "ชื่อจริง"
   },
   "icu:ShareContactDialog__EditName__MiddleName": {
-    "messageformat": "Middle name"
+    "messageformat": "ชื่อกลาง"
   },
   "icu:ShareContactDialog__EditName__FamilyName": {
-    "messageformat": "Last name"
+    "messageformat": "นามสกุล"
   },
   "icu:ShareContactDialog__EditName__Suffix": {
-    "messageformat": "Suffix"
+    "messageformat": "คำต่อท้าย"
   },
   "icu:ShareContactDialog__EditName__Organization": {
-    "messageformat": "Organization"
+    "messageformat": "องค์กร"
   },
   "icu:ShareContactDialog__ShareContact__EditPhoto": {
-    "messageformat": "Edit photo"
+    "messageformat": "แก้ไขรูปภาพ"
   },
   "icu:ShareContactDialog__SelectPhoto__Title": {
-    "messageformat": "Select a photo"
+    "messageformat": "เลือกรูปภาพ"
   },
   "icu:ShareContactDialog__SelectPhoto__ContactPhoto": {
-    "messageformat": "Contact photo"
+    "messageformat": "ภาพของผู้ติดต่อ"
   },
   "icu:ShareContactDialog__SelectPhoto__ProfilePhoto": {
-    "messageformat": "Profile photo"
+    "messageformat": "รูปโปรไฟล์"
   },
   "icu:ShareContactDialog__SelectPhoto__DefaultAvatar": {
-    "messageformat": "Default avatar"
+    "messageformat": "ภาพประจำตัวค่าเริ่มต้น"
   },
   "icu:CompositionArea--attach-plus": {
     "messageformat": "แนบไฟล์หรือสร้างโพล"
@@ -7199,34 +7199,34 @@
     "messageformat": "อัปเดต Signal เดสก์ท็อปไม่สำเร็จ แต่มีเวอร์ชันใหม่ให้ใช้งานแทน โปรดไปที่ {downloadUrl} เพื่อติดตั้งเวอร์ชันใหม่ด้วยตัวเอง จากนั้นติดต่อฝ่ายสนับสนุนหรือแจ้งรายงานข้อบกพร่องเกี่ยวกับปัญหานี้"
   },
   "icu:EntryPoint--signal-logo": {
-    "messageformat": "Signal Logo"
+    "messageformat": "โลโก้ Signal"
   },
   "icu:EntryPoint--Title--Line1": {
-    "messageformat": "Take privacy with you."
+    "messageformat": "พกความเป็นส่วนตัวไปกับคุณทุกที่"
   },
   "icu:EntryPoint--Title--Line2": {
-    "messageformat": "Be yourself in every message."
+    "messageformat": "สื่อสารอย่างเสรีในทุกข้อความ"
   },
   "icu:EntryPoint--link-button": {
-    "messageformat": "Link your account"
+    "messageformat": "เชื่อมโยงบัญชีของคุณ"
   },
   "icu:EntryPoint--more-options-button": {
-    "messageformat": "More options"
+    "messageformat": "ตัวเลือกเพิ่มเติม"
   },
   "icu:EntryPoint--nonprofit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal เป็นแอปไม่แสวงหาผลกำไร"
   },
   "icu:EntryPoint--terms": {
-    "messageformat": "Terms & privacy policy"
+    "messageformat": "เงื่อนไขและนโยบายความเป็นส่วนตัว"
   },
   "icu:EntryPoint--MoreOptions--Title": {
-    "messageformat": "More options"
+    "messageformat": "ตัวเลือกเพิ่มเติม"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Title": {
-    "messageformat": "Create a new account"
+    "messageformat": "สร้างบัญชีใหม่"
   },
   "icu:EntryPoint--MoreOptions--RegistrationButton--Description": {
-    "messageformat": "Create a new Signal account using your phone number."
+    "messageformat": "สร้างบัญชี Signal ใหม่โดยใช้หมายเลขโทรศัพท์ของคุณ"
   },
   "icu:StandaloneRegistration--signal-logo": {
     "messageformat": "โลโก้ Signal"
@@ -7424,19 +7424,19 @@
     "messageformat": "ตกลง"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Title": {
-    "messageformat": "Having trouble registering?"
+    "messageformat": "หากประสบปัญหาในการลงทะเบียน"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet1": {
-    "messageformat": "Make sure your phone has a cellular signal to receive your SMS or call"
+    "messageformat": "ตรวจสอบว่าโทรศัพท์ของคุณมีสัญญาณมือถือที่จะรับข้อความ SMS หรือสายโทรเข้าได้"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet2": {
-    "messageformat": "Confirm you can receive a phone call to the number"
+    "messageformat": "ตรวจสอบว่าหมายเลขโทรศัพท์ของคุณสามารถรับสายโทรเข้าได้"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Bullet3": {
-    "messageformat": "Check that you have entered your phone number correctly"
+    "messageformat": "ตรวจสอบว่าคุณใส่หมายเลขโทรศัพท์ถูกต้องแล้ว"
   },
   "icu:StandaloneRegistration--VerificationCode--HavingTrouble--Footer": {
-    "messageformat": "If you still can’t register, follow these <troubleshootingLink>troubleshooting steps</troubleshootingLink> or <contactSupportLink>Contact Support</contactSupportLink>."
+    "messageformat": "หากคุณยังคงลงทะเบียนไม่ได้ โปรดทำตาม<troubleshootingLink>ขั้นตอนการแก้ไขปัญหาที่นี่</troubleshootingLink>หรือ<contactSupportLink>ติดต่อฝ่ายสนับสนุน</contactSupportLink>"
   },
   "icu:StandaloneRegistration--ProfileEntry--header": {
     "messageformat": "สร้างโปรไฟล์ของคุณ"
@@ -9301,9 +9301,9 @@
     "messageformat": "แก้ไขให้ปุ่มลัด (N) กลายเป็นอีโมจิ &quot;ไม่ชอบ&quot; (thumbs down) ได้อย่างถูกต้องแล้ว ขอยกนิ้วให้ <lnicola></lnicola> ที่ช่วยจัดการบั๊กในครั้งนี้"
   },
   "icu:WhatsNew__8.34--0": {
-    "messageformat": "Signal Desktop now supports contact sharing too, so you can maintain eye contact with your computer screen without having to make physical contact with your smartphone."
+    "messageformat": "เพิ่มการรองรับให้สามารถแชร์ผู้ติดต่อผ่าน Signal เดสก์ท็อปได้แล้ว"
   },
   "icu:WhatsNew__8.34--1": {
-    "messageformat": "Improved handling and performance for connected audio devices."
+    "messageformat": "พัฒนาประสิทธิภาพและการจัดการอุปกรณ์เสียงที่เชื่อมต่อกับแอป"
   }
 }
