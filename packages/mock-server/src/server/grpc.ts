@@ -24,6 +24,7 @@ import { ServiceId, Aci, Pni } from '@signalapp/libsignal-client';
 import SealedSenderMultiRecipientMessage from '@signalapp/libsignal-client/dist/SealedSenderMultiRecipientMessage';
 import { Message } from '../data/schemas';
 import type { Device } from '../data/device';
+import { PRIMARY_DEVICE_ID } from '../constants';
 
 import {
   DeviceId,
@@ -928,6 +929,31 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onRemoveDevice = authenticatedGrpcRoute(
+    'org.signal.chat.device.Devices/RemoveDevice',
+    async ({ id }, device) => {
+      if (id === PRIMARY_DEVICE_ID) {
+        throw new Error('Cannot remove primary device');
+      }
+
+      if (device.deviceId !== PRIMARY_DEVICE_ID && id !== device.deviceId) {
+        throw new Error(
+          'Linked devices cannot remove devices other than themselves',
+        );
+      }
+
+      const deviceId = id as DeviceId;
+
+      // Removing a device that doesn't exist succeeds
+      const target = await server.getDeviceByServiceId(device.aci, deviceId);
+      if (target != null) {
+        await server.removeDeviceByServiceId(device.aci, deviceId);
+      }
+
+      return {};
+    },
+  );
+
   const onReserveUsername = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ReserveUsernameHash',
     async ({ usernameHashes }, device) => {
@@ -1028,6 +1054,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onClearRegistrationLock,
     onReportMessage,
     onSetCapabilities,
+    onRemoveDevice,
     onSetBackupPublicKey,
     onRefreshBackup,
     onGetBackupCdnCredentials,

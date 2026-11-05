@@ -48,6 +48,7 @@ import type {
 } from '@signalapp/libsignal-client/dist/net/chat/SingleOutboundMessage';
 
 import { assertDev, strictAssert } from '../util/assert.std.ts';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 import * as durations from '../util/durations/index.std.ts';
 import type { ExplodePromiseResultType } from '../util/explodePromise.std.ts';
 import { explodePromise } from '../util/explodePromise.std.ts';
@@ -800,7 +801,6 @@ const CHAT_CALLS = {
   createPaypalBoost: 'v1/subscription/boost/paypal/create',
   confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
   deliveryCert: 'v1/certificate/delivery',
-  devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
   getGroupCredentials: 'v1/certificate/auth/group',
@@ -3032,12 +3032,12 @@ export async function unlink(): Promise<void> {
     return;
   }
 
-  const [, deviceId] = username.split('.');
-  await _ajax({
-    host: 'chatService',
-    call: 'devices',
-    httpType: 'DELETE',
-    urlParameters: `/${deviceId}`,
+  const [, deviceIdString] = username.split('.');
+  const deviceId = parseIntOrThrow(deviceIdString, 'unlink: invalid deviceId');
+
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.removeDevice({ deviceId });
   });
 }
 
