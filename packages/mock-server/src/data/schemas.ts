@@ -10,7 +10,7 @@ import {
   RegistrationId,
   ServiceIdString,
 } from '../types';
-import { fromBase64, fromURLSafeBase64 } from '../util';
+import { fromBase64 } from '../util';
 
 export const PositiveInt = z.coerce.number().int().nonnegative();
 
@@ -319,9 +319,3 @@ export const BackupMediaBatchSchema = z.object({
 });
 
 export type BackupMediaBatch = z.infer<typeof BackupMediaBatchSchema>;
-
-export const UsernameConfirmationSchema = z.object({
-  usernameHash: z.string().transform(fromURLSafeBase64),
-  zkProof: z.string().transform(fromURLSafeBase64),
-  encryptedUsername: z.string().transform(fromURLSafeBase64),
-});
