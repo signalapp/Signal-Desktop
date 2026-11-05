@@ -808,7 +808,6 @@ const CHAT_CALLS = {
   getBackupCredentials: 'v1/archives/auth',
   keys: 'v2/keys',
   linkDevice: 'v1/devices/link',
-  me: 'v1/accounts/me',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
   phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
@@ -5119,12 +5118,9 @@ export async function cdsLookup({
 }
 
 export async function deleteAccount(): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'me',
-    httpType: 'DELETE',
-    responseType: 'bytes',
-  });
+  // Not retried: the server drops the connection when it deletes the account.
+  const chat = await socketManager.getAuthenticatedApi();
+  await chat.deleteAccount();
 }
 
 const authSchema = z.object({

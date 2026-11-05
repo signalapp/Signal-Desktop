@@ -894,6 +894,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onDeleteAccount = authenticatedGrpcRoute(
+    'org.signal.chat.account.Accounts/DeleteAccount',
+    async () => {
+      // TODO: Delete the account
+      return {};
+    },
+  );
+
   const onSetRegistrationLock = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/SetRegistrationLock',
     async ({ registrationLock }, device) => {
@@ -1050,6 +1058,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onDeleteAccount,
     onSetRegistrationLock,
     onClearRegistrationLock,
     onReportMessage,
