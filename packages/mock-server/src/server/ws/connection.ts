@@ -430,6 +430,7 @@ export class Connection extends Service {
         registrationId,
         pniRegistrationId,
       });
+      device.encryptedName = Buffer.from(accountAttributes.name, 'base64');
 
       const primary = await server.getDeviceByServiceId(device.aci);
       if (!primary) {
