@@ -863,6 +863,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onReportMessage = authenticatedGrpcRoute(
+    'org.signal.chat.messages.Messages/ReportMessage',
+    async () => {
+      // TODO: Record reported messages
+      return {};
+    },
+  );
+
   const onSetCapabilities = authenticatedGrpcRoute(
     'org.signal.chat.device.Devices/SetCapabilities',
     async () => {
@@ -992,6 +1000,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onReportMessage,
     onSetCapabilities,
     onRemoveDevice,
     onSetBackupPublicKey,
