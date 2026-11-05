@@ -1067,6 +1067,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetDiscoverableByPhoneNumber = authenticatedGrpcRoute(
+    'org.signal.chat.account.Accounts/SetDiscoverableByPhoneNumber',
+    async () => {
+      // TODO: Store phone number discoverability
+      return {};
+    },
+  );
+
   const onDeleteAccount = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/DeleteAccount',
     async () => {
@@ -1235,6 +1243,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onSetDiscoverableByPhoneNumber,
     onDeleteAccount,
     onSetRegistrationLock,
     onClearRegistrationLock,

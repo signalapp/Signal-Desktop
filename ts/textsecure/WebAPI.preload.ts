@@ -810,7 +810,6 @@ const CHAT_CALLS = {
   linkDevice: 'v1/devices/link',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
-  phoneNumberDiscoverability: 'v2/accounts/phone_number_discoverability',
   profile: 'v1/profile',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
@@ -3480,13 +3479,9 @@ export async function submitCallQualitySurvey(
 export async function setPhoneNumberDiscoverability(
   newValue: boolean
 ): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'phoneNumberDiscoverability',
-    httpType: 'PUT',
-    jsonData: {
-      discoverableByPhoneNumber: newValue,
-    },
+  await _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.setDiscoverableByPhoneNumber({ discoverable: newValue });
   });
 }
 
