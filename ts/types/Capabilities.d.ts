@@ -7,9 +7,10 @@ export type CapabilitiesType = {
   attachmentBackfill: boolean;
   usernameChangeSyncMessage: boolean;
 };
-export type CapabilitiesUploadType = {
+export type CapabilitiesUploadType = Required<{
   attachmentBackfill: boolean;
   spqr: true;
   usernameChangeSyncMessage: true;
   optionalPhoneNumber: boolean;
-};
+  storage: boolean;
+}>;

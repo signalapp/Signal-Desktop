@@ -825,6 +825,14 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onSetCapabilities = authenticatedGrpcRoute(
+    'org.signal.chat.device.Devices/SetCapabilities',
+    async () => {
+      // TODO: Store capabilities
+      return {};
+    },
+  );
+
   const onReserveUsername = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ReserveUsernameHash',
     async ({ usernameHashes }, device) => {
@@ -920,6 +928,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onDeleteUsername,
     onSetUsernameLink,
     onGetPreKeyCount,
+    onSetCapabilities,
     onSetBackupPublicKey,
     onRefreshBackup,
     onGetBackupCdnCredentials,
