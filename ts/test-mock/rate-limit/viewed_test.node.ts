@@ -360,20 +360,22 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       'Just two captcha dialogs, the first one, and the one after the rejected answer'
     );
 
-    const requests = server.stopRateLimiting({
-      source: desktop.aci,
-      target: contact.device.aci,
-    });
+    await expect
+      .poll(() =>
+        server.getRateLimitCount({
+          source: desktop.aci,
+          target: contact.device.aci,
+        })
+      )
+      .toBe(2);
 
-    debug(`Rate-limited requests: ${requests}`);
-    assert.strictEqual(requests, 2, 'rate limit requests');
-
-    const requestsContactB = server.stopRateLimiting({
-      source: desktop.aci,
-      target: contactB.device.aci,
-    });
-
-    debug(`Rate-limited requests to Contact B: ${requests}`);
-    assert.strictEqual(requestsContactB, 1, 'Contact B rate limit requests');
+    await expect
+      .poll(() =>
+        server.getRateLimitCount({
+          source: desktop.aci,
+          target: contactB.device.aci,
+        })
+      )
+      .toBe(1);
   });
 });
