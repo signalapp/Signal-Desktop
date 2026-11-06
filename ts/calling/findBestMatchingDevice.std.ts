@@ -78,7 +78,7 @@ export function findBestMatchingAudioDevice(
 }
 
 export type FindBestMatchingCameraIdOptions = Readonly<{
-  available: ReadonlyArray<MediaDeviceInfo>;
+  available: ReadonlyArray<Pick<MediaDeviceInfo, 'deviceId' | 'label'>>;
   preferred: string | null;
 }>;
 
