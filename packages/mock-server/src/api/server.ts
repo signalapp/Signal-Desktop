@@ -569,6 +569,13 @@ export class Server extends BaseServer {
     this.rateLimitCountByPair.set(`${source}:${target}`, 0);
   }
 
+  public getRateLimitCount({
+    source,
+    target,
+  }: RateLimitOptions): number | undefined {
+    return this.rateLimitCountByPair.get(`${source}:${target}`);
+  }
+
   public stopRateLimiting({
     source,
     target,
