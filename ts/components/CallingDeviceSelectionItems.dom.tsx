@@ -5,7 +5,9 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoSelectItem } from '../axo/items/AxoSelectItem.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import type { AudioDeviceList } from '@signalapp/ringrtc';
+import { findBestMatchingCameraId } from '../calling/findBestMatchingDevice.std.ts';
 import type {
+  DefaultPref,
   AudioDevicePref,
   MediaDeviceSettingsRenderProps,
 } from '../types/Calling.std.ts';
@@ -29,8 +31,7 @@ function renderAudioOptions(
             deviceName: devices.defaults.communicationsDevice.name,
           }
         ),
-        // should match AudioDevicePref
-        value: 'windowsCommunications',
+        value: 'windowsCommunications' satisfies DefaultPref['type'],
       });
     }
     if (devices.defaults.consoleDevice != null) {
@@ -38,8 +39,7 @@ function renderAudioOptions(
         label: i18n('icu:callingDeviceSelection__select--default_console', {
           deviceName: devices.defaults.consoleDevice.name,
         }),
-        // should match AudioDevicePref
-        value: 'windowsConsole',
+        value: 'windowsConsole' satisfies DefaultPref['type'],
       });
     }
   } else if (devices.defaults.device != null) {
@@ -47,8 +47,7 @@ function renderAudioOptions(
       label: i18n('icu:callingDeviceSelection__select--default-nonwin', {
         deviceName: devices.defaults.device.name,
       }),
-      // should match AudioDevicePref
-      value: 'nonWindowsDefault',
+      value: 'nonWindowsDefault' satisfies DefaultPref['type'],
     });
   }
 
@@ -62,7 +61,7 @@ function renderAudioOptions(
   return options;
 }
 
-function getMatchingValue(
+function getMatchingVideoValue(
   options: ReadonlyArray<AxoSelectItem.Option>,
   value: string | null
 ): string | null {
@@ -70,6 +69,31 @@ function getMatchingValue(
     return option.value === value;
   });
   return hasMatch ? value : null;
+}
+
+function getMatchingAudioValue(
+  options: ReadonlyArray<AxoSelectItem.Option>,
+  value: string | null
+): string | null {
+  const available = new Set(options.map(option => option.value));
+  if (value != null && available.has(value)) {
+    return value;
+  }
+
+  const candidates: Array<DefaultPref['type']> = [
+    'nonWindowsDefault',
+
+    // Prefer `communications` over `console` on Windows
+    'windowsCommunications',
+    'windowsConsole',
+  ];
+  for (const fallback of candidates) {
+    if (available.has(fallback)) {
+      return fallback;
+    }
+  }
+
+  return null;
 }
 
 export type CallingDeviceSelectionItemsProps = Readonly<
@@ -98,6 +122,14 @@ export function CallingDeviceSelectionItems(
     onSelectedSpeakerChange,
   } = props;
 
+  // See ts/calling/findBestMatchingDevice.std.ts
+  const fallbackCamera = useMemo(() => {
+    return findBestMatchingCameraId({
+      available: availableCameras,
+      preferred: null,
+    });
+  }, [availableCameras]);
+
   const data = useMemo(() => {
     const cameraOptions = availableCameras.map(camera => {
       return {
@@ -113,12 +145,14 @@ export function CallingDeviceSelectionItems(
     const hasMicrophones = microphoneOptions.length !== 0;
     const hasSpeakers = speakerOptions.length !== 0;
 
-    const cameraValue = getMatchingValue(cameraOptions, selectedCamera ?? null);
-    const microphoneValue = getMatchingValue(
+    const cameraValue =
+      getMatchingVideoValue(cameraOptions, selectedCamera ?? null) ??
+      fallbackCamera;
+    const microphoneValue = getMatchingAudioValue(
       microphoneOptions,
       audioDevicePrefToId(selectedMicrophone)
     );
-    const speakerValue = getMatchingValue(
+    const speakerValue = getMatchingAudioValue(
       speakerOptions,
       audioDevicePrefToId(selectedSpeaker)
     );
@@ -142,6 +176,7 @@ export function CallingDeviceSelectionItems(
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
+    fallbackCamera,
   ]);
 
   const handleChangeMicrophone = useCallback(
