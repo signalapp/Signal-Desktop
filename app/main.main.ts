@@ -143,6 +143,7 @@ import { appRelaunch } from '../ts/util/relaunch.main.ts';
 import { getAppRootDir } from '../ts/util/appRootDir.main.ts';
 import { trackHeapSize } from '../ts/util/oomNotifier.node.ts';
 import { sendDummyKeystroke } from './WindowsNotifications.main.ts';
+import { initialize as initializeMacNotifications } from './MacNotifications.main.ts';
 import { maybeMigrateSafeStorageBackend } from '../ts/util/linuxPasswordStoreMigration.main.ts';
 
 const { chmod, realpath, writeFile } = fsExtra;
@@ -256,6 +257,20 @@ function showWindow() {
     mainWindow.show();
   }
 }
+
+initializeMacNotifications({
+  onNotificationClicked: notificationUrl => {
+    const route = parseSignalRoute(notificationUrl);
+    if (!route) {
+      return;
+    }
+    // Clicking an IsPresenting notification doesn't raise the window today
+    if (route.key !== 'cancelPresenting') {
+      showWindow();
+    }
+    handleSignalRoute(route);
+  },
+});
 
 log.info('making app single instance');
 const gotLock = app.requestSingleInstanceLock();

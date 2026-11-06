@@ -118,6 +118,9 @@ export type WindowsNotificationData = {
   token: string;
   type: NotificationType;
 };
+export type MacNotificationData = WindowsNotificationData & {
+  silent: boolean;
+};
 
 // The keys and values don't match here. This is because the values correspond to old
 //   setting names. In the future, we may wish to migrate these to match.
@@ -166,7 +169,8 @@ export class NotificationService extends EventEmitter {
 
   // queued via add()
   #queuedNotification: QueuedNotificationData | null = null;
-  // Last shown notification. NB: On Windows we currently do not retain a Notification object
+  // Last shown notification. NB: On Windows and macOS we currently do not retain a
+  //   Notification object
   #lastShown: {
     notification: Notification | null;
     data: ProcessedNotificationData;
@@ -275,6 +279,26 @@ export class NotificationService extends EventEmitter {
       );
 
       this.#lastShown = { notification: null, data };
+    } else if (OS.isMacOS()) {
+      const token = this._createToken({
+        conversationId,
+        messageId,
+        storyId,
+      });
+
+      // Note: showing a macOS notification closes the previous one first
+      drop(
+        window.IPC.showMacNotification({
+          avatarPath: iconAbsolutePath ?? undefined,
+          body,
+          heading: title,
+          type,
+          token,
+          silent,
+        })
+      );
+
+      this.#lastShown = { notification: null, data };
     } else {
       const notification = new window.Notification(title, {
         body: OS.isLinux() ? filterNotificationBody(body) : body,
@@ -314,7 +338,8 @@ export class NotificationService extends EventEmitter {
       this.#lastShown = { notification, data };
     }
 
-    if (!silent) {
+    // On macOS the sound is attached to the notification, so Focus can silence it
+    if (!silent && !OS.isMacOS()) {
       // We kick off the sound to be played. No need to await it.
       drop(new Sound({ soundType: getSoundTypeFor(type) }).play());
     }
@@ -343,6 +368,9 @@ export class NotificationService extends EventEmitter {
     if (OS.isWindows()) {
       this.#tokenData = undefined;
       drop(window.IPC.clearAllWindowsNotifications());
+    } else if (OS.isMacOS()) {
+      this.#tokenData = undefined;
+      drop(window.IPC.clearAllMacNotifications());
     }
   }
 
@@ -582,7 +610,7 @@ export class NotificationService extends EventEmitter {
       );
     }
     // We defer immediately clearing the notification so that we retain the token for
-    // Windows locally for a debounce interval
+    // Windows and macOS locally for a debounce interval
     this.#shouldClearLastShown = true;
     this.#queuedNotification = null;
     this.#update();
@@ -627,10 +655,12 @@ export function shouldSaveNotificationAvatarToDisk(): boolean {
   switch (notificationSetting) {
     case NotificationSetting.NameOnly:
     case NotificationSetting.NameAndMessage:
-      // According to the MSDN, avatars can only be loaded from disk or an
+      // Windows and macOS notifications are shown by the main process. On macOS,
+      // Electron's notification icon must be a local file path; a URL gives no icon.
+      // According to the MSDN, Windows avatars can only be loaded from disk or an
       // http server:
       // https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-image?redirectedfrom=MSDN
-      return OS.isWindows();
+      return OS.isWindows() || OS.isMacOS();
     case NotificationSetting.Off:
     case NotificationSetting.NoNameOrMessage:
       return false;
