@@ -44,6 +44,7 @@ import {
 } from '@signalapp/libsignal-client/zkgroup.js';
 import type { SvrKey } from '@signalapp/libsignal-client/dist/AccountKeys';
 import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
+import type { CallQualitySurvey } from '@signalapp/libsignal-client/dist/net/chat/UnauthCallQualityService.js';
 import type {
   SingleOutboundSealedSenderMessage,
   SingleOutboundUnsealedMessage,
@@ -814,7 +815,6 @@ const CHAT_CALLS = {
   profile: 'v1/profile',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
-  callQualitySurvey: 'v1/call_quality_survey',
   setBackupId: 'v1/archives/backupid',
   signed: 'v2/keys/signed',
   storageToken: 'v1/storage/auth',
@@ -3433,17 +3433,14 @@ export async function callLinkCreateAuth(
   });
 }
 
+export type CallQualitySurveyType = CallQualitySurvey;
+
 export async function submitCallQualitySurvey(
-  survey: Proto.SubmitCallQualitySurveyRequest.Params
+  survey: CallQualitySurveyType
 ): Promise<void> {
-  const data = Proto.SubmitCallQualitySurveyRequest.encode(survey);
-  await _ajax({
-    call: 'callQualitySurvey',
-    contentType: 'application/octet-stream',
-    data,
-    host: 'chatService',
-    httpType: 'PUT',
-    unauthenticated: true,
+  await _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.submitCallQualitySurvey({ survey });
   });
 }
 
