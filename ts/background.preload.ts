@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';
 import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
+import { resetLocalTimeZone as intlDateResetLocalTimeZone } from '@internationalized/date';
 
 import * as Registration from './util/registration.preload.ts';
 import MessageReceiver from './textsecure/MessageReceiver.preload.ts';
@@ -97,6 +98,8 @@ import {
   setIsInitialContactSync,
 } from './services/contactSync.preload.ts';
 import { startTimeTravelDetector } from './util/startTimeTravelDetector.std.ts';
+import { startTimeZoneChangeDetector } from './util/startTimeZoneChangeDetector.std.ts';
+import { clearDateTimeFormatterCache } from './util/formatTimestamp.dom.ts';
 import { LatestQueue } from './util/LatestQueue.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { getProfile } from './util/getProfile.preload.ts';
@@ -1611,6 +1614,13 @@ async function startApp(): Promise<void> {
 
     startTimeTravelDetector(() => {
       window.Whisper.events.emit('timetravel');
+    });
+
+    startTimeZoneChangeDetector(() => {
+      log.info('time zone changed');
+      clearDateTimeFormatterCache();
+      // React-aria components rely on @internationalized/date
+      intlDateResetLocalTimeZone();
     });
 
     updateExpiringMessagesService();

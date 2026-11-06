@@ -68,6 +68,10 @@ function getCacheKey(
 
 const formatterCache = new Map<string, Intl.DateTimeFormat>();
 
+export function clearDateTimeFormatterCache(): void {
+  formatterCache.clear();
+}
+
 export function getDateTimeFormatter(
   options: Intl.DateTimeFormatOptions
 ): Intl.DateTimeFormat {
