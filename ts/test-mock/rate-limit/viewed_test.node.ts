@@ -280,7 +280,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
       await input.press('Enter');
     }
 
-    /** First, challenge returns 428 (try again) */
+    /** First, the server rejects the answer (try again) */
     debug('Waiting for challenge');
     const firstChallengeRequest = await app.waitForChallenge();
     const challengeDialog = window.getByRole('alertdialog', {
@@ -289,7 +289,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
 
     await expect(challengeDialog).toBeVisible();
 
-    server.respondToChallengesWith(428);
+    server.respondToChallengesWith({ type: 'rejected' });
 
     debug('Solving challenge');
     await app.solveChallenge({
@@ -306,13 +306,16 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     // which will result in another one
     await challengeDialog.isHidden();
 
-    /** Second, challenge returns 413 (rate limit) */
+    /** Second, the server rate limits the answer */
     debug(
       'Waiting for second challenge, should be triggered quickly with the sends being retried'
     );
     const secondChallengeRequest = await app.waitForChallenge();
 
-    server.respondToChallengesWith(413);
+    server.respondToChallengesWith({
+      type: 'rateLimited',
+      retryAfterSeconds: 60,
+    });
 
     debug('Solving challenge');
     await app.solveChallenge({
@@ -354,7 +357,7 @@ describe('challenge/receipts', function (this: Mocha.Suite) {
     assert.equal(
       await app.getPendingEventCount('captchaDialog'),
       2,
-      'Just two captcha dialogs, the first one, and the one after the 428'
+      'Just two captcha dialogs, the first one, and the one after the rejected answer'
     );
 
     const requests = server.stopRateLimiting({

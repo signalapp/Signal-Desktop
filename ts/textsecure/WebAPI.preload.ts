@@ -797,7 +797,6 @@ const CHAT_CALLS = {
   backupAuth: 'v2/backup/auth',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
-  challenge: 'v1/challenge',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
   createPaypalBoost: 'v1/subscription/boost/paypal/create',
@@ -1894,15 +1893,13 @@ export async function whoami(): Promise<WhoamiResultType> {
   });
 }
 
-export async function sendChallengeResponse(
-  challengeResponse: ChallengeType
-): Promise<void> {
-  await _ajax({
-    host: 'chatService',
-    call: 'challenge',
-    httpType: 'PUT',
-    jsonData: challengeResponse,
-    responseType: 'bytes',
+export async function sendChallengeResponse({
+  token,
+  captcha,
+}: ChallengeType): Promise<boolean> {
+  return _retry(async () => {
+    const chat = await socketManager.getAuthenticatedApi();
+    return chat.answerChallenge({ token, captcha });
   });
 }
 

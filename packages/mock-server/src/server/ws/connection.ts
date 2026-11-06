@@ -960,21 +960,6 @@ export class Connection extends Service {
       }),
     );
 
-    //
-    // Captcha
-    //
-    this.router.put(
-      '/v1/challenge',
-      requireAuth(async () => {
-        const response = server.getResponseForChallenges();
-        if (response) {
-          return [response.code, response.data ?? {}];
-        }
-
-        return [200, { ok: true }];
-      }),
-    );
-
     this.router.get(
       '/v2/calling/relays',
       requireAuth(async () => [

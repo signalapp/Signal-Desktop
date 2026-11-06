@@ -161,6 +161,7 @@ function fromMessageBundle(
 // gRPC status codes used by the mock.
 const GRPC_STATUS_OK = 0;
 const GRPC_STATUS_UNKNOWN = 2;
+const GRPC_STATUS_RESOURCE_EXHAUSTED = 8;
 const GRPC_STATUS_ABORTED = 10;
 const GRPC_STATUS_UNIMPLEMENTED = 12;
 const GRPC_STATUS_UNAUTHENTICATED = 16;
@@ -207,6 +208,17 @@ function signalStatusError(
     details: [...extraDetails, packAny('google.rpc.ErrorInfo', errorInfo)],
   });
   return new GrpcStatusError(code, reason, status);
+}
+
+function rateLimitedError(retryAfterSeconds: number): GrpcStatusError {
+  const retryInfo = google.rpc.RetryInfo.encode({
+    retryDelay: { seconds: BigInt(retryAfterSeconds), nanos: 0 },
+  });
+  return signalStatusError(
+    GRPC_STATUS_RESOURCE_EXHAUSTED,
+    'RESOURCE_EXHAUSTED',
+    [packAny('google.rpc.RetryInfo', retryInfo)],
+  );
 }
 
 // Backup media stream error when the backup auth credential presentation is rejected
@@ -1290,6 +1302,20 @@ export const createHandler = (server: Server): RequestHandler => {
     },
   );
 
+  const onAnswerChallenge = authenticatedGrpcRoute(
+    'org.signal.chat.challenge.Challenge/AnswerChallenge',
+    async () => {
+      const response = server.getResponseForChallenges();
+      if (response == null) {
+        return { success: true };
+      }
+      if (response.type === 'rejected') {
+        return { success: false };
+      }
+      throw rateLimitedError(response.retryAfterSeconds);
+    },
+  );
+
   const onReserveUsername = authenticatedGrpcRoute(
     'org.signal.chat.account.Accounts/ReserveUsernameHash',
     async ({ usernameHashes }, device) => {
@@ -1390,6 +1416,7 @@ export const createHandler = (server: Server): RequestHandler => {
     onConfirmUsername,
     onDeleteUsername,
     onSetUsernameLink,
+    onAnswerChallenge,
     onGetPreKeyCount,
     onSetOneTimeEcPreKeys,
     onSetOneTimeKemSignedPreKeys,

@@ -18,12 +18,9 @@ import { clearTimeoutIfNecessary } from './util/clearTimeoutIfNecessary.std.ts';
 import { missingCaseError } from './util/missingCaseError.std.ts';
 import type { StorageInterface } from './types/Storage.d.ts';
 import * as Errors from './types/errors.std.ts';
-import { HTTPError } from './types/HTTPError.std.ts';
 import type { SendMessageChallengeData } from './textsecure/Errors.std.ts';
 import { createLogger } from './logging/log.std.ts';
 import { drop } from './util/drop.std.ts';
-import { findRetryAfterTimeFromError } from './jobs/helpers/findRetryAfterTimeFromError.std.ts';
-import { MINUTE } from './util/durations/index.std.ts';
 
 const log = createLogger('challenge');
 
@@ -54,6 +51,11 @@ export type ChallengeData = Readonly<{
   captcha: string;
 }>;
 
+export type ChallengeAnswerResult =
+  | Readonly<{ type: 'accepted' }>
+  | Readonly<{ type: 'rejected' }>
+  | Readonly<{ type: 'rateLimited'; retryAfter: number }>;
+
 export type Options = Readonly<{
   storage: Pick<StorageInterface, 'get' | 'put'>;
 
@@ -61,7 +63,9 @@ export type Options = Readonly<{
 
   startQueue: (conversationId: string) => void;
 
-  sendChallengeResponse: (data: ChallengeData) => Promise<void>;
+  sendChallengeResponse: (
+    data: ChallengeData
+  ) => Promise<ChallengeAnswerResult>;
 
   setChallengeStatus: (
     challengeStatus: 'idle' | 'required' | 'pending'
@@ -424,37 +428,41 @@ export class ChallengeHandler {
 
     log.info(`challenge(${reason}): sending challenge to server`);
 
+    let result: ChallengeAnswerResult | null;
     try {
-      await this.#options.sendChallengeResponse({
+      result = await this.#options.sendChallengeResponse({
         type: 'captcha',
         token: lastToken,
         captcha,
       });
     } catch (error) {
-      // If we get an error back from server after solving a captcha, it could be that we
-      // are rate-limited (413, 429), that we need to solve another captcha (428), or any
-      // other possible 4xx, 5xx error.
-
-      // In general, unless we're being rate-limited, we don't want to wait to show
-      // another captcha: this may be a time-critical situation (e.g. user is in a call),
-      // and if the server 500s, for instance, we  want to allow the user to immediately
-      // try again.
-      let defaultRetryAfter = 0;
-
-      if (error instanceof HTTPError) {
-        if ([413, 429].includes(error.code)) {
-          // These rate-limit codes should have a retry-after in the response, but just in
-          // case, let's wait a minute
-          defaultRetryAfter = MINUTE;
-        }
-      }
-
-      const retryAfter = findRetryAfterTimeFromError(error, defaultRetryAfter);
-
       log.error(
-        `challenge(${reason}): challenge solve failure; will retry after ${retryAfter}ms; error:`,
+        `challenge(${reason}): failed to send challenge answer; error:`,
         Errors.toLogFormat(error)
       );
+      result = null;
+    } finally {
+      this.#solving -= 1;
+    }
+
+    if (result == null || result.type !== 'accepted') {
+      let retryAfter: number;
+      let note: string;
+
+      if (result == null) {
+        retryAfter = 0;
+        note = 'error (retrying immediately)';
+      } else if (result.type === 'rateLimited') {
+        retryAfter = result.retryAfter;
+        note = `rate limited (will retry after ${retryAfter}ms)`;
+      } else if (result.type === 'rejected') {
+        retryAfter = 0;
+        note = 'rejected (retrying immediately)';
+      } else {
+        throw missingCaseError(result);
+      }
+
+      log.error(`challenge(${reason}): challenge solve failure: ${note}`);
 
       const retryAt = retryAfter + Date.now();
 
@@ -464,8 +472,6 @@ export class ChallengeHandler {
       this.#options.onChallengeFailed(retryAfter);
       this.forceWaitOnAll(retryAt);
       return;
-    } finally {
-      this.#solving -= 1;
     }
 
     log.info(`challenge(${reason}): challenge success. force sending`);
