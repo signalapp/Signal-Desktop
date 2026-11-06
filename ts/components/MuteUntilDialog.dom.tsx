@@ -34,6 +34,37 @@ export function MuteUntilDialog({
   onSubmit,
   onClose,
 }: PropsType): JSX.Element {
+  return (
+    <AxoDialog.Root
+      open={open}
+      onOpenChange={isOpen => {
+        if (!isOpen) {
+          onClose();
+        }
+      }}
+    >
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
+        <MuteUntilDialogContents
+          i18n={i18n}
+          onSubmit={onSubmit}
+          onClose={onClose}
+        />
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+// Split into its own component so that it gets remounted when the dialog opens, and
+// dates/timezones get recomputed
+function MuteUntilDialogContents({
+  i18n,
+  onSubmit,
+  onClose,
+}: Omit<PropsType, 'open'>): JSX.Element {
   const [date, setDate] = useState<CalendarDate | null>(() => {
     return today(getLocalTimeZone()).add({ days: DEFAULT_DAYS_IN_FUTURE });
   });
@@ -64,60 +95,45 @@ export function MuteUntilDialog({
   }, [muteExpiresAt, onSubmit]);
 
   return (
-    <AxoDialog.Root
-      open={open}
-      onOpenChange={isOpen => {
-        if (!isOpen) {
-          onClose();
-        }
-      }}
-    >
-      <AxoDialog.Content
-        size="sm"
-        escape="cancel-is-noop"
-        disableMissingAriaDescriptionWarning
-      >
-        <AxoDialog.Header>
-          <AxoDialog.Title>
-            {i18n('icu:MuteUntilDialog__title')}
-          </AxoDialog.Title>
-          <AxoDialog.Close />
-        </AxoDialog.Header>
-        <AxoDialog.Body>
-          <div className={tw('mb-2.5 flex items-center gap-2')}>
-            <DatePicker
-              i18n={i18n}
-              aria-label={i18n('icu:MuteUntilDialog__dateLabel')}
-              minValue={earliestDate}
-              value={date}
-              onUpdateDate={setDate}
-            />
-            <TimePicker
-              i18n={i18n}
-              aria-label={i18n('icu:MuteUntilDialog__timeLabel')}
-              time={time}
-              isDisabled={false}
-              onUpdateTime={setTime}
-            />
-          </div>
-          <p className={tw('text-secondary')}>{timeZoneNote}</p>
-        </AxoDialog.Body>
-        <AxoDialog.Footer>
-          <AxoDialog.Actions>
-            <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
-              {i18n('icu:cancel')}
-            </AxoDialog.Action>
-            <AxoDialog.Action
-              variant="strong-primary"
-              disabled={!isValid}
-              onClick={handleSubmit}
-            >
-              {i18n('icu:mute')}
-            </AxoDialog.Action>
-          </AxoDialog.Actions>
-        </AxoDialog.Footer>
-      </AxoDialog.Content>
-    </AxoDialog.Root>
+    <>
+      <AxoDialog.Header>
+        <AxoDialog.Title>{i18n('icu:MuteUntilDialog__title')}</AxoDialog.Title>
+        <AxoDialog.Close />
+      </AxoDialog.Header>
+      <AxoDialog.Body>
+        <div className={tw('mb-2.5 flex items-center gap-2')}>
+          <DatePicker
+            i18n={i18n}
+            aria-label={i18n('icu:MuteUntilDialog__dateLabel')}
+            minValue={earliestDate}
+            value={date}
+            onUpdateDate={setDate}
+          />
+          <TimePicker
+            i18n={i18n}
+            aria-label={i18n('icu:MuteUntilDialog__timeLabel')}
+            time={time}
+            isDisabled={false}
+            onUpdateTime={setTime}
+          />
+        </div>
+        <p className={tw('text-secondary')}>{timeZoneNote}</p>
+      </AxoDialog.Body>
+      <AxoDialog.Footer>
+        <AxoDialog.Actions>
+          <AxoDialog.Action variant="subtle-secondary" onClick={onClose}>
+            {i18n('icu:cancel')}
+          </AxoDialog.Action>
+          <AxoDialog.Action
+            variant="strong-primary"
+            disabled={!isValid}
+            onClick={handleSubmit}
+          >
+            {i18n('icu:mute')}
+          </AxoDialog.Action>
+        </AxoDialog.Actions>
+      </AxoDialog.Footer>
+    </>
   );
 }
 
