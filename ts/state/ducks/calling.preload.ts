@@ -127,11 +127,11 @@ import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.prel
 import {
   isOnline,
   submitCallQualitySurvey as submitCallQualitySurveyToServer,
+  type CallQualitySurveyType,
 } from '../../textsecure/WebAPI.preload.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import type { SizeCallbackType } from '../../calling/VideoSupport.preload.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
-import type { SignalService } from '../../protobuf/index.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 import type { ErrorModalDataProps } from '../../components/ErrorModal.dom.tsx';
 import { callLinkCleanupService } from '../../services/expiring/callLinkCleanupService.preload.ts';
@@ -2891,38 +2891,34 @@ function submitCallQualitySurvey(
       const callTelemetry: Uint8Array<ArrayBuffer> | null =
         callSummary.rawStats ?? null;
 
-      const surveyRequest: SignalService.SubmitCallQualitySurveyRequest.Params =
-        {
-          userSatisfied,
-          callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
-          additionalIssuesDescription:
-            !userSatisfied &&
-            callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
-              ? additionalIssuesDescription
-              : null,
-          debugLogUrl: debugLogUrl ?? null,
-          startTimestamp: BigInt(callSummary.startTime),
-          endTimestamp: BigInt(callSummary.endTime),
-          callType,
-          success: !isCallFailure(callSummary.callEndReasonText),
-          callEndReason: callSummary.callEndReasonText,
-          connectionRttMedian: qualityStats.rttMedianConnectionMillis ?? null,
-          audioRttMedian: audioStats.rttMedianMillis ?? null,
-          videoRttMedian: videoStats.rttMedianMillis ?? null,
-          audioRecvJitterMedian: audioStats.jitterMedianRecvMillis ?? null,
-          videoRecvJitterMedian: videoStats.jitterMedianRecvMillis ?? null,
-          audioSendJitterMedian: audioStats.jitterMedianSendMillis ?? null,
-          videoSendJitterMedian: videoStats.jitterMedianSendMillis ?? null,
-          audioRecvPacketLossFraction:
-            audioStats.packetLossFractionRecv ?? null,
-          videoRecvPacketLossFraction:
-            videoStats.packetLossFractionRecv ?? null,
-          audioSendPacketLossFraction:
-            audioStats.packetLossFractionSend ?? null,
-          videoSendPacketLossFraction:
-            videoStats.packetLossFractionSend ?? null,
-          callTelemetry,
-        };
+      const surveyRequest: CallQualitySurveyType = {
+        userSatisfied,
+        callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
+        additionalIssuesDescription:
+          !userSatisfied &&
+          callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
+            ? additionalIssuesDescription
+            : null,
+        debugLogUrl: debugLogUrl ?? null,
+        startTimestamp: callSummary.startTime,
+        endTimestamp: callSummary.endTime,
+        callType,
+        success: !isCallFailure(callSummary.callEndReasonText),
+        callEndReason: callSummary.callEndReasonText,
+        connectionRttMedian: qualityStats.rttMedianConnectionMillis ?? null,
+        audioRttMedian: audioStats.rttMedianMillis ?? null,
+        videoRttMedian: videoStats.rttMedianMillis ?? null,
+        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis ?? null,
+        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis ?? null,
+        audioSendJitterMedian: audioStats.jitterMedianSendMillis ?? null,
+        videoSendJitterMedian: videoStats.jitterMedianSendMillis ?? null,
+        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv ?? null,
+        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv ?? null,
+        audioSendPacketLossFraction: audioStats.packetLossFractionSend ?? null,
+        videoSendPacketLossFraction: videoStats.packetLossFractionSend ?? null,
+        callTelemetry,
+        callIdHash: callSummary.callIdHash ?? null,
+      };
 
       await submitCallQualitySurveyToServer(surveyRequest);
 
