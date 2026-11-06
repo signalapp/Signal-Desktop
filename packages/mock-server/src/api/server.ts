@@ -553,11 +553,8 @@ export class Server extends BaseServer {
     this.unregisteredServiceIds.delete(serviceId);
   }
 
-  public respondToChallengesWith(code = 413, data?: unknown): void {
-    this.responseForChallenges = {
-      code,
-      data,
-    };
+  public respondToChallengesWith(response: ChallengeResponse): void {
+    this.responseForChallenges = response;
   }
 
   public stopRespondingToChallenges(): void {

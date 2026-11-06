@@ -133,10 +133,9 @@ export type BackupCredentials = Readonly<{
   media: Credentials;
 }>;
 
-export type ChallengeResponse = Readonly<{
-  code: number;
-  data: unknown;
-}>;
+export type ChallengeResponse =
+  | Readonly<{ type: 'rejected' }>
+  | Readonly<{ type: 'rateLimited'; retryAfterSeconds: number }>;
 
 export type PreparedMultiDeviceMessage = Readonly<{
   timestamp: bigint;

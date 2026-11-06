@@ -6,14 +6,18 @@ import lodash from 'lodash';
 import * as sinon from 'sinon';
 
 import { STORAGE_KEY, ChallengeHandler } from '../challenge.dom.ts';
-import type { RegisteredChallengeType } from '../challenge.dom.ts';
-import { DAY, SECOND } from '../util/durations/index.std.ts';
+import type {
+  ChallengeAnswerResult,
+  RegisteredChallengeType,
+} from '../challenge.dom.ts';
+import { DAY, MINUTE, SECOND } from '../util/durations/index.std.ts';
 
 const { noop } = lodash;
 
 type CreateHandlerOptions = {
   readonly autoSolve?: boolean;
   readonly challengeError?: Error;
+  readonly challengeResult?: ChallengeAnswerResult;
   readonly expireAfter?: number;
   readonly onChallengeSolved?: () => void;
   readonly onChallengeFailed?: (retryAt?: number) => void;
@@ -66,6 +70,7 @@ describe('ChallengeHandler', () => {
   const createHandler = async ({
     autoSolve = false,
     challengeError,
+    challengeResult = { type: 'accepted' },
     expireAfter,
     onChallengeSolved = noop,
     onChallengeFailed = noop,
@@ -106,6 +111,7 @@ describe('ChallengeHandler', () => {
         if (challengeError) {
           throw challengeError;
         }
+        return challengeResult;
       },
 
       setChallengeStatus(status) {
@@ -309,5 +315,52 @@ describe('ChallengeHandler', () => {
     await this.clock.nextAsync();
 
     sinon.assert.calledOnce(onChallengeFailed);
+  });
+
+  it('should let the user retry right away when the answer is rejected', async function (this: Mocha.Context) {
+    const onChallengeFailed = sinon.stub();
+
+    const handler = await createHandler({
+      autoSolve: true,
+      challengeResult: { type: 'rejected' },
+      onChallengeFailed,
+    });
+
+    const one = createChallenge('1', {
+      retryAt: NEVER_RETRY,
+    });
+    await handler.register(one);
+
+    // Let the challenge go through
+    await this.clock.nextAsync();
+
+    sinon.assert.calledOnceWithExactly(onChallengeFailed, 0);
+    assert.equal(challengeStatus, 'idle');
+  });
+
+  it('should wait out a rate limit before retrying', async function (this: Mocha.Context) {
+    const onChallengeFailed = sinon.stub();
+
+    const handler = await createHandler({
+      autoSolve: true,
+      challengeResult: { type: 'rateLimited', retryAfter: MINUTE },
+      onChallengeFailed,
+    });
+
+    const one = createChallenge('1', {
+      retryAt: NEVER_RETRY,
+    });
+    await handler.register(one);
+
+    // Let the challenge go through
+    await this.clock.nextAsync();
+
+    sinon.assert.calledOnceWithExactly(onChallengeFailed, MINUTE);
+    assert.deepEqual(queuesStarted, []);
+
+    // The queue starts once the rate limit is over
+    await this.clock.tickAsync(MINUTE);
+
+    assert.deepEqual(queuesStarted, [one.conversationId]);
   });
 });
