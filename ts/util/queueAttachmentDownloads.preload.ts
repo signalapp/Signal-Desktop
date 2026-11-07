@@ -115,8 +115,19 @@ export async function queueAttachmentDownloadsAndMaybeSaveMessage(
 
 function isAutoDownloadEnabled(
   attachment: Pick<AttachmentType, 'size'>,
-  disposition: keyof AutoDownloadAttachmentType
+  disposition: keyof AutoDownloadAttachmentType,
+  maxAutoDownloadCiphertextSize?: number
 ): boolean {
+  if (
+    maxAutoDownloadCiphertextSize != null &&
+    !isAttachmentTooLarge({
+      plaintextSize: attachment.size,
+      ciphertextLimit: maxAutoDownloadCiphertextSize,
+    })
+  ) {
+    return true;
+  }
+
   const autoDownloadAttachment = itemStorage.get(
     'auto-download-attachment',
     DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
@@ -381,30 +392,29 @@ export async function queueAttachmentDownloads(
     }
 
     if (!copiedSticker) {
-      if (
-        sticker.data &&
-        (isManualDownload ||
-          !isAttachmentTooLarge({
-            plaintextSize: sticker.data.size,
-            ciphertextLimit: MAX_STICKER_AUTO_DOWNLOAD_SIZE,
-          }))
-      ) {
-        if (shouldQueueAttachmentBasedOnSignature(sticker.data)) {
-          log.info(`${logId}: Queueing sticker download`);
-          count += 1;
-          await AttachmentDownloadManager.addJob({
-            attachment: sticker.data,
-            attachmentType: 'sticker',
-            isManualDownload,
-            messageId,
-            receivedAt: message.get('received_at'),
-            sentAt: message.get('sent_at'),
-            source,
-            urgency,
-          });
-        }
-      } else {
+      if (!sticker.data) {
         log.error(`${logId}: Sticker data was missing`);
+      } else if (
+        shouldQueueAttachmentBasedOnSignature(sticker.data) &&
+        (isManualDownload ||
+          isAutoDownloadEnabled(
+            sticker.data,
+            'photos',
+            MAX_STICKER_AUTO_DOWNLOAD_SIZE
+          ))
+      ) {
+        log.info(`${logId}: Queueing sticker download`);
+        count += 1;
+        await AttachmentDownloadManager.addJob({
+          attachment: sticker.data,
+          attachmentType: 'sticker',
+          isManualDownload,
+          messageId,
+          receivedAt: message.get('received_at'),
+          sentAt: message.get('sent_at'),
+          source,
+          urgency,
+        });
       }
     }
     const stickerRef = {
@@ -587,10 +597,11 @@ async function queueNormalAttachments({
         } else if (isAudio(contentType)) {
           if (
             isVoiceMessage(attachment) &&
-            !isAttachmentTooLarge({
-              plaintextSize: attachment.size,
-              ciphertextLimit: MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE,
-            })
+            isAutoDownloadEnabled(
+              attachment,
+              'audio',
+              MAX_VOICE_MESSAGE_AUTO_DOWNLOAD_SIZE
+            )
           ) {
             disposition = undefined;
           } else {
