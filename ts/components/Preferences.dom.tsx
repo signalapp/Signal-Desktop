@@ -128,7 +128,6 @@ export type PropsDataType = {
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFreeMediaDays: number;
   previouslyViewedBackupKeyHash: string | undefined;
-  backupLocalBackupsEnabled: boolean;
   backupTier: BackupLevel | null;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
@@ -460,7 +459,6 @@ export function Preferences({
   backupKeyHash,
   backupTier,
   backupSubscriptionStatus,
-  backupLocalBackupsEnabled,
   badge,
   blockedContactCount,
   blockedGroupCount,
@@ -2256,7 +2254,6 @@ export function Preferences({
         resumeBackupMediaDownload={resumeBackupMediaDownload}
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
-        isLocalBackupsEnabled={backupLocalBackupsEnabled}
         lastLocalBackup={lastLocalBackup}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
