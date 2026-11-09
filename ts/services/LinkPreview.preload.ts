@@ -87,7 +87,7 @@ function _maybeGrabLinkPreview(
   message: string,
   source: LinkPreviewSourceType,
   {
-    caretLocation,
+    caretLocation: _caretLocation,
     conversationId,
     mode = 'conversation',
   }: MaybeGrabLinkPreviewOptionsType = {}
@@ -107,22 +107,18 @@ function _maybeGrabLinkPreview(
     return;
   }
 
-  if (currentlyMatchedLink) {
-    const allLinks = LinkPreview.findLinks(message);
-
-    if (allLinks.includes(currentlyMatchedLink)) {
-      return;
-    }
-  }
-
-  const links = LinkPreview.findLinks(message, caretLocation);
-  currentlyMatchedLink = undefined;
   excludedPreviewUrls ??= [];
 
+  const links = LinkPreview.findLinks(message);
   const link = links.find(
     item =>
       LinkPreview.shouldPreviewHref(item) && !excludedPreviewUrls.includes(item)
   );
+
+  if (currentlyMatchedLink === link) {
+    return;
+  }
+
   if (!link) {
     removeLinkPreview(conversationId);
     return;
