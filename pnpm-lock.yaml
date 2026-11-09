@@ -999,7 +999,7 @@ importers:
         specifier: 0.106.2
         version: 0.106.2
       '@signalapp/types':
-        specifier: 0.3.0
+        specifier: 0.4.0
         version: link:../types
       '@tus/file-store':
         specifier: ^1.5.1

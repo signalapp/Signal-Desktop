@@ -1,7 +1,7 @@
 {
   "name": "@signalapp/mock-server",
   "packageManager": "pnpm@10.18.1",
-  "version": "27.0.0",
+  "version": "28.0.0",
   "description": "Mock Signal Server for writing tests",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -52,7 +52,7 @@
     "@indutny/parallel-prettier": "^3.0.0",
     "@indutny/protopiler": "4.0.0",
     "@signalapp/libsignal-client": "0.106.2",
-    "@signalapp/types": "0.3.0",
+    "@signalapp/types": "0.4.0",
     "@tus/file-store": "^1.5.1",
     "@tus/server": "^1.10.2",
     "debug": "^4.4.3",

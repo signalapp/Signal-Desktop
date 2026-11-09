@@ -1,6 +1,6 @@
 {
   "name": "@signalapp/types",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "AGPL-3.0-only",
   "publishConfig": {
     "access": "public",
