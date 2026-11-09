@@ -87,7 +87,6 @@ import {
 import { FileStream } from './util/FileStream.node.ts';
 import { ToastType } from '../../types/Toast.dom.tsx';
 import { isAdhoc, isNightly } from '../../util/version.std.ts';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.ts';
 import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.ts';
 import {
   writeLocalBackupMetadata,
@@ -351,7 +350,6 @@ export class BackupsService {
     abortSignal: AbortSignal;
     onProgress: OnProgressCallback;
   }): Promise<LocalBackupExportResultType> {
-    strictAssert(isLocalBackupsEnabled(), 'Local backups must be enabled');
     const fnLog = log.child('exportLocalBackup');
     fnLog.info('starting...');
 
