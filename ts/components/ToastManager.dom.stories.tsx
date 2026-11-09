@@ -242,6 +242,10 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.ReportedSpamAndBlocked };
     case ToastType.SQLError:
       return { toastType: ToastType.SQLError };
+    case ToastType.StickerFavoriteAdded:
+      return { toastType: ToastType.StickerFavoriteAdded };
+    case ToastType.StickerFavoriteRemoved:
+      return { toastType: ToastType.StickerFavoriteRemoved };
     case ToastType.StickerPackInstallFailed:
       return { toastType: ToastType.StickerPackInstallFailed };
     case ToastType.StoryMuted:

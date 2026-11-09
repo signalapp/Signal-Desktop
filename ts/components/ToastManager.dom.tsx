@@ -883,6 +883,22 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.StickerFavoriteAdded) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--Toast--StickerFavoriteAdded')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerFavoriteRemoved) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--Toast--StickerFavoriteRemoved')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.StickerPackInstallFailed) {
     return (
       <Toast onClose={hideToast}>
@@ -890,6 +906,7 @@ function renderToast({
       </Toast>
     );
   }
+
   if (toastType === ToastType.SQLError) {
     return (
       <Toast

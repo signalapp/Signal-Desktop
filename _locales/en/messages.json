@@ -3930,9 +3930,33 @@
     "messageformat": "Sticker without an emoji",
     "description": "Accessibility label for sticker without an assigned emoji in the sticker pack preview modal."
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details",
+    "description": "Accessibility label for a sticker to open a popover showing a large preview of the sticker and sticker-specific actions in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details",
+    "description": "Accessibility label for a specific sticker's preview popover which shows a large preview and sticker-specific actions in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites",
+    "description": "Button to add a sticker to favorite stickers in the sticker pack preview modal."
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites",
+    "description": "Button to remove a sticker from favorite stickers in the sticker pack preview modal."
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Sticker Pack by {author}",
     "description": "Description for a sticker pack preview in the chat, when someone sends a link to a sticker pack. Shown next to the title of the sticker pack."
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites",
+    "description": "Toast text shown after adding a sticker to the favorite stickers list."
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites",
+    "description": "Toast text shown after removing a sticker from the favorite stickers list."
   },
   "icu:stickers--ViewPack": {
     "messageformat": "View Pack",

@@ -18,9 +18,15 @@ import {
 } from './StickerManagerPackRow.dom.tsx';
 import { StickerPreviewModal } from './StickerPreviewModal.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
+import type {
+  StickerPackType,
+  StickerType,
+} from '../../state/ducks/stickers.preload.ts';
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
-import type { StickerManagerTabType } from '../../types/Stickers.preload.ts';
+import type {
+  StickerManagerTabType,
+  StickerReferenceType,
+} from '../../types/Stickers.preload.ts';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { ListBox, useDragAndDrop } from 'react-aria-components';
@@ -33,6 +39,7 @@ export type OwnProps = {
     packKey: string,
     options: { actionSource: 'ui' }
   ) => unknown;
+  readonly favoriteStickers: ReadonlyArray<StickerType>;
   readonly i18n: LocalizerType;
   readonly installStickerPack: (
     packId: string,
@@ -40,6 +47,11 @@ export type OwnProps = {
     options: { actionSource: 'ui' }
   ) => unknown;
   readonly installedPacks: ReadonlyArray<StickerPackType>;
+  readonly isFavoriteStickersEnabled: boolean;
+  readonly markStickerAsFavorite: (
+    stickerRef: StickerReferenceType,
+    markAsFavorite: boolean
+  ) => void;
   readonly knownPacks?: ReadonlyArray<StickerPackType>;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
   readonly tab: StickerManagerTabType;
@@ -61,10 +73,13 @@ export const StickerManager = memo(function StickerManagerInner({
   blessedPacks,
   closeStickerPackPreview,
   downloadStickerPack,
+  favoriteStickers,
   i18n,
   installStickerPack,
   installedPacks,
+  isFavoriteStickersEnabled,
   knownPacks,
+  markStickerAsFavorite,
   receivedPacks,
   tab,
   setTab,
@@ -198,8 +213,11 @@ export const StickerManager = memo(function StickerManagerInner({
         <StickerPreviewModal
           closeStickerPackPreview={closeStickerPackPreview}
           downloadStickerPack={downloadStickerPack}
+          favoriteStickers={favoriteStickers}
           i18n={i18n}
           installStickerPack={installStickerPack}
+          isFavoriteStickersEnabled={isFavoriteStickersEnabled}
+          markStickerAsFavorite={markStickerAsFavorite}
           onClose={clearPackToPreview}
           pack={packToPreview}
           uninstallStickerPack={uninstallStickerPack}

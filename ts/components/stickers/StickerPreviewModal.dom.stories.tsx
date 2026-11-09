@@ -68,8 +68,11 @@ const pack: StickerPackType = {
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   closeStickerPackPreview: action('closeStickerPackPreview'),
   downloadStickerPack: action('downloadStickerPack'),
+  favoriteStickers: overrideProps.favoriteStickers ?? [],
   i18n,
   installStickerPack: action('installStickerPack'),
+  isFavoriteStickersEnabled: true,
+  markStickerAsFavorite: action('markStickerAsFavorite'),
   showToast: action('showToast'),
   uninstallStickerPack: action('uninstallStickerPack'),
   pack: overrideProps.pack ?? pack,
