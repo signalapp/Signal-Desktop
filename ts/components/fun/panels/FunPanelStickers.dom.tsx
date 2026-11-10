@@ -71,7 +71,7 @@ import { FunSticker } from '../FunSticker.dom.tsx';
 import { getAnalogTime } from '../../../util/getAnalogTime.std.ts';
 import { getDateTimeFormatter } from '../../../util/formatTimestamp.dom.ts';
 import { Emoji } from '../../../axo/emoji.std.ts';
-import { AxoContextMenu } from '../../../axo/AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../../../axo/menus/AxoContextMenu.dom.tsx';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;

@@ -31,7 +31,7 @@ import { AxoPasswordField } from '../../../axo/fields/AxoPasswordField.dom.tsx';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { isNumber } from 'lodash';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';

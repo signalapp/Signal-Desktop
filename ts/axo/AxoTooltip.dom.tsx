@@ -25,7 +25,7 @@ import {
   getElementAriaRole,
   isAriaWidgetRole,
 } from './_internal/ariaRoles.dom.tsx';
-import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { useAxoEnv } from './_internal/AxoEnv.dom.tsx';
 import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
 import { variants } from './_internal/variants.dom.tsx';
 
@@ -309,6 +309,7 @@ export namespace AxoTooltip {
     } = props;
     const direction = useDirection();
     const collisionBoundary = useContext(CollisionBoundaryContext);
+    const env = useAxoEnv();
     const triggerRef = useRef<HTMLButtonElement>(null);
 
     const physicalDirection = useMemo((): PhysicalDirection => {
@@ -402,7 +403,7 @@ export namespace AxoTooltip {
         return;
       }
 
-      if (isTestOrMockEnvironment()) {
+      if (env === 'test') {
         assert(
           triggerRef.current instanceof HTMLElement,
           `<AxoTooltip.Root> child must forward ref`

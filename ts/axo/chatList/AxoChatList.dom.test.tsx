@@ -3,7 +3,7 @@
 import { describe, expect, test, vi } from 'vitest';
 import { page } from 'vitest/browser';
 import { AxoChatItem } from './AxoChatItem.dom.tsx';
-import { AxoContextMenu } from '../AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../menus/AxoContextMenu.dom.tsx';
 import { assert } from '../_internal/assert.std.tsx';
 import { renderAxo } from '../_test-helpers/render.dom.tsx';
 import { testStoriesWithAxe } from '../_test-helpers/stories.dom.tsx';

@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import { UserText } from '../../UserText.dom.tsx';
 import type { PinnedMessageId } from '../../../types/PinnedMessage.std.ts';

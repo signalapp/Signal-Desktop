@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import type { ReactNode, JSX } from 'react';
 
 import type { LocalizerType } from '../../../types/Util.std.ts';
-import { AxoContextMenu } from '../../../axo/AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../../../axo/menus/AxoContextMenu.dom.tsx';
 import { DeleteAttachmentConfirmationDialog } from '../../DeleteAttachmentConfirmationDialog.dom.tsx';
 
 export type PropsType = Readonly<{

@@ -41,7 +41,7 @@ import {
 } from './InAnotherCallTooltip.dom.tsx';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.tsx';
 import { MuteNotificationsSubMenu } from '../MuteNotificationsMenu.dom.tsx';
-import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import {
   TimelineWarning,

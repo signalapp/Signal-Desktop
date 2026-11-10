@@ -23,8 +23,8 @@ import type {
 } from '../../util/countUnreadStats.std.ts';
 import { getUnreadCountForBadge } from '../../util/countUnreadStats.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
-import { AxoSelect } from '../../axo/AxoSelect.dom.tsx';
-import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
+import { AxoSelect } from '../../axo/menus/AxoSelect.dom.tsx';
+import { AxoContextMenu } from '../../axo/menus/AxoContextMenu.dom.tsx';
 import { getMuteValuesOptions } from '../../util/getMuteOptions.std.ts';
 import { MuteNotificationsSubMenu } from '../MuteNotificationsMenu.dom.tsx';
 import type {

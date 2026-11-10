@@ -7,8 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { AxoItem } from './AxoItem.dom.tsx';
 import { tw } from '../tw.dom.tsx';
 import { AxoSwitch } from '../AxoSwitch.dom.tsx';
-import { AxoSelect } from '../AxoSelect.dom.tsx';
-import { AxoDropdownMenu } from '../AxoDropdownMenu.dom.tsx';
+import { AxoSelect } from '../menus/AxoSelect.dom.tsx';
+import { AxoDropdownMenu } from '../menus/AxoDropdownMenu.dom.tsx';
 import { Story } from '../_storybook-helpers/Story.dom.tsx';
 
 export default {

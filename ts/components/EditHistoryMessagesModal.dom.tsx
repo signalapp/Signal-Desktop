@@ -17,9 +17,9 @@ import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.ts';
 import { useTheme } from '../hooks/useTheme.dom.ts';
 import { isSameDay } from '../util/timestamp.std.ts';
 import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.tsx';
-import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../axo/menus/AxoContextMenu.dom.tsx';
 import { drop } from '../util/drop.std.ts';
-import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import type { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
 

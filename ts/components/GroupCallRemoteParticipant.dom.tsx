@@ -32,7 +32,7 @@ import { isOlderThan } from '../util/timestamp.std.ts';
 import type { CallingImageDataCache } from './CallManager.dom.tsx';
 import { usePreviousDeprecated } from '../hooks/usePrevious.std.ts';
 import type { PropsType as SmartCallingParticipantMenuProps } from '../state/smart/CallingParticipantMenu.preload.tsx';
-import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import type { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { CallingStatusIndicatorHandRaised } from './CallingStatusIndicatorHandRaised.dom.tsx';

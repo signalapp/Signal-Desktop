@@ -79,7 +79,7 @@ import type { FunGifSelection } from './fun/panels/FunPanelGifs.dom.tsx';
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { FunPickerButton } from './fun/FunButton.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { PollCreateType } from '../types/Polls.dom.ts';

@@ -12,7 +12,7 @@ import {
   ReasonVideoNotGood,
 } from '../util/isVideoGoodForStories.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {

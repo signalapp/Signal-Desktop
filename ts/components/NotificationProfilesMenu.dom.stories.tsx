@@ -14,7 +14,7 @@ import {
 import { DayOfWeek } from '../types/NotificationProfile.std.ts';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.ts';
 import { HOUR } from '../util/durations/index.std.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';

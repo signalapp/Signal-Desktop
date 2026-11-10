@@ -6,8 +6,11 @@ import { Tooltip } from 'radix-ui';
 import { LanguageTag } from '@signalapp/types';
 import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.tsx';
 import { AxoIntl } from './_internal/AxoIntl.dom.tsx';
+import { AxoEnv } from './_internal/AxoEnv.dom.tsx';
 
 export type AxoProviderProps = Readonly<{
+  /** The environment the app is running in. */
+  env: AxoEnv.Env;
   /**
    * The resolved app locale based on the system preferred language and the
    * user locale override preference
@@ -50,7 +53,9 @@ export const AxoProvider: FC<AxoProviderProps> = memo(props => {
       systemPreferredLanguages={props.systemPreferredLanguages}
       messages={props.messages}
     >
-      <Tooltip.Provider>{props.children}</Tooltip.Provider>
+      <AxoEnv.Provider env={props.env}>
+        <Tooltip.Provider>{props.children}</Tooltip.Provider>
+      </AxoEnv.Provider>
     </AxoIntl.Provider>
   );
 });
@@ -85,6 +90,7 @@ export const TestAxoProvider: FC<TestAxoProviderProps> = memo(props => {
 
   return (
     <AxoProvider
+      env="test"
       resolvedAppLocale={resolvedAppLocale}
       systemPreferredLanguages={TEST_SYSTEM_PREFERRED_LANGUAGES}
       messages={AxoIntl.DefaultMessages}

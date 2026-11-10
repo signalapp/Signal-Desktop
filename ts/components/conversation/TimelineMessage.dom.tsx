@@ -40,8 +40,8 @@ import { MessageContextMenu } from './MessageContextMenu.dom.tsx';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.tsx';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
-import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
+import type { AxoMenuBuilder } from '../../axo/menus/AxoMenuBuilder.dom.tsx';
+import { AxoContextMenu } from '../../axo/menus/AxoContextMenu.dom.tsx';
 import type { Emoji } from '../../axo/emoji.std.ts';
 import type { StickerReferenceType } from '../../types/Stickers.preload.ts';
 

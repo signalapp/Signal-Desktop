@@ -5,9 +5,27 @@ import { memo, StrictMode } from 'react';
 import { AxoProvider } from '../axo/AxoProvider.dom.tsx';
 import type { AxoProviderProps } from '../axo/AxoProvider.dom.tsx';
 import type { AxoIntl } from '../axo/_internal/AxoIntl.dom.tsx';
+import type { AxoEnv } from '../axo/_internal/AxoEnv.dom.tsx';
 import type { LanguageTag } from '@signalapp/types';
+import {
+  Environment,
+  getEnvironment,
+  isTestOrMockEnvironment,
+} from '../environment.std.ts';
+
+function getAxoEnv(): AxoEnv.Env {
+  if (isTestOrMockEnvironment()) {
+    return 'test';
+  }
+  if (getEnvironment() === Environment.Development) {
+    return 'dev';
+  }
+  return 'prod';
+}
 
 export type AppProviderProps = Readonly<{
+  /** Overrides the app's environment for Axo components. */
+  env?: AxoEnv.Env;
   children: ReactNode;
 }>;
 
@@ -58,6 +76,7 @@ export const AppProvider: FC<AppProviderProps> = memo(
     return (
       <StrictMode>
         <AxoProvider
+          env={props.env ?? getAxoEnv()}
           resolvedAppLocale={resolvedAppLocale}
           systemPreferredLanguages={systemPreferredLanguages}
           messages={messages}

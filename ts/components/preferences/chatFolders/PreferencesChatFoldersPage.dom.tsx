@@ -20,7 +20,7 @@ import type {
   ChatFolderPreset,
   ChatFolder,
 } from '../../../types/ChatFolder.std.ts';
-import { AxoContextMenu } from '../../../axo/AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../../../axo/menus/AxoContextMenu.dom.tsx';
 import { DeleteChatFolderDialog } from './DeleteChatFolderDialog.dom.tsx';
 import { strictAssert } from '../../../util/assert.std.ts';
 import { tw } from '../../../axo/tw.dom.tsx';

@@ -66,7 +66,7 @@ import { getServerAlertDialog } from './ServerAlerts.dom.tsx';
 import { NavTab, SettingsPage, ProfileEditorPage } from '../types/Nav.std.ts';
 import type { Location } from '../types/Nav.std.ts';
 import type { RenderConversationListItemContextMenuProps } from './conversationList/BaseConversationListItem.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import type { ChatFolder } from '../types/ChatFolder.std.ts';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';

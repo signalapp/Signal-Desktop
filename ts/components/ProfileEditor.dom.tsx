@@ -47,7 +47,7 @@ import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';
 import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';

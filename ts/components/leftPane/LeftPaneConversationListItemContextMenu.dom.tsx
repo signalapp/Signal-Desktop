@@ -4,7 +4,7 @@ import type { FC, ReactNode, JSX } from 'react';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { MuteExpiration } from '@signalapp/types';
 
-import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from '../../axo/menus/AxoContextMenu.dom.tsx';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import { isConversationUnread } from '../../util/isConversationUnread.std.ts';

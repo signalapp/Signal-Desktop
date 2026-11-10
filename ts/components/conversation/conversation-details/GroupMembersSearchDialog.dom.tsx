@@ -19,7 +19,7 @@ import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
 import { UserText } from '../../UserText.dom.tsx';
 import { AxoContactName } from '../../../axo/AxoContactName.dom.tsx';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.tsx';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { missingCaseError } from '../../../util/missingCaseError.std.ts';
 import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.ts';
 import { drop } from '../../../util/drop.std.ts';

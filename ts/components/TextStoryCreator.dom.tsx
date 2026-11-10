@@ -17,7 +17,7 @@ import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts'
 import { ThemeType, type LocalizerType } from '../types/Util.std.ts';
 import type { TextAttachmentType } from '../types/Attachment.std.ts';
 import { Button, ButtonVariant } from './Button.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { LinkPreviewSourceType, findLinks } from '../types/LinkPreview.std.ts';
 import type { MaybeGrabLinkPreviewOptionsType } from '../types/LinkPreview.std.ts';
 import { Input } from './Input.dom.tsx';

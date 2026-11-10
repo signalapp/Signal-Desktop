@@ -62,7 +62,7 @@ import { AxoClickableItem } from '../../../axo/items/AxoClickableItem.dom.tsx';
 import { AxoTextItem } from '../../../axo/items/AxoTextItem.dom.tsx';
 import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.tsx';
-import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../../../axo/menus/AxoDropdownMenu.dom.tsx';
 
 enum ModalState {
   AddingGroupMembers,

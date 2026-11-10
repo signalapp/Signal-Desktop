@@ -6,12 +6,12 @@ import type { Meta } from '@storybook/react';
 import { AxoTheme } from './AxoTheme.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
-import { AxoDropdownMenu } from './AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from './menus/AxoDropdownMenu.dom.tsx';
 import { AxoDialog } from './AxoDialog.dom.tsx';
-import { AxoContextMenu } from './AxoContextMenu.dom.tsx';
+import { AxoContextMenu } from './menus/AxoContextMenu.dom.tsx';
 import { AxoTooltip } from './AxoTooltip.dom.tsx';
 import { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
-import { AxoSelect } from './AxoSelect.dom.tsx';
+import { AxoSelect } from './menus/AxoSelect.dom.tsx';
 
 export default {
   title: 'Axo/AxoTheme',

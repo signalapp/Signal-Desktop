@@ -3,7 +3,7 @@
 
 import { useRef, type ReactNode, type JSX } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.ts';
-import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import { AxoMenuBuilder } from '../../axo/menus/AxoMenuBuilder.dom.tsx';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
 
 type MessageContextMenuProps = Readonly<{

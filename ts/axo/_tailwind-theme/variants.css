@@ -5,6 +5,11 @@
 
 @custom-variant dark (&:where(.dark-theme, .dark-theme *));
 
+/* Set by <AxoEnv.Provider> */
+@custom-variant env-test (&:where([data-axo-env='test'] *));
+@custom-variant env-dev (&:where([data-axo-env='dev'] *));
+@custom-variant env-prod (&:where([data-axo-env='prod'] *));
+
 @custom-variant focus-visible-within (&:is(:focus-visible, :has(:focus-visible)));
 
 @custom-variant transparency-safe (@media (prefers-reduced-transparency: no-preference));

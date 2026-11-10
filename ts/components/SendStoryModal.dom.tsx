@@ -51,8 +51,8 @@ import { Theme } from '../util/theme.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoContextMenu } from '../axo/menus/AxoContextMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 
 const { noop, sortBy } = lodash;
 

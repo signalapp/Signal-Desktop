@@ -20,7 +20,7 @@ import { isCallLinkAdmin } from '../../types/CallLink.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { getMe } from '../selectors/conversations.dom.ts';
 import { CallingParticipantMenu } from '../../components/CallingParticipantMenu.dom.tsx';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import type { AxoMenuBuilder } from '../../axo/menus/AxoMenuBuilder.dom.tsx';
 
 export type PropsType = {
   callConversationId?: string;
