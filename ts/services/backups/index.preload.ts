@@ -33,7 +33,7 @@ import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { HOUR, SECOND } from '../../util/durations/index.std.ts';
 import type { ExplodePromiseResultType } from '../../util/explodePromise.std.ts';
 import { explodePromise } from '../../util/explodePromise.std.ts';
-import type { RetryBackupImportValue } from '../../state/ducks/installer.preload.ts';
+import type { ErrorDialogDecision } from '../../state/ducks/installer.preload.ts';
 import { CipherType, HashType } from '../../types/Crypto.std.ts';
 import {
   InstallScreenBackupStep,
@@ -171,8 +171,8 @@ export class BackupsService {
   #importController: AbortController | undefined;
   #downloadController: AbortController | undefined;
 
-  #downloadRetryPromise:
-    | ExplodePromiseResultType<RetryBackupImportValue>
+  #errorDialogDecision:
+    | ExplodePromiseResultType<ErrorDialogDecision>
     | undefined;
 
   #localBackupSnapshotDir: string | undefined;
@@ -243,7 +243,7 @@ export class BackupsService {
           window.reduxActions.installer.handleMissingBackup();
         }
       } catch (error) {
-        this.#downloadRetryPromise = explodePromise<RetryBackupImportValue>();
+        this.#errorDialogDecision = explodePromise<ErrorDialogDecision>();
 
         let installerError: InstallScreenBackupError;
         if (error instanceof BackupInstallerError) {
@@ -268,7 +268,7 @@ export class BackupsService {
           error instanceof BackupImportCanceledError
             ? 'cancel'
             : // oxlint-disable-next-line no-await-in-loop
-              await this.#downloadRetryPromise.promise;
+              await this.#errorDialogDecision.promise;
         if (nextStep === 'retry') {
           log.warn('backups.downloadAndImport: retrying');
           continue;
@@ -309,12 +309,12 @@ export class BackupsService {
     return { wasBackupImported: hasBackup };
   }
 
-  public retryDownload(): void {
-    if (!this.#downloadRetryPromise) {
+  public retryBackupImport(): void {
+    if (!this.#errorDialogDecision) {
       return;
     }
 
-    this.#downloadRetryPromise.resolve('retry');
+    this.#errorDialogDecision.resolve('retry');
   }
 
   public async upload(): Promise<void> {
@@ -787,10 +787,12 @@ export class BackupsService {
   }
 
   public cancelDownloadAndImport(): void {
+    if (this.#errorDialogDecision) {
+      this.#errorDialogDecision.resolve('cancel');
+    }
+
     if (!this.#downloadController && !this.#importController) {
-      log.error(
-        'cancelDownloadAndImport: not canceling, download or import is not running'
-      );
+      log.warn('cancelDownloadAndImport: download or import is not running');
       return;
     }
 
@@ -798,9 +800,6 @@ export class BackupsService {
       log.warn('cancelDownloadAndImport: canceling download');
       this.#downloadController.abort();
       this.#downloadController = undefined;
-      if (this.#downloadRetryPromise) {
-        this.#downloadRetryPromise.resolve('cancel');
-      }
     }
 
     if (this.#importController) {
