@@ -553,7 +553,11 @@ export class BackupImportStream extends Writable {
   ): Promise<void> {
     const { aboutMe } = options;
     const { item } = frame;
-    strictAssert(item, `${this.#logId}: Missing Frame.item`);
+
+    if (!item) {
+      log.warn(`${this.#logId}: skipping frame with unknown item`);
+      return;
+    }
 
     if (item.account) {
       await this.#fromAccount(item.account);
