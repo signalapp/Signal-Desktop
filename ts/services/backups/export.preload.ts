@@ -24,7 +24,10 @@ import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 import { getConversationBubbleColor } from '../../util/conversationBubbleColor.std.ts';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
-import { getInstalledStickerPacksForBackup } from '../../types/Stickers.preload.ts';
+import {
+  getInstalledStickerPacksForBackup,
+  MAX_FAVORITE_STICKERS,
+} from '../../types/Stickers.preload.ts';
 import {
   isPniString,
   isServiceIdString,
@@ -281,6 +284,7 @@ export class BackupExportStream {
     chatFolders: 0,
     chats: 0,
     distributionLists: 0,
+    favoriteStickers: 0,
     fixedDirectMessages: 0,
     installedStickerPacks: 0,
     messages: 0,
@@ -835,6 +839,47 @@ export class BackupExportStream {
       };
 
       this.#stats.chatFolders += 1;
+    }
+
+    const activeFavoriteStickers =
+      await DataReader.getAllFavoriteStickersForBackup();
+
+    // Favorite stickers are backed up as a single frame containing all of them.
+    const favoriteStickers: Array<Backups.FavoriteStickerList.FavoriteSticker.Params> =
+      [];
+
+    for (const favorite of activeFavoriteStickers) {
+      const { packId, packKey, stickerId, favoritedAtTimestampMs } = favorite;
+      if (packKey == null) {
+        log.warn('Dropping favorite sticker; missing packKey');
+        continue;
+      }
+
+      favoriteStickers.push({
+        packId: Bytes.fromHex(packId),
+        packKey: Bytes.fromBase64(packKey),
+        stickerId,
+        favoritedAtTimestamp: getSafeLongFromTimestamp(favoritedAtTimestampMs),
+      });
+
+      this.#stats.favoriteStickers += 1;
+
+      if (this.#stats.favoriteStickers >= MAX_FAVORITE_STICKERS) {
+        const droppedCount =
+          activeFavoriteStickers.length - MAX_FAVORITE_STICKERS;
+        log.warn(
+          `Reached favorite sticker limit of ${MAX_FAVORITE_STICKERS}, dropping ${droppedCount}`
+        );
+        break;
+      }
+    }
+
+    if (favoriteStickers.length > 0) {
+      yield {
+        favoriteStickerList: {
+          favoriteSticker: favoriteStickers,
+        },
+      };
     }
 
     const FLUSH_EVERY = 10000;

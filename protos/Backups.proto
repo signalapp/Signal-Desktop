@@ -27,7 +27,7 @@ message BackupInfo {
 //    LTR locales), but can appear anywhere relative to other frames respecting
 //    rule 2 (after Recipients and Chats).
 //
-// Recipients, Chats, StickerPacks, AdHocCalls, and NotificationProfiles
+// Recipients, Chats, StickerPacks, AdHocCalls, NotificationProfiles, and FavoriteStickerList
 // can be in any order. (But must respect rule 2.)
 //
 // For example, Chats may all be together at the beginning,
@@ -43,6 +43,8 @@ message Frame {
     AdHocCall adHocCall = 6;
     NotificationProfile notificationProfile = 7;
     ChatFolder chatFolder = 8;
+    StickerPack hiddenStickerPack = 9; // Only applies to available/uninstalled sticker packs.
+    FavoriteStickerList favoriteStickerList = 10;
   }
 }
 
@@ -1351,6 +1353,17 @@ message PinMessageUpdate {
 message StickerPack {
   bytes packId = 1;
   bytes packKey = 2;
+}
+
+message FavoriteStickerList {
+  message FavoriteSticker {
+    bytes packId = 1;
+    bytes packKey = 2;
+    uint32 stickerId = 3;
+    uint64 favoritedAtTimestamp = 4;
+  }
+
+  repeated FavoriteSticker favoriteSticker = 1;  // At most 500 stickers
 }
 
 message ChatStyle {

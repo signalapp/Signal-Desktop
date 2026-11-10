@@ -1097,6 +1097,7 @@ type ReadableInterface = {
   getRecentStickers: (options?: { limit?: number }) => Array<StickerType>;
   getAllInstalledFavoriteStickers: () => ReadonlyArray<StickerType>;
   getAllFavoriteStickers: () => ReadonlyArray<FavoriteStickerType>;
+  getAllFavoriteStickersForBackup: () => ReadonlyArray<FavoriteStickerType>;
   getFavoriteStickersFromPack: (
     packId: string
   ) => ReadonlyArray<FavoriteStickerType>;
