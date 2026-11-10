@@ -39,6 +39,8 @@ import {
   AddressType as ContactAddressType,
 } from '../../types/EmbeddedContact.std.ts';
 import {
+  type FavoriteStickerType,
+  MAX_FAVORITE_STICKERS,
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
   createPacksFromBackup,
@@ -284,6 +286,7 @@ export class BackupImportStream extends Writable {
 
   #flushMessagesPromise: Promise<void> | undefined;
   readonly #installedStickerPacks = new Array<StickerPackPointerType>();
+  readonly #favoriteStickers = new Array<FavoriteStickerType>();
   #ourConversation?: ConversationAttributesType;
   readonly #pinnedConversations = new Array<[number, string]>();
   readonly #customChatColorIdByBackupId = new Map<
@@ -407,7 +410,10 @@ export class BackupImportStream extends Writable {
       }
 
       // Store sticker packs and schedule downloads
-      await createPacksFromBackup(this.#installedStickerPacks);
+      await createPacksFromBackup(
+        this.#installedStickerPacks,
+        this.#favoriteStickers
+      );
 
       // Add placeholder call history for unused admin call links to show in calls tab
       for (const [callLink, hasCall] of this.#adminCallLinksToHasCall) {
@@ -613,6 +619,8 @@ export class BackupImportStream extends Writable {
         await this.#fromChatItem(item.chatItem, { aboutMe });
       } else if (item.installedStickerPack) {
         await this.#fromStickerPack(item.installedStickerPack);
+      } else if (item.favoriteStickerList) {
+        await this.#fromFavoriteStickerList(item.favoriteStickerList);
       } else if (item.adHocCall) {
         await this.#fromAdHocCall(item.adHocCall);
       } else if (item.notificationProfile) {
@@ -3964,6 +3972,76 @@ export class BackupImportStream extends Writable {
     const key = Bytes.toBase64(packKeyBytes);
 
     this.#installedStickerPacks.push({ id, key });
+  }
+
+  async #fromFavoriteStickerList({
+    favoriteSticker: favoriteStickers,
+  }: Backups.FavoriteStickerList): Promise<void> {
+    let count = 0;
+    for (const favorite of favoriteStickers) {
+      try {
+        // oxlint-disable-next-line no-await-in-loop
+        await this.#fromFavoriteSticker(favorite);
+        count += 1;
+      } catch {
+        const packId = Bytes.toHex(favorite.packId);
+        log.warn(
+          `fromFavoriteStickerList: Failed to import favorite from pack ${packId.slice(-2)}`
+        );
+      }
+
+      if (count >= MAX_FAVORITE_STICKERS) {
+        const droppedCount = favoriteStickers.length - MAX_FAVORITE_STICKERS;
+        log.warn(
+          `fromFavoriteStickerList: Reached favorite sticker limit of ${MAX_FAVORITE_STICKERS}, dropping ${droppedCount}`
+        );
+        return;
+      }
+    }
+  }
+
+  async #fromFavoriteSticker(
+    favorite: Backups.FavoriteStickerList.FavoriteSticker
+  ): Promise<void> {
+    const {
+      packId: packIdBytes,
+      packKey: packKeyBytes,
+      stickerId,
+      favoritedAtTimestamp: favoritedAtTimestampLong,
+    } = favorite;
+
+    strictAssert(
+      packIdBytes?.length === STICKERPACK_ID_BYTE_LEN,
+      'Favorite sticker must have a valid pack id'
+    );
+
+    const packId = Bytes.toHex(packIdBytes);
+    const logId = `fromFavoriteSticker(${packId.slice(-2)})`;
+
+    strictAssert(
+      packKeyBytes?.length === STICKERPACK_KEY_BYTE_LEN,
+      `${logId}: Favorite sticker must have a valid pack key`
+    );
+
+    const packKey = Bytes.toBase64(packKeyBytes);
+
+    const favoriteSticker: FavoriteStickerType = {
+      packId,
+      packKey,
+      stickerId,
+      deletedAtTimestampMs: undefined,
+      favoritedAtTimestampMs: getCheckedTimestampFromLong(
+        favoritedAtTimestampLong
+      ),
+      status: 'known',
+      storageNeedsSync: false,
+      storageID: undefined,
+      storageUnknownFields: undefined,
+      storageVersion: undefined,
+    };
+
+    await DataWriter.createFavoriteSticker(favoriteSticker);
+    this.#favoriteStickers.push(favoriteSticker);
   }
 
   async #fromAdHocCall({

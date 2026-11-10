@@ -103,6 +103,22 @@ export function getAllFavoriteStickers(
     .map(row => rowToFavoriteSticker(row));
 }
 
+export function getAllFavoriteStickersForBackup(
+  db: ReadableDB
+): ReadonlyArray<FavoriteStickerType> {
+  const [query, params] = sql`
+    SELECT * FROM favorite_stickers
+    WHERE
+      deletedAtTimestampMs IS NULL OR
+      deletedAtTimestampMs IS 0
+    ORDER BY favoritedAtTimestampMs DESC;
+  `;
+  return db
+    .prepare(query)
+    .all<FavoriteStickerRow>(params)
+    .map(row => rowToFavoriteSticker(row));
+}
+
 export function getAllInstalledFavoriteStickers(
   db: ReadableDB
 ): ReadonlyArray<StickerType> {

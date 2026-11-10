@@ -144,6 +144,7 @@ const validateBackupResult: ExportResultType = {
     chatFolders: 3,
     chats: 4,
     distributionLists: 5,
+    favoriteStickers: 3,
     messages: 6,
     notificationProfiles: 2,
     skippedConversations: 0,

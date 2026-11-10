@@ -69,6 +69,7 @@ export type StatsType = {
   chatFolders: number;
   chats: number;
   distributionLists: number;
+  favoriteStickers: number;
   fixedDirectMessages: number;
   messages: number;
   notificationProfiles: number;
