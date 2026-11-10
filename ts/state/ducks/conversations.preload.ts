@@ -24,13 +24,11 @@ import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.t
 import {
   deleteAvatar,
   writeNewAvatarData,
-  getUnusedFilename,
-  readAttachmentData,
-  saveAttachmentToDisk,
 } from '../../util/migrations.preload.ts';
 import type { DurationInSeconds } from '../../util/durations/index.std.ts';
 import * as universalExpireTimer from '../../util/universalExpireTimer.preload.ts';
 import * as Attachment from '../../util/Attachment.std.ts';
+import { saveAttachment as doSaveAttachment } from '../../util/attachments.preload.ts';
 import type { LocalizerType } from '../../types/I18N.std.ts';
 import { AttachmentDownloadUrgency } from '../../types/AttachmentDownload.std.ts';
 import { isFileDangerous } from '../../util/isFileDangerous.std.ts';
@@ -4139,12 +4137,9 @@ function saveAttachment(
       return;
     }
 
-    const fullPath = await Attachment.save({
+    const fullPath = await doSaveAttachment({
       attachment,
       index: index + 1,
-      getUnusedFilename,
-      readAttachmentData,
-      saveAttachmentToDisk,
       timestamp,
     });
 
@@ -4224,12 +4219,9 @@ function saveAttachments(
         index += 1;
 
         // oxlint-disable-next-line no-await-in-loop
-        const result = await Attachment.save({
+        const result = await doSaveAttachment({
           attachment,
           index,
-          getUnusedFilename,
-          readAttachmentData,
-          saveAttachmentToDisk,
           timestamp,
           baseDir: dirPath,
         });

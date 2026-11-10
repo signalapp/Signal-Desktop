@@ -6,7 +6,6 @@ import lodash from 'lodash';
 
 import type {
   AttachmentType,
-  AddressableAttachmentType,
   AttachmentForUIType,
   BackupableAttachmentType,
   AttachmentDownloadableFromTransitTier,
@@ -535,68 +534,6 @@ export const isVoiceMessage = (
   }
 
   return false;
-};
-
-export const save = async ({
-  attachment,
-  index,
-  getUnusedFilename,
-  readAttachmentData,
-  saveAttachmentToDisk,
-  timestamp,
-  baseDir,
-}: {
-  attachment: AttachmentType;
-  index?: number;
-  getUnusedFilename: (options: {
-    filename: string;
-    baseDir?: string;
-  }) => string;
-  readAttachmentData: (
-    attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array<ArrayBuffer>>;
-  saveAttachmentToDisk: (options: {
-    data: Uint8Array<ArrayBuffer>;
-    name: string;
-    baseDir?: string;
-  }) => Promise<{ name: string; fullPath: string } | null>;
-  timestamp?: number;
-  /**
-   * Base directory for saving the attachment.
-   * If omitted, a dialog will be opened to let the user choose a directory
-   */
-  baseDir?: string;
-}): Promise<string | null> => {
-  let data: Uint8Array<ArrayBuffer>;
-  if (attachment.path) {
-    data = await readAttachmentData(attachment);
-  } else {
-    throw new Error('Attachment had neither path nor data');
-  }
-
-  const suggestedFilename = getSuggestedFilename({
-    attachment,
-    timestamp,
-    index,
-  });
-
-  /**
-   * When baseDir is provided, saveAttachmentToDisk() will save without prompting
-   * and may overwrite existing files, so we need to append a suffix
-   */
-  const name = getUnusedFilename({ filename: suggestedFilename, baseDir });
-
-  const result = await saveAttachmentToDisk({
-    data,
-    name,
-    baseDir,
-  });
-
-  if (!result) {
-    return null;
-  }
-
-  return result.fullPath;
 };
 
 export const getSuggestedFilename = ({

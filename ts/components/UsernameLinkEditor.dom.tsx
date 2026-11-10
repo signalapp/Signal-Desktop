@@ -42,7 +42,7 @@ export type PropsType = Readonly<{
   setUsernameLinkColor: (colorId: number) => void;
   resetUsernameLink: () => void;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array<ArrayBuffer>;
+    data: Iterable<Uint8Array<ArrayBuffer>>;
     name: string;
   }) => void;
   showToast: ShowToastAction;
@@ -504,7 +504,7 @@ export function UsernameLinkEditor({
       }
 
       saveAttachmentToDisk({
-        data: pngData,
+        data: [pngData],
         name: 'signal-username-qr-code.png',
       });
     },

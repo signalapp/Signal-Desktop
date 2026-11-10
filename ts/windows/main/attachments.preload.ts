@@ -10,8 +10,10 @@ import {
   basename,
   parse as pathParse,
 } from 'node:path';
-import { existsSync } from 'node:fs';
-import { mkdir } from 'node:fs/promises';
+import { existsSync, createWriteStream } from 'node:fs';
+import { mkdir, unlink } from 'node:fs/promises';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import { clonefile } from '@signalapp/clonefile';
 import fse from 'fs-extra';
 import { v4 as getGuid } from 'uuid';
@@ -207,9 +209,20 @@ const showSaveDialog = (
 
 async function writeWithAttributes(
   target: string,
-  data: Uint8Array<ArrayBuffer>
+  data: Iterable<Uint8Array<ArrayBuffer>> | Readable
 ): Promise<void> {
-  await fse.writeFile(target, Buffer.from(data));
+  try {
+    await using outStream = createWriteStream(target);
+    await pipeline(Readable.from(data), outStream);
+  } catch (error) {
+    log.error('Failed to write data to disk, unlinking');
+    try {
+      await unlink(target);
+    } catch {
+      // Ignore
+    }
+    throw error;
+  }
 
   if (process.platform === 'darwin') {
     const xattr = await import('fs-xattr');
@@ -242,7 +255,7 @@ export const saveAttachmentToDisk = async ({
   name,
   baseDir,
 }: {
-  data: Uint8Array<ArrayBuffer>;
+  data: Iterable<Uint8Array<ArrayBuffer>> | Readable;
   name: string;
   /**
    * Base directory for saving the attachment.

@@ -84,7 +84,7 @@ export function PreferencesInternal({
   donationReceipts: ReadonlyArray<DonationReceipt>;
   internalAddDonationReceipt: (receipt: DonationReceipt) => void;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array<ArrayBuffer>;
+    data: Iterable<Uint8Array<ArrayBuffer>>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -312,7 +312,7 @@ export function PreferencesInternal({
 
         const result = await saveAttachmentToDisk({
           name: `Signal_Receipt_${new Date(receipt.timestamp).toISOString().split('T')[0]}.png`,
-          data: new Uint8Array(buffer),
+          data: [new Uint8Array(buffer)],
         });
 
         if (result) {

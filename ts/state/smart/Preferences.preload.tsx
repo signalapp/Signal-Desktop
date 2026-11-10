@@ -1006,7 +1006,7 @@ export function SmartPreferences(): JSX.Element | null {
     });
     await saveAttachmentToDisk({
       name: 'Signal_AccountKeys.pdf',
-      data,
+      data: [data],
     });
   }, [me.serviceId, backupKey]);
 
