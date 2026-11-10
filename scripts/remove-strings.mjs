@@ -69,8 +69,8 @@ await Promise.all(
 
         // Match found
         console.error(
-            styleText(
-              'red',
+          styleText(
+            'red',
             `ERROR: String is still used: "${key}", deleted on ${match[1]}`
           )
         );
@@ -80,10 +80,10 @@ await Promise.all(
       } catch (error) {
         if (error.exitCode === 1) {
           console.log(
-              styleText(
-                'dim',
-                `Removing string: "${key}", deleted on ${match[1]}`
-              )
+            styleText(
+              'dim',
+              `Removing string: "${key}", deleted on ${match[1]}`
+            )
           );
           delete messages[key];
         } else {

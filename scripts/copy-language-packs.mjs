@@ -1,7 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 // @ts-check
-import { readFile , writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import fse from 'fs-extra';
 import pMap from 'p-map';
@@ -31,7 +31,7 @@ export async function afterPack({ appOutDir, packager, electronPlatformName }) {
     // zh_CN.lproj/*
     defaultLocale = 'en.lproj';
     localeMap = new Map(
-      ourLocales.map(locale => ([locale, `${locale.replace(/-/g, '_')}.lproj`])),
+      ourLocales.map(locale => [locale, `${locale.replace(/-/g, '_')}.lproj`])
     );
 
     localesPath = path.join(
@@ -48,13 +48,15 @@ export async function afterPack({ appOutDir, packager, electronPlatformName }) {
     // en-US.pak
     // zh-CN.pak
     defaultLocale = 'en-US.pak';
-    localeMap = new Map(ourLocales.map(locale => {
-      if (locale === 'en') {
-        return [locale, defaultLocale];
-      }
+    localeMap = new Map(
+      ourLocales.map(locale => {
+        if (locale === 'en') {
+          return [locale, defaultLocale];
+        }
 
-      return [locale, `${locale.replace(/_/g, '-')}.pak`];
-    }));
+        return [locale, `${locale.replace(/_/g, '-')}.pak`];
+      })
+    );
 
     localesPath = path.join(appOutDir, 'locales');
   } else {
@@ -66,34 +68,45 @@ export async function afterPack({ appOutDir, packager, electronPlatformName }) {
 
   const electronLocales = new Set(await fse.readdir(localesPath));
 
-  await pMap(Array.from(localeMap.entries()), async ([srcLocale, dstLocale]) => {
-    if (!electronLocales.has(dstLocale)) {
-      console.log(`Copying ${defaultLocale} to ${dstLocale}`);
-      await fse.copy(
-        path.join(localesPath, defaultLocale),
-        path.join(localesPath, dstLocale)
-      );
-    }
-
-    // Copy MAS strings into each .lproj folder
-    // See https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html#//apple_ref/doc/uid/TP40009254-102276
-    if (electronPlatformName === 'mas') {
-      const jsonFile = path.join(ourLocalesPath, srcLocale, 'mas-info-plist.json');
-
-      /** @type {Record<string, { messageformat: string }>} */
-      const json = JSON.parse(await readFile(jsonFile, 'utf8'));
-
-      /** @type {Record<string, string>} */
-      const plist = Object.create(null);
-      for (const [key, value] of Object.entries(json)) {
-        if (key === 'smartling') {
-          continue;
-        }
-        const { messageformat } = value;
-        plist[key] = messageformat;
+  await pMap(
+    Array.from(localeMap.entries()),
+    async ([srcLocale, dstLocale]) => {
+      if (!electronLocales.has(dstLocale)) {
+        console.log(`Copying ${defaultLocale} to ${dstLocale}`);
+        await fse.copy(
+          path.join(localesPath, defaultLocale),
+          path.join(localesPath, dstLocale)
+        );
       }
 
-      await writeFile(path.join(localesPath, dstLocale, 'InfoPlist.strings'), buildBPlist(plist));
-    }
-  }, { concurrency: 16 });
+      // Copy MAS strings into each .lproj folder
+      // See https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html#//apple_ref/doc/uid/TP40009254-102276
+      if (electronPlatformName === 'mas') {
+        const jsonFile = path.join(
+          ourLocalesPath,
+          srcLocale,
+          'mas-info-plist.json'
+        );
+
+        /** @type {Record<string, { messageformat: string }>} */
+        const json = JSON.parse(await readFile(jsonFile, 'utf8'));
+
+        /** @type {Record<string, string>} */
+        const plist = Object.create(null);
+        for (const [key, value] of Object.entries(json)) {
+          if (key === 'smartling') {
+            continue;
+          }
+          const { messageformat } = value;
+          plist[key] = messageformat;
+        }
+
+        await writeFile(
+          path.join(localesPath, dstLocale, 'InfoPlist.strings'),
+          buildBPlist(plist)
+        );
+      }
+    },
+    { concurrency: 16 }
+  );
 }

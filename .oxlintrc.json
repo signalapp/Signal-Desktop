@@ -1602,6 +1602,23 @@
     "packages/lame/wrapper.mjs"
   ],
   "overrides": [
+    {
+      // Runs in CI before (and while editing) node_modules is installed
+      "files": [".github/scripts/**"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["*", "!node:*", "!node:*/*", "!./*"],
+                "message": "Only import node: builtins and files in this folder, these scripts run without node_modules"
+              }
+            ]
+          }
+        ]
+      }
+    },
     // envs
     {
       "files": [
@@ -1639,6 +1656,7 @@
         "codemods/**",
         "danger/**",
         "scripts/**",
+        ".github/scripts/**",
         "test/test.m",
         ".pnpmfile.mjs",
         ".babelrc.mjs",
@@ -1670,6 +1688,7 @@
     {
       "files": [
         "scripts/**",
+        ".github/scripts/**",
         "danger/**",
         "ts/util/lint/**",
         "packages/mock-server/scripts/**"
@@ -1954,6 +1973,7 @@
         "packages/windows-ucv/**",
         "packages/mock-server/**",
         "scripts/**",
+        ".github/scripts/**",
         "test/test.mjs",
         ".pnpmfile.mjs",
         ".babelrc.mjs",

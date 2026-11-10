@@ -6,6 +6,7 @@
     "build/intl-linter/**/*.ts",
     ".oxlint/**/*",
     "scripts/**/*",
+    ".github/scripts/**/*",
     "codemods/**/*",
     "test/test.mjs",
     ".babelrc.mjs",

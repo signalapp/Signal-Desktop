@@ -14,7 +14,7 @@ let themeSetting = 'light';
 
 window.Events = {
   getThemeSetting: () => themeSetting,
-  setThemeSetting: (newSetting) => {
+  setThemeSetting: newSetting => {
     themeSetting = newSetting;
   },
   addDarkOverlay: () => undefined,
@@ -28,22 +28,25 @@ before(async () => {
 window.testUtilities.prepareTests();
 delete window.testUtilities.prepareTests;
 
-
 // oxlint-disable-next-line no-undef
 class Reporter extends Mocha.reporters.HTML {
   constructor(runner, options) {
     super(runner, options);
 
-    runner.on('pass', test => window.testUtilities.onTestEvent({
-      type: 'pass',
-      title: test.titlePath(),
-      duration: test.duration,
-    }));
-    runner.on('fail', (test, error) => window.testUtilities.onTestEvent({
-      type: 'fail',
-      title: test.titlePath(),
-      error: error?.stack || String(error),
-    }));
+    runner.on('pass', test =>
+      window.testUtilities.onTestEvent({
+        type: 'pass',
+        title: test.titlePath(),
+        duration: test.duration,
+      })
+    );
+    runner.on('fail', (test, error) =>
+      window.testUtilities.onTestEvent({
+        type: 'fail',
+        title: test.titlePath(),
+        error: error?.stack || String(error),
+      })
+    );
 
     runner.on('end', () => window.testUtilities.onTestEvent({ type: 'end' }));
   }

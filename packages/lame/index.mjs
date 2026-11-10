@@ -18,7 +18,7 @@ const {
 const input = new Float32Array(
   HEAPU8.buffer,
   HEAPU8.byteOffset + _wrapper_get_in(),
-  _wrapper_get_max_input_size(),
+  _wrapper_get_max_input_size()
 );
 
 const output = HEAPU8.subarray(_wrapper_get_out());

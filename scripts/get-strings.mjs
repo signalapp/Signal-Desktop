@@ -78,33 +78,37 @@ await Promise.all(
 
 console.log('Getting latest strings statuses');
 
-const fileLocalePairs = (await Promise.all(FILES.map(async (file) => {
-  const statusURL = new URL(
-    `./files-api/v2/projects/${PROJECT_ID}/file/status`,
-    API_BASE
-  );
-  statusURL.searchParams.set('fileUri', file);
+const fileLocalePairs = (
+  await Promise.all(
+    FILES.map(async file => {
+      const statusURL = new URL(
+        `./files-api/v2/projects/${PROJECT_ID}/file/status`,
+        API_BASE
+      );
+      statusURL.searchParams.set('fileUri', file);
 
-  const statusRes = await fetch(statusURL, {
-    headers,
-  });
+      const statusRes = await fetch(statusURL, {
+        headers,
+      });
 
-  if (!statusRes.ok) {
-    throw new Error('Failed to fetch the status');
-  }
-  if (!statusRes.body) {
-    throw new Error('Missing body');
-  }
-  const {
-    response: {
-      data: { items: locales },
-    },
-  } = StatusSchema.parse(await statusRes.json());
+      if (!statusRes.ok) {
+        throw new Error('Failed to fetch the status');
+      }
+      if (!statusRes.body) {
+        throw new Error('Missing body');
+      }
+      const {
+        response: {
+          data: { items: locales },
+        },
+      } = StatusSchema.parse(await statusRes.json());
 
-  return locales.map(({ localeId }) => {
-    return { file, localeId };
-  });
-}))).flat();
+      return locales.map(({ localeId }) => {
+        return { file, localeId };
+      });
+    })
+  )
+).flat();
 
 const prettierConfig = await prettier.resolveConfig('_locales');
 

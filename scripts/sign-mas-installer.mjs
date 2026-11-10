@@ -10,7 +10,9 @@ import { realpath } from 'node:fs/promises';
  */
 export async function signInstaller(installerPath) {
   if (process.env.SKIP_SIGNING_SCRIPT === '1') {
-    console.log('SKIP_SIGNING_SCRIPT=1, skipping custom mas installer signing script');
+    console.log(
+      'SKIP_SIGNING_SCRIPT=1, skipping custom mas installer signing script'
+    );
     return;
   }
 

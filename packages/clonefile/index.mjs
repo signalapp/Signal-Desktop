@@ -28,9 +28,5 @@ export async function clonefile(src, dst) {
     }
   }
 
-  await copyFile(
-    src,
-    dst,
-    constants.COPYFILE_FICLONE
-  );
+  await copyFile(src, dst, constants.COPYFILE_FICLONE);
 }

@@ -46,6 +46,7 @@ const config = {
         // Others
         'codemods/**/*.mjs',
         'scripts/**/*.mjs',
+        '.github/scripts/**/*.mjs',
       ],
       project: [
         // Production
@@ -64,6 +65,7 @@ const config = {
         'ts/util/lint/**/*.{ts,tsx}',
         'test/**/*.mjs',
         'scripts/**/*.mjs',
+        '.github/scripts/**/*.mjs',
         'codemods/**/*.mjs',
 
         // exclude workspaces

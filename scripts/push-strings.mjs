@@ -54,7 +54,10 @@ await pMap(FILES, async ({ path: filePath, name: fileName }) => {
   const boundaryString = randomBytes(32).toString('hex');
 
   const headers = new Headers(authHeaders);
-  headers.set('content-type', `multipart/form-data; boundary=${boundaryString}`);
+  headers.set(
+    'content-type',
+    `multipart/form-data; boundary=${boundaryString}`
+  );
 
   const url = new URL(`./files-api/v2/projects/${PROJECT_ID}/file`, API_BASE);
   const body = [

@@ -361,6 +361,9 @@ importers:
       '@napi-rs/canvas':
         specifier: 0.1.61
         version: 0.1.61(patch_hash=d232c1154bffd88fa8df40fc91dc36098b29aba725d826c24ce74cfac7803919)
+      '@octokit/openapi-types':
+        specifier: 29.0.1
+        version: 29.0.1
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -2639,6 +2642,9 @@ packages:
 
   '@octokit/openapi-types@24.2.0':
     resolution: {integrity: sha512-9sIH3nSUttelJSXUrmGzl7QUBFul0/mB8HRYl3fOlgHbIWG+WnYDXU3v/2zMtAvuzZ/ed00Ei6on975FhBfzrg==, tarball: https://registry.npmjs.org/@octokit/openapi-types/-/openapi-types-24.2.0.tgz}
+
+  '@octokit/openapi-types@29.0.1':
+    resolution: {integrity: sha512-9qWOMFNxxLokERcms42rU0PTLqQmVs7g5E41TI4mCOxmpFayD1rfC7XxOL55cG9MBZLFlC31BrR37myMKardwg==, tarball: https://registry.npmjs.org/@octokit/openapi-types/-/openapi-types-29.0.1.tgz}
 
   '@octokit/plugin-paginate-rest@11.4.4-cjs.2':
     resolution: {integrity: sha512-2dK6z8fhs8lla5PaOTgqfCGBxgAv/le+EhPs27KklPhm1bKObpu6lXzwfUEQ16ajXzqNrKMujsFyo9K2eaoISw==, tarball: https://registry.npmjs.org/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-11.4.4-cjs.2.tgz}
@@ -13642,6 +13648,8 @@ snapshots:
       universal-user-agent: 6.0.1
 
   '@octokit/openapi-types@24.2.0': {}
+
+  '@octokit/openapi-types@29.0.1': {}
 
   '@octokit/plugin-paginate-rest@11.4.4-cjs.2(@octokit/core@5.2.2)':
     dependencies:

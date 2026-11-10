@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 // @ts-check
-import { TYPE, parse } from '@formatjs/icu-messageformat-parser'
+import { TYPE, parse } from '@formatjs/icu-messageformat-parser';
 import { unreachable } from './assert.mjs';
 
 /** @import { MessageFormatElement, PluralOrSelectOption } from '@formatjs/icu-messageformat-parser' */

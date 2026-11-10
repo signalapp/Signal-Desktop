@@ -35,7 +35,9 @@ const BUNDLE_SHORT_VERSION_PATH = 'build.mac.bundleShortVersion';
 const BUNDLE_VERSION_PATH = 'build.mac.bundleVersion';
 const NON_MAS_BUNDLE_SHORT_VERSION = undefined;
 const NON_MAS_BUNDLE_VERSION = '1';
-const MAS_BUNDLE_VERSION = moment(buildCreationTimestamp).format('YYYY.MM.DDHHmm');
+const MAS_BUNDLE_VERSION = moment(buildCreationTimestamp).format(
+  'YYYY.MM.DDHHmm'
+);
 
 const FILE_EXCLUSION_LIST = ['!fonts/emoji.woff2'];
 
@@ -58,7 +60,11 @@ function checkValue(object, objectPath, expected) {
 checkValue(packageJson, NAME_PATH, PRODUCTION_NAME);
 checkValue(packageJson, PRODUCT_NAME_PATH, PRODUCTION_PRODUCT_NAME);
 checkValue(packageJson, APP_ID_PATH, PRODUCTION_APP_ID);
-checkValue(packageJson, BUNDLE_SHORT_VERSION_PATH, NON_MAS_BUNDLE_SHORT_VERSION);
+checkValue(
+  packageJson,
+  BUNDLE_SHORT_VERSION_PATH,
+  NON_MAS_BUNDLE_SHORT_VERSION
+);
 checkValue(packageJson, BUNDLE_VERSION_PATH, NON_MAS_BUNDLE_VERSION);
 for (const file of FILE_EXCLUSION_LIST) {
   if (packageJson.build.files.includes(file)) {
@@ -71,13 +77,13 @@ for (const file of FILE_EXCLUSION_LIST) {
 if (version.channel === 'alpha') {
   const { major, minor, patch } = version;
   const tag = moment(buildCreationTimestamp).format('YYYYMMDDHHmm');
-  _.set(
-  packageJson,
-    VERSION_PATH,
-    `${major}.${minor}.${patch}-alpha.${tag}`
-  );
+  _.set(packageJson, VERSION_PATH, `${major}.${minor}.${patch}-alpha.${tag}`);
 }
-_.set(packageJson, BUNDLE_SHORT_VERSION_PATH, `${version.major}.${version.minor}.${version.patch}`);
+_.set(
+  packageJson,
+  BUNDLE_SHORT_VERSION_PATH,
+  `${version.major}.${version.minor}.${version.patch}`
+);
 _.set(packageJson, BUNDLE_VERSION_PATH, MAS_BUNDLE_VERSION);
 for (const file of FILE_EXCLUSION_LIST) {
   packageJson.build.files.push(file);

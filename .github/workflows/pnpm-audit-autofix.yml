@@ -1,0 +1,57 @@
+# Copyright 2026 Signal Messenger, LLC
+# SPDX-License-Identifier: AGPL-3.0-only
+
+name: Auto-fix pnpm advisories
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekdays at 10:00 UTC (5-6am ET, 2-3am PT)
+    - cron: '0 10 * * 1-5'
+  # Rebuild the PR when main's dependencies change so it doesn't conflict
+  push:
+    branches: [main]
+    paths:
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+      - 'danger/pnpm-lock.yaml'
+      - 'danger/pnpm-workspace.yaml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pnpm-audit-autofix
+  cancel-in-progress: false
+
+jobs:
+  autofix:
+    name: Auto-fix pnpm advisories
+    runs-on: ubuntu-22.04-8-cores
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup node and pnpm
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        with:
+          cache: false
+          install: false
+
+      - id: fix
+        name: Fix advisories
+        run: node .github/scripts/audit-deps/fix.mjs
+
+      - name: Publish pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT || github.token }}
+          PR_BODY: ${{ steps.fix.outputs.pr-body }}
+          FIX_FAILED: ${{ steps.fix.outputs.failed }}
+        run: node .github/scripts/audit-deps/publish.mjs

@@ -34,7 +34,12 @@ jobs:
 
       - name: Audit dependencies
         background: true
-        run: pnpm audit --audit-level=high
+        # Only fail on main, old advisories shouldn't block backports
+        run: >-
+          node .github/scripts/audit-deps/check.mjs
+          ${{ (github.base_ref || github.ref_name) != 'main' && '--report-only' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Audit dependency signatures
         background: true

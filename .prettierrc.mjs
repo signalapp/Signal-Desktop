@@ -13,4 +13,4 @@ const config = {
   tailwindAttributes: [],
 };
 
-export default config
+export default config;
