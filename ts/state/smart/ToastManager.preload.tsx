@@ -66,7 +66,7 @@ async function saveHeapSnapshot() {
   const data = Bytes.concatenate(chunks);
 
   await saveAttachmentToDisk({
-    data,
+    data: [data],
     name: `signal-desktop-${Date.now()}.heapsnapshot`,
   });
 }

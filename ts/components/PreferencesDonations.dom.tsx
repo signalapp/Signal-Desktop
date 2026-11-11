@@ -87,7 +87,7 @@ export type PropsDataType = {
   donationReceipts: ReadonlyArray<DonationReceipt>;
   theme: ThemeType;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array<ArrayBuffer>;
+    data: Iterable<Uint8Array<ArrayBuffer>>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -353,7 +353,7 @@ function PreferencesReceiptList({
   donationBadge: BadgeType | undefined;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array<ArrayBuffer>;
+    data: Iterable<Uint8Array<ArrayBuffer>>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -398,7 +398,7 @@ function PreferencesReceiptList({
 
       const result = await saveAttachmentToDisk({
         name: `Signal_Receipt_${new Date(selectedReceipt.timestamp).toISOString().split('T')[0]}.png`,
-        data: new Uint8Array(buffer),
+        data: [new Uint8Array(buffer)],
       });
 
       if (result) {

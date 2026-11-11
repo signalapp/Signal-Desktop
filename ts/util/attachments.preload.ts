@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { blobToArrayBuffer } from 'blob-util';
+import { PassThrough } from 'node:stream';
 
 import { createLogger } from '../logging/log.std.ts';
 import { scaleImageToLevel } from './scaleImageToLevel.preload.ts';
@@ -15,12 +16,18 @@ import { canBeTranscoded } from './Attachment.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 import { sha256 } from '../Crypto.node.ts';
+import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.ts';
 import {
   maybeDeleteAttachmentFile,
   writeNewAttachmentData,
+  getAbsoluteAttachmentPath,
+  getUnusedFilename,
+  saveAttachmentToDisk,
 } from './migrations.preload.ts';
 import { toNumber } from './toNumber.std.ts';
 import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.ts';
+import { strictAssert } from './assert.std.ts';
+import { getSuggestedFilename } from './Attachment.std.ts';
 
 const log = createLogger('attachments');
 
@@ -120,4 +127,61 @@ export function copyCdnFields(
     plaintextHash: uploaded.plaintextHash,
     uploadTimestamp: toNumber(uploaded.uploadTimestamp) ?? undefined,
   };
+}
+
+export async function saveAttachment({
+  attachment,
+  index,
+  timestamp,
+  baseDir,
+}: {
+  attachment: AttachmentType;
+  index?: number;
+  timestamp?: number;
+  /**
+   * Base directory for saving the attachment.
+   * If omitted, a dialog will be opened to let the user choose a directory
+   */
+  baseDir?: string;
+}): Promise<string | null> {
+  strictAssert(attachment.path != null, 'Attachment must be on disk');
+  strictAssert(attachment.localKey != null, 'Attachment must be encrypted');
+
+  const suggestedFilename = getSuggestedFilename({
+    attachment,
+    timestamp,
+    index,
+  });
+
+  /**
+   * When baseDir is provided, saveAttachmentToDisk() will save without prompting
+   * and may overwrite existing files, so we need to append a suffix
+   */
+  const name = getUnusedFilename({ filename: suggestedFilename, baseDir });
+
+  const pipe = new PassThrough();
+
+  const [result] = await Promise.all([
+    saveAttachmentToDisk({
+      data: pipe,
+      name,
+      baseDir,
+    }),
+    decryptAttachmentV2ToSink(
+      {
+        idForLogging: `Attachment.save(${attachment.clientUuid})`,
+        size: attachment.size,
+        ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
+        type: 'local',
+        keysBase64: attachment.localKey,
+      },
+      pipe
+    ),
+  ]);
+
+  if (!result) {
+    return null;
+  }
+
+  return result.fullPath;
 }
