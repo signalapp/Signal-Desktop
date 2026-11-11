@@ -124,6 +124,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.MessagesAnonymousSendSingleRecipientMessage.beta',
   'desktop.libsignalNet.grpc.MessagesSendMessage',
   'desktop.libsignalNet.grpc.MessagesSendMessage.beta',
+  'desktop.libsignalNet.offerCompressionForKeyTransparency',
+  'desktop.libsignalNet.offerCompressionForKeyTransparency.beta',
 ] as const;
 
 type KnownLibsignalKeysType = StripPrefix<
