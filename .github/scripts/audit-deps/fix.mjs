@@ -46,8 +46,12 @@ process.env.pnpm_config_ignore_scripts = 'true';
  */
 const FIX_STEPS = [
   { method: 'update', commands: [['audit', '--fix=update']] },
-  // `--fix=override` only writes the overrides, it doesn't install them
-  { method: 'override', commands: [['audit', '--fix=override'], ['install']] },
+  // `--fix=override` only writes the overrides, it doesn't install them. CI
+  // installs are frozen by default, which rejects the changed overrides
+  {
+    method: 'override',
+    commands: [['audit', '--fix=override'], ['install', '--no-frozen-lockfile']],
+  },
   // Installing can undo dedupes when there are cyclical peer deps
   { method: 'dedupe', commands: [['dedupe']] },
 ];
