@@ -1,22 +1,49 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { MessageAttributesType } from '../../../model-types.std.ts';
 import { DAY } from '../../../util/durations/constants.std.ts';
+import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.ts';
+import { calculateExpirationTimestamp } from '../../../util/expirationTimer.std.ts';
+import { missingCaseError } from '../../../util/missingCaseError.std.ts';
+import type { BackupContentPolicy } from '../policy.std.ts';
 
-// Messages that expire with 24 hours are excluded from regular backups (and their
-// attachments may not be backed up), but they will be present in link & sync backups
-const EXCLUDE_MESSAGE_FROM_BACKUP_IF_EXPIRING_WITHIN_MS = DAY;
+export const MINIMUM_LIFETIME = DAY;
 
-export function expiresTooSoonForBackup({
-  messageExpiresAt,
+export function canIncludeExpiringMessageInBackup({
+  message,
+  expiringMessagesPolicy,
+  now,
 }: {
-  messageExpiresAt: number | null;
+  message: MessageAttributesType;
+  expiringMessagesPolicy: BackupContentPolicy['expiringMessages'];
+  now: number;
 }): boolean {
-  if (messageExpiresAt == null) {
-    return false;
+  if (!message.expireTimer) {
+    return true;
   }
-  return (
-    messageExpiresAt <=
-    Date.now() + EXCLUDE_MESSAGE_FROM_BACKUP_IF_EXPIRING_WITHIN_MS
-  );
+
+  switch (expiringMessagesPolicy) {
+    case 'exclude-all':
+      return false;
+    case 'include-all': {
+      const expirationTimestamp = calculateExpirationTimestamp(message) ?? null;
+      return expirationTimestamp == null || expirationTimestamp > now;
+    }
+    case 'exclude-short-lived': {
+      // Exclude if the expire timer is <= 24h hours, even if the timer has not yet started
+      if (DurationInSeconds.toMillis(message.expireTimer) <= MINIMUM_LIFETIME) {
+        return false;
+      }
+
+      const expirationTimestamp = calculateExpirationTimestamp(message) ?? null;
+      if (expirationTimestamp == null) {
+        return true;
+      }
+
+      return expirationTimestamp > now + MINIMUM_LIFETIME;
+    }
+    default:
+      throw missingCaseError(expiringMessagesPolicy);
+  }
 }

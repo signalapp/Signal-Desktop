@@ -1,6 +1,5 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 
 import {
   APPLICATION_OCTET_STREAM,
@@ -46,7 +45,8 @@ import {
   isValidDigest,
   isValidPlaintextHash,
 } from '../../../types/Crypto.std.ts';
-import type { BackupExportOptions, BackupImportOptions } from '../types.std.ts';
+import type { BackupImportOptions } from '../types.std.ts';
+import type { BackupContentPolicy } from '../policy.std.ts';
 import { isTestOrMockEnvironment } from '../../../environment.std.ts';
 import { toNumber } from '../../../util/toNumber.std.ts';
 import { isKnownProtoEnumMember } from '../../../util/isKnownProtoEnumMember.std.ts';
@@ -220,12 +220,12 @@ export function convertBackupMessageAttachmentToAttachment(
 export async function getFilePointerForAttachment({
   attachment: rawAttachment,
   getBackupCdnInfo,
-  backupOptions,
+  policy,
   messageReceivedAt,
 }: {
   attachment: Readonly<AttachmentType>;
   getBackupCdnInfo: GetBackupCdnInfoType;
-  backupOptions: BackupExportOptions;
+  policy: BackupContentPolicy;
   messageReceivedAt: number;
 }): Promise<{
   filePointer: Backups.FilePointer.Params;
@@ -277,12 +277,13 @@ export async function getFilePointerForAttachment({
     ? await getBackupCdnInfo(remoteMediaId.string)
     : { isInBackupTier: false };
 
-  const isPlaintextExport = backupOptions.type === 'plaintext-export';
+  const isPlaintextExport = policy.attachmentTarget === 'local-plaintext';
   const isLocalBackup =
-    backupOptions.type === 'local-encrypted' || isPlaintextExport;
+    policy.attachmentTarget === 'local-encrypted' ||
+    policy.attachmentTarget === 'local-plaintext';
   filePointer.locatorInfo = getLocatorInfoForAttachment({
     attachment,
-    backupOptions,
+    policy,
     isOnDisk: isAttachmentOnDisk,
     backupTierInfo: remoteBackupStatus,
   });
@@ -314,10 +315,6 @@ export async function getFilePointerForAttachment({
       filePointer,
       backupJob: undefined,
     };
-  }
-
-  if (backupOptions.level !== BackupLevel.Paid) {
-    return { filePointer, backupJob: undefined };
   }
 
   if (remoteBackupStatus.isInBackupTier) {
@@ -392,18 +389,18 @@ function maybeFixupAttachment(attachment: AttachmentType): AttachmentType {
 }
 function getLocatorInfoForAttachment({
   attachment,
-  backupOptions,
+  policy,
   isOnDisk,
   backupTierInfo,
 }: {
   attachment: AttachmentType;
-  backupOptions: BackupExportOptions;
+  policy: BackupContentPolicy;
   isOnDisk: boolean;
   backupTierInfo: BackupCdnInfoType;
 }): Backups.FilePointer.LocatorInfo.Params {
   const isLocalBackup =
-    backupOptions.type === 'local-encrypted' ||
-    backupOptions.type === 'plaintext-export';
+    policy.attachmentTarget === 'local-encrypted' ||
+    policy.attachmentTarget === 'local-plaintext';
 
   const shouldBeLocallyBackedUp =
     isLocalBackup &&
@@ -442,15 +439,10 @@ function getLocatorInfoForAttachment({
     integrityCheck = null;
   }
 
-  let mediaTierCdnNumber: Backups.FilePointer.LocatorInfo.Params['mediaTierCdnNumber'];
-
-  if (backupTierInfo.isInBackupTier && backupTierInfo.cdnNumber != null) {
-    mediaTierCdnNumber = backupTierInfo.cdnNumber;
-  } else if (backupOptions.type === 'cross-client-integration-test') {
-    mediaTierCdnNumber = attachment.backupCdnNumber ?? null;
-  } else {
-    mediaTierCdnNumber = null;
-  }
+  const mediaTierCdnNumber =
+    backupTierInfo.isInBackupTier && backupTierInfo.cdnNumber != null
+      ? backupTierInfo.cdnNumber
+      : null;
 
   return {
     size: attachment.size,

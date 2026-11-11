@@ -160,7 +160,6 @@ import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaD
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.ts';
-import { expiresTooSoonForBackup } from './util/expiration.std.ts';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
 import type { PinnedMessageParams } from '../../types/PinnedMessage.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
@@ -174,6 +173,7 @@ import {
 import { fromAciUuidBytes } from '../../util/ServiceId.node.ts';
 import type { AxoColor } from '../../axo/AxoColor.std.ts';
 import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts';
+import { canIncludeExpiringMessageInBackup as expectExpiringMessageToBeInBackup } from './util/expiration.std.ts';
 
 const { isNumber } = lodash;
 
@@ -775,9 +775,12 @@ export class BackupImportStream extends Writable {
         const conversation = this.#conversations.get(attributes.conversationId);
         if (conversation && isConversationAccepted(conversation)) {
           const model = new MessageModel(attributes);
-          const attachmentsAreLikelyExpired = expiresTooSoonForBackup({
-            messageExpiresAt: calculateExpirationTimestamp(attributes) ?? null,
-          });
+          const attachmentsAreLikelyExpired =
+            !expectExpiringMessageToBeInBackup({
+              message: attributes,
+              expiringMessagesPolicy: 'exclude-short-lived',
+              now: this.#now,
+            });
 
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
