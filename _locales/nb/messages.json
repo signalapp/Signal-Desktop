@@ -24,43 +24,43 @@
     "messageformat": "Lukk"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laster inn"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Spill"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Sett på pause"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Last ned"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Avbryt nedlastingen"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Sender"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Sendt"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Levert"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Lest"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Sending satt på pause"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Sending mislyktes"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Vis passord"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laster inn"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Slett"
@@ -303,10 +303,10 @@
     "messageformat": "Flere funksjoner"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Legg til som favoritt"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Fjern som favoritt"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopier lenke"
@@ -825,7 +825,7 @@
     "messageformat": "Videofilen er for stor til å sendes. Du kan sende videofiler som er opptil {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videoen kan ikke sendes fordi den er lenger enn {maxDuration}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kunne ikke laste valgt vedlegg."
@@ -1869,13 +1869,13 @@
     "messageformat": "Avbryt"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Forseglet avsender"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Tillat fra alle"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Slå på forseglet avsender for innkommende meldinger fra ikke-kontakter og folk du ikke har delt profilen din med. <learnMoreLink>Les mer</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Vis statusikon"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Klistremerke uten emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Klistremerkepakke fra {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vis pakke"
@@ -3099,10 +3120,10 @@
     "messageformat": "Ingen klistremerker funnet"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Legg til som favoritt"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Fjern som favoritt"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Forhåndsvisning av klistremerke"
@@ -9339,12 +9360,6 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Ytelsesforbedringer i videosamtaler."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Vi har også lagt til en praktisk snarvei som lar deg åpne systeminnstillingene på Windows når du forsøker å bli med i en videosamtale, men først må gi Signal tillatelse til å bruke kameraet på enheten."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Ulest-filteret støttes nå også i meldingsmapper og i søkefunksjonen."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Bedre ytelse og håndtering av tilkoblede lydenheter."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

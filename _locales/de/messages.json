@@ -24,43 +24,43 @@
     "messageformat": "Schließen"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Wird geladen …"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Wiedergeben"
   },
   "icu:AxoMediaButton.Pause": {
     "messageformat": "Pause"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Herunterladen"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Download abbrechen"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Wird versendet"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Versendet"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Zugestellt"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Gelesen"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Senden pausiert"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Versand gescheitert"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Passwort anzeigen"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Wird geladen …"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Leeren"
@@ -303,10 +303,10 @@
     "messageformat": "Weitere Aktionen"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Zu Favoriten hinzufügen"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Aus Favoriten entfernen"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Link kopieren"
@@ -825,7 +825,7 @@
     "messageformat": "Diese Videodatei kann nicht versendet werden, weil sie zu groß ist. Du kannst Videodateien mit einer Größe von bis zu {limit,number}{units} senden."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Das Video kann nicht gesendet werden, weil es länger als {maxDuration} ist"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ausgewählter Anhang kann nicht geladen werden."
@@ -1869,13 +1869,13 @@
     "messageformat": "Abbrechen"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Vertraulicher Absender"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Von jedem erlauben"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "»Vertraulicher Absender« aktivieren für eingehende Nachrichten von Nichtkontakten sowie Menschen, mit denen du dein Profil nicht geteilt hast <learnMoreLink>Mehr erfahren</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Symbol anzeigen"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Sticker ohne Emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Sticker-Set von {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Set anzeigen"
@@ -3099,10 +3120,10 @@
     "messageformat": "Keine Sticker gefunden"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Zu Favoriten hinzufügen"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Aus Favoriten entfernen"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Sticker-Vorschau"
@@ -9339,12 +9360,6 @@
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Dank einiger Funktionsverbesserungen wird deine CPU bei Videoanrufen jetzt glücklicher sein (selbst wenn du nicht lächelst)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Wir haben außerdem eine praktische Tastenkombination hinzugefügt, mit der du unter Windows deine Systemeinstellungen öffnen kannst, wenn du einem Videoanruf beitreten möchtest und Signal keinen Zugriff auf deine Kamera hat. So findest du jetzt leichter heraus, was zu tun ist, damit die anderen dich sehen können."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Der Filter für ungelesene Nachrichten wird nun auch in Nachrichtenordnern und in der Suchoberfläche unterstützt, sodass du ganz einfach sehen kannst, was du bisher verpasst hast."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Einfacher Umgang und bessere Leistung bei angeschlossenen Audiogeräten."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

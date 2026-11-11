@@ -24,43 +24,43 @@
     "messageformat": "Zapri"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Nalagam"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Predvajaj"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Premor"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Prenesi"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Prekliči prenos"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Pošiljam"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Poslano"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Dostavljeno"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Prebrano"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Pošiljanje ustavljeno"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Pošiljanje ni uspelo"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Prikaži geslo"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Nalagam"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Izbriši"
@@ -303,10 +303,10 @@
     "messageformat": "Več dejanj"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Dodaj med priljubljene"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Odstrani iz priljubljenih"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopiraj povezavo"
@@ -825,7 +825,7 @@
     "messageformat": "Videoposnetka ni mogoče poslati, ker je prevelik. Pošiljate lahko videoposnetke velikosti do {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videoposnetka ni mogoče poslati, ker je daljši od {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Izbrane priponke ni bilo mogoče zagnati."
@@ -1869,13 +1869,13 @@
     "messageformat": "Prekliči"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Zakriti pošiljatelj"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Dovoli za vse pošiljatelje"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Vklop zakritega pošiljatelja za dohodna sporočila uporabnikov_ic, ki niso v imeniku in tistih, s katerimi ne delite svojega profila. <learnMoreLink>Preberite več.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Prikaži ikono statusa"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Nalepka brez emojija"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Paket nalepk avtorja/-ice {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Ogled paketa"
@@ -3099,10 +3120,10 @@
     "messageformat": "Na voljo ni nobenih nalepk"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Dodaj med priljubljene"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Odstrani iz priljubljenih"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Predogled nalepke"
@@ -9339,12 +9360,6 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Izboljšave zmogljivosti video klicev."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Dodali smo tudi priročno bližnjico za odpiranje sistemskih nastavitev v sistemu Windows, če se poskušate pridružiti video klicu, vendar Signal nima dovoljenja za dostop do kamere. Zdaj je lažje videti, kaj morate storiti, da vas bodo drugi lahko videli."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Filter za neprebrana sporočila je zdaj na voljo tudi v mapah s sporočili in v vmesniku za iskanje."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Izboljšano upravljanje povezanih zvočnih naprav in boljše delovanje."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

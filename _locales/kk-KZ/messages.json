@@ -24,43 +24,43 @@
     "messageformat": "Жабу"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктеу"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Ойнату"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Кідіріс"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Жүктеп алу"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Жүктеп алудан бас тарту"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Жіберіліп жатыр"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Жіберілді"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Жеткізілді"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Оқылды"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Жіберілу кідіртілді"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Жіберілмеді"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Құпия сөзді көрсету"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктеу"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Тазалау"
@@ -303,10 +303,10 @@
     "messageformat": "Басқа әрекеттер"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "\"Таңдаулылар\" тізіміне қосу"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "\"Таңдаулылар\" тізімінен жою"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Сілтемені көшіру"
@@ -825,7 +825,7 @@
     "messageformat": "Бұл бейне файлын жіберу мүмкін емес, себебі ол өте үлкен. Ең көбі {limit,number} {units} бейне файлдарды жібере аласыз."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Бейнені жіберу мүмкін емес, себебі оның ұзақтығы {maxDuration} уақыттан асады"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."
@@ -1869,13 +1869,13 @@
     "messageformat": "Бас тарту"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Мөрленген жіберуші"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Барлығына рұқсат ету"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Байланыстық емес тұлғалардан және профиліңізді бөліспеген адамдардан келетін хабарламалар үшін мөрленген жіберуші функциясын іске қосу <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Статус белгішесін көрсету"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Эмоджиі жоқ стикер"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ұсынған стикерлер жинағы"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Жинақты көру"
@@ -3099,10 +3120,10 @@
     "messageformat": "Бірде-бір стикер табылмады"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "\"Таңдаулылар\" тізіміне қосу"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "\"Таңдаулылар\" тізімінен жою"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Стикерді алдын ала көру"
@@ -9339,12 +9360,6 @@
     "messageformat": "Кішігірім түзетпелер жасалды, ақаулар жөнделді және жұмысы жақсартылды. Signal-ды қолданғаныңыз үшін рақмет!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Өнімділік көрсеткіштерін жақсартқандарыңыз үшін рақмет. Бейнеқоңыраулар кезінде (сіз күліп тұрмасаңыз да) орталық процессор сәл де болса жеңілдеп қалады."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Бейнеқоңырауға қосылғыңыз келсе және Signal-дың камераңызды пайдалануға рұқсаты болмаса, жүйелік параметрлеріңізді ашу үшін ыңғайлы пернелер тіркесімін қостық. Енді адамдарға көріну үшін не істеу керек екенін түсіну оңайырақ."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Енді хабар қалталары мен іздеу интерфейсінде оқылмаған хабарлар сүзгісіне қолдау көрсетіледі, осылайша оқылмай қалған хабарларды оңай көре аласыз."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Қосылған аудио құрылғыларды басқару мүмкіндігі мен олардың жұмыс өнімділігі жақсартылды."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

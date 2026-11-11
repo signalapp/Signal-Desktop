@@ -24,7 +24,7 @@
     "messageformat": "Isara"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Naglo-load"
   },
   "icu:AxoMediaButton.Play": {
     "messageformat": "Play"
@@ -33,13 +33,13 @@
     "messageformat": "Pause"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "I-download"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Kanselahin ang pag-download"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Sine-send"
   },
   "icu:AxoOutgoingStatus.Sent": {
     "messageformat": "Sent"
@@ -48,19 +48,19 @@
     "messageformat": "Delivered"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Nabasa"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Naka-pause ang pag-send"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Failed ang pag-send"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Ipakita ang Password"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Naglo-load"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Burahin"
@@ -303,10 +303,10 @@
     "messageformat": "Iba pang actions"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "I-add sa Favorites"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Alisin sa Favorites"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopyahin ang Link"
@@ -825,7 +825,7 @@
     "messageformat": "Hindi ma-send video file na ito dahil masyado itong malaki. Maaari kang mag-send ng video files hanggang {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Hindi ma-send ang video dahil mas mahaba ito sa {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Unable to load selected attachment."
@@ -1872,10 +1872,10 @@
     "messageformat": "Sealed Sender"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Payagan ang mula sa Sinuman"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "I-enable ang sealed sender para sa mga paparating na mensahe mula sa hindi contacts at mga taong hindi mo pa nabahagian ng iyong profile <learnMoreLink>Matuto pa tungkol dito</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Ipakita ang status icon"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Sticker na walang emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Sticker Pack ni {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Tignan ang Pack"
@@ -3099,10 +3120,10 @@
     "messageformat": "No stickers found"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "I-add sa Favorites"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Alisin sa Favorites"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Preview ng Sticker"
@@ -9339,12 +9360,6 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Performance improvements para sa video calls."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Nagdagdag rin kami ng isang convenient shortcut para mabuksan ang system settings sa Windows kapag sinubukan mong sumali sa isang video call at walang permission ang Signal na i-access ang camera."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Suportado na rin ngayon ang unread filter sa message folders at sa search interface."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Mas pinabuti ang pag-handle at performance para sa konektadong audio devices."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

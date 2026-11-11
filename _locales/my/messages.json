@@ -24,43 +24,43 @@
     "messageformat": "ပိတ်မည်"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "လုပ်ဆောင်နေဆဲ"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ဖွင့်ရန်"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "ခဏရပ်ရန်"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ဒေါင်းလုဒ်လုပ်ရန်"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ဒေါင်းလုဒ်လုပ်ခြင်း ပယ်ဖျက်ရန်"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "ပို့နေသည်"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "ပို့ပြီးပြီ"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "ပေးပို့ပြီး"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "ဖတ်ရန်"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "ပေးပို့ခြင်းကို ခေတ္တရပ်ထားသည်"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "ပို့၍ မရပါ"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "စကားဝှက်ကို ပြရန်"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "လုပ်ဆောင်နေဆဲ"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "ဖယ်ရှားမည်"
@@ -303,10 +303,10 @@
     "messageformat": "နောက်ထပ် လုပ်ဆောင်မှုများ"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲသို့ ထည့်ရန်"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲမှ ဖယ်ရှားရန်"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "လင့်ခ်ကို ကူးယူရန်"
@@ -825,7 +825,7 @@
     "messageformat": "ဗီဒီယိုဖိုင် အရွယ်အစား ကြီးလွန်းသောကြောင့် ပို့၍မရပါ။ {limit,number}{units} အထိ ဗီဒီယိုဖိုင်များကို ပို့နိုင်ပါသည်။"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ဗီဒီယိုသည် {maxDuration} ထက် ပိုရှည်နေသောကြောင့် ပေးပို့၍မရပါ"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ရွေးချယ်ထား‌သော ပူးတွဲဖိုင်ကို ထည့်သွင်းလုပ်ဆောင်၍ မရနိုင်ပါ။"
@@ -1869,13 +1869,13 @@
     "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "ချိပ်ပိတ်ပေးပို့သူ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "အားလုံးကိုခွင့်ပြုရန်"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "အဆက်အသွယ်မဟုတ်သူများနှင့် သင့်ပရိုဖိုင်ကို မမျှဝေရသေးသော သူများထံမှ မက်ဆေ့ချ်များအတွက် ချိပ်ပိတ်ပေးပို့သူ လုပ်ဆောင်ချက်ကို ဖွင့်ရန်။ <learnMoreLink>ပိုမိုလေ့လာရန်</learnMoreLink>။"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "အခြေအနေ အိုင်ကွန်ကို ပြသရန်"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "အီမိုဂျီမပါသော စတစ်ကာ"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ၏ စတစ်ကာတွဲ"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "စတစ်ကာတွဲကို ကြည့်ရှုရန်"
@@ -3099,10 +3120,10 @@
     "messageformat": "စတစ်ကာများ ရှာမတွေ့ပါ"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲသို့ ထည့်ရန်"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "အကြိုက်ဆုံးများထဲမှ ဖယ်ရှားရန်"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "စတစ်ကာကြိုတင်ကြည့်ရှုမှု"
@@ -9339,12 +9360,6 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ဗီဒီယိုကောလ်များအတွက် စွမ်းဆောင်ရည် ပိုမိုကောင်းမွန်စေမည့် ပြုပြင်မွမ်းမံမှုများ။"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "ဗီဒီယိုကောလ်တွင် ပါဝင်ရန် ကြိုးစားသည့်အခါ Signal တွင် ကင်မရာအသုံးပြုခွင့် မရှိပါက Windows စနစ်ဆက်တင်ကို ဖွင့်နိုင်ရန် အဆင်ပြေသော ရှော့တ်ကတ်တစ်ခုကိုလည်း ထည့်သွင်းထားပါသည်။"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "မဖတ်ရသေးသော မက်ဆေ့ချ်များအား စစ်ထုတ်သည့် လုပ်ဆောင်ချက်ကို မက်ဆေ့ချ်ဖိုင်တွဲများနှင့် ရှာဖွေမှုမျက်နှာပြင်တို့တွင်လည်း ယခု အသုံးပြုနိုင်ပြီဖြစ်သည်။"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "ချိတ်ဆက်ထားသော အသံပိုင်းဆိုင်ရာ စက်ပစ္စည်းများအတွက် လုပ်ဆောင်ချက်နှင့် စွမ်းဆောင်ရည်ကို ပိုမိုကောင်းမွန်အောင် မြှင့်တင်ထားသည်။"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

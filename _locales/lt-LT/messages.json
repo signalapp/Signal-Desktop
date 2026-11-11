@@ -24,43 +24,43 @@
     "messageformat": "Užverti"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Įkeliama"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Groti"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pristabdyti"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Atsisiųsti"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Atšaukti atsisiuntimą"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Siunčiama"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Išsiųsta"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Pristatyta"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Perskaitytos"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Siuntimas pristabdytas"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Nepavyko išsiųsti"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Rodyti slaptažodį"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Įkeliama"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Išvalyti"
@@ -303,10 +303,10 @@
     "messageformat": "Daugiau veiksmų"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridėti prie mėgstamiausiųjų"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Pašalinti iš mėgstamiausiųjų"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopijuoti nuorodą"
@@ -825,7 +825,7 @@
     "messageformat": "Šio vaizdo įrašo išsiųsti negalima, nes jis per didelis. Galite siųsti vaizdo įrašus iki {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Negalima siųsti vaizdo įrašo, nes jis ilgesnis kaip {maxDuration}."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nepavyko įkelti pasirinkto priedo."
@@ -1869,13 +1869,13 @@
     "messageformat": "Atšaukti"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Užantspauduotas siuntėjas"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Leisti nuo bet ko"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Įjungti užantspauduotą siuntėją gaunamosioms žinutėms nuo asmenų, kurių nėra adresatų sąraše ir žmonių su kuriais nebendrinote savo profilį. <learnMoreLink>Sužinoti daugiau</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Rodyti būsenos piktogramą"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Lipdukas be jaustuko"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} lipdukų paketas"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Peržiūrėti paketą"
@@ -3099,10 +3120,10 @@
     "messageformat": "Nerasta jokių lipdukų"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridėti prie mėgstamiausiųjų"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Pašalinti iš mėgstamiausiųjų"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Lipduko peržiūra"
@@ -9339,12 +9360,6 @@
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Vaizdo skambučių veikimo pagerinimas."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Be to, pridėjome patogų šaukinį, leidžiantį atverti „Windows“ sistemos nustatymus, jei „Signal“ neturi prieigos prie kameros bandant prisijungti prie vaizdo skambučio."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Neperskaitytų pranešimų filtras dabar palaikomas ir žinučių aplankuose bei paieškos sąsajoje."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Patobulintas susietųjų garso įrenginių tvarkymas ir efektyvumas."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

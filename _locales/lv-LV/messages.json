@@ -24,43 +24,43 @@
     "messageformat": "Aizvērt"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ielādē"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Atskaņot"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pauzēt"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Lejupielādēt"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Atcelt lejupielādi"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Tiek sūtīts"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Nosūtīt"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Piegādāts"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Lasīts"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Sūtīšana apturēta"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Neizdevās nosūtīt"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Rādīt paroli"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ielādē"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Notīrīt"
@@ -303,10 +303,10 @@
     "messageformat": "Citas darbības"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pievienot izlasei"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Noņemt no izlases"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopēt saiti"
@@ -825,7 +825,7 @@
     "messageformat": "Nevar nosūtīt šo video failu, jo tas ir pārāk liels. Jūs varat sūtīt video, kas nepārsniedz {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Video nevar nosūtīt, jo tā ilgums pārsniedz {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Neizdevās ielādēt atlasīto pielikumu."
@@ -1869,13 +1869,13 @@
     "messageformat": "Atcelt"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Aizzīmogots sūtītājs"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Atļaut no visiem"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Iespējot slēptā sūtītāja funkciju ienākošajām ziņām no cilvēkiem ārpus kontaktpersonu loka, un cilvēkiem, kuriem nav redzams jūsu profils <learnMoreLink>Uzzināt vairāk</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Rādīt statusa ikonu"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Uzlīme bez emocijzīmes"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Uzlīmju komplekts, ko izstrādājis {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Skatīt komplektu"
@@ -3099,10 +3120,10 @@
     "messageformat": "Nav atrasta neviena uzlīme"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pievienot izlasei"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Noņemt no izlases"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Uzlīmes priekšskatījums"
@@ -9339,12 +9360,6 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Pateicoties vairākiem veiktspējas uzlabojumiem, jūsu procesoram video zvanu laikā būs mazāka slodze."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Turklāt esam pievienojuši ērtu saīsni Windows sistēmas iestatījumu atvēršanai, ja mēģināt pievienoties video zvanam, bet Signal nav atļaujas piekļūt kamerai. Tagad ir vieglāk saprast, kas jādara, lai citi lietotāji varētu jūs redzēt."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Nelasīto ziņojumu filtrs tagad ir pieejams arī ziņojumu mapēs un meklēšanas saskarnē, lai jūs varētu ērti atrast nepamanītās ziņas."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Uzlabota pievienoto audio ierīču pārvaldība un darbība."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

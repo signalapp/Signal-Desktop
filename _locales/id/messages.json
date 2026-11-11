@@ -24,43 +24,43 @@
     "messageformat": "Tutup"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Memuat"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Putar"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Jeda"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Unduh"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Batalkan unduhan"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Mengirim"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Terkirim"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Telah Diterima"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Telah Dibaca"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Pengiriman ditunda"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Gagal mengirim"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Tampilkan Kata Sandi"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Memuat"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Hapus"
@@ -303,10 +303,10 @@
     "messageformat": "Tindakan lainnya"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Tambahkan ke Favorit"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Hapus dari Favorit"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Salin Tautan"
@@ -825,7 +825,7 @@
     "messageformat": "Tidak bisa mengirim file video ini karena ukurannya terlalu besar. Anda bisa mengirim file video hingga {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Tidak dapat mengirim video karena durasinya melebihi {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Tidak dapat memuat lampiran yang dipilih."
@@ -1869,13 +1869,13 @@
     "messageformat": "Batal"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Pengirim Tersembunyi"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Izinkan dari Siapa Saja."
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktifkan pengirim tersembunyi untuk pesan masuk dari siapa pun yang belum terdaftar dalam kontak dan yang Anda tidak bagikan profil. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Tampilkan ikon status"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Stiker tanpa emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Paket Stiker oleh {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Lihat Paket"
@@ -3099,10 +3120,10 @@
     "messageformat": "Tidak ditemukan stiker"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Tambahkan ke Favorit"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Hapus dari Favorit"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Pratinjau Stiker"
@@ -9339,12 +9360,6 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Performa video call kini lebih baik."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Kami juga menambahkan pintasan praktis ke pengaturan sistem di Windows, jadi Anda dapat dengan mudah memberikan akses kamera ke Signal saat mencoba bergabung ke video call."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Filter belum dibaca kini juga didukung di folder pesan dan antarmuka pencarian."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Penanganan dan performa yang lebih baik untuk perangkat audio yang terhubung."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

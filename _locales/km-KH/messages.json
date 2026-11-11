@@ -24,43 +24,43 @@
     "messageformat": "បិទ"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "កំពុងផ្ទុក"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ចាក់"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "ផ្អាក"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ទាញយក"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "បោះបង់ការទាញយក"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "កំពុងផ្ញើ"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "បានផ្ញើ"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "បានបញ្ជូន"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "បានអាន"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "ការផ្ញើបានផ្អាក"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "មិនអាចផ្ញើបាន"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "បង្ហាញពាក្យសម្ងាត់"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "កំពុងផ្ទុក"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "សម្អាត"
@@ -303,10 +303,10 @@
     "messageformat": "សកម្មភាពច្រើនទៀត"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "បញ្ចូលទៅក្នុងបញ្ជីសំណព្វ"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ដកចេញពីបញ្ជីសំណព្វ"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ថតចម្លងតំណភ្ជាប់"
@@ -825,7 +825,7 @@
     "messageformat": "មិនអាចផ្ញើឯកសារវីដេអូនេះបានទេ ព្រោះវាធំពេក។ អ្នកអាចផ្ញើឯកសារវីដេអូដែលមានទំហំរហូតដល់ {limit,number}{units}។"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "មិនអាចផ្ញើវីដេអូបានទេ ដោយសារវាវែងជាង {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "មិនអាចផ្ទុកឯកសារភ្ជាប់ដែលបានជ្រើសរើស។"
@@ -1869,13 +1869,13 @@
     "messageformat": "បោះបង់"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "មុខងារការពារអ្នកផ្ញើ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "អនុញ្ញាតពីនរណាម្នាក់"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "បើកមុខងារការពារអ្នកផ្ញើសម្រាប់សារមកពីអ្នកក្រៅបញ្ជីទំនាក់ទំនង និងមនុស្សដែលអ្នកមិនបានចែករំលែកប្រូហ្វាល់អ្នកជាមួយ។ <learnMoreLink>ស្វែងយល់បន្ថែម</learnMoreLink>។"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "បង្ហាញរូបស្ថានភាព"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "ស្ទីកគ័រដែលគ្មានរូបអារម្មណ៍"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "កញ្ចប់ស្ទីកគ័រដោយ {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "មើលកញ្ចប់"
@@ -3099,10 +3120,10 @@
     "messageformat": "ពុំមានស្ទីកគ័រ"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "បញ្ចូលទៅក្នុងបញ្ជីសំណព្វ"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ដកចេញពីបញ្ជីសំណព្វ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ការមើលស្ទីកគ័រជាមុន"
@@ -9339,12 +9360,6 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ដោយសារមានការកែលម្អដំណើរការមួយចំនួន CPU របស់អ្នកនឹងដំណើរការបានប្រសើរជាងមុនបន្តិចក្នុងអំឡុងពេលហៅជាវីដេអូ (ទោះបីជាអ្នកមិនញញឹមក៏ដោយ)។"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "យើងក៏បានបន្ថែមផ្លូវកាត់ដ៏ងាយស្រួលមួយដែរ ដើម្បីបើកការកំណត់ប្រព័ន្ធរបស់យើងនៅលើ Windows ប្រសិនបើអ្នកព្យាយាមចូលរួមការហៅជាវីដេអូ ប៉ុន្តែ Signal មិនមានការអនុញ្ញាតក្នុងការប្រើប្រាស់កាមេរ៉ា។ ឥឡូវនេះ កាន់តែងាយស្រួលជាងមុនក្នុងការមើលថាអ្នកត្រូវធ្វើអ្វីខ្លះ ដូច្នេះអ្នកផ្សេងទៀតអាចមើលឃើញអ្នកបាន។"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "ឥឡូវនេះ មុខងារច្រោះសារដែលមិនទាន់អានក៏អាចប្រើបាននៅក្នុងថតសារ និងអ៊ីនធើហ្វេសស្វែងរកផងដែរ ដូច្នេះអ្នកអាចមើលអ្វីដែលអ្នកបានខកខានយ៉ាងងាយស្រួល។"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "ការគ្រប់គ្រង និងដំណើរការកាន់តែប្រសើរឡើងសម្រាប់ឧបករណ៍សំឡេងដែលបានតភ្ជាប់។"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

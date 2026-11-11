@@ -24,43 +24,43 @@
     "messageformat": "Sulge"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laadimine"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Esita"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pane pausile"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Laadi alla"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Tühista allalaadimine"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Saatmine"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Saadetud"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Kohale toimetatud"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Loetud"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Saatmine peatatud"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Saatmine ebaõnnestus"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Näita parooli"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laadimine"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Eemalda"
@@ -303,10 +303,10 @@
     "messageformat": "Rohkem tegevusi"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lisa lemmikute hulka"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eemalda lemmikute hulgast"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopeeri link"
@@ -825,7 +825,7 @@
     "messageformat": "Seda videofaili ei saa saata, sest see on liiga suur. Sa saad saata videofaile suurusega kuni {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videot ei saa saata, sest see on pikem kui {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valitud manuse laadimine ei õnnestunud."
@@ -1869,13 +1869,13 @@
     "messageformat": "Loobu"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Varjatud saatja"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Luba kõigilt"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Luba varjatud saatja sissetulevate sõnumite puhul, mis tulevad kontaktiks mitte olevatelt isikutelt ja nendelt, kellega sa pole oma profiili jaganud. <learnMoreLink>Rohkem teavet</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Näita olekuikooni"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Kleebis ilma emojita"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Kleebiste komplekt kasutajalt {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vaata komplekti"
@@ -3099,10 +3120,10 @@
     "messageformat": "Kleebiseid ei leitud"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lisa lemmikute hulka"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eemalda lemmikute hulgast"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Kleebise eelvaade"
@@ -9339,12 +9360,6 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Parandasime videokõnede jõudlust."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Samuti lisasime mugava otsetee süsteemi sätete avamiseks Windowsis, kui proovid liituda videokõnega ja Signalil ei ole kaamerale juurdepääsu."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Nüüd toetavad ka sõnumikaustad ja otsinguliides lugemata sõnumite filtrit."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Ühendatud audioseadmete parem haldamine ja jõudlus."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

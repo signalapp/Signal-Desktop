@@ -12449,14 +12449,6 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Thanks to a few performance improvements, your CPU will be slightly happier during video calls (even if you're not smiling).",
-    "description": "(Deleted 2026/10/07)  Release notes for 8.30"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "We also added a convenient shortcut to open your system settings on Windows if you try to join a video call and Signal doesn't have permission to access the camera. Now it's easier to see what you need to do so that people can see you.",
-    "description": "(Deleted 2026/10/07)  Release notes for 8.30"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "The unread filter is now also supported in message folders and the search interface, so you can easily see what you've been missing.",
     "description": "(Deleted 2026/10/20) Release notes for 8.32"

@@ -24,43 +24,43 @@
     "messageformat": "Închide"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Se încarcă"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Redare"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pauză"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Descarcă"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anulează descărcarea"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Se trimite"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Trimis"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Trimis"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Citit"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Trimiterea a fost întreruptă"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Expediere eșuată"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Arată parola"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Se încarcă"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Eliminare"
@@ -303,10 +303,10 @@
     "messageformat": "Mai multe acțiuni"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Adaugă la Preferate"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Elimină de la Preferate"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Copiază Linkul"
@@ -825,7 +825,7 @@
     "messageformat": "Nu se poate trimite acest fișier video pentru că este prea mare. Poți să trimiți fișiere video de până la {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Nu se poate trimite videoclipul pentru că e mai lung de {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nu s-a putut încărca atașamentul selectat."
@@ -1869,13 +1869,13 @@
     "messageformat": "Anulează"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Expeditor ascuns"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Permite oricui"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Activează funcția de expeditor ascuns pentru mesajele primite de la non-contacte și persoane cu care nu ai partajat profilul tău. <learnMoreLink>Află mai multe</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Afișare icon de status"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Abțibild fără un emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Pachet de abțibilduri de {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vezi pachetul"
@@ -3099,10 +3120,10 @@
     "messageformat": "Nici un autocolant găsit"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Adaugă la Preferate"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Elimină de la Preferate"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Previzualizare Autocolant"
@@ -9339,12 +9360,6 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Mulțumită unor îmbunătățiri de performanță, procesorul tău va fi un pic mai rapid în timpul apelurilor video (chiar dacă tu stai pe loc)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Am adăugat și o scurtătură utilă ca să-ți deschizi setările de sistem pe Windows dacă încerci să te alături unui apel video și Signal nu are permisiunea să-ți acceseze camera. Acum este mai ușor să vezi ce e nevoie să faci ca oamenii să te vadă."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Filtrul Mesaje necitite e acum acceptat și în dosarele de mesaje și în interfața de căutare, ca să vezi ușor ce ai ratat."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Performanță și gestionare îmbunătățită pentru dispozitivele audio conectate."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

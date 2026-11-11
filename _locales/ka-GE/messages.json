@@ -24,43 +24,43 @@
     "messageformat": "Close"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "იტვირთება"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ჩართვა"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "დაპაუზება"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ჩამოტვირთვა"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "გადმოწერის გაუქმება"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "იგზავნება"
   },
   "icu:AxoOutgoingStatus.Sent": {
     "messageformat": "Sent"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "მიღებული"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "წაკითხვა"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "გაგზავნა შეჩერდა"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "ვერ გაიგზავნა"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "პაროლის ჩვენება"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "იტვირთება"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "გასუფთავება"
@@ -303,10 +303,10 @@
     "messageformat": "მეტი მოქმედება"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ფავორიტებში დამატება"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ფავორიტებიდან წაშლა"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ბმულის დაკოპირება"
@@ -825,7 +825,7 @@
     "messageformat": "ეს ვიდეო ფაილი ვერ გაიგზავნება, რადგან ზედმეტად დიდია. შეგიძლია {limit,number}{units}-მდე ვიდეო ფაილი გააგზავნო."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ვიდეო ვერ გაიგზავნა, რადგან {maxDuration}-ზე ხანგრძლივია"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "არჩეული დანართის ჩატვირთვა ვერ მოხერხდა."
@@ -1869,13 +1869,13 @@
     "messageformat": "გაუქმება"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "დალუქული გამგზავნი"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ყველასთვის დაშვება"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ჩართე დალუქული გამგზავნი შემომავალი შეტყობინებებისთვის იმ ადამიანებისგან, ვინც არ გყავს კონტაქტებში და ვისთანაც არ გაგიზიარებია შენი პროფილი. <learnMoreLink>გაიგე მეტი</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "სტატუსის ხატულას ჩვენება"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "სტიკერი ემოჯის გარეშე"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "სტიკერების ნაკრები {author}-(ი)სგან"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ნაკრების ნახვა"
@@ -3099,10 +3120,10 @@
     "messageformat": "სტიკერების მოძებნა ვერ მოხერხდა"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ფავორიტებში დამატება"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ფავორიტებიდან წაშლა"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "სტიკერის წინასწარ ნახვა"
@@ -9339,12 +9360,6 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ვიდეო ზარების ხარისხი გაუმჯობესდა."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "გარდა ამისა, Windows-ზე სისტემის პარამეტრების გასახსნელად მოსახერხებელი მალსახმობი დავამატეთ იმ შემთხვევისთვის, თუ ვიდეო ზარში ჩართვას ეცდები, მაგრამ Signal-ს კამერაზე წვდომის ნებართვა არ ექნება. ახლა უფრო მარტივად გაიგებ, რა უნდა გააკეთო, რომ ხალხმა დაგინახოს."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "წაუკითხავი შეტყობინებების ფილტრი ახლა უკვე შეტყობინებების საქაღალდეებსა და ძიების ინტერფეისშიცაა ხელმისაწვდომი."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "დაკავშირებული აუდიო მოწყობილობების მართვისა და პერფორმანსის გაუმჯობესება."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

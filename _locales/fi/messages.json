@@ -24,43 +24,43 @@
     "messageformat": "Sulje"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ladataan"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Toista"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pysäytä"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Lataa"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Peruuta lataus"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Lähetetään"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Lähetetty"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Toimitettu"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Luettu"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Lähetys keskeytetty"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Lähetys epäonnistui"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Näytä salasana"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ladataan"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Tyhjennä"
@@ -303,10 +303,10 @@
     "messageformat": "Lisätoimintoja"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lisää suosikkeihin"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Poista suosikeista"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopioi linkki"
@@ -825,7 +825,7 @@
     "messageformat": "Videon lähettäminen ei onnistu, koska tiedosto on liian suuri. Suurin sallittu koko on {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videota ei voi lähettää, koska sen pituus on yli {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Valittua liitettä ei voitu ladata."
@@ -1869,13 +1869,13 @@
     "messageformat": "Peruuta"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Lähettäjäsinetti"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Hyväksy kaikilta"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Ota lähettäjäsinetti käyttöön saapuville viesteille henkilöiltä, jotka eivät ole yhteystiedoissasi tai joille et ole jakanut profiiliasi. <learnMoreLink>Lue lisää</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Näytä tilailmaisin"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Tarra ilman emojia"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Tarrapaketti, tekijä {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Näytä paketti"
@@ -3099,10 +3120,10 @@
     "messageformat": "Tarroja ei löytynyt"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lisää suosikkeihin"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Poista suosikeista"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Tarran esikatselu"
@@ -9339,12 +9360,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Videopuheluiden suorituskykyparannuksia."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Lisäsimme myös kätevän pikakuvakkeen, jolla voit avata Windowsin järjestelmäasetukset, jos yrität liittyä videopuheluun ja Signalilla ei ole lupaa käyttää kameraa."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Lukemattomien viestien suodatinta tuetaan nyt myös viestikansioissa ja haun käyttöliittymässä."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Yhdistettyjen audiolaitteiden parannettu käsittely ja suorituskyky."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

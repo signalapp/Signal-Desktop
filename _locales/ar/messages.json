@@ -24,43 +24,43 @@
     "messageformat": "إغلاق"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "جارٍ التحميل"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "تشغيل"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "توقُّف مؤقَّت"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "تنزيل"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "إلغاء التنزيل"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "جارٍ الإرسال"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "تمَّ الإرسال في"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "تمَّ الاستلام"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "تمَّت القراءة"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "الإرسال متوقِّف مؤقَّتًا"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "فشل الإرسال"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "إظهار كلمة المرور"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "جارٍ التحميل"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "مسح"
@@ -303,10 +303,10 @@
     "messageformat": "إجراءات أخرى"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "إضافة إلى المفضلة"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "إزالة من المفضلة"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "نسخ الرابط"
@@ -825,7 +825,7 @@
     "messageformat": "تعذَّر إرسال هذا الفيديو لأن حجمه كبير. يمكنك إرسال الفيديوهات التي يصل حجمها إلى {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "تعذَّر إرسال الفيديو لأنه أطول من {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "فشل تنزيل الملفات المُرفَقة المُحدَّدة."
@@ -1869,13 +1869,13 @@
     "messageformat": "إلغاء"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "المُرسِل المُشفَّر"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "السماح من أي شخص"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "تفعيل المُرسِل المُشفَّر للرسائل الواردة مِن غير جهات الاتصال والأشخاص الذين لم تُشارِك حسابك الشخصي معهم. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "إظهار أيقونة الحالة"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "مُلصَق بدون رمز تعبيري (إيموجي)"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "حزمة المُلصَقات من طرف {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "عرض الحزمة"
@@ -3099,10 +3120,10 @@
     "messageformat": "لم يُعثَر على أي ملصقات"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "إضافة إلى المفضلة"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "إزالة من المفضلة"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "استعراض المُلصَق"
@@ -9339,12 +9360,6 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "بفضل بعض تحسينات الأداء، سيعمل المعالج بسلاسة أكبر أثناء مكالمات الفيديو."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "أضفنا أيضًا اختصارًا ملائمًا لفتح إعدادات النظام على ويندوز إذا حاولت الانضمام إلى مكالمة فيديو وسيجنال لا يملك إذن الوصول إلى الكاميرا. أصبح الآن من السهل رؤية ما يجب عليك فعله ليراك الناس."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "أصبح فلتر الرسائل غير المقروءة مدعومًا الآن في مجلدات الرسائل وقائمة البحث، لكي تطّلع على ما فاتك بسهولة."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "تحسين الأداء والتحكّم في أجهزة الصوت المتصلة."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }
