@@ -313,9 +313,17 @@ async function hasWorkspaceChanges(workspace) {
   if (dryRun) {
     return false;
   }
+  // The root contains the other workspaces
+  /** @type {Array<string>} */
+  const excludes = [];
+  for (const other of WORKSPACES) {
+    if (other !== workspace && other.dir.startsWith(`${workspace.dir}/`)) {
+      excludes.push(`:(exclude)${getWorkspacePath(other)}`);
+    }
+  }
   const { code } = await runCommand(
     'git',
-    ['diff', '--quiet', 'HEAD', '--', getWorkspacePath(workspace)],
+    ['diff', '--quiet', 'HEAD', '--', getWorkspacePath(workspace), ...excludes],
     { cwd: REPO_ROOT, allowFailure: true }
   );
   return code !== 0;
@@ -982,10 +990,16 @@ for (const workspace of WORKSPACES) {
   results.push(await fixWorkspace(workspace));
 }
 
-// Runs `postinstall` (without `electron-builder install-app-desp`),
-// which `ignore-scripts` skipped previously
+// Runs `postinstall` (without `electron-builder install-app-deps`),
+// which `ignore-scripts` skipped previously. Without changes nothing was
+// installed, so `node_modules` is missing.
 const rootResult = results.find(result => result.workspace.dir === REPO_ROOT);
-if (!dryRun && rootResult != null && rootResult.failure == null) {
+if (
+  !dryRun &&
+  rootResult != null &&
+  rootResult.failure == null &&
+  (await hasWorkspaceChanges(rootResult.workspace))
+) {
   await runCommand('node', ['scripts/generate-acknowledgments.mjs'], {
     cwd: REPO_ROOT,
     echoOutput: true,
