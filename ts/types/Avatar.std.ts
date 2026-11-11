@@ -3,6 +3,7 @@
 
 import type { AddressableAttachmentType } from './Attachment.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
+import { areEqual } from '../Bytes.std.ts';
 import { AxoTokens } from '../axo/AxoTokens.std.ts';
 
 export type AvatarColorType = AxoTokens.Avatar.ColorName;
@@ -118,6 +119,29 @@ export type AvatarUpdateOptionsType = Readonly<
       reupload: boolean;
     }
 >;
+
+// The server deletes the stored avatar for any change other than
+// 'unchanged', so keeping the avatar must never be sent as 'clear'.
+export type ProfileAvatarChange = Readonly<
+  | { type: 'unchanged' }
+  | { type: 'clear' }
+  | { type: 'update'; avatar: Uint8Array<ArrayBuffer> }
+>;
+
+export namespace ProfileAvatarChange {
+  export function fromAvatarUpdate(
+    avatarUpdate: AvatarUpdateType
+  ): ProfileAvatarChange {
+    const { oldAvatar, newAvatar, reupload } = avatarUpdate;
+    if (newAvatar == null) {
+      return { type: 'clear' };
+    }
+    if (!reupload && areEqual(oldAvatar, newAvatar)) {
+      return { type: 'unchanged' };
+    }
+    return { type: 'update', avatar: newAvatar };
+  }
+}
 
 const groupIconColors = [
   'A180',
