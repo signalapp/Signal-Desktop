@@ -196,13 +196,30 @@ export async function getGitHubOpenPullRequests(repo, head) {
 /**
  * @param {string} repo `owner/repo`
  * @param {Readonly<{ title: string; head: string; base: string; body: string }>} pullRequest
- * @returns {Promise<void>}
+ * @returns {Promise<GitHubPullRequest>}
  */
 export async function createGitHubPullRequest(repo, pullRequest) {
-  await fetchGitHubApi({
+  const result = await fetchGitHubApi({
     method: 'POST',
     path: `/repos/${repo}/pulls`,
     json: pullRequest
+  });
+  return /** @type {GitHubPullRequest} */ (result);
+}
+
+/**
+ * Pull requests are issues, so this labels them too.
+ *
+ * @param {string} repo `owner/repo`
+ * @param {number} number
+ * @param {ReadonlyArray<string>} labels
+ * @returns {Promise<void>}
+ */
+export async function addGitHubIssueLabels(repo, number, labels) {
+  await fetchGitHubApi({
+    method: 'POST',
+    path: `/repos/${repo}/issues/${number}/labels`,
+    json: { labels }
   });
 }
 
@@ -273,5 +290,48 @@ export async function updateGitHubIssueComment(repo, commentId, body) {
     method: 'PATCH',
     path: `/repos/${repo}/issues/comments/${commentId}`,
     json: { body }
+  });
+}
+
+/**
+ * Includes pull requests with the label, they have `pull_request` set.
+ *
+ * @param {string} repo `owner/repo`
+ * @param {string} label
+ * @returns {Promise<ReadonlyArray<GitHubIssue>>}
+ */
+export async function getGitHubOpenIssues(repo, label) {
+  const query = new URLSearchParams({ state: 'open', labels: label });
+  const result = await fetchGitHubApi({
+    method: 'GET',
+    path: `/repos/${repo}/issues?${query}`,
+  });
+  return /** @type {ReadonlyArray<GitHubIssue>} */ (result);
+}
+
+/**
+ * @param {string} repo `owner/repo`
+ * @param {Readonly<{ title: string; body: string; labels: ReadonlyArray<string> }>} issue
+ * @returns {Promise<void>}
+ */
+export async function createGitHubIssue(repo, issue) {
+  await fetchGitHubApi({
+    method: 'POST',
+    path: `/repos/${repo}/issues`,
+    json: issue,
+  });
+}
+
+/**
+ * @param {string} repo `owner/repo`
+ * @param {number} number
+ * @param {Readonly<{ title?: string; body?: string; state?: 'open' | 'closed' }>} changes
+ * @returns {Promise<void>}
+ */
+export async function updateGitHubIssue(repo, number, changes) {
+  await fetchGitHubApi({
+    method: 'PATCH',
+    path: `/repos/${repo}/issues/${number}`,
+    json: changes,
   });
 }

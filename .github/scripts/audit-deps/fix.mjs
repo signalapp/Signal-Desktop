@@ -33,8 +33,14 @@ const { values: args } = parseArgs({
 
 const dryRun = args['dry-run'];
 
-// Not needed to update lockfiles, patches are still applied
-process.env.pnpm_config_ignore_scripts = 'true';
+/** Added to the environment of every pnpm command that resolves */
+const PNPM_ENV = {
+  // Not needed to update lockfiles, patches are still applied
+  pnpm_config_ignore_scripts: 'true',
+  // `.pnpmfile.mjs` fails on deprecated packages, which would block every fix.
+  // They're reported instead, see `getDeprecatedPackages()`.
+  SKIP_DEPRECATED_CHECK: 'true',
+};
 
 /** @typedef {'update' | 'override' | 'dedupe'} FixMethod */
 
@@ -49,16 +55,19 @@ process.env.pnpm_config_ignore_scripts = 'true';
 /**
  * @type {ReadonlyArray<Readonly<{
  *   method: FixMethod;
+ *   skip: (workspace: Workspace, context: FixContext) => Promise<boolean>;
  *   run: (workspace: Workspace, context: FixContext) => Promise<void>;
  * }>>}
  */
 const FIX_STEPS = [
   {
     method: 'update',
+    skip: async (_workspace, context) => context.remainingAdvisories.length === 0,
     run: workspace => runPnpm(workspace, ['audit', '--fix=update']),
   },
   {
     method: 'override',
+    skip: async (_workspace, context) => context.remainingAdvisories.length === 0,
     async run(workspace, context) {
       // `--fix=override` only writes the overrides, it doesn't install them
       await runPnpm(workspace, ['audit', '--fix=override']);
@@ -68,7 +77,15 @@ const FIX_STEPS = [
     },
   },
   {
+    // Counts as `update`: it can also fix advisories
+    method: 'update',
+    skip: async () => false,
+    run: upgradeDeprecatedPackages,
+  },
+  {
     method: 'dedupe',
+    // Nothing to dedupe when nothing changed
+    skip: async workspace => !(await hasWorkspaceChanges(workspace)),
     // Installing can undo dedupes when there are cyclical peer deps
     run: workspace => runPnpm(workspace, ['dedupe']),
   },
@@ -105,10 +122,20 @@ class PnpmCommandError extends Error {
 
 /**
  * @typedef {Readonly<{
+ *   name: string;
+ *   version: string;
+ *   message: string | null;
+ * }>} DeprecatedPackage
+ */
+
+/**
+ * @typedef {Readonly<{
  *   workspace: Workspace;
  *   rows: ReadonlyArray<AdvisoryRow>;
  *   failure: PnpmCommandError | null;
  *   removedReleaseAgeExcludes: ReadonlyArray<string>;
+ *   deprecated: ReadonlyArray<DeprecatedPackage>;
+ *   upgradedDeprecated: ReadonlyArray<DeprecatedPackage>;
  * }>} WorkspaceResult
  */
 
@@ -136,6 +163,7 @@ async function runPnpm(workspace, pnpmArgs) {
   console.log(`=== ${workspace.label}: ${command} ===`);
   const { code, stdout, stderr } = await runCommand('pnpm', pnpmArgs, {
     cwd: workspace.dir,
+    env: PNPM_ENV,
     echoOutput: true,
     allowFailure: true,
   });
@@ -149,6 +177,223 @@ async function runPnpm(workspace, pnpmArgs) {
     return;
   }
   throw new PnpmCommandError(command, workspace, output);
+}
+
+/**
+ * @typedef {Readonly<{
+ *   code: number;
+ *   deprecated: ReadonlyArray<DeprecatedPackage>;
+ *   errors: ReadonlyArray<Readonly<{ code: string | null; message: string }>>;
+ * }>} PnpmEvents
+ */
+
+/**
+ * Runs pnpm with its ndjson reporter, which has an event for each deprecated
+ * package that isn't in `allowedDeprecatedVersions`. The output isn't echoed,
+ * it's huge.
+ *
+ * @param {Workspace} workspace
+ * @param {ReadonlyArray<string>} pnpmArgs
+ * @returns {Promise<PnpmEvents>}
+ */
+async function runPnpmForEvents(workspace, pnpmArgs) {
+  console.log(`=== ${workspace.label}: pnpm ${pnpmArgs.join(' ')} ===`);
+  const { code, stdout } = await runCommand(
+    'pnpm',
+    ['--reporter=ndjson', ...pnpmArgs],
+    { cwd: workspace.dir, env: PNPM_ENV, allowFailure: true }
+  );
+
+  /** @type {Map<string, DeprecatedPackage>} */
+  const deprecated = new Map();
+  /** @type {Array<{ code: string | null; message: string }>} */
+  const errors = [];
+  for (const line of stdout.split('\n')) {
+    if (!line.startsWith('{')) {
+      continue;
+    }
+    /** @type {Record<string, unknown>} */
+    const event = JSON.parse(line);
+    if (event.name === 'pnpm:deprecation') {
+      const name = /** @type {string} */ (event.pkgName);
+      const version = /** @type {string} */ (event.pkgVersion);
+      const message = /** @type {string | null} */ (event.deprecated ?? null);
+      deprecated.set(`${name}@${version}`, { name, version, message });
+    }
+    if (event.level === 'error' && event.name === 'pnpm') {
+      errors.push({
+        code: /** @type {string | null} */ (event.code ?? null),
+        message: /** @type {string} */ (event.message ?? ''),
+      });
+    }
+  }
+  return { code, deprecated: Array.from(deprecated.values()), errors };
+}
+
+/**
+ * @param {Workspace} workspace
+ * @param {string} command
+ * @param {PnpmEvents} events
+ * @returns {PnpmCommandError}
+ */
+function getEventsError(workspace, command, events) {
+  const output = events.errors
+    .map(error => `${error.code ?? 'Error'}: ${error.message}`)
+    .join('\n');
+  return new PnpmCommandError(command, workspace, output);
+}
+
+/**
+ * Resolves without changing anything.
+ *
+ * @param {Workspace} workspace
+ * @returns {Promise<ReadonlyArray<DeprecatedPackage>>}
+ */
+async function getDeprecatedPackages(workspace) {
+  if (dryRun) {
+    return [];
+  }
+
+  const events = await runPnpmForEvents(workspace, ['dedupe', '--check']);
+
+  // It also exits 1 when there's something to dedupe, which isn't an error here
+  const isOnlyDedupeCheckIssues =
+    events.errors.length > 0 &&
+    events.errors.every(error => {
+      return error.code === 'ERR_PNPM_DEDUPE_CHECK_ISSUES';
+    });
+  if (events.code !== 0 && !isOnlyDedupeCheckIssues) {
+    throw getEventsError(workspace, 'pnpm dedupe --check', events);
+  }
+  return events.deprecated;
+}
+
+/**
+ * Whether a newer version that isn't deprecated exists. It might still be out
+ * of range for what depends on the package.
+ *
+ * @param {Workspace} workspace
+ * @param {DeprecatedPackage} pkg
+ * @returns {Promise<boolean>}
+ */
+async function hasNewerVersion(workspace, pkg) {
+  // The newest version that's newer than this one
+  const { stdout } = await runCommand(
+    'pnpm',
+    ['view', `${pkg.name}@>${pkg.version}`, 'version', 'deprecated', '--json'],
+    { cwd: workspace.dir, allowFailure: true }
+  );
+
+  /** @type {{ deprecated?: string; error?: { code: string; message: string } }} */
+  const result = JSON.parse(stdout);
+  if (result.error != null) {
+    if (result.error.code === 'ERR_PNPM_PACKAGE_NOT_FOUND') {
+      return false;
+    }
+    throw new Error(
+      `pnpm view ${pkg.name} failed: ${result.error.code} ${result.error.message}`
+    );
+  }
+  return result.deprecated == null;
+}
+
+/**
+ * @param {Workspace} workspace
+ * @returns {string}
+ */
+function getWorkspacePath(workspace) {
+  return workspace.dir === REPO_ROOT ? '.' : relative(REPO_ROOT, workspace.dir);
+}
+
+/**
+ * @param {Workspace} workspace
+ * @returns {Promise<boolean>}
+ */
+async function hasWorkspaceChanges(workspace) {
+  if (dryRun) {
+    return false;
+  }
+  const { code } = await runCommand(
+    'git',
+    ['diff', '--quiet', 'HEAD', '--', getWorkspacePath(workspace)],
+    { cwd: REPO_ROOT, allowFailure: true }
+  );
+  return code !== 0;
+}
+
+/**
+ * Best effort. Each package is updated by itself, and the change is undone
+ * unless it gets rid of a deprecated version, so one that can't be upgraded
+ * doesn't get in the way of the others or change anything else.
+ *
+ * @param {Workspace} workspace
+ * @returns {Promise<void>}
+ */
+async function upgradeDeprecatedPackages(workspace) {
+  const deprecated = await getDeprecatedPackages(workspace);
+  const names = Array.from(new Set(deprecated.map(pkg => pkg.name)));
+
+  for (const name of names) {
+    const versions = deprecated.filter(pkg => pkg.name === name);
+    // oxlint-disable-next-line no-await-in-loop
+    const hasNewer = await Promise.all(
+      versions.map(pkg => hasNewerVersion(workspace, pkg))
+    );
+    if (!hasNewer.includes(true)) {
+      console.log(`${name} has no newer version that isn't deprecated`);
+      continue;
+    }
+
+    // A commit with the current changes, or nothing when there are none
+    // oxlint-disable-next-line no-await-in-loop
+    const { stdout } = await runCommand(
+      'git',
+      [
+        '-c',
+        'user.name=audit-deps',
+        '-c',
+        'user.email=audit-deps@localhost',
+        'stash',
+        'create',
+      ],
+      { cwd: REPO_ROOT }
+    );
+    const snapshot = stdout.trim() === '' ? 'HEAD' : stdout.trim();
+
+    const command = `pnpm update --depth Infinity ${name}`;
+    // oxlint-disable-next-line no-await-in-loop
+    const events = await runPnpmForEvents(workspace, [
+      'update',
+      '--depth',
+      'Infinity',
+      name,
+    ]);
+
+    /** @type {string | null} */
+    let undoReason = null;
+    if (events.code !== 0) {
+      undoReason = getEventsError(workspace, command, events).message;
+    } else {
+      const fixed = versions.some(before => {
+        return !events.deprecated.some(after => {
+          return after.name === name && after.version === before.version;
+        });
+      });
+      if (!fixed) {
+        undoReason = 'it is still deprecated';
+      }
+    }
+
+    if (undoReason != null) {
+      console.warn(`Didn't upgrade ${name}, ${undoReason}`);
+      // oxlint-disable-next-line no-await-in-loop
+      await runCommand(
+        'git',
+        ['checkout', snapshot, '--', getWorkspacePath(workspace)],
+        { cwd: REPO_ROOT }
+      );
+    }
+  }
 }
 
 /**
@@ -226,8 +471,7 @@ async function removeRiskyOverrides(workspace, context) {
  * @returns {Promise<void>}
  */
 async function restoreWorkspace(workspace) {
-  const path =
-    workspace.dir === REPO_ROOT ? '.' : relative(REPO_ROOT, workspace.dir);
+  const path = getWorkspacePath(workspace);
   await runCommand('git', ['checkout', 'HEAD', '--', path], {
     cwd: REPO_ROOT,
   });
@@ -325,14 +569,10 @@ function compareRows(a, b) {
 
 /**
  * @param {Workspace} workspace
- * @returns {Promise<WorkspaceResult | null>}
+ * @returns {Promise<WorkspaceResult>}
  */
 async function fixWorkspace(workspace) {
   const initialAdvisories = await runAudit(workspace);
-  if (initialAdvisories.length === 0) {
-    console.log(`=== ${workspace.label}: no advisories ===`);
-    return null;
-  }
 
   // `null` when unset
   const initialExcludes =
@@ -354,18 +594,24 @@ async function fixWorkspace(workspace) {
   let remainingAdvisories = initialAdvisories;
   /** @type {PnpmCommandError | null} */
   let failure = null;
+  /** @type {ReadonlyArray<DeprecatedPackage>} */
+  let initialDeprecated = [];
 
   try {
+    initialDeprecated = await getDeprecatedPackages(workspace);
+
     for (const step of FIX_STEPS) {
-      if (remainingAdvisories.length === 0 && step.method !== 'dedupe') {
-        continue;
-      }
-      // oxlint-disable-next-line no-await-in-loop
-      await step.run(workspace, {
+      const context = {
         remainingAdvisories,
         initialOverrides,
         patchedDependencies,
-      });
+      };
+      // oxlint-disable-next-line no-await-in-loop
+      if (await step.skip(workspace, context)) {
+        continue;
+      }
+      // oxlint-disable-next-line no-await-in-loop
+      await step.run(workspace, context);
       // oxlint-disable-next-line no-await-in-loop
       const nextAdvisories = await runAudit(workspace);
       const nextIds = new Set(nextAdvisories.map(advisory => advisory.id));
@@ -387,6 +633,14 @@ async function fixWorkspace(workspace) {
     fixMethods.clear();
     remainingAdvisories = initialAdvisories;
   }
+
+  const deprecated =
+    failure != null ? initialDeprecated : await getDeprecatedPackages(workspace);
+  const upgradedDeprecated = initialDeprecated.filter(initial => {
+    return !deprecated.some(pkg => {
+      return pkg.name === initial.name && pkg.version === initial.version;
+    });
+  });
 
   const finalExcludes =
     /** @type {ReadonlyArray<string> | null} */ (
@@ -455,6 +709,8 @@ async function fixWorkspace(workspace) {
     rows,
     failure,
     removedReleaseAgeExcludes: unusedExcludes,
+    deprecated,
+    upgradedDeprecated,
   };
 }
 
@@ -468,6 +724,117 @@ function escapeHtml(text) {
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;');
+}
+
+/**
+ * @param {WorkspaceResult} result
+ * @returns {string}
+ */
+function renderFailure(result) {
+  const { failure } = result;
+  if (failure == null) {
+    return '';
+  }
+
+  const isPatchError =
+    failure.errorCode === 'ERR_PNPM_PATCH_FAILED' ||
+    failure.errorCode === 'ERR_PNPM_UNUSED_PATCH';
+
+  let text = '';
+  text += '> [!CAUTION]\n';
+  text += `> ${failure.message}, so none of the advisories in \`${result.workspace.label}\` were fixed.${isPatchError ? ' A patch needs to be recreated by hand.' : ''}\n`;
+  text += '\n';
+  text += '<details><summary>Output</summary>\n';
+  text += '\n';
+  text += '```\n';
+  text += failure.output.trim().split('\n').slice(-30).join('\n') + '\n';
+  text += '```\n';
+  text += '\n';
+  text += '</details>\n';
+  text += '\n';
+  return text;
+}
+
+/**
+ * @param {ReadonlyArray<AdvisoryRow>} rows
+ * @returns {string}
+ */
+function renderAdvisoryTable(rows) {
+  if (rows.length === 0) {
+    return '';
+  }
+
+  let text = '';
+  text += '<table>\n';
+  text +=
+    '<tr><th></th><th>Package</th><th>Advisory</th><th>Version</th><th>Fix</th><th>Notes</th></tr>\n';
+
+  for (const row of rows) {
+    const { advisory } = row;
+
+    const packageCell = [
+      `<code>${advisory.moduleName}</code>`,
+      `<sub>${advisory.dependencyType} in ${advisory.locations.join(', ')}</sub>`,
+    ].join('<br>');
+
+    const advisoryCell = [
+      `<a href="${getAdvisoryUrl(advisory.ghsaId)}">${advisory.ghsaId}</a> <sub>${advisory.severity}</sub>`,
+      escapeHtml(advisory.title),
+    ].join('<br>');
+
+    const fromVersion = advisory.versions.join(', ');
+    const toVersion = escapeHtml(advisory.patchedVersions ?? 'none');
+    const versionCell = `${fromVersion} → ${toVersion}`;
+
+    const fixCell =
+      row.fixMethod != null ? `<code>${row.fixMethod}</code>` : '—';
+
+    text += '<tr>\n';
+    text += `<td>${row.status}</td>\n`;
+    text += `<td>${packageCell}</td>\n`;
+    text += `<td>${advisoryCell}</td>\n`;
+    text += `<td>${versionCell}</td>\n`;
+    text += `<td>${fixCell}</td>\n`;
+    text += `<td>${row.notes.join('<br>')}</td>\n`;
+    text += '</tr>\n';
+  }
+
+  text += '</table>\n';
+  text += '\n';
+  return text;
+}
+
+/**
+ * @param {ReadonlyArray<DeprecatedPackage>} upgraded
+ * @param {ReadonlyArray<DeprecatedPackage>} remaining
+ * @returns {string}
+ */
+function renderDeprecatedTable(upgraded, remaining) {
+  if (upgraded.length === 0 && remaining.length === 0) {
+    return '';
+  }
+
+  /** @type {ReadonlyArray<readonly [Status, DeprecatedPackage]>} */
+  const rows = [
+    ...remaining.map(pkg => /** @type {const} */ (['❌', pkg])),
+    ...upgraded.map(pkg => /** @type {const} */ (['✅', pkg])),
+  ];
+
+  let text = '';
+  text += '<table>\n';
+  text +=
+    '<tr><th></th><th>Deprecated package</th><th>Version</th><th>Message</th></tr>\n';
+  for (const [status, pkg] of rows) {
+    text += '<tr>\n';
+    text += `<td>${status}</td>\n`;
+    text += `<td><code>${pkg.name}</code></td>\n`;
+    text += `<td>${pkg.version}</td>\n`;
+    text += `<td>${escapeHtml(pkg.message ?? '')}</td>\n`;
+    text += '</tr>\n';
+  }
+  text += '</table>\n';
+  text += '\n';
+  return text;
 }
 
 /**
@@ -496,64 +863,29 @@ function renderPrBody(results) {
   }
 
   for (const result of results) {
+    const advisoryTable = renderAdvisoryTable(result.rows);
+    const deprecatedTable = renderDeprecatedTable(
+      result.upgradedDeprecated,
+      result.deprecated
+    );
+    if (
+      result.failure == null &&
+      advisoryTable === '' &&
+      deprecatedTable === ''
+    ) {
+      continue;
+    }
+
     text += `### \`${result.workspace.label}\`\n`;
     text += '\n';
+    text += renderFailure(result);
+    text += advisoryTable;
 
-    const { failure } = result;
-    if (failure != null) {
-      const isPatchError =
-        failure.errorCode === 'ERR_PNPM_PATCH_FAILED' ||
-        failure.errorCode === 'ERR_PNPM_UNUSED_PATCH';
-
-      text += '> [!CAUTION]\n';
-      text += `> ${failure.message}, so none of the advisories in \`${result.workspace.label}\` were fixed.${isPatchError ? ' A patch needs to be recreated by hand.' : ''}\n`;
+    if (deprecatedTable !== '') {
+      text += '#### Deprecated packages\n';
       text += '\n';
-      text += '<details><summary>Output</summary>\n';
-      text += '\n';
-      text += '```\n';
-      text += failure.output.trim().split('\n').slice(-30).join('\n') + '\n';
-      text += '```\n';
-      text += '\n';
-      text += '</details>\n';
-      text += '\n';
+      text += deprecatedTable;
     }
-
-    text += '<table>\n';
-    text +=
-      '<tr><th></th><th>Package</th><th>Advisory</th><th>Version</th><th>Fix</th><th>Notes</th></tr>\n';
-
-    for (const row of result.rows) {
-      const { advisory } = row;
-
-      const packageCell = [
-        `<code>${advisory.moduleName}</code>`,
-        `<sub>${advisory.dependencyType} in ${advisory.locations.join(', ')}</sub>`,
-      ].join('<br>');
-
-      const advisoryCell = [
-        `<a href="${getAdvisoryUrl(advisory.ghsaId)}">${advisory.ghsaId}</a> <sub>${advisory.severity}</sub>`,
-        escapeHtml(advisory.title),
-      ].join('<br>');
-
-      const fromVersion = advisory.versions.join(', ');
-      const toVersion = escapeHtml(advisory.patchedVersions ?? 'none');
-      const versionCell = `${fromVersion} → ${toVersion}`;
-
-      const fixCell =
-        row.fixMethod != null ? `<code>${row.fixMethod}</code>` : '—';
-
-      text += '<tr>\n';
-      text += `<td>${row.status}</td>\n`;
-      text += `<td>${packageCell}</td>\n`;
-      text += `<td>${advisoryCell}</td>\n`;
-      text += `<td>${versionCell}</td>\n`;
-      text += `<td>${fixCell}</td>\n`;
-      text += `<td>${row.notes.join('<br>')}</td>\n`;
-      text += '</tr>\n';
-    }
-
-    text += '</table>\n';
-    text += '\n';
 
     if (result.removedReleaseAgeExcludes.length > 0) {
       const entries = result.removedReleaseAgeExcludes
@@ -583,6 +915,53 @@ function renderPrBody(results) {
   return text;
 }
 
+/**
+ * What the workflow couldn't fix. Empty when there's nothing left, which
+ * closes the issue.
+ *
+ * @param {ReadonlyArray<WorkspaceResult>} results
+ * @returns {string}
+ */
+function renderIssueBody(results) {
+  let sections = '';
+  for (const result of results) {
+    const unfixedRows = result.rows.filter(row => {
+      return row.status === '☢️' || row.status === '❌';
+    });
+    const advisoryTable = renderAdvisoryTable(unfixedRows);
+    const deprecatedTable = renderDeprecatedTable([], result.deprecated);
+    if (
+      result.failure == null &&
+      advisoryTable === '' &&
+      deprecatedTable === ''
+    ) {
+      continue;
+    }
+
+    sections += `### \`${result.workspace.label}\`\n`;
+    sections += '\n';
+    sections += renderFailure(result);
+    sections += advisoryTable;
+    if (deprecatedTable !== '') {
+      sections += '#### Deprecated packages\n';
+      sections += '\n';
+      sections += deprecatedTable;
+      sections += 'Upgrade or replace them, or add them to `allowedDeprecatedVersions` in `pnpm-workspace.yaml`.\n';
+      sections += '\n';
+    }
+  }
+
+  if (sections === '') {
+    return '';
+  }
+
+  let text = '';
+  text += "Dependencies that `.github/scripts/audit-deps/fix.mjs` couldn't fix automatically. This issue is updated by the workflow and closed when nothing is left.\n";
+  text += '\n';
+  text += sections;
+  return text;
+}
+
 if (!dryRun) {
   const { stdout } = await runCommand(
     'git',
@@ -600,10 +979,7 @@ const results = [];
 for (const workspace of WORKSPACES) {
   // Workspaces are fixed one at a time to keep pnpm's output readable
   // oxlint-disable-next-line no-await-in-loop
-  const result = await fixWorkspace(workspace);
-  if (result != null) {
-    results.push(result);
-  }
+  results.push(await fixWorkspace(workspace));
 }
 
 // Runs `postinstall` (without `electron-builder install-app-desp`),
@@ -617,6 +993,7 @@ if (!dryRun && rootResult != null && rootResult.failure == null) {
 }
 
 const prBody = renderPrBody(results);
+const issueBody = renderIssueBody(results);
 const failed = results.some(result => result.failure != null);
 
 const { GITHUB_OUTPUT } = process.env;
@@ -626,9 +1003,11 @@ if (GITHUB_OUTPUT != null) {
   let output = '';
   output += `failed=${failed}\n`;
   output += `pr-body<<${delimiter}\n${prBody}\n${delimiter}\n`;
+  output += `issue-body<<${delimiter}\n${issueBody}\n${delimiter}\n`;
   await appendFile(GITHUB_OUTPUT, output);
 } else {
   console.log(prBody);
+  console.log(issueBody === '' ? '(No issue needed)' : issueBody);
   if (failed) {
     process.exitCode = 1;
   }

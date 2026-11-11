@@ -238,7 +238,7 @@ overrides:
   joi@>=17.1.1 <17.13.9: ^17.13.9
   joi@>=18.0.0 <18.3.1: ^18.3.1
 
-pnpmfileChecksum: sha256-BSurkSxQ08Ps27xdrTQhGwjU9L1wLAes0YgxZtpJHA8=
+pnpmfileChecksum: sha256-kZhZMMNSEVrDJz3i6QaIAFyPKzgAok2pnw9DPvVf18o=
 
 patchedDependencies:
   '@electron/universal': 506a5defc2fc12cdae1092759ae376a9fd8f1731ef1d38cf2aee2d1ec752acde

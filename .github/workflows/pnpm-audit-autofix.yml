@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
 
 concurrency:
@@ -53,5 +54,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT || github.token }}
           PR_BODY: ${{ steps.fix.outputs.pr-body }}
+          ISSUE_BODY: ${{ steps.fix.outputs.issue-body }}
           FIX_FAILED: ${{ steps.fix.outputs.failed }}
         run: node .github/scripts/audit-deps/publish.mjs

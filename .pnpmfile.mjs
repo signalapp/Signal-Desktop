@@ -133,6 +133,11 @@ function satisfies(version, range) {
 
 /** @type {CustomCheck} */
 async function noDeprecatedPackages(lockfile, context) {
+  // The audit-deps workflow reads deprecations from pnpm itself instead
+  if (process.env.SKIP_DEPRECATED_CHECK) {
+    return true;
+  }
+
   const config = await getWorkspaceConfig();
   const packages = getPackages(lockfile);
 

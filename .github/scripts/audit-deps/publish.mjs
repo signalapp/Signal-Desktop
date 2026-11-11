@@ -5,17 +5,22 @@
 import { appendFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
 import {
+  addGitHubIssueLabels,
+  createGitHubIssue,
   createGitHubIssueComment,
   createGitHubPullRequest,
   getGitHubIssue,
   getGitHubIssueComments,
+  getGitHubOpenIssues,
   getGitHubOpenPullRequests,
+  updateGitHubIssue,
   updateGitHubIssueComment,
   updateGitHubPullRequest,
 } from './github.mjs';
 import { REPO_ROOT, assert, runCommand } from './utils.mjs';
 
 /** @typedef {import('./github.mjs').GitHubPullRequest} PullRequest */
+/** @typedef {import('./github.mjs').GitHubIssue} Issue */
 
 const { values: args } = parseArgs({
   options: {
@@ -29,6 +34,11 @@ const dryRun = args['dry-run'];
 
 const BRANCH = 'automation/pnpm-audit-advisories';
 const TITLE = 'Update dependencies with security advisories';
+const ISSUE_TITLE = 'Dependencies need manual fixes';
+// On the PR and the issue, which is found by it. Must exist in the repo.
+const LABEL = 'pnpm-audit-autofix';
+// GitHub's limit is 65,536 characters
+const MAX_ISSUE_BODY_LENGTH = 60_000;
 const AUTHOR_NAME = 'automated-signal';
 const AUTHOR_EMAIL = '37887102+automated-signal@users.noreply.github.com';
 const REMOTE_BRANCH = `origin/${BRANCH}`;
@@ -38,13 +48,17 @@ const {
   GITHUB_REPOSITORY_OWNER,
   GITHUB_TOKEN,
   PR_BODY,
+  ISSUE_BODY,
   FIX_FAILED,
 } = process.env;
 assert(GITHUB_TOKEN != null, 'Missing GITHUB_TOKEN');
 assert(PR_BODY != null, 'Missing PR_BODY');
+// Empty when there's nothing left to fix by hand
+assert(ISSUE_BODY != null, 'Missing ISSUE_BODY');
 assert(GITHUB_REPOSITORY != null, 'Missing GITHUB_REPOSITORY');
 assert(GITHUB_REPOSITORY_OWNER != null, 'Missing GITHUB_REPOSITORY_OWNER');
 const prBody = PR_BODY;
+const issueBody = ISSUE_BODY.slice(0, MAX_ISSUE_BODY_LENGTH);
 // `owner/repo`
 const repo = GITHUB_REPOSITORY;
 
@@ -188,6 +202,12 @@ async function closePullRequest(pr, otherPeopleCommitted) {
  * @returns {Promise<void>}
  */
 async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
+  if (pr != null && !pr.labels.some(label => label.name === LABEL)) {
+    await changeOnGitHub(`Labeling ${pr.html_url}`, () => {
+      return addGitHubIssueLabels(repo, pr.number, [LABEL]);
+    });
+  }
+
   if (otherPeopleCommitted) {
     // Don't overwrite other people's work
     console.log(
@@ -230,13 +250,14 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
   await gitPush(pushArgs);
 
   if (pr == null) {
-    await changeOnGitHub(`Opening a PR from ${BRANCH}`, () => {
-      return createGitHubPullRequest(repo, {
+    await changeOnGitHub(`Opening a PR from ${BRANCH}`, async () => {
+      const created = await createGitHubPullRequest(repo, {
         title: TITLE,
         head: BRANCH,
         base: 'main',
         body: prBody,
       });
+      await addGitHubIssueLabels(repo, created.number, [LABEL]);
     });
     return;
   }
@@ -246,6 +267,50 @@ async function publishFixes(pr, remoteBranchExists, otherPeopleCommitted) {
       title: TITLE,
       body: prBody,
     });
+  });
+}
+
+/**
+ * Keeps one issue for what can't be fixed automatically: edited in place
+ * while there is something left, closed when there isn't.
+ *
+ * @returns {Promise<void>}
+ */
+async function syncIssue() {
+  const issues = await getGitHubOpenIssues(repo, LABEL);
+  const issue = issues.find(candidate => candidate.pull_request == null) ?? null;
+
+  if (issueBody === '') {
+    if (issue != null) {
+      await changeOnGitHub(`Closing ${issue.html_url}`, async () => {
+        await createGitHubIssueComment(
+          repo,
+          issue.number,
+          'No longer needed, `main` has no dependencies that need manual fixes.'
+        );
+        await updateGitHubIssue(repo, issue.number, { state: 'closed' });
+      });
+    }
+    return;
+  }
+
+  if (issue == null) {
+    await changeOnGitHub('Opening an issue for the remaining fixes', () => {
+      return createGitHubIssue(repo, {
+        title: ISSUE_TITLE,
+        body: issueBody,
+        labels: [LABEL],
+      });
+    });
+    return;
+  }
+
+  if (issue.body === issueBody) {
+    console.log(`${issue.html_url} is already up to date`);
+    return;
+  }
+  await changeOnGitHub(`Updating ${issue.html_url}`, () => {
+    return updateGitHubIssue(repo, issue.number, { body: issueBody });
   });
 }
 
@@ -276,6 +341,8 @@ if (changed) {
   // Nothing to fix anymore. When a fix failed, the PR is kept for next time.
   await closePullRequest(pr, otherPeopleCommitted);
 }
+
+await syncIssue();
 
 if (fixFailed) {
   const { GITHUB_STEP_SUMMARY } = process.env;
