@@ -49,6 +49,11 @@ import {
   PROFILE_KEY_CREDENTIAL_EXPIRATION,
 } from '../constants';
 import { ServerCertificate, generateSenderCertificate } from '../crypto';
+import {
+  DEFAULT_DEVICE_CAPABILITIES,
+  DeviceCapability,
+  hasAccountCapability,
+} from '../data/capabilities';
 import { ChangeNumberOptions, Device, DeviceKeys } from '../data/device';
 import { VersionedProfile } from '../data/profile';
 import {
@@ -153,6 +158,7 @@ export type ProvisionDeviceOptions = Readonly<{
   provisioningCode: ProvisioningCode;
   registrationId: RegistrationId;
   pniRegistrationId: RegistrationId | undefined;
+  capabilities: ReadonlySet<DeviceCapability>;
 }>;
 
 export type RegisterDeviceOptions = Readonly<
@@ -176,6 +182,7 @@ export type RegisterDeviceOptions = Readonly<
     pniRegistrationId: RegistrationId | undefined;
     registrationLockToken?: string | null;
     unidentifiedAccessKey: Buffer<ArrayBuffer> | undefined;
+    capabilities?: ReadonlySet<DeviceCapability>;
   }
 >;
 
@@ -563,6 +570,13 @@ export abstract class Server {
     return this.currentProfileVersionByAci.get(aci);
   }
 
+  public hasAccountCapability(
+    aci: AciString,
+    capability: DeviceCapability,
+  ): boolean {
+    return hasAccountCapability(this.devices.get(aci) ?? [], capability);
+  }
+
   public setRegisterResponseData(data: Partial<RegisterAccountResponse>): void {
     this.registerResponseData = data;
   }
@@ -591,6 +605,7 @@ export abstract class Server {
     authCredentialSalt: maybeAuthCredentialSalt,
     registrationLockToken,
     unidentifiedAccessKey,
+    capabilities = DEFAULT_DEVICE_CAPABILITIES,
   }: RegisterDeviceOptions): Promise<Device> {
     if (provisionId && !this.usedProvisionIds.has(provisionId)) {
       throw new Error('Use generateProvisionId() to create new provision id');
@@ -639,6 +654,7 @@ export abstract class Server {
       pniRegistrationId,
       isProvisioned: !!password,
       authCredentialSalt,
+      capabilities,
     });
     if (unidentifiedAccessKey?.length && !device.accessKey?.length) {
       device.accessKey = unidentifiedAccessKey;
@@ -738,6 +754,7 @@ export abstract class Server {
     provisioningCode,
     registrationId,
     pniRegistrationId,
+    capabilities,
   }: ProvisionDeviceOptions): Promise<Device> {
     const entry = this.provisioningCodes.get(aci);
     if (!entry) {
@@ -759,6 +776,7 @@ export abstract class Server {
       pniRegistrationId,
       password,
       unidentifiedAccessKey: undefined,
+      capabilities,
     });
 
     debug('provisioned device id=%j aci=%j', device.deviceId, device.aci);

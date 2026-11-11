@@ -3,6 +3,7 @@
 
 import { RequestHandler } from 'micro';
 import { PRIMARY_DEVICE_ID } from '../../constants';
+import { capabilitiesFromGrpc } from '../../data/capabilities';
 import { DeviceId, ServiceIdKind } from '../../types';
 import { Server } from '../base';
 import { authenticatedGrpcRoute } from './utils/route';
@@ -63,8 +64,8 @@ export function createDevicesRoutes(
   const onSetCapabilities = authenticatedGrpcRoute(
     server,
     'org.signal.chat.device.Devices/SetCapabilities',
-    async () => {
-      // TODO: Store capabilities
+    async (request, device) => {
+      device.capabilities = capabilitiesFromGrpc(request.capabilities);
       return {};
     },
   );

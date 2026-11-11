@@ -26,6 +26,7 @@ import { createDevicesRoutes } from './grpc/devices';
 import { createDonationsRoutes } from './grpc/donations';
 import { createKeysRoutes } from './grpc/keys';
 import { createMessagesRoutes } from './grpc/messages';
+import { createProfilesRoutes } from './grpc/profiles';
 import { GRPC_STATUS_UNIMPLEMENTED } from './grpc/utils/errors';
 import { sendGrpcResponse } from './grpc/utils/route';
 
@@ -53,6 +54,7 @@ export const createHandler = (server: Server): RequestHandler => {
     ...createDonationsRoutes(server),
     ...createKeysRoutes(server),
     ...createMessagesRoutes(server),
+    ...createProfilesRoutes(server),
 
     // Any other method responds with UNIMPLEMENTED
     ...ALL_METHODS.map((method) => method('/*', unimplemented)),

@@ -11,6 +11,7 @@ import {
 } from '@signalapp/libsignal-client';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
+import { DeviceCapability } from './capabilities';
 import {
   AciString,
   DeviceId,
@@ -34,6 +35,7 @@ export type DeviceOptions = Readonly<{
   pniRegistrationId: RegistrationId | undefined;
   isProvisioned: boolean;
   authCredentialSalt: Buffer<ArrayBuffer>;
+  capabilities: ReadonlySet<DeviceCapability>;
 }>;
 
 export type ChangeNumberOptions = Readonly<{
@@ -83,12 +85,7 @@ export class Device {
   // the websocket.
   public readonly isProvisioned: boolean;
 
-  public capabilities: {
-    deleteSync: boolean;
-    versionedExpirationTimer: boolean;
-    ssre2: boolean;
-    usernameChangeSyncMessage: boolean;
-  };
+  public capabilities: ReadonlySet<DeviceCapability>;
 
   public backupLevel = BackupLevel.Paid;
   public accessKey?: Buffer<ArrayBuffer>;
@@ -120,12 +117,7 @@ export class Device {
       this.pni == null
         ? undefined
         : ProtocolAddress.new(this.pni, this.deviceId);
-    this.capabilities = {
-      deleteSync: true,
-      versionedExpirationTimer: true,
-      ssre2: true,
-      usernameChangeSyncMessage: true,
-    };
+    this.capabilities = options.capabilities;
   }
 
   public get debugId(): string {
