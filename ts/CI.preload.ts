@@ -241,7 +241,7 @@ export function getCI({
 
   async function uploadBackup() {
     await itemStorage.put('backupTier', BackupLevel.Paid);
-    await backupsService.upload();
+    await backupsService._upload();
     await AttachmentBackupManager.waitForIdle();
 
     // Remove the disclaimer from conversation hero for screenshot backup test

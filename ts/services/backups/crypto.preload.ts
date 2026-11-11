@@ -61,27 +61,14 @@ export function getBackupMediaSignatureKey(): PrivateKey {
   return getMemoizedBackupMediaSignatureKey(rootKey, aci);
 }
 
-const getMemoizedKeyMaterial = memoizee(
-  (backupKey: BackupKey, aci: AciString) => {
-    const messageKey = new MessageBackupKey({
-      backupKey,
-      backupId: backupKey.deriveBackupId(toAciObject(aci)),
-    });
-
-    return { macKey: messageKey.hmacKey, aesKey: messageKey.aesKey };
-  }
-);
-
-export type BackupKeyMaterialType = Readonly<{
-  macKey: Uint8Array<ArrayBuffer>;
-  aesKey: Uint8Array<ArrayBuffer>;
-}>;
-
-export function getKeyMaterial(
-  backupKey = getBackupKey()
-): BackupKeyMaterialType {
-  const aci = itemStorage.user.getCheckedAci();
-  return getMemoizedKeyMaterial(backupKey, aci);
+export function getMessageBackupKey(
+  backupKey: BackupKey,
+  aci: AciString
+): MessageBackupKey {
+  return new MessageBackupKey({
+    backupKey,
+    backupId: backupKey.deriveBackupId(toAciObject(aci)),
+  });
 }
 
 export type BackupMediaKeyMaterialType = Readonly<{

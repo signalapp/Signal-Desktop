@@ -9,7 +9,10 @@ import { createReadStream } from 'node:fs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import * as sinon from 'sinon';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
-import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys.js';
+import {
+  AccountEntropyPool,
+  BackupKey,
+} from '@signalapp/libsignal-client/dist/AccountKeys.js';
 
 import type {
   EditHistoryType,
@@ -202,6 +205,7 @@ function sortAndNormalize(
 
 type HarnessOptionsType = {
   backupLevel: BackupLevel;
+  exportType?: 'remote' | 'link-and-sync';
   comparator?: (
     msgBefore: MessageAttributesForComparisonType,
     msgAfter: MessageAttributesForComparisonType
@@ -245,11 +249,20 @@ export async function asymmetricRoundtripHarness(
     });
     await itemStorage.put('backupTier', options.backupLevel);
 
-    await backupsService.exportToDisk(targetOutputFile, {
-      type: 'remote',
-      level: options.backupLevel,
-      abortSignal: new AbortController().signal,
-    });
+    const ephemeralBackupKey = BackupKey.generateRandom();
+    if (options.exportType === 'link-and-sync') {
+      await backupsService.exportForLinkAndSync({
+        path: targetOutputFile,
+        ephemeralBackupKey,
+        abortSignal: new AbortController().signal,
+      });
+    } else {
+      await backupsService.exportForRemote({
+        path: targetOutputFile,
+        level: options.backupLevel,
+        abortSignal: new AbortController().signal,
+      });
+    }
 
     await updateConvoIdToTitle();
 
@@ -257,7 +270,9 @@ export async function asymmetricRoundtripHarness(
 
     await backupsService.importBackup(
       () => createReadStream(targetOutputFile),
-      { type: 'remote' }
+      options.exportType === 'link-and-sync'
+        ? { type: 'link-and-sync', ephemeralBackupKey }
+        : { type: 'remote' }
     );
 
     const messagesFromDatabase = await DataReader._getAllMessages();

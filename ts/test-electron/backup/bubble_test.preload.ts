@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateGuid } from 'uuid';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
@@ -1491,9 +1492,11 @@ describe('backup/bubble messages', () => {
         },
       ]);
     });
-    it('roundtrips incoming unviewed view-once message', async () => {
-      await symmetricRoundtripHarness([
-        {
+    describe('incoming unviewed view-once message', () => {
+      let message: MessageAttributesType;
+
+      beforeEach(() => {
+        message = {
           conversationId: contactA.id,
           id: generateGuid(),
           type: 'incoming',
@@ -1518,8 +1521,22 @@ describe('backup/bubble messages', () => {
           seenStatus: SeenStatus.Unseen,
           unidentifiedDeliveryReceived: false,
           timestamp: 3,
-        },
-      ]);
+        };
+      });
+
+      it('roundtrips attachment in link & sync backup', async () => {
+        await symmetricRoundtripHarness([message], {
+          backupLevel: BackupLevel.Free,
+          exportType: 'link-and-sync',
+        });
+      });
+
+      it('drops attachment in remote backup', async () => {
+        await asymmetricRoundtripHarness(
+          [message],
+          [{ ...message, attachments: [], isErased: true }]
+        );
+      });
     });
     it('roundtrips outgoing view-once message', async () => {
       await symmetricRoundtripHarness([

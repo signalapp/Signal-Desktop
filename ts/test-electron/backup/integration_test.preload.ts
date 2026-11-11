@@ -5,17 +5,24 @@ import { readdirSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { Readable } from 'node:stream';
-import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
 import { InputStream } from '@signalapp/libsignal-client/dist/io.js';
 import {
   ComparableBackup,
   Purpose,
 } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import assert from 'node:assert/strict';
+import * as sinon from 'sinon';
 
 import { clearData } from './helpers.preload.ts';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
+import {
+  getMediaIdFromMediaName,
+  getMediaName,
+} from '../../services/backups/util/mediaId.preload.ts';
+import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
+import type { BackupCdnMediaObjectType } from '../../sql/Interface.std.ts';
+import * as Bytes from '../../Bytes.std.ts';
 import { initialize as initializeExpiringMessageService } from '../../services/expiringMessagesDeletion.preload.ts';
 
 const { BACKUP_INTEGRATION_DIR } = process.env;
@@ -40,17 +47,58 @@ class MemoryStream extends InputStream {
   }
 }
 
+const mediaTierMetadata = new Map<string, BackupCdnMediaObjectType>();
+
+// These tests require us to roundtrip the backupCdnNumber for each attachment, which we
+// would normally fetch from `backupListMedia` before export. So let's record what we
+// imported, and return that from `backupListMedia`.
+async function extractImportedMediaTierMetadata(): Promise<void> {
+  const messages = await DataReader._getAllMessages();
+  const attachments = await DataReader.getAttachmentReferencesForMessages(
+    messages.map(({ id }) => id)
+  );
+
+  for (const { backupCdnNumber, plaintextHash, key, size } of attachments) {
+    if (backupCdnNumber == null || !plaintextHash || !key) {
+      continue;
+    }
+    const mediaName = getMediaName({
+      plaintextHash: Bytes.fromHex(plaintextHash),
+      key: Bytes.fromBase64(key),
+    });
+    const mediaId = getMediaIdFromMediaName(mediaName).string;
+    mediaTierMetadata.set(mediaId, {
+      mediaId,
+      cdnNumber: backupCdnNumber,
+      sizeOnBackupCdn: size,
+    });
+  }
+}
+
 describe('backup/integration', () => {
+  let sandbox: sinon.SinonSandbox;
+
   before(async () => {
     initializeExpiringMessageService();
   });
 
   beforeEach(async () => {
+    sandbox = sinon.createSandbox();
+    mediaTierMetadata.clear();
+    sandbox
+      .stub(backupsService, 'fetchAndSaveBackupCdnObjectMetadata')
+      .callsFake(async () => {
+        await DataWriter.clearAllBackupCdnObjectMetadata();
+        await DataWriter.saveBackupCdnObjectMetadata([
+          ...mediaTierMetadata.values(),
+        ]);
+      });
     await clearData();
     await loadAllAndReinitializeRedux();
   });
 
   afterEach(async () => {
+    sandbox.restore();
     await clearData();
   });
 
@@ -75,12 +123,10 @@ describe('backup/integration', () => {
       await backupsService.importBackup(() => Readable.from([expectedBuffer]), {
         type: 'cross-client-integration-test',
       });
+      await extractImportedMediaTierMetadata();
 
-      const { data: exported } = await backupsService.exportBackupData({
-        type: 'cross-client-integration-test',
-        level: BackupLevel.Paid,
-        abortSignal: new AbortController().signal,
-      });
+      const { data: exported } =
+        await backupsService.exportForCrossClientIntegrationTest();
 
       const actualStream = new MemoryStream(Buffer.from(exported));
       const expectedStream = new MemoryStream(expectedBuffer);
