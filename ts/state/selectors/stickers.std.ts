@@ -113,7 +113,7 @@ const getRecents = createSelector(
   (stickers: StickersStateType) => stickers.recentStickers
 );
 
-const getFavorites = createSelector(
+export const getFavorites = createSelector(
   getStickers,
   (stickers: StickersStateType) => stickers.favoriteStickers
 );

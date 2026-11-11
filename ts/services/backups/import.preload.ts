@@ -40,12 +40,12 @@ import {
 } from '../../types/EmbeddedContact.std.ts';
 import {
   type FavoriteStickerType,
-  MAX_FAVORITE_STICKERS,
   STICKERPACK_ID_BYTE_LEN,
   STICKERPACK_KEY_BYTE_LEN,
   createPacksFromBackup,
   type StickerPackPointerType,
 } from '../../types/Stickers.preload.ts';
+import { MAX_FAVORITE_STICKERS } from '../../util/Stickers.std.ts';
 import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 import { toConversationBubbleColorAttributes } from '../../util/conversationBubbleColor.std.ts';
 import { SEALED_SENDER } from '../../types/SealedSender.std.ts';
