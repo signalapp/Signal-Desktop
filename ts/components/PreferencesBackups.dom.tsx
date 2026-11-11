@@ -60,7 +60,6 @@ export function PreferencesBackups({
   backupTier,
   cloudBackupStatus,
   i18n,
-  isLocalBackupsEnabled,
   lastLocalBackup,
   locale,
   localBackupFolder,
@@ -90,7 +89,6 @@ export function PreferencesBackups({
   cloudBackupStatus?: BackupStatusType;
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
-  isLocalBackupsEnabled: boolean;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
   onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
@@ -132,11 +130,6 @@ export function PreferencesBackups({
     refreshBackupSubscriptionStatus,
     refreshCloudBackupStatus,
   ]);
-
-  if (!isLocalBackupsEnabled && isLocalBackupsPage(settingsLocation.page)) {
-    setSettingsLocation({ page: SettingsPage.Backups });
-    return null;
-  }
 
   if (settingsLocation.page === SettingsPage.BackupsDetails) {
     if (backupTier == null) {
@@ -350,7 +343,7 @@ export function PreferencesBackups({
         </div>
       </div>
       {renderRemoteBackups()}
-      {isLocalBackupsEnabled ? renderLocalBackups() : null}
+      {renderLocalBackups()}
       {authError ? (
         <AxoAlertDialog.Root
           open

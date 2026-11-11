@@ -104,7 +104,6 @@ import {
   SmartNotificationProfilesCreateFlow,
   SmartNotificationProfilesHome,
 } from './PreferencesNotificationProfiles.preload.tsx';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.ts';
 import { getBackupKeyHash } from '../../services/backups/crypto.preload.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
 import { AppProvider } from '../../windows/AppProvider.dom.tsx';
@@ -635,10 +634,6 @@ export function SmartPreferences(): JSX.Element | null {
     Settings.isContentProtectionSupported(OS);
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
-  const backupLocalBackupsEnabled = isLocalBackupsEnabled({
-    currentVersion: version,
-    remoteConfig: items.remoteConfig,
-  });
   const backupFreeMediaDays = getMessageQueueTime(items.remoteConfig) / DAY;
 
   const isKeyTransparencyAvailable = isFeaturedEnabledSelector({
@@ -1049,7 +1044,6 @@ export function SmartPreferences(): JSX.Element | null {
           isPaused: Boolean(backupMediaDownloadPaused),
           isIdle: Boolean(attachmentDownloadManagerIdled),
         }}
-        backupLocalBackupsEnabled={backupLocalBackupsEnabled}
         badge={badge}
         blockedContactCount={blockedContactCount}
         blockedGroupCount={blockedGroupCount}
