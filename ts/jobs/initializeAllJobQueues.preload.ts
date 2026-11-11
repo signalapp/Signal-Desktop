@@ -14,6 +14,7 @@ import { registrationJobQueue } from './registrationJobQueue.preload.ts';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue.preload.ts';
 import { reportSpamJobQueue } from './reportSpamJobQueue.preload.ts';
 import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue.preload.ts';
+import { attachmentBackfillResponseJobQueue } from './attachmentBackfillResponseJobQueue.preload.ts';
 import { callLinkCleanupService } from '../services/expiring/callLinkCleanupService.preload.ts';
 import { defunctCallLinkCleanupService } from '../services/expiring/defunctCallLinkCleanupService.preload.ts';
 import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.preload.ts';
@@ -54,6 +55,7 @@ export function initializeAllJobQueues({
   drop(removeStorageKeyJobQueue.streamJobs());
   drop(reportSpamJobQueue.streamJobs());
   drop(callLinkRefreshJobQueue.streamJobs());
+  drop(attachmentBackfillResponseJobQueue.streamJobs());
   drop(callLinkCleanupService.start('initializeAllJobQueues'));
   drop(defunctCallLinkCleanupService.start('initializeAllJobQueues'));
   drop(chatFolderCleanupService.start('initializeAllJobQueues'));
@@ -73,6 +75,7 @@ export async function shutdownAllJobQueues(): Promise<void> {
     removeStorageKeyJobQueue.shutdown(),
     reportSpamJobQueue.shutdown(),
     callLinkRefreshJobQueue.shutdown(),
+    attachmentBackfillResponseJobQueue.shutdown(),
     callLinkCleanupService.stop('shutdownAllJobQueues'),
     defunctCallLinkCleanupService.stop('shutdownAllJobQueues'),
     chatFolderCleanupService.stop('shutdownAllJobQueues'),

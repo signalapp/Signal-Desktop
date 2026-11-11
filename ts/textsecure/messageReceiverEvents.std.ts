@@ -576,7 +576,7 @@ export class UsernameChangeSyncEvent extends ConfirmableEvent {
   }
 }
 
-const addressableMessageSchema = z.union([
+export const addressableMessageSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),
     authorAci: z.string().refine(isAciString),
@@ -596,7 +596,7 @@ const addressableMessageSchema = z.union([
 
 export type AddressableMessage = z.infer<typeof addressableMessageSchema>;
 
-const conversationIdentifierSchema = z.union([
+export const conversationIdentifierSchema = z.union([
   z.object({
     type: z.literal('aci').readonly(),
     aci: z.string().refine(isAciString),
@@ -673,6 +673,29 @@ export class DeleteForMeSyncEvent extends ConfirmableEvent {
     super('deleteForMeSync', confirm);
 
     this.deleteForMeSync = deleteForMeSync;
+    this.timestamp = timestamp;
+    this.envelopeId = envelopeId;
+  }
+}
+
+export type AttachmentBackfillRequestSyncEventData = Readonly<{
+  targetMessage: AddressableMessage;
+  targetConversation: ConversationIdentifier;
+}>;
+
+export class AttachmentBackfillRequestSyncEvent extends ConfirmableEvent {
+  public readonly request: AttachmentBackfillRequestSyncEventData;
+  public readonly timestamp: number;
+  public readonly envelopeId: string;
+
+  constructor(
+    request: AttachmentBackfillRequestSyncEventData,
+    timestamp: number,
+    envelopeId: string,
+    confirm: ConfirmCallback
+  ) {
+    super('attachmentBackfillRequestSync', confirm);
+    this.request = request;
     this.timestamp = timestamp;
     this.envelopeId = envelopeId;
   }

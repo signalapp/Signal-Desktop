@@ -20,9 +20,7 @@ import { APPLICATION_OCTET_STREAM } from '../../types/MIME.std.ts';
 import {
   getConversationIdentifier,
   getAddressableMessage,
-  getConversationFromTarget,
-  getMessageQueryFromTarget,
-  findMatchingMessage,
+  findMessageFromTarget,
 } from '../../util/syncIdentifiers.preload.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { drop } from '../../util/drop.std.ts';
@@ -133,16 +131,7 @@ export class AttachmentBackfill {
       AttachmentData: { Status },
     } = Proto.SyncMessage.AttachmentBackfillResponse;
 
-    const { targetMessage, targetConversation } = response;
-
-    const convo = getConversationFromTarget(targetConversation);
-    if (convo == null) {
-      log.error(`${logId}: conversation not found`);
-      return;
-    }
-
-    const query = getMessageQueryFromTarget(targetMessage);
-    const attributes = await findMatchingMessage(convo.id, query);
+    const attributes = await findMessageFromTarget(response);
     if (attributes == null) {
       log.error(`${logId}: message not found`);
       return;

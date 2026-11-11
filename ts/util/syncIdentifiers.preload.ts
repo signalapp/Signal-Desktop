@@ -79,6 +79,24 @@ export async function findMatchingMessage(
   });
 }
 
+export async function findMessageFromTarget({
+  targetConversation,
+  targetMessage,
+}: Readonly<{
+  targetConversation: ConversationIdentifier;
+  targetMessage: AddressableMessage;
+}>): Promise<MessageAttributesType | undefined> {
+  const conversation = getConversationFromTarget(targetConversation);
+  if (conversation == null) {
+    return undefined;
+  }
+
+  return findMatchingMessage(
+    conversation.id,
+    getMessageQueryFromTarget(targetMessage)
+  );
+}
+
 export function getConversationFromTarget(
   targetConversation: ConversationIdentifier
 ): ConversationModel | undefined {
