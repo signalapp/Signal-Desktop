@@ -108,6 +108,7 @@ type PermissionsWindowPropsType = {
   forCalling: boolean;
   onAccept: () => void;
   onClose: () => void;
+  onHeightChange: (height: number) => void;
 };
 
 type ScreenShareWindowPropsType = {

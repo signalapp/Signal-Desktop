@@ -37,6 +37,7 @@ createRoot(app).render(
       message={message}
       onAccept={PermissionsWindowProps.onAccept}
       onClose={PermissionsWindowProps.onClose}
+      onHeightChange={PermissionsWindowProps.onHeightChange}
     />
   </AppProvider>
 );
