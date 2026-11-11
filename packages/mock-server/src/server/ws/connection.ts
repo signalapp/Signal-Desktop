@@ -17,9 +17,11 @@ import { KEMPublicKey, PublicKey } from '@signalapp/libsignal-client';
 import WebSocket from 'ws';
 
 import { signalservice as Proto } from '../../../protos/compiled';
+import { getLegacyProfileCapabilities } from '../../data/capabilities';
 import { Device } from '../../data/device';
 import {
   AccountAttributesSchema,
+  CapabilitiesSchema,
   AtomicLinkingDataSchema,
   CreateCallLinkAuthSchema,
   CreateVerificationSessionSchema,
@@ -132,6 +134,9 @@ export class Connection extends Service {
       const serviceIdKind = target.getServiceIdKind(serviceId);
       const identityKey = await target.getIdentityKey(serviceIdKind);
 
+      const devices = await this.server.getAllDevicesByServiceId(target.aci);
+      const capabilities = getLegacyProfileCapabilities(devices);
+
       return [
         200,
         {
@@ -140,7 +145,7 @@ export class Connection extends Service {
           unidentifiedAccess: target.accessKey
             ? generateAccessKeyVerifier(target.accessKey).toString('base64')
             : undefined,
-          capabilities: target.capabilities,
+          capabilities,
           name: profile?.name.toString('base64'),
           about: profile?.about?.toString('base64'),
           aboutEmoji: profile?.aboutEmoji?.toString('base64'),
@@ -185,6 +190,11 @@ export class Connection extends Service {
         const device = this.device;
         if (!device) {
           return [400, { error: 'missing device!' }];
+        }
+
+        // Accounts with profiles v2 must write profiles with gRPC SetProfile
+        if (this.server.hasAccountCapability(device.aci, 'profiles_v2')) {
+          return [412, {}];
         }
 
         const { data } = parsedResult;
@@ -412,6 +422,7 @@ export class Connection extends Service {
         provisioningCode: verificationCode as ProvisioningCode,
         registrationId,
         pniRegistrationId,
+        capabilities: accountAttributes.capabilities,
       });
       device.encryptedName = Buffer.from(accountAttributes.name, 'base64');
 
@@ -707,6 +718,7 @@ export class Connection extends Service {
           // TODO(inutny): take as an input
           authCredentialSalt: randomBytes(16),
           unidentifiedAccessKey: Buffer.from(unidentifiedAccessKey),
+          capabilities: accountAttributes.capabilities,
         });
       } catch (error) {
         if (error instanceof Error && error.name === 'RegistrationLock') {
@@ -922,6 +934,22 @@ export class Connection extends Service {
     );
 
     this.router.put(
+      '/v1/devices/capabilities',
+      requireAuth(async (_params, body) => {
+        const device = this.getDevice();
+        if (!body) {
+          return [400, { error: 'Missing body' }];
+        }
+
+        device.capabilities = CapabilitiesSchema.parse(
+          JSON.parse(body.toString()),
+        );
+
+        return [204, {}];
+      }),
+    );
+
+    this.router.put(
       '/v1/accounts/attributes',
       requireAuth(async (_params, body) => {
         const device = this.getDevice();
@@ -929,8 +957,10 @@ export class Connection extends Service {
           return [400, { error: 'Missing body' }];
         }
 
-        const { registrationLock, unidentifiedAccessKey } =
+        const { registrationLock, unidentifiedAccessKey, capabilities } =
           AccountAttributesSchema.parse(JSON.parse(body.toString()));
+
+        device.capabilities = capabilities;
 
         if (registrationLock?.length) {
           this.server.setRegistrationLockToken(device.aci, registrationLock);

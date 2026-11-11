@@ -4,9 +4,16 @@
 import { Buffer } from 'buffer';
 import { stringify as stringifyUuid } from 'uuid';
 import { RequestHandler } from 'micro';
+import * as Protos from '../../../protos/compiled';
+import {
+  capabilityToGrpc,
+  SELF_VISIBLE_CAPABILITIES,
+} from '../../data/capabilities';
 import { Server } from '../base';
 import { toServiceIdentifier, fromServiceIdentifier } from './utils/serviceId';
 import { grpcRoute, authenticatedGrpcRoute } from './utils/route';
+
+import GrpcDeviceCapability = Protos.org.signal.chat.common.DeviceCapability;
 
 /**
  * Routes for [account.proto](../../../protos/server/org/signal/chat/account.proto).
@@ -130,6 +137,21 @@ export function createAccountsRoutes(
     },
   );
 
+  const onGetCapabilities = authenticatedGrpcRoute(
+    server,
+    'org.signal.chat.account.Accounts/GetCapabilities',
+    async (_request, device) => {
+      const capabilities: Array<GrpcDeviceCapability> = [];
+      for (const capability of SELF_VISIBLE_CAPABILITIES) {
+        if (server.hasAccountCapability(device.aci, capability)) {
+          capabilities.push(capabilityToGrpc(capability));
+        }
+      }
+
+      return { capabilities: { capabilities } };
+    },
+  );
+
   const onCheckAccountExistence = grpcRoute(
     server,
     'org.signal.chat.account.AccountsAnonymous/CheckAccountExistence',
@@ -197,6 +219,7 @@ export function createAccountsRoutes(
     onDeleteUsername,
     onSetUsernameLink,
     onSetDiscoverableByPhoneNumber,
+    onGetCapabilities,
     onCheckAccountExistence,
     onLookupUsernameHash,
     onLookupUsernameLink,

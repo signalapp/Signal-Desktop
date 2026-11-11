@@ -6,6 +6,7 @@ import { google } from '../../../../protos/compiled';
 // gRPC status codes used by the mock.
 export const GRPC_STATUS_OK = 0;
 export const GRPC_STATUS_UNKNOWN = 2;
+export const GRPC_STATUS_INVALID_ARGUMENT = 3;
 export const GRPC_STATUS_RESOURCE_EXHAUSTED = 8;
 export const GRPC_STATUS_ABORTED = 10;
 export const GRPC_STATUS_UNIMPLEMENTED = 12;

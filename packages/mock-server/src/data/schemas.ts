@@ -3,6 +3,7 @@
 
 import z from 'zod';
 
+import { capabilitiesFromRecord } from './capabilities';
 import {
   AciString,
   DeviceId,
@@ -51,6 +52,10 @@ export const MessageListSchema = z.object({
 
 export type MessageList = z.infer<typeof MessageListSchema>;
 
+export const CapabilitiesSchema = z
+  .record(z.string(), z.boolean())
+  .transform(capabilitiesFromRecord);
+
 export const AtomicLinkingDataSchema = z.object({
   verificationCode: z.string(),
   accountAttributes: z.object({
@@ -58,6 +63,7 @@ export const AtomicLinkingDataSchema = z.object({
     registrationId: RegistrationIdSchema,
     pniRegistrationId: RegistrationIdSchema.optional(),
     name: z.string(),
+    capabilities: CapabilitiesSchema,
   }),
   aciSignedPreKey: SignedPreKeySchema,
   aciPqLastResortPreKey: SignedPreKeySchema,
@@ -95,13 +101,7 @@ export const AccountAttributesSchema = z.object({
   registrationId: RegistrationIdSchema,
   pniRegistrationId: RegistrationIdSchema.optional(),
   name: z.string().optional().nullable(),
-  capabilities: z.object({
-    attachmentBackfill: z.boolean().optional(),
-    spqr: z.boolean(),
-    usernameChangeSyncMessage: z.boolean(),
-    // TODO(indutny): read it
-    optionalPhoneNumber: z.boolean().optional(),
-  }),
+  capabilities: CapabilitiesSchema,
   registrationLock: z.string().optional().nullable(),
   unidentifiedAccessKey: z.string().optional().nullable(),
   unrestrictedUnidentifiedAccess: z.boolean(),
@@ -118,13 +118,7 @@ export const RegisterAccountSchema = z.object({
     registrationId: RegistrationIdSchema,
     pniRegistrationId: RegistrationIdSchema.optional(),
     name: z.string().optional(),
-    capabilities: z.object({
-      attachmentBackfill: z.boolean().optional(),
-      spqr: z.boolean(),
-      usernameChangeSyncMessage: z.boolean(),
-      // TODO(indutny): read it
-      optionalPhoneNumber: z.boolean().optional(),
-    }),
+    capabilities: CapabilitiesSchema,
     registrationLock: z.string().optional(),
     unidentifiedAccessKey: z.array(z.number()),
     unrestrictedUnidentifiedAccess: z.boolean(),
