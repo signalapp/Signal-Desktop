@@ -24,43 +24,43 @@
     "messageformat": "닫기"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "불러오는 중"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "재생"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "일시 정지"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "다운로드"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "다운로드 취소"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "보내는 중"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "보낸 시간:"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "전달됨"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "읽음"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "전송이 일시 중지됨"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "전송 실패"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "비밀번호 표시"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "불러오는 중"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "지우기"
@@ -303,10 +303,10 @@
     "messageformat": "옵션 더 보기"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "즐겨찾기에 추가하기"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "즐겨찾기에서 삭제하기"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "링크 복사"
@@ -825,7 +825,7 @@
     "messageformat": "동영상 파일이 너무 커서 전송할 수 없습니다. 최대 {limit,number}{units}까지 동영상 파일 전송이 가능합니다."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "동영상 길이가 {maxDuration}을(를) 초과하여 전송할 수 없습니다."
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "선택된 첨부 파일을 불러올 수 없습니다."
@@ -1869,13 +1869,13 @@
     "messageformat": "취소"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "발신자 암호화"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "모두에게 허용"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "연락처에 없거나 프로필을 공유하지 않은 상대가 보내는 메시지에 발신자 암호화 기능을 적용합니다. <learnMoreLink>자세히 알아보기</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "상태 아이콘 표시하기"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "이모지 없는 스티커"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} 님의 스티커 팩"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "팩 보기"
@@ -3099,10 +3120,10 @@
     "messageformat": "스티커 없음"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "즐겨찾기에 추가하기"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "즐겨찾기에서 삭제하기"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "스티커 미리보기"
@@ -9339,12 +9360,6 @@
     "messageformat": "기능을 개선하고 버그를 수정해 성능을 최적화했습니다. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "영상 통화 성능이 개선되었습니다."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "또한, 카메라 접근 권한이 없는 상태에서 영상 통화에 참여하려고 할 때 Windows 시스템 설정을 바로 열 수 있는 편리한 단축키가 추가되었습니다."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "이제 메시지 폴더와 검색 화면에서도 '읽지 않음' 필터를 지원합니다."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "연결된 오디오 기기의 기능 및 성능을 개선했습니다."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

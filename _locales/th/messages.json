@@ -24,43 +24,43 @@
     "messageformat": "ปิด"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "กำลังโหลด"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "เล่น"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "หยุดชั่วคราว"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ดาวน์โหลด"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ยกเลิกการดาวน์โหลด"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "กำลังส่ง"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "ส่งแล้ว"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "ส่งถึงแล้ว"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "อ่านแล้ว"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "การส่งถูกหยุดชั่วคราว"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "การส่งล้มเหลว"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "แสดงรหัสผ่าน"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "กำลังโหลด"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "ล้าง"
@@ -303,10 +303,10 @@
     "messageformat": "การกระทำเพิ่มเติม"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "เพิ่มในรายการโปรด"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ลบออกจากรายการโปรด"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "คัดลอกลิงก์"
@@ -825,7 +825,7 @@
     "messageformat": "ไม่สามารถส่งได้เนื่องจากไฟล์วิดีโอนี้มีขนาดใหญ่เกินไป รองรับการส่งไฟล์วิดีโอที่ขนาดไม่เกิน {limit,number}{units}"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ไม่สามารถส่งวิดีโอได้เนื่องจากมีความยาวเกิน {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ไม่สามารถดึงแฟ้มแนบที่เลือกได้"
@@ -1869,13 +1869,13 @@
     "messageformat": "ยกเลิก"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "ผู้ส่งที่ปกปิดตัวตน"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "อนุญาตจากทุกคน"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "เปิดใช้งานผู้ส่งที่ปกปิดตัวตน สำหรับข้อความขาเข้า จากคนที่ไม่ใช่ผู้ติดต่อ และคนที่คุณไม่ได้แบ่งปันโปรไฟล์ด้วย <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "แสดงไอคอนสถานะ"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "สติกเกอร์ที่ไม่มีอีโมจิ"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "ผู้สร้างชุดสติกเกอร์: {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ดูชุดสติกเกอร์"
@@ -3099,10 +3120,10 @@
     "messageformat": "ไม่พบสติกเกอร์"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "เพิ่มในรายการโปรด"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ลบออกจากรายการโปรด"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ตัวอย่างสติกเกอร์"
@@ -9339,12 +9360,6 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "พัฒนาประสิทธิภาพในการใช้งานวิดีโอคอล"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "พร้อมเพิ่มทางลัดใหม่ที่ให้คุณเปิดหน้าการตั้งค่าระบบบน Windows ได้สะดวกยิ่งขึ้นเมื่อคุณต้องการเข้าร่วมวิดีโอคอลแต่ Signal ยังไม่ได้รับสิทธิ์เข้าถึงกล้อง"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "เพิ่มการรองรับให้คุณสามารถใช้ตัวกรองข้อความที่ยังไม่ได้อ่านได้ในโฟลเดอร์ข้อความและระบบค้นหาด้วยเช่นกัน"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "พัฒนาประสิทธิภาพและการจัดการอุปกรณ์เสียงที่เชื่อมต่อกับแอป"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

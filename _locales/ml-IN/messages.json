@@ -24,43 +24,43 @@
     "messageformat": "അടയ്ക്കുക"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ലഭ്യമാക്കുന്നു"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "പ്ലേ ചെയ്യുക"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "താൽക്കാലികമായി നിർത്തുക"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ഡൌൺലോഡ്"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ഡൗൺലോഡ് റദ്ദാക്കുക"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "അയയ്ക്കുന്നു"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "അയച്ചു"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "കൈമാറി"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "വായിച്ചു"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "അയയ്ക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "അയയ്‌ക്കുന്നതിൽ പരാജയപ്പെട്ടു"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "പാസ്‌വേഡ് കാണിക്കുക"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ലഭ്യമാക്കുന്നു"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "മായ്‌ക്കുക"
@@ -303,10 +303,10 @@
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്യുക"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ലിങ്ക് കോപ്പി ചെയ്യുക"
@@ -825,7 +825,7 @@
     "messageformat": "ഈ വീഡിയോ ഫയലിന്റെ വലുപ്പം വളരെ കൂടുതലായതിനാൽ അയയ്ക്കാൻ കഴിയില്ല. നിങ്ങൾക്ക് {limit,number}{units} വരെയുള്ള വീഡിയോ ഫയലുകൾ അയക്കാം."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "വീഡിയോയുടെ ദൈർഘ്യം {maxDuration}-ൽ കൂടുതലായതിനാൽ അയയ്ക്കാൻ കഴിയില്ല"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
@@ -1869,13 +1869,13 @@
     "messageformat": "റദ്ദാക്കുക"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "സീൽഡ് സെൻഡർ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ആരിൽ നിന്നും അനുവദിക്കുക"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "കോൺടാക്ടുകൾ അല്ലാത്തവരിൽ നിന്നും നിങ്ങളുടെ പ്രൊഫൈൽ പങ്കിടാത്തവരായ ആളുകളിൽ നിന്നും വരുന്ന സന്ദേശങ്ങൾക്കായി സീൽഡ് സെൻഡർ പ്രാപ്തമാക്കുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "സ്റ്റാറ്റസ് ചിഹ്നം കാണിക്കുക"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "ഇമോജി ഇല്ലാത്ത സ്റ്റിക്കർ"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} രൂപകൽപ്പന ചെയ്ത സ്റ്റിക്കർ പായ്ക്ക്"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "പായ്ക്ക് കാണുക"
@@ -3099,10 +3120,10 @@
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്യുക"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "സ്റ്റിക്കർ പ്രിവ്യൂ"
@@ -9339,12 +9360,6 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "പ്രവർത്തനക്ഷമതയിലെ ചില മെച്ചപ്പെടുത്തലുകൾ കാരണം, വീഡിയോ കോളുകളിൽ നിങ്ങൾ പുഞ്ചിരിച്ചില്ലെങ്കിലും നിങ്ങളുടെ CPU കൂടുതൽ ആശ്വാസത്തിലായിരിക്കും."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "നിങ്ങൾ ഒരു വീഡിയോ കോളിൽ ചേരാൻ ശ്രമിക്കുമ്പോൾ ക്യാമറ ആക്സസ് ചെയ്യാൻ Signal-ന് അനുമതിയില്ലെങ്കിൽ, Windows-ൽ സിസ്റ്റം ക്രമീകരണങ്ങൾ തുറക്കാനുള്ള സൗകര്യപ്രദമായ ഒരു കുറുക്കുവഴിയും ഞങ്ങൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. മറ്റുള്ളവർക്ക് നിങ്ങളെ കാണാൻ കഴിയുന്നതിനായി നിങ്ങൾ എന്താണ് ചെയ്യേണ്ടതെന്ന് അറിയുന്നത് ഇപ്പോൾ കൂടുതൽ എളുപ്പമാണ്."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "സന്ദേശ ഫോൾഡറുകളിലും തിരയൽ ഇന്റർഫേസിലും ഇപ്പോൾ വായിക്കാത്തവയുടെ ഫിൽട്ടർ ലഭ്യമാണ്, അതിനാൽ വിട്ടുപോയവ എളുപ്പത്തിൽ കാണാനാകും."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "കണക്റ്റ് ചെയ്ത ഓഡിയോ ഉപകരണങ്ങളുടെ മികച്ച പ്രവർത്തനവും പ്രകടനവും."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

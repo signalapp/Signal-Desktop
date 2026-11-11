@@ -24,43 +24,43 @@
     "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ਚਲਾਓ"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "ਰੋਕੋ"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ਡਾਊਨਲੋਡ ਕਰੋ"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ਡਾਊਨਲੋਡ ਨੂੰ ਰੱਦ ਕਰੋ"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "ਭੇਜਿਆ ਗਿਆ"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "ਡਿਲੀਵਰ ਕੀਤਾ ਗਿਆ"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "ਪੜ੍ਹਿਆ ਗਿਆ"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "ਭੇਜਣਾ ਰੋਕਿਆ ਗਿਆ"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "ਭੇਜਣਾ ਅਸਫਲ ਰਿਹਾ"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "ਪਾਸਵਰਡ ਦਿਖਾਓ"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "ਮਿਟਾਓ"
@@ -303,10 +303,10 @@
     "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ਮਨਪਸੰਦ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ਮਨਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
@@ -825,7 +825,7 @@
     "messageformat": "ਇਹ ਵੀਡੀਓ ਫ਼ਾਈਲ ਭੇਜੀ ਨਹੀਂ ਜਾ ਸਕਦੀ ਕਿਉਂਕਿ ਇਹ ਬਹੁਤ ਵੱਡੀ ਹੈ। ਤੁਸੀਂ ਵੱਧ ਤੋਂ ਵੱਧ {limit,number}{units} ਤੱਕ ਦੀਆਂ ਵੀਡੀਓ ਫ਼ਾਈਲਾਂ ਭੇਜ ਸਕਦੇ ਹੋ।"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ਵੀਡੀਓ ਭੇਜ ਨਹੀਂ ਸਕਦੇ ਕਿਉਂਕਿ ਇਹ {maxDuration} ਤੋਂ ਲੰਮੀ ਹੈ"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ਚੁਣੀ ਅਟੈਚਮੈਂਟ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਮਰੱਥ।"
@@ -1869,13 +1869,13 @@
     "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "ਗੁਪਤ ਭੇਜਣ ਵਾਲਾ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ਕਿਸੇ ਵੀ ਵਿਅਕਤੀ ਤੋਂ ਇਜਾਜ਼ਤ ਦਿਓ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ਜਿਹੜੇ ਲੋਕ ਤੁਹਾਡੀ ਸੰਪਰਕ ਸੂਚੀ ਵਿੱਚ ਨਹੀਂ ਹਨ ਅਤੇ ਜਿਹਨਾਂ ਲੋਕਾਂ ਨਾਲ ਤੁਸੀਂ ਆਪਣੀ ਪ੍ਰੋਫ਼ਾਈਲ ਸਾਂਝੀ ਨਹੀਂ ਕੀਤੀ ਹੈ, ਉਹਨਾਂ ਵੱਲੋਂ ਆਉਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਲਈ 'ਗੁਪਤ ਭੇਜਣ ਵਾਲਾ' ਫੀਚਰ ਸਮਰੱਥ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "ਸਟੇਟਸ ਆਈਕਨ ਦਿਖਾਓ"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "ਇਮੋਜੀ ਤੋਂ ਬਿਨਾਂ ਸਟਿੱਕਰ"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ਵੱਲੋਂ ਸਟਿੱਕਰ ਪੈਕ"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ਪੈਕ ਦੇਖੋ"
@@ -3099,10 +3120,10 @@
     "messageformat": "ਕੋਈ ਸਟਿੱਕਰ ਨਹੀਂ ਲੱਭੇ"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ਮਨਪਸੰਦ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ਮਨਪਸੰਦ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ਸਟਿੱਕਰ ਦੀ ਝਲਕ"
@@ -9339,12 +9360,6 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ਵੀਡੀਓ ਕਾਲਾਂ ਦੇ ਪ੍ਰਦਰਸ਼ਨ ਵਿੱਚ ਸੁਧਾਰ ਕੀਤਾ ਗਿਆ ਹੈ।"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "ਜੇਕਰ ਤੁਸੀਂ ਕਿਸੇ ਵੀਡੀਓ ਕਾਲ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹੋ ਅਤੇ Signal ਕੋਲ ਕੈਮਰੇ ਦੀ ਵਰਤੋਂ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ, ਤਾਂ ਅਸੀਂ Windows 'ਤੇ ਤੁਹਾਡੀਆਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹਣ ਲਈ ਇੱਕ ਸੁਵਿਧਾਜਨਕ ਸ਼ਾਰਟਕੱਟ ਜੋੜਿਆ ਹੈ।"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "ਹੁਣ ਸੁਨੇਹਾ ਫੋਲਡਰਾਂ ਅਤੇ ਖੋਜ ਇੰਟਰਫੇਸ ਵਿੱਚ ਵੀ 'ਨਹੀਂ ਪੜ੍ਹੇ' ਸੁਨੇਹਿਆਂ ਵਾਲੇ ਫਿਲਟਰ ਦਾ ਸਮਰਥਨ ਮਿਲਦਾ ਹੈ।"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "ਕਨੈਕਟ ਕੀਤੇ ਆਡੀਓ ਡਿਵਾਈਸਾਂ ਲਈ ਸੰਚਾਲਨ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

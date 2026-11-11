@@ -24,43 +24,43 @@
     "messageformat": "बंद करें"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "लोड हो रहा है"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "चलाएं"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "पॉज़ करें"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "डाउनलोड करें"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "डाउनलोड कैंसिल करें"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "भेजा जा रहा है"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "भेज दिया"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "डिलीवर किया गया"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "पढ़ा गया"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "मैसेज भेजना रुक गया"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "भेजा नहीं जा सका"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "पासवर्ड दिखाएं"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "लोड हो रहा है"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "हटाएं"
@@ -303,10 +303,10 @@
     "messageformat": "और गतिविधियां"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "'पसंदीदा' में जोड़ें"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "'पसंदीदा' से हटाएं"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "लिंक कॉपी करें"
@@ -825,7 +825,7 @@
     "messageformat": "यह वीडियो फ़ाइल नहीं भेजी जा सकती, क्योंकि यह बहुत बड़ी है। {limit,number}{units} तक की वीडियो फ़ाइलें भेजी जा सकती हैं।"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "वीडियो नहीं भेजा जा सकता क्योंकि यह {maxDuration} से ज़्यादा बड़ा है"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "चुना हुआ अटैचमेंट लोड नहीं हो पाया।"
@@ -1869,13 +1869,13 @@
     "messageformat": "कैंसिल करें"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "एनक्रिप्टेड सेंडर"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "कोई भी भेज सकता है"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "‘एनक्रिप्टेड सेंडर’ की सुविधा चालू करें। इससे आपको उन मैसेज का पता चल पाएगा जो कॉन्टैक्ट लिस्ट से बाहर के और ऐसे लोग भेजते हैं जिनके साथ आपने अपनी प्रोफ़ाइल शेयर नहीं की है। <learnMoreLink>ज़्यादा जानें</learnMoreLink>।"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "स्टेटस आइकन दिखाएं"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "बिना इमोजी वाला स्टिकर"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} द्वारा स्टिकर पैक"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "पैक देखें"
@@ -3099,10 +3120,10 @@
     "messageformat": "कोई स्टिकर नहीं मिला"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "'पसंदीदा' में जोड़ें"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "'पसंदीदा' से हटाएं"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "स्टिकर का प्रीव्यू"
@@ -9339,12 +9360,6 @@
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "परफ़ॉर्मेंस में हुए कुछ सुधारों के बाद, वीडियो कॉल के दौरान भले ही आपके चेहरे पर मुस्कान न हो, लेकिन आपका CPU मन ही मन मुस्कुरा रहा होगा, क्योंकि उस पर अब थोड़ा कम ज़ोर पड़ेगा।"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "हमने Windows पर आपकी सिस्टम सेटिंग खोलने का एक आसान शॉर्टकट भी जोड़ा है, ताकि अगर आप वीडियो कॉल में शामिल होने की कोशिश करें और Signal के पास कैमरे का ऐक्सेस न हो, तो आप आसानी से सेटिंग बदल सकें। अब यह जानना आसान हो गया है कि आपको क्या करना होगा ताकि लोग आपको देख सकें।"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "अब मैसेज फ़ोल्डर और सर्च इंटरफ़ेस में भी 'अनरीड' फ़िल्टर की सुविधा उपलब्ध है, जिससे आसानी से पता चल जाए कि आपसे क्या छूट गया है।"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "कनेक्ट किए गए ऑडियो डिवाइस अब बेहतर तरीके से काम करेंगे।"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

@@ -24,43 +24,43 @@
     "messageformat": "বন্ধ"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "লোড হচ্ছে"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "প্লে করুন"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "পজ করুন"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ডাউনলোড"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ডাউনলোড বাতিল করুন"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "পাঠানো হচ্ছে"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "পাঠানো হয়েছে"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "পৌছে দেয়া হয়েছে"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "পড়ুন"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "পাঠানো স্থগিত করা হয়েছে"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "পাঠাতে ব্যার্থ"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "পাসওয়ার্ড দেখান"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "লোড হচ্ছে"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "সাফ করুন"
@@ -303,10 +303,10 @@
     "messageformat": "আরও ক্রিয়া"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "'ফেভারিটস'-এ যোগ করুন"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "'ফেভারিটস' থেকে মুছে ফেলুন"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "লিঙ্ক কপি করুন"
@@ -825,7 +825,7 @@
     "messageformat": "এই ফাইলটি বড় হবার কারণে পাঠানো যাচ্ছে না। আপনি {limit,number}{units} পর্যন্ত ভিডিও ফাইল পাঠাতে পারেন।"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ভিডিওটি পাঠানো যাচ্ছে না কারণ এটি আকারে {maxDuration}-এর চেয়ে বড়"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "নির্বাচিত সংযুক্তি লোড করতে অক্ষম।"
@@ -1869,13 +1869,13 @@
     "messageformat": "বাতিল করুন"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "সিল করা প্রেরক"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "যে কারও কাছ থেকে অনুমতি দিন"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "পরিচিতি এ নেই এবং যাদের সাথে আপনি নিজের প্রোফাইল শেয়ার করেন নি তাদের কাছ থেকে আগত বার্তাগুলির জন্য সিলযুক্ত প্রেরককে সক্ষম করুন। <learnMoreLink>আরো জানুন</learnMoreLink>।"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "স্ট্যাটাস আইকন দেখান"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "ইমোজি ছাড়া স্টিকার"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author}-এর স্টিকার প্যাক"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "প্যাক দেখুন"
@@ -3099,10 +3120,10 @@
     "messageformat": "কোনও স্টিকার পাওয়া যায় নি"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "'ফেভারিটস'-এ যোগ করুন"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "'ফেভারিটস' থেকে মুছে ফেলুন"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "স্টিকার প্রিভিউ"
@@ -9339,12 +9360,6 @@
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ভিডিও কলের পারফরম্যান্স উন্নত করা হয়েছে।"
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "আমরা Windows-এ সিস্টেম সেটিংস খোলার একটি সুবিধাজনক শর্টকাটও যোগ করেছি; ভিডিও কলে যোগ দেওয়ার সময় যদি Signal-এর ক্যামেরা ব্যবহারের অনুমতি না থাকে, তবে এটি কাজে আসবে।"
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "এখন মেসেজ ফোল্ডার এবং সার্চ ইন্টারফেসেও 'আনরিড' ফিল্টার ব্যবহারের সুবিধা রয়েছে, যার ফলে আপনার চোখ এড়িয়ে যাওয়া মেসেজগুলি আপনি সহজেই খুঁজে পেতে পারবেন।"
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "সংযুক্ত অডিও ডিভাইসগুলোর ক্ষেত্রে উন্নত কার্যকারিতা ও ব্যবস্থাপনা।"
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

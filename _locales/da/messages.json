@@ -24,43 +24,43 @@
     "messageformat": "Luk"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Henter"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Spil"
   },
   "icu:AxoMediaButton.Pause": {
     "messageformat": "Pause"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Hent"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Annuller download"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Sender"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Sendt"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Leveret"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Læst"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Afsendelse sat på pause"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Kunne ikke sendes"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Vis adgangskode"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Henter"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Fjern"
@@ -303,10 +303,10 @@
     "messageformat": "Flere handlinger"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Tilføj til Favoritter"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Fjern fra Favoritter"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopier link"
@@ -825,7 +825,7 @@
     "messageformat": "Videofilen er for stor til at blive sendt. Du kan sende videofiler på op til {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videoen kan ikke sendes, fordi den er længere end {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ude af stand til at indlæse den valgte vedhæftning."
@@ -1869,13 +1869,13 @@
     "messageformat": "Annullér"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Forseglet afsender"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Tillad fra alle"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktivér forseglet afsender for indgående beskeder fra personer som ikke er kontakter, og personer som du ikke har delt din profil med. <learnMoreLink>Få mere at vide.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Vis statusikon"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Klistermærke uden emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Klistermærkepakke af {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Vis pakke"
@@ -3099,10 +3120,10 @@
     "messageformat": "Ingen fundne klistermærker"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Tilføj til Favoritter"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Fjern fra Favoritter"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Forhåndsvisning af klistermærker"
@@ -9339,12 +9360,6 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Takket være en række forbedringer får din CPU lidt mere luft under videoopkald (også selvom du ikke selv føler dig flyvende)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Vi har også tilføjet en praktisk genvej til systemindstillingerne i Windows, hvis du forsøger at deltage i et videoopkald, og Signal ikke har adgang til kameraet. Nu er det nemmere at se, hvad du skal gøre, så andre kan se dig."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Filteret for ulæste beskeder kan nu også bruges i beskedmapper og i søgningen, så du nemt kan se, hvilke beskeder du har overset."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Forbedret håndtering og ydeevne for tilsluttede lydenheder."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

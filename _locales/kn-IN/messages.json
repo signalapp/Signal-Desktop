@@ -24,43 +24,43 @@
     "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ಲೋಡ್ ಆಗುತ್ತಿದೆ"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ಪ್ಲೇ ಮಾಡಿ"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "ಸ್ಥಗಿತಗೊಳಿಸಿ"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ಡೌನ್ ಲೋಡ್ ರದ್ದು ಮಾಡಿ"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "ಕಳುಹಿಸಿ"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "ತಲುಪಿಸಲಾಗಿದೆ"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "ಓದಿರುವುದು"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "ಕಳುಹಿಸುವುದನ್ನು ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸಲಾಗಿದೆ"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "ಪಾಸ್‌ವರ್ಡ್ ತೋರಿಸಿ"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ಲೋಡ್ ಆಗುತ್ತಿದೆ"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "ತೆರವುಗೊಳಿಸಿ"
@@ -303,10 +303,10 @@
     "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ಲಿಂಕ್ ನಕಲಿಸಿ"
@@ -825,7 +825,7 @@
     "messageformat": "ಈ ವೀಡಿಯೊ ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿರುವುದರಿಂದ ಇದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು {limit,number}{units} ವರೆಗಿನ ವೀಡಿಯೊ ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ವೀಡಿಯೊ {maxDuration} ಗಿಂತ ಉದ್ದವಾಗಿರುವುದರಿಂದ ಅದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
@@ -1869,13 +1869,13 @@
     "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "ಸೀಲ್ ಮಾಡಿದ ಕಳುಹಿಸುವವರು"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ಯಾರಿಂದಲೂ ಅನುಮತಿಸಿ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ಸಂಪರ್ಕಗಳಲ್ಲದವರು ಮತ್ತು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ನೀವು ಹಂಚಿಕೊಳ್ಳದ ಜನರಿಂದ ಒಳಬರುವ ಸಂದೇಶಗಳಿಗಾಗಿ ಸೀಲ್ಡ್ ಸೆಂಡರ್ ಸಕ್ರಿಯಗೊಳಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "ಸ್ಟೇಟಸ್ ಐಕಾನ್ ತೋರಿಸಿ"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "ಎಮೋಜಿ ಇಲ್ಲದ ಸ್ಟಿಕ್ಕರ್"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} ಅವರಿಂದ ಸ್ಟಿಕ್ಕರ್ ಪ್ಯಾಕ್"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "ಪ್ಯಾಕ್ ವೀಕ್ಷಿಸಿ"
@@ -3099,10 +3120,10 @@
     "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ರಿವ್ಯೂ"
@@ -9339,12 +9360,6 @@
     "messageformat": "ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳು, ಬಗ್ ಫಿಕ್ಸ್‌ಗಳು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆಗಳು. Signal ಬಳಸುತ್ತಿರುವುದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "ಕೆಲವು ಕಾರ್ಯಕ್ಷಮತೆಯ ಸುಧಾರಣೆಗಳಿಂದಾಗಿ, ವೀಡಿಯೊ ಕರೆಗಳ ಸಮಯದಲ್ಲಿ ನಿಮ್ಮ CPU ಸ್ವಲ್ಪ ಹೆಚ್ಚು ಉತ್ತಮವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ (ನೀವು ನಗದೇ ಇದ್ದರೂ ಸಹ)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "ನೀವು ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಸೇರಿಕೊಳ್ಳಲು ಪ್ರಯತ್ನಿಸಿದಾಗ Signal ಗೆ ಕ್ಯಾಮರಾವನ್ನು ಬಳಸಲು ಅನುಮತಿ ಇಲ್ಲದಿದ್ದರೆ, Windows ನಲ್ಲಿ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಲು ಅನುಕೂಲವಾಗುವಂತಹ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸಹ ನಾವು ಸೇರಿಸಿದ್ದೇವೆ. ಜನರು ನಿಮ್ಮನ್ನು ನೋಡುವಂತಾಗಲು ನೀವು ಏನು ಮಾಡಬೇಕು ಎಂಬುದನ್ನು ಈಗ ಸುಲಭವಾಗಿ ತಿಳಿದುಕೊಳ್ಳಬಹುದು."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "ಓದದಿರುವ ಫಿಲ್ಟರ್ ಈಗ ಮೆಸೇಜ್ ಫೋಲ್ಡರ್‌ಗಳು ಮತ್ತು ಹುಡುಕಾಟ ಇಂಟರ್‌ಫೇಸ್‌ನಲ್ಲಿಯೂ ಸಹ ಬೆಂಬಲಿತವಾಗಿದೆ, ಹಾಗಾಗಿ ನೀವು ಏನನ್ನು ಕಳೆದುಕೊಂಡಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಸುಲಭವಾಗಿ ನೋಡಬಹುದು."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "ಕನೆಕ್ಟ್ ಆಗಿರುವ ಆಡಿಯೊ ಸಾಧನಗಳಿಗಾಗಿ ಸುಧಾರಿತ ನಿರ್ವಹಣೆ ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆ."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

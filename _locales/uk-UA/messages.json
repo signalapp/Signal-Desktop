@@ -24,43 +24,43 @@
     "messageformat": "Закрити"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Завантаження"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Відтворити"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Пауза"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Завантажити"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Скасувати завантаження"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Надсилання"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Надіслано:"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Доставлено"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Позначити як прочитані"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Надсилання припинено"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Не вдалося надіслати"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Показати пароль"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Завантаження"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Очистити"
@@ -303,10 +303,10 @@
     "messageformat": "Інші дії"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Додати до улюблених"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Вилучити з улюблених"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Копіювати посилання"
@@ -825,7 +825,7 @@
     "messageformat": "Це відео неможливо надіслати, воно завелике. Максимальний дозволений розмір: {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Неможливо надіслати відео, оскільки його тривалість понад {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Не вдається вивантажити обране вкладення."
@@ -1869,13 +1869,13 @@
     "messageformat": "Закрити"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Засекречений відправник"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Дозволити від усіх"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Отримувати повідомлення від засекречених відправників, навіть якщо вони не з вашого списку контактів або ви не ділилися з ними профілем. <learnMoreLink>Докладніше</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Показувати значок стану"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Стікер без емоджі"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Набір стікерів від {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Переглянути набір"
@@ -3099,10 +3120,10 @@
     "messageformat": "Cтікерів не знайдено"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Додати до улюблених"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Вилучити з улюблених"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Попередній вигляд стікера"
@@ -9339,12 +9360,6 @@
     "messageformat": "Дрібні поліпшення, виправлення помилок і покращення роботи застосунку. Дякуємо, що ви з Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Завдяки кільком покращенням продуктивності під час відеовикликів ваш CPU почуватиметься значно веселіше (навіть якщо виклик буде не дуже й веселий)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Крім того, ми додали зручне сполучення клавіш для відкриття системних налаштувань Windows на випадок, якщо ви захочете приєднатися до відеовиклику, а Signal не матиме доступу до камери. Тепер вам буде простіше знайти потрібне налаштування, щоб більше не залишатися за кадром."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Фільтр непрочитаних повідомлень тепер також доступний у папках із повідомленнями та в пошуку, тож ви легко побачите все, що пропустили."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Покращили роботу з підключеними аудіопристроями та їхню продуктивність."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

@@ -24,43 +24,43 @@
     "messageformat": "Kapat"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Yükleniyor"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Oynat"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Durdur"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "İndir"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "İndirmeyi iptal et"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Gönderiliyor"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Gönderildi"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "İletildi"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Okundu"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Gönderme duraklatıldı"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Gönderilemedi"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Parolayı Göster"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Yükleniyor"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Kaldır"
@@ -303,10 +303,10 @@
     "messageformat": "Diğer eylemler"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sık Kullanılanlar'a Ekle"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sık Kullanılanlar'dan Kaldır"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Bağlantıyı Kopyala"
@@ -825,7 +825,7 @@
     "messageformat": "Bu video dosyası gönderilemiyor çünkü çok büyük. En fazla {limit,number}{units} büyüklüğünde bir dosya gönderebilirsin."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Video gönderilemiyor çünkü {maxDuration} süresinden uzun"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilen eklenti yüklenemedi."
@@ -1869,13 +1869,13 @@
     "messageformat": "İptal"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Gizli Gönderen"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Herkesten Al"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Kişileriniz arasında bulunmayan ve profilinizi paylaşmadığınız kişilerden göndereninin gizli olduğu iletilerin alınmasını etkinleştir. <learnMoreLink>Daha fazlasını öğren</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Durum simgesi göster"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Emojisiz çıkartma"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} kişisinden Çıkartma Paketi"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Paketi Görüntüle"
@@ -3099,10 +3120,10 @@
     "messageformat": "Mevcut çıkartma yok"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sık Kullanılanlar'a Ekle"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sık Kullanılanlar'dan Kaldır"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Çıkartma Ön İzlemesi"
@@ -9339,12 +9360,6 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Görüntülü aramalar için performans iyileştirmeleri."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Bir görüntülü aramaya katılmaya çalışırsan ve Signal'ın kameraya erişim izni bulunmuyorsa, sistem ayarlarını Windows'ta açman için uygun bir kısayol da ekledik. Artık insanların seni görebilmesi için ne yapman gerektiğini anlaman daha kolay."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Okunmamışlar filtresi artık mesaj klasörlerinde ve arama arayüzünde de destekleniyor."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Bağlı ses cihazları için gelişmiş kullanım ve performans."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

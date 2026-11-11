@@ -24,43 +24,43 @@
     "messageformat": "Bağla"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Yüklənir"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Oynat"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Fasilə ver"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Endir"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Endirməni ləğv et"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Göndərilir"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Göndərildi"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Çatdırıldı"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Oxundu"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Göndərməyə fasilə verildi"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Göndərə bilmədik"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Parolu göstər"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Yüklənir"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Təmizlə"
@@ -303,10 +303,10 @@
     "messageformat": "Daha çox əməliyyat"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sevimlilərə əlavə et"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sevimlilərdən sil"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Bağlantını kopyala"
@@ -825,7 +825,7 @@
     "messageformat": "Video faylının həcmi çox böyük olduğu üçün göndərmək mümkün olmadı. {limit,number}{units} həcminə qədər olan video fayllarını göndərə bilərsiniz."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Video {maxDuration} müddətindən daha uzun olduğu üçün göndərilə bilmədi"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Seçilmiş qoşma yüklənilə bilmir."
@@ -1869,13 +1869,13 @@
     "messageformat": "Ləğv et"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Gizli Göndərən"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Hər kəsdən icazə ver"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Əlaqə kitabçanızda olmayan və profilinizi paylaşmadığınız əlaqələrdən gələn mesajlar üçün gizli göndərən seçimini fəallaşdırın. <learnMoreLink>Daha ətraflı</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Status nişanını göstər"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Emojisiz stiker"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "{author} tərəfindən göndərilmiş Stiker Paketi"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Paketə bax"
@@ -3099,10 +3120,10 @@
     "messageformat": "Heç bir stiker tapılmadı"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Sevimlilərə əlavə et"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Sevimlilərdən sil"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Stikerə önbaxış"
@@ -9339,12 +9360,6 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Qısa fəaliyyət təkmilləşdirmələri sayəsində video zənglər zamanı prosessorunuz özünü xoşbəxt hiss edəcək (hətta sizin üzünüz gülməsə də)."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Videozəngə qoşulmağa çalışdığınız zaman Signal-ın kameraya giriş icazəsi olmadıqda, Windows-da sistem parametrlərini açmaq üçün rahat qısayol da əlavə etdik. Artıq insanların sizi görə bilməsi üçün nə etməli olduğunuzu bilmək daha asandır."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Oxunmamış mesajlar filtri artıq mesaj qovluqlarında və axtarış interfeysində də dəstəklənir. Beləliklə, gözdən qaçırdığınız mesajları asanlıqla görə bilərsiniz."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Qoşulmuş audio cihazlar üçün təkmilləşdirilmiş istifadə və effektivlik."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }

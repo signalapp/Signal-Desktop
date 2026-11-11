@@ -24,43 +24,43 @@
     "messageformat": "Maak toe"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laai tans"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Speel"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pouseer"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Laai af"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Kanselleer aflaai"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Besig om te stuur"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Gestuur"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Afgelewer"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Gelees"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Stuur is gepouseer"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Kon nie stuur nie"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Wys Wagwoord"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Laai tans"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Vee uit"
@@ -303,10 +303,10 @@
     "messageformat": "Meer aksies"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Voeg by Gunstelinge"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Verwyder uit Gunstelinge"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopieer skakel"
@@ -825,7 +825,7 @@
     "messageformat": "Kan nie hierdie videolêer stuur nie, want dis te groot. Jy kan videolêers van tot {limit,number}{units} stuur."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Kan nie video stuur nie, want dit is langer as {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Kan nie die geselekteerde aanhegsel laai nie."
@@ -1869,13 +1869,13 @@
     "messageformat": "Kanselleer"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Verseëlde afsender"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Laat van enigiemand af toe"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktiveer verseëlde afsender vir inkomende boodskappe van nie-kontakte en mense met wie jy nie jou profiel gedeel het nie. <learnMoreLink>Vind meer uit</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Toon statusikoon"
@@ -2963,8 +2963,29 @@
   "icu:stickers--StickerPreview--StickerNoEmojiAriaLabel": {
     "messageformat": "Plakker sonder 'n emoji"
   },
+  "icu:stickers--StickerPreview--SeeStickerDetails": {
+    "messageformat": "See sticker details"
+  },
+  "icu:stickers--StickerPreview--StickerDetailsTitle": {
+    "messageformat": "Sticker details"
+  },
+  "icu:stickers--StickerPreview--AddFavorite": {
+    "messageformat": "Add to Favorites"
+  },
+  "icu:stickers--StickerPreview--RemoveFavorite": {
+    "messageformat": "Remove from Favorites"
+  },
   "icu:stickers--StickerPackLinkPreviewDescription": {
     "messageformat": "Plakkerpakket deur {author}"
+  },
+  "icu:stickers--Toast--StickerFavoriteAdded": {
+    "messageformat": "Sticker added to Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoriteRemoved": {
+    "messageformat": "Sticker removed from Favorites"
+  },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "{count, plural, one {You can only add {count,number} sticker to Favorites} other {You can only add {count,number} stickers to Favorites}}"
   },
   "icu:stickers--ViewPack": {
     "messageformat": "Besigtig pakket"
@@ -3099,10 +3120,10 @@
     "messageformat": "Geen plakkers gevind nie."
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Voeg by Gunstelinge"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Verwyder uit Gunstelinge"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Plakkervoorskou"
@@ -9339,12 +9360,6 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__8.30--0": {
-    "messageformat": "Prestasieverbeterings vir video-oproepe."
-  },
-  "icu:WhatsNew__8.30--1": {
-    "messageformat": "Ons het ook 'n gerieflike kortpad bygevoeg om jou stelselinstellings in Windows oop te maak as jy by 'n video-oproep probeer aansluit en Signal nie toestemming het om toegang tot die kamera te verkry nie."
-  },
   "icu:WhatsNew__8.32--0": {
     "messageformat": "Die ongelees-filter word nou ook in boodskapvouers sowel as die soek-koppelvlak ondersteun."
   },
@@ -9359,5 +9374,8 @@
   },
   "icu:WhatsNew__8.34--1": {
     "messageformat": "Verbeterde hantering en werkverrigting vir gekoppelde oudiotoestelle."
+  },
+  "icu:WhatsNew__8.36--0": {
+    "messageformat": "Your top stickers now have a place to remain stuck. Add any sticker pack to your list of favorites so it's easy to stick with the ones you love."
   }
 }
