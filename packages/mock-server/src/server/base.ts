@@ -50,6 +50,7 @@ import {
 } from '../constants';
 import { ServerCertificate, generateSenderCertificate } from '../crypto';
 import { ChangeNumberOptions, Device, DeviceKeys } from '../data/device';
+import { VersionedProfile } from '../data/profile';
 import {
   BackupMediaBatch,
   BackupSignedPresentation,
@@ -402,6 +403,11 @@ export abstract class Server {
     Map<string, Buffer<ArrayBuffer>>
   >();
   private readonly registrationLockTokensByACI = new Map<AciString, string>();
+  private readonly profilesByAci = new Map<
+    AciString,
+    Map<string, VersionedProfile>
+  >();
+  private readonly currentProfileVersionByAci = new Map<AciString, string>();
   private readonly provisioningCodes = new Map<
     string,
     Map<ProvisioningCode, ProvisionIdString>
@@ -536,6 +542,27 @@ export abstract class Server {
     return this.registrationLockTokensByACI.get(aci);
   }
 
+  public setProfile(aci: AciString, profile: VersionedProfile): void {
+    let profiles = this.profilesByAci.get(aci);
+    if (!profiles) {
+      profiles = new Map();
+      this.profilesByAci.set(aci, profiles);
+    }
+    profiles.set(profile.version, profile);
+    this.currentProfileVersionByAci.set(aci, profile.version);
+  }
+
+  public getProfile(
+    aci: AciString,
+    version: string,
+  ): VersionedProfile | undefined {
+    return this.profilesByAci.get(aci)?.get(version);
+  }
+
+  public getCurrentProfileVersion(aci: AciString): string | undefined {
+    return this.currentProfileVersionByAci.get(aci);
+  }
+
   public setRegisterResponseData(data: Partial<RegisterAccountResponse>): void {
     this.registerResponseData = data;
   }
@@ -642,6 +669,8 @@ export abstract class Server {
 
     this.devices.delete(aci);
     this.primaryByServiceId.delete(aci);
+    this.profilesByAci.delete(aci);
+    this.currentProfileVersionByAci.delete(aci);
     if (pni) {
       this.primaryByServiceId.delete(pni);
     }
@@ -1780,12 +1809,10 @@ export abstract class Server {
   async getProfileKeyPresentation({
     aci,
     profileKey,
-    profileKeyCommitment: providedProfileKeyCommitment,
     groupParams,
   }: {
     aci: AciString;
     profileKey: ProfileKey;
-    profileKeyCommitment: ProfileKeyCommitment | undefined;
     groupParams: GroupSecretParams;
   }): Promise<ProfileKeyCredentialPresentation> {
     const ops = new ClientZkProfileOperations(this.zkSecret.getPublicParams());
@@ -1794,9 +1821,9 @@ export abstract class Server {
       Aci.parseFromServiceIdString(aci),
       profileKey,
     );
-    const profileKeyCommitment =
-      providedProfileKeyCommitment ??
-      profileKey.getCommitment(Aci.parseFromServiceIdString(aci));
+    const profileKeyCommitment = profileKey.getCommitment(
+      Aci.parseFromServiceIdString(aci),
+    );
     const response = await this.issueExpiringProfileKeyCredential({
       aci,
       profileKeyCommitment,

@@ -52,6 +52,8 @@ import {
 import { Server } from '../base';
 import {
   booleanFromQuery,
+  fromBase64,
+  fromOptionalBase64,
   getDevicesKeysResult,
   isValidAccessKey,
   parseAuthHeader,
@@ -85,15 +87,20 @@ export class Connection extends Service {
       headers,
       { credentialType } = {},
     ) => {
+      if (params.request && credentialType !== 'expiringProfileKey') {
+        return [400, { error: 'Unsupported credential type' }];
+      }
+
       const serviceId = params.serviceId as ServiceIdString;
 
       const target = await this.server.getDeviceByServiceId(serviceId);
-      if (!target) {
-        return [404, { error: 'Device not found' }];
-      }
-
-      if (this.server.isUnregistered(serviceId)) {
-        return [404, { error: 'Unregistered' }];
+      if (!target || this.server.isUnregistered(serviceId)) {
+        // Only authenticated and group send token requests learn whether an
+        // account exists
+        if (this.device || headers['group-send-token']) {
+          return [404, { error: 'Not found' }];
+        }
+        return [401, { error: 'Not authenticated' }];
       }
 
       const accessError = this.checkAccessKey(target, headers);
@@ -101,20 +108,25 @@ export class Connection extends Service {
         return [401, { error: accessError }];
       }
 
+      const { version } = params;
+      const profile =
+        version === undefined
+          ? undefined
+          : this.server.getProfile(target.aci, version);
+      const isCurrentVersion =
+        profile !== undefined &&
+        profile.version === this.server.getCurrentProfileVersion(target.aci);
+
+      // Credentials are only issued for the current version
       let credential: Buffer<ArrayBuffer> | undefined;
-      if (params.request) {
-        const request = new ProfileKeyCredentialRequest(
-          Buffer.from(params.request, 'hex'),
-        );
-        if (credentialType === 'expiringProfileKey') {
-          credential = await this.server.issueExpiringProfileKeyCredential({
-            aci: target.aci,
-            profileKeyCommitment: target.profileKeyCommitment,
-            request,
-          });
-        } else {
-          return [400, { error: 'Unsupported credential type' }];
-        }
+      if (params.request && isCurrentVersion) {
+        credential = await this.server.issueExpiringProfileKeyCredential({
+          aci: target.aci,
+          profileKeyCommitment: profile.commitment,
+          request: new ProfileKeyCredentialRequest(
+            Buffer.from(params.request, 'hex'),
+          ),
+        });
       }
 
       const serviceIdKind = target.getServiceIdKind(serviceId);
@@ -123,13 +135,19 @@ export class Connection extends Service {
       return [
         200,
         {
-          name: target.profileName?.toString('base64'),
           identityKey: Buffer.from(identityKey.serialize()).toString('base64'),
           unrestrictedUnidentifiedAccess: false,
           unidentifiedAccess: target.accessKey
             ? generateAccessKeyVerifier(target.accessKey).toString('base64')
             : undefined,
           capabilities: target.capabilities,
+          name: profile?.name.toString('base64'),
+          about: profile?.about?.toString('base64'),
+          aboutEmoji: profile?.aboutEmoji?.toString('base64'),
+          phoneNumberSharing: profile?.phoneNumberSharing?.toString('base64'),
+          paymentAddress: isCurrentVersion
+            ? profile.paymentAddress?.toString('base64')
+            : undefined,
           credential: credential?.toString('base64'),
         },
       ];
@@ -164,23 +182,21 @@ export class Connection extends Service {
           return [400, { error: 'body is malformed' }];
         }
 
-        const primaryDevice = this.device;
-        if (!primaryDevice) {
+        const device = this.device;
+        if (!device) {
           return [400, { error: 'missing device!' }];
         }
 
         const { data } = parsedResult;
-        const { name, commitment } = data;
-
-        primaryDevice.profileName = name
-          ? Buffer.from(name, 'base64')
-          : undefined;
-        if (commitment) {
-          primaryDevice.profileKeyCommitment = new ProfileKeyCommitment(
-            Buffer.from(commitment, 'base64'),
-          );
-        }
-        // Note: The other fields on UpdateProfileSchema are currently not saved on device
+        this.server.setProfile(device.aci, {
+          version: data.version,
+          commitment: new ProfileKeyCommitment(fromBase64(data.commitment)),
+          name: fromBase64(data.name),
+          about: fromOptionalBase64(data.about),
+          aboutEmoji: fromOptionalBase64(data.aboutEmoji),
+          paymentAddress: fromOptionalBase64(data.paymentAddress),
+          phoneNumberSharing: fromOptionalBase64(data.phoneNumberSharing),
+        });
 
         const result: UploadProfileResponse = 'ok';
         return [200, result];
