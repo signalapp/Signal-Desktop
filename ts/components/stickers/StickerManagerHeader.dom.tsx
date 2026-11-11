@@ -5,7 +5,7 @@ import { useCallback, type JSX } from 'react';
 
 import { tw } from '../../axo/tw.dom.tsx';
 import { ExperimentalAxoSegmentedControl } from '../../axo/AxoSegmentedControl.dom.tsx';
-import { AxoSelect } from '../../axo/AxoSelect.dom.tsx';
+import { AxoSelect } from '../../axo/menus/AxoSelect.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerManagerTabType } from '../../types/Stickers.preload.ts';
 

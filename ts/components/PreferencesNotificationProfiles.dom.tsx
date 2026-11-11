@@ -18,7 +18,7 @@ import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
 import { FunEmojiPickerButton } from './fun/FunButton.dom.tsx';
 import { tw, type TailwindStyles } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
+import { AxoSelect } from '../axo/menus/AxoSelect.dom.tsx';
 import { AxoSwitch } from '../axo/AxoSwitch.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { Input } from './Input.dom.tsx';

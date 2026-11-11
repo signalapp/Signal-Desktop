@@ -18,7 +18,7 @@ import { useRetryStorySend } from '../hooks/useRetryStorySend.dom.tsx';
 import { NavSidebar } from './NavSidebar.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 

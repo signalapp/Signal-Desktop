@@ -67,7 +67,7 @@ import { tw } from '../axo/tw.dom.tsx';
 import type { FunTimeStickerStyle } from './fun/constants.dom.tsx';
 import * as Errors from '../types/errors.std.ts';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import type { StickerReferenceType } from '../types/Stickers.preload.ts';
 
 const { get, has, noop } = lodash;

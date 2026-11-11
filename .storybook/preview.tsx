@@ -20,6 +20,7 @@ import { SystemThemeType, ThemeType } from '../ts/types/Util.std.ts';
 import { setupI18n } from '../ts/util/setupI18n.dom.tsx';
 import { HourCyclePreference } from '../ts/types/I18N.std.ts';
 import { AppProvider } from '../ts/windows/AppProvider.dom.tsx';
+import type { AxoEnv } from '../ts/axo/_internal/AxoEnv.dom.tsx';
 import type { StateType } from '../ts/state/reducer.preload.ts';
 import {
   ScrollerLockContext,
@@ -297,9 +298,14 @@ function withFunProvider(Story, context) {
   );
 }
 
+// See: https://github.com/storybookjs/test-runner#storybooktestrunner-user-agent
+const AXO_ENV: AxoEnv.Env = navigator.userAgent.includes('StorybookTestRunner')
+  ? 'test'
+  : 'dev';
+
 function withAppProvider(Story, context) {
   return (
-    <AppProvider>
+    <AppProvider env={AXO_ENV}>
       <Story {...context} />
     </AppProvider>
   );

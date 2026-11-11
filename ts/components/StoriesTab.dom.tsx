@@ -25,7 +25,7 @@ import { NavSidebar } from './NavSidebar.dom.tsx';
 import { StoriesAddStoryButton } from './StoriesAddStoryButton.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import type { WidthBreakpoint } from './_util.std.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = {

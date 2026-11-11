@@ -12,7 +12,7 @@ import {
 } from '../types/NotificationProfile.std.ts';
 import { DAY, HOUR, SECOND } from '../util/durations/index.std.ts';
 import { formatTimestamp } from '../util/formatTimestamp.dom.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { ProfileAvatar } from './PreferencesNotificationProfiles.dom.tsx';
 
 export type Props = Readonly<{

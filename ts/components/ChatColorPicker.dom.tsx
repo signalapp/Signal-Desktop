@@ -14,7 +14,7 @@ import {
   resolveBubbleColorRenderData,
 } from '../util/getCustomColorStyle.std.ts';
 import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus.dom.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
 import { AxoContainer } from '../axo/AxoContainer.dom.tsx';

@@ -112,7 +112,7 @@ import type { TapToViewNotAvailableModalData } from '../TapToViewNotAvailableMod
 import { FileThumbnail } from '../FileThumbnail.dom.tsx';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.tsx';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.std.ts';
-import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.tsx';
+import type { AxoMenuBuilder } from '../../axo/menus/AxoMenuBuilder.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.tsx';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.ts';

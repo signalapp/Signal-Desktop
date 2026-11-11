@@ -5,7 +5,7 @@ import type { ReactNode, FC } from 'react';
 import { memo, useId } from 'react';
 import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
 import { AxoBaseItem } from './_AxoBaseItem.dom.tsx';
-import { AxoSelect } from '../AxoSelect.dom.tsx';
+import { AxoSelect } from '../menus/AxoSelect.dom.tsx';
 import { AriaList } from '../aria/AriaList.dom.tsx';
 
 export namespace AxoSelectItem {

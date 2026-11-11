@@ -12,9 +12,9 @@ import {
 } from 'react';
 import type { MuteExpiration } from '@signalapp/types';
 
-import { AxoContextMenu } from '../axo/AxoContextMenu.dom.tsx';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
-import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.tsx';
+import { AxoContextMenu } from '../axo/menus/AxoContextMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
+import type { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import type { MuteOption } from '../util/getMuteOptions.std.ts';

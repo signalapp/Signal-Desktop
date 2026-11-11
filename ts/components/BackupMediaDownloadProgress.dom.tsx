@@ -9,7 +9,7 @@ import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import { BackupMediaDownloadCancelConfirmationDialog } from './BackupMediaDownloadCancelConfirmationDialog.dom.tsx';
 import { LeftPaneDialog } from './LeftPaneDialog.dom.tsx';
 import { WidthBreakpoint } from './_util.std.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export type PropsType = Readonly<{

@@ -7,7 +7,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 import * as expirationTimer from '../util/expirationTimer.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.tsx';
-import { AxoSelect } from '../axo/AxoSelect.dom.tsx';
+import { AxoSelect } from '../axo/menus/AxoSelect.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 export type Props = {

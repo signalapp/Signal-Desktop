@@ -1,0 +1,301 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@property --axo-select-trigger-mask-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+/**
+ * Select Trigger
+ */
+
+@layer components {
+  .axo-select-trigger {
+    @apply relative inline-flex items-center;
+    @apply rounded-full text-start type-body-medium font-medium text-primary;
+    @apply disabled:text-disabled;
+    @apply focus-visible:axo-focus-ring;
+    @apply forced-colors:border;
+    @apply forced-colors:text-[ButtonText];
+    @apply disabled:forced-colors:text-[GrayText];
+  }
+
+  /**
+   * Variants
+   */
+
+  .axo-select-trigger-default {
+    @apply bg-primary;
+    @apply enabled:active:bg-primary-pressed;
+  }
+
+  .axo-select-trigger-elevated {
+    @apply bg-material-tertiary backdrop-blur-thin;
+    @apply shadow-elevation-1;
+    @apply enabled:active:bg-material-tertiary-pressed;
+  }
+
+  .axo-select-trigger-implied {
+    @apply bg-transparent;
+    @apply enabled:hover:bg-primary;
+    @apply enabled:active:bg-primary-pressed;
+  }
+
+  /**
+   * Widths
+   */
+
+  .axo-select-trigger-full {
+    @apply w-full;
+  }
+
+  /**
+   * Chevrons
+   */
+
+  .axo-select-trigger-content {
+    @apply flex min-w-0 flex-1;
+    @apply py-[5px];
+  }
+
+  .axo-select-trigger-chevron-always {
+    .axo-select-trigger-content {
+      @apply ps-3;
+    }
+
+    .axo-select-trigger-chevron {
+      @apply flex items-center ps-2 pe-2.5;
+    }
+  }
+
+  .axo-select-trigger-chevron-on-hover {
+    .axo-select-trigger-content {
+      @apply px-3;
+      @apply [--axo-select-trigger-mask-start:black];
+      @apply group-enabled:group-hover:[--axo-select-trigger-mask-start:transparent];
+      @apply group-enabled:group-focus:[--axo-select-trigger-mask-start:transparent];
+      @apply group-data-[state=open]:[--axo-select-trigger-mask-start:transparent];
+      @apply mask-[linear-gradient(to_left,var(--axo-select-trigger-mask-start)_19px,black_38px)];
+      @apply rtl:mask-[linear-gradient(to_right,var(--axo-select-trigger-mask-start)_19px,black_38px)];
+      @apply mask-no-repeat;
+      @apply mask-right rtl:mask-left;
+      @apply [transition-property:--axo-select-trigger-mask-start] duration-150;
+    }
+
+    .axo-select-trigger-chevron {
+      @apply absolute inset-y-0 inset-e-0 w-9.5;
+      @apply flex items-center justify-end pe-2;
+      @apply opacity-0;
+      @apply group-enabled:group-hover:opacity-100;
+      @apply group-enabled:group-focus:opacity-100;
+      @apply group-data-[state=open]:opacity-100;
+      @apply transition-opacity duration-150;
+    }
+  }
+}
+
+/**
+ * Content
+ */
+
+@layer components {
+  .axo-select-content,
+  .axo-menu-content {
+    /**
+     * In the future we should be relying more on insert order of
+     * dialogs/popovers/menus into portals
+     */
+    @apply legacy-z-index-context-menu;
+    @apply max-w-[300px] min-w-[200px];
+    @apply curved-xl bg-material-tertiary shadow-elevation-3 backdrop-blur-regular;
+    @apply forced-colors:border;
+    @apply forced-colors:bg-[Canvas];
+    @apply forced-colors:text-[CanvasText];
+    /* Exit animations make tests flaky */
+    @apply not-env-test:animate-opacity-0;
+    @apply not-env-test:data-[state=closed]:animate-exit;
+  }
+
+  .axo-select-viewport,
+  .axo-menu-content {
+    @apply grid grid-cols-[min-content_1fr] p-1.5;
+  }
+
+  .axo-menu-content {
+    @apply max-h-(--radix-popper-available-height);
+    @apply scrollbar-width-none overflow-auto;
+  }
+
+  .axo-select-scroll-button {
+    @apply flex items-center justify-center p-1 text-primary;
+  }
+}
+
+/**
+ * Groups
+ */
+
+@layer components {
+  .axo-select-viewport-group,
+  .axo-select-group,
+  .axo-menu-group,
+  .axo-menu-radio-group {
+    @apply col-span-full grid grid-cols-subgrid;
+  }
+}
+
+/**
+ * Rows
+ */
+
+@layer components {
+  .axo-select-item,
+  .axo-select-label,
+  .axo-select-separator,
+  .axo-menu-item,
+  .axo-menu-label {
+    @apply col-span-full grid grid-cols-subgrid items-center;
+  }
+
+  /* Not separators */
+  .axo-select-item,
+  .axo-select-label,
+  .axo-menu-item,
+  .axo-menu-label {
+    @apply truncate p-1.5;
+  }
+
+  /* Not labels or separators */
+  .axo-select-item,
+  .axo-menu-item {
+    @apply curved-md type-body-medium;
+    @apply text-primary;
+    @apply data-highlighted:bg-primary-pressed;
+    @apply data-disabled:text-disabled;
+    @apply focus-visible:axo-focus-ring;
+    @apply forced-colors:text-[CanvasText];
+    @apply forced-colors:data-highlighted:bg-[Highlight];
+    @apply forced-colors:data-highlighted:text-[HighlightText];
+    @apply forced-colors:data-disabled:text-[GrayText];
+  }
+
+  .axo-menu-item-destructive {
+    @apply not-forced-colors:text-destructive;
+  }
+
+  .axo-menu-item-sub-trigger {
+    @apply data-[state=open]:not-data-highlighted:bg-primary;
+    @apply forced-colors:data-[state=open]:not-data-highlighted:bg-[Highlight];
+    @apply forced-colors:data-[state=open]:not-data-highlighted:text-[HighlightText];
+  }
+
+  .axo-select-label,
+  .axo-menu-label {
+    @apply type-body-small text-secondary;
+    @apply forced-colors:text-[CanvasText];
+  }
+}
+
+/**
+ * Header
+ */
+
+@layer components {
+  .axo-menu-header {
+    @apply col-span-full col-start-1 p-1.5;
+  }
+
+  .axo-menu-header-label {
+    @apply block truncate type-title-small text-primary;
+  }
+
+  .axo-menu-header-description {
+    @apply block truncate type-caption text-secondary;
+  }
+}
+
+/**
+ * Separators
+ */
+
+@layer components {
+  .axo-select-separator,
+  .axo-menu-separator,
+  .axo-menu-content-separator {
+    @apply my-1 border-t-[0.5px] border-primary;
+  }
+
+  .axo-menu-separator {
+    @apply col-span-full col-start-1 mx-0.5;
+  }
+
+  .axo-menu-content-separator {
+    @apply col-span-full col-start-2;
+  }
+}
+
+/**
+ * Item Slots
+ */
+
+@layer components {
+  .axo-select-item-leading,
+  .axo-menu-item-leading {
+    @apply col-start-1 col-end-1 me-1.5 flex items-center gap-1.5;
+  }
+
+  .axo-select-item-content,
+  .axo-menu-item-content {
+    @apply col-start-2 col-end-2 flex min-w-0 items-center;
+  }
+
+  .axo-select-trigger-text,
+  .axo-select-item-text,
+  .axo-menu-item-text {
+    @apply flex-auto grow-0 truncate text-start;
+    @apply forced-color-adjust-none forced-colors:text-inherit;
+  }
+
+  .axo-menu-item-text-with-description {
+    @apply flex min-w-0 flex-auto flex-col;
+  }
+
+  .axo-menu-item-description {
+    @apply text-start type-body-small whitespace-normal text-secondary;
+    @apply forced-color-adjust-none forced-colors:text-inherit;
+  }
+
+  .axo-select-item-check-placeholder,
+  .axo-menu-item-check-placeholder {
+    @apply w-3.5;
+  }
+
+  /* Vertically center icons with the text */
+
+  .axo-select-item-indicator,
+  .axo-menu-item-indicator {
+    @apply inline-flex items-center;
+  }
+
+  .axo-select-item-symbol,
+  .axo-menu-item-symbol {
+    @apply me-2 inline-flex items-center;
+  }
+
+  .axo-menu-item-keyboard-shortcut {
+    @apply ms-auto px-1 type-body-medium text-secondary;
+    @apply forced-color-adjust-none forced-colors:text-inherit;
+  }
+
+  .axo-menu-item-chevron {
+    @apply ms-auto inline-flex items-center;
+  }
+
+  .axo-select-item-badge {
+    @apply ms-[5px];
+  }
+}

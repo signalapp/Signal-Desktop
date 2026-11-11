@@ -18,7 +18,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.tsx';
-import { isTestOrMockEnvironment } from '../environment.std.ts';
+import { useAxoEnv } from './_internal/AxoEnv.dom.tsx';
 import {
   concatIds,
   forwardExtraPropsForRadix,
@@ -244,6 +244,7 @@ export namespace AriaClickable {
     const { ref, label, labelledby, describedby, disabled, onClick, ...rest } =
       props;
 
+    const env = useAxoEnv();
     const innerRef = useRef<HTMLButtonElement>(null);
     const onTriggerStateUpdate = useStrictContext(TriggerStateUpdateContext);
 
@@ -298,7 +299,7 @@ export namespace AriaClickable {
     }, []);
 
     useEffect(() => {
-      if (isTestOrMockEnvironment()) {
+      if (env === 'test') {
         assert(
           computeAccessibleName(assert(innerRef.current)) !== '',
           'AriaClickable.HiddenTrigger child must have an accessible name'

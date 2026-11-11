@@ -24,7 +24,7 @@ import { Time } from './Time.dom.tsx';
 import { groupBy } from '../util/mapUtil.std.ts';
 import { format as formatRelativeTime } from '../util/expirationTimer.std.ts';
 import { formatFileSize } from '../util/formatFileSize.std.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 
 export type PropsType = {

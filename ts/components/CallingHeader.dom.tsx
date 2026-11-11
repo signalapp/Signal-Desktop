@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { CallViewMode } from '../types/Calling.std.ts';
-import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.tsx';
+import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
