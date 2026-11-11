@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { MinimalSignalContext } from '../minimalContext.preload.ts';
 import { createSetting } from '../../util/preload.preload.ts';
 import { drop } from '../../util/drop.std.ts';
@@ -34,6 +34,9 @@ const Signal = {
       onClose();
     },
     onClose,
+    onHeightChange: (height: number) => {
+      ipcRenderer.send('permissions-popup:set-height', height);
+    },
   },
 };
 contextBridge.exposeInMainWorld('Signal', Signal);
