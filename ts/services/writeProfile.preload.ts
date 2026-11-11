@@ -18,14 +18,42 @@ import {
 import { imagePathToBytes } from '../util/imagePathToBytes.dom.ts';
 import { getLocalAvatarUrl } from '../util/avatarUtils.preload.ts';
 import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
-import type {
-  AvatarUpdateOptionsType,
-  AvatarUpdateType,
-} from '../types/Avatar.std.ts';
+import type { AvatarUpdateOptionsType } from '../types/Avatar.std.ts';
+import { ProfileAvatarChange } from '../types/Avatar.std.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 import { MessageSender } from '../textsecure/SendMessage.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('writeProfile');
+
+async function getAvatarChange(
+  model: ConversationModel,
+  options: AvatarUpdateOptionsType
+): Promise<ProfileAvatarChange> {
+  if (!options.keepAvatar) {
+    return ProfileAvatarChange.fromAvatarUpdate(options.avatarUpdate);
+  }
+  if (!options.reupload) {
+    return { type: 'unchanged' };
+  }
+
+  const profileAvatarUrl = getLocalAvatarUrl(model.attributes);
+  if (profileAvatarUrl == null) {
+    return { type: 'clear' };
+  }
+
+  let avatar: Uint8Array<ArrayBuffer>;
+  try {
+    avatar = await imagePathToBytes(profileAvatarUrl);
+  } catch (error) {
+    log.warn(
+      'local avatar not found, dropping remote',
+      Errors.toLogFormat(error)
+    );
+    return { type: 'clear' };
+  }
+  return { type: 'update', avatar };
+}
 
 export async function writeProfile(
   conversation: ConversationType,
@@ -63,36 +91,16 @@ export async function writeProfile(
     'writeProfile: Cannot set an empty profile name'
   );
 
-  let avatarUpdate: AvatarUpdateType;
-  if (options.keepAvatar) {
-    const profileAvatarUrl = getLocalAvatarUrl(model.attributes);
-
-    let avatarBuffer: Uint8Array<ArrayBuffer> | undefined;
-    if (profileAvatarUrl) {
-      try {
-        avatarBuffer = await imagePathToBytes(profileAvatarUrl);
-      } catch (error) {
-        log.warn('local avatar not found, dropping remote');
-      }
-    }
-
-    avatarUpdate = {
-      oldAvatar: avatarBuffer,
-      newAvatar: avatarBuffer,
-      reupload: options.reupload,
-    };
-  } else {
-    avatarUpdate = options.avatarUpdate;
-  }
-
-  const [profileData, encryptedAvatarData, canSkipAvatarUpload] =
-    await encryptProfileData(conversation, avatarUpdate);
+  const avatarChange = await getAvatarChange(model, options);
+  const [profileData, encryptedAvatarData] = await encryptProfileData(
+    conversation,
+    avatarChange
+  );
   const avatarRequestHeaders = await putProfile(profileData);
 
   // Upload the avatar if provided
   // delete existing files on disk if avatar has been removed
   // update the account's avatar path and hash if it's a new avatar
-  const { newAvatar } = avatarUpdate;
   let maybeProfileAvatarUpdate: {
     profileAvatar?:
       | {
@@ -101,25 +109,26 @@ export async function writeProfile(
         }
       | undefined;
   } = {};
-  if (canSkipAvatarUpload) {
+  if (avatarChange.type === 'unchanged') {
     log.info('not updating avatar');
-  } else if (
-    typeof avatarRequestHeaders === 'object' &&
-    encryptedAvatarData &&
-    newAvatar
-  ) {
+  } else if (avatarChange.type === 'update') {
+    strictAssert(
+      typeof avatarRequestHeaders === 'object' && encryptedAvatarData != null,
+      'writeProfile: missing avatar upload form'
+    );
+
     log.info('uploading new avatar');
     const avatarUrl = await uploadAvatar(
       avatarRequestHeaders,
       encryptedAvatarData
     );
 
-    const hash = computeHash(newAvatar);
+    const hash = computeHash(avatarChange.avatar);
 
     if (hash !== avatarHash) {
       log.info('removing old avatar and saving the new one');
       const [local] = await Promise.all([
-        writeNewAttachmentData(newAvatar),
+        writeNewAttachmentData(avatarChange.avatar),
         rawAvatarPath ? maybeDeleteAttachmentFile(rawAvatarPath) : undefined,
       ]);
       maybeProfileAvatarUpdate = {
