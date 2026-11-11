@@ -24,43 +24,43 @@
     "messageformat": "Chiudi"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Caricamento"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Riproduci"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pausa"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Scarica"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Annulla download"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Invio in corso"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Inviato"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Consegnato"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Letto"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Invio in pausa"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Invio fallito"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Mostra la password"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Caricamento"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Elimina"
@@ -303,10 +303,10 @@
     "messageformat": "Più azioni"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Aggiungi ai Preferiti"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Rimuovi dai Preferiti"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Copia link"
@@ -825,7 +825,7 @@
     "messageformat": "Impossibile inviare questo video perché è troppo grande. Puoi inviare video fino a {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Impossibile inviare il video perché è più lungo di {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Non è stato possibile caricare l'allegato selezionato."
@@ -1869,13 +1869,13 @@
     "messageformat": "Annulla"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Mittente schermato"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Consenti da chiunque"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Consente di usare il mittente schermato per i messaggi ricevuti da chi non è tra i contatti o con cui non hai condiviso il profilo. <learnMoreLink>Scopri di più</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Mostra icona di stato"
@@ -3099,10 +3099,10 @@
     "messageformat": "Nessun adesivo trovato"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Aggiungi ai Preferiti"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Rimuovi dai Preferiti"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Anteprima adesivo"

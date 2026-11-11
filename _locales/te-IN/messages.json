@@ -24,43 +24,43 @@
     "messageformat": "మూసివెయ్యి"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "లోడ్ అవుతోంది"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ప్లే చేయండి"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "నిలుపు"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "డౌన్‌లోడ్"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "డౌన్‌లోడ్‌ను రద్దు చేయండి"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "పంపుతోంది"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "పంపబడింది"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "డెలివరీ చేయబడింది"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "చదివినవి"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "పంపడం తాత్కాలికంగా నిలిపివేయబడింది"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "పంపించడం విఫలమైనది"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "పాస్‌వర్డ్‌ను చూపించండి"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "లోడ్ అవుతోంది"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "స్పష్టమైన"
@@ -303,10 +303,10 @@
     "messageformat": "మరిన్ని చర్యలు"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ఇష్టమైన వాటికి జోడించండి"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ఇష్టమైన వాటినుండి తొలగించండి"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "లింక్ను కాపీ చేయండి"
@@ -825,7 +825,7 @@
     "messageformat": "ఈ వీడియో ఫైల్ మరీ పెద్దదిగా ఉన్నందున దీనిని పంపలేము. మీరు {limit,number}{units} పరిమాణం వరకు ఉన్న వీడియో ఫైల్‌లను పంపవచ్చు."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "{maxDuration} కంటే ఎక్కువ నిడివి ఉన్నందున వీడియోను పంపడం సాధ్యం కాదు"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ఎంచుకున్న అటాచ్‌మెంట్‌ను లోడ్ చేయడం సాధ్యం కాలేదు."
@@ -1869,13 +1869,13 @@
     "messageformat": "రద్దు చేయండి"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "సీల్ చేయబడ్డ సెండర్"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ఎవరి నుండి అయినా అనుమతించు"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "మీరు మీ ప్రొఫైల్‌ను పంచుకోని పరిచయస్తులు-కాని వారి నుండి మరియు వ్యక్తుల నుండి వచ్చే సందేశాల కోసం సీల్డ్ సెండర్‌ను ఎనేబుల్ చేయండి. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "స్టేటస్ ఐకాన్‌ని చూపించడం"
@@ -3099,10 +3099,10 @@
     "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ఇష్టమైన వాటికి జోడించండి"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ఇష్టమైన వాటినుండి తొలగించండి"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "స్టిక్కర్ ప్రివ్యూ"

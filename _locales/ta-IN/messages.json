@@ -24,43 +24,43 @@
     "messageformat": "நெருக்கமான"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ஏற்றுதல்"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "இயக்கு"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "நிறுத்து"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "பதிவிறக்க"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "பதிவிறக்கத்தை ரத்து செய்"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "அனுப்புகிறது"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "அனுப்புதல்"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "விநியோகிக்கப்பட்டது"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "படித்தவை"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "அனுப்புதல் இடைநிறுத்தப்பட்டது"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "அனுப்ப முடியவில்லை"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "கடவுச்சொல்லைக் காட்டுக"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ஏற்றுதல்"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "அழி"
@@ -303,10 +303,10 @@
     "messageformat": "மேலும் செயல்கள்"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "பிடித்தவையில் சேர்"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "பிடித்தவையிலிருந்து அகற்று"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "இணைப்பை நகலெடுக்க"
@@ -825,7 +825,7 @@
     "messageformat": "இந்த வீடியோ கோப்பின் அளவு மிகவும் பெரியதாக இருப்பதால் அதை அனுப்ப முடியாது. நீங்கள் {limit,number}{units} வரை வீடியோ கோப்புகளை அனுப்ப முடியும்."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "வீடியோவை அனுப்ப முடியாது, ஏனெனில் அது {maxDuration}-ஐ விட நீளமாக உள்ளது"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "தேர்ந்தெடுக்கப்பட்ட இணைப்பு ஏற்ற முடியவில்லை."
@@ -1869,13 +1869,13 @@
     "messageformat": "ரத்துசெய்"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "சீல் அனுப்பியவர்"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "யாரிடமிருந்தும் அனுமதிக்கவும்"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "தொடர்புகள் அல்லாதவர்களிடமிருந்தும், உங்கள் சுயவிவரத்தைப் பகிராத நபர்களிடமிருந்தும் உள்வரும் செய்திகளுக்கு சீல் அனுப்பியவரை இயக்கவும். <learnMoreLink>மேலும் அறிக</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "நிலை ஐகானைக் காட்டு"
@@ -3099,10 +3099,10 @@
     "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "பிடித்தவையில் சேர்"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "பிடித்தவையிலிருந்து அகற்று"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ஸ்டிக்கர் முன்னோட்டம்"

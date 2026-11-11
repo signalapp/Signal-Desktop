@@ -24,43 +24,43 @@
     "messageformat": "Κλείσιμο"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Φορτώνει"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Αναπαραγωγή"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Παύση"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Λήψη"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Ακύρωση λήψης"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Αποστέλλεται"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Στάλθηκε"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Παραδόθηκε"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Διαβάστηκε"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Η αποστολή είναι σε αναμονή"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Αποτυχία αποστολής"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Εμφάνιση κωδικού πρόσβασης"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Φορτώνει"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Εκκαθάριση"
@@ -303,10 +303,10 @@
     "messageformat": "Περισσότερες ενέργειες"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Προσθήκη στα Αγαπημένα"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Κατάργηση από τα Αγαπημένα"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Αντιγραφή συνδέσμου"
@@ -825,7 +825,7 @@
     "messageformat": "Δεν είναι δυνατή η αποστολή αυτού του αρχείου βίντεο επειδή είναι πολύ μεγάλο. Μπορείς να στείλεις αρχεία βίντεο έως και {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Δεν είναι δυνατή η αποστολή βίντεο επειδή είναι μεγαλύτερο από {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Δεν είναι δυνατή η φόρτωση του επιλεγμένου συνημμένου."
@@ -1869,13 +1869,13 @@
     "messageformat": "Ακύρωση"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Προστατευμένος αποστολέας"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Να επιτρέπεται από οποιονδήποτε"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Ενεργοποίησε τον σφραγισμένο αποστολέα για εισερχόμενα μηνύματα από άτομα που δεν βρίσκονται στις επαφές σου και άτομα με τα οποία δεν έχεις μοιραστεί το προφίλ σου. <learnMoreLink>Μάθε περισσότερα</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Εμφάνιση εικονιδίου κατάστασης"
@@ -3099,10 +3099,10 @@
     "messageformat": "Δε βρέθηκαν αυτοκόλλητα"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Προσθήκη στα Αγαπημένα"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Κατάργηση από τα Αγαπημένα"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Προεπισκόπηση αυτοκόλλητου"

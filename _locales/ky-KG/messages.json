@@ -24,43 +24,43 @@
     "messageformat": "Жабуу"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктөлүүдө"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Ойнотуу"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Тыныгуу"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Жүктөп алуу"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Токтотуу"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Жөнөтүлүүдө"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Жөнөтүлдү"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Жетти"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Окуу"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Жөнөтүү тындырылды"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Жөнөтүлгөн жок"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Сырсөздү көрсөтүү"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктөлүүдө"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Тазалоо"
@@ -303,10 +303,10 @@
     "messageformat": "Дагы"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Тандалгандарга кошуу"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Тандалгандардан өчүрүү"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Шилтемени көчүрүү"
@@ -825,7 +825,7 @@
     "messageformat": "Видео өтө чоң болгондуктан, жөнөтө албайсыз. Видео {limit,number}{units} чейин болушу керек."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "{maxDuration} ашкан видеону жөнөтүүгө болбойт"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Тандалган тиркемени жүктөп алуу мүмкүн эмес."
@@ -1869,13 +1869,13 @@
     "messageformat": "Жок"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Жашыруун жөнөтүүчү"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Бардыгы үчүн уруксат берүү"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Сиздин байланыштарыңызда болбогон жана профилиңизди бөлүшпөгөн адамдардан жашыруун жөнөтүүчү билдирүүлөрдү алууну иштетиңиз. <learnMoreLink>Кененирээк маалымат.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Статус сүрөтчөсүн көрсөтүү"
@@ -3099,10 +3099,10 @@
     "messageformat": "Стикерлер табылган жок"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Тандалгандарга кошуу"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Тандалгандардан өчүрүү"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Стикерди алдын ала карап көрүү"

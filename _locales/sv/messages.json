@@ -24,43 +24,43 @@
     "messageformat": "Stäng"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Läser in"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Spela"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pausa"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Hämta"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Avbryt nedladdning"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Skickar"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Skickat"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Levererat"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Läst"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Sändningen pausad"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Misslyckades att skicka"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Visa lösenord"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Läser in"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Rensa"
@@ -303,10 +303,10 @@
     "messageformat": "Fler åtgärder"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lägg till i Favoriter"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ta bort från Favoriter"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopiera länk"
@@ -825,7 +825,7 @@
     "messageformat": "Det går inte att skicka den här videofilen eftersom den är för stor. Du kan skicka videofiler på upp till {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Det går inte att skicka videon eftersom den är längre än {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Det gick inte att läsa in vald bilaga"
@@ -1869,13 +1869,13 @@
     "messageformat": "Avbryt"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Dold avsändare"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Tillåt från alla"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktivera dold avsändare för inkommande meddelanden från icke-kontakter och personer som du inte har delat din profil med. <learnMoreLink>Läs mer</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Visa statusikon"
@@ -3099,10 +3099,10 @@
     "messageformat": "Inga klistermärken hittades"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Lägg till i Favoriter"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ta bort från Favoriter"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Förhandsvisning av klistermärke"

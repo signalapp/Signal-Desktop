@@ -24,43 +24,43 @@
     "messageformat": "關閉"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "載入緊"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "播放"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "暫停"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "下載"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "取消下載"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "傳送緊"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "送出"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "收到"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "睇咗"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "傳送已暫停"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "傳送唔到"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "顯示密碼"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "載入緊"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "清走晒佢"
@@ -303,10 +303,10 @@
     "messageformat": "其他操作"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "加去「最愛」"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "喺「最愛」度移除"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "複製連結"
@@ -825,7 +825,7 @@
     "messageformat": "你條片太長喇，傳送唔到呢個檔案。你最多可以傳送 {limit,number}{units} 嘅影片檔案。"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "你條片超過咗 {maxDuration} ，傳送唔到出去"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "載入唔到你揀嘅附件。"
@@ -1869,13 +1869,13 @@
     "messageformat": "取消"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "封密發送人"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "不拘任何人"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "就算佢唔係你嘅聯絡人，又或你未有同佢分享個人資料，都俾人哋用封密發送人傳入訊息。 <learnMoreLink>了解詳情</learnMoreLink>。"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "顯示狀態標誌"
@@ -3099,10 +3099,10 @@
     "messageformat": "搵唔到貼圖"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "加去「最愛」"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "喺「最愛」度移除"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "貼圖預覽"

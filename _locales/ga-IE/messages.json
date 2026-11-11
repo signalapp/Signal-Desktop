@@ -24,43 +24,43 @@
     "messageformat": "Dún"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ag lódáil"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Seinn"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Cuir ar sos"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Íoslódáil"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cuir íoslódáil ar ceal"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Á seoladh"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Seolta"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Seachadta"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Léite"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Seoladh curtha ar sos"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Theip air seoladh"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Taispeáin an Pasfhocal"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Ag lódáil"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Glan"
@@ -303,10 +303,10 @@
     "messageformat": "Tuilleadh gníomhartha"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Cuir leis na Ceanáin"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Bain de na Ceanáin"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Cóipeáil an Nasc"
@@ -825,7 +825,7 @@
     "messageformat": "Ní féidir an físchomhad sin a sheoladh toisc go bhfuil sé rómhór. Is féidir leat físchomhaid suas le {limit,number}{units} a sheoladh."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Ní féidir an físeán a sheoladh toisc go bhfuil sé níos faide ná {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Ní féidir an ceangaltán roghnaithe a lódáil."
@@ -1869,13 +1869,13 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Seoltóir Séalaithe"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Ceadaigh ó Dhuine ar bith"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Tabhair cead do dhaoine nach teagmhálaithe iad agus do dhaoine nár chomhroinn tú do phróifíl leo teachtaireachtaí le seoltóirí séalaithe a chur chugat. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Taispeáin an deilbhín stádais"
@@ -3099,10 +3099,10 @@
     "messageformat": "Níor aimsíodh aon ghreamán"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Cuir leis na Ceanáin"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Bain de na Ceanáin"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Réamhamharc ar Ghreamán"

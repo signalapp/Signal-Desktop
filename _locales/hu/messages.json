@@ -24,43 +24,43 @@
     "messageformat": "Bezárás"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Betöltés"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Lejátszás"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Szünet"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Letöltés"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Letöltés megszakítása"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Küldés folyamatban"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Elküldve"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Kézbesítve"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Elolvasva"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Küldés felfüggesztve"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Nem sikerült elküldeni"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Jelszó megjelenítése"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Betöltés"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Törlés"
@@ -303,10 +303,10 @@
     "messageformat": "További tevékenységek"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Hozzáadás a Kedvencekhez"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eltávolítás a Kedvencekből"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Hivatkozás másolása"
@@ -825,7 +825,7 @@
     "messageformat": "Nem lehet elküldeni ezt a videófájlt, mert túl nagy. Legfeljebb {limit,number}{units} méretű videófájlokat küldhetsz."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "A videó nem küldhető el, mert hosszabb, mint {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nem sikerült betölteni a kiválasztott csatolmányt."
@@ -1869,13 +1869,13 @@
     "messageformat": "Mégse"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Rejtett feladó"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Engedélyezés mindenkitől"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Rejtett feladóval érkező üzenetek engedélyezése olyan ismeretlen kontaktoktól és személyektől is, akikkel nem osztottad meg profilod. <learnMoreLink>Tudj meg többet</learnMoreLink>!"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Státusz ikon megjelenítése"
@@ -3099,10 +3099,10 @@
     "messageformat": "Nem található matrica"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Hozzáadás a Kedvencekhez"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eltávolítás a Kedvencekből"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Matrica előnézet"

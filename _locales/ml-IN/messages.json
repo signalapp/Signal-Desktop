@@ -24,43 +24,43 @@
     "messageformat": "അടയ്ക്കുക"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ലഭ്യമാക്കുന്നു"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "പ്ലേ ചെയ്യുക"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "താൽക്കാലികമായി നിർത്തുക"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ഡൌൺലോഡ്"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ഡൗൺലോഡ് റദ്ദാക്കുക"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "അയയ്ക്കുന്നു"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "അയച്ചു"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "കൈമാറി"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "വായിച്ചു"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "അയയ്ക്കൽ താൽക്കാലികമായി നിർത്തി"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "അയയ്‌ക്കുന്നതിൽ പരാജയപ്പെട്ടു"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "പാസ്‌വേഡ് കാണിക്കുക"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ലഭ്യമാക്കുന്നു"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "മായ്‌ക്കുക"
@@ -303,10 +303,10 @@
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്യുക"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ലിങ്ക് കോപ്പി ചെയ്യുക"
@@ -825,7 +825,7 @@
     "messageformat": "ഈ വീഡിയോ ഫയലിന്റെ വലുപ്പം വളരെ കൂടുതലായതിനാൽ അയയ്ക്കാൻ കഴിയില്ല. നിങ്ങൾക്ക് {limit,number}{units} വരെയുള്ള വീഡിയോ ഫയലുകൾ അയക്കാം."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "വീഡിയോയുടെ ദൈർഘ്യം {maxDuration}-ൽ കൂടുതലായതിനാൽ അയയ്ക്കാൻ കഴിയില്ല"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "തിരഞ്ഞെടുത്ത അറ്റാച്ച്മെന്റ് ലോഡ് ചെയ്യാൻ കഴിയുന്നില്ല."
@@ -1869,13 +1869,13 @@
     "messageformat": "റദ്ദാക്കുക"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "സീൽഡ് സെൻഡർ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ആരിൽ നിന്നും അനുവദിക്കുക"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "കോൺടാക്ടുകൾ അല്ലാത്തവരിൽ നിന്നും നിങ്ങളുടെ പ്രൊഫൈൽ പങ്കിടാത്തവരായ ആളുകളിൽ നിന്നും വരുന്ന സന്ദേശങ്ങൾക്കായി സീൽഡ് സെൻഡർ പ്രാപ്തമാക്കുക. <learnMoreLink>കൂടുതലറിയുക</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "സ്റ്റാറ്റസ് ചിഹ്നം കാണിക്കുക"
@@ -3099,10 +3099,10 @@
     "messageformat": "സ്റ്റിക്കറുകൾ ഒന്നും കണ്ടെത്തിയില്ല"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിലേക്ക് ചേർക്കുക"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "പ്രിയപ്പെട്ടവയിൽ നിന്ന് നീക്കംചെയ്യുക"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "സ്റ്റിക്കർ പ്രിവ്യൂ"

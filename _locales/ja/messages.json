@@ -24,43 +24,43 @@
     "messageformat": "閉じる"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "読み込み中"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "再生"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "一時停止"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ダウンロード"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ダウンロードをキャンセルする"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "送信中"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "送信"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "配送済み"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "既読"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "送信保留中"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "送信に失敗しました"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "パスワードを表示"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "読み込み中"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "消去する"
@@ -303,10 +303,10 @@
     "messageformat": "その他"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "お気に入りに追加"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "お気に入りから削除"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "リンクをコピー"
@@ -825,7 +825,7 @@
     "messageformat": "サイズが大きすぎるためこの動画ファイルを送信できません。送信できる動画ファイルのサイズは、最大{limit,number}{units}です。"
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "動画の長さが{maxDuration}分を超えているため送信できません"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "選択された添付ファイルをロードできません。"
@@ -1869,13 +1869,13 @@
     "messageformat": "キャンセル"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "送信者の秘匿化"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "全員を許可する"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "あなたのプロフィールを共有しておらず、連絡先にもないユーザからのメッセージ受信において、送信者の秘匿化を有効にします。 <learnMoreLink>詳しく見る</learnMoreLink>。"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "ステータスアイコンを表示する"
@@ -3099,10 +3099,10 @@
     "messageformat": "ステッカーはありません"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "お気に入りに追加"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "お気に入りから削除"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ステッカープレビュー"

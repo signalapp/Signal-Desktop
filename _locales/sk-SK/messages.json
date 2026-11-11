@@ -24,43 +24,43 @@
     "messageformat": "Zatvoriť"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Načítava sa"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Prehrať"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pozastaviť"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Stiahnuť"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Zrušiť sťahovanie"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Odosielanie"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Odoslané"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Doručené"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Prečítané"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Odosielanie bolo pozastavené"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Nepodarilo sa odoslať"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Zobraziť heslo"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Načítava sa"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Zmazať"
@@ -303,10 +303,10 @@
     "messageformat": "Viac akcií"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridať do Obľúbených"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Odstrániť z Obľúbených"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopírovať odkaz"
@@ -825,7 +825,7 @@
     "messageformat": "Video nie je možné odoslať, pretože je príliš veľké. Môžete odosielať videá do veľkosti {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Video nie je možné odoslať, pretože je dlhšie ako {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Zvolenú prílohu sa nepodarilo načítať."
@@ -1869,13 +1869,13 @@
     "messageformat": "Zrušiť"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Šifrovaný odosielateľ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Povoliť od každého"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Zapnúť šifrovaného odosielateľa pre prichádzajúce správy od ľudí, ktorých nemáte v kontaktoch a s ktorými ste nezdieľali svoj profil. <learnMoreLink>Zistiť viac</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Zobraziť stavovú ikonu"
@@ -3099,10 +3099,10 @@
     "messageformat": "Nenašli sa žiadne nálepky"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Pridať do Obľúbených"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Odstrániť z Obľúbených"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Ukážka nálepky"

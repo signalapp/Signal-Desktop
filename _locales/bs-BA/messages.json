@@ -24,43 +24,43 @@
     "messageformat": "Zatvori"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Učitavam"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Reproduciranje"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pauziranje"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Preuzmi"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Otkaži preuzimanje"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Slanje"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Poslano"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Isporučeno"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Pročitano"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Slanje je pauzirano"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Slanje nije uspjelo"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Prikaži lozinku"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Učitavam"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Ukloni"
@@ -303,10 +303,10 @@
     "messageformat": "Više radnji"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Dodaj u Omiljeno"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ukloni iz Omiljenog"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopiraj link"
@@ -825,7 +825,7 @@
     "messageformat": "Nije moguće poslati ovu video datoteku jer je prevelika. Možete slati video datoteke do {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Nije moguće poslati videozapis jer je duži od {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Nije moguće učitati odabrane priloge."
@@ -1869,13 +1869,13 @@
     "messageformat": "Otkaži"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Zapečaćeni pošiljalac"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Dopusti svakom"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktivira opciju zapečaćenog pošiljaoca za poruke koje dolaze od osoba koje nisu među Vašim kontaktima i s kojima niste razmijenili profile. <learnMoreLink>Saznajte više.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Prikaži sličicu statusa"
@@ -3099,10 +3099,10 @@
     "messageformat": "Nije pronađena nijedna naljepnica"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Dodaj u Omiljeno"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Ukloni iz Omiljenog"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Pregled naljepnice"

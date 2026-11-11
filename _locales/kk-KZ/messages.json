@@ -24,43 +24,43 @@
     "messageformat": "Жабу"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктеу"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Ойнату"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Кідіріс"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Жүктеп алу"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Жүктеп алудан бас тарту"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Жіберіліп жатыр"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Жіберілді"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Жеткізілді"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Оқылды"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Жіберілу кідіртілді"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Жіберілмеді"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Құпия сөзді көрсету"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Жүктеу"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Тазалау"
@@ -303,10 +303,10 @@
     "messageformat": "Басқа әрекеттер"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "\"Таңдаулылар\" тізіміне қосу"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "\"Таңдаулылар\" тізімінен жою"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Сілтемені көшіру"
@@ -825,7 +825,7 @@
     "messageformat": "Бұл бейне файлын жіберу мүмкін емес, себебі ол өте үлкен. Ең көбі {limit,number} {units} бейне файлдарды жібере аласыз."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Бейнені жіберу мүмкін емес, себебі оның ұзақтығы {maxDuration} уақыттан асады"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "Таңдалған тіркемені жүктеу мүмкін болмады."
@@ -1869,13 +1869,13 @@
     "messageformat": "Бас тарту"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Мөрленген жіберуші"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Барлығына рұқсат ету"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Байланыстық емес тұлғалардан және профиліңізді бөліспеген адамдардан келетін хабарламалар үшін мөрленген жіберуші функциясын іске қосу <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Статус белгішесін көрсету"
@@ -3099,10 +3099,10 @@
     "messageformat": "Бірде-бір стикер табылмады"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "\"Таңдаулылар\" тізіміне қосу"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "\"Таңдаулылар\" тізімінен жою"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Стикерді алдын ала көру"

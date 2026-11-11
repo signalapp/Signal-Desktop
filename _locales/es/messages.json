@@ -24,43 +24,43 @@
     "messageformat": "Cerrar"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Cargando"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Reproducir"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Pausar"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Descargar"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Cancelar descarga"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Enviando"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Enviado"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "Entregado"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Leído"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Envío pausado"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "No se ha podido enviar"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Mostrar contraseña"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Cargando"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Eliminar"
@@ -303,10 +303,10 @@
     "messageformat": "Más acciones"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Añadir a Favoritos"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eliminar de Favoritos"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Copiar enlace"
@@ -825,7 +825,7 @@
     "messageformat": "No se puede enviar este archivo de vídeo porque es demasiado grande. Puedes enviar archivos de vídeo de hasta {limit,number} {units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "No se puede enviar este vídeo porque dura más de {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "No se ha podido cargar el archivo seleccionado."
@@ -1869,13 +1869,13 @@
     "messageformat": "Cancelar"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Remitente confidencial"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Permitir mensajes de cualquiera"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Activa la función Remitente confidencial para recibir mensajes de personas que no están en tus contactos y con las que no has compartido tu perfil. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Mostrar icono de estado"
@@ -3099,10 +3099,10 @@
     "messageformat": "No se han encontrado stickers"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Añadir a Favoritos"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Eliminar de Favoritos"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Vista previa del sticker"

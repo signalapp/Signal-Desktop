@@ -24,43 +24,43 @@
     "messageformat": "סגירה"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "טוען"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "נגן"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "השהה"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "הורד"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ביטול הורדה"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "שולח"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "נשלח"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "נשלח"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "נקרא"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "שליחה מושהית"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "נכשל בשליחה"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "הצגת סיסמה"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "טוען"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "נקה"
@@ -303,10 +303,10 @@
     "messageformat": "עוד פעולות"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "הוספה למועדפים"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "הסרה ממועדפים"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "העתק קישור"
@@ -825,7 +825,7 @@
     "messageformat": "לא ניתן לשלוח את קובץ הווידאו הזה כי הוא גדול מדי. אפשר לשלוח קובצי וידאו בגודל של עד {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "לא ניתן לשלוח את הסרטון כי האורך שלו עולה על {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "לא היה ניתן לטעון את הצרופה הנבחרת."
@@ -1869,13 +1869,13 @@
     "messageformat": "ביטול"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "שולח אטום"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "התר מכל אחד"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "אפשר שולח אטום עבור הודעות נכנסות מאת אי־אנשי קשר ומאת אנשים איתם לא שיתפת את הפרופיל שלך. <learnMoreLink>למידע נוסף</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "הראה איקון מעמד"
@@ -3099,10 +3099,10 @@
     "messageformat": "לא נמצאו מדבקות"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "הוספה למועדפים"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "הסרה ממועדפים"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "תצוגה מקדימה של סטיקר"

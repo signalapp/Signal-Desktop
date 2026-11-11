@@ -24,43 +24,43 @@
     "messageformat": "ಮುಚ್ಚಿ"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ಲೋಡ್ ಆಗುತ್ತಿದೆ"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "ಪ್ಲೇ ಮಾಡಿ"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "ಸ್ಥಗಿತಗೊಳಿಸಿ"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "ಡೌನ್ ಲೋಡ್ ರದ್ದು ಮಾಡಿ"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "ಕಳುಹಿಸಿ"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "ತಲುಪಿಸಲಾಗಿದೆ"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "ಓದಿರುವುದು"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "ಕಳುಹಿಸುವುದನ್ನು ತಾತ್ಕಾಲಿಕವಾಗಿ ನಿಲ್ಲಿಸಲಾಗಿದೆ"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "ಕಳುಹಿಸಲು ವಿಫಲವಾಗಿದೆ"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "ಪಾಸ್‌ವರ್ಡ್ ತೋರಿಸಿ"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "ಲೋಡ್ ಆಗುತ್ತಿದೆ"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "ತೆರವುಗೊಳಿಸಿ"
@@ -303,10 +303,10 @@
     "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "ಲಿಂಕ್ ನಕಲಿಸಿ"
@@ -825,7 +825,7 @@
     "messageformat": "ಈ ವೀಡಿಯೊ ಫೈಲ್ ತುಂಬಾ ದೊಡ್ಡದಾಗಿರುವುದರಿಂದ ಇದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ನೀವು {limit,number}{units} ವರೆಗಿನ ವೀಡಿಯೊ ಫೈಲ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "ವೀಡಿಯೊ {maxDuration} ಗಿಂತ ಉದ್ದವಾಗಿರುವುದರಿಂದ ಅದನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "ಆಯ್ಕೆಮಾಡಿದ ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."
@@ -1869,13 +1869,13 @@
     "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "ಸೀಲ್ ಮಾಡಿದ ಕಳುಹಿಸುವವರು"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "ಯಾರಿಂದಲೂ ಅನುಮತಿಸಿ"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "ಸಂಪರ್ಕಗಳಲ್ಲದವರು ಮತ್ತು ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಅನ್ನು ನೀವು ಹಂಚಿಕೊಳ್ಳದ ಜನರಿಂದ ಒಳಬರುವ ಸಂದೇಶಗಳಿಗಾಗಿ ಸೀಲ್ಡ್ ಸೆಂಡರ್ ಸಕ್ರಿಯಗೊಳಿಸಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "ಸ್ಟೇಟಸ್ ಐಕಾನ್ ತೋರಿಸಿ"
@@ -3099,10 +3099,10 @@
     "messageformat": "ಯಾವುದೇ ಸ್ಟಿಕ್ಕರ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಗೆ ಸೇರಿಸಿ"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "ಮೆಚ್ಚಿನವುಗಳಿಂದ ತೆಗೆದುಹಾಕಿ"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್ ಪ್ರಿವ್ಯೂ"

@@ -24,43 +24,43 @@
     "messageformat": "बंद करा"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "लोड करत आहे"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "प्ले करा"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "विराम द्या"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "डाऊनलोड करा"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "डाउनलोड रद्द करा"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "पाठवत आहे"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "पाठविले"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "पोहोचवले"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "वाचले"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "पाठवणे थांबवले"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "पाठविण्यात अयशस्वी"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "पासवर्ड दाखवा"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "लोड करत आहे"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "साफ करा"
@@ -303,10 +303,10 @@
     "messageformat": "अधिक क्रिया"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "आवडीमध्ये समाविष्ट करा"
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "आवडीमधून हटवून टाका"
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "दुवा कॉपी करा"
@@ -825,7 +825,7 @@
     "messageformat": "ही व्हिडिओ फाईल पाठवता येत नाही कारण ती खूप मोठी आहे. तुम्ही {limit,number}{units} पर्यंतच्या व्हिडिओ फाईल्स पाठवू शकता."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "व्हिडिओ पाठवता येत नाही कारण तो {maxDuration} पेक्षा मोठा आहे"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "निवडलेले संलग्न जोडण्यात अक्षम."
@@ -1869,13 +1869,13 @@
     "messageformat": "रद्द करा"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "सीलबंद प्रेषक"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "कुणाकडूनही अनुमती द्या"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "विना-संपर्क आणि आपण ज्यांच्या सोबत आपली प्रोफाईल सामायिक केलेली नाही त्यांच्याकडून येणाऱ्या संदेशांकरिता सीलबंद प्रेषक सक्षम करा. <learnMoreLink>अधिक जाणून घ्या</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "स्टेटस चिन्ह दाखवा"
@@ -3099,10 +3099,10 @@
     "messageformat": "कुठलेही स्टिकर आढळले नाही"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "आवडीमध्ये समाविष्ट करा"
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "आवडीमधून हटवून टाका"
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "स्टिकरचे पूर्वावलोकन करा"

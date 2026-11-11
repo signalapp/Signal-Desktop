@@ -24,43 +24,43 @@
     "messageformat": "Mbylle"
   },
   "icu:AxoLoadingIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Po ngarkohet"
   },
   "icu:AxoMediaButton.Play": {
-    "messageformat": "Play"
+    "messageformat": "Luaje"
   },
   "icu:AxoMediaButton.Pause": {
-    "messageformat": "Pause"
+    "messageformat": "Ndalesë"
   },
   "icu:AxoMediaButton.Download": {
-    "messageformat": "Download"
+    "messageformat": "Shkarkoje"
   },
   "icu:AxoMediaButton.CancelDownload": {
-    "messageformat": "Cancel download"
+    "messageformat": "Anulo shkarkimin"
   },
   "icu:AxoOutgoingStatus.Sending": {
-    "messageformat": "Sending"
+    "messageformat": "Po dërgohet"
   },
   "icu:AxoOutgoingStatus.Sent": {
-    "messageformat": "Sent"
+    "messageformat": "Dërguar më"
   },
   "icu:AxoOutgoingStatus.Delivered": {
-    "messageformat": "Delivered"
+    "messageformat": "U dorëzua"
   },
   "icu:AxoOutgoingStatus.Read": {
-    "messageformat": "Read"
+    "messageformat": "Lexo"
   },
   "icu:AxoOutgoingStatus.Paused": {
-    "messageformat": "Sending paused"
+    "messageformat": "Dërgimi u ndërpre"
   },
   "icu:AxoOutgoingStatus.Error": {
-    "messageformat": "Failed to send"
+    "messageformat": "Dështoi dërgimi"
   },
   "icu:AxoPasswordField.Reveal": {
     "messageformat": "Shfaq fjalëkalimin"
   },
   "icu:AxoProgressIndicator.Loading": {
-    "messageformat": "Loading"
+    "messageformat": "Po ngarkohet"
   },
   "icu:AxoTextField.Clear": {
     "messageformat": "Spastroje"
@@ -303,10 +303,10 @@
     "messageformat": "Më tepër veprime"
   },
   "icu:messageContextMenu__sticker--addFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Shto tek \"Të preferuarat\""
   },
   "icu:messageContextMenu__sticker--removeFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Hiq nga \"Të preferuarat\""
   },
   "icu:contextMenuCopyLink": {
     "messageformat": "Kopjoji Lidhjen"
@@ -825,7 +825,7 @@
     "messageformat": "Nuk mund ta dërgosh këtë skedar videoje sepse është shumë i madh. Mund të dërgosh skedarë videoje deri në {limit,number}{units}."
   },
   "icu:videoFileTooLongWarning": {
-    "messageformat": "Cannot send video because it is longer than {maxDuration}"
+    "messageformat": "Videoja nuk dërgohet sepse është më e gjatë se {maxDuration}"
   },
   "icu:unableToLoadAttachment": {
     "messageformat": "S’arrihet të ngarkohet bashkëngjitja e përzgjedhur."
@@ -1869,13 +1869,13 @@
     "messageformat": "Anulo"
   },
   "icu:Preferences__PrivacyPage__SealedSender": {
-    "messageformat": "Sealed Sender"
+    "messageformat": "Dërgues i Vulosur"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Label": {
-    "messageformat": "Allow from Anyone"
+    "messageformat": "Lejoji prej kujtdo"
   },
   "icu:Preferences__PrivacyPage__AllowFromAnyone__Description": {
-    "messageformat": "Enable sealed sender for incoming messages from non-contacts and people with whom you have not shared your profile. <learnMoreLink>Learn more</learnMoreLink>."
+    "messageformat": "Aktivizoni dërgues të vulosur për mesazhe ardhës nga persona që s\\’i keni në kontaktet dhe persona të cilëve s\\’u keni dhënë profilin tuaj. <learnMoreLink>Mëso më shumë</learnMoreLink>."
   },
   "icu:Preferences__PrivacyPage__ShowStatusIcon__Label": {
     "messageformat": "Shfaq ikonë gjendjesh"
@@ -3099,10 +3099,10 @@
     "messageformat": "S’u gjetën ngjitës"
   },
   "icu:FunPanelStickers__StickerContextMenu--AddFavorite": {
-    "messageformat": "Add to Favorites"
+    "messageformat": "Shto tek \"Të preferuarat\""
   },
   "icu:FunPanelStickers__StickerContextMenu--RemoveFavorite": {
-    "messageformat": "Remove from Favorites"
+    "messageformat": "Hiq nga \"Të preferuarat\""
   },
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Shfaqje paraprake e ngjitësit"
