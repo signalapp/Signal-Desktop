@@ -53,12 +53,11 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
     const members = await Promise.all(
       memberDevices.map(async member => {
         const { profileKey } = member;
-        const { aci, profileKeyCommitment } = member.device;
+        const { aci } = member.device;
 
         const presentation = await server.getProfileKeyPresentation({
           aci,
           profileKey,
-          profileKeyCommitment,
           groupParams,
         });
 
@@ -74,7 +73,6 @@ describe('standalone/rotate-profile', function (this: Mocha.Suite) {
     const presentation = await server.getProfileKeyPresentation({
       aci: ourAci,
       profileKey: ourProfileKey,
-      profileKeyCommitment: undefined,
       groupParams,
     });
     members.push({

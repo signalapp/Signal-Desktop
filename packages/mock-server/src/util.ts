@@ -302,6 +302,12 @@ export function fromBase64(base64: string): Buffer<ArrayBuffer> {
   return Buffer.from(base64, 'base64');
 }
 
+export function fromOptionalBase64(
+  base64: string | null | undefined,
+): Buffer<ArrayBuffer> | undefined {
+  return base64 ? fromBase64(base64) : undefined;
+}
+
 export function fromURLSafeBase64(base64: string): Buffer<ArrayBuffer> {
   const source = base64.replace(/-/g, '+').replace(/_/g, '/');
 

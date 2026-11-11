@@ -490,6 +490,7 @@ export class Server extends BaseServer {
       getSenderCertificate: this.getSenderCertificate.bind(this, device),
       getDeviceByServiceId: this.getDeviceByServiceId.bind(this),
       getProfileKeyPresentation: this.getProfileKeyPresentation.bind(this),
+      setProfile: this.setProfile.bind(this),
       getGroup: this.getGroup.bind(this),
       createGroup: this.createGroup.bind(this),
       modifyGroup: this.modifyGroup.bind(this),

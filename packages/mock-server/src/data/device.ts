@@ -9,10 +9,7 @@ import {
   ProtocolAddress,
   PublicKey,
 } from '@signalapp/libsignal-client';
-import {
-  BackupLevel,
-  ProfileKeyCommitment,
-} from '@signalapp/libsignal-client/zkgroup';
+import { BackupLevel } from '@signalapp/libsignal-client/zkgroup';
 
 import {
   AciString,
@@ -95,8 +92,6 @@ export class Device {
 
   public backupLevel = BackupLevel.Paid;
   public accessKey?: Buffer<ArrayBuffer>;
-  public profileKeyCommitment?: ProfileKeyCommitment;
-  public profileName?: Buffer<ArrayBuffer>;
   public encryptedName?: Buffer<ArrayBuffer>;
   public readonly authCredentialSalt: Buffer<ArrayBuffer>;
 
