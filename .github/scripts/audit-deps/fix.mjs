@@ -39,21 +39,39 @@ process.env.pnpm_config_ignore_scripts = 'true';
 /** @typedef {'update' | 'override' | 'dedupe'} FixMethod */
 
 /**
+ * @typedef {Readonly<{
+ *   remainingAdvisories: ReadonlyArray<Advisory>;
+ *   initialOverrides: Readonly<Record<string, string>>;
+ *   patchedDependencies: Readonly<Record<string, string>>;
+ * }>} FixContext
+ */
+
+/**
  * @type {ReadonlyArray<Readonly<{
  *   method: FixMethod;
- *   commands: ReadonlyArray<ReadonlyArray<string>>;
+ *   run: (workspace: Workspace, context: FixContext) => Promise<void>;
  * }>>}
  */
 const FIX_STEPS = [
-  { method: 'update', commands: [['audit', '--fix=update']] },
-  // `--fix=override` only writes the overrides, it doesn't install them. CI
-  // installs are frozen by default, which rejects the changed overrides
+  {
+    method: 'update',
+    run: workspace => runPnpm(workspace, ['audit', '--fix=update']),
+  },
   {
     method: 'override',
-    commands: [['audit', '--fix=override'], ['install', '--no-frozen-lockfile']],
+    async run(workspace, context) {
+      // `--fix=override` only writes the overrides, it doesn't install them
+      await runPnpm(workspace, ['audit', '--fix=override']);
+      await removeRiskyOverrides(workspace, context);
+      // Frozen by default in CI
+      await runPnpm(workspace, ['install', '--no-frozen-lockfile']);
+    },
   },
-  // Installing can undo dedupes when there are cyclical peer deps
-  { method: 'dedupe', commands: [['dedupe']] },
+  {
+    method: 'dedupe',
+    // Installing can undo dedupes when there are cyclical peer deps
+    run: workspace => runPnpm(workspace, ['dedupe']),
+  },
 ];
 
 /** @typedef {'✅' | '⚠️' | '❌' | '☢️'} Status */
@@ -134,6 +152,73 @@ async function runPnpm(workspace, pnpmArgs) {
 }
 
 /**
+ * @param {Advisory} advisory
+ * @param {Readonly<Record<string, string>>} patchedDependencies
+ * @returns {string | null}
+ */
+function getRiskyOverrideReason(advisory, patchedDependencies) {
+  if (isMajorUpgrade(advisory.versions, advisory.patchedVersions)) {
+    return 'major version bump';
+  }
+  const isPatched = Object.keys(patchedDependencies).some(spec => {
+    return isEntryForModule(spec, advisory.moduleName);
+  });
+  if (isPatched) {
+    return 'patched dependency';
+  }
+  return null;
+}
+
+/**
+ * Removes the overrides just added for risky advisories.
+ *
+ * @param {Workspace} workspace
+ * @param {FixContext} context
+ * @returns {Promise<void>}
+ */
+async function removeRiskyOverrides(workspace, context) {
+  if (dryRun) {
+    return;
+  }
+  const { remainingAdvisories, initialOverrides, patchedDependencies } =
+    context;
+
+  const riskyModules = new Set(
+    remainingAdvisories
+      .filter(advisory => {
+        return getRiskyOverrideReason(advisory, patchedDependencies) != null;
+      })
+      .map(advisory => advisory.moduleName)
+  );
+
+  const overrides =
+    /** @type {Readonly<Record<string, string>> | null} */ (
+      await getProjectConfig(workspace, 'overrides')
+    ) ?? {};
+
+  /** @type {Array<string>} */
+  const removed = [];
+  const kept = Object.fromEntries(
+    Object.entries(overrides).filter(([key]) => {
+      const isNew = !Object.hasOwn(initialOverrides, key);
+      const isRisky = Array.from(riskyModules).some(moduleName => {
+        return isEntryForModule(key, moduleName);
+      });
+      if (isNew && isRisky) {
+        removed.push(key);
+        return false;
+      }
+      return true;
+    })
+  );
+
+  if (removed.length > 0) {
+    console.log(`Skipping risky overrides: ${removed.join(', ')}`);
+    await setProjectConfig(workspace, 'overrides', kept);
+  }
+}
+
+/**
  * Workspaces are fixed in order, so restoring the root can't undo changes to
  * `danger/` because it hasn't been fixed yet.
  *
@@ -153,6 +238,7 @@ async function restoreWorkspace(workspace) {
  *   advisory: Advisory;
  *   fixed: boolean;
  *   fixMethod: FixMethod | null;
+ *   overrideRisk: string | null;
  *   introduced: boolean;
  *   patchFiles: ReadonlyArray<string>;
  *   addedExcludes: ReadonlyArray<string>;
@@ -188,6 +274,9 @@ function getAdvisoryRow(facts) {
     }
   }
 
+  if (!fixed && facts.overrideRisk != null && advisory.patchedVersions != null) {
+    notes.push(`Override skipped (${facts.overrideRisk})`);
+  }
   if (fixMethod === 'override') {
     notes.push('Fixed with an override');
     needsReview = true;
@@ -255,6 +344,11 @@ async function fixWorkspace(workspace) {
       await getProjectConfig(workspace, 'patchedDependencies')
     ) ?? {};
 
+  const initialOverrides =
+    /** @type {Readonly<Record<string, string>> | null} */ (
+      await getProjectConfig(workspace, 'overrides')
+    ) ?? {};
+
   /** @type {Map<number, FixMethod>} */
   const fixMethods = new Map();
   let remainingAdvisories = initialAdvisories;
@@ -266,10 +360,12 @@ async function fixWorkspace(workspace) {
       if (remainingAdvisories.length === 0 && step.method !== 'dedupe') {
         continue;
       }
-      for (const pnpmArgs of step.commands) {
-        // oxlint-disable-next-line no-await-in-loop
-        await runPnpm(workspace, pnpmArgs);
-      }
+      // oxlint-disable-next-line no-await-in-loop
+      await step.run(workspace, {
+        remainingAdvisories,
+        initialOverrides,
+        patchedDependencies,
+      });
       // oxlint-disable-next-line no-await-in-loop
       const nextAdvisories = await runAudit(workspace);
       const nextIds = new Set(nextAdvisories.map(advisory => advisory.id));
@@ -345,6 +441,7 @@ async function fixWorkspace(workspace) {
         advisory,
         fixed: !remainingIds.has(advisory.id),
         fixMethod: fixMethods.get(advisory.id) ?? null,
+        overrideRisk: getRiskyOverrideReason(advisory, patchedDependencies),
         introduced: !initialIds.has(advisory.id),
         patchFiles,
         addedExcludes: advisoryExcludes,
