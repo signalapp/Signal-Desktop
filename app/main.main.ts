@@ -99,6 +99,7 @@ import {
   getDefaultSystemTraySetting,
   isSystemTraySupported,
   isContentProtectionEnabledByDefault,
+  isContentProtectionSupported,
 } from '../ts/types/Settings.std.ts';
 import * as ephemeralConfig from './ephemeral_config.main.ts';
 import * as mainProcessLogging from '../ts/logging/main_process_logging.main.ts';
@@ -579,6 +580,7 @@ async function handleCommonWindowEvents(window: BrowserWindow) {
   // by user in settings.
   if (
     !DISABLE_SCREEN_SECURITY &&
+    isContentProtectionSupported(OS) &&
     (contentProtection ?? isContentProtectionEnabledByDefault(OS, os.release()))
   ) {
     window.once('ready-to-show', async () => {
