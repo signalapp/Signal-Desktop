@@ -44,3 +44,35 @@ index 86536ce..846c34e 100644
  
      /**
       * Makes element unselectable
+@@ -7857,6 +7831,7 @@ fabric.ElementsParser = function(elements, callback, options, reviver, parsingOp
+      * @return {String} SVG representation of an gradient (linear/radial)
+      */
+     toSVG: function(object, options) {
++      throw new Error('fabric SVG export is disabled (GHSA-w22m-hvvm-xmwx, GHSA-hfvx-25r5-qc3w)');
+       var coords = clone(this.coords, true), i, len, options = options || {},
+           markup, commonAttributes, colorStops = clone(this.colorStops, true),
+           needsSwap = coords.r1 > coords.r2,
+@@ -8247,6 +8222,7 @@ fabric.ElementsParser = function(elements, callback, options, reviver, parsingOp
+      * @return {String} SVG representation of a pattern
+      */
+     toSVG: function(object) {
++      throw new Error('fabric SVG export is disabled (GHSA-w22m-hvvm-xmwx, GHSA-hfvx-25r5-qc3w)');
+       var patternSource = typeof this.source === 'function' ? this.source() : this.source,
+           patternWidth = patternSource.width / object.width,
+           patternHeight = patternSource.height / object.height,
+@@ -17296,6 +17272,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
+      * @private
+      */
+     _createBaseClipPathSVGMarkup: function(objectMarkup, options) {
++      throw new Error('fabric SVG export is disabled (GHSA-w22m-hvvm-xmwx, GHSA-hfvx-25r5-qc3w)');
+       options = options || {};
+       var reviver = options.reviver,
+           additionalTransform = options.additionalTransform || '',
+@@ -17313,6 +17290,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
+      * @private
+      */
+     _createBaseSVGMarkup: function(objectMarkup, options) {
++      throw new Error('fabric SVG export is disabled (GHSA-w22m-hvvm-xmwx, GHSA-hfvx-25r5-qc3w)');
+       options = options || {};
+       var noStyle = options.noStyle,
+           reviver = options.reviver,
