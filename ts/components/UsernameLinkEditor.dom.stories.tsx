@@ -73,13 +73,12 @@ export default {
 const Template: StoryFn<PropsType> = args => {
   const [attachment, setAttachment] = useState<string | undefined>();
   const saveAttachmentToDisk = useCallback(
-    ({ data }: { data?: Iterable<Uint8Array<ArrayBuffer>> }) => {
-      if (!data) {
-        setAttachment(undefined);
-        return;
-      }
-
-      const blob = new Blob(Array.from(data), {
+    ({
+      data,
+    }: {
+      data: { type: 'bytes'; bytes: Iterable<Uint8Array<ArrayBuffer>> };
+    }) => {
+      const blob = new Blob(Array.from(data.bytes), {
         type: 'image/png',
       });
 
