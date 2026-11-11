@@ -147,9 +147,12 @@ export class ProfileService {
     const job = async () => {
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
-        throw new Error(
+        log.warn(
           `ProfileServices.get: Conversation ${conversationId} not found`
         );
+        this.#jobsByConversationId.delete(conversationId);
+        resolve();
+        return;
       }
 
       try {
@@ -159,21 +162,24 @@ export class ProfileService {
         resolve();
 
         if (this.#isPaused) {
+          log.warn(
+            `ProfileServices.get: Error fetching ${conversation.idForLogging()} while paused`,
+            Errors.toLogFormat(error)
+          );
           return;
         }
 
+        const code = isRecord(error) && 'code' in error ? error.code : null;
         if (error instanceof ProfileDecryptError) {
           log.warn(
             `ProfileServices.get: Failed to decrypt profile for ${conversation.idForLogging()}`
           );
-        } else if (isRecord(error) && 'code' in error) {
-          if (error.code === -1) {
-            this.clearAll('Failed to connect to the server');
-          } else if (error.code === 413 || error.code === 429) {
-            this.clearAll(`got ${error.code} from server`);
-            const time = findRetryAfterTimeFromError(error);
-            void this.pause(time);
-          }
+        } else if (code === -1) {
+          this.clearAll('Failed to connect to the server');
+        } else if (code === 413 || code === 429) {
+          this.clearAll(`got ${code} from server`);
+          const time = findRetryAfterTimeFromError(error);
+          void this.pause(time);
         } else {
           log.error(
             `ProfileServices.get: Error was thrown fetching ${conversation.idForLogging()}!`,
@@ -834,6 +840,8 @@ async function doGetProfile(
       // Forbidden/Not Found
       if (error.code === 403 || error.code === 404) {
         log.warn(`${logId}: Profile avatar is missing (${error.code})`);
+      } else {
+        log.warn(`${logId}: Failed to fetch profile avatar (${error.code})`);
       }
     } else {
       log.warn(

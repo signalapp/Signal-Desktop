@@ -5,6 +5,8 @@ import { assert } from 'chai';
 import { sleep } from '../../util/sleep.std.ts';
 import { MINUTE } from '../../util/durations/index.std.ts';
 import { drop } from '../../util/drop.std.ts';
+import { explodePromise } from '../../util/explodePromise.std.ts';
+import { strictAssert } from '../../util/assert.std.ts';
 
 import { ProfileService } from '../../services/profiles.preload.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
@@ -223,6 +225,39 @@ describe('util/profiles', () => {
         assert.strictEqual(profileFetches.size, 3, 'after await');
       });
     }
+
+    it('resolves if the conversation is gone when the job runs', async () => {
+      const { promise: blocker, resolve: unblock } = explodePromise<void>();
+      const getProfileBlocked = async (conversation: ConversationModel) => {
+        const serviceId = conversation.get('serviceId');
+        strictAssert(serviceId != null, 'missing serviceId');
+        profileFetches.add(serviceId);
+        await blocker;
+      };
+      const service = new ProfileService(getProfileBlocked, 1);
+
+      const promise1 = service.get(SERVICE_ID_1, null);
+
+      // Queued behind the first job, removed before it runs
+      const promise2 = service.get(SERVICE_ID_2, null);
+      const conversation2 = window.ConversationController.get(SERVICE_ID_2);
+      strictAssert(conversation2 != null, 'missing conversation');
+      window.ConversationController.dangerouslyRemoveById(conversation2.id);
+
+      unblock();
+      await Promise.all([promise1, promise2]);
+
+      assert.deepEqual([...profileFetches], [SERVICE_ID_1]);
+
+      // A new fetch isn't stuck behind the old job
+      await window.ConversationController.getOrCreateAndWait(
+        SERVICE_ID_2,
+        'private'
+      );
+      await service.get(SERVICE_ID_2, null);
+
+      assert.deepEqual([...profileFetches], [SERVICE_ID_1, SERVICE_ID_2]);
+    });
 
     it('clears all outstanding jobs if we get a -1', async () => {
       const getProfileWhichThrows = async (conversation: ConversationModel) => {
