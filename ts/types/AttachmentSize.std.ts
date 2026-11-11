@@ -19,6 +19,9 @@ const log = createLogger('AttachmentSize');
 export const KIBIBYTE = 1024;
 export const MEBIBYTE = 1024 * 1024;
 
+export const MAX_STICKER_CIPHERTEXT_BYTE_LENGTH = 1 * MEBIBYTE;
+export const MAX_STICKER_PACK_MANIFEST_CIPHERTEXT_BYTE_LENGTH = 1 * MEBIBYTE;
+
 export const getMaximumOutgoingVideoSize = (
   getValue: typeof RemoteConfig.getValue
 ): number => {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { BodyInit, Headers, RequestInit, Response } from 'node-fetch';
-import fetch from 'node-fetch';
+import fetch, { FetchError } from 'node-fetch';
 import type { Agent } from 'node:https';
 import lodash from 'lodash';
 import PQueue from 'p-queue';
@@ -87,6 +87,10 @@ import {
 } from '../types/ServiceId.std.ts';
 import type { BackupPresentationHeadersType } from '../types/backups.node.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
+import {
+  MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
+  MAX_STICKER_PACK_MANIFEST_CIPHERTEXT_BYTE_LENGTH,
+} from '../types/AttachmentSize.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 import { randomInt } from '../Crypto.node.ts';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch.preload.ts';
@@ -258,6 +262,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
   host?: string;
+  maxResponseSize?: number;
   password?: string;
   path?: string;
   proxyUrl?: string;
@@ -444,6 +449,7 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     ca: options.certificateAuthority,
     timeout,
     signal: options.abortSignal,
+    size: options.maxResponseSize,
   };
 
   if (options.contentType) {
@@ -592,6 +598,17 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   } catch (error) {
     if (isAbortError(error)) {
       throw error;
+    }
+    if (error instanceof FetchError && error.type === 'max-size') {
+      log.warn(logId, response.status, 'Response too large');
+      // Not using error.message or error.stack, as they contain the unredacted URL
+      throw makeHTTPError(
+        `promiseAjax: response body was over ${options.maxResponseSize} bytes`,
+        response.status,
+        response.headers.raw(),
+        undefined,
+        options.stack
+      );
     }
     log.warn(logId, response.status, 'Error');
     const stack = `${error.stack}\nInitial stack:\n${options.stack}`;
@@ -3990,6 +4007,7 @@ export async function getSticker(
     `${cdnUrlObject['0']}/stickers/${packId}/full/${stickerId}`,
     {
       certificateAuthority,
+      maxResponseSize: MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
       proxyUrl,
       responseType: 'bytes',
       type: 'GET',
@@ -4007,6 +4025,7 @@ export async function getStickerPackManifest(
   }
   return _outerAjax(`${cdnUrlObject['0']}/stickers/${packId}/manifest.proto`, {
     certificateAuthority,
+    maxResponseSize: MAX_STICKER_PACK_MANIFEST_CIPHERTEXT_BYTE_LENGTH,
     proxyUrl,
     responseType: 'bytes',
     type: 'GET',

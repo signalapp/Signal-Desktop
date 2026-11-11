@@ -31,7 +31,11 @@ import type { downloadAttachment as downloadAttachmentUtil } from '../../util/do
 import { AttachmentDownloadSource } from '../../sql/Interface.std.ts';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.ts';
 import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.ts';
-import { KIBIBYTE, MEBIBYTE } from '../../types/AttachmentSize.std.ts';
+import {
+  KIBIBYTE,
+  MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
+  MEBIBYTE,
+} from '../../types/AttachmentSize.std.ts';
 import { toBase64 } from '../../Bytes.std.ts';
 import { JobCancelReason } from '../../jobs/types.std.ts';
 import {
@@ -1457,6 +1461,39 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         }),
         'AttachmentSizeError'
       );
+    });
+    it('throws AttachmentSizeError if sticker attachment ciphertext > MAX_STICKER_CIPHERTEXT_BYTE_LENGTH', async () => {
+      const job = composeJob({
+        messageId: '1',
+        receivedAt: 1,
+        attachmentOverrides: {
+          size: MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
+        },
+        jobOverrides: {
+          attachmentType: 'sticker',
+        },
+      });
+
+      await assert.isRejected(
+        runDownloadAttachmentJobInner({
+          job,
+          isForCurrentlyVisibleMessage: false,
+          hasMediaBackups: true,
+          abortSignal: abortController.signal,
+          maxCiphertextAttachmentSize,
+          maxPlaintextTextAttachmentSize,
+          messageExpiresAt: null,
+          dependencies: {
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
+            downloadAttachment,
+            processNewAttachment,
+          },
+        }),
+        'AttachmentSizeError'
+      );
+      assert.strictEqual(downloadAttachment.callCount, 0);
     });
   });
 

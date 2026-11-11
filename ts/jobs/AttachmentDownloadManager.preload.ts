@@ -50,6 +50,7 @@ import { getMessageById } from '../messages/getMessageById.preload.ts';
 import {
   getMaximumIncomingAttachmentSize,
   isAttachmentTooLarge,
+  MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
 } from '../types/AttachmentSize.std.ts';
 import {
   addAttachmentToMessage,
@@ -809,6 +810,18 @@ export async function runDownloadAttachmentJobInner({
   ) {
     throw new AttachmentSizeError(
       `${logId}: Text attachment was ${size}, max is ${maxPlaintextTextAttachmentSize}`
+    );
+  }
+
+  if (
+    attachmentType === 'sticker' &&
+    isAttachmentTooLarge({
+      plaintextSize: size,
+      ciphertextLimit: MAX_STICKER_CIPHERTEXT_BYTE_LENGTH,
+    })
+  ) {
+    throw new AttachmentSizeError(
+      `${logId}: Sticker attachment was ${size}, max is ${MAX_STICKER_CIPHERTEXT_BYTE_LENGTH}`
     );
   }
   const mightBeInRemoteBackup = isDownloadableFromBackupTier(attachment, {
