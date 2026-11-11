@@ -209,11 +209,11 @@ const showSaveDialog = (
 
 async function writeWithAttributes(
   target: string,
-  data: Iterable<Uint8Array<ArrayBuffer>> | Readable
+  data: Readable
 ): Promise<void> {
   try {
     await using outStream = createWriteStream(target);
-    await pipeline(Readable.from(data), outStream);
+    await pipeline(data, outStream);
   } catch (error) {
     log.error('Failed to write data to disk, unlinking');
     try {
@@ -255,7 +255,15 @@ export const saveAttachmentToDisk = async ({
   name,
   baseDir,
 }: {
-  data: Iterable<Uint8Array<ArrayBuffer>> | Readable;
+  data:
+    | {
+        type: 'bytes';
+        bytes: Iterable<Uint8Array<ArrayBuffer>>;
+      }
+    | {
+        type: 'stream';
+        stream: Readable;
+      };
   name: string;
   /**
    * Base directory for saving the attachment.
@@ -264,6 +272,9 @@ export const saveAttachmentToDisk = async ({
   baseDir?: string;
 }): Promise<null | { fullPath: string; name: string }> => {
   let filePath;
+
+  await using stream =
+    data.type === 'bytes' ? Readable.from(data.bytes) : data.stream;
 
   if (!baseDir) {
     const { canceled, filePath: dialogFilePath } = await showSaveDialog(name);
@@ -284,7 +295,7 @@ export const saveAttachmentToDisk = async ({
     }
   }
 
-  await writeWithAttributes(filePath, data);
+  await writeWithAttributes(filePath, stream);
 
   const fileBasename = basename(filePath);
 

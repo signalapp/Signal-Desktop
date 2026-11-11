@@ -161,27 +161,34 @@ export async function saveAttachment({
 
   const pipe = new PassThrough();
 
-  const [result] = await Promise.all([
-    saveAttachmentToDisk({
-      data: pipe,
-      name,
-      baseDir,
-    }),
-    decryptAttachmentV2ToSink(
-      {
-        idForLogging: `Attachment.save(${attachment.clientUuid})`,
-        size: attachment.size,
-        ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
-        type: 'local',
-        keysBase64: attachment.localKey,
-      },
-      pipe
-    ),
-  ]);
+  try {
+    const [result] = await Promise.all([
+      saveAttachmentToDisk({
+        data: { type: 'stream', stream: pipe },
+        name,
+        baseDir,
+      }),
+      decryptAttachmentV2ToSink(
+        {
+          idForLogging: `Attachment.save(${attachment.clientUuid})`,
+          size: attachment.size,
+          ciphertextPath: getAbsoluteAttachmentPath(attachment.path),
+          type: 'local',
+          keysBase64: attachment.localKey,
+        },
+        pipe
+      ),
+    ]);
 
-  if (!result) {
-    return null;
+    if (!result) {
+      return null;
+    }
+
+    return result.fullPath;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      return null;
+    }
+    throw error;
   }
-
-  return result.fullPath;
 }

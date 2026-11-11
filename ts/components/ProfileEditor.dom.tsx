@@ -93,7 +93,7 @@ type PropsActionType = {
   markCompletedUsernameLinkOnboarding: () => void;
   replaceAvatar: ReplaceAvatarActionType;
   saveAttachmentToDisk: (options: {
-    data: Iterable<Uint8Array<ArrayBuffer>>;
+    data: { type: 'bytes'; bytes: Iterable<Uint8Array<ArrayBuffer>> };
     name: string;
   }) => void;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
