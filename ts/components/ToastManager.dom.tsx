@@ -27,6 +27,7 @@ import { I18n } from './I18n.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
 import { RemoteMegaphone } from './RemoteMegaphone.dom.tsx';
 import { PinReminderMegaphone } from './PinReminderMegaphone.dom.tsx';
+import { MAX_FAVORITE_STICKERS } from '../util/Stickers.std.ts';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -895,6 +896,16 @@ function renderToast({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:stickers--Toast--StickerFavoriteRemoved')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerFavoritesTooMany) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--Toast--StickerFavoritesTooMany', {
+          count: MAX_FAVORITE_STICKERS,
+        })}
       </Toast>
     );
   }

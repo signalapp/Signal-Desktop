@@ -24,10 +24,8 @@ import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 import { getConversationBubbleColor } from '../../util/conversationBubbleColor.std.ts';
 import { StorySendMode, MY_STORY_ID } from '../../types/Stories.std.ts';
-import {
-  getInstalledStickerPacksForBackup,
-  MAX_FAVORITE_STICKERS,
-} from '../../types/Stickers.preload.ts';
+import { getInstalledStickerPacksForBackup } from '../../types/Stickers.preload.ts';
+import { MAX_FAVORITE_STICKERS } from '../../util/Stickers.std.ts';
 import {
   isPniString,
   isServiceIdString,

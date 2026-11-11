@@ -30,10 +30,13 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
-import { getPacks } from '../selectors/stickers.std.ts';
+import { getFavorites, getPacks } from '../selectors/stickers.std.ts';
 import type { AsyncStateThunk } from '../types.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
-import { redactPackId } from '../../util/Stickers.std.ts';
+import {
+  MAX_FAVORITE_STICKERS,
+  redactPackId,
+} from '../../util/Stickers.std.ts';
 import {
   uninstallFavoriteSticker,
   installFavoriteSticker,
@@ -487,8 +490,14 @@ function markStickerAsFavorite(
     stickerId,
   };
 
-  return async dispatch => {
+  return async (dispatch, getState) => {
     if (markAsFavorite) {
+      const favorites = getFavorites(getState());
+      if (favorites.length >= MAX_FAVORITE_STICKERS) {
+        dispatch(showToast({ toastType: ToastType.StickerFavoritesTooMany }));
+        return;
+      }
+
       const favoriteSticker =
         await DataWriter.addFavoriteStickerFromStickerRef(stickerRef);
       if (!favoriteSticker) {

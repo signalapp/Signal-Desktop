@@ -3,7 +3,11 @@
 
 import { assert } from 'chai';
 import * as Stickers from '../../types/Stickers.preload.ts';
-import { isPackIdValid, redactPackId } from '../../util/Stickers.std.ts';
+import {
+  isPackIdValid,
+  MAX_STICKERS_PER_PACK,
+  redactPackId,
+} from '../../util/Stickers.std.ts';
 import type { SignalService as Proto } from '../../protobuf/index.std.ts';
 
 const PACK_ID = 'b9439fa5fdc8b9873fe64f01b88b8ccf';
@@ -183,18 +187,18 @@ describe('Stickers', () => {
         PACK_ID,
         makeManifest({
           stickers: Array.from(
-            { length: Stickers.MAX_STICKERS_PER_PACK * 10 },
+            { length: MAX_STICKERS_PER_PACK * 10 },
             (_, id) => makeSticker(id)
           ),
         })
       );
 
-      assert.strictEqual(result.stickerCount, Stickers.MAX_STICKERS_PER_PACK);
+      assert.strictEqual(result.stickerCount, MAX_STICKERS_PER_PACK);
       // The cover is the first sticker, so it isn't in nonCoverStickers
       assert.strictEqual(result.coverStickerId, 0);
       assert.strictEqual(
         result.nonCoverStickers.length,
-        Stickers.MAX_STICKERS_PER_PACK - 1
+        MAX_STICKERS_PER_PACK - 1
       );
     });
 

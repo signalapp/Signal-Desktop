@@ -3,6 +3,9 @@
 
 import * as Bytes from '../Bytes.std.ts';
 
+export const MAX_FAVORITE_STICKERS = 500;
+export const MAX_STICKERS_PER_PACK = 1024;
+
 const VALID_PACK_ID_REGEXP = /^[0-9a-f]{32}$/i;
 
 export function isPackIdValid(packId: unknown): packId is string {

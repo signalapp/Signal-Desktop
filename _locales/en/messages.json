@@ -3958,6 +3958,10 @@
     "messageformat": "Sticker removed from Favorites",
     "description": "Toast text shown after removing a sticker from the favorite stickers list."
   },
+  "icu:stickers--Toast--StickerFavoritesTooMany": {
+    "messageformat": "You can only add {count, plural, one {# sticker} other {# stickers}} to Favorites",
+    "description": "Toast text shown after atttempting to add a favorite sticker when you already have the maximum allowed favorite sticker count."
+  },
   "icu:stickers--ViewPack": {
     "messageformat": "View Pack",
     "description": "Action button for a sticker pack preview in the chat, when someone sends a link to a sticker pack. When clicked it opens the sticker preview dialog."

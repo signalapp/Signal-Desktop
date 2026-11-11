@@ -42,7 +42,11 @@ import { drop } from '../util/drop.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { encryptLegacyAttachment } from '../util/encryptLegacyAttachment.preload.ts';
 import { AttachmentDisposition } from '../util/getLocalAttachmentUrl.std.ts';
-import { isPackIdValid, redactPackId } from '../util/Stickers.std.ts';
+import {
+  isPackIdValid,
+  MAX_STICKERS_PER_PACK,
+  redactPackId,
+} from '../util/Stickers.std.ts';
 import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.ts';
 import {
   isOnline,
@@ -54,10 +58,6 @@ import { Emoji } from '../axo/emoji.std.ts';
 import { updateFavoriteStickersAlreadyInstalled } from '../util/stickers.preload.ts';
 
 const { isNumber, groupBy, values, chunk } = lodash;
-
-export const MAX_STICKERS_PER_PACK = 1024;
-
-export const MAX_FAVORITE_STICKERS = 500;
 
 const log = createLogger('Stickers');
 

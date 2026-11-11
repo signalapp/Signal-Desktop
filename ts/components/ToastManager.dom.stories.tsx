@@ -246,6 +246,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.StickerFavoriteAdded };
     case ToastType.StickerFavoriteRemoved:
       return { toastType: ToastType.StickerFavoriteRemoved };
+    case ToastType.StickerFavoritesTooMany:
+      return { toastType: ToastType.StickerFavoritesTooMany };
     case ToastType.StickerPackInstallFailed:
       return { toastType: ToastType.StickerPackInstallFailed };
     case ToastType.StoryMuted:
