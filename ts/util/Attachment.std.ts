@@ -270,12 +270,13 @@ export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
 }
 
 export function isVideo(
-  attachments?: ReadonlyArray<Pick<AttachmentType, 'contentType'>>
+  attachments: ReadonlyArray<Pick<AttachmentType, 'contentType'>> | undefined,
+  supportLevel: SupportLevelType = 'playable'
 ): boolean {
   if (!attachments || attachments.length === 0) {
     return false;
   }
-  return isVideoAttachment(attachments[0]);
+  return isVideoAttachment(attachments[0], supportLevel);
 }
 
 export function isVideoAttachment(

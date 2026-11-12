@@ -1214,7 +1214,7 @@ export class Message extends PureComponent<Props, State> {
         );
       }
 
-      if (isSticker || isImage(attachments) || isVideo(attachments)) {
+      if (isSticker || isImage(attachments) || this.#isVideo(attachments)) {
         const bottomOverlay = !isSticker && !collapseMetadata;
 
         return (
@@ -2635,7 +2635,7 @@ export class Message extends PureComponent<Props, State> {
     }
 
     if (attachments && attachments.length) {
-      return isImage(attachments) || isVideo(attachments);
+      return isImage(attachments) || this.#isVideo(attachments);
     }
 
     if (previews && previews.length) {
@@ -2748,7 +2748,7 @@ export class Message extends PureComponent<Props, State> {
       detail = formatFileSize(firstAttachment.size);
     }
 
-    if (isVideo(attachments) || isGIF(firstAttachment)) {
+    if (this.#isVideo(attachments) || isGIF(firstAttachment)) {
       return {
         title: i18n('icu:Message--tap-to-view--video'),
         detail,
@@ -3171,7 +3171,7 @@ export class Message extends PureComponent<Props, State> {
       attachments.length > 0 &&
       !isAttachmentPending &&
       ((isImage(attachments) && hasImage(attachments)) ||
-        (isVideo(attachments) && hasVideoScreenshot(attachments)))
+        (this.#isVideo(attachments) && hasVideoScreenshot(attachments)))
     ) {
       event.preventDefault();
       event.stopPropagation();
@@ -3250,7 +3250,7 @@ export class Message extends PureComponent<Props, State> {
     return (
       attachments?.length &&
       !isImage(attachments) &&
-      !isVideo(attachments) &&
+      !this.#isVideo(attachments) &&
       !isAudio(attachments)
     );
   }
@@ -3289,7 +3289,7 @@ export class Message extends PureComponent<Props, State> {
       isTargeted &&
       direction === 'incoming' &&
       !isStickerLike &&
-      (text || (!isVideo(attachments) && !isImage(attachments)));
+      (text || (!this.#isVideo(attachments) && !isImage(attachments)));
     const isClickable =
       isTapToView ||
       (this.#isGenericAttachment(attachments) &&
@@ -3390,6 +3390,15 @@ export class Message extends PureComponent<Props, State> {
           {this.#renderText()}
         </span>
       </span>
+    );
+  }
+
+  #isVideo(
+    attachments: ReadonlyArray<AttachmentForUIType> | undefined
+  ): boolean {
+    return isVideo(
+      attachments,
+      this.props.direction === 'outgoing' ? 'transcodable' : 'playable'
     );
   }
 
