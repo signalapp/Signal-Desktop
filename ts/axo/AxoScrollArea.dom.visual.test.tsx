@@ -34,14 +34,21 @@ function FocusableScrollArea(): ReactNode {
   );
 }
 
+async function focusAndScrollDown(): Promise<void> {
+  const viewport = document.querySelector('[data-axo-scroll-area-viewport]');
+  await userEvent.tab();
+  await userEvent.keyboard('{ArrowDown}');
+  // The key press scrolls a moment later, which could be after the screenshot
+  await expect.poll(() => viewport?.scrollTop).toBeGreaterThan(0);
+}
+
 describe('AxoScrollArea', () => {
   testStoryScreenshots(stories);
 
   test('focus ring is visible', async () => {
     const screen = await renderAxo(<FocusableScrollArea />);
 
-    await userEvent.tab();
-    await userEvent.keyboard('{ArrowDown}');
+    await focusAndScrollDown();
     await expect(screen.container).toMatchScreenshot('focus-ring');
   });
 
@@ -49,8 +56,7 @@ describe('AxoScrollArea', () => {
     await emulateMedia({ forcedColors: 'active' });
     const screen = await renderAxo(<FocusableScrollArea />);
 
-    await userEvent.tab();
-    await userEvent.keyboard('{ArrowDown}');
+    await focusAndScrollDown();
     await expect(screen.container).toMatchScreenshot(
       'focus-ring-forced-colors'
     );

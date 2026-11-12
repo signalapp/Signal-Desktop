@@ -551,3 +551,83 @@ export function ExampleLanguageDialog(): JSX.Element {
     </AxoDialog.Root>
   );
 }
+
+function ScanTarget(): ReactNode {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      className={tw('absolute inset-0 m-auto h-[45%] text-primary-oncolor')}
+    >
+      <path d="M1 20V9a8 8 0 0 1 8-8h11" />
+      <path d="M80 1h11a8 8 0 0 1 8 8v11" />
+      <path d="M99 80v11a8 8 0 0 1-8 8H80" />
+      <path d="M20 99H9a8 8 0 0 1-8-8V80" />
+    </svg>
+  );
+}
+
+type ScanQrCodeDialogProps = Readonly<{
+  /** A still image in place of a live camera feed */
+  cameraImage: string;
+}>;
+
+function ScanQrCodeDialog(props: ScanQrCodeDialogProps): ReactNode {
+  return (
+    <AxoDialog.Root>
+      <AxoDialog.Trigger asChild>
+        <AxoDialog.StoryTrigger />
+      </AxoDialog.Trigger>
+      <AxoDialog.Content size="fit" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Scan QR code</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.StaticBody>
+          <AxoDialog.Description>
+            <p className={tw('mb-5 text-center')}>
+              Scan the QR code displayed on the device to link
+            </p>
+          </AxoDialog.Description>
+          <div className={tw('relative overflow-hidden curved-18')}>
+            <img
+              src={props.cameraImage}
+              alt="Camera"
+              className={tw(
+                'block w-full object-cover',
+                'max-h-[600px] min-h-[120px] max-w-[1280px] min-w-[160px]'
+              )}
+            />
+            <ScanTarget />
+          </div>
+        </AxoDialog.StaticBody>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+export function ExampleScanQrCodeDialog(): ReactNode {
+  // 400x300
+  return <ScanQrCodeDialog cameraImage="/fixtures/cat-screenshot-3x4.png" />;
+}
+
+export function MediaLarge(): ReactNode {
+  // 3000x1680
+  return (
+    <ScanQrCodeDialog cameraImage="/fixtures/tina-rolf-269345-unsplash.jpg" />
+  );
+}
+
+export function MediaPortrait(): ReactNode {
+  // 1152x2048
+  return <ScanQrCodeDialog cameraImage="/fixtures/snow.jpg" />;
+}
+
+export function MediaSmall(): ReactNode {
+  // 112x112
+  return <ScanQrCodeDialog cameraImage="/fixtures/kitten-4-112-112.jpg" />;
+}

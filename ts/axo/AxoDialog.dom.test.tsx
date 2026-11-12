@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { describe, expect, test, vi } from 'vitest';
+import { describe, expect, onTestFinished, test, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { AxoDialog } from './AxoDialog.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
+import { tw } from './tw.dom.tsx';
 import { renderAxo } from './_test-helpers/render.dom.tsx';
 import { describeFocused } from './_test-helpers/a11y.dom.tsx';
 import { testStoriesWithAxe } from './_test-helpers/stories.dom.tsx';
@@ -94,6 +95,44 @@ function ControlledDialog(props: ControlledDialogProps): ReactNode {
   );
 }
 
+const IMAGE = '/fixtures/cat-screenshot-3x4.png';
+const IMAGE_WIDTH = 400;
+const IMAGE_HEIGHT = 300;
+
+/** A dialog sized by an image */
+function FitDialog(): ReactNode {
+  return (
+    <AxoDialog.Root open onOpenChange={vi.fn<() => void>()}>
+      <AxoDialog.Content size="fit" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>Scan QR code</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.StaticBody>
+          <AxoDialog.Description>Scan the code to link.</AxoDialog.Description>
+          <img src={IMAGE} alt="Camera" className={tw('block w-full')} />
+        </AxoDialog.StaticBody>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+async function renderFitDialog(
+  windowWidth: number,
+  windowHeight: number
+): Promise<HTMLImageElement> {
+  const viewport = { width: window.innerWidth, height: window.innerHeight };
+  onTestFinished(async () => {
+    await page.viewport(viewport.width, viewport.height);
+  });
+  await page.viewport(windowWidth, windowHeight);
+
+  await renderAxo(<FitDialog />);
+  const image = page.getByRole('img', { name: 'Camera' });
+  await expect.element(image).toHaveProperty('naturalWidth', IMAGE_WIDTH);
+  return image.element() as HTMLImageElement;
+}
+
 const dialog = page.getByRole('dialog');
 // The rest of the page is hidden from the accessibility tree while open
 const trigger = page.getByRole('button', {
@@ -147,5 +186,37 @@ describe('AxoDialog', () => {
     await userEvent.keyboard('{Escape}');
     await expect.element(dialog).not.toBeInTheDocument();
     await expect.element(opener).toHaveFocus();
+  });
+
+  test('"fit" size is as wide as its contents when the window has room', async () => {
+    const image = await renderFitDialog(1024, 768);
+
+    expect(image.offsetWidth).toBe(IMAGE_WIDTH);
+    expect(image.offsetHeight).toBe(IMAGE_HEIGHT);
+  });
+
+  test('"fit" size squeezes its contents to fit a narrow window', async () => {
+    const windowWidth = 360;
+    const image = await renderFitDialog(windowWidth, 768);
+    const content = dialog.element() as HTMLElement;
+
+    expect(content.offsetWidth).toBeLessThanOrEqual(windowWidth);
+    expect(image.offsetWidth).toBeLessThan(content.offsetWidth);
+    expect(image.offsetWidth / image.offsetHeight).toBeCloseTo(
+      IMAGE_WIDTH / IMAGE_HEIGHT,
+      1
+    );
+  });
+
+  test('whole dialog scrolls when the window is too short for a static body', async () => {
+    const windowHeight = 200;
+    const image = await renderFitDialog(300, windowHeight);
+
+    expect(image.getBoundingClientRect().bottom).toBeGreaterThan(windowHeight);
+    image.scrollIntoView({ block: 'end' });
+    await expect
+      .poll(() => image.getBoundingClientRect().bottom)
+      .toBeLessThanOrEqual(windowHeight);
+    expect(image.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
   });
 });
