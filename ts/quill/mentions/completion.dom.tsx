@@ -49,6 +49,12 @@ export class MentionCompletion {
 
   outsideClickDestructor?: () => void;
 
+  #isEndingComposition = false;
+
+  readonly #onInput = (event: Event): void => {
+    this.onCompositionInput(event);
+  };
+
   constructor(quill: Quill, options: MentionCompletionOptions) {
     this.results = [];
     this.index = 0;
@@ -87,9 +93,29 @@ export class MentionCompletion {
       Emitter.events.SELECTION_CHANGE,
       this.onSelectionChange.bind(this)
     );
+
+    // Quill batches DOM mutations during IME composition and doesn't emit
+    // TEXT_CHANGE until compositionend, so we listen to the DOM directly to
+    // keep results up to date while the user is composing (e.g. Korean,
+    // Japanese, Chinese input).
+    this.quill.root.addEventListener('input', this.#onInput);
+
+    // When a composition ends, Quill catches up on the selection it ignored
+    // while composing and emits a SELECTION_CHANGE for the cursor having moved
+    // past the committed text. That isn't the user moving the cursor away from
+    // the mention, so we shouldn't clear the results. Otherwise, a Korean IME
+    // user pressing Enter or Tab mid-composition would send the message or
+    // insert a tab instead of completing the mention.
+    this.quill.on(Emitter.events.COMPOSITION_BEFORE_END, () => {
+      this.#isEndingComposition = true;
+    });
+    this.quill.on(Emitter.events.COMPOSITION_END, () => {
+      this.#isEndingComposition = false;
+    });
   }
 
   destroy(): void {
+    this.quill.root.removeEventListener('input', this.#onInput);
     this.outsideClickDestructor?.();
     this.outsideClickDestructor = undefined;
 
@@ -111,6 +137,10 @@ export class MentionCompletion {
   }
 
   onSelectionChange(): void {
+    if (this.#isEndingComposition) {
+      return;
+    }
+
     // Selection should never change while we're editing a mention
     this.clearResults();
   }
@@ -130,41 +160,82 @@ export class MentionCompletion {
       if (leftTokenTextMatch) {
         const [, leftTokenText] = leftTokenTextMatch as MentionRegexMatch;
 
-        let results: ReadonlyArray<MemberType> = [];
-
-        const memberRepository = this.options.memberRepositoryRef.current;
-
-        if (memberRepository) {
-          if (leftTokenText === '') {
-            results = memberRepository.getMembers(
-              this.options.ourConversationId
-            );
-          } else {
-            const fullMentionText = leftTokenText;
-            results = memberRepository.search(
-              fullMentionText,
-              this.options.ourConversationId
-            );
-          }
-        }
-
-        return results;
+        return this.#searchMembers(leftTokenText);
       }
     }
 
     return [];
   }
 
-  onTextChange(): void {
-    const showMemberResults = this.possiblyShowMemberResults();
+  #searchMembers(query: string): ReadonlyArray<MemberType> {
+    const memberRepository = this.options.memberRepositoryRef.current;
 
-    if (showMemberResults.length > 0) {
-      this.results = showMemberResults;
+    if (!memberRepository) {
+      return [];
+    }
+
+    if (query === '') {
+      return memberRepository.getMembers(this.options.ourConversationId);
+    }
+
+    return memberRepository.search(query, this.options.ourConversationId);
+  }
+
+  #showResults(results: ReadonlyArray<MemberType>): void {
+    if (results.length > 0) {
+      this.results = results;
       this.index = 0;
       this.render();
     } else if (this.results.length !== 0) {
       this.clearResults();
     }
+  }
+
+  onTextChange(): void {
+    this.#showResults(this.possiblyShowMemberResults());
+  }
+
+  onCompositionInput(event: Event): void {
+    if (!(event instanceof InputEvent) || !event.isComposing) {
+      return;
+    }
+
+    // Quill's model is stale during composition, so read the text before the
+    // cursor straight from the DOM.
+    const selection = window.getSelection();
+    const node = selection?.focusNode;
+    if (
+      selection == null ||
+      node == null ||
+      node.nodeType !== Node.TEXT_NODE ||
+      !this.quill.root.contains(node)
+    ) {
+      return;
+    }
+
+    const leftText = (node.textContent ?? '').slice(0, selection.focusOffset);
+    const match = MENTION_REGEX.exec(leftText) as MentionRegexMatch | null;
+    if (match == null) {
+      this.#showResults([]);
+      return;
+    }
+
+    const [, query] = match;
+    let results = this.#searchMembers(query);
+
+    // The composing text may be an incomplete character that doesn't match
+    // anyone yet (e.g. Korean "ㅎ" or "호" on the way to "홍"). Fall back to the
+    // already-committed part of the query so the list doesn't flicker.
+    const composingText = event.data ?? '';
+    if (
+      results.length === 0 &&
+      composingText !== '' &&
+      query.endsWith(composingText)
+    ) {
+      results = this.#searchMembers(query.slice(0, -composingText.length));
+    }
+
+    this.#showResults(results);
   }
 
   completeMention(resultIndexArg?: number): void {

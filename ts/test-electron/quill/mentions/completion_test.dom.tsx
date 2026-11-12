@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { Delta } from '@signalapp/quill-cjs';
+import Emitter from '@signalapp/quill-cjs/core/emitter.js';
 import type { SinonStub } from 'sinon';
 import sinon from 'sinon';
 import type Quill from '@signalapp/quill-cjs';
@@ -69,6 +70,16 @@ const conversations: Array<ConversationType> = [
     type: 'direct',
   }),
   me,
+  getDefaultConversationWithServiceId({
+    areWeAdmin: false,
+    firstName: '길동',
+    id: '888111',
+    lastUpdated: Date.now(),
+    markedUnread: false,
+    profileName: '홍길동',
+    title: '홍길동',
+    type: 'direct',
+  }),
 ];
 
 const members = _toMembers(conversations);
@@ -76,9 +87,10 @@ const members = _toMembers(conversations);
 describe('MentionCompletion', () => {
   let mockQuill: Omit<
     Partial<{ [K in keyof Quill]: SinonStub }>,
-    'keyboard'
+    'keyboard' | 'root'
   > & {
     keyboard: Partial<{ [K in keyof Keyboard]: SinonStub }>;
+    root: HTMLDivElement;
   };
   let mentionCompletion: MentionCompletion;
 
@@ -102,6 +114,7 @@ describe('MentionCompletion', () => {
       getSelection: sinon.stub(),
       keyboard: { addBinding: sinon.stub() },
       on: sinon.stub(),
+      root: document.createElement('div'),
       setSelection: sinon.stub(),
       updateContents: sinon.stub(),
     };
@@ -112,6 +125,92 @@ describe('MentionCompletion', () => {
     );
 
     sinon.stub(mentionCompletion, 'render');
+  });
+
+  afterEach(() => {
+    mentionCompletion.destroy();
+    mockQuill.root.remove();
+  });
+
+  describe('onSelectionChange', () => {
+    function emitQuillEvent(event: string) {
+      const call = mockQuill.on
+        ?.getCalls()
+        .find(({ args }) => args[0] === event);
+      assert.exists(call, `no handler for ${event}`);
+      call?.args[1]();
+    }
+
+    beforeEach(() => {
+      mentionCompletion.results = members;
+    });
+
+    it('clears results when the selection changes', () => {
+      mentionCompletion.onSelectionChange();
+
+      assert.isEmpty(mentionCompletion.results);
+    });
+
+    it('keeps results when the selection changes as a composition ends', () => {
+      emitQuillEvent(Emitter.events.COMPOSITION_BEFORE_END);
+      mentionCompletion.onSelectionChange();
+
+      assert.equal(mentionCompletion.results, members);
+
+      emitQuillEvent(Emitter.events.COMPOSITION_END);
+      mentionCompletion.onSelectionChange();
+
+      assert.isEmpty(mentionCompletion.results);
+    });
+  });
+
+  describe('onCompositionInput', () => {
+    const getTitles = () =>
+      mentionCompletion.results.map(member => member.title);
+
+    function compose(text: string, data: string, isComposing = true) {
+      const textNode = document.createTextNode(text);
+      mockQuill.root.replaceChildren(textNode);
+      document.body.appendChild(mockQuill.root);
+      window.getSelection()?.collapse(textNode, text.length);
+
+      mockQuill.root.dispatchEvent(
+        new InputEvent('input', { data, isComposing })
+      );
+    }
+
+    it('shows matching members while composing', () => {
+      compose('@홍', '홍');
+
+      assert.deepEqual(getTitles(), ['홍길동']);
+    });
+
+    it('updates results as composition continues', () => {
+      compose('@홍길', '길');
+
+      assert.deepEqual(getTitles(), ['홍길동']);
+    });
+
+    it('falls back to the committed query for an incomplete character', () => {
+      compose('@ㅎ', 'ㅎ');
+
+      assert.include(getTitles(), '홍길동');
+      assert.isAbove(mentionCompletion.results.length, 1);
+    });
+
+    it('clears results when not composing a mention', () => {
+      mentionCompletion.results = members;
+
+      compose('홍', '홍');
+
+      assert.isEmpty(mentionCompletion.results);
+    });
+
+    it('ignores input events outside of composition', () => {
+      compose('@홍', '홍', false);
+
+      assert.isEmpty(mentionCompletion.results);
+    });
   });
 
   describe('onTextChange', () => {
