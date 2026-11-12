@@ -225,11 +225,13 @@ describe('calling duck', () => {
       this.sandbox = sinon.createSandbox();
       this.clock = this.sandbox.useFakeTimers({
         now: NOW,
+        toFake: ['Date'],
       });
     });
 
     afterEach(function (this: Mocha.Context) {
       this.sandbox.restore();
+      this.clock.runAll();
     });
   }
 
@@ -1471,7 +1473,6 @@ describe('calling duck', () => {
           callLinkRefreshJobQueue,
           'add'
         );
-        this.clock = this.sandbox.useFakeTimers();
       });
 
       const doAction = async (
@@ -1673,7 +1674,6 @@ describe('calling duck', () => {
             callingService,
             'updateCallHistoryForGroupCallOnPeek'
           );
-        this.clock = this.sandbox.useFakeTimers();
       });
 
       describe('thunk', () => {
@@ -1879,7 +1879,7 @@ describe('calling duck', () => {
 
         const secondDate = new Date(NOW.getTime() + 1234);
         this.clock.restore();
-        this.sandbox.useFakeTimers({ now: secondDate });
+        this.sandbox.useFakeTimers({ now: secondDate, toFake: ['Date'] });
         const secondAction = getAction({
           callMode: CallMode.Group,
           conversationId: 'fake-group-call-conversation-id',

@@ -111,6 +111,7 @@ describe('electron/state/ducks/username', () => {
     it('should dispatch correct actions after delay', async () => {
       const clock = sandbox.useFakeTimers({
         now: 0,
+        toFake: ['setTimeout', 'clearTimeout'],
       });
 
       const doReserveUsername = sinon.stub().resolves(DEFAULT_RESERVATION);

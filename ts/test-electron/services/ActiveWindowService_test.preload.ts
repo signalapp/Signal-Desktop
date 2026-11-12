@@ -11,7 +11,10 @@ describe('ActiveWindowService', () => {
   const fakeIpcEvent = {};
 
   beforeEach(function (this: Mocha.Context) {
-    this.clock = sinon.useFakeTimers({ now: 1000 });
+    this.clock = sinon.useFakeTimers({
+      now: 1000,
+      toFake: ['setTimeout', 'clearTimeout', 'Date'],
+    });
   });
 
   afterEach(function (this: Mocha.Context) {

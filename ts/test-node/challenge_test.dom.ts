@@ -45,11 +45,13 @@ describe('ChallengeHandler', () => {
     this.sandbox = sinon.createSandbox();
     this.clock = this.sandbox.useFakeTimers({
       now: NOW,
+      toFake: ['Date', 'setTimeout', 'clearTimeout'],
     });
   });
 
   afterEach(function (this: Mocha.Context) {
     this.sandbox.restore();
+    this.clock.runAll();
   });
 
   const createChallenge = (

@@ -19,7 +19,10 @@ describe('CheckScheduler', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    clock = sandbox.useFakeTimers({ now: NOW });
+    clock = sandbox.useFakeTimers({
+      now: NOW,
+      toFake: ['Date', 'setTimeout', 'clearTimeout'],
+    });
     // Stub Math.random() to 0.5 so scheduling is deterministic (no jitter)
     sandbox.stub(Math, 'random').returns(0.5);
 
@@ -39,6 +42,7 @@ describe('CheckScheduler', () => {
 
   afterEach(() => {
     sandbox.restore();
+    clock.runAll();
   });
 
   function makeScheduler(

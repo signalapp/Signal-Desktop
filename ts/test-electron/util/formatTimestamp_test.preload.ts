@@ -27,7 +27,7 @@ describe('formatTimestamp', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.useFakeTimers({ now: FAKE_NOW });
+    sandbox.useFakeTimers({ now: FAKE_NOW, toFake: ['Date'] });
     localesStub = sandbox.stub(
       window.SignalContext,
       'getPreferredSystemLocales'
