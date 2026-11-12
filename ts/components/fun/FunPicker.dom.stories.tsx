@@ -50,6 +50,7 @@ function Template(props: TemplateProps) {
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
       onMarkStickerAsFavorite={() => null}
+      showToast={action('showToast')}
       // Gifs
       fetchGiphySearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
       fetchGiphyTrending={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}

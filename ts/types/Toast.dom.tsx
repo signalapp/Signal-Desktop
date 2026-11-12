@@ -84,6 +84,7 @@ export enum ToastType {
   SQLError = 'SQLError',
   StickerFavoriteAdded = 'StickerFavoriteAdded',
   StickerFavoriteRemoved = 'StickerFavoriteRemoved',
+  StickerFavoritesHint = 'StickerFavoritesHint',
   StickerFavoritesTooMany = 'StickerFavoritesTooMany',
   StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
@@ -252,6 +253,7 @@ export type AnyToast =
   | { toastType: ToastType.ReportedSpamAndBlocked }
   | { toastType: ToastType.StickerFavoriteAdded }
   | { toastType: ToastType.StickerFavoriteRemoved }
+  | { toastType: ToastType.StickerFavoritesHint }
   | { toastType: ToastType.StickerFavoritesTooMany }
   | { toastType: ToastType.StickerPackInstallFailed }
   | { toastType: ToastType.SQLError }

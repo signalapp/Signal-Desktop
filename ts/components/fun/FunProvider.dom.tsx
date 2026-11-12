@@ -25,6 +25,7 @@ import { FunPickerTabKey } from './constants.dom.tsx';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
 import type { FunStickerSelection } from './panels/FunPanelStickers.dom.tsx';
 import type { Emoji } from '../../axo/emoji.std.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;
@@ -52,6 +53,7 @@ export type FunContextSmartProps = Readonly<{
     stickerSelection: FunStickerSelection,
     markAsFavorite: boolean
   ) => void;
+  showToast: ShowToastAction;
 
   // GIFs
   fetchGiphyTrending: typeof fetchGiphyTrending;
@@ -183,6 +185,7 @@ export const FunProvider = memo(function FunProvider(
       onClearStickerPickerHint={props.onClearStickerPickerHint}
       onSelectSticker={props.onSelectSticker}
       onMarkStickerAsFavorite={props.onMarkStickerAsFavorite}
+      showToast={props.showToast}
       // GIFs
       fetchGiphyTrending={props.fetchGiphyTrending}
       fetchGiphySearch={props.fetchGiphySearch}

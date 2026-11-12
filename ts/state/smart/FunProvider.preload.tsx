@@ -36,6 +36,7 @@ import { Emoji } from '../../axo/emoji.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
 import { drop } from '../../util/drop.std.ts';
+import { useToastActions } from '../ducks/toast.preload.ts';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;
@@ -59,6 +60,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
   const { markStickerAsFavorite, useSticker: onUseSticker } =
     useStickersActions();
   const { onAddRecentGif, onRemoveRecentGif } = useGifsActions();
+  const { showToast } = useToastActions();
 
   const items = useSelector(getItems);
   const version = useSelector(getVersion);
@@ -159,6 +161,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       onClearStickerPickerHint={handleClearStickerPickerHint}
       onSelectSticker={handleSelectSticker}
       onMarkStickerAsFavorite={handleMarkStickerAsFavorite}
+      showToast={showToast}
       // Gifs
       fetchGiphySearch={fetchGiphySearch}
       fetchGiphyTrending={fetchGiphyTrending}
