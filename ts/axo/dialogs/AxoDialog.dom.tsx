@@ -303,11 +303,29 @@ export namespace AxoDialog {
     fit: css('axo-dialog-content-fit'),
   });
 
+  /**
+   * Where the dialog is placed in the window (default: 'center').
+   */
+  export type ContentPosition = 'center' | 'bottom-end';
+
+  const ContentPositions = variants<ContentPosition>(
+    'AxoDialog.ContentPosition',
+    {
+      center: css(),
+      'bottom-end': css('axo-dialog-content-bottom-end'),
+    }
+  );
+
   export type ContentProps = Readonly<{
     /**
      * Width of the dialog.
      */
     size: ContentSize;
+    /**
+     * Where the dialog is placed in the window.
+     * Defaults to `center`.
+     */
+    position?: ContentPosition;
     /**
      * What happens when the user presses `Escape` or clicks outside.
      */
@@ -353,7 +371,8 @@ export namespace AxoDialog {
                 ref={setBoundary}
                 className={css(
                   AxoBaseDialog.contentClassName,
-                  ContentSizes.get(props.size)
+                  ContentSizes.get(props.size),
+                  ContentPositions.get(props.position ?? 'center')
                 )}
                 onEscapeKeyDown={handleContentEscapeEvent}
                 onInteractOutside={handleContentEscapeEvent}

@@ -39,6 +39,7 @@ function Box(props: { children: ReactNode }) {
 function Template(props: {
   back?: boolean;
   contentSize: AxoDialog.ContentSize;
+  contentPosition?: AxoDialog.ContentPosition;
   bodyPadding?: AxoDialog.BodyPadding;
   iconAction?: boolean;
   footerContent?: ReactNode;
@@ -51,6 +52,7 @@ function Template(props: {
       </AxoDialog.Trigger>
       <AxoDialog.Content
         size={props.contentSize}
+        position={props.contentPosition}
         escape="cancel-is-noop"
         disableMissingAriaDescriptionWarning
       >
@@ -118,6 +120,14 @@ export function Small(): JSX.Element {
 
 export function Large(): JSX.Element {
   return <Template contentSize="lg">{TEXT_LONG}</Template>;
+}
+
+export function PositionBottomEnd(): JSX.Element {
+  return (
+    <Template contentSize="sm" contentPosition="bottom-end">
+      {TEXT_LONG}
+    </Template>
+  );
 }
 
 export function IconAction(): JSX.Element {

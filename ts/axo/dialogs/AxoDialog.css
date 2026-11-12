@@ -25,6 +25,22 @@
     &.axo-dialog-content-fit {
       @apply w-fit max-w-[1320px] min-w-[240px];
     }
+
+    &.axo-dialog-content-bottom-end {
+      @apply col-start-2 row-start-2;
+      @apply origin-bottom-right rtl:origin-bottom-left;
+    }
+  }
+
+  /**
+   * The last track adds 0-16px to the content's 4px margin: a 20px gap from
+   * the edges when there's room, shrinking to 4px before the host scrolls.
+   * `min-content` because the content's `overflow: hidden` lets it shrink to 0.
+   */
+  .axo-dialog-host-layout:has(> .axo-dialog-content-bottom-end) {
+    @apply grid;
+    @apply grid-cols-[1fr_minmax(min-content,auto)_minmax(0,16px)];
+    @apply grid-rows-[1fr_minmax(min-content,auto)_minmax(0,16px)];
   }
 
   .axo-dialog-content-layout {

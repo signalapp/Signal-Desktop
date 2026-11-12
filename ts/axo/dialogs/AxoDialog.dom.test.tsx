@@ -9,6 +9,7 @@ import { AxoButton } from '../AxoButton.dom.tsx';
 import { tw } from '../tw.dom.tsx';
 import { renderAxo } from '../_test-helpers/render.dom.tsx';
 import { describeFocused } from '../_test-helpers/a11y.dom.tsx';
+import { assert } from '../_internal/assert.std.tsx';
 import { testStoriesWithAxe } from '../_test-helpers/stories.dom.tsx';
 import * as stories from './AxoDialog.dom.stories.tsx';
 
@@ -133,6 +134,65 @@ async function renderFitDialog(
   return image.element() as HTMLImageElement;
 }
 
+/** A dialog in the bottom-end corner with a fixed size */
+function BottomEndDialog(): ReactNode {
+  return (
+    <AxoDialog.Root open onOpenChange={vi.fn<() => void>()}>
+      <AxoDialog.Content
+        size="sm"
+        position="bottom-end"
+        escape="cancel-is-noop"
+      >
+        <AxoDialog.Header>
+          <AxoDialog.Title>Replies</AxoDialog.Title>
+          <AxoDialog.Close />
+        </AxoDialog.Header>
+        <AxoDialog.StaticBody>
+          <AxoDialog.Description>Replies to your story.</AxoDialog.Description>
+          <div className={tw('h-75')} />
+        </AxoDialog.StaticBody>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
+  );
+}
+
+type BottomEndLayout = Readonly<{
+  /** Scrolls when the window is too small */
+  host: HTMLElement;
+  /** Covered by the overlay */
+  layout: HTMLElement;
+  content: HTMLElement;
+}>;
+
+async function renderBottomEndDialog(
+  windowWidth: number,
+  windowHeight: number
+): Promise<BottomEndLayout> {
+  const viewport = { width: window.innerWidth, height: window.innerHeight };
+  onTestFinished(async () => {
+    await page.viewport(viewport.width, viewport.height);
+  });
+  await page.viewport(windowWidth, windowHeight);
+
+  await renderAxo(<BottomEndDialog />);
+  await expect.element(dialog).toBeVisible();
+  const content = dialog.element() as HTMLElement;
+  const layout = content.offsetParent as HTMLElement;
+  const host = assert(layout.parentElement, 'Missing host');
+  return { host, layout, content };
+}
+
+type Gaps = Readonly<{ end: number; bottom: number }>;
+
+/** Distance from the bottom-end corner of the layout, ignoring transforms */
+function getGaps(result: BottomEndLayout): Gaps {
+  const { layout, content } = result;
+  return {
+    end: layout.offsetWidth - (content.offsetLeft + content.offsetWidth),
+    bottom: layout.offsetHeight - (content.offsetTop + content.offsetHeight),
+  };
+}
+
 const dialog = page.getByRole('dialog');
 // The rest of the page is hidden from the accessibility tree while open
 const trigger = page.getByRole('button', {
@@ -218,5 +278,29 @@ describe('AxoDialog', () => {
       .poll(() => image.getBoundingClientRect().bottom)
       .toBeLessThanOrEqual(windowHeight);
     expect(image.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
+  });
+
+  test('"bottom-end" position is 20px from the corner when the window has room', async () => {
+    const result = await renderBottomEndDialog(1024, 768);
+
+    expect(getGaps(result)).toStrictEqual({ end: 20, bottom: 20 });
+  });
+
+  test('"bottom-end" position shrinks its gap instead of scrolling when the window is just tall enough', async () => {
+    const result = await renderBottomEndDialog(1024, 768);
+    const windowHeight = result.content.offsetHeight + 12;
+    await page.viewport(1024, windowHeight);
+    await expect.poll(() => result.host.clientHeight).toBe(windowHeight);
+
+    expect(result.host.scrollHeight).toBe(result.host.clientHeight);
+    expect(getGaps(result).bottom).toBeCloseTo(8, 0);
+  });
+
+  test('"bottom-end" position scrolls with the overlay covering the whole dialog when the window is too short', async () => {
+    const result = await renderBottomEndDialog(1024, 200);
+
+    expect(result.host.scrollHeight).toBeGreaterThan(result.host.clientHeight);
+    expect(result.layout.offsetHeight).toBe(result.host.scrollHeight);
+    expect(getGaps(result).bottom).toBe(4);
   });
 });
