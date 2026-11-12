@@ -4168,11 +4168,8 @@ function dragAttachment(
   timestamp = Date.now()
 ): AsyncStateThunk<ShowToastActionType> {
   return async () => {
-    const fullPath = await Attachment.save({
+    const fullPath = await doSaveAttachment({
       attachment,
-      getUnusedFilename,
-      readAttachmentData,
-      saveAttachmentToDisk,
       timestamp,
       baseDir: TEMP_PATH,
     });
