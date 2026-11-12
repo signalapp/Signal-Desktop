@@ -88,6 +88,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = memo(
     getPreferredBadge,
     i18n,
     id,
+    isSelected,
     sentAt,
     showConversation,
     snippet,
@@ -193,7 +194,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = memo(
         id={id}
         isMe={from.isMe}
         isNoteToSelf={isNoteToSelf}
-        isSelected={false}
+        isSelected={Boolean(isSelected)}
         messageText={messageText}
         onClick={onClickItem}
         phoneNumber={from.phoneNumber}
