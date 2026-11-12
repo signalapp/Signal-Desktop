@@ -59,7 +59,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypeTranscodable,
 } from '../util/GoogleChrome.std.ts';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.ts';
 import { findRetryAfterTimeFromError } from './helpers/findRetryAfterTimeFromError.std.ts';
@@ -410,7 +410,7 @@ async function backupThumbnailAttachment(
     version,
   });
 
-  if (isVideoTypeSupported(contentType)) {
+  if (isVideoTypeTranscodable(contentType)) {
     // TODO (DESKTOP-7204): pull screenshot path from attachments table if it already
     // exists
     const { blob: screenshotBlob } = await makeVideoScreenshot({

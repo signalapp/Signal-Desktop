@@ -106,7 +106,7 @@ import { sendEditedMessage as doSendEditedMessage } from '../../util/sendEditedM
 import { Sound, SoundType } from '../../util/Sound.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypeTranscodable,
 } from '../../util/GoogleChrome.std.ts';
 import { getPlaintextHashForInMemoryAttachment } from '../../AttachmentCrypto.node.ts';
 import type {
@@ -1369,7 +1369,10 @@ function preProcessAttachment(
 
   const haveNonImageOrVideo = draftAttachments.some(
     (attachment: AttachmentDraftType) => {
-      return !isImageAttachment(attachment) && !isVideoAttachment(attachment);
+      return (
+        !isImageAttachment(attachment) &&
+        !isVideoAttachment(attachment, 'transcodable')
+      );
     }
   );
   // You can't add another attachment if you already have a non-image staged
@@ -1379,7 +1382,7 @@ function preProcessAttachment(
 
   const fileType = stringToMIMEType(file.type);
   const imageOrVideo =
-    isImageTypeSupported(fileType) || isVideoTypeSupported(fileType);
+    isImageTypeSupported(fileType) || isVideoTypeTranscodable(fileType);
 
   // You can't add a non-image attachment if you already have attachments staged
   if (!imageOrVideo && draftAttachments.length > 0) {
@@ -1387,7 +1390,7 @@ function preProcessAttachment(
   }
 
   // Let video be transcoded to smaller size before rejecting it here
-  if (!isVideoTypeSupported(fileType)) {
+  if (!isVideoTypeTranscodable(fileType)) {
     // Putting this after everything else because the other checks are more
     // important to show to the user.
     const sizeLimit = getAttachmentSizeLimit({
@@ -1402,7 +1405,7 @@ function preProcessAttachment(
       })
     ) {
       return {
-        toastType: isVideoAttachment({ contentType: fileType })
+        toastType: isVideoAttachment({ contentType: fileType }, 'transcodable')
           ? ToastType.VideoFileSize
           : ToastType.FileSize,
         parameters: getRenderDetailsForLimit(sizeLimit),

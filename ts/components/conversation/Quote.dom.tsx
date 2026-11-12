@@ -138,7 +138,7 @@ function getTypeLabel({
   contentType: MIME.MIMEType;
   isVoiceMessage?: boolean;
 }): string | undefined {
-  if (GoogleChrome.isVideoTypeSupported(contentType)) {
+  if (GoogleChrome.isVideoTypePlayable(contentType)) {
     if (isViewOnce) {
       return i18n('icu:message--getDescription--disappearing-video');
     }
@@ -295,7 +295,7 @@ export function Quote(props: Props): JSX.Element | null {
 
     const { fileName, contentType, textAttachment } = attachment;
     const isGenericFile =
-      !GoogleChrome.isVideoTypeSupported(contentType) &&
+      !GoogleChrome.isVideoTypePlayable(contentType) &&
       !GoogleChrome.isImageTypeSupported(contentType) &&
       !textAttachment &&
       !MIME.isAudio(contentType);
@@ -361,7 +361,7 @@ export function Quote(props: Props): JSX.Element | null {
       );
     }
 
-    if (GoogleChrome.isVideoTypeSupported(contentType)) {
+    if (GoogleChrome.isVideoTypePlayable(contentType)) {
       return url && !imageBroken
         ? renderImage(url, 'play')
         : renderIcon('movie');

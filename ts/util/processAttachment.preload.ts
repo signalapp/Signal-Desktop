@@ -14,10 +14,10 @@ import * as Errors from '../types/errors.std.ts';
 import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
 import { handleImageAttachment } from './handleImageAttachment.preload.ts';
 import { handleVideoAttachment } from './handleVideoAttachment.preload.ts';
-import { isHeic, stringToMIMEType } from '../types/MIME.std.ts';
+import { isHeic, stringToMIMEType, VIDEO_MP4 } from '../types/MIME.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypeTranscodable,
 } from './GoogleChrome.std.ts';
 import { ToastType } from '../types/Toast.dom.tsx';
 import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
@@ -37,7 +37,7 @@ export async function processAttachment(
     disableTranscoding?: boolean;
   }
 ): Promise<AttachmentDraftType | undefined> {
-  const fileType = stringToMIMEType(file.type);
+  let fileType = stringToMIMEType(file.type);
 
   let attachment: AttachmentDraftType | undefined;
   let plaintextSize = file.size;
@@ -46,7 +46,7 @@ export async function processAttachment(
       // Used only in StoryCreator
     } else if (isImageTypeSupported(fileType) || isHeic(fileType, file.name)) {
       attachment = await handleImageAttachment(file, options);
-    } else if (isVideoTypeSupported(fileType)) {
+    } else if (isVideoTypeTranscodable(fileType)) {
       ({ attachment, transcodedStandardSize: plaintextSize } =
         await handleVideoAttachment(file, options));
 
@@ -68,6 +68,8 @@ export async function processAttachment(
         await deleteDraftFile(attachment.path);
         return undefined;
       }
+
+      fileType = VIDEO_MP4;
     }
   } catch (e) {
     log.error(

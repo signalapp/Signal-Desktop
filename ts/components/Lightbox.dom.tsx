@@ -605,11 +605,10 @@ export function Lightbox({
     content = <>{children}</>;
   } else {
     const isImageTypeSupported = GoogleChrome.isImageTypeSupported(contentType);
-    const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
+    const isVideoTypePlayable = GoogleChrome.isVideoTypePlayable(contentType);
     const isUnsupportedImageType =
       !isImageTypeSupported && isImage(contentType);
-    const isUnsupportedVideoType =
-      !isVideoTypeSupported && isVideo(contentType);
+    const isUnsupportedVideoType = !isVideoTypePlayable && isVideo(contentType);
 
     if (isImageTypeSupported) {
       if (url) {
@@ -655,7 +654,7 @@ export function Lightbox({
           />
         );
       }
-    } else if (isVideoTypeSupported) {
+    } else if (isVideoTypePlayable) {
       const shouldLoop = isAttachmentGIF || isViewOnce;
 
       content = (

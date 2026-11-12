@@ -19,7 +19,7 @@ import {
   isDownloading,
   isGIF,
 } from '../util/Attachment.std.ts';
-import { isVideoTypeSupported } from '../util/GoogleChrome.std.ts';
+import { isVideoTypePlayable } from '../util/GoogleChrome.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { isAbortError } from '../util/isAbortError.std.ts';
@@ -106,7 +106,7 @@ export function StoryImage({
   const isPending =
     Boolean(attachment.pending) && !attachment.textAttachment && !hasError;
   const isNotReadyToShow = hasNotResolved(attachment) || isPending || hasError;
-  const isSupportedVideo = isVideoTypeSupported(attachment.contentType);
+  const isPlayableVideo = isVideoTypePlayable(attachment.contentType);
 
   let storyElement: JSX.Element;
   if (attachment.textAttachment) {
@@ -125,7 +125,7 @@ export function StoryImage({
         width={attachment.width}
       />
     );
-  } else if (!isThumbnail && isSupportedVideo) {
+  } else if (!isThumbnail && isPlayableVideo) {
     const shouldLoop = isGIF(attachment);
 
     storyElement = (

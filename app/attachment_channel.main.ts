@@ -38,7 +38,7 @@ import {
 import * as Errors from '../ts/types/errors.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypePlayable,
 } from '../ts/util/GoogleChrome.std.ts';
 import { strictAssert } from '../ts/util/assert.std.ts';
 import { drop } from '../ts/util/drop.std.ts';
@@ -796,7 +796,7 @@ function handleRangeRequest({
   let contentType = MIMETypeToString(APPLICATION_OCTET_STREAM);
   if (contentTypeParam) {
     const mime = stringToMIMEType(contentTypeParam);
-    if (isImageTypeSupported(mime) || isVideoTypeSupported(mime)) {
+    if (isImageTypeSupported(mime) || isVideoTypePlayable(mime)) {
       contentType = MIMETypeToString(mime);
     }
   }

@@ -20,7 +20,7 @@ import {
 } from '../../util/Attachment.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypePlayable,
 } from '../../util/GoogleChrome.std.ts';
 import {
   getLocalAttachmentUrl,
@@ -275,7 +275,7 @@ function showLightbox(opts: {
 
     if (
       !isImageTypeSupported(contentType) &&
-      !isVideoTypeSupported(contentType)
+      !isVideoTypePlayable(contentType)
     ) {
       void dispatch(saveAttachmentFromMessage(messageId, attachment));
       return;

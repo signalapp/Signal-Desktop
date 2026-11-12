@@ -19,7 +19,7 @@ export function isValidTapToView(message: MessageAttributesType): boolean {
   if (
     firstAttachment != null &&
     !GoogleChrome.isImageTypeSupported(firstAttachment.contentType) &&
-    !GoogleChrome.isVideoTypeSupported(firstAttachment.contentType)
+    !GoogleChrome.isVideoTypePlayable(firstAttachment.contentType)
   ) {
     return false;
   }
