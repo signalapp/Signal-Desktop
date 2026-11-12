@@ -109,6 +109,21 @@ const {
  * </AxoDialog.Root>
  * ```
  *
+ * @example Anatomy sized by its contents
+ * ```tsx
+ * <AxoDialog.Root>
+ *   <AxoDialog.Content size="fit">
+ *     <AxoDialog.Header>
+ *       <AxoDialog.Title />
+ *       <AxoDialog.Close />
+ *     </AxoDialog.Header>
+ *     <AxoDialog.StaticBody>
+ *       <AxoDialog.Description />
+ *     </AxoDialog.StaticBody>
+ *   </AxoDialog.Content>
+ * </AxoDialog.Root>
+ * ```
+ *
  * @see {@link https://www.radix-ui.com/primitives/docs/components/dialog | Dialog - Radix Docs}
  * @see {@link https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/ | Dialog (Modal) Pattern - ARIA Authoring Practices Guide}
  * @see {@link https://w3c.github.io/aria/#dialog | `dialog` role - WAI-ARIA 1.3}
@@ -270,8 +285,9 @@ export namespace AxoDialog {
    * - `sm` – 320px
    * - `md` – 400px
    * - `lg` – 720px
+   * - `fit` – As wide as its contents, from 240px to 1320px. Use with `StaticBody`.
    */
-  export type ContentSize = 'sm' | 'md' | 'lg';
+  export type ContentSize = 'sm' | 'md' | 'lg' | 'fit';
 
   /**
    * How dangerous the cancel action is considered.
@@ -284,6 +300,7 @@ export namespace AxoDialog {
     sm: tw('w-[320px] min-w-[320px]'),
     md: tw('w-[400px] min-w-[320px]'),
     lg: tw('w-[720px] min-w-[320px]'),
+    fit: tw('w-fit max-w-[1320px] min-w-[240px]'),
   });
 
   export type ContentProps = Readonly<{
@@ -301,8 +318,8 @@ export namespace AxoDialog {
      */
     disableMissingAriaDescriptionWarning?: boolean;
     /**
-     * Should be `Header`, `Search`, `Tabs`, `Body`, `Footer`, and/or
-     * `Description` elements.
+     * Should be `Header`, `Search`, `Tabs`, `Body`, `StaticBody`, `Footer`,
+     * and/or `Description` elements.
      */
     children: ReactNode;
   }>;
@@ -955,6 +972,39 @@ export namespace AxoDialog {
   });
 
   Body.displayName = 'AxoDialog.Body';
+
+  /**
+   * <AxoDialog.StaticBody>
+   * --------------------------------------------------------------------------
+   */
+
+  export type StaticBodyProps = Readonly<{
+    children: ReactNode;
+  }>;
+
+  /**
+   * Padded content area between `Header` and `Footer` that never scrolls, so
+   * its contents decide the size of the dialog. Used instead of `Body`.
+   *
+   * When the window is too small to fit the dialog, the whole dialog scrolls
+   * with the overlay.
+   */
+  export const StaticBody: FC<StaticBodyProps> = memo(props => {
+    const { hasHeader, hasFooter } = useStrictContext(RootContext);
+    return (
+      <div
+        className={tw(
+          'px-5',
+          hasHeader ? 'pt-0.5' : 'pt-5',
+          hasFooter ? 'pb-0.5' : 'pb-5'
+        )}
+      >
+        {props.children}
+      </div>
+    );
+  });
+
+  StaticBody.displayName = 'AxoDialog.StaticBody';
 
   /**
    * <AxoDialog.Description>
