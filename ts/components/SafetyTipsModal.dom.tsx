@@ -3,7 +3,7 @@
 import { type JSX, useId, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';

@@ -13,7 +13,7 @@ import type {
   PollVoteWithUserType,
   PollWithResolvedVotersType,
 } from '../../../state/selectors/message.preload.ts';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 
 type PollVotesModalProps = {
   i18n: LocalizerType;

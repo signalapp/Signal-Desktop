@@ -1,0 +1,234 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  /**
+   * <AxoDialog.Content>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-content {
+    &.axo-dialog-content-sm {
+      @apply w-[320px] min-w-[320px];
+    }
+
+    &.axo-dialog-content-md {
+      @apply w-[400px] min-w-[320px];
+    }
+
+    &.axo-dialog-content-lg {
+      @apply w-[720px] min-w-[320px];
+    }
+
+    &.axo-dialog-content-fit {
+      @apply w-fit max-w-[1320px] min-w-[240px];
+    }
+  }
+
+  .axo-dialog-content-layout {
+    @apply relative z-10;
+  }
+
+  /**
+   * <AxoDialog.Header>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-header {
+    @apply grid items-center px-4 pt-4 pb-2;
+    @apply grid-cols-[[back-slot]_1fr_[title-slot]_auto_[close-slot]_1fr];
+  }
+
+  .axo-dialog-header-floating {
+    @apply pointer-events-none absolute inset-x-0 top-0 z-10;
+  }
+
+  /**
+   * <AxoDialog.Title>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-title {
+    @apply type-body-medium font-semibold text-primary;
+    @apply mb-2.5;
+
+    .axo-dialog-header & {
+      @apply col-[title-slot] mb-0 truncate px-3.5 py-0.5 text-center;
+    }
+
+    .axo-dialog-header-floating & {
+      @apply sr-only;
+    }
+  }
+
+  /**
+   * <AxoDialog.Back>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-back {
+    @apply pointer-events-auto col-[back-slot] text-start;
+  }
+
+  /**
+   * <AxoDialog.Close>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-close {
+    @apply pointer-events-auto col-[close-slot] text-end leading-none;
+  }
+
+  /**
+   * <AxoDialog.Search>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-search {
+    @apply flex items-center gap-2 px-4 pb-2;
+  }
+
+  /**
+   * <AxoDialog.Tabs>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-tabs {
+    @apply overflow-clip;
+    /* Don't clip the focus rings of the tabs */
+    @apply [overflow-clip-margin:4px];
+  }
+
+  .axo-dialog-tabs-container {
+    /* The exiting tab content is absolutely positioned against this */
+    @apply relative;
+    /* Tab contents only blend with each other while cross fading */
+    @apply isolate;
+  }
+
+  /**
+   * <AxoDialog.TabList>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-tab-list {
+    @apply px-4 pb-2;
+  }
+
+  /**
+   * <AxoDialog.TabContent>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-tab-content {
+    @apply focus-visible:axo-focus-ring;
+    /* Content that's the same in both tabs stays opaque while cross fading */
+    @apply mix-blend-plus-lighter;
+  }
+
+  /**
+   * <AxoDialog.Body>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-body {
+    padding-inline: calc(
+      var(--axo-dialog-body-padding) - var(--axo-dialog-body-scrollbar-gutter)
+    );
+    padding-block: var(--axo-dialog-body-padding);
+
+    &.axo-dialog-body-padding-lg {
+      --axo-dialog-body-padding: 24px;
+    }
+
+    &.axo-dialog-body-padding-md {
+      --axo-dialog-body-padding: 16px;
+    }
+
+    &.axo-dialog-body-padding-sm {
+      --axo-dialog-body-padding: 12px;
+    }
+
+    &.axo-dialog-body-padding-deprecated-only-scrollbar-gutter {
+      padding-inline: 0;
+      padding-block: 2px;
+    }
+
+    &.axo-dialog-body-scrollbar-none {
+      --axo-dialog-body-scrollbar-gutter: 0px;
+    }
+
+    &.axo-dialog-body-scrollbar-thin {
+      --axo-dialog-body-scrollbar-gutter: var(
+        --axo-scrollbar-gutter-thin-vertical
+      );
+    }
+
+    &.axo-dialog-body-selectable-text {
+      @apply select-text;
+    }
+  }
+
+  /**
+   * <AxoDialog.StaticBody>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-static-body {
+    @apply p-5;
+  }
+
+  /* Floating headers overlap the body instead of pushing it down */
+  .axo-dialog-content:has(.axo-dialog-header:not(.axo-dialog-header-floating))
+    :is(.axo-dialog-body, .axo-dialog-static-body) {
+    @apply pt-0.5;
+  }
+
+  .axo-dialog-content:has(.axo-dialog-footer)
+    :is(.axo-dialog-body, .axo-dialog-static-body) {
+    @apply pb-0.5;
+  }
+
+  /**
+   * <AxoDialog.Footer>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-footer {
+    @apply flex flex-wrap items-center gap-x-2 gap-y-3;
+    @apply px-4 pt-2.5 pb-4;
+  }
+
+  /**
+   * <AxoDialog.FooterContent>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-footer-content {
+    @apply px-2 type-body-medium text-primary;
+    /* Share a row with the actions if it can wrap to fit */
+    @apply basis-[min-content];
+    /* But move to its own row if it would only fit 1-2 words per line */
+    @apply min-w-[calc-size(fit-content,min(20ch,size))];
+    @apply grow;
+  }
+
+  /**
+   * <AxoDialog.Actions>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-actions-fit-container {
+    @apply ms-auto;
+  }
+
+  .axo-dialog-actions {
+    @apply flex max-w-full flex-wrap-reverse items-center gap-x-2 gap-y-3;
+
+    &.axo-dialog-actions-fill {
+      @apply w-full;
+    }
+  }
+}

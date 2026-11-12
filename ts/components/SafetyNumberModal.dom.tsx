@@ -5,7 +5,7 @@ import type { JSX, ReactNode } from 'react';
 import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import type { SafetyNumberProps as SafetyNumberViewerPropsType } from './SafetyNumberChangeDialog.dom.tsx';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { SAFETY_NUMBER_URL } from '../types/support.std.ts';

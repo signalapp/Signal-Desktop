@@ -4,18 +4,19 @@
 import { AlertDialog } from 'radix-ui';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { memo, useCallback, useMemo, useRef, useState } from 'react';
-import { AxoButton } from './AxoButton.dom.tsx';
-import { tw } from './tw.dom.tsx';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
-import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
-import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
-import type { AxoSymbol } from './AxoSymbol.dom.tsx';
-import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
-import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
+import { AxoButton } from '../AxoButton.dom.tsx';
+import { tw } from '../tw.dom.tsx';
+import { css } from '../_internal/css.dom.tsx';
+import { AxoBaseDialog } from './_AxoBaseDialog.dom.tsx';
+import { AxoBaseLayer } from '../_internal/AxoBaseLayer.dom.tsx';
+import { AxoScrollArea } from '../AxoScrollArea.dom.tsx';
+import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { FlexWrapDetector } from '../_internal/FlexWrapDetector.dom.tsx';
+import { useAxoIntl } from '../_internal/AxoIntl.dom.tsx';
 import {
   createStrictContext,
   useStrictContext,
-} from './_internal/StrictContext.dom.tsx';
+} from '../_internal/StrictContext.dom.tsx';
 
 const {
   useContentEscapeBehavior,
@@ -55,19 +56,23 @@ export namespace AxoAlertDialog {
    * --------------------------------------------------------------------------
    */
 
-  export type RootProps = AxoBaseDialog.RootProps &
-    Readonly<{
-      /**
-       * Called along with `onOpenChange(false)` when the dialog is dismissed
-       * without taking an action: via `Cancel`, `Ok`, pressing `Escape`, or
-       * clicking outside.
-       *
-       * Unlike `onOpenChange`, this is not called when an `Action` closes the
-       * dialog. Use this for side effects that should only happen when the
-       * user backs out of the dialog.
-       */
-      onCancel?: () => void;
-    }>;
+  export type RootProps = Readonly<{
+    /** Controlled open state. Must be used with `onOpenChange`. */
+    open?: boolean;
+    /** Called when the open state changes. */
+    onOpenChange?: (open: boolean) => void;
+    /**
+     * Called along with `onOpenChange(false)` when the dialog is dismissed
+     * without taking an action: via `Cancel`, `Ok`, pressing `Escape`, or
+     * clicking outside.
+     *
+     * Unlike `onOpenChange`, this is not called when an `Action` closes the
+     * dialog. Use this for side effects that should only happen when the
+     * user backs out of the dialog.
+     */
+    onCancel?: () => void;
+    children: ReactNode;
+  }>;
 
   type RootContextType = Readonly<{
     setActionTriggered: () => void;
@@ -145,7 +150,9 @@ export namespace AxoAlertDialog {
    * --------------------------------------------------------------------------
    */
 
-  export type TriggerProps = AxoBaseDialog.TriggerProps;
+  export type TriggerProps = Readonly<{
+    children: ReactNode;
+  }>;
 
   /**
    * A button that opens the dialog.
@@ -202,7 +209,10 @@ export namespace AxoAlertDialog {
             <AlertDialog.Content
               onEscapeKeyDown={handleContentEscapeEvent}
               aria-modal="true"
-              className={tw(AxoBaseDialog.contentClassName, 'w-72 min-w-72')}
+              className={css(
+                AxoBaseDialog.contentClassName,
+                'axo-alert-dialog-content'
+              )}
               {...dialogContentProps}
             >
               {props.children}
@@ -237,9 +247,7 @@ export namespace AxoAlertDialog {
         <AxoScrollArea.Hint edge="bottom" />
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
-            <div className={tw('flex flex-col gap-1 px-6 pt-5')}>
-              {props.children}
-            </div>
+            <div className="axo-alert-dialog-body">{props.children}</div>
           </AxoScrollArea.Content>
         </AxoScrollArea.Viewport>
       </AxoScrollArea.Root>
@@ -252,19 +260,6 @@ export namespace AxoAlertDialog {
    * <AxoAlertDialog.Footer>
    * --------------------------------------------------------------------------
    */
-
-  const footerWrapDetectorStyles = tw(
-    // When actions are not being wrapped:
-    // Try to keep all actions equal size, but don't truncate them.
-    'container-not-scrollable:*:basis-0',
-    'container-not-scrollable:*:min-w-fit',
-    // When actions are being wrapped:
-    // Make all of them full width
-    'container-scrollable:*:w-full'
-  );
-
-  // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-  const footerWrapForcedBreakStyles = tw('*:w-full');
 
   export type FooterProps = Readonly<{
     /**
@@ -284,11 +279,11 @@ export namespace AxoAlertDialog {
   export const Footer: FC<FooterProps> = memo(props => {
     const children = (
       <div
-        className={tw(
-          'flex flex-wrap-reverse gap-2 p-4',
+        className={css(
+          'axo-alert-dialog-footer',
           props.forceAlwaysBreakToSeparateLines
-            ? footerWrapForcedBreakStyles
-            : footerWrapDetectorStyles
+            ? 'axo-dialog-buttons-wrap-forced'
+            : 'axo-dialog-buttons-wrap-detect'
         )}
       >
         {props.children}
@@ -327,10 +322,9 @@ export namespace AxoAlertDialog {
   export const Title: FC<TitleProps> = memo(props => {
     return (
       <AlertDialog.Title
-        className={tw(
-          'text-pretty',
-          'type-title-small text-primary',
-          props.screenReaderOnly && 'sr-only'
+        className={css(
+          'axo-alert-dialog-title',
+          props.screenReaderOnly && tw('sr-only')
         )}
       >
         {props.children}

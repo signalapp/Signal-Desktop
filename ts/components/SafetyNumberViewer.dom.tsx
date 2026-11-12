@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { QrCode } from './QrCode.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import { I18n } from './I18n.dom.tsx';

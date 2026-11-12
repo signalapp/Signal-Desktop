@@ -14,13 +14,13 @@ import { ExpireTimer } from './ExpireTimer.dom.tsx';
 import { MessageTimestamp } from './MessageTimestamp.dom.tsx';
 import { PanelType } from '../../types/Panels.std.ts';
 import { Spinner } from '../Spinner.dom.tsx';
-import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { refMerger } from '../../util/refMerger.std.ts';
 import type { Size } from '../../hooks/useSizeObserver.dom.tsx';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 type PropsType = {
   canRetryDeleteForEveryone: boolean;

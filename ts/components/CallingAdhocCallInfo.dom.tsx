@@ -15,7 +15,7 @@ import type {
   CallingParticipantType,
   PropsType as CallingParticipantsListPropsType,
 } from './CallingParticipantsList.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 const { partition } = lodash;
 

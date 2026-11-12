@@ -63,7 +63,7 @@ import { AxoDragRegion } from '../../axo/AxoDragRegion.dom.tsx';
 import { OfficialChatInlineBadge } from './OfficialChatInlineBadge.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { getControlOrAltKey } from '../../hooks/useKeyboardShortcuts.dom.tsx';
 
 function HeaderInfoTitle({

@@ -4,7 +4,7 @@
 import type { JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 type PropsType = {
   i18n: LocalizerType;

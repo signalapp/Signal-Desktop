@@ -6,7 +6,7 @@ import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type CallingParticipantMenuProps = Readonly<{
   align?: AxoMenuBuilder.Align;

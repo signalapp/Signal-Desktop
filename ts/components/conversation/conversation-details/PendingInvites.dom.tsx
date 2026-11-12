@@ -8,7 +8,7 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import type { AciString } from '../../../types/ServiceId.std.ts';
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
 import { isAccessControlEnabled } from '../../../groups/util.std.ts';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
 import { AxoTabs } from '../../../axo/AxoTabs.dom.tsx';

@@ -21,8 +21,8 @@ import type {
 } from '../../state/ducks/stickers.preload.ts';
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
 import { UserText } from '../UserText.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoStackedButton } from '../../axo/AxoStackedButton.dom.tsx';
 import { SpinnerV2 } from '../SpinnerV2.dom.tsx';

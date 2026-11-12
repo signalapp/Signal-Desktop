@@ -5,10 +5,10 @@ import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { useState, type JSX } from 'react';
 import { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
+import { AxoButton } from '../AxoButton.dom.tsx';
 
 export default {
-  title: 'Axo/AxoAlertDialog',
+  title: 'Axo/Dialogs/AxoAlertDialog',
 } satisfies Meta;
 
 const EXAMPLE_TITLE = <>Exporting chat</>;

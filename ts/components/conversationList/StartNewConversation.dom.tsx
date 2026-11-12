@@ -11,7 +11,7 @@ import type { ParsedE164Type } from '../../util/libphonenumberInstance.std.ts';
 import type { LookupConversationWithoutServiceIdActionsType } from '../../util/lookupConversationWithoutServiceId.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { ShowConversationType } from '../../state/ducks/conversations.preload.ts';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 type PropsData = {
   phoneNumber: ParsedE164Type;

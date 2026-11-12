@@ -45,8 +45,8 @@ import {
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type PreferencesEditChatFolderPageProps = Readonly<{
   i18n: LocalizerType;

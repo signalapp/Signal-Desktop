@@ -1,0 +1,75 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  /**
+   * <AxoBaseDialog.Host>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-host {
+    @apply absolute inset-0;
+    @apply legacy-z-index-modal-host;
+    @apply size-full h-screen w-screen;
+    /* Allow the entire host to be scrolled in case the window is extremely small */
+    @apply overflow-auto overscroll-none;
+    @apply pointer-events-auto;
+  }
+
+  .axo-dialog-host-layout {
+    @apply relative flex;
+    @apply size-[stretch] min-h-fit min-w-fit;
+    @apply items-center-safe justify-center-safe;
+  }
+
+  /**
+   * <AxoBaseDialog.Overlay>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-overlay {
+    @apply absolute inset-0 z-0 bg-overlay;
+    @apply animate-opacity-0;
+    @apply data-[state=closed]:animate-exit data-[state=open]:animate-enter;
+    @apply forced-colors:bg-[Canvas];
+  }
+
+  /**
+   * <AxoBaseDialog.Content>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-content {
+    @apply relative z-10 m-1;
+    @apply max-h-full min-h-fit overflow-hidden;
+    @apply type-body-medium text-secondary;
+    @apply curved-30 bg-material-dialog shadow-elevation-3 backdrop-blur-thick;
+    @apply focus-visible:axo-focus-ring;
+    @apply animate-opacity-0 animate-scale-98 animate-translate-y-1;
+    @apply data-[state=closed]:animate-exit data-[state=open]:animate-enter;
+    @apply will-change-transform;
+    @apply forced-colors:border;
+    @apply forced-colors:border-[ButtonBorder];
+    @apply forced-colors:bg-[Canvas];
+    @apply forced-colors:text-[CanvasText];
+  }
+
+  /**
+   * Button rows
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-dialog-buttons-wrap-detect > * {
+    /* Not wrapped: keep buttons equal size without truncating them */
+    @apply container-not-scrollable:basis-0;
+    @apply container-not-scrollable:min-w-fit;
+    /* Wrapped: make every button full width */
+    @apply container-scrollable:w-full;
+  }
+
+  .axo-dialog-buttons-wrap-forced > * {
+    @apply w-full;
+  }
+}

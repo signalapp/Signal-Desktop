@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { formatFileSize } from '../util/formatFileSize.std.ts';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 

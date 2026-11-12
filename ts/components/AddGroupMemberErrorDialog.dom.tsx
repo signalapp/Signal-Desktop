@@ -3,7 +3,7 @@
 
 import type { JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export function AddGroupMemberMaximumGroupSizeErrorDialog(props: {
   i18n: LocalizerType;

@@ -3,7 +3,7 @@
 
 import type { JSX } from 'react';
 
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import { tw } from '../axo/tw.dom.tsx';

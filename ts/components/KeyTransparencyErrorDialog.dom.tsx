@@ -3,7 +3,7 @@
 import { useCallback, useId, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
 import { I18n } from './I18n.dom.tsx';

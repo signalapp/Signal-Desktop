@@ -6,7 +6,7 @@ import type { LocalizerType } from '../types/I18N.std.ts';
 import { Linkify } from './conversation/Linkify.dom.tsx';
 import type { RenderTextCallbackType } from '../types/Util.std.ts';
 import { Emojify } from './conversation/Emojify.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 export type NotePreviewModalProps = Readonly<{

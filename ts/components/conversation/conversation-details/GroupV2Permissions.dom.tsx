@@ -4,7 +4,7 @@ import { useMemo, useState, type JSX } from 'react';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { SignalService as Proto } from '../../../protobuf/index.std.ts';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
 import { AxoSelectItem } from '../../../axo/items/AxoSelectItem.dom.tsx';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';

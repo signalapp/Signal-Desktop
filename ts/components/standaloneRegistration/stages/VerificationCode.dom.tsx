@@ -11,8 +11,8 @@ import { createLogger } from '../../../logging/log.std.ts';
 import { VerificationTransport } from '../../../types/VerificationTransport.std.ts';
 import { format as formatPhoneNumber } from '../../../types/PhoneNumber.std.ts';
 import { tw } from '../../../axo/tw.dom.tsx';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
 import { ConfirmPhoneNumberDialog } from '../util/ConfirmPhoneNumberDialog.dom.tsx';
 import {
@@ -24,7 +24,7 @@ import {
   TopMatter,
 } from '../util/StepComponents.dom.tsx';
 import { useCountdownDuration } from '../util/useCountdownDuration.std.ts';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 import { RectangleBulletListItem } from '../../SignalConnectionsModal.dom.tsx';
 import { I18n } from '../../I18n.dom.tsx';
 import { ContactSupportLink } from '../../../util/contactSupport.dom.tsx';

@@ -15,7 +15,7 @@ import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.ts';
 import type { ConversationType } from '../../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoList } from '../../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../../axo/items/AxoItem.dom.tsx';

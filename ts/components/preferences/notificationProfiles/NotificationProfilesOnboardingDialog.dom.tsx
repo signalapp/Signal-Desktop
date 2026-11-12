@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { tw } from '../../../axo/tw.dom.tsx';
 import type { LocalizerType } from '../../../types/I18N.std.ts';
 import { ProfileAvatar } from '../../PreferencesNotificationProfiles.dom.tsx';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 
 export type NotificationProfilesOnboardingDialogProps = Readonly<{
   i18n: LocalizerType;

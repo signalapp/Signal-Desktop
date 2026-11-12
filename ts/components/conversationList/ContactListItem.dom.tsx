@@ -15,7 +15,7 @@ import { I18n } from '../I18n.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import { InContactsIcon } from '../InContactsIcon.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoDropdownMenu } from '../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 

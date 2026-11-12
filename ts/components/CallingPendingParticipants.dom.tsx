@@ -20,7 +20,7 @@ import { Button, ButtonVariant } from './Button.dom.tsx';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.ts';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 const { noop } = lodash;
 

@@ -9,7 +9,7 @@ import { AvatarModalButtons } from './AvatarModalButtons.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { avatarDataToBytes } from '../util/avatarDataToBytes.dom.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 export type PropsType = {
   avatarData: AvatarDataType;

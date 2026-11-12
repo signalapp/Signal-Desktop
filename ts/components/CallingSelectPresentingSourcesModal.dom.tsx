@@ -19,7 +19,7 @@ import type {
   PresentableSource,
 } from '../types/Calling.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { createLogger } from '../logging/log.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';

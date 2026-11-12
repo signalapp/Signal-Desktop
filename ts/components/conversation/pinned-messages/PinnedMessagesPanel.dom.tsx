@@ -27,7 +27,7 @@ import { useSizeObserver } from '../../../hooks/useSizeObserver.dom.tsx';
 import { MessageInteractivity } from '../Message.dom.tsx';
 import { tw } from '../../../axo/tw.dom.tsx';
 import { AxoButton } from '../../../axo/AxoButton.dom.tsx';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;

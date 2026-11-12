@@ -29,7 +29,7 @@ import {
 } from '../types/Polls.dom.ts';
 import { count as countGraphemes } from '../util/grapheme.std.ts';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 
 type PollOption = {

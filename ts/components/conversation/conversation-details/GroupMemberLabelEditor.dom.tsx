@@ -21,7 +21,7 @@ import {
 import type { BubbleColorRenderData } from '../../../types/ChatStyle.std.ts';
 import type { ContactNameColorType } from '../../../types/ContactNameColor.std.ts';
 import { WidthBreakpoint } from '../../_util.std.ts';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { Avatar, AvatarSize } from '../../Avatar.dom.tsx';
 import { UserText } from '../../UserText.dom.tsx';
 import { GroupMemberLabel } from '../ContactName.dom.tsx';

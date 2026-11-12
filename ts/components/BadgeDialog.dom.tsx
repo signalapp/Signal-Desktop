@@ -9,7 +9,7 @@ import { BadgeDescription } from './BadgeDescription.dom.tsx';
 import { BadgeImage } from './BadgeImage.dom.tsx';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 

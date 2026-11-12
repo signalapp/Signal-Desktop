@@ -41,7 +41,7 @@ import {
   ItemDragHandle,
   ItemTitle,
 } from './PreferencesChatFolderItems.dom.tsx';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 function moveChatFolders(
   chatFolders: ReadonlyArray<CurrentChatFolder>,

@@ -13,7 +13,7 @@ import {
 import type { LocalizerType } from '../../types/Util.std.ts';
 import type { StickerPackType } from '../../state/ducks/stickers.preload.ts';
 import { UserText } from '../UserText.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { OfficialChatInlineBadge } from '../conversation/OfficialChatInlineBadge.dom.tsx';

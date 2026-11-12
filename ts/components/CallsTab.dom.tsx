@@ -25,7 +25,7 @@ import { I18n } from './I18n.dom.tsx';
 import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import type { NotifyWhileMuted } from '../util/notifyWhileMuted.std.ts';
 
 enum CallsTabSidebarView {

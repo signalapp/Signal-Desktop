@@ -4,7 +4,7 @@ import type { JSX, MouseEvent } from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { DAY } from '../util/durations/index.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { useTimers } from '../axo/timers.dom.tsx';
 
 export type PropsType = Readonly<{

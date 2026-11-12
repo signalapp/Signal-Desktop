@@ -9,7 +9,7 @@ import {
   type CallLinkType,
 } from '../types/CallLink.std.ts';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';

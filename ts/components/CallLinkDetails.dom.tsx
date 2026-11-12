@@ -15,7 +15,7 @@ import { copyCallLink } from '../util/copyLinksWithToast.dom.ts';
 import { getColorForCallLink } from '../util/getColorForCallLink.std.ts';
 import { isCallLinkAdmin } from '../types/CallLink.std.ts';
 import { InAnotherCallTooltip } from './conversation/InAnotherCallTooltip.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';

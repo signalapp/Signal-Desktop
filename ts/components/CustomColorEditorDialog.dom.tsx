@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { useCallback, useState } from 'react';
 import type { ChatStyle } from '../types/ChatStyle.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import {
   createCustomColorEditorState,
   CustomColorEditor,

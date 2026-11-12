@@ -8,7 +8,7 @@ import { AxoTooltip } from './AxoTooltip.dom.tsx';
 import { AxoButton } from './AxoButton.dom.tsx';
 import { tw } from './tw.dom.tsx';
 import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
-import { AxoDialog } from './AxoDialog.dom.tsx';
+import { AxoDialog } from './dialogs/AxoDialog.dom.tsx';
 
 export default {
   title: 'Axo/AxoTooltip',

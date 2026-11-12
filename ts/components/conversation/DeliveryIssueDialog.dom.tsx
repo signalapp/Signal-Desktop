@@ -6,7 +6,7 @@ import { I18n } from '../I18n.dom.tsx';
 import { Emojify } from './Emojify.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.ts';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 
 export type DeliveryIssueDialogProps = Readonly<{

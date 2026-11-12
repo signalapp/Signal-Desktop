@@ -5,7 +5,7 @@ import type { LocalizerType } from '../../types/Util.std.ts';
 import { getStringForConversationMerge } from '../../util/getStringForConversationMerge.std.ts';
 import { Emojify } from './Emojify.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoChatEvent } from '../../axo/chat/AxoChatEvent.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 

@@ -6,7 +6,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoContactList } from '../axo/items/AxoContactList.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { sortByTitle } from '../util/sortByTitle.std.ts';

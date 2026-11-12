@@ -3,7 +3,7 @@
 
 import { useCallback, useState, type JSX, type MouseEvent } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 export type CaptchaDialogProps = Readonly<{

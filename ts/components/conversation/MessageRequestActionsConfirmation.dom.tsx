@@ -6,7 +6,7 @@ import type { ContactNameData } from './ContactName.dom.tsx';
 import { ContactName } from './ContactName.dom.tsx';
 import { I18n } from '../I18n.dom.tsx';
 import type { LocalizerType } from '../../types/Util.std.ts';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export enum MessageRequestState {
   blocking,

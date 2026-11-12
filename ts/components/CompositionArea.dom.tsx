@@ -87,7 +87,7 @@ import { PollCreateModal } from './PollCreateModal.dom.tsx';
 import { hasDraft } from '../util/hasDraft.std.ts';
 import type { ContactNameColorType } from '../types/ContactNameColor.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import type { StickerReferenceType } from '../types/Stickers.preload.ts';
 
 export type OwnProps = Readonly<{

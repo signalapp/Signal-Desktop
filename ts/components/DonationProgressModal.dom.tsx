@@ -4,7 +4,7 @@ import { useEffect, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { SpinnerV2 } from './SpinnerV2.dom.tsx';
 import { SECOND } from '../util/durations/index.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { useTimers } from '../axo/timers.dom.tsx';
 

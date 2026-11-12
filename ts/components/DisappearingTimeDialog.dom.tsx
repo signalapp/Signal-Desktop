@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { Select } from './Select.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 const DEFAULT_VALUE = 60;

@@ -42,7 +42,7 @@ import { normalizeProfileName } from '../util/normalizeProfileName.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
 import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoClickableItem } from '../axo/items/AxoClickableItem.dom.tsx';

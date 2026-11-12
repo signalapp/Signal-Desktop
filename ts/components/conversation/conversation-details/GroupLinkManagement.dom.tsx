@@ -7,7 +7,7 @@ import type { LocalizerType } from '../../../types/Util.std.ts';
 import { SignalService as Proto } from '../../../protobuf/index.std.ts';
 import { copyGroupLink } from '../../../util/copyLinksWithToast.dom.ts';
 import { drop } from '../../../util/drop.std.ts';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoContainer } from '../../../axo/AxoContainer.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';

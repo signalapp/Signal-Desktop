@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import { useCallback, useId, useMemo, useState } from 'react';
 import { RadioGroup } from 'radix-ui';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoSearchField } from '../axo/fields/AxoSearchField.dom.tsx';
 import { AxoTextField } from '../axo/fields/AxoTextField.dom.tsx';
 import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';

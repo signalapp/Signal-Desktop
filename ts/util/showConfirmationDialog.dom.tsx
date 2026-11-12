@@ -4,7 +4,7 @@
 import { createRoot, type Root } from 'react-dom/client';
 import { AppProvider } from '../windows/AppProvider.dom.tsx';
 // oxlint-disable-next-line signal-desktop/no-restricted-paths
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 type ConfirmationDialogViewProps = {
   cancelText?: string;

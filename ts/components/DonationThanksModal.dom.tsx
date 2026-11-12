@@ -4,7 +4,7 @@ import { useCallback, useId, useState, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import { BadgeImage } from './BadgeImage.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.tsx';
 import { AxoLoadingIndicator } from '../axo/status/AxoLoadingIndicator.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';

@@ -5,8 +5,8 @@ import { describe, expect, test, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { AxoConfirmDialog } from './AxoConfirmDialog.dom.tsx';
 import type { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
-import { renderAxo } from './_test-helpers/render.dom.tsx';
-import { testStoriesWithAxe } from './_test-helpers/stories.dom.tsx';
+import { renderAxo } from '../_test-helpers/render.dom.tsx';
+import { testStoriesWithAxe } from '../_test-helpers/stories.dom.tsx';
 import * as stories from './AxoConfirmDialog.dom.stories.tsx';
 
 type TestConfirmDialogProps = Readonly<{

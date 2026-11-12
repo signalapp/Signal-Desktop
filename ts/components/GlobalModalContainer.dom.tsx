@@ -39,7 +39,7 @@ import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.d
 import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.tsx';
 import { isUsernameValid } from '../util/Username.dom.ts';
 import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import type { ErrorModalDataProps } from './ErrorModal.dom.tsx';
 
 // NOTE: All types should be required for this component so that the smart

@@ -40,7 +40,7 @@ import { getGroupMemberships } from '../util/getGroupMemberships.dom.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 const { noop } = lodash;
 

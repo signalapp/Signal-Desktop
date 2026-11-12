@@ -28,14 +28,14 @@ import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/glob
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
 import { GroupMemberLabel } from './ContactName.dom.tsx';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import type { RemoveClientType } from '../../types/Calling.std.ts';
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoStackedButton } from '../../axo/AxoStackedButton.dom.tsx';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;

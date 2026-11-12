@@ -6,7 +6,7 @@ import type { Meta } from '@storybook/react';
 import type { DeliveryIssueDialogProps } from './DeliveryIssueDialog.dom.tsx';
 import { DeliveryIssueDialog } from './DeliveryIssueDialog.dom.tsx';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.ts';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();

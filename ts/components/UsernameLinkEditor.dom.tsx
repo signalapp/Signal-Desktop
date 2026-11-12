@@ -27,7 +27,7 @@ import { Button, ButtonVariant } from './Button.dom.tsx';
 import { Spinner } from './Spinner.dom.tsx';
 import { BrandedQRCode } from './BrandedQRCode.dom.tsx';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 const { noop } = lodash;
 

@@ -11,7 +11,7 @@ import { ListTile } from '../ListTile.dom.tsx';
 import { Avatar, AvatarSize } from '../Avatar.dom.tsx';
 import { Spinner } from '../Spinner.dom.tsx';
 import { UserText } from '../UserText.dom.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type PropsDataType = {
   phoneNumber: ParsedE164Type;
