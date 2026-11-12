@@ -3958,6 +3958,10 @@
     "messageformat": "Sticker removed from Favorites",
     "description": "Toast text shown after removing a sticker from the favorite stickers list."
   },
+  "icu:stickers--Toast--StickerFavoritesHint": {
+    "messageformat": "Right click a sticker to add to Favorites",
+    "description": "Toast text shown when trying to click the favorite stickers tab in the FunPicker when the user does not have any favorite stickers."
+  },
   "icu:stickers--Toast--StickerFavoritesTooMany": {
     "messageformat": "You can only add {count, plural, one {# sticker} other {# stickers}} to Favorites",
     "description": "Toast text shown after atttempting to add a favorite sticker when you already have the maximum allowed favorite sticker count."

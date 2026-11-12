@@ -900,6 +900,14 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.StickerFavoritesHint) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--Toast--StickerFavoritesHint')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.StickerFavoritesTooMany) {
     return (
       <Toast onClose={hideToast}>

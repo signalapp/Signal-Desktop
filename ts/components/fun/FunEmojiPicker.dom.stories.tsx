@@ -68,6 +68,7 @@ function Template(props: TemplateProps): JSX.Element {
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
       onMarkStickerAsFavorite={() => null}
+      showToast={action('showToast')}
       // Gifs
       fetchGiphySearch={() => Promise.reject()}
       fetchGiphyTrending={() => Promise.reject()}

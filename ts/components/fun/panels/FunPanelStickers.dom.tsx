@@ -72,6 +72,7 @@ import { getAnalogTime } from '../../../util/getAnalogTime.std.ts';
 import { getDateTimeFormatter } from '../../../util/formatTimestamp.dom.ts';
 import { Emoji } from '../../../axo/emoji.std.ts';
 import { AxoContextMenu } from '../../../axo/menus/AxoContextMenu.dom.tsx';
+import { ToastType } from '../../../types/Toast.dom.tsx';
 
 const STICKER_GRID_COLUMNS = 4;
 const STICKER_GRID_CELL_WIDTH = 80;
@@ -211,6 +212,7 @@ export function FunPanelStickers({
     recentStickers,
     installedStickerPacks,
     onSelectSticker: onFunSelectSticker,
+    showToast,
   } = fun;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -388,6 +390,14 @@ export function FunPanelStickers({
 
   const handleSelectSection = useCallback(
     (section: FunStickersSection) => {
+      if (
+        section === FunStickersSectionBase.Favorites &&
+        favoriteStickers.length === 0
+      ) {
+        showToast({ toastType: ToastType.StickerFavoritesHint });
+        return;
+      }
+
       const layoutSection = layout.sections.find(s => s.id === section);
       strictAssert(layoutSection != null, `Missing section to for ${section}`);
       setSelectedSection(section);
@@ -396,7 +406,7 @@ export function FunPanelStickers({
         align: 'start',
       });
     },
-    [virtualizer, layout]
+    [favoriteStickers.length, virtualizer, layout, showToast]
   );
 
   const handleScrollSectionChange = useCallback((sectionId: string) => {
@@ -474,7 +484,7 @@ export function FunPanelStickers({
                   selected={selectedSection}
                   onSelect={handleSelectSection}
                 >
-                  {isFavoriteStickersEnabled && favoriteStickers.length > 0 && (
+                  {isFavoriteStickersEnabled && (
                     <FunSubNavListBoxItem
                       id={FunStickersSectionBase.Favorites}
                       label={i18n(
