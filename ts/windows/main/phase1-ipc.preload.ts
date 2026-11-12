@@ -20,7 +20,10 @@ import { strictAssert } from '../../util/assert.std.ts';
 import { drop } from '../../util/drop.std.ts';
 import { explodePromise } from '../../util/explodePromise.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
-import type { WindowsNotificationData } from '../../services/notifications.preload.ts';
+import type {
+  MacNotificationData,
+  WindowsNotificationData,
+} from '../../services/notifications.preload.ts';
 import {
   approvePaypalPayment,
   cancelPaypalPayment,
@@ -89,6 +92,9 @@ if (config.theme === 'light') {
 
 const IPC: IPCType = {
   addSetupMenuItems: () => ipc.send('add-setup-menu-items'),
+  clearAllMacNotifications: async () => {
+    return ipc.invoke('mac-notifications:clear-all');
+  },
   clearAllWindowsNotifications: async () => {
     log.info('show window');
     return ipc.invoke('windows-notifications:clear-all');
@@ -161,6 +167,9 @@ const IPC: IPCType = {
   setMediaCameraPermissions: (value: boolean) =>
     ipc.invoke('settings:set:mediaCameraPermissions', value),
   showSettings: () => ipc.send('show-settings'),
+  showMacNotification: async (data: MacNotificationData) => {
+    return ipc.invoke('mac-notifications:show', data);
+  },
   showWindow: () => {
     log.info('show window');
     ipc.send('show-window');
