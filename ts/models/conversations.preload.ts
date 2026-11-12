@@ -183,6 +183,7 @@ import {
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue.preload.ts';
 import { getProfile } from '../util/getProfile.preload.ts';
+import { profileService } from '../services/profiles.preload.ts';
 import { SEALED_SENDER } from '../types/SealedSender.std.ts';
 import { createIdenticon } from '../util/createIdenticon.preload.tsx';
 import { createLogger } from '../logging/log.std.ts';
@@ -660,14 +661,8 @@ export class ConversationModel {
       return undefined;
     }
 
-    // We need the user's profileKeyCredential, which requires a roundtrip with the
-    //   server, and most definitely their profileKey. A getProfiles() call will
-    //   ensure that we have as much as we can get with the data we have.
-    if (!us.get('profileKeyCredential')) {
-      await us.getProfiles();
-    }
-
-    const profileKeyCredentialBase64 = us.get('profileKeyCredential');
+    const profileKeyCredentialBase64 =
+      await profileService.getProfileKeyCredential(us);
     strictAssert(profileKeyCredentialBase64, 'Must have profileKeyCredential');
 
     if (serviceIdKind === ServiceIdKind.ACI) {
@@ -728,19 +723,12 @@ export class ConversationModel {
       `addPendingApprovalRequest/${idLog}`
     );
 
-    // We need the user's profileKeyCredential, which requires a roundtrip with the
-    //   server, and most definitely their profileKey. A getProfiles() call will
-    //   ensure that we have as much as we can get with the data we have.
-    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
-    if (!profileKeyCredentialBase64) {
-      await toRequest.getProfiles();
-
-      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
-      if (!profileKeyCredentialBase64) {
-        throw new Error(
-          `promotePendingMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
-        );
-      }
+    const profileKeyCredentialBase64 =
+      await profileService.getProfileKeyCredential(toRequest);
+    if (profileKeyCredentialBase64 == null) {
+      throw new Error(
+        `promotePendingMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+      );
     }
 
     // This user's pending state may have changed in the time between the user's
@@ -773,19 +761,12 @@ export class ConversationModel {
       );
     }
 
-    // We need the user's profileKeyCredential, which requires a roundtrip with the
-    //   server, and most definitely their profileKey. A getProfiles() call will
-    //   ensure that we have as much as we can get with the data we have.
-    let profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
-    if (!profileKeyCredentialBase64) {
-      await toRequest.getProfiles();
-
-      profileKeyCredentialBase64 = toRequest.get('profileKeyCredential');
-      if (!profileKeyCredentialBase64) {
-        throw new Error(
-          `addMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
-        );
-      }
+    const profileKeyCredentialBase64 =
+      await profileService.getProfileKeyCredential(toRequest);
+    if (profileKeyCredentialBase64 == null) {
+      throw new Error(
+        `addMember/${idLog}: No profileKeyCredential for conversation ${toRequest.idForLogging()}`
+      );
     }
 
     // This user's pending state may have changed in the time between the user's
@@ -2913,14 +2894,8 @@ export class ConversationModel {
     }
 
     const us = window.ConversationController.getOurConversationOrThrow();
-    if (!us.get('profileKeyCredential')) {
-      log.warn(
-        `${logId}: Missing profileKeyCredential, fetching profile for ourselves`
-      );
-      await us.getProfiles();
-    }
-
-    const profileKeyCredentialBase64 = us.get('profileKeyCredential');
+    const profileKeyCredentialBase64 =
+      await profileService.getProfileKeyCredential(us);
     strictAssert(
       profileKeyCredentialBase64,
       `${logId}: Must have our own profileKeyCredential`

@@ -6,7 +6,11 @@ import type {
   ProfileKeyCredentialRequestContext,
 } from '@signalapp/libsignal-client/zkgroup.js';
 import PQueue from 'p-queue';
-import { IdentityChange } from '@signalapp/libsignal-client';
+import {
+  ErrorCode,
+  IdentityChange,
+  LibSignalErrorBase,
+} from '@signalapp/libsignal-client';
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ConversationModel } from '../models/conversations.preload.ts';
@@ -15,6 +19,7 @@ import type { ProfileType } from '../textsecure/WebAPI.preload.ts';
 import {
   checkAccountExistence,
   getProfile,
+  getProfileKeyCredential,
   getProfileUnauth,
 } from '../textsecure/WebAPI.preload.ts';
 import { MessageSender } from '../textsecure/SendMessage.preload.ts';
@@ -30,6 +35,8 @@ import { MINUTE, SECOND } from '../util/durations/index.std.ts';
 import {
   generateProfileKeyCredentialRequest,
   getClientZkProfileOperations,
+  ServerPublicParams,
+  type ExpiringProfileKeyCredential,
   handleProfileKeyCredential,
 } from '../util/zkgroup.node.ts';
 import { isMe } from '../util/whatTypeOfConversation.dom.ts';
@@ -55,6 +62,7 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { runMegaphoneCheck } from './megaphone.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
+import { isAciString } from '../util/isAciString.std.ts';
 
 const log = createLogger('profiles');
 
@@ -90,15 +98,18 @@ const PROFILE_FETCH_CONCURRENCY = 30;
 
 export class ProfileService {
   readonly #fetchProfile: typeof doGetProfile;
+  readonly #fetchProfileKeyCredential: typeof getProfileKeyCredential;
   readonly #jobQueue: PQueue;
   readonly #jobsByConversationId = new Map<string, JobType>();
   #isPaused = false;
 
   constructor(
     fetchProfile = doGetProfile,
-    concurrency = PROFILE_FETCH_CONCURRENCY
+    concurrency = PROFILE_FETCH_CONCURRENCY,
+    fetchProfileKeyCredential = getProfileKeyCredential
   ) {
     this.#fetchProfile = fetchProfile;
+    this.#fetchProfileKeyCredential = fetchProfileKeyCredential;
     this.#jobQueue = new PQueue({
       concurrency,
       timeout: MINUTE * 2,
@@ -209,6 +220,84 @@ export class ProfileService {
     drop(this.#jobQueue.add(job));
 
     return promise;
+  }
+
+  /**
+   * Returns a credential for the conversation's current profile key, or null if it has none.
+   * Fetching a new credential also queues a full profile fetch.
+   */
+  public async getProfileKeyCredential(
+    conversation: ConversationModel
+  ): Promise<string | null> {
+    const logId = `getProfileKeyCredential(${conversation.idForLogging()})`;
+
+    const serviceId = conversation.getServiceId();
+    const profileKey = conversation.get('profileKey');
+    if (!isAciString(serviceId) || profileKey == null) {
+      return null;
+    }
+
+    const storedCredential = conversation.get('profileKeyCredential');
+    if (
+      storedCredential != null &&
+      !conversation.hasProfileKeyCredentialExpired()
+    ) {
+      return storedCredential;
+    }
+
+    const serverPublicParamsBase64 = window.getServerPublicParams();
+    const { context } = generateProfileKeyCredentialRequest(
+      getClientZkProfileOperations(serverPublicParamsBase64),
+      serviceId,
+      profileKey
+    );
+    const serverParams = new ServerPublicParams(
+      Bytes.fromBase64(serverPublicParamsBase64)
+    );
+
+    log.info(`${logId}: Fetching credential`);
+    let fetchedCredential: ExpiringProfileKeyCredential | null;
+    try {
+      fetchedCredential = await this.#fetchProfileKeyCredential(
+        context,
+        serverParams
+      );
+    } catch (error) {
+      const unauthorizedOrNotFound =
+        error instanceof LibSignalErrorBase &&
+        (error.is(ErrorCode.RequestUnauthorized) ||
+          error.is(ErrorCode.ProfileNotFound));
+      if (!unauthorizedOrNotFound) {
+        throw error;
+      }
+      log.warn(`${logId}: No credential`, Errors.toLogFormat(error));
+      fetchedCredential = null;
+    }
+
+    // setProfileKey() already fetches the profile for the new key
+    if (conversation.get('profileKey') !== profileKey) {
+      log.warn(`${logId}: Profile key changed while fetching`);
+      return null;
+    }
+
+    let credential: string | null = null;
+    if (fetchedCredential != null) {
+      credential = Bytes.toBase64(fetchedCredential.serialize());
+      const expiration = fetchedCredential.getExpirationTime().getTime();
+      conversation.set({
+        profileKeyCredential: credential,
+        profileKeyCredentialExpiration: expiration,
+      });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+
+    // Fetch the full profile in the background, as Android and iOS do. If we got
+    // no credential, this fetch falls back to an older profile key or marks the
+    // contact unregistered. Queue it after storing the credential, or the fetch
+    // requests another one.
+    drop(this.get(conversation.id, null));
+
+    return credential;
   }
 
   public clearAll(reason: string): void {

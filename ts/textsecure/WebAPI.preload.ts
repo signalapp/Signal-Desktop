@@ -39,6 +39,8 @@ import {
   GroupSendFullToken,
   type DonationPermit,
   type DonationPermitRequestContext,
+  type ExpiringProfileKeyCredential,
+  type ProfileKeyCredentialRequestContext,
   type ReceiptCredentialPresentation,
   type ServerPublicParams,
 } from '@signalapp/libsignal-client/zkgroup.js';
@@ -2809,6 +2811,16 @@ export async function checkAccountExistence(
     return chat.accountExists({
       account: ServiceId.parseFromServiceIdString(serviceId),
     });
+  });
+}
+
+export async function getProfileKeyCredential(
+  requestContext: ProfileKeyCredentialRequestContext,
+  serverParams: ServerPublicParams
+): Promise<ExpiringProfileKeyCredential> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.getProfileKeyCredential({ requestContext, serverParams });
   });
 }
 
