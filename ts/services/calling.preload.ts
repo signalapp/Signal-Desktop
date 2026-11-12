@@ -252,7 +252,6 @@ type CallingReduxInterface = Pick<
   | 'groupCallRaisedHandsChange'
   | 'groupCallStateChange'
   | 'joinedAdhocCall'
-  | 'outgoingCall'
   | 'receiveGroupCallReactions'
   | 'receiveIncomingDirectCall'
   | 'receiveIncomingGroupCall'
@@ -1222,8 +1221,10 @@ class CallingClass {
 
   async startOutgoingDirectCall(
     conversationId: string,
-    hasLocalAudio: boolean,
-    hasLocalVideo: boolean
+    {
+      hasLocalAudio,
+      hasLocalVideo,
+    }: Readonly<{ hasLocalAudio: boolean; hasLocalVideo: boolean }>
   ): Promise<void> {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -1248,26 +1249,6 @@ class CallingClass {
       return;
     }
 
-    const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
-    if (!haveMediaPermissions) {
-      log.info(`${logId}: Permissions were denied, new call not allowed.`);
-      this.stopCallingLobby();
-      return;
-    }
-
-    try {
-      await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
-    } catch (error) {
-      log.error(
-        `${logId}: failed to ensure system permissions`,
-        Errors.toLogFormat(error)
-      );
-      this.stopCallingLobby();
-      return;
-    }
-
-    muteStateChange.setIsMuted(!hasLocalAudio);
-
     log.info(`${logId}: Getting call settings`);
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
@@ -1283,17 +1264,9 @@ class CallingClass {
       this.#localDeviceId
     );
 
-    // Send profile key to conversation recipient since call protos don't include it
-    if (!conversation.get('profileSharing')) {
-      log.info(`${logId}: Setting profileSharing=true`);
-      conversation.set({ profileSharing: true });
-      await DataWriter.updateConversation(conversation.attributes);
-    }
-    log.info(`${logId}: Sending profile key`);
-    await conversationJobQueue.add({
-      conversationId: conversation.id,
-      type: 'ProfileKeyForCall',
-    });
+    // NB: It's important that we apply `hasLocalVideo` and `hasLocalAudio` synchronously
+    // to avoid races
+    muteStateChange.setIsMuted(!hasLocalAudio);
 
     // Set the camera disposition as we transition from the lobby to the outgoing call.
     this.#cameraEnabled = hasLocalVideo;
@@ -1304,10 +1277,22 @@ class CallingClass {
 
     this.#attachToCall(conversation, call);
 
-    this.#reduxInterface.outgoingCall({
+    this.#reduxInterface.callStateChange({
       conversationId: conversation.id,
-      hasLocalAudio,
-      hasLocalVideo,
+      callState: CallState.Prering,
+      acceptedTime: null,
+    });
+
+    // Send profile key to conversation recipient since call protos don't include it
+    if (!conversation.get('profileSharing')) {
+      log.info(`${logId}: Setting profileSharing=true`);
+      conversation.set({ profileSharing: true });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+    log.info(`${logId}: Sending profile key`);
+    await conversationJobQueue.add({
+      conversationId: conversation.id,
+      type: 'ProfileKeyForCall',
     });
 
     await this.#startDeviceReselectionTimer();
