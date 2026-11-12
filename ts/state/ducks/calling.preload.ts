@@ -380,17 +380,9 @@ export type PeekNotConnectedGroupCallType = ReadonlyDeep<{
   conversationId: string;
 }>;
 
-type StartDirectCallType = ReadonlyDeep<{
+export type StartCallType = ReadonlyDeep<{
   conversationId: string;
-  hasLocalAudio: boolean;
-  hasLocalVideo: boolean;
 }>;
-
-export type StartCallType = ReadonlyDeep<
-  StartDirectCallType & {
-    callMode: CallMode.Direct | CallMode.Group | CallMode.Adhoc;
-  }
->;
 
 export type RemoteVideoChangeType = ReadonlyDeep<{
   conversationId: string;
@@ -695,7 +687,6 @@ const HANDLE_CALL_LINK_DELETE = 'calling/HANDLE_CALL_LINK_DELETE';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_DIRECT_CALL = 'calling/INCOMING_DIRECT_CALL';
 const INCOMING_GROUP_CALL = 'calling/INCOMING_GROUP_CALL';
-const OUTGOING_CALL = 'calling/OUTGOING_CALL';
 const PEEK_GROUP_CALL_FULFILLED = 'calling/PEEK_GROUP_CALL_FULFILLED';
 const RAISE_HAND_GROUP_CALL = 'calling/RAISE_HAND_GROUP_CALL';
 const REFRESH_IO_DEVICES = 'calling/REFRESH_IO_DEVICES';
@@ -717,7 +708,6 @@ const SET_CAPTURER_BATON = 'calling/SET_CAPTURER_BATON';
 const SUGGEST_LOWER_HAND = 'calling/SUGGEST_LOWER_HAND';
 const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
   'calling/TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS';
-const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
 const TOGGLE_SELF_VIEW_EXPANDED = 'calling/TOGGLE_SELF_VIEW_EXPANDED';
@@ -903,11 +893,6 @@ export type SendGroupCallReactionActionType = ReadonlyDeep<{
   payload: SendGroupCallReactionLocalCopyType;
 }>;
 
-type OutgoingCallActionType = ReadonlyDeep<{
-  type: 'calling/OUTGOING_CALL';
-  payload: StartDirectCallType;
-}>;
-
 export type PeekGroupCallFulfilledActionType = ReadonlyDeep<{
   type: 'calling/PEEK_GROUP_CALL_FULFILLED';
   payload: {
@@ -1005,10 +990,6 @@ type SetOutgoingRingActionType = ReadonlyDeep<{
   payload: boolean;
 }>;
 
-type StartDirectCallActionType = ReadonlyDeep<{
-  type: 'calling/START_DIRECT_CALL';
-  payload: StartDirectCallType;
-}>;
 type SuggestLowerHandActionType = ReadonlyDeep<{
   type: 'calling/SUGGEST_LOWER_HAND';
   payload: { suggestLowerHand: boolean };
@@ -1091,7 +1072,6 @@ export type CallingActionType =
   | HangUpActionType
   | IncomingDirectCallActionType
   | IncomingGroupCallActionType
-  | OutgoingCallActionType
   | PeekGroupCallFulfilledActionType
   | RefreshIODevicesActionType
   | RemoteAudioChangeActionType
@@ -1108,7 +1088,6 @@ export type CallingActionType =
   | ObservedRemoteMuteActionType
   | SetPresentingSourcesActionType
   | SetOutgoingRingActionType
-  | StartDirectCallActionType
   | ToggleNeedsScreenRecordingPermissionsActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
@@ -1825,13 +1804,6 @@ function receiveIncomingGroupCall(
 function openSystemPreferencesAction(): SyncStateThunk {
   return () => {
     drop(window.IPC.openSystemMediaPermissions('screenCapture'));
-  };
-}
-
-function outgoingCall(payload: StartDirectCallType): OutgoingCallActionType {
-  return {
-    type: OUTGOING_CALL,
-    payload,
   };
 }
 
@@ -2688,17 +2660,13 @@ function startCallingLobby({
   };
 }
 
-function startCall(
-  payload: StartCallType
-): AsyncStateThunk<StartDirectCallActionType> {
-  return async (dispatch, getState) => {
-    const { callMode, conversationId, hasLocalAudio, hasLocalVideo } = payload;
+function startCall(payload: StartCallType): AsyncStateThunk {
+  return async (_dispatch, getState) => {
+    const { conversationId } = payload;
 
     const logId = `startCall(${conversationId})`;
     const state = getState();
     const { activeCallState } = state.calling;
-
-    log.info(`${logId}: starting, mode ${callMode}`);
 
     if (
       !activeCallState ||
@@ -2709,16 +2677,15 @@ function startCall(
       return;
     }
 
+    const { callMode, hasLocalAudio, hasLocalVideo } = activeCallState;
+
+    log.info(`${logId}: starting, mode ${callMode}`);
+
     switch (callMode) {
       case CallMode.Direct:
-        await calling.startOutgoingDirectCall(
-          conversationId,
+        await calling.startOutgoingDirectCall(conversationId, {
           hasLocalAudio,
-          hasLocalVideo
-        );
-        dispatch({
-          type: START_DIRECT_CALL,
-          payload,
+          hasLocalVideo,
         });
         break;
       case CallMode.Group: {
@@ -3001,7 +2968,6 @@ export const actions = {
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
-  outgoingCall,
   peekNotConnectedGroupCall,
   receiveGroupCallReactions,
   receiveIncomingDirectCall,
@@ -3345,53 +3311,6 @@ export function reducer(
     };
   }
 
-  if (action.type === START_DIRECT_CALL) {
-    const { conversationId } = action.payload;
-
-    const { activeCallState } = state;
-    if (
-      activeCallState &&
-      (activeCallState.state === 'Waiting' ||
-        activeCallState.conversationId !== conversationId)
-    ) {
-      log.warn(
-        `${action.type}: Cannot start call; activeCall doesn't match conversation`,
-        activeCallState
-      );
-      return state;
-    }
-
-    return {
-      ...state,
-      callsByConversation: {
-        ...callsByConversation,
-        [conversationId]: {
-          callMode: CallMode.Direct,
-          conversationId,
-          callState: CallState.Prering,
-          isIncoming: false,
-          isVideoCall: action.payload.hasLocalVideo,
-          remoteAudioLevel: 0,
-        },
-      },
-      activeCallState: {
-        state: 'Active',
-        callMode: CallMode.Direct,
-        conversationId,
-        hasLocalAudio: action.payload.hasLocalAudio,
-        hasLocalVideo: action.payload.hasLocalVideo,
-        localAudioLevel: 0,
-        viewMode: CallViewMode.Paginated,
-        pip: false,
-        selfViewExpanded: false,
-        settingsDialogOpen: false,
-        showParticipantsList: false,
-        outgoingRing: true,
-        joinedAt: null,
-      },
-    };
-  }
-
   if (action.type === ACCEPT_CALL_PENDING) {
     const { conversationId } = action.payload;
     const call = getOwn(state.callsByConversation, conversationId);
@@ -3587,52 +3506,6 @@ export function reducer(
       callsByConversation: {
         ...callsByConversation,
         [conversationId]: groupCall,
-      },
-    };
-  }
-
-  if (action.type === OUTGOING_CALL) {
-    const { conversationId } = action.payload;
-
-    const { activeCallState } = state;
-    if (
-      activeCallState &&
-      (activeCallState.state === 'Waiting' ||
-        activeCallState.conversationId !== conversationId)
-    ) {
-      log.warn(
-        `${action.type}: Cannot start call; activeCall doesn't match conversation`
-      );
-      return state;
-    }
-
-    return {
-      ...state,
-      callsByConversation: {
-        ...callsByConversation,
-        [conversationId]: {
-          callMode: CallMode.Direct,
-          conversationId,
-          callState: CallState.Prering,
-          isIncoming: false,
-          isVideoCall: action.payload.hasLocalVideo,
-          remoteAudioLevel: 0,
-        },
-      },
-      activeCallState: {
-        state: 'Active',
-        callMode: CallMode.Direct,
-        conversationId,
-        hasLocalAudio: action.payload.hasLocalAudio,
-        hasLocalVideo: action.payload.hasLocalVideo,
-        localAudioLevel: 0,
-        viewMode: CallViewMode.Paginated,
-        pip: false,
-        settingsDialogOpen: false,
-        selfViewExpanded: false,
-        showParticipantsList: false,
-        outgoingRing: true,
-        joinedAt: null,
       },
     };
   }

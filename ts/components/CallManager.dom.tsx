@@ -246,20 +246,8 @@ function ActiveCallManager({
     // pause any voice note playback
     pauseVoiceNotePlayer();
 
-    startCall({
-      callMode: activeCall.callMode,
-      conversationId: conversation.id,
-      hasLocalAudio,
-      hasLocalVideo,
-    });
-  }, [
-    startCall,
-    activeCall.callMode,
-    conversation.id,
-    hasLocalAudio,
-    hasLocalVideo,
-    pauseVoiceNotePlayer,
-  ]);
+    startCall({ conversationId: conversation.id });
+  }, [startCall, conversation.id, pauseVoiceNotePlayer]);
 
   // For caching screenshare frames which update slowly, between Pip and CallScreen.
   const imageDataCache = useRef<CallingImageDataCache>(new Map());
