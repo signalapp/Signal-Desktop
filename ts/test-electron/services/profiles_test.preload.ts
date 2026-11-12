@@ -3,16 +3,20 @@
 
 import { assert } from 'chai';
 import { sleep } from '../../util/sleep.std.ts';
-import { MINUTE } from '../../util/durations/index.std.ts';
+import { DAY, MINUTE } from '../../util/durations/index.std.ts';
 import { drop } from '../../util/drop.std.ts';
 import { explodePromise } from '../../util/explodePromise.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 
+import { LibSignalErrorBase } from '@signalapp/libsignal-client';
 import { ProfileService } from '../../services/profiles.preload.ts';
 import { HTTPError } from '../../types/HTTPError.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 import type { ConversationModel } from '../../models/conversations.preload.ts';
+import type { ExpiringProfileKeyCredential } from '../../util/zkgroup.node.ts';
+import * as Bytes from '../../Bytes.std.ts';
+import { getRandomBytes } from '../../Crypto.node.ts';
 
 describe('util/profiles', () => {
   const SERVICE_ID_1 = generateAci();
@@ -314,6 +318,118 @@ describe('util/profiles', () => {
         true,
         'SERVICE_ID_5'
       );
+    });
+  });
+
+  describe('getProfileKeyCredential', () => {
+    const CREDENTIAL_BYTES = new Uint8Array([1, 2, 3]);
+    const FAKE_CREDENTIAL = {
+      serialize: () => CREDENTIAL_BYTES,
+      getExpirationTime: () => new Date(Date.now() + 7 * DAY),
+    } as unknown as ExpiringProfileKeyCredential;
+
+    function getConversationWithProfileKey(): ConversationModel {
+      const conversation = window.ConversationController.get(SERVICE_ID_1);
+      strictAssert(conversation != null, 'missing conversation');
+      conversation.set({
+        profileKey: Bytes.toBase64(getRandomBytes(32)),
+        profileKeyCredential: null,
+        profileKeyCredentialExpiration: null,
+      });
+      return conversation;
+    }
+
+    function createService(
+      fetchCredential: () => Promise<ExpiringProfileKeyCredential>
+    ) {
+      const credentialFetches = new Array<string>();
+      const queuedProfileFetches = new Array<string>();
+      const service = new ProfileService(
+        async conversation => {
+          queuedProfileFetches.push(conversation.id);
+        },
+        3,
+        async () => {
+          credentialFetches.push('fetch');
+          return fetchCredential();
+        }
+      );
+      return { service, credentialFetches, queuedProfileFetches };
+    }
+
+    it('returns a stored credential without fetching', async () => {
+      const conversation = getConversationWithProfileKey();
+      conversation.set({
+        profileKeyCredential: 'stored',
+        profileKeyCredentialExpiration: Date.now() + 2 * DAY,
+      });
+      const { service, credentialFetches } = createService(
+        async () => FAKE_CREDENTIAL
+      );
+
+      const credential = await service.getProfileKeyCredential(conversation);
+
+      assert.strictEqual(credential, 'stored');
+      assert.strictEqual(credentialFetches.length, 0);
+    });
+
+    it('fetches, stores and queues a profile fetch', async () => {
+      const conversation = getConversationWithProfileKey();
+      const { service, credentialFetches, queuedProfileFetches } =
+        createService(async () => FAKE_CREDENTIAL);
+
+      const credential = await service.getProfileKeyCredential(conversation);
+
+      assert.strictEqual(credential, Bytes.toBase64(CREDENTIAL_BYTES));
+      assert.strictEqual(conversation.get('profileKeyCredential'), credential);
+      assert.strictEqual(credentialFetches.length, 1);
+      assert.deepEqual(queuedProfileFetches, [conversation.id]);
+    });
+
+    it('returns null and queues a profile fetch when unauthorized', async () => {
+      const conversation = getConversationWithProfileKey();
+      const { service, queuedProfileFetches } = createService(async () => {
+        throw new LibSignalErrorBase(
+          'unauthorized',
+          'RequestUnauthorized',
+          'getProfileKeyCredential'
+        );
+      });
+
+      const credential = await service.getProfileKeyCredential(conversation);
+
+      assert.isNull(credential);
+      assert.deepEqual(queuedProfileFetches, [conversation.id]);
+    });
+
+    it('rethrows other errors without queuing a profile fetch', async () => {
+      const conversation = getConversationWithProfileKey();
+      const { service, queuedProfileFetches } = createService(async () => {
+        throw new LibSignalErrorBase(
+          'network',
+          'IoError',
+          'getProfileKeyCredential'
+        );
+      });
+
+      await assert.isRejected(
+        service.getProfileKeyCredential(conversation),
+        'network'
+      );
+      assert.deepEqual(queuedProfileFetches, []);
+    });
+
+    it('returns null without fetching when there is no profile key', async () => {
+      const conversation = getConversationWithProfileKey();
+      conversation.set({ profileKey: undefined });
+      const { service, credentialFetches } = createService(
+        async () => FAKE_CREDENTIAL
+      );
+
+      const credential = await service.getProfileKeyCredential(conversation);
+
+      assert.isNull(credential);
+      assert.strictEqual(credentialFetches.length, 0);
     });
   });
 });

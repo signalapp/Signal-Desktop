@@ -120,6 +120,7 @@ import {
   validateGroupSendEndorsementsExpiration,
 } from './util/groupSendEndorsements.preload.ts';
 import { getProfile } from './util/getProfile.preload.ts';
+import { profileService } from './services/profiles.preload.ts';
 import { generateMessageId } from './util/generateMessageId.node.ts';
 import { postSaveUpdates } from './util/cleanup.preload.ts';
 import { MessageModel } from './models/messages.preload.ts';
@@ -669,13 +670,8 @@ export async function buildAddMembersChange(
         return;
       }
 
-      // Refresh our local data to be sure
-      if (!contact.get('profileKey') || !contact.get('profileKeyCredential')) {
-        await contact.getProfiles();
-      }
-
-      const profileKey = contact.get('profileKey');
-      const profileKeyCredential = contact.get('profileKeyCredential');
+      const profileKeyCredential =
+        await profileService.getProfileKeyCredential(contact);
 
       const member = {
         userId: encryptServiceId(clientZkGroupCipher, serviceId),
@@ -689,7 +685,7 @@ export async function buildAddMembersChange(
       // This is inspired by [Android's equivalent code][0].
       //
       // [0]: https://github.com/signalapp/Signal-Android/blob/2be306867539ab1526f0e49d1aa7bd61e783d23f/libsignal/service/src/main/java/org/whispersystems/signalservice/api/groupsv2/GroupsV2Operations.java#L152-L174
-      if (profileKey && profileKeyCredential) {
+      if (profileKeyCredential != null) {
         const presentation = createProfileKeyCredentialPresentation(
           clientZkProfileCipher,
           profileKeyCredential,
@@ -1586,27 +1582,12 @@ export async function modifyGroupV2({
       // oxlint-disable-next-line no-await-in-loop
       await window.waitForEmptyEventQueue();
 
-      // Fetch profiles for contacts that do not have credentials (or have
-      // expired credentials)
-      {
-        const membersMissingCredentials = usingCredentialsFrom.filter(member =>
-          member.hasProfileKeyCredentialExpired()
-        );
-        const logIds = membersMissingCredentials.map(member =>
-          member.idForLogging()
-        );
-
-        if (logIds.length !== 0) {
-          log.info(
-            `modifyGroupV2/${logId}: Fetching profiles for ${logIds.join(', ')}`
-          );
-        }
-
-        // oxlint-disable-next-line no-await-in-loop
-        await Promise.all(
-          membersMissingCredentials.map(member => member.getProfiles())
-        );
-      }
+      // oxlint-disable-next-line no-await-in-loop
+      await Promise.all(
+        usingCredentialsFrom.map(member => {
+          return profileService.getProfileKeyCredential(member);
+        })
+      );
 
       log.info(`modifyGroupV2/${logId}: Queuing attempt ${attempt}`);
 
@@ -1725,21 +1706,17 @@ export async function modifyGroupV2({
         if (logIds.length !== 0) {
           log.warn(
             `modifyGroupV2/${logId}: Profile key credentials were not ` +
-              `up-to-date. Updating profiles for ${logIds.join(', ')} and retrying`
+              `up-to-date. Refetching for ${logIds.join(', ')} and retrying`
           );
         }
 
+        // The next attempt fetches new credentials
         for (const member of usingCredentialsFrom) {
           member.set({
             profileKeyCredential: null,
             profileKeyCredentialExpiration: null,
           });
         }
-
-        // oxlint-disable-next-line no-await-in-loop
-        await Promise.all(
-          usingCredentialsFrom.map(member => member.getProfiles())
-        );
 
         // Fetch credentials only once
         refreshedCredentials = true;
@@ -1887,10 +1864,7 @@ export async function createGroupV2(
 
   const ourConversation =
     window.ConversationController.getOurConversationOrThrow();
-  if (ourConversation.hasProfileKeyCredentialExpired()) {
-    log.info(`createGroupV2/${logId}: fetching our own credentials`);
-    await ourConversation.getProfiles();
-  }
+  await profileService.getProfileKeyCredential(ourConversation);
 
   const membersV2: Array<GroupV2MemberType> = [
     {
@@ -1923,12 +1897,9 @@ export async function createGroupV2(
         return;
       }
 
-      // Refresh our local data to be sure
-      if (contact.hasProfileKeyCredentialExpired()) {
-        await contact.getProfiles();
-      }
-
-      if (contact.get('profileKey') && contact.get('profileKeyCredential')) {
+      const profileKeyCredential =
+        await profileService.getProfileKeyCredential(contact);
+      if (profileKeyCredential != null) {
         strictAssert(isAciString(contactServiceId), 'profile key without ACI');
         membersV2.push({
           aci: contactServiceId,
@@ -2295,12 +2266,9 @@ export async function getGroupMigrationMembers(
           return null;
         }
 
-        // Refresh our local data to be sure
-        if (!contact.get('profileKeyCredential')) {
-          await contact.getProfiles();
-        }
-
-        if (!contact.get('profileKeyCredential')) {
+        const profileKeyCredential =
+          await profileService.getProfileKeyCredential(contact);
+        if (profileKeyCredential == null) {
           log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
           );
