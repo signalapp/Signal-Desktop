@@ -4,6 +4,8 @@
 name: Setup
 description: Reusable composite steps for other CI workflows
 
+# Note that Signal-Test-Infra-Private depends on this
+
 inputs:
   apt-packages:
     required: false
@@ -17,6 +19,9 @@ inputs:
   install-playwright:
     required: false
     default: 'false'
+  working-directory:
+    required: false
+    default: '.'
 
 runs:
   using: composite
@@ -46,7 +51,7 @@ runs:
     - name: Install dependencies (Linux)
       if: ${{ runner.os == 'Linux' }}
       run: pnpm install --frozen-lockfile
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
         CC: sccache gcc
@@ -60,7 +65,7 @@ runs:
     - name: Install dependencies (macOS)
       if: ${{ runner.os == 'macOS' }}
       run: pnpm install --frozen-lockfile
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
         CC: sccache clang
@@ -77,7 +82,7 @@ runs:
         touch noop.js
         pnpm install --frozen-lockfile
         rm noop.js
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
       env:
         NPM_CONFIG_LOGLEVEL: verbose
@@ -97,9 +102,11 @@ runs:
       if: ${{ inputs.install-electron == 'true' }}
       run: |
         ./node_modules/.bin/install-electron
-        sudo chown root node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
-        sudo chmod 4755 node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
-      working-directory: .
+        if [ -f node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox ]; then
+          sudo chown root node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
+          sudo chmod 4755 node_modules/.pnpm/electron@*/node_modules/electron/dist/chrome-sandbox
+        fi
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
 
     - name: Setup electron-builder cache
@@ -116,7 +123,7 @@ runs:
       name: Get playwright version
       if: ${{ inputs.install-playwright == 'true' }}
       run: echo "version=$(pnpm exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
 
     - id: playwright-cache
@@ -130,11 +137,11 @@ runs:
     - name: Install playwright chromium browser
       if: ${{ inputs.install-playwright == 'true' && steps.playwright-cache.outputs.cache-hit != 'true' }}
       run: pnpm exec playwright install chromium
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
 
     - name: Install playwright OS dependencies
       if: ${{ inputs.install-playwright == 'true' }}
       run: pnpm exec playwright install-deps chromium
-      working-directory: .
+      working-directory: ${{ inputs.working-directory }}
       shell: bash
