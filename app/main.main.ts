@@ -36,6 +36,7 @@ import type {
   BrowserWindowConstructorOptions,
 } from 'electron';
 import { z } from 'zod';
+import { getHourCyclePreference as getWindowsHourCyclePreference } from '@signalapp/windows-ucv';
 
 import { packageJson } from '../ts/util/packageJson.main.ts';
 import * as GlobalErrors from './global_errors.main.ts';
@@ -484,6 +485,16 @@ function getResolvedMessagesLocale(): LocaleType {
 }
 
 function getHourCyclePreference(): HourCyclePreference {
+  if (process.platform === 'win32') {
+    const preference = getWindowsHourCyclePreference();
+    if (preference === '24') {
+      return HourCyclePreference.Prefer24;
+    }
+    if (preference === '12') {
+      return HourCyclePreference.Prefer12;
+    }
+    return HourCyclePreference.UnknownPreference;
+  }
   if (process.platform !== 'darwin') {
     return HourCyclePreference.UnknownPreference;
   }

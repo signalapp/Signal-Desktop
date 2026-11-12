@@ -23,7 +23,10 @@ export type Verification =
 
 type AsyncError = 'canceled' | 'error' | Error;
 
+export type HourCyclePreference = '12' | '24' | 'unknown';
+
 type BindingType = Readonly<{
+  getHourCyclePreference(): HourCyclePreference;
   checkAvailability(
     callback: (result: Availability | AsyncError) => void,
   ): void;
@@ -36,6 +39,14 @@ type BindingType = Readonly<{
 let binding: BindingType | undefined;
 if (process.platform === 'win32') {
   binding = loadBinding('windows-ucv');
+}
+
+/** Read the hour cycle from the user's Windows short-time format. */
+export function getHourCyclePreference(): HourCyclePreference {
+  if (!binding) {
+    throw new Error('This library works only on Windows');
+  }
+  return binding.getHourCyclePreference();
 }
 
 /**
