@@ -132,7 +132,9 @@ describe('AttachmentDownloadManager', () => {
     MessageCache.install();
 
     sandbox = sinon.createSandbox();
-    clock = sandbox.useFakeTimers();
+    clock = sandbox.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'Date'],
+    });
 
     hasMediaBackups = sandbox.stub().returns(true);
     isInCall = sandbox.stub().returns(false);
@@ -187,6 +189,7 @@ describe('AttachmentDownloadManager', () => {
   afterEach(async () => {
     await downloadManager?.stop();
     sandbox.restore();
+    clock.runAll();
     await DataWriter.removeAll();
     await itemStorage.fetch();
   });

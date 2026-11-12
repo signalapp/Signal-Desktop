@@ -97,7 +97,10 @@ describe('Message', () => {
     });
 
     it('updates `sendStateByConversationId`', async function (this: Mocha.Context) {
-      this.sandbox.useFakeTimers(1234);
+      this.sandbox.useFakeTimers({
+        now: 1234,
+        toFake: ['Date'],
+      });
 
       const ourConversationId =
         window.ConversationController.getOurConversationIdOrThrow();

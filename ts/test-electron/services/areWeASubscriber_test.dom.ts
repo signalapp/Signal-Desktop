@@ -22,6 +22,10 @@ describe('"are we a subscriber?" service', () => {
     service = new AreWeASubscriberService();
   });
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it("stores false if there's no local subscriber ID", done => {
     const fakeServer = {
       getHasSubscription: sandbox.stub(),

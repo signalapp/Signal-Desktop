@@ -65,11 +65,14 @@ describe('handleMultipleSendErrors', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    clock = sandbox.useFakeTimers();
+    clock = sandbox.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
   });
 
   afterEach(() => {
     sandbox.restore();
+    clock.runAll();
   });
 
   it('throws the first provided error', async () => {

@@ -85,7 +85,9 @@ describe('waitForOnline', () => {
   });
 
   it("if you're offline, resolves as soon as you're online if it happens before the timeout", async () => {
-    const clock = sandbox.useFakeTimers();
+    const clock = sandbox.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
 
     const fakeServer = { isOnline: () => false };
     const fakeEvents = getFakeEmitter();
@@ -115,7 +117,9 @@ describe('waitForOnline', () => {
   });
 
   it('rejects if too much time has passed, and cleans up listeners', async () => {
-    const clock = sandbox.useFakeTimers();
+    const clock = sandbox.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout'],
+    });
 
     const fakeServer = { isOnline: () => false };
     const fakeEvents = getFakeEmitter();

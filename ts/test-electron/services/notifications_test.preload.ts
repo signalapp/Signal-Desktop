@@ -30,7 +30,9 @@ describe('NotificationService', () => {
 
       beforeEach(() => {
         sandbox = sinon.createSandbox();
-        clock = sandbox.useFakeTimers();
+        clock = sandbox.useFakeTimers({
+          toFake: ['setTimeout', 'clearTimeout', 'Date'],
+        });
         sandbox.stub(OS, 'isWindows').returns(platform === 'windows');
         sandbox.stub(OS, 'isMacOS').returns(platform === 'macos');
         sandbox.stub(OS, 'isLinux').returns(platform === 'linux');
@@ -79,6 +81,7 @@ describe('NotificationService', () => {
 
       afterEach(() => {
         sandbox.restore();
+        clock.runAll();
       });
 
       function queueMessage(
