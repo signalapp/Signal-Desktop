@@ -13,7 +13,7 @@ import type { LocalizerType } from '../types/Util.std.ts';
 
 import {
   getSupportedImageTypes,
-  getSupportedVideoTypes,
+  getTranscodableVideoTypes,
 } from '../util/GoogleChrome.std.ts';
 
 export type PropsType = {
@@ -58,7 +58,7 @@ export const CompositionUpload = forwardRef<HTMLInputElement, PropsType>(
 
     const acceptContentTypes =
       acceptMediaOnly || anyVideoOrImageAttachments
-        ? [...getSupportedImageTypes(), ...getSupportedVideoTypes()]
+        ? [...getSupportedImageTypes(), ...getTranscodableVideoTypes()]
         : null;
 
     return (

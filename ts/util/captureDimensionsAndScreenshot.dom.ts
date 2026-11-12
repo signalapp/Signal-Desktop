@@ -14,7 +14,7 @@ import { getLocalAttachmentUrl } from './getLocalAttachmentUrl.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypeTranscodable,
 } from './GoogleChrome.std.ts';
 import { strictAssert } from './assert.std.ts';
 
@@ -61,7 +61,7 @@ export async function captureDimensionsAndScreenshot(
 
   if (
     !isImageTypeSupported(contentType) &&
-    !isVideoTypeSupported(contentType)
+    !isVideoTypeTranscodable(contentType)
   ) {
     return attachment;
   }
@@ -123,7 +123,10 @@ export async function captureDimensionsAndScreenshot(
     }
   }
 
-  strictAssert(isVideoTypeSupported(contentType), 'enforced by early return');
+  strictAssert(
+    isVideoTypeTranscodable(contentType),
+    'enforced by early return'
+  );
 
   let updatedAttachment = attachment;
   if (!attachment.height || !attachment.width || !attachment.screenshot?.path) {

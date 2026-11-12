@@ -17,7 +17,8 @@ import * as MIME from '../types/MIME.std.ts';
 import { SignalService } from '../protobuf/index.std.ts';
 import {
   isImageTypeSupported,
-  isVideoTypeSupported,
+  isVideoTypePlayable,
+  isVideoTypeTranscodable,
 } from './GoogleChrome.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { ThemeType } from '../types/Util.std.ts';
@@ -48,6 +49,8 @@ const MIN_TIMELINE_IMAGE_HEIGHT = 50;
 
 const MAX_DISPLAYABLE_IMAGE_WIDTH = 8192;
 const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
+
+type SupportLevelType = 'playable' | 'transcodable';
 
 // // Incoming message attachment fields
 // {
@@ -276,12 +279,16 @@ export function isVideo(
 }
 
 export function isVideoAttachment(
-  attachment?: Pick<AttachmentType, 'contentType'>
+  attachment: Pick<AttachmentType, 'contentType'> | undefined,
+  supportLevel: SupportLevelType = 'playable'
 ): boolean {
   if (!attachment || !attachment.contentType) {
     return false;
   }
-  return isVideoTypeSupported(attachment.contentType);
+  if (supportLevel === 'playable') {
+    return isVideoTypePlayable(attachment.contentType);
+  }
+  return isVideoTypeTranscodable(attachment.contentType);
 }
 
 export function isGIF(attachment?: AttachmentType): boolean {
@@ -400,7 +407,8 @@ export function getImageDimensionsForTimeline(
 }
 
 export function areAllAttachmentsVisual(
-  attachments?: ReadonlyArray<AttachmentType>
+  attachments: ReadonlyArray<AttachmentType> | undefined,
+  supportLevel: SupportLevelType = 'playable'
 ): boolean {
   if (!attachments) {
     return false;
@@ -409,7 +417,10 @@ export function areAllAttachmentsVisual(
   const max = attachments.length;
   for (let i = 0; i < max; i += 1) {
     const attachment = attachments[i];
-    if (!isImageAttachment(attachment) && !isVideoAttachment(attachment)) {
+    if (
+      !isImageAttachment(attachment) &&
+      !isVideoAttachment(attachment, supportLevel)
+    ) {
       return false;
     }
   }
@@ -701,7 +712,7 @@ export function wasImportedFromLocalBackup(
 export function canAttachmentHaveThumbnail({
   contentType,
 }: Pick<AttachmentType, 'contentType'>): boolean {
-  return isVideoTypeSupported(contentType) || isImageTypeSupported(contentType);
+  return isVideoTypePlayable(contentType) || isImageTypeSupported(contentType);
 }
 
 export function isDownloadableFromTransitTier(

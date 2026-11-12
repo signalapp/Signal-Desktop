@@ -35,7 +35,7 @@ import {
   encryptAttachmentV2,
   generateAttachmentKeys,
 } from '../AttachmentCrypto.node.ts';
-import { isVideoTypeSupported } from '../util/GoogleChrome.std.ts';
+import { isVideoTypePlayable } from '../util/GoogleChrome.std.ts';
 import { typeIntoInput, typeVerificationCode } from './helpers.node.ts';
 
 import type { RendererConfigType } from '../types/RendererConfig.std.ts';
@@ -946,7 +946,7 @@ export class Bootstrap {
         plaintext: {
           data,
         },
-        needIncrementalMac: isVideoTypeSupported(contentType),
+        needIncrementalMac: isVideoTypePlayable(contentType),
         sink: passthrough,
       }),
       this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),

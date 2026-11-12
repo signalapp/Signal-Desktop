@@ -48,7 +48,7 @@ import {
 import { updateAttachment } from './editHelpers.std.ts';
 import { strictAssert } from './assert.std.ts';
 import { drop } from './drop.std.ts';
-import { isVideoTypeSupported } from './GoogleChrome.std.ts';
+import { isVideoTypeTranscodable } from './GoogleChrome.std.ts';
 import { prefixAndSliceStream } from './prefixAndSliceStream.std.ts';
 import { getTranscodingOptions } from './getTranscodingOptions.preload.ts';
 import {
@@ -299,7 +299,7 @@ export async function transcodeAttachment({
   let newFields: TranscodingFieldsType | undefined;
   if (attachment.reuseToken != null) {
     // Do nothing with reused attachments to save disk space
-  } else if (isVideoTypeSupported(attachment.contentType)) {
+  } else if (isVideoTypeTranscodable(attachment.contentType)) {
     const qualityToTry = [transcodingTargetQuality];
 
     // Fallback to standard quality as the last resort
