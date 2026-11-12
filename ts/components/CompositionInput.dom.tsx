@@ -699,13 +699,15 @@ export function CompositionInput(props: Props): ReactElement {
         // this is necessary for `maybeGrabLinkPreview` as it needs the correct
         // `caretLocation` from the post-change selection index value.
         setTimeout(() => {
+          const { text: latestText, bodyRanges: latestBodyRanges } =
+            getTextAndRanges();
           const selection = quill.getSelection();
 
           onEditorStateChange({
-            bodyRanges,
+            bodyRanges: latestBodyRanges,
             caretLocation: selection ? selection.index : undefined,
             conversationId: conversationId ?? undefined,
-            messageText: text,
+            messageText: latestText,
             sendCounter,
           });
         }, 0);
