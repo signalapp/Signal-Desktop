@@ -531,7 +531,11 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
   const urlHostname = getHostname(url);
 
-  if (options.storageUrl && url.startsWith(options.storageUrl)) {
+  if (
+    response.status < 500 &&
+    options.storageUrl &&
+    url.startsWith(options.storageUrl)
+  ) {
     // The cloud infrastructure that sits in front of the Storage Service / Groups server
     // has in the past terminated requests with a 403 before they make it to a Signal
     // server. That's a problem, since we might take destructive action locally in
@@ -546,12 +550,9 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
 
       onIncorrectHeadersFromStorageService();
 
-      // TODO: DESKTOP-8300
-      if (response.status === 403) {
-        throw new Error(
-          `${logId} ${response.status}: Dropping response, missing required x-signal-timestamp header`
-        );
-      }
+      throw new Error(
+        `${logId} ${response.status}: Dropping response, missing required x-signal-timestamp header`
+      );
     }
   }
 
@@ -5395,7 +5396,6 @@ export async function migrateSVR2(
   }
 }
 
-// TODO: DESKTOP-8300
 const onIncorrectHeadersFromStorageService = throttle(
   () => {
     if (!isProduction(window.getVersion())) {
