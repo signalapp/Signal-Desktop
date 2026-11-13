@@ -49,6 +49,16 @@ export type VisibleSendStatus =
   | SendStatus.Read
   | SendStatus.Viewed;
 
+/** In the order recipients are grouped by status in message and story details */
+export const VISIBLE_SEND_STATUS_ORDER: ReadonlyArray<VisibleSendStatus> = [
+  SendStatus.Failed,
+  SendStatus.Viewed,
+  SendStatus.Read,
+  SendStatus.Delivered,
+  SendStatus.Sent,
+  SendStatus.Pending,
+];
+
 const STATUS_NUMBERS: Record<SendStatus, number> = {
   [SendStatus.Failed]: 0,
   [SendStatus.Pending]: 1,
