@@ -57,3 +57,9 @@ export const getTranscodableVideoTypes = (): Array<MIME.MIMEType> => {
   ) as Array<MIME.MIMEType>;
   return keys.filter(contentType => TRANSCODABLE_VIDEO_MIME_TYPES[contentType]);
 };
+
+export const TRANSCODABLE_VIDEO_EXTENSIONS = [
+  // On Linux .mov extension is not respected through video/quicktime "accept"
+  // attribute of <input/>
+  '.mov',
+];
