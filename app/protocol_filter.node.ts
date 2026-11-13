@@ -58,11 +58,15 @@ export function _urlToPath(
 
 export function _createFileHandler({
   userDataPath,
+  unresolvedUserDataPath,
   installPath,
+  unresolvedInstallPath,
   isWindows,
 }: {
   userDataPath: string;
+  unresolvedUserDataPath: string;
   installPath: string;
+  unresolvedInstallPath: string;
   isWindows: boolean;
 }): FileHandlerType {
   const allowedRoots = [
@@ -80,6 +84,12 @@ export function _createFileHandler({
   const allowedRootsCased = allowedRoots.map(root =>
     isWindows ? root.toLowerCase() : root
   );
+  const lexicalRootsCased = [
+    ...allowedRootsCased,
+    ...[unresolvedUserDataPath, unresolvedInstallPath].map(root =>
+      isWindows ? root.toLowerCase() : root
+    ),
+  ];
   return (request: ProtocolRequest, callback: CallbackType): void => {
     let targetPath;
 
@@ -96,6 +106,13 @@ export function _createFileHandler({
 
       // normalize() is primarily useful here for switching / to \ on windows
       const target = normalize(targetPath);
+      const targetCased = isWindows ? target.toLowerCase() : target;
+      if (!lexicalRootsCased.some(root => isPathInside(targetCased, root))) {
+        log.info(`Warning: denying request to unresolved path '${target}'`);
+        callback({ error: -10 });
+        return;
+      }
+
       // here we attempt to follow symlinks to the ultimate final path, reflective of what
       //   we do in main.js on userDataPath and installPath
       const realPath = existsSync(target) ? realpathSync(target) : target;
@@ -137,17 +154,27 @@ export function _createFileHandler({
 export function installFileHandler({
   session,
   userDataPath,
+  unresolvedUserDataPath,
   installPath,
+  unresolvedInstallPath,
   isWindows,
 }: {
   session: Session;
   userDataPath: string;
+  unresolvedUserDataPath: string;
   installPath: string;
+  unresolvedInstallPath: string;
   isWindows: boolean;
 }): void {
   session.protocol.interceptFileProtocol(
     'file',
-    _createFileHandler({ userDataPath, installPath, isWindows })
+    _createFileHandler({
+      userDataPath,
+      unresolvedUserDataPath,
+      installPath,
+      unresolvedInstallPath,
+      isWindows,
+    })
   );
 }
 

@@ -1,6 +1,17 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import {
+  mkdirSync,
+  mkdtempSync,
+  realpathSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { assert } from 'chai';
 import type { ProtocolResponse } from 'electron';
 import * as sinon from 'sinon';
@@ -126,7 +137,11 @@ describe('Protocol Filter', () => {
       function getFileHandler(): FileHandlerType {
         return _createFileHandler({
           userDataPath: 'C:\\Users\\signaluser\\AppData\\Roaming\\Signal',
+          unresolvedUserDataPath:
+            'C:\\Users\\signaluser\\AppData\\Roaming\\Signal',
           installPath:
+            'C:\\Users\\signaluser\\AppData\\Local\\Programs\\signal-desktop',
+          unresolvedInstallPath:
             'C:\\Users\\signaluser\\AppData\\Local\\Programs\\signal-desktop',
           isWindows: true,
         });
@@ -156,6 +171,21 @@ describe('Protocol Filter', () => {
           expectedResult: { error: -10 },
         });
       });
+
+      it('disallows UNC paths outside allowed roots', () => {
+        const fileHandler = getFileHandler();
+
+        testFn({
+          fileHandler,
+          url: 'file:///%5C%5Cattacker.invalid%5Cshare%5Cfoo',
+          expectedResult: { error: -10 },
+        });
+        testFn({
+          fileHandler,
+          url: 'file:///%2F%2Fattacker.invalid%2Fshare%2Ffoo',
+          expectedResult: { error: -10 },
+        });
+      });
     });
 
     describe('macos', () => {
@@ -168,7 +198,10 @@ describe('Protocol Filter', () => {
       function getFileHandler(): FileHandlerType {
         return _createFileHandler({
           userDataPath: '/Users/signaluser/Library/Application Support/Signal',
+          unresolvedUserDataPath:
+            '/Users/signaluser/Library/Application Support/Signal',
           installPath: '/Applications/Signal',
+          unresolvedInstallPath: '/Applications/Signal',
           isWindows: false,
         });
       }
@@ -209,7 +242,9 @@ describe('Protocol Filter', () => {
       function getFileHandler(): FileHandlerType {
         return _createFileHandler({
           userDataPath: '/home/signaluser/.config/Signal',
+          unresolvedUserDataPath: '/home/signaluser/.config/Signal',
           installPath: '/usr/bin/signal-desktop',
+          unresolvedInstallPath: '/usr/bin/signal-desktop',
           isWindows: false,
         });
       }
@@ -233,6 +268,79 @@ describe('Protocol Filter', () => {
         testFn({
           fileHandler,
           url: 'file:///home/signaluser/.config/Signal Beta/foo',
+          expectedResult: { error: -10 },
+        });
+      });
+    });
+
+    describe('symlinks', () => {
+      const isWindows = process.platform === 'win32';
+      let tempDir: string;
+
+      function symlink({ to, from }: { to: string; from: string }): void {
+        symlinkSync(to, from, 'junction');
+      }
+
+      beforeEach(() => {
+        tempDir = realpathSync(mkdtempSync(join(tmpdir(), 'protocol-filter-')));
+        mkdirSync(join(tempDir, 'user-data'));
+        mkdirSync(join(tempDir, 'install'));
+        mkdirSync(join(tempDir, 'outside'));
+        writeFileSync(join(tempDir, 'user-data', 'foo'), '');
+        writeFileSync(join(tempDir, 'outside', 'secret'), '');
+        symlink({
+          to: join(tempDir, 'user-data'),
+          from: join(tempDir, 'symlinked-user-data'),
+        });
+      });
+
+      afterEach(() => {
+        rmSync(tempDir, { recursive: true, force: true });
+      });
+
+      function getFileHandler(): FileHandlerType {
+        return _createFileHandler({
+          userDataPath: join(tempDir, 'user-data'),
+          unresolvedUserDataPath: join(tempDir, 'symlinked-user-data'),
+          installPath: join(tempDir, 'install'),
+          unresolvedInstallPath: join(tempDir, 'install'),
+          isWindows,
+        });
+      }
+
+      it('allows files requested through a symlinked userData', () => {
+        testFn({
+          fileHandler: getFileHandler(),
+          url: pathToFileURL(join(tempDir, 'symlinked-user-data', 'foo')).href,
+          expectedResult: {
+            path: realpathSync(join(tempDir, 'user-data', 'foo')),
+          },
+        });
+      });
+
+      it('disallows symlinks inside userData that point outside', () => {
+        symlink({
+          to: join(tempDir, 'outside'),
+          from: join(tempDir, 'user-data', 'escape'),
+        });
+
+        testFn({
+          fileHandler: getFileHandler(),
+          url: pathToFileURL(join(tempDir, 'user-data', 'escape', 'secret'))
+            .href,
+          expectedResult: { error: -10 },
+        });
+      });
+
+      it('disallows paths outside allowed roots before resolving them', () => {
+        symlink({
+          to: join(tempDir, 'user-data'),
+          from: join(tempDir, 'outside', 'link-in'),
+        });
+
+        testFn({
+          fileHandler: getFileHandler(),
+          url: pathToFileURL(join(tempDir, 'outside', 'link-in', 'foo')).href,
           expectedResult: { error: -10 },
         });
       });
