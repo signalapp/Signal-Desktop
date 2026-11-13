@@ -376,6 +376,7 @@ export function ForwardMessagesModal({
                       showUserNotFoundModal={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}
                       onClickClearFilterButton={shouldNeverBeCalled}
+                      onClickSelectedConversation={shouldNeverBeCalled}
                       onPreloadConversation={shouldNeverBeCalled}
                       onSelectConversation={shouldNeverBeCalled}
                       blockConversation={shouldNeverBeCalled}

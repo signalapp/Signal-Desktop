@@ -303,6 +303,14 @@ describe('backups', function (this: Mocha.Suite) {
 
     await exportBackupFn();
 
+    {
+      // Close the open conversation so that the comparator starts from the
+      // same state as the restored app, where no conversation is open
+      const window = await app.getWindow();
+      await window.locator('#LeftPane').getByTestId(pinned.device.aci).click();
+      await window.locator('.Inbox__no-conversation-open').waitFor();
+    }
+
     const comparator = await bootstrap.createScreenshotComparator(
       app,
       async (window, snapshot) => {

@@ -181,6 +181,7 @@ export type PropsType = {
   showFindByPhoneNumber: () => void;
   showConversation: ShowConversationType;
   preloadConversation: (conversationId: string) => void;
+  onClickSelectedConversation: (conversationId: string) => void;
   showInbox: () => void;
   startComposing: () => void;
   startSearch: () => unknown;
@@ -255,6 +256,7 @@ export function LeftPane({
   modeSpecificProps,
   navTabsCollapsed,
   onChatFoldersOpenSettings,
+  onClickSelectedConversation,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
 
@@ -1045,6 +1047,7 @@ export function LeftPane({
                   }
                   showConversation={showConversation}
                   blockConversation={blockConversation}
+                  onClickSelectedConversation={onClickSelectedConversation}
                   onPreloadConversation={preloadConversation}
                   onSelectConversation={onSelectConversation}
                   onOutgoingAudioCallInConversation={

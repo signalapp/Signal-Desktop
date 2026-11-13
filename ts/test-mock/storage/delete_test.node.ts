@@ -411,9 +411,7 @@ describe('storage service/delete', function (this: Mocha.Suite) {
 
     debug('unpinning via desktop');
     {
-      const convo = leftPane.getByTestId(alice.device.aci);
-      await convo.click();
-
+      // The conversation is still open from the first unpin
       const moreButton = conversationStack.getByRole('button', {
         name: 'More Info',
       });

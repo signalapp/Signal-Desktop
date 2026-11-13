@@ -240,7 +240,6 @@ describe('attachments', function (this: Mocha.Suite) {
     const friendTimestamp = bootstrap.getTimestamp();
 
     debug('receiving attachment from primary');
-    await page.getByTestId(pinned.device.aci).click();
     await sendTextMessage({
       from: phone,
       to: pinned,
@@ -254,7 +253,6 @@ describe('attachments', function (this: Mocha.Suite) {
       .waitFor();
 
     debug('receiving same attachment from contact');
-    await page.getByTestId(pinned.device.aci).click();
     await sendTextMessage({
       from: pinned,
       to: desktop,

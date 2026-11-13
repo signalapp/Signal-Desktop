@@ -267,6 +267,7 @@ export function PreferencesSelectChatsDialog(
                       onClickClearFilterButton={shouldNeverBeCalled}
                       onOutgoingAudioCallInConversation={shouldNeverBeCalled}
                       onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                      onClickSelectedConversation={shouldNeverBeCalled}
                       onPreloadConversation={shouldNeverBeCalled}
                       onSelectConversation={shouldNeverBeCalled}
                       removeConversation={shouldNeverBeCalled}

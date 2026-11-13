@@ -136,8 +136,10 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
 
     await window.getByTestId('conversation-hero').waitFor();
 
-    debug('Open ACI conversation');
-    await leftPane.locator(`[data-testid="${pniContact.device.aci}"]`).click();
+    debug('Wait for the open PNI conversation to become the ACI conversation');
+    await leftPane
+      .locator(`[data-testid="${pniContact.device.aci}"]`)
+      .waitFor();
 
     debug('Verify final state');
     {

@@ -53,6 +53,7 @@ import {
   getMaximumGroupSizeModalState,
   getMe,
   getRecommendedGroupSizeModalState,
+  getSelectedMessageIds,
   getShowArchived,
   getTargetedMessage,
   hasGroupCreationError,
@@ -60,6 +61,7 @@ import {
   isEditingAvatar,
 } from '../selectors/conversations.dom.ts';
 import {
+  getActivePanel,
   getSelectedConversationId,
   getSelectedLocation,
 } from '../selectors/nav.std.ts';
@@ -304,6 +306,13 @@ const getModeSpecificProps: StateSelector<ModeSpecificProps> = createSelector(
   }
 );
 
+const getHasActivePanelOrSelectMode: StateSelector<boolean> = createSelector(
+  getActivePanel,
+  getSelectedMessageIds,
+  (activePanel, selectedMessageIds): boolean =>
+    activePanel != null || selectedMessageIds != null
+);
+
 async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
   await itemStorage.put('serverAlerts', alerts);
 }
@@ -333,6 +342,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   const preferredWidthFromStorage = useSelector(getPreferredLeftPaneWidth);
   const selectedChatFolder = useSelector(getSelectedChatFolder);
   const selectedConversationId = useSelector(getSelectedConversationId);
+  const hasActivePanelOrSelectMode = useSelector(getHasActivePanelOrSelectMode);
   const showArchived = useSelector(getShowArchived);
   const targetedMessage = useSelector(getTargetedMessage);
   const theme = useSelector(getTheme);
@@ -355,6 +365,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     composeReplaceAvatar,
     composeSaveAvatarToDisk,
     createGroup,
+    onConversationClosed,
     removeConversation,
     setComposeGroupAvatar,
     setComposeGroupExpireTimer,
@@ -415,6 +426,28 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       }
     },
     [selectedConversationId]
+  );
+
+  // Clicking the selected conversation closes it, the same as the close
+  // conversation keyboard shortcut. If a panel is open or messages are being
+  // selected, the click goes back to the conversation instead, as it did before.
+  const handleClickSelectedConversation = useCallback(
+    (conversationId: string) => {
+      if (hasActivePanelOrSelectMode) {
+        void showConversation({ conversationId, switchToAssociatedView: true });
+        return;
+      }
+
+      void onConversationClosed(
+        conversationId,
+        'selected conversation clicked'
+      );
+      void showConversation({
+        conversationId: undefined,
+        messageId: undefined,
+      });
+    },
+    [hasActivePanelOrSelectMode, onConversationClosed, showConversation]
   );
 
   let hasExpiredDialog = false;
@@ -478,6 +511,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       modeSpecificProps={modeSpecificProps}
       navTabsCollapsed={navTabsCollapsed}
       onChatFoldersOpenSettings={handleChatFolderOpenSettings}
+      onClickSelectedConversation={handleClickSelectedConversation}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       openUsernameReservationModal={openUsernameReservationModal}

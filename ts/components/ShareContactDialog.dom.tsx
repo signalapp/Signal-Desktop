@@ -314,6 +314,7 @@ function SelectContact(props: SelectContactProps): ReactNode {
                       onClickContactCheckbox={shouldNeverBeCalled}
                       onOutgoingAudioCallInConversation={shouldNeverBeCalled}
                       onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                      onClickSelectedConversation={shouldNeverBeCalled}
                       onPreloadConversation={shouldNeverBeCalled}
                       removeConversation={shouldNeverBeCalled}
                       setIsFetchingUUID={shouldNeverBeCalled}

@@ -179,6 +179,11 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
     const leftPane = win.locator('#LeftPane');
 
     await leftPane.locator(`[data-testid="${aci}"]`).click();
+    await startAudioCall(win);
+  }
+
+  // Start an audio call in the conversation that is already open.
+  async function startAudioCall(win: Page) {
     // Try to start a call
     await win.getByLabel('Start a call').click();
     await win
@@ -250,7 +255,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
       .click({ timeout: 3000 });
 
     // Then, verify that that persists across calls
-    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
+    await startAudioCall(window1);
     await acceptAudioCall(window2);
 
     try {
@@ -302,7 +307,7 @@ describe('callMessages', function callMessages(this: Mocha.Suite) {
     }
 
     // Second call: window1 mutes after placing call but before window 2 answers
-    await startAudioCallWith(window1, bootstrap2.phone.device.aci);
+    await startAudioCall(window1);
     await window1.getByLabel('Mute mic').click();
 
     await acceptAudioCall(window2);

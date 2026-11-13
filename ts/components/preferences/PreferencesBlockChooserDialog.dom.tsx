@@ -153,6 +153,7 @@ export function PreferencesBlockChooserDialog(props: Props): JSX.Element {
                       onClickContactCheckbox={shouldNeverBeCalled}
                       onOutgoingAudioCallInConversation={shouldNeverBeCalled}
                       onOutgoingVideoCallInConversation={shouldNeverBeCalled}
+                      onClickSelectedConversation={shouldNeverBeCalled}
                       onPreloadConversation={shouldNeverBeCalled}
                       removeConversation={shouldNeverBeCalled}
                       resetShouldRecomputeRowHeights={shouldNeverBeCalled}

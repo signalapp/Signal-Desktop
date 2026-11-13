@@ -213,6 +213,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     showUserNotFoundModal: action('showUserNotFoundModal'),
     setIsFetchingUUID,
     preloadConversation: action('preloadConversation'),
+    onClickSelectedConversation: action('onClickSelectedConversation'),
     showConversation: action('showConversation'),
     blockConversation: action('blockConversation'),
     onChatFoldersOpenSettings: action('onChatFoldersOpenSettings'),
