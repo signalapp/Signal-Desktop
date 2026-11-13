@@ -10974,6 +10974,10 @@
     "messageformat": "Download attachment",
     "description": "Context menu item to help debugging"
   },
+  "icu:StoryDetailsModal__more-actions": {
+    "messageformat": "More actions",
+    "description": "Accessibility label for the button that opens a menu of actions for a story's details, like copying its timestamp"
+  },
   "icu:StoryViewsNRepliesModal__read-receipts-off": {
     "messageformat": "Enable view receipts to see who’s viewed your stories. Open the Signal app on your mobile device and navigate to Settings > Stories.",
     "description": "Instructions on how to enable read receipts"

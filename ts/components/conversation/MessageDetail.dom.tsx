@@ -19,6 +19,7 @@ import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.pr
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import {
   SendStatus,
+  VISIBLE_SEND_STATUS_ORDER,
   type VisibleSendStatus,
 } from '../../messages/MessageSendState.std.ts';
 import { WidthBreakpoint } from '../_util.std.ts';
@@ -350,17 +351,7 @@ function Contacts({
 
   return (
     <>
-      {(
-        [
-          undefined,
-          SendStatus.Failed,
-          SendStatus.Viewed,
-          SendStatus.Read,
-          SendStatus.Delivered,
-          SendStatus.Sent,
-          SendStatus.Pending,
-        ] as Array<VisibleSendStatus | undefined>
-      ).map(sendStatus => {
+      {[undefined, ...VISIBLE_SEND_STATUS_ORDER].map(sendStatus => {
         const statusContacts = contactsBySendStatus.get(sendStatus);
 
         if (!statusContacts || !statusContacts.length) {
