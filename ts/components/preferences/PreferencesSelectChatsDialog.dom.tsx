@@ -23,7 +23,7 @@ import {
 import type { GetConversationByIdType } from '../../state/selectors/conversations.dom.ts';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 
 export type ChatFolderSelection = Readonly<{
   selectedRecipientIds: ReadonlyArray<string>;

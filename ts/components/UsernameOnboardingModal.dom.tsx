@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 export type PropsType = Readonly<{

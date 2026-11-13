@@ -5,7 +5,7 @@ import type { JSX, ReactElement } from 'react';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';
 import { KEY_TRANSPARENCY_URL } from '../types/support.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { I18n, type I18nComponentParts } from './I18n.dom.tsx';
 

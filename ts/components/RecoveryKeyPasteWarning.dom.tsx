@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { type JSX } from 'react';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { I18n } from './I18n.dom.tsx';

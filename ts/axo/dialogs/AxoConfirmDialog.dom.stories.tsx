@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import { AxoConfirmDialog } from './AxoConfirmDialog.dom.tsx';
 
 export default {
-  title: 'Axo/AxoConfirmDialog',
+  title: 'Axo/Dialogs/AxoConfirmDialog',
 } satisfies Meta;
 
 export function Primary(): ReactNode {

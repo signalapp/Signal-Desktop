@@ -5,10 +5,10 @@ import type { MouseEvent, ReactNode } from 'react';
 import { describe, expect, test, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { AxoAlertDialog } from './AxoAlertDialog.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
-import { renderAxo } from './_test-helpers/render.dom.tsx';
-import { describeFocused } from './_test-helpers/a11y.dom.tsx';
-import { testStoriesWithAxe } from './_test-helpers/stories.dom.tsx';
+import { AxoButton } from '../AxoButton.dom.tsx';
+import { renderAxo } from '../_test-helpers/render.dom.tsx';
+import { describeFocused } from '../_test-helpers/a11y.dom.tsx';
+import { testStoriesWithAxe } from '../_test-helpers/stories.dom.tsx';
 import * as stories from './AxoAlertDialog.dom.stories.tsx';
 
 type TestAlertDialogProps = Readonly<{

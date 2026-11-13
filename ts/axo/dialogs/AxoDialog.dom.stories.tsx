@@ -5,12 +5,12 @@ import { useId, useMemo, useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { AxoDialog } from './AxoDialog.dom.tsx';
-import { tw } from './tw.dom.tsx';
-import { AxoCheckbox } from './AxoCheckbox.dom.tsx';
-import { AxoAvatar } from './AxoAvatar.dom.tsx';
+import { tw } from '../tw.dom.tsx';
+import { AxoCheckbox } from '../AxoCheckbox.dom.tsx';
+import { AxoAvatar } from '../AxoAvatar.dom.tsx';
 
 export default {
-  title: 'Axo/AxoDialog',
+  title: 'Axo/Dialogs/AxoDialog',
 } satisfies Meta;
 
 const TEXT_SHORT = <>Lorem ipsum dolor</>;

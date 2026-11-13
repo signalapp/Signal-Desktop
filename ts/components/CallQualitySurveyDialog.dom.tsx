@@ -4,7 +4,7 @@ import { useCallback, useId, useMemo, useState, type JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { CallQualitySurvey } from '../types/CallQualitySurvey.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { missingCaseError } from '../util/missingCaseError.std.ts';

@@ -4,7 +4,7 @@ import { useCallback, type JSX } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE } from './CriticalIdlePrimaryDeviceDialog.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 

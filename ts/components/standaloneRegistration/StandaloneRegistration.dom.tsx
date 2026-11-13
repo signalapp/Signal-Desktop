@@ -13,7 +13,7 @@ import {
   FatalErrorType,
   RegistrationStage,
 } from '../../types/StandaloneRegistration.std.ts';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { PhoneNumberScreen } from './stages/PhoneNumber.dom.tsx';
 import { CaptchaScreen } from './stages/Captcha.dom.tsx';
 import { VerificationCodeScreen } from './stages/VerificationCode.dom.tsx';

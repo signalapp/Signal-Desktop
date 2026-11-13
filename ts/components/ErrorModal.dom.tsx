@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { JSX } from 'react';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type ErrorModalDataProps = Readonly<{
   title: string;

@@ -15,7 +15,7 @@ import { DurationInSeconds, SECOND } from '../util/durations/index.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';
 import { RecordingComposer } from './RecordingComposer.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type Props = Readonly<{
   i18n: LocalizerType;

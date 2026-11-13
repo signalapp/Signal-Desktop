@@ -12,7 +12,7 @@ import type {
 } from '../state/ducks/conversations.preload.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { safeParsePartial } from '../util/schemas.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';
 import { AxoFieldList } from '../axo/items/AxoFieldList.dom.tsx';

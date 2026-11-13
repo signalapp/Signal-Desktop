@@ -40,7 +40,7 @@ import type { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 
 const { noop, orderBy } = lodash;

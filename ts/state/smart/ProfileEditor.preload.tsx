@@ -34,7 +34,7 @@ import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 
 import type { ProfileEditorPage } from '../../types/Nav.std.ts';
 import type { SmartUsernameEditorProps } from './UsernameEditor.preload.tsx';
-import { AxoConfirmDialog } from '../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;

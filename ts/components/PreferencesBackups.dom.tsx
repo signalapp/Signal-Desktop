@@ -34,7 +34,7 @@ import {
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';

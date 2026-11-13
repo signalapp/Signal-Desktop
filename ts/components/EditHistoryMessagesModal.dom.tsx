@@ -21,7 +21,7 @@ import { AxoContextMenu } from '../axo/menus/AxoContextMenu.dom.tsx';
 import { drop } from '../util/drop.std.ts';
 import type { AxoMenuBuilder } from '../axo/menus/AxoMenuBuilder.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 const { noop } = lodash;
 

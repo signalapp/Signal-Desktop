@@ -5,7 +5,7 @@ import type { ReactNode, JSX } from 'react';
 import { useState } from 'react';
 import type { LocalizerType } from '../../../types/Util.std.ts';
 import { DeleteMessagesConfirmationDialog } from '../../DeleteMessagesConfirmationDialog.dom.tsx';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoList } from '../../../axo/items/AxoList.dom.tsx';
 import { AxoItem } from '../../../axo/items/AxoItem.dom.tsx';
 import { AxoClickableItem } from '../../../axo/items/AxoClickableItem.dom.tsx';

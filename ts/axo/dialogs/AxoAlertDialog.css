@@ -1,0 +1,42 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@layer components {
+  /**
+   * <AxoAlertDialog.Content>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-alert-dialog-content {
+    @apply w-72 min-w-72;
+  }
+
+  /**
+   * <AxoAlertDialog.Body>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-alert-dialog-body {
+    @apply flex flex-col gap-1 px-6 pt-5;
+  }
+
+  /**
+   * <AxoAlertDialog.Footer>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-alert-dialog-footer {
+    @apply flex flex-wrap-reverse gap-2 p-4;
+  }
+
+  /**
+   * <AxoAlertDialog.Title>
+   * --------------------------------------------------------------------------
+   */
+
+  .axo-alert-dialog-title {
+    @apply type-title-small text-pretty text-primary;
+  }
+}

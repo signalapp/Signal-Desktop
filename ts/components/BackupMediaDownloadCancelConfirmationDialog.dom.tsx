@@ -4,7 +4,7 @@
 import type { JSX } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
 import { I18n } from './I18n.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 const BACKUP_AND_RESTORE_SUPPORT_PAGE =

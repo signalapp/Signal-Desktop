@@ -57,7 +57,7 @@ import { StoryProgressSegment } from './StoryProgressSegment.dom.tsx';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoDropdownMenu } from '../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';

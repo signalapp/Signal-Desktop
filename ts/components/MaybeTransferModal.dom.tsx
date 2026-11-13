@@ -4,11 +4,11 @@
 import { type JSX, type ReactNode } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 
 const LEARN_MORE_LINK =

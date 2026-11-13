@@ -8,7 +8,7 @@ import { I18n } from './I18n.dom.tsx';
 import { ContactName } from './conversation/ContactName.dom.tsx';
 import { Avatar, AvatarSize } from './Avatar.dom.tsx';
 import { UserText } from './UserText.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoContactList } from '../axo/items/AxoContactList.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.ts';

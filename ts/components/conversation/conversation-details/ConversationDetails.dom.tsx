@@ -51,7 +51,7 @@ import { CallHistoryGroupPanelSection } from './CallHistoryGroupPanelSection.dom
 import { InAnotherCallTooltip } from '../InAnotherCallTooltip.dom.tsx';
 import type { ContactModalStateType } from '../../../types/globalModals.std.ts';
 import type { ContactNameColorType } from '../../../types/ContactNameColor.std.ts';
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
 import { AxoStackedButton } from '../../../axo/AxoStackedButton.dom.tsx';
 import { getConversationMuteMenu } from '../../../util/getMuteOptions.std.ts';

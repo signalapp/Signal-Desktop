@@ -8,7 +8,7 @@ import type {
   StartCallLinkLobbyByRoomIdType,
   StartCallLinkLobbyType,
 } from '../state/ducks/calling.preload.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type StartCallData =
   | ({

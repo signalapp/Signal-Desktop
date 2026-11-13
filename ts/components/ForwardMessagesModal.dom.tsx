@@ -41,7 +41,7 @@ import {
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { Theme } from '../util/theme.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
 
 export enum ForwardMessagesModalType {

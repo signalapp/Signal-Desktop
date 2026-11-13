@@ -100,8 +100,8 @@ import { LinkedDevicesOnboardingDialog } from './preferences/LinkedDevicesOnboar
 import { SignalAccountKeys } from './preferences/SignalAccountKeys.dom.tsx';
 import { SignalAccountKeysButton } from './preferences/SignalAccountKeysButton.dom.tsx';
 import { Emoji } from '../axo/emoji.std.ts';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { AxoItem } from '../axo/items/AxoItem.dom.tsx';
 import { AxoList } from '../axo/items/AxoList.dom.tsx';

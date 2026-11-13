@@ -3,7 +3,7 @@
 
 import type { ReactNode } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 import { filterAndSortConversations } from '../../../util/filterAndSortConversations.std.ts';
 import { groupByFirstInitial } from '../../../util/groupByFirstInitial.std.ts';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList.dom.tsx';

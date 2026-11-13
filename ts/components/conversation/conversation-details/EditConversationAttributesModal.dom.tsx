@@ -17,7 +17,7 @@ import type {
   AvatarColorType,
 } from '../../../types/Avatar.std.ts';
 import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.tsx';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 
 type PropsType = {
   avatarColor?: AvatarColorType;

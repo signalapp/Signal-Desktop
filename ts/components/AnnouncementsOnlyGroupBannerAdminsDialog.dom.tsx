@@ -11,7 +11,7 @@ import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { BadgeType } from '../badges/types.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { GroupMemberLabel } from './conversation/ContactName.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 export type AnnouncementsOnlyGroupBannerAdminsDialogProps = Readonly<{
   i18n: LocalizerType;

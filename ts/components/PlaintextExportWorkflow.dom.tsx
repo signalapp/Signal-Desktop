@@ -7,8 +7,8 @@ import {
   LocalExportErrors,
   PlaintextExportSteps,
 } from '../types/LocalExport.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 import type { PlaintextExportWorkflowType } from '../types/LocalExport.std.ts';
 import type { LocalizerType } from '../types/I18N.std.ts';

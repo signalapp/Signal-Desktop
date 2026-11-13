@@ -4,10 +4,10 @@
 import { useCallback, useState, type JSX, type ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 export type PropsType = {
   isInsideDialog: boolean;

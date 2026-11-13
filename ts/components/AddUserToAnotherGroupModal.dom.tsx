@@ -29,7 +29,7 @@ import { ListTile } from './ListTile.dom.tsx';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 const { pick } = lodash;
 

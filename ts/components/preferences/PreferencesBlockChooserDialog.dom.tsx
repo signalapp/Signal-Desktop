@@ -14,7 +14,7 @@ import { SearchInput } from '../SearchInput.dom.tsx';
 import { ConversationList, RowType } from '../ConversationList.dom.tsx';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { strictAssert } from '../../util/assert.std.ts';
 import {
   MessageRequestActionsConfirmation,

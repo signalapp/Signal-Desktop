@@ -26,26 +26,25 @@ import {
   useReducedMotion,
 } from 'motion/react';
 import type { Transition } from 'motion/react';
-import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.tsx';
-import { AxoBaseLayer } from './_internal/AxoBaseLayer.dom.tsx';
-import type { AxoSymbol } from './AxoSymbol.dom.tsx';
-import { tw } from './tw.dom.tsx';
-import { AxoScrollArea } from './AxoScrollArea.dom.tsx';
-import { AxoButton } from './AxoButton.dom.tsx';
-import { AxoIconButton } from './AxoIconButton.dom.tsx';
-import { AxoTooltip } from './AxoTooltip.dom.tsx';
-import { useAxoIntl } from './_internal/AxoIntl.dom.tsx';
-import { variants } from './_internal/variants.dom.tsx';
-import { assert, unreachable } from './_internal/assert.std.tsx';
+import { AxoBaseDialog } from './_AxoBaseDialog.dom.tsx';
+import { AxoBaseLayer } from '../_internal/AxoBaseLayer.dom.tsx';
+import type { AxoSymbol } from '../AxoSymbol.dom.tsx';
+import { css } from '../_internal/css.dom.tsx';
+import { AxoScrollArea } from '../AxoScrollArea.dom.tsx';
+import { AxoButton } from '../AxoButton.dom.tsx';
+import { AxoIconButton } from '../AxoIconButton.dom.tsx';
+import { AxoTooltip } from '../AxoTooltip.dom.tsx';
+import { useAxoIntl } from '../_internal/AxoIntl.dom.tsx';
+import { variants } from '../_internal/variants.dom.tsx';
+import { assert } from '../_internal/assert.std.tsx';
 import {
   createStrictContext,
   useStrictContext,
-  useStrictContextNullable,
-} from './_internal/StrictContext.dom.tsx';
-import { forwardExtraPropsForRadix } from './_internal/props.dom.tsx';
+} from '../_internal/StrictContext.dom.tsx';
+import { forwardExtraPropsForRadix } from '../_internal/props.dom.tsx';
 import { mergeRefs } from '@react-aria/utils';
-import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.tsx';
-import { ExperimentalAxoBaseSegmentedControl } from './_internal/AxoBaseSegmentedControl.dom.tsx';
+import { FlexWrapDetector } from '../_internal/FlexWrapDetector.dom.tsx';
+import { ExperimentalAxoBaseSegmentedControl } from '../_internal/AxoBaseSegmentedControl.dom.tsx';
 
 const {
   useContentEscapeBehavior,
@@ -135,6 +134,7 @@ export namespace AxoDialog {
    */
 
   type RootContextType = Readonly<{
+    /** Only picks `Body`'s default scrollbar and scroll hints; styles use `:has()` */
     hasHeader: boolean;
     setHasHeader: (hasHeader: boolean) => void;
     hasFooter: boolean;
@@ -296,11 +296,11 @@ export namespace AxoDialog {
    */
   export type ContentEscape = AxoBaseDialog.ContentEscape;
 
-  const ContentSizeStyles = variants<ContentSize>('AxoDialog.ContentSize', {
-    sm: tw('w-[320px] min-w-[320px]'),
-    md: tw('w-[400px] min-w-[320px]'),
-    lg: tw('w-[720px] min-w-[320px]'),
-    fit: tw('w-fit max-w-[1320px] min-w-[240px]'),
+  const ContentSizes = variants<ContentSize>('AxoDialog.ContentSize', {
+    sm: css('axo-dialog-content-sm'),
+    md: css('axo-dialog-content-md'),
+    lg: css('axo-dialog-content-lg'),
+    fit: css('axo-dialog-content-fit'),
   });
 
   export type ContentProps = Readonly<{
@@ -351,9 +351,9 @@ export namespace AxoDialog {
               <Dialog.Overlay className={AxoBaseDialog.overlayClassName} />
               <Dialog.Content
                 ref={setBoundary}
-                className={tw(
+                className={css(
                   AxoBaseDialog.contentClassName,
-                  ContentSizeStyles.get(props.size)
+                  ContentSizes.get(props.size)
                 )}
                 onEscapeKeyDown={handleContentEscapeEvent}
                 onInteractOutside={handleContentEscapeEvent}
@@ -361,7 +361,9 @@ export namespace AxoDialog {
                 {...dialogContentProps}
                 {...descriptionProps}
               >
-                <div className={tw('relative z-10')}>{props.children}</div>
+                <div className="axo-dialog-content-layout">
+                  {props.children}
+                </div>
               </Dialog.Content>
             </AxoBaseDialog.Host>
           </AxoTooltip.CollisionBoundary>
@@ -421,10 +423,9 @@ export namespace AxoDialog {
       <HeaderContext value={context}>
         <div
           ref={ref}
-          className={tw(
-            'grid items-center px-4 pt-4 pb-2',
-            'grid-cols-[[back-slot]_1fr_[title-slot]_auto_[close-slot]_1fr]',
-            floating && tw('pointer-events-none absolute inset-x-0 top-0 z-10')
+          className={css(
+            'axo-dialog-header',
+            floating && 'axo-dialog-header-floating'
           )}
         >
           {children}
@@ -451,19 +452,8 @@ export namespace AxoDialog {
    * An accessible title to be announced when the dialog is opened.
    */
   export const Title: FC<TitleProps> = memo(props => {
-    const header = useStrictContextNullable(HeaderContext);
     return (
-      <Dialog.Title
-        className={tw(
-          'type-body-medium font-semibold text-primary',
-          header != null &&
-            tw('col-[title-slot] truncate px-3.5 py-0.5 text-center'),
-          header == null && tw('mb-2.5'),
-          header?.floating && tw('sr-only')
-        )}
-      >
-        {props.children}
-      </Dialog.Title>
+      <Dialog.Title className="axo-dialog-title">{props.children}</Dialog.Title>
     );
   });
 
@@ -488,7 +478,7 @@ export namespace AxoDialog {
     const intl = useAxoIntl();
     const { floating } = useStrictContext(HeaderContext);
     return (
-      <div className={tw('pointer-events-auto col-[back-slot] text-start')}>
+      <div className="axo-dialog-back">
         <AxoIconButton.Root
           size="sm"
           variant={floating ? 'material-subtle' : 'implied-secondary'}
@@ -515,11 +505,7 @@ export namespace AxoDialog {
     const intl = useAxoIntl();
     const { floating } = useStrictContext(HeaderContext);
     return (
-      <div
-        className={tw(
-          'pointer-events-auto col-[close-slot] text-end leading-none'
-        )}
-      >
+      <div className="axo-dialog-close">
         <Dialog.Close asChild>
           <AxoIconButton.Root
             size="sm"
@@ -551,11 +537,7 @@ export namespace AxoDialog {
    * A padded slot for a search input, placed between `Header` and `Body`.
    */
   export const Search: FC<SearchProps> = memo(props => {
-    return (
-      <div className={tw('flex items-center gap-2 px-4 pb-2')}>
-        {props.children}
-      </div>
-    );
+    return <div className="axo-dialog-search">{props.children}</div>;
   });
 
   Search.displayName = 'AxoDialog.Search';
@@ -648,22 +630,9 @@ export namespace AxoDialog {
                 ? { duration: 0 }
                 : ExperimentalAxoBaseSegmentedControl.IndicatorTransition
             }
-            className={tw(
-              'overflow-clip',
-              // Don't clip the focus rings of the tabs
-              '[overflow-clip-margin:4px]'
-            )}
+            className="axo-dialog-tabs"
           >
-            <div
-              ref={ref}
-              className={tw(
-                // The exiting tab content is absolutely positioned against this container.
-                'relative',
-                // During the transition, the tab content uses `mix-blend-mode: plus-lighter`
-                // so we need `isolation: isolate` so they only blend with each other.
-                'isolate'
-              )}
-            >
+            <div ref={ref} className="axo-dialog-tabs-container">
               {props.children}
             </div>
           </motion.div>
@@ -694,7 +663,7 @@ export namespace AxoDialog {
     const { value } = useStrictContext(TabsContext);
 
     return (
-      <div className={tw('px-4 pb-2')}>
+      <div className="axo-dialog-tab-list">
         <RadixTabs.List asChild>
           <ExperimentalAxoBaseSegmentedControl.Root
             value={value}
@@ -792,13 +761,7 @@ export namespace AxoDialog {
         <motion.div
           // Can't be focused or read while fading out
           inert={!isPresent}
-          className={tw(
-            'focus-visible:axo-focus-ring',
-            // Adds the entering and exiting tab contents together instead of
-            // layering them, so content that's the same in both tabs stays
-            // fully opaque during the cross fade instead of dimming
-            'mix-blend-plus-lighter'
-          )}
+          className="axo-dialog-tab-content"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -848,11 +811,31 @@ export namespace AxoDialog {
     | 'sm'
     | 'deprecated-only-scrollbar-gutter';
 
+  const BodyPaddings = variants<BodyPadding>('AxoDialog.BodyPadding', {
+    lg: css('axo-dialog-body-padding-lg'),
+    md: css('axo-dialog-body-padding-md'),
+    sm: css('axo-dialog-body-padding-sm'),
+    'deprecated-only-scrollbar-gutter': css(
+      'axo-dialog-body-padding-deprecated-only-scrollbar-gutter'
+    ),
+  });
+
+  /** Width of the native scrollbar track. */
+  export type BodyScrollbarWidth = 'thin' | 'none';
+
+  const BodyScrollbarWidths = variants<BodyScrollbarWidth>(
+    'AxoDialog.BodyScrollbarWidth',
+    {
+      thin: css('axo-dialog-body-scrollbar-thin'),
+      none: css('axo-dialog-body-scrollbar-none'),
+    }
+  );
+
   export type BodyProps = Readonly<{
     /**
      * Width of the native scrollbar track.
      */
-    scrollbarWidth?: 'thin' | 'none';
+    scrollbarWidth?: BodyScrollbarWidth;
     /**
      * Horizontal padding applied to the body content.
      * Defaults to `lg`.
@@ -893,63 +876,18 @@ export namespace AxoDialog {
     } = props;
 
     const style = useMemo((): CSSProperties | undefined => {
-      const styles: CSSProperties = {};
-
-      if (forceMaxHeight) {
-        styles.minHeight = maxHeight;
+      if (!forceMaxHeight) {
+        return undefined;
       }
+      return { minHeight: maxHeight };
+    }, [forceMaxHeight, maxHeight]);
 
-      let paddingInline: string | null;
-
-      if (padding === 'lg') {
-        paddingInline = '24px';
-      } else if (padding === 'md') {
-        paddingInline = '16px';
-      } else if (padding === 'sm') {
-        paddingInline = '12px';
-      } else if (padding === 'deprecated-only-scrollbar-gutter') {
-        paddingInline = null;
-      } else {
-        unreachable(padding);
-      }
-
-      if (paddingInline != null) {
-        if (scrollbarWidth === 'thin') {
-          paddingInline = `calc(${paddingInline} - var(--axo-scrollbar-gutter-thin-vertical))`;
-        } else if (scrollbarWidth === 'none') {
-          // ignore
-        } else {
-          unreachable(scrollbarWidth);
-        }
-
-        styles.paddingInline = paddingInline;
-      }
-
-      let paddingBlockDefault: string;
-      if (padding === 'lg') {
-        paddingBlockDefault = '24px';
-      } else if (padding === 'md') {
-        paddingBlockDefault = '16px';
-      } else if (padding === 'sm') {
-        paddingBlockDefault = '12px';
-      } else if (padding === 'deprecated-only-scrollbar-gutter') {
-        paddingBlockDefault = '2px';
-      } else {
-        unreachable(padding);
-      }
-
-      styles.paddingBlockStart = hasHeader ? '2px' : paddingBlockDefault;
-      styles.paddingBlockEnd = hasFooter ? '2px' : paddingBlockDefault;
-
-      return styles;
-    }, [
-      forceMaxHeight,
-      maxHeight,
-      padding,
-      scrollbarWidth,
-      hasHeader,
-      hasFooter,
-    ]);
+    const className = css(
+      'axo-dialog-body',
+      BodyPaddings.get(padding),
+      BodyScrollbarWidths.get(scrollbarWidth),
+      selectableText && 'axo-dialog-body-selectable-text'
+    );
 
     return (
       <AxoScrollArea.Root
@@ -962,7 +900,7 @@ export namespace AxoDialog {
         {hasFooter && <AxoScrollArea.Hint edge="bottom" />}
         <AxoScrollArea.Viewport>
           <AxoScrollArea.Content>
-            <div className={tw(selectableText && 'select-text')} style={style}>
+            <div className={className} style={style}>
               {props.children}
             </div>
           </AxoScrollArea.Content>
@@ -990,18 +928,7 @@ export namespace AxoDialog {
    * with the overlay.
    */
   export const StaticBody: FC<StaticBodyProps> = memo(props => {
-    const { hasHeader, hasFooter } = useStrictContext(RootContext);
-    return (
-      <div
-        className={tw(
-          'px-5',
-          hasHeader ? 'pt-0.5' : 'pt-5',
-          hasFooter ? 'pb-0.5' : 'pb-5'
-        )}
-      >
-        {props.children}
-      </div>
-    );
+    return <div className="axo-dialog-static-body">{props.children}</div>;
   });
 
   StaticBody.displayName = 'AxoDialog.StaticBody';
@@ -1060,14 +987,7 @@ export namespace AxoDialog {
     );
 
     return (
-      <div
-        ref={ref}
-        className={tw(
-          'flex flex-wrap items-center',
-          'gap-x-2 gap-y-3',
-          'px-4 pt-2.5 pb-4'
-        )}
-      >
+      <div ref={ref} className="axo-dialog-footer">
         {props.children}
       </div>
     );
@@ -1094,24 +1014,7 @@ export namespace AxoDialog {
    * line.
    */
   export const FooterContent: FC<FooterContentProps> = memo(props => {
-    return (
-      <div
-        className={tw(
-          'px-2',
-          // Allow the flex layout to place it in the same row as the actions
-          // if it can be wrapped to fit within the available space:
-          'basis-[min-content]',
-          // But if the text needs to wrap and the available space could only
-          // fit 1-2 words per line, push it up into its own row:
-          'min-w-[calc-size(fit-content,min(20ch,size))]',
-          // Allow it to fill its own row
-          'grow',
-          'type-body-medium text-primary'
-        )}
-      >
-        {props.children}
-      </div>
-    );
+    return <div className="axo-dialog-footer-content">{props.children}</div>;
   });
 
   FooterContent.displayName = 'AxoDialog.FooterContent';
@@ -1120,19 +1023,6 @@ export namespace AxoDialog {
    * <AxoDialog.Actions>
    * --------------------------------------------------------------------------
    */
-
-  const footerWrapDetectorStyles = tw(
-    // When actions are not being wrapped:
-    // Try to keep all actions equal size, but don't truncate them.
-    'container-not-scrollable:*:basis-0',
-    'container-not-scrollable:*:min-w-fit',
-    // When actions are being wrapped:
-    // Make all of them full width
-    'container-scrollable:*:w-full'
-  );
-
-  // oxlint-disable-next-line better-tailwindcss/no-restricted-classes
-  const footerWrapForcedBreakStyles = tw('*:w-full');
 
   export type ActionsWidth = 'fill' | 'fit';
 
@@ -1160,14 +1050,12 @@ export namespace AxoDialog {
 
     let contents = (
       <div
-        className={tw(
-          'flex flex-wrap-reverse',
-          'max-w-full',
-          'items-center gap-x-2 gap-y-3',
-          width === 'fill' && 'w-full',
+        className={css(
+          'axo-dialog-actions',
+          width === 'fill' && 'axo-dialog-actions-fill',
           props.forceAlwaysBreakToSeparateLines
-            ? footerWrapForcedBreakStyles
-            : footerWrapDetectorStyles
+            ? 'axo-dialog-buttons-wrap-forced'
+            : 'axo-dialog-buttons-wrap-detect'
         )}
       >
         {children}
@@ -1181,7 +1069,9 @@ export namespace AxoDialog {
     }
 
     if (width === 'fit') {
-      contents = <div className={tw('ms-auto')}>{contents}</div>;
+      contents = (
+        <div className="axo-dialog-actions-fit-container">{contents}</div>
+      );
     }
 
     return contents;

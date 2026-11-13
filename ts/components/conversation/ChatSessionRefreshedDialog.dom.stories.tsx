@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import type { Meta } from '@storybook/react';
 import { ChatSessionRefreshedDialog } from './ChatSessionRefreshedDialog.dom.tsx';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 
 const { i18n } = window.SignalContext;
 

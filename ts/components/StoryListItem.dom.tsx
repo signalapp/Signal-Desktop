@@ -18,7 +18,7 @@ import { MessageTimestamp } from './conversation/MessageTimestamp.dom.tsx';
 import { StoryImage } from './StoryImage.dom.tsx';
 import { getAvatarColor } from '../types/Avatar.std.ts';
 import { OfficialChatInlineBadge } from './conversation/OfficialChatInlineBadge.dom.tsx';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { AxoContextMenu } from '../axo/menus/AxoContextMenu.dom.tsx';
 
 export type PropsType = Pick<ConversationStoryType, 'group' | 'isHidden'> & {

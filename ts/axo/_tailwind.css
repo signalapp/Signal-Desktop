@@ -30,6 +30,9 @@
 @import './chat/AxoChatEvent.css';
 @import './chatList/_AxoBaseChatItem.css';
 @import './chatList/AxoChatList.css';
+@import './dialogs/_AxoBaseDialog.css';
+@import './dialogs/AxoAlertDialog.css';
+@import './dialogs/AxoDialog.css';
 @import './fields/_AxoBaseField.css';
 @import './items/_AxoBaseItem.css';
 @import './items/AxoFieldList.css';

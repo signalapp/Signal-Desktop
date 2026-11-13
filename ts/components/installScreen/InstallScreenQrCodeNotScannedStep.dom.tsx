@@ -22,7 +22,7 @@ import { TitlebarDragArea } from '../TitlebarDragArea.dom.tsx';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo.dom.tsx';
 import { InstallScreenUpdateDialog } from './InstallScreenUpdateDialog.dom.tsx';
 import type { UpdatesStateType } from '../../state/ducks/updates.preload.ts';
-import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { AxoIconButton } from '../../axo/AxoIconButton.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoTheme } from '../../axo/AxoTheme.dom.tsx';

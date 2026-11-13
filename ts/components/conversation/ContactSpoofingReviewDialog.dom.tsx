@@ -17,7 +17,7 @@ import { assertDev } from '../../util/assert.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';
 import type { ContactModalStateType } from '../../types/globalModals.std.ts';
-import { AxoDialog } from '../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../axo/dialogs/AxoDialog.dom.tsx';
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';

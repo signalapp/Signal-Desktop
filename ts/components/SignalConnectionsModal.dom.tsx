@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { I18n } from './I18n.dom.tsx';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 

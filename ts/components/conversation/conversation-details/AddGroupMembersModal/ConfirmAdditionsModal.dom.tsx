@@ -9,7 +9,7 @@ import { RequestState } from '../util.std.ts';
 import { I18n } from '../../../I18n.dom.tsx';
 import { ContactName } from '../../ContactName.dom.tsx';
 import { UserText } from '../../../UserText.dom.tsx';
-import { AxoConfirmDialog } from '../../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type StatePropsType = {
   groupTitle: string;

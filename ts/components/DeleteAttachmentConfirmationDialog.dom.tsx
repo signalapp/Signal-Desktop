@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ReactNode } from 'react';
 import type { LocalizerType } from '../types/I18N.std.ts';
-import { AxoConfirmDialog } from '../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type DeleteAttachmentConfirmationDialogProps = Readonly<{
   i18n: LocalizerType;

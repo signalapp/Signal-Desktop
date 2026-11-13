@@ -11,7 +11,7 @@ import { ThemeType } from '../types/Util.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { SharedGroupNames } from './SharedGroupNames.dom.tsx';
 import type { ContactModalStateType } from '../types/globalModals.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 import { AxoTheme } from '../axo/AxoTheme.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';

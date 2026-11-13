@@ -28,13 +28,13 @@ import type {
   verifyPIN as doVerifyPIN,
 } from '../../../state/ducks/standaloneInstaller.preload.ts';
 import { AxoPasswordField } from '../../../axo/fields/AxoPasswordField.dom.tsx';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../../../axo/dialogs/AxoAlertDialog.dom.tsx';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.ts';
 import { CONTACT_SUPPORT_URL } from '../../../util/contactSupport.dom.tsx';
 import { AxoDropdownMenu } from '../../../axo/menus/AxoDropdownMenu.dom.tsx';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.tsx';
 import { isNumber } from 'lodash';
-import { AxoDialog } from '../../../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../../../axo/dialogs/AxoDialog.dom.tsx';
 
 const FIRST_REGLOCK_TRIES_THRESHOLD = 5;
 const SECOND_REGLOCK_TRIES_THRESHOLD = 3;

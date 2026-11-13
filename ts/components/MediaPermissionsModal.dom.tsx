@@ -5,7 +5,7 @@ import { useCallback, type JSX } from 'react';
 import { tw } from '../axo/tw.dom.tsx';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.tsx';
+import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 
 export type PropsType = {
   i18n: LocalizerType;

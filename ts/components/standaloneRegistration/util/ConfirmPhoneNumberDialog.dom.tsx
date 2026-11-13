@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AxoConfirmDialog } from '../../../axo/AxoConfirmDialog.dom.tsx';
+import { AxoConfirmDialog } from '../../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import { format as formatPhoneNumber } from '../../../types/PhoneNumber.std.ts';
 
 import type { LocalizerType } from '../../../types/I18N.std.ts';

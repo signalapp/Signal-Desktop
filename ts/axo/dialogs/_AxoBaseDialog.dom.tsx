@@ -9,31 +9,8 @@ import type {
   RefCallback,
   SyntheticEvent,
 } from 'react';
-import { tw } from '../tw.dom.tsx';
 
 export namespace AxoBaseDialog {
-  /**
-   * <AxoBaseDialog.Root>
-   * --------------------------------------------------------------------------
-   */
-
-  export type RootProps = Readonly<{
-    /** Controlled open state. Must be used with `onOpenChange`. */
-    open?: boolean;
-    /** Called when the open state changes. */
-    onOpenChange?: (open: boolean) => void;
-    children: ReactNode;
-  }>;
-
-  /**
-   * <AxoBaseDialog.Trigger>
-   * --------------------------------------------------------------------------
-   */
-
-  export type TriggerProps = Readonly<{
-    children: ReactNode;
-  }>;
-
   /**
    * <AxoBaseDialog.Host>
    * --------------------------------------------------------------------------
@@ -52,31 +29,11 @@ export namespace AxoBaseDialog {
 
     return (
       <div
-        className={tw(
-          'absolute inset-0',
-          'legacy-z-index-modal-host',
-          'size-full',
-          'h-screen w-screen',
-          // Allow the entire host to be scrolled in case the window is extremely small
-          'overflow-auto',
-          // 'scrollbar-width-none',
-          'pointer-events-auto',
-          'overscroll-none'
-        )}
+        className="axo-dialog-host"
         onWheel={handleScrollEvent}
         onTouchMove={handleScrollEvent}
       >
-        <div
-          className={tw(
-            'relative',
-            'flex',
-            'size-[stretch]',
-            'min-h-fit min-w-fit',
-            'items-center-safe justify-center-safe'
-          )}
-        >
-          {props.children}
-        </div>
+        <div className="axo-dialog-host-layout">{props.children}</div>
       </div>
     );
   });
@@ -88,34 +45,14 @@ export namespace AxoBaseDialog {
    * --------------------------------------------------------------------------
    */
 
-  export const overlayClassName = tw(
-    'absolute inset-0 bg-overlay',
-    'z-0',
-    'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
-    'animate-opacity-0',
-    'forced-colors:bg-[Canvas]'
-  );
+  export const overlayClassName = 'axo-dialog-overlay';
 
   /**
    * <AxoBaseDialog.Content>
    * --------------------------------------------------------------------------
    */
 
-  export const contentClassName = tw(
-    'relative',
-    'z-10',
-    'm-1',
-    'max-h-full min-h-fit',
-    'overflow-hidden',
-    'type-body-medium text-secondary',
-    'curved-30 bg-material-dialog shadow-elevation-3',
-    'backdrop-blur-thick',
-    'focus-visible:axo-focus-ring',
-    'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
-    'animate-opacity-0 animate-scale-98 animate-translate-y-1',
-    'will-change-transform',
-    'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[Canvas] forced-colors:text-[CanvasText]'
-  );
+  export const contentClassName = 'axo-dialog-content';
 
   /**
    * useContentEscapeBehavior()

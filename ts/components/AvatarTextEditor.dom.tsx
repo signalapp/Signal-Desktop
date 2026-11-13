@@ -18,7 +18,7 @@ import {
   getFittedFontSize,
   getFontSizes,
 } from '../util/avatarTextSizeCalculator.std.ts';
-import { AxoDialog } from '../axo/AxoDialog.dom.tsx';
+import { AxoDialog } from '../axo/dialogs/AxoDialog.dom.tsx';
 
 const { noop } = lodash;
 
