@@ -2234,7 +2234,9 @@ app.on('ready', async () => {
     installFileHandler({
       session: session.defaultSession,
       userDataPath,
+      unresolvedUserDataPath: app.getPath('userData'),
       installPath,
+      unresolvedInstallPath: rootDir,
       isWindows: OS.isWindows(),
     });
   }
@@ -2358,7 +2360,9 @@ app.on('ready', async () => {
     installFileHandler({
       session: session.defaultSession,
       userDataPath,
+      unresolvedUserDataPath: app.getPath('userData'),
       installPath,
+      unresolvedInstallPath: rootDir,
       isWindows: OS.isWindows(),
     });
   }
