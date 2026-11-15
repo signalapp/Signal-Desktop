@@ -76,6 +76,21 @@ describe('BodyRanges', () => {
       assert.isNull(getInvisibleInkBodyRanges('🎉'.repeat(513), []));
     });
 
+    it('requires directional formatting that iOS can display without adding controls', () => {
+      assert.isNull(getInvisibleInkBodyRanges('A \u202E surprise', []));
+      assert.isNull(getInvisibleInkBodyRanges('A surprise\u2069', []));
+      assert.isNotNull(
+        getInvisibleInkBodyRanges('A \u202E surprise\u202C', [])
+      );
+    });
+
+    it('requires grapheme clusters that iOS can display without replacement', () => {
+      assert.isNotNull(
+        getInvisibleInkBodyRanges(`A${'\u0301'.repeat(15)}`, [])
+      );
+      assert.isNull(getInvisibleInkBodyRanges(`A${'\u0301'.repeat(16)}`, []));
+    });
+
     it('does not displace existing ranges at the recipient range limit', () => {
       const ranges = Array.from({ length: 250 }, (_, index) =>
         style(index * 2, 1, BodyRange.Style.BOLD)

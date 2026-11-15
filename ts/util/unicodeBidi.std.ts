@@ -133,7 +133,7 @@ function hasAnyUnicodeDirControlChars(input: string): boolean {
  * characters. If the input string has unbalanced control characters, this
  * function will add the necessary characters to balance them.
  */
-function balanceUnicodeDirControlChars(input: string): string {
+export function balanceUnicodeDirControlChars(input: string): string {
   // This gets called by i18n code on many strings, so we want to avoid
   // as much work as possible
   if (!hasAnyUnicodeDirControlChars(input)) {

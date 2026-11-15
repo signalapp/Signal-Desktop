@@ -109,7 +109,8 @@ describe('twoClients', function twoClients(this: Mocha.Suite) {
       .locator(`#LeftPane [data-testid="${bootstrap1.phone.device.aci}"]`)
       .click();
 
-    const messageBody = 'A surprise for you 🎉 \u202E https://example.com';
+    const messageBody =
+      'A surprise for you 🎉 \u202E https://example.com\u202C';
     const compositionInput = await waitForEnabledComposer(window1);
     await typeIntoInput(compositionInput, messageBody, '');
     await window1.getByRole('button', { name: 'Send options' }).click({

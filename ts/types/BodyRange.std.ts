@@ -7,6 +7,8 @@ import * as z from 'zod';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { isBodyTooLong } from '../util/longAttachment.std.ts';
+import { getSegmenter } from '../util/grapheme.std.ts';
+import { balanceUnicodeDirControlChars } from '../util/unicodeBidi.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
@@ -103,6 +105,7 @@ export type DraftBodyRanges = ReadonlyArray<DraftBodyRange>;
 
 // Some clients only retain the first 250 body ranges.
 const MAX_RECIPIENT_BODY_RANGES = 250;
+const MAX_IOS_GRAPHEME_CODE_POINTS = 16;
 
 export function getInvisibleInkBodyRanges(
   text: string,
@@ -111,6 +114,19 @@ export function getInvisibleInkBodyRanges(
   // Clients can clip styles when converting oversized text to an attachment.
   if (!text || isBodyTooLong(text)) {
     return null;
+  }
+
+  // Older iOS clients can discard ranges when sanitizing or balancing the text.
+  if (balanceUnicodeDirControlChars(text) !== text) {
+    return null;
+  }
+  for (const { segment } of getSegmenter().segment(text)) {
+    if (
+      segment.length > MAX_IOS_GRAPHEME_CODE_POINTS &&
+      Array.from(segment).length > MAX_IOS_GRAPHEME_CODE_POINTS
+    ) {
+      return null;
+    }
   }
 
   const ranges = bodyRanges.filter(
