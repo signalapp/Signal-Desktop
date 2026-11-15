@@ -181,7 +181,7 @@ export function MessageBody({
         onMentionTrigger={conversationId =>
           showConversation?.({ conversationId })
         }
-        onExpandSpoiler={onExpandSpoiler}
+        onExpandSpoiler={disableLinks ? undefined : onExpandSpoiler}
         renderLocation={renderLocation}
         textLength={text.length}
       />

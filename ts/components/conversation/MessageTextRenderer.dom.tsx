@@ -189,13 +189,22 @@ function renderNode({
       );
     }
 
+    const reveal = onExpandSpoiler
+      ? () => {
+          onExpandSpoiler({
+            ...isSpoilerExpanded,
+            [node.spoilerId || 0]: true,
+          });
+        }
+      : undefined;
+
     return (
       // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
       <span
         key={key}
         data-spoiler
-        tabIndex={disableLinks ? undefined : 0}
-        role={disableLinks ? undefined : 'button'}
+        tabIndex={reveal ? 0 : undefined}
+        role={reveal ? 'button' : undefined}
         aria-label={i18n('icu:MessageTextRenderer--spoiler--label')}
         aria-expanded={false}
         className={classNames(
@@ -205,38 +214,28 @@ function renderNode({
             'MessageTextRenderer__formatting--spoiler-incoming',
           direction === 'outgoing' &&
             'MessageTextRenderer__formatting--spoiler-outgoing',
-          disableLinks
-            ? 'MessageTextRenderer__formatting--spoiler--noninteractive'
-            : null
+          !reveal && 'MessageTextRenderer__formatting--spoiler--noninteractive'
         )}
         onClick={
-          disableLinks
-            ? undefined
-            : event => {
-                if (onExpandSpoiler) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  onExpandSpoiler({
-                    ...isSpoilerExpanded,
-                    [node.spoilerId || 0]: true,
-                  });
-                }
+          reveal
+            ? event => {
+                event.preventDefault();
+                event.stopPropagation();
+                reveal();
               }
+            : undefined
         }
         onKeyDown={
-          disableLinks
-            ? undefined
-            : event => {
+          reveal
+            ? event => {
                 if (event.key !== 'Enter' && event.key !== ' ') {
                   return;
                 }
                 event.preventDefault();
                 event.stopPropagation();
-                onExpandSpoiler?.({
-                  ...isSpoilerExpanded,
-                  [node.spoilerId || 0]: true,
-                });
+                reveal();
               }
+            : undefined
         }
       >
         <span aria-hidden>{content}</span>

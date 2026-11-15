@@ -6574,6 +6574,14 @@
     "messageformat": "Contact",
     "description": "Menu item to share a contact"
   },
+  "icu:CompositionArea__SendOptions": {
+    "messageformat": "Send options",
+    "description": "Label for the button that opens the message send options menu"
+  },
+  "icu:CompositionArea__SendWithInvisibleInk": {
+    "messageformat": "Send with Invisible Ink",
+    "description": "Menu item to send a text message hidden until the recipient reveals it"
+  },
   "icu:ShareContactDialog__SelectContact__Title": {
     "messageformat": "Select contact",
     "description": "ShareContactDialog > Select contact step > Dialog title"

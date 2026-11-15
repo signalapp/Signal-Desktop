@@ -649,6 +649,7 @@ function sendMultiMediaMessage(
     bodyRanges?: DraftBodyRanges;
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
     isViewOnce?: boolean;
+    omitLinkPreview?: boolean;
     timestamp?: number;
   }
 ): AsyncStateThunk<
@@ -668,6 +669,7 @@ function sendMultiMediaMessage(
     const {
       draftAttachments,
       isViewOnce,
+      omitLinkPreview,
       timestamp = Date.now(),
       voiceNoteAttachment,
     } = options;
@@ -733,7 +735,9 @@ function sendMultiMediaMessage(
             body: message,
             attachments,
             quote,
-            preview: await getLinkPreviewsForSend(message),
+            preview: omitLinkPreview
+              ? []
+              : await getLinkPreviewsForSend(message),
             bodyRanges,
             isViewOnce,
           },

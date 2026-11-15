@@ -14,9 +14,10 @@ import {
 import classNames from 'classnames';
 import type { ReadonlyDeep } from 'type-fest';
 import { tinykeys } from 'tinykeys';
-import type {
-  DraftBodyRanges,
-  HydratedBodyRangesType,
+import {
+  type DraftBodyRanges,
+  type HydratedBodyRangesType,
+  getInvisibleInkBodyRanges,
 } from '../types/BodyRange.std.ts';
 import type { LocalizerType, ThemeType } from '../types/Util.std.ts';
 import type { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.ts';
@@ -175,6 +176,7 @@ export type OwnProps = Readonly<{
       bodyRanges?: DraftBodyRanges;
       isViewOnce?: boolean;
       message?: string;
+      omitLinkPreview?: boolean;
       timestamp?: number;
       voiceNoteAttachment?: InMemoryAttachmentDraftType;
     }
@@ -375,6 +377,7 @@ export const CompositionArea = memo(function CompositionArea({
   toggleDraftGifMessageSendModal,
 }: Props): JSX.Element | null {
   const [dirty, setDirty] = useState(false);
+  const [canConcealDraft, setCanConcealDraft] = useState(false);
   const [large, setLarge] = useState(false);
   const [attachmentToEdit, setAttachmentToEdit] = useState<
     AttachmentDraftType | undefined
@@ -414,19 +417,43 @@ export const CompositionArea = memo(function CompositionArea({
     canSend = false;
   }
 
+  const handleDirtyChange = useCallback(
+    (isDirty: boolean, text: string, bodyRanges: DraftBodyRanges) => {
+      setDirty(isDirty);
+      setCanConcealDraft(getInvisibleInkBodyRanges(text, bodyRanges) != null);
+    },
+    []
+  );
+
+  const canSendWithInvisibleInk =
+    canConcealDraft &&
+    isFormattingEnabled &&
+    !isDisabled &&
+    !draftEditMessage &&
+    !isViewOnce &&
+    draftAttachments.length === 0;
+
   const handleSubmit = useCallback(
     (
       message: string,
       bodyRanges: DraftBodyRanges,
-      timestamp: number
+      timestamp: number,
+      sendWithInvisibleInk?: boolean
     ): boolean => {
-      if (!canSend) {
+      if (!canSend || (sendWithInvisibleInk && !canSendWithInvisibleInk)) {
+        return false;
+      }
+
+      const outgoingBodyRanges = sendWithInvisibleInk
+        ? getInvisibleInkBodyRanges(message, bodyRanges)
+        : bodyRanges;
+      if (!outgoingBodyRanges) {
         return false;
       }
 
       if (editedMessageId) {
         sendEditedMessage(conversationId, {
-          bodyRanges,
+          bodyRanges: outgoingBodyRanges,
           message,
           // sent timestamp for the quote
           quoteSentAt: quotedMessageSentAt ?? undefined,
@@ -436,8 +463,9 @@ export const CompositionArea = memo(function CompositionArea({
       } else {
         sendMultiMediaMessage(conversationId, {
           draftAttachments,
-          bodyRanges,
+          bodyRanges: outgoingBodyRanges,
           message,
+          omitLinkPreview: sendWithInvisibleInk,
           timestamp,
           isViewOnce,
         });
@@ -449,6 +477,7 @@ export const CompositionArea = memo(function CompositionArea({
     [
       conversationId,
       canSend,
+      canSendWithInvisibleInk,
       draftAttachments,
       editedMessageId,
       isViewOnce,
@@ -458,6 +487,13 @@ export const CompositionArea = memo(function CompositionArea({
       sendMultiMediaMessage,
       setLarge,
     ]
+  );
+
+  const handleSubmitWithInvisibleInk = useCallback(
+    (...args: Parameters<CompositionInputProps['onSubmit']>) => {
+      return handleSubmit(...args, true);
+    },
+    [handleSubmit]
   );
 
   const launchAttachmentPicker = useCallback((type?: 'media' | 'file') => {
@@ -888,6 +924,31 @@ export const CompositionArea = memo(function CompositionArea({
     'flex size-8 shrink-0 items-center justify-center'
   );
 
+  const sendOptionsButton = canSendWithInvisibleInk ? (
+    <div className="CompositionArea__button-cell">
+      <AxoDropdownMenu.Root>
+        <div className={actionSlotClassName}>
+          <AxoDropdownMenu.Trigger>
+            <AxoIconButton.Root
+              variant="implied-secondary"
+              size="md"
+              label={i18n('icu:CompositionArea__SendOptions')}
+              symbol="textformat-spoiler"
+            />
+          </AxoDropdownMenu.Trigger>
+        </div>
+        <AxoDropdownMenu.Content>
+          <AxoDropdownMenu.Item
+            symbol="textformat-spoiler"
+            onSelect={() => inputApiRef.current?.submit(true)}
+          >
+            {i18n('icu:CompositionArea__SendWithInvisibleInk')}
+          </AxoDropdownMenu.Item>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </div>
+  ) : null;
+
   const composerAddMenuButton =
     draftEditMessage || linkPreviewResult || isRecording ? null : (
       <div className="CompositionArea__button-cell">
@@ -936,6 +997,7 @@ export const CompositionArea = memo(function CompositionArea({
   const sendButtonFragment = !draftEditMessage ? (
     <>
       <div className="CompositionArea__placeholder" />
+      {sendOptionsButton}
       <div className="CompositionArea__button-cell">
         <div className={actionSlotClassName}>
           <AxoIconButton.Root
@@ -1376,10 +1438,11 @@ export const CompositionArea = memo(function CompositionArea({
             quotedMessageId={quotedMessageIdForInput}
             showRecoveryKeyPasteWarning={textIncludesRecoveryKey}
             onCloseLinkPreview={onCloseLinkPreview}
-            onDirtyChange={setDirty}
+            onDirtyChange={handleDirtyChange}
             onEditorStateChange={onEditorStateChange}
             onSelectEmoji={onSelectEmoji}
             onSubmit={handleSubmit}
+            onSubmitWithInvisibleInk={handleSubmitWithInvisibleInk}
             onTextTooLong={onTextTooLong}
             ourConversationId={ourConversationId}
             platform={platform}
@@ -1410,6 +1473,7 @@ export const CompositionArea = memo(function CompositionArea({
           <>
             {!dirty ? micButtonFragment : null}
             {editMessageFragment}
+            {sendOptionsButton}
             {composerAddMenuButton}
           </>
         )}

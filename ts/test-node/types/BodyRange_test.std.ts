@@ -12,6 +12,7 @@ import {
   applyRangeToText,
   applyRangesToText,
   collapseRangesToDisplayNodes,
+  getInvisibleInkBodyRanges,
   processBodyRangesForSearchResult,
   trimMessageWhitespace,
 } from '../../types/BodyRange.std.ts';
@@ -54,6 +55,38 @@ describe('BodyRanges', () => {
       ...fields,
     };
   }
+
+  describe('getInvisibleInkBodyRanges', () => {
+    it('covers UTF-16 text with one spoiler and preserves other ranges', () => {
+      const bold = style(0, 2, BodyRange.Style.BOLD);
+      const mention = { start: 3, length: 1, ...mentionInfo };
+      assert.deepEqual(
+        getInvisibleInkBodyRanges('🎉 \uFFFC', [
+          bold,
+          style(0, 2, BodyRange.Style.SPOILER),
+          mention,
+        ]),
+        [{ start: 0, length: 4, style: BodyRange.Style.SPOILER }, bold, mention]
+      );
+    });
+
+    it('requires a non-empty message that fits in the inline body', () => {
+      assert.isNull(getInvisibleInkBodyRanges('', []));
+      assert.isNotNull(getInvisibleInkBodyRanges('🎉'.repeat(512), []));
+      assert.isNull(getInvisibleInkBodyRanges('🎉'.repeat(513), []));
+    });
+
+    it('does not displace existing ranges at the recipient range limit', () => {
+      const ranges = Array.from({ length: 250 }, (_, index) =>
+        style(index * 2, 1, BodyRange.Style.BOLD)
+      );
+      assert.isNull(getInvisibleInkBodyRanges('X '.repeat(250), ranges));
+      assert.lengthOf(
+        getInvisibleInkBodyRanges('X '.repeat(250), ranges.slice(0, -1)) ?? [],
+        250
+      );
+    });
+  });
 
   describe('collapseRangesToDisplayNodes', () => {
     it('inserts a single mention', () => {

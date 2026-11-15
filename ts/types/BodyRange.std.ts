@@ -6,6 +6,7 @@ import * as z from 'zod';
 
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
+import { isBodyTooLong } from '../util/longAttachment.std.ts';
 import {
   SNIPPET_LEFT_PLACEHOLDER,
   SNIPPET_RIGHT_PLACEHOLDER,
@@ -99,6 +100,32 @@ export type DraftBodyRange =
   | DraftBodyRangeMention
   | BodyRange<BodyRange.Formatting>;
 export type DraftBodyRanges = ReadonlyArray<DraftBodyRange>;
+
+// Some clients only retain the first 250 body ranges.
+const MAX_RECIPIENT_BODY_RANGES = 250;
+
+export function getInvisibleInkBodyRanges(
+  text: string,
+  bodyRanges: DraftBodyRanges
+): DraftBodyRanges | null {
+  // Clients can clip styles when converting oversized text to an attachment.
+  if (!text || isBodyTooLong(text)) {
+    return null;
+  }
+
+  const ranges = bodyRanges.filter(
+    range =>
+      !BodyRange.isFormatting(range) || range.style !== BodyRange.Style.SPOILER
+  );
+  if (ranges.length >= MAX_RECIPIENT_BODY_RANGES) {
+    return null;
+  }
+
+  return [
+    { start: 0, length: text.length, style: BodyRange.Style.SPOILER },
+    ...ranges,
+  ];
+}
 
 // Fully hydrated body range to be used in UI components.
 

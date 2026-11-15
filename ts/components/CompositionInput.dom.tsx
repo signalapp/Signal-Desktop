@@ -139,7 +139,7 @@ export type InputApi = {
     cursorToEnd?: boolean
   ) => void;
   reset: () => void;
-  submit: () => void;
+  submit: (sendWithInvisibleInk?: boolean) => void;
 };
 
 export type Props = Readonly<{
@@ -162,7 +162,11 @@ export type Props = Readonly<{
   theme: ThemeType;
   placeholder?: string;
   sortedGroupMembers: ReadonlyArray<ConversationType> | null;
-  onDirtyChange?: (dirty: boolean) => unknown;
+  onDirtyChange?: (
+    dirty: boolean,
+    text: string,
+    bodyRanges: DraftBodyRanges
+  ) => unknown;
   onEditorStateChange: (options: {
     bodyRanges: DraftBodyRanges;
     caretLocation?: number;
@@ -179,6 +183,7 @@ export type Props = Readonly<{
     bodyRanges: DraftBodyRanges,
     timestamp: number
   ) => unknown;
+  onSubmitWithInvisibleInk?: Props['onSubmit'];
   onScroll?: (ev: UIEvent<HTMLElement>) => void;
   ourConversationId: string | undefined;
   platform: string;
@@ -216,6 +221,7 @@ export function CompositionInput(props: Props): ReactElement {
     onSelectEmoji,
     onScroll,
     onSubmit,
+    onSubmitWithInvisibleInk,
     ourConversationId,
     placeholder,
     platform,
@@ -378,31 +384,37 @@ export function CompositionInput(props: Props): ReactElement {
     []
   );
 
-  const submit = useCallback(() => {
-    const timestamp = Date.now();
-    const quill = quillRef.current;
+  const submit = useCallback(
+    (sendWithInvisibleInk?: boolean) => {
+      const timestamp = Date.now();
+      const quill = quillRef.current;
+      const submitMessage = sendWithInvisibleInk
+        ? onSubmitWithInvisibleInk
+        : onSubmit;
 
-    if (quill === undefined) {
-      return;
-    }
+      if (quill === undefined || !submitMessage) {
+        return;
+      }
 
-    if (!canSendRef.current) {
-      log.warn('Not submitting message - cannot send right now');
-      return;
-    }
+      if (!canSendRef.current) {
+        log.warn('Not submitting message - cannot send right now');
+        return;
+      }
 
-    const { text, bodyRanges } = getTextAndRanges();
+      const { text, bodyRanges } = getTextAndRanges();
 
-    log.info(
-      `Submitting message ${timestamp} with ${bodyRanges.length} ranges`
-    );
-    canSendRef.current = false;
-    const didSend = onSubmit(text, bodyRanges, timestamp);
+      log.info(
+        `Submitting message ${timestamp} with ${bodyRanges.length} ranges`
+      );
+      canSendRef.current = false;
+      const didSend = submitMessage(text, bodyRanges, timestamp);
 
-    if (!didSend) {
-      canSendRef.current = true;
-    }
-  }, [onSubmit]);
+      if (!didSend) {
+        canSendRef.current = true;
+      }
+    },
+    [onSubmit, onSubmitWithInvisibleInk]
+  );
 
   const hasFocus = useCallback(() => {
     return quillRef.current?.hasFocus() ?? false;
@@ -727,7 +739,7 @@ export function CompositionInput(props: Props): ReactElement {
         isDirty = true;
       }
 
-      propsRef.current.onDirtyChange(isDirty);
+      propsRef.current.onDirtyChange(isDirty, text, bodyRanges);
     }
   };
 

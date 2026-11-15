@@ -6,7 +6,6 @@ import type { JSX } from 'react';
 import type { Props as MessageBodyPropsType } from './MessageBody.dom.tsx';
 import { MessageBody } from './MessageBody.dom.tsx';
 import { graphemeAndLinkAwareSlice } from '../../util/graphemeAndLinkAwareSlice.std.ts';
-import { shouldLinkifyMessage } from '../../types/LinkPreview.std.ts';
 
 export type Props = Pick<
   MessageBodyPropsType,
@@ -53,7 +52,6 @@ export function MessageBodyReadMore({
 }: Props): JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
-  const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);
   const { hasReadMore, text: slicedText } = graphemeAndLinkAwareSlice(
     text,
     maxLength,
@@ -73,7 +71,7 @@ export function MessageBodyReadMore({
       bodyRanges={bodyRanges}
       direction={direction}
       disableJumbomoji={disableJumbomoji}
-      disableLinks={shouldDisableLinks}
+      disableLinks={disableLinks}
       i18n={i18n}
       isSpoilerExpanded={isSpoilerExpanded}
       kickOffBodyDownload={kickOffBodyDownload}
