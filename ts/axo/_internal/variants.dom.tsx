@@ -5,7 +5,7 @@
 // See: https://react.dev/reference/react/captureOwnerStack#captureownerstack-is-not-available
 import * as React from 'react';
 import type { TailwindStyles } from '../tw.dom.tsx';
-import { isTestOrMockEnvironment } from '../../environment.std.ts';
+import { getCurrentAxoEnv } from './AxoEnv.dom.tsx';
 
 export type Variants<
   Key extends string | number,
@@ -21,7 +21,7 @@ export function variants<Key extends string | number, Value = TailwindStyles>(
 ): Variants<Key, Value> {
   return {
     get(key) {
-      if (!Object.hasOwn(values, key) && isTestOrMockEnvironment()) {
+      if (!Object.hasOwn(values, key) && getCurrentAxoEnv() === 'test') {
         // Will not exist in production builds
         // See: https://react.dev/reference/react/captureOwnerStack#captureownerstack-is-not-available
         const ownerStack = React.captureOwnerStack?.() ?? '';

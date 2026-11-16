@@ -6,7 +6,7 @@ import { AxoAvatar } from './AxoAvatar.dom.tsx';
 import { renderAxo } from './_test-helpers/render.dom.tsx';
 import { testStoriesWithAxe } from './_test-helpers/stories.dom.tsx';
 import * as stories from './AxoAvatar.dom.stories.tsx';
-import { BADGES_FIXTURE } from '../test-helpers/axoStorybookFixtures.std.tsx';
+import { BADGES_FIXTURE } from './_test-helpers/storybookFixtures.std.tsx';
 
 const BADGE = BADGES_FIXTURE.planet;
 

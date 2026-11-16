@@ -4,12 +4,8 @@ import { afterEach, beforeAll, beforeEach, vi } from 'vitest';
 // Importing `vitest-browser-react` also registers automatic cleanup
 import 'vitest-browser-react';
 import { configure } from 'vitest-browser-react/pure';
-import { Environment, setEnvironment } from '../../environment.std.ts';
 import { applyDocumentEnvironment } from '../_test-helpers/render.dom.tsx';
 import { resetEmulatedMedia } from '../_test-helpers/media.dom.tsx';
-
-// Some components disable animations in test environments
-setEnvironment(Environment.Test, false);
 
 configure({ reactStrictMode: true });
 

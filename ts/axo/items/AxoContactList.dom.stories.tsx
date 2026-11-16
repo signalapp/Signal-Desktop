@@ -4,7 +4,6 @@ import type { Meta } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { action } from '@storybook/addon-actions';
 import { AxoContactList } from './AxoContactList.dom.tsx';
-import { FunInlineEmoji } from '../../components/fun/FunEmoji.dom.tsx';
 import { Emoji } from '../emoji.std.ts';
 import { tw } from '../tw.dom.tsx';
 import { AxoAvatar } from '../AxoAvatar.dom.tsx';
@@ -26,11 +25,9 @@ function Avatar(props: { label: string; initials: string }): ReactNode {
 function About(props: { emoji: Emoji.Variant; label: string }): ReactNode {
   return (
     <>
-      <FunInlineEmoji
-        role="img"
-        emoji={props.emoji}
-        aria-label={Emoji.getDisplayLabel(props.emoji)}
-      />{' '}
+      <span role="img" aria-label={Emoji.getDisplayLabel(props.emoji)}>
+        {props.emoji}
+      </span>{' '}
       {props.label}
     </>
   );

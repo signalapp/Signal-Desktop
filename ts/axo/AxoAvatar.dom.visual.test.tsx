@@ -7,7 +7,7 @@ import { tw } from './tw.dom.tsx';
 import { renderAxo } from './_test-helpers/render.dom.tsx';
 import { testStoryScreenshots } from './_test-helpers/stories.dom.tsx';
 import * as stories from './AxoAvatar.dom.stories.tsx';
-import { BADGES_FIXTURE } from '../test-helpers/axoStorybookFixtures.std.tsx';
+import { BADGES_FIXTURE } from './_test-helpers/storybookFixtures.std.tsx';
 
 function FocusTest() {
   return (
