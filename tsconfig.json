@@ -15,6 +15,11 @@
     "knip.js",
     "vitest.config.mts"
   ],
+  "exclude": [
+    "**/node_modules",
+    // Has its own package.json and dependencies, like danger/
+    ".github/scripts/min-os-version/**"
+  ],
   "compilerOptions": {
     /*
      * Visit https://aka.ms/tsconfig to read more about this file

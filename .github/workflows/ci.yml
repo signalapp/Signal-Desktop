@@ -464,30 +464,63 @@ jobs:
 
   check-min-os-version:
     name: Check Min OS Version
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-22.04-8-cores
-          - macos-26
-          - windows-latest-8-cores
-
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # Inspects every platform's binaries without installing the app's dependencies
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           filter: blob:none
+          fetch-depth: 2
+          sparse-checkout: |
+            /package.json
+            /pnpm-lock.yaml
+            /.github/scripts/min-os-version/
+          sparse-checkout-cone-mode: false
 
-      - name: Setup environment
-        uses: ./.github/actions/setup
+      - name: Check for dependency changes
+        id: changes
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Plain assignments so a failing git diff fails the step
+          check_changes=$(git diff --name-only HEAD^1 HEAD -- \
+            .github/scripts/min-os-version \
+            .github/workflows/ci.yml)
+          input_changes=$(git diff --name-only HEAD^1 HEAD -- \
+            package.json \
+            pnpm-lock.yaml)
+          if [ -n "$check_changes" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif [ -n "$input_changes" ]; then
+            # The check compares the versions and settings it uses with HEAD^1
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "args=--base HEAD^1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup min-os-version environment
+        if: ${{ steps.changes.outputs.changed == 'true' }}
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        with:
+          working-directory: .github/scripts/min-os-version
+          require-lockfile: true
+          # Use the runner's Node, any recent version works
+          node-version-file: false
+          # Its keys are unique per run, so it never hits and saves every time
+          cache: false
 
       - name: Run OS version check
-        run: |
-          node scripts/check-min-os-version.mjs
+        if: ${{ steps.changes.outputs.changed == 'true' }}
+        run: node check.mjs $ARGS
+        working-directory: .github/scripts/min-os-version
+        env:
+          ARGS: ${{ steps.changes.outputs.args }}
 
   danger:
     name: Danger

@@ -30,6 +30,10 @@ export function assert(condition, message) {
 export const WORKSPACES = [
   { label: 'root', dir: REPO_ROOT },
   { label: 'danger', dir: join(REPO_ROOT, 'danger') },
+  {
+    label: 'min-os-version',
+    dir: join(REPO_ROOT, '.github', 'scripts', 'min-os-version'),
+  },
 ];
 
 /** @typedef {'info' | 'low' | 'moderate' | 'high' | 'critical'} Severity */

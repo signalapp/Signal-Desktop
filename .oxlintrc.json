@@ -1619,6 +1619,33 @@
         ]
       }
     },
+    {
+      // Has its own package.json and lockfile, installed before it runs in CI
+      "files": [".github/scripts/min-os-version/**"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "*",
+                  "!node:*",
+                  "!node:*/*",
+                  "!./*",
+                  "!fflate",
+                  "!js-yaml",
+                  "!semver",
+                  "!tar",
+                  "!../../../package.json"
+                ],
+                "message": "Only import node: builtins, files in this folder, and this folder's dependencies"
+              }
+            ]
+          }
+        ]
+      }
+    },
     // envs
     {
       "files": [

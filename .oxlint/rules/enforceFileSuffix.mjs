@@ -127,7 +127,6 @@ const NODE_PACKAGES = new Set([
   'node-gyp-build',
   'npm-run-all',
   'p-limit',
-  'pe-library',
   'pixelmatch',
   'playwright',
   'postcss-loader',

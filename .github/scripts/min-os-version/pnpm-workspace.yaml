@@ -1,0 +1,19 @@
+saveExact: true
+blockExoticSubdeps: true
+lockfileIncludeTarballUrl: true
+verifyDepsBeforeRun: prompt
+verifyStoreIntegrity: true
+
+minimumReleaseAge: 4320
+minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeStrict: true
+
+trustPolicy: no-downgrade
+
+allowUnusedPatches: false
+
+strictDepBuilds: true
+
+dedupePeers: true
+dedupePeerDependents: true
+strictPeerDependencies: true
