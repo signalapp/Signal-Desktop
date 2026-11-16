@@ -147,6 +147,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           cache-electron-builder: true
+          save-pnpm-cache: true
 
       - name: Prepare beta build
         run: pnpm run prepare-beta-build
@@ -212,6 +213,7 @@ jobs:
         with:
           apt-packages: xvfb libpulse0
           cache-electron-builder: true
+          save-pnpm-cache: true
 
       - name: Prepare beta builde
         run: pnpm run prepare-beta-build
@@ -292,6 +294,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           cache-electron-builder: true
+          save-pnpm-cache: true
 
       - name: Remove certificate fields from package.json
         run: |
@@ -498,7 +501,7 @@ jobs:
           filter: blob:none
 
       - name: Setup danger environment
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
         with:
           cache: true
           package-json-file: danger/package.json

@@ -22,6 +22,10 @@ inputs:
   working-directory:
     required: false
     default: '.'
+  save-pnpm-cache:
+    description: Save the pnpm store at the end of the job (only on main)
+    required: false
+    default: 'false'
 
 runs:
   using: composite
@@ -34,16 +38,26 @@ runs:
         version: 1.0
 
     - name: Setup node and pnpm
-      uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+      uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
       with:
         cache: true
+        # Other repos using this action keep saving on every run
+        save-cache: ${{ !startsWith(github.repository, 'signalapp/Signal-Desktop') || (github.ref == 'refs/heads/main' && inputs.save-pnpm-cache == 'true') }}
         install: false # skip install to run `pnpm ci` instead
+
+    # Most lockfile changes don't change these, so they key the caches below
+    - id: electron-versions
+      name: Get electron versions
+      run: |
+        node -p "'electron=' + (require('./package.json').devDependencies?.electron ?? '')" >> "$GITHUB_OUTPUT"
+        node -p "'electron-builder=' + (require('./package.json').devDependencies?.['electron-builder'] ?? '')" >> "$GITHUB_OUTPUT"
+      shell: bash
 
     - name: Setup electron native modules cache
       uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       with:
         path: ~/.electron-gyp
-        key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        key: electron-gyp-${{ runner.os }}-${{ steps.electron-versions.outputs.electron || hashFiles('pnpm-lock.yaml') }}
 
     - name: Setup sccache
       uses: mozilla-actions/sccache-action@fc920bf0ec8de6ee65d409111f7ec508035751ba # v0.0.11
@@ -96,7 +110,7 @@ runs:
           ~/.cache/electron
           ~/Library/Caches/electron
           ~/AppData/Local/electron/Cache
-        key: electron-bin-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        key: electron-bin-${{ runner.os }}-${{ steps.electron-versions.outputs.electron || hashFiles('pnpm-lock.yaml') }}
 
     - name: Install electron
       if: ${{ inputs.install-electron == 'true' }}
@@ -117,7 +131,7 @@ runs:
           ~/.cache/electron-builder
           ~/Library/Caches/electron-builder
           ~/AppData/Local/electron-builder/Cache
-        key: electron-builder-cache-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+        key: electron-builder-cache-${{ runner.os }}-${{ steps.electron-versions.outputs.electron-builder || hashFiles('pnpm-lock.yaml') }}-${{ steps.electron-versions.outputs.electron }}
 
     - id: playwright-version
       name: Get playwright version
