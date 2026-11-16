@@ -73,8 +73,8 @@ runs:
         SCCACHE_GHA_ENABLED: true
         NPM_CONFIG_LOGLEVEL: verbose
         # We rebuild in `electron:install-app-deps` that doesn't look at this
-        # environment variable
-        NPM_CONFIG_NODE_GYP: echo
+        # environment variable. pnpm only reads the lowercase name.
+        npm_config_node_gyp: echo
 
     - name: Install dependencies (macOS)
       if: ${{ runner.os == 'macOS' }}
@@ -87,8 +87,8 @@ runs:
         SCCACHE_GHA_ENABLED: true
         NPM_CONFIG_LOGLEVEL: verbose
         # We rebuild in `electron:install-app-deps` that doesn't look at this
-        # environment variable
-        NPM_CONFIG_NODE_GYP: echo
+        # environment variable. pnpm only reads the lowercase name.
+        npm_config_node_gyp: echo
 
     - name: Install dependencies (Windows)
       if: ${{ runner.os == 'Windows' }}
