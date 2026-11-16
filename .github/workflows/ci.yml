@@ -752,7 +752,8 @@ jobs:
             script: ts/test-mock/benchmarks/backup_bench.node.js
 
     runs-on: ubuntu-22.04-8-cores
-    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    # Disabled until there's a Grafana DB to publish results to
+    if: ${{ false && github.repository == 'signalapp/Signal-Desktop-Private' }}
     timeout-minutes: 15
 
     steps:
