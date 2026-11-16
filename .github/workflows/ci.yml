@@ -15,18 +15,63 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Changes
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+    outputs:
+      sticker-creator: ${{ steps.changes.outputs.sticker-creator }}
+      dependencies: ${{ steps.changes.outputs.dependencies }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          filter: blob:none
+          fetch-depth: 2
+          sparse-checkout: /.github/scripts/paths-filter.mjs
+          sparse-checkout-cone-mode: false
+
+      - name: Check for changes
+        id: changes
+        env:
+          # Globs matched with Node's path.matchesGlob
+          FILTERS: |
+            sticker-creator:
+              - sticker-creator/**
+              - package.json
+              - pnpm-lock.yaml
+              - pnpm-workspace.yaml
+              - .pnpmfile.mjs
+              - .github/actions/setup/**
+              - .github/workflows/ci.yml
+            dependencies:
+              - '**/package.json'
+              - '**/pnpm-lock.yaml'
+              - '**/pnpm-workspace.yaml'
+              - '**/.pnpmfile.mjs'
+              - .github/workflows/ci.yml
+        run: |
+          filters=$(yq --output-format=json --indent=0 <<< "$FILTERS")
+          node .github/scripts/paths-filter.mjs --base HEAD^1 --filters "$filters" >> "$GITHUB_OUTPUT"
+
   dependencies:
     name: Dependencies
-    runs-on: ubuntu-22.04-8-cores
-    timeout-minutes: 5
+    needs: changes
+    # These checks only read the lockfile, so nothing is installed
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           filter: blob:none
 
-      - name: Setup environment
-        uses: ./.github/actions/setup
+      - name: Setup pnpm
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        with:
+          install: false
+          # Its keys are unique per run, so it never hits and saves every time
+          cache: false
 
       - name: Run pnpmfile tests
         background: true
@@ -42,10 +87,12 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Audit dependency signatures
+        if: ${{ needs.changes.outputs.dependencies == 'true' }}
         background: true
         run: pnpm audit signatures
 
       - name: Check for duplicate dependencies
+        if: ${{ needs.changes.outputs.dependencies == 'true' }}
         background: true
         run: pnpm dedupe --check
 
@@ -354,6 +401,8 @@ jobs:
 
   sticker-creator:
     name: Sticker Creator
+    needs: changes
+    if: ${{ needs.changes.outputs.sticker-creator == 'true' }}
     runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 5
 
@@ -524,7 +573,7 @@ jobs:
 
   danger:
     name: Danger
-    runs-on: ubuntu-latest-8-cores
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     if: github.event_name == 'pull_request'
     steps:
@@ -536,14 +585,12 @@ jobs:
       - name: Setup danger environment
         uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
         with:
-          cache: true
-          package-json-file: danger/package.json
-          cache-dependency-path: danger/pnpm-lock.yaml
-          install: false # skip install to focus on just danger/ package and to run `pnpm install --frozen-lockfile`
-
-      - name: Install danger dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: danger
+          working-directory: danger
+          require-lockfile: true
+          # Use the runner's Node, any recent version works
+          node-version-file: false
+          # Its keys are unique per run, so it never hits and saves every time
+          cache: false
 
       - name: Run danger checks
         run: pnpm run danger:ci
@@ -762,6 +809,7 @@ jobs:
       github.repository == 'signalapp/Signal-Desktop-Private'
     name: Auto Merge Ready
     needs:
+      - changes
       - lint
       - linux
       - windows
@@ -773,7 +821,7 @@ jobs:
       - axo
       - axo-visual
       - benchmark
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Check if any jobs failed or were cancelled
         if: |
