@@ -53,6 +53,7 @@ const config = {
         // Production
         'ts/**/*.{ts,tsx}!',
         '!ts/**/*.stories.{ts,tsx}!',
+        '!ts/axo/_test-helpers/**/*.{ts,tsx}!',
         '!ts/storybook/**/*.{ts,tsx}!',
         '!ts/test-electron/**/*.{ts,tsx}!',
         '!ts/test-helpers/**/*.{ts,tsx}!',

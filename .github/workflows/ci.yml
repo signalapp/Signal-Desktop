@@ -22,6 +22,7 @@ jobs:
     outputs:
       sticker-creator: ${{ steps.changes.outputs.sticker-creator }}
       dependencies: ${{ steps.changes.outputs.dependencies }}
+      axo: ${{ steps.changes.outputs.axo }}
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -49,6 +50,21 @@ jobs:
               - '**/pnpm-lock.yaml'
               - '**/pnpm-workspace.yaml'
               - '**/.pnpmfile.mjs'
+              - .github/workflows/ci.yml
+            # Lint keeps ts/axo from importing the rest of ts/
+            axo:
+              - ts/axo/**
+              - vitest.config.mts
+              - stylesheets/**
+              - fonts/**
+              - packages/types/**
+              - scripts/generate-emoji-data.mjs
+              - package.json
+              - pnpm-lock.yaml
+              - pnpm-workspace.yaml
+              - .pnpmfile.mjs
+              - tsconfig.json
+              - .github/actions/setup/**
               - .github/workflows/ci.yml
         run: |
           filters=$(yq --output-format=json --indent=0 <<< "$FILTERS")
@@ -627,6 +643,8 @@ jobs:
 
   axo:
     name: Axo
+    needs: changes
+    if: ${{ needs.changes.outputs.axo == 'true' }}
     runs-on: ubuntu-latest-8-cores
     timeout-minutes: 15
     steps:
@@ -655,6 +673,8 @@ jobs:
 
   axo-visual:
     name: Axo Visual
+    needs: changes
+    if: ${{ needs.changes.outputs.axo == 'true' }}
     # Reference screenshots are updated by update-axo-screenshots.yml, which
     # must use the same runner as this job
     runs-on: ubuntu-latest-8-cores

@@ -76,6 +76,12 @@
             "target": ["ts/**"],
             "from": ["scripts/**", "codemods/**"],
             "message": "App should not import from scripts"
+          },
+          {
+            "target": ["ts/axo/**"],
+            "from": ["ts/**", "app/**", "packages/**", "scripts/**"],
+            "except": ["ts/axo/**"],
+            "message": "Axo must not import from outside ts/axo"
           }
         ]
       }
