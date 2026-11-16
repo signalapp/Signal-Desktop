@@ -792,9 +792,6 @@ importers:
       parsecurrency:
         specifier: 1.1.1
         version: 1.1.1
-      pe-library:
-        specifier: 2.0.1
-        version: 2.0.1
       pino:
         specifier: 10.3.1
         version: 10.3.1
@@ -9904,10 +9901,6 @@ packages:
   pe-library@0.4.1:
     resolution: {integrity: sha512-eRWB5LBz7PpDu4PUlwT0PhnQfTQJlDDdPa35urV4Osrm0t0AqQFGn+UIkU3klZvwJ8KPO3VbBFsXquA6p6kqZw==, tarball: https://registry.npmjs.org/pe-library/-/pe-library-0.4.1.tgz}
     engines: {node: '>=12', npm: '>=6'}
-
-  pe-library@2.0.1:
-    resolution: {integrity: sha512-/qjYFqNSlq59B5DI36am++5/3gMgh02QnzpYigrwrW6s+QpU0mHf09/iA4wjTu21UUxodyV7ZCetV5MiDhaN/A==, tarball: https://registry.npmjs.org/pe-library/-/pe-library-2.0.1.tgz}
-    engines: {node: '>=20'}
 
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==, tarball: https://registry.npmjs.org/pend/-/pend-1.2.0.tgz}
@@ -21805,8 +21798,6 @@ snapshots:
   pathval@2.0.1: {}
 
   pe-library@0.4.1: {}
-
-  pe-library@2.0.1: {}
 
   pend@1.2.0: {}
 

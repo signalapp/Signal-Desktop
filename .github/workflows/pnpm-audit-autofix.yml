@@ -16,6 +16,8 @@ on:
       - 'pnpm-workspace.yaml'
       - 'danger/pnpm-lock.yaml'
       - 'danger/pnpm-workspace.yaml'
+      - '.github/scripts/min-os-version/pnpm-lock.yaml'
+      - '.github/scripts/min-os-version/pnpm-workspace.yaml'
 
 permissions:
   contents: write

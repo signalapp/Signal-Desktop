@@ -47,6 +47,7 @@ const config = {
         'codemods/**/*.mjs',
         'scripts/**/*.mjs',
         '.github/scripts/**/*.mjs',
+        '!.github/scripts/min-os-version/**/*.mjs',
       ],
       project: [
         // Production
@@ -70,6 +71,7 @@ const config = {
 
         // exclude workspaces
         '!danger/**/*.mjs',
+        '!.github/scripts/min-os-version/**/*.mjs',
       ],
       ignoreDependencies: [
         'buffer', // same name as builtin
@@ -110,6 +112,10 @@ const config = {
     },
     danger: {
       project: ['danger-exports.mjs', 'rules/**/*.mjs'],
+    },
+    '.github/scripts/min-os-version': {
+      entry: ['.pnpmfile.mjs'],
+      project: ['*.mjs'],
     },
     'packages/mute-state-change': {
       ignoreBinaries: ['xcrun'],

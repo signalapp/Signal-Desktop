@@ -39,6 +39,7 @@ packages/mock-server/test/**/*.js
 packages/mock-server/protos/*.d.ts
 packages/mock-server/protos/*.js
 danger/node_modules/**
+.github/scripts/min-os-version/node_modules/**
 sticker-creator/node_modules/**
 components/**
 scripts/emoji-datasource/emoji-datasource.json
