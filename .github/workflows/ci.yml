@@ -35,7 +35,7 @@ jobs:
       - name: Check for changes
         id: changes
         env:
-          # Globs matched with Node's path.matchesGlob
+          # Globs matched as git `:(glob)` pathspecs
           FILTERS: |
             sticker-creator:
               - sticker-creator/**
