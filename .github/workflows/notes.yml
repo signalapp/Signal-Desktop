@@ -10,7 +10,7 @@ jobs:
   backport:
     name: Add notes to merge commits
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Add notes to merge commits
         uses: signalapp/Signal-Notes-Action-Private@main

@@ -10,7 +10,7 @@ on:
 jobs:
   linux:
     name: Commit Title Check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
     steps:
       - uses: signalapp/Signal-Check-Commits-Action-Private@main

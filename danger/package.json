@@ -14,10 +14,6 @@
     "zod": "4.6.7"
   },
   "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "24.17.0"
-    },
     "packageManager": {
       "name": "pnpm",
       "version": "11.24.0"

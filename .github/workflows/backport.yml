@@ -12,7 +12,7 @@ jobs:
   backport:
     name: Apply labels and open backport pull requests
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Apply labels and open backport pull requests
         uses: signalapp/Signal-Backport-Action-Private@main
