@@ -510,8 +510,38 @@ jobs:
           WORKER_COUNT: 4
           MOCK_WITHOUT_E164: ${{ case(matrix.withoutE164.value, 'on', '') }}
 
+      - name: Upload mock server test logs on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: logs-${{ matrix.workerIndex.value }}
+          path: artifacts
+
+  mock-tests-docker:
+    name: Mock Tests (docker)
+    runs-on: ubuntu-latest-8-cores
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          apt-packages: xvfb libpulse0
+          install-electron: true
+
+      - name: Run generate
+        run: pnpm run generate
+
+      - name: Create preload cache
+        run: xvfb-run --auto-servernum pnpm run build:preload-cache
+        env:
+          ARTIFACTS_DIR: artifacts/linux
+
       - name: Run docker mock server tests
-        if: ${{ matrix.workerIndex.value == 0 }}
         run: |
           set -o pipefail
           sudo apt-get update
@@ -525,11 +555,11 @@ jobs:
           DEBUG: mock:test:*
           ARTIFACTS_DIR: artifacts/mock-docker
 
-      - name: Upload mock server test logs on failure
+      - name: Upload docker mock server test logs on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: logs-${{ matrix.workerIndex.value }}
+          name: logs-docker
           path: artifacts
 
   check-min-os-version:
@@ -841,6 +871,7 @@ jobs:
       - windows
       - sticker-creator
       - mock-tests
+      - mock-tests-docker
       - check-min-os-version
       - danger
       - storybook
