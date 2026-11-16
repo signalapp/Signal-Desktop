@@ -19,6 +19,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
   cancel-in-progress: true
 
+# Abort stalled git transfers, actions/checkout will retry the fetch
+env:
+  GIT_HTTP_LOW_SPEED_LIMIT: 1000 # 1KB/s
+  GIT_HTTP_LOW_SPEED_TIME: 60 # for 60s
+
 jobs:
   changes:
     name: Changes
