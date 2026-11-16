@@ -460,25 +460,28 @@ jobs:
         run: pnpm run lint
 
   mock-tests:
-    name: Mock Tests ${{ matrix.withoutE164.name }} ${{ matrix.workerIndex.name }}
+    name: Mock Tests ${{ matrix.workerIndex.name }}
 
     strategy:
       fail-fast: false
       matrix:
-        withoutE164:
-          - name: "(with e164)"
-            value: false
-          - name: "(without e164)"
-            value: true
         workerIndex:
-          - name: '[1/4]'
+          - name: '[1/8]'
             value: 0
-          - name: '[2/4]'
+          - name: '[2/8]'
             value: 1
-          - name: '[3/4]'
+          - name: '[3/8]'
             value: 2
-          - name: '[4/4]'
+          - name: '[4/8]'
             value: 3
+          - name: '[5/8]'
+            value: 4
+          - name: '[6/8]'
+            value: 5
+          - name: '[7/8]'
+            value: 6
+          - name: '[8/8]'
+            value: 7
 
     runs-on: ubuntu-latest-8-cores
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
@@ -502,18 +505,36 @@ jobs:
         env:
           ARTIFACTS_DIR: artifacts/linux
 
+      # Distinct display numbers because --auto-servernum races when both start at once
       - name: Run mock server tests
+        background: true
         run: |
           set -o pipefail
-          xvfb-run --auto-servernum pnpm run test-mock
+          xvfb-run --server-num=97 pnpm run test-mock
         timeout-minutes: 15
         env:
           NODE_ENV: production
           DEBUG: mock:test:*
           ARTIFACTS_DIR: artifacts/mock
           WORKER_INDEX: ${{ matrix.workerIndex.value }}
-          WORKER_COUNT: 4
-          MOCK_WITHOUT_E164: ${{ case(matrix.withoutE164.value, 'on', '') }}
+          WORKER_COUNT: 8
+
+      - name: Run mock server tests (without e164)
+        background: true
+        run: |
+          set -o pipefail
+          xvfb-run --server-num=98 pnpm run test-mock
+        timeout-minutes: 15
+        env:
+          NODE_ENV: production
+          DEBUG: mock:test:*
+          ARTIFACTS_DIR: artifacts/mock-without-e164
+          WORKER_INDEX: ${{ matrix.workerIndex.value }}
+          WORKER_COUNT: 8
+          MOCK_WITHOUT_E164: on
+
+      - name: Wait for mock server tests
+        wait-all: true
 
       - name: Upload mock server test logs on failure
         if: failure()
