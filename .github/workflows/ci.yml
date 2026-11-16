@@ -14,6 +14,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Pushes get their own group so they never queue or cancel
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   changes:
     name: Changes
