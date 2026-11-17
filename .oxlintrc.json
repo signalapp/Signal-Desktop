@@ -1712,7 +1712,8 @@
         "ts/test-electron/**",
         "ts/test-mock/**",
         "test/test.mjs",
-        "scripts/**/*_test.mjs"
+        "scripts/**/*_test.mjs",
+        ".github/scripts/**/*_test.mjs"
       ],
       "env": { "mocha": true }
     },
