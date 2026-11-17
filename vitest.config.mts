@@ -13,6 +13,8 @@ import {
 
 const VISUAL_PROJECT_NAME = 'axo-visual';
 
+const IS_CI = process.env.GITHUB_ACTIONS === 'true';
+
 const BROWSER_SETUP_FILES = [
   './stylesheets/tailwind-config.css',
   './stylesheets/manifest.scss',
@@ -67,7 +69,9 @@ function browserConfig({
     commands: axoBrowserCommands,
     // Saved to `__traces__/` next to the test file, view with:
     // pnpm exec playwright show-trace <path>
-    trace: 'retain-on-failure',
+    // Recording a trace adds about 1s to every test, so CI only records one
+    // when retrying a failed test
+    trace: IS_CI ? 'on-first-retry' : 'retain-on-failure',
     ...overrides,
   };
 }
@@ -92,7 +96,7 @@ export default defineConfig({
     reporters: [
       // Vitest's defaults, which are replaced when setting `reporters`
       'default',
-      ...(process.env.GITHUB_ACTIONS === 'true' ? ['github-actions'] : []),
+      ...(IS_CI ? ['github-actions'] : []),
       new OrphanedScreenshotsReporter({ projectName: VISUAL_PROJECT_NAME }),
     ],
     // Test files can't use hooks, so mocks, globals, and env variables are
@@ -123,6 +127,8 @@ export default defineConfig({
         test: {
           name: 'axo-browser',
           include: ['ts/axo/**/*.dom.test.{ts,tsx}'],
+          // Reruns failed tests to record a trace, see `trace` above
+          retry: IS_CI ? 1 : 0,
           benchmark: {
             include: ['ts/axo/**/*.{std,dom}.bench.{ts,tsx}'],
           },
