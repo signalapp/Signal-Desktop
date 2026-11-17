@@ -341,6 +341,8 @@ import {
   deleteFavoriteSticker,
   getAllFavoriteStickers,
   getAllFavoriteStickersForBackup,
+  getAllHiddenStickerPacksActive,
+  getAllHiddenStickerPacks,
   getAllInstalledFavoriteStickers,
   getFavoriteSticker,
   getFavoriteStickersFromPack,
@@ -351,6 +353,12 @@ import {
   type StickerRow,
   updateFavoriteSticker,
   updateFavoriteStickerStatus,
+  updateHiddenStickerPack,
+  deleteHiddenStickerPack,
+  getHiddenStickerPack,
+  createHiddenStickerPack,
+  markHiddenStickerPackDeleted,
+  getKeyFromStickerPack,
 } from './server/stickers.std.ts';
 
 const {
@@ -588,6 +596,10 @@ export const DataReader: ServerReadableInterface = {
   getFavoriteStickersFromPack,
   getAllInstalledFavoriteStickers,
   getFavoriteSticker,
+  getAllHiddenStickerPacks,
+  getAllHiddenStickerPacksActive,
+  getHiddenStickerPack,
+  getKeyFromStickerPack,
   getRecentStickers,
   getRecentEmojis,
   getRecentGifs,
@@ -807,6 +819,10 @@ export const DataWriter: ServerWritableInterface = {
   markFavoriteStickerDeleted,
   deleteFavoriteSticker,
   maybeDeleteSticker,
+  createHiddenStickerPack,
+  updateHiddenStickerPack,
+  markHiddenStickerPackDeleted,
+  deleteHiddenStickerPack,
 
   updateEmojiUsage,
 
@@ -8848,6 +8864,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
+      DELETE FROM hidden_sticker_packs;
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;

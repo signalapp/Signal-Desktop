@@ -159,6 +159,7 @@ export function DebugLogWindow({
           i18n={i18n}
           onShowDebugLog={shouldNeverBeCalled}
           onUndoArchive={shouldNeverBeCalled}
+          onUndoHideStickerPack={shouldNeverBeCalled}
           retryCallQualitySurvey={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           saveHeapSnapshot={shouldNeverBeCalled}
@@ -228,6 +229,7 @@ export function DebugLogWindow({
         i18n={i18n}
         onShowDebugLog={shouldNeverBeCalled}
         onUndoArchive={shouldNeverBeCalled}
+        onUndoHideStickerPack={shouldNeverBeCalled}
         retryCallQualitySurvey={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         saveHeapSnapshot={shouldNeverBeCalled}

@@ -3882,6 +3882,18 @@
     "messageformat": "You may not be able to re-install this sticker pack if you no longer have the source message.",
     "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
   },
+  "icu:stickers--StickerManager--UninstallWarning--Title": {
+    "messageformat": "Remove Sticker Pack?",
+    "description": "Title  of dialog shown in the sticker pack manager when uninstalling sticker packs which are installed."
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message.",
+    "description": "Description of dialog shown in the sticker pack manager when uninstalling sticker packs which are installed."
+  },
+  "icu:stickers--StickerManager--UninstallWarning--Remove": {
+    "messageformat": "Remove",
+    "description": "Confirm button of dialog shown in the sticker pack manager when uninstalling sticker packs which are installed."
+  },
   "icu:stickers--StickerManagerHeader--All": {
     "messageformat": "All",
     "description": "Shown in the sticker pack manager in the navigation tabs. This tab shows all sticker packs available to install."
@@ -3890,6 +3902,18 @@
     "messageformat": "My Stickers",
     "description": "Shown in the sticker pack manager in the navigation tabs. This tab shows all sticker packs you have currently installed."
   },
+  "icu:stickers--StickerManagerHidePackDialog--Title": {
+    "messageformat": "Hide Sticker Pack?",
+    "description": "Title of confirmation dialog in the sticker pack manager when hiding a received sticker pack."
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Body": {
+    "messageformat": "This will remove the sticker pack. You can't add it again without a link or sticker message.",
+    "description": "Body text of confirmation dialog in the sticker pack manager when hiding a received sticker pack."
+  },
+  "icu:stickers--StickerManagerHidePackDialog--Hide": {
+    "messageformat": "Hide",
+    "description": "Button in confirmation dialog in the sticker pack manager when hiding a received sticker pack. This button confirms the hide action."
+  },
   "icu:stickers--StickerManagerPackContextMenu--Add": {
     "messageformat": "Add",
     "description": "Context menu item to add a sticker pack. Shown in the sticker pack manager when right clicking a sticker pack."
@@ -3897,6 +3921,10 @@
   "icu:stickers--StickerManagerPackContextMenu--Remove": {
     "messageformat": "Remove",
     "description": "Context menu item to remove a sticker pack. Shown in the sticker pack manager when right clicking a sticker pack."
+  },
+  "icu:stickers--StickerManagerPackContextMenu--Hide": {
+    "messageformat": "Hide",
+    "description": "Context menu item to hide a sticker pack. Shown in the sticker pack manager when right clicking a received sticker pack."
   },
   "icu:stickers--StickerManagerPackDragHandle--Label": {
     "messageformat": "Drag to reorder sticker pack",
@@ -3981,6 +4009,18 @@
   "icu:stickers--Toast--StickerFavoritesTooMany": {
     "messageformat": "You can only add {count, plural, one {# sticker} other {# stickers}} to Favorites",
     "description": "Toast text shown after atttempting to add a favorite sticker when you already have the maximum allowed favorite sticker count."
+  },
+  "icu:stickers--Toast--StickerPackHidden": {
+    "messageformat": "Sticker pack hidden",
+    "description": "Toast text shown after hiding a sticker pack."
+  },
+  "icu:stickers--Toast--StickerPackHidden--Undo": {
+    "messageformat": "Undo",
+    "description": "Undo text in toast shown after hiding a sticker pack."
+  },
+  "icu:stickers--Toast--StickerPackUnhidden": {
+    "messageformat": "Sticker pack unhidden",
+    "description": "Toast text shown after undoing hiding a sticker pack."
   },
   "icu:stickers--ViewPack": {
     "messageformat": "View Pack",

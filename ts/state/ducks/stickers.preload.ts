@@ -13,6 +13,7 @@ import type {
   ActionSourceType,
   StickerReferenceType,
   StickerManagerTabType,
+  HiddenStickerPackType,
 } from '../../types/Stickers.preload.ts';
 import {
   downloadStickerPack as externalDownloadStickerPack,
@@ -40,6 +41,7 @@ import {
 import {
   uninstallFavoriteSticker,
   installFavoriteSticker,
+  maybeUnhideStickerPack,
 } from '../../util/stickers.preload.ts';
 import { showToast, type ShowToastActionType } from './toast.preload.ts';
 import { ToastType } from '../../types/Toast.std.ts';
@@ -59,6 +61,7 @@ export type StickersStateType = ReadonlyDeep<{
   recentStickers: Array<StickerReferenceType>;
   favoriteStickers: Array<StickerReferenceType>;
   blessedPacks: Dictionary<boolean>;
+  hiddenPackIds: Array<string>;
   stickerManagerTab: StickerManagerTabType;
 }>;
 
@@ -179,13 +182,24 @@ type FavoriteStickersReloadedAction = ReadonlyDeep<{
   payload: Array<StickerReferenceType>;
 }>;
 
+type AddHiddenStickerPackAction = ReadonlyDeep<{
+  type: 'stickers/HIDDEN_PACK_ADDED';
+  payload: string;
+}>;
+type RemoveHiddenStickerPackAction = ReadonlyDeep<{
+  type: 'stickers/HIDDEN_PACK_REMOVED';
+  payload: string;
+}>;
+
 export type StickersActionType = ReadonlyDeep<
   | AddFavoriteStickerAction
+  | AddHiddenStickerPackAction
   | ClearInstalledStickerPackAction
   | FavoriteStickersReloadedAction
   | InstallStickerPackFulfilledAction
   | NoopActionType
   | RemoveFavoriteStickerAction
+  | RemoveHiddenStickerPackAction
   | SetStickerManagerTabAction
   | StickerAddedAction
   | StickerPackAddedAction
@@ -200,12 +214,15 @@ export type StickersActionType = ReadonlyDeep<
 
 export const actions = {
   addFavoriteSticker,
+  addHiddenStickerPack,
   clearInstalledStickerPack,
   downloadStickerPack,
   installStickerPack,
   markStickerAsFavorite,
+  markStickerPackAsHidden,
   reloadFavoriteStickers,
   removeFavoriteSticker,
+  removeHiddenStickerPack,
   removeStickerPack,
   setStickerManagerTab,
   stickerAdded,
@@ -301,6 +318,7 @@ async function doInstallStickerPack(
   const timestamp = Date.now();
   const { wasPreviouslyUninstalled, position: newPosition } =
     await DataWriter.installStickerPack(packId, timestamp, position);
+  await maybeUnhideStickerPack(packId);
 
   if (actionSource === 'ui') {
     // Kick this off, but don't wait for it
@@ -557,6 +575,103 @@ function reloadFavoriteStickers(): AsyncStateThunk<FavoriteStickersReloadedActio
   };
 }
 
+function markStickerPackAsHidden(
+  packId: string,
+  markAsHidden: boolean
+): AsyncStateThunk<
+  | AddHiddenStickerPackAction
+  | RemoveHiddenStickerPackAction
+  | ShowToastActionType
+  | UninstallStickerPackFulfilledAction
+> {
+  const logId = `markPackAsHidden(${redactPackId(packId)})`;
+  return async (dispatch, getState) => {
+    if (markAsHidden) {
+      const packs = getPacks(getState());
+      if (packs[packId]?.status === 'installed') {
+        const { key } = packs[packId];
+        const uninstallResult = await doUninstallStickerPack(packId, key, {
+          actionSource: 'ui',
+        });
+        dispatch({
+          type: 'stickers/UNINSTALL_STICKER_PACK_FULFILLED',
+          payload: uninstallResult,
+        });
+      }
+
+      const localHiddenPack = await DataReader.getHiddenStickerPack(packId);
+      let hiddenPack: HiddenStickerPackType | null;
+      if (localHiddenPack) {
+        if (!localHiddenPack.unhiddenAtTimestampMs) {
+          log.warn(`${logId}: Trying to hide an already hidden pack`);
+          return;
+        }
+
+        hiddenPack = {
+          ...localHiddenPack,
+          unhiddenAtTimestampMs: undefined,
+          storageNeedsSync: true,
+        };
+        await DataWriter.updateHiddenStickerPack(hiddenPack);
+      } else {
+        const packKey = await DataReader.getKeyFromStickerPack(packId);
+        if (!packKey) {
+          log.error(`${logId}: Sticker pack not found`);
+          return;
+        }
+
+        hiddenPack = {
+          packId,
+          packKey,
+          unhiddenAtTimestampMs: undefined,
+          storageNeedsSync: true,
+        };
+        await DataWriter.createHiddenStickerPack(hiddenPack);
+      }
+
+      dispatch({
+        type: 'stickers/HIDDEN_PACK_ADDED',
+        payload: packId,
+      });
+
+      runStorageServiceUploadJob({ reason: 'markPackAsHidden(true)' });
+      dispatch(
+        showToast({
+          toastType: ToastType.StickerPackHidden,
+          parameters: { packId },
+        })
+      );
+    } else {
+      const unhideResult = await maybeUnhideStickerPack(packId);
+      if (unhideResult?.storageNeedsSync) {
+        runStorageServiceUploadJob({ reason: 'markPackAsHidden(false)' });
+      }
+
+      dispatch({
+        type: 'stickers/HIDDEN_PACK_REMOVED',
+        payload: packId,
+      });
+      dispatch(showToast({ toastType: ToastType.StickerPackUnhidden }));
+    }
+  };
+}
+
+function addHiddenStickerPack(packId: string): AddHiddenStickerPackAction {
+  return {
+    type: 'stickers/HIDDEN_PACK_ADDED',
+    payload: packId,
+  };
+}
+
+function removeHiddenStickerPack(
+  packId: string
+): RemoveHiddenStickerPackAction {
+  return {
+    type: 'stickers/HIDDEN_PACK_REMOVED',
+    payload: packId,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): StickersStateType {
@@ -566,6 +681,7 @@ export function getEmptyState(): StickersStateType {
     recentStickers: [],
     favoriteStickers: [],
     blessedPacks: {},
+    hiddenPackIds: [],
     stickerManagerTab: 'all',
   };
 }
@@ -739,6 +855,35 @@ export function reducer(
     return {
       ...state,
       favoriteStickers: payload,
+    };
+  }
+
+  if (action.type === 'stickers/HIDDEN_PACK_ADDED') {
+    const { payload: packId } = action;
+    const { hiddenPackIds } = state;
+
+    if (hiddenPackIds.find(existingId => existingId === packId)) {
+      return state;
+    }
+
+    return {
+      ...state,
+      hiddenPackIds: [packId, ...hiddenPackIds],
+    };
+  }
+
+  if (action.type === 'stickers/HIDDEN_PACK_REMOVED') {
+    const { payload: packId } = action;
+    const { hiddenPackIds } = state;
+
+    const filteredHiddenPackIds = reject(
+      hiddenPackIds,
+      existingId => existingId === packId
+    );
+
+    return {
+      ...state,
+      hiddenPackIds: filteredHiddenPackIds,
     };
   }
 

@@ -153,6 +153,7 @@ window.testUtilities = {
         recentStickers: [],
         favoriteStickers: [],
         blessedPacks: {},
+        hiddenPackIds: [],
         stickerManagerTab: 'all',
       },
       theme: ThemeType.dark,

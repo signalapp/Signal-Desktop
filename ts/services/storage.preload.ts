@@ -38,6 +38,8 @@ import {
   mergeNotificationProfileRecord,
   mergeFavoriteStickerRecord,
   toFavoriteStickerPackRecord,
+  toHiddenStickerPackRecord,
+  mergeHiddenStickerPackRecord,
 } from './storageRecordOps.preload.ts';
 import type { MergeResultType } from './storageRecordOps.preload.ts';
 import { MAX_READ_KEYS } from './storageConstants.std.ts';
@@ -106,7 +108,10 @@ import { isCurrentAllChatFolder } from '../types/CurrentChatFolders.std.ts';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { toNumber } from '../util/toNumber.std.ts';
-import type { FavoriteStickerType } from '../types/Stickers.preload.ts';
+import type {
+  FavoriteStickerType,
+  HiddenStickerPackType,
+} from '../types/Stickers.preload.ts';
 import { redactPackId } from '../util/Stickers.std.ts';
 
 const { debounce, isNumber, chunk } = lodash;
@@ -148,6 +153,7 @@ const validRecordTypes = new Set([
   ITEM_TYPE.CALL_LINK,
   ITEM_TYPE.CHAT_FOLDER,
   ITEM_TYPE.NOTIFICATION_PROFILE,
+  ITEM_TYPE.HIDDEN_STICKER_PACK,
   ITEM_TYPE.FAVORITE_STICKER_PACK,
 ]);
 
@@ -450,6 +456,7 @@ async function generateManifest(
     storyDistributionLists,
     installedStickerPacks,
     uninstalledStickerPacks,
+    hiddenStickerPacks,
     favoriteStickers,
     chatFolders,
   } = await getNonConversationRecords();
@@ -693,6 +700,66 @@ async function generateManifest(
       `installed=${newlyInstalledPacks}/${installedStickerPacks.length} ` +
       `uninstalled=${newlyUninstalledPacks}/${uninstalledStickerPacks.length}`
   );
+
+  log.info(`${logId}: adding hiddenStickerPacks=${hiddenStickerPacks.length}`);
+
+  let newHiddenStickerPacks = 0;
+  hiddenStickerPacks.forEach(hiddenPack => {
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        hiddenStickerPack: toHiddenStickerPackRecord(hiddenPack),
+      },
+    };
+
+    const { unhiddenAtTimestampMs, packId } = hiddenPack;
+
+    if (
+      unhiddenAtTimestampMs &&
+      unhiddenAtTimestampMs !== 0 &&
+      isOlderThan(unhiddenAtTimestampMs, getMessageQueueTime())
+    ) {
+      const droppedID = hiddenPack.storageID;
+      const droppedVersion = hiddenPack.storageVersion;
+      if (droppedID) {
+        const recordID = redactStorageID(droppedID, droppedVersion);
+
+        log.info(
+          `${logId}: dropping hiddenStickerPack=${recordID} ` +
+            `due to expired deleted timestamp=${unhiddenAtTimestampMs}`
+        );
+        deleteKeys.add(droppedID);
+      } else {
+        const safePackId = redactPackId(hiddenPack.packId);
+        log.info(
+          `${logId}: dropping never uploaded hiddenStickerPack from pack=${safePackId}` +
+            `due to expired deleted timestamp=${unhiddenAtTimestampMs}`
+        );
+      }
+
+      drop(DataWriter.deleteHiddenStickerPack(packId));
+      return;
+    }
+
+    const { isNewItem, storageID } = processStorageRecord({
+      currentStorageID: hiddenPack.storageID,
+      currentStorageVersion: hiddenPack.storageVersion,
+      identifierType: ITEM_TYPE.HIDDEN_STICKER_PACK,
+      storageNeedsSync: hiddenPack.storageNeedsSync,
+      storageRecord,
+    });
+
+    if (isNewItem) {
+      newHiddenStickerPacks += 1;
+      postUploadUpdateFunctions.push(() =>
+        DataWriter.updateHiddenStickerPack({
+          ...hiddenPack,
+          storageID,
+          storageVersion: version,
+          storageNeedsSync: false,
+        })
+      );
+    }
+  });
 
   log.info(`${logId}: adding favoriteStickers=${favoriteStickers.length}`);
 
@@ -1685,6 +1752,15 @@ async function mergeRecord(
         storageRecord.record.installedStickerPack
       );
     } else if (
+      itemType === ITEM_TYPE.HIDDEN_STICKER_PACK &&
+      storageRecord.record?.hiddenStickerPack
+    ) {
+      mergeResult = await mergeHiddenStickerPackRecord(
+        storageID,
+        storageVersion,
+        storageRecord.record.hiddenStickerPack
+      );
+    } else if (
       itemType === ITEM_TYPE.FAVORITE_STICKER_PACK &&
       storageRecord.record?.sticker
     ) {
@@ -1777,6 +1853,7 @@ type NonConversationRecordsResultType = Readonly<{
   chatFolders: ReadonlyArray<ChatFolder>;
   defunctCallLinks: ReadonlyArray<DefunctCallLinkType>;
   favoriteStickers: ReadonlyArray<FavoriteStickerType>;
+  hiddenStickerPacks: ReadonlyArray<HiddenStickerPackType>;
   installedStickerPacks: ReadonlyArray<StickerPackType>;
   notificationProfiles: ReadonlyArray<NotificationProfileType>;
   pendingCallLinks: ReadonlyArray<PendingCallLinkType>;
@@ -1794,6 +1871,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     storyDistributionLists,
     uninstalledStickerPacks,
     installedStickerPacks,
+    hiddenStickerPacks,
     favoriteStickers,
     chatFolders,
   ] = await Promise.all([
@@ -1806,6 +1884,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     DataReader.getAllStoryDistributionsWithMembers(),
     DataReader.getUninstalledStickerPacks(),
     DataReader.getInstalledStickerPacks(),
+    DataReader.getAllHiddenStickerPacks(),
     DataReader.getAllFavoriteStickers(),
     DataReader.getAllChatFolders(),
   ]);
@@ -1815,6 +1894,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
     chatFolders,
     defunctCallLinks,
     favoriteStickers,
+    hiddenStickerPacks,
     installedStickerPacks,
     notificationProfiles,
     pendingCallLinks,
@@ -1858,6 +1938,7 @@ async function processManifest(
       storyDistributionLists,
       installedStickerPacks,
       uninstalledStickerPacks,
+      hiddenStickerPacks,
       favoriteStickers,
       chatFolders,
     } = await getNonConversationRecords();
@@ -1893,6 +1974,9 @@ async function processManifest(
 
     installedStickerPacks.forEach(collectLocalKeysFromFields);
     localRecordCount += installedStickerPacks.length;
+
+    hiddenStickerPacks.forEach(collectLocalKeysFromFields);
+    localRecordCount += hiddenStickerPacks.length;
 
     favoriteStickers.forEach(collectLocalKeysFromFields);
     localRecordCount += favoriteStickers.length;
@@ -2019,6 +2103,7 @@ async function processManifest(
       pendingCallLinks,
       storyDistributionLists,
       uninstalledStickerPacks,
+      hiddenStickerPacks,
       favoriteStickers,
     } = await getNonConversationRecords();
 
@@ -2055,6 +2140,35 @@ async function processManifest(
         storageNeedsSync: false,
         uninstalledAt: stickerPack.uninstalledAt,
       });
+    });
+
+    hiddenStickerPacks.forEach(hiddenPack => {
+      const { unhiddenAtTimestampMs, packId, storageID, storageVersion } =
+        hiddenPack;
+      if (!storageID || remoteKeys.has(storageID)) {
+        return;
+      }
+
+      const missingKey = redactStorageID(storageID, storageVersion);
+      if (unhiddenAtTimestampMs) {
+        log.info(
+          `${logId}/hiddenStickerPack: localKey=${missingKey} was not in remote manifest. Removing.`
+        );
+        drop(DataWriter.deleteHiddenStickerPack(packId));
+        return;
+      }
+
+      log.info(
+        `${logId}/hiddenStickerPack: localKey=${missingKey} was not in remote manifest`
+      );
+
+      drop(
+        DataWriter.updateHiddenStickerPack({
+          ...hiddenPack,
+          storageID: null,
+          storageVersion: null,
+        })
+      );
     });
 
     favoriteStickers.forEach(favoriteSticker => {

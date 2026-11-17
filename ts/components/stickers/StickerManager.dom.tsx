@@ -30,6 +30,7 @@ import type {
 import { tw } from '../../axo/tw.dom.tsx';
 import { AxoButton } from '../../axo/AxoButton.dom.tsx';
 import { ListBox, useDragAndDrop } from 'react-aria-components';
+import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
 
 export type OwnProps = {
   readonly blessedPacks: ReadonlyArray<StickerPackType>;
@@ -40,6 +41,7 @@ export type OwnProps = {
     options: { actionSource: 'ui' }
   ) => unknown;
   readonly favoriteStickers: ReadonlyArray<StickerType>;
+  readonly hideStickerPack: (packId: string) => void;
   readonly i18n: LocalizerType;
   readonly installStickerPack: (
     packId: string,
@@ -74,6 +76,7 @@ export const StickerManager = memo(function StickerManagerInner({
   closeStickerPackPreview,
   downloadStickerPack,
   favoriteStickers,
+  hideStickerPack,
   i18n,
   installStickerPack,
   installedPacks,
@@ -88,6 +91,7 @@ export const StickerManager = memo(function StickerManagerInner({
   updateStickerPacksPositions,
 }: Props) {
   const focusRef = createRef<HTMLDivElement>();
+  const [packIdToHide, setPackIdToHide] = useState<string | null>(null);
   const [packIdToPreview, setPackIdToPreview] = useState<string | null>(null);
 
   useEffect(() => {
@@ -109,6 +113,24 @@ export const StickerManager = memo(function StickerManagerInner({
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const promptHidePack = useCallback(
+    (packId: string) => {
+      setPackIdToHide(packId);
+    },
+    [setPackIdToHide]
+  );
+
+  const clearPackIdToHide = useCallback(() => {
+    setPackIdToHide(null);
+  }, [setPackIdToHide]);
+
+  const confirmHidePack = useCallback(() => {
+    if (packIdToHide) {
+      hideStickerPack(packIdToHide);
+    }
+    clearPackIdToHide();
+  }, [clearPackIdToHide, hideStickerPack, packIdToHide]);
+
   const clearPackToPreview = useCallback(() => {
     setPackIdToPreview(null);
   }, [setPackIdToPreview]);
@@ -118,21 +140,33 @@ export const StickerManager = memo(function StickerManagerInner({
   }, []);
 
   const renderStickerPackRow = useCallback(
-    (
-      pack: StickerPackType,
-      controlType: StickerManagerPackRowControlType
-    ): JSX.Element => (
+    ({
+      pack,
+      controlType,
+      isHideEnabled,
+    }: {
+      pack: StickerPackType;
+      controlType: StickerManagerPackRowControlType;
+      isHideEnabled?: boolean;
+    }): JSX.Element => (
       <StickerManagerPackRow
         controlType={controlType}
         key={pack.id}
         i18n={i18n}
         pack={pack}
         onClickPreview={previewPack}
+        hideStickerPack={isHideEnabled ? promptHidePack : undefined}
         installStickerPack={installStickerPack}
         uninstallStickerPack={uninstallStickerPack}
       />
     ),
-    [i18n, installStickerPack, previewPack, uninstallStickerPack]
+    [
+      i18n,
+      installStickerPack,
+      previewPack,
+      promptHidePack,
+      uninstallStickerPack,
+    ]
   );
 
   const setTabAll = useCallback(() => setTab('all'), [setTab]);
@@ -209,6 +243,13 @@ export const StickerManager = memo(function StickerManagerInner({
       tabIndex={-1}
       ref={focusRef}
     >
+      {packIdToHide ? (
+        <HidePackDialog
+          i18n={i18n}
+          onCancel={clearPackIdToHide}
+          onConfirm={confirmHidePack}
+        />
+      ) : null}
       {packIdToPreview ? (
         <StickerPreviewModal
           closeStickerPackPreview={closeStickerPackPreview}
@@ -241,7 +282,9 @@ export const StickerManager = memo(function StickerManagerInner({
               data-testid="StickerManagerBlessedPacks"
               items={blessedPacks}
             >
-              {pack => renderStickerPackRow(pack, 'install-button')}
+              {pack =>
+                renderStickerPackRow({ pack, controlType: 'install-button' })
+              }
             </ListBox>
           ) : (
             <p className={tw('mx-2 mb-1 type-body-small text-secondary')}>
@@ -269,7 +312,13 @@ export const StickerManager = memo(function StickerManagerInner({
                 data-testid="StickerManagerReceivedPacks"
                 items={receivedPacks}
               >
-                {pack => renderStickerPackRow(pack, 'install-button')}
+                {pack =>
+                  renderStickerPackRow({
+                    pack,
+                    controlType: 'install-button',
+                    isHideEnabled: true,
+                  })
+                }
               </ListBox>
             </>
           )}
@@ -289,7 +338,7 @@ export const StickerManager = memo(function StickerManagerInner({
             selectionBehavior="replace"
             disallowEmptySelection
           >
-            {pack => renderStickerPackRow(pack, 'drag-handle')}
+            {pack => renderStickerPackRow({ pack, controlType: 'drag-handle' })}
           </ListBox>
         ) : (
           <MyStickersEmpty i18n={i18n} setTabAll={setTabAll} />
@@ -297,6 +346,34 @@ export const StickerManager = memo(function StickerManagerInner({
     </div>
   );
 });
+
+function HidePackDialog({
+  i18n,
+  onCancel: handleCancel,
+  onConfirm: handleHide,
+}: {
+  i18n: LocalizerType;
+  onCancel: VoidFunction;
+  onConfirm: VoidFunction;
+}): JSX.Element | null {
+  return (
+    <AxoConfirmDialog.Root
+      open
+      onOpenChange={handleCancel}
+      title={i18n('icu:stickers--StickerManagerHidePackDialog--Title')}
+      description={i18n('icu:stickers--StickerManagerHidePackDialog--Body')}
+      escape="cancel-is-noop"
+    >
+      <AxoConfirmDialog.Cancel />
+      <AxoConfirmDialog.Action
+        variant="subtle-destructive"
+        onClick={handleHide}
+      >
+        {i18n('icu:stickers--StickerManagerHidePackDialog--Hide')}
+      </AxoConfirmDialog.Action>
+    </AxoConfirmDialog.Root>
+  );
+}
 
 function MyStickersEmpty(props: {
   i18n: LocalizerType;

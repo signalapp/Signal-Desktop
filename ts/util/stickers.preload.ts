@@ -97,3 +97,20 @@ export async function updateFavoriteStickersAlreadyInstalled(
 
   return installedStickerIds;
 }
+
+// Hidden packs should be unhidden when they are installed or deleted.
+export async function maybeUnhideStickerPack(
+  packId: string
+): Promise<{ storageNeedsSync: boolean } | undefined> {
+  const logId = `maybeUnhideStickerPack(${redactPackId(packId)})`;
+  const hiddenPack = await DataReader.getHiddenStickerPack(packId);
+  if (!hiddenPack || hiddenPack.unhiddenAtTimestampMs) {
+    return undefined;
+  }
+
+  log.info(`${logId}: unhiding pack`);
+  const unhideResult = await DataWriter.markHiddenStickerPackDeleted(packId);
+  window.reduxActions.stickers.removeHiddenStickerPack(packId);
+
+  return unhideResult ?? undefined;
+}

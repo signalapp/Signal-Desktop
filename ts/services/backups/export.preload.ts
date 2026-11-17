@@ -277,6 +277,7 @@ export class BackupExportStream {
     distributionLists: 0,
     favoriteStickers: 0,
     fixedDirectMessages: 0,
+    hiddenStickerPacks: 0,
     installedStickerPacks: 0,
     messages: 0,
     notificationProfiles: 0,
@@ -534,6 +535,25 @@ export class BackupExportStream {
       };
 
       this.#stats.installedStickerPacks += 1;
+    }
+
+    const hiddenStickerPacks =
+      await DataReader.getAllHiddenStickerPacksActive();
+
+    for (const { packId, packKey } of hiddenStickerPacks) {
+      if (packKey == null) {
+        log.warn('Dropping hidden sticker pack; missing packKey');
+        continue;
+      }
+
+      yield {
+        hiddenStickerPack: {
+          packId: Bytes.fromHex(packId),
+          packKey: Bytes.fromBase64(packKey),
+        },
+      };
+
+      this.#stats.hiddenStickerPacks += 1;
     }
 
     const pinnedConversationIds =

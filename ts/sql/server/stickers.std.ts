@@ -10,6 +10,7 @@ import { sql } from '../util.std.ts';
 import type {
   FavoriteStickerStatusType,
   FavoriteStickerType,
+  HiddenStickerPackType,
   StickerReferenceType,
 } from '../../types/Stickers.preload.ts';
 import { dropNull } from '../../util/dropNull.std.ts';
@@ -44,6 +45,17 @@ export type FavoriteStickerRow = Readonly<
   }
 >;
 
+export type HiddenStickerPackRow = Readonly<
+  Omit<
+    HiddenStickerPackType,
+    'packKey' | 'unhiddenAtTimestampMs' | 'storageNeedsSync'
+  > & {
+    packKey: string | null;
+    unhiddenAtTimestampMs: number | null;
+    storageNeedsSync: 0 | 1;
+  }
+>;
+
 // Helpers
 
 function favoriteStickerToRow(
@@ -67,6 +79,34 @@ function rowToFavoriteSticker(row: FavoriteStickerRow): FavoriteStickerType {
     packKey: row.packKey || undefined,
     deletedAtTimestampMs: row.deletedAtTimestampMs || undefined,
     favoritedAtTimestampMs: row.favoritedAtTimestampMs || undefined,
+    storageID: row.storageID || undefined,
+    storageVersion: row.storageVersion || undefined,
+    storageNeedsSync: Boolean(row.storageNeedsSync),
+    storageUnknownFields: row.storageUnknownFields || undefined,
+  };
+}
+
+function hiddenStickerPackToRow(
+  hiddenPack: HiddenStickerPackType
+): HiddenStickerPackRow {
+  return {
+    ...hiddenPack,
+    packKey: hiddenPack.packKey || null,
+    unhiddenAtTimestampMs: hiddenPack.unhiddenAtTimestampMs || null,
+    storageID: hiddenPack.storageID || null,
+    storageVersion: hiddenPack.storageVersion || null,
+    storageNeedsSync: hiddenPack.storageNeedsSync ? 1 : 0,
+    storageUnknownFields: hiddenPack.storageUnknownFields || null,
+  };
+}
+
+function rowToHiddenStickerPack(
+  row: HiddenStickerPackRow
+): HiddenStickerPackType {
+  return {
+    ...row,
+    packKey: row.packKey || undefined,
+    unhiddenAtTimestampMs: row.unhiddenAtTimestampMs || undefined,
     storageID: row.storageID || undefined,
     storageVersion: row.storageVersion || undefined,
     storageNeedsSync: Boolean(row.storageNeedsSync),
@@ -186,7 +226,47 @@ export function getSticker(
   return row ? rowToSticker(row) : undefined;
 }
 
-function getKeyFromStickerPack(
+export function getAllHiddenStickerPacks(
+  db: ReadableDB
+): ReadonlyArray<HiddenStickerPackType> {
+  const [query, params] = sql`
+    SELECT * FROM hidden_sticker_packs;
+  `;
+  return db
+    .prepare(query)
+    .all<HiddenStickerPackRow>(params)
+    .map(row => rowToHiddenStickerPack(row));
+}
+
+export function getAllHiddenStickerPacksActive(
+  db: ReadableDB
+): ReadonlyArray<HiddenStickerPackType> {
+  const [query, params] = sql`
+    SELECT * FROM hidden_sticker_packs
+    WHERE
+      unhiddenAtTimestampMs IS NULL OR
+      unhiddenAtTimestampMs IS 0;
+  `;
+  return db
+    .prepare(query)
+    .all<HiddenStickerPackRow>(params)
+    .map(row => rowToHiddenStickerPack(row));
+}
+
+export function getHiddenStickerPack(
+  db: ReadableDB,
+  packId: string
+): HiddenStickerPackType | undefined {
+  const [query, parameters] = sql`
+    SELECT * FROM hidden_sticker_packs
+    WHERE packId = ${packId};
+  `;
+  const row = db.prepare(query).get<HiddenStickerPackRow>(parameters);
+
+  return row ? rowToHiddenStickerPack(row) : undefined;
+}
+
+export function getKeyFromStickerPack(
   db: ReadableDB,
   packId: string
 ): string | undefined {
@@ -378,6 +458,99 @@ export function deleteFavoriteSticker(
     WHERE
       packId = ${packId} AND
       stickerId = ${stickerId};
+  `;
+  db.prepare(query).run(parameters);
+}
+
+export function createHiddenStickerPack(
+  db: WritableDB,
+  hiddenPack: HiddenStickerPackType
+): void {
+  const row = hiddenStickerPackToRow(hiddenPack);
+
+  db.prepare(
+    `
+      INSERT INTO hidden_sticker_packs(
+        packId,
+        packKey,
+        unhiddenAtTimestampMs,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync
+      ) VALUES (
+        $packId,
+        $packKey,
+        $unhiddenAtTimestampMs,
+        $storageID,
+        $storageVersion,
+        $storageUnknownFields,
+        $storageNeedsSync
+      );
+      `
+  ).run(row);
+}
+
+export function updateHiddenStickerPack(
+  db: WritableDB,
+  hiddenPack: HiddenStickerPackType
+): void {
+  const row = hiddenStickerPackToRow(hiddenPack);
+
+  db.prepare(
+    `
+    UPDATE hidden_sticker_packs SET
+      packKey = $packKey,
+      unhiddenAtTimestampMs = $unhiddenAtTimestampMs,
+      storageID = $storageID,
+      storageVersion = $storageVersion,
+      storageUnknownFields = $storageUnknownFields,
+      storageNeedsSync = $storageNeedsSync
+    WHERE
+      packId = $packId;
+    `
+  ).run(row);
+}
+
+export function markHiddenStickerPackDeleted(
+  db: WritableDB,
+  packId: string
+): { storageNeedsSync: boolean } | undefined {
+  const hiddenPack = getHiddenStickerPack(db, packId);
+  if (hiddenPack && hiddenPack.unhiddenAtTimestampMs) {
+    const { storageNeedsSync } = hiddenPack;
+    return { storageNeedsSync };
+  }
+
+  const now = new Date().getTime();
+  const [query, parameters] = sql`
+    UPDATE hidden_sticker_packs
+    SET
+      unhiddenAtTimestampMs = ${now},
+      storageNeedsSync = 1
+    WHERE
+      packId = ${packId} AND
+      unhiddenAtTimestampMs IS NULL
+    RETURNING unhiddenAtTimestampMs;
+  `;
+
+  const record = db
+    .prepare(query)
+    .get<{ unhiddenAtTimestampMs: number }>(parameters);
+
+  if (!record) {
+    return undefined;
+  }
+
+  return {
+    storageNeedsSync: true,
+  };
+}
+
+export function deleteHiddenStickerPack(db: WritableDB, packId: string): void {
+  const [query, parameters] = sql`
+    DELETE FROM hidden_sticker_packs
+    WHERE packId = ${packId};
   `;
   db.prepare(query).run(parameters);
 }
