@@ -7,7 +7,7 @@ import { SmartStoryCreator } from './StoryCreator.preload.tsx';
 import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
 import { StoriesTab } from '../../components/StoriesTab.dom.tsx';
 import { getMaximumOutgoingVideoSize } from '../../types/AttachmentSize.std.ts';
-import { getValue, type ConfigKeyType } from '../../RemoteConfig.dom.ts';
+import { getValue, type ConfigKeyType } from '../../RemoteConfig.std.ts';
 import {
   getMe,
   getOtherTabsUnreadCount,

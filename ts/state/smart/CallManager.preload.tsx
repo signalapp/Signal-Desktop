@@ -9,7 +9,7 @@ import type {
   GroupIncomingCall,
 } from '../../components/CallManager.dom.tsx';
 import { CallManager } from '../../components/CallManager.dom.tsx';
-import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.ts';
+import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { calling as callingService } from '../../services/calling.preload.ts';
 import type { SetLocalPreviewContainerType } from '../../services/calling.preload.ts';

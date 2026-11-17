@@ -45,7 +45,7 @@ import type {
   ReceiptContext,
   StripeDonationAmount,
 } from '../types/Donations.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { NavTab, SettingsPage } from '../types/Nav.std.ts';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
 import {

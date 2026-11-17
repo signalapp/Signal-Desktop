@@ -63,7 +63,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       data: {
         path: RELATIVE_ATTACHMENT_PATH,
         contentType: IMAGE_JPEG,
-        keys: 'keys=',
+        keys: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
         transitCdnInfo: {

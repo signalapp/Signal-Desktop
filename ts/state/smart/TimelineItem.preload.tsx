@@ -38,7 +38,7 @@ import { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
 import { MessageInteractivity } from '../../components/conversation/Message.dom.tsx';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
-import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
+import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.std.ts';
 import type { CollapseSet } from '../../util/CollapseSet.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { NavTab, SettingsPage } from '../../types/Nav.std.ts';

@@ -5,18 +5,14 @@ import lodash from 'lodash';
 import semver from 'semver';
 import type { REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet } from '@signalapp/libsignal-client/dist/net.js';
 
+import type { ShowToastAction } from './state/ducks/toast.preload.ts';
 import type { getConfig } from './textsecure/WebAPI.preload.ts';
 import { createLogger } from './logging/log.std.ts';
-import type { AciString } from './types/ServiceId.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';
 import { HOUR } from './util/durations/index.std.ts';
-import * as Bytes from './Bytes.std.ts';
-import { uuidToBytes } from './util/uuidToBytes.std.ts';
-import { HashType } from './types/Crypto.std.ts';
-import { getCountryCode } from './types/PhoneNumber.std.ts';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.ts';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.std.ts';
 import type { StorageInterface } from './types/Storage.d.ts';
-import { ToastType } from './types/Toast.dom.tsx';
+import { ToastType } from './types/Toast.std.ts';
 import { assertDev, strictAssert } from './util/assert.std.ts';
 import type {
   ArrayValues,
@@ -166,6 +162,8 @@ const listeners = new Set<ConfigListenerType>();
 export type OptionsType = Readonly<{
   getConfig: typeof getConfig;
   storage: Pick<StorageInterface, 'get' | 'put' | 'remove'>;
+  ourVersion: string;
+  showToast: ShowToastAction;
 }>;
 
 export function restoreRemoteConfigFromStorage({
@@ -191,6 +189,8 @@ export function onChange(
 
 export const _refreshRemoteConfig = async ({
   getConfig,
+  ourVersion,
+  showToast,
   storage,
 }: OptionsType): Promise<void> => {
   const now = Date.now();
@@ -307,7 +307,7 @@ export const _refreshRemoteConfig = async ({
       isEnabled('desktop.loggingErrorToasts') &&
       Object.keys(oldConfig ?? {}).length > 0
     ) {
-      window.reduxActions.toast.showToast({
+      showToast({
         toastType: ToastType.RemoteConfigChanged,
         changes: changeDescriptions,
       });
@@ -322,7 +322,7 @@ export const _refreshRemoteConfig = async ({
   }
 
   if (semverError && config['desktop.internalUser']?.enabled) {
-    window.reduxActions.toast.showToast({
+    showToast({
       toastType: ToastType.Error,
     });
   }
@@ -335,9 +335,10 @@ export const _refreshRemoteConfig = async ({
     }
     await storage.remove('remoteBuildExpiration');
   } else {
-    const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
-      remoteExpirationValue
-    );
+    const remoteBuildExpirationTimestamp = parseRemoteClientExpiration({
+      remoteExpirationValue,
+      ourVersion,
+    });
     if (remoteBuildExpirationTimestamp) {
       await storage.put(
         'remoteBuildExpiration',
@@ -390,48 +391,6 @@ export function getValue(
   return get(reduxConfig ?? config, [name, 'value']);
 }
 
-// See isRemoteConfigBucketEnabled in selectors/items.ts
-/** @knipignore Keep around for future features that might need it */
-export function isBucketValueEnabled(
-  name: ConfigKeyType,
-  e164: string | undefined,
-  aci: AciString | undefined
-): boolean {
-  return isCountryPpmCsvBucketEnabled(name, getValue(name), e164, aci);
-}
-
-export function isCountryPpmCsvBucketEnabled(
-  name: string,
-  countryPpmCsv: unknown,
-  e164: string | undefined,
-  aci: AciString | undefined
-): boolean {
-  if (aci == null) {
-    return false;
-  }
-
-  const countryCode = getCountryCode(e164);
-  if (countryCode == null) {
-    return false;
-  }
-
-  if (typeof countryPpmCsv !== 'string') {
-    return false;
-  }
-
-  const remoteConfigValue = getCountryCodeValue(
-    countryCode,
-    countryPpmCsv,
-    name
-  );
-  if (remoteConfigValue == null) {
-    return false;
-  }
-
-  const bucketValue = getBucketValue(aci, name);
-  return bucketValue < remoteConfigValue;
-}
-
 export const COUNTRY_CODE_FALLBACK = Symbol('fallback');
 
 export function getCountryCodeValue(
@@ -469,17 +428,4 @@ export function getCountryCodeValue(
   }
 
   return wildcard;
-}
-
-export function getBucketValue(aci: AciString, hashSalt: string): number {
-  const hashInput = Bytes.concatenate([
-    Bytes.fromString(`${hashSalt}.`),
-    uuidToBytes(aci),
-  ]);
-  const hashResult = window.SignalContext.crypto.hash(
-    HashType.size256,
-    hashInput
-  );
-
-  return Number(Bytes.readBigUint64BE(hashResult.subarray(0, 8)) % 1_000_000n);
 }

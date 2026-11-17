@@ -10,7 +10,7 @@ import { getMessageAge } from './getMessageAge.std.ts';
 import {
   getAdminDeleteMaxAgeMs,
   getNormalDeleteMaxAgeMs,
-} from './getDeleteMaxAgeMs.dom.ts';
+} from './getDeleteMaxAgeMs.std.ts';
 import { DAY } from './durations/index.std.ts';
 import { isGroupV2, isMe } from './whatTypeOfConversation.dom.ts';
 import { isSignalConversation } from './isSignalConversation.dom.ts';

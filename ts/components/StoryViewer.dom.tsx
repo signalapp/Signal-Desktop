@@ -40,7 +40,7 @@ import {
   StoryViewTargetType,
 } from '../types/Stories.std.ts';
 import { StoryViewsNRepliesModal } from './StoryViewsNRepliesModal.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { getAvatarColor } from '../types/Avatar.std.ts';
 import { getStoryBackground } from '../util/getStoryBackground.std.ts';
 import { getStoryDuration } from '../util/getStoryDuration.dom.ts';

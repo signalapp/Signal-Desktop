@@ -10,7 +10,7 @@ import { isValidSenderAciForConversation } from './helpers/isValidSenderAciForCo
 import { isGroupV2 } from '../util/whatTypeOfConversation.dom.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import type { ConversationModel } from '../models/conversations.preload.ts';
-import { getPinnedMessagesLimit } from '../util/pinnedMessages.dom.ts';
+import { getPinnedMessagesLimit } from '../util/pinnedMessages.std.ts';
 import { getPinnedMessageExpiresAt } from '../util/pinnedMessages.std.ts';
 import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.ts';
 import { drop } from '../util/drop.std.ts';

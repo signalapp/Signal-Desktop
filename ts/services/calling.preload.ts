@@ -196,8 +196,8 @@ import { CallQualitySurvey } from '../types/CallQualitySurvey.std.ts';
 import {
   isCallFailure,
   shouldShowCallQualitySurvey,
-} from '../util/callQualitySurvey.dom.ts';
-import * as RemoteConfig from '../RemoteConfig.dom.ts';
+} from '../util/callQualitySurvey.std.ts';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
 import { isAlpha, isBeta, isProduction } from '../util/version.std.ts';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 

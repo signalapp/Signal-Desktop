@@ -1,12 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import type { JSX } from 'react';
 
 import { ProfileEditor } from '../../components/ProfileEditor.dom.tsx';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.ts';
+import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 import { useUsernameActions } from '../ducks/username.preload.ts';
@@ -35,6 +36,7 @@ import { NavTab, SettingsPage } from '../../types/Nav.std.ts';
 import type { ProfileEditorPage } from '../../types/Nav.std.ts';
 import type { SmartUsernameEditorProps } from './UsernameEditor.preload.tsx';
 import { AxoConfirmDialog } from '../../axo/dialogs/AxoConfirmDialog.dom.tsx';
+import * as Bytes from '../../Bytes.std.ts';
 
 function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
   return <SmartUsernameEditor {...props} />;
@@ -61,10 +63,27 @@ export const SmartProfileEditor = memo(function SmartProfileEditor() {
   const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);
   const usernameCorrupted = useSelector(getUsernameCorrupted);
   const usernameEditState = useSelector(getUsernameEditState);
-  const usernameLink = useSelector(getUsernameLink);
+  const rawUsernameLink = useSelector(getUsernameLink);
   const usernameLinkColor = useSelector(getUsernameLinkColor);
   const usernameLinkCorrupted = useSelector(getUsernameLinkCorrupted);
   const usernameLinkState = useSelector(getUsernameLinkState);
+
+  const usernameLink = useMemo(() => {
+    if (!rawUsernameLink) {
+      return undefined;
+    }
+    const { entropy, serverId } = rawUsernameLink;
+
+    if (!entropy.length || !serverId.length) {
+      return undefined;
+    }
+
+    const content = Bytes.concatenate([entropy, serverId]);
+
+    return contactByEncryptedUsernameRoute
+      .toWebUrl({ encryptedUsername: Bytes.toBase64url(content) })
+      .toString();
+  }, [rawUsernameLink]);
 
   const {
     deleteAvatarFromDisk,

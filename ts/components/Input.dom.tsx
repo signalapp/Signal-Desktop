@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import * as grapheme from '../util/grapheme.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { useRefMerger } from '../hooks/useRefMerger.std.ts';
-import { byteLength } from '../Bytes.std.ts';
 import { truncateString } from '../util/truncateString.std.ts';
+import { byteLength } from '../Bytes.std.ts';
 
 export type PropsType = {
   autoFocus?: boolean;

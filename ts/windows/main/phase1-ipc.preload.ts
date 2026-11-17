@@ -29,9 +29,9 @@ import {
 import { AggregatedStats } from '../../textsecure/WebsocketResources.preload.ts';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.preload.ts';
 import { isProduction } from '../../util/version.std.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { ConversationController } from '../../ConversationController.preload.ts';
-import { isEnabled } from '../../RemoteConfig.dom.ts';
+import { isEnabled } from '../../RemoteConfig.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
 

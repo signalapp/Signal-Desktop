@@ -4,7 +4,7 @@ import type { ReactNode, ErrorInfo, JSX } from 'react';
 import { Component, useCallback } from 'react';
 import { createLogger } from '../../../logging/log.std.ts';
 import * as Errors from '../../../types/errors.std.ts';
-import { ToastType } from '../../../types/Toast.dom.tsx';
+import { ToastType } from '../../../types/Toast.std.ts';
 import { isProduction } from '../../../util/version.std.ts';
 
 const log = createLogger('FunErrorBoundary');

@@ -14,7 +14,7 @@ import {
 import { getOwn } from '../../util/getOwn.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import { getIntl, getPlatform } from '../selectors/user.std.ts';
-import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.ts';
+import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.std.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { drop } from '../../util/drop.std.ts';
 import {
@@ -80,7 +80,7 @@ import * as mapUtil from '../../util/mapUtil.std.ts';
 import { isCallSafe } from '../../util/isCallSafe.dom.ts';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
 import { SHOW_TOAST } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
@@ -108,7 +108,7 @@ import {
   hideCallQualitySurvey,
 } from './globalModals.preload.ts';
 import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.ts';
-import { isCallFailure } from '../../util/callQualitySurvey.dom.ts';
+import { isCallFailure } from '../../util/callQualitySurvey.std.ts';
 import { ButtonVariant } from '../../components/Button.dom.tsx';
 import { getConversationIdForLogging } from '../../util/idForLogging.preload.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';

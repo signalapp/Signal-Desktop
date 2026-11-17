@@ -5,8 +5,8 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import { action } from '@storybook/addon-actions';
 import { ToastManager } from './ToastManager.dom.tsx';
-import type { AnyToast } from '../types/Toast.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
+import { ToastType } from '../types/Toast.std.ts';
 import type {
   AnyActionableMegaphone,
   MegaphoneCtaId,

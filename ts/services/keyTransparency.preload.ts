@@ -31,7 +31,7 @@ import { explodePromise } from '../util/explodePromise.std.ts';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import * as Bytes from '../Bytes.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import { isEnabled } from '../RemoteConfig.dom.ts';
+import { isEnabled } from '../RemoteConfig.std.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
 import { signal as Proto } from '../protobuf/compiled.std.js';
 import { runStorageServiceSyncJob } from './storage.preload.ts';

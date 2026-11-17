@@ -11,7 +11,7 @@ import {
   isAttachmentTooLarge,
 } from '../types/AttachmentSize.std.ts';
 import * as Errors from '../types/errors.std.ts';
-import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig.std.ts';
 import { handleImageAttachment } from './handleImageAttachment.preload.ts';
 import { handleVideoAttachment } from './handleVideoAttachment.preload.ts';
 import { isHeic, stringToMIMEType, VIDEO_MP4 } from '../types/MIME.std.ts';
@@ -19,7 +19,7 @@ import {
   isImageTypeSupported,
   isVideoTypeTranscodable,
 } from './GoogleChrome.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import { isVideoAttachment } from './Attachment.std.ts';
 import { strictAssert } from './assert.std.ts';

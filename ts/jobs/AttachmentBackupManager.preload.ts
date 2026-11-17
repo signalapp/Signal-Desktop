@@ -50,7 +50,7 @@ import { fromBase64, toBase64 } from '../Bytes.std.ts';
 import { copyBackupMedia as doCopyBackupMedia } from '../textsecure/WebAPI.preload.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import { canAttachmentHaveThumbnail } from '../util/Attachment.std.ts';
-import { mightStillBeOnTransitTier } from '../util/mightStillBeOnTransitTier.dom.ts';
+import { mightStillBeOnTransitTier } from '../util/mightStillBeOnTransitTier.std.ts';
 import {
   type CreatedThumbnailType,
   makeImageThumbnailForBackup,

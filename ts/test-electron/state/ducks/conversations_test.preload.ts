@@ -50,7 +50,7 @@ import {
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
 } from '../../../test-helpers/defaultComposerStates.std.ts';
-import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.dom.ts';
+import { updateRemoteConfig } from '../../../test-helpers/RemoteConfigStub.std.ts';
 import type { ShowSendAnywayDialogActionType } from '../../../state/ducks/globalModals.preload.ts';
 import { SHOW_SEND_ANYWAY_DIALOG } from '../../../state/ducks/globalModals.preload.ts';
 import type { StoryDistributionListsActionType } from '../../../state/ducks/storyDistributionLists.preload.ts';

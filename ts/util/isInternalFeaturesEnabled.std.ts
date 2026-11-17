@@ -5,7 +5,7 @@ import {
   getEnvironment,
   isMockEnvironment,
 } from '../environment.std.ts';
-import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
 
 /**
  * This should be reserved for internal-only features that are focused on

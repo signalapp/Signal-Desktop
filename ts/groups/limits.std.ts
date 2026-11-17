@@ -3,8 +3,8 @@
 
 import lodash from 'lodash';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
-import type { ConfigKeyType } from '../RemoteConfig.dom.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import type { ConfigKeyType } from '../RemoteConfig.std.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 
 const { isNumber } = lodash;
 

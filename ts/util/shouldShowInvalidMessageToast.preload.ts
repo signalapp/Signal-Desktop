@@ -5,8 +5,8 @@ import type { ConversationAttributesType } from '../model-types.std.ts';
 import { hasExpired } from '../state/selectors/expiration.dom.ts';
 import { isOSUnsupported } from '../state/selectors/updates.std.ts';
 
-import type { AnyToast } from '../types/Toast.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
+import { ToastType } from '../types/Toast.std.ts';
 import {
   isDirectConversation,
   isGroupV1,

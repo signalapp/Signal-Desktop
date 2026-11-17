@@ -38,7 +38,7 @@ import {
   type DecryptAttachmentToSinkOptionsType,
 } from '../AttachmentCrypto.node.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
-import { getValue as getRemoteConfigValue } from '../RemoteConfig.dom.ts';
+import { getValue as getRemoteConfigValue } from '../RemoteConfig.std.ts';
 import { NodeInputStream } from './NodeInputStream.node.ts';
 import {
   maybeDeleteAttachmentFile,

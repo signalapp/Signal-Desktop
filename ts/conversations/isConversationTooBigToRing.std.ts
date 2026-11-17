@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { parseIntWithFallback } from '../util/parseIntWithFallback.std.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 
 const getMaxGroupCallRingSize = (): number =>

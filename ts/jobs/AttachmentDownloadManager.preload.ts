@@ -25,7 +25,7 @@ import {
   processNewAttachment,
 } from '../util/migrations.preload.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 
 import { isInCall as isInCallSelector } from '../state/selectors/calling.std.ts';
 import {
@@ -79,7 +79,7 @@ import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
 import { updateBackupMediaDownloadProgress } from '../util/updateBackupMediaDownloadProgress.preload.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
-import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import { JobCancelReason } from './types.std.ts';
 import { isAbortError } from '../util/isAbortError.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';

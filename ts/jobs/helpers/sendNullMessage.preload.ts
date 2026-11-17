@@ -20,7 +20,7 @@ import type {
   NullMessageJobData,
 } from '../conversationJobQueue.preload.ts';
 import type { SessionResetsType } from '../../textsecure/Types.d.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,

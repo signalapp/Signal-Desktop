@@ -7,7 +7,7 @@ import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.pre
 import { createLogger } from '../logging/log.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import * as Errors from '../types/errors.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { strictAssert } from './assert.std.ts';
 import type { UUIDFetchStateKeyType } from './uuidFetchState.std.ts';
 import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.ts';

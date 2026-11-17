@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations/index.std.ts';
-import { isEnabled } from '../RemoteConfig.dom.ts';
+import { isEnabled } from '../RemoteConfig.std.ts';
 
 const TEN_MINUTES = 10 * durations.MINUTE;
 

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as durations from '../../util/durations/index.std.ts';
 
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const serviceId = generateAci();

@@ -3,7 +3,7 @@
 
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import type { RetryItemType } from '../services/retryPlaceholders.std.ts';
-import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.dom.ts';
+import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig.std.ts';
 import type { ExtendedStorageID, UnknownRecord } from './StorageService.d.ts';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI.preload.ts';

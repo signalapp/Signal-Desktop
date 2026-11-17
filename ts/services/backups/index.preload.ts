@@ -88,7 +88,7 @@ import {
   RelinkRequestedError,
 } from './errors.std.ts';
 import { FileStream } from './util/FileStream.node.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { isAdhoc, isNightly } from '../../util/version.std.ts';
 import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.ts';
 import {

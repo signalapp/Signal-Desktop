@@ -132,7 +132,7 @@ describe('SenderCertificateService', () => {
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificate', {
         expires: fakeValidCertificateExpiry,
-        serialized: Buffer.from(fakeValidEncodedCertificate),
+        serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, false);
@@ -148,7 +148,7 @@ describe('SenderCertificateService', () => {
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificateNoE164', {
         expires: fakeValidCertificateExpiry,
-        serialized: Buffer.from(fakeValidEncodedCertificate),
+        serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, true);

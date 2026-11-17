@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
 import { aciSchema, type AciString } from './ServiceId.std.ts';
-import * as Bytes from '../Bytes.std.ts';
+import { fromBase64 } from '../Bytes.std.ts';
 import { parseStrict } from '../util/schemas.std.ts';
 
 const GROUPV2_ID_LENGTH = 32; // 32 bytes
@@ -46,7 +46,7 @@ export type GroupSendEndorsementsData = Readonly<{
 }>;
 
 const groupIdSchema = z.string().refine(value => {
-  return Bytes.fromBase64(value).byteLength === GROUPV2_ID_LENGTH;
+  return fromBase64(value).byteLength === GROUPV2_ID_LENGTH;
 });
 
 /**

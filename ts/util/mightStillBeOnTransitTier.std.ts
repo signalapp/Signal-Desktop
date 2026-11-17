@@ -4,7 +4,7 @@
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import { isMoreRecentThan } from './timestamp.std.ts';
 import { DAY } from './durations/index.std.ts';
-import { getMessageQueueTime } from './getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from './getMessageQueueTime.std.ts';
 
 // Extend range in case the attachment is actually still there (this function is meant to
 // be optimistic)

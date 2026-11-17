@@ -48,8 +48,8 @@ import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import { completeRecording, getIsRecording } from './audioRecorder.preload.ts';
 import { SHOW_TOAST, showToast } from './toast.preload.ts';
-import type { AnyToast } from '../../types/Toast.dom.tsx';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import type { AnyToast } from '../../types/Toast.std.ts';
+import { ToastType } from '../../types/Toast.std.ts';
 import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation.std.ts';
 import { blockSendUntilConversationsAreVerified } from '../../util/blockSendUntilConversationsAreVerified.dom.ts';
@@ -69,7 +69,7 @@ import {
   getRenderDetailsForLimit,
   isAttachmentTooLarge,
 } from '../../types/AttachmentSize.std.ts';
-import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
+import { getValue as getRemoteConfigValue } from '../../RemoteConfig.std.ts';
 import { getRecipientsByConversation } from '../../util/getRecipientsByConversation.dom.ts';
 import { getMaxVideoDuration } from '../../util/getTranscodingOptions.preload.ts';
 import { processAttachment } from '../../util/processAttachment.preload.ts';

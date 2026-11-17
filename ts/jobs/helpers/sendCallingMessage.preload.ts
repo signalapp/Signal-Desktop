@@ -20,7 +20,7 @@ import type {
   ConversationQueueJobBundle,
   CallingMessageJobData,
 } from '../conversationJobQueue.preload.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,

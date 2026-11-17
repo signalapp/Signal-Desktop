@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 import { UUID_BYTE_SIZE } from '../types/Crypto.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import * as Bytes from '../Bytes.std.ts';
+import { toHex } from '../Bytes.std.ts';
 
 const { chunk } = lodash;
 
@@ -40,7 +40,7 @@ function splitUuids(buffer: Uint8Array<ArrayBuffer>): Array<string | null> {
   const uuids = new Array<string | null>();
   for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
     const bytes = getBytesSubarray(buffer, i, UUID_BYTE_SIZE);
-    const hex = Bytes.toHex(bytes);
+    const hex = toHex(bytes);
     const chunks = [
       hex.substring(0, 8),
       hex.substring(8, 12),

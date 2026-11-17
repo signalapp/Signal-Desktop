@@ -62,8 +62,8 @@ import type {
 } from '../util/notifyWhileMuted.std.ts';
 import { getNotifyWhileMutedSummary } from '../util/notifyWhileMuted.std.ts';
 import type { ThemeSettingType } from '../util/theme.std.ts';
-import type { AnyToast } from '../types/Toast.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
+import { ToastType } from '../types/Toast.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ChatStyle } from '../types/ChatStyle.std.ts';
 import { DEFAULT_BUBBLE_COLOR } from '../types/ChatStyle.std.ts';

@@ -68,7 +68,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { getMaxVideoDuration } from '../../util/getTranscodingOptions.preload.ts';
-import { getValue as getRemoteConfigValue } from '../../RemoteConfig.dom.ts';
+import { getValue as getRemoteConfigValue } from '../../RemoteConfig.std.ts';
 import { useStickersActions } from '../ducks/stickers.preload.ts';
 
 function renderSmartCompositionRecording() {

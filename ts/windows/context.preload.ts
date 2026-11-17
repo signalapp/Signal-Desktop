@@ -15,10 +15,6 @@ import type {
   SettingsValuesType,
 } from '../util/preload.preload.ts';
 
-import { Bytes } from '../context/Bytes.std.ts';
-import { Crypto } from '../context/Crypto.node.ts';
-import { Timers } from '../context/Timers.node.ts';
-
 import type { LocaleDirection } from '../../app/locale.node.ts';
 import { i18n } from '../context/i18n.preload.ts';
 import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.ts';
@@ -68,10 +64,7 @@ export type MinimalSignalContextType = {
 };
 
 export type SignalContextType = {
-  bytes: Bytes;
-  crypto: Crypto;
   setIsCallActive: (isCallActive: boolean) => unknown;
-  timers: Timers;
   Emojify: typeof Emojify;
   getLocalizedEmojiList: (locale: string) => Promise<LocaleEmojiListType>;
 } & MinimalSignalContextType;
@@ -80,13 +73,10 @@ const emojiListCache = new Map<string, LocaleEmojiListType>();
 
 export const SignalContext: SignalContextType = {
   ...MinimalSignalContext,
-  bytes: new Bytes(),
-  crypto: new Crypto(),
   i18n,
   setIsCallActive(isCallActive: boolean): void {
     ipcRenderer.send('set-is-call-active', isCallActive);
   },
-  timers: new Timers(),
   Emojify,
   async getLocalizedEmojiList(locale: string) {
     const cached = emojiListCache.get(locale);

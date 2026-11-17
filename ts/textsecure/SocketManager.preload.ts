@@ -49,7 +49,7 @@ import { ConnectTimeoutError } from './Errors.std.ts';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
 import type { ServerAlert } from '../types/ServerAlert.std.ts';
 import { getUserLanguages } from '../util/userLanguages.std.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 
 const log = createLogger('SocketManager');

@@ -5,7 +5,7 @@ import type { ConversationModel } from '../../models/conversations.preload.ts';
 import type { LoggerType } from '../../types/Logging.std.ts';
 import { getRecipients } from '../../util/getRecipients.dom.ts';
 import { isConversationAccepted } from '../../util/isConversationAccepted.preload.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.ts';
 

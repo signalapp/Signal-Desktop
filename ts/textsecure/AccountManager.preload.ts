@@ -82,7 +82,7 @@ import { createLogger } from '../logging/log.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
 import { getRelativePath, createName } from '../util/attachmentPath.node.ts';
 import { isLinkAndSyncEnabled } from '../util/isLinkAndSyncEnabled.preload.ts';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.ts';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
 import { itemStorage } from './Storage.preload.ts';

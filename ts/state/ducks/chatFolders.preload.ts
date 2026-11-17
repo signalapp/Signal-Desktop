@@ -24,7 +24,7 @@ import { chatFolderCleanupService } from '../../services/expiring/chatFolderClea
 import { drop } from '../../util/drop.std.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import { showToast } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import type { CurrentChatFolder } from '../../types/CurrentChatFolders.std.ts';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 import { getConversationLookup } from '../selectors/conversations.dom.ts';

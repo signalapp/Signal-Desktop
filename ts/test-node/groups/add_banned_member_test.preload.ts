@@ -8,7 +8,7 @@ import {
   getClientZkGroupCipher,
   decryptServiceId,
 } from '../../util/zkgroup.node.ts';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.std.ts';
 import { generateAci } from '../../test-helpers/serviceIdUtils.std.ts';
 
 const HARD_LIMIT_KEY = 'global.groupsv2.groupSizeHardLimit';

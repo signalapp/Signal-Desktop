@@ -3,11 +3,9 @@
 
 import { createSelector } from 'reselect';
 
-import { isCountryPpmCsvBucketEnabled } from '../../RemoteConfig.dom.ts';
-import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.dom.ts';
+import type { ConfigKeyType, ConfigMapType } from '../../RemoteConfig.std.ts';
 import type { StateType } from '../reducer.preload.ts';
 import type { ItemsStateType } from '../ducks/items.preload.ts';
-import type { AciString } from '../../types/ServiceId.std.ts';
 import type {
   BlockedGroup,
   BlockedNumber,
@@ -19,8 +17,6 @@ import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue }
 import type { NotifyWhileMuted } from '../../util/notifyWhileMuted.std.ts';
 import { DEFAULT_NOTIFY_IF_MUTED } from '../../util/notifyWhileMuted.std.ts';
 import { DurationInSeconds } from '../../util/durations/index.std.ts';
-import * as Bytes from '../../Bytes.std.ts';
-import { contactByEncryptedUsernameRoute } from '../../util/signalRoutes.std.ts';
 import { isNotUpdatable } from '../../util/version.std.ts';
 import { BackupLevel } from '../../services/backups/types.std.ts';
 import type { StateSelector } from '../types.std.ts';
@@ -53,18 +49,6 @@ const isRemoteConfigFlagEnabled = (
   config: Readonly<ConfigMapType>,
   key: ConfigKeyType
 ): boolean => Boolean(config[key]?.enabled);
-
-// See isBucketValueEnabled in RemoteConfig.ts
-/** @knipignore Keep around for future features that might need it */
-export const isRemoteConfigBucketEnabled = (
-  config: Readonly<ConfigMapType>,
-  name: ConfigKeyType,
-  e164: string | undefined,
-  aci: AciString | undefined
-): boolean => {
-  const flagValue = config[name]?.value;
-  return isCountryPpmCsvBucketEnabled(name, flagValue, e164, aci);
-};
 
 export const getRemoteConfig = createSelector(
   getItems,
@@ -100,21 +84,15 @@ export const getUsernameLinkColor = createSelector(
 
 export const getUsernameLink = createSelector(
   getItems,
-  ({ usernameLink }: ItemsStateType): string | undefined => {
-    if (!usernameLink) {
-      return undefined;
-    }
-    const { entropy, serverId } = usernameLink;
-
-    if (!entropy.length || !serverId.length) {
-      return undefined;
-    }
-
-    const content = Bytes.concatenate([entropy, serverId]);
-
-    return contactByEncryptedUsernameRoute
-      .toWebUrl({ encryptedUsername: Bytes.toBase64url(content) })
-      .toString();
+  ({
+    usernameLink,
+  }: ItemsStateType):
+    | {
+        entropy: Uint8Array<ArrayBuffer>;
+        serverId: Uint8Array<ArrayBuffer>;
+      }
+    | undefined => {
+    return usernameLink;
   }
 );
 

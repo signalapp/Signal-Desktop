@@ -4,7 +4,7 @@
 import z from 'zod';
 import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import { getCountryCode } from '../types/PhoneNumber.std.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { parseUnknown } from './schemas.std.ts';

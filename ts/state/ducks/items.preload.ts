@@ -7,7 +7,7 @@ import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.s
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { drop } from '../../util/drop.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.dom.ts';
+import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.std.ts';
 import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';
 import { runStorageServiceUploadJob } from '../../services/storage.preload.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';

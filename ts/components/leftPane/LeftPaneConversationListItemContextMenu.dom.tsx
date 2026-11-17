@@ -26,7 +26,7 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { UserText } from '../UserText.dom.tsx';
 import { isConversationMuted } from '../../util/isConversationMuted.std.ts';
-import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.ts';
+import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.std.ts';
 
 export type ChatFolderToggleChat = (
   chatFolderId: ChatFolderId,

@@ -4,7 +4,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { showToast } from './toast.preload.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import type { PromiseAction } from '../util.std.ts';

@@ -56,7 +56,7 @@ import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { IV_LENGTH, MAC_LENGTH } from '../types/Crypto.std.ts';
 import { BackupCredentialType } from '../types/backups.node.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
 
 const { ensureFile } = fsExtra;

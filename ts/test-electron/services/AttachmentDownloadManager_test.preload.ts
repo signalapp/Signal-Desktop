@@ -953,7 +953,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
   > = {
     path: '/path/to/file',
     digest: 'digest',
-    plaintextHash: 'plaintextHash',
+    plaintextHash: testPlaintextHash(),
     localKey: 'localKey',
     version: 2,
     size: 128,
@@ -1377,7 +1377,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   > = {
     path: '/path/to/file',
     digest: 'digest',
-    plaintextHash: 'plaintextHash',
+    plaintextHash: testPlaintextHash(),
     localKey: 'localKey',
     version: 2,
     size: 128,
@@ -1773,7 +1773,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         }
         return {
           path: '/path/to/thumbnail',
-          plaintextHash: 'plaintextHash',
+          plaintextHash: testPlaintextHash(),
           digest: 'digest',
         };
       });

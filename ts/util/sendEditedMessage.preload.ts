@@ -13,7 +13,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { ErrorWithToast } from '../types/ErrorWithToast.std.ts';
 import { SendStatus } from '../messages/MessageSendState.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import { canEditMessage, isWithinMaxEdits } from './canEditMessage.dom.ts';
 import {

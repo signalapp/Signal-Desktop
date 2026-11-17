@@ -4,7 +4,7 @@ import { memo, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { strictAssert } from '../../util/assert.std.ts';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.ts';
-import { getUsernameFromSearch } from '../../util/Username.dom.ts';
+import { getUsernameFromSearch } from '../../util/Username.std.ts';
 import { ChooseGroupMembersModal } from '../../components/conversation/conversation-details/AddGroupMembersModal/ChooseGroupMembersModal.dom.tsx';
 import { getIntl, getTheme, getRegionCode } from '../selectors/user.std.ts';
 import {

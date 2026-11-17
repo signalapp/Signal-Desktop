@@ -37,7 +37,7 @@ import { MessageModel } from '../../models/messages.preload.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
-import * as RemoteConfig from '../../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../../RemoteConfig.std.ts';
 import { isTestOrMockEnvironment } from '../../environment.std.ts';
 import { BackfillFailureModalKind } from '../../components/BackfillFailureModal.dom.tsx';
 import { markAttachmentAsErrored } from '../../util/attachments/markAttachmentAsErrored.std.ts';

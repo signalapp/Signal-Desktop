@@ -15,7 +15,7 @@ import { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
 import { isStagingServer } from '../../util/isStagingServer.dom.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { getNavTabsCollapsed } from '../selectors/items.dom.ts';
 import { useItemsActions } from '../ducks/items.preload.ts';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';

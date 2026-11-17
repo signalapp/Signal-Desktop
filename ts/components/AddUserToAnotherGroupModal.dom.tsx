@@ -14,7 +14,7 @@ import type { ListRowProps } from 'react-virtualized';
 
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { filterAndSortConversations } from '../util/filterAndSortConversations.std.ts';
 import type { GroupListItemConversationType } from './conversationList/GroupListItem.dom.tsx';
 import {

@@ -10,7 +10,7 @@ import type {
 } from '../components/conversation/conversation-details/PendingInvites.dom.tsx';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
-import { isConversationUnregistered } from './isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from './isConversationUnregistered.std.ts';
 
 export type GroupMemberships = {
   memberships: ReadonlyArray<GroupV2Membership>;

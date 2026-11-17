@@ -12,7 +12,7 @@ import type {
 } from '../../util/sharedContact.std.ts';
 import { resolveSharedContact } from '../../util/sharedContact.std.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import {
   getConversationsByE164,
   getConversationsByServiceId,

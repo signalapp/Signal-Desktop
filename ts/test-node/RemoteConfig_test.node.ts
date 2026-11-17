@@ -6,17 +6,19 @@ import * as sinon from 'sinon';
 
 import lodash from 'lodash';
 import { normalizeAci } from '../util/normalizeAci.std.ts';
-import type { ConfigKeyType } from '../RemoteConfig.dom.ts';
+import type { ConfigKeyType } from '../RemoteConfig.std.ts';
 import {
   COUNTRY_CODE_FALLBACK,
   getCountryCodeValue,
-  getBucketValue,
-  isCountryPpmCsvBucketEnabled,
   onChange,
   getValue,
   isEnabled,
-} from '../RemoteConfig.dom.ts';
-import { updateRemoteConfig } from '../test-helpers/RemoteConfigStub.dom.ts';
+} from '../RemoteConfig.std.ts';
+import {
+  getBucketValue,
+  isCountryPpmCsvBucketEnabled,
+} from '../util/RemoteConfig.node.ts';
+import { updateRemoteConfig } from '../test-helpers/RemoteConfigStub.std.ts';
 
 const { omit } = lodash;
 

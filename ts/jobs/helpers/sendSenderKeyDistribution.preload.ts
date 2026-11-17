@@ -14,7 +14,7 @@ import type {
   ConversationQueueJobBundle,
   SenderKeyDistributionJobData,
 } from '../conversationJobQueue.preload.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import {
   NoSenderKeyError,
   OutgoingIdentityKeyError,

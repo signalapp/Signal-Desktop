@@ -125,7 +125,7 @@ import type {
   ProfileFetchAuthRequestOptions,
   ProfileFetchUnauthRequestOptions,
 } from '../services/profiles.preload.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { isProduction } from '../util/version.std.ts';
 import type { ServerAlert } from '../types/ServerAlert.std.ts';
 import { isAbortError } from '../util/isAbortError.std.ts';

@@ -8,11 +8,14 @@ type RemoteVersion = {
   iso8601: string;
 };
 
-export function parseRemoteClientExpiration(
-  remoteExpirationValue: string
-): number | null {
+export function parseRemoteClientExpiration({
+  remoteExpirationValue,
+  ourVersion,
+}: {
+  remoteExpirationValue: string;
+  ourVersion: string;
+}): number | null {
   const remoteVersions = JSON.parse(remoteExpirationValue) || [];
-  const ourVersion = window.getVersion();
 
   return remoteVersions.reduce(
     (acc: number | null, remoteVersion: RemoteVersion) => {

@@ -87,7 +87,7 @@ import {
 } from '../util/callLinksRingrtc.node.ts';
 import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import { callLinkRefreshJobQueue } from '../jobs/callLinkRefreshJobQueue.preload.ts';
 import {
   generateBackupsSubscriberData,

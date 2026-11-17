@@ -51,7 +51,7 @@ import { storageJobQueue } from '../util/JobQueue.std.ts';
 import { sleep } from '../util/sleep.std.ts';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp.std.ts';
 import { map, filter } from '../util/iterables.std.ts';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import { ourProfileKeyService } from './ourProfileKey.std.ts';
 import {
   ConversationTypes,

@@ -16,7 +16,7 @@ import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import { ContactSpoofingType } from '../../util/contactSpoofing.std.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import { isSignalConnection } from '../../util/getSignalConnections.preload.ts';
 import {
   getCollisionsFromMemberships,

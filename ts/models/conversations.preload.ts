@@ -88,7 +88,7 @@ import { isConversationEverUnregistered } from '../util/isConversationEverUnregi
 import {
   isConversationUnregistered,
   isConversationUnregisteredAndStale,
-} from '../util/isConversationUnregistered.dom.ts';
+} from '../util/isConversationUnregistered.std.ts';
 import { sniffImageMimeType } from '../util/sniffImageMimeType.std.ts';
 import { isValidE164 } from '../util/isValidE164.std.ts';
 import type { MIMEType } from '../types/MIME.std.ts';
@@ -286,7 +286,7 @@ import { maybeNotify } from '../messages/maybeNotify.preload.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import * as Message from '../types/Message2.preload.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
-import { isUsernameValid } from '../util/Username.dom.ts';
+import { isUsernameValid } from '../util/Username.std.ts';
 import type { Emoji } from '../axo/emoji.std.ts';
 import { keyTransparency } from '../services/keyTransparency.preload.ts';
 import type { PollSource } from '../messageModifiers/Polls.preload.ts';

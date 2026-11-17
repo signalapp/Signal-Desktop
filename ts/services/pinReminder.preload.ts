@@ -10,7 +10,7 @@ import { safeSetTimeout } from '../util/timeout.std.ts';
 import { drop } from '../util/drop.std.ts';
 import * as Registration from '../util/registration.preload.ts';
 import { normalizePin } from '../util/normalizePin.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 
 const log = createLogger('pinReminder');
 

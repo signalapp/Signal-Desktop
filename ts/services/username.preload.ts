@@ -11,7 +11,7 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { SECOND } from '../util/durations/index.std.ts';
 import { sleep } from '../util/sleep.std.ts';
-import { getMinNickname, getMaxNickname } from '../util/Username.dom.ts';
+import { getMinNickname, getMaxNickname } from '../util/Username.std.ts';
 import { bytesToUuid, uuidToBytes } from '../util/uuidToBytes.std.ts';
 import type { UsernameReservationType } from '../types/Username.std.ts';
 import {

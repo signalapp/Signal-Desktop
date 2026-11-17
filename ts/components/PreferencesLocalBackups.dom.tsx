@@ -16,7 +16,7 @@ import { OSAuthErrorDialog } from './preferences/OSAuthErrorDialog.dom.tsx';
 import { I18n } from './I18n.dom.tsx';
 import type { SettingsLocation } from '../types/Nav.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type {
   PromptOSAuthReasonType,

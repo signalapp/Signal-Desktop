@@ -1,11 +1,11 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as Bytes from '../../Bytes.std.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
 import { isSignalServiceId } from '../../types/SignalConversation.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
+import { fromBase64 } from '../../Bytes.std.ts';
 
 import type { StorageInterface } from '../../types/Storage.d.ts';
 import type { AciString, ServiceIdString } from '../../types/ServiceId.std.ts';
@@ -248,10 +248,18 @@ export class Blocked {
         };
       })
       .filter(isNotNil);
-    const groupIds = Array.from(this.getBlockedGroups().values()).map(item => ({
-      ...item,
-      groupId: Bytes.fromBase64(item.groupId),
-    }));
+    const groupIds = Array.from(this.getBlockedGroups().values())
+      .map(item => {
+        try {
+          return {
+            ...item,
+            groupId: fromBase64(item.groupId),
+          };
+        } catch {
+          return null;
+        }
+      })
+      .filter(isNotNil);
 
     return {
       e164s,

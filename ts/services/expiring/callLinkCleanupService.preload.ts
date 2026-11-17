@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.std.ts';
 import { createExpiringEntityCleanupService } from './createExpiringEntityCleanupService.std.ts';
-import * as RemoteConfig from '../../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../../RemoteConfig.std.ts';
 
 export const callLinkCleanupService = createExpiringEntityCleanupService({
   logPrefix: 'CallLink',

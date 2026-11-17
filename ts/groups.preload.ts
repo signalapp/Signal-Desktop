@@ -80,7 +80,7 @@ import {
 import { HTTPError } from './types/HTTPError.std.ts';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from './types/Message2.preload.ts';
 import type { ConversationModel } from './models/conversations.preload.ts';
-import { getGroupSizeHardLimit } from './groups/limits.dom.ts';
+import { getGroupSizeHardLimit } from './groups/limits.std.ts';
 import {
   isGroupV1 as getIsGroupV1,
   isGroupV2 as getIsGroupV2,

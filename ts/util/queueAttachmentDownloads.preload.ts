@@ -53,7 +53,7 @@ import {
   itemStorage,
   DEFAULT_AUTO_DOWNLOAD_ATTACHMENT,
 } from '../textsecure/Storage.preload.ts';
-import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
 
 const defaultLogger = createLogger('queueAttachmentDownloads');
 

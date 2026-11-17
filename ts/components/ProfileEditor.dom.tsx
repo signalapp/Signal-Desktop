@@ -8,7 +8,7 @@ import { AvatarColors } from '../types/Avatar.std.ts';
 import { AvatarEditor } from './AvatarEditor.dom.tsx';
 import { AvatarPreview } from './AvatarPreview.dom.tsx';
 import { UsernameEditState } from '../state/ducks/usernameEnums.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import { UsernameLinkEditor } from './UsernameLinkEditor.dom.tsx';

@@ -17,7 +17,7 @@ import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useStoriesActions } from '../ducks/stories.preload.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { tw } from '../../axo/tw.dom.tsx';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.ts';

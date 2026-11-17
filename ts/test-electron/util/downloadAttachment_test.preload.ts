@@ -20,7 +20,7 @@ import {
   AttachmentUndownloadableFromTransitTierError,
   AttachmentVariant,
 } from '../../types/Attachment.std.ts';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { DAY, HOUR } from '../../util/durations/constants.std.ts';
 import {
@@ -491,7 +491,7 @@ describe('getCdnNumberForBackupTier', () => {
   const baseAttachment = {
     size: 100,
     contentType: IMAGE_PNG,
-    plaintextHash: 'plaintextHash',
+    plaintextHash: testPlaintextHash(),
     key: 'key',
   };
   it('uses cdnNumber on attachment', async () => {

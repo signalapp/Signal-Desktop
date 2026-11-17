@@ -13,14 +13,14 @@ import { WidthBreakpoint } from './_util.std.ts';
 import { UsernameMegaphone } from './UsernameMegaphone.dom.tsx';
 import { assertDev } from '../util/assert.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { MegaphoneType } from '../types/Megaphone.std.ts';
 import { NavTab, SettingsPage } from '../types/Nav.std.ts';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.tsx';
 import { tw } from '../axo/tw.dom.tsx';
 
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
 import type { AnyActionableMegaphone } from '../types/Megaphone.std.ts';
 import type { Location } from '../types/Nav.std.ts';
 import { I18n } from './I18n.dom.tsx';

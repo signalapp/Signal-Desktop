@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import * as Username from '../../util/Username.dom.ts';
+import * as Username from '../../util/Username.std.ts';
 
 describe('Username', () => {
   describe('isUsernameValid', () => {

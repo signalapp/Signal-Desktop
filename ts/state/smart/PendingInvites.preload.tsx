@@ -9,7 +9,7 @@ import {
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
 } from '../selectors/conversations.dom.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';

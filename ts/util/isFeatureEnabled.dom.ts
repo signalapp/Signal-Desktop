@@ -7,10 +7,10 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import { createLogger } from '../logging/log.std.ts';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
-import { getValue, isEnabled } from '../RemoteConfig.dom.ts';
+import { getValue, isEnabled } from '../RemoteConfig.std.ts';
 import { isAlpha, isBeta, isProduction, isStaging } from './version.std.ts';
 
-import type { SemverKeyType, ConfigMapType } from '../RemoteConfig.dom.ts';
+import type { SemverKeyType, ConfigMapType } from '../RemoteConfig.std.ts';
 
 const log = createLogger('isFeatureEnabled');
 

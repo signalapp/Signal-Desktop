@@ -4,7 +4,7 @@
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { isMoreRecentThan, isOlderThan } from './timestamp.std.ts';
 import { HOUR } from './durations/index.std.ts';
-import { getMessageQueueTime } from './getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from './getMessageQueueTime.std.ts';
 
 const SIX_HOURS = 6 * HOUR;
 

@@ -42,7 +42,7 @@ import {
   installFavoriteSticker,
 } from '../../util/stickers.preload.ts';
 import { showToast, type ShowToastActionType } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 
 const log = createLogger('ducks/stickers');
 

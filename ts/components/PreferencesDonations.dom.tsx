@@ -28,8 +28,8 @@ import type {
   AvatarColorType,
   AvatarUpdateOptionsType,
 } from '../types/Avatar.std.ts';
-import type { AnyToast } from '../types/Toast.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
+import { ToastType } from '../types/Toast.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { I18n } from './I18n.dom.tsx';

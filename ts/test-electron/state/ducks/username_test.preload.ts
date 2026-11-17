@@ -17,7 +17,7 @@ import {
   UsernameReservationError,
 } from '../../../state/ducks/usernameEnums.std.ts';
 import { actions } from '../../../state/ducks/username.preload.ts';
-import { ToastType } from '../../../types/Toast.dom.tsx';
+import { ToastType } from '../../../types/Toast.std.ts';
 import { noopAction } from '../../../state/ducks/noop.std.ts';
 import { reducer } from '../../../state/reducer.preload.ts';
 import {

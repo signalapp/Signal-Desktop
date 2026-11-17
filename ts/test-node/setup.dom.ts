@@ -5,7 +5,6 @@ import { use as chaiUse } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 
 import type { SignalContextType } from '../windows/context.preload.ts';
-import { Crypto } from '../context/Crypto.node.ts';
 import { setEnvironment, Environment } from '../environment.std.ts';
 import { HourCyclePreference } from '../types/I18N.std.ts';
 import packageJson from '../../package.json' with { type: 'json' };
@@ -15,7 +14,7 @@ chaiUse(chaiAsPromised);
 setEnvironment(Environment.Test, true);
 
 // To replicate logic we have on the client side
-global.window = {
+globalThis.window = {
   Date,
   performance,
   SignalContext: {
@@ -29,7 +28,6 @@ global.window = {
       resourcesUrl: 'https://127.0.0.1:9',
       version: packageJson.version,
     },
-    crypto: new Crypto(),
     getResolvedMessagesLocale: () => 'en',
     getResolvedMessagesLocaleDirection: () => 'ltr',
     getHourCyclePreference: () => HourCyclePreference.UnknownPreference,

@@ -8,7 +8,7 @@ import {
   COUNTRY_CODE_FALLBACK,
   getCountryCodeValue,
   getValue,
-} from '../RemoteConfig.dom.ts';
+} from '../RemoteConfig.std.ts';
 import { getCountryCode } from '../types/PhoneNumber.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 

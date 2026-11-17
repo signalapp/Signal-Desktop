@@ -37,8 +37,12 @@ export function isValidAttachmentKey(
   if (typeof keyBase64 !== 'string') {
     return false;
   }
-  const bytes = fromBase64(keyBase64);
-  return bytes.byteLength === KEY_SET_LENGTH;
+  try {
+    const bytes = fromBase64(keyBase64);
+    return bytes.byteLength === KEY_SET_LENGTH;
+  } catch {
+    return false;
+  }
 }
 
 export function isValidDigest(
@@ -47,8 +51,12 @@ export function isValidDigest(
   if (typeof digestBase64 !== 'string') {
     return false;
   }
-  const bytes = fromBase64(digestBase64);
-  return bytes.byteLength === DIGEST_LENGTH;
+  try {
+    const bytes = fromBase64(digestBase64);
+    return bytes.byteLength === DIGEST_LENGTH;
+  } catch {
+    return false;
+  }
 }
 
 export function isValidPlaintextHash(
@@ -57,6 +65,10 @@ export function isValidPlaintextHash(
   if (typeof plaintextHashHex !== 'string') {
     return false;
   }
-  const bytes = fromHex(plaintextHashHex);
-  return bytes.byteLength === PLAINTEXT_HASH_LENGTH;
+  try {
+    const bytes = fromHex(plaintextHashHex);
+    return bytes.byteLength === PLAINTEXT_HASH_LENGTH;
+  } catch {
+    return false;
+  }
 }

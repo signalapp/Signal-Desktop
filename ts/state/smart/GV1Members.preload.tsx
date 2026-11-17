@@ -7,7 +7,7 @@ import { noop } from 'lodash';
 
 import { ConversationDetailsMembershipList } from '../../components/conversation/conversation-details/ConversationDetailsMembershipList.dom.tsx';
 import { assertDev } from '../../util/assert.std.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import {
   getCachedConversationMemberColorsSelector,
   getConversationByIdSelector,

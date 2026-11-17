@@ -27,7 +27,7 @@ import {
   asyncShouldNeverBeCalled,
 } from '../util/shouldNeverBeCalled.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
 import { UserText } from './UserText.dom.tsx';

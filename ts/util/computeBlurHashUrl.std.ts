@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { decode } from 'blurhash';
-import * as Bytes from '../Bytes.std.ts';
+import { toBase64 } from '../Bytes.std.ts';
 
 const BITMAP_HEADER = new Uint8Array([
   // Header
@@ -134,5 +134,5 @@ export function computeBlurHashUrl(
     bitmap[j] = rgba[i + 2]!;
   }
 
-  return `data:image/bmp;base64,${Bytes.toBase64(bitmap)}`;
+  return `data:image/bmp;base64,${toBase64(bitmap)}`;
 }

@@ -2,6 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { DurationMs, type DurationSecs, TimestampMs } from '@signalapp/types';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
+import { parseIntWithFallback } from './parseIntWithFallback.std.ts';
+
+export function getPinnedMessagesLimit(): number {
+  const remoteValue = RemoteConfig.getValue('global.pinnedMessageLimit');
+  return parseIntWithFallback(remoteValue, 3);
+}
 
 export function getPinnedMessageExpiresAt(
   pinnedAt: TimestampMs,

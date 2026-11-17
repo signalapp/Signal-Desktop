@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
 import { getDiscriminator, getNickname } from '../types/Username.std.ts';
 import { parseIntWithFallback } from './parseIntWithFallback.std.ts';
 

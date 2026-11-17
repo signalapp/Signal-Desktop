@@ -6,7 +6,7 @@ import { PureComponent } from 'react';
 
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 
 const log = createLogger('ErrorBoundary');
 

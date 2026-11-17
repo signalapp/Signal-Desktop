@@ -9,8 +9,8 @@ import type {
 import type { PeakType } from '../types/Audio.dom.tsx';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { AnyToast } from '../types/Toast.dom.tsx';
-import { ToastType } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
+import { ToastType } from '../types/Toast.std.ts';
 import { DurationInSeconds, SECOND } from '../util/durations/index.std.ts';
 import { tw } from '../axo/tw.dom.tsx';
 import { durationToPlaybackText } from '../util/durationToPlaybackText.std.ts';

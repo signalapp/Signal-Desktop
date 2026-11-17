@@ -15,7 +15,7 @@ import { DAY, HOUR } from '../util/durations/index.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { drop } from '../util/drop.std.ts';
 import { isMockEnvironment } from '../environment.std.ts';
-import { isEnabled } from '../RemoteConfig.dom.ts';
+import { isEnabled } from '../RemoteConfig.std.ts';
 import { safeSetTimeout } from '../util/timeout.std.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';

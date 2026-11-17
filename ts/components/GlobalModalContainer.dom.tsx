@@ -37,7 +37,7 @@ import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGif
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.tsx';
 import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.tsx';
 import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.tsx';
-import { isUsernameValid } from '../util/Username.dom.ts';
+import { isUsernameValid } from '../util/Username.std.ts';
 import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.tsx';
 import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
 import type { ErrorModalDataProps } from './ErrorModal.dom.tsx';

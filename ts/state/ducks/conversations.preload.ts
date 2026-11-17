@@ -93,7 +93,7 @@ import * as Errors from '../../types/errors.std.ts';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
-} from '../../groups/limits.dom.ts';
+} from '../../groups/limits.std.ts';
 import { isMessageUnread } from '../../util/isMessageUnread.std.ts';
 import type { NotifyWhileMutedKey } from '../../util/notifyWhileMuted.std.ts';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition.std.ts';
@@ -147,7 +147,7 @@ import { getActiveCall, getActiveCallState } from '../selectors/calling.std.ts';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage.preload.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import { SHOW_TOAST } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { isMemberRequestingToJoin } from '../../util/groupMembershipUtils.preload.ts';
 import { removePendingMember } from '../../util/removePendingMember.preload.ts';
 import { denyPendingApprovalRequest } from '../../util/denyPendingApprovalRequest.preload.ts';
@@ -252,7 +252,7 @@ import type {
   AsyncStateThunk,
   SyncStateThunk,
 } from '../types.std.ts';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.std.ts';
 import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.ts';
 import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.ts';
 import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.ts';

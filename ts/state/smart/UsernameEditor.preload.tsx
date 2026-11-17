@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { UsernameEditor } from '../../components/UsernameEditor.dom.tsx';
-import { getMinNickname, getMaxNickname } from '../../util/Username.dom.ts';
+import { getMinNickname, getMaxNickname } from '../../util/Username.std.ts';
 import { getIntl } from '../selectors/user.std.ts';
 import {
   getUsernameReservationState,

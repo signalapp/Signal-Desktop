@@ -7,7 +7,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import type { AnyToast } from '../../types/Toast.dom.tsx';
+import type { AnyToast } from '../../types/Toast.std.ts';
 
 // State
 

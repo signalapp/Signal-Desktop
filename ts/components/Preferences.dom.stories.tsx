@@ -60,7 +60,7 @@ import type {
   DonationWorkflow,
   OneTimeDonationHumanAmounts,
 } from '../types/Donations.std.ts';
-import type { AnyToast } from '../types/Toast.dom.tsx';
+import type { AnyToast } from '../types/Toast.std.ts';
 import type { SmartPreferencesBlockedProps } from '../state/smart/PreferencesBlocked.preload.tsx';
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/PreferencesEditChatFolderPage.preload.tsx';

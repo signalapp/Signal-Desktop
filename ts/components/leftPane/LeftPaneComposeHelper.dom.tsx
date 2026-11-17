@@ -17,7 +17,7 @@ import {
   isFetchingByE164,
 } from '../../util/uuidFetchState.std.ts';
 import type { GroupListItemConversationType } from '../conversationList/GroupListItem.dom.tsx';
-import { isProbablyAUsername } from '../../util/Username.dom.ts';
+import { isProbablyAUsername } from '../../util/Username.std.ts';
 import { NavSidebarBackButton } from '../NavSidebar.dom.tsx';
 
 export type LeftPaneComposePropsType = {

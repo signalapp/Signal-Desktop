@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 
 import classNames from 'classnames';
 import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 
 // Keep this in sync with iOS and Android

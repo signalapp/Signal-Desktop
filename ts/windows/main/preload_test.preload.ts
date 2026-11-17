@@ -15,7 +15,7 @@ import * as Stickers from '../../types/Stickers.preload.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { MessageCache } from '../../services/MessageCache.preload.ts';
-import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.ts';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.std.ts';
 
 chaiUse(chaiAsPromised);
 

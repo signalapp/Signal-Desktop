@@ -46,7 +46,7 @@ import {
   isValidPlaintextHash,
 } from '../types/Crypto.std.ts';
 import type { ExistingAttachmentUploadData } from '../sql/Interface.std.ts';
-import { maybeRefreshRemoteConfig } from '../RemoteConfig.dom.ts';
+import { maybeRefreshRemoteConfig } from '../RemoteConfig.std.ts';
 import { strictAssert, assertDev } from './assert.std.ts';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
@@ -294,6 +294,8 @@ export async function encryptAndUploadAttachment({
       await maybeRefreshRemoteConfig({
         getConfig,
         storage: itemStorage,
+        ourVersion: window.getVersion(),
+        showToast: window.reduxActions.toast.showToast,
       });
     }
     throw error;

@@ -144,7 +144,7 @@ import {
 } from '../../environment.std.ts';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads.std.ts';
 import { isAdhoc, isNightly } from '../../util/version.std.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { isConversationAccepted } from '../../util/isConversationAccepted.preload.ts';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData.preload.ts';
 import { postSaveUpdates } from '../../util/cleanup.preload.ts';
@@ -160,7 +160,7 @@ import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaD
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.ts';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.std.ts';
 import type { PinnedMessageParams } from '../../types/PinnedMessage.std.ts';
 import type { ThemeType } from '../../util/preload.preload.ts';
 import { toNumber } from '../../util/toNumber.std.ts';

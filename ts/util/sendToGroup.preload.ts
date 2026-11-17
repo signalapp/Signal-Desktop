@@ -29,7 +29,7 @@ import { Address } from '../types/Address.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { DataWriter } from '../sql/Client.preload.ts';
-import { getValue } from '../RemoteConfig.dom.ts';
+import { getValue } from '../RemoteConfig.std.ts';
 import type { ServiceIdString } from '../types/ServiceId.std.ts';
 import { fromServiceIdObject, ServiceIdKind } from '../types/ServiceId.std.ts';
 import * as Bytes from '../Bytes.std.ts';

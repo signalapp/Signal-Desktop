@@ -77,7 +77,7 @@ import { verifyStoryListMembers as doVerifyStoryListMembers } from '../../util/v
 import { viewSyncJobQueue } from '../../jobs/viewSyncJobQueue.preload.ts';
 import { getOwn } from '../../util/getOwn.std.ts';
 import { SHOW_TOAST } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import type { ShowToastActionType } from './toast.preload.ts';
 import {
   conversationJobQueue,

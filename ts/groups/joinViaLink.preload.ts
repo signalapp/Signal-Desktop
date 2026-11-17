@@ -12,7 +12,7 @@ import { createLogger } from '../logging/log.std.ts';
 import { HTTPError } from '../types/HTTPError.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import type { ContactAvatarType } from '../types/Avatar.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import {
   applyNewAvatar,
   decryptGroupDescription,

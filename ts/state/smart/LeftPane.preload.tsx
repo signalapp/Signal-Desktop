@@ -13,9 +13,9 @@ import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits.dom.ts';
+} from '../../groups/limits.std.ts';
 import { LeftPaneMode } from '../../types/leftPane.std.ts';
-import { getUsernameFromSearch } from '../../util/Username.dom.ts';
+import { getUsernameFromSearch } from '../../util/Username.std.ts';
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.ts';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';

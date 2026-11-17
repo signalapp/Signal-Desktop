@@ -5,7 +5,7 @@ import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { HOUR, SECOND } from './durations/index.std.ts';
 import { isOlderThan } from './timestamp.std.ts';
 import { isProduction } from './version.std.ts';

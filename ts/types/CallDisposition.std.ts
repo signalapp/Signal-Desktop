@@ -5,8 +5,8 @@ import { z } from 'zod';
 import type { AciString } from './ServiceId.std.ts';
 import { aciSchema } from './ServiceId.std.ts';
 import { bytesToUuid } from '../util/uuidToBytes.std.ts';
+import { toBase64, toHex } from '../Bytes.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
-import * as Bytes from '../Bytes.std.ts';
 import { UUID_BYTE_SIZE } from './Crypto.std.ts';
 
 import { toNumber } from '../util/toNumber.std.ts';
@@ -271,12 +271,12 @@ const conversationPeerIdInBytesSchema = z
     }
 
     // groupId
-    return Bytes.toBase64(value);
+    return toBase64(value);
   });
 
 const roomIdInBytesSchema = z
   .instanceof(Uint8Array)
-  .transform(value => Bytes.toHex(value));
+  .transform(value => toHex(value));
 
 const longToStringSchema = z.bigint().transform(big => big.toString());
 

@@ -29,7 +29,7 @@ import { SpinnerV2 } from '../SpinnerV2.dom.tsx';
 import { OfficialChatInlineBadge } from '../conversation/OfficialChatInlineBadge.dom.tsx';
 import { artAddStickersRoute } from '../../util/signalRoutes.std.ts';
 import { drop } from '../../util/drop.std.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import { fromBase64PackKeyToHex } from '../../util/Stickers.std.ts';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus.dom.ts';
 import type { StickerReferenceType } from '../../types/Stickers.preload.ts';

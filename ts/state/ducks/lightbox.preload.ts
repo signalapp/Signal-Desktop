@@ -37,7 +37,7 @@ import {
 } from '../selectors/message.preload.ts';
 import { getHasMediaBackups } from '../selectors/items.dom.ts';
 import { SHOW_TOAST } from './toast.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,

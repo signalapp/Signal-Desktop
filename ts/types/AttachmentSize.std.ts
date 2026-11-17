@@ -3,7 +3,7 @@
 
 import { createLogger } from '../logging/log.std.ts';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.ts';
-import type * as RemoteConfig from '../RemoteConfig.dom.ts';
+import type * as RemoteConfig from '../RemoteConfig.std.ts';
 import { getAttachmentCiphertextSize } from '../util/AttachmentCrypto.std.ts';
 import { MediaTier } from './AttachmentDownload.std.ts';
 import type { AttachmentDraftType } from './Attachment.std.ts';

@@ -33,7 +33,7 @@ import type { UUIDFetchStateType } from '../../util/uuidFetchState.std.ts';
 import { deconstructLookup } from '../../util/deconstructLookup.std.ts';
 import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline.dom.tsx';
 import { assertDev } from '../../util/assert.std.ts';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.ts';
 import type { ChatStyle } from '../../types/ChatStyle.std.ts';
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
@@ -95,7 +95,7 @@ import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.ts';
 import { getActiveProfile } from './notificationProfiles.dom.ts';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.ts';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.std.ts';
 import { getSelectedConversationId, getSelectedNavTab } from './nav.std.ts';
 import { getCallHistoryUnreadCountsByConversationId } from './callHistory.std.ts';
 import { NavTab } from '../../types/Nav.std.ts';

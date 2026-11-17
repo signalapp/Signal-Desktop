@@ -7,6 +7,7 @@ import PQueue from 'p-queue';
 import pMap from 'p-map';
 import { v7 as generateUuid } from 'uuid';
 import { resetLocalTimeZone as intlDateResetLocalTimeZone } from '@internationalized/date';
+import { setTimeout, clearTimeout } from 'node:timers';
 
 import * as Registration from './util/registration.preload.ts';
 import MessageReceiver from './textsecure/MessageReceiver.preload.ts';
@@ -24,9 +25,8 @@ import {
 } from './textsecure/TaskWithTimeout.std.ts';
 import type { MessageAttributesType } from './model-types.std.ts';
 import * as Bytes from './Bytes.std.ts';
-import * as Timers from './Timers.preload.ts';
 import * as indexedDb from './indexeddb.dom.ts';
-import { ToastType } from './types/Toast.dom.tsx';
+import { ToastType } from './types/Toast.std.ts';
 import type { MenuOptionsType } from './types/menu.std.ts';
 import { SocketStatus } from './types/SocketStatus.std.ts';
 import { ThemeType } from './types/Util.std.ts';
@@ -232,7 +232,7 @@ import {
 import { generateMessageId } from './util/generateMessageId.node.ts';
 import { retryPlaceholders } from './services/retryPlaceholders.std.ts';
 import { setBatchingStrategy } from './util/messageBatcher.preload.ts';
-import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.dom.ts';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration.std.ts';
 import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcuts.preload.ts';
 import { createEventHandler } from './quill/signal-clipboard/util.dom.ts';
 import { onCallLogEventSync } from './util/onCallLogEventSync.preload.ts';
@@ -261,7 +261,7 @@ import {
   onChange as onRemoteConfigChange,
   maybeRefreshRemoteConfig,
   forceRefreshRemoteConfig,
-} from './RemoteConfig.dom.ts';
+} from './RemoteConfig.std.ts';
 import {
   getParametersForRedux,
   loadAll,
@@ -1745,6 +1745,8 @@ async function startApp(): Promise<void> {
         await maybeRefreshRemoteConfig({
           getConfig,
           storage: itemStorage,
+          ourVersion: window.getVersion(),
+          showToast: window.reduxActions.toast.showToast,
         });
       } catch (error) {
         if (error instanceof HTTPError) {
@@ -1766,7 +1768,10 @@ async function startApp(): Promise<void> {
       if (value == null) {
         return;
       }
-      const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(value);
+      const remoteBuildExpirationTimestamp = parseRemoteClientExpiration({
+        ourVersion: window.getVersion(),
+        remoteExpirationValue: value,
+      });
       if (remoteBuildExpirationTimestamp) {
         drop(
           itemStorage.put(
@@ -1894,7 +1899,12 @@ async function startApp(): Promise<void> {
       if (isFirstAuthSocketConnect) {
         try {
           await forceRefreshRemoteConfig(
-            { getConfig, storage: itemStorage },
+            {
+              getConfig,
+              storage: itemStorage,
+              ourVersion: window.getVersion(),
+              showToast: window.reduxActions.toast.showToast,
+            },
             'afterAuthSocketConnect/firstConnect'
           );
         } catch (error) {
@@ -2206,7 +2216,7 @@ async function startApp(): Promise<void> {
         messageReceiver?.removeEventListener('envelopeQueued', onResetTimer);
 
         if (timeout !== undefined) {
-          Timers.clearTimeout(timeout);
+          clearTimeout(timeout);
           timeout = undefined;
         }
       };
@@ -2216,7 +2226,7 @@ async function startApp(): Promise<void> {
         cleanup();
         reject(new Error(`${logId}: Empty queue never fired`));
       };
-      let timeout: Timers.Timeout | undefined = Timers.setTimeout(
+      let timeout: NodeJS.Timeout | undefined = setTimeout(
         onTimeout,
         durations.MINUTE
       );
@@ -2229,9 +2239,9 @@ async function startApp(): Promise<void> {
 
       const onResetTimer = () => {
         if (timeout !== undefined) {
-          Timers.clearTimeout(timeout);
+          clearTimeout(timeout);
         }
-        timeout = Timers.setTimeout(onTimeout, durations.MINUTE);
+        timeout = setTimeout(onTimeout, durations.MINUTE);
       };
       messageReceiver.addEventListener('envelopeQueued', onResetTimer);
 
@@ -2321,7 +2331,7 @@ async function startApp(): Promise<void> {
     initMegaphoneCheckService();
     pinReminderService.init();
     // delay unread reminders by some arbitrary amount to avoid reminding at startup
-    Timers.setTimeout(() => initializeUnreadReminderService(), FIVE_MINUTES);
+    setTimeout(() => initializeUnreadReminderService(), FIVE_MINUTES);
 
     if (isFromMessageReceiver) {
       drop(

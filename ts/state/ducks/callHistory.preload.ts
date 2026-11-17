@@ -13,7 +13,7 @@ import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import type { ToastActionType } from './toast.preload.ts';
 import { showToast } from './toast.preload.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
-import { ToastType } from '../../types/Toast.dom.tsx';
+import { ToastType } from '../../types/Toast.std.ts';
 import {
   ClearCallHistoryResult,
   type CallHistoryDetails,

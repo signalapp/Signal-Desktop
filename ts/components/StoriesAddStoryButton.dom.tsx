@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import {
   isVideoGoodForStories,
   ReasonVideoNotGood,

@@ -6,7 +6,7 @@ import { ChallengeHandler } from '../challenge.dom.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { sendChallengeResponse as doSendChallengeResponse } from '../textsecure/WebAPI.preload.ts';
 import { conversationJobQueue } from '../jobs/conversationJobQueue.preload.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { SECOND } from '../util/durations/index.std.ts';
 
 export const challengeHandler = new ChallengeHandler({

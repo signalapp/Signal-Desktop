@@ -44,7 +44,7 @@ import { isNotNil } from '../util/isNotNil.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import { type RemoteMegaphoneType } from '../types/Megaphone.std.ts';
-import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.ts';
+import { isCountryPpmCsvBucketEnabled } from '../util/RemoteConfig.node.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
 import {
   deleteMegaphoneAndRemoveFromRedux,

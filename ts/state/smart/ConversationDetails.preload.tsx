@@ -8,11 +8,11 @@ import { ConversationDetails } from '../../components/conversation/conversation-
 import {
   getGroupSizeHardLimit,
   getGroupSizeRecommendedLimit,
-} from '../../groups/limits.dom.ts';
+} from '../../groups/limits.std.ts';
 import { SignalService as Proto } from '../../protobuf/index.std.ts';
 import type { CallHistoryGroup } from '../../types/CallDisposition.std.ts';
 import { assertDev } from '../../util/assert.std.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import {
   getBadgesSelector,
   getPreferredBadgeSelector,

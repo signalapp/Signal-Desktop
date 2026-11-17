@@ -42,7 +42,7 @@ import {
 } from '../../util/groupMemberNameCollisions.std.ts';
 import type { ConversationType } from '../ducks/conversations.preload.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import type { ContactNameColorType } from '../../types/ContactNameColor.std.ts';
 import { getResolveSharedContactSelector } from './sharedContact.dom.ts';
 import { getIsFavoriteStickerSelector } from './stickers.std.ts';

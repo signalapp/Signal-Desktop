@@ -8,7 +8,7 @@ import {
 
 import { isProduction } from './util/version.std.ts';
 import { drop } from './util/drop.std.ts';
-import * as RemoteConfig from './RemoteConfig.dom.ts';
+import * as RemoteConfig from './RemoteConfig.std.ts';
 import type { AddPrefix, ArrayValues } from './types/Util.std.ts';
 import { createLogger } from './logging/log.std.ts';
 

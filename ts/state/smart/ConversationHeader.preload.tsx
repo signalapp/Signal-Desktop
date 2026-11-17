@@ -17,7 +17,7 @@ import { PanelType } from '../../types/Panels.std.ts';
 import { StoryViewModeType } from '../../types/Stories.std.ts';
 import { strictAssert } from '../../util/assert.std.ts';
 import { getAddedByForGroup } from '../../util/getAddedByForGroup.preload.ts';
-import { getGroupMemberships } from '../../util/getGroupMemberships.dom.ts';
+import { getGroupMemberships } from '../../util/getGroupMemberships.std.ts';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.ts';
 import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';

@@ -1,7 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { v4 as generateUuid } from 'uuid';
-import * as Bytes from '../Bytes.std.ts';
 import type {
   CallLinkConversationType,
   CallLinkType,
@@ -9,6 +8,7 @@ import type {
 import { CallLinkRestrictions } from '../types/CallLink.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { getColorForCallLink } from './getColorForCallLink.std.ts';
+import { fromBase64, toBase64 } from '../Bytes.std.ts';
 import {
   AdhocCallStatus,
   CallDirection,
@@ -71,11 +71,11 @@ export function getPlaceholderCallLinkConversation(
 }
 
 export function toAdminKeyBytes(adminKey: string): Uint8Array<ArrayBuffer> {
-  return Bytes.fromBase64(adminKey);
+  return fromBase64(adminKey);
 }
 
 export function fromAdminKeyBytes(adminKey: Uint8Array<ArrayBuffer>): string {
-  return Bytes.toBase64(adminKey);
+  return toBase64(adminKey);
 }
 
 export function toCallHistoryFromUnusedCallLink(

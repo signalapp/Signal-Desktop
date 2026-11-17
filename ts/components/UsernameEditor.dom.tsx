@@ -15,7 +15,7 @@ import lodash from 'lodash';
 
 import type { LocalizerType } from '../types/Util.std.ts';
 import type { UsernameReservationType } from '../types/Username.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
 import {
   getNickname,

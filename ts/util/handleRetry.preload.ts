@@ -17,11 +17,11 @@ import { lightSessionResetQueue } from './lightSessionResetQueue.std.ts';
 import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
 import { isOlderThan } from './timestamp.std.ts';
 import { parseIntOrThrow } from './parseIntOrThrow.std.ts';
-import * as RemoteConfig from '../RemoteConfig.dom.ts';
+import * as RemoteConfig from '../RemoteConfig.std.ts';
 import { Address } from '../types/Address.std.ts';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.ts';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import * as Errors from '../types/errors.std.ts';
 
 import type { ConversationModel } from '../models/conversations.preload.ts';

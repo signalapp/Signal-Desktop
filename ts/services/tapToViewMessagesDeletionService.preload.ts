@@ -4,7 +4,7 @@
 import lodash from 'lodash';
 import { DataReader } from '../sql/Client.preload.ts';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { toBoundedDate } from '../util/timestamp.std.ts';

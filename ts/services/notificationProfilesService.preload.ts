@@ -7,7 +7,7 @@ import { createLogger } from '../logging/log.std.ts';
 
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.ts';
 import { isInPast, isMoreRecentThan } from '../util/timestamp.std.ts';
-import { getMessageQueueTime } from '../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../util/getMessageQueueTime.std.ts';
 import { drop } from '../util/drop.std.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.ts';
 import {
@@ -22,7 +22,7 @@ import {
   getProfiles,
 } from '../state/selectors/notificationProfiles.dom.ts';
 import { safeSetTimeout } from '../util/timeout.std.ts';
-import { ToastType } from '../types/Toast.dom.tsx';
+import { ToastType } from '../types/Toast.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 
 import type {

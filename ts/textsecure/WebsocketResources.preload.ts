@@ -27,6 +27,7 @@ import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
 import type { BodyInit } from 'node-fetch';
 import { z } from 'zod';
+import { setTimeout, clearTimeout } from 'node:timers';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
 import { ErrorCode } from '@signalapp/libsignal-client';
@@ -45,7 +46,6 @@ import { drop } from '../util/drop.std.ts';
 import { isOlderThan } from '../util/timestamp.std.ts';
 import * as Errors from '../types/errors.std.ts';
 import { createLogger } from '../logging/log.std.ts';
-import * as Timers from '../Timers.preload.ts';
 
 import { AbortableProcess } from '../util/AbortableProcess.std.ts';
 import type { WebAPICredentials } from './Types.d.ts';
@@ -591,7 +591,7 @@ class KeepAliveSender {
  * {@link KeepAliveSender}.
  */
 class KeepAlive extends KeepAliveSender {
-  #keepAliveTimer: Timers.Timeout | undefined;
+  #keepAliveTimer: NodeJS.Timeout | undefined;
   #lastAliveAt: number = Date.now();
 
   constructor(
@@ -634,15 +634,12 @@ class KeepAlive extends KeepAliveSender {
 
     this.#clearTimers();
 
-    this.#keepAliveTimer = Timers.setTimeout(
-      () => this.send(),
-      KEEPALIVE_INTERVAL_MS
-    );
+    this.#keepAliveTimer = setTimeout(() => this.send(), KEEPALIVE_INTERVAL_MS);
   }
 
   #clearTimers(): void {
     if (this.#keepAliveTimer) {
-      Timers.clearTimeout(this.#keepAliveTimer);
+      clearTimeout(this.#keepAliveTimer);
       this.#keepAliveTimer = undefined;
     }
   }

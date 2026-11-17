@@ -1,13 +1,15 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { Buffer } from 'node:buffer';
+import type { Decipheriv } from 'node:crypto';
+import crypto from 'node:crypto';
 import lodash from 'lodash';
 import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
 import { AccountEntropyPool } from '@signalapp/libsignal-client/dist/AccountKeys';
 
 import * as Bytes from './Bytes.std.ts';
-import { Crypto } from './context/Crypto.node.ts';
 import { calculateAgreement, generateKeyPair } from './Curve.node.ts';
 import { HashType, CipherType } from './types/Crypto.std.ts';
 import { AVATAR_COLOR_COUNT, AvatarColors } from './types/Avatar.std.ts';
@@ -16,6 +18,7 @@ import { getBytesSubarray } from './util/uuidToBytes.std.ts';
 import { logPadSize } from './util/logPadSize.std.ts';
 import { Environment, getEnvironment } from './environment.std.ts';
 import { toWebSafeBase64 } from './util/webSafeBase64.std.ts';
+import { strictAssert } from './util/assert.std.ts';
 
 import type { AciString, PniString } from './types/ServiceId.std.ts';
 import type { AvatarColorType } from './types/Avatar.std.ts';
@@ -26,6 +29,8 @@ export { HashType, CipherType };
 
 const PROFILE_IV_LENGTH = 12; // bytes
 const PROFILE_KEY_LENGTH = 32; // bytes
+
+const AUTH_TAG_SIZE = 16;
 
 // bytes
 export const PaddedLengths = {
@@ -696,32 +701,111 @@ export function decryptProfileName(
 // SignalContext APIs
 //
 
-const crypto = globalThis.window?.SignalContext.crypto || new Crypto();
-
 export function sign(
   key: Uint8Array<ArrayBuffer>,
   data: Uint8Array<ArrayBuffer>
 ): Uint8Array<ArrayBuffer> {
-  return crypto.sign(key, data);
+  return crypto
+    .createHmac('sha256', Buffer.from(key))
+    .update(Buffer.from(data))
+    .digest();
 }
 
 export function hash(
   type: HashType,
   data: Uint8Array<ArrayBuffer>
 ): Uint8Array<ArrayBuffer> {
-  return crypto.hash(type, data);
+  return crypto.createHash(type).update(Buffer.from(data)).digest();
 }
 
 export function encrypt(
-  ...args: Parameters<typeof crypto.encrypt>
+  cipherType: CipherType,
+  {
+    key,
+    plaintext,
+    iv,
+    aad,
+  }: Readonly<{
+    key: Uint8Array<ArrayBuffer>;
+    plaintext: Uint8Array<ArrayBuffer>;
+    iv: Uint8Array<ArrayBuffer>;
+    aad?: Uint8Array<ArrayBuffer>;
+  }>
 ): Uint8Array<ArrayBuffer> {
-  return crypto.encrypt(...args);
+  if (cipherType === CipherType.AES256GCM) {
+    const gcm = crypto.createCipheriv(
+      cipherType,
+      Buffer.from(key),
+      Buffer.from(iv)
+    );
+
+    if (aad) {
+      gcm.setAAD(aad);
+    }
+
+    const first = gcm.update(Buffer.from(plaintext));
+    const last = gcm.final();
+    const tag = gcm.getAuthTag();
+    strictAssert(tag.length === AUTH_TAG_SIZE, 'Invalid auth tag size');
+
+    return Buffer.concat([first, last, tag]);
+  }
+
+  strictAssert(aad === undefined, `AAD is not supported for: ${cipherType}`);
+  const cipher = crypto.createCipheriv(
+    cipherType,
+    Buffer.from(key),
+    Buffer.from(iv)
+  );
+  return Buffer.concat([cipher.update(Buffer.from(plaintext)), cipher.final()]);
 }
 
 export function decrypt(
-  ...args: Parameters<typeof crypto.decrypt>
+  cipherType: CipherType,
+  {
+    key,
+    ciphertext,
+    iv,
+    aad,
+  }: Readonly<{
+    key: Uint8Array<ArrayBuffer>;
+    ciphertext: Uint8Array<ArrayBuffer>;
+    iv: Uint8Array<ArrayBuffer>;
+    aad?: Uint8Array<ArrayBuffer>;
+  }>
 ): Uint8Array<ArrayBuffer> {
-  return crypto.decrypt(...args);
+  let decipher: Decipheriv;
+  let input = Buffer.from(ciphertext);
+  if (cipherType === CipherType.AES256GCM) {
+    const gcm = crypto.createDecipheriv(
+      cipherType,
+      Buffer.from(key),
+      Buffer.from(iv)
+    );
+
+    if (input.length < AUTH_TAG_SIZE) {
+      throw new Error('Invalid GCM ciphertext');
+    }
+
+    const tag = input.subarray(input.length - AUTH_TAG_SIZE);
+    input = input.subarray(0, input.length - AUTH_TAG_SIZE);
+
+    gcm.setAuthTag(tag);
+
+    if (aad) {
+      gcm.setAAD(aad);
+    }
+
+    decipher = gcm;
+  } else {
+    strictAssert(aad === undefined, `AAD is not supported for: ${cipherType}`);
+    decipher = crypto.createDecipheriv(
+      cipherType,
+      Buffer.from(key),
+      Buffer.from(iv)
+    );
+  }
+  return Buffer.concat([decipher.update(input), decipher.final()]);
 }
 
 /**
@@ -732,14 +816,14 @@ export function randomInt(min: number, max: number): number {
 }
 
 export function getRandomBytes(size: number): Uint8Array<ArrayBuffer> {
-  return crypto.getRandomBytes(size);
+  return crypto.randomBytes(size);
 }
 
 export function constantTimeEqual(
   left: Uint8Array<ArrayBuffer>,
   right: Uint8Array<ArrayBuffer>
 ): boolean {
-  return crypto.constantTimeEqual(left, right);
+  return crypto.timingSafeEqual(Buffer.from(left), Buffer.from(right));
 }
 
 export function getIdentifierHash({
@@ -761,7 +845,11 @@ export function getIdentifierHash({
   } else if (pni != null) {
     identifier = Pni.parseFromServiceIdString(pni).getServiceIdBinary();
   } else if (groupId != null) {
-    identifier = Bytes.fromBase64(groupId);
+    try {
+      identifier = Bytes.fromBase64(groupId);
+    } catch {
+      return null;
+    }
   } else {
     return null;
   }

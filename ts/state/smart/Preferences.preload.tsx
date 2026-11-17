@@ -91,7 +91,7 @@ import { SmartPreferencesDonations } from './PreferencesDonations.preload.tsx';
 import { useDonationsActions } from '../ducks/donations.preload.ts';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.ts';
 import { backupLevelFromNumber } from '../../services/backups/types.std.ts';
-import { getMessageQueueTime } from '../../util/getMessageQueueTime.dom.ts';
+import { getMessageQueueTime } from '../../util/getMessageQueueTime.std.ts';
 import { useBackupActions } from '../ducks/backups.preload.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.tsx';
