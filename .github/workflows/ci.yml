@@ -33,6 +33,7 @@ jobs:
       sticker-creator: ${{ steps.changes.outputs.sticker-creator }}
       dependencies: ${{ steps.changes.outputs.dependencies }}
       axo: ${{ steps.changes.outputs.axo }}
+      changesets-release: ${{ steps.changes.outputs.changesets-release }}
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -48,34 +49,43 @@ jobs:
           # Globs matched as git `:(glob)` pathspecs
           FILTERS: |
             sticker-creator:
-              - sticker-creator/**
-              - package.json
-              - pnpm-lock.yaml
-              - pnpm-workspace.yaml
-              - .pnpmfile.mjs
-              - .github/actions/setup/**
-              - .github/workflows/ci.yml
+              paths-any:
+                - sticker-creator/**
+                - package.json
+                - pnpm-lock.yaml
+                - pnpm-workspace.yaml
+                - .pnpmfile.mjs
+                - .github/actions/setup/**
+                - .github/workflows/ci.yml
             dependencies:
-              - '**/package.json'
-              - '**/pnpm-lock.yaml'
-              - '**/pnpm-workspace.yaml'
-              - '**/.pnpmfile.mjs'
-              - .github/workflows/ci.yml
+              paths-any:
+                - '**/package.json'
+                - '**/pnpm-lock.yaml'
+                - '**/pnpm-workspace.yaml'
+                - '**/.pnpmfile.mjs'
+                - .github/workflows/ci.yml
             # Lint keeps ts/axo from importing the rest of ts/
             axo:
-              - ts/axo/**
-              - vitest.config.mts
-              - stylesheets/**
-              - fonts/**
-              - packages/types/**
-              - scripts/generate-emoji-data.mjs
-              - package.json
-              - pnpm-lock.yaml
-              - pnpm-workspace.yaml
-              - .pnpmfile.mjs
-              - tsconfig.json
-              - .github/actions/setup/**
-              - .github/workflows/ci.yml
+              paths-any:
+                - ts/axo/**
+                - vitest.config.mts
+                - stylesheets/**
+                - fonts/**
+                - packages/types/**
+                - scripts/generate-emoji-data.mjs
+                - package.json
+                - pnpm-lock.yaml
+                - pnpm-workspace.yaml
+                - .pnpmfile.mjs
+                - tsconfig.json
+                - .github/actions/setup/**
+                - .github/workflows/ci.yml
+            changesets-release:
+              if: ${{ github.event_name == 'pull_request' && github.head_ref == 'changeset-release/main' && github.event.pull_request.user.login == 'automated-signal' }}
+              paths-only:
+                - .changeset/**
+                - packages/*/CHANGELOG.md
+                - packages/*/package.json
         run: |
           filters=$(yq --output-format=json --indent=0 <<< "$FILTERS")
           node .github/scripts/paths-filter.mjs --base HEAD^1 --filters "$filters" >> "$GITHUB_OUTPUT"
@@ -268,6 +278,8 @@ jobs:
 
   linux:
     name: Linux
+    needs: changes
+    if: ${{ needs.changes.outputs.changesets-release != 'true' }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
@@ -357,6 +369,8 @@ jobs:
 
   windows:
     name: Windows
+    needs: changes
+    if: ${{ needs.changes.outputs.changesets-release != 'true' }}
     runs-on: windows-latest-8-cores
     timeout-minutes: 15
     steps:
@@ -428,7 +442,7 @@ jobs:
   sticker-creator:
     name: Sticker Creator
     needs: changes
-    if: ${{ needs.changes.outputs.sticker-creator == 'true' }}
+    if: ${{ needs.changes.outputs.sticker-creator == 'true' && needs.changes.outputs.changesets-release != 'true' }}
     runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 5
 
@@ -483,8 +497,9 @@ jobs:
           - name: '[8/8]'
             value: 7
 
-    runs-on: ubuntu-latest-8-cores
-    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' }}
+    runs-on: ubuntu-latest-16-cores
+    needs: changes
+    if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && needs.changes.outputs.changesets-release != 'true' }}
     timeout-minutes: 15
 
     steps:
@@ -677,6 +692,8 @@ jobs:
 
   storybook:
     name: Storybook
+    needs: changes
+    if: ${{ needs.changes.outputs.changesets-release != 'true' }}
     runs-on: ubuntu-latest-16-cores
     timeout-minutes: 10
     steps:
@@ -705,7 +722,7 @@ jobs:
   axo:
     name: Axo
     needs: changes
-    if: ${{ needs.changes.outputs.axo == 'true' }}
+    if: ${{ needs.changes.outputs.axo == 'true' && needs.changes.outputs.changesets-release != 'true' }}
     runs-on: ubuntu-latest-8-cores
     timeout-minutes: 15
     steps:
@@ -735,7 +752,7 @@ jobs:
   axo-visual:
     name: Axo Visual
     needs: changes
-    if: ${{ needs.changes.outputs.axo == 'true' }}
+    if: ${{ needs.changes.outputs.axo == 'true' && needs.changes.outputs.changesets-release != 'true' }}
     # Reference screenshots are updated by update-axo-screenshots.yml, which
     # must use the same runner as this job
     runs-on: ubuntu-latest-8-cores
