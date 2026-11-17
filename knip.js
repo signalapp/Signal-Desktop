@@ -79,6 +79,8 @@ const config = {
         'url', // same name as builtin
         'danger', // turn into real workspace
         '@types/audioworklet', // only referenced via triple-slash include
+        'buildkite-test-collector', // loaded by MOCHA_OPTIONS in ci.yml
+        'mocha-multi-reporters', // loaded by MOCHA_OPTIONS in ci.yml
       ],
       ignoreFiles: [
         'ts/components/Profiler.dom.tsx',
