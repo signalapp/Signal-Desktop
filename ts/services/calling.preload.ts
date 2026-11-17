@@ -165,6 +165,7 @@ import {
   updateAdhocCallHistory,
   getCallIdFromEra,
   getCallDetailsForAdhocCall,
+  isGroupCallHistoryWithUnknownCreator,
 } from '../util/callDisposition.preload.ts';
 import { isNormalNumber } from '../util/isNormalNumber.std.ts';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.ts';
@@ -4609,7 +4610,8 @@ class CallingClass {
       peerId
     );
 
-    const isNewCall = callHistory == null;
+    const isNewCall =
+      callHistory == null || isGroupCallHistoryWithUnknownCreator(callHistory);
 
     if (isNewCall) {
       const localCallEvent = getLocalCallEventFromJoinState(
@@ -4621,7 +4623,7 @@ class CallingClass {
         const callDetails = getCallDetailsFromGroupCallMeta({
           peerId,
           groupCallMeta,
-          eventTimestamp,
+          eventTimestamp: callHistory?.timestamp ?? eventTimestamp,
         });
         const callEvent = getCallEventDetails({
           callDetails,
