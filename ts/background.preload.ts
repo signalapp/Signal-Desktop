@@ -237,14 +237,9 @@ import { addGlobalKeyboardShortcuts } from './services/addGlobalKeyboardShortcut
 import { createEventHandler } from './quill/signal-clipboard/util.dom.ts';
 import { onCallLogEventSync } from './util/onCallLogEventSync.preload.ts';
 import { backupsService } from './services/backups/index.preload.ts';
-import {
-  getCallIdFromEra,
-  updateLocalGroupCallHistoryTimestamp,
-} from './util/callDisposition.preload.ts';
 import { deriveMasterKey } from './Crypto.node.ts';
 import { AttachmentDownloadManager } from './jobs/AttachmentDownloadManager.preload.ts';
 import { onCallLinkUpdateSync } from './util/onCallLinkUpdateSync.preload.ts';
-import { CallMode } from './types/CallDisposition.std.ts';
 import type { SyncTaskType } from './util/syncTasks.preload.ts';
 import { queueSyncTasks, runAllSyncTasks } from './util/syncTasks.preload.ts';
 import type { ViewSyncTaskType } from './messageModifiers/ViewSyncs.preload.ts';
@@ -2959,11 +2954,6 @@ async function startApp(): Promise<void> {
       return;
     }
 
-    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
-      confirm();
-      return;
-    }
-
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
       handleDataMessage(
@@ -3542,11 +3532,6 @@ async function startApp(): Promise<void> {
       return;
     }
 
-    if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
-      event.confirm();
-      return;
-    }
-
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
       handleDataMessage(
@@ -3595,46 +3580,6 @@ async function startApp(): Promise<void> {
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
     };
     return new MessageModel(partialMessage);
-  }
-
-  // Returns `false` if this message isn't a group call message.
-  function handleGroupCallUpdateMessage(
-    message: ProcessedDataMessage,
-    messageDescriptor: MessageDescriptor
-  ): boolean {
-    if (message.groupCallUpdate) {
-      if (message.groupV2 && messageDescriptor.type === GROUP) {
-        const conversationId = messageDescriptor.id;
-        const callId =
-          message.groupCallUpdate?.eraId != null
-            ? getCallIdFromEra(message.groupCallUpdate.eraId)
-            : null;
-        log.info(
-          'handleGroupCallUpdateMessage',
-          message.timestamp,
-          callId,
-          conversationId
-        );
-        window.reduxActions.calling.peekNotConnectedGroupCall({
-          callMode: CallMode.Group,
-          conversationId,
-        });
-        if (callId != null) {
-          drop(
-            updateLocalGroupCallHistoryTimestamp(
-              conversationId,
-              callId,
-              message.timestamp
-            )
-          );
-        }
-        return true;
-      }
-      log.warn(
-        'Received a group call update for a conversation that is not a GV2 group. Ignoring that property and continuing.'
-      );
-    }
-    return false;
   }
 
   async function unlinkAndDisconnect(): Promise<void> {
