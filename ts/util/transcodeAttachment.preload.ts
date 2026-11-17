@@ -8,7 +8,6 @@ import { sanitize } from '@signalapp/libsignal-client/dist/Mp4Sanitizer.js';
 import {
   Input,
   UrlSource,
-  ALL_FORMATS,
   StreamTarget,
   Conversion,
   Output,
@@ -31,6 +30,7 @@ import type {
 } from '../types/Attachment.std.ts';
 import { TranscodingTargetQuality } from '../types/transcoding.std.ts';
 import { VIDEO_MP4 } from '../types/MIME.std.ts';
+import { TRANSCODABLE_VIDEO_FORMATS } from '../types/VisualAttachment.dom.ts';
 import {
   generateKeys,
   decryptAttachmentV2ToSink,
@@ -148,7 +148,7 @@ async function transcodeVideo(
   const source = new UrlSource(url);
 
   const input = new Input({
-    formats: ALL_FORMATS,
+    formats: TRANSCODABLE_VIDEO_FORMATS,
     source,
   });
 
