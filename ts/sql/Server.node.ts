@@ -127,6 +127,7 @@ import { MAX_SYNC_TASK_ATTEMPTS } from '../util/syncTasks.types.std.ts';
 import type {
   AdjacentMessagesByConversationOptionsType,
   BackupCdnMediaObjectType,
+  ContactMediaItemDBType,
   ConversationMessageStatsType,
   ConversationMetricsType,
   ConversationType,
@@ -147,7 +148,7 @@ import type {
   KyberPreKeyTripleType,
   NonAttachmentMediaItemDBType,
   MediaItemDBType,
-  ContactMediaItemDBType,
+  LinkedDevice,
   MessageAttachmentsCursorType,
   MessageCursorType,
   MessageMetricsType,
@@ -618,6 +619,8 @@ export const DataReader: ServerReadableInterface = {
   isAttachmentSafeToDelete,
   getAllProtectedAttachmentPaths,
 
+  getAllLinkedDevices,
+
   // Server-only
   getKnownMessageAttachments,
   finishGetKnownMessageAttachments,
@@ -869,6 +872,11 @@ export const DataWriter: ServerWritableInterface = {
   removeAll,
   removeAllConfiguration,
   eraseStorageServiceState,
+
+  createOrUpdateLinkedDevice,
+  removeAllLinkedDevices,
+  removeLinkedDeviceById,
+  replaceAllLinkedDevices,
 
   insertJob,
   deleteJob,
@@ -8845,6 +8853,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM jobs;
       DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
+      DELETE FROM linkedDevices;
       DELETE FROM megaphones;
       DELETE FROM message_attachments;
       DELETE FROM messages_fts;
@@ -8910,6 +8919,7 @@ function removeAllConfiguration(db: WritableDB, isPrimary: boolean): void {
       DELETE FROM jobs;
       DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
+      DELETE FROM linkedDevices;
       DELETE FROM preKeys;
       DELETE FROM senderKeys;
       DELETE FROM sendLogMessageIds;
@@ -9911,4 +9921,62 @@ function __dangerouslyRunAbitraryReadOnlySqlQuery(
     db.pragma('query_only = off');
   }
   return results;
+}
+
+function createOrUpdateLinkedDevice(
+  db: WritableDB,
+  linkedDevice: LinkedDevice
+): void {
+  const { id } = linkedDevice;
+  if (!id) {
+    throw new Error(
+      'createOrUpdateLinkedDevice: Provided data did not have a truthy id'
+    );
+  }
+
+  db.prepare(
+    `
+    INSERT OR REPLACE INTO linkedDevices (
+      id,
+      createdAt,
+      lastSeenAt,
+      name,
+      registrationId
+    ) values (
+      $id,
+      $createdAt,
+      $lastSeenAt,
+      $name,
+      $registrationId
+    )
+    `
+  ).run({
+    id,
+    createdAt: linkedDevice.createdAt ?? null,
+    lastSeenAt: linkedDevice.lastSeenAt,
+    name: linkedDevice.name ?? null,
+    registrationId: linkedDevice.registrationId,
+  });
+}
+function getAllLinkedDevices(db: ReadableDB): Array<LinkedDevice> {
+  return db
+    .prepare('SELECT * FROM linkedDevices ORDER BY createdAt DESC;')
+    .all<LinkedDevice>();
+}
+function removeLinkedDeviceById(db: WritableDB, id: number): void {
+  db.prepare('DELETE FROM linkedDevices WHERE id = $id;').run({ id });
+}
+function removeAllLinkedDevices(db: WritableDB): void {
+  db.prepare('DELETE FROM linkedDevices;').run();
+}
+function replaceAllLinkedDevices(
+  db: WritableDB,
+  linkedDevices: ReadonlyArray<LinkedDevice>
+): void {
+  return db.transaction(() => {
+    removeAllLinkedDevices(db);
+    linkedDevices.forEach(linkedDevice =>
+      createOrUpdateLinkedDevice(db, linkedDevice)
+    );
+  })();
 }

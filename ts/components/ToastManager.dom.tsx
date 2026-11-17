@@ -675,6 +675,37 @@ function renderToast({
     return <Toast onClose={hideToast}>{i18n('icu:debugLogLinkCopied')}</Toast>;
   }
 
+  if (toastType === ToastType.LinkedDeviceAdded) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--LinkedDeviceAdded', { name: toast.parameters.name })}
+      </Toast>
+    );
+  }
+  if (toastType === ToastType.LinkedDeviceRemoved) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--LinkedDeviceRemoved', {
+          name: toast.parameters.name,
+        })}
+      </Toast>
+    );
+  }
+  if (toastType === ToastType.LinkedDeviceNameUpdated) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--LinkedDeviceNameUpdated')}
+      </Toast>
+    );
+  }
+  if (toastType === ToastType.LinkedDeviceSyncComplete) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Toast--LinkedDeviceSyncComplete')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.LoadingFullLogs) {
     return <Toast onClose={hideToast}>{i18n('icu:loading')}</Toast>;
   }

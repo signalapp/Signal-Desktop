@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
-import { Base64 } from '@signalapp/types';
-import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
+
 import { getDevices } from '../textsecure/WebAPI.preload.ts';
 import { MINUTE } from './durations/index.std.ts';
 import { strictAssert } from './assert.std.ts';
@@ -12,7 +11,13 @@ import { createLogger } from '../logging/log.std.ts';
 import { toLogFormat } from '../types/errors.std.ts';
 import { drop } from './drop.std.ts';
 import { itemStorage } from '../textsecure/Storage.preload.ts';
-import { accountManager } from '../textsecure/AccountManager.preload.ts';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.ts';
+import {
+  decryptDeviceCreatedAt,
+  decryptDeviceName,
+} from './decryptDevice.preload.ts';
+
+import type { DeviceNameChangeSyncEvent } from '../textsecure/messageReceiverEvents.std.ts';
 
 const log = createLogger('onDeviceNameChangeSync');
 
@@ -78,9 +83,7 @@ async function fetchAndUpdateDeviceInfo() {
 
   let newName: string;
   try {
-    newName = await accountManager.decryptDeviceName(
-      Base64.fromBytes(ourDevice.encryptedName)
-    );
+    newName = await decryptDeviceName(ourDevice.encryptedName);
   } catch (e) {
     const deviceNameWasEncrypted = itemStorage.user.getDeviceNameEncrypted();
     log.error(
@@ -113,8 +116,16 @@ async function maybeUpdateDeviceCreatedAt(
 
   let createdAt: number | undefined;
   try {
-    createdAt = await accountManager.decryptDeviceCreatedAt(
-      Base64.fromBytes(createdAtCiphertext),
+    const ourAci = itemStorage.user.getCheckedAci();
+    const registrationId =
+      await signalProtocolStore.getLocalRegistrationId(ourAci);
+    if (!registrationId) {
+      throw new Error('decryptDeviceCreatedAt: No registrationId for our Aci!');
+    }
+
+    createdAt = await decryptDeviceCreatedAt(
+      createdAtCiphertext,
+      registrationId,
       deviceId
     );
   } catch (e) {

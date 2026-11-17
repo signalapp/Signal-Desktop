@@ -181,6 +181,20 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.LeftGroup };
     case ToastType.LinkCopied:
       return { toastType: ToastType.LinkCopied };
+    case ToastType.LinkedDeviceAdded:
+      return {
+        toastType: ToastType.LinkedDeviceAdded,
+        parameters: { name: 'Laptop at home' },
+      };
+    case ToastType.LinkedDeviceRemoved:
+      return {
+        toastType: ToastType.LinkedDeviceRemoved,
+        parameters: { name: 'Laptop at home' },
+      };
+    case ToastType.LinkedDeviceNameUpdated:
+      return { toastType: ToastType.LinkedDeviceNameUpdated };
+    case ToastType.LinkedDeviceSyncComplete:
+      return { toastType: ToastType.LinkedDeviceSyncComplete };
     case ToastType.LoadingFullLogs:
       return { toastType: ToastType.LoadingFullLogs };
     case ToastType._InternalMainProcessLoggingError:

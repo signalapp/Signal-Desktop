@@ -57,13 +57,17 @@ export enum ToastType {
   FileSaved = 'FileSaved',
   FileSize = 'FileSize',
   GroupLinkCopied = 'GroupLinkCopied',
+  _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
+  _InternalHeapSizeWarning = '_InternalHeapSizeWarning',
   InvalidConversation = 'InvalidConversation',
   InvalidStorageServiceHeaders = 'InvalidStorageServiceHeaders',
   LeftGroup = 'LeftGroup',
   LinkCopied = 'LinkCopied',
+  LinkedDeviceAdded = 'LinkedDeviceAdded',
+  LinkedDeviceRemoved = 'LinkedDeviceRemoved',
+  LinkedDeviceNameUpdated = 'LinkedDeviceNameUpdated',
+  LinkedDeviceSyncComplete = 'LinkedDeviceSyncComplete',
   LoadingFullLogs = 'LoadingFullLogs',
-  _InternalMainProcessLoggingError = '_InternalMainProcessLoggingError',
-  _InternalHeapSizeWarning = '_InternalHeapSizeWarning',
   MaxAttachments = 'MaxAttachments',
   MediaNoLongerAvailable = 'MediaNoLongerAvailable',
   MessageBodyTooLong = 'MessageBodyTooLong',
@@ -208,16 +212,20 @@ export type AnyToast =
         deviceId: number;
       };
     }
-  | { toastType: ToastType.InvalidConversation }
-  | { toastType: ToastType.InvalidStorageServiceHeaders }
-  | { toastType: ToastType.LeftGroup }
-  | { toastType: ToastType.LinkCopied }
-  | { toastType: ToastType.LoadingFullLogs }
   | {
       toastType: ToastType._InternalMainProcessLoggingError;
       parameters: { count: number; logLines: Array<string> };
     }
   | { toastType: ToastType._InternalHeapSizeWarning }
+  | { toastType: ToastType.InvalidConversation }
+  | { toastType: ToastType.InvalidStorageServiceHeaders }
+  | { toastType: ToastType.LeftGroup }
+  | { toastType: ToastType.LinkCopied }
+  | { toastType: ToastType.LinkedDeviceAdded; parameters: { name: string } }
+  | { toastType: ToastType.LinkedDeviceRemoved; parameters: { name: string } }
+  | { toastType: ToastType.LinkedDeviceNameUpdated }
+  | { toastType: ToastType.LinkedDeviceSyncComplete }
+  | { toastType: ToastType.LoadingFullLogs }
   | { toastType: ToastType.MaxAttachments }
   | { toastType: ToastType.MediaNoLongerAvailable }
   | { toastType: ToastType.MessageBodyTooLong }

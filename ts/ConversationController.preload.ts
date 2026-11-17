@@ -724,7 +724,9 @@ export class ConversationController {
   }
 
   doWeHaveOtherDevices(): boolean {
-    return !this.areWePrimaryDevice();
+    const devices = window.reduxStore?.getState().linkedDevices.devices;
+
+    return !this.areWePrimaryDevice() || Boolean(devices && devices.length > 0);
   }
 
   // Note: If you don't know what kind of serviceId it is, put it in the 'aci' param.

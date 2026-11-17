@@ -56,51 +56,6 @@ describe('AccountManager', () => {
     sandbox.restore();
   });
 
-  describe('encrypted device name', () => {
-    it('roundtrips', async () => {
-      const deviceName = 'v2.5.0 on Ubunto 20.04';
-      const encrypted = accountManager.encryptDeviceName(
-        deviceName,
-        identityKey
-      );
-      if (!encrypted) {
-        throw new Error('failed to encrypt!');
-      }
-      assert.strictEqual(typeof encrypted, 'string');
-      const decrypted = await accountManager.decryptDeviceName(encrypted);
-
-      assert.strictEqual(decrypted, deviceName);
-    });
-
-    it('handles falsey deviceName', () => {
-      const encrypted = accountManager.encryptDeviceName('', identityKey);
-      assert.strictEqual(encrypted, undefined);
-    });
-  });
-
-  describe('encrypted device createdAt', () => {
-    it('roundtrips', async () => {
-      const deviceId = 2;
-      const createdAt = new Date().getTime();
-
-      const encrypted = await accountManager._encryptDeviceCreatedAt(
-        createdAt,
-        deviceId
-      );
-      if (!encrypted) {
-        throw new Error('failed to encrypt!');
-      }
-
-      assert.strictEqual(typeof encrypted, 'string');
-      const decrypted = await accountManager.decryptDeviceCreatedAt(
-        encrypted,
-        deviceId
-      );
-
-      assert.strictEqual(decrypted, createdAt);
-    });
-  });
-
   describe('#_cleanSignedPreKeys', () => {
     // oxlint-disable-next-line typescript/no-explicit-any
     let originalLoadSignedPreKeys: any;

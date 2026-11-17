@@ -40,6 +40,15 @@ const templates = [
     message: 'icu:PlaintextExport--OSPrompt--message--Linux',
   },
   {
+    name: 'org.signalapp.link-device.policy',
+    content: await fs.readFile(
+      path.join(templateDir, 'org.signalapp.link-device.policy'),
+      'utf8'
+    ),
+    description: 'icu:LinkDevice--OSPrompt--description--Linux',
+    message: 'icu:LinkDevice--OSPrompt--message--Linux',
+  },
+  {
     name: 'org.signalapp.view-aep.policy',
     content: await fs.readFile(
       path.join(templateDir, 'org.signalapp.view-aep.policy'),

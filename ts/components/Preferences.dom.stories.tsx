@@ -34,6 +34,7 @@ import { PreferencesDonations } from './PreferencesDonations.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 import { PreferencesChatFoldersPage } from './preferences/chatFolders/PreferencesChatFoldersPage.dom.tsx';
 import { PreferencesEditChatFolderPage } from './preferences/chatFolders/PreferencesEditChatFoldersPage.dom.tsx';
+import { PreferencesLinkedDevicesPage } from './preferences/linkedDevices/PreferencesLinkedDevicesPage.dom.tsx';
 import { CHAT_FOLDER_DEFAULTS } from '../types/ChatFolder.std.ts';
 import {
   NotificationProfilesHome,
@@ -395,6 +396,24 @@ function renderPreferencesEditChatFolderPage(
   );
 }
 
+function renderPreferencesLinkedDevicesPage() {
+  return (
+    <PreferencesLinkedDevicesPage
+      cancelLinking={action('cancelLinking')}
+      devices={[]}
+      i18n={i18n}
+      moveToChoosingTransferMessages={action('moveToChoosingTransferMessages')}
+      refreshDevices={action('refreshDevices')}
+      removeDevice={action('removeDevice')}
+      renameDevice={action('renameDevice')}
+      sendInfoForLink={action('sendInfoForLink')}
+      startLinking={action('startLinking')}
+      theme={ThemeType.light}
+      workflow={undefined}
+    />
+  );
+}
+
 function renderNotificationProfilesCreateFlow(
   props: SmartNotificationProfilesProps
 ): JSX.Element {
@@ -602,6 +621,7 @@ export default {
     renderPreferencesBlockedPage,
     renderPreferencesChatFoldersPage,
     renderPreferencesEditChatFolderPage,
+    renderPreferencesLinkedDevicesPage,
     getConversationsWithCustomColor: () => [],
 
     addCustomColor: action('addCustomColor'),

@@ -117,6 +117,10 @@ window.testUtilities = {
       gifs: {
         recentGifs: [],
       },
+      linkedDevices: {
+        workflow: undefined,
+        devices: undefined,
+      },
       mainWindowStats: {
         isFullScreen: false,
         isMaximized: false,

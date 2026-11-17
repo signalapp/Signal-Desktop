@@ -3,11 +3,16 @@
 // oxlint-disable max-classes-per-file
 
 import { PublicKey, Aci, Pni } from '@signalapp/libsignal-client';
+
+import type { Bytes } from '@signalapp/types';
+
 import type { KeyPairType } from './Types.d.ts';
-import * as Bytes from '../Bytes.std.ts';
 import {
   decryptAes256CbcPkcsPadding,
   deriveSecrets,
+  encryptAes256CbcPkcsPadding,
+  getRandomBytes,
+  hmacSha256,
   verifyHmacSha256,
 } from '../Crypto.node.ts';
 import {
@@ -28,6 +33,12 @@ import {
   fromAciObject,
   fromPniObject,
 } from '../types/ServiceId.std.ts';
+import { concatenate, fromString, isNotEmpty } from '../Bytes.std.ts';
+
+const PROVISIONING_STRING = 'TextSecure Provisioning Message';
+const MAC_LENGTH = 32;
+export const IV_LENGTH = 16;
+export const VERSION_BYTE = 1;
 
 export type ProvisionDecryptResult = Readonly<{
   aciKeyPair: KeyPairType;
@@ -55,33 +66,36 @@ class ProvisioningCipherInner {
       'Missing publicKey in ProvisionEnvelope'
     );
     strictAssert(provisionEnvelope.body, 'Missing body in ProvisionEnvelope');
-    const masterEphemeral = provisionEnvelope.publicKey;
     const message = provisionEnvelope.body;
     if (new Uint8Array(message)[0] !== 1) {
       throw new Error('Bad version number on ProvisioningMessage');
     }
 
-    const iv = message.subarray(1, 16 + 1);
-    const mac = message.subarray(message.byteLength - 32, message.byteLength);
-    const ivAndCiphertext = message.subarray(0, message.byteLength - 32);
-    const ciphertext = message.subarray(16 + 1, message.byteLength - 32);
+    const iv = message.subarray(1, IV_LENGTH + 1);
+    const mac = message.subarray(
+      message.byteLength - MAC_LENGTH,
+      message.byteLength
+    );
+    const ivAndCiphertext = message.subarray(
+      0,
+      message.byteLength - MAC_LENGTH
+    );
+    const ciphertext = message.subarray(
+      IV_LENGTH + 1,
+      message.byteLength - MAC_LENGTH
+    );
 
     if (!this.keyPair) {
       throw new Error('ProvisioningCipher.decrypt: No keypair!');
     }
 
-    const ecRes = calculateAgreement(
-      PublicKey.deserialize(masterEphemeral),
-      this.keyPair.privateKey
-    );
-    const keys = deriveSecrets(
-      ecRes,
-      new Uint8Array(32),
-      Bytes.fromString('TextSecure Provisioning Message')
-    );
-    verifyHmacSha256(ivAndCiphertext, keys[1], mac, 32);
+    const ourPrivateKey = this.keyPair.privateKey;
+    const theirPublicKey = PublicKey.deserialize(provisionEnvelope.publicKey);
+    const { cipherKey, macKey } = deriveKeys(theirPublicKey, ourPrivateKey);
 
-    const plaintext = decryptAes256CbcPkcsPadding(keys[0], ciphertext, iv);
+    verifyHmacSha256(ivAndCiphertext, macKey, mac, MAC_LENGTH);
+
+    const plaintext = decryptAes256CbcPkcsPadding(cipherKey, ciphertext, iv);
     const provisionMessage = Proto.ProvisionMessage.decode(plaintext);
     const aciPrivKey = provisionMessage.aciIdentityKeyPrivate;
     const pniPrivKey = provisionMessage.pniIdentityKeyPrivate;
@@ -100,7 +114,7 @@ class ProvisioningCipherInner {
     } = provisionMessage;
 
     let aci: AciString;
-    if (Bytes.isNotEmpty(aciBinary)) {
+    if (isNotEmpty(aciBinary)) {
       aci = fromAciObject(Aci.fromUuidBytes(aciBinary));
     } else if (rawAci) {
       aci = normalizeAci(rawAci, 'provisionMessage.aci');
@@ -109,7 +123,7 @@ class ProvisioningCipherInner {
     }
 
     let pni: PniString | undefined;
-    if (Bytes.isNotEmpty(pniBinary)) {
+    if (isNotEmpty(pniBinary)) {
       pni = fromPniObject(Pni.fromUuidBytes(pniBinary));
     } else if (rawUntaggedPni) {
       strictAssert(
@@ -135,23 +149,46 @@ class ProvisioningCipherInner {
       provisioningCode: dropNull(provisionMessage.provisioningCode),
       userAgent: dropNull(provisionMessage.userAgent),
       readReceipts: provisionMessage.readReceipts ?? false,
-      profileKey: Bytes.isNotEmpty(provisionMessage.profileKey)
+      profileKey: isNotEmpty(provisionMessage.profileKey)
         ? provisionMessage.profileKey
         : undefined,
-      masterKey: Bytes.isNotEmpty(provisionMessage.masterKey)
+      masterKey: isNotEmpty(provisionMessage.masterKey)
         ? provisionMessage.masterKey
         : undefined,
-      ephemeralBackupKey: Bytes.isNotEmpty(provisionMessage.ephemeralBackupKey)
+      ephemeralBackupKey: isNotEmpty(provisionMessage.ephemeralBackupKey)
         ? provisionMessage.ephemeralBackupKey
         : undefined,
-      authCredentialSalt: Bytes.isNotEmpty(provisionMessage.authCredentialSalt)
+      authCredentialSalt: isNotEmpty(provisionMessage.authCredentialSalt)
         ? provisionMessage.authCredentialSalt
         : undefined,
-      mediaRootBackupKey: Bytes.isNotEmpty(provisionMessage.mediaRootBackupKey)
+      mediaRootBackupKey: isNotEmpty(provisionMessage.mediaRootBackupKey)
         ? provisionMessage.mediaRootBackupKey
         : undefined,
       accountEntropyPool: provisionMessage.accountEntropyPool || undefined,
     };
+  }
+
+  encrypt(message: Proto.ProvisionMessage, theirPublicKey: PublicKey): Bytes {
+    if (!this.keyPair) {
+      throw new Error('ProvisioningCipher.encrypt: No keypair!');
+    }
+
+    const iv = getRandomBytes(IV_LENGTH);
+    const plaintext = Proto.ProvisionMessage.encode(message);
+
+    const ourPrivateKey = this.keyPair.privateKey;
+    const { cipherKey, macKey } = deriveKeys(theirPublicKey, ourPrivateKey);
+
+    const versionByte = new Uint8Array([VERSION_BYTE]);
+    const ciphertext = encryptAes256CbcPkcsPadding(cipherKey, plaintext, iv);
+    const ivAndCiphertext = concatenate([versionByte, iv, ciphertext]);
+    const mac = hmacSha256(macKey, ivAndCiphertext);
+    strictAssert(
+      mac.byteLength === MAC_LENGTH,
+      `Mac was ${mac.byteLength} bytes instead of ${MAC_LENGTH}!`
+    );
+
+    return concatenate([versionByte, iv, ciphertext, mac]);
   }
 
   getPublicKey(): PublicKey {
@@ -172,12 +209,31 @@ export default class ProvisioningCipher {
     const inner = new ProvisioningCipherInner();
 
     this.decrypt = inner.decrypt.bind(inner);
+    this.encrypt = inner.encrypt.bind(inner);
     this.getPublicKey = inner.getPublicKey.bind(inner);
   }
 
   decrypt: (
     provisionEnvelope: Proto.ProvisionEnvelope
   ) => ProvisionDecryptResult;
+  encrypt: (
+    provisionMessage: Proto.ProvisionMessage,
+    theirPublicKey: PublicKey
+  ) => Bytes;
 
   getPublicKey: () => PublicKey;
+}
+
+export function deriveKeys(
+  publicKey: PublicKey,
+  privateKey: KeyPairType['privateKey']
+): { cipherKey: Uint8Array<ArrayBuffer>; macKey: Uint8Array<ArrayBuffer> } {
+  const agreement = calculateAgreement(publicKey, privateKey);
+  const [cipherKey, macKey] = deriveSecrets(
+    agreement,
+    new Uint8Array(32),
+    fromString(PROVISIONING_STRING)
+  );
+
+  return { cipherKey, macKey };
 }

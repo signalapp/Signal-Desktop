@@ -27,6 +27,7 @@ import type { actions as inbox } from './ducks/inbox.std.ts';
 import type { actions as installer } from './ducks/installer.preload.ts';
 import type { actions as items } from './ducks/items.preload.ts';
 import type { actions as lightbox } from './ducks/lightbox.preload.ts';
+import type { actions as linkedDevices } from './ducks/linkedDevices.preload.ts';
 import type { actions as linkPreviews } from './ducks/linkPreviews.preload.ts';
 import type { actions as mediaGallery } from './ducks/mediaGallery.preload.ts';
 import type { actions as megaphones } from './ducks/megaphones.preload.ts';
@@ -67,6 +68,7 @@ export type ReduxActions = {
   installer: typeof installer;
   items: typeof items;
   lightbox: typeof lightbox;
+  linkedDevices: typeof linkedDevices;
   linkPreviews: typeof linkPreviews;
   mediaGallery: typeof mediaGallery;
   megaphones: typeof megaphones;

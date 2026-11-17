@@ -7,6 +7,8 @@ import { deleteAllLogs } from '../util/deleteAllLogs.preload.ts';
 import * as Errors from '../types/errors.std.ts';
 import { unlink, deleteAccount } from '../textsecure/WebAPI.preload.ts';
 import { leaveAllGroups } from '../util/leaveAllGroups.preload.ts';
+import { strictAssert } from '../util/assert.std.ts';
+import { itemStorage } from '../textsecure/Storage.preload.ts';
 
 const log = createLogger('deleteAllData');
 
@@ -27,7 +29,10 @@ export async function deleteAllData(
     } else {
       callback('deleting-data');
       log.info('unlinking device');
-      await unlink();
+
+      const ourDeviceId = itemStorage.user.getDeviceId();
+      strictAssert(ourDeviceId, 'deleteAllData: Expect our own deviceId');
+      await unlink(ourDeviceId);
     }
   } catch (error) {
     // Sometimes the websocket closes before we receive the response, while

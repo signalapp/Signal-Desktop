@@ -19,6 +19,7 @@ export type TableType =
   | 'identityKeys'
   | 'items'
   | 'kyberPreKeys'
+  | 'linkedDevices'
   | 'messages'
   | 'preKeys'
   | 'senderKeys'

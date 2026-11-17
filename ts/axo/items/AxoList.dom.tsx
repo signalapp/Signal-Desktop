@@ -160,14 +160,14 @@ export namespace AxoList {
   export const FooterDescription: FC<FooterDescriptionProps> = memo(props => {
     return (
       <AriaLabelled.Description asChild>
-        <p
+        <div
           className={tw(
             'type-body-small text-secondary',
             'forced-colors:text-[GrayText]'
           )}
         >
           {props.children}
-        </p>
+        </div>
       </AriaLabelled.Description>
     );
   });

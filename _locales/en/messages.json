@@ -1088,6 +1088,22 @@
     "messageformat": "{chatFolderName} folder added",
     "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
   },
+  "icu:Toast--LinkedDeviceAdded": {
+    "messageformat": "New device \"{name}\" successfully linked",
+    "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
+  },
+  "icu:Toast--LinkedDeviceRemoved": {
+    "messageformat": "\"{name}\" unlinked",
+    "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
+  },
+  "icu:Toast--LinkedDeviceNameUpdated": {
+    "messageformat": "Device name updated",
+    "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
+  },
+  "icu:Toast--LinkedDeviceSyncComplete": {
+    "messageformat": "Message sync complete",
+    "description": "Toast message show when a chat folder is created (in some places like creating a preset)"
+  },
   "icu:cannotSelectPhotosAndVideosAlongWithFiles": {
     "messageformat": "You can't select photos and videos along with files.",
     "description": "An error popup when the user has attempted to add an attachment"
@@ -8344,6 +8360,10 @@
     "messageformat": "Account",
     "description": "Button to switch the settings view"
   },
+  "icu:Preferences__button--linked-devices": {
+    "messageformat": "Linked Devices",
+    "description": "Button to switch the settings view"
+  },
   "icu:Preferences__button--general": {
     "messageformat": "General",
     "description": "Button to switch the settings view"
@@ -8435,6 +8455,246 @@
   "icu:Preferences--system": {
     "messageformat": "System",
     "description": "Title for system type settings"
+  },
+  "icu:LinkDevice--OSPrompt--Mac": {
+    "messageformat": "link a new device",
+    "description": "Shown as part of an OS prompt with a final string like 'Signal Desktop is trying to link a new device'"
+  },
+  "icu:LinkDevice--OSPrompt--Windows": {
+    "messageformat": "Verify your identity to link a new device.",
+    "description": "Shown as the body text of an OS prompt with a title like \"Making sure it's you\""
+  },
+  "icu:LinkDevice--OSPrompt--description--Linux": {
+    "messageformat": "Link a device",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog header the user will see on the polkit prompt before linking a device"
+  },
+  "icu:LinkDevice--OSPrompt--message--Linux": {
+    "messageformat": "Authentication is required to link a new device.",
+    "description": "If linux system has pkcheck and we were able to install .policy files, this is the dialog text the user will see on the polkit prompt before linking a device"
+  },
+  "icu:Preferences--LinkedDevices--title": {
+    "messageformat": "Linked devices",
+    "description": "Title for Linked Devices settings page"
+  },
+  "icu:Preferences--LinkedDevices--description": {
+    "messageformat": "Use Signal on another device. Your messages will sync to your linked devices. <learnMore>Learn more</learnMore>",
+    "description": "Description for Linked Devices settings page"
+  },
+  "icu:Preferences--LinkedDevices--button": {
+    "messageformat": "Link a new device",
+    "description": "Button on Linked Devices settings page to start linking a new device"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--title": {
+    "messageformat": "Linked devices",
+    "description": "Title for the list of the account's List Devices"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--defaultName": {
+    "messageformat": "Linked device",
+    "description": "Shown as the name for a linked device if it has no name, or name couldn't be decrypted"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--createdAt": {
+    "messageformat": "Linked {date}",
+    "description": "Label for date showing when the device was first linked"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--lastSeenAt": {
+    "messageformat": "Last active {date}",
+    "description": "Label for data showing when the device was last connected to Signal servers"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--openMenu": {
+    "messageformat": "Open menu",
+    "description": "Label for button that opens menu with more actions, shown in the device list"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--rename": {
+    "messageformat": "Rename",
+    "description": "Option to rename a device, shown in popup menu in the device list"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--Menu--unlink": {
+    "messageformat": "Unlink",
+    "description": "Option to remove device from your account, shown in popup menu in the device list"
+  },
+  "icu:Preferences--LinkedDevices--DeviceList--footer": {
+    "messageformat": "Messages and chat info are protected by end-to-end encryption on all devices",
+    "description": "Foooter for the list of the account's List Devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--title": {
+    "messageformat": "Signal on a linked device",
+    "description": "Title on dialog telling user more about linked devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet1": {
+    "messageformat": "All messaging on linked devices is private",
+    "description": "First description bullet on dialog telling user more about linked devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet2": {
+    "messageformat": "Signal messages are synchronized with Signal on your desktop after it is linked.",
+    "description": "Second description bullet on dialog telling user more about linked devices"
+  },
+  "icu:Preferences--LinkedDevices--LearnMoreDialog--bullet3": {
+    "messageformat": "On your other device, visit <linkToSignal>signal.org/download</linkToSignal> to install Signal",
+    "description": "Third description bullet on dialog telling user more about linked devices"
+  },
+  "icu:Preferences--LinkedDevices--EditDeviceNameDialog--title": {
+    "messageformat": "Edit device name",
+    "description": "Title of the dialog shown when the user chooses to rename one of their devices"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--title": {
+    "messageformat": "Unlink \"{name}\"",
+    "description": "Title of the dialog shown when the user chooses to remove one of their devices"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--description": {
+    "messageformat": "This device will no longer be able to send or receive messages if it is unlinked.",
+    "description": "Description of the dialog shown when the user chooses to remove one of their devices"
+  },
+  "icu:Preferences--LinkedDevices--ConfirmUnlinkDialog--unlinkButton": {
+    "messageformat": "Unlink",
+    "description": "Button to unlink device, shown on the dialog to confirm the unlink"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--title": {
+    "messageformat": "Scan QR code",
+    "description": "Title of dialog shown to allow the user to scan the QR code on their candidate linked device"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--description": {
+    "messageformat": "Scan the QR code displayed on the device to link",
+    "description": "Description for dialog shown to allow the user to scan the QR code on their candidate linked device"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--title": {
+    "messageformat": "Linking device failed",
+    "description": "Title of dialog shown when we can't scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--description": {
+    "messageformat": "Make sure you are on the latest version of Signal, and scanning a QR code from within Signal and not another app.",
+    "description": "Description for dialog shown when we can't scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ScanQRCodeDialog--ErrorDialog--retry-button": {
+    "messageformat": "Retry",
+    "description": "Retry button on dialog shown when we can't scan QR code"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--title": {
+    "messageformat": "Finish linking",
+    "description": "Title of progress shown while transferring messages"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--title": {
+    "messageformat": "Transfer Message History",
+    "description": "Title of the link option where message history is transferred to the new device"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--linkNSync--description": {
+    "messageformat": "Transfer your text messages and your last 45 days of media",
+    "description": "Description of the link option where message history is transferred to the new device"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--title": {
+    "messageformat": "Don't transfer",
+    "description": "Title of the link option where message history is NOT transferred to the new device"
+  },
+  "icu:Preferences--LinkedDevices--ChooseTransferMessageDialog--doNotTransfer--description": {
+    "messageformat": "No old messages or media will be transferred to your linked device",
+    "description": "Description of the link option where message history is NOT transferred to the new device"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--title": {
+    "messageformat": "Syncing messages...",
+    "description": "Title of progress shown while transferring messages"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--progress": {
+    "messageformat": "{percentage, number, percent} complete",
+    "description": "Label shown beneath animated progress bar showing progress"
+  },
+  "icu:Preferences--LinkedDevices--TransferringMessagesDialog--do-not-close": {
+    "messageformat": "Do not close Signal",
+    "description": "Warning shown while export is happening - closing Signal would interrupt the process"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--title": {
+    "messageformat": "Linking device",
+    "description": "Title of progress shown while transferring messages"
+  },
+  "icu:Preferences--LinkedDevices--LinkingDeviceDialog--progress": {
+    "messageformat": "Your device is being linked...",
+    "description": "Label shown beneath animated progress bar showing progress"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--title": {
+    "messageformat": "Linking device failed",
+    "description": "Title of dialog shown when something unknown goes wrong during the device link process"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--description": {
+    "messageformat": "Something went wrong! Please ensure that both devices are connected to the internet and try again.",
+    "description": "Description text on dialog shown when something unknown goes wrong during the device link process"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--contact-support": {
+    "messageformat": "Contact support",
+    "description": "Contact support button on dialog shown when something unknown goes wrong during the device link process"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--learn-more": {
+    "messageformat": "Learn more",
+    "description": "Learn more button on dialog shown when something unknown goes wrong during the device link process"
+  },
+  "icu:Preferences--LinkedDevices--GenericErrorDialog--retry": {
+    "messageformat": "Retry",
+    "description": "Retry button on dialog shown when something unknown goes wrong during the device link process"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--title": {
+    "messageformat": "Not enough storage space",
+    "description": "Title of dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--NotEnoughSpaceDialog--description": {
+    "messageformat": "You don’t have enough free storage space on your device to transfer your messages. Free up some space and try again, or link your device without transferring your messages.",
+    "description": "Description text on dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--title": {
+    "messageformat": "Message sync failed",
+    "description": "Title of dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--description": {
+    "messageformat": "Your device was successfully linked, but your messages could not be transferred.",
+    "description": "Description text on dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--contact-support": {
+    "messageformat": "Contact support",
+    "description": "Contact support button on dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--learn-more": {
+    "messageformat": "Learn more",
+    "description": "Learn more button on dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToMakeBackupDialog--continue": {
+    "messageformat": "Continue",
+    "description": "Continue button on dialog shown when backup cannot be created to transfer messages during syncing"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--title": {
+    "messageformat": "Message sync failed",
+    "description": "Title of dialog shown when backup was created, but was unable to be uploaded"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--description": {
+    "messageformat": "Your messages couldn’t be transferred to your linked device. You can try re-linking and transferring again, or continue without transferring your message history.",
+    "description": "Description text on dialog shown when backup was created, but was unable to be uploaded"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--continue-no-transfer": {
+    "messageformat": "Continue without transferring",
+    "description": "Continue without transferring button on dialog shown when backup was created, but was unable to be uploaded"
+  },
+  "icu:Preferences--LinkedDevices--FailedToUploadError--retry": {
+    "messageformat": "Retry",
+    "description": "Retry button on dialog shown when backup was created, but was unable to be uploaded"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--title": {
+    "messageformat": "Include a debug log?",
+    "description": "Title of dialog shown wneh the user chose to contact support"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--description": {
+    "messageformat": "Including your debug log helps us diagnose and fix the issue, and does not contain identifying information. This is optional.",
+    "description": "Description text on dialog shown wneh the user chose to contact support"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--include-log-checkbox": {
+    "messageformat": "Include debug log",
+    "description": "Checkbox for user to choose whether to include debug log on dialog shown wneh the user chose to contact support"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--view": {
+    "messageformat": "View",
+    "description": "View debug log button on dialog shown wneh the user chose to contact support"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--no-thanks": {
+    "messageformat": "No thanks",
+    "description": "No thanks button on dialog shown wneh the user chose to contact support"
+  },
+  "icu:Preferences--LinkedDevices--ContactSupportDialog--contact-support": {
+    "messageformat": "Contact support",
+    "description": "Contact support button on dialog shown wneh the user chose to contact support"
   },
   "icu:Preferences--signal-login": {
     "messageformat": "Signal Login",

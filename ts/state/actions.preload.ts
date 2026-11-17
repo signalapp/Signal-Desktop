@@ -23,6 +23,7 @@ import { actions as inbox } from './ducks/inbox.std.ts';
 import { actions as installer } from './ducks/installer.preload.ts';
 import { actions as items } from './ducks/items.preload.ts';
 import { actions as lightbox } from './ducks/lightbox.preload.ts';
+import { actions as linkedDevices } from './ducks/linkedDevices.preload.ts';
 import { actions as linkPreviews } from './ducks/linkPreviews.preload.ts';
 import { actions as mediaGallery } from './ducks/mediaGallery.preload.ts';
 import { actions as megaphones } from './ducks/megaphones.preload.ts';
@@ -64,6 +65,7 @@ export const actionCreators: ReduxActions = {
   installer,
   items,
   lightbox,
+  linkedDevices,
   linkPreviews,
   mediaGallery,
   megaphones,

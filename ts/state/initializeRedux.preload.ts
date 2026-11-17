@@ -23,6 +23,7 @@ import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.ts';
 import type { ChatStyle } from '../types/ChatStyle.std.ts';
 import type { Account } from '../types/Account.std.ts';
 import type { MegaphonesStateType } from './ducks/megaphones.preload.ts';
+import type { LinkedDevicesStateType } from './ducks/linkedDevices.preload.ts';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
@@ -35,6 +36,7 @@ export type ReduxInitData = {
   donations: DonationsStateType;
   emojis: EmojisStateType;
   gifs: GifsStateType;
+  linkedDevices: LinkedDevicesStateType;
   mainWindowStats: MainWindowStatsType;
   megaphones: MegaphonesStateType;
   menuOptions: MenuOptionsType;
@@ -88,6 +90,10 @@ export function initializeRedux(data: ReduxInitData): void {
     ),
     items: bindActionCreators(actionCreators.items, store.dispatch),
     lightbox: bindActionCreators(actionCreators.lightbox, store.dispatch),
+    linkedDevices: bindActionCreators(
+      actionCreators.linkedDevices,
+      store.dispatch
+    ),
     linkPreviews: bindActionCreators(
       actionCreators.linkPreviews,
       store.dispatch

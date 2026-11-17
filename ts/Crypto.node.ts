@@ -385,7 +385,7 @@ export function verifyHmacSha256(
   }
 }
 
-function encryptAes256CbcPkcsPadding(
+export function encryptAes256CbcPkcsPadding(
   key: Uint8Array<ArrayBuffer>,
   plaintext: Uint8Array<ArrayBuffer>,
   iv: Uint8Array<ArrayBuffer>

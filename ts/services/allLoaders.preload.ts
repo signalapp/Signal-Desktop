@@ -52,6 +52,10 @@ import {
 } from './chatColorsLoader.preload.ts';
 import { getAccountForRedux, loadAccount } from './accountLoader.preload.ts';
 import { getInitialMegaphonesState } from '../state/ducks/megaphones.preload.ts';
+import {
+  getLinkedDevicesStateForRedux,
+  loadLinkedDevices,
+} from './linkedDevicesLoader.preload.ts';
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
@@ -64,6 +68,7 @@ export async function loadAll(): Promise<void> {
     loadDistributionLists(),
     loadDonationReceipts(),
     loadGifsState(),
+    loadLinkedDevices(),
     loadLocalizedEmojiList(),
     loadNotificationProfiles(),
     loadRecentEmojis(),
@@ -93,6 +98,7 @@ export function getParametersForRedux(): ReduxInitData {
     donations: getDonationsForRedux(),
     emojis: getRecentEmojisForRedux(),
     gifs: getGifsStateForRedux(),
+    linkedDevices: getLinkedDevicesStateForRedux(),
     mainWindowStats,
     menuOptions,
     megaphones: getInitialMegaphonesState(),
