@@ -50,7 +50,7 @@ export function getSeverityRank(severity) {
 }
 
 // CI fails on main for advisories at this level or above, once they were
-// published this many business days ago
+// published (and reviewed) this many business days ago
 export const CI_AUDIT_LEVEL = 'high';
 export const CI_GRACE_BUSINESS_DAYS = 3;
 
@@ -368,6 +368,9 @@ export function getAdvisoryUrl(ghsaId) {
 }
 
 /**
+ * When the advisory reached `pnpm audit`, which only reports reviewed
+ * advisories. Ones imported from NVD can be reviewed weeks after publishing.
+ *
  * @param {string} ghsaId
  * @returns {Promise<Date>}
  */
@@ -376,7 +379,12 @@ async function fetchAdvisoryPublishedAt(ghsaId) {
   if (advisory.published_at == null) {
     throw new Error('Advisory has no publish date');
   }
-  return new Date(advisory.published_at);
+  const publishedAt = new Date(advisory.published_at);
+  if (advisory.github_reviewed_at == null) {
+    return publishedAt;
+  }
+  const reviewedAt = new Date(advisory.github_reviewed_at);
+  return reviewedAt > publishedAt ? reviewedAt : publishedAt;
 }
 
 /**
