@@ -502,6 +502,11 @@ jobs:
     if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && needs.changes.outputs.changesets-release != 'true' }}
     timeout-minutes: 15
 
+    env:
+      BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
+      BUILDKITE_ANALYTICS_BRANCH: ${{ github.head_ref || github.ref_name }}
+      BUILDKITE_ANALYTICS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -533,6 +538,7 @@ jobs:
           ARTIFACTS_DIR: artifacts/mock
           WORKER_INDEX: ${{ matrix.workerIndex.value }}
           WORKER_COUNT: 8
+          MOCHA_OPTIONS: --reporter mocha-multi-reporters --reporter-options configFile=.github/test-engine/mock-tests.json
 
       - name: Run mock server tests (without e164)
         background: true
@@ -547,6 +553,7 @@ jobs:
           WORKER_INDEX: ${{ matrix.workerIndex.value }}
           WORKER_COUNT: 8
           MOCK_WITHOUT_E164: on
+          MOCHA_OPTIONS: --reporter mocha-multi-reporters --reporter-options configFile=.github/test-engine/mock-tests-without-e164.json
 
       - name: Wait for mock server tests
         wait-all: true

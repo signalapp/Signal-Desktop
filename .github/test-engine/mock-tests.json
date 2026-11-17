@@ -1,0 +1,6 @@
+{
+  "reporterEnabled": "spec, .github/test-engine/mocha-reporter.mjs",
+  "githubTestEngineMochaReporterMjsReporterOptions": {
+    "tags": { "e164": "on" }
+  }
+}
