@@ -1,5 +1,20 @@
 # @signalapp/mock-server
 
+## 29.0.0
+
+### Major Changes
+
+- 3317df7: Store each device's capabilities. `Device.capabilities` is now a set of capability names
+- 4eb1e14: Return the requested profile version from `GET /v1/profile`, with the real server's status codes
+- 4eb1e14: Save `PUT /v1/profile` to the account instead of the device. Removes `Device.profileName`, `Device.profileKeyCommitment` and the `profileKeyCommitment` option of `getProfileKeyPresentation()`
+
+### Minor Changes
+
+- 3317df7: Add the gRPC `Accounts/GetCapabilities` handler
+- 3317df7: Add the gRPC `ProfileAnonymous/GetProfileKeyCredential` handler
+- 4eb1e14: Store profiles per account and profile version
+- 3317df7: Reject `PUT /v1/profile` with 412 once every device on the account has the `profiles_v2` capability
+
 ## 28.0.0
 
 ### Major Changes
