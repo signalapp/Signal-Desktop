@@ -253,7 +253,6 @@ type PropsFunctionType = {
   renderNotificationProfilesCreateFlow: (
     props: SmartNotificationProfilesProps
   ) => JSX.Element;
-
   renderProfileEditor: () => JSX.Element;
   renderToastManager: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -270,6 +269,7 @@ type PropsFunctionType = {
   renderPreferencesEditChatFolderPage: (
     props: SmartPreferencesEditChatFolderPageProps
   ) => JSX.Element;
+  renderPreferencesLinkedDevicesPage: () => JSX.Element;
 
   // Other props
   addCustomColor: (
@@ -602,6 +602,7 @@ export function Preferences({
   renderPreferencesBlockedPage,
   renderPreferencesChatFoldersPage,
   renderPreferencesEditChatFolderPage,
+  renderPreferencesLinkedDevicesPage,
   openFileInFolder,
   osName,
   previouslyViewedBackupKeyHash,
@@ -866,6 +867,8 @@ export function Preferences({
         title={i18n('icu:Preferences--signal-login')}
       />
     );
+  } else if (settingsLocation.page === SettingsPage.LinkedDevices) {
+    content = renderPreferencesLinkedDevicesPage();
   } else if (settingsLocation.page === SettingsPage.General) {
     const pageContents = (
       <AxoList.Group>
@@ -2605,6 +2608,16 @@ export function Preferences({
                   }
                   onClick={() =>
                     setSettingsLocation({ page: SettingsPage.Account })
+                  }
+                />
+              )}
+              {weArePrimaryDevice && (
+                <PreferencesButton
+                  symbol="device-phone-laptop"
+                  label={i18n('icu:Preferences__button--linked-devices')}
+                  current={settingsLocation.page === SettingsPage.LinkedDevices}
+                  onClick={() =>
+                    setSettingsLocation({ page: SettingsPage.LinkedDevices })
                   }
                 />
               )}

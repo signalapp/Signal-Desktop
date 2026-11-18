@@ -17,8 +17,9 @@ const log = createLogger('promptOSAuthMain');
 
 export type PromptOSAuthReasonType =
   | 'enable-backups'
-  | 'view-aep'
-  | 'plaintext-export';
+  | 'link-device'
+  | 'plaintext-export'
+  | 'view-aep';
 
 export type PromptOSAuthResultType =
   | 'error'
@@ -110,11 +111,13 @@ async function promptOSAuthLinux(
   if (reason === 'enable-backups') {
     command =
       'pkcheck -u --process $$ --action-id org.signalapp.enable-backups';
-  } else if (reason === 'view-aep') {
-    command = 'pkcheck -u --process $$ --action-id org.signalapp.view-aep';
+  } else if (reason === 'link-device') {
+    command = 'pkcheck -u --process $$ --action-id org.signalapp.link-device';
   } else if (reason === 'plaintext-export') {
     command =
       'pkcheck -u --process $$ --action-id org.signalapp.plaintext-export';
+  } else if (reason === 'view-aep') {
+    command = 'pkcheck -u --process $$ --action-id org.signalapp.view-aep';
   } else {
     throw missingCaseError(reason);
   }
@@ -150,10 +153,12 @@ async function isPromptOSAuthAvailableLinux(
   let actionCommand: string;
   if (reason === 'enable-backups') {
     actionCommand = 'pkaction --action-id org.signalapp.enable-backups';
-  } else if (reason === 'view-aep') {
-    actionCommand = 'pkaction --action-id org.signalapp.view-aep';
+  } else if (reason === 'link-device') {
+    actionCommand = 'pkaction --action-id org.signalapp.link-device';
   } else if (reason === 'plaintext-export') {
     actionCommand = 'pkaction --action-id org.signalapp.plaintext-export';
+  } else if (reason === 'view-aep') {
+    actionCommand = 'pkaction --action-id org.signalapp.view-aep';
   } else {
     throw missingCaseError(reason);
   }

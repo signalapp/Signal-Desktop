@@ -132,6 +132,15 @@ class ConfirmableEvent extends Event {
   }
 }
 
+export class ContactSyncRequestEvent extends ConfirmableEvent {
+  public readonly sentAt: number;
+
+  constructor(sentAt: number, confirm: ConfirmCallback) {
+    super('contactSyncRequest', confirm);
+    this.sentAt = sentAt;
+  }
+}
+
 export type DeliveryEventData = Readonly<{
   timestamp: number;
   source?: string;
@@ -357,6 +366,23 @@ export class ConfigurationEvent extends ConfirmableEvent {
   }
 }
 
+export class ConfigurationRequestEvent extends ConfirmableEvent {
+  public readonly sentAt: number;
+
+  constructor(sentAt: number, confirm: ConfirmCallback) {
+    super('configurationRequest', confirm);
+    this.sentAt = sentAt;
+  }
+}
+export class BlockSyncRequestEvent extends ConfirmableEvent {
+  public readonly sentAt: number;
+
+  constructor(sentAt: number, confirm: ConfirmCallback) {
+    super('blockSyncRequest', confirm);
+    this.sentAt = sentAt;
+  }
+}
+
 export type ViewOnceOpenSyncOptions = {
   sourceAci?: AciString;
   timestamp?: number;
@@ -458,6 +484,15 @@ export class KeysEvent extends ConfirmableEvent {
     this.masterKey = masterKey;
     this.accountEntropyPool = accountEntropyPool;
     this.mediaRootBackupKey = mediaRootBackupKey;
+  }
+}
+
+export class KeysRequestEvent extends ConfirmableEvent {
+  public readonly sentAt: number;
+
+  constructor(sentAt: number, confirm: ConfirmCallback) {
+    super('keysRequest', confirm);
+    this.sentAt = sentAt;
   }
 }
 

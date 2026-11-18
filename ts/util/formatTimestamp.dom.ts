@@ -273,3 +273,13 @@ export function formatDate(
     year: 'numeric',
   });
 }
+
+export function formatDateLong(rawTimestamp: RawTimestamp): string {
+  const timestamp = rawTimestamp.valueOf();
+
+  return formatTimestamp(timestamp, {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  });
+}

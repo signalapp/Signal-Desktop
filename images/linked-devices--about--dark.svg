@@ -1,0 +1,11 @@
+<svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="14" y="24" width="64" height="56" rx="8" fill="#E3E8FE" stroke="#020BAC" stroke-width="2"/>
+<path d="M77 36.5571V74C77 77.866 73.866 81 70 81H22C18.3435 81 15.3418 78.1965 15.0272 74.6217C22.6739 52.1589 43.9496 36 68.9995 36C71.7149 36 74.3859 36.1899 77 36.5571Z" fill-rule="evenodd" clip-rule="evenodd" fill="#C1C7FE"/>
+<rect x="4" y="72" width="84" height="8" rx="4" fill="#E3E8FE" stroke="#020BAC" stroke-width="2"/>
+<rect x="70" y="32" width="36" height="48" rx="6" fill="#E3E8FE"/>
+<path d="M88 48.854C94.6411 48.854 100.823 50.5449 106 53.4517V74.4995C106 77.8132 103.314 80.4995 100 80.4995H76C72.6863 80.4995 70 77.8132 70 74.4995V53.4507C75.1768 50.5441 81.3591 48.854 88 48.854Z" fill="#C1C7FE"/>
+<rect x="70" y="32" width="36" height="48" rx="6" stroke="#020BAC" stroke-width="2"/>
+<rect x="55" y="52" width="24" height="40.5" rx="6" fill="#E3E8FE"/>
+<path d="M67 68C71.4273 68 75.5488 69.3083 79 71.5586V86.5C79 89.8137 76.3137 92.5 73 92.5H61C57.6863 92.5 55 89.8137 55 86.5V71.5586C58.4512 69.3083 62.5727 68 67 68Z" fill="#C1C7FE"/>
+<rect x="55" y="52" width="24" height="40.5" rx="6" stroke="#020BAC" stroke-width="2"/>
+</svg>

@@ -303,6 +303,10 @@ import { PhoneNumberDiscoverability } from './util/phoneNumberDiscoverability.st
 import { getProfileData } from './state/ducks/standaloneInstaller.preload.ts';
 import { pinReminderService } from './services/pinReminder.preload.ts';
 import { updateCapabilities } from './util/updateCapabilities.preload.ts';
+import { onContactSyncRequest } from './util/syncRequests/onContactSyncRequest.preload.ts';
+import { onConfigurationRequest } from './util/syncRequests/onConfigurationRequest.preload.ts';
+import { onKeysRequest } from './util/syncRequests/onKeysRequest.preload.ts';
+import { onBlockSyncRequest } from './util/syncRequests/onBlockSyncRequest.preload.ts';
 
 const { isNumber, throttle } = lodash;
 
@@ -647,6 +651,10 @@ async function startApp(): Promise<void> {
       queuedEventListener(onContactSync)
     );
     messageReceiver.addEventListener(
+      'contactSyncRequest',
+      queuedEventListener(onContactSyncRequest)
+    );
+    messageReceiver.addEventListener(
       'sent',
       queuedEventListener(onSentMessage)
     );
@@ -698,6 +706,14 @@ async function startApp(): Promise<void> {
       'configuration',
       queuedEventListener(onConfiguration)
     );
+    messageReceiver.addEventListener(
+      'configurationRequest',
+      queuedEventListener(onConfigurationRequest)
+    );
+    messageReceiver.addEventListener(
+      'blockSyncRequest',
+      queuedEventListener(onBlockSyncRequest)
+    );
     messageReceiver.addEventListener('typing', queuedEventListener(onTyping));
     messageReceiver.addEventListener(
       'sticker-pack',
@@ -720,6 +736,10 @@ async function startApp(): Promise<void> {
       queuedEventListener(onFetchLatestSync)
     );
     messageReceiver.addEventListener('keys', queuedEventListener(onKeysSync));
+    messageReceiver.addEventListener(
+      'keysRequest',
+      queuedEventListener(onKeysRequest)
+    );
     messageReceiver.addEventListener(
       'storyRecipientUpdate',
       queuedEventListener(onStoryRecipientUpdate)
@@ -1899,6 +1919,10 @@ async function startApp(): Promise<void> {
               ? `code: ${error.code}`
               : Errors.toLogFormat(error)
           );
+        }
+
+        if (window.ConversationController.areWePrimaryDevice()) {
+          window.reduxActions.linkedDevices.refreshDevices();
         }
       }
 

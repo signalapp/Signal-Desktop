@@ -3,14 +3,14 @@
 
 import { createSelector } from 'reselect';
 
-import { type LocalizerType, ThemeType } from '../../types/Util.std.ts';
-import type { AciString, PniString } from '../../types/ServiceId.std.ts';
+import { getIsInFullScreenCall } from './isInFullScreenCall.std.ts';
+import { isNightly } from '../../util/version.std.ts';
+import { ThemeType } from '../../types/Util.std.ts';
 
+import type { LocalizerType } from '../../types/Util.std.ts';
+import type { AciString, PniString } from '../../types/ServiceId.std.ts';
 import type { StateType } from '../reducer.preload.ts';
 import type { UserStateType } from '../ducks/user.preload.ts';
-import { getIsInFullScreenCall } from './isInFullScreenCall.std.ts';
-
-import { isNightly } from '../../util/version.std.ts';
 
 export const getUser = (state: StateType): UserStateType => state.user;
 
@@ -47,11 +47,6 @@ export const getUserPNI = createSelector(
 export const getAreWePrimaryDevice = createSelector(
   getUserDeviceId,
   (deviceId: number | undefined): boolean => deviceId === 1
-);
-
-export const getDoWeHaveOtherDevices = createSelector(
-  getAreWePrimaryDevice,
-  (areWePrimaryDevice: boolean): boolean => !areWePrimaryDevice
 );
 
 export const getIntl = createSelector(

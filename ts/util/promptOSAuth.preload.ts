@@ -19,6 +19,10 @@ export async function promptOSAuth(
         localeString = window.SignalContext.i18n(
           'icu:Preferences__local-backups--enable--os-prompt--mac'
         );
+      } else if (reason === 'link-device') {
+        localeString = window.SignalContext.i18n(
+          'icu:LinkDevice--OSPrompt--Mac'
+        );
       } else if (reason === 'plaintext-export') {
         localeString = window.SignalContext.i18n(
           'icu:PlaintextExport--OSPrompt--Mac'
@@ -36,6 +40,10 @@ export async function promptOSAuth(
       if (reason === 'enable-backups') {
         localeString = window.SignalContext.i18n(
           'icu:Preferences__local-backups--enable--os-prompt--windows'
+        );
+      } else if (reason === 'link-device') {
+        localeString = window.SignalContext.i18n(
+          'icu:LinkDevice--OSPrompt--Windows'
         );
       } else if (reason === 'plaintext-export') {
         localeString = window.SignalContext.i18n(

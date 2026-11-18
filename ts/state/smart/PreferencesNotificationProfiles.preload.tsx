@@ -5,11 +5,7 @@ import { memo, useCallback } from 'react';
 import type { MutableRefObject } from 'react';
 import { useSelector } from 'react-redux';
 
-import {
-  getDoWeHaveOtherDevices,
-  getIntl,
-  getTheme,
-} from '../selectors/user.std.ts';
+import { getIntl, getTheme } from '../selectors/user.std.ts';
 import {
   NotificationProfilesCreateFlow,
   NotificationProfilesHome,
@@ -25,9 +21,11 @@ import {
   getLoading,
   getProfiles,
 } from '../selectors/notificationProfiles.dom.ts';
-import type { SettingsLocation } from '../../types/Nav.std.ts';
 import { getItems } from '../selectors/items.dom.ts';
 import { useItemsActions } from '../ducks/items.preload.ts';
+import { getDoWeHaveOtherDevices } from '../selectors/linkedDevices.std.ts';
+
+import type { SettingsLocation } from '../../types/Nav.std.ts';
 
 export type ExternalProps = {
   contentsRef: MutableRefObject<HTMLDivElement | null>;

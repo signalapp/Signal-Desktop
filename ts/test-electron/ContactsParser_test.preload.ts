@@ -24,13 +24,12 @@ import {
   readAttachmentData,
 } from '../util/migrations.preload.ts';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.ts';
-import type { AciString } from '../types/ServiceId.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import {
+  encodeContactsV2,
   ParseContactsTransform,
   parseContactsV2,
 } from '../textsecure/ContactsParser.preload.ts';
-import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { encodeDelimited } from '../util/encodeDelimited.std.ts';
 import { toAciObject } from '../util/ServiceId.node.ts';
@@ -39,6 +38,14 @@ import {
   encryptAttachmentV2ToDisk,
 } from '../AttachmentCrypto.node.ts';
 import { generateAci } from '../test-helpers/serviceIdUtils.std.ts';
+import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.ts';
+import { ConversationModel } from '../models/conversations.preload.ts';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.ts';
+
+import type { AciString } from '../types/ServiceId.std.ts';
+import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.ts';
+import type { ConversationType } from '../state/ducks/conversations.preload.ts';
+import type { AttachmentType } from '../types/Attachment.std.ts';
 
 const log = createLogger('ContactsParser_test');
 
@@ -136,6 +143,57 @@ describe('ContactsParser', () => {
       } finally {
         if (absolutePath) {
           unlinkSync(absolutePath);
+        }
+      }
+    });
+  });
+
+  describe('encodeContactsV2', () => {
+    function conversationTypeToModel(
+      conversation: ConversationType
+    ): ConversationModel {
+      return new ConversationModel({
+        ...conversation,
+        version: 1,
+        expireTimerVersion: INITIAL_EXPIRE_TIMER_VERSION,
+        badges: [],
+        lastMessage: undefined,
+        type: 'private',
+        membersV2: undefined,
+      });
+    }
+
+    it('roundtrips with parseContactsV2', async () => {
+      let attachment: AttachmentType | undefined;
+
+      try {
+        const contacts = [
+          conversationTypeToModel(getDefaultConversation()),
+          conversationTypeToModel(getDefaultConversation()),
+          conversationTypeToModel(getDefaultConversation()),
+        ];
+
+        attachment = await encodeContactsV2(contacts);
+        const result = await parseContactsV2(attachment);
+
+        assert.strictEqual(
+          result[0]?.aci,
+          contacts[0]?.getAci(),
+          'First contact ACI'
+        );
+        assert.strictEqual(
+          result[1]?.aci,
+          contacts[1]?.getAci(),
+          'Second contact ACI'
+        );
+        assert.strictEqual(
+          result[2]?.aci,
+          contacts[2]?.getAci(),
+          'Third contact ACI'
+        );
+      } finally {
+        if (attachment?.path) {
+          await maybeDeleteAttachmentFile(attachment.path);
         }
       }
     });

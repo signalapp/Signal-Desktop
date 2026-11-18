@@ -25,6 +25,7 @@ import { reducer as inbox } from './ducks/inbox.std.ts';
 import { reducer as installer } from './ducks/installer.preload.ts';
 import { reducer as items } from './ducks/items.preload.ts';
 import { reducer as lightbox } from './ducks/lightbox.preload.ts';
+import { reducer as linkedDevices } from './ducks/linkedDevices.preload.ts';
 import { reducer as linkPreviews } from './ducks/linkPreviews.preload.ts';
 import { reducer as mediaGallery } from './ducks/mediaGallery.preload.ts';
 import { reducer as megaphones } from './ducks/megaphones.preload.ts';
@@ -66,6 +67,7 @@ export const reducer = combineReducers({
   installer,
   items,
   lightbox,
+  linkedDevices,
   linkPreviews,
   mediaGallery,
   megaphones,

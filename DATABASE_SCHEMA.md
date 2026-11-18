@@ -1039,6 +1039,23 @@ CREATE INDEX kyberPreKeys_ourServiceId ON kyberPreKeys (ourServiceId)
 </details>
 
 <details>
+<summary>Table: linkedDevices</summary>
+
+```sql
+CREATE TABLE linkedDevices (
+  id INTEGER PRIMARY KEY NOT NULL,
+  createdAt INTEGER,
+  lastSeenAt INTEGER NOT NULL,
+  name TEXT,
+  registrationId INTEGER NOT NULL
+) STRICT
+```
+
+---
+
+</details>
+
+<details>
 <summary>Table: megaphones</summary>
 
 ```sql

@@ -816,31 +816,36 @@ const CHAT_CALLS = {
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
   backupAuth: 'v2/backup/auth',
+  backupMediaDelete: 'v1/archives/media/delete',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
   boostReceiptCredentials: 'v1/subscription/boost/receipt_credentials',
+  callLinkCreateAuth: 'v1/call-link/create-auth',
   configV2: 'v2/config',
+  confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
+  confirmUsername: 'v1/accounts/username_hash/confirm',
   createBoost: 'v1/subscription/boost/create',
   createPaypalBoost: 'v1/subscription/boost/paypal/create',
-  confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
   deliveryCert: 'v1/certificate/delivery',
   directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
+  donationPermits: 'v1/donation/permit',
+  getBackupCredentials: 'v1/archives/auth',
   getGroupCredentials: 'v1/certificate/auth/group',
   getIceServers: 'v2/calling/relays',
-  getBackupCredentials: 'v1/archives/auth',
   keys: 'v2/keys',
   linkDevice: 'v1/devices/link',
   messages: 'v1/messages',
   multiRecipient: 'v1/messages/multi_recipient',
   profile: 'v1/profile',
-  backupMediaDelete: 'v1/archives/media/delete',
-  callLinkCreateAuth: 'v1/call-link/create-auth',
+  provisioningCode: 'v1/devices/provisioning/code',
+  provisioningMessage: 'v1/provisioning',
   setBackupId: 'v1/archives/backupid',
   signed: 'v2/keys/signed',
   storageToken: 'v1/storage/auth',
-  subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
+  subscriptions: 'v1/subscription',
   transferArchive: 'v1/devices/transfer_archive',
+  waitForLinkedDevice: 'v1/devices/wait_for_linked_device',
   whoami: 'v1/accounts/whoami',
 };
 
@@ -2396,6 +2401,141 @@ export async function getProfile(
   })) as ProfileType;
 }
 
+const getProvisioningCodeResponseSchema = z.object({
+  verificationCode: z.string(),
+  tokenIdentifier: z.string(),
+});
+type GetProvisioningCodeResponse = z.infer<
+  typeof getProvisioningCodeResponseSchema
+>;
+
+export async function getProvisioningCode(
+  abortSignal: AbortSignal
+): Promise<GetProvisioningCodeResponse> {
+  return _ajax({
+    abortSignal,
+    headers: getLocaleHeaders(),
+    host: 'chatService',
+    call: 'provisioningCode',
+    httpType: 'GET',
+    responseType: 'json',
+    zodSchema: getProvisioningCodeResponseSchema,
+  });
+}
+
+export async function sendProvisioningMessage({
+  abortSignal,
+  address,
+  protoInBase64,
+}: {
+  abortSignal: AbortSignal;
+  address: string;
+  protoInBase64: string;
+}): Promise<void> {
+  const encodedAddress = encodeURIComponent(address);
+
+  await _ajax({
+    abortSignal,
+    headers: getLocaleHeaders(),
+    host: 'chatService',
+    call: 'provisioningMessage',
+    httpType: 'PUT',
+    jsonData: { body: protoInBase64 },
+    urlParameters: `/${encodedAddress}`,
+    responseType: 'bytes',
+    redactUrl: _createRedactor(encodedAddress),
+  });
+}
+
+const serverDeviceSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  lastSeen: z.number(),
+  registrationId: z.number(),
+  createdAtCiphertext: z.string(),
+});
+export type ServerDevice = z.infer<typeof serverDeviceSchema>;
+
+const waitForLinkedDeviceResultSchema = serverDeviceSchema.or(z.literal(''));
+type WaitForLinkedDeviceResult =
+  | {
+      type: 'notDone';
+    }
+  | {
+      type: 'done';
+      device: ServerDevice;
+    };
+
+export async function waitForLinkedDevice({
+  abortSignal,
+  timeoutSeconds,
+  tokenIdentifier,
+}: {
+  abortSignal: AbortSignal;
+  timeoutSeconds: number;
+  tokenIdentifier: string;
+}): Promise<WaitForLinkedDeviceResult> {
+  const ourTimeout = timeoutSeconds * 1000 + SECOND;
+  const escapedToken = encodeURIComponent(tokenIdentifier);
+
+  const result = await _ajax({
+    abortSignal,
+    headers: getLocaleHeaders(),
+    host: 'chatService',
+    call: 'waitForLinkedDevice',
+    httpType: 'GET',
+    urlParameters: `/${escapedToken}?timeout=${timeoutSeconds}`,
+    responseType: 'jsonwithdetails',
+    redactUrl: _createRedactor(escapedToken),
+    timeout: ourTimeout,
+    zodSchema: waitForLinkedDeviceResultSchema,
+  });
+
+  if (result.response.status === 204) {
+    return {
+      type: 'notDone',
+    };
+  }
+
+  if (result.response.status === 200) {
+    if (!result.data) {
+      throw new Error(`waitForLinkedDevice: got 200, but no result data`);
+    }
+
+    return {
+      type: 'done',
+      device: result.data,
+    };
+  }
+
+  throw new Error(`waitForLinkedDevice: got status ${result.response.status}`);
+}
+
+export type SendTransferPayload = {
+  destinationDeviceId: number;
+  destinationDeviceRegistrationId: number;
+  transferArchive:
+    | {
+        cdn: number;
+        key: string;
+      }
+    | { error: 'RELINK_REQUESTED' | 'CONTINUE_WITHOUT_UPLOAD' };
+};
+
+export async function sendTransferArchive(
+  jsonData: SendTransferPayload,
+  abortSignal: AbortSignal
+): Promise<void> {
+  await _ajax({
+    abortSignal,
+    host: 'chatService',
+    call: 'transferArchive',
+    httpType: 'PUT',
+    responseType: 'bytes',
+    jsonData,
+  });
+}
+
 export async function getTransferArchive({
   timeout = HOUR,
   abortSignal,
@@ -3042,13 +3182,26 @@ export async function updateAccountAttributes(
   });
 }
 
-export async function unlink(): Promise<void> {
+export async function unlink(deviceId: number): Promise<void> {
   if (!username) {
     return;
   }
 
   const [, deviceIdString] = username.split('.');
-  const deviceId = parseIntOrThrow(deviceIdString, 'unlink: invalid deviceId');
+  const ourDeviceId = parseIntOrThrow(
+    deviceIdString,
+    'unlink: invalid deviceId'
+  );
+  if (
+    deviceId !== ourDeviceId &&
+    !window.ConversationController.areWePrimaryDevice()
+  ) {
+    throw new Error(
+      `unlink: We are not primary, but attempting to remove device ${deviceId}`
+    );
+  } else if (deviceId === 1) {
+    throw new Error(`unlink: Cannot remove deviceId = 1`);
+  }
 
   await _retry(async () => {
     const chat = await socketManager.getAuthenticatedApi();

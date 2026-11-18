@@ -26,6 +26,7 @@ import { getEmptyState as inboxEmptyState } from './ducks/inbox.std.ts';
 import { getEmptyState as installerEmptyState } from './ducks/installer.preload.ts';
 import { getEmptyState as itemsEmptyState } from './ducks/items.preload.ts';
 import { getEmptyState as lightboxEmptyState } from './ducks/lightbox.preload.ts';
+import { getEmptyState as linkedDevicesEmptyState } from './ducks/linkedDevices.preload.ts';
 import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews.preload.ts';
 import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.preload.ts';
 import { getEmptyState as megaphonesEmptyState } from './ducks/megaphones.preload.ts';
@@ -175,6 +176,7 @@ function getEmptyState(): StateType {
     installer: installerEmptyState(),
     items: itemsEmptyState(),
     lightbox: lightboxEmptyState(),
+    linkedDevices: linkedDevicesEmptyState(),
     linkPreviews: linkPreviewsEmptyState(),
     mediaGallery: mediaGalleryEmptyState(),
     megaphones: megaphonesEmptyState(),

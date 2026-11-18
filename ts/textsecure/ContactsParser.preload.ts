@@ -1,25 +1,49 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+// oxlint-disable max-classes-per-file
+
+import { Readable } from 'node:stream';
+import PQueue from 'p-queue';
+
 import { createLogger } from '../logging/log.std.ts';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { DurationInSeconds } from '../util/durations/index.std.ts';
 import { DelimitedStream } from '../util/DelimitedStream.node.ts';
 import {
   getAbsoluteAttachmentPath,
+  readAttachmentData,
   writeNewAttachmentData,
 } from '../util/migrations.preload.ts';
 import { strictAssert } from '../util/assert.std.ts';
+import { computeHash, getRandomBytes } from '../Crypto.node.ts';
+import {
+  fromAciUuidBytesOrString,
+  toAciObject,
+} from '../util/ServiceId.node.ts';
+import * as Bytes from '../Bytes.std.ts';
+import {
+  decryptAttachmentV2ToSink,
+  encryptAttachmentV2ToDisk,
+} from '../AttachmentCrypto.node.ts';
+import { drop } from '../util/drop.std.ts';
+import { encodeDelimited } from '../util/encodeDelimited.std.ts';
+import { CURRENT_ATTACHMENT_VERSION } from '../../app/attachments.node.ts';
+import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.ts';
+import { isNumber } from 'lodash';
+import { toLogFormat } from '../types/errors.std.ts';
+import {
+  APPLICATION_OCTET_STREAM,
+  stringToMIMEType,
+} from '../types/MIME.std.ts';
+import { KEY_SET_LENGTH } from '../types/Crypto.std.ts';
+
 import type { ContactAvatarType } from '../types/Avatar.std.ts';
 import type { AttachmentType } from '../types/Attachment.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
-import { computeHash } from '../Crypto.node.ts';
-import { fromAciUuidBytesOrString } from '../util/ServiceId.node.ts';
-import * as Bytes from '../Bytes.std.ts';
-import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.ts';
+import type { ConversationModel } from '../models/conversations.preload.ts';
 
 import Avatar = Proto.ContactDetails.Avatar.Params;
-import { stringToMIMEType } from '../types/MIME.std.ts';
 
 const log = createLogger('ContactsParser');
 
@@ -75,10 +99,152 @@ export async function parseContactsV2(
   return contacts;
 }
 
-// This transform pulls contacts and their avatars from a stream of bytes. This is tricky,
-//   because the chunk boundaries might fall in the middle of a contact or their avatar.
-//   So we are ready for decodeDelimited() to throw, and to keep activeContact around
-//   while we wait for more chunks to get to the expected avatar size.
+class EncodeContactsStream extends Readable {
+  readonly #contacts: ReadonlyArray<ConversationModel>;
+  readonly #queue = new PQueue({ concurrency: 1 });
+  readonly #onComplete: (size: number) => void;
+
+  #index = 0;
+  #byteCount = 0;
+
+  constructor({
+    contacts,
+    onComplete,
+  }: {
+    contacts: ReadonlyArray<ConversationModel>;
+    onComplete: (size: number) => void;
+  }) {
+    super();
+    this.#contacts = contacts;
+    this.#onComplete = onComplete;
+  }
+
+  override push(
+    chunk: Uint8Array<ArrayBuffer> | null,
+    encoding?: BufferEncoding
+  ): boolean {
+    this.#byteCount += chunk?.byteLength ?? 0;
+
+    return super.push(chunk, encoding);
+  }
+
+  override _read(): void {
+    if (this.#index >= this.#contacts.length) {
+      drop(
+        this.#queue.add(() => {
+          this.push(null);
+          this.#onComplete(this.#byteCount);
+        })
+      );
+      return;
+    }
+
+    const contact = this.#contacts[this.#index];
+    this.#index += 1;
+
+    if (!contact) {
+      return this._read();
+    }
+
+    const aci = contact.getAci();
+    if (!aci) {
+      return this._read();
+    }
+
+    drop(
+      this.#queue.add(async () => {
+        const given = contact.get('systemGivenName');
+        const family = contact.get('systemFamilyName');
+
+        const fullName =
+          given && family ? `${given} ${family}` : given || family;
+        const avatar = contact.get('avatar');
+
+        let avatarData: Uint8Array<ArrayBuffer> | undefined;
+        let contentType = 'image/jpeg';
+        if (avatar?.path) {
+          try {
+            avatarData = await readAttachmentData(avatar);
+
+            if (avatar.contentType) {
+              contentType = avatar.contentType;
+            }
+          } catch (error) {
+            log.error(
+              'encodeContact: Failed to load avatar data',
+              toLogFormat(error)
+            );
+            avatarData = undefined;
+          }
+        }
+
+        const details = Proto.ContactDetails.encode({
+          number: contact.get('e164') ?? null,
+          aci,
+          aciBinary: toAciObject(aci).getRawUuidBytes(),
+          name: fullName ?? null,
+          avatar: Bytes.isNotEmpty(avatarData)
+            ? {
+                contentType,
+                length: avatarData.byteLength,
+              }
+            : null,
+          expireTimer: contact.get('expireTimer') ?? 0,
+          expireTimerVersion:
+            contact.get('expireTimerVersion') ?? INITIAL_EXPIRE_TIMER_VERSION,
+          inboxPosition: null,
+        });
+
+        const [varintSize] = encodeDelimited(details);
+
+        // First the size of the Contact proto, then the proto, then the avatar
+        this.push(varintSize);
+        this.push(details);
+        if (Bytes.isNotEmpty(avatarData)) {
+          this.push(avatarData);
+        }
+      })
+    );
+  }
+}
+
+export async function encodeContactsV2(
+  contacts: ReadonlyArray<ConversationModel>
+): Promise<AttachmentType> {
+  let plaintextSize: number | undefined = undefined;
+
+  const stream = new EncodeContactsStream({
+    contacts,
+    onComplete: size => {
+      plaintextSize = size;
+    },
+  });
+  const keys = getRandomBytes(KEY_SET_LENGTH);
+
+  const { plaintextHash, path } = await encryptAttachmentV2ToDisk({
+    plaintext: {
+      stream,
+    },
+    keys,
+    needIncrementalMac: false,
+    getAbsoluteAttachmentPath,
+  });
+
+  strictAssert(
+    isNumber(plaintextSize),
+    'encodeContactsV2: Expect to get a plaintext size, even if it is zero'
+  );
+
+  return {
+    version: CURRENT_ATTACHMENT_VERSION,
+    contentType: APPLICATION_OCTET_STREAM,
+    plaintextHash,
+    size: plaintextSize,
+    path,
+    localKey: Bytes.toBase64(keys),
+  };
+}
+
 // Note: exported only for testing
 export class ParseContactsTransform extends DelimitedStream {
   protected override getTrailerSize(frame: Buffer<ArrayBuffer>): number {

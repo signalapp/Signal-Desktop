@@ -96,6 +96,7 @@ import { useBackupActions } from '../ducks/backups.preload.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { SmartPreferencesChatFoldersPage } from './PreferencesChatFoldersPage.preload.tsx';
 import { SmartPreferencesEditChatFolderPage } from './PreferencesEditChatFolderPage.preload.tsx';
+import { SmartPreferencesLinkedDevicesPage } from './PreferencesLinkedDevicesPage.preload.tsx';
 import {
   getCurrentChatFoldersCount,
   getHasAnyCurrentCustomChatFolders,
@@ -129,6 +130,7 @@ import {
   getBlockedContacts,
   getBlockedGroups,
 } from '../selectors/blocked.dom.ts';
+import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts';
 
 import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
@@ -145,7 +147,6 @@ import {
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.tsx';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.tsx';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.tsx';
-import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts';
 
 const RESETTABLE_GLOBAL_NOTIFICATION_ITEMS = [
   ...Object.values(NOTIFY_WHILE_MUTED_FIELDS),
@@ -174,6 +175,10 @@ function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
 ): JSX.Element {
   return <SmartPreferencesEditChatFolderPage {...props} />;
+}
+
+function renderPreferencesLinkedDevicesPage() {
+  return <SmartPreferencesLinkedDevicesPage />;
 }
 
 function renderNotificationProfilesHome(
@@ -1207,6 +1212,7 @@ export function SmartPreferences(): JSX.Element | null {
         renderPreferencesEditChatFolderPage={
           renderPreferencesEditChatFolderPage
         }
+        renderPreferencesLinkedDevicesPage={renderPreferencesLinkedDevicesPage}
         previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
         promptOSAuth={promptOSAuth}
         resetAllChatColors={resetAllChatColors}

@@ -29,6 +29,8 @@ import ProvisioningCipher, {
 } from './ProvisioningCipher.node.ts';
 import { ConnectTimeoutError } from './Errors.std.ts';
 import type { getProvisioningConnection } from './WebAPI.preload.ts';
+import { LinkedDeviceCapabilities } from '../types/LinkedDevices.std.ts';
+import { Environment, getEnvironment } from '../environment.std.ts';
 
 const log = createLogger('Provisioner');
 
@@ -427,12 +429,17 @@ export class Provisioner {
         uuid,
         pubKey: Bytes.toBase64(cipher.getPublicKey().serialize()),
         capabilities: [
-          'nopni', // legacy e164-less linking
-          'nopni2', // e164-less linking
-          ...(isLinkAndSyncEnabled() ? ['backup5'] : []),
+          LinkedDeviceCapabilities.nopni,
+          LinkedDeviceCapabilities.nopni2,
+          ...(isLinkAndSyncEnabled() ? [LinkedDeviceCapabilities.backup5] : []),
         ],
       })
       .toString();
+
+    if (getEnvironment() === Environment.Development) {
+      // oxlint-disable-next-line no-console
+      console.log('QR Code URL:', url);
+    }
 
     this.#notify({ kind: EventKind.URL, url });
 

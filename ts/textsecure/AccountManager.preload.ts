@@ -3,13 +3,12 @@
 
 import PQueue from 'p-queue';
 import lodash from 'lodash';
-import { PublicKey, type KyberPreKeyRecord } from '@signalapp/libsignal-client';
+import { type KyberPreKeyRecord } from '@signalapp/libsignal-client';
 import {
   AccountEntropyPool,
   BackupKey,
 } from '@signalapp/libsignal-client/dist/AccountKeys.js';
 import type { RegisterAccountResponse } from '@signalapp/libsignal-client/dist/net';
-import { Base64 } from '@signalapp/types';
 
 import EventTarget from './EventTarget.std.ts';
 import {
@@ -44,14 +43,10 @@ import {
 } from '../environment.std.ts';
 import { senderCertificateService } from '../services/senderCertificate.preload.ts';
 import {
-  decryptDeviceName,
   deriveStorageServiceKey,
   deriveMasterKey,
-  encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
-  decryptDeviceCreatedAt,
-  encryptDeviceCreatedAt,
 } from '../Crypto.node.ts';
 import {
   generateKeyPair,
@@ -77,7 +72,6 @@ import { strictAssert } from '../util/assert.std.ts';
 import { getRegionCodeForNumber } from '../util/libphonenumberUtil.std.ts';
 import { isNotNil } from '../util/isNotNil.std.ts';
 import { missingCaseError } from '../util/missingCaseError.std.ts';
-import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { createLogger } from '../logging/log.std.ts';
 import type { StorageAccessType } from '../types/Storage.d.ts';
 import { getRelativePath, createName } from '../util/attachmentPath.node.ts';
@@ -98,6 +92,7 @@ import {
 } from '../util/isRelinkingToSameAccount.std.ts';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.ts';
 import { getRecoveryPassword } from '../util/getRecoveryPassword.preload.ts';
+import { encryptDeviceName } from '../util/decryptDevice.preload.ts';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -323,103 +318,6 @@ export default class AccountManager extends EventTarget {
     );
   }
 
-  encryptDeviceName(
-    name: string,
-    identityKey: KeyPairType
-  ): Base64 | undefined {
-    if (!name) {
-      return undefined;
-    }
-    const encrypted = encryptDeviceName(name, identityKey.publicKey);
-
-    const bytes = Proto.DeviceName.encode({
-      ephemeralPublic: encrypted.ephemeralPublic.serialize(),
-      syntheticIv: encrypted.syntheticIv,
-      ciphertext: encrypted.ciphertext,
-    });
-    return Base64.fromBytes(bytes);
-  }
-
-  async decryptDeviceName(base64: Base64): Promise<string> {
-    const ourAci = itemStorage.user.getCheckedAci();
-    const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
-    if (!identityKey) {
-      throw new Error('decryptDeviceName: No identity key pair!');
-    }
-
-    const bytes = Base64.toBytes(base64);
-    const proto = Proto.DeviceName.decode(bytes);
-    strictAssert(
-      proto.ephemeralPublic,
-      'Missing ephemeralPublic field in DeviceName'
-    );
-    strictAssert(proto.syntheticIv, 'Missing syntheticIv field in DeviceName');
-    strictAssert(proto.ciphertext, 'Missing ciphertext field in DeviceName');
-
-    const name = decryptDeviceName(
-      {
-        ephemeralPublic: PublicKey.deserialize(proto.ephemeralPublic),
-        syntheticIv: proto.syntheticIv,
-        ciphertext: proto.ciphertext,
-      },
-      identityKey.privateKey
-    );
-
-    return name;
-  }
-
-  // For testing
-  async _encryptDeviceCreatedAt(
-    createdAt: number,
-    deviceId: number
-  ): Promise<Base64> {
-    const ourAci = itemStorage.user.getCheckedAci();
-    const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
-    const registrationId =
-      await signalProtocolStore.getLocalRegistrationId(ourAci);
-    strictAssert(identityKey, 'Missing identity key pair');
-    strictAssert(registrationId, 'Missing registrationId for our Aci');
-
-    const createdAtCiphertextBytes = encryptDeviceCreatedAt(
-      createdAt,
-      deviceId,
-      registrationId,
-      identityKey.publicKey
-    );
-
-    return Base64.fromBytes(createdAtCiphertextBytes);
-  }
-
-  async decryptDeviceCreatedAt(
-    createdAtCiphertextBase64: Base64,
-    deviceId: number
-  ): Promise<number> {
-    const ourAci = itemStorage.user.getCheckedAci();
-    const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
-    if (!identityKey) {
-      throw new Error('decryptDeviceCreatedAt: No identity key pair!');
-    }
-
-    const registrationId =
-      await signalProtocolStore.getLocalRegistrationId(ourAci);
-    if (!registrationId) {
-      throw new Error('decryptDeviceCreatedAt: No registrationId for our Aci!');
-    }
-
-    const createdAtCiphertextBytes = Bytes.fromBase64(
-      createdAtCiphertextBase64
-    );
-
-    const createdAt = decryptDeviceCreatedAt(
-      createdAtCiphertextBytes,
-      deviceId,
-      registrationId,
-      identityKey.privateKey
-    );
-
-    return createdAt;
-  }
-
   async maybeUpdateDeviceName(): Promise<void> {
     const isNameEncrypted = itemStorage.user.getDeviceNameEncrypted();
     if (isNameEncrypted) {
@@ -433,12 +331,12 @@ export default class AccountManager extends EventTarget {
       identityKeyPair !== undefined,
       "Can't encrypt device name without identity key pair"
     );
-    const base64 = this.encryptDeviceName(deviceName || '', identityKeyPair);
+    const bytes = encryptDeviceName(deviceName || '', identityKeyPair);
 
-    if (base64) {
+    if (bytes && bytes.length > 0) {
       await updateDeviceName({
         deviceId: itemStorage.user.getCheckedDeviceId(),
-        encryptedName: Base64.toBytes(base64),
+        encryptedName: bytes,
       });
       await itemStorage.user.setDeviceNameEncrypted();
     }
@@ -1263,10 +1161,13 @@ export default class AccountManager extends EventTarget {
         response,
       };
     } else if (options.type === AccountType.Linked) {
-      const encryptedDeviceName = this.encryptDeviceName(
+      const encryptedDeviceNameBytes = encryptDeviceName(
         options.deviceName,
         aciKeyPair
       );
+      const encryptedDeviceName = encryptedDeviceNameBytes
+        ? Bytes.toBase64(encryptedDeviceNameBytes)
+        : undefined;
       await this.deviceNameIsEncrypted();
 
       ({ authCredentialSalt } = options);

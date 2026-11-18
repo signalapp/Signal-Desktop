@@ -148,6 +148,15 @@ export type StoredIdentityKeyType = {
 };
 export type IdentityKeyIdType = IdentityKeyType['id'];
 
+export type LinkedDevice = {
+  readonly id: number;
+
+  readonly createdAt: number | null;
+  readonly lastSeenAt: number;
+  readonly name: string | null;
+  readonly registrationId: number;
+};
+
 export type ItemKeyType = keyof StorageAccessType;
 export type AllItemsType = Partial<StorageAccessType>;
 export type StoredAllItemsType = Partial<BytesToStrings<StorageAccessType>>;
@@ -1187,6 +1196,8 @@ type ReadableInterface = {
     plaintextHash: string
   ) => ExistingAttachmentUploadData | undefined;
 
+  getAllLinkedDevices: () => ReadonlyArray<LinkedDevice>;
+
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readOnlySqlQuery: string
   ) => ReadonlyArray<RowType<object>>;
@@ -1599,6 +1610,11 @@ type WritableInterface = {
   removeAll: () => void;
   removeAllConfiguration: (isPrimary: boolean) => void;
   eraseStorageServiceState: () => void;
+
+  createOrUpdateLinkedDevice: (linkedDevice: LinkedDevice) => void;
+  removeAllLinkedDevices: () => void;
+  removeLinkedDeviceById: (id: number) => void;
+  replaceAllLinkedDevices: (linkedDevices: ReadonlyArray<LinkedDevice>) => void;
 
   insertJob: (job: Readonly<StoredJob>) => void;
   deleteJob: (id: string) => void;

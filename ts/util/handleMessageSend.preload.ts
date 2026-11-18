@@ -50,21 +50,21 @@ export const sendTypesEnum = z.enum([
   'retryRequest', // excluded from send log
   'senderKeyDistributionMessage', // only urgent if associated message is
 
-  // Sync messages sent during link, default non-urgent
+  // Sync messages sent when we are being linked, default non-urgent
   'blockSyncRequest',
   'configurationSyncRequest',
   'contactSyncRequest', // urgent because it blocks the link process
   'keySyncRequest', // urgent because it blocks the link process
   'pniIdentitySyncRequest', // urgent because we need our PNI to be fully functional
 
-  // The actual sync messages, which we never send, just receive - non-urgent
+  // Sync messages sent when we are primary and link other devices, default non-urgent
+  'blockSync',
   'configurationSync',
-  'contactSync',
-  'keySync',
-  'pniIdentitySync',
+  'contactSync', // urgent because it blocks the link process
+  'keySync', // urgent because it blocks the link process
+  'pniIdentitySync', // urgent because we need our PNI to be fully functional
 
   // Syncs, default non-urgent
-  'blockSync',
   'deleteForMeSync',
   'fetchLatestManifestSync',
   'fetchLocalProfileSync',

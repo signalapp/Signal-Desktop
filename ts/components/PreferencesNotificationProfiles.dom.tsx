@@ -9,9 +9,10 @@ import {
   useId,
   useMemo,
 } from 'react';
-import type { MutableRefObject, JSX, ReactNode } from 'react';
 import { sample, isEqual, noop } from 'lodash';
 import classNames from 'classnames';
+
+import type { MutableRefObject, JSX, ReactNode } from 'react';
 
 import { FunStaticEmoji } from './fun/FunEmoji.dom.tsx';
 import { FunEmojiPicker } from './fun/FunEmojiPicker.dom.tsx';
@@ -32,6 +33,11 @@ import { strictAssert } from '../util/assert.std.ts';
 import { SettingsPage } from '../types/Nav.std.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AriaClickable } from '../axo/AriaClickable.dom.tsx';
+import { Emoji } from '../axo/emoji.std.ts';
+import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
+import { NotificationProfilesOnboardingDialog } from './preferences/notificationProfiles/NotificationProfilesOnboardingDialog.dom.tsx';
+import { formatTimeForDisplay, TimePicker } from './TimePicker.dom.tsx';
+
 import type { LocalizerType } from '../types/I18N.std.ts';
 import type { ThemeType } from '../types/Util.std.ts';
 import type { ConversationType } from '../state/ducks/conversations.preload.ts';
@@ -43,10 +49,6 @@ import type {
   ScheduleDays,
 } from '../types/NotificationProfile.std.ts';
 import type { SettingsLocation } from '../types/Nav.std.ts';
-import { Emoji } from '../axo/emoji.std.ts';
-import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';
-import { NotificationProfilesOnboardingDialog } from './preferences/notificationProfiles/NotificationProfilesOnboardingDialog.dom.tsx';
-import { formatTimeForDisplay, TimePicker } from './TimePicker.dom.tsx';
 
 enum CreateFlowPage {
   Name = 'Name',
