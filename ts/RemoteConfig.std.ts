@@ -54,6 +54,8 @@ const SemverKeys = [
   'desktop.shareContact.prod',
   'desktop.stickerFavorites.beta',
   'desktop.stickerFavorites.prod',
+  'desktop.stickerPackHiding.beta',
+  'desktop.stickerPackHiding.prod',
   'desktop.stickerReply.send.beta',
   'desktop.stickerReply.send.prod',
 ] as const;

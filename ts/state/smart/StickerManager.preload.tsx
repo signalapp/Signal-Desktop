@@ -16,7 +16,10 @@ import {
 import { useStickersActions } from '../ducks/stickers.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { useToastActions } from '../ducks/toast.preload.ts';
-import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
+import {
+  isFavoriteStickersEnabled as getIsFavoriteStickersEnabled,
+  isHidingStickerPacksEnabled as getIsHidingStickerPacksEnabled,
+} from '../../util/stickers.preload.ts';
 import { drop } from '../../util/drop.std.ts';
 
 export const SmartStickerManager = memo(function SmartStickerManager() {
@@ -41,6 +44,7 @@ export const SmartStickerManager = memo(function SmartStickerManager() {
 
   const favoriteStickers = useSelector(getInstalledFavoriteStickers);
   const isFavoriteStickersEnabled = getIsFavoriteStickersEnabled();
+  const isHidingStickerPacksEnabled = getIsHidingStickerPacksEnabled();
 
   const hideStickerPack = useCallback(
     (packId: string) => {
@@ -58,6 +62,7 @@ export const SmartStickerManager = memo(function SmartStickerManager() {
       hideStickerPack={hideStickerPack}
       i18n={i18n}
       isFavoriteStickersEnabled={isFavoriteStickersEnabled}
+      isHidingStickerPacksEnabled={isHidingStickerPacksEnabled}
       installStickerPack={installStickerPack}
       installedPacks={installedPacks}
       knownPacks={knownPacks}

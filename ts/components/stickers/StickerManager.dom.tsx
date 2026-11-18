@@ -50,6 +50,7 @@ export type OwnProps = {
   ) => unknown;
   readonly installedPacks: ReadonlyArray<StickerPackType>;
   readonly isFavoriteStickersEnabled: boolean;
+  readonly isHidingStickerPacksEnabled: boolean;
   readonly markStickerAsFavorite: (
     stickerRef: StickerReferenceType,
     markAsFavorite: boolean
@@ -81,6 +82,7 @@ export const StickerManager = memo(function StickerManagerInner({
   installStickerPack,
   installedPacks,
   isFavoriteStickersEnabled,
+  isHidingStickerPacksEnabled,
   knownPacks,
   markStickerAsFavorite,
   receivedPacks,
@@ -155,7 +157,11 @@ export const StickerManager = memo(function StickerManagerInner({
         i18n={i18n}
         pack={pack}
         onClickPreview={previewPack}
-        hideStickerPack={isHideEnabled ? promptHidePack : undefined}
+        hideStickerPack={
+          isHideEnabled && isHidingStickerPacksEnabled
+            ? promptHidePack
+            : undefined
+        }
         installStickerPack={installStickerPack}
         uninstallStickerPack={uninstallStickerPack}
       />
@@ -163,6 +169,7 @@ export const StickerManager = memo(function StickerManagerInner({
     [
       i18n,
       installStickerPack,
+      isHidingStickerPacksEnabled,
       previewPack,
       promptHidePack,
       uninstallStickerPack,
