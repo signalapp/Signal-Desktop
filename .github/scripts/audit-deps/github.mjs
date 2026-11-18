@@ -335,3 +335,32 @@ export async function updateGitHubIssue(repo, number, changes) {
     json: changes,
   });
 }
+
+/**
+ * @param {string} repo `owner/repo`
+ * @param {string} username
+ * @returns {Promise<GitHubSchemas['repository-collaborator-permission']>}
+ */
+export async function getGitHubCollaboratorPermission(repo, username) {
+  const result = await fetchGitHubApi({
+    method: 'GET',
+    path: `/repos/${repo}/collaborators/${encodeURIComponent(username)}/permission`,
+  });
+  return /** @type {GitHubSchemas['repository-collaborator-permission']} */ (
+    result
+  );
+}
+
+/**
+ * @param {string} repo `owner/repo`
+ * @param {GitHubIssueComment['id']} commentId
+ * @param {'eyes' | '+1' | '-1'} content
+ * @returns {Promise<void>}
+ */
+export async function createGitHubIssueCommentReaction(repo, commentId, content) {
+  await fetchGitHubApi({
+    method: 'POST',
+    path: `/repos/${repo}/issues/comments/${commentId}/reactions`,
+    json: { content },
+  });
+}

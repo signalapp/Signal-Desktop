@@ -18,21 +18,36 @@ on:
       - 'danger/pnpm-workspace.yaml'
       - '.github/scripts/min-os-version/pnpm-lock.yaml'
       - '.github/scripts/min-os-version/pnpm-workspace.yaml'
+  # `!ignore`, `!override` and `!unignore` on the issue or the PR
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
 
-concurrency:
-  group: pnpm-audit-autofix
-  cancel-in-progress: false
-
 jobs:
   autofix:
     name: Auto-fix pnpm advisories
+    # Every comment in the repo triggers this workflow
+    if: >-
+      github.event_name != 'issue_comment' || (
+        contains(github.event.issue.labels.*.name, 'pnpm-audit-autofix') &&
+        github.event.comment.user.login != 'automated-signal' &&
+        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association) &&
+        (
+          contains(github.event.comment.body, '!ignore') ||
+          contains(github.event.comment.body, '!unignore') ||
+          contains(github.event.comment.body, '!override')
+        )
+      )
     runs-on: ubuntu-22.04-8-cores
     timeout-minutes: 20
+    # Here instead of on the workflow so skipped runs don't cancel queued ones
+    concurrency:
+      group: pnpm-audit-autofix
+      cancel-in-progress: false
 
     steps:
       - name: Checkout main
@@ -48,8 +63,16 @@ jobs:
           cache: false
           install: false
 
+      - id: commands
+        name: Apply commands
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTOMATED_GITHUB_PAT || github.token }}
+        run: node .github/scripts/audit-deps/apply-commands.mjs
+
       - id: fix
         name: Fix advisories
+        env:
+          BASE_REF: origin/main
         run: node .github/scripts/audit-deps/fix.mjs
 
       - name: Publish pull request
@@ -58,4 +81,8 @@ jobs:
           PR_BODY: ${{ steps.fix.outputs.pr-body }}
           ISSUE_BODY: ${{ steps.fix.outputs.issue-body }}
           FIX_FAILED: ${{ steps.fix.outputs.failed }}
+          REPLY: ${{ steps.commands.outputs.reply }}
+          REPLY_FAILED: ${{ steps.commands.outputs.reply-failed }}
+          REPLY_TO: ${{ steps.commands.outputs.reply-to }}
+          REPLY_COMMENT_ID: ${{ steps.commands.outputs.reply-comment-id }}
         run: node .github/scripts/audit-deps/publish.mjs
