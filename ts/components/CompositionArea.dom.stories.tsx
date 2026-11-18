@@ -288,6 +288,50 @@ export function Quote(args: Props): JSX.Element {
   );
 }
 
+export function QuoteFromGroup(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      quotedMessageProps={{
+        text: 'something',
+        bubbleColor: { bubbleColorPreset: 'vermilion' },
+        conversationTitle: getDefaultConversation().title,
+        isGiftBadge: false,
+        isViewOnce: false,
+        referencedMessageNotFound: false,
+        authorTitle: 'Someone',
+        isFromMe: false,
+        quotedGroupTitle: 'Soi Dog Rescue',
+        quotedConversationId: 'some-group-id',
+      }}
+    />
+  );
+}
+
+export function QuoteFromGroupWithMention(args: Props): JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      quotedMessageProps={{
+        text: '@Jamie can you bring the leashes?',
+        bubbleColor: { bubbleColorPreset: 'vermilion' },
+        conversationTitle: getDefaultConversation().title,
+        isGiftBadge: false,
+        isViewOnce: false,
+        referencedMessageNotFound: false,
+        authorTitle: 'Someone',
+        isFromMe: false,
+        quotedGroupTitle: 'Soi Dog Rescue',
+        quotedConversationId: 'some-group-id',
+      }}
+    />
+  );
+}
+
 export function QuoteWithPayment(args: Props): JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (

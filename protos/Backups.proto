@@ -892,6 +892,14 @@ message Quote {
   optional Text text = 3;
   repeated QuotedAttachment attachments = 4;
   Type type = 5;
+  
+  // We don't always know the group for a private reply in cases where groups were fully deleted after
+  // receiving the message. Always prefer setting the [privateReplyGroupRecipientId] if available, falling back to
+  // [unknownPrivateReply] only when it isn't.
+  oneof privateReplyDescriptor {
+    bool unknownPrivateReply = 6;
+    uint64 privateReplyGroupRecipientId = 7;
+  }
 }
 
 message BodyRange {

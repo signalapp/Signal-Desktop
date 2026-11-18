@@ -1,10 +1,11 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
-
 import { createLogger } from '../logging/log.std.ts';
-import type { QuotedMessageType } from '../model-types.std.ts';
+import type {
+  MessageAttributesType,
+  QuotedMessageType,
+} from '../model-types.std.ts';
 import { SignalService } from '../protobuf/index.std.ts';
 import {
   isGiftBadge,
@@ -21,8 +22,6 @@ import * as Errors from '../types/errors.std.ts';
 import type { MessageModel } from '../models/messages.preload.ts';
 import { backupsService } from '../services/backups/index.preload.ts';
 import { isDownloadable } from '../util/Attachment.std.ts';
-
-const { omit } = lodash;
 
 const log = createLogger('copyQuote');
 const { i18n } = window.SignalContext;
@@ -46,6 +45,7 @@ export type CopyQuoteOptionsType = Readonly<{
 export const copyFromQuotedMessage = async (
   quote: ProcessedQuote,
   conversationId: string,
+  quotingMessageType: MessageAttributesType['type'],
   options: CopyQuoteOptionsType = {}
 ): Promise<QuotedMessageType> => {
   const { messageCache = window.MessageCache } = options;
@@ -53,10 +53,10 @@ export const copyFromQuotedMessage = async (
   strictAssert(id, 'Quote must have an id');
 
   const result: QuotedMessageType = {
-    ...omit(quote, 'type'),
-
     id,
-
+    authorAci: quote.authorAci,
+    groupId: quote.groupId ?? undefined,
+    text: quote.text,
     attachments: quote.attachments.slice(),
     bodyRanges: quote.bodyRanges?.slice(),
 
@@ -69,7 +69,12 @@ export const copyFromQuotedMessage = async (
   const queryMessage = await messageCache.findBySentAt(
     id,
     (message: MessageModel) => {
-      return isQuoteAMatch(message.attributes, conversationId, result);
+      return isQuoteAMatch({
+        candidateQuotedMessage: message.attributes,
+        quotingConversationId: conversationId,
+        quotingMessageType,
+        quote: result,
+      });
     }
   );
 
@@ -145,7 +150,6 @@ export const copyQuoteContentFromOriginal = async (
     id: quote.id,
     i18n,
   });
-
   // oxlint-disable-next-line no-param-reassign
   quote.bodyRanges = message.attributes.bodyRanges;
 

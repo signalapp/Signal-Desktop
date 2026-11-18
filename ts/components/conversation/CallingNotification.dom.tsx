@@ -77,6 +77,7 @@ export const CallingNotification: FC<PropsType> = memo(
         onDownload={null}
         onEdit={null}
         onReplyToMessage={null}
+        onReplyPrivately={null}
         onReact={null}
         onEndPoll={null}
         onRetryMessageSend={null}

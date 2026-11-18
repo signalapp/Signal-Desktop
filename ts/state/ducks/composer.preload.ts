@@ -83,8 +83,19 @@ import { resolveDraftAttachmentOnDisk } from '../../util/resolveDraftAttachmentO
 import { shouldShowInvalidMessageToast } from '../../util/shouldShowInvalidMessageToast.preload.ts';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
-import { canReply, isNormalBubble } from '../selectors/message.preload.ts';
-import { getAuthorId } from '../../messages/sources.preload.ts';
+import {
+  canReply,
+  canReplyPrivately,
+  isNormalBubble,
+} from '../selectors/message.preload.ts';
+import { getAuthor, getAuthorId } from '../../messages/sources.preload.ts';
+import { isQuoteAMatch } from '../../messages/quotes.preload.ts';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.ts';
+import { GroupId } from '@signalapp/types';
+import { isAciString } from '../../util/isAciString.std.ts';
+import type { MessageModel } from '../../models/messages.preload.ts';
+import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
+import { isPrivateReplySendEnabled } from '../../util/isPrivateReplySendEnabled.dom.ts';
 import { getConversationSelector } from '../selectors/conversations.dom.ts';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.ts';
 import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.ts';
@@ -92,6 +103,7 @@ import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import {
   CONVERSATION_UNLOADED,
   scrollToMessage,
+  showConversation,
 } from './conversations.preload.ts';
 import type {
   ConversationUnloadedActionType,
@@ -298,6 +310,7 @@ export const actions = {
   sendStickerMessage,
   setComposerFocus,
   setMediaQualitySetting,
+  replyPrivately,
   setQuoteByMessageId,
   setQuotedMessage,
   setViewOnce,
@@ -384,12 +397,29 @@ function scrollToQuotedMessage({
   authorId,
   conversationId,
   sentAt,
+  isQuotedGroupMissing,
 }: Readonly<{
   authorId: string;
   conversationId: string;
   sentAt: number;
-}>): AsyncStateThunk<ShowToastActionType | ScrollToMessageActionType> {
+  isQuotedGroupMissing?: boolean;
+}>): AsyncStateThunk<
+  | ShowToastActionType
+  | ScrollToMessageActionType
+  | TargetedConversationChangedActionType
+> {
   return async (dispatch, getState) => {
+    if (isQuotedGroupMissing) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.OriginalMessageAndGroupNotFound,
+        },
+      });
+      return;
+    }
+
+    const selectedConversationId = getSelectedConversationId(getState());
     const messages = await DataReader.getMessagesBySentAt(sentAt);
     const message = messages.find(item =>
       Boolean(
@@ -409,7 +439,14 @@ function scrollToQuotedMessage({
       return;
     }
 
-    if (getSelectedConversationId(getState()) !== conversationId) {
+    if (getSelectedConversationId(getState()) !== selectedConversationId) {
+      return;
+    }
+
+    if (conversationId !== selectedConversationId) {
+      drop(
+        dispatch(showConversation({ conversationId, messageId: message.id }))
+      );
       return;
     }
 
@@ -596,6 +633,7 @@ function sendEditedMessage(
     bodyRanges?: DraftBodyRanges;
     targetMessageId: string;
     quoteAuthorAci?: AciString;
+    quoteGroupId?: GroupId;
     quoteSentAt?: number;
   }
 ): AsyncStateThunk<
@@ -614,6 +652,7 @@ function sendEditedMessage(
       bodyRanges,
       quoteSentAt,
       quoteAuthorAci,
+      quoteGroupId,
       targetMessageId,
     } = options;
 
@@ -624,6 +663,7 @@ function sendEditedMessage(
           bodyRanges,
           preview: await getLinkPreviewsForSend(message),
           quoteAuthorAci,
+          quoteGroupId,
           quoteSentAt,
           targetMessageId,
         });
@@ -959,8 +999,12 @@ export function setQuoteByMessageId(
       throw new Error('setQuoteByMessageId: No conversation found');
     }
 
+    const message = messageId ? await getMessageById(messageId) : undefined;
+    const isPrivateReply =
+      message != null && message.get('conversationId') !== conversationId;
+
     const activePanel = getActivePanel(getState());
-    if (activePanel != null && messageId != null) {
+    if (activePanel != null && messageId != null && !isPrivateReply) {
       // Reset the conversation panels and scroll to the message
       // in case we're inside of a conversation panel like pinned messages
       void dispatch(scrollToMessage(conversationId, messageId));
@@ -982,16 +1026,21 @@ export function setQuoteByMessageId(
       return;
     }
 
-    const message = messageId ? await getMessageById(messageId) : undefined;
-    const state = getState();
+    const conversationSelector = getConversationSelector(getState());
+    const canQuote =
+      message != null &&
+      (isPrivateReply
+        ? canReplyPrivately(message.attributes, conversationSelector)
+        : canReply(
+            message.attributes,
+            window.ConversationController.getOurConversationIdOrThrow(),
+            conversationSelector
+          ));
     if (
       !message ||
       !isNormalBubble(message.attributes) ||
-      !canReply(
-        message.attributes,
-        window.ConversationController.getOurConversationIdOrThrow(),
-        getConversationSelector(state)
-      )
+      !canQuote ||
+      (isPrivateReply && !isValidPrivateReplyQuote(message, conversationId))
     ) {
       dispatch(setQuotedMessage(conversationId, undefined));
       conversation.set({
@@ -1022,7 +1071,11 @@ export function setQuoteByMessageId(
       await DataWriter.updateConversation(conversation.attributes);
     }
 
-    const quote = await makeQuote(message.attributes);
+    if (getSelectedConversationId(getState()) !== conversationId) {
+      return;
+    }
+
+    const quote = await makeQuote(message.attributes, conversationId);
 
     // In case the conversation changed while we were about to set the quote
     if (getSelectedConversationId(getState()) !== conversationId) {
@@ -1038,6 +1091,55 @@ export function setQuoteByMessageId(
     dispatch(disableViewOnceIfIneligible(conversationId));
 
     void dispatch(setComposerFocus(conversation.id));
+  };
+}
+
+function isValidPrivateReplyQuote(
+  message: MessageModel,
+  quotingConversationId: string
+): boolean {
+  const groupId = window.ConversationController.get(
+    message.get('conversationId')
+  )?.get('groupId');
+  const { sourceServiceId } = message.attributes;
+
+  return isQuoteAMatch({
+    candidateQuotedMessage: message.attributes,
+    quotingConversationId,
+    quotingMessageType: 'outgoing',
+    quote: {
+      id: getMessageSentTimestamp(message.attributes, { log }),
+      authorAci: isAciString(sourceServiceId) ? sourceServiceId : undefined,
+      groupId: groupId && GroupId.isValid(groupId) ? groupId : undefined,
+    },
+  });
+}
+
+function replyPrivately(
+  messageId: string
+): AsyncStateThunk<
+  SetQuotedMessageActionType | TargetedConversationChangedActionType
+> {
+  return async dispatch => {
+    if (!isPrivateReplySendEnabled()) {
+      log.warn('replyPrivately: not enabled');
+      return;
+    }
+
+    const message = await getMessageById(messageId);
+    if (!message) {
+      log.warn(`replyPrivately: message ${messageId} not found`);
+      return;
+    }
+
+    const author = getAuthor(message.attributes);
+    if (!author || !isDirectConversation(author.attributes)) {
+      log.warn(`replyPrivately: no author for ${messageId}`);
+      return;
+    }
+
+    await dispatch(setQuoteByMessageId(author.id, messageId));
+    await dispatch(showConversation({ conversationId: author.id }));
   };
 }
 

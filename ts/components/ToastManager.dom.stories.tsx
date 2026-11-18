@@ -219,6 +219,8 @@ function getToast(toastType: ToastType): AnyToast {
         toastType: ToastType.NotificationProfileUpdate,
         parameters: { name: 'Focus', enabled: true },
       };
+    case ToastType.OriginalMessageAndGroupNotFound:
+      return { toastType: ToastType.OriginalMessageAndGroupNotFound };
     case ToastType.OriginalMessageNotFound:
       return { toastType: ToastType.OriginalMessageNotFound };
     case ToastType.PinnedConversationsFull:

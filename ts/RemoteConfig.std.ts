@@ -42,6 +42,8 @@ const SemverKeys = [
   'desktop.keyTransparency.prod',
   'desktop.pollSend1to1.beta',
   'desktop.pollSend1to1.prod',
+  'desktop.privateReply.send.beta',
+  'desktop.privateReply.send.prod',
   'desktop.remoteMute.send.beta',
   'desktop.remoteMute.send.prod',
   'desktop.retireAccessKeyGroupSend.beta',

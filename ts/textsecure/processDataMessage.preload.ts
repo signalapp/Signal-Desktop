@@ -62,7 +62,7 @@ import { createLogger } from '../logging/log.std.ts';
 
 import { toNumber } from '../util/toNumber.std.ts';
 import { Emoji } from '../axo/emoji.std.ts';
-import { DurationSecs, SentTimestampMs } from '@signalapp/types';
+import { DurationSecs, GroupId, SentTimestampMs } from '@signalapp/types';
 
 const { isNumber } = lodash;
 
@@ -227,6 +227,9 @@ function processQuote(
   return {
     id: toNumber(quote.id) ?? 0,
     authorAci,
+    groupId: Bytes.isNotEmpty(quote.groupId)
+      ? GroupId.decode(quote.groupId as GroupId.Encoded)
+      : null,
     text: quote.text ?? '',
     attachments: (quote.attachments ?? []).slice(0, 1).map(attachment => {
       return {

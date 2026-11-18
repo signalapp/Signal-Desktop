@@ -4786,7 +4786,7 @@ function startConversationWithSharedContact(
   };
 }
 
-function showConversation({
+export function showConversation({
   conversationId,
   messageId,
   switchToAssociatedView,

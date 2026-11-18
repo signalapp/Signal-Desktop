@@ -80,6 +80,8 @@ export type Props = {
   isViewOnce: boolean;
   reactionEmoji?: Emoji.Variant;
   referencedMessageNotFound: boolean;
+  quotedGroupTitle?: string;
+  isQuotedGroupMissing?: boolean;
   doubleCheckMissingQuoteReference?: () => unknown;
 };
 
@@ -184,6 +186,8 @@ export function Quote(props: Props): JSX.Element | null {
     isIncoming,
     className,
     referencedMessageNotFound,
+    quotedGroupTitle,
+    isQuotedGroupMissing,
     doubleCheckMissingQuoteReference,
     onClick,
     isCompose,
@@ -465,6 +469,9 @@ export function Quote(props: Props): JSX.Element | null {
     ) : (
       <ContactName title={authorTitle} />
     );
+    const groupTitle = isQuotedGroupMissing
+      ? i18n('icu:Quote__unknown-group')
+      : quotedGroupTitle;
     const author = isStoryReply ? (
       <>
         {title} &middot; {i18n('icu:Quote__story')}
@@ -478,6 +485,7 @@ export function Quote(props: Props): JSX.Element | null {
             <GroupMemberLabel context="quote" contactLabel={authorLabel} />
           </>
         ) : undefined}
+        {groupTitle ? <> &middot; {groupTitle}</> : undefined}
       </>
     );
 
@@ -497,7 +505,9 @@ export function Quote(props: Props): JSX.Element | null {
       <div className="module-quote__reference-warning">
         <div className="module-quote__reference-warning__icon" />
         <div className="module-quote__reference-warning__text">
-          {i18n('icu:originalMessageNotFound')}
+          {isQuotedGroupMissing
+            ? i18n('icu:Quote__original-message-and-group-not-found')
+            : i18n('icu:originalMessageNotFound')}
         </div>
       </div>
     );

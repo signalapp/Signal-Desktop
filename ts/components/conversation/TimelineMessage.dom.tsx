@@ -57,6 +57,7 @@ export type PropsData = {
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
   canReply: boolean;
+  canReplyPrivately: boolean;
   canPinMessage: boolean;
   selectedReaction?: Emoji.Variant;
   stickerRef: StickerReferenceType | undefined;
@@ -84,6 +85,7 @@ export type PropsActions = {
   retryDeleteForEveryone: (id: string) => void;
   setMessageToEdit: (conversationId: string, messageId: string) => unknown;
   setQuoteByMessageId: (conversationId: string, messageId: string) => void;
+  replyPrivately: (messageId: string) => void;
   toggleSelectMessage: (
     conversationId: string,
     messageId: string,
@@ -123,6 +125,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canForward,
     canReact,
     canReply,
+    canReplyPrivately,
     canRetry,
     canRetryDeleteForEveryone,
     canPinMessage,
@@ -147,6 +150,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     pushPanelForConversation,
     reactToMessage,
     renderReactionPicker,
+    replyPrivately,
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
@@ -365,6 +369,7 @@ export function TimelineMessage(props: Props): JSX.Element {
             canEditMessage ? () => setMessageToEdit(conversationId, id) : null
           }
           onReplyToMessage={handleReplyToMessage}
+          onReplyPrivately={canReplyPrivately ? () => replyPrivately(id) : null}
           onReact={handleReact}
           onEndPoll={canEndPoll ? () => endPoll(id) : null}
           onRetryMessageSend={canRetry ? () => retryMessageSend(id) : null}
@@ -419,6 +424,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       canEditMessage,
       canForward,
       canPinMessage,
+      canReplyPrivately,
       canRetry,
       canSelect,
       canEndPoll,
@@ -438,6 +444,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       isFavoriteSticker,
       isPinned,
       pushPanelForConversation,
+      replyPrivately,
       retryDeleteForEveryone,
       retryMessageSend,
       setMessageToEdit,

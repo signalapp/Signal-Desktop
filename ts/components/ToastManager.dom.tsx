@@ -758,6 +758,14 @@ function renderToast({
     );
   }
 
+  if (toastType === ToastType.OriginalMessageAndGroupNotFound) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:Quote__original-message-and-group-not-found')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.OriginalMessageNotFound) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:originalMessageNotFound')}</Toast>

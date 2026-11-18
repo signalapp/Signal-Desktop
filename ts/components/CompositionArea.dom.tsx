@@ -44,6 +44,7 @@ import type {
 import { isVoiceMessage } from '../util/Attachment.std.ts';
 import { isViewOnceEligible } from '../util/viewOnceEligibility.std.ts';
 import type { AciString } from '../types/ServiceId.std.ts';
+import type { GroupId } from '@signalapp/types';
 import { AudioCapture } from './conversation/AudioCapture.dom.tsx';
 import { CompositionUpload } from './CompositionUpload.dom.tsx';
 import type {
@@ -164,6 +165,7 @@ export type OwnProps = Readonly<{
       bodyRanges?: DraftBodyRanges;
       message?: string;
       quoteAuthorAci?: AciString;
+      quoteGroupId?: GroupId;
       quoteSentAt?: number;
       targetMessageId: string;
     }
@@ -185,9 +187,10 @@ export type OwnProps = Readonly<{
     Omit<
       QuoteProps,
       'i18n' | 'onClick' | 'onClose' | 'withContentAbove' | 'isCompose'
-    >
+    > & { quotedConversationId?: string }
   >;
   quotedMessageAuthorAci: AciString | null;
+  quotedMessageGroupId: GroupId | null;
   quotedMessageSentAt: number | null;
   showMediaQualitySelector: boolean;
 
@@ -305,6 +308,7 @@ export const CompositionArea = memo(function CompositionArea({
   quotedMessageId,
   quotedMessageProps,
   quotedMessageAuthorAci,
+  quotedMessageGroupId,
   quotedMessageSentAt,
   scrollToMessage,
   // View Once
@@ -431,6 +435,7 @@ export const CompositionArea = memo(function CompositionArea({
           // sent timestamp for the quote
           quoteSentAt: quotedMessageSentAt ?? undefined,
           quoteAuthorAci: quotedMessageAuthorAci ?? undefined,
+          quoteGroupId: quotedMessageGroupId ?? undefined,
           targetMessageId: editedMessageId,
         });
       } else {
@@ -454,6 +459,7 @@ export const CompositionArea = memo(function CompositionArea({
       isViewOnce,
       quotedMessageSentAt,
       quotedMessageAuthorAci,
+      quotedMessageGroupId,
       sendEditedMessage,
       sendMultiMediaMessage,
       setLarge,
@@ -1327,7 +1333,17 @@ export const CompositionArea = memo(function CompositionArea({
                   i18n={i18n}
                   onClick={
                     quotedMessageId
-                      ? () => scrollToMessage(conversationId, quotedMessageId)
+                      ? () => {
+                          const { quotedConversationId } = quotedMessageProps;
+                          if (quotedConversationId) {
+                            showConversation({
+                              conversationId: quotedConversationId,
+                              messageId: quotedMessageId,
+                            });
+                          } else {
+                            scrollToMessage(conversationId, quotedMessageId);
+                          }
+                        }
                       : undefined
                   }
                   onClose={() => {

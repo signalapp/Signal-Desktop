@@ -106,6 +106,7 @@ import type {
 import type { Emoji } from '../axo/emoji.std.ts';
 import type { BlockedNumber } from '../types/StorageKeys.std.ts';
 import { isAciString } from '../util/isAciString.std.ts';
+import { GroupId } from '@signalapp/types';
 
 const log = createLogger('SendMessage');
 
@@ -142,6 +143,7 @@ export type OutgoingQuoteAttachmentType = Readonly<{
 export type OutgoingQuoteType = Readonly<{
   isGiftBadge?: boolean;
   id?: number;
+  groupId: GroupId | null;
   authorAci?: AciString;
   text?: string;
   attachments: ReadonlyArray<OutgoingQuoteAttachmentType>;
@@ -527,6 +529,7 @@ class Message {
           this.quote.authorAci && isProtoBinaryEncodingEnabled()
             ? toAciObject(this.quote.authorAci).getRawUuidBytes()
             : null,
+        groupId: this.quote.groupId ? GroupId.encode(this.quote.groupId) : null,
         authorAci: isProtoBinaryEncodingEnabled()
           ? null
           : (this.quote.authorAci ?? null),

@@ -928,6 +928,7 @@ async function uploadMessageQuote({
   return {
     isGiftBadge: quote.isGiftBadge,
     id: quote.id ?? undefined,
+    groupId: quote.groupId ?? null,
     authorAci: quote.authorAci
       ? normalizeAci(quote.authorAci, 'sendNormalMessage.quote.authorAci')
       : undefined,

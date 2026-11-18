@@ -435,17 +435,38 @@ export async function handleDataMessage(
         `${storyContext.authorAci})`;
     }
 
+    let initialQuote = initialMessage.quote;
+    if (initialQuote?.groupId) {
+      let expectedQuoteAuthorAci: string | undefined;
+      if (type === 'incoming') {
+        expectedQuoteAuthorAci = ourAci;
+      } else if (type === 'outgoing') {
+        expectedQuoteAuthorAci = conversation.getServiceId();
+      }
+
+      if (!isDirectConversation(conversation.attributes)) {
+        log.warn(`${idLog}: Dropping quote with groupId outside of 1:1`);
+        initialQuote = undefined;
+      } else if (
+        !expectedQuoteAuthorAci ||
+        initialQuote.authorAci !== expectedQuoteAuthorAci
+      ) {
+        log.warn(`${idLog}: Dropping quote with groupId from wrong author`);
+        initialQuote = undefined;
+      }
+    }
+
     // Ensure that quote author's conversation exist
-    if (initialMessage.quote) {
+    if (initialQuote) {
       window.ConversationController.lookupOrCreate({
-        serviceId: initialMessage.quote.authorAci,
+        serviceId: initialQuote.authorAci,
         reason: 'handleDataMessage.quote.author',
       });
     }
 
     const [quote, storyQuote] = await Promise.all([
-      initialMessage.quote
-        ? copyFromQuotedMessage(initialMessage.quote, conversation.id)
+      initialQuote
+        ? copyFromQuotedMessage(initialQuote, conversation.id, type)
         : undefined,
       findStoryMessage({
         conversation: conversation.attributes,

@@ -28,6 +28,7 @@ function getMockMessageProps(): MessagePropsType {
     canPinMessage: false,
     canReact: false,
     canReply: false,
+    canReplyPrivately: false,
     canRetry: false,
     canRetryDeleteForEveryone: false,
     canSendPollVote: false,

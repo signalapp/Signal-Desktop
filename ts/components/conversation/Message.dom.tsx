@@ -276,6 +276,9 @@ export type PropsData = {
     referencedMessageNotFound: boolean;
     isViewOnce: boolean;
     isGiftBadge: boolean;
+    quotedGroupTitle?: string;
+    quotedConversationId?: string;
+    isQuotedGroupMissing?: boolean;
   };
   storyReplyContext?: {
     authorTitle: string;
@@ -383,6 +386,7 @@ export type PropsActions = {
     authorId: string;
     conversationId: string;
     sentAt: number;
+    isQuotedGroupMissing?: boolean;
   }) => void;
   targetMessage?: (
     messageId: string,
@@ -2075,8 +2079,9 @@ export class Message extends PureComponent<Props, State> {
       : () => {
           scrollToQuotedMessage({
             authorId: quote.authorId,
-            conversationId,
+            conversationId: quote.quotedConversationId ?? conversationId,
             sentAt: quote.sentAt,
+            isQuotedGroupMissing: quote.isQuotedGroupMissing,
           });
         };
 
@@ -2098,6 +2103,8 @@ export class Message extends PureComponent<Props, State> {
         isViewOnce={isViewOnce}
         isGiftBadge={isGiftBadge}
         referencedMessageNotFound={referencedMessageNotFound}
+        quotedGroupTitle={quote.quotedGroupTitle}
+        isQuotedGroupMissing={quote.isQuotedGroupMissing}
         isFromMe={quote.isFromMe}
         doubleCheckMissingQuoteReference={
           this.#doubleCheckMissingQuoteReference

@@ -9,7 +9,9 @@ import type {
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.ts';
 import type { StickerType } from '../types/Stickers.preload.ts';
 import { IMAGE_JPEG, IMAGE_GIF } from '../types/MIME.std.ts';
+import { GroupId } from '@signalapp/types';
 import { getAuthor } from '../messages/sources.preload.ts';
+import { isGroupV2 } from './whatTypeOfConversation.dom.ts';
 import { getQuoteBodyText } from './getQuoteBodyText.std.ts';
 import { isGIF } from './Attachment.std.ts';
 import {
@@ -26,8 +28,33 @@ import type { QuotedMessageForComposerType } from '../state/ducks/composer.prelo
 const log = createLogger('makeQuote');
 const { i18n } = window.SignalContext;
 
+function getQuotedGroupId(
+  quotedMessage: Pick<MessageAttributesType, 'conversationId'>,
+  quotingConversationId: string
+): GroupId | undefined {
+  if (quotedMessage.conversationId === quotingConversationId) {
+    return undefined;
+  }
+
+  const quotedConversation = window.ConversationController.get(
+    quotedMessage.conversationId
+  );
+  if (!quotedConversation || !isGroupV2(quotedConversation.attributes)) {
+    throw new Error('getQuotedGroupId: quote group does not exist');
+  }
+
+  const groupId = quotedConversation.get('groupId');
+  strictAssert(
+    groupId != null && GroupId.isValid(groupId),
+    'getQuotedGroupId: invalid group id'
+  );
+
+  return groupId;
+}
+
 export async function makeQuote(
-  quotedMessage: MessageAttributesType
+  quotedMessage: MessageAttributesType,
+  quotingConversationId: string
 ): Promise<QuotedMessageForComposerType['quote']> {
   const contact = getAuthor(quotedMessage);
 
@@ -44,6 +71,17 @@ export async function makeQuote(
 
   const quoteId = getMessageSentTimestamp(quotedMessage, { log });
 
+  const groupId =
+    quotedMessage.conversationId !== quotingConversationId
+      ? getQuotedGroupId(quotedMessage, quotingConversationId)
+      : undefined;
+
+  const text = getQuoteBodyText({
+    messageAttributes: quotedMessage,
+    id: quoteId,
+    i18n,
+  });
+
   return {
     authorAci: contact.getCheckedAci('makeQuote'),
     attachments: isTapToView(quotedMessage)
@@ -52,16 +90,13 @@ export async function makeQuote(
     payment,
     bodyRanges,
     id: quoteId,
+    groupId,
     isViewOnce: isTapToView(quotedMessage),
     isGiftBadge: isGiftBadge(quotedMessage),
     isPoll: quotedMessage.poll != null,
     messageId,
     referencedMessageNotFound: false,
-    text: getQuoteBodyText({
-      messageAttributes: quotedMessage,
-      id: quoteId,
-      i18n,
-    }),
+    text,
   };
 }
 

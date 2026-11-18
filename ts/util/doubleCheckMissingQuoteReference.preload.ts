@@ -39,7 +39,12 @@ export async function doubleCheckMissingQuoteReference(
     const matchingMessage = await window.MessageCache.findBySentAt(
       Number(sentAt),
       model =>
-        isQuoteAMatch(model.attributes, message.get('conversationId'), quote)
+        isQuoteAMatch({
+          candidateQuotedMessage: model.attributes,
+          quotingConversationId: message.get('conversationId'),
+          quotingMessageType: message.attributes.type,
+          quote,
+        })
     );
 
     if (!matchingMessage) {

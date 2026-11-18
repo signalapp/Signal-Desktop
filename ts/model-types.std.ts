@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReadonlyDeep } from 'type-fest';
-import type { MuteExpiration } from '@signalapp/types';
+import type { GroupId, MuteExpiration } from '@signalapp/types';
 
 import type { GroupV2ChangeType } from './types/groups.std.ts';
 import type { DraftBodyRanges, RawBodyRange } from './types/BodyRange.std.ts';
@@ -102,6 +102,8 @@ export type QuotedMessageType = {
   // id can be null if the referenced message was not found and we imported this quote
   // from backup
   id: number | null;
+  groupId?: GroupId;
+  isPrivateReplyGroupUnknown?: boolean;
   isGiftBadge?: boolean;
   isPoll?: boolean;
   isViewOnce: boolean;

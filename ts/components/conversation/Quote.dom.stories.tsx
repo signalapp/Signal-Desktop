@@ -83,6 +83,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canPinMessage: true,
   canReact: true,
   canReply: true,
+  canReplyPrivately: false,
   canRetry: true,
   canRetryDeleteForEveryone: true,
   canSendPollVote: true,
@@ -138,6 +139,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   setMessageToEdit: action('setMessageToEdit'),
   setQuoteByMessageId: action('default--setQuoteByMessageId'),
+  replyPrivately: action('default--replyPrivately'),
   retryMessageSend: action('default--retryMessageSend'),
   sendPollVote: action('default--sendPollVote'),
   copyMessageText: action('copyMessageText'),
@@ -188,6 +190,8 @@ const renderInMessage = ({
   isViewOnce,
   isGiftBadge,
   referencedMessageNotFound,
+  quotedGroupTitle,
+  isQuotedGroupMissing,
   text: quoteText,
 }: Props) => {
   const messageProps = {
@@ -204,6 +208,8 @@ const renderInMessage = ({
       isViewOnce,
       isGiftBadge,
       referencedMessageNotFound,
+      quotedGroupTitle,
+      isQuotedGroupMissing,
       sentAt: Date.now() - 30 * 1000,
       text: quoteText,
     },
@@ -572,6 +578,29 @@ NoCloseButton.args = {
 export const MessageNotFound = TemplateInMessage.bind({});
 MessageNotFound.args = {
   referencedMessageNotFound: true,
+};
+
+export const PrivateReply = TemplateInMessage.bind({});
+PrivateReply.args = {
+  quotedGroupTitle: 'Soi Dog Rescue',
+};
+
+export const PrivateReplyGroupNotFound = TemplateInMessage.bind({});
+PrivateReplyGroupNotFound.args = {
+  referencedMessageNotFound: true,
+  isQuotedGroupMissing: true,
+};
+
+export const PrivateReplyWithMention = TemplateInMessage.bind({});
+PrivateReplyWithMention.args = {
+  quotedGroupTitle: 'Soi Dog Rescue',
+  text: '@Jamie can you bring the leashes?',
+};
+
+export const PrivateReplyWithUnknownMention = TemplateInMessage.bind({});
+PrivateReplyWithUnknownMention.args = {
+  quotedGroupTitle: 'Soi Dog Rescue',
+  text: `@${i18n('icu:unknownContact')} can you bring the leashes?`,
 };
 
 export const MissingTextAttachment = Template.bind({});

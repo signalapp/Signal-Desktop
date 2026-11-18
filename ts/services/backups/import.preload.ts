@@ -11,7 +11,12 @@ import pMap from 'p-map';
 import { Writable } from 'node:stream';
 import lodash from 'lodash';
 import { CallLinkRootKey } from '@signalapp/ringrtc';
-import { MuteExpiration, TimestampMs, Uint32 } from '@signalapp/types';
+import {
+  type GroupId,
+  MuteExpiration,
+  TimestampMs,
+  Uint32,
+} from '@signalapp/types';
 
 import { Backups, SignalService } from '../../protobuf/index.std.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
@@ -100,7 +105,7 @@ import { getBackupMediaRootKey } from './crypto.preload.ts';
 import type { GroupV2ChangeDetailType } from '../../types/groups.std.ts';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads.preload.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
-import { isGroup } from '../../util/whatTypeOfConversation.dom.ts';
+import { isGroup, isGroupV2 } from '../../util/whatTypeOfConversation.dom.ts';
 import {
   convertBackupMessageAttachmentToAttachment,
   convertFilePointerToAttachment,
@@ -2526,6 +2531,17 @@ export class BackupImportStream extends Writable {
     const authorConvo = this.#recipientIdToConvo.get(quote.authorId);
     strictAssert(authorConvo !== undefined, 'author conversation not found');
 
+    const { privateReplyDescriptor } = quote;
+    const privateReplyGroupRecipientId =
+      privateReplyDescriptor?.privateReplyGroupRecipientId;
+    const privateReplyGroup =
+      privateReplyGroupRecipientId != null
+        ? this.#recipientIdToConvo.get(privateReplyGroupRecipientId)
+        : undefined;
+    const quotedGroupId =
+      privateReplyGroup && isGroupV2(privateReplyGroup)
+        ? privateReplyGroup.groupId
+        : undefined;
     return {
       id:
         getCheckedTimestampOrUndefinedFromLong(quote.targetSentTimestamp) ??
@@ -2534,6 +2550,9 @@ export class BackupImportStream extends Writable {
       authorAci: isAciString(authorConvo.serviceId)
         ? authorConvo.serviceId
         : undefined,
+      groupId: quotedGroupId as GroupId | undefined,
+      isPrivateReplyGroupUnknown:
+        privateReplyDescriptor?.unknownPrivateReply === true || undefined,
       author: isAciString(authorConvo.serviceId) ? undefined : authorConvo.e164,
       text: dropNull(quote.text?.body),
       bodyRanges: this.#fromBodyRanges(quote.text),

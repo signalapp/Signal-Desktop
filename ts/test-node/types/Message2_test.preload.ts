@@ -422,26 +422,17 @@ describe('Message', () => {
         quote: {
           text: 'hey!',
           id: 34233,
-          isViewOnce: false,
-          referencedMessageNotFound: false,
-          // oxlint-disable-next-line typescript/no-explicit-any
-        } as any,
-      });
-      const expected = getDefaultMessage({
-        body: 'hey there!',
-        quote: {
-          text: 'hey!',
           attachments: [],
-          id: 34233,
           isViewOnce: false,
           referencedMessageNotFound: false,
         },
       });
+
       const result = await upgradeVersion(
         message,
         getDefaultContext({ logger })
       );
-      assert.deepEqual(result, expected);
+      assert.deepEqual(result, message);
     });
 
     it('handles zero attachments', async () => {

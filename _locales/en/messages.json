@@ -12122,6 +12122,18 @@
     "messageformat": "Address",
     "description": "In the shared contact details view, generic label for a postal address with a custom type but no label"
   },
+  "icu:Quote__unknown-group": {
+    "messageformat": "Unknown group",
+    "description": "Shown after the author's name in a quote of a group message (a private reply) when the group is not found"
+  },
+  "icu:Quote__original-message-and-group-not-found": {
+    "messageformat": "Original message and group not found",
+    "description": "Shown in a quote of a group message (a private reply) when neither the quoted message nor its group is found"
+  },
+  "icu:MessageContextMenu__reply-privately": {
+    "messageformat": "Reply privately",
+    "description": "Shown on the drop-down menu for a message in a group, opens a 1:1 chat with the message's author with a reply to the message"
+  },
   "icu:WhatsNew__modal-title": {
     "messageformat": "What's New",
     "description": "Title for the whats new modal"

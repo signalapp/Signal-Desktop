@@ -42,6 +42,7 @@ import type {
   ConversationAttributesType,
   MessageAttributesType,
   QuotedAttachmentType,
+  QuotedMessageType,
 } from '../../model-types.std.ts';
 import { isNotNil } from '../../util/isNotNil.std.ts';
 import {
@@ -3209,6 +3210,30 @@ export class BackupExportStream {
     return { updates };
   }
 
+  #toPrivateReplyDescriptor(
+    quote: Pick<QuotedMessageType, 'groupId' | 'isPrivateReplyGroupUnknown'>
+  ): Backups.Quote.Params['privateReplyDescriptor'] {
+    if (quote.groupId) {
+      const group = window.ConversationController.get(quote.groupId);
+      if (group && isGroupV2(group.attributes)) {
+        const recipientId = this.#getRecipientByConversationId(
+          group.id,
+          'private group reply'
+        );
+        if (recipientId != null) {
+          return { privateReplyGroupRecipientId: recipientId };
+        }
+      }
+      return { unknownPrivateReply: true };
+    }
+
+    if (quote.isPrivateReplyGroupUnknown) {
+      return { unknownPrivateReply: true };
+    }
+
+    return null;
+  }
+
   async #toQuote({
     message,
   }: {
@@ -3255,6 +3280,7 @@ export class BackupExportStream {
           ? null
           : BigInt(quote.id),
       authorId,
+      privateReplyDescriptor: this.#toPrivateReplyDescriptor(quote),
       text:
         quote.text != null
           ? {

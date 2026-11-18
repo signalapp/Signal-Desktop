@@ -3,6 +3,7 @@
 
 import { v4 as generateGuid } from 'uuid';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
+import { GroupId } from '@signalapp/types';
 
 import { SendStatus } from '../../messages/MessageSendState.std.ts';
 import type { ConversationModel } from '../../models/conversations.preload.ts';
@@ -10,6 +11,10 @@ import { GiftBadgeStates } from '../../types/GiftBadgeStates.std.ts';
 
 import { DataWriter } from '../../sql/Client.preload.ts';
 import { getRandomBytes } from '../../Crypto.node.ts';
+import {
+  deriveGroupID,
+  deriveGroupSecretParams,
+} from '../../util/zkgroup.node.ts';
 import * as Bytes from '../../Bytes.std.ts';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.ts';
 import { SeenStatus } from '../../MessageSeenStatus.std.ts';
@@ -36,7 +41,10 @@ const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
 const CONTACT_B_E164 = '+12135550123';
 const GV1_ID = Bytes.toBinary(getRandomBytes(ID_V1_LENGTH));
-const GV2_ID = Bytes.toBase64(getRandomBytes(32));
+const GV2_MASTER_KEY = getRandomBytes(32);
+const GV2_ID = Bytes.toBase64(
+  deriveGroupID(deriveGroupSecretParams(GV2_MASTER_KEY))
+);
 
 const BADGE_RECEIPT =
   'AEpyZxbRBT+T5PQw9Wcx1QE2aFvL7LoLir9V4UF09Kk9qiP4SpIlHdlWHrAICy6F' +
@@ -85,7 +93,7 @@ describe('backup/bubble messages', () => {
       'group',
       {
         groupVersion: 2,
-        masterKey: Bytes.toBase64(getRandomBytes(32)),
+        masterKey: Bytes.toBase64(GV2_MASTER_KEY),
         name: 'Rock Enthusiasts',
         active_at: 1,
       }
@@ -624,6 +632,107 @@ describe('backup/bubble messages', () => {
           },
         },
       ]);
+    });
+    it('roundtrips quote with groupId', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: '123',
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 42,
+            isGiftBadge: false,
+            text: 'quote text',
+            isViewOnce: false,
+            groupId: GroupId.fromString(GV2_ID),
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('roundtrips quote with unknown private reply group', async () => {
+      await symmetricRoundtripHarness([
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: '123',
+          quote: {
+            authorAci: CONTACT_A,
+            attachments: [],
+            id: 42,
+            isGiftBadge: false,
+            text: 'quote text',
+            isViewOnce: false,
+            isPrivateReplyGroupUnknown: true,
+            referencedMessageNotFound: false,
+          },
+        },
+      ]);
+    });
+    it('exports private reply quote with deleted group as unknown', async () => {
+      const message = {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        sourceServiceId: CONTACT_A,
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+        timestamp: 3,
+        body: '123',
+        quote: {
+          authorAci: CONTACT_A,
+          attachments: [],
+          id: 42,
+          isGiftBadge: false,
+          text: 'quote text',
+          isViewOnce: false,
+          groupId: GroupId.fromString(Bytes.toBase64(getRandomBytes(32))),
+          referencedMessageNotFound: false,
+        },
+      } as const;
+
+      await asymmetricRoundtripHarness(
+        [message],
+        [
+          {
+            ...message,
+            quote: {
+              authorAci: CONTACT_A,
+              attachments: [],
+              id: 42,
+              isGiftBadge: false,
+              text: 'quote text',
+              isViewOnce: false,
+              isPrivateReplyGroupUnknown: true,
+              referencedMessageNotFound: false,
+            },
+          },
+        ]
+      );
     });
     it('roundtrips quote without referenced message found', async () => {
       const message = {

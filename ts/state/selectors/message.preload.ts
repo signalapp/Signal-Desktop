@@ -55,8 +55,10 @@ import type {
 
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.ts';
 import {
+  applyRangesToText,
   BodyRange,
   type HydratedBodyRangesType,
+  type RawBodyRange,
 } from '../../types/BodyRange.std.ts';
 import { hydrateRanges } from '../../util/BodyRange.node.ts';
 import type { AssertProps, LocalizerType } from '../../types/Util.std.ts';
@@ -88,6 +90,9 @@ import {
   canRetrySendDeleteForEveryone,
 } from '../../util/canDeleteForEveryone.preload.ts';
 import { isAdminDeleteSendEnabled } from '../../util/isAdminDeleteEnabled.dom.ts';
+import { isPrivateReplySendEnabled } from '../../util/isPrivateReplySendEnabled.dom.ts';
+import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.ts';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.std.ts';
 import { isAciString } from '../../util/isAciString.std.ts';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.ts';
 import * as iterables from '../../util/iterables.std.ts';
@@ -731,6 +736,33 @@ const getPropsForStoryReplyContext = (
   };
 };
 
+function flattenMentions(
+  {
+    text,
+    bodyRanges,
+  }: {
+    text: string;
+    bodyRanges: ReadonlyArray<RawBodyRange>;
+  },
+  conversationSelector: GetConversationByIdType
+): {
+  text: string;
+  bodyRanges: ReadonlyArray<RawBodyRange>;
+} {
+  const result = applyRangesToText(
+    {
+      body: text,
+      bodyRanges: hydrateRanges(bodyRanges, conversationSelector) ?? [],
+    },
+    { replaceMentions: true, replaceSpoilers: false }
+  );
+
+  return {
+    text: result.body,
+    bodyRanges: result.bodyRanges.filter(range => !BodyRange.isMention(range)),
+  };
+}
+
 export const getPropsForQuote = (
   message: ReadonlyDeep<
     Pick<MessageWithUIFieldsType, 'conversationId' | 'quote'>
@@ -760,8 +792,17 @@ export const getPropsForQuote = (
     isGiftBadge: isTargetGiftBadge,
     referencedMessageNotFound,
     payment,
-    text = '',
   } = quote;
+
+  let { text = '', bodyRanges } = quote;
+  if (quote.groupId && bodyRanges?.some(BodyRange.isMention)) {
+    const flattened = flattenMentions(
+      { text, bodyRanges },
+      conversationSelector
+    );
+    text = flattened.text;
+    bodyRanges = flattened.bodyRanges;
+  }
 
   const contact = conversationSelector(authorAci || author);
 
@@ -774,6 +815,24 @@ export const getPropsForQuote = (
 
   const firstAttachment = quote.attachments && quote.attachments[0];
   const conversation = getConversation(message, conversationSelector);
+
+  let isQuotedGroupMissing: boolean | undefined;
+  let quotedGroupTitle: string | undefined;
+  let quotedConversationId: string | undefined;
+  if (quote.groupId) {
+    const quotedGroupCandidate = conversationSelector(quote.groupId);
+    // conversationSelector falls back to a default convo; let's check
+    if (quotedGroupCandidate.groupId === quote.groupId) {
+      quotedGroupTitle = quotedGroupCandidate.title;
+      quotedConversationId = quotedGroupCandidate.id;
+      isQuotedGroupMissing = false;
+    } else {
+      isQuotedGroupMissing = true;
+    }
+  } else if (quote.isPrivateReplyGroupUnknown) {
+    isQuotedGroupMissing = true;
+  }
+
   const authorMembership = conversation.memberships?.find(
     membership => membership.aci === contact.serviceId
   );
@@ -794,7 +853,9 @@ export const getPropsForQuote = (
     authorPhoneNumber,
     authorProfileName,
     authorTitle,
-    bodyRanges: processBodyRanges(quote, isGroup, { conversationSelector }),
+    bodyRanges: processBodyRanges({ bodyRanges }, isGroup, {
+      conversationSelector,
+    }),
     bubbleColor,
     conversationTitle: conversation.title,
     isFromMe,
@@ -804,6 +865,9 @@ export const getPropsForQuote = (
     payment,
     isGiftBadge: Boolean(isTargetGiftBadge),
     isViewOnce,
+    isQuotedGroupMissing,
+    quotedGroupTitle,
+    quotedConversationId,
     referencedMessageNotFound,
     sentAt: Number(sentAt),
     text,
@@ -1029,6 +1093,7 @@ const getPropsForMessage = (
     canPinMessage: canPinMessage(conversation, message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
+    canReplyPrivately: canReplyPrivately(message, conversationSelector),
     canRetry: hasErrors(message),
     canRetryDeleteForEveryone: canRetryDeleteForEveryone(message, {
       conversation,
@@ -2435,6 +2500,39 @@ export function canReply(
     return false;
   }
   return canReplyOrReact(message, ourConversationId, conversation);
+}
+
+export function canReplyPrivately(
+  message: Pick<
+    MessageWithUIFieldsType,
+    'conversationId' | 'deletedForEveryone' | 'sms' | 'sourceServiceId' | 'type'
+  >,
+  conversationSelector: GetConversationByIdType
+): boolean {
+  if (!isPrivateReplySendEnabled()) {
+    return false;
+  }
+
+  if (!isIncoming(message) || message.deletedForEveryone || message.sms) {
+    return false;
+  }
+
+  if (!isAciString(message.sourceServiceId)) {
+    return false;
+  }
+
+  const group = getConversation(message, conversationSelector);
+  if (
+    !group ||
+    !isGroupV2(group) ||
+    !group.acceptedMessageRequest ||
+    group.isBlocked
+  ) {
+    return false;
+  }
+
+  const author = conversationSelector(message.sourceServiceId);
+  return !author.isBlocked && !isConversationUnregistered(author);
 }
 
 export function canReact(

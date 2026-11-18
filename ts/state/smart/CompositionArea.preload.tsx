@@ -369,6 +369,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       quotedMessageProps={quotedMessageProps ?? null}
       quotedMessageAuthorAci={quotedMessage?.quote?.authorAci ?? null}
       quotedMessageSentAt={quotedMessage?.quote?.id ?? null}
+      quotedMessageGroupId={quotedMessage?.quote?.groupId ?? null}
       setQuoteByMessageId={setQuoteByMessageId}
       // View Once
       isViewOnce={isViewOnce}

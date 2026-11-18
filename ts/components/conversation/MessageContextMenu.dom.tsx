@@ -16,6 +16,7 @@ type MessageContextMenuProps = Readonly<{
   onDownload: (() => void) | null;
   onEdit: (() => void) | null;
   onReplyToMessage: (() => void) | null;
+  onReplyPrivately: (() => void) | null;
   onReact: (() => void) | null;
   onEndPoll: (() => void) | null;
   onRetryMessageSend: (() => void) | null;
@@ -44,6 +45,7 @@ export function MessageContextMenu({
   onFavoriteSticker,
   onUnfavoriteSticker,
   onReplyToMessage,
+  onReplyPrivately,
   onReact,
   onEndPoll,
   onMoreInfo,
@@ -109,6 +111,17 @@ export function MessageContextMenu({
               </AxoMenuBuilder.Item>
             )}
           </>
+        )}
+        {onReplyPrivately && (
+          <AxoMenuBuilder.Item
+            symbol="person"
+            onSelect={() => {
+              shouldReturnFocusToTrigger.current = false;
+              onReplyPrivately();
+            }}
+          >
+            {i18n('icu:MessageContextMenu__reply-privately')}
+          </AxoMenuBuilder.Item>
         )}
         {onEndPoll && (
           <AxoMenuBuilder.Item symbol="stop-circle" onSelect={onEndPoll}>

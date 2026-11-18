@@ -73,6 +73,7 @@ export enum ToastType {
   MessageBodyTooLong = 'MessageBodyTooLong',
   MessageLoop = 'MessageLoop',
   NotificationProfileUpdate = 'NotificationProfileUpdate',
+  OriginalMessageAndGroupNotFound = 'OriginalMessageAndGroupNotFound',
   OriginalMessageNotFound = 'OriginalMessageNotFound',
   PinnedConversationsFull = 'PinnedConversationsFull',
   PinnedMessageNotFound = 'PinnedMessageNotFound',
@@ -236,6 +237,7 @@ export type AnyToast =
       toastType: ToastType.NotificationProfileUpdate;
       parameters: { enabled: boolean; name: string };
     }
+  | { toastType: ToastType.OriginalMessageAndGroupNotFound }
   | { toastType: ToastType.OriginalMessageNotFound }
   | {
       toastType: ToastType.PinnedConversationsFull;

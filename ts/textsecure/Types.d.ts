@@ -21,6 +21,7 @@ import type { Emoji } from '../axo/emoji.std.ts';
 import type { EmbeddedContactType } from '../types/EmbeddedContact.std.ts';
 import type {
   DurationSecs,
+  GroupId,
   ReceivedTimestampMs,
   SentTimestampMs,
   ServerTimestampMs,
@@ -158,6 +159,7 @@ export type ProcessedQuoteAttachment = {
 export type ProcessedQuote = {
   id?: number;
   authorAci?: AciString;
+  groupId: GroupId | null;
   text?: string;
   attachments: ReadonlyArray<ProcessedQuoteAttachment>;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;

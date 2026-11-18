@@ -189,6 +189,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     reactToMessage,
     scrollToPinnedMessage,
     scrollToPollMessage,
+    replyPrivately,
     scrollToQuotedMessage,
     setQuoteByMessageId,
   } = useComposerActions();
@@ -323,6 +324,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       targetMessage={targetMessage}
       targetedMessage={targetedMessage}
       setQuoteByMessageId={setQuoteByMessageId}
+      replyPrivately={replyPrivately}
       setMessageToEdit={setMessageToEdit}
       showContactModal={showContactModal}
       showConversation={showConversation}

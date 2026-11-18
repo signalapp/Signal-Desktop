@@ -257,6 +257,9 @@ message DataMessage {
     repeated BodyRange bodyRanges = 6;
     optional Type type = 7;
     optional bytes authorAciBinary = 8; // 16-byte UUID
+    // Set when you're quoting a message from a different group (i.e. private reply).
+    // If unset, it is assumed that the message exists in the same thread that message was sent to.
+    optional bytes groupId = 9;
   }
   
  message Contact {
