@@ -61,12 +61,13 @@ const rootDir = join(import.meta.dirname, '..');
 const sourceDir = join(rootDir, '_locales');
 const targetDir = join(rootDir, 'build', 'compact-locales');
 
-const locales = await readdir(sourceDir);
+const localesEntries = await readdir(sourceDir, { withFileTypes: true });
+const locales = localesEntries.filter(entry => entry.isDirectory());
 
 const allKeys = await pMap(
   locales,
   async locale => {
-    const sourcePath = join(sourceDir, locale, 'messages.json');
+    const sourcePath = join(sourceDir, locale.name, 'messages.json');
     const json = JSON.parse(await readFile(sourcePath, 'utf8'));
     return Object.entries(json)
       .filter(([, value]) => isLocaleMessageType(value))
@@ -80,6 +81,8 @@ const keys = Array.from(new Set(allKeys.flat())).sort();
 await mkdir(targetDir, { recursive: true });
 await writeFile(join(targetDir, 'keys.json'), JSON.stringify(keys));
 
-await pMap(locales, locale => compact({ sourceDir, targetDir, locale, keys }), {
-  concurrency: 10,
-});
+await pMap(
+  locales,
+  locale => compact({ sourceDir, targetDir, locale: locale.name, keys }),
+  { concurrency: 10 }
+);
