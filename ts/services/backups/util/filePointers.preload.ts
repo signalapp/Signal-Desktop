@@ -83,8 +83,9 @@ export function convertFilePointerToAttachment(
     blurHash: blurHash ?? undefined,
     incrementalMac: undefined,
     chunkSize: undefined,
-    audioWaveform:
-      audioWaveform == null ? undefined : Array.from(audioWaveform),
+    audioWaveform: Bytes.isNotEmpty(audioWaveform)
+      ? Array.from(audioWaveform)
+      : undefined,
     duration:
       audioDurationSeconds == null
         ? undefined
@@ -242,10 +243,9 @@ export async function getFilePointerForAttachment({
     blurHash: attachment.blurHash ?? null,
     incrementalMac: null,
     incrementalMacChunkSize: null,
-    audioWaveform:
-      attachment.audioWaveform == null
-        ? null
-        : new Uint8Array(attachment.audioWaveform),
+    audioWaveform: attachment.audioWaveform?.length
+      ? new Uint8Array(attachment.audioWaveform)
+      : null,
     audioDurationSeconds: isAudio(attachment.contentType)
       ? (attachment.duration ?? null)
       : null,
