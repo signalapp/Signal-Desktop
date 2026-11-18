@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { memo, type JSX } from 'react';
+import { memo, useCallback, type JSX } from 'react';
 import { useSelector } from 'react-redux';
 import { getHeapSnapshot } from 'node:v8';
 import type { LanguageTag } from '@signalapp/types';
@@ -45,6 +45,7 @@ import { saveAttachmentToDisk } from '../../windows/main/attachments.preload.ts'
 import * as Bytes from '../../Bytes.std.ts';
 import { getIsInFullScreenCall } from '../selectors/isInFullScreenCall.std.ts';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
+import { useStickersActions } from '../ducks/stickers.preload.ts';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -112,6 +113,14 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { togglePinReminder, toggleUsernameOnboarding } =
     useGlobalModalActions();
   const { interactWithMegaphone } = useMegaphonesActions();
+  const { markStickerPackAsHidden } = useStickersActions();
+
+  const onUndoHideStickerPack = useCallback(
+    (packId: string) => {
+      drop(markStickerPackAsHidden(packId, false));
+    },
+    [markStickerPackAsHidden]
+  );
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -167,6 +176,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       megaphone={disableMegaphone ? undefined : megaphone}
       onShowDebugLog={handleShowDebugLog}
       onUndoArchive={onUndoArchive}
+      onUndoHideStickerPack={onUndoHideStickerPack}
       retryCallQualitySurvey={retryCallQualitySurvey}
       openFileInFolder={openFileInFolder}
       saveHeapSnapshot={saveHeapSnapshot}

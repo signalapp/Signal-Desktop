@@ -55,7 +55,10 @@ import {
 } from '../textsecure/WebAPI.preload.ts';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.ts';
 import { Emoji } from '../axo/emoji.std.ts';
-import { updateFavoriteStickersAlreadyInstalled } from '../util/stickers.preload.ts';
+import {
+  maybeUnhideStickerPack,
+  updateFavoriteStickersAlreadyInstalled,
+} from '../util/stickers.preload.ts';
 
 const { isNumber, groupBy, values, chunk } = lodash;
 
@@ -97,6 +100,13 @@ export type FavoriteStickerType = Readonly<{
   favoritedAtTimestampMs: number | undefined;
   deletedAtTimestampMs: number | undefined;
   status: FavoriteStickerStatusType;
+}> &
+  StorageServiceFieldsType;
+
+export type HiddenStickerPackType = Readonly<{
+  packId: string;
+  packKey: string | undefined;
+  unhiddenAtTimestampMs: number | undefined;
 }> &
   StorageServiceFieldsType;
 
@@ -211,17 +221,21 @@ export async function load(): Promise<void> {
     recentStickers,
     installedFavoriteStickers,
     allFavoriteStickers,
+    hiddenPacks,
   ] = await Promise.all([
     getPacksForRedux(),
     getRecentStickersForRedux(),
     getInstalledFavoriteStickersForRedux(),
     DataReader.getAllFavoriteStickers(),
+    DataReader.getAllHiddenStickerPacksActive(),
   ]);
 
   const blessedPacks: Record<string, boolean> = Object.create(null);
   for (const key of Object.keys(BLESSED_PACKS)) {
     blessedPacks[key] = true;
   }
+
+  const hiddenPackIds = hiddenPacks.map(({ packId }) => packId);
 
   const packFavoritesToDownload =
     getPackFavoritesToDownload(allFavoriteStickers);
@@ -230,6 +244,7 @@ export async function load(): Promise<void> {
     packs,
     recentStickers,
     blessedPacks,
+    hiddenPackIds,
     favoriteStickers: installedFavoriteStickers,
     installedPack: null,
     stickerManagerTab: 'all',
@@ -323,7 +338,11 @@ export async function getInstalledStickerPacksForBackup(): Promise<
       continue;
     }
 
-    if (status === 'known' || status === 'ephemeral') {
+    if (
+      status === 'known' ||
+      status === 'ephemeral' ||
+      status === 'downloaded'
+    ) {
       continue;
     }
 
@@ -1413,6 +1432,8 @@ export async function deletePackReference(
     return;
   }
 
+  await maybeUnhideStickerPack(packId);
+
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);
 
@@ -1431,6 +1452,8 @@ async function deletePack(packId: string): Promise<void> {
   // This call uses locking to prevent race conditions with other reference removals,
   //   or an incoming message creating a new message->pack reference
   const paths = await DataWriter.deleteStickerPack(packId);
+
+  await maybeUnhideStickerPack(packId);
 
   const { removeStickerPack } = getReduxStickerActions();
   removeStickerPack(packId);

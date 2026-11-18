@@ -42,6 +42,7 @@ export type PropsType = {
     conversationId: string,
     options?: { wasPinned?: boolean }
   ) => unknown;
+  onUndoHideStickerPack: (packId: string) => void;
   retryCallQualitySurvey: () => unknown;
   setDidResumeDonation: (didResume: boolean) => unknown;
   toast?: AnyToast;
@@ -63,6 +64,7 @@ function renderToast({
   saveHeapSnapshot,
   onShowDebugLog,
   onUndoArchive,
+  onUndoHideStickerPack,
   retryCallQualitySurvey,
   setDidResumeDonation,
   OS,
@@ -945,6 +947,30 @@ function renderToast({
         {i18n('icu:stickers--Toast--StickerFavoritesTooMany', {
           count: MAX_FAVORITE_STICKERS,
         })}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerPackHidden) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:stickers--Toast--StickerPackHidden--Undo'),
+          onClick: () => {
+            onUndoHideStickerPack(toast.parameters.packId);
+          },
+        }}
+      >
+        {i18n('icu:stickers--Toast--StickerPackHidden')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.StickerPackUnhidden) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:stickers--Toast--StickerPackUnhidden')}
       </Toast>
     );
   }

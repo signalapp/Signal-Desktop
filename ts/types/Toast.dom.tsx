@@ -90,6 +90,8 @@ export enum ToastType {
   StickerFavoriteRemoved = 'StickerFavoriteRemoved',
   StickerFavoritesHint = 'StickerFavoritesHint',
   StickerFavoritesTooMany = 'StickerFavoritesTooMany',
+  StickerPackHidden = 'StickerPackHidden',
+  StickerPackUnhidden = 'StickerPackUnhidden',
   StickerPackInstallFailed = 'StickerPackInstallFailed',
   StoryMuted = 'StoryMuted',
   StoryReact = 'StoryReact',
@@ -263,6 +265,11 @@ export type AnyToast =
   | { toastType: ToastType.StickerFavoriteRemoved }
   | { toastType: ToastType.StickerFavoritesHint }
   | { toastType: ToastType.StickerFavoritesTooMany }
+  | {
+      toastType: ToastType.StickerPackHidden;
+      parameters: { packId: string };
+    }
+  | { toastType: ToastType.StickerPackUnhidden }
   | { toastType: ToastType.StickerPackInstallFailed }
   | { toastType: ToastType.SQLError }
   | { toastType: ToastType.StoryMuted }

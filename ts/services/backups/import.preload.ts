@@ -44,6 +44,7 @@ import {
   STICKERPACK_KEY_BYTE_LEN,
   createPacksFromBackup,
   type StickerPackPointerType,
+  type HiddenStickerPackType,
 } from '../../types/Stickers.preload.ts';
 import { MAX_FAVORITE_STICKERS } from '../../util/Stickers.std.ts';
 import type { ChatStyle } from '../../types/ChatStyle.std.ts';
@@ -623,6 +624,8 @@ export class BackupImportStream extends Writable {
         await this.#fromChatItem(item.chatItem, { aboutMe });
       } else if (item.installedStickerPack) {
         await this.#fromStickerPack(item.installedStickerPack);
+      } else if (item.hiddenStickerPack) {
+        await this.#fromHiddenStickerPack(item.hiddenStickerPack);
       } else if (item.favoriteStickerList) {
         await this.#fromFavoriteStickerList(item.favoriteStickerList);
       } else if (item.adHocCall) {
@@ -3979,6 +3982,37 @@ export class BackupImportStream extends Writable {
     const key = Bytes.toBase64(packKeyBytes);
 
     this.#installedStickerPacks.push({ id, key });
+  }
+
+  async #fromHiddenStickerPack(pack: Backups.StickerPack) {
+    const { packId: packIdBytes, packKey: packKeyBytes } = pack;
+
+    strictAssert(
+      packIdBytes?.length === STICKERPACK_ID_BYTE_LEN,
+      'Hidden sticker pack must have a valid pack id'
+    );
+
+    const packId = Bytes.toHex(packIdBytes);
+    const logId = `fromHiddenStickerPack(${packId.slice(-2)})`;
+
+    strictAssert(
+      packKeyBytes?.length === STICKERPACK_KEY_BYTE_LEN,
+      `${logId}: Hidden sticker pack must have a valid pack key`
+    );
+
+    const packKey = Bytes.toBase64(packKeyBytes);
+
+    const hiddenPack: HiddenStickerPackType = {
+      packId,
+      packKey,
+      unhiddenAtTimestampMs: undefined,
+      storageNeedsSync: false,
+      storageID: undefined,
+      storageUnknownFields: undefined,
+      storageVersion: undefined,
+    };
+
+    await DataWriter.createHiddenStickerPack(hiddenPack);
   }
 
   async #fromFavoriteStickerList({

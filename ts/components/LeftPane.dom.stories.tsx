@@ -318,6 +318,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         i18n={i18n}
         onShowDebugLog={action('onShowDebugLog')}
         onUndoArchive={action('onUndoArchive')}
+        onUndoHideStickerPack={action('onUndoHideStickerPack')}
         retryCallQualitySurvey={action('retryCallQualitySurvey')}
         openFileInFolder={action('openFileInFolder')}
         saveHeapSnapshot={action('saveHeapSnapshot')}

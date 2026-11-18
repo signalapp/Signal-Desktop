@@ -150,6 +150,11 @@ export const getIsFavoriteStickerSelector = createSelector(
   }
 );
 
+const getHiddenPackIds = createSelector(
+  getStickers,
+  (stickers: StickersStateType) => stickers.hiddenPackIds
+);
+
 export const getBlessedPacks = createSelector(
   getStickers,
   (stickers: StickersStateType) => stickers.blessedPacks
@@ -206,17 +211,21 @@ export const getInstalledStickerPacks = createSelector(
 export const getReceivedStickerPacks = createSelector(
   getPacks,
   getBlessedPacks,
+  getHiddenPackIds,
   (
     packs: Dictionary<StickerPackDBType>,
-    blessedPacks: Dictionary<boolean>
+    blessedPacks: Dictionary<boolean>,
+    hiddenPackIds: ReadonlyArray<string>
   ): Array<StickerPackType> => {
+    const hiddenPacksSet = new Set<string>(hiddenPackIds);
     return filterAndTransformPacks(
       packs,
       pack =>
         (pack.status === 'downloaded' ||
           pack.status === 'pending' ||
           pack.status === 'installed') &&
-        !blessedPacks[pack.id],
+        !blessedPacks[pack.id] &&
+        !hiddenPacksSet.has(pack.id),
       pack => pack.createdAt,
       blessedPacks
     );

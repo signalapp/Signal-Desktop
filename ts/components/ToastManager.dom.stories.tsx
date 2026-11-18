@@ -264,6 +264,13 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.StickerFavoritesHint };
     case ToastType.StickerFavoritesTooMany:
       return { toastType: ToastType.StickerFavoritesTooMany };
+    case ToastType.StickerPackHidden:
+      return {
+        toastType: ToastType.StickerPackHidden,
+        parameters: { packId: 'abc' },
+      };
+    case ToastType.StickerPackUnhidden:
+      return { toastType: ToastType.StickerPackUnhidden };
     case ToastType.StickerPackInstallFailed:
       return { toastType: ToastType.StickerPackInstallFailed };
     case ToastType.StoryMuted:
@@ -394,6 +401,7 @@ export default {
     saveHeapSnapshot: action('saveHeapSnapshot'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
+    onUndoHideStickerPack: action('onUndoHideStickerPack'),
     retryCallQualitySurvey: action('retryCallQualitySurvey'),
     i18n,
     toastType: ToastType.AddingUserToGroup,

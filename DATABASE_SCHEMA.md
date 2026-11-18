@@ -868,6 +868,35 @@ CREATE TABLE groupSendMemberEndorsement (
 </details>
 
 <details>
+<summary>Table: hidden_sticker_packs</summary>
+
+```sql
+CREATE TABLE hidden_sticker_packs (
+  packId TEXT NOT NULL,
+  packKey TEXT,
+  unhiddenAtTimestampMs INTEGER,
+  storageID TEXT,
+  storageVersion INTEGER,
+  storageUnknownFields BLOB,
+  storageNeedsSync INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (packId)
+) STRICT
+```
+
+<details>
+<summary>Index: hidden_sticker_packs → sqlite_autoindex_hidden_sticker_packs_1</summary>
+
+```text
+(404: SQL Not Found)
+```
+
+</details>
+
+---
+
+</details>
+
+<details>
 <summary>Table: identityKeys</summary>
 
 ```sql

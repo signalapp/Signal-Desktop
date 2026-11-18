@@ -894,6 +894,35 @@ export function toFavoriteStickerPackRecord(
   };
 }
 
+export function toHiddenStickerPackRecord(
+  hiddenPack: Stickers.HiddenStickerPackType
+): Proto.HiddenStickerPackRecord.Params {
+  const {
+    packId: packIdString,
+    packKey: packKeyString,
+    unhiddenAtTimestampMs,
+    storageUnknownFields,
+  } = hiddenPack;
+  const packId = Bytes.fromHex(packIdString);
+  const $unknown = fromStorageUnknownFields(storageUnknownFields);
+
+  if (unhiddenAtTimestampMs !== undefined) {
+    return {
+      packId,
+      packKey: null,
+      unhiddenAtTimestamp: BigInt(unhiddenAtTimestampMs),
+      $unknown,
+    };
+  }
+
+  return {
+    packId,
+    packKey: packKeyString ? Bytes.fromBase64(packKeyString) : null,
+    unhiddenAtTimestamp: BigInt(unhiddenAtTimestampMs ?? 0),
+    $unknown,
+  };
+}
+
 // callLinkDbRecord exposes additional fields not available on CallLinkType
 export function toCallLinkRecord(
   callLinkDbRecord: CallLinkRecord
@@ -2886,6 +2915,127 @@ export async function mergeFavoriteStickerRecord(
       favoriteSticker.favoritedAtTimestampMs
     ) {
       window.reduxActions.stickers.reloadFavoriteStickers();
+    }
+  }
+
+  return {
+    details,
+    oldStorageID,
+    oldStorageVersion,
+    shouldDrop,
+  };
+}
+
+export async function mergeHiddenStickerPackRecord(
+  storageID: string,
+  storageVersion: number,
+  storageRecord: Proto.HiddenStickerPackRecord
+): Promise<MergeResultType> {
+  const redactedStorageID = redactExtendedStorageID({
+    storageID,
+    storageVersion,
+  });
+  const {
+    packId: packIdRaw,
+    packKey: packKeyRaw,
+    unhiddenAtTimestamp: unhiddenAtTimestampRaw,
+  } = storageRecord;
+  if (!packIdRaw || Bytes.isEmpty(packIdRaw)) {
+    throw new Error(
+      `No hiddenStickerPackRecord packId for ${redactedStorageID}`
+    );
+  }
+
+  const packId = Bytes.toHex(packIdRaw);
+  const remoteUnhiddenAtTimestamp = toNumber(unhiddenAtTimestampRaw);
+
+  const localHiddenPack = await DataReader.getHiddenStickerPack(packId);
+  const oldStorageID = localHiddenPack?.storageID;
+  const oldStorageVersion = localHiddenPack?.storageVersion;
+  const wasDeletedLocally = Boolean(localHiddenPack?.unhiddenAtTimestampMs);
+
+  const details = logRecordChanges(
+    localHiddenPack == null
+      ? undefined
+      : toHiddenStickerPackRecord(localHiddenPack),
+    storageRecord
+  );
+
+  const storageUnknownFields =
+    toStorageUnknownFields(storageRecord.$unknown) ?? undefined;
+  const needsToClearUnknownFields =
+    !storageRecord.$unknown && localHiddenPack?.storageUnknownFields;
+  if (needsToClearUnknownFields) {
+    details.push('clearing unknown fields');
+  }
+
+  const isDeleted = remoteUnhiddenAtTimestamp > 0;
+  const shouldDrop =
+    isDeleted && isOlderThan(remoteUnhiddenAtTimestamp, getMessageQueueTime());
+
+  details.push(
+    `wasDeletedLocally=${wasDeletedLocally}`,
+    `isDeleted=${isDeleted}`
+  );
+
+  let hiddenPack: Stickers.HiddenStickerPackType | null;
+  if (shouldDrop) {
+    // Tombstone has aged out, so we can delete it.
+    hiddenPack = null;
+    if (localHiddenPack) {
+      await DataWriter.deleteHiddenStickerPack(packId);
+    }
+  } else {
+    if (isDeleted) {
+      // Save tombstone
+      hiddenPack = {
+        packId,
+        packKey: undefined,
+        unhiddenAtTimestampMs: remoteUnhiddenAtTimestamp,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync: false,
+      };
+    } else {
+      // Save active hidden pack
+      if (!packKeyRaw || Bytes.isEmpty(packKeyRaw)) {
+        throw new Error(
+          `No hiddenStickerPack packKey for active hidden pack ${redactedStorageID}`
+        );
+      }
+
+      const packKey = Bytes.toBase64(packKeyRaw);
+
+      hiddenPack = {
+        packId,
+        packKey,
+        unhiddenAtTimestampMs: undefined,
+        storageID,
+        storageVersion,
+        storageUnknownFields,
+        storageNeedsSync: false,
+      };
+    }
+
+    if (localHiddenPack) {
+      await DataWriter.updateHiddenStickerPack(hiddenPack);
+    } else {
+      await DataWriter.createHiddenStickerPack(hiddenPack);
+    }
+  }
+
+  const isPackHiddenLocally = Boolean(
+    localHiddenPack && !localHiddenPack.unhiddenAtTimestampMs
+  );
+  if (isDeleted || shouldDrop) {
+    // Unhiding a pack
+    if (isPackHiddenLocally) {
+      window.reduxActions.stickers.removeHiddenStickerPack(packId);
+    }
+  } else if (hiddenPack) {
+    if (!isPackHiddenLocally) {
+      window.reduxActions.stickers.addHiddenStickerPack(packId);
     }
   }
 

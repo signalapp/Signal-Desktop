@@ -26,6 +26,7 @@ export type OwnProps = {
   readonly pack: StickerPackType;
   readonly controlType: StickerManagerPackRowControlType;
   readonly onClickPreview?: (packId: string) => unknown;
+  readonly hideStickerPack?: (packId: string) => void;
   readonly installStickerPack?: (
     packId: string,
     packKey: string,
@@ -46,6 +47,7 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
   controlType,
   i18n,
   pack,
+  hideStickerPack,
   installStickerPack,
   uninstallStickerPack,
   onClickPreview,
@@ -56,6 +58,16 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
   const clearUninstalling = useCallback(() => {
     setUninstalling(false);
   }, [setUninstalling]);
+
+  const handleHide = useCallback(
+    (e: Event | MouseEvent) => {
+      e.stopPropagation();
+      if (hideStickerPack) {
+        hideStickerPack(id);
+      }
+    },
+    [id, hideStickerPack]
+  );
 
   const handleInstall = useCallback(
     (e: Event | MouseEvent) => {
@@ -115,20 +127,22 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
       <AxoConfirmDialog.Root
         open={uninstalling}
         onOpenChange={setUninstalling}
-        // @ts-expect-error ConfirmationDialog migration: Needs title
-        title={null}
-        description={i18n('icu:stickers--StickerManager--UninstallWarning')}
+        title={i18n('icu:stickers--StickerManager--UninstallWarning--Title')}
+        description={i18n(
+          'icu:stickers--StickerManager--UninstallWarning--Body'
+        )}
       >
         <AxoConfirmDialog.Cancel />
         <AxoConfirmDialog.Action
-          variant="strong-destructive"
+          variant="subtle-destructive"
           onClick={handleConfirmUninstall}
         >
-          {i18n('icu:stickers--StickerManager--Uninstall')}
+          {i18n('icu:stickers--StickerManager--UninstallWarning--Remove')}
         </AxoConfirmDialog.Action>
       </AxoConfirmDialog.Root>
       <PackContextMenu
         i18n={i18n}
+        handleHide={hideStickerPack ? handleHide : undefined}
         handleInstall={handleInstall}
         handleUninstall={handleUninstall}
         isInstalled={pack.status === 'installed'}
@@ -198,11 +212,13 @@ export const StickerManagerPackRow = memo(function StickerManagerPackRowInner({
 function PackContextMenu(props: {
   i18n: LocalizerType;
   isInstalled: boolean;
+  handleHide: ((e: Event) => void) | undefined;
   handleInstall: (e: Event) => void;
   handleUninstall: (e: Event) => void;
   children: ReactNode;
 }) {
-  const { i18n, isInstalled, handleInstall, handleUninstall } = props;
+  const { i18n, isInstalled, handleHide, handleInstall, handleUninstall } =
+    props;
 
   return (
     <AxoContextMenu.Root>
@@ -215,6 +231,11 @@ function PackContextMenu(props: {
         ) : (
           <AxoContextMenu.Item symbol="plus-circle" onSelect={handleInstall}>
             {i18n('icu:stickers--StickerManagerPackContextMenu--Add')}
+          </AxoContextMenu.Item>
+        )}
+        {handleHide && (
+          <AxoContextMenu.Item symbol="visible-slash" onSelect={handleHide}>
+            {i18n('icu:stickers--StickerManagerPackContextMenu--Hide')}
           </AxoContextMenu.Item>
         )}
       </AxoContextMenu.Content>

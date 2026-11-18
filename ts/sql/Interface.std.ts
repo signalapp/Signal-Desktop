@@ -91,6 +91,7 @@ import type {
 import type {
   FavoriteStickerStatusType,
   FavoriteStickerType,
+  HiddenStickerPackType,
   StickerReferenceType,
 } from '../types/Stickers.preload.ts';
 
@@ -1113,6 +1114,10 @@ type ReadableInterface = {
   getFavoriteSticker: (
     stickerRef: StickerReferenceType
   ) => FavoriteStickerType | undefined;
+  getAllHiddenStickerPacks: () => ReadonlyArray<HiddenStickerPackType>;
+  getAllHiddenStickerPacksActive: () => ReadonlyArray<HiddenStickerPackType>;
+  getHiddenStickerPack: (packId: string) => HiddenStickerPackType | undefined;
+  getKeyFromStickerPack: (packId: string) => string | undefined;
 
   getRecentEmojis: (limit: number) => ReadonlyArray<Emoji.Parent>;
   getRecentGifs: (limit: number) => ReadonlyArray<GifType>;
@@ -1496,6 +1501,12 @@ type WritableInterface = {
   ) => { deletedAtTimestampMs: number; storageNeedsSync: boolean } | undefined;
   deleteFavoriteSticker: (stickerRef: StickerReferenceType) => void;
   maybeDeleteSticker: (stickerRef: StickerReferenceType) => string | undefined;
+  createHiddenStickerPack: (hiddenPack: HiddenStickerPackType) => void;
+  updateHiddenStickerPack: (hiddenPack: HiddenStickerPackType) => void;
+  markHiddenStickerPackDeleted: (
+    packId: string
+  ) => { storageNeedsSync: boolean } | undefined;
+  deleteHiddenStickerPack: (packId: string) => void;
 
   updateEmojiUsage: (emoji: Emoji.Parent, lastUsedAt: number) => void;
 
