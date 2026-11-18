@@ -148,10 +148,9 @@ export function processAttachment(
       : undefined,
     key: Bytes.isNotEmpty(key) ? Bytes.toBase64(key) : undefined,
     size,
-    audioWaveform:
-      audioWaveform == null
-        ? undefined
-        : Array.from(audioWaveform.subarray(0, MAX_WAVEFORM_LENGTH)),
+    audioWaveform: Bytes.isNotEmpty(audioWaveform)
+      ? Array.from(audioWaveform.subarray(0, MAX_WAVEFORM_LENGTH))
+      : undefined,
     duration: audioDurationSeconds ?? undefined,
   };
 }

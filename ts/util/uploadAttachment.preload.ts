@@ -227,7 +227,7 @@ function getAttachmentPointer(
     height: height ?? null,
     caption: caption || null,
     blurHash: blurHash || null,
-    audioWaveform: audioWaveform == null ? null : new Uint8Array(audioWaveform),
+    audioWaveform: audioWaveform?.length ? new Uint8Array(audioWaveform) : null,
     audioDurationSeconds: isAudio(attachment.contentType)
       ? duration || null
       : null,
