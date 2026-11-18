@@ -97,7 +97,7 @@ import {
 } from '../selectors/updates.std.ts';
 import { getIntl, getRegionCode, getTheme } from '../selectors/user.std.ts';
 import { SmartCaptchaDialog } from './CaptchaDialog.preload.tsx';
-import { SmartCrashReportDialog } from './CrashReportDialog.preload.tsx';
+import { SmartCrashReportDialog } from './CrashReportDialog.sandbox.tsx';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.tsx';
 import { SmartNetworkStatus } from './NetworkStatus.preload.tsx';
 import { SmartRelinkDialog } from './RelinkDialog.preload.tsx';
@@ -108,14 +108,14 @@ import {
 import type { SmartPropsType as SmartToastManagerPropsType } from './ToastManager.preload.tsx';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.preload.tsx';
 import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.preload.tsx';
-import { SmartUpdateDialog } from './UpdateDialog.preload.tsx';
+import { SmartUpdateDialog } from './UpdateDialog.sandbox.tsx';
 import {
   cancelBackupMediaDownload,
   dismissBackupMediaDownloadBanner,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
 } from '../../util/backupMediaDownload.preload.ts';
-import OS from '../../util/os/osPreload.preload.ts';
+import OS from '../../util/os/osPreload.sandbox.ts';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { SmartLeftPaneChatFolders } from './LeftPaneChatFolders.preload.tsx';
 import { SmartLeftPaneConversationListItemContextMenu } from './LeftPaneConversationListItemContextMenu.preload.tsx';

@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { DialogType } from '../../types/Dialogs.std.ts';
 
 import type { StateType } from '../reducer.preload.ts';
-import type { UpdatesStateType } from '../ducks/updates.preload.ts';
+import type { UpdatesStateType } from '../ducks/updates.sandbox.ts';
 
 export const getUpdatesState = (state: Readonly<StateType>): UpdatesStateType =>
   state.updates;

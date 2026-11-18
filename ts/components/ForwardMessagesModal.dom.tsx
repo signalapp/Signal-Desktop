@@ -28,7 +28,7 @@ import {
 } from '../util/shouldNeverBeCalled.std.ts';
 import type { LinkPreviewForUIType } from '../types/message/LinkPreviews.std.ts';
 import { ToastType } from '../types/Toast.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import type { HydratedBodyRangesType } from '../types/BodyRange.std.ts';
 import { UserText } from './UserText.dom.tsx';
 import { Modal } from './Modal.dom.tsx';

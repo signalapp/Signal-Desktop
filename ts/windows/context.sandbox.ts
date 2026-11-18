@@ -13,15 +13,15 @@ import { parseUnknown } from '../util/schemas.std.ts';
 import type {
   SettingType,
   SettingsValuesType,
-} from '../util/preload.preload.ts';
+} from '../util/preload.sandbox.ts';
 
 import type { LocaleDirection } from '../../app/locale.node.ts';
-import { i18n } from '../context/i18n.preload.ts';
+import { i18n } from '../context/i18n.sandbox.ts';
 import type { ActiveWindowServiceType } from '../services/ActiveWindowService.std.ts';
 import type { LocaleEmojiListType } from '../types/emoji.std.ts';
 import { LocaleEmojiListSchema } from '../types/emoji.std.ts';
 import type { HourCyclePreference } from '../types/I18N.std.ts';
-import { MinimalSignalContext } from './minimalContext.preload.ts';
+import { MinimalSignalContext } from './minimalContext.sandbox.ts';
 
 export type MainWindowStatsType = Readonly<{
   isMaximized: boolean;
@@ -88,7 +88,8 @@ export const SignalContext: SignalContextType = {
       'OptionalResourceService:getData',
       `emoji-index-${locale}.json`
     );
-    const json: unknown = JSON.parse(Buffer.from(buf).toString());
+    const decoder = new TextDecoder();
+    const json: unknown = JSON.parse(decoder.decode(buf));
     const result = parseUnknown(LocaleEmojiListSchema, json);
     emojiListCache.set(locale, result);
     return result;

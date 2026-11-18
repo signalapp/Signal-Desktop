@@ -8,18 +8,18 @@ import type { MenuOptionsType } from '../types/menu.std.ts';
 import type {
   MainWindowStatsType,
   MinimalSignalContextType,
-} from './context.preload.ts';
-import { activeWindowService } from '../context/activeWindowService.preload.ts';
-import { config } from '../context/config.preload.ts';
+} from './context.sandbox.ts';
+import { activeWindowService } from '../context/activeWindowService.sandbox.ts';
+import { config } from '../context/config.sandbox.ts';
 import { createNativeThemeListener } from '../context/createNativeThemeListener.std.ts';
-import { createSetting } from '../util/preload.preload.ts';
+import { createSetting } from '../util/preload.sandbox.ts';
 import { setupI18n } from '../util/setupI18n.dom.tsx';
-import { environment } from '../context/environment.preload.ts';
+import { environment } from '../context/environment.sandbox.ts';
 import {
   countryDisplayNames,
   localeMessages,
-} from '../context/localeMessages.preload.ts';
-import { waitForSettingsChange } from '../context/waitForSettingsChange.preload.ts';
+} from '../context/localeMessages.sandbox.ts';
+import { waitForSettingsChange } from '../context/waitForSettingsChange.sandbox.ts';
 import { isTestOrMockEnvironment } from '../environment.std.ts';
 
 export const MinimalSignalContext: MinimalSignalContextType = {

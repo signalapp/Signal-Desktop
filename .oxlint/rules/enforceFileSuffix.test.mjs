@@ -24,8 +24,14 @@ const ALLOWED_REFERENCES = /* @type {const} */ [
   },
   {
     fileSuffix: 'preload',
-    requiredLine: 'import { ipcRenderer } from "electron";',
+    requiredLine:
+      'import { ipcRenderer } from "electron";import { readFile } from "node:fs";',
     depSuffixes: ['std', 'node', 'preload'],
+  },
+  {
+    fileSuffix: 'sandbox',
+    requiredLine: 'import { ipcRenderer } from "electron";',
+    depSuffixes: ['std', 'dom', 'sandbox'],
   },
   {
     fileSuffix: 'main',
@@ -35,11 +41,15 @@ const ALLOWED_REFERENCES = /* @type {const} */ [
 ];
 
 const DISALLOWED_REFERENCES = /* @type {const} */ [
-  { fileSuffix: 'std', depSuffixes: ['dom', 'node', 'preload', 'main'] },
-  { fileSuffix: 'dom', depSuffixes: ['node', 'preload', 'main'] },
-  { fileSuffix: 'node', depSuffixes: ['preload', 'main'] },
+  {
+    fileSuffix: 'std',
+    depSuffixes: ['dom', 'node', 'preload', 'sandbox', 'main'],
+  },
+  { fileSuffix: 'dom', depSuffixes: ['node', 'preload', 'sandbox', 'main'] },
+  { fileSuffix: 'node', depSuffixes: ['preload', 'sandbox', 'main'] },
   { fileSuffix: 'preload', depSuffixes: ['main'] },
-  { fileSuffix: 'main', depSuffixes: ['dom', 'preload'] },
+  { fileSuffix: 'sandbox', depSuffixes: ['preload', 'main', 'node'] },
+  { fileSuffix: 'main', depSuffixes: ['dom', 'preload', 'sandbox'] },
 ];
 
 ruleTester.run('file-suffix', enforceFileSuffix, {
@@ -112,7 +122,7 @@ ruleTester.run('file-suffix', enforceFileSuffix, {
       });
     }).flat(),
 
-    ...['dom', 'node', 'preload', 'main'].map(fileSuffix => {
+    ...['dom', 'node', 'preload', 'main', 'sandbox'].map(fileSuffix => {
       /** @type {const} */
       return {
         name: `no ${fileSuffix} imports`,

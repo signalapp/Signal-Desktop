@@ -25,7 +25,7 @@ import { FunPickerTabKey } from './constants.dom.tsx';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.tsx';
 import type { FunStickerSelection } from './panels/FunPanelStickers.dom.tsx';
 import type { Emoji } from '../../axo/emoji.std.ts';
-import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.sandbox.ts';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;

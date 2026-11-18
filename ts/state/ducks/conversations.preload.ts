@@ -145,8 +145,8 @@ import {
 } from '../selectors/message.preload.ts';
 import { getActiveCall, getActiveCallState } from '../selectors/calling.std.ts';
 import { sendDeleteForEveryoneMessage } from '../../util/sendDeleteForEveryoneMessage.preload.ts';
-import type { ShowToastActionType } from './toast.preload.ts';
-import { SHOW_TOAST } from './toast.preload.ts';
+import type { ShowToastActionType } from './toast.sandbox.ts';
+import { SHOW_TOAST } from './toast.sandbox.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import { isMemberRequestingToJoin } from '../../util/groupMembershipUtils.preload.ts';
 import { removePendingMember } from '../../util/removePendingMember.preload.ts';

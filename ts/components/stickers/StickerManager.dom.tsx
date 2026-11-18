@@ -22,7 +22,7 @@ import type {
   StickerPackType,
   StickerType,
 } from '../../state/ducks/stickers.preload.ts';
-import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.sandbox.ts';
 import type {
   StickerManagerTabType,
   StickerReferenceType,

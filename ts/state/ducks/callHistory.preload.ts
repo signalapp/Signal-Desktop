@@ -10,8 +10,8 @@ import {
 } from '../../util/callDisposition.preload.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import type { ToastActionType } from './toast.preload.ts';
-import { showToast } from './toast.preload.ts';
+import type { ToastActionType } from './toast.sandbox.ts';
+import { showToast } from './toast.sandbox.ts';
 import { DataReader } from '../../sql/Client.preload.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import {

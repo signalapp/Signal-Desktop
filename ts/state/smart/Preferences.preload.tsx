@@ -48,7 +48,7 @@ import {
   getUserNumber,
 } from '../selectors/user.std.ts';
 import { renderClearingDataView } from '../../shims/renderClearingDataView.preload.tsx';
-import OS from '../../util/os/osPreload.preload.ts';
+import OS from '../../util/os/osPreload.sandbox.ts';
 import { themeChanged } from '../../shims/themeChanged.dom.ts';
 import * as Settings from '../../types/Settings.std.ts';
 import * as universalExpireTimerUtil from '../../util/universalExpireTimer.preload.ts';
@@ -70,9 +70,9 @@ import { getConversation } from '../../util/getConversation.preload.ts';
 import { waitForEvent } from '../../shims/events.dom.ts';
 import { DAY } from '../../util/durations/index.std.ts';
 import { sendSyncRequests } from '../../textsecure/syncRequests.preload.ts';
-import { SmartUpdateDialog } from './UpdateDialog.preload.tsx';
+import { SmartUpdateDialog } from './UpdateDialog.sandbox.tsx';
 import { Preferences } from '../../components/Preferences.dom.tsx';
-import { useUpdatesActions } from '../ducks/updates.preload.ts';
+import { useUpdatesActions } from '../ducks/updates.sandbox.ts';
 import { getUpdateDialogType } from '../selectors/updates.std.ts';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.ts';
 import {
@@ -84,7 +84,7 @@ import { SmartProfileEditor } from './ProfileEditor.preload.tsx';
 import { useNavActions } from '../ducks/nav.std.ts';
 import { NavTab } from '../../types/Nav.std.ts';
 import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.tsx';
-import { useToastActions } from '../ducks/toast.preload.ts';
+import { useToastActions } from '../ducks/toast.sandbox.ts';
 import { DataReader, DataWriter } from '../../sql/Client.preload.ts';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.ts';
 import { SmartPreferencesDonations } from './PreferencesDonations.preload.tsx';
@@ -111,7 +111,7 @@ import { AppProvider } from '../../windows/AppProvider.dom.tsx';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { getDefaultAudioPreference } from '../../types/Calling.std.ts';
-import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
+import { promptOSAuth } from '../../util/promptOSAuth.sandbox.ts';
 import {
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
@@ -136,7 +136,7 @@ import type { SettingsLocation } from '../../types/Nav.std.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
 import type { NotifyWhileMutedKey } from '../../util/notifyWhileMuted.std.ts';
 import { NOTIFY_WHILE_MUTED_FIELDS } from '../../util/notifyWhileMuted.std.ts';
-import type { ThemeType } from '../../util/preload.preload.ts';
+import type { ThemeType } from '../../util/preload.sandbox.ts';
 import type { WidthBreakpoint } from '../../components/_util.std.ts';
 import type { StateType } from '../reducer.preload.ts';
 import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.dom.tsx';

@@ -13,7 +13,7 @@ import {
 } from '../selectors/stickers.std.ts';
 import { useStickersActions } from '../ducks/stickers.preload.ts';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
-import { useToastActions } from '../ducks/toast.preload.ts';
+import { useToastActions } from '../ducks/toast.sandbox.ts';
 import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
 
 export type ExternalProps = {

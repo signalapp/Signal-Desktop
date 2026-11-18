@@ -1668,6 +1668,16 @@
     {
       "files": [
         // file suffixes
+        "ts/**/*.sandbox.*"
+      ],
+      "env": { "browser": true },
+      "globals": {
+        "process": "readonly"
+      }
+    },
+    {
+      "files": [
+        // file suffixes
         "ts/**/*.dom.*",
         "ts/**/*.preload.*",
         // misc

@@ -9,7 +9,7 @@ import type {
   MessageDeletedActionType,
 } from './conversations.preload.ts';
 import type { ShowStickerPackPreviewActionType } from './globalModals.preload.ts';
-import type { ShowToastActionType } from './toast.preload.ts';
+import type { ShowToastActionType } from './toast.sandbox.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { getMessageById } from '../../messages/getMessageById.preload.ts';
 import type { ReadonlyMessageAttributesType } from '../../model-types.std.ts';
@@ -36,7 +36,7 @@ import {
   getPropsForAttachment,
 } from '../selectors/message.preload.ts';
 import { getHasMediaBackups } from '../selectors/items.dom.ts';
-import { SHOW_TOAST } from './toast.preload.ts';
+import { SHOW_TOAST } from './toast.sandbox.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import {
   MESSAGE_CHANGED,

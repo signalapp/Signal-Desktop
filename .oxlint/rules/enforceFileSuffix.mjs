@@ -16,7 +16,7 @@ import { assert } from './utils/assert.mjs';
  */
 
 /**
- * @typedef {'std' | 'node' | 'dom' | 'preload' | 'main'} Suffix
+ * @typedef {'std' | 'node' | 'dom' | 'preload' | 'sandbox' | 'main'} Suffix
  */
 
 const ELECTRON_MAIN_MODULES = new Set([
@@ -26,6 +26,7 @@ const ELECTRON_MAIN_MODULES = new Set([
   'BrowserView',
   'BrowserWindow',
   'ClipboardItem',
+  'clipboard',
   'contentTracing',
   'desktopCapturer',
   'dialog',
@@ -59,17 +60,13 @@ const ELECTRON_MAIN_MODULES = new Set([
   'webFrameMain',
   'View',
 ]);
-const ELECTRON_RENDERER_MODULES = new Set([
+const ELECTRON_SANDBOX_MODULES = new Set([
   'contextBridge',
   'ipcRenderer',
   'webFrame',
   'webUtils',
 ]);
-const ELECTRON_SHARED_MODULES = new Set([
-  'clipboard',
-  'crashReporter',
-  'nativeImage',
-]);
+const ELECTRON_SHARED_MODULES = new Set(['crashReporter', 'nativeImage']);
 
 // Packages that use Node.js APIs (file system, etc)
 const NODE_PACKAGES = new Set([
@@ -302,13 +299,13 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
     messages: {
       missingFileSuffix: 'Missing file suffix in {{source}} import',
       unrecognizedFileSuffix:
-        'Unrecognized file suffix in {{source}}, expected: node/preload/main/std, found: {{depSuffix}}',
+        'Unrecognized file suffix in {{source}}, expected: node/sandbox/preload/main/std, found: {{depSuffix}}',
       commonJsImportOfElectronNoAllowed:
         'CJS import of electron is not allowed',
       uncategorizedElectronApi:
         'Uncategorized electron API: "{{name}}". ' +
         'Please update .oxlint/rules/file-suffix.js and add it to ' +
-        'ELECTRON_MAIN_MODULES/ELECTRON_RENDERER_MODULES/' +
+        'ELECTRON_MAIN_MODULES/ELECTRON_SANDBOX_MODULES/' +
         'ELECTRON_SHARED_MODULES',
       unsupportedNamespaceImportForElectron:
         'Unsupported namespace import specifier for electron',
@@ -342,15 +339,18 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
     /** @type {Node[]} */
     const preloadUses = [];
     /** @type {Node[]} */
+    const sandboxUses = [];
+    /** @type {Node[]} */
     const mainUses = [];
 
     /** @type Record<Suffix, Node[][]> */
     const invalidUsesBySuffix = {
-      std: [nodeUses, domUses, preloadUses, mainUses],
-      node: [domUses, preloadUses, mainUses],
-      dom: [nodeUses, preloadUses, mainUses],
+      std: [nodeUses, domUses, sandboxUses, mainUses],
+      node: [domUses, sandboxUses, mainUses],
+      dom: [nodeUses, sandboxUses, mainUses],
       preload: [mainUses],
-      main: [domUses, preloadUses],
+      sandbox: [mainUses, nodeUses, preloadUses],
+      main: [domUses, preloadUses, sandboxUses],
     };
 
     /**
@@ -379,6 +379,8 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
         domUses.push(node);
       } else if (depSuffix === 'preload') {
         preloadUses.push(node);
+      } else if (depSuffix === 'sandbox') {
+        sandboxUses.push(node);
       } else if (depSuffix === 'main') {
         mainUses.push(node);
       } else if (depSuffix === 'std') {
@@ -434,8 +436,8 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
 
             if (ELECTRON_MAIN_MODULES.has(importName)) {
               mainUses.push(s);
-            } else if (ELECTRON_RENDERER_MODULES.has(importName)) {
-              preloadUses.push(s);
+            } else if (ELECTRON_SANDBOX_MODULES.has(importName)) {
+              sandboxUses.push(s);
             } else if (ELECTRON_SHARED_MODULES.has(importName)) {
               // no-op
             } else {
@@ -566,11 +568,13 @@ export const enforceFileSuffix = ESLintUtils.RuleCreator.withoutDocs({
         } else if (preloadUses.length > 0) {
           expectedSuffix = 'preload';
         } else if (nodeUses.length > 0) {
-          if (domUses.length > 0) {
+          if (domUses.length > 0 || sandboxUses.length > 0) {
             expectedSuffix = 'preload';
           } else {
             expectedSuffix = 'node';
           }
+        } else if (sandboxUses.length > 0) {
+          expectedSuffix = 'sandbox';
         } else if (domUses.length > 0) {
           expectedSuffix = 'dom';
         } else {

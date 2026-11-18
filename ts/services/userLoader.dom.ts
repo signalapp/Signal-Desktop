@@ -5,7 +5,7 @@ import { strictAssert } from '../util/assert.std.ts';
 import { getThemeType } from '../util/getThemeType.dom.ts';
 
 import type { MenuOptionsType } from '../types/menu.std.ts';
-import type { MainWindowStatsType } from '../windows/context.preload.ts';
+import type { MainWindowStatsType } from '../windows/context.sandbox.ts';
 import type { ThemeType } from '../types/Util.std.ts';
 
 let mainWindowStats: MainWindowStatsType | undefined;

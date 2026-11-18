@@ -3,7 +3,7 @@
 import type { ReadonlyDeep } from 'type-fest';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
-import * as updateIpc from '../../shims/updateIpc.preload.ts';
+import * as updateIpc from '../../shims/updateIpc.sandbox.ts';
 import { DialogType } from '../../types/Dialogs.std.ts';
 import { DAY } from '../../util/durations/index.std.ts';
 import type { AsyncStateThunk, SyncStateThunk } from '../types.std.ts';

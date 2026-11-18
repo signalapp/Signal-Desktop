@@ -27,7 +27,7 @@ import {
   UsernameReservationError,
 } from '../state/ducks/usernameEnums.std.ts';
 import type { ReserveUsernameOptionsType } from '../state/ducks/username.preload.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.tsx';
 import { AxoButton } from '../axo/AxoButton.dom.tsx';
 import { AxoConfirmDialog } from '../axo/dialogs/AxoConfirmDialog.dom.tsx';

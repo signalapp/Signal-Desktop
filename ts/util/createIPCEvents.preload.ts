@@ -32,11 +32,11 @@ import type {
   EphemeralSettings,
   SettingsValuesType,
   ThemeType,
-} from './preload.preload.ts';
+} from './preload.sandbox.ts';
 import { SystemTraySetting } from '../types/SystemTraySetting.std.ts';
 import { putStickers } from '../textsecure/WebAPI.preload.ts';
 import type { PDFWindowPropsType } from '../windows/pdf/types.std.ts';
-import OS from './os/osPreload.preload.ts';
+import OS from './os/osPreload.sandbox.ts';
 
 const { noop } = lodash;
 

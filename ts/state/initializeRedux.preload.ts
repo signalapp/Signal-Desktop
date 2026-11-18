@@ -9,7 +9,7 @@ import { getInitialState } from './getInitialState.preload.ts';
 import type { BadgesStateType } from './ducks/badges.preload.ts';
 import type { CallHistoryDetails } from '../types/CallDisposition.std.ts';
 import type { DonationsStateType } from './ducks/donations.preload.ts';
-import type { MainWindowStatsType } from '../windows/context.preload.ts';
+import type { MainWindowStatsType } from '../windows/context.sandbox.ts';
 import type { MenuOptionsType } from '../types/menu.std.ts';
 import type { StoryDataType } from './ducks/stories.preload.ts';
 import type { StoryDistributionListDataType } from './ducks/storyDistributionLists.preload.ts';

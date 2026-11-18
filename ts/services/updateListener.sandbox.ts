@@ -6,7 +6,7 @@ import type { DialogType } from '../types/Dialogs.std.ts';
 import type {
   UpdateDialogOptionsType,
   ShowUpdateDialogActionType,
-} from '../state/ducks/updates.preload.ts';
+} from '../state/ducks/updates.sandbox.ts';
 
 type UpdatesActions = {
   showUpdateDialog: (

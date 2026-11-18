@@ -36,7 +36,7 @@ import { Emoji } from '../../axo/emoji.std.ts';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.ts';
 import { isFavoriteStickersEnabled as getIsFavoriteStickersEnabled } from '../../util/stickers.preload.ts';
 import { drop } from '../../util/drop.std.ts';
-import { useToastActions } from '../ducks/toast.preload.ts';
+import { useToastActions } from '../ducks/toast.sandbox.ts';
 
 export type SmartFunProviderProps = Readonly<{
   children: ReactNode;

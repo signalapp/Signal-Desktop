@@ -1,8 +1,8 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { config } from './config.preload.ts';
-import { localeMessages } from './localeMessages.preload.ts';
+import { config } from './config.sandbox.ts';
+import { localeMessages } from './localeMessages.sandbox.ts';
 import { setupI18n } from '../util/setupI18n.dom.tsx';
 import { strictAssert } from '../util/assert.std.ts';
 

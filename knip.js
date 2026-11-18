@@ -27,14 +27,14 @@ const config = {
         // Main
         'app/config.main.ts!',
         // Preload
-        'ts/windows/about/preload.preload.ts!',
-        'ts/windows/calldiagnostic/preload.preload.ts!',
-        'ts/windows/debuglog/preload.preload.ts!',
-        'ts/windows/loading/preload.preload.ts!',
-        'ts/windows/pdf/preload.preload.ts!',
-        'ts/windows/permissions/preload.preload.ts!',
-        'ts/windows/screenShare/preload.preload.ts!',
-        'ts/windows/sticker-creator/preload.preload.ts!',
+        'ts/windows/about/preload.sandbox.ts!',
+        'ts/windows/calldiagnostic/preload.sandbox.ts!',
+        'ts/windows/debuglog/preload.sandbox.ts!',
+        'ts/windows/loading/preload.sandbox.ts!',
+        'ts/windows/pdf/preload.sandbox.ts!',
+        'ts/windows/permissions/preload.sandbox.ts!',
+        'ts/windows/screenShare/preload.sandbox.ts!',
+        'ts/windows/sticker-creator/preload.sandbox.ts!',
         // DOM
         'ts/windows/about/app.dom.tsx!',
         'ts/windows/calldiagnostic/app.dom.tsx!',

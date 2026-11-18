@@ -78,7 +78,7 @@ import { registrationJobQueue } from '../../jobs/registrationJobQueue.preload.ts
 import { toLogFormat } from '../../types/errors.std.ts';
 import { pinReminderService } from '../../services/pinReminder.preload.ts';
 import { drop } from '../../util/drop.std.ts';
-import { showToast, type ToastActionType } from './toast.preload.ts';
+import { showToast, type ToastActionType } from './toast.sandbox.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 
 const log = createLogger('globalModals');

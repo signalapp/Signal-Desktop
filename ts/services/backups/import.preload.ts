@@ -168,7 +168,7 @@ import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.ts';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.std.ts';
 import type { PinnedMessageParams } from '../../types/PinnedMessage.std.ts';
-import type { ThemeType } from '../../util/preload.preload.ts';
+import type { ThemeType } from '../../util/preload.sandbox.ts';
 import { toNumber } from '../../util/toNumber.std.ts';
 import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.ts';
 import { Emoji } from '../../axo/emoji.std.ts';

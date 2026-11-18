@@ -8,7 +8,7 @@ import { createLogger } from '../../logging/log.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import { getBackups, getPlaintextWorkflow } from '../selectors/backups.std.ts';
 import { getIntl } from '../selectors/user.std.ts';
-import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
+import { promptOSAuth } from '../../util/promptOSAuth.sandbox.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';
 import {

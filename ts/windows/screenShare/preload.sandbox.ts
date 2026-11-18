@@ -3,7 +3,7 @@
 
 import { contextBridge, ipcRenderer } from 'electron';
 import { ScreenShareStatus } from '../../types/Calling.std.ts';
-import { MinimalSignalContext } from '../minimalContext.preload.ts';
+import { MinimalSignalContext } from '../minimalContext.sandbox.ts';
 
 const params = new URLSearchParams(document.location.search);
 

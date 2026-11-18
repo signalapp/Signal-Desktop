@@ -15,7 +15,7 @@ import { reducer as chatColors } from './ducks/chatColors.preload.ts';
 import { reducer as chatFolders } from './ducks/chatFolders.preload.ts';
 import { reducer as composer } from './ducks/composer.preload.ts';
 import { reducer as conversations } from './ducks/conversations.preload.ts';
-import { reducer as crashReports } from './ducks/crashReports.preload.ts';
+import { reducer as crashReports } from './ducks/crashReports.sandbox.ts';
 import { reducer as donations } from './ducks/donations.preload.ts';
 import { reducer as emojis } from './ducks/emojis.preload.ts';
 import { reducer as expiration } from './ducks/expiration.std.ts';
@@ -39,8 +39,8 @@ import { reducer as standaloneInstaller } from './ducks/standaloneInstaller.prel
 import { reducer as stickers } from './ducks/stickers.preload.ts';
 import { reducer as stories } from './ducks/stories.preload.ts';
 import { reducer as storyDistributionLists } from './ducks/storyDistributionLists.preload.ts';
-import { reducer as toast } from './ducks/toast.preload.ts';
-import { reducer as updates } from './ducks/updates.preload.ts';
+import { reducer as toast } from './ducks/toast.sandbox.ts';
+import { reducer as updates } from './ducks/updates.sandbox.ts';
 import { reducer as user } from './ducks/user.preload.ts';
 import { reducer as username } from './ducks/username.preload.ts';
 

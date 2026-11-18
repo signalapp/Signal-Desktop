@@ -11,7 +11,7 @@ import { parseIntWithFallback } from '../../util/parseIntWithFallback.std.ts';
 import { getSignalConnections } from '../../util/getSignalConnections.preload.ts';
 import { ThemeType } from '../../types/Util.std.ts';
 import { Environment } from '../../environment.std.ts';
-import { SignalContext } from '../context.preload.ts';
+import { SignalContext } from '../context.sandbox.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import { formatCountForLogging } from '../../logging/formatCountForLogging.std.ts';
 import * as Errors from '../../types/errors.std.ts';

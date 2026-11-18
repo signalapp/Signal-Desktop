@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.ts';
-import type { ToastStateType } from '../ducks/toast.preload.ts';
+import type { ToastStateType } from '../ducks/toast.sandbox.ts';
 
 function getToastState(state: StateType): ToastStateType {
   return state.toast;

@@ -21,7 +21,7 @@ import type {
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.ts';
 import type { ReplyStateType, StoryViewType } from '../types/Stories.std.ts';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import type { ViewStoryActionCreatorType } from '../state/ducks/stories.preload.ts';
 import { createLogger } from '../logging/log.std.ts';
 import { AnimatedEmojiGalore } from './AnimatedEmojiGalore.dom.tsx';

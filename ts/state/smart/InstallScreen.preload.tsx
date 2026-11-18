@@ -9,7 +9,7 @@ import { getIntl, getVersion } from '../selectors/user.std.ts';
 import { getUpdatesState } from '../selectors/updates.std.ts';
 import { getInstallerState } from '../selectors/installer.std.ts';
 import { useInstallerActions } from '../ducks/installer.preload.ts';
-import { useUpdatesActions } from '../ducks/updates.preload.ts';
+import { useUpdatesActions } from '../ducks/updates.sandbox.ts';
 import { hasExpired as hasExpiredSelector } from '../selectors/expiration.dom.ts';
 import { missingCaseError } from '../../util/missingCaseError.std.ts';
 import { backupsService } from '../../services/backups/index.preload.ts';

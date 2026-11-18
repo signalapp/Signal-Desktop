@@ -17,7 +17,7 @@ import lodash from 'lodash';
 import { SignalService as Proto } from '../protobuf/index.std.ts';
 import { UsernameLinkState } from '../state/ducks/usernameEnums.std.ts';
 import { ToastType } from '../types/Toast.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import type { LocalizerType } from '../types/Util.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 import { drop } from '../util/drop.std.ts';

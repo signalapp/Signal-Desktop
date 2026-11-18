@@ -16,7 +16,7 @@ import {
   DRAFT_PATH,
   TEMP_PATH,
 } from '../../util/basePaths.preload.ts';
-import { SignalContext } from '../context.preload.ts';
+import { SignalContext } from '../context.sandbox.ts';
 
 initializeLogging();
 

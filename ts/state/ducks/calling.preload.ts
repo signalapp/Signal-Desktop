@@ -79,9 +79,9 @@ import { waitForOnline } from '../../util/waitForOnline.dom.ts';
 import * as mapUtil from '../../util/mapUtil.std.ts';
 import { isCallSafe } from '../../util/isCallSafe.dom.ts';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.ts';
-import { SHOW_TOAST } from './toast.preload.ts';
+import { SHOW_TOAST } from './toast.sandbox.ts';
 import { ToastType } from '../../types/Toast.std.ts';
-import type { ShowToastActionType } from './toast.preload.ts';
+import type { ShowToastActionType } from './toast.sandbox.ts';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.ts';
 import { useBoundActions } from '../../hooks/useBoundActions.std.ts';
 import {

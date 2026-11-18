@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useEffectEvent, type JSX } from 'react';
 import { tinykeys } from 'tinykeys';
-import type { ShowToastAction } from '../../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../../state/ducks/toast.sandbox.ts';
 import type { AttachmentDraftType } from '../../types/Attachment.std.ts';
 import type { LocalizerType } from '../../types/Util.std.ts';
 import { ToastType } from '../../types/Toast.std.ts';

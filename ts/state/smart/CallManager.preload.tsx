@@ -16,7 +16,7 @@ import type { SetLocalPreviewContainerType } from '../../services/calling.preloa
 import {
   bounceAppIconStart,
   bounceAppIconStop,
-} from '../../shims/bounceAppIcon.preload.ts';
+} from '../../shims/bounceAppIcon.sandbox.ts';
 import type { CallLinkType } from '../../types/CallLink.std.ts';
 import type {
   ActiveCallBaseType,

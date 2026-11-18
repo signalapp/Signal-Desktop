@@ -4,7 +4,7 @@
 import type { MouseEvent, JSX } from 'react';
 import { useCallback, useState } from 'react';
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import { ToastType } from '../types/Toast.std.ts';
 import { AxoAlertDialog } from '../axo/dialogs/AxoAlertDialog.dom.tsx';
 

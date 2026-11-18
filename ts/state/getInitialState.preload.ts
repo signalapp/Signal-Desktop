@@ -16,7 +16,7 @@ import {
 } from './ducks/chatFolders.preload.ts';
 import { getEmptyState as composerEmptyState } from './ducks/composer.preload.ts';
 import { getEmptyState as conversationsEmptyState } from './ducks/conversations.preload.ts';
-import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.preload.ts';
+import { getEmptyState as crashReportsEmptyState } from './ducks/crashReports.sandbox.ts';
 import { getEmptyState as donationsEmptyState } from './ducks/donations.preload.ts';
 import { getEmptyState as emojiEmptyState } from './ducks/emojis.preload.ts';
 import { getEmptyState as expirationEmptyState } from './ducks/expiration.std.ts';
@@ -40,8 +40,8 @@ import { getEmptyState as standaloneInstallerEmptyState } from './ducks/standalo
 import { getEmptyState as stickersEmptyState } from './ducks/stickers.preload.ts';
 import { getEmptyState as storiesEmptyState } from './ducks/stories.preload.ts';
 import { getEmptyState as storyDistributionListsEmptyState } from './ducks/storyDistributionLists.preload.ts';
-import { getEmptyState as toastEmptyState } from './ducks/toast.preload.ts';
-import { getEmptyState as updatesEmptyState } from './ducks/updates.preload.ts';
+import { getEmptyState as toastEmptyState } from './ducks/toast.sandbox.ts';
+import { getEmptyState as updatesEmptyState } from './ducks/updates.sandbox.ts';
 import { getEmptyState as userEmptyState } from './ducks/user.preload.ts';
 import { getEmptyState as usernameEmptyState } from './ducks/username.preload.ts';
 
@@ -54,7 +54,7 @@ import {
 } from '../util/basePaths.preload.ts';
 
 import type { StateType } from './reducer.preload.ts';
-import type { MainWindowStatsType } from '../windows/context.preload.ts';
+import type { MainWindowStatsType } from '../windows/context.sandbox.ts';
 import type { ConversationsStateType } from './ducks/conversations.preload.ts';
 import type { MenuOptionsType } from '../types/menu.std.ts';
 import type {

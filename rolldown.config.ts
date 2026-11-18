@@ -43,13 +43,14 @@ const isProd = process.argv.some(arg => arg === '--minify');
 
 const sandboxPreload = {
   // Preload
-  'preload/about': 'ts/windows/about/preload.preload.ts',
-  'preload/calldiagnostic': 'ts/windows/calldiagnostic/preload.preload.ts',
-  'preload/debuglog': 'ts/windows/debuglog/preload.preload.ts',
-  'preload/pdf': 'ts/windows/pdf/preload.preload.ts',
-  'preload/permissions': 'ts/windows/permissions/preload.preload.ts',
-  'preload/screenShare': 'ts/windows/screenShare/preload.preload.ts',
-  'preload/sticker-creator': 'ts/windows/sticker-creator/preload.preload.ts',
+  'preload/about': 'ts/windows/about/preload.sandbox.ts',
+  'preload/calldiagnostic': 'ts/windows/calldiagnostic/preload.sandbox.ts',
+  'preload/debuglog': 'ts/windows/debuglog/preload.sandbox.ts',
+  'preload/pdf': 'ts/windows/pdf/preload.sandbox.ts',
+  'preload/loading': 'ts/windows/loading/preload.sandbox.ts',
+  'preload/permissions': 'ts/windows/permissions/preload.sandbox.ts',
+  'preload/screenShare': 'ts/windows/screenShare/preload.sandbox.ts',
+  'preload/sticker-creator': 'ts/windows/sticker-creator/preload.sandbox.ts',
 };
 
 const sandboxDOM = {

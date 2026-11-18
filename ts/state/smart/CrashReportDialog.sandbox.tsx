@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { memo } from 'react';
 import { CrashReportDialog } from '../../components/CrashReportDialog.dom.tsx';
 import { getIntl } from '../selectors/user.std.ts';
-import { useCrashReportsActions } from '../ducks/crashReports.preload.ts';
+import { useCrashReportsActions } from '../ducks/crashReports.sandbox.ts';
 import { getCrashReportsIsPending } from '../selectors/crashReports.std.ts';
 
 export const SmartCrashReportDialog = memo(function SmartCrashReportDialog() {

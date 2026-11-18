@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { contextBridge, ipcRenderer } from 'electron';
-import { MinimalSignalContext } from '../minimalContext.preload.ts';
+import { MinimalSignalContext } from '../minimalContext.sandbox.ts';
 import { PDFWindowPropsSchema } from './types.std.ts';
 
 const Signal = {

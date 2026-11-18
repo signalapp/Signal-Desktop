@@ -35,11 +35,11 @@ import { findRetryAfterTimeFromError } from '../../jobs/helpers/findRetryAfterTi
 import { sleep } from '../../util/sleep.std.ts';
 import { assembleProvisioningEnvelope } from '../../util/assembleProvisioningEnvelope.preload.ts';
 import { assertDev, strictAssert } from '../../util/assert.std.ts';
-import { promptOSAuth } from '../../util/promptOSAuth.preload.ts';
+import { promptOSAuth } from '../../util/promptOSAuth.sandbox.ts';
 import { toLogFormat } from '../../types/errors.std.ts';
 import { PublicKey } from '@signalapp/libsignal-client';
 import { ToastType } from '../../types/Toast.std.ts';
-import { showToast, type ShowToastActionType } from './toast.preload.ts';
+import { showToast, type ShowToastActionType } from './toast.sandbox.ts';
 import { getIntl } from '../selectors/user.std.ts';
 import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.ts';

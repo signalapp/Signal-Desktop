@@ -241,6 +241,10 @@ jobs:
         background: true
         run: pnpm run oxlint:ci
 
+      - name: Check Oxlint Tests
+        background: true
+        run: pnpm run test-oxlint
+
       - name: Check unused icons
         background: true
         run: pnpm run check:unused-icons

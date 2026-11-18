@@ -5,7 +5,7 @@ import type { ReactNode, JSX } from 'react';
 import { useState, useCallback } from 'react';
 
 import type { LocalizerType } from '../types/Util.std.ts';
-import type { ShowToastAction } from '../state/ducks/toast.preload.ts';
+import type { ShowToastAction } from '../state/ducks/toast.sandbox.ts';
 import { ToastType } from '../types/Toast.std.ts';
 import {
   isVideoGoodForStories,

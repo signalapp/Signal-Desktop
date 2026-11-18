@@ -5,7 +5,7 @@ import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.ts';
 import type {
   HideToastAction,
   ShowToastAction,
-} from '../state/ducks/toast.preload.ts';
+} from '../state/ducks/toast.sandbox.ts';
 import type { PeakType } from '../types/Audio.dom.tsx';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.ts';
 import type { LocalizerType } from '../types/Util.std.ts';

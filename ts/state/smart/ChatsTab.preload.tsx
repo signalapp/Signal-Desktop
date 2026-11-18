@@ -13,7 +13,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { getIntl } from '../selectors/user.std.ts';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.ts';
 import { useConversationsActions } from '../ducks/conversations.preload.ts';
-import { useToastActions } from '../ducks/toast.preload.ts';
+import { useToastActions } from '../ducks/toast.sandbox.ts';
 import { isStagingServer } from '../../util/isStagingServer.dom.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import { getNavTabsCollapsed } from '../selectors/items.dom.ts';

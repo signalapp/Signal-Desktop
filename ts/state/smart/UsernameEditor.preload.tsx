@@ -14,7 +14,7 @@ import {
 import { getUsernameCorrupted } from '../selectors/items.dom.ts';
 import { getMe } from '../selectors/conversations.dom.ts';
 import { useUsernameActions } from '../ducks/username.preload.ts';
-import { useToastActions } from '../ducks/toast.preload.ts';
+import { useToastActions } from '../ducks/toast.sandbox.ts';
 
 export type SmartUsernameEditorProps = Readonly<{
   onClose: () => void;

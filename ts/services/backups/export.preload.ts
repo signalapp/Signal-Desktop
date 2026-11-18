@@ -175,7 +175,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.ts';
 import { ChatFolderType } from '../../types/ChatFolder.std.ts';
 import { canIncludeExpiringMessageInBackup } from './util/expiration.std.ts';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.ts';
-import type { ThemeType } from '../../util/preload.preload.ts';
+import type { ThemeType } from '../../util/preload.sandbox.ts';
 import { safeParseStrict } from '../../util/schemas.std.ts';
 import type { WithRequiredProperties } from '../../types/Util.std.ts';
 import type { Emoji } from '../../axo/emoji.std.ts';

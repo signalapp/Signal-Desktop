@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import semver from 'semver';
 import type { REMOTE_CONFIG_KEYS as KeysExpectedByLibsignalNet } from '@signalapp/libsignal-client/dist/net.js';
 
-import type { ShowToastAction } from './state/ducks/toast.preload.ts';
+import type { ShowToastAction } from './state/ducks/toast.sandbox.ts';
 import type { getConfig } from './textsecure/WebAPI.preload.ts';
 import { createLogger } from './logging/log.std.ts';
 import { parseIntOrThrow } from './util/parseIntOrThrow.std.ts';

@@ -33,7 +33,7 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../../model-types.std.ts';
 import { noopAction, type NoopActionType } from './noop.std.ts';
-import type { ShowToastActionType } from './toast.preload.ts';
+import type { ShowToastActionType } from './toast.sandbox.ts';
 import { createLogger } from '../../logging/log.std.ts';
 import * as Errors from '../../types/errors.std.ts';
 import type { PollCreateType } from '../../types/Polls.dom.ts';
@@ -47,7 +47,7 @@ import {
 import { LinkPreviewSourceType } from '../../types/LinkPreview.std.ts';
 import type { AciString } from '../../types/ServiceId.std.ts';
 import { completeRecording, getIsRecording } from './audioRecorder.preload.ts';
-import { SHOW_TOAST, showToast } from './toast.preload.ts';
+import { SHOW_TOAST, showToast } from './toast.sandbox.ts';
 import type { AnyToast } from '../../types/Toast.std.ts';
 import { ToastType } from '../../types/Toast.std.ts';
 import { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.ts';

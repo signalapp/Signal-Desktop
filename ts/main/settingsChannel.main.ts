@@ -11,7 +11,7 @@ import { ephemeralConfig } from '../../app/ephemeral_config.main.ts';
 import { installPermissionsHandler } from '../../app/permissions.std.ts';
 import { strictAssert } from '../util/assert.std.ts';
 
-import type { EphemeralSettings } from '../util/preload.preload.ts';
+import type { EphemeralSettings } from '../util/preload.sandbox.ts';
 
 const log = createLogger('settingsChannel');
 
