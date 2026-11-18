@@ -18,6 +18,8 @@ import {
   useEffectEvent,
 } from 'react';
 import lodash from 'lodash';
+import { AxoIconButton } from '../axo/AxoIconButton.dom.tsx';
+import { tw } from '../axo/tw.dom.tsx';
 import classNames from 'classnames';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { tinykeys } from 'tinykeys';
@@ -131,6 +133,7 @@ export type PropsType = {
   i18n: LocalizerType;
   imageDataCache: RefObject<CallingImageDataCache | null>;
   isCallLinkAdmin: boolean;
+  logBookmark?: () => void;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
   readonly renderCallingParticipantMenu: (
@@ -224,6 +227,7 @@ export function CallScreen({
   i18n,
   imageDataCache,
   isCallLinkAdmin,
+  logBookmark,
   me,
   openSystemPreferencesAction,
   renderCallingParticipantMenu,
@@ -290,6 +294,21 @@ export function CallScreen({
   const hangUp = useCallback(() => {
     hangUpActiveCall('button click');
   }, [hangUpActiveCall]);
+
+  const { showToast: showCallingToast } = useCallingToasts();
+  const handleLogBookmark = useMemo(() => {
+    if (!logBookmark) {
+      return undefined;
+    }
+    return () => {
+      logBookmark();
+      showCallingToast({
+        key: 'log-bookmark',
+        content: 'Marked a problem happening now in logs',
+        autoClose: true,
+      });
+    };
+  }, [logBookmark, showCallingToast]);
 
   const localPreviewRef = useRef<HTMLDivElement | null>(null);
   const lonelyCallPreviewRef = useRef<HTMLDivElement | null>(null);
@@ -1103,6 +1122,22 @@ export function CallScreen({
           toggleSettings={toggleSettings}
         />
       </div>
+      {handleLogBookmark && (
+        <div
+          className={classNames(
+            controlsFadeClass,
+            tw('absolute inset-s-4 bottom-4', '[&_button]:text-placeholder')
+          )}
+        >
+          <AxoIconButton.Root
+            variant="implied-secondary"
+            size="sm"
+            symbol="error-circle"
+            label="Mark call problem in logs (internal)"
+            onClick={handleLogBookmark}
+          />
+        </div>
+      )}
       {(isConnecting || isRinging) && (
         <>
           <div className="module-CallingPreCallInfo-spacer" />

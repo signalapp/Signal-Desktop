@@ -156,6 +156,7 @@ export type PropsType = {
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
   hangUpActiveCall: (reason: string) => void;
+  logBookmark?: () => void;
   togglePip: () => void;
   toggleCallLinkPendingParticipantModal: (contactId: string) => void;
   toggleScreenRecordingPermissionsDialog: (open: boolean) => void;
@@ -199,6 +200,7 @@ function ActiveCallManager({
   getIsSharingPhoneNumberWithEverybody,
   getGroupCallVideoFrameSource,
   getPresentingSources,
+  logBookmark,
   me,
   openSystemPreferencesAction,
   renderCallingParticipantMenu,
@@ -475,6 +477,7 @@ function ActiveCallManager({
         i18n={i18n}
         imageDataCache={imageDataCache}
         isCallLinkAdmin={isCallLinkAdmin}
+        logBookmark={logBookmark}
         me={me}
         openSystemPreferencesAction={openSystemPreferencesAction}
         renderCallingParticipantMenu={renderCallingParticipantMenu}
@@ -562,6 +565,7 @@ export function CallManager({
   i18n,
   isOnline,
   getIsSharingPhoneNumberWithEverybody,
+  logBookmark,
   me,
   notifyForCall,
   openSystemPreferencesAction,
@@ -680,6 +684,7 @@ export function CallManager({
           getIsSharingPhoneNumberWithEverybody={
             getIsSharingPhoneNumberWithEverybody
           }
+          logBookmark={logBookmark}
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}

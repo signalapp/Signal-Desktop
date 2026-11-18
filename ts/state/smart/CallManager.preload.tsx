@@ -56,6 +56,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.ts';
 import { isLonelyGroup } from '../ducks/callingHelpers.std.ts';
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.ts';
 import { isOnline as isWebAPIOnline } from '../../textsecure/WebAPI.preload.ts';
+import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.std.ts';
 import {
   SmartCallingParticipantMenu,
   type PropsType as SmartCallingParticipantMenuProps,
@@ -79,6 +80,7 @@ const getGroupCallVideoFrameSource =
   callingService.getGroupCallVideoFrameSource.bind(callingService);
 
 const notifyForCall = callingService.notifyForCall.bind(callingService);
+const logBookmark = callingService.logBookmark.bind(callingService);
 
 function setLocalPreviewContainer(options: SetLocalPreviewContainerType): void {
   callingService.setLocalPreviewContainer(options);
@@ -504,6 +506,7 @@ export const SmartCallManager = memo(function SmartCallManager() {
       hasInitialLoadCompleted={hasInitialLoadCompleted}
       i18n={i18n}
       isOnline={isOnline}
+      logBookmark={isInternalFeaturesEnabled() ? logBookmark : undefined}
       me={me}
       notifyForCall={notifyForCall}
       openSystemPreferencesAction={openSystemPreferencesAction}

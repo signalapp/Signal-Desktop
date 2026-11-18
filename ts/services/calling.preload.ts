@@ -2689,6 +2689,10 @@ class CallingClass {
     }
   }
 
+  logBookmark(): void {
+    RingRTC.logBookmarkMessage();
+  }
+
   setOutgoingAudio(conversationId: string, enabled: boolean): void {
     const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
